@@ -1,0 +1,83 @@
+================================================================================
+@(#)README	1.7 03/22/05
+================================================================================
+
+SimpleChat example
+
+Description
+-----------
+This example illustrates how JMS can be used to create a simple
+chat application. This example uses JMS Topics and each instance
+of the the chat application that you run is a TopicPublisher and
+TopicSubscriber. SimpleChat.java does not use JNDI and relies on
+the feature by which a broker can "auto-create" the destinations 
+desired by the user. The bulk of the application deals with the 
+user interface and the JMS related code is fairly straightforward.
+
+
+Files
+-----
+SimpleChat.java		Source file for this example.
+*.class			Prebuilt Java class files for this example.
+README			This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac SimpleChat.java
+
+Running the example
+-------------------
+Run the following:
+
+    java SimpleChat
+
+The application comes up not connected to any chat session. 
+To join a chat session, bring down the "Chat" menu and
+select the "Connect ..." menu item. A dialog will appear to
+query for a "Chat User Name", and the "Chat Topic" to join.
+
+The Chat User Name is simply used to label your messages when 
+they appear on the "Messages in chat" textarea. The default value 
+for this is the "user.name" system property.
+
+The Chat Topic is the topic name used to determine who to deliver
+chat messages to i.e. the participants in the chat. The default
+value is "defaulttopic".
+
+After selecting the above 2 values (using the default values is
+fine), click on the "Connect" button. The application is now
+in the chat session.
+
+From now on, you can broadcast messages to the chat participants
+by typing in the textarea at the bottom (marked "Type Message:")
+and selecting the "send Message as <chat name>" button.
+
+More than one instance of the chat application will make the demo
+more interesting - for all of the chat applications to talk to
+one another they need to be using the same Chat Topic.
+
+To leave the chat session, bring down the "Chat" menu and select
+the "Disconnect" menu item.
+
+To clear the "Messages in chat" textarea, bring down the "Chat" 
+menu and select the "Clear Messages" menu item.
+
+To exit the simplechat demo application/program, bring down the "Chat"
+menu and select the "Exit" menu item.
+

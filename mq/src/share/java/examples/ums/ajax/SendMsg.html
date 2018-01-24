@@ -1,0 +1,375 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html lang="en-US">
+<head>
+<title>UMS - SendMsg</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<script type="text/javascript" language="javascript">
+var httpRequest = null;
+var sid = null;
+var count = 0;
+var numMsg = 1;
+var logMsgCount = 0;
+var sendMode = false;
+
+function init() {
+  // Use current URL's host:port as default value for host field
+  var url = unescape(window.document.location);
+  var pos = url.indexOf("http://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('http').checked = true;
+  }
+  pos = url.indexOf("https://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('https').checked = true;
+  }
+  
+  // Extract context root from current URL and use as default value in context root field
+  var context = document.getElementById('context');
+  var splitRes = url.split("/"); 
+  context.value = "/"+splitRes[3];
+}
+
+function clearMessage() {
+   var obj = document.getElementById("msg");
+   obj.value = '';
+}
+
+function clearLog() {
+   var obj = document.getElementById("logOutput");
+   obj.value = '';
+   obj.scrollTop = obj.scrollHeight;
+}
+
+function log(msg) {
+   if (logMsgCount % 100 == 0) {
+      clearLog();
+      logMsgCount = 0;
+   }
+   var obj = document.getElementById("logOutput");
+   obj.value += msg;
+   obj.value += '\n';
+   obj.scrollTop = obj.scrollHeight;
+   logMsgCount++;
+   return true;
+}
+
+function setSendMode(value) {
+   if (value) {
+      // Toggle button label to 'Stop' when sending
+      sendMode = true;
+      obj = document.getElementById("sendBtn");
+      obj.innerHTML = "Stop Sending";
+      obj.style.color='red';
+   } else {
+      // Toggle button label back to 'Start' when done sending
+      sendMode = false;
+      obj = document.getElementById("sendBtn");
+      obj.innerHTML = "Start Sending";
+      obj.style.color='black';
+   }
+}
+
+function postRequest() {
+   // Make sure all fields are filled in
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   if (hostVal == null || hostVal == "") {
+      alert("Error: Server Host[:Port] field is required!");
+      host.focus();
+      return false;
+   }
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   if (contextVal == null || contextVal == "") {
+      alert("Error: Context Root field is required!");
+      context.focus();
+      return false;
+   }
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   if (userVal == null || userVal == "") {
+      alert("Error: User field is required!");
+      user.focus();
+      return false;
+   }
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (pwdVal == null || pwdVal == "") {
+      alert("Error: Password field is required!");
+      pwd.focus();
+      return false;
+   }
+   var dst = document.getElementById('dst');
+   var dstVal = dst.value;
+   if (dstVal == null || dstVal == "") {
+      alert("Error: Destination field is required!");
+      dst.focus();
+      return false;
+   }
+   var msg = document.getElementById('msg');
+   var msgVal = msg.value;
+   if (msgVal == null || msgVal == "") {
+      alert("Error: Message field is required!");
+      msg.focus();
+      return false;
+   }
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   var domainVal = "queue";
+   if (document.getElementById('topic').checked == true) {
+      domainVal = "topic";
+   }
+
+   numMsg = document.getElementById('numMsg').value;
+
+   // Create XMLHttpRequest object
+   if (!httpRequest) {
+      if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+         httpRequest = new XMLHttpRequest();
+         if (httpRequest.overrideMimeType) {
+            httpRequest.overrideMimeType('text/xml');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!httpRequest) {
+          alert('Error: Cannot create an XMLHTTP instance');
+          return false;
+      }
+   }
+
+   var url = null;
+
+   if (sendMode) {
+      setSendMode(false);
+      httpRequest.abort();
+
+      // Close the UMS session
+      if (!sid) {
+        url = connectionVal + hostVal + contextVal;
+        url += '/simple?service=close&sid=' + sid;
+        doSyncPost(url);
+        sid = null;
+      }
+   } else {
+      if (numMsg > 1) {
+         // Login to UMS
+         url = connectionVal + hostVal + contextVal;
+         url += '/simple?service=login';
+         url += '&user=' + escape(userVal);
+         url += '&password=' + escape(pwdVal);
+
+         sid = doSyncPost(url);
+         if (sid == null) {
+            log("Failed to login to UMS server.");
+            return false;
+         }
+
+         // Construct the Service URL
+         url = connectionVal + hostVal + contextVal;
+         url += '/simple?service=send';
+         url += '&destination=' + dstVal;
+         url += '&domain=' + domainVal; 
+         url += '&sid=' + sid;
+      } else {
+         // Construct the Service URL
+         url = connectionVal + hostVal + contextVal;
+         url += '/simple?service=send';
+         url += '&destination=' + dstVal;
+         url += '&domain=' + domainVal; 
+         url += '&user=' + escape(userVal);
+         url += '&password=' + escape(pwdVal);
+      }
+
+      count = 0;
+      setSendMode(true);
+      log("Service URL: " + url);
+      doPost(url, msgVal);
+   }
+   return true;
+}
+
+function doSyncPost(url) {
+   try {
+      httpRequest.open('POST', url, false);
+      httpRequest.send(null);
+      if (httpRequest.status == 200) {
+         return httpRequest.responseText;
+      } else {
+         log("Response: " + httpRequest.status + ", " + httpRequest.statusText);
+      }
+   } catch (e) {
+      log("Error: " + e.message);
+   }
+
+   return null;
+}
+
+function doPost(url, msg) {
+   var textMsg = msg;
+   if (numMsg > 1) {
+      textMsg = "(msg #" + count + ") " + msg;
+   }
+
+   try {
+      httpRequest.open('POST', url, true);
+   } catch (e) {
+      log("Error: " + e.message);
+      setSendMode(false);
+      return false;      
+   }
+
+   httpRequest.onreadystatechange = function(aEvt) {
+      if (httpRequest.readyState == 4) {
+         if (httpRequest.status == 200) {
+            // 200 OK
+            count++;
+            log("Send msg: " + textMsg);
+            if (count == numMsg) {
+               setSendMode(false);
+               clearMessage();
+            }               
+         } else {
+            if (sendMode) {
+               // Log error only in sending mode, i.e. not abort!
+               log("Failed to post data to " + url);
+               log("Response: " + httpRequest.status + ", " + httpRequest.statusText);
+               // we had an error so don't send any more messages
+               setSendMode(false);
+
+            }
+         }
+
+         // Keep sending message unless the user click "Stop Sending" button
+         if (sendMode && (count < numMsg)) {
+            doPost(url, msg);   
+         }
+      }
+   };
+
+   httpRequest.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+   httpRequest.setRequestHeader('Accept', 'text/plain');   
+   httpRequest.setRequestHeader("Cache-Control", "no-cache");
+   httpRequest.send(textMsg);
+}
+</script>
+</head>
+
+<body onLoad="init()">
+
+<table border="0" align="center" width="800">
+<tr>
+<td>
+
+<h3>A Simple Ajax Example To Send JMS Text Message Using UMS APIs.</h3>
+<hr>
+<br>
+<table border="0">
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Connection Type:</td>
+    <td>
+      <input type="radio" id="http" name="connection" value="http" CHECKED>http
+      <input type="radio" id="https" name="connection" value="https">https
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Server Host[:Port]:</td>
+    <td><input type="text" id="host" name="host" size="25" maxlength="100"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Context Root:</td>
+    <td><input type="text" id="context" name="context" size="25" maxlength="100"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">User:</td>
+    <td><input type="text" id="user" name="user" value="guest" size="25" maxlength="25"></td>
+    <td>&nbsp;&nbsp;</td>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Password:</td>
+    <td><input type="text" id="pwd" name="pwd" value="guest" size="15" maxlength="25"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Domain:</td>
+    <td>
+      <input type="radio" id="queue" name="domain" value="queue" CHECKED>Queue
+      <input type="radio" id="topic" name="domain" value="topic">Topic
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Destination:</td>
+    <td><input type="text" id="dst" name="dst" value="simpleQ" size="25" maxlength="25"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Message:</td>
+    <td colspan="4">
+      <textarea id="msg" name="msg" rows="3" cols="40" style="width:99%;">Hello, Ajax World!</textarea>
+    </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right"># of Message(s):</td>
+    <td colspan="4">
+      <select id="numMsg" name="numMsg" style="text-align:right">
+         <option value="1">1
+         <option value="10">10
+         <option value="100">100
+         <option value="1000">1000
+         <option value="10000">10000
+         <option value="100000">100000
+      </select>
+    </td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <br><button id="sendBtn" style="cursor: pointer;" onclick="postRequest();">Start Sending</button>
+    </td>
+    <td colspan="3"></td>
+  </tr>
+</table>
+<br>
+<hr>
+
+<span title="Click to clear all log entries"
+  onmouseover="this.style.color='red';" onmouseout="this.style.color='blue';"
+  style="color: blue; cursor: pointer;" onclick="clearLog()">&#160;&#187;Clear Log Console</span>
+<br>
+<textarea id="logOutput" rows="10" cols="40" style="width:99%;" readonly="readonly"></textarea>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="RegistrationProgress" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="RegistrationProgress" apt:label="Registration Progress" >
+
+ <apt:page apt:name="RegistrationProgressPage" apt:label="RegistrationProgressPage" >
+
+  <apt:section apt:name="regprogress" apt:label="WELCOME" >
+    <apt:property apt:name="TOP_MESSAGE"
+                  apt:dataPath=""
+                  apt:type="xs:string">
+      <apt:visual>
+        <apt:htmlPanel/>
+      </apt:visual>
+    </apt:property>
+    <apt:property apt:name="REGPROGRESS"
+        apt:dataPath=""
+        apt:type="xs:string">
+      <apt:prop-value >0</apt:prop-value>
+      <apt:visual>
+        <apt:progressBar apt:determinate="false" apt:toolTip="$MQ_REG_PROGRESS" apt:progressMax="100"/>
+      </apt:visual>
+    </apt:property>
+    <apt:property apt:name="BOTTOM_MESSAGE"
+                  apt:dataPath=""
+                  apt:type="xs:string">
+      <apt:prop-value>$PROGRESS_WAIT</apt:prop-value>
+      <apt:visual>
+        <apt:htmlPanel/>
+      </apt:visual>
+    </apt:property>
+  </apt:section>
+
+   <apt:scriptHandler apt:scriptLanguage="beanshell">
+    <apt:scriptCode><![CDATA[
+doWork(String regOption, String regFilePath) {
+  theProgressBar = wizard.getComponentByName(content, "REGPROGRESS");
+  theTopMsg = wizard.getComponentByName(content, "TOP_MESSAGE");
+  theBottomMsg = wizard.getComponentByName(content, "BOTTOM_MESSAGE");
+
+  int regStatus = 0; // 0 = success, -1 = failure
+  boolean useProxy = ConfigHelper.getBooleanValue(
+		"RegistrationPrefs.regprefs.USE_PROXY");
+  String proxyHost = null;
+  int proxyPort = -1;
+
+  if (useProxy)  {
+      proxyHost = (String)ConfigHelper.getValue(
+		"RegistrationPrefs.regprefs.PROXY_HOST");
+      proxyPort = ConfigHelper.getIntValue(
+		"RegistrationPrefs.regprefs.PROXY_PORT");
+  }
+
+  if (regOption.equals("CREATE_ACCT")) {
+      String email = (String)ConfigHelper.getValue("CreateSOA.userinfo.EMAIL");
+      String password = (String)ConfigHelper.getValue("CreateSOA.userinfo.PASSWORD");
+      String firstName = (String)ConfigHelper.getValue("CreateSOA.userinfo.FIRSTNAME");
+      String lastName = (String)ConfigHelper.getValue("CreateSOA.userinfo.LASTNAME");
+      String company = "None";
+      String city = "Santa Clara";
+      String state = "California";
+      String country = (String)ConfigHelper.getValue("CreateSOA.userinfo.COUNTRY_SEND");
+
+      theTopMsg.setText(Msg.get("MQ_CREATE_ACCT_REG_MQ", null));
+
+      /*
+       * Create Sun Online Account and Register
+       */
+      try  {
+          Util.registerProductNewAcct(email, password, firstName, lastName, company,
+                      city, state, country, regFilePath, proxyHost, proxyPort);
+
+          theProgressBar.setValue(100);
+          theProgressBar.setIndeterminate(false);
+
+          JOptionPane.showMessageDialog(frame,
+	        Msg.get("MQ_ACCT_REG_SUCCESSFUL", null),
+	        Msg.get("MQ_MSG_DIALOG_TITLE", null),
+	        JOptionPane.INFORMATION_MESSAGE);
+      } catch(java.net.UnknownHostException ukhe)  {
+	  regStatus = -1;
+          JOptionPane.showMessageDialog(frame,
+		Msg.get("MQ_REG_ERROR_UNKNOWN_HOST", new String[] { ukhe.getMessage() }),
+		Msg.get("MQ_CREATE_ACCT_REG_MQ_ERROR_DIALOG_HEADER", null),
+	        JOptionPane.ERROR_MESSAGE);
+      } catch(Exception e)  {
+	  regStatus = -1;
+          JOptionPane.showMessageDialog(frame,
+		Msg.get("MQ_REG_ERROR", new String[] { e.getMessage() }),
+		Msg.get("MQ_CREATE_ACCT_REG_MQ_ERROR_DIALOG_HEADER", null),
+	        JOptionPane.ERROR_MESSAGE);
+      }
+
+  } else if (regOption.equals("USE_ACCT")) {
+      /*
+       * Register MQ
+       */
+      String userName = (String)ConfigHelper.getValue("RegistrationOptions.regoptions.USERNAME");
+      String password = (String)ConfigHelper.getValue("RegistrationOptions.regoptions.PASSWORD");
+
+      theTopMsg.setText(Msg.get("MQ_REG_MQ", null));
+
+      try  {
+          Util.registerProductExistingAcct(userName, password, regFilePath, proxyHost, proxyPort);
+
+          theProgressBar.setValue(100);
+          theProgressBar.setIndeterminate(false);
+
+          JOptionPane.showMessageDialog(frame,
+	      Msg.get("MQ_PROD_REG_SUCCESSFUL", null),
+              Msg.get("MQ_MSG_DIALOG_TITLE", null),
+	      JOptionPane.INFORMATION_MESSAGE);
+      } catch(java.net.UnknownHostException ukhe)  {
+	  regStatus = -1;
+          JOptionPane.showMessageDialog(frame,
+		Msg.get("MQ_REG_ERROR_UNKNOWN_HOST", new String[] { ukhe.getMessage() }),
+		Msg.get("MQ_REG_MQ_ERROR_DIALOG_HEADER", null),
+	        JOptionPane.ERROR_MESSAGE);
+      } catch(Exception e)  {
+	  regStatus = -1;
+          JOptionPane.showMessageDialog(frame,
+		Msg.get("MQ_REG_ERROR", new String[] { e.getMessage() }),
+		Msg.get("MQ_REG_MQ_ERROR_DIALOG_HEADER", null),
+	        JOptionPane.ERROR_MESSAGE);
+      }
+
+  } else {
+      /*
+       * Skip registration
+       */
+      theProgressBar.setValue(100);
+      theProgressBar.setIndeterminate(false);
+      theTopMsg.setText(Msg.get("MQ_SKIPPING_REG", null));
+  }
+
+  return (regStatus);
+}
+
+    /**
+     * This method detects if this is a normal run or a dry run.
+     */
+    detectDryRun() {
+        boolean gDryRun = false;
+
+        try {
+            BusRequest theModeReq = new BusRequest("ModeRequest",
+                new EngineConfigCommand(EngineConfigCommand.COMMAND.GET_CONFIG, 
+			EngineConfigItem.DRY_RUN_FILE));
+            BusResponse theModeResp 
+			= ControlBus.getInstance().publishRequest(theModeReq, 
+				"svc://general/EngineConfig");
+            gDryRun = (theModeResp.getResult() != null);
+        } catch (Exception theEx) {
+            throw new EnhancedException("CANNOT_DETERMINE_RUN_MODE", 
+			new String[] {theEx.toString()});
+        }
+
+	return (gDryRun);
+    } 
+
+
+
+run() {
+  int regStatus = 0; // 0 = success, -1 = failure
+  List activeModes = (List)ConfigHelper.getValue("PageFlow.Mode.ACTIVE_MODES_LIST");
+  boolean dryRun = detectDryRun();
+  String installHome = (String)ConfigHelper.getValue("InstallHome.directory.INSTALL_HOME");
+  String regFilePath = Util.getServiceTagRegistryPath(installHome);
+  String regOption = (String)ConfigHelper.getValue(
+		"RegistrationOptions.regoptions.REGISTRATION_MODE");
+
+  wizard.enableNext(true);
+  wizard.setNextButtonText(Msg.get("next", null));
+
+  /*
+   * Don't perform any real work if in dry run mode.
+   */
+  if (!dryRun)  {
+      if (!activeModes.contains("REG_ONLY"))  {
+          Util.writeLocalRegistry(regFilePath, installHome);
+      } else  {
+        if (!regOption.equals("SKIP_REG"))  {
+            /*
+             * Check if registry file exists
+             */
+            File regFile = new File(regFilePath);
+        
+            if (!regFile.exists())  {
+	        regStatus = -1;
+    
+                JOptionPane.showMessageDialog(frame,
+                    Msg.get("MQ_REG_ERROR_NO_INSTALL_FOUND", null),
+                    Msg.get("MQ_MSG_DIALOG_TITLE", null),
+	            JOptionPane.ERROR_MESSAGE);
+            }
+        }
+      }
+  }
+
+  /*
+   * Don't perform any real work if in dry run mode.
+   */
+  if (!dryRun && (regStatus == 0))  {
+      regStatus = doWork(regOption, regFilePath);
+  }
+
+  ConfigHelper.setValue("RegistrationProgress.regprogress.REG_STATUS", regStatus);
+
+    if ((dryRun) || regOption.equals("SKIP_REG") || (regStatus == 0))  {
+        wizard.clickNext();
+    } else  {
+        wizard.enableBack(true);
+        wizard.clickBack();
+    }
+}
+
+return (Runnable)this;]]>
+    </apt:scriptCode>
+  </apt:scriptHandler>
+
+  </apt:page>
+
+  </apt:category>
+</apt:template>

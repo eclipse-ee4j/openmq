@@ -1,0 +1,50 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+#############################################################################
+#
+# This file contains example properties for plugging an Oracle database.
+#
+
+###########################################################################
+# Persistence Settings
+###########################################################################
+
+# Type of data store
+# To plug in a database, set the value to "jdbc".
+imq.persist.store=jdbc
+
+# An identifier to make database table names unique per broker.
+# The specified value should contain alphanumeric characters only.
+# The length of the identifier should not exceed the maximum length
+# of a table name allowed in the database minus 12.
+imq.brokerid=<alphanumeric id>
+
+# Oracle database settings
+##########################
+
+# Specify oracle as database vendor
+imq.persist.jdbc.dbVendor=oracle
+
+# Oracle JDBC driver
+imq.persist.jdbc.oracle.driver=oracle.jdbc.pool.OracleConnectionPoolDataSource
+
+# The URL to connect to an Oracle database using the JDBC Thin Driver
+imq.persist.jdbc.oracle.property.url=jdbc:oracle:thin:@<hostname>:<port>:<sid>
+
+# User name used to access the database.
+# This can also be specified by command line option for imqbroker and
+# imqdbmgr.
+imq.persist.jdbc.oracle.user=<username>
+
+# Specify whether the broker should prompt the user for a password for
+# database access.
+# It should be set to true if the password is not provided by other means
+#imq.persist.jdbc.oracle.needpassword=[true|false]

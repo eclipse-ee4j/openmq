@@ -1,0 +1,201 @@
+RCV9 0 0 1013 802
+font 65 48 4
+Times 0 10
+Times 2 10
+Times 1 10
+Times 3 10
+Times 0 12
+Times 2 12
+Times 1 12
+Times 3 12
+Times 0 14
+Times 2 14
+Times 1 14
+Times 3 14
+Times 0 18
+Times 2 18
+Times 1 18
+Times 3 18
+Times 0 24
+Times 2 24
+Times 1 24
+Times 3 24
+Courier 0 10
+Courier 2 10
+Courier 1 10
+Courier 3 10
+Courier 0 12
+Courier 2 12
+Courier 1 12
+Courier 3 12
+Courier 0 14
+Courier 2 14
+Courier 1 14
+Courier 3 14
+Courier 0 18
+Courier 2 18
+Courier 1 18
+Courier 3 18
+Courier 0 24
+Courier 2 24
+Courier 1 24
+Courier 3 24
+Helvetica 0 10
+Helvetica 2 10
+Helvetica 1 10
+Helvetica 3 10
+Helvetica 0 12
+Helvetica 2 12
+Helvetica 1 12
+Helvetica 3 12
+Helvetica 0 14
+Helvetica 2 14
+Helvetica 1 14
+Helvetica 3 14
+Helvetica 0 18
+Helvetica 2 18
+Helvetica 1 18
+Helvetica 3 18
+Helvetica 0 24
+Helvetica 2 24
+Helvetica 1 24
+Helvetica 3 24
+Symbol 0 10
+Symbol 0 12
+Symbol 0 14
+Symbol 0 18
+Symbol 0 24
+cmd 1 0 @echo Clicked on $LABEL1
+cmd 2 1 @awk '/VAL:/{sum+=$2}END{print "total:",sum}' $FILE
+cmd 3 0 textedit $LABEL1 1>&2 &
+pmap 0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19
+color fill 0 white 0
+color fill 1 yellow 5
+color fill 2 PaleGreen 4
+color fill 3 LightBlue 3
+color fill 4 gray 1
+color fill 5 red 2
+color fill 6 blue 3
+color fill 7 black 1
+color line 0 gray 1
+color line 1 cyan 6
+color line 2 violet 6
+color line 3 green 4
+color line 4 red 2
+color line 5 blue 3
+color line 6 SlateGray 1
+color line 7 black 1
+color text 0 white 0
+color text 1 LightGray 1
+color text 2 yellow 5
+color text 3 orange 6
+color text 4 red 2
+color text 5 SlateGray 1
+color text 6 MediumBlue 3
+color text 7 black 1
+pool 22 18 20 20
+page 2
+3 6 2 19 0
+4 0 0 0 0
+n 2 3 6 2184 456 2344 504 0 0
+n 3 4 7 1992 456 2152 504 0 0
+n 4 5 8 2192 136 2352 184 0 0
+n 5 6 9 1992 136 2152 184 0 0
+n 6 7 10 1808 136 1968 184 0 0
+n 7 8 11 1808 304 1968 352 0 0
+n 8 9 12 1624 528 1784 576 0 0
+n 9 10 13 1624 392 1784 440 0 0
+n 10 11 14 1992 240 2152 288 0 0
+n 11 12 15 1624 240 1784 288 0 0
+n 12 13 16 1624 456 1784 504 0 0
+n 13 14 17 1624 320 1784 368 0 0
+n 14 15 18 2096 544 2256 592 0 0
+n 15 16 19 1808 456 1968 504 0 0
+n 16 17 20 2200 240 2360 288 0 0
+n 17 0 21 1624 592 1784 640 0 0
+F 19 0 0 63 0 48 80 1
+\e
+f 19 1 19 10 7 0 12 4 0 0
+F 1 0 0 63 0 48 80 1
+\e
+f 1 3 1 10 6 0 1 9 0 0
+F 3 0 0 63 0 48 80 1
+\e
+f 3 4 3 6 10 0 9 1 0 0
+F 4 0 0 63 0 48 80 1
+\e
+f 4 5 4 6 11 0 11 3 0 0
+F 5 0 0 63 0 48 80 1
+\e
+f 5 6 5 10 2 0 9 1 0 0
+F 6 0 0 63 0 48 80 1
+\e
+f 6 7 6 10 3 0 10 2 0 0
+F 7 0 1 63 0 48 80 1
+\e
+f 7 8 7 2 14 0 11 3 0 0
+F 8 0 1 63 0 48 80 1
+\e
+f 8 9 8 3 14 0 9 1 0 0
+F 9 0 0 63 0 48 80 1
+\e
+f 9 10 9 13 9 0 10 2 0 0
+F 10 0 0 63 0 48 80 1
+\e
+f 10 11 10 12 8 0 10 2 0 0
+F 11 0 0 63 0 48 80 1
+\e
+f 11 12 11 9 12 0 10 2 0 0
+F 12 0 0 63 0 48 80 1
+\e
+f 12 13 12 10 16 0 6 14 0 0
+F 13 0 0 63 0 48 80 1
+\e
+f 13 14 13 8 17 0 10 2 0 0
+F 14 0 0 63 0 48 80 1
+\e
+f 14 15 14 4 10 0 11 3 0 0
+F 15 0 0 63 0 48 80 1
+\e
+f 15 16 15 5 10 0 10 2 0 0
+F 16 0 1 63 0 48 80 1
+\e
+f 16 17 16 6 7 0 10 2 0 0
+F 17 0 1 63 0 48 80 1
+\e
+f 17 18 17 13 11 0 2 10 0 0
+F 18 0 1 63 0 48 80 1
+\e
+f 18 0 18 10 15 0 11 3 0 0
+N 6 7 15 63 146 48 80 1 3 0 0 0 0 0
+standalone.ClustImpl\e
+N 7 8 15 63 146 48 80 1 3 0 0 0 0 0
+fullyconnected.ClustImpl\e
+N 8 9 15 63 155 48 80 1 3 0 0 0 0 0
+ConsumerHandler\e
+N 9 10 15 63 155 48 80 1 3 0 0 0 0 0
+AckHandler\e
+N 10 11 15 63 155 48 80 1 3 0 0 0 0 0
+MessageManager\e
+N 11 12 15 63 82 48 80 1 3 0 0 0 0 0
+MessageBusCallback\e
+N 12 13 15 63 146 48 80 1 3 0 0 0 0 0
+InterestID\e
+N 13 14 15 63 146 48 80 1 3 0 0 0 0 0
+JMSDestination\e
+N 14 15 15 63 146 48 80 1 3 0 0 0 0 0
+MessageBus\e
+N 15 16 15 63 82 48 80 1 3 0 0 0 0 0
+InterestManager\e
+N 16 17 15 63 146 48 80 1 3 0 0 0 0 0
+Interest\e
+N 17 18 15 63 146 48 80 1 3 0 0 0 0 0
+RouteTable\e
+N 18 19 15 63 82 48 80 1 3 0 0 0 0 0
+Cluster\e
+N 19 20 15 63 82 48 80 1 3 0 0 0 0 0
+ClusterCallback\e
+N 20 21 15 63 146 48 80 1 3 0 0 0 0 0
+BrokerInfo\e
+N 21 0 15 63 146 48 80 1 3 0 0 0 0 0
+BrokerAddress\e

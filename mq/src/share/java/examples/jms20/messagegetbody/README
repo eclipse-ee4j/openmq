@@ -1,0 +1,100 @@
+
+messagegetbody example
+----------------------
+
+Description
+-----------
+A new api getBody has been added in JMS2.0 to allow an application to extract the
+body directly from a Message without the need to cast it to an appropriate subtype.
+
+This example illustrates how to write an application that demonstrates 
+use of new JMS2.0 api getBody on Message.
+
+Some basic info on this example:
+
+- MessageGetBodyExample.class shows sending of different types of 
+  messages(TextMessage, ObjectMessage, BytesMessage, MapMessage, Message)
+  and receiving them using getBody() by passing the body type expected.
+
+Files
+-----
+MessageGetBodyExample.java           Source file for this example.
+*.class                 	  Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac MessageGetBodyExample.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on terminal:
+
+   java MessageGetBodyExample
+
+The output of MessageGetBodyExample looks like this:
+
+Sending Text Message..
+Text Message Received..
+Get body as a String from Text Message: 1361837023173
+Get body as a CharSequence from Text Message : 1361837023173
+Get body as a Serializable from Text Message : 1361837023173
+Get body as a String from Text Message : 1361837023173
+
+Sending Object Message..
+Object Message Received..
+Get body as a MyObject from Object Message : 1361837024312
+Get body as a Serializable from Object Message : 1361837024312
+Get body as a Object from Object Message : 1361837024312
+
+Sending Bytes Message..
+Bytes Message Received..
+Get body as bytes[] from Bytes Message
+Get body as a byte[](length) : 4
+Get body as a byte[](0) : 5
+Get body as a byte[](1) : 6
+Get body as a byte[](2) : 7
+Get body as a byte[](3) : 8
+Get body as a Object - superinterface of byte[]
+Get body as a byte[](length) : 4
+Get body as a byte[](0) : 5
+Get body as a byte[](1) : 6
+Get body as a byte[](2) : 7
+Get body as a byte[](3)) : 8
+
+Sending Map Message..
+Map Message Received..
+Get body as a Map from Map Message
+Get body as a Map (id) : 1361837024752
+Get body as a Map (foo) : 123
+Get body as a Map (bar) : false
+Get body as an Object from Map Message
+Get body as a Map (id) : 1361837024752
+Get body as a Map (foo) : 123
+Get body as a Map (bar) : false
+
+Sending plain Message without body..
+Plain message received..
+There is no body in the Message , get body as a Float (invalid type), but should still return null : null
+

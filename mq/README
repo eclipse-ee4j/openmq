@@ -1,0 +1,113 @@
+
+Build Requirements
+------------------
+To build this Message Queue source bundle, you will need:
+
+1. Maven 3.0.3  (http://maven.apache.org/download.html)
+2. JDK 1.8 (http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+
+
+Message Queue Build Instructions
+--------------------------------
+
+1. Set up your settings.xml file in <user.home>/.m2/settings.xml so that 
+   you can proxy to Maven Central at http://repo1.maven.org/maven2/
+   Build artifacts are downloaded from Maven Central.
+   If you are not behind a firewall, you will not need to set up a proxy.
+
+<settings>
+  <!-- Example proxies setup. Use your proxy setting if you need to proxy to maven-central -->
+  <proxies>
+     <proxy>
+      <active>true</active>
+      <protocol>http</protocol>
+        <host>www-proxy.us.oracle.com</host>
+        <port>80</port>
+     </proxy>
+  </proxies>
+</settings>
+
+2. Unzip the source bundle and set JAVA_HOME
+      unzip mq5.1.1-source.zip
+      and set JAVA_HOME.
+
+3. Create the following files manually as described in the READMEs 
+src/buildcfg/tools/ri/fscontext/fscontext.jar (see src/buildcfg/tools/ri/fscontext/README)
+src/share/help/helpfiles.zip (see src/share/help/README)
+
+Important Note: The project won't build without these jars.
+
+4. Build the source and distribution.
+      cd mq5.1.1-source/
+      mvn clean install
+
+5. If you get a java OutOfMemory Error while running the mvn command, 
+   set MAVEN_OPTS to "-Xmx512m -Xms256m -XX:MaxPermSize=512m".
+
+
+Message Queue Build Output
+--------------------------
+
+ 1. After the build, a runnable build image of Message Queue is at:
+        $TOP/mq/dist/mq
+
+ 2. A zip bundle of that image is at:
+        $TOP/mq/dist/bundles/mq<version>*.zip
+  . A tar bundle of that image is at:
+        $TOP/mq/dist/bundles/mq<version>*.tar
+
+
+Running Message Queue
+--------------------
+
+ 1. From this point, MQ_HOME is considered to be $TOP/mq/dist/mq
+
+ 2. To run the Message Queue broker:
+
+    cd MQ_HOME/bin
+    ./imqbrokerd -tty [-javahome "<javahome>"] (unix)
+    .\imqbrokerd -tty [-javahome "<javahome>"] (windows)
+
+ 3. To run a Message Queue client:
+
+    (In the mq/examples directory, run the HelloWorldMessage sample program
+    to verify the build was successful.)
+
+    cd MQ_HOME/mq/examples/helloworld/helloworldmessage
+
+    set CLASSPATH to include
+        $MQ_HOME/lib/jms.jar
+        $MQ_HOME/lib/imq.jar
+        $MQ_HOME/examples/helloworld/helloworldmessage
+
+    java HelloWorldMessage
+
+        Sending Message: Hello World
+        Read Message: Hello World
+
+
+Troubleshooting the Build
+-------------------------
+
+1. If executing mvn returns "java.lang.OutOfMemoryError: Java heap space",
+   you should set MAVEN_OPTS to "-Xmx512m -Xms256m -XX:MaxPermSize=512m".
+
+2. If you build on Windows, your distribution will only run on
+   Windows.  If you build on Unix, your distribution will only run on
+   Unix or in a shell emulator on Windows.
+
+
+Documentation
+-------------
+The latest documentation for Message Queue can be found at
+https://javaee.github.io/openmq/
+
+
+Appendix: Message Queue Build Instructions for C-API Client Library
+-------------------------------------------------------------------
+1. Fill in necessary info for your platform in
+   $TOP/src/buildant/default.properties
+
+2. cd $TOP/main/packager-opensource
+   ant builddclient
+

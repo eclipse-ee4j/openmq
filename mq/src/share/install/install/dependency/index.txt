@@ -1,0 +1,5 @@
+JDK5.xml
+MessageQueue.xml
+NSS.xml
+NSPR.xml
+JavaHelpRuntime.xml

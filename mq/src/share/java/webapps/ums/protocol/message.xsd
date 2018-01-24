@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="https://mq.java.net/ums"
+	xmlns:tns="https://mq.java.net/ums"
+	xmlns:env="http://schemas.xmlsoap.org/soap/envelope/"
+	elementFormDefault="qualified" attributeFormDefault="qualified">
+
+	<import namespace="http://schemas.xmlsoap.org/soap/envelope/"
+		schemaLocation="http://schemas.xmlsoap.org/soap/envelope/" />
+
+	<!-- All MQ Service messages MUST include this soap header element -->
+	<xsd:element name="MessageHeader">
+		<xsd:complexType>
+			<xsd:sequence>
+				<element ref="tns:Service" />
+			</xsd:sequence>
+			<attributeGroup ref="tns:headerExtensionGrp" />
+		</xsd:complexType>
+	</xsd:element>
+	
+	<!-- Used to provide information about the message, for example, -->
+	<!-- specify the service type, messaging domain, destination name, etc  -->
+	<element name="Service">
+        <complexType>
+            <attribute name="service" type="tns:serviceAttr.type" use="required"/>
+            <attribute name="sid" type="tns:non-empty-string" />
+            <attribute name="destination" type="tns:non-empty-string" />
+            <attribute name="domain" type="tns:domain.type" />
+            <attribute name="user" type="tns:non-empty-string" />
+            <attribute name="password" type="tns:non-empty-string" />
+            <attribute name="status" type="tns:status.type" />
+            <attribute name="timeout" type="xsd:long" />
+            <attribute name="transacted" type="xsd:boolean" />
+        </complexType>
+    </element>
+    
+	<!--  COMMON ATTRIBUTES and ATTRIBUTE GROUPS -->
+    <attribute name="id" type="tns:non-empty-string" />
+    <attribute name="version" type="tns:non-empty-string" />
+    
+    <attributeGroup name="headerExtensionGrp">
+        <attribute ref="tns:id" />
+        <attribute ref="tns:version" use="optional" />
+        <attribute ref="env:mustUnderstand" use="optional" />
+        <anyAttribute namespace="##other" processContents="lax" />
+    </attributeGroup>
+    
+    <simpleType name="non-empty-string">
+        <restriction base="string">
+            <minLength value="1" />
+        </restriction>
+    </simpleType>
+    
+	
+    <simpleType name="domain.type">
+        <restriction base="NMTOKEN">
+            <enumeration value="topic" />
+            <enumeration value="queue" />
+        </restriction>
+    </simpleType>
+    
+    <simpleType name="serviceAttr.type">
+        <restriction base="NMTOKEN">
+            <enumeration value="login" />
+            <enumeration value="login_reply" />
+            <enumeration value="send" />
+            <enumeration value="send_reply" />
+            <enumeration value="receive" />
+            <enumeration value="receive_reply" />
+            <enumeration value="commit" />
+            <enumeration value="commit_reply" />
+            <enumeration value="rollback" />
+            <enumeration value="rollback_reply" />
+            <enumeration value="close" />
+            <enumeration value="close_reply" />
+        </restriction>
+    </simpleType>
+    
+    <simpleType name="status.type">
+        <restriction base="int">
+            <!-- OK status -->
+            <enumeration value="200" />
+            <!-- Error status -->
+            <enumeration value="500" />
+            <!-- no message available, used by receive/timeout -->
+            <enumeration value="404" />
+        </restriction>
+    </simpleType>
+
+    
+	<!-- SOAP messages may also use SOAP attachments to carry payload data. -->
+	<!-- MQ SOAP Service is capable of carrying any# of SOAP attachments -->
+	<!-- Application is RECOMMENDED to use SOAP attachments to process -->
+	<!-- payload data -->
+	
+</xsd:schema>

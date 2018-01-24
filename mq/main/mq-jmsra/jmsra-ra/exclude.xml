@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<FindBugsFilter>
+ 
+    <Match>
+      <Or>
+        <Class name="com.sun.messaging.jms.ra.DirectXAResource"/>
+      </Or>
+        <method name="isNoFlags" params="int" returns="boolean"/>
+        <Bug pattern="BIT_AND_ZZ"/>
+    </Match>
+    
+    <Match>
+        <Class name="com.sun.messaging.jms.ra.ConvertValue"/>
+        <Method name="toDouble"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH"/>
+    </Match>    
+
+    <Match>
+        <Class name="com.sun.messaging.jms.ra.ConvertValue"/>
+        <Method name="toFloat"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH"/>
+    </Match>     
+    
+    <Match>
+        <Class name="com.sun.messaging.jms.ra.ConvertValue"/>
+        <Method name="toByte"/>
+        <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+    </Match>
+
+    <Match>
+        <Class name="com.sun.messaging.jms.ra.ConvertValue"/>
+        <Method name="toShort"/>
+        <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+    </Match>
+
+    <Match>
+        <Class name="com.sun.messaging.jms.ra.ConvertValue"/>
+        <Method name="toInt"/>
+        <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+    </Match>
+
+     <Match>
+        <Class name="com.sun.messaging.jms.ra.DirectXAResource"/>
+        <Method name="printXid"/>
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY"/>
+    </Match>     
+    
+    <Match>
+        <Class name="com.sun.messaging.jms.blc.LifecycleManagedBroker"/>
+        <Method name="start"/>
+        <Bug pattern="ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD"/>
+    </Match>
+    
+</FindBugsFilter>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<Component xmlns="http://openinstaller.org/dependency/V1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://bindings.install.sun.com/Component ../schemas/Comp
+onent.xsd">
+
+  <!-- NSS dependency file  -->
+
+  <Identity>
+    <Identifier feature="true">NSS</Identifier>
+    <Description>Network Security Services</Description>
+    <IdentityVersion>
+      <VersionBaseline>3.11.4</VersionBaseline>
+    </IdentityVersion>
+    <Vendor>Oracle</Vendor>
+    <Other>Java Enterprise System</Other>
+  </Identity>
+
+  <Payload>
+    <CompositeUnit>
+      <Name>core</Name>
+
+      <!-- Solaris sparc and sparcv9 -->
+      <Realization critical="true">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>sparc</Arch>
+          <OtherArch>sparcv9</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+        </OS>
+        <InstallableUnit version="3.11.4">SUNWtls</InstallableUnit>
+        <InstallableUnit version="3.11.4">SUNWtlsu</InstallableUnit>
+      </Realization>
+
+      <!-- Solaris x86 and x86_64 -->
+      <Realization critical="true">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+        </OS>
+        <InstallableUnit version="3.11.4">SUNWtls</InstallableUnit>
+        <InstallableUnit version="3.11.4">SUNWtlsu</InstallableUnit>
+      </Realization>
+
+      <!-- Linux x86 and x86_64 -->
+      <Realization critical="true">
+        <OS>
+          <Type>unix</Type>
+          <Name>linux</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>2.4</VersionBaseline>
+          </VersionCertified>
+        </OS>
+        <InstallableUnit version="3.11.4-1">sun-nss-3.11.4-1.i386.rpm</InstallableUnit>
+      </Realization>
+
+      <Realization critical="true">
+        <OS>
+          <Type>unix</Type>
+          <Name>linux</Name>
+          <Arch>x86_64</Arch>
+          <VersionCertified>
+            <VersionBaseline>2.4</VersionBaseline>
+          </VersionCertified>
+        </OS>
+        <InstallableUnit version="3.11.4-1">sun-nss-3.11.4-1.i386.rpm</InstallableUnit>
+        <InstallableUnit version="3.11.4-1">sun-nss-3.11.4-1.x86_64.rpm</InstallableUnit>
+      </Realization>
+
+    </CompositeUnit>
+  </Payload>
+</Component>
+

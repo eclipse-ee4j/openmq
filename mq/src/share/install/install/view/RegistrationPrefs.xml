@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="RegistrationPrefs" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="RegistrationPrefs" apt:label="Registration Preferences" >
+
+    <apt:page apt:name="RegistrationPrefs" apt:label="Registration Preferences" >
+
+      <apt:section apt:name="regprefs" apt:label="Registration Preferences" >
+
+        <apt:property apt:name="REGISTRATION_PREFS_TEXT1" apt:dataPath="" apt:type="xs:string">
+	<apt:prop-value>$MQ_USE_PROXY_HEADER</apt:prop-value>
+	    <apt:visual>
+	        <apt:htmlPanel/>
+	    </apt:visual>
+        </apt:property>
+
+
+        <apt:property apt:name="USE_PROXY" apt:label=""
+                      apt:dataPath="regprefs.USE_PROXY"
+                      apt:type="xs:boolean">
+          <apt:prop-value>false</apt:prop-value>
+          <apt:visual>
+            <apt:checkBox apt:labelPost="$MQ_USE_PROXY" apt:toolTip="$MQ_USE_PROXY"/>
+          </apt:visual>
+          <apt:scriptHandler apt:scriptLanguage="beanshell" >
+            <apt:scriptCode><![CDATA[
+              theAL = new ActionListener() {
+                actionPerformed(e) {
+                  option = wizard.getComponentByName(content, "USE_PROXY");
+                  boolean useProxy = option.isSelected();
+                  handleProxyItems(useProxy);
+                }
+              };
+              return theAL;
+            ]]></apt:scriptCode>
+          </apt:scriptHandler>
+        </apt:property>
+
+        <apt:property apt:name="PROXY_HOST" 
+		apt:label="$MQ_PROXY_HOST"
+                apt:dataPath="regprefs.PROXY_HOST"
+                apt:type="xs:string">
+	  <apt:visual>
+	    <apt:textField apt:toolTip="$MQ_PROXY_HOST"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="PROXY_PORT" 
+		apt:label="$MQ_PROXY_PORT"
+                apt:dataPath="regprefs.PROXY_PORT"
+                apt:type="xs:int">
+	  <apt:visual>
+	    <apt:textField apt:toolTip="$MQ_PROXY_PORT"/>
+	  </apt:visual>
+        </apt:property>
+
+
+
+      </apt:section>
+      <apt:scriptHandler apt:scriptLanguage="beanshell" >
+        <apt:scriptCode><![CDATA[
+
+    handleProxyItems(boolean useProxy)  {
+        proxyHost = wizard.getComponentByName(content, "PROXY_HOST");
+        proxyPort = wizard.getComponentByName(content, "PROXY_PORT");
+
+	if (useProxy)  {
+           proxyHost.setEnabled(true);
+           proxyPort.setEnabled(true);
+	} else  {
+           proxyHost.setEnabled(false);
+           proxyPort.setEnabled(false);
+	}
+    }
+
+    registrationPrefsCheckNullEmpty(prop)  {
+        boolean useProxy = ConfigHelper.getBooleanValue(
+		"RegistrationPrefs.regprefs.USE_PROXY");
+
+	if (!useProxy)  {
+	    return;
+	}
+
+	String myValue = (String)prop.getUnconfirmedValue();
+	if ((myValue == null) || myValue.equals("")) {
+	    throw new EnhancedException("NULL_OR_EMPTY_VALUE", new String[]{});
+	}
+    }
+
+
+    run() {
+      boolean useProxyInitial = ConfigHelper.getBooleanValue(
+		"RegistrationPrefs.regprefs.USE_PROXY");
+      handleProxyItems(useProxyInitial);
+
+      wizard.enableCancel(true);
+      wizard.enableHelp(true);
+      wizard.enableBack(true);
+      wizard.enableNext(true);
+
+      List activeModes = (List)ConfigHelper.getValue("PageFlow.Mode.ACTIVE_MODES_LIST");
+    }
+
+    return (Runnable)this;
+        ]]></apt:scriptCode>
+      </apt:scriptHandler>
+    </apt:page>
+  </apt:category>
+</apt:template>
+

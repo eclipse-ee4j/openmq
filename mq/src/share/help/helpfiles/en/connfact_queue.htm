@@ -1,0 +1,51 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>connfact queue</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H2>Connection Factory Object Properties &gt; <BR>QueueBrowsers and ServerSessions</H2>
+ 
+<P>Use this tab to reconfigure queue browsing for the client runtime and to re-specify 
+  the behavior of sessions running in an application server.</P>
+
+<p><b>Queue Browser Retrieve Size </b> Specifies the maximum number of messages 
+  that the client runtime will retrieve at one time, when browsing the contents 
+  of a queue destination. Default: 1000</p>
+
+<p><b>Queue Browser Retrieve Timeout (milliseconds)</b> Specifies the maximum 
+  time that the client runtime will wait to retrieve messages, when browsing the 
+  contents of a queue destination, before throwing an exception. Default: 60000 
+  milliseconds.</p>
+
+<p><b>Load Upto Maximum Messages to Server Sessions</b> Specifies that an Message Queue ConnectionConsumer 
+  should load up to the <code>maxMessages</code> number of messages into a ServerSession's 
+  Session. Leave the box unchecked to specify that an Message Queue ConnectionConsumer should 
+  load only a single message at a time. See the Application Server Facilities 
+  section of the JMS specification for more information.</p>
+
+<P>&nbsp;</P>
+
+</BODY>
+</HTML>

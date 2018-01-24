@@ -1,0 +1,26 @@
+@(#)README	1.2 04/01/05
+
+Oracle GlassFish(tm) Server Message Queue Examples: helloworld
+--------------------------------------------------------------
+
+This directory contains some simple "hello world" example 
+programs that demonstrates basic JMS programming.
+
+Directory                Description
+---------                -----------
+helloworldmessage        A "hello world" example that shows the fundamentals
+			 of JMS programming - creating a message sender and
+			 receiver. This example is closely tied to the
+			 Quick Start Tutorial (chapter 2 of the Oracle GlassFish(tm) 
+			 Server Message Queue Developer's Guide). 
+
+helloworldmessagejndi    A "hello world" example (similar to helloworldmessage)
+                         that shows the fundamentals of JMS programming
+			 - creating a message sender and receiver. This example
+			 uses JNDI to lookup administered objects. It requires
+			 the user to create these objects using the tools
+			 provided with Oracle GlassFish(tm) Server Message Queue. This 
+			 example is used as the sample application in the 
+			 Administration Console Tutorial (chapter 4 of the Sun 
+			 Oracle GlassFish(tm) Server Message Queue Administrator's Guide).
+

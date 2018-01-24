@@ -1,0 +1,64 @@
+<?xml version='1.0' encoding='ISO-8859-1'?>
+<!DOCTYPE map PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 1.0//EN"
+                     "http://java.sun.com/products/javahelp/map_1_0.dtd">
+<!--
+
+    Copyright (c) 2010-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<map version="1.0">
+	<mapID target="add_destination_obj" url="add_destination_obj.htm"/>
+	<mapID target="add_connfact_handling_htm" url="add_connfact_handling.htm"/>
+	<mapID target="broker_configuration" url="broker_configuration.htm"/>
+	<mapID target="add_connfact_rel_htm" url="add_connfact_rel.htm"/>
+	<mapID target="broker_config_logging_htm" url="broker_config_logging.htm"/>
+	<mapID target="add_broker" url="add_broker.htm"/>
+	<mapID target="add_broker_destination" url="add_broker_destination.htm"/>
+	<mapID target="add_connfact_handling_old_htm" url="add_connfact_handling_old.htm"/>
+	<mapID target="connfact_jmsx_htm" url="connfact_jmsx.htm"/>
+	<mapID target="IMQ_INDEX" url="imq_index.htm"/>
+	<mapID target="connfact_rel_htm" url="connfact_rel.htm"/>
+	<mapID target="connfact_clientid_htm" url="connfact_clientid.htm"/>
+	<mapID target="broker_destination_properties" url="broker_destination_properties.htm"/>
+	<mapID target="BROKER_INDEX" url="broker_index.htm"/>
+	<mapID target="broker_dest_basic_htm" url="broker_dest_basic.htm"/>
+	<mapID target="add_connfact_queue_htm" url="add_connfact_queue.htm"/>
+	<mapID target="add_object_store" url="add_object_store.htm"/>
+	<mapID target="conndis_broker" url="conndis_broker.htm"/>
+	<mapID target="object_store_properties" url="object_store_properties.htm"/>
+	<mapID target="OS_INDEX" url="os_index.htm"/>
+	<mapID target="connfact_queue_htm" url="connfact_queue.htm"/>
+	<mapID target="add_connection_fact" url="add_connection_fact.htm"/>
+	<mapID target="connection_factory_prop" url="connection_factory_prop.htm"/>
+	<mapID target="overview" url="overview.htm"/>
+	<mapID target="broker_dest_durable_htm" url="broker_dest_durable.htm"/>
+	<mapID target="add_connfact_jmsx_htm" url="add_connfact_jmsx.htm"/>
+	<mapID target="service_properties" url="service_properties.htm"/>
+	<mapID target="connfact_handling_htm" url="connfact_handling.htm"/>
+	<mapID target="add_connfact_clientid_htm" url="add_connfact_clientid.htm"/>
+	<mapID target="broker_information" url="broker_information.htm"/>
+	<mapID target="destination_obj_properties" url="destination_obj_properties.htm"/>
+	<mapID target="broker_config_messaging_htm" url="broker_config_messaging.htm"/>
+	<mapID target="conndis_object_store" url="conndis_object_store.htm"/>
+	<mapID target="connfact_handling_old_htm" url="connfact_handling_old.htm"/>
+	<mapID target="broker_config_basic_htm" url="broker_config_basic.htm"/>
+	<mapID target="add_connfact_message_header_overrides_htm" url="add_connfact_message_header_overrides.htm"/>
+	<mapID target="connfact_message_header_overrides_htm" url="connfact_message_header_overrides.htm"/>
+	<mapID target="message_server_syntax_htm" url="message_server_syntax.htm"/>
+	<mapID target="IMQ_TOP_FOLDER_IMG" url="../images/AppIcon16xCDE.gif"/>
+	<mapID target="OBJSTORE_TOP_FOLDER_IMG" url="../images/ObjectStore16x.gif"/>
+	<mapID target="BROKER_TOP_FOLDER_IMG" url="../images/Broker16X.gif"/>
+</map>

@@ -1,0 +1,307 @@
+#!/bin/sh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+#
+# Post install configurator script for file based install of Message Queue.
+# This script does:
+#  - writes the JDK to use for MQ into the imqenv.conf file
+#  - writes the JDK to use for MQ into the uninstaller.properties file
+#
+MYDIR=`dirname $0`
+cd ${MYDIR}
+MYDIR=`pwd`
+UNAME=uname
+
+#
+# This is the VM/CLASSPATH that was used to run the installer
+#
+INSTALLER_JAVA_HOME=${INIT_CONFIG_JAVA_HOME}
+INSTALLER_JAVA_CLASSPATH=${CLASSPATH}:${INIT_CONFIG_JAVA_CLASSPATH}:${MYDIR}
+
+#
+# This is the VM that we want MQ to use. Currently hardcoded. This value/path
+# will eventually be obtained from the PH framework.
+#
+IMQ_DEFAULT_JAVAHOME=/usr/jdk/instances/jdk1.5.0
+
+#
+# This is the MQ install home that will be obtained from OI framework
+#
+IMQ_INSTALL_HOME=/
+
+RESET=
+SILENT=
+CONFIGSCHEMA=
+CONFIGDATA=
+VALIDATE=
+CONFIG_STATUS=SUCCESS
+PLATFORM_ERROR=None
+PRODUCT_ERROR=None
+DOC_REF=None
+NEXT_STEPS=None
+
+CHECK_PERM_FILES='
+var/install/contents/mq/uninstaller
+bin/pkg
+mq/bin/imqadmin
+mq/bin/imqbrokerd
+mq/bin/imqbridgemgr
+mq/bin/imqcmd
+mq/bin/imqdbmgr
+mq/bin/imqkeytool
+mq/bin/imqobjmgr
+mq/bin/imqusermgr
+mq/bin/mquninstall
+mq/bin/certutil
+mq/bin/ssltap
+mq/lib/imq.jar
+mq/lib/imqadmin.jar
+mq/lib/imqbroker.jar
+mq/lib/imqjmx.jar
+mq/lib/imqservlet.jar
+mq/lib/imqutil.jar
+mq/lib/imqxm.jar
+mq/lib/jaxm-api.jar
+mq/lib/jms.jar
+mq/lib/fscontext.jar
+mq/lib/jhall.jar
+mq/lib/install/mqconfigmf
+mq/lib/install/init-config
+mq/lib/libmqcrt.so.1
+mq/lib/libfreebl3.so
+mq/lib/libimqutil.so.1
+mq/lib/libnspr4.so
+mq/lib/libnss3.so
+mq/lib/libnssckbi.so
+mq/lib/libplc4.so
+mq/lib/libplds4.so
+mq/lib/libsmime3.so
+mq/lib/libsoftokn3.so
+mq/lib/libssl3.so
+install/bin/engine-wrapper
+install/bin/uninstaller
+'
+
+printResult() {
+    echo '<resultReport xmlns="http://openinstaller.org/config/resultreport/V1">' >&2
+    echo '<configStatus>'$1'</configStatus>' >&2
+    echo '<platformError>'$2'</platformError>' >&2
+    echo '<productError>'$3'</productError>' >&2
+    echo '<docReference>'$4'</docReference>' >&2
+    echo '<nextSteps>'$5'</nextSteps>' >&2
+    echo '</resultReport>' >&2
+}
+
+usage()  {
+    echo "### TBD: usage help ###"
+}
+
+# Set error codes returned by mqconfigmf script
+setErrorCodes() {
+    INVALID_OS_ARCH=101
+    MFWKSETUP_CMD_NOT_FOUND=102
+    MQ_INSTALL_DIR_NOT_FOUND=103
+    COM_SUN_CMM_MQ_XML_NOT_FOUND=104
+    MFWK_CMD_FAILED=105
+    TOKEN_REPLACEMENT_FAILED=106
+    CACAOADM_CMD_NOT_FOUND=107
+    CACAO_NOT_RUNNING=108
+    USAGE_ERROR=109
+}
+
+#
+# Check (and correct) file permissions
+# Some OS's may not have unzip installed by default which causes the OI
+# framework to use java.util.zip to extract files. This may leave some
+# files with incorrect permissions, in particular files that should be
+# executeable.
+#
+checkFilePermissions() {
+    for f in $CHECK_PERM_FILES
+    do
+        if [ -s ${IMQ_INSTALL_HOME}/$f -a ! -x ${IMQ_INSTALL_HOME}/$f ]
+        then
+            echo "Fixing permissions for file: ${IMQ_INSTALL_HOME}/$f"
+            chmod 755 ${IMQ_INSTALL_HOME}/$f
+        fi
+    done
+}
+
+#
+# Re-do sym links on AIX since
+# the unzip classes on AIX do not preserve sym links.
+#
+checkSymLinks() {
+
+    if [ `${UNAME} -s` = "AIX" ]; then
+	if [ -d ${IMQ_INSTALL_HOME}/mq/lib ]; then
+            cd ${IMQ_INSTALL_HOME}/mq/lib; 
+            if [ -s libmqcrt.so.1 ]; then
+	        rm libmqcrt.so; ln -s libmqcrt.so.1 libmqcrt.so;
+            fi;
+            if [ -s libimqutil.so.1 ]; then
+	        rm libimqutil.so; ln -s libimqutil.so.1 libimqutil.so;
+            fi;
+	fi;
+    fi
+}
+
+
+#
+# Perform actual configuration/unconfiguration
+#
+doWork() {
+if [ -n "${RESET}" ] ; then
+    echo "Reset - nothing done"
+else
+    #
+    # Determine selected JDK_HOME
+    #
+    ${INSTALLER_JAVA_HOME}/bin/java \
+      -cp "${INSTALLER_JAVA_CLASSPATH}" \
+      ${INIT_CONFIG_HELPER_CLASS} \
+      -s ${CONFIGSCHEMA} \
+      -d ${CONFIGDATA} \
+      -o DECODE \
+      -f /tmp/mq.config.$$ 
+
+     IMQ_DEFAULT_JAVAHOME=`awk '/IMQ_SELECTED_JDK/ {getline; print}' /tmp/mq.config.$$`
+     IMQ_INSTALL_HOME=`awk '/IMQ_INSTALL_HOME/ {getline; print}' /tmp/mq.config.$$`
+
+     /bin/rm -f /tmp/mq.config.$$
+
+     echo "User chose JDK: $IMQ_DEFAULT_JAVAHOME"
+     echo "User chose IMQ_INSTALL_HOME: $IMQ_INSTALL_HOME"
+
+     IMQENV_CONF=${IMQ_INSTALL_HOME}/etc/mq/imqenv.conf
+     echo "imqenv.conf file: $IMQENV_CONF"
+
+     UNINSTALL_PROP=${IMQ_INSTALL_HOME}/${UNINSTALL_PROP_REL_LOCATION}
+
+    ${INSTALLER_JAVA_HOME}/bin/java -cp ${INSTALLER_JAVA_CLASSPATH} SetupJDKHome -i ${IMQENV_CONF} -j "IMQ_DEFAULT_JAVAHOME=${IMQ_DEFAULT_JAVAHOME}"
+    RETVAL=$?
+    echo "RETVAL: ${RETVAL}"
+
+    if [ ! ${RETVAL} = 0 ]
+    then
+	CONFIG_STATUS=FAIL
+
+	if [ ${NEXT_STEPS} = ""] 
+	then
+	    NEXT_STEPS="Setting JDK in ${IMQENV_CONF} failed. Please edit this file manually."
+	else
+	    NEXT_STEPS=${NEXT_STEPS}" Setting JDK in ${IMQENV_CONF} failed. Please edit this file manually."
+	fi
+    fi
+
+    ${INSTALLER_JAVA_HOME}/bin/java -cp ${INSTALLER_JAVA_CLASSPATH} SetupJDKHome -i ${UNINSTALL_PROP} -j "${IMQ_DEFAULT_JAVAHOME}"
+    RETVAL=$?
+    echo "RETVAL: ${RETVAL}"
+
+    if [ ! ${RETVAL} = 0 ]
+    then
+	CONFIG_STATUS=FAIL
+
+	if [ ${NEXT_STEPS} = ""] 
+	then
+	    NEXT_STEPS="Setting JDK in ${UNINSTALL_PROP} failed. Please edit this file manually."
+	else
+	    NEXT_STEPS=${NEXT_STEPS}" Setting JDK in ${UNINSTALL_PROP} failed. Please edit this file manually."
+	fi
+
+    fi
+
+    #
+    # Check/correct file permissions
+    #
+    checkFilePermissions
+
+    #
+    # Re-do sym links on some unix's.
+    # 
+    checkSymLinks
+fi
+    
+
+}
+
+#
+# Perform validation - just set DOC_REF
+#
+doValidate() {
+if [ -n "${RESET}" ] ; then
+    DOC_REF="Validation of MQ unconfigurator performed. No actual unconfiguration done."
+else
+    DOC_REF="Validation of MQ configurator performed. No actual configuration done."
+fi
+}
+
+
+########
+# MAIN #
+########
+echo "init-config script for MQ"
+echo "init-config: options passed: " $*
+
+setErrorCodes
+
+OPTSTRING="f:d:rshv"
+
+while getopts "${OPTSTRING}" opt; do
+    case ${opt} in
+        f) echo "-f specified with: " ${OPTARG}
+        CONFIGSCHEMA=${OPTARG}
+	;;
+
+        d) echo "-d specified with: " ${OPTARG}
+        CONFIGDATA=${OPTARG}
+	;;
+
+        h) usage 
+        ;;
+
+        r) RESET=true 
+        ;;
+
+        s) SILENT=true 
+        ;;
+
+        v) VALIDATE=true 
+        ;;
+
+    esac
+
+done
+
+#
+# Set relative location of uninstaller.properties
+#
+UNINSTALL_PROP_REL_LOCATION=var/install/contents/mq/uninstaller.properties
+
+if [ -n "${VALIDATE}" ] ; then
+    doValidate
+else
+    doWork
+fi
+
+echo "CONFIG_STATUS: ${CONFIG_STATUS}"
+echo "PLATFORM_ERROR: ${PLATFORM_ERROR}"
+echo "PRODUCT_ERROR: ${PRODUCT_ERROR}"
+echo "DOC_REF: ${DOC_REF}"
+echo "NEXT_STEPS: ${NEXT_STEPS}"
+
+printResult ${CONFIG_STATUS} "${PLATFORM_ERROR}" "${PRODUCT_ERROR}" "${DOC_REF}" "${NEXT_STEPS}"

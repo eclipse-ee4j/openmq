@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;14301200">
+	<META NAME="CHANGED" CONTENT="20081001;13394831">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><FONT SIZE=4><B>commit</B></FONT></P>
+<P><A NAME="wfdi"></A><A NAME="krcn"></A>The <B>commit</B> service
+request is an http HTTP request message sent to the UMS in accordance
+with the Simple Messaging API or the XML Messaging API.</P>
+<P>The <B>commit</B> service request must conform to the following
+criteria:</P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=3>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TH WIDTH=50%>
+			<P>Required field/attribute values</P>
+		</TH>
+		<TH WIDTH=50%>
+			<P>Optional field/attribute values</P>
+		</TH>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>service=commit</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>sid</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><B>Notes</B>:</P>
+<P>A <B>commit</B> service request is supported only for a transacted
+session. A transacted session is created by sending a <B>login</B>
+request with the transacted attribute set to true.</P>
+<P>A <B>commit</B> request MUST contain an sid attribute with its
+value set to a secure token obtained from the previous <A HREF="http://niagra2.sfbay.sun.com:8080/ums/login_reply.html">login_reply</A>
+message.</P>
+<P>A new transaction is automatically started after a successful
+<B>commit</B> service request.</P>
+<P>Service response message: <A HREF="./commit_reply.html"><B>commit_reply</B></A></P>
+<P><FONT SIZE=3 STYLE="font-size: 13pt"><B>1. Simple Messaging API
+Example: </B></FONT>
+</P>
+<P>The following is a <B>commit</B> service request.</P>
+<P>POST /ums/simple?service=commit&amp;sid=4-LTgxMDczMTczNQ==
+HTTP/1.1 <BR>Content-Type: text/plain;charset=UTF-8 <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Accept: text/html,
+image/gif, image/jpeg, *; q=.2, */*; q=.2 <BR>Connection: keep-alive
+<BR>Content-Length: 0 <FONT SIZE=4><BR><B><BR></B></FONT><B><FONT SIZE=3 STYLE="font-size: 13pt">2.
+XML Messaging API Example:</FONT></B></P>
+<P>The following is a <B>commit</B> service request.</P>
+<P>POST /ums/xml HTTP/1.1 <BR>Accept: text/xml, text/html, image/gif,
+image/jpeg, *; q=.2, */*; q=.2 <BR>Content-Type: text/xml;
+charset=utf-8 <BR>Content-Length: 393 <BR>SOAPAction: &quot;&quot;
+<BR>Cache-Control: no-cache <BR>Pragma: no-cache <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Connection: keep-alive
+<BR><BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;<A HREF="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</A>&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;commit&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:sid=&quot;7-LTgxMDczMTczNQ==&quot;
+/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Body/&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;<BR><BR><A HREF="./protocol.html">Back
+to UMS protocol page.</A></P>
+</BODY>
+</HTML>

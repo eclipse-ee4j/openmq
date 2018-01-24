@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="lib" path="build/public-package-jars/org-openide-modules.jar"/>
+	<classpathentry exported="true" kind="lib" path="build/public-package-jars/org-openide-util.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-application-views.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-application.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-core.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-tools.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-jmx.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-host.jar"/>
+	<classpathentry kind="lib" path="build/public-package-jars/com-sun-tools-visualvm-charts.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>

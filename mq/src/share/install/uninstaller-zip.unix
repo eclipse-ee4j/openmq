@@ -1,0 +1,303 @@
+#!/bin/ksh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+PRODUCTNAME="mq"
+
+BASENAME=basename
+DIRNAME=dirname
+_PWD=/bin/pwd
+CAT=/bin/cat
+ECHO=/bin/echo
+NAME=`${BASENAME} $0`
+MYDIR=`${DIRNAME} $0`
+MYDIR=`cd ${MYDIR}; ${_PWD}`
+
+UNINSTALL_PROP=${MYDIR}/uninstaller.properties
+
+#echo META_DATA_DIR: $META_DATA_DIR
+#echo INIT_CONFIG_DIR: $INIT_CONFIG_DIR
+#echo CONFIG_DIR: $CONFIG_DIR
+
+JAVA_HOME=""
+_CMDLINEJAVA_HOME=""
+
+# user options
+DRYRUN=
+SILENT=
+ANSWERFILE=
+ALTROOT=
+DEBUGLEVEL="INFO"
+MEDIALOC=
+#LOGDIR=/tmp
+
+#-------------------------------------------------------------------------------
+# usage only: define what parameters are available here
+# input(s):  exitCode
+#-------------------------------------------------------------------------------
+
+usageWithTextOption() {
+  ${CAT} <<EOF
+Usage: $NAME [OPTION]
+
+Options:
+  -a <file>
+  Specify an answer file to be used by installer in non interactive mode.
+
+  -h
+  Show usage help
+
+  -j <path>
+  Specify java runtime to use to run the installer
+
+  -s
+  Silent mode. No output will be displayed. Typically used with an answer file
+  specified with -a
+
+  -n <file>
+  Dry run mode. Does not uninstall anything. Your uninstall responses are saved to
+  <file> and can be used with -a to replicate this uninstall.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+  Usage examples:
+   Generate answer file
+    uninstaller -n file1
+
+   Using an answer file in silent mode
+    uninstaller -a file1 -s
+
+EOF
+  exit $1
+}
+
+usageWithoutTextOption() {
+  ${CAT} <<EOF
+Usage: $NAME [OPTION]
+
+Options:
+  -a <file>
+  Specify an answer file to be used by installer in non interactive mode.
+
+  -h
+  Show usage help
+
+  -s
+  Silent mode. No output will be displayed. Typically used with an answer file
+  specified with -a
+
+  -n <file>
+  Dry run mode. Does not uninstall anything. Your uninstall responses are saved to
+  <file> and can be used with -a to replicate this uninstall.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+  Usage examples:
+   Generate answer file
+    uninstaller -n file1
+
+   Using an answer file in silent mode
+    uninstaller -a file1 -s
+
+EOF
+  exit $1
+}
+
+usage() {
+  if [ `uname -s` = SunOS -o `uname -s` = Linux ]; then
+      usageWithTextOption;
+  else
+      usageWithoutTextOption
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# perform actual operation for the script: install/uninstall
+# input(s):  none
+# output(s): instCode
+#-------------------------------------------------------------------------------
+perform() {
+ENGINE_OPS="-p Default-Product-ID=${PRODUCTNAME}"
+ENGINE_OPS="${ENGINE_OPS} -p Init-Config-Locations=${PRODUCTNAME}:${INIT_CONFIG_DIR}"
+ENGINE_OPS="${ENGINE_OPS} -p UI-Options=internalBrowserOnly"
+ENGINE_OPS="${ENGINE_OPS} -p Pkg-Format=zip"
+ENGINE_OPS="${ENGINE_OPS} -m file://${META_DATA_DIR}/"
+ENGINE_OPS="${ENGINE_OPS} -s ${CONFIG_DIR}/"
+
+if [ -n "${DRYRUN}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -n ${DRYRUN}"
+fi
+
+if [ -n "${SILENT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Display-Mode=SILENT"
+fi
+
+if [ -n "${ANSWERFILE}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -a ${ANSWERFILE}"
+fi
+
+if [ -n "${ALTROOT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -R ${ALTROOT}"
+fi
+
+if [ -n "${LOGLEVEL}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -l ${LOGLEVEL}"
+fi
+
+if [ -n "${LOGDIR}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Logs-Location=${LOGDIR}"
+fi
+
+if [ -n "${JAVA_HOME}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -j ${JAVA_HOME}"
+fi
+
+if [ -n "${INSTALLPROPS}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} ${INSTALLPROPS}"
+fi
+
+#
+# Workaround for bug:
+# 6567177 - uninstaller doesn't work on Solaris if run from /var/opt/install/contents/mq 
+#		directory
+#
+# Workaround commented out - it causes the "-n" option to not work since the answer file
+# will be created under '/'.
+#cd /
+
+${ENGINE_DIR}/bin/engine-wrapper -J "${JAVA_OPTIONS}" ${ENGINE_OPS}
+instCode=$?
+
+}
+
+setJavaHome() {
+    if [ "$_CMDLINEJAVA_HOME" = "" ]; then
+	#
+	# Read uninstall.properties file to determine JDK to use
+	#
+	if [ -f ${UNINSTALL_PROP} -a -r ${UNINSTALL_PROP} ] ; then
+            {
+                while read oneLine; do
+	            if [ "$oneLine"X != "X" ]; then
+	                JAVA_HOME=$oneLine
+	                break;
+	            fi
+                done
+            } < ${UNINSTALL_PROP}
+	fi
+    else
+        JAVA_HOME=${_CMDLINEJAVA_HOME}
+        ${ECHO} "Using the user defined JAVA_HOME : ${JAVA_HOME}"
+    fi
+
+
+    #
+    # No JVM set - revert to hardcoded defaults
+    #
+    if [ "$JAVA_HOME" = "" ] ; then
+        if [ "`uname -s`" = Linux ] ; then
+            JAVA_HOME=${INSTALL_HOME}/usr/java/jdk1.5.0_15
+        else
+            JAVA_HOME=${INSTALL_HOME}/usr/jdk/instances/jdk1.5.0
+        fi
+    fi
+
+    if [ ! -d ${JAVA_HOME} -o ! -r ${JAVA_HOME} ] ; then
+        ${ECHO} "${JAVA_HOME} must be the root directory of a valid JVM installation"
+        exit 1
+    fi
+}
+
+#
+# MAIN
+#
+
+OPTSTRING="hl:n:svta:j:J:p:"
+
+# check arguments
+while getopts "${OPTSTRING}" opt ; do
+    case "${opt}" in
+
+	a) ANSWERFILE=${OPTARG}
+	;;
+
+        R) ALTROOT=${OPTARG}
+
+            if [ ! -d ${ALTROOT} -o ! -r ${ALTROOT} ] ; then
+                ${ECHO} "${ALTROOT} is not a valid alternate root"
+                exit 1
+            fi
+        ;;
+
+	l) LOGDIR=${OPTARG}
+
+	    if [ ! -d ${LOGDIR} -o ! -w ${LOGDIR} ] ; then
+		${ECHO} "${LOGDIR} is not a directory or is not writable"
+		exit 1
+	    fi
+	;;
+
+	s) SILENT=true
+	;;
+	v) LOGLEVEL=FINEST
+	;;  
+        t) INSTALLPROPS="${INSTALLPROPS} -p Display-Mode=CUI"
+        ;;
+        n) DRYRUN=${OPTARG}
+        ;;
+	j) _CMDLINEJAVA_HOME=${OPTARG}
+
+	    if [ ! -d ${_CMDLINEJAVA_HOME} -o ! -r ${_CMDLINEJAVA_HOME} ] ; then
+		${ECHO} "${_CMDLINEJAVA_HOME} must be the root directory of a valid JVM installation"
+		exit 1
+	    fi
+	;;
+
+	J) JAVA_OPTIONS=${OPTARG}
+	;;
+	p) INSTALLPROPS="${INSTALLPROPS} -p ${OPTARG}"
+	;;
+	?|h) usage
+	;;
+    esac
+done
+
+#
+# Set various path variables
+#
+uninstall_mq=1
+UMBRELLA_DIR=${MYDIR}/../../../../
+META_DATA_REL_PATH=var/install/contents/${PRODUCTNAME}
+
+ENGINE_DIR=${UMBRELLA_DIR}/install
+INIT_CONFIG_REL_PATH=/${PRODUCTNAME}/lib/install
+CONFIG_DIR_REL_PATH=var/install/config/${PRODUCTNAME}
+
+META_DATA_DIR=${UMBRELLA_DIR}/${META_DATA_REL_PATH}
+INIT_CONFIG_DIR=${UMBRELLA_DIR}/${INIT_CONFIG_REL_PATH}
+CONFIG_DIR=${UMBRELLA_DIR}/${CONFIG_DIR_REL_PATH}
+
+trap 'exit' 1 2 13 15
+
+setJavaHome
+
+perform
+
+exit $instCode

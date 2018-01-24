@@ -1,0 +1,74 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<html>
+<head>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+</head>
+<body bgcolor="white">
+
+Provides the API for using a messaging provider to send and receive
+SOAP messages. This package is specified in the 
+<i>Java<sup><font size=-2>TM</font></sup> API for XML Messaging (JAXM)
+1.1</i> specification.
+<P>
+A client using Java<sup><font size=-2>TM</font></sup>
+API for XML Messaging technology ("JAXM client") makes its connections
+to a messaging provider, which means that 
+all messages it sends or receives go through the provider.  
+The messaging provider is responsible for the delivery of messages,
+performing many functions behind the scenes.  With a messaging provider, it
+is possible to send a message to multiple destinations, and a messaging
+provider can be configured to do the following:
+<UL>
+  <LI>maintain a list of endpoints to which messages will be sent
+  <LI>send, and if necessary, resend a message until the message is delivered 
+	 successfully or until the specified limit for retries is reached 
+  <LI>log messages in a specified directory
+</UL>
+In addition, a messaging provider can make it possible for a protocol such
+as ebXML or SOAP RP to operate on top of SOAP, extending the Quality of
+Service available to JAXM messages.
+<P>
+The API in the <code>javax.xml.messaging</code> package makes it
+possible to do one-way messaging.  
+One-way messaging allows the client to send a message
+and immediately go on to other work because the
+response, if there is one, will be sent as a separate operation at
+some time in the future.
+<P>
+The <code>javax.xml.messaging</code> package must always work in conjunction
+with the <code>javax.xml.soap</code> package, which provides the
+API for constructing SOAP messages and retreiving their content.
+(The <code>javax.xml.soap</code> package is
+defined in the <i>SOAP with Attachments API for
+Java<sup><font size=-2>TM</font></sup> (SAAJ) 1.1</i> specification.)
+
+<h2>Package Specification</h2>
+
+The JAXM 1.1 specification includes an overview of the
+<code>javax.xml.messaging</code> package and
+explains how its classes and interfaces work.
+<ul>
+  <li><a href="http://java.sun.com/xml/downloads/jaxm.html#jaxmspec">
+  JAXM 1.1 Specification</a>
+</ul>
+
+
+</body>
+</html>

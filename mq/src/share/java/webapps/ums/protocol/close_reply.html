@@ -1,0 +1,71 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;12395900">
+	<META NAME="CHANGED" CONTENT="20081001;13525659">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><A NAME="ez.:"></A><A NAME="ez.:0"></A><A NAME="ez.:1"></A><A NAME="ez.:2"></A><A NAME="ez.:3"></A><A NAME="ez.:4"></A><A NAME="y.gx"></A><A NAME="y.gx0"></A><A NAME="l9id0"></A><A NAME="ez.:5"></A><A NAME="x:ok"></A><A NAME="o323"></A><A NAME="o3235"></A><A NAME="fvuq"></A><A NAME="qnkh"></A><A NAME="bmcq1"></A><A NAME="bmcq3"></A><A NAME="ny2w"></A><A NAME="o3232"></A><A NAME="o3234"></A><A NAME="b0qe2"></A><A NAME="qnkh0"></A><A NAME="qnkh1"></A><A NAME="i.0c"></A><A NAME="i.0c0"></A><A NAME="za97"></A><A NAME="za970"></A><A NAME="edvc"></A><A NAME="edvc0"></A><A NAME="b-vi"></A><A NAME="duy10"></A><A NAME="duy11"></A><A NAME="duy12"></A><A NAME="duy13"></A><A NAME="duy14"></A><A NAME="duy15"></A><A NAME="duy16"></A><A NAME="duy17"></A><A NAME="duy18"></A><A NAME="duy19"></A><A NAME="duy110"></A><A NAME="duy111"></A><A NAME="t9ec"></A><A NAME="axwb"></A><A NAME="hdav"></A><A NAME="p.im"></A><A NAME="p.im0"></A><A NAME="qqbq"></A><A NAME="wrfs"></A><A NAME="wrfs0"></A><A NAME="wrfs1"></A><A NAME="wrfs2"></A><A NAME="wrfs3"></A><A NAME="gbfi"></A><A NAME="d6:5"></A><A NAME="b-vi0"></A><A NAME="d6:50"></A><A NAME="rg3:"></A><A NAME="p-xu"></A><A NAME="pm1b0"></A><A NAME="pm1b1"></A><A NAME="pm1b2"></A><A NAME="pm1b3"></A><A NAME="pm1b4"></A><A NAME="pm1b5"></A><A NAME="pm1b7"></A><A NAME="rz_1"></A><A NAME="rz_10"></A><A NAME="x57o"></A><A NAME="rz_11"></A><A NAME="rz_12"></A><A NAME="rz_13"></A><A NAME="rz_14"></A><A NAME="pm1b8"></A><A NAME="gbfi1"></A>
+<B><FONT SIZE=4>close_reply<BR><BR></FONT>close_reply</B> is an http
+response message to the <A HREF="./close.html"><B>close</B></A>
+service request..</P>
+<P>For the Simple Messaging API, <B>close_reply</B> contains no
+information in the http response message body, but sets the following
+extension-header fields:</P>
+<P>ums.service: close_reply <BR>ums.mom: openmq <BR>ums.status: 200&nbsp;
+<BR><BR>For the XML Messaging API, <B>close_reply</B> includes a SOAP
+message in the http response message body, and sets the following
+attributes of the Service element of the SOAP message header :</P>
+<P>&lt;ums:Service <BR>ums:service=&quot;close_reply&quot;
+<BR>ums:mom=&quot;openmq&quot; <BR>ums:status=&quot;200&quot;/&gt;<B><BR></B><BR>For
+both the Simple Messaging API and the XML Messaging API, a 200 status
+code indicates the <B>close</B> service request was successful. All
+other status codes indicate the <B>close</B> service request might
+not be successful.</P>
+<P><B><FONT SIZE=3 STYLE="font-size: 13pt">1. Simple Messaging API
+Example: </FONT></B>
+</P>
+<P>The following is a <B>close_reply</B> response message.</P>
+<P>HTTP/1.1 200 OK <BR>Server: Apache-Coyote/1.1 <BR>ums.service:
+close_reply <BR>ums.mom: openmq <BR>ums.status: 200 <BR>Content-Type:
+text/plain;charset=UTF-8 <BR>Content-Length: 0 <BR>Date: Wed, 03 Sep
+2008 17:51:47 GMT <BR><BR><B><FONT SIZE=3 STYLE="font-size: 13pt">2.
+XML Messaging API Example:</FONT></B></P>
+<P>The following is a <B>close_reply</B> response message that
+includes a SOAP message with Service element attribute values in the
+header.</P>
+<P>HTTP/1.1 200 OK <BR>Server: Apache-Coyote/1.1 <BR>Accept:
+text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+<BR>Content-Type: text/xml;charset=utf-8 <BR>Transfer-Encoding:
+chunked <BR>Date: Wed, 03 Sep 2008 17:18:53 GMT <BR><BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;<A HREF="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</A>&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;close_reply&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:mom=&quot;openmq&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:status=&quot;200&quot;/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Body/&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;
+<BR><BR><A HREF="./protocol.html">Back to UMS protocol page.</A></P>
+</BODY>
+</HTML>

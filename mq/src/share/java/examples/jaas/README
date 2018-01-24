@@ -1,0 +1,27 @@
+This README describes how to plug in the SampleLoginModule from the 
+JAAS Authentication Tutorial to MQ broker.
+
+1. Download following files from JAAS Tutorials -> JAAS Authentication at
+   http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/tutorials/
+
+   SampleLoginModule.java	
+   SamplePrincipal.java 
+   sample_jaas.config
+
+2. Compile the SampleLoginModule and SamplePrincipal classes by following
+   "Running the Code" instructions in the JAAS Authentication Tutorial
+
+3. Place the compiled classes in #2 into MQ broker <IMQ_HOME>/lib/ext directory
+
+4. Copy the following content to MQ broker instance's config.properties
+
+   imq.authentication.type=basic
+   imq.authentication.basic.user_repository=jaas
+   imq.user_repository.jaas.name=Sample
+   imq.user_repository.jaas.userPrincipalClass=sample.principal.SamplePrincipal
+ 
+5. Start broker by specifying Java system property
+   -Djava.security.auth.login.config==<url-of-sample_jaas.config> 
+
+6. Write a simple JMS client that creates a JMS Connection. The comments in
+   SampleLoginModule.java tells the correct username and password to use.

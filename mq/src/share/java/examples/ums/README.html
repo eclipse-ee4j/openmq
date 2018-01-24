@@ -1,0 +1,176 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en-US">
+<head>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<title>UMS APIs Examples</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<style type="text/css">
+<!--
+.sunblue {
+background:#35556B  none repeat scroll 0 0;
+color:#FFFFFF;
+}
+.ltyellow {
+background:#FFFFE2 none repeat scroll 0 0;
+}
+-->
+</style>
+<script type="text/JavaScript">
+<!--
+var viewWindow = null;
+function openWindow(theURL, winName, width, height) {
+  if (!viewWindow || viewWindow.closed) {
+    viewWindow = window.open(theURL, winName, 'menubar=yes, toolbar=no, location=no, scrollbars=yes, resizable=yes, width=' + width + ', height=' + height);
+  } else {
+    viewWindow.location = theURL;
+    viewWindow.focus();
+  }
+  
+  if (viewWindow.opener == null) { 
+    viewWindow.opener = window;
+  }
+  viewWindow.opener.name = "opener";
+}
+
+function createWindow(theURL, winName, width, height) {
+  var newWindow = window.open(theURL, winName, 'menubar=yes, toolbar=no, location=no, scrollbars=yes, resizable=yes, width=' + width + ', height=' + height);
+  newWindow.opener = window;
+}
+
+function createWindowWithToolbar(theURL, winName, width, height) {
+  var newWindow = window.open(theURL, winName, 'menubar=yes, toolbar=yes, location=yes, scrollbars=yes, resizable=yes, width=' + width + ', height=' + height);
+  newWindow.opener = window;
+}
+
+//-->
+</script>
+</head>
+<body>
+<h3>UMS APIs Examples</h3>
+<p>
+Before you can run the examples, you must first deploy
+the UMS web service's WAR file to a web container.
+<br>
+For additional information, see <a href="https://mq.java.net/4.3-content/ums/config.html">Configuring the UMS</a>.
+</p>
+
+<table cellspacing="0" cellpadding="2" border="0" width="100%">
+<tbody>
+<tr align="left">
+<td class="sunblue" colspan="4"><b>Ajax Examples</b></td>
+</tr>
+<tr valign="top">
+<td class="ltyellow"><b>Name</b></td>
+<td class="ltyellow"><b>Description</b></td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:createWindow('ajax/SendMsg.html','ajaxSender', 830, 700)">SendMsg.html</a>&#134;</td>
+<td align="left" valign="top" class="white">Ajax client that sends text message to a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="javascript:createWindow('ajax/ReceiveMsg.html','ajaxReceiver', 830, 700)">ReceiveMsg.html</a>&#134;</td>
+<td align="left" valign="top" class="yellow2">Ajax client that receives text message from a UMS server.</td>
+</tr>
+<tr align="left">
+<td class="grey" colspan="4"><i>&#134;Require Firefox 2 and higher or Internet Explorer 6 and higher</i></td>
+</tr>
+<tr align="left">
+<td class="sunblue" colspan="4"><b>C# .NET Examples</b></td>
+</tr>
+<tr valign="top">
+<td class="ltyellow"><b>Name</b></td>
+<td class="ltyellow"><b>Description</b></td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:openWindow('csharp/SendSOAPMsg.cs','codewindow', 800, 600)">SendSOAPMsg.cs</a></td>
+<td align="left" valign="top" class="white">Source file for C# application that sends text or binary message as XML/SOAP message to a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="javascript:openWindow('csharp/ReceiveSOAPMsg.cs','codewindow', 800, 600)">ReceiveSOAPMsg.cs</a></td>
+<td align="left" valign="top" class="yellow2">Source file for C# application that receives text or binary message as XML/SOAP message from a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="csharp/SendSOAPMsg.exe">SendSOAPMsg.exe</a>&#134;</td>
+<td align="left" valign="top" class="white">Prebuilt executable for .NET 2.0.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="csharp/ReceiveSOAPMsg.exe">ReceiveSOAPMsg.exe</a>&#134;</td>
+<td align="left" valign="top" class="yellow2">Prebuilt executable for .NET 2.0.</td>
+</tr>
+<tr align="left">
+<td class="grey" colspan="4"><i>&#134;Require .NET Framework 2.0 or later version</i></td>
+</tr>
+<tr align="left">
+<td class="sunblue" colspan="4"><b>Python Examples</b></td>
+</tr>
+<tr valign="top">
+<td class="ltyellow"><b>Name</b></td>
+<td class="ltyellow"><b>Description</b></td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:openWindow('python/SendMsg.py','codewindow', 800, 600)">SendMsg.py</a>&#134;</td>
+<td align="left" valign="top" class="white">Source file for Python application that sends text message to a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="javascript:openWindow('python/ReceiveMsg.py','codewindow', 800, 600)">ReceiveMsg.py</a>&#134;</td>
+<td align="left" valign="top" class="yellow2">Source file for Python application that receives text message from a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:openWindow('python/SendSOAPMsg.py','codewindow', 800, 600)">SendSOAPMsg.py</a>&#135;</td>
+<td align="left" valign="top" class="white">Source file for Python application that sends text or binary message as XML/SOAP message to a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="javascript:openWindow('python/ReceiveSOAPMsg.py','codewindow', 800, 600)">ReceiveSOAPMsg.py</a>&#135;</td>
+<td align="left" valign="top" class="yellow2">Source file for Python application that receives text or binary message as XML/SOAP message from a UMS server.</td>
+</tr>
+<tr align="left">
+<td class="grey" colspan="4"><i>&#134;Require Python 2.3 or later version</i></td>
+</tr>
+<tr align="left">
+<td class="grey" colspan="4"><i>&#135;Require Python 2.5 or later version</i></td>
+</tr>
+<tr align="left">
+<td class="sunblue" colspan="4"><b>Ruby Examples</b></td>
+</tr>
+<tr valign="top">
+<td class="ltyellow"><b>Name</b></td>
+<td class="ltyellow"><b>Description</b></td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:openWindow('ruby/SendMsg.rb','codewindow', 800, 600)">SendMsg.rb</a>&#134;</td>
+<td align="left" valign="top" class="white">Source file for Ruby application that sends text message to a UMS server.</td>
+</tr>
+<tr>
+<td align="left" valign="top" class="yellow2"><a href="javascript:openWindow('ruby/ReceiveMsg.rb','codewindow', 800, 600)">ReceiveMsg.rb</a>&#134;</td>
+<td align="left" valign="top" class="yellow2">Source file for Ruby application that receives text message from a UMS server.</td>
+</tr>
+<tr align="left">
+<td class="grey" colspan="4"><i>&#134;Require Ruby 1.8.6 later version (a compatible Ruby interpreter such as JRuby 1.1.5 can also be used)</i></td>
+</tr>
+<tr align="left">
+<td class="sunblue" colspan="4"><b>UMS features that use the HTTP GET protocol</b></td>
+</tr>
+<tr valign="top">
+<td class="ltyellow"><b>Name</b></td>
+<td class="ltyellow"><b>Description</b></td>
+</tr>
+<tr>
+<td align="left" valign="top" class="white"><a href="javascript:createWindowWithToolbar('get/UtilsUsingGet.html','codewindow', 800, 600)">UtilsUsingGet.html</a></td>
+<td align="left" valign="top" class="white">Simple UMS example demonstrating various utilities that use the HTTP GET protocol</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

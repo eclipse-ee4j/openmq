@@ -1,0 +1,1635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<!-- this file contains the rules to build the dist/ install images -->
+
+<project name="distrules" >
+
+   <!-- ===================  targets ================= -->
+
+    <target name="install" 
+          depends="zip_install"
+          description="Builds the MQ install image(s)">
+    </target>
+
+    <target name="install-ri"
+          depends="zip_install-ri"
+          description="Builds the MQ install image(s)">
+    </target>
+
+     <target name="install-mqgf-ri"
+          depends="zip_install-mqgf-ri"
+          description="Builds the MQ install image(s)">
+    </target>
+
+    <target name="zip_install"
+	    description="Builds MQ zip Install Image">
+	<echo message="### Building MQ zip Install Image..."/>
+
+	<!-- Remove old install dir-->
+	<echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+	<delete dir="${mq.zip.installdir}"/>
+
+	<!-- Make new install dir-->
+	<echo message="### Making directory ${mq.zip.installdir}"/>
+        <mkdir dir="${mq.zip.installdir}"/>
+
+	<!-- etc dir -->
+	<echo message="### etc files"/>
+        <mkdir dir="${mq.zip.installdir}/etc/rc"/>
+        <mkdir dir="${mq.zip.installdir}/etc/registry"/>
+        <mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
+
+	<copy todir="${mq.zip.installdir}/etc">
+	    <fileset dir="${archetc.dir}">
+	        <include name="passfile.sample"/>
+	        <include name="imq*.conf"/>
+	    </fileset>
+	</copy>
+
+	<chmod perm="444">
+	    <fileset dir="${mq.zip.installdir}/etc">
+	        <include name="imq*.conf"/>
+	        <include name="passfile.sample"/>
+	    </fileset>
+	</chmod>
+
+	<copy tofile="${mq.zip.installdir}/etc/rc/imq">
+	    <fileset dir="${base_src.dir}/solaris/etc">
+	        <include name="imq.sh"/>
+	    </fileset>
+	</copy>
+
+	<copy todir="${mq.zip.installdir}/etc/registry">
+	    <fileset dir="${base_src.dir}/share/etc/registry">
+	        <include name="*.xml"/>
+	    </fileset>
+	</copy>
+
+	<copy tofile="${mq.zip.installdir}/etc/xml/com.sun.cmm.mq.xml">
+	    <fileset dir="${base_src.dir}/share/etc">
+	        <include name="com.sun.cmm.mq.xml"/>
+	    </fileset>
+	</copy>
+
+	<copy tofile="${mq.zip.installdir}/etc/xml/template/com.sun.cmm.mq.xml">
+	    <fileset dir="${base_src.dir}/share/etc/template">
+	        <include name="com.sun.cmm.mq.xml"/>
+	    </fileset>
+	</copy>
+
+	<!-- bin dir -->
+	<echo message="### bin files "/>
+        <mkdir dir="${mq.zip.installdir}/bin"/>
+
+	<copy tofile="${mq.zip.installdir}/bin/imqadmin">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqadmin.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqbrokerd">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqbrokerd.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqcmd">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqcmd.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqdbmgr">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqdbmgr.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqkeytool">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqkeytool.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqobjmgr">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqobjmgr.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqusermgr">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqusermgr.sh"/>
+	    </fileset>
+	</copy>
+	<copy tofile="${mq.zip.installdir}/bin/imqbridgemgr">
+	    <fileset dir="${base_src.dir}/solaris/bin">
+	        <include name="imqbridgemgr.sh"/>
+	    </fileset>
+	</copy>
+	<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
+
+	<echo message="### bin .exe files "/>
+	<copy todir="${mq.zip.installdir}/bin">
+	    <fileset dir="${buildcfg.dir}/tools/ri/bins">
+	        <include name="imq*.exe"/>
+	    </fileset>
+	</copy>
+	
+	<!-- lib dir -->
+	<echo message="### lib files"/>
+        <mkdir dir="${mq.zip.installdir}/lib"/>
+
+	<copy todir="${mq.zip.installdir}/lib">
+	    <fileset dir="${classes.dir}">
+	        <include name="*.jar"/>
+	        <include name="*.rar"/>
+	        <include name="*.war"/>
+	    </fileset>
+	</copy>
+	<chmod perm="755">
+	    <fileset dir="${mq.zip.installdir}/lib">
+		<include name="*.jar"/>
+		<exclude name="fscontext.jar"/>
+		<exclude name="jhall.jar"/>
+	    </fileset>
+	</chmod>
+	<chmod perm="644">
+	    <fileset dir="${mq.zip.installdir}/lib">
+	        <include name="*.war"/>
+		<include name="*.rar"/>
+	    </fileset>
+	</chmod>
+	
+	<!-- lib/imqinit -->
+	<copy tofile="${mq.zip.installdir}/lib/imqinit">
+	    <fileset dir="${base_src.dir}/solaris/etc">
+	        <include name="imqinit.sh"/>
+	    </fileset>
+	</copy>
+	<chmod perm="444">
+	    <fileset dir="${mq.zip.installdir}/lib">
+		<include name="imqinit"/>
+	    </fileset>
+	</chmod>
+
+	<!-- lib/help dir -->
+	<echo message="### lib/help"/>
+        <mkdir dir="${mq.zip.installdir}/lib/help"/>
+	<copy todir="${mq.zip.installdir}/lib/help">
+	    <fileset dir="${archlib.dir}/help"/>
+	</copy>
+	<chmod perm="755" type="dir">
+	    <fileset dir="${mq.zip.installdir}/lib/help">
+		<include name="en"/>
+		<include name="images"/>
+	    </fileset>
+	</chmod>
+	<chmod perm="644">
+	    <fileset dir="${mq.zip.installdir}/lib/help">
+		<include name="Master.hs"/>
+		<include name="en/*.*"/>
+		<include name="images/*.*"/>
+	    </fileset>
+	</chmod>
+
+	<!-- lib/props dir -->
+	<!-- use default_linux.properties (generic & no syslog)  -->
+	<echo message="### lib/props"/>
+        <mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
+
+	<copy todir="${mq.zip.installdir}/lib/props/broker">
+	    <fileset dir="${archlib.dir}/props/broker">
+	        <include name="install.properties"/>
+	    </fileset>
+	</copy>
+
+	<copy tofile="${mq.zip.installdir}/lib/props/broker/default.properties">
+	    <fileset dir="${archlib.dir}/props/broker">
+	        <include name="default_linux.properties"/>
+	    </fileset>
+	</copy>
+
+	<!-- lib/install dir -->
+	<!-- These files only used if image was installed by the installer.
+	<echo message="### lib/props"/>
+        <mkdir dir="${mq.zip.installdir}/lib/install"/>
+
+	<echo message="### lib/install"/>
+	<copy todir="${mq.zip.installdir}/lib/install">
+	    <fileset dir="${buildcfg.dir}/tools/ri/bins">
+	        <include name="*.class"/>
+	    </fileset>
+	</copy>
+
+	<copy tofile="${mq.zip.installdir}/lib/install/init-config">
+	    <fileset dir="${base_src.dir}/share/install/sys/mq/bin">
+	        <include name="init-config-zip"/>
+	    </fileset>
+	</copy>
+
+	<copy tofile="${mq.zip.installdir}/lib/install/mqconfigmf">
+	    <fileset dir="${base_src.dir}/share/install/sys/mq/bin">
+	        <include name="mqconfigmf"/>
+	    </fileset>
+	</copy>
+	<chmod perm="755">
+	    <fileset dir="${mq.zip.installdir}/lib/install">
+		<include name="init-config"/>
+		<include name="mqconfigmf"/>
+	    </fileset>
+	</chmod>
+        -->
+
+	<!-- lib/ext dir -->
+	<echo message="### lib/ext"/>
+        <mkdir dir="${mq.zip.installdir}/lib/ext"/>
+	<copy tofile="${mq.zip.installdir}/lib/ext/README">
+	    <fileset dir="${base_src.dir}/doc/en">
+	        <include name="README-lib"/>
+	    </fileset>
+	</copy>
+
+        <!-- legal dir -->
+        <echo message="### legal "/>
+        <mkdir dir="${mq.zip.installdir}/legal"/>
+        <copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
+            <fileset dir="${base_src.dir}/doc/en">
+                <include name="LICENSE.md"/>
+            </fileset>
+        </copy>
+
+	<!-- lib/dtd dir -->
+	<echo message="### lib/dtd"/>
+        <mkdir dir="${mq.zip.installdir}/lib/dtd"/>
+	<copy todir="${mq.zip.installdir}/lib/dtd/">
+	    <fileset dir="${ws.top.dir}/main/bridge/bridge-jms/src/main/java/com/sun/messaging/bridge/service/jms/xml/">
+	        <include name="*.dtd"/>
+	    </fileset>
+	</copy>
+
+	<!-- lib/images dir -->
+	<echo message="### lib/images"/>
+        <mkdir dir="${mq.zip.installdir}/lib/images/admin"/>
+	<copy todir="${mq.zip.installdir}/lib/images/admin">
+	    <fileset dir="${archlib.dir}/images/admin">
+	        <include name="*.gif"/>
+	    </fileset>
+	</copy>
+
+	<!-- examples dir -->
+	<echo message="### examples dir"/>
+        <mkdir dir="${mq.zip.installdir}/examples"/>
+	<copy todir="${mq.zip.installdir}/examples">
+	    <fileset dir="${base_src.dir}/share/java/examples">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms"/>
+	<copy todir="${mq.zip.installdir}/examples/jms">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms">
+	        <include name="*.java"/>
+	        <include name="*.dtd"/>
+	        <include name="*.xml"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asyncsend"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asyncsend">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asyncsend">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asynctopicconsumer">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverycount"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverycount">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverycount">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverydelay"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverydelay">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverydelay">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messagegetbody"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messagegetbody">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messagegetbody">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageheader"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageheader">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageheader">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageproperties"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageproperties">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageproperties">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/selector"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/selector">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/selector">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/sharedsub"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/sharedsub">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/sharedsub">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/syncqueue"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/syncqueue">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/syncqueue">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jaas"/>
+	<copy todir="${mq.zip.installdir}/examples/jaas">
+	    <fileset dir="${base_src.dir}/share/java/examples/jaas">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/imqobjmgr"/>
+	<copy todir="${mq.zip.installdir}/examples/imqobjmgr">
+	    <fileset dir="${base_src.dir}/share/java/examples/imqobjmgr">
+	        <include name="*.properties"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jaxm"/>
+	<copy todir="${mq.zip.installdir}/examples/jaxm">
+	    <fileset dir="${base_src.dir}/share/java/examples/jaxm">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jdbc"/>
+	<copy todir="${mq.zip.installdir}/examples/jdbc">
+	    <fileset dir="${base_src.dir}/share/java/examples/jdbc">
+	        <include name="config.*"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/monitoring"/>
+	<copy todir="${mq.zip.installdir}/examples/monitoring">
+	    <fileset dir="${base_src.dir}/share/java/examples/monitoring">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jmx"/>
+	<copy todir="${mq.zip.installdir}/examples/jmx">
+	    <fileset dir="${base_src.dir}/share/java/examples/jmx">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/qbrowser"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/qbrowser">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/qbrowser">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/uclient"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/uclient">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/uclient">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/mqping"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/mqping">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/mqping">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/simplechat"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/simplechat">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/simplechat">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/mqapplet"/>
+	<copy todir="${mq.zip.installdir}/examples/applications/mqapplet">
+	    <fileset dir="${base_src.dir}/share/java/examples/applications/mqapplet">
+	        <include name="*.java"/>
+	        <include name="*.html"/>
+	        <include name="*.xml"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/"/>
+	<copy todir="${mq.zip.installdir}/examples/helloworld/">
+	    <fileset dir="${base_src.dir}/share/java/examples/helloworld/">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/helloworldmessage"/>
+	<copy todir="${mq.zip.installdir}/examples/helloworld/helloworldmessage">
+	    <fileset dir="${base_src.dir}/share/java/examples/helloworld/helloworldmessage">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/helloworldmessagejndi"/>
+	<copy todir="${mq.zip.installdir}/examples/helloworld/helloworldmessagejndi">
+	    <fileset dir="${base_src.dir}/share/java/examples/helloworld/helloworldmessagejndi">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="*.props"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/ums"/>
+	<copy todir="${mq.zip.installdir}/examples/ums">
+	    <fileset dir="${base_src.dir}/share/java/examples/ums">
+	        <include name="**/**"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/stomp"/>
+	<copy todir="${mq.zip.installdir}/examples/stomp">
+	    <fileset dir="${base_src.dir}/share/java/examples/stomp">
+	        <include name="**/**"/>
+	    </fileset>
+	</copy>
+
+	<mkdir dir="${mq.zip.installdir}/examples/jmsbridge"/>
+        <copy todir="${mq.zip.installdir}/examples/jmsbridge">
+            <fileset dir="${base_src.dir}/share/java/examples/jmsbridge">
+                <include name="**/**"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/javadoc"/>
+	<copy todir="${mq.zip.installdir}/javadoc">
+	    <fileset dir="${javadocs.dir}">
+	        <include name="**/**"/>
+	    </fileset>
+	</copy>
+
+    </target>
+
+    <target name="zip_install-ri"
+            description="Builds MQ zip Install Image">
+        <echo message="### Building MQ zip Install Image..."/>
+
+        <!-- Remove old install dir-->
+        <echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+        <delete dir="${mq.zip.installdir}"/>
+
+        <!-- Make new install dir-->
+        <echo message="### Making directory ${mq.zip.installdir}"/>
+        <mkdir dir="${mq.zip.installdir}"/>
+
+        <!-- etc dir -->
+        <echo message="### etc files"/>
+        <mkdir dir="${mq.zip.installdir}/etc/rc"/>
+        <mkdir dir="${mq.zip.installdir}/etc/registry"/>
+        <mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
+
+        <copy todir="${mq.zip.installdir}/etc">
+            <fileset dir="${archetc.dir}">
+                <include name="passfile.sample"/>
+                <include name="imq*.conf"/>
+            </fileset>
+        </copy>
+
+        <chmod perm="444">
+            <fileset dir="${mq.zip.installdir}/etc">
+                <include name="imq*.conf"/>
+                <include name="passfile.sample"/>
+            </fileset>
+        </chmod>
+
+        <copy tofile="${mq.zip.installdir}/etc/rc/imq">
+            <fileset dir="${base_src.dir}/solaris/etc">
+                <include name="imq.sh"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${mq.zip.installdir}/etc/registry">
+            <fileset dir="${base_src.dir}/share/etc/registry">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/etc/xml/com.sun.cmm.mq.xml">
+            <fileset dir="${base_src.dir}/share/etc">
+                <include name="com.sun.cmm.mq.xml"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/etc/xml/template/com.sun.cmm.mq.xml">
+            <fileset dir="${base_src.dir}/share/etc/template">
+                <include name="com.sun.cmm.mq.xml"/>
+            </fileset>
+        </copy>
+
+	<!-- bin dir -->
+        <echo message="### bin files "/>
+        <mkdir dir="${mq.zip.installdir}/bin"/>
+
+        <copy tofile="${mq.zip.installdir}/bin/imqbrokerd">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqbrokerd.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqcmd">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqcmd.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqobjmgr">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqobjmgr.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqusermgr">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqusermgr.sh"/>
+            </fileset>
+        </copy>
+        <chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
+
+        <echo message="### bin .exe files "/>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqbrokerd.exe"/>
+            </fileset>
+        </copy>
+	<copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqbrokersvc.exe"/>
+            </fileset>
+        </copy>
+	<copy todir="${mq.zip.installdir}/bin">
+	    <fileset dir="${buildcfg.dir}/tools/ri/bins">
+		<include name="imqcmd.exe"/>
+	    </fileset>
+	</copy>
+	<copy todir="${mq.zip.installdir}/bin">
+	    <fileset dir="${buildcfg.dir}/tools/ri/bins">
+		<include name="imqobjmgr.exe"/>
+	    </fileset>
+	</copy>
+	<copy todir="${mq.zip.installdir}/bin">
+	    <fileset dir="${buildcfg.dir}/tools/ri/bins">
+		<include name="imqusermgr.exe"/>
+	    </fileset>
+	</copy>
+
+	<!-- lib dir -->
+        <echo message="### lib files"/>
+        <mkdir dir="${mq.zip.installdir}/lib"/>
+
+        <copy todir="${mq.zip.installdir}/lib">
+            <fileset dir="${classes.dir}">
+                <include name="*.jar"/>
+                <include name="*.rar"/>
+            </fileset>
+        </copy>
+        <chmod perm="755">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="*.jar"/>
+                <exclude name="fscontext.jar"/>
+                <exclude name="jhall.jar"/>
+            </fileset>
+        </chmod>
+        <chmod perm="644">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="*.rar"/>
+            </fileset>
+        </chmod>
+
+        <!-- lib/imqinit -->
+        <copy tofile="${mq.zip.installdir}/lib/imqinit">
+            <fileset dir="${base_src.dir}/solaris/etc">
+                <include name="imqinit.sh"/>
+            </fileset>
+        </copy>
+        <chmod perm="444">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="imqinit"/>
+            </fileset>
+        </chmod>
+
+
+	<!-- lib/props dir -->
+        <!-- use default_linux.properties (generic & no syslog)  -->
+        <echo message="### lib/props"/>
+        <mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
+
+        <copy todir="${mq.zip.installdir}/lib/props/broker">
+            <fileset dir="${archlib.dir}/props/broker">
+                <include name="install.properties"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/lib/props/broker/default.properties">
+            <fileset dir="${archlib.dir}/props/broker">
+                <include name="default_linux.properties"/>
+            </fileset>
+        </copy>
+
+        <!-- lib/ext dir -->
+        <echo message="### lib/ext"/>
+        <mkdir dir="${mq.zip.installdir}/lib/ext"/>
+        <copy tofile="${mq.zip.installdir}/lib/ext/README">
+            <fileset dir="${base_src.dir}/doc/en">
+                <include name="README-lib"/>
+            </fileset>
+        </copy>
+
+        <!-- legal dir -->
+        <echo message="### legal "/>
+        <mkdir dir="${mq.zip.installdir}/legal"/>
+        <copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
+            <fileset dir="${base_src.dir}/doc/en">
+                <include name="LICENSE.md"/>
+            </fileset>
+        </copy>
+
+	<!-- examples dir -->
+        <echo message="### examples dir"/>
+        <mkdir dir="${mq.zip.installdir}/examples"/>
+        <copy todir="${mq.zip.installdir}/examples">
+            <fileset dir="${base_src.dir}/share/java/examples">
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+	 <mkdir dir="${mq.zip.installdir}/examples/jms"/>
+        <copy todir="${mq.zip.installdir}/examples/jms">
+            <fileset dir="${base_src.dir}/share/java/examples/jms">
+                <include name="*.java"/>
+                <include name="*.dtd"/>
+                <include name="*.xml"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asyncsend"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asyncsend">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asyncsend">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asynctopicconsumer">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverycount"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverycount">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverycount">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverydelay"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverydelay">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverydelay">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messagegetbody"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messagegetbody">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messagegetbody">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageheader"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageheader">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageheader">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageproperties"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageproperties">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageproperties">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/selector"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/selector">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/selector">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/sharedsub"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/sharedsub">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/sharedsub">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/syncqueue"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/syncqueue">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/syncqueue">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+	<mkdir dir="${mq.zip.installdir}/examples/imqobjmgr"/>
+        <copy todir="${mq.zip.installdir}/examples/imqobjmgr">
+            <fileset dir="${base_src.dir}/share/java/examples/imqobjmgr">
+                <include name="*.properties"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+	<mkdir dir="${mq.zip.installdir}/examples/monitoring"/>
+        <copy todir="${mq.zip.installdir}/examples/monitoring">
+            <fileset dir="${base_src.dir}/share/java/examples/monitoring">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jmx"/>
+        <copy todir="${mq.zip.installdir}/examples/jmx">
+            <fileset dir="${base_src.dir}/share/java/examples/jmx">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/">
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/qbrowser"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/qbrowser">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/qbrowser">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/uclient"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/uclient">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/uclient">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/mqping"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/mqping">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/mqping">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/applications/simplechat"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/simplechat">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/simplechat">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+	<mkdir dir="${mq.zip.installdir}/examples/applications/mqapplet"/>
+        <copy todir="${mq.zip.installdir}/examples/applications/mqapplet">
+            <fileset dir="${base_src.dir}/share/java/examples/applications/mqapplet">
+                <include name="*.java"/>
+                <include name="*.html"/>
+                <include name="*.xml"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/"/>
+        <copy todir="${mq.zip.installdir}/examples/helloworld/">
+            <fileset dir="${base_src.dir}/share/java/examples/helloworld/">
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/helloworldmessage"/>
+        <copy todir="${mq.zip.installdir}/examples/helloworld/helloworldmessage">
+            <fileset dir="${base_src.dir}/share/java/examples/helloworld/helloworldmessage">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/helloworld/helloworldmessagejndi"/>
+        <copy todir="${mq.zip.installdir}/examples/helloworld/helloworldmessagejndi">
+            <fileset dir="${base_src.dir}/share/java/examples/helloworld/helloworldmessagejndi">
+                <include name="*.java"/>
+                <include name="*.class"/>
+                <include name="*.props"/>
+                <include name="README"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+<target name="zip_install-mqgf-ri"
+            description="Builds MQ zip Install Image">
+        <echo message="### Building MQ zip Install Image..."/>
+
+        <!-- Remove old install dir-->
+        <echo message="### Remove old zip install dir ${mq.zip.installdir}"/>
+        <delete dir="${mq.zip.installdir}"/>
+
+        <!-- Make new install dir-->
+        <echo message="### Making directory ${mq.zip.installdir}"/>
+        <mkdir dir="${mq.zip.installdir}"/>
+
+        <!-- etc dir -->
+        <echo message="### etc files"/>
+        <mkdir dir="${mq.zip.installdir}/etc/rc"/>
+        <mkdir dir="${mq.zip.installdir}/etc/registry"/>
+        <mkdir dir="${mq.zip.installdir}/etc/xml/template"/>
+
+        <copy todir="${mq.zip.installdir}/etc">
+            <fileset dir="${archetc.dir}">
+                <include name="passfile.sample"/>
+                <include name="imq*.conf"/>
+            </fileset>
+        </copy>
+
+	<!--  For GFv3, add IMQ_DEFAULT_VARHOME value for GF. -->
+	<concat append="true" destfile="${mq.zip.installdir}/etc/imqenv.conf"><![CDATA[# Set this for GlassFish
+IMQ_DEFAULT_VARHOME=../../glassfish/domains/domain1/imq]]>
+	</concat>
+
+        <chmod perm="444">
+            <fileset dir="${mq.zip.installdir}/etc">
+                <include name="imq*.conf"/>
+                <include name="passfile.sample"/>
+            </fileset>
+        </chmod>
+
+        <copy tofile="${mq.zip.installdir}/etc/rc/imq">
+            <fileset dir="${base_src.dir}/solaris/etc">
+                <include name="imq.sh"/>
+            </fileset>
+        </copy>
+
+	<copy todir="${mq.zip.installdir}/etc/registry">
+            <fileset dir="${base_src.dir}/share/etc/registry">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/etc/xml/com.sun.cmm.mq.xml">
+            <fileset dir="${base_src.dir}/share/etc">
+                <include name="com.sun.cmm.mq.xml"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/etc/xml/template/com.sun.cmm.mq.xml">
+            <fileset dir="${base_src.dir}/share/etc/template">
+                <include name="com.sun.cmm.mq.xml"/>
+            </fileset>
+        </copy>
+
+        <!-- bin dir -->
+        <echo message="### bin files "/>
+        <mkdir dir="${mq.zip.installdir}/bin"/>
+
+        <copy tofile="${mq.zip.installdir}/bin/imqbrokerd">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqbrokerd.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqcmd">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqcmd.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqobjmgr">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqobjmgr.sh"/>
+            </fileset>
+        </copy>
+        <copy tofile="${mq.zip.installdir}/bin/imqusermgr">
+            <fileset dir="${base_src.dir}/solaris/bin">
+                <include name="imqusermgr.sh"/>
+            </fileset>
+        </copy>
+	<chmod file="${mq.zip.installdir}/bin/imq*" perm="755"/>
+
+        <echo message="### bin .exe files "/>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqbrokerd.exe"/>
+            </fileset>
+        </copy>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqbrokersvc.exe"/>
+            </fileset>
+        </copy>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqcmd.exe"/>
+            </fileset>
+        </copy>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqobjmgr.exe"/>
+            </fileset>
+        </copy>
+        <copy todir="${mq.zip.installdir}/bin">
+            <fileset dir="${buildcfg.dir}/tools/ri/bins">
+                <include name="imqusermgr.exe"/>
+            </fileset>
+        </copy>
+
+        <!-- lib dir -->
+        <echo message="### lib files"/>
+        <mkdir dir="${mq.zip.installdir}/lib"/>
+
+        <copy todir="${mq.zip.installdir}/lib">
+            <fileset dir="${classes.dir}">
+                <include name="*.jar"/>
+                <include name="*.rar"/>
+            </fileset>
+        </copy>
+	 <chmod perm="755">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="*.jar"/>
+                <exclude name="fscontext.jar"/>
+                <exclude name="jhall.jar"/>
+            </fileset>
+        </chmod>
+        <chmod perm="644">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="*.rar"/>
+            </fileset>
+        </chmod>
+
+        <!-- lib/imqinit -->
+        <copy tofile="${mq.zip.installdir}/lib/imqinit">
+            <fileset dir="${base_src.dir}/solaris/etc">
+                <include name="imqinit.sh"/>
+            </fileset>
+        </copy>
+        <chmod perm="444">
+            <fileset dir="${mq.zip.installdir}/lib">
+                <include name="imqinit"/>
+            </fileset>
+        </chmod>
+
+	 <!-- lib/props dir -->
+        <!-- use default_linux.properties (generic & no syslog)  -->
+        <echo message="### lib/props"/>
+        <mkdir dir="${mq.zip.installdir}/lib/props/broker"/>
+
+        <copy todir="${mq.zip.installdir}/lib/props/broker">
+            <fileset dir="${archlib.dir}/props/broker">
+                <include name="install.properties"/>
+            </fileset>
+        </copy>
+
+        <copy tofile="${mq.zip.installdir}/lib/props/broker/default.properties">
+            <fileset dir="${archlib.dir}/props/broker">
+                <include name="default_linux.properties"/>
+            </fileset>
+        </copy>
+
+	<!-- lib/ext dir -->
+        <echo message="### lib/ext"/>
+        <mkdir dir="${mq.zip.installdir}/lib/ext"/>
+        <copy tofile="${mq.zip.installdir}/lib/ext/README">
+            <fileset dir="${base_src.dir}/doc/en">
+                <include name="README-lib"/>
+            </fileset>
+        </copy>
+
+        <!-- legal dir -->
+        <echo message="### legal "/>
+        <mkdir dir="${mq.zip.installdir}/legal"/>
+        <copy tofile="${mq.zip.installdir}/legal/LICENSE.txt">
+            <fileset dir="${base_src.dir}/doc/en">
+                <include name="LICENSE.md"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+
+   <!-- ===================  Create Bundle(s) ================= -->
+    <target name="bundles" 
+          depends="tar_bundle, zip_bundle"
+          description="Builds the MQ bundle(s)">
+    </target>
+
+    <target name="bundles-ri"
+          depends="tar_bundle-ri,zip_bundle"
+          description="Builds the MQ bundle(s)">
+    </target>
+
+    <target name="tar_bundle"
+	    description="Tars up the MQ bundle(s)">
+	<echo message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
+
+	<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+        <mkdir dir="${mq.bundlesdir}"/>
+
+	<tar destfile="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar" >
+		<tarfileset dir="${mq.zip.installdir}/..">
+		 	<include name="mq/**"/>
+		</tarfileset>
+		<tarfileset dir="${mq.zip.installdir}/.."
+	 		mode="755">
+		 	<include name="mq/bin/imq**"/>
+		 	<include name="mq/lib/imq*.jar"/>
+		 	<include name="mq/lib/jaxm-api.jar"/>
+		</tarfileset>
+	</tar>
+	<echo message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+	<echo message="### MQ tar bundle preserves file permissions."/>
+
+    </target>
+
+    <target name="tar_bundle-ri"
+            description="Tars up the MQ bundle(s)">
+        <echo message="### Building MQ tar bundle in ${mq.bundlesdir}"/>
+
+        <delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+        <mkdir dir="${mq.bundlesdir}"/>
+
+        <tar destfile="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar" >
+                <tarfileset dir="${mq.zip.installdir}/..">
+                        <include name="mq/**"/>
+                </tarfileset>
+                <tarfileset dir="${mq.zip.installdir}/.."
+                        mode="755">
+                        <include name="mq/bin/imq**"/>
+                        <include name="mq/lib/imq*.jar"/>
+                </tarfileset>
+        </tar>
+        <echo message="### MQ tar bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.tar"/>
+        <echo message="### MQ tar bundle preserves file permissions."/>
+
+    </target>
+
+    <target name="zip_bundle"
+	    description="Zips up the MQ bundle(s)">
+	<echo message="### Building MQ zip bundle in ${mq.bundlesdir}"/>
+
+	<delete file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip"/>
+        <mkdir dir="${mq.bundlesdir}"/>
+	<zip file="${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip" duplicate="preserve">
+	    <zipfileset dir="${mq.zip.installdir}/.." filemode="755" 
+	    	includes="mq/bin/**"/>
+	    <zipfileset dir="${mq.zip.installdir}/.." 
+	     	includes="mq/**"/>
+	</zip>
+	<echo message="### MQ zip bundle created in ${mq.bundlesdir}/mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip"/>
+	<echo message="### MQ zip bundle does not preserve file permissions so you must"/>
+	<echo message="### chmod 755 mq/bin/imq* after unzipping mq${JMQ_MAJOR_VERSION}_${JMQ_MINOR_VERSION}_${JMQ_MICRO_VERSION}.zip."/>
+
+    </target>
+
+
+
+
+
+   <!-- ===================  solaris_install ================= -->
+
+    <target name="solaris_install"
+	    description="Solaris Packaging Install Image">
+	<echo message="### Building Solaris Packaging Install Image..."/>
+
+	<!-- Remove old install dir-->
+        <!-- Special case to remove 32 link because ant can't handle -->
+        <!-- symlinks if they are "./" -->
+
+	<echo message="### Remove old solaris install dir ${solaris.installdir}"/>
+	<delete dir="${ws.top.dir}/${solaris.installdir}/usr/lib/32"
+		 quiet="true"
+		 failonerror="false"/>
+	<delete dir="${solaris.installdir}"/>
+
+	<!-- Make new install dir-->
+	<echo message="### Making directory ${solaris.installdir}"/>
+        <mkdir dir="${solaris.installdir}"/>
+
+	<!-- /etc dir -->
+	<echo message="### /etc/imq "/>
+        <mkdir dir="${solaris.installdir}/etc/imq"/>
+
+	<copy todir="${solaris.installdir}/etc/imq">
+	    <fileset dir="${archetc.dir}">
+	        <include name="imqbrokerd.conf"/>
+	        <include name="passfile.sample"/>
+	        <include name="imqenv.conf"/>
+	    </fileset>
+	</copy>
+	<chmod perm="444">
+	    <fileset dir="${solaris.installdir}/etc/imq">
+	        <include name="imqbrokerd.conf"/>
+	        <include name="passfile.sample"/>
+	        <include name="imqenv.conf"/>
+	    </fileset>
+	</chmod>
+
+	<echo message="### /etc/imq/lic "/>
+        <mkdir dir="${solaris.installdir}/etc/imq/lic"/>
+	<copy todir="${solaris.installdir}/etc/imq/lic">
+	    <fileset dir="${archetc.dir}/lic"/>
+	</copy>
+	<chmod file="${solaris.installdir}/etc/imq/lic/*try.lic" perm="666"/>
+
+	<echo message="### /etc/init.d "/>
+        <mkdir dir="${solaris.installdir}/etc/init.d"/>
+	<copy todir="${solaris.installdir}/etc/init.d">
+	    <fileset dir="${archetc.dir}/init.d"/>
+	</copy>
+	<chmod file="${solaris.installdir}/etc/init.d/imq" perm="744"/>
+
+	<!-- /var dir -->
+	<echo message="### /var "/>
+        <mkdir dir="${solaris.installdir}/var/instances"/>
+	<chmod dir="${solaris.installdir}/var/instances/" perm="01777"/>
+
+	<!-- /usr/bin dir -->
+	<echo message="### /usr/bin "/>
+        <mkdir dir="${solaris.installdir}/usr/bin"/>
+	<copy todir="${solaris.installdir}/usr/bin">
+	    <fileset dir="${archbin.dir}">
+	        <include name="imq*"/>
+	    </fileset>
+	</copy>
+	<chmod file="${solaris.installdir}/usr/bin/imq*" perm="555"/>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/bin" 
+	         resource="usr/bin">
+	</symlink>
+	
+	<!-- /usr/lib dir -->
+	<echo message="### /usr/lib "/>
+        <mkdir dir="${solaris.installdir}/usr/lib"/>
+
+	<echo message="### /usr/lib/*.so "/>
+	<copy todir="${solaris.installdir}/usr/lib">
+	    <fileset dir="${archlib.dir}">
+	        <include name="libimqutil.so.?"/>
+	    </fileset>
+	</copy>
+	<chmod file="${solaris.installdir}/usr/lib/libimqutil.so.?" 
+	       perm="755"/>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/libimqutil.so" 
+	         resource="libimqutil.so.1">
+	</symlink>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/32"
+	         resource="./">
+	</symlink>
+
+	<echo message="os is ${os}"/>
+        <echo message="### Calling target ${os}_libimqutil"/> 
+	<ant antfile="buildrules/distrules.xml" dir="." target="${os}_libimqutil"/>
+        <echo message="### Done ${os}_libimqutil"/>
+
+	<!-- /usr/share/lib dir -->
+	<echo message="### /usr/share/lib "/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib"/>
+	<copy todir="${solaris.installdir}/usr/share/lib">
+	    <fileset dir="${classes.dir}">
+	        <include name="imq.jar"/>
+	        <include name="jms.jar"/>
+	        <include name="imqxm.jar"/>
+	        <include name="jaxm-api.jar"/>
+	        <include name="imqjmsra.rar"/>
+	    </fileset>
+	</copy>
+	<chmod perm="755">
+	    <fileset dir="${solaris.installdir}/usr/share/lib">
+		<include name="*.jar"/>
+	    </fileset>
+	</chmod>
+	<chmod perm="644">
+	    <fileset dir="${solaris.installdir}/usr/share/lib">
+		<include name="*.rar"/>
+	    </fileset>
+	</chmod>
+
+	<!-- /usr/share/lib/imq dir -->
+	<echo message="### /usr/share/lib/imq "/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib/imq"/>
+	<copy todir="${solaris.installdir}/usr/share/lib/imq">
+	    <fileset dir="${classes.dir}">
+	        <include name="imqadmin.jar"/>
+	        <include name="imqbroker.jar"/>
+	        <include name="imqservlet.jar"/>
+	        <include name="imqutil.jar"/>
+	        <include name="imqhttp*.war"/>
+	    </fileset>
+	</copy>
+	<chmod perm="755">
+	    <fileset dir="${solaris.installdir}/usr/share/lib/imq">
+		<include name="*.jar"/>
+	    </fileset>
+	</chmod>
+	<chmod perm="644">
+	    <fileset dir="${solaris.installdir}/usr/share/lib/imq">
+		<include name="*.war"/>
+	    </fileset>
+	</chmod>
+	
+	<!-- /usr/share/lib/imq/imqinit -->
+	<copy tofile="${solaris.installdir}/usr/share/lib/imq/imqinit">
+	    <fileset dir="${base_src.dir}/solaris/etc">
+	        <include name="imqinit.sh"/>
+	    </fileset>
+	</copy>
+	<chmod perm="444">
+	    <fileset dir="${solaris.installdir}/usr/share/lib/imq">
+		<include name="imqinit"/>
+	    </fileset>
+	</chmod>
+
+	<!-- /usr/share/lib/imq/help dir -->
+	<echo message="### /usr/share/lib/imq/help"/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib/imq/help"/>
+	<copy todir="${solaris.installdir}/usr/share/lib/imq/help">
+	    <fileset dir="${archlib.dir}/help"/>
+	</copy>
+	<chmod perm="755" type="dir">
+	    <fileset dir="${solaris.installdir}/usr/share/lib/imq/help">
+		<include name="en"/>
+		<include name="images"/>
+	    </fileset>
+	</chmod>
+	<chmod perm="644">
+	    <fileset dir="${solaris.installdir}/usr/share/lib/imq/help">
+		<include name="Master.hs"/>
+		<include name="en/*.*"/>
+		<include name="images/*.*"/>
+	    </fileset>
+	</chmod>
+
+	<!-- /usr/share/lib/imq/props dir -->
+	<echo message="### /usr/share/lib/imq/props"/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib/imq/props/broker"/>
+	<copy todir="${solaris.installdir}/usr/share/lib/imq/props/broker">
+	    <fileset dir="${archlib.dir}/props/broker">
+	        <include name="install.properties"/>
+	        <include name="default.properties"/>
+	    </fileset>
+	</copy>
+
+	<!-- /usr/share/lib/imq/ext dir -->
+	<echo message="### /usr/share/lib/imq/ext"/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib/imq/ext"/>
+	<copy tofile="${solaris.installdir}/usr/share/lib/imq/ext/README">
+	    <fileset dir="${base_src.dir}/doc/en">
+	        <include name="README-lib"/>
+	    </fileset>
+	</copy>
+
+	<!-- /usr/share/lib/imq/images dir -->
+	<echo message="### /usr/share/lib/imq/images"/>
+        <mkdir dir="${solaris.installdir}/usr/share/lib/imq/images/admin"/>
+	<copy todir="${solaris.installdir}/usr/share/lib/imq/images/admin">
+	    <fileset dir="${archlib.dir}/images/admin">
+	        <include name="*.gif"/>
+	    </fileset>
+	</copy>
+
+	<!-- /usr/demo/imq dir -->
+	<echo message="### /usr/demo/imq"/>
+        <mkdir dir="${solaris.installdir}/usr/demo/imq"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq">
+	    <fileset dir="${base_src.dir}/share/java/examples">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${solaris.installdir}/usr/demo/imq/jms"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq/jms">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms">
+	        <include name="*.java"/>
+	        <include name="*.dtd"/>
+	        <include name="*.xml"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/">
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asyncsend"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asyncsend">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asyncsend">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/asynctopicconsumer">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/asynctopicconsumer">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverycount"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverycount">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverycount">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/deliverydelay"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/deliverydelay">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/deliverydelay">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messagegetbody"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messagegetbody">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messagegetbody">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageheader"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageheader">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageheader">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/messageproperties"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/messageproperties">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/messageproperties">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/selector"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/selector">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/selector">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/sharedsub"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/sharedsub">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/sharedsub">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${mq.zip.installdir}/examples/jms20/syncqueue"/>
+	<copy todir="${mq.zip.installdir}/examples/jms20/syncqueue">
+	    <fileset dir="${base_src.dir}/share/java/examples/jms20/syncqueue">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${solaris.installdir}/usr/demo/imq/imqobjmgr"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq/imqobjmgr">
+	    <fileset dir="${base_src.dir}/share/java/examples/imqobjmgr">
+	        <include name="*.properties"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${solaris.installdir}/usr/demo/imq/jaxm"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq/jaxm">
+	    <fileset dir="${base_src.dir}/share/java/examples/jaxm">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+        <mkdir dir="${solaris.installdir}/usr/demo/imq/jdbc"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq/jdbc">
+	    <fileset dir="${base_src.dir}/share/java/examples/jdbc">
+	        <include name="config.*"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+
+        <mkdir dir="${solaris.installdir}/usr/demo/imq/monitoring"/>
+	<copy todir="${solaris.installdir}/usr/demo/imq/monitoring">
+	    <fileset dir="${base_src.dir}/share/java/examples/monitoring">
+	        <include name="*.java"/>
+	        <include name="*.class"/>
+	        <include name="README"/>
+	    </fileset>
+	</copy>
+
+    </target>
+
+<!-- Subtargets called from target "install" -->
+
+    <target name="sparc_libimqutil"
+	    description="Sparc libimqutil 64-bit">
+
+	<echo message="### /usr/lib/sparcv9"/>
+        <mkdir dir="${solaris.installdir}/usr/lib/sparcv9"/>
+	<copy todir="${solaris.installdir}/usr/lib/sparcv9"
+	      overwrite="true"
+	      failonerror="false">
+	    <fileset dir="${archlib.dir}/sparcv9">
+	        <include name="libimqutil.so.?"/>
+	    </fileset>
+	</copy>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/64"
+	         resource="sparcv9/">
+	</symlink>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/sparcv9/libimqutil.so" 
+	         resource="libimqutil.so.1">
+	</symlink>
+    </target>
+
+    <target name="x86_libimqutil"
+	    description="x86 libimqutil 64-bit">
+
+	<echo message="### /usr/lib/amd64"/>
+        <mkdir dir="${solaris.installdir}/usr/lib/amd64"/>
+
+	<copy todir="${solaris.installdir}/usr/lib/amd64"
+	      overwrite="true"
+	      failonerror="false">
+	    <fileset dir="${archlib.dir}/amd64">
+	        <include name="libimqutil.so.?"/>
+	    </fileset>
+	</copy>
+
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/64"
+	         resource="amd64">
+	</symlink>
+	<symlink link="${ws.top.dir}/${solaris.installdir}/usr/lib/amd64/libimqutil.so" 
+	         resource="libimqutil.so.1">
+	</symlink>
+
+    </target>
+
+</project>

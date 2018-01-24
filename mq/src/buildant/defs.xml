@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project name="defs" >
+
+ <!-- ====================   OS     =========================== -->
+ <!--  the purpose of this section is to set up any OS specific info
+       os= sparc,linux,win32,mac,x86
+       arch=solaris,linux,win32
+       family=unix,win32
+
+       Steps to do this:
+           1. see if OS is set as an environment variable
+           2. look at os information
+  -->
+
+     <!---  setting up the family property -->
+     <condition property="family" value="unix">
+        <and>
+           <os family="unix"/>
+        </and>
+      </condition>
+     <condition property="isUnix">
+        <and>
+           <os family="unix"/>
+        </and>
+      </condition>
+
+     <condition property="family" value="win32">
+        <and>
+           <os family="windows"/>
+        </and>
+      </condition>
+     <condition property="isWindows">
+        <and>
+           <os family="windows"/>
+        </and>
+      </condition>
+
+     <condition property="family" value="unknown">
+        <not>
+           <isset property="family"/>
+        </not>
+      </condition>
+
+
+     <!---  setting up the arch property -->
+     <condition property="arch" value="solaris">
+        <and>
+           <os name="SunOS"/>
+        </and>
+      </condition>
+     <condition property="arch" value="linux">
+        <and>
+           <os name="linux"/>
+        </and>
+      </condition>
+      <condition property="arch" value="win32">
+        <and>
+           <os family="windows"/>
+        </and>
+      </condition>
+      <condition property="arch" value="hpux">
+        <and>
+           <os name="HP-UX"/>
+        </and>
+      </condition>
+      <condition property="arch" value="aix">
+        <and>
+           <os name="AIX"/>
+        </and>
+      </condition>
+      <condition property="arch" value="mac">
+        <and>
+           <os family="mac"/>
+        </and>
+      </condition>
+      <condition property="arch" value="unknown">
+        <not>
+           <isset property="arch"/>
+        </not>
+      </condition>
+
+
+     <!---  setting up the arch property -->
+
+     <condition property="os" value="sparc">
+         <and>
+            <os family="unix" name="SunOS" arch="sparc"/>
+         </and>
+     </condition>
+     <condition property="os" value="x86">
+         <and>
+            <os family="unix" name="SunOS" />
+           <not>
+              <os arch="sparc"/>
+           </not>
+         </and>
+     </condition>
+     <condition property="os" value="linux">
+         <and>
+            <equals arg1="$arch" arg2="linux"/>
+         </and>
+     </condition>
+     <condition property="os" value="win32">
+         <and>
+            <equals arg1="$arch" arg2="win32"/>
+         </and>
+     </condition>
+     <condition property="os" value="unknown">
+        <not>
+           <isset property="os"/>
+        </not>
+      </condition>
+
+
+
+ <!-- ====================   Build type     ======================== -->
+     <condition property="buildtype"  
+             value="opt">
+        <not>
+          <istrue value="${build.debug}"/>
+        </not>
+     </condition>
+
+     <condition property="buildtype"  
+             value="debug">
+        <and>
+          <istrue value="${build.debug}"/>
+        </and>
+     </condition>
+
+
+</project>

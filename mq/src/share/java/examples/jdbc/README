@@ -1,0 +1,29 @@
+========================================================================
+@(#)README	1.4 10/08/08
+========================================================================
+
+To plug in a database for broker persistence, a set of properties needs to
+be specified in the broker's instance property file.  This directory contains
+examples for plugging in a Java DB (Derby) database, PointBase database,
+MySQL database, DB2 database and an Oracle database.
+These properties are also documented in the generated instance configuration
+properties file.
+
+
+Files
+-----
+ o config.properties.derby
+    This file contains example for plugging in a Java DB (Derby) database.
+
+ o config.properties.pointbase
+    This file contains example for plugging in a PointBase database.
+
+ o config.properties.mysql
+    This file contains example for plugging in a MySQL database.
+
+ o config.properties.db2
+    This file contains example for plugging in a DB2 database.
+
+ o config.properties.oracle
+    This file contains example for plugging in an Oracle database.
+

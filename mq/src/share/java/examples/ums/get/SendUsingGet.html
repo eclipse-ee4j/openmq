@@ -1,0 +1,280 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html lang="en-US">
+<head>
+<title>UMS - SendUsingGet</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<script type="text/javascript" language="javascript">
+
+// the URL we are going to GET
+var geturl = "";
+  
+function init() {
+  // Use current URL's host:port as default value for host field
+  var url = unescape(window.document.location);
+  var pos = url.indexOf("http://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('http').checked = true;
+  }
+  pos = url.indexOf("https://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('https').checked = true;
+  }
+  
+  // Extract context root from current URL and use as default value in context root field
+  var context = document.getElementById('context');
+  var splitRes = url.split("/"); 
+  context.value = "/"+splitRes[3];
+  
+  recalculateURL();
+}
+
+function validate() {
+   // Make sure all fields are filled in
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   if (hostVal == null || hostVal == "") {
+      alert("Error: Server Host[:Port] field is required!");
+      host.focus();
+      return false;
+   }
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   if (contextVal == null || contextVal == "") {
+      alert("Error: Context Root field is required!");
+      context.focus();
+      return false;
+   }
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (userVal == null || userVal == "") {
+      // user not specified: check password not specified either
+      if (pwdVal == null || pwdVal == "") {
+      } else {
+         alert("Error: Password is specified. Need to specify user as well!");
+         user.focus();
+         return false;
+      }
+   } else {
+      // user specified: check password is specified
+      if (pwdVal == null || pwdVal == "") {
+         alert("Error: User is specified: Need to specify password as well!");
+         pwd.focus();
+         return false;
+      }
+   }
+   
+   var dst = document.getElementById('dst');
+   var dstVal = dst.value;
+   if (dstVal == null || dstVal == "") {
+      alert("Error: Destination field is required!");
+      dst.focus();
+      return false;
+   }
+   var msg = document.getElementById('msg');
+   var msgVal = msg.value;
+   if (msgVal == null || msgVal == "") {
+      alert("Error: Message field is required!");
+      msg.focus();
+      return false;
+   }
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   var domainVal = "queue";
+   if (document.getElementById('topic').checked == true) {
+      domainVal = "topic";
+   }
+
+   return true;
+}
+
+function recalculateURL(){
+   
+   // protocol
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   geturl = connectionVal;
+   
+   // host
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   geturl = geturl + hostVal;
+ 
+   // context
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   geturl = geturl + contextVal
+   
+   // service
+   geturl = geturl + '/simple?service=ssend';
+   
+   // destination
+   var dst = document.getElementById('dst');
+   var dstVal = dst.value;
+   if (dstVal == null || dstVal == "") {
+      // dst not supplied
+   } else {
+      geturl = geturl + '&destination=' + dstVal
+   }
+   
+   // domain
+   var domainVal = "queue";
+   if (document.getElementById('topic').checked == true) {
+      domainVal = "topic";
+   }
+   if (domainVal == "topic") {
+      geturl = geturl + '&domain=topic';
+   }
+   
+   // user
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   if (userVal == null || userVal == "") {
+      // user not supplied
+   } else {
+      geturl = geturl + '&user=' + userVal
+   }
+   
+   // password
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (pwdVal == null || pwdVal == "") {
+      // password not supplied
+   } else {
+      geturl = geturl + '&password=' + pwdVal
+   }
+   
+   // message text
+   var msg = document.getElementById('msg');
+   var msgVal = msg.value;
+   if (msgVal == null || msgVal == "") {
+      // text not supplied
+   } else {
+      geturl = geturl + '&text="' + msgVal + '"';
+   }    
+ 
+   updateURLField(geturl);
+   
+}
+
+function updateURLField(value){
+	document.getElementById("urlfield").innerHTML = value;
+}
+
+function buttonPressed() {
+
+	if (validate()){
+
+   		// recalculate the URL
+   		recalculateURL();
+
+   		// follow the URL  
+   		location.href=geturl;
+   }
+}
+
+</script>
+</head>
+
+<body onLoad="init()">
+
+<table border="0" align="center" width="800">
+<tr>
+<td>
+
+<h3>Simple UMS example using the HTTP GET protocol to send a JMS Text Message</h3>
+<hr>
+<br>
+<table border="0">
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Connection Type:</td>
+    <td>
+      <input type="radio" id="http"  name="connection" value="http" onchange="recalculateURL()" CHECKED>http
+      <input type="radio" id="https" name="connection" value="https"onchange="recalculateURL()" >https
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Server Host[:Port]:</td>
+    <td><input type="text" id="host" name="host" size="25" maxlength="100" onkeyup="recalculateURL()"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Context Root:</td>
+    <td><input type="text" id="context" name="context" size="25" maxlength="100" onkeyup="recalculateURL()"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">User:</td>
+    <td><input type="text" id="user" name="user" value="guest" size="25" maxlength="25" onkeyup="recalculateURL()"></td>
+    <td>&nbsp;&nbsp;</td>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Password:</td>
+    <td><input type="text" id="pwd" name="pwd" value="guest" size="15" maxlength="25" onkeyup="recalculateURL()"></td>
+  </tr>
+
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Domain:</td>
+    <td>
+      <input type="radio" id="queue" name="domain" value="queue" CHECKED onchange="recalculateURL()">Queue
+      <input type="radio" id="topic" name="domain" value="topic" onchange="recalculateURL()">Topic
+    </td>
+    <td colspan="3"></td>
+  </tr>
+
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Destination:</td>
+    <td><input type="text" id="dst" name="dst" value="simpleQ" size="25" maxlength="25" onkeyup="recalculateURL()")></td>
+    <td colspan="3"></td>
+  </tr>  
+   </table>
+ <table>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Message:</td>
+    <td><input type="text" id="msg" name="dst" value="This is a message!" size="100%" onkeyup="recalculateURL()"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+     <td colspan=5">
+     Fill in the fields above to construct the URL below. Click on the URL to try it. Then user the browser's back button to return.
+     </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <span style="color:blue;text-decoration:underline" id="urlfield" name="urlfield" rows="3" cols="40" style="width:99%;" 
+            readonly="true" onclick="buttonPressed()" onmouseover="this.style.cursor='pointer'">
+       </span>
+    </td>
+  </tr>   
+</table>
+<br>
+<hr>
+</td>
+</tr>
+</table>
+
+</body>
+</html>

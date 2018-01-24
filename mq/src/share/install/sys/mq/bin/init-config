@@ -1,0 +1,280 @@
+#!/bin/sh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+#
+# Post install configurator script for Message Queue.
+# This script does:
+#  - JESMF registration
+#  - writes the JDK to use for MQ into the imqenv.conf file
+#
+MYDIR=`dirname $0`
+cd ${MYDIR}
+MYDIR=`pwd`
+
+#
+# This is the VM/CLASSPATH that was used to run the installer
+#
+INSTALLER_JAVA_HOME=${INIT_CONFIG_JAVA_HOME}
+INSTALLER_JAVA_CLASSPATH=${CLASSPATH}:${INIT_CONFIG_JAVA_CLASSPATH}:${MYDIR}
+
+#
+# This is the VM that we want MQ to use. Currently hardcoded. This value/path
+# will eventually be obtained from the PH framework.
+#
+IMQ_DEFAULT_JAVAHOME=/usr/jdk/instances/jdk1.5.0
+
+RESET=
+SILENT=
+CONFIGSCHEMA=
+CONFIGDATA=
+VALIDATE=
+CONFIG_STATUS=SUCCESS
+PLATFORM_ERROR=None
+PRODUCT_ERROR=None
+DOC_REF=None
+NEXT_STEPS=None
+
+printResult() {
+    echo '<resultReport xmlns="http://openinstaller.org/config/resultreport/V1">' >&2
+    echo '<configStatus>'$1'</configStatus>' >&2
+    echo '<platformError>'$2'</platformError>' >&2
+    echo '<productError>'$3'</productError>' >&2
+    echo '<docReference>'$4'</docReference>' >&2
+    echo '<nextSteps>'$5'</nextSteps>' >&2
+    echo '</resultReport>' >&2
+}
+
+usage()  {
+    echo "### TBD: usage help ###"
+}
+
+# Set error codes returned by mqconfigmf script
+setErrorCodes() {
+    INVALID_OS_ARCH=101
+    MFWKSETUP_CMD_NOT_FOUND=102
+    MQ_INSTALL_DIR_NOT_FOUND=103
+    COM_SUN_CMM_MQ_XML_NOT_FOUND=104
+    MFWK_CMD_FAILED=105
+    TOKEN_REPLACEMENT_FAILED=106
+    CACAOADM_CMD_NOT_FOUND=107
+    CACAO_NOT_RUNNING=108
+    USAGE_ERROR=109
+}
+
+
+checkOSAndInitVars() {
+    uName=`uname`
+    if [ "${uName}" = "SunOS" ]
+    then
+        initVarsSolaris
+    else if [ "${uName}" = "Linux" ]
+        then
+            initVarsLinux
+        else
+	    CONFIG_STATUS=FAIL
+            echo "OS not supported"
+            printResult ${CONFIG_STATUS} "${PLATFORM_ERROR}" "${PRODUCT_ERROR}" "${DOC_REF}" "${NEXT_STEPS}"
+	    exit 1
+        fi
+    fi
+}
+
+#
+# Initializing the variables used in the script
+# The relative paths from MQ_INSTALL_DIR is different for a given platform
+#
+initVarsSolaris() {
+    IMQENV_CONF=/etc/imq/imqenv.conf
+    UNINSTALL_PROP=/var/opt/install/contents/mq/uninstaller.properties
+}
+
+initVarsLinux() {
+    IMQENV_CONF=/etc/opt/sun/mq/imqenv.conf
+    UNINSTALL_PROP=/var/opt/sun/install/contents/mq/uninstaller.properties
+}
+
+#
+# Perform actual configuration/unconfiguration
+#
+doWork() {
+if [ -n "${RESET}" ] ; then
+    #
+    # Reset specified: unregister JESMF
+    #
+    ${MYDIR}/mqconfigmf -u -j ${INSTALLER_JAVA_HOME}
+    RETVAL=$?
+    echo "RETVAL: ${RETVAL}"
+    if [ ! ${RETVAL} = 0 ]
+    then
+        case ${RETVAL} in
+            ${MFWKSETUP_CMD_NOT_FOUND} | ${CACAOADM_CMD_NOT_FOUND})
+	       DOC_REF="Java ES Monitoring Framework unregistration not performed - Monitoring Framework/Cacao utilities not found."
+	    ;;
+
+            ${CACAO_NOT_RUNNING})
+	       DOC_REF="Java ES Monitoring Framework unregistration not performed - Cacao management daemon not running."
+	    ;;
+
+            ?) CONFIG_STATUS=FAIL
+	    NEXT_STEPS="Please inspect the log and try to run the following command: ${MYDIR}/mqconfigmf -u -j ${INSTALLER_JAVA_HOME}."
+            ;;
+
+        esac
+    fi
+else
+    #
+    # Reset not specified: register JESMF
+    #
+    ${MYDIR}/mqconfigmf -r -j ${INSTALLER_JAVA_HOME}
+    RETVAL=$?
+
+    if [ ! ${RETVAL} = 0 ]
+    then
+        case ${RETVAL} in
+            ${MFWKSETUP_CMD_NOT_FOUND} | ${CACAOADM_CMD_NOT_FOUND})
+	       DOC_REF="Java ES Monitoring Framework registration not performed - Monitoring Framework/Cacao utilities not found."
+	    ;;
+
+            ${CACAO_NOT_RUNNING})
+	       DOC_REF="Java ES Monitoring Framework registration not performed - Cacao management daemon not running."
+	    ;;
+
+            ?) CONFIG_STATUS=FAIL
+	    NEXT_STEPS="Please inspect the log and try to run the following command: ${MYDIR}/mqconfigmf -r -j ${INSTALLER_JAVA_HOME}."
+            ;;
+
+        esac
+    fi
+
+ 
+    #
+    # Determine selected JDK_HOME
+    #
+    ${INSTALLER_JAVA_HOME}/bin/java \
+      -cp "${INSTALLER_JAVA_CLASSPATH}" \
+      ${INIT_CONFIG_HELPER_CLASS} \
+      -s ${CONFIGSCHEMA} \
+      -d ${CONFIGDATA} \
+      -o DECODE \
+      -f /tmp/mq.config.$$ 
+
+     IMQ_DEFAULT_JAVAHOME=`/bin/awk '/IMQ_SELECTED_JDK/ {getline; print}' /tmp/mq.config.$$`
+
+     /bin/rm -f /tmp/mq.config.$$
+
+     echo "User chose JDK: $IMQ_DEFAULT_JAVAHOME"
+
+
+    ${INSTALLER_JAVA_HOME}/bin/java -cp ${INSTALLER_JAVA_CLASSPATH} SetupJDKHome -i ${IMQENV_CONF} -j "IMQ_DEFAULT_JAVAHOME=${IMQ_DEFAULT_JAVAHOME}"
+    RETVAL=$?
+    echo "RETVAL: ${RETVAL}"
+
+    if [ ! ${RETVAL} = 0 ]
+    then
+	CONFIG_STATUS=FAIL
+
+	if [ ${NEXT_STEPS} = ""] 
+	then
+	    NEXT_STEPS="Setting JDK in ${IMQENV_CONF} failed. Please edit this file manually."
+	else
+	    NEXT_STEPS=${NEXT_STEPS}" Setting JDK in ${IMQENV_CONF} failed. Please edit this file manually."
+	fi
+    fi
+
+    ${INSTALLER_JAVA_HOME}/bin/java -cp ${INSTALLER_JAVA_CLASSPATH} SetupJDKHome -i ${UNINSTALL_PROP} -j "${IMQ_DEFAULT_JAVAHOME}"
+    RETVAL=$?
+    echo "RETVAL: ${RETVAL}"
+
+    if [ ! ${RETVAL} = 0 ]
+    then
+	CONFIG_STATUS=FAIL
+
+	if [ ${NEXT_STEPS} = ""] 
+	then
+	    NEXT_STEPS="Setting JDK in ${UNINSTALL_PROP} failed. Please edit this file manually."
+	else
+	    NEXT_STEPS=${NEXT_STEPS}" Setting JDK in ${UNINSTALL_PROP} failed. Please edit this file manually."
+	fi
+    fi
+
+fi
+    
+}
+
+#
+# Perform validation - just set DOC_REF
+#
+doValidate() {
+if [ -n "${RESET}" ] ; then
+    DOC_REF="Validation of MQ unconfigurator performed. No actual unconfiguration done."
+else
+    DOC_REF="Validation of MQ configurator performed. No actual configuration done."
+fi
+}
+
+
+########
+# MAIN #
+########
+echo "init-config script for MQ"
+echo "init-config: options passed: " $*
+
+setErrorCodes
+
+checkOSAndInitVars
+
+OPTSTRING="f:d:rshv"
+
+while getopts "${OPTSTRING}" opt; do
+    case ${opt} in
+        f) echo "-f specified with: " ${OPTARG}
+        CONFIGSCHEMA=${OPTARG}
+	;;
+
+        d) echo "-d specified with: " ${OPTARG}
+        CONFIGDATA=${OPTARG}
+	;;
+
+        h) usage 
+        ;;
+
+        r) RESET=true 
+        ;;
+
+        s) SILENT=true 
+        ;;
+
+        v) VALIDATE=true 
+        ;;
+
+    esac
+
+done
+
+if [ -n "${VALIDATE}" ] ; then
+    doValidate
+else
+    doWork
+fi
+
+echo "CONFIG_STATUS: ${CONFIG_STATUS}"
+echo "PLATFORM_ERROR: ${PLATFORM_ERROR}"
+echo "PRODUCT_ERROR: ${PRODUCT_ERROR}"
+echo "DOC_REF: ${DOC_REF}"
+echo "NEXT_STEPS: ${NEXT_STEPS}"
+
+printResult ${CONFIG_STATUS} "${PLATFORM_ERROR}" "${PRODUCT_ERROR}" "${DOC_REF}" "${NEXT_STEPS}"

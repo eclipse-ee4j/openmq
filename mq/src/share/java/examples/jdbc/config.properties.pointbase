@@ -1,0 +1,59 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+#############################################################################
+#
+# This file contains example properties for plugging a PointBase
+# Embedded database.
+#
+
+###########################################################################
+# Persistence Settings
+###########################################################################
+
+# Type of data store
+# To plug in a database, set the value to "jdbc".
+imq.persist.store=jdbc
+
+# An identifier to make database table names unique per broker.
+# The specified value should contain alphanumeric characters only.
+# The length of the identifier should not exceed the maximum length
+# of a table name allowed in the database minus 12.
+imq.brokerid=<alphanumeric id>
+
+# PointBase Embedded database settings
+######################################
+
+# PointBase JDBC drvier
+imq.persist.jdbc.pointbase.driver=com.pointbase.jdbc.jdbcUniversalDriver
+
+# For an embedded database specific to each broker instance,
+# you would create the database using the imqdbmgr utility.
+# To do that, specify the database connection URL with the 'new' flag.
+# The example URL creates an embedded database called 'imqdb' under the
+# broker's instance directory, (we recommend that the database be created
+# under a directory called 'dbstore':
+#   ${imq.instanceshome}${/}${imq.instancename}${/}dbstore
+imq.persist.jdbc.pointbase.createdburl=jdbc:pointbase:embedded:imqdb;new,database.home=${imq.instanceshome}${/}${imq.instancename}${/}dbstore
+
+# The URL to connect to the PointBase Embedded database called 'imqdb' under
+# the broker's instance directory:
+#   ${imq.instanceshome}${/}${imq.instancename}${/}dbstore
+imq.persist.jdbc.pointbase.opendburl=jdbc:pointbase:embedded:imqdb;database.home=${imq.instanceshome}${/}${imq.instancename}${/}dbstore
+
+# User name used to access the database.
+# This can also be specified by command line option for imqbrokerd and
+# imqdbmgr.
+imq.persist.jdbc.pointbase.user=<username>
+
+# Specify whether the broker should prompt the user for a password for
+# database access.
+# It should be set to true if the password is not provided by other means
+#imq.persist.jdbc.pointbase.needpassword=[true|false]

@@ -1,0 +1,1059 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project name="cpaths">
+
+    <!-- ==================== mqcrt.cppflags.dbg ==================== -->
+    <condition property="mqcrt.cppflags.dbg" value="${mqcrt.cppflags.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cppflags.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.dbg" value="${mqcrt.cppflags.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cppflags.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.dbg" value="${mqcrt.cppflags.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cppflags.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.dbg" value="${mqcrt.cppflags.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cppflags.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cincludes.dbg ==================== -->
+    <condition property="mqcrt.cincludes.dbg" value="${mqcrt.cincludes.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cincludes.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.dbg" value="${mqcrt.cincludes.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cincludes.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.dbg" value="${mqcrt.cincludes.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cincludes.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.dbg" value="${mqcrt.cincludes.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cincludes.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cc.tool.dbg ==================== -->
+    <condition property="mqcrt.cc.tool.dbg" value="${mqcrt.cc.tool.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cc.tool.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.dbg" value="${mqcrt.cc.tool.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cc.tool.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.dbg" value="${mqcrt.cc.tool.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cc.tool.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.dbg" value="${mqcrt.cc.tool.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cc.tool.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccargs.dbg ==================== -->
+    <condition property="mqcrt.ccargs.dbg" value="${mqcrt.ccargs.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.ccargs.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.dbg" value="${mqcrt.ccargs.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.ccargs.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.dbg" value="${mqcrt.ccargs.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.ccargs.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.dbg" value="${mqcrt.ccargs.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.ccargs.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccopts.dbg ==================== -->
+    <condition property="mqcrt.ccopts.dbg" value="${mqcrt.ccopts.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.ccopts.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.dbg" value="${mqcrt.ccopts.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.ccopts.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.dbg" value="${mqcrt.ccopts.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.ccopts.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.dbg" value="${mqcrt.ccopts.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.ccopts.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxx.tool.dbg ==================== -->
+    <condition property="mqcrt.cxx.tool.dbg" value="${mqcrt.cxx.tool.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxx.tool.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.dbg" value="${mqcrt.cxx.tool.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxx.tool.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.dbg" value="${mqcrt.cxx.tool.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxx.tool.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.dbg" value="${mqcrt.cxx.tool.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxx.tool.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxargs.dbg ==================== -->
+    <condition property="mqcrt.cxxargs.dbg" value="${mqcrt.cxxargs.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxxargs.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.dbg" value="${mqcrt.cxxargs.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxxargs.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.dbg" value="${mqcrt.cxxargs.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxxargs.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.dbg" value="${mqcrt.cxxargs.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxxargs.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxopts.dbg ==================== -->
+    <condition property="mqcrt.cxxopts.dbg" value="${mqcrt.cxxopts.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxxopts.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.dbg" value="${mqcrt.cxxopts.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxxopts.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.dbg" value="${mqcrt.cxxopts.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxxopts.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.dbg" value="${mqcrt.cxxopts.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxxopts.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dld.tool.dbg ==================== -->
+    <condition property="mqcrt.dld.tool.dbg" value="${mqcrt.dld.tool.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dld.tool.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.dbg" value="${mqcrt.dld.tool.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dld.tool.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.dbg" value="${mqcrt.dld.tool.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dld.tool.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.dbg" value="${mqcrt.dld.tool.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dld.tool.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldargs.dbg ==================== -->
+    <condition property="mqcrt.dldargs.dbg" value="${mqcrt.dldargs.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dldargs.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.dbg" value="${mqcrt.dldargs.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dldargs.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.dbg" value="${mqcrt.dldargs.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dldargs.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.dbg" value="${mqcrt.dldargs.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dldargs.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldopts.dbg ==================== -->
+    <condition property="mqcrt.dldopts.dbg" value="${mqcrt.dldopts.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dldopts.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.dbg" value="${mqcrt.dldopts.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dldopts.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.dbg" value="${mqcrt.dldopts.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dldopts.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.dbg" value="${mqcrt.dldopts.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dldopts.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.linkdirs.dbg ==================== -->
+    <condition property="mqcrt.linkdirs.dbg" value="${mqcrt.linkdirs.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.linkdirs.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.dbg" value="${mqcrt.linkdirs.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.linkdirs.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.dbg" value="${mqcrt.linkdirs.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.linkdirs.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.dbg" value="${mqcrt.linkdirs.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.linkdirs.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libs.dbg ==================== -->
+    <condition property="mqcrt.libs.dbg" value="${mqcrt.libs.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.libs.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.dbg" value="${mqcrt.libs.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.libs.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.dbg" value="${mqcrt.libs.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.libs.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.dbg" value="${mqcrt.libs.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.libs.dbg.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libname.dbg ==================== -->
+    <condition property="mqcrt.libname.dbg" value="${mqcrt.libname.dbg.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.libname.dbg.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.dbg" value="${mqcrt.libname.dbg.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.libname.dbg.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.dbg" value="${mqcrt.libname.dbg.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.libname.dbg.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.dbg" value="${mqcrt.libname.dbg.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.libname.dbg.win32"/>
+        </and>
+    </condition>
+
+    <!-- ==================== Optimized Builds ==================== -->
+
+
+    <!-- ==================== mqcrt.cppflags.opt ==================== -->
+    <condition property="mqcrt.cppflags.opt" value="${mqcrt.cppflags.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cppflags.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.opt" value="${mqcrt.cppflags.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cppflags.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.opt" value="${mqcrt.cppflags.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cppflags.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags.opt" value="${mqcrt.cppflags.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cppflags.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cincludes.opt ==================== -->
+    <condition property="mqcrt.cincludes.opt" value="${mqcrt.cincludes.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cincludes.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.opt" value="${mqcrt.cincludes.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cincludes.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.opt" value="${mqcrt.cincludes.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cincludes.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes.opt" value="${mqcrt.cincludes.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cincludes.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cc.tool.opt ==================== -->
+    <condition property="mqcrt.cc.tool.opt" value="${mqcrt.cc.tool.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cc.tool.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.opt" value="${mqcrt.cc.tool.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cc.tool.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.opt" value="${mqcrt.cc.tool.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cc.tool.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool.opt" value="${mqcrt.cc.tool.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cc.tool.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccargs.opt ==================== -->
+    <condition property="mqcrt.ccargs.opt" value="${mqcrt.ccargs.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.ccargs.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.opt" value="${mqcrt.ccargs.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.ccargs.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.opt" value="${mqcrt.ccargs.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.ccargs.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs.opt" value="${mqcrt.ccargs.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.ccargs.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccopts.opt ==================== -->
+    <condition property="mqcrt.ccopts.opt" value="${mqcrt.ccopts.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.ccopts.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.opt" value="${mqcrt.ccopts.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.ccopts.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.opt" value="${mqcrt.ccopts.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.ccopts.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts.opt" value="${mqcrt.ccopts.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.ccopts.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxx.tool.opt ==================== -->
+    <condition property="mqcrt.cxx.tool.opt" value="${mqcrt.cxx.tool.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxx.tool.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.opt" value="${mqcrt.cxx.tool.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxx.tool.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.opt" value="${mqcrt.cxx.tool.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxx.tool.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool.opt" value="${mqcrt.cxx.tool.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxx.tool.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxargs.opt ==================== -->
+    <condition property="mqcrt.cxxargs.opt" value="${mqcrt.cxxargs.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxxargs.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.opt" value="${mqcrt.cxxargs.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxxargs.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.opt" value="${mqcrt.cxxargs.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxxargs.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs.opt" value="${mqcrt.cxxargs.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxxargs.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxopts.opt ==================== -->
+    <condition property="mqcrt.cxxopts.opt" value="${mqcrt.cxxopts.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.cxxopts.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.opt" value="${mqcrt.cxxopts.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.cxxopts.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.opt" value="${mqcrt.cxxopts.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.cxxopts.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts.opt" value="${mqcrt.cxxopts.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.cxxopts.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dld.tool.opt ==================== -->
+    <condition property="mqcrt.dld.tool.opt" value="${mqcrt.dld.tool.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dld.tool.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.opt" value="${mqcrt.dld.tool.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dld.tool.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.opt" value="${mqcrt.dld.tool.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dld.tool.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool.opt" value="${mqcrt.dld.tool.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dld.tool.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldargs.opt ==================== -->
+    <condition property="mqcrt.dldargs.opt" value="${mqcrt.dldargs.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dldargs.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.opt" value="${mqcrt.dldargs.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dldargs.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.opt" value="${mqcrt.dldargs.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dldargs.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs.opt" value="${mqcrt.dldargs.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dldargs.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldopts.opt ==================== -->
+    <condition property="mqcrt.dldopts.opt" value="${mqcrt.dldopts.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.dldopts.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.opt" value="${mqcrt.dldopts.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.dldopts.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.opt" value="${mqcrt.dldopts.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.dldopts.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts.opt" value="${mqcrt.dldopts.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.dldopts.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.linkdirs.opt ==================== -->
+    <condition property="mqcrt.linkdirs.opt" value="${mqcrt.linkdirs.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.linkdirs.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.opt" value="${mqcrt.linkdirs.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.linkdirs.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.opt" value="${mqcrt.linkdirs.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.linkdirs.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs.opt" value="${mqcrt.linkdirs.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.linkdirs.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libs.opt ==================== -->
+    <condition property="mqcrt.libs.opt" value="${mqcrt.libs.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.libs.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.opt" value="${mqcrt.libs.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.libs.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.opt" value="${mqcrt.libs.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.libs.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs.opt" value="${mqcrt.libs.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.libs.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libname.opt ==================== -->
+    <condition property="mqcrt.libname.opt" value="${mqcrt.libname.opt.solaris}">
+        <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="mqcrt.libname.opt.solaris"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.opt" value="${mqcrt.libname.opt.linux}">
+        <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="mqcrt.libname.opt.linux"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.opt" value="${mqcrt.libname.opt.mac}">
+        <and>
+            <equals arg1="${arch}" arg2="mac"/>
+            <isset property="mqcrt.libname.opt.mac"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname.opt" value="${mqcrt.libname.opt.win32}">
+        <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="mqcrt.libname.opt.win32"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== Debug or Optimized Release ==================== -->
+
+    <!-- ==================== mqcrt.cppflags ==================== -->
+
+    <condition property="mqcrt.cppflags" value="${mqcrt.cppflags.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cppflags.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cppflags" value="${mqcrt.cppflags.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cppflags.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cincludes ==================== -->
+
+    <condition property="mqcrt.cincludes" value="${mqcrt.cincludes.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cincludes.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cincludes" value="${mqcrt.cincludes.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cincludes.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cc.tool ==================== -->
+
+    <condition property="mqcrt.cc.tool" value="${mqcrt.cc.tool.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cc.tool.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cc.tool" value="${mqcrt.cc.tool.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cc.tool.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccargs ==================== -->
+
+    <condition property="mqcrt.ccargs" value="${mqcrt.ccargs.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.ccargs.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccargs" value="${mqcrt.ccargs.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.ccargs.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.ccopts ==================== -->
+
+    <condition property="mqcrt.ccopts" value="${mqcrt.ccopts.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.ccopts.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.ccopts" value="${mqcrt.ccopts.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.ccopts.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxx.tool ==================== -->
+
+    <condition property="mqcrt.cxx.tool" value="${mqcrt.cxx.tool.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cxx.tool.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxx.tool" value="${mqcrt.cxx.tool.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cxx.tool.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxargs ==================== -->
+
+    <condition property="mqcrt.cxxargs" value="${mqcrt.cxxargs.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cxxargs.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxargs" value="${mqcrt.cxxargs.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cxxargs.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.cxxopts ==================== -->
+
+    <condition property="mqcrt.cxxopts" value="${mqcrt.cxxopts.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.cxxopts.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.cxxopts" value="${mqcrt.cxxopts.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.cxxopts.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dld.tool ==================== -->
+
+    <condition property="mqcrt.dld.tool" value="${mqcrt.dld.tool.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.dld.tool.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dld.tool" value="${mqcrt.dld.tool.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.dld.tool.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldargs ==================== -->
+
+    <condition property="mqcrt.dldargs" value="${mqcrt.dldargs.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.dldargs.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldargs" value="${mqcrt.dldargs.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.dldargs.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.dldopts ==================== -->
+
+    <condition property="mqcrt.dldopts" value="${mqcrt.dldopts.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.dldopts.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.dldopts" value="${mqcrt.dldopts.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.dldopts.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.linkdirs ==================== -->
+
+    <condition property="mqcrt.linkdirs" value="${mqcrt.linkdirs.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.linkdirs.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.linkdirs" value="${mqcrt.linkdirs.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.linkdirs.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libs ==================== -->
+
+    <condition property="mqcrt.libs" value="${mqcrt.libs.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.libs.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libs" value="${mqcrt.libs.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.libs.opt"/>
+        </and>
+    </condition>
+
+
+    <!-- ==================== mqcrt.libname ==================== -->
+
+    <condition property="mqcrt.libname" value="${mqcrt.libname.dbg}">
+        <and>
+            <equals arg1="${buildtype}" arg2="debug"/>
+            <isset property="mqcrt.libname.dbg"/>
+        </and>
+    </condition>
+    <condition property="mqcrt.libname" value="${mqcrt.libname.opt}">
+        <and>
+            <not>
+                <equals arg1="${buildtype}" arg2="debug"/>
+            </not>
+            <isset property="mqcrt.libname.opt"/>
+        </and>
+    </condition>
+
+
+
+    <!-- ==================== Control whether we attempt to build or not ==================== -->
+
+    <condition property="mqcrt.willbuild" value="true">
+        <and>
+            <isset property="mqcrt.cppflags"/>
+            <isset property="mqcrt.cincludes"/>
+            <isset property="mqcrt.cc.tool"/>
+            <isset property="mqcrt.ccargs"/>
+            <isset property="mqcrt.ccopts"/>
+            <isset property="mqcrt.cxx.tool"/>
+            <isset property="mqcrt.cxxargs"/>
+            <isset property="mqcrt.cxxopts"/>
+            <isset property="mqcrt.dld.tool"/>
+            <isset property="mqcrt.dldargs"/>
+            <isset property="mqcrt.dldopts"/>
+            <isset property="mqcrt.linkdirs"/>
+            <isset property="mqcrt.libs"/>
+            <isset property="mqcrt.libname"/>
+            <not>
+                <isset property="skip.mqcrt"/>
+            </not>
+        </and>
+    </condition>
+
+</project>

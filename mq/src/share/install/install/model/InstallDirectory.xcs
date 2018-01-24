@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<oor:component-schema oor:version="1.1" oor:name="InstallDirectory" oor:package="org.openinstaller.InstallDirectory"
+    xsi:schemaLocation="http://openoffice.org/2001/registry"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    xmlns:oor="http://openoffice.org/2001/registry"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xml:lang='en-US'>
+<!--
+
+    Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+  <component>
+    <group oor:name="directory">
+      <prop oor:name="INSTALL_DIRECTORY" oor:type="xs:string" oor:transient="true">
+        <value/>
+        <constraints>
+          <minLength oor:value="1"/>
+        </constraints>
+        <actions>
+          <onSet><![CDATA[
+            import java.io.File;
+            import org.openinstaller.provider.conf.ConfigHelper;
+
+            String theInstallHome = thisProperty.getUnconfirmedValue();
+	    File file1 = new File(theInstallHome);
+	    boolean delete_dir = false;
+	    if (!file1.exists())  {
+    	        delete_dir=true;
+	    } 
+
+	    // Bug in OI where setting INSTALL_HOME, will create this dir on setValue()
+  	    // but we don't necessarily want that so delete it
+	    // if it didn't exist before.
+	    // Also creates the directory set in
+	    // InstallHome.directory.INSTALL_HOME even before you get here.
+
+            ConfigHelper.setValue("InstallHome.directory.INSTALL_HOME", theInstallHome);
+	
+            /*
+             * Check if InstallHome exists
+             */
+            String regFilePath = Util.getServiceTagRegistryPath(theInstallHome);
+            File regFile = new File(regFilePath);
+            if (!regFile.exists())  {
+                throw new EnhancedException("MQ_NO_INSTALL_FOUND", new String[]{});
+            } 
+
+
+            ]]></onSet>
+        </actions>
+        <info>
+          <desc xml:lang="en-US">Home Directory Path.</desc>
+        </info>
+      </prop>
+    </group>
+  </component>
+</oor:component-schema>

@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.3  (Unix)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080904;14122300">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+	<META NAME="CHANGED" CONTENT="20081001;16515000">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><FONT SIZE=4><U><B>Configuring the UMS</B></U></FONT></P>
+<P><FONT SIZE=4><B>Introduction</B></FONT></P>
+<P STYLE="font-weight: medium"><FONT SIZE=3>The UMS serves as a
+gateway between UMS client applications and a JMS provider (in this
+case, Message Queue). Consequently, the UMS establishes connections
+with a Message Queue broker which the UMS uses to send messages to
+and receive messages from JMS destinations, as requested by UMS
+client applications. You can configure the UMS to use secure (SSL)
+Message Queue connections, and you can configure the maximum number
+of UMS sessions that share a single connection.</FONT></P>
+<P STYLE="font-weight: medium"><FONT SIZE=3>UMS client applications
+can be authenticated with the UMS using web container based
+authentication. You can configure the web container to accept http or
+https connections when you deploy the UMS, depending on your
+application requirements. In addition, you can configure the UMS to
+authenticate client application users with Message Queue, and client
+applications will then need to provide the UMS a Message Queue user
+name and password.</FONT></P>
+<P STYLE="font-weight: medium"><FONT SIZE=3>In addition, if a UMS
+client application makes a <B>login</B> request, the UMS caches the
+Message Queue authentication data and other state information (for
+example, transaction state) in a UMS session object and passes a
+session ID (sid) back to the client application. The sid is used by
+the client application to identify the session when making subsequent
+requests. In this way, the UMS maintains session state across a
+number of client application requests. You can configure the length
+of time the UMS will maintain the session object in the absence of a
+<B>close</B> session request.</FONT></P>
+<P STYLE="font-weight: medium"><FONT SIZE=3>You can also configure
+the length of time that a <B>receive</B> request will wait if there
+is no message to be retrieved from the target destination.</FONT></P>
+<P><FONT SIZE=4><B>UMS Configuration Parameters</B></FONT></P>
+<P><FONT SIZE=3>UMS configuration parameters are set in the web.xml
+file distributed along with the ums.war file. </FONT>
+</P>
+<P><FONT SIZE=3><B>&lt;!-- Message Queue broker address. Default is
+localhost:7676.
+--&gt;</B><BR>&lt;init-param&gt;<BR>&lt;param-name&gt;imqAddressList&lt;/param-name&gt;<BR>&lt;param-value&gt;localhost&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR><BR><B>&lt;!--
+Use secure (SSL) connection between UMS and Message Queue (boolean).
+Default is false. --&gt;<BR></B><SPAN STYLE="font-weight: medium">&lt;!--
+The Message Queue broker must be configured for a SSL connection
+service.
+--&gt;</SPAN><BR>&lt;init-param&gt;<BR>&lt;param-name&gt;imqConnectionType&lt;/param-name&gt;<BR>&lt;param-value&gt;TLS&lt;/param-value&gt;<BR>&lt;/init-param&gt;</FONT></P>
+<P><FONT SIZE=3><B>&lt;!-- Max UMS sessions per Message Queue
+connection. Default is 100.
+--&gt;</B><BR>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.cache.connection.max.clients&lt;/param-name&gt;<BR>&lt;param-value&gt;100&lt;/param-value&gt;<BR>&lt;/init-param&gt;</FONT></P>
+<P><FONT SIZE=3><B>&lt;!-- User name used by UMS to authenticate with
+Message Queue. --&gt;<BR></B><SPAN STYLE="font-weight: medium">&lt;!--
+This is NOT for client applications to authenticate with the Message
+Queue .--&gt;<BR>&lt;!-- It is used internally by UMS to connect to
+Message
+Queue.--&gt;<BR>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.user.name&lt;/param-name&gt;<BR>&lt;param-value&gt;guest&lt;/param-value&gt;<BR>&lt;/init-param&gt;</SPAN><B><BR><BR>&lt;!--
+Password used by UMS to authenticate with Message Queue. --&gt;<BR></B><SPAN STYLE="font-weight: medium">&lt;!--
+This is NOT for client applications to authenticate with the Message
+Queue. --&gt;<BR>&lt;!-- It is used internally by UMS to connect to
+Message
+Queue.--&gt;<BR>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.password&lt;/param-name&gt;<BR>&lt;param-value&gt;guest&lt;/param-value&gt;<BR>&lt;/init-param&gt;</SPAN></FONT></P>
+<P><FONT SIZE=3><B>&lt;!-- Authenticate UMS clients with Message
+Queue (boolean). Default is false.--&gt;<BR></B><SPAN STYLE="font-weight: medium">&lt;!--
+If set to true, UMS client applications must provide a user name and
+password for Message Queue
+authentication.--&gt;<BR>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.service.authenticate&lt;/param-name&gt;<BR>&lt;param-value&gt;false&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR><BR></SPAN><B>&lt;!--
+Encode Message Queue user password with base64 encoding (boolean).
+Default is false.
+--&gt;</B><SPAN STYLE="font-weight: medium"><BR>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.service.authenticate.basic&lt;/param-name&gt;<BR>&lt;param-value&gt;false&lt;/param-value&gt;<BR>&lt;/init-param&gt;</SPAN></FONT></P>
+<P><FONT SIZE=3><B>&lt;!-- Cache session object duration (in
+milliseconds). Default is 7 minutes. --&gt;</B><BR><SPAN STYLE="font-weight: medium">&lt;!--
+Time UMS will maintain session object if there is no activity on the
+session.--&gt;<BR></SPAN>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.cache.duration&lt;/param-name&gt;<BR>&lt;param-value&gt;420000&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR><BR><B>&lt;!--
+Cache sweep interval (in milliseconds). Default is 2 minutes.
+--&gt;</B><BR><SPAN STYLE="font-weight: medium">&lt;!-- Used for
+memory reclamation. Recommend not to modify this
+value.--&gt;<BR></SPAN>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.cache.sweep.interval&lt;/param-name&gt;<BR>&lt;param-value&gt;120000&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR><BR><B>&lt;!--
+Receive request timeout (in milliseconds). Default is 7 seconds.
+--&gt;</B><BR><SPAN STYLE="font-weight: medium">&lt;!-- Time to wait
+if there is no message to be retrieved from a
+destination.--&gt;<BR></SPAN>&lt;init-param&gt;<BR>&lt;param-name&gt;ums.receive.timeout&lt;/param-name&gt;<BR>&lt;param-value&gt;7000&lt;/param-value&gt;<BR>&lt;/init-param&gt;<BR><BR><BR><BR><BR><BR><BR><BR><BR><BR></FONT><BR><BR>
+</P>
+</BODY>
+</HTML>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="License" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+ <apt:category apt:name="License" apt:label="License" >
+
+ <apt:page apt:name="License_page" apt:label="LicensePage" >
+
+  <apt:section apt:name="license" apt:label="LICENSE" >
+        <apt:property apt:name="LICENSE_TEXT1"
+         apt:dataPath=""
+         apt:type="xs:string">
+         <apt:prop-value>$License_LICENSE_TEXT1</apt:prop-value>
+         <apt:visual>
+            <apt:htmlPanel/>
+         </apt:visual>
+        </apt:property>
+     <apt:property apt:name="LICENSE_TEXT_CDDL"
+         apt:dataPath=""
+         apt:type="xs:string">
+       <apt:prop-value>$License_LICENSE_TEXT_CDDL</apt:prop-value>
+       <apt:visual>
+            <apt:textArea apt:rows="9" apt:columns="33" apt:readOnly="true"/>
+         </apt:visual>
+     </apt:property>
+
+     <apt:property apt:name="ACCEPT_LICENSE"
+         apt:dataPath="license.ACCEPT_LICENSE"
+         apt:type="xs:string">
+       <apt:prop-value>1</apt:prop-value>
+       <apt:visual>
+          <apt:radioButtons />
+       </apt:visual>
+       <apt:constraints>
+         <apt:enumeration apt:value="0" apt:label="$LICENSE_ACCEPT_TEXT" apt:toolTip="$LICENSE_ACCEPT_TOOLTIP"/>
+         <apt:enumeration apt:value="1" apt:label="$LICENSE_DECLINE_TEXT" apt:toolTip="$LICENSE_DECLINE_TOOLTIP"/>
+       </apt:constraints>
+       <apt:scriptHandler apt:scriptLanguage="beanshell">
+          <apt:scriptCode ><![CDATA[
+            theAcceptAL = new ActionListener() {
+              actionPerformed(e) {
+                decline = getComponentByName(content, "1");
+                if(decline.isSelected()) { 
+                  wizard.enableNext(false); 
+                } else { 
+                  wizard.enableNext(true);
+                }
+              }
+            };
+            return theAcceptAL;]]>
+        </apt:scriptCode>
+      </apt:scriptHandler>
+     </apt:property>
+  </apt:section>
+  <apt:scriptHandler apt:scriptLanguage="beanshell" >
+  <apt:scriptCode><![CDATA[
+    getComponentByName(aParent, aName) {
+      if (aParent == null || ! (aParent instanceof Container)) {
+        return null;
+      }
+      Component[] theComponents = ((Container)aParent).getComponents();
+      for (Component theComp : theComponents) {
+        if (aName.equals(theComp.getName())) {
+          return theComp;
+        }
+      }
+      for (Component theComp : theComponents) {
+        if (theComp instanceof Container) {
+          Object theCompo = getComponentByName((Container) theComp, aName);
+          if (theCompo != null) {
+            return theCompo;
+          }
+        }
+      }
+      return null;
+    }
+
+    run() {
+      wizard.enableCancel(true);
+      wizard.enableHelp(true);
+      wizard.enableBack(true);
+
+      // Default the license agreement text to the beginning of the text
+      myComp = getComponentByName(content, "LICENSE_TEXT_CDDL");
+      myComp.setCaretPosition(0);
+
+      wizard.enableNext(getComponentByName((Container)content, "0").isSelected());
+     }
+
+    return (Runnable)this;
+  ]]></apt:scriptCode>
+  </apt:scriptHandler>
+  </apt:page>
+</apt:category>
+</apt:template>
+

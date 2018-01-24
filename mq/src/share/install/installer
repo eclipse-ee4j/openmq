@@ -1,0 +1,347 @@
+#!/bin/ksh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+PRODUCTNAME="mq"
+ORIG_ARGS=$@
+
+# binaries needed on both Solaris, Linux, etc.
+BASENAME=/bin/basename
+CAT=/bin/cat
+#CD=/bin/cd
+CHMOD=/bin/chmod
+CP=/bin/cp
+CUT=/bin/cut
+DIRNAME=/usr/bin/dirname
+CPIO=/bin/cpio
+FIND=/usr/bin/find
+ECHO=/bin/echo
+EGREP=/bin/egrep
+ID=/usr/bin/id
+MKDIR=/bin/mkdir
+_PWD=/bin/pwd
+RM=/bin/rm
+SED=/bin/sed
+SU=/bin/su
+TOUCH=/bin/touch
+UNAME=/bin/uname
+XAUTH=/openwin/bin/xauth,/usr/X11R6/bin/xauth
+
+NAME=`${BASENAME} $0`
+MYDIR=`${DIRNAME} $0`
+MYDIR=`cd ${MYDIR}; ${_PWD}`
+
+ENGINE_DIR=${MYDIR}/opt/sun/install
+META_DATA_DIR=
+INIT_CONFIG_DIR=
+
+# global settings
+JAVAHOME=""				# java home path
+JAVA_OPTIONS=""			# java options
+INSTALLPROPS=""         # install specific properties
+
+# user options
+DRYRUN=
+SILENT=
+ANSWERFILE=
+ALTROOT=
+DEBUGLEVEL="INFO"
+MEDIALOC=
+#LOGDIR=/tmp
+
+INSTALL_PROPS=install.properties
+
+#point the java home to local media image location
+BUNDLED_JAVA_JRE_LOC=${MYDIR}
+
+#-------------------------------------------------------------------------------
+# usage only: define what parameters are available here
+# input(s):  exitCode
+#-------------------------------------------------------------------------------
+usage() {
+  ${CAT} <<EOF
+Usage: $NAME [OPTION]
+
+Options:
+  -a <file>
+  Specify an answer file to be used by installer in non interactive mode.
+
+  -h
+  Show usage help
+
+  -s
+  Silent mode. No output will be displayed. Typically used with an answer file
+  specified with -a
+
+  -n <file>
+  Dry run mode. Does not install anything. Your install responses are saved to
+  <file> and can be used with -a to replicate this install.
+
+  -r
+  Register product. Does not install anything. Runs the installer's product 
+  registration screens.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+  Usage examples:
+   Generate answer file
+    installer -n file1
+
+   Using an answer file in silent mode
+    installer -a file1 -s
+
+EOF
+  exit $1
+}
+
+#-------------------------------------------------------------------------------
+# perform actual operation for the script: install/uninstall
+# input(s):  none
+# output(s): instCode
+#-------------------------------------------------------------------------------
+perform() {
+REG_CP="${MYDIR}/install-lib/classes"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/commons-codec-1.3.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/registration-api.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/registration-impl.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/sysnet-all.jar"
+
+ENGINE_OPS="-p Default-Product-ID=${PRODUCTNAME}"
+ENGINE_OPS="${ENGINE_OPS} -p Init-Config-Locations=${PRODUCTNAME}:${INIT_CONFIG_DIR}"
+ENGINE_OPS="${ENGINE_OPS} -p UI-Options=internalBrowserOnly"
+ENGINE_OPS="${ENGINE_OPS} -p Merge-Config-Data=false"
+ENGINE_OPS="${ENGINE_OPS} -m file://${META_DATA_DIR}/"
+ENGINE_OPS="${ENGINE_OPS} -i file://${MYDIR}/Product"
+ENGINE_OPS="${ENGINE_OPS} -a ${MYDIR}/${INSTALL_PROPS}"
+ENGINE_OPS="${ENGINE_OPS} -C ${REG_CP}"
+ENGINE_OPS="${ENGINE_OPS} -p Exclude-JVMs=${MYDIR}"
+JAVA_OPTIONS="-Dmq.install.servicetag.registry.relpath=${ST_REG_RELPATH}"
+
+if [ -n "${DRYRUN}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -n ${DRYRUN}"
+fi
+
+if [ -n "${SILENT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Display-Mode=SILENT"
+fi
+
+if [ -n "${ANSWERFILE}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -a ${ANSWERFILE}"
+fi
+
+if [ -n "${ALTROOT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -R ${ALTROOT}"
+fi
+
+if [ -n "${LOGLEVEL}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -l ${LOGLEVEL}"
+fi
+
+if [ -n "${LOGDIR}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Logs-Location=${LOGDIR}"
+fi
+
+if [ -n "${JAVA_HOME}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -j ${JAVA_HOME}"
+fi
+
+if [ -n "${INSTALLPROPS}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} ${INSTALLPROPS}"
+fi
+
+${ENGINE_DIR}/bin/engine-wrapper -J "${JAVA_OPTIONS}" ${ENGINE_OPS}
+instCode=$?
+
+}
+
+#-------------------------------------------------------------------------------
+# retrieve bundled JVM from Media based on os and platfo${RM}
+# input(s):  none
+# output(s): JAVAMEDIAPATH
+#-------------------------------------------------------------------------------
+getBundledJvm() {
+  JAVAMEDIAPATH=""
+  case `${UNAME} -s` in
+    "SunOS")
+       case `${UNAME} -p` in
+         "sparc")
+           JAVAMEDIAPATH="usr/jdk/latest"
+           ;;
+         "i386")
+           JAVAMEDIAPATH="usr/jdk/latest"
+           ;;
+         *)
+           ${ECHO} "Unknown platform, exiting"
+	   exit 1
+           ;;
+       esac
+       ;;
+    "Linux")
+       JAVAMEDIAPATH="usr/java/jre1.5.0_15"
+       ;;
+    "HP-UX")
+       JAVAMEDIAPATH="HP-UX"
+       ;;
+    "AIX")
+       JAVAMEDIAPATH="AIX"
+       ;;
+    *)
+      "Do not recognize `uname -p` platform, no JVM available"
+      exit 1
+      ;;
+  esac
+}
+
+
+useBundledJvm() {
+
+  getBundledJvm
+  JAVA_HOME=${BUNDLED_JAVA_JRE_LOC}/${JAVAMEDIAPATH}
+  if [ ! -d ${JAVA_HOME} ] ; then
+       if [ ! -n "${SILENT}" ] ; then
+           ${ECHO} "${JAVA_HOME} must be the root directory of a valid JVM installation"
+           ${ECHO} "Please provide JAVA_HOME as argument with -h option and proceed."
+       fi
+       exit 1
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# ****************************** MAIN THREAD ***********************************
+#-------------------------------------------------------------------------------
+
+OPTSTRING="hl:n:rsvta:j:J:p:"
+
+# check arguments
+while getopts "${OPTSTRING}" opt ; do
+    case "${opt}" in
+
+	a) ANSWERFILE=${OPTARG}
+	    if [ ! -r ${ANSWERFILE} ] ; then
+		${ECHO} "Error: Answer file ${ANSWERFILE} does not exist or is not readable."
+		exit 1
+	    fi
+	;;
+
+        r) INSTALL_PROPS=install_regonly.properties
+        ;;
+
+	l) LOGDIR=${OPTARG}
+
+	    if [ ! -d ${LOGDIR} -o ! -w ${LOGDIR} ] ; then
+		${ECHO} "${LOGDIR} is not a directory or is not writable"
+		exit 1
+	    fi
+	;;
+
+	s) SILENT=true
+	;;
+	v) LOGLEVEL=FINEST
+	;;  
+        t) INSTALLPROPS="${INSTALLPROPS} -p Display-Mode=CUI"
+        ;;
+        n) DRYRUN=${OPTARG}
+        ;;
+	j) _CMDLINEJAVA_HOME=${OPTARG}
+
+	    if [ ! -d ${_CMDLINEJAVA_HOME} -o ! -r ${_CMDLINEJAVA_HOME} ] ; then
+		${ECHO} "${_CMDLINEJAVA_HOME} must be the root directory of a valid JVM installation"
+		exit 1
+	    fi
+	;;
+
+	J) JAVA_OPTIONS=${OPTARG}
+	;;
+	p) INSTALLPROPS="${INSTALLPROPS} -p ${OPTARG}"
+	;;
+	?|h) usage
+	;;
+    esac
+done
+
+#
+# Solaris or linux case only.
+# Check if user is root before continuing on.
+#
+install_mq=1
+if [ "`uname -s`" = SunOS ] ; then
+    if [ `/usr/xpg4/bin/id -u` != 0 ]; then
+        echo "$0: You must be \"root\" to install Message Queue."
+        echo "Exiting."
+        exit 1
+    fi
+    if [ -x /bin/zonename ]; then
+	if [ "`/bin/zonename`" != "global" ] ; then
+	    if [ ! -n "${SILENT}" ] ; then
+                echo "$0: You are attempting to install Message Queue into a"
+	        echo "    non-global zone.  Installation of Message Queue is only"
+	        echo "    supported into whole root non-global zones (or global zones)."
+	        echo "    Please make sure that you are installing Message Queue"
+	        echo "    into a whole root non-global zone before continuing."
+	        echo "    Do you wish to continue? [y/n]: \c"
+                read ans
+	    else
+	        ans=y
+	    fi;
+	    echo " "
+	    if [ "$ans" = "y" -o "$ans" = "Y" -o "$ans" = "yes" -o  "$ans" = "Yes" -o "$ans" = "YES" ]; then
+    	        install_mq=1
+    	        break;
+	    else
+    		echo "Message Queue was not installed on your system."
+    		install_mq=0
+    		exit 1
+	    fi;
+  	fi
+    fi 
+
+    ENGINE_DIR=${MYDIR}/opt/install
+    META_DATA_DIR=${MYDIR}/var/opt/install/contents/${PRODUCTNAME}
+    INIT_CONFIG_DIR=/usr/share/lib/imq/install
+    ST_REG_RELPATH=etc/imq/registry/servicetag.xml
+
+else
+    if [ `/usr/bin/id -u` != 0 ]; then
+        echo "$0: You must be \"root\" to install Message Queue."
+        echo "Exiting."
+        exit 1
+    fi
+
+    ENGINE_DIR=${MYDIR}/opt/sun/install
+    META_DATA_DIR=${MYDIR}/var/opt/sun/install/contents/${PRODUCTNAME}
+    INIT_CONFIG_DIR=/opt/sun/mq/private/share/lib/install
+    ST_REG_RELPATH=etc/opt/sun/mq/registry/servicetag.xml
+fi
+
+trap 'exit' 1 2 13 15
+
+
+# always use bundled JVM
+# overwrite check if user specify javahome to use
+if [ "$_CMDLINEJAVA_HOME" = "" ]; then
+    useBundledJvm
+else
+    JAVA_HOME=${_CMDLINEJAVA_HOME}
+    ${ECHO} "Using the user defined JAVA_HOME : ${JAVA_HOME}"
+fi
+
+
+perform
+exit $instCode
+
+

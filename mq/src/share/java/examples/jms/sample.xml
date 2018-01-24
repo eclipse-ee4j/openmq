@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!DOCTYPE slideshow SYSTEM "sample.dtd" [
+  <!ENTITY product  "WonderWidget">
+  <!ENTITY products "WonderWidgets">
+]>
+
+<!-- SUBSTITUTIONS WORK IN ATTRIBUTES, TOO -->
+<slideshow 
+    title="&product; Slide Show" 
+    date="Date of publication"
+    author="Yours Truly"
+    >
+
+    <!-- PROCESSING INSTRUCTION -->
+    <?my.presentation.Program: QUERY="exec, tech, all"?>
+
+    <!-- TITLE SLIDE -->
+    <slide type="all">
+       <title>Wake up to &products;!</title>
+    </slide>
+
+    <!-- OVERVIEW -->
+    <slide type="all">
+      <title>Overview</title>
+      <item>Why <em>&products;</em> are great</item>
+      <item/>
+      <item>Who <em>buys</em> &products;</item>
+    </slide>
+
+</slideshow>

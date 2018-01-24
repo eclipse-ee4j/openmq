@@ -1,0 +1,105 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<P>
+Provides utility/convenience classes for writing JMX based clients 
+to manage or monitor the MQ broker.
+
+The code example creates a destination on the broker and demonstrates
+how some of the classes in this package can be used for this.
+<PRE>
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+<STRONG>import com.sun.messaging.jms.management.server.*;</STRONG>
+
+public class SimpleClient {
+    public static void main(String[] args) {
+	try  {
+	    AdminConnectionFactory acf;
+
+	    /*
+	     * Create admin connection factory and connect to JMX Connector
+	     * server using administrator username/password.
+	     * A JMX connector client object is obtained from this.
+	     */
+	    acf = new AdminConnectionFactory();
+	    JMXConnector jmxc = acf.createConnection();
+
+	    /*
+	     * Get MBeanServer interface.
+	     */
+	    MBeanServerConnection mbsc = jmxc.getMBeanServerConnection();
+
+	    /*
+	     * Create object name of destination config mgr MBean.
+	     */
+	    ObjectName objName
+		= new ObjectName(<STRONG>MQObjectName.DESTINATION_CONFIG_MGR_MBEAN_NAME</STRONG>);
+
+	    /*
+	     * Create attributes for new destination:
+	     *  MaxTotalMsgBytes = 100 Mb
+	     *  UseDMQ = true
+	     */
+	    AttributeList attrList = new AttributeList();
+	    Attribute attr;
+	    attr = new Attribute(<STRONG>DestinationAttributes.MAX_TOTAL_MSG_BYTES</STRONG>,
+			    new Long(100 * 1024 * 1024));
+	    attrList.add(attr);
+	    attr = new Attribute(<STRONG>DestinationAttributes.USE_DMQ</STRONG>,
+			    Boolean.TRUE);
+	    attrList.add(attr);
+
+	    /*
+	     * Setup parameters for create operation and also
+	     * it's signature.
+	     */
+	    Object params[] = { <STRONG>DestinationType.QUEUE</STRONG>,
+	                "TestQueue",
+	                attrList
+	        };
+	    String signature[] = {
+	                String.getClass().getName(),
+	                String.getClass().getName(),
+	                attrList.getClass().getName()
+	        };
+
+	    /*
+	     * Invoke operation to create destination.
+	     */
+            mbsc.invoke(objName, <STRONG>DestinationOperations.CREATE</STRONG>, params, signature);
+
+	    jmxc.close();
+	} catch (Exception e)  {
+	    e.printStackTrace();
+	}
+    }
+}
+</PRE>
+
+
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<Component xmlns="http://openinstaller.org/dependency/V1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://bindings.install.sun.com/Component ../schemas/Comp
+onent.xsd">
+
+  <!-- MQ dependency file -->
+
+  <Identity>
+    <Identifier feature="true">mq</Identifier>
+    <Description>Oracle GlassFish(tm) Server Message Queue</Description>
+    <IdentityVersion>
+      <VersionBaseline>5.0.0.0</VersionBaseline>
+    </IdentityVersion>
+    <Vendor>Oracle</Vendor>
+    <Other>Java Enterprise System</Other>
+  </Identity>
+
+   <Requirements>
+    <ComponentRefs>
+      <ComponentRef>
+        <ComponentIdentifier>NSPR</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>4.7</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+
+      <ComponentRef>
+        <ComponentIdentifier>NSS</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>3.13.1</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+
+<!--
+      <ComponentRef>
+        <ComponentIdentifier>jdk5</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>1.5.0_15</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+-->
+      <ComponentRef>
+        <ComponentIdentifier>JavaHelpRuntime</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>2.0</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+    </ComponentRefs>
+  </Requirements>
+
+  <Payload>
+    <CompositeUnit>
+      <Name>core</Name>
+
+      <!-- Solaris sparc and sparcv9 -->
+      <Realization version="5.0.0.0">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>sparc</Arch>
+          <OtherArch>sparcv9</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">20Mb</Item>
+          </RequirementsRealization>
+        </OS>
+	<InstallableUnit>SUNWiqinst</InstallableUnit>
+        <InstallableUnit>SUNWiqcdv</InstallableUnit>
+        <InstallableUnit>SUNWiqcrt</InstallableUnit>
+        <InstallableUnit>SUNWiqdoc</InstallableUnit>
+        <InstallableUnit>SUNWiqfs</InstallableUnit>
+        <InstallableUnit>SUNWiqjx</InstallableUnit>
+        <InstallableUnit>SUNWiqr</InstallableUnit>
+        <InstallableUnit>SUNWiqu</InstallableUnit>
+        <InstallableUnit>SUNWiquc</InstallableUnit>
+        <InstallableUnit>SUNWiqum</InstallableUnit>
+        <InstallableUnit>SUNWiqlen</InstallableUnit>
+      </Realization>
+
+      <!-- Solaris x86 and x86_64 -->
+      <Realization version="5.0.0.0">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">20Mb</Item>
+          </RequirementsRealization>
+        </OS>
+	<InstallableUnit>SUNWiqinst</InstallableUnit>
+        <InstallableUnit>SUNWiqcdv</InstallableUnit>
+        <InstallableUnit>SUNWiqcrt</InstallableUnit>
+        <InstallableUnit>SUNWiqdoc</InstallableUnit>
+        <InstallableUnit>SUNWiqfs</InstallableUnit>
+        <InstallableUnit>SUNWiqjx</InstallableUnit>
+        <InstallableUnit>SUNWiqr</InstallableUnit>
+        <InstallableUnit>SUNWiqu</InstallableUnit>
+        <InstallableUnit>SUNWiquc</InstallableUnit>
+        <InstallableUnit>SUNWiqum</InstallableUnit>
+        <InstallableUnit>SUNWiqlen</InstallableUnit>
+      </Realization>
+
+      <!-- Linux x86 and x86_64 -->
+      <Realization version="5.0-1">
+        <OS>
+          <Type>unix</Type>
+          <Name>linux</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>2.4</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">17Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>sun-mq-install-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-config-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-var-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-capi-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-jaxm-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-jmsclient-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-xmlclient-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-ent-5.0-1.i386.rpm</InstallableUnit>
+      </Realization>
+
+      <!-- Windows x86 and x86_64 -->
+      <Realization>
+        <OS>
+          <Type>windows</Type>
+          <Name>Windows XP</Name>
+          <OtherName>Windows 2000</OtherName>
+          <OtherName>Windows 2003</OtherName>
+          <OtherName>UNDEFINED</OtherName>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.1</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">11Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>messagequeue.zip</InstallableUnit>
+      </Realization>
+
+    </CompositeUnit>
+
+    <CompositeUnit>
+      <Name>Localization</Name>
+
+      <Realization version="5.0.0.0">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>sparc</Arch>
+          <OtherArch>sparcv9</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">2Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>SUNWciqu</InstallableUnit>
+        <InstallableUnit>SUNWciquc</InstallableUnit>
+        <InstallableUnit>SUNWdiqu</InstallableUnit>
+        <InstallableUnit>SUNWdiquc</InstallableUnit>
+        <InstallableUnit>SUNWeiqu</InstallableUnit>
+        <InstallableUnit>SUNWeiquc</InstallableUnit>
+        <InstallableUnit>SUNWfiqu</InstallableUnit>
+        <InstallableUnit>SUNWfiquc</InstallableUnit>
+        <InstallableUnit>SUNWhiqu</InstallableUnit>
+        <InstallableUnit>SUNWhiquc</InstallableUnit>
+        <InstallableUnit>SUNWjiqu</InstallableUnit>
+        <InstallableUnit>SUNWjiquc</InstallableUnit>
+        <InstallableUnit>SUNWkiqu</InstallableUnit>
+        <InstallableUnit>SUNWkiquc</InstallableUnit>
+        <InstallableUnit>SUNWptiqu</InstallableUnit>
+        <InstallableUnit>SUNWptiquc</InstallableUnit>
+      </Realization>
+
+      <Realization version="5.0.0.0">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.9</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">2Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>SUNWciqu</InstallableUnit>
+        <InstallableUnit>SUNWciquc</InstallableUnit>
+        <InstallableUnit>SUNWdiqu</InstallableUnit>
+        <InstallableUnit>SUNWdiquc</InstallableUnit>
+        <InstallableUnit>SUNWeiqu</InstallableUnit>
+        <InstallableUnit>SUNWeiquc</InstallableUnit>
+        <InstallableUnit>SUNWfiqu</InstallableUnit>
+        <InstallableUnit>SUNWfiquc</InstallableUnit>
+        <InstallableUnit>SUNWhiqu</InstallableUnit>
+        <InstallableUnit>SUNWhiquc</InstallableUnit>
+        <InstallableUnit>SUNWjiqu</InstallableUnit>
+        <InstallableUnit>SUNWjiquc</InstallableUnit>
+        <InstallableUnit>SUNWkiqu</InstallableUnit>
+        <InstallableUnit>SUNWkiquc</InstallableUnit>
+        <InstallableUnit>SUNWptiqu</InstallableUnit>
+        <InstallableUnit>SUNWptiquc</InstallableUnit>
+      </Realization>
+
+      <Realization version="5.0-1">
+        <OS>
+          <Type>unix</Type>
+          <Name>linux</Name>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>2.4</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">2Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>sun-mq-ja-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-de-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-es-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-fr-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-it-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-pr_BR-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-zh_CN-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-zh_TW-5.0-1.i386.rpm</InstallableUnit>
+        <InstallableUnit>sun-mq-ko-5.0-1.i386.rpm</InstallableUnit>
+      </Realization>
+
+      <!-- Windows x86 and x86_64 -->
+      <Realization>
+        <OS>
+          <Type>windows</Type>
+          <Name>Windows XP</Name>
+          <OtherName>Windows 2000</OtherName>
+          <OtherName>Windows 2003</OtherName>
+          <OtherName>UNDEFINED</OtherName>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.1</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">11Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <!-- NOTE: The messagequeue_l10n.zip contains all locales. -->
+        <InstallableUnit>messagequeue_l10n.zip</InstallableUnit>
+      </Realization>
+
+    </CompositeUnit>
+
+  </Payload>
+</Component>
+

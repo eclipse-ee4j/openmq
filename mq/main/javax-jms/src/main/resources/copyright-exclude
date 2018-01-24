@@ -1,0 +1,15 @@
+javax-jms/src/main/resources/copyright-exclude
+javax-jms/src/main/java/javax/jms/doc-files/speclicense.html
+.gif
+.jpg
+.png
+.exe
+.ico
+.jar
+.zip
+.war
+.ear
+.sql
+.jks
+.json
+.class

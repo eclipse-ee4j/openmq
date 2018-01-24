@@ -1,0 +1,570 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;12143500">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGED" CONTENT="20090305;17242771">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 21.59cm 27.94cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<H1><A NAME="jqxn"></A><A NAME="jqxn0"></A><A NAME="jqxn1"></A><A NAME="k405"></A><A NAME="h.ei"></A><A NAME="h.ei0"></A><A NAME="begv"></A><A NAME="p4e4"></A><A NAME="xcad"></A><A NAME="xcad0"></A><A NAME="ftnz"></A><A NAME="ftnz0"></A><A NAME="ftnz1"></A><A NAME="ftnz2"></A><A NAME="ftnz3"></A><A NAME="ftnz4"></A><A NAME="ftnz5"></A><A NAME="ftnz6"></A>
+<FONT SIZE=4 STYLE="font-size: 16pt"><B>UMS Protocol</B></FONT></H1>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><A NAME="s.3y7"></A><A NAME="s6vo102"></A><A NAME="gkvp3"></A><A NAME="gkvp4"></A><A NAME="s6vo106"></A><A NAME="z87f"></A><A NAME="smxv2"></A><A NAME="vp2f"></A><A NAME="z87f1"></A><A NAME="c5uo"></A><A NAME="c5uo0"></A><A NAME="s6vo109"></A><A NAME="bobi0"></A><A NAME="bobi1"></A><A NAME="bobi2"></A><A NAME="s6vo110"></A><A NAME="s6vo111"></A><A NAME="s6vo112"></A><A NAME="s6vo113"></A><A NAME="mf2y"></A><A NAME="s6vo114"></A><A NAME="cwn2"></A><A NAME="s6vo115"></A><A NAME="cwn20"></A><A NAME="rb950"></A><A NAME="s6vo116"></A><A NAME="s6vo117"></A><A NAME="s6vo118"></A><A NAME="r0zk"></A><A NAME="bd.03"></A><A NAME="s6vo121"></A><A NAME="hstz"></A><A NAME="s6vo122"></A><A NAME="u1oa0"></A><A NAME="u1oa1"></A><A NAME="u1oa2"></A><A NAME="eb5w17"></A><A NAME="eb5w18"></A><A NAME="s6vo290"></A><A NAME="eb5w19"></A><A NAME="s6vo291"></A><A NAME="eb5w20"></A><A NAME="s6vo292"></A><A NAME="hstz3"></A><A NAME="s6vo123"></A><A NAME="s6vo124"></A><A NAME="agic2"></A><A NAME="agic3"></A><A NAME="s6vo2901"></A><A NAME="agic4"></A><A NAME="s6vo2911"></A><A NAME="agic5"></A><A NAME="s6vo2921"></A><A NAME="jmp2"></A><A NAME="zo_t5"></A><A NAME="s6vo125"></A><A NAME="s6vo126"></A><A NAME="s6vo127"></A><A NAME="twgz"></A><A NAME="twgz0"></A><A NAME="vqcg"></A><A NAME="y6oh"></A><A NAME="y6oh0"></A><A NAME="y6oh1"></A><A NAME="y6oh2"></A><A NAME="y6oh3"></A><A NAME="ohoc0"></A><A NAME="a9pd"></A><A NAME="eb5w"></A><A NAME="s7v_0"></A>
+The API for the Universal Message Service (UMS) provides access to
+Message Queue messaging from any http-enabled device. The UMS
+protocol supports the sending and receiving of messages by both Java
+and non-Java clients (C clients, .NET clients, Python clients, Ajax
+clients, and so forth as well as from simple HTML Pages).</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">The
+UMS protocol has two parts: a set of functions that use the HTTP POST
+protocol and a set of functions that use the simpler HTTP GET
+protocol. 
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><B>HTTP
+POST functions</B></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">These
+functions all involve the sending of a HTTP POST requests to the
+server. They support the following two types of messaging: 
+</P>
+<UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><A HREF="#Simple Messaging using HTTP POST">Simple
+	Messaging using HTTP POST</A>. This can be used to send and receive
+	text messages not encoded in XML format. UMS clients use a Simple
+	Messaging API to send/receive XML or non-XML messages.</P>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><A HREF="#XMLMessaging using HTTP POST">XML
+	Messaging using HTTP POST.</A> This can be used to send and receive
+	XML messages only. Messages must be in SOAP message packaging
+	format. UMS clients use an XML Messaging API to send/receive XML
+	documents and attachments. 
+	</P>
+</UL>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">The
+POST functions (both simple and XML) consist of six messaging
+services, each requested by an http request message of the
+corresponding service type. Each request message must specify only
+one service type. The general request/response protocol for the
+Simple Messaging API and XML Messaging API are defined in the
+sections below. The detailed protocols for the six services, with
+examples, are documented at the following links: 
+</P>
+<P ALIGN=LEFT STYLE="margin-left: 1.25cm; margin-bottom: 0.51cm; line-height: 100%">
+<A HREF="login.html">login</A><BR><A HREF="send.html">send</A><BR><A HREF="receive.html">receive</A><BR><A HREF="commit.html">commit</A><BR><A HREF="rollback.html">rollback</A><BR><A HREF="close.html">close</A></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><B>HTTP
+GET functions</B></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; font-weight: medium; line-height: 100%">
+These functions all involve the sending of HTTP GET requests to the
+server. These are simpler than the POST functions and can be invoked
+from simple HTMP pages or even typed directly into the address bar of
+a browser.</P>
+<UL>
+	<LI><P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><A HREF="#Query and utility functions using HTTP GET">Query
+	and utility functions using HTTP GET.</A> These consist of various
+	additional functions which can be performed simply by entering a URL
+	In a browser.</P>
+</UL>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><FONT SIZE=4><B>1.
+Simple Messaging using HTTP POST</B></FONT><B><BR><BR></B>The
+http/https request/response protocol is used to request UMS
+services.<BR><BR><B>1</B><FONT SIZE=3 STYLE="font-size: 13pt"><B>.1
+Service Requests</B></FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">The
+http <B>POST</B> method must be used for each simple request message
+sent to the UMS.<BR><BR>For simple messaging, each request message is
+represented with the following
+syntax:<BR><BR><I><B>http://host:port/&lt;ums-context-root&gt;/simple?query_string<BR><BR></B></I><I><SPAN STYLE="font-weight: medium">where
+&lt;ums-context-root&gt; is the deployment context root for the UMS
+service. The examples used in this document has the deployment
+context root configured to /ums .</SPAN></I><BR><BR>where
+<I>query_string</I> is a series of field/value pairs (<B>field=value</B>)
+that specify the service type (such as send), JMS messaging domain
+(such as queue), JMS destination name, and so forth. The field/value
+pairs in a query string are separated by an ampersand (&ldquo;&amp;&rdquo;).
+For more information about query string syntax, see
+<A HREF="http://en.wikipedia.org/wiki/Query_string">http://en.wikipedia.org/wiki/Query_string</A>.</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">The
+query_string field names and values are shown in the following table:</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0.51cm; line-height: 100%"><B>Simple
+Messaging Query String Field Names and Values</B></P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=0>
+	<COL WIDTH=59*>
+	<COL WIDTH=87*>
+	<COL WIDTH=110*>
+	<TR VALIGN=TOP>
+		<TH WIDTH=23%>
+			<P><A NAME="s6vo142"></A><A NAME="s6vo143"></A><A NAME="s6vo144"></A>
+			Query String Field Name 
+			</P>
+		</TH>
+		<TH WIDTH=34%>
+			<P><A NAME="s6vo145"></A><A NAME="s6vo146"></A>Default Field Value
+						</P>
+		</TH>
+		<TH WIDTH=43%>
+			<P><A NAME="s6vo147"></A><A NAME="s6vo148"></A><A NAME="s6vo149"></A>
+			Description 
+			</P>
+		</TH>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=23%>
+			<P><A NAME="s6vo150"></A><A NAME="s6vo151"></A><A NAME="t3vq"></A>sid</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P><A NAME="s6vo152"></A><A NAME="s6vo153"></A>(not defined) 
+			</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P><A NAME="s6vo154"></A><A NAME="s6vo155"></A><A NAME="s6vo156"></A>
+			Session ID. Application obtains an sid from a &quot;login&quot;
+			service request. 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=23%>
+			<P><A NAME="s6vo164"></A><A NAME="s6vo165"></A>destination 
+			</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P><A NAME="s6vo166"></A><A NAME="s6vo167"></A>(not defined) 
+			</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P><A NAME="s6vo168"></A><A NAME="s6vo169"></A><A NAME="s6vo170"></A>
+			JMS destination name. 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=23%>
+			<P><A NAME="s6vo1571"></A><A NAME="s6vo1581"></A>domain 
+			</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P><A NAME="s6vo1591"></A><A NAME="s6vo1601"></A>queue 
+			</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P><A NAME="s6vo1611"></A><A NAME="s6vo1621"></A><A NAME="s6vo1631"></A>
+			JMS domain. 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=23%>
+			<P><A NAME="s6vo171"></A><A NAME="s6vo172"></A>service 
+			</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P><A NAME="s6vo173"></A><A NAME="s6vo174"></A>(not defined) 
+			</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P>Value is one of the following: &quot;login&quot;, &quot;send&quot;,
+			&quot;receive&quot;, &quot;close&quot;, &quot;commit&quot;,
+			&quot;rollback&quot;.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=23%>
+			<P><A NAME="wqxj2"></A><A NAME="wqxj1"></A>user</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P>guest</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P>User name to authenticate to JMS server.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=23%>
+			<P><A NAME="st.g2"></A><A NAME="st.g1"></A>password</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P>guest</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P>Password to authenticate to JMS server.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=23%>
+			<P><A NAME="s6vo1781"></A><A NAME="s6vo1791"></A>timeout 
+			</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P><A NAME="s6vo1801"></A><A NAME="s6vo1811"></A>7000 (milli secs)
+						</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P><A NAME="s6vo1821"></A><A NAME="wqxj3"></A><A NAME="wqxj01"></A>
+			&quot;Receive&quot; request timeout if no messages are available.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD WIDTH=23%>
+			<P><A NAME="yt9g2"></A><A NAME="yt9g1"></A>transacted</P>
+		</TD>
+		<TD WIDTH=34%>
+			<P ALIGN=LEFT>false</P>
+		</TD>
+		<TD WIDTH=43%>
+			<P><A NAME="ws2b"></A><A NAME="owa."></A><A NAME="yt9g5"></A>Used
+			with &quot;login&quot; request to indicate the session is
+			transacted. A transacted session is created if
+			transacted=true.<BR><BR>If set to true, a &quot;commit&quot; or
+			&quot;rollback&quot; message must be sent to UMS to commit or
+			rollback the session.</P>
+		</TD>
+	</TR>
+</TABLE>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><BR><BR>
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><FONT SIZE=3>For
+example, for a Simple Messaging &quot;send&quot; service request, the
+text message to be sent is placed in the http request message body.
+Upon receiving the request, the UMS service obtains the text message
+from the http request message body, sets the message to a JMS
+TextMessage, delivers it to the destination specified in the http
+query string, and sends an http response to the application.<BR><BR>For
+a Simple Messaging &quot;receive&quot; service request, the UMS
+service consumes a JMS TextMessage from the destination specified in
+the http query string, places the text message in the http response
+message body, and sends the http response to the application.</FONT></P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><FONT SIZE=3 STYLE="font-size: 13pt"><B>1.2
+Service Responses</B></FONT><BR><BR>The UMS http response message
+extension-headers contain a series of field/value pairs that indicate
+the states of the requested service. The extension-header field names
+and values are shown in the following table:</P>
+<P ALIGN=CENTER><B>Simple Messaging http Response Message
+Extension-Header Field Names and Values</B></P>
+<DIV ID="g1gg" DIR="LTR"><A NAME="f-gk"></A><A NAME="g1gg0"></A><A NAME="g1gg1"></A><CENTER>
+		<TABLE WIDTH=100% BORDER=1 BORDERCOLOR="#000000" CELLPADDING=3 CELLSPACING=0 FRAME=VOID>
+			<COL WIDTH=67*>
+			<COL WIDTH=82*>
+			<COL WIDTH=107*>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="czo22"></A><A NAME="czo24"></A><A NAME="czo23"></A>
+					Response Message Field Name</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P><A NAME="u47q0"></A><A NAME="czo26"></A><A NAME="czo25"></A><B>Response
+					Message Field Value</B></P>
+				</TD>
+				<TD WIDTH=42%>
+					<P><A NAME="u47q1"></A><A NAME="czo28"></A><A NAME="czo29"></A><A NAME="czo27"></A>
+					<B>Description</B></P>
+				</TD>
+			</TR>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="czo211"></A><A NAME="czo210"></A>
+					ums.service</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P><A NAME="czo213"></A><A NAME="czo212"></A>login_reply or
+					<BR>send_reply or <BR>receive_reply or <BR>commit_reply or
+					<BR>rollback_reply or<BR>close_reply</P>
+				</TD>
+				<TD WIDTH=42%>
+					<P><A NAME="czo215"></A><A NAME="czo216"></A><A NAME="czo214"></A>
+					The name of the response message</P>
+				</TD>
+			</TR>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="czo218"></A><A NAME="czo217"></A>
+					ums.destination</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P>JMS destination name associated with the service request 
+					</P>
+				</TD>
+				<TD WIDTH=42%>
+					<P><A NAME="czo222"></A><A NAME="czo223"></A><FONT SIZE=3>JMS
+					destination name associated with the service request.</FONT></P>
+				</TD>
+			</TR>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="czo225"></A><A NAME="czo224"></A>
+					ums.domain</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P><A NAME="czo227"></A><A NAME="czo226"></A>queue or topic</P>
+				</TD>
+				<TD WIDTH=42%>
+					<P><A NAME="v92o"></A><A NAME="v92o0"></A><A NAME="czo228"></A>JMS
+					domain associated with the service request.</P>
+				</TD>
+			</TR>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="v92o2"></A><A NAME="v92o1"></A>
+					ums.mom</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P>openmq</P>
+				</TD>
+				<TD WIDTH=42%>
+					<P ALIGN=LEFT>The JMS service provider.</P>
+				</TD>
+			</TR>
+			<TR>
+				<TD WIDTH=26%>
+					<P STYLE="margin-right: 3.28cm"><A NAME="v92o21"></A><A NAME="v92o11"></A>
+					ums.status</P>
+				</TD>
+				<TD WIDTH=32%>
+					<P><A NAME="v92o41"></A><A NAME="v92o31"></A>200 indicates the
+					request service was successful.</P>
+				</TD>
+				<TD WIDTH=42%>
+					<P ALIGN=LEFT><A NAME="vq8b1"></A>The http status code. For
+					&quot;receive&quot; service request, 404 indicates no message is
+					available.</P>
+				</TD>
+			</TR>
+			<TR>
+				<TD COLSPAN=3 WIDTH=100%></TD>
+			</TR>
+		</TABLE>
+	</CENTER>
+</DIV>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><BR><BR>The
+ums.status field (http status code) indicates the status of a service
+request. An http 200 (OK) response status code indicates successful
+completion of the requested service. All other response status codes
+indicate an error for the service request. 
+</P>
+<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%">For
+example, an http 200 (OK) response status code for a &quot;send&quot;
+service request indicates that a message has been sent successfully.
+All other response status code indicates that the message might not
+have been sent successfully. <BR><BR>If no message is available for a
+&quot;receive&quot; service request within the timeout period
+(default 7 seconds), the http response message body is set to
+empty.<BR><BR>http status codes are defined
+here:<BR>http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html</P>
+<DIV ID="tcs1" DIR="LTR">
+	<P ALIGN=LEFT STYLE="margin-bottom: 0.51cm; line-height: 100%"><A NAME="XMLMessaging using HTTP POST"></A>
+	<B>2</B><FONT SIZE=4><B>. XML Messaging using HTTP POST</B></FONT><B><BR><BR></B>The
+	http/https request/response protocol is used to request UMS
+	services. <BR><BR><FONT SIZE=3 STYLE="font-size: 13pt"><B>2.1
+	Service Requests</B></FONT></P>
+	<P ALIGN=LEFT><A NAME="DDE_LINK"></A>The http <B>POST</B> method
+	must be used for each xml request message sent to the UMS.<BR><BR>For
+	XML messaging, the default URL service request is represented as
+	follows.<BR><BR><B>http://host:port/&lt;ums-context-root&gt;/xml<BR><BR></B><SPAN STYLE="font-weight: medium">where
+	&lt;ums-context-root&gt; is the deployment context root for the UMS
+	service. The examples used in this document has the deployment
+	context root configured to /ums .</SPAN><B><BR><BR></B>Each http
+	POST request message sent to the UMS must conform to the following
+	format:<BR><BR>- The XML message must be in the SOAP message format.
+	All the XML element and attribute names defined in the document are
+	name space qualified names. The value of the name space URI must be
+	set to <B>&quot;https://mq.java.net/ums&quot;</B>. <BR><BR>- A
+	<B>MessageHeade</B>r element must be present and must be an
+	immediate child element of the SOAP header element. <BR><BR>- A
+	<B>Service</B> element must be present and must be an immediate
+	child element of the MessageHeader element. <BR><BR>The
+	MessageHeader element contains the following child elements.
+	<BR><BR><B>xmlns:tns=&quot;<A HREF="https://mq.java.net/ums">https://mq.java.net/ums</A>&quot;<BR>&lt;xsd:element
+	name=&quot;MessageHeader&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsd:complexType&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;xsd:sequence&gt;</B>
+	<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>&lt;element
+	ref=&quot;tns:Service&quot; /&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/xsd:sequence&gt;</B>
+	<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<B>&lt;attributeGroup
+	ref=&quot;tns:headerExtensionGrp&quot; /&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/xsd:complexType&gt;
+	<BR>&lt;/xsd:element&gt;<BR><BR></B>The Service element defines
+	attributes that specify the UMS service, JMS messaging domain, JMS
+	destination name, and so forth. The attributes of the Service
+	element correspond to the field/value pairs defined in the query
+	string of the Simple Messaging API:<BR><BR><B>&lt;element
+	name=&quot;Service&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;complexType&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;sid&quot; type=&quot;tns:non-empty-string&quot;
+	&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;destination&quot;
+	type=&quot;tns:non-empty-string&quot; &gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;domain&quot; type=&quot;tns:domain.type&quot;
+	/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;service&quot; type=&quot;tns:serviceAttr.type&quot;
+	use=&quot;required&quot;/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;user&quot; type=&quot;tns:non-empty-string&quot;
+	&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;password&quot; type=&quot;tns:non-empty-string&quot;
+	&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;timeout&quot; type=&quot;xsd:long&quot;
+	/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;attribute name=&quot;transacted&quot; type=&quot;xsd:boolean&quot;
+	/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	&lt;/complexType&gt;<BR>&nbsp;&nbsp;&nbsp; &lt;/element&gt;<BR><BR><BR></B>The
+	schema of an XML service request conforms to the <A HREF="message.xsd">message.xsd</A>
+	XML schema. (Note, however, that the Service element for a service
+	request does not include the &quot;status&quot; attribute.)<BR><FONT SIZE=2><BR></FONT>For
+	example, for an XML Messaging &quot;send&quot; service request, the
+	UMS service transforms the SOAP message into a JMS BytesMessage,
+	delivers it to the destination specified in the destination
+	attribute, and sends an http response to the application.<BR><BR>For
+	a XML Messaging &quot;receive&quot; service request, the UMS service
+	consumes a JMS message from the destination specified in the
+	destination attribute, transforms it from a JMS BytesMessage into a
+	SOAP message, and sends the http response to the application. <B><BR><BR></B>Any
+	(text/binary) data may be attached as SOAP attachment(s) when using
+	the XML Messaging API.<BR><BR>JMS applications may use
+	com.sun.messaging.xml.MessageTransformer utility to transform
+	between JMS and SOAP messages when connected to destinations used by
+	UMS applications. For example, a stand-alone JMS application can
+	send a SOAP message (using the MessageTransformer utility) to a JMS
+	destination. An AJAX application can receive the message from the
+	same destination in SOAP format through the UMS.<BR><BR><BR>
+	</P>
+	<P ALIGN=LEFT><FONT SIZE=3 STYLE="font-size: 13pt"><B>2.2 Service
+	Responses</B></FONT><B><BR><BR></B>The service response messages are
+	packaged in SOAP format. The attributes of the response messages are
+	set in the Service element of the response SOAP message. These
+	attributes correspond to field/value pairs of the response message
+	extension-header of the Simple Messaging API.<BR><BR>The schema of
+	the XML response message conforms to the <A HREF="message.xsd">message.xsd</A>
+	XML schema.</P>
+	<P ALIGN=LEFT>As in the case of the Simple Messaging API, the http
+	status code indicates the status of a service request. An http 200
+	(OK) response status code indicates successful completion of the
+	requested service. All other response status codes indicate an error
+	for the service request. 
+	</P>
+	<P><A NAME="Query and utility functions using HTTP GET"></A><FONT SIZE=4><B>3.
+	Query and utility functions using HTTP GET</B></FONT></P>
+	<a name="getBrokerInfo"/><P ALIGN=LEFT><FONT SIZE=3 STYLE="font-size: 13pt"><B>3.1 Obtain
+	broker information using HTTP GET (getBrokerInfo service)</B></FONT></P>
+	<P ALIGN=LEFT>This allows broker information to be obtained by
+	simply typing a URL in the browser's address bar. The output is in
+	XML format and would be displayed in the browser window. 
+	</P>
+	<P ALIGN=LEFT>The XML returned consists of a standard header element
+	followed by a body element whose contents depend on the type of
+	query being performed. The structure of the XML returned is defined
+	in the <A HREF="getBrokerInfo.html">UMS Broker Monitoring service:
+	XML output specification</A></P>
+	<P ALIGN=LEFT>At present only one type of broker information query
+	is available: getDestinations.</P>
+	<P ALIGN=LEFT><B>3.1.1 getDestinations</B></P>
+	<P ALIGN=LEFT>This allows information about the destinations in the
+	broker to be obtained. 
+	</P>
+	<P ALIGN=LEFT><I>Usage:</I></P>
+	<PRE STYLE="margin-left: 1.25cm; font-style: normal">http://&lt;host&gt;:&lt;port&gt;/&lt;ums_context&gt;/simple?service=getBrokerInfo&amp;cmd=getDestinations
+[&amp;dest-elements=&lt;elementName&gt;[,&lt;elementName&gt;]*]
+[&amp;user=&lt;user&gt;&amp;password=&lt;password&gt;]
+
+<FONT FACE="Thorndale, serif"><FONT SIZE=3>The optional parameter <FONT FACE="Cumberland, monospace"><FONT SIZE=2>dest-elements</FONT></FONT> can be used to specify a comma-separated list of destination attributes to be returned. If omitted, all destination attributes are returned.</FONT></FONT>
+
+<TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">The specified user must be a valid administration user for this function to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P STYLE="font-weight: medium">
+	<FONT FACE="Thorndale, serif"><FONT SIZE=3><I>For example:</I></FONT></FONT></P>
+	<P STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;user=admin&amp;password=admin"><BR>&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></FONT></P>
+	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm"><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Returns all attributes of each destination.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P STYLE="margin-left: 1.25cm">
+	<TT><FONT COLOR="#000080"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><U><SPAN STYLE="font-weight: medium"><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations">http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations</A><A HREF="http://localhost:8080/imqums/simple?service=getBrokerInfo&amp;cmd=getDestinations&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin"><BR>&amp;dest-elements=Name,Type,NumMsgs&amp;user=admin&amp;password=admin</A></SPAN></U></SPAN></FONT></FONT></SPAN></FONT></TT></P>
+	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm"><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Returns the attributes </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Name</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">, </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">Type</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"> </SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">and </SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">NumMsgs</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"> </SPAN></FONT></TT><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">of each destination.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P ALIGN=LEFT>
+	<FONT SIZE=3 STYLE="font-size: 13pt"><a name="getConfiguration"/><B>3.2 Obtain UMS configuration
+	information using HTTP GET (getConfiguration service)</B></FONT></P>
+	<P ALIGN=LEFT>This allows information about the UMS configuration to
+	be obtained.</P>
+	<P ALIGN=LEFT><I>Usage:</I></P>
+	<PRE STYLE="margin-left: 1.25cm"><TT>http://&lt;host&gt;:&lt;port&gt;/&lt;ums_context&gt;/simple/?service=getConfiguration</TT><TT><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-weight: medium">[&amp;user=&lt;user&gt;&amp;password=&lt;password&gt;]</SPAN></FONT></FONT></TT>
+
+<TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">The specified user must be a valid administration user for this function to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></PRE><P ALIGN=LEFT>
+	<I>For example:</I></P>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm"><FONT COLOR="#000080"><U><A HREF="http://localhost:8080/imqums/simple?service=getConfiguration&amp;user=admin&amp;password=admin">http://localhost:8080/imqums/simple?service=getConfiguration&amp;user=admin&amp;password=admin</A>
+	</U></FONT>
+	</P>
+	<P ALIGN=LEFT><I>Example output:</I></P>
+	<PRE STYLE="margin-left: 1.25cm"><CODE>&lt;ums&gt;</CODE>
+<CODE>    &lt;BrokerAddress&gt;localhost:7676&lt;/BrokerAddress&gt;</CODE>
+<CODE>    &lt;JMSAuthenticate&gt;true&lt;/JMSAuthenticate&gt;</CODE>
+<CODE>    &lt;CacheDuration&gt;420000&lt;/CacheDuration&gt;</CODE>
+<CODE>    &lt;SweepInterval&gt;120000&lt;/SweepInterval&gt;</CODE>
+<CODE>    &lt;ReceiveTimeout&gt;7000&lt;/ReceiveTimeout&gt;</CODE>
+<CODE>    &lt;MaxClientsPerConnection&gt;100&lt;/MaxClientsPerConnection&gt;</CODE>
+<CODE>&lt;/ums&gt;</CODE></PRE><P ALIGN=LEFT>
+	<FONT SIZE=3 STYLE="font-size: 13pt"><a name="debug"/><B>3.3 Configure UMS debug
+	logging using HTTP GET (debug service)</B></FONT></P>
+	<P ALIGN=LEFT>This allows debug logging in the UMS server to be
+	switched on and off. This logging is written to the application
+	server log.</P>
+	<P ALIGN=LEFT><I>Usage:</I></P>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm"><TT><FONT FACE="Cumberland, monospace"><FONT SIZE=2>http://&lt;host&gt;:&lt;port&gt;/&lt;ums_context&gt;/simple?service=debug&amp;debug=&lt;true|false&gt;</FONT></FONT></TT><TT><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-weight: medium">[&amp;user=&lt;user&gt;&amp;password=&lt;password&gt;]</SPAN></FONT></FONT></TT></P>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm"><TT><FONT COLOR="#000000"><SPAN STYLE="text-decoration: none"><FONT FACE="Thorndale, serif"><FONT SIZE=3><SPAN STYLE="font-style: normal"><SPAN STYLE="font-weight: medium">The
+	specified user must be a valid administration user for this function
+	to work successfully.</SPAN></SPAN></FONT></FONT></SPAN></FONT></TT></P>
+	<P><FONT FACE="Thorndale, serif"><FONT SIZE=3><I>For example:</I></FONT></FONT></P>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><A NAME="debugfield"></A>
+	<A HREF="http://localhost:8080/imqums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/imqums/simple?service=debug&amp;debug=true&amp;user=admin&amp;password=admin</U></FONT>
+	</A>
+	</P>
+	<P ALIGN=LEFT><I>Example output:</I></P>
+	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm; text-align: left"><TT><FONT FACE="Cumberland, monospace">service=debug, debug=true</FONT></TT></PRE><P ALIGN=LEFT>
+	<FONT SIZE=3 STYLE="font-size: 13pt"><a name="ping"/><B>3.4 Ping a broker using HTTP
+	GET (ping service)</B></FONT></P>
+	<P ALIGN=LEFT>This communicates with the broker to confirm that it
+	is running.</P>
+	<P ALIGN=LEFT><I>Usage:</I></P>
+	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm">http://&lt;host&gt;:&lt;port&gt;/&lt;ums_context&gt;/simple?service=ping<TT><FONT FACE="Cumberland, monospace"><FONT SIZE=2><SPAN STYLE="font-weight: medium">[&amp;user=&lt;user&gt;&amp;password=&lt;password&gt;]</SPAN></FONT></FONT></TT></PRE><P ALIGN=LEFT STYLE="text-decoration: none">
+	<I>For example:</I></P>
+	<P ALIGN=LEFT STYLE="margin-left: 1.25cm; margin-bottom: 0cm"><A NAME="pingfield"></A>
+	<A HREF="http://localhost:8080/imqums/simple?service=ping&amp;user=admin&amp;password=admin"><FONT COLOR="#0000ff"><U>http://localhost:8080/imqums/simple?service=ping&amp;user=admin&amp;password=admin</U></FONT></A>
+		</P>
+	<P ALIGN=LEFT><I><BR>Example output:</I></P>
+	<PRE STYLE="margin-left: 1.25cm; margin-bottom: 0.5cm; text-align: left">Broker is alive, round trip = 78 milli secs.</PRE><P ALIGN=LEFT>
+	<FONT SIZE=4><B>References:</B></FONT><BR><BR>HTTP] <A HREF="http://www.ietf.org/rfc/rfc2616.txt">Hypertext
+	Transfer Protocol -- HTTP/1.1 (http://www.ietf.org/rfc/rfc2616.txt)</A>
+	<BR>[HTTP Authentication: Basic and Digest Access Authentication<A HREF="http://www.ietf.org/rfc/rfc2616.txt">]&nbsp;
+	</A><A HREF="http://www.ietf.org/rfc/rfc2617.txt">http://www.ietf.org/rfc/rfc2617.txt</A><A HREF="http://www.ietf.org/rfc/rfc2616.txt"><BR></A>[XML]<A HREF="http://www.w3.org/TR/1998/REC-xml-19980210">
+	Extensible Markup Language (XML) 1.0
+	(http://www.w3.org/TR/1998/REC-xml-19980210)</A> <BR>[SOAP] <A HREF="http://www.w3.org/TR/SOAP/">Simple
+	Object Access Protocol (SOAP) Version 1.1
+	(http://www.w3.org/TR/SOAP/)</A> <BR>[SOAP Messages with
+	Attachments] <A HREF="http://www.w3.org/TR/SOAP-attachments">http://www.w3.org/TR/SOAP-attachments<BR></A>[javax.xml.soap
+	package] <A HREF="http://java.sun.com/javase/6/docs/api/index.html">http://java.sun.com/javase/6/docs/api/index.html</A>&nbsp;
+	<BR>[Servlet] <A HREF="http://java.sun.com/products/servlet/docs.html">http://java.sun.com/products/servlet/docs.html</A>
+	<BR>[J2EE tutorial]
+	<A HREF="http://java.sun.com/j2ee/1.4/docs/tutorial/doc/index.html">http://java.sun.com/j2ee/1.4/docs/tutorial/doc/index.html</A></P>
+</DIV>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

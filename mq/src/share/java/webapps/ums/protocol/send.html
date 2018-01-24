@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;14301200">
+	<META NAME="CHANGED" CONTENT="20081001;13383817">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P STYLE="text-decoration: none"><FONT SIZE=4><B>send</B></FONT></P>
+<P><A NAME="wfdi"></A><A NAME="krcn"></A><A NAME="DDE_LINK"></A>The
+<B>send</B> service request is an http request message sent to the
+UMS in accordance with the Simple Messaging API or the XML Messaging
+API.</P>
+<P>The <B>send</B> service request must conform to the following
+criteria:</P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=3>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TH WIDTH=50%>
+			<P>Required field/attribute values</P>
+		</TH>
+		<TH WIDTH=50%>
+			<P>Optional field/attribute values</P>
+		</TH>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>service=send</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>sid</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>destination</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>user=guest (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>password=guest (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>domain=queue (by default)</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><B>Notes</B>:</P>
+<P>The value of the destination field/attribute is the name of the
+JMS destination to which the message is to be sent.</P>
+<P>The value of the sid field/attribute is a secure token obtained
+from the previous <A HREF="http://niagra2.sfbay.sun.com:8080/ums/login_reply.html">login_reply</A>
+response. If an sid value is present, the user and password
+field/attributes are ignored by the UMS. If an sid value is not
+present, the user and password field/attributes values can be
+provided to authenticate with the JMS server, instead of using a
+<B>login</B> request. Applications use this feature when sending a
+message only occasionally. Applications would normally use the <B>login</B>
+request to achieve better performance.</P>
+<P>For the Simple Messaging API, the text message to be sent is set
+in the http request message body. The recommended encoding is<A HREF="http://en.wikipedia.org/wiki/UTF-8">
+UTF-8</A> (Content-Type: text/plain;charset=UTF-8).</P>
+<P>For the XML Messaging API, the SOAP message (and attachments) to
+be sent is set in the http request message body. The recommended
+encoding for the SOAP message is <A HREF="http://en.wikipedia.org/wiki/UTF-8">UTF-8</A>
+( Content-Type: text/xml;charset=UTF-8).</P>
+<P>Service response message: <A HREF="./send_reply.html"><B>send_reply</B></A></P>
+<P><FONT SIZE=3 STYLE="font-size: 13pt"><B>1. Simple Messaging API
+Example: </B></FONT>
+</P>
+<P>The following is a <B>send</B> service request message to UMS that
+sends a text message &ldquo;SimpleMsg_0&rdquo;.</P>
+<P>POST
+/ums/simple?service=send&amp;destination=simpleMessagingQ&amp;sid=7-LTgxMDczMTczNQ==
+HTTP/1.1 <BR>Content-Type: text/plain;charset=UTF-8 <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Accept: text/html,
+image/gif, image/jpeg, *; q=.2, */*; q=.2 <BR>Connection: keep-alive
+<BR>Content-Length: 11<BR><BR>SimpleMsg_0<B><FONT SIZE=4><BR><BR></FONT><FONT SIZE=3 STYLE="font-size: 13pt">2.
+XML Messaging API Example:</FONT></B></P>
+<P>The following is a <B>send</B> service request message to UMS that
+sends an XML message with an attachment.</P>
+<P>POST /ums/xml HTTP/1.1 <B><FONT SIZE=4><BR></FONT></B>Accept:
+text/xml, text/html, image/gif, image/jpeg, *; q=.2, */*; q=.2
+<BR>Content-Type: multipart/related; type=&quot;text/xml&quot;;
+boundary=&quot;----=_Part_1_2012387303.1220391528720&quot;
+<BR>Content-Length: 718 <BR>SOAPAction: &quot;&quot; <BR>Cache-Control:
+no-cache <BR>Pragma: no-cache <BR>User-Agent: Java/1.6.0_07 <BR>Host:
+localhost:8888 <BR>Connection: keep-alive
+<BR><BR>------=_Part_1_2012387303.1220391528720 <BR><BR>Content-Type:
+text/xml; charset=utf-8 <BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;<A HREF="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</A>&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;send&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:destination=&quot;XMLmessagingQ&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:domain=&quot;queue&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:sid=&quot;7-LTgxMDczMTczNQ==
+&quot;/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&lt;SOAP-ENV:Body&gt;&lt;bodyvalue&gt;1220391528456&lt;/bodyvalue&gt;&lt;/SOAP-ENV:Body&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;
+<BR>------=_Part_1_2012387303.1220391528720 <BR><BR>Content-Type:
+text/plain <BR><BR>attached msg-Tue Sep 02 14:38:48 PDT
+2008-1220391528714 <BR>------=_Part_1_2012387303.1220391528720--<BR><BR><A HREF="./protocol.html">Back
+to UMS protocol page.</A></P>
+</BODY>
+</HTML>

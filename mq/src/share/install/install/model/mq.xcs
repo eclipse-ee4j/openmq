@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<oor:component-schema oor:version="1.1" oor:name="mq" oor:package="com.sun.jes.mq"
+ xsi:schemaLocation="http://openoffice.org/2001/registry"
+ xmlns:xs="http://www.w3.org/2001/XMLSchema"
+ xmlns:oor="http://openoffice.org/2001/registry"
+ xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+ xmlns:if="http://openinstaller.org/config/V1"
+ xml:lang='en-US'>
+<!--
+
+    Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+ <component>
+     <group oor:name="Unused">
+	<prop oor:name="IMQ_SELECTED_JDK" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:JDKSelection:directory:SELECTED_JDK]"></value>
+           <info>
+             <desc xml:lang="en-US">Reference to JDK selected from JDKSelection page</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="IMQ_INSTALL_HOME" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:InstallHome:directory:INSTALL_HOME]"></value>
+           <info>
+             <desc xml:lang="en-US">Reference to InstallHome selected from InstallHome page</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_REG_OPTION" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:RegistrationOptions:regoptions:REGISTRATION_MODE]"></value>
+           <info>
+             <desc xml:lang="en-US">Registration option</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_SOA_USERNAME" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:RegistrationOptions:regoptions:USERNAME]"></value>
+           <info>
+             <desc xml:lang="en-US">Registration option</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_SOA_PASSWORD" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:RegistrationOptions:regoptions:PASSWORD]"></value>
+           <info>
+             <desc xml:lang="en-US">Registration option</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_CREATE_SOA_EMAIL" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:CreateSOA:userinfo:EMAIL]"></value>
+           <info>
+             <desc xml:lang="en-US">Email Address</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_CREATE_SOA_PASSWORD" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:CreateSOA:userinfo:PASSWORD]"></value>
+           <info>
+             <desc xml:lang="en-US">Password</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_CREATE_SOA_FIRSTNAME" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:CreateSOA:userinfo:FIRSTNAME]"></value>
+           <info>
+             <desc xml:lang="en-US">First Name</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_CREATE_SOA_LASTNAME" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:CreateSOA:userinfo:LASTNAME]"></value>
+           <info>
+             <desc xml:lang="en-US">Last Name</desc>
+           </info>
+        </prop>
+
+	<prop oor:name="MQ_CREATE_SOA_COUNTRY" oor:type="xs:string" oor:transient="true">
+           <value if:eval=":[component:CreateSOA:userinfo:COUNTRY]"></value>
+           <info>
+             <desc xml:lang="en-US">Country</desc>
+           </info>
+        </prop>
+
+    </group>
+ </component>
+</oor:component-schema>

@@ -1,0 +1,13 @@
+
+visualvm/**/**.java
+com/sun/messaging/jmq/installer/MQInstallerWrapper.java
+
+com/sun/messaging/jmq/jmsserver/management/jesmf/**/**.java
+com/sun/messaging/jmq/jmsserver/audit/BSMAuditSession.java
+examples/**/**.java
+
+com/sun/messaging/jmq/jmsserver/persist/coherence/**/**.java
+com/sun/messaging/jmq/jmsserver/cores/impl/**/**.java
+com/sun/messaging/jmq/jmsserver/persist/bdb/**/**.java
+com/sun/messaging/jmq/jmsserver/plugin/impl/msgpattern/**/**.java
+

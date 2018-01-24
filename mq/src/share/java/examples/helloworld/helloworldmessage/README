@@ -1,0 +1,51 @@
+================================================================================
+@(#)README	1.7 03/22/05
+================================================================================
+
+HelloWorldMessage example
+
+Description
+-----------
+This example is a simple JMS client application. It is the companion
+example to the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server 
+Message Queue Developer's Guide. This application sends and receives a 
+"Hello World" message via a Queue destination. This example does not 
+use JNDI to lookup administered objects.
+
+Files
+-----
+HelloWorldMessage.java	Source file for this example.
+*.class			Prebuilt Java class files for this example.
+README			This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac HelloWorldMessage.java
+
+Running the example
+-------------------
+Run the following:
+
+    java HelloWorldMessage
+
+You should see the following output:
+
+    Sending Message: Hello World
+    Read Message: Hello World
+

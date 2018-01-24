@@ -1,0 +1,124 @@
+
+selector examples
+----------------------
+
+Description
+-----------
+This example illustrates how to write an application the use of 
+JMS2.0 simplified API to create a message selector on a non-durable topic subscription.  
+
+Some basic info on this example:
+
+- The program consists of one publisher and several subscribers.
+  Each subscriber uses a message selector to receive a subset of the
+  messages sent by the publisher.
+- Start SelectorConsumerExample before starting the producer SelectorProducerExample
+  since a topic subscription will not receive messages which were sent to the 
+  topic before the subscription
+  was created.
+
+Files
+-----
+SelectorConsumerExample.java           Source file for this example.
+SelectorProducerExample.java           Source file for this example.
+*.class                 	       Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac SelectorConsumerExample.java
+    javac SelectorProducerExample.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java SelectorConsumerExample <topic_name>
+
+Run the following command on another terminal:
+
+   java SelectorProducerExample <topic_name>
+
+The output of SelectorConsumerExample looks like this:
+
+java SelectorConsumerExample selectortopic
+
+Topic name is selectortopic
+SUBSCRIBER 1 THREAD: selector is "NewsType = 'Business' OR NewsType = 'Finished'"
+SUBSCRIBER 3 THREAD: selector is "NewsType = 'Living/Arts' OR NewsType = 'Finished'"
+SUBSCRIBER 2 THREAD: selector is "NewsType = 'Sports' OR NewsType = 'Finished'"
+SUBSCRIBER 1 THREAD: Message received: Item 5: Business
+SUBSCRIBER 1 THREAD: Message received: Item 7: Business
+SUBSCRIBER 2 THREAD: Message received: Item 8: Sports
+SUBSCRIBER 1 THREAD: Message received: Item 13: Business
+SUBSCRIBER 3 THREAD: Message received: Item 14: Living/Arts
+SUBSCRIBER 2 THREAD: Message received: Item 20: Sports
+SUBSCRIBER 3 THREAD: Message received: Item 22: Living/Arts
+SUBSCRIBER 1 THREAD: Message received: Item 24: Business
+SUBSCRIBER 3 THREAD: Message received: Item 25: Living/Arts
+SUBSCRIBER 3 THREAD: Message received: Item 28: Living/Arts
+SUBSCRIBER 3 THREAD: Message received: Item 29: Living/Arts
+SUBSCRIBER 1 THREAD: Message received: That's all the news for today.
+SUBSCRIBER 1 THREAD: Received finished-publishing message
+SUBSCRIBER 2 THREAD: Message received: That's all the news for today.
+SUBSCRIBER 2 THREAD: Received finished-publishing message
+SUBSCRIBER 3 THREAD: Message received: That's all the news for today.
+SUBSCRIBER 3 THREAD: Received finished-publishing message
+
+The output of SelectorProducerExample looks like this:
+
+java SelectorProducerExample selectortopic
+
+Topic name is selectortopic
+PUBLISHER THREAD: Setting message text to: Item 0: Metro/Region
+PUBLISHER THREAD: Setting message text to: Item 1: Metro/Region
+PUBLISHER THREAD: Setting message text to: Item 2: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 3: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 4: Metro/Region
+PUBLISHER THREAD: Setting message text to: Item 5: Business
+PUBLISHER THREAD: Setting message text to: Item 6: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 7: Business
+PUBLISHER THREAD: Setting message text to: Item 8: Sports
+PUBLISHER THREAD: Setting message text to: Item 9: Opinion
+PUBLISHER THREAD: Setting message text to: Item 10: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 11: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 12: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 13: Business
+PUBLISHER THREAD: Setting message text to: Item 14: Living/Arts
+PUBLISHER THREAD: Setting message text to: Item 15: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 16: Opinion
+PUBLISHER THREAD: Setting message text to: Item 17: Metro/Region
+PUBLISHER THREAD: Setting message text to: Item 18: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 19: Metro/Region
+PUBLISHER THREAD: Setting message text to: Item 20: Sports
+PUBLISHER THREAD: Setting message text to: Item 21: Opinion
+PUBLISHER THREAD: Setting message text to: Item 22: Living/Arts
+PUBLISHER THREAD: Setting message text to: Item 23: Opinion
+PUBLISHER THREAD: Setting message text to: Item 24: Business
+PUBLISHER THREAD: Setting message text to: Item 25: Living/Arts
+PUBLISHER THREAD: Setting message text to: Item 26: Opinion
+PUBLISHER THREAD: Setting message text to: Item 27: Nation/World
+PUBLISHER THREAD: Setting message text to: Item 28: Living/Arts
+PUBLISHER THREAD: Setting message text to: Item 29: Living/Arts
+PUBLISHER THREAD: Setting message text to: That's all the news for today.

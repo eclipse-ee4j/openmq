@@ -1,0 +1,120 @@
+
+syncqueue example
+-------------------
+
+Description
+-----------
+This example illustrates how to write an application that uses a
+JMS2.0 simplified API to send object messages and synchronously receive 
+messages to/from queue. It also illustrates the usage of method 
+receiveBody(Class<T> c, long timeout) in JMS application.
+
+Some basic info on this example:
+
+- SendObjectMsgsToQueue.class sends object messages to the particular queue specified 
+  and displays the messages sent.
+- SyncQueueConsumer.class receives messages synchronously from the particular queue specified.
+- MyObject.class is used by SendObjectMsgsToQueue.class to send object messages.
+
+Files
+-----
+SyncQueueConsumer.java            Source file for this example.
+SendObjectMsgsToQueue.java        Source file for this example.
+MyObject.java                     Source file for this example
+*.class                 	  Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac MyObject.java	
+    javac SyncQueueConsumer.java
+    javac SendObjectMsgsToQueue.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java SendObjectMsgsToQueue <queue_name> [<number_of_messages>]
+
+Run the following command on another terminal:
+
+   java SyncQueueConsumer <queue_name> [<number_of_messages>]
+  
+
+The output of SendObjectMsgsToQueue looks like this:
+
+java SendObjectMsgsToQueue test1 20
+
+Queue name is test1
+Created jms context successfully
+Created queue successfully
+Message sent : 1
+Message sent : 2
+Message sent : 3
+Message sent : 4
+Message sent : 5
+Message sent : 6
+Message sent : 7
+Message sent : 8
+Message sent : 9
+Message sent : 10
+Message sent : 11
+Message sent : 12
+Message sent : 13
+Message sent : 14
+Message sent : 15
+Message sent : 16
+Message sent : 17
+Message sent : 18
+Message sent : 19
+Message sent : 20
+
+The output of SyncQueueConsumer looks like this:
+
+java SyncQueueConsumer test1 20
+
+Queue name is test1
+Created jms context successfully
+Created queue successfully
+Message Received : 1
+Message Received : 2
+Message Received : 3
+Message Received : 4
+Message Received : 5
+Message Received : 6
+Message Received : 7
+Message Received : 8
+Message Received : 9
+Message Received : 10
+Message Received : 11
+Message Received : 12
+Message Received : 13
+Message Received : 14
+Message Received : 15
+Message Received : 16
+Message Received : 17
+Message Received : 18
+Message Received : 19
+Message Received : 20
+

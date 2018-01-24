@@ -1,0 +1,35 @@
+@(#)README	1.0 10/10/08
+
+UMS Examples
+------------
+
+This README file describes the different categories of 
+UMS examples found in the directories listed below.
+
+Before you can run the examples, you must first deploy
+the UMS web service's WAR file to a web container.
+For additional information, see Configuring the UMS
+(https://mq.java.net/4.3-content/ums/config.html).
+
+
+Directory     Description
+---------     -----------
+ajax          Contains sample programs that demonstrate how to
+              create Ajax clients that use UMS APIs
+              to send and receive messages.
+
+csharp        Contains sample programs that demonstrate how to
+              create C# .NET clients that use UMS APIs
+              to send and receive messages.
+
+python        Contains sample programs that demonstrate how to
+              create Python clients that use UMS APIs
+              to send and receive messages.
+
+ruby          Contains sample programs that demonstrate how to
+              create Ruby clients that use UMS APIs
+              to send and receive messages.
+              
+get           Contains sample HTML files that demonstrate how to
+              construct simple HTTP GET operations that 
+              perform simple utility operations

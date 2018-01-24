@@ -1,0 +1,6 @@
+JMS Bridge Examples
+-------------------
+
+Directory     Description
+---------     -----------
+mqtomq        An example of JMS Bridge that bridges 2 MQ brokers

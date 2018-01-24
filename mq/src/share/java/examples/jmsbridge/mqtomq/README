@@ -1,0 +1,54 @@
+A JMS Bridge Example that Bridges Two MQ Brokers
+------------------------------------------------
+
+This example bridges a MQ broker running on localhost:7676 to another 
+MQ broker running on localhost:7677.  It has 1 transacted link:
+
+localhost:7676 myqueue7676 --> myqueue7677 localhost:7677
+
+To change the example to use a non-transacted link, in following step #1
+for imqobjmgr, change type 'xcf' to 'cf' and add attribute transacted="false"
+to the link element in the jmsbridge.xml
+
+
+1. Create a XAConnectionFactory administrative object
+
+   imqobjmgr add -t xcf -l cn=CF7677 -o "imqAddressList=localhost:7677"  
+                 -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory" 
+                 -j "java.naming.provider.url=file:///<jndi-store-directory>"
+
+   where <jndi-store-directory> is any directory for storing the created JNDI object,
+   which should be same as the java.naming.provider.url in the example jmsbridge.xml.
+
+   [On Windows, change the java.naming.provider.url string accordingly] 
+
+2. Start a broker on localhost:7677 
+
+   imqbrokerd -port 7677 -tty
+
+3. Start a broker on localhost:7676 with following broker properties set
+
+   imq.bridge.enabled=true 
+   imq.bridge.activelist=mqtomq
+   imq.bridge.admin.user=admin
+   imq.bridge.mqtomq.type=jms 
+   imq.bridge.mqtomq.xmlurl=file:///<this-directory>/jmsbridge.xml 
+
+   [On Windows, change the xmlurl string and java.naming.provider.url string
+    in jmsbridge.xml accordingly] 
+
+   imqbrokerd -port 7676 -passfile <this-directory>/passfile 
+              -Djava.util.logging.config.file=<this-directory>/logging.properties -tty
+
+   [This will start the JMS Bridge 'mqtomq' in the broker]
+
+4. Send some messages using any MQ client to Queue myqueue7676 on broker localhost:7676
+
+5. Run any MQ client to receive the messages from Queue myqueue7677 by connecting broker localhost:7677
+   or 
+
+   imqcmd list dst -b localhost:7677
+
+   to see the messages transferred from localhost:7676
+
+

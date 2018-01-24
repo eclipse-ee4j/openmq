@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<!--
+    DTD for a simple "slide show".
+-->
+
+<!ELEMENT slideshow (slide+)>
+<!ATTLIST slideshow 
+            title    CDATA    #REQUIRED
+            date     CDATA    #IMPLIED
+            author   CDATA    "unknown"
+>
+<!ELEMENT slide (image?, title, item*)>
+<!ATTLIST slide 
+            type   (tech | exec | all) #IMPLIED
+>
+<!ELEMENT title (#PCDATA)>
+<!ELEMENT item (#PCDATA | item)* >
+<!ELEMENT image EMPTY>
+<!ATTLIST image 
+            alt    CDATA    #IMPLIED
+            src    CDATA    #REQUIRED
+            type   CDATA    "image/gif"
+>
+
+

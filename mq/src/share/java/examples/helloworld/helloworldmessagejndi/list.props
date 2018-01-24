@@ -1,0 +1,49 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Distribution License v. 1.0, which is available at
+# http://www.eclipse.org/org/documents/edl-v10.php.
+#
+# SPDX-License-Identifier: BSD-3-Clause
+#
+
+#############################################################################
+# 
+# This imqobjmgr command file can be used to list MQ objects
+# where
+#     Provider URL = C:/Temp on windows or /tmp on Unix
+#     (the relevant lines need to be commented/uncommented)
+#
+# This command file is used by running:
+#  imqobjmgr -i <command file>
+#
+# The more verbose imqobjmgr command that performs the equivalent
+# action is:
+#  imqobjmgr list
+#	-j java.naming.provider.url=file:///Temp
+#	-j java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory
+#
+
+#
+# Command file version number
+#
+version=2.0
+
+#
+# Command type
+#
+cmdtype=list
+
+#
+# Object store attributes:
+# JNDI initial factory
+#
+objstore.attrs.java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory
+#
+# JNDI provider URL
+# For Windows systems
+objstore.attrs.java.naming.provider.url=file:///C:/Temp
+#
+# For Unix systems
+#objstore.attrs.java.naming.provider.url=file:///tmp

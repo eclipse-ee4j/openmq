@@ -1,0 +1,132 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 2.3  (Unix)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;14301200">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+	<META NAME="CHANGED" CONTENT="20081010;13524500">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><FONT SIZE=4><B>receive</B></FONT></P>
+<P><A NAME="wfdi"></A><A NAME="krcn"></A>The <B>receive</B> service
+request is an http request message sent to the UMS in accordance with
+the Simple Messaging API or the XML Messaging API.</P>
+<P>The <B>receive</B> request must conform to the following criteria:</P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=3>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TH WIDTH=50%>
+			<P>Required field/attribute values</P>
+		</TH>
+		<TH WIDTH=50%>
+			<P>Optional field/attribute values</P>
+		</TH>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>service=receive</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>sid</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>destination</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>user=guest (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>password=guest (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>domain=queue (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>timeout (default is set to 7000 milli seconds)</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><B>Notes</B>:<BR><BR>The value of the destination
+field/attribute is the mane of the JMS destination from which the
+message is to be received.</P>
+<P>The value of the sid field/attribute is a secure token obtained
+from the previous <A HREF="http://niagra2.sfbay.sun.com:8080/ums/login_reply.html">login_reply</A>
+response. If an sid value is present, the user and password
+field/attributes are ignored by UMS service. If a value is not
+present, the user and password field/attributes values can be
+provided to authenticate with JMS server, instead of using a <B>login</B>
+request. Applications use this feature when receiving a message only
+occasionally. Applications would normally use the <B>login</B>
+request to achieve better performance.</P>
+<P><B>Service response message: <A HREF="receive_reply.html">receive_reply</A></B></P>
+<P><FONT SIZE=3 STYLE="font-size: 13pt"><B>1. Simple Messaging API
+Example: </B></FONT>
+</P>
+<P>The following is a <B>receive</B> request message to UMS.</P>
+<P>POST
+/ums/simple?service=receive&amp;destination=simpleMessagingQ&amp;sid=6-LTgxMDczMTczNQ==
+HTTP/1.1 <BR>Content-Type: text/plain;charset=UTF-8 <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Accept: text/html,
+image/gif, image/jpeg, *; q=.2, */*; q=.2 <BR>Connection: keep-alive
+<BR>Content-Length: 0 <FONT SIZE=4><B><BR><BR></B></FONT><FONT SIZE=3 STYLE="font-size: 13pt"><B>2.
+XML Messaging API Example:</B></FONT></P>
+<P>POST /ums/xml HTTP/1.1 <BR>Accept: text/xml, text/html, image/gif,
+image/jpeg, *; q=.2, */*; q=.2 <BR>Content-Type: text/xml;
+charset=utf-8 <BR>Content-Length: 439 <BR>SOAPAction: &quot;&quot;
+<BR>Cache-Control: no-cache <BR>Pragma: no-cache <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Connection: keep-alive
+<BR><BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;<A HREF="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</A>&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;receive&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:destination=&quot;XMLmessagingQ&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:domain=&quot;queue&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:sid=&quot;6-LTgxMDczMTczNQ==
+”<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:timeout=&quot;30000”/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&lt;SOAP-ENV:Body/&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;<BR><BR><A HREF="protocol.html">Back
+to UMS protocol page.</A></P>
+</BODY>
+</HTML>

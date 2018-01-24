@@ -1,0 +1,133 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+#---------------------------------------------------------------------
+#
+# This file is an example of a passfile.
+#
+# A passfile is used to store passwords so that the same passwords
+# do not have to be entered on the command line or as an interactive
+# response to a system prompt for a password.
+#
+# Note that directly entering a password on the command line has been
+# removed beginning with the MQ 4.0 release.
+#
+# i.e. the use of the -p or -password option is removed
+#
+# e.g.
+# % imqcmd ............. -u <username> -p <password>
+# 
+# The above command line operation no longer accepts the -p option.
+# However, the -passfile option can be used in it's place as shown below.
+#
+# e.g.
+# % imqcmd ............. -u <username> -passfile <password_filename>
+# 
+# 
+# After you add password(s) to a passfile,  you should run
+#
+# imqusermgr encode -src <original-passfile> -target <new-passfile> 
+#
+# to encode the password(s) in the passfile and save the <new-passfile>
+# for MQ command line use.  The <new-passfile> is not encrypted, so you
+# should set the file permissions to protected it from unauthorized access.
+# Alternatively, when you interactively enter a command you can let the 
+# system prompt you for a password. 
+#
+# The following passwords can be stored in a passfile --
+# 
+#   o keystore password
+#   o LDAP repository password
+#   o JDBC database password
+#   o imqcmd password
+#   o broker bridge service manager administrator password
+#
+#
+# Using a passfile
+# ----------------
+#
+# A passfile is used in the following cases --
+# 
+#   o By the broker when the broker is configured to do so.
+#
+#   o By a MQ command when the -passfile option is specified
+#
+#
+# To configure the broker to use a passfile, do one of the following: 
+#
+#    o Set the following properties in the broker config.properties file:
+#          imq.passfile.enabled=true
+#          imq.passfile.dirpath=<directory of the file e.g. ${imq.etchome}>
+#          imq.passfile.name=<name of the passfile>
+# 
+#    o Use the -passfile option of the broker:  
+#	   imqbrokerd -passfile <full name of the encoded passfile>
+#
+#
+#
+#
+# A passfile can contain the following passwords: 
+#
+#       imq.keystore.password
+#                - Opens the SSL keystore  
+# 
+#       imq.user_repository.ldap.password
+#                - Used to connect securely with an LDAP
+#                  directory if the connection is not anonymous
+# 
+#       imq.persist.jdbc.password
+#                - Used to connect with a JDBC database
+#              
+#       imq.imqcmd.password
+#                - Used to perform broker administration tasks
+#                  using imqcmd
+#
+#       imq.bridge.admin.password
+#                - Used by the broker's bridge service manager
+#
+#
+# You add password in name=value format to a passfile, for example:
+#
+#       imq.keystore.password=<keystore password>
+#       imq.user_repository.ldap.password=<ldap user repository password>
+#       imq.persist.jdbc.password=<jdbc password>
+#       imq.imqcmd.password=<administrator password>
+#       imq.bridge.admin.password=<administrator password for bridge service manager>
+#
+# 
+#---------------------------------------------------------------------
+# The keystore password when the broker is configured to use SSL.
+# A dummy password has been configured as an example.
+#
+
+imq.keystore.password=mypassword
+
+#
+#---------------------------------------------------------------------
+# The administration password for broker administration tasks using imqcmd
+# A dummy password has been configured as an example
+# 
+
+imq.imqcmd.password=myadminpassword
+
+#
+# Note: imqcmd is a remote administration tool. A passfile used by 
+# the broker can also be used by imqcmd only if it is accessible 
+# from where imqcmd is executed. This may not be possible if imqcmd 
+# is run from a machine that is remote relative to the broker.
+#
+#---------------------------------------------------------------------
+#

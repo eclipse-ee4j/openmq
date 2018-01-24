@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<FindBugsFilter>
+
+    <Match>
+      <Or>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceForMC"/>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceForRA"/>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceImpl"/>
+      </Or>
+        <method name="isNoFlags" params="int" returns="boolean"/>
+        <Bug pattern="BIT_AND_ZZ"/>
+    </Match>
+    
+    <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.SessionQueue"/>
+        <Method name="isEmpty"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH"/>
+    </Match>
+    
+    <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.ValueConvert"/>
+        <Method name="toDouble"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH"/>
+    </Match>
+    
+    <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.ValueConvert"/>
+        <Method name="toFloat"/>
+        <Bug pattern="NP_NULL_ON_SOME_PATH"/>
+    </Match>
+
+     <Match>
+         <Class name="com.sun.messaging.jmq.jmsclient.ValueConvert"/>
+         <Method name="toByte"/>
+         <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+     </Match>
+ 
+     <Match>
+         <Class name="com.sun.messaging.jmq.jmsclient.ValueConvert"/>
+         <Method name="toShort"/>
+         <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+     </Match>
+ 
+     <Match>
+         <Class name="com.sun.messaging.jmq.jmsclient.ValueConvert"/>
+         <Method name="toInt"/>
+         <Bug pattern="NP_NULL_PARAM_DEREF_NONVIRTUAL"/>
+     </Match>
+
+    <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceForMC"/>
+        <Method name="printXid"/>
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY"/>
+    </Match>                
+
+     <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceForRA"/>
+        <Method name="printXid"/>
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY"/>
+    </Match> 
+
+     <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceImpl"/>
+        <Method name="printXid"/>
+        <Bug pattern="DMI_INVOKING_TOSTRING_ON_ARRAY"/>
+    </Match> 
+
+    <!--
+      no match to reported condition at line 353
+      -->
+    <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.XAResourceImpl"/>
+        <Method name="commit"/>
+        <Bug pattern="UC_USELESS_CONDITION"/>
+    </Match> 
+    
+     <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.ReadChannel"/>
+        <Method name="setLoggingConfig"/>
+        <Bug pattern="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE"/>
+    </Match> 
+    
+     <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.ReadChannel"/>
+        <Method name="setLoggingConfig"/>
+        <Bug pattern="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE"/>
+    </Match>   
+    
+    <Match>
+      <Or>
+        <Class name="com.sun.messaging.jmq.jmsclient.MQAddress"/>
+        <Class name="com.sun.messaging.jmq.jmsclient.MQAddressList"/>    
+	<Class name="com.sun.messaging.jms.IllegalStateException"/>
+        <Class name="com.sun.messaging.jms.InvalidClientIDException"/>
+
+        <Class name="com.sun.messaging.jms.InvalidDestinationException"/>
+        <Class name="com.sun.messaging.jms.InvalidSelectorException"/>
+        <Class name="com.sun.messaging.jms.JMSException"/>
+        <Class name="com.sun.messaging.jms.JMSSecurityException"/>
+
+        <Class name="com.sun.messaging.jms.MessageEOFException"/>
+        <Class name="com.sun.messaging.jms.MessageFormatException"/>
+        <Class name="com.sun.messaging.jms.MessageNotReadableException"/>
+        <Class name="com.sun.messaging.jms.MessageNotWriteableException"/>
+        <Class name="com.sun.messaging.jms.ResourceAllocationException"/>
+        <Class name="com.sun.messaging.jms.TransactionInProgressException"/>
+        <Class name="com.sun.messaging.jms.TransactionRolledBackException"/>
+
+      </Or>
+      <Bug pattern="NM_SAME_SIMPLE_NAME_AS_SUPERCLASS"/>
+    </Match> 
+    
+     <Match>
+        <Class name="com.sun.messaging.jmq.jmsclient.ReadChannel"/>
+        <Method name="setLoggingConfig"/>
+        <Bug pattern="LG_LOST_LOGGER_DUE_TO_WEAK_REFERENCE"/>
+    </Match>            
+    
+    
+</FindBugsFilter>

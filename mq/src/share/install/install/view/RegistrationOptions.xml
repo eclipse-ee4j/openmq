@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="RegistrationOptions" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="RegistrationOptions" apt:label="Registration Options" >
+
+    <apt:page apt:name="RegistrationOptionsPage" apt:label="Registration Options" >
+
+      <apt:section apt:name="regoptions" apt:label="Registration Options" >
+
+        <apt:property apt:name="REGISTRATION_OPTIONS_TEXT1" apt:dataPath="" apt:type="xs:string">
+	<apt:prop-value>$REGISTRATION_TEXT1</apt:prop-value>
+	    <apt:visual>
+	        <apt:htmlPanel/>
+	    </apt:visual>
+        </apt:property>
+
+	<apt:property apt:name="CREATE_ACCT" 
+	        apt:label="" 
+		apt:dataPath="regoptions.CREATE_ACCT" 
+		apt:type="xs:string">
+
+            <apt:visual>
+                <apt:radioButtons apt:toolTip=""/>
+            </apt:visual>
+
+	    <apt:constraints>
+	        <apt:enumeration 
+		    apt:value="CREATE_ACCT" 
+		    apt:label="$CREATE_ACCT_LABEL"/>
+            </apt:constraints>
+
+	    <apt:scriptHandler apt:scriptLanguage="beanshell" >
+		<apt:scriptCode><![CDATA[
+import java.lang.String;
+import java.util.List;
+import org.openinstaller.provider.conf.ConfigHelper;
+
+theAL = new ActionListener() {
+    actionPerformed(e) {
+	setRegOption("CREATE_ACCT");
+        handleUsernamePasswdFields();
+    }
+};
+return theAL;
+		]]></apt:scriptCode>
+	    </apt:scriptHandler>
+        </apt:property>
+
+	<apt:property apt:name="USE_ACCT" 
+	        apt:label="" 
+		apt:dataPath="regoptions.USE_ACCT" 
+		apt:type="xs:string">
+
+            <apt:visual>
+                <apt:radioButtons apt:toolTip=""/>
+            </apt:visual>
+
+	    <apt:constraints>
+	        <apt:enumeration 
+		    apt:value="USE_ACCT" 
+		    apt:label="$USE_ACCT_LABEL"/>
+            </apt:constraints>
+
+	    <apt:scriptHandler apt:scriptLanguage="beanshell" >
+		<apt:scriptCode><![CDATA[
+import java.lang.String;
+import java.util.List;
+import org.openinstaller.provider.conf.ConfigHelper;
+
+theAL = new ActionListener() {
+    actionPerformed(e) {
+	setRegOption("USE_ACCT");
+        handleUsernamePasswdFields();
+    }
+};
+return theAL;
+		]]></apt:scriptCode>
+	    </apt:scriptHandler>
+
+
+        </apt:property>
+
+        <apt:property apt:name="USERNAME" apt:label="$USER_NAME_LABEL"
+                apt:dataPath="regoptions.USERNAME"
+                apt:type="xs:string">
+	  <apt:visual>
+	    <apt:textField apt:columns="15" apt:toolTip="$USER_NAME_LABEL"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="PASSWORD" apt:label="$USER_PASSWORD_LABEL"
+                      apt:dataPath="regoptions.PASSWORD"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:password apt:columns="15" apt:toolTip="$USER_PASSWORD_LABEL"/>
+	  </apt:visual>
+        </apt:property>
+
+	<apt:property apt:name="SKIP_REG" 
+	        apt:label="" 
+		apt:dataPath="regoptions.SKIP_REG" 
+		apt:type="xs:string">
+
+            <apt:visual>
+                <apt:radioButtons apt:toolTip=""/>
+            </apt:visual>
+
+	    <apt:constraints>
+	        <apt:enumeration 
+		    apt:value="SKIP_REG" 
+		    apt:label="$SKIP_REG_LABEL"/>
+            </apt:constraints>
+
+	    <apt:scriptHandler apt:scriptLanguage="beanshell" >
+		<apt:scriptCode><![CDATA[
+import java.lang.String;
+import java.util.List;
+import org.openinstaller.provider.conf.ConfigHelper;
+
+theAL = new ActionListener() {
+    actionPerformed(e) {
+	setRegOption("SKIP_REG");
+        handleUsernamePasswdFields();
+    }
+};
+return theAL;
+		]]></apt:scriptCode>
+	    </apt:scriptHandler>
+        </apt:property>
+
+
+        <apt:property apt:name="DUMMY_PROP" apt:label=""
+                      apt:dataPath="regoptions.DUMMY_PROP"
+                      apt:type="xs:string">
+	  <apt:prop-value></apt:prop-value>
+	  <apt:visual>
+	    <apt:textField/>
+	  </apt:visual>
+        </apt:property>
+
+      </apt:section>
+
+  <apt:scriptHandler apt:scriptLanguage="beanshell" >
+  <apt:scriptCode><![CDATA[
+  import java.lang.String;
+  import java.util.List;
+  import java.util.HashMap;
+  import java.util.Properties;
+  import java.io.*;
+  import org.openinstaller.provider.conf.ConfigHelper;
+
+
+    getComponentByName(aParent, aName) {
+      if (aParent == null || ! (aParent instanceof Container)) {
+        return null;
+      }
+      Component[] theComponents = ((Container)aParent).getComponents();
+      for (Component theComp : theComponents) {
+        if (aName.equals(theComp.getName())) {
+          return theComp;
+        }
+      }
+      for (Component theComp : theComponents) {
+        if (theComp instanceof Container) {
+          Object theCompo = getComponentByName((Container) theComp, aName);
+          if (theCompo != null) {
+            return theCompo;
+          }
+        }
+      }
+      return null;
+    }
+
+    setRegOption(String s)  {
+        ConfigHelper.setValue("RegistrationOptions.regoptions.REGISTRATION_MODE", s);
+
+	List activeModes = (List)ConfigHelper.getValue("PageFlow.Mode.ACTIVE_MODES_LIST");
+
+	if (activeModes.contains("CREATE_ACCT"))  {
+	    activeModes.remove("CREATE_ACCT");
+	}
+	if (activeModes.contains("SKIP_REG"))  {
+	    activeModes.remove("SKIP_REG");
+	}
+	if (activeModes.contains("USE_ACCT"))  {
+	    activeModes.remove("USE_ACCT");
+	}
+
+	activeModes.add(s);
+
+	ConfigHelper.setValue("PageFlow.Mode.ACTIVE_MODES_LIST", activeModes);
+    }
+
+    getRegOption()  {
+	String regOption = 
+	    (String)ConfigHelper.getValue("RegistrationOptions.regoptions.REGISTRATION_MODE");
+
+	return (regOption);
+    }
+
+    handleUsernamePasswdFields()  {
+	String regOption = getRegOption();
+
+        usernameTF = getComponentByName(content, "USERNAME");
+        passwdTF = getComponentByName(content, "PASSWORD");
+
+	if ((regOption != null) && regOption.equals("USE_ACCT"))  {
+           usernameTF.setEnabled(true);
+           passwdTF.setEnabled(true);
+	} else  {
+           usernameTF.setEnabled(false);
+           passwdTF.setEnabled(false);
+	}
+    }
+
+    checkNullEmptyValue(prop)  {
+	String inputStatus = (String)ConfigHelper.getValue("RegistrationOptions.regoptions.STATUS");
+
+	/*
+	 * If the error status is already set, don't do the check again. One error dialog
+	 * is enough. If there are 5 fields on the form and the user didn't fill in any of 
+	 * them, we don't need to show 5 popups.
+	 */
+	if ((inputStatus != null) && (inputStatus.equals("ERROR")))  {
+	    return;
+	}
+
+	String myValue = (String)prop.getUnconfirmedValue();
+	if ((myValue == null) || myValue.equals("")) {
+            ConfigHelper.setValue("RegistrationOptions.regoptions.STATUS", "ERROR");
+	    throw new EnhancedException("NULL_OR_EMPTY_VALUE", new String[]{});
+	}
+    }
+
+
+    run() {
+      // Group the 3 separately create radio buttons
+      radio1 = getComponentByName(content, "CREATE_ACCT");
+      radio2 = getComponentByName(content, "USE_ACCT");
+      radio3 = getComponentByName(content, "SKIP_REG");
+
+      ButtonGroup bg = new ButtonGroup();
+      bg.add(radio1);
+      bg.add(radio2);
+      bg.add(radio3);
+
+      // Select first radio button when first displayed.
+      radio2.setSelected(false);
+      radio3.setSelected(false);
+      radio1.setSelected(true);
+
+      setRegOption("CREATE_ACCT");
+      handleUsernamePasswdFields();
+
+      dummyProp = getComponentByName(content, "DUMMY_PROP");
+      if (dummyProp != null)  {
+	dummyProp.setVisible(false);
+	dummyProp.setText("");
+      }
+
+
+      List activeModes = (List)ConfigHelper.getValue("PageFlow.Mode.ACTIVE_MODES_LIST");
+
+      /*
+       * Don't enable back unless this is reg only. 
+       * Enable Cancel only if in register only mode.
+       */
+
+      if (activeModes.contains("REG_ONLY"))  {
+          wizard.enableCancel(true);
+          wizard.enableBack(true);
+      }
+
+      wizard.enableNext(true);
+     }
+
+    return (Runnable)this;
+  ]]></apt:scriptCode>
+  </apt:scriptHandler>
+
+
+    </apt:page>
+  </apt:category>
+</apt:template>
+

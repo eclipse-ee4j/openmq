@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<!-- this file contains the rules to build the dist/ install images -->
+
+<project name="crules" >
+
+   <!-- ===================  targets ================= -->
+
+    <target name="preparec" if="mqcrt.willbuild">
+      <!-- Create obj directory -->
+      <mkdir  dir="${archbinary.dir}/obj/cclient"/>
+    </target>
+
+    <target name="cleanc" if="mqcrt.willbuild">
+      <!-- Create obj directory -->
+      <echo message="### Cleaning up ${archbinary.dir}/obj/cclient directory"/>
+      <delete dir="${archbinary.dir}/obj/cclient"/>
+      <delete dir="${archbinary.dir}/include"/>
+    </target>
+
+    <target name="buildcclient" 
+          depends="preparec"
+          description="Builds the C Client API" if="mqcrt.willbuild">
+
+     <mkdir dir="${archbinary.dir}/obj/cclient/auth"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/basictypes"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/client"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/client/auth"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/client/protocol"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/containers"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/cshim"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/debug"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/error"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/io"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/net"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/serial"/>
+     <mkdir dir="${archbinary.dir}/obj/cclient/util"/>
+     <echo message="Building C++ for mqcrt..."/>
+     <apply executable="${mqcrt.cxx.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" dest="${archbinary.dir}/obj/cclient" failonerror="true">
+         <arg line="${mqcrt.cxxargs} ${mqcrt.cppflags} ${mqcrt.cxxopts} ${mqcrt.cincludes} -o "/>
+         <targetfile/>
+         <srcfile/>
+         <fileset dir="${basec.dir}" includes="**/*.cpp" excludes="examples/**,**/SocketTest.cpp"/>
+         <mapper type="glob" from="*.cpp" to="*.o"/>
+     </apply>
+     <echo message="Building C for mqcrt..."/>
+     <apply executable="${mqcrt.cc.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" dest="${archbinary.dir}/obj/cclient" failonerror="true">
+         <arg line="${mqcrt.ccargs} ${mqcrt.cppflags} ${mqcrt.ccopts} ${mqcrt.cincludes} -o "/>
+         <targetfile/>
+         <srcfile/>
+         <fileset dir="${basec.dir}" includes="**/*.c" excludes="examples/**,**/*Test.c"/>
+         <mapper type="glob" from="*.c" to="*.o"/>
+     </apply>
+     <echo message="Linking mqcrt..."/>
+     <apply executable="${mqcrt.dld.tool}" os="Mac OS X,Linux,SunOS,Solaris" relative="false" verbose="true" failonerror="true" parallel="true">
+         <arg line="${mqcrt.dldargs} ${mqcrt.dldopts} -o ${archbinary.dir}/obj/cclient/${mqcrt.libname} ${mqcrt.linkdirs} ${mqcrt.libs}"/>
+         <srcfile/>
+         <fileset dir="${archbinary.dir}/obj" includes="**/*.o"/>
+     </apply>
+    </target>
+
+</project>

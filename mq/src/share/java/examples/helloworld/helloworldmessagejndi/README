@@ -1,0 +1,287 @@
+================================================================================
+@(#)README	1.15 08/04/05
+================================================================================
+
+HelloWorldMessageJNDI example
+
+Description
+-----------
+This example demonstrates a simple end-to-end "Hello World" JMS example that 
+can be compiled and run with the Oracle GlassFish(tm) Server Message Queue 
+product. The test program uses Java Naming and Directory Interface (JNDI) to 
+lookup administered objects, sends and receives a JMS "Hello World" message via 
+a Queue destination.
+
+This example is also the companion example used in the "Administration Console 
+Tutorial" (Chapter 4 of the MQ Administrator's Guide). The "Administration 
+Console Tutorial" focuses more on the Administration Console GUI; this README
+contains instructions that use the command line tool imqobjmgr.
+
+This example demonstrates the following:
+ - How to create and store MQ administered objects in a file based object 
+   store using the MQ imqobjmgr tool.
+ - A simple "Hello World" JMS Application:
+     - How to use the JNDI APIs to lookup MQ administered objects in a file 
+       based object store.
+     - Sending and receiving JMS messages.
+     - How to compile the JMS application.
+     - How to run the JMS application.
+
+Files
+-----
+HelloWorldMessageJNDI.java	Source file for this example.
+*.class				Prebuilt Java class files for this example.
+add_cf.props			imqobjmgr command file for creating 
+				Connection Factory object.
+add_q.props			imqobjmgr command file for creating 
+				Queue object.
+delete_cf.props			imqobjmgr command file for deleting 
+				Connection Factory object.
+delete_q.props			imqobjmgr command file for deleting 
+				Queue object.
+list.props			imqobjmgr command file for listing MQ 
+				administered objects.
+README				This file.
+
+JMS/MQ background
+-----------------
+Every JMS application that sends and/or receives messages needs access to at 
+least 2 JMS administered objects:
+
+    Connection Factory object
+    Destination object
+
+The Connection Factory object is used by the application to connect to the JMS
+provider (MQ broker). The Destination object is used to identify the relevant
+destination on the JMS provider, for example when sending or receiving messages.
+Each JMS provider (like MQ) has it's own implementation of the above objects 
+which encapsulate provider-specific implementation and configuration 
+information.
+
+This example uses the Queue messaging domain which means that the specific 
+object types the example will deal with are:
+
+    Connection Factory object (javax.jms.ConnectionFactory)
+    Queue Destination object (javax.jms.Queue)
+
+The above 2 objects can be directly instantiated by the JMS application. For
+example:
+
+    cf = new com.sun.messaging.ConnectionFactory();
+
+    (com.sun.messaging.ConnectionFactory is an object that is of type
+      javax.jms.ConnectionFactory)
+	
+However, this makes the application not portable across JMS vendors. To make 
+a JMS application truly portable, the objects should be stored in an object 
+store and JNDI should be used to look them up. The fact that the objects used 
+here are MQ specific will be completely transparent to the application if JNDI
+is used. These objects can also be shared by multiple applications that need
+access to the same MQ brokers and destinations. 
+
+Having all the JMS applications use administered objects in one object store 
+also makes management a little easier - compare this to the case where every JMS 
+application each instantiated it's own administered objects; managing which MQ 
+broker or destination each application uses can become difficult as the 
+complexity and size of the application grows.
+
+MQ provides the object manager utility/tool (imqobjmgr) to manage (add, delete, 
+list, query, or update) MQ administered objects in an object store. To create 
+an administered object, imqobjmgr accepts the following information:
+ - The command/action that is needed: add
+ - The type of object in question e.g. Topic, Queue, Connection Factory,
+   etc.
+ - Attributes/properties of the object.
+ - Location of object store. This is specified as JNDI properties.
+ - JNDI lookupname of object in object store
+
+Details on how the above information is specified to imqobjmgr is explained in
+the Oracle GlassFish(tm) Server Message Queue Administrator's Guide. It can also 
+be seen as part of imqobjmgr usage help:
+
+    imqobjmgr -H
+
+To ease the running of this example, imqobjmgr command files will be used. 
+imqobjmgr allows you to specify the name of a command file that uses java 
+property file syntax to represent all or part of the imqobjmgr subcommand 
+clause. Using a command file with imqobjmgr is especially useful to specify 
+object store attributes, which are likely to be the same across multiple 
+invocations of imqobjmgr and which normally require a lot of typing. Command
+files can help reduce errors caused by typos on the command line. Using a 
+command file can also allow you to avoid a situation in which you might 
+otherwise exceed the maximum number of characters allowed for the command line. 
+So instead of typing:
+
+    imqobjmgr add
+       -t q 
+       -l "MyQueue" 
+       -o "imqDestinationName=MyQueueDest" 
+       -j java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory
+       -j java.naming.provider.url=file:///C:/Temp
+
+(all on one line)
+
+you only need to type:
+
+    imqobjmgr -i add_q.props
+
+(where add_q.props is a command file)
+
+Each command file that is a part of this example will contain sufficient 
+documentation to show what the full imqobjmgr command line is required to 
+perform the equivalent action.
+
+The format or syntax of the imqobjmgr command/input file is described in
+the Oracle GlassFish(tm) Server Message Queue Administrator's Guide.
+
+Specifying the object Store: JNDI Properties
+--------------------------------------------
+The imqobjmgr tool uses JNDI to manage the object store. The object store 
+is specified to imqobjmgr via various JNDI properties. The most commonly 
+used JNDI properties here are:
+
+    - java.naming.factory.initial (Initial Context Factory)
+      The initial context factory is used to specify which JNDI service 
+      provider you wish to use for your object store; for example, the 
+      file system, LDAP or some other JNDI service provider.
+
+      The value to use for a file system object store is:
+        com.sun.jndi.fscontext.RefFSContextFactory
+      The value to use for an LDAP based object store is:
+        com.sun.jndi.ldap.LdapCtxFactory
+
+    - java.naming.provider.url (Provider URL)
+      This is the property for specifying the URL or location of
+      your object store. The provider URL value is dependent on what
+      service provider was specified for java.naming.factory.initial.
+      For a file system object store, an example value for this is:
+	file:///C:/Temp
+      or
+	file:///tmp
+
+      The directory specified for a file system object store must
+      already exist and must be accessible by the application or
+      tool using it.
+
+      For an LDAP based object store, an example value for this is:
+	ldap://myldaphost:389/ou=mqobjs, o=myapplication
+
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    fscontext.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac HelloWorldMessageJNDI.java
+
+Running the example
+-------------------
+Here are the steps for running this example:
+1. Verify object store file location.
+2. Create the Connection Factory administered object.
+3. Create the Queue administered object.
+4. Start the MQ broker.
+5. Run the JMS application.
+6. Cleanup
+
+
+1. Verify object store file location
+------------------------------------
+This example uses the file system object store. The directory that
+is used by default is C:/Temp. This is a path that is commonly
+available on the Windows platform. This path is used as the value
+for the JNDI provider URL for the object store. The provider URL
+that is specified has the following syntax:
+
+    file:///C:/Temp
+
+If this path is not available for use (for example, if you are running 
+on a Solaris machine), you need to:
+ - Modify the value of the objstore.attrs.java.naming.provider.url
+   property in all the imqobjmgr command files (*.props). They already
+   have a commented out entry that specifies the /tmp directory on 
+   Solaris as an example of how to configure this property differently.
+ - (This is to be done later) Run the sample application with the new 
+   provider URL for example:
+
+    java HelloWorldMessageJNDI file:///tmp
+
+2. Create the Connection Factory administered object
+----------------------------------------------------------
+To create the connection factory object, run the following:
+
+    imqobjmgr -i add_cf.props
+
+3. Create the Queue administered object
+---------------------------------------
+To create the queue object, run the following:
+
+    imqobjmgr -i add_q.props
+
+Optional: 
+After creating the Connection Factory and Queue objects,
+you can verify that they exist by listing them:
+
+    imqobjmgr -i list.props
+
+4. Start the broker
+-------------------
+The command for starting the broker is:
+
+   imqbrokerd
+
+Run the above command in a separate command (or terminal) window.
+
+5. Run the JMS application
+--------------------------
+To run the sample application, run the following command:
+
+    java HelloWorldMessageJNDI
+
+or 
+
+    java HelloWorldMessageJNDI file:///tmp
+
+if you need to specify an alternate provider URL (object store location). 
+As noted above, the default is file:///C:/Temp
+
+You should see the following output:
+
+    Using file:///C:/Temp for Context.PROVIDER_URL
+
+    Looking up Connection Factory object with lookup 
+	name: MyConnectionFactory
+    Connection Factory object found.
+
+    Looking up Queue object with lookup name: MyQueue
+    Queue object found.
+
+    Creating connection to broker.
+    Connection to broker created.
+
+    Publishing a message to Queue: MyQueueDest
+    Received the following message: Hello World
+
+6. Cleanup
+----------
+Once you are done with the example, you can optionally delete the administered
+objects created by running:
+    imqobjmgr -i delete_cf.props
+    imqobjmgr -i delete_q.props
+
+You will be prompted for confirmation - respond with 'y'.
+

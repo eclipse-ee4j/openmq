@@ -1,0 +1,76 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+Current list of supported properties:
+---------------
+
+# levels to run for memory mgt
+
+imq.memory.levels=green,yellow,orange,red
+
+#delta to determine when to stop gc'ing (if gccount > 0)
+# The system run's gc (garbage collection) explicitly in the
+# system in lower memory cases to determine the true
+# memory value. If gccount >0, the system will iteratively
+# run gc() until either: gcount is reached, or less than
+# gcdelta bytes were freed in the last gc
+
+imq.memory.gcdelta=1024
+
+# level to determine when the broker enters a lower level.
+# This prevents a broker from rapidly cycling in and out of a low memory
+# state.  
+# e.g The system enters orange at 60% of memory.  However the system
+# will stay in the orange state until memory is at (60% -hysteresis)
+
+imq.memory.hysteresis=1024
+
+# an amount of overhead for the system.  The VM needs a certain amount 
+# of memory to run well. (e.g. be able to load up new classes).
+# Setting this value defines a max memory that we ever expect to use.
+# the points where the broker enters/leaves the state is determined
+# off of this value
+
+imq.memory.overhead=10240
+
+# the point to enter the level. e.g. by default the current levels
+# on the broker are:
+#   Green 0-59% of memory (max mem - overhead)
+#   Yellow 60%-74% of memory
+#   Orange 75%-89% of memory
+#   Red 90-100% of memory
+#   
+imq.<level>.threshold=0
+
+# the number of gc's to run to make sure you have entered a level
+
+imq.<level>.gccount=0
+
+# iteration count when additional gc's should be run (if needed)
+# in a level
+imq.<level>.gcitr=0
+
+# base count used to control the # of messages sent to the system
+# (may not be the actual value the broker sends .. used for some,
+# although not all, memory values for calculation)
+
+imq.<level>.count=1000
+
+# the memory class to run at a specific level (who handles deciding
+# what to clean up)
+imq.<level>.classname=com.sun.messaging.jmq.jmsserver.util.memory.levels.Green
+
+

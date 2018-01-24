@@ -1,0 +1,96 @@
+
+deliverycount examples
+----------------------
+
+Description
+------------
+JMSXDeliveryCount property will be set to the number of times the message has been delivered.
+This a mandatory property that will be set by JMS Provider.
+
+JMSXDeliveryCountExample* examples illustrates how to write an application that demonstrates
+the use of new JMS2.0 message property JMSXDeliveryCount.
+
+Some basic info on this example:
+
+- JMSXDeliveryCountExample1.class 
+  sends message to the particular queue specified.
+  receive message with CLIENT_ACKNOWLEDGE, check JMSXDeliveryCount property on message, & close 
+  the connection without ack.
+  receive the message again, check JMSXDeliveryCount property, & acknowledge the message.
+  The first time a message is received JMSXDeliveryCount will be set to 1.
+  Second time JMSXDeliveryCount will be set to 2 which means the message has been redelivered.
+
+- JMSXDeliveryCountExample2.class
+  sends message to the particular queue specified.
+  receive message with in txn mode, check JMSXDeliveryCount property on message, & rollback the transaction.
+  receive the message again, check JMSXDeliveryCount property, & commit the transaction.
+  The first time a message is received JMSXDeliveryCount will be set to 1.
+  Second time JMSXDeliveryCount will be set to 2 which means the message has been redelivered.
+
+
+Files
+-----
+JMSXDeliveryCountExample1.java           Source file for this example.
+JMSXDeliveryCountExample2.java           Source file for this example.
+*.class                 	  Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac JMSXDeliveryCountExample1.java
+    javac JMSXDeliveryCountExample2.java
+
+Running the example
+-------------------
+
+Run the following command to run JMSXDeliveryCountExample1:
+
+   java JMSXDeliveryCountExample1 <queue_name>
+
+   The output of JMSXDeliveryCountExample1 looks like this:
+
+   java JMSXDeliveryCountExample1 q1
+
+Queue name is q1
+Sent message to the Queue
+Message received..
+Message received : 1361836280101
+JMSXDeliveryCount for the received message : 1
+Close the context without ack
+Received the redelivered msg ..
+Message Redelivered : 1361836280101
+JMSXDeliveryCount for the redelivered message : 2
+
+Run the following command to run JMSXDeliveryCountExample2:
+
+   java JMSXDeliveryCountExample2 <queue_name>
+
+   The output of JMSXDeliveryCountExample1 looks like this:
+
+   java JMSXDeliveryCountExample2 q2
+
+Queue name is q2
+Sent message to queue
+Message Received..
+Message received : 1361836343079
+JMSXDeliveryCount for the received message : 1
+Rollback the transaction
+Try to receive the Message again
+Message redelivered : 1361836343079
+JMSXDeliveryCount for the redelivered message : 2

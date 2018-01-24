@@ -1,0 +1,120 @@
+========================================================================
+@(#)README	1.11 05/08/05
+========================================================================
+
+This directory contains a set of imqobjmgr command file examples.
+
+The imqobjmgr utility allows the administrator to manage Oracle GlassFish(tm) 
+Server Message Queue administered objects. These include Destination
+and Connection Factory objects.
+
+Command files allow the administrator to specify a command and its
+options in a file so that they do not need to be typed at the command-line 
+each time. The administrator can also mix the two.  In such a case, any 
+command specified at the command-line overwrites what is specified in the 
+command file. 
+
+
+Description
+-----------
+The imqobjmgr command file examples illustrate how the administrator
+can use these files.
+
+Each command file can contain
+ o The command to execute (add, delete, list, query or update.) 
+ o The type and attributes of the object to add, delete, etc. 
+ o The attributes of the object store in question (i.e. the JNDI repository.)  
+
+Its syntax is that of a java property file.  The basic format is: 
+
+ version=2.0
+ cmdtype=[ add | delete | list | query | update ]
+ obj.lookupName=lookup name
+ obj.type=[ q | t | cf | qf | tf | xcf | xqf | xtf | e ]
+ obj.attrs.objAttrName1=value1
+ obj.attrs.objAttrName2=value2
+ obj.attrs.objAttrNameN=valueN
+ ...
+ objstore.attrs.objStoreAttrName1=value1
+ objstore.attrs.objStoreAttrName2=value2
+ objstore.attrs.objStoreAttrNameN=valueN
+ ...
+
+ NOTE: The version string above reflects the version of the command file,
+ and not of the Oracle GlassFish(tm) Server Message Queue product.
+
+Files
+-----
+
+Look at each example file for details.
+
+ o add_qcf.properties
+    This command file adds a QueueConnectionFactory with lookup name
+    myQCF.
+
+ o add_topic.properties
+    This command file adds a Topic with lookup name myTopic.
+
+ o delete_topic.properties
+    This command file deletes a Topic with lookup name myTopic.
+
+ o list.properties
+    This command file lists administered objects.
+
+ o query_qcf.properties
+    This command file queries a QueueConnectionFactory with 
+    lookup name myQCF.
+
+ o query_topic.properties
+    This command file queries a Topic with lookup name myTopic.
+
+ o update_qcf.properties
+    This command file updates a QueueConnectionFactory with 
+    lookup name myQCF.
+
+
+Running imqobjmgr with a command file example
+---------------------------------------------
+
+Before you can run the examples, you need to first uncomment 
+the appropriate lines of the following properties listed below.
+You also need to specify the correct provider url.
+For more information on the syntax of url, please refer to
+RFC 1738, Uniform Resource Locators (URL).
+Look at each example file for details.
+
+obj.lookupName=
+objstore.attrs.java.naming.factory.initial=
+objstore.attrs.java.naming.provider.url=
+
+In order to run the imqobjmgr utility using a command file,
+you need to type
+
+imqobjmgr -i <file name>
+
+For example, typing the following line will execute
+the add_topic.properties example command file.
+
+(IMQ_HOME denotes the directory <mqInstallHome>/mq where
+mqInstallHome is specified when you install the product.)
+
+On Solaris:
+imqobjmgr -i /usr/demo/imq/imqobjmgr/add_topic.properties
+
+On Linux:
+imqobjmgr -i IMQ_HOME/examples/imqobjmgr/add_topic.properties
+
+On Windows:
+imqobjmgr -i IMQ_HOME\examples\imqobjmgr\add_topic.properties
+
+On HP-UX:
+imqobjmgr -i IMQ_HOME/examples/imqobjmgr/add_topic.properties
+
+On AIX:
+imqobjmgr -i IMQ_HOME/examples/imqobjmgr/add_topic.properties
+
+OpenMQ:
+imqobjmgr -i IMQ_HOME/examples/imqobjmgr/add_topic.properties
+
+
+

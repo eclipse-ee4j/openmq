@@ -1,0 +1,155 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+# Properties file for all the view pages
+# Fragments line ${varname} are replaced by FreeMarker templating mechanism from other properties
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ COMMON STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PRODUCT_NAME=Oracle GlassFish(tm) Server Message Queue 5.0
+
+app_title=${PRODUCT_NAME}
+
+# L10n - Do not translate the next two properties
+BODY_START=&lt;HTML&gt;&lt;BODY&gt;&lt;FONT face=&quot;Sans-Serif&quot; size=&quot;3&quot;&gt;
+BODY_END=&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~W E L C O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Welcome_WELCOME_TEXT=${BODY_START}\
+           Welcome to the &lt;b&gt;${PRODUCT_NAME}&lt;/b&gt; installer.&lt;BR&gt;&lt;BR&gt;\
+           &lt;b&gt;Note:&lt;/b&gt; This installer will update software on the system that might \
+           have been installed by a different installer. This may leave product registries in an \
+           inconsistent state. See the ${PRODUCT_NAME} Installation \
+           Guide for further information.&lt;BR&gt;&lt;BR&gt;\
+           ${Copyright_HTML_FRAGMENT}\
+           ${BODY_END}
+
+RegistrationWelcome_WELCOME_TEXT=${BODY_START}\
+           Welcome to the &lt;b&gt;${PRODUCT_NAME}&lt;/b&gt; installer (registration only mode).&lt;BR&gt;&lt;BR&gt;\
+           ${Copyright_HTML_FRAGMENT}\
+           ${BODY_END}
+
+Copyright_HTML_FRAGMENT=Copyright (c) 2011, 2017 Oracle and/or its affiliates.  All rights reserved.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~L I C E N S E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# L10N: Do not translate (commented out)
+#License_LICENSE_TEXT1=
+
+# L10N: Do not translate (commented out)
+#License_LICENSE_TEXT2=
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    H O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DEFAULT_INSTALL_HOME=
+
+INSTALL_TOP_TEXT=${BODY_START}\
+Specify the directory that will serve as the install location \
+on the target system for the ${PRODUCT_NAME} product.&lt;BR&gt;\
+${BODY_END}
+
+SPECIFY_HOME_MSG=Specify a directory for installation.
+
+INSTALL_BOTTOM_TEXT=${BODY_START}\
+If you specify a non-existent installation directory, this installer \
+will create it for you.\
+${BODY_END}
+
+MQ_INSTALL_HOME_LABEL=Install Home
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    D I R   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INSTALLDIR_TOP_TEXT=${BODY_START}\
+Specify the directory for the ${PRODUCT_NAME} installation that you would like to register\
+${BODY_END}
+
+SPECIFY_INSTALLDIR_MSG=Specify the directory containing the installation.
+
+MQ_INSTALL_DIR_LABEL=Install Directory
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  L10N SELECTION PAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10N SELECTION PAGE 
+L10N_HOME_TEXT=${BODY_START}\
+Choose an option from the following.\
+${BODY_END}
+
+L10N_CHOICE_TEXT=Install Message Queue multilingual packages
+INSTALL_L10N_TOOLTIP=Select this to install Message Queue multilingual packages
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~A D M I N   P A S S W O R D   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~UPGRADE PAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~R E A D Y   T O   I N S T A L L   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~P R O G R E S S   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10n: only translate the "Progress:" string.  leave the rest unchanged.
+PROGRESS_TITLE=${BODY_START}\
+               Progress:\
+               ${BODY_END}
+
+
+# L10n: only translate the "Please wait" string.  leave the rest unchanged.
+PROGRESS_WAIT=${BODY_START}\
+               Please wait\
+               ${BODY_END}
+               
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~S U M M A R Y   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~REGISTRATION OPTIONS   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+REGISTRATION_TEXT1=${BODY_START}\
+Why register ? Gain convenient access to\
+&lt;UL&gt;\
+&lt;LI&gt;patch information and bug updates&lt;/LI&gt;\
+&lt;LI&gt;screencasts and tutorials,&lt;/LI&gt;\
+&lt;LI&gt;support and training offerings ... and more.&lt;/LI&gt;\
+&lt;/UL&gt;\
+${BODY_END}
+CREATE_ACCT_LABEL=I don't have a Sun Online Account. Sign me up.
+USE_ACCT_LABEL=I already have a Sun Online Account.
+USER_NAME_LABEL=User Name
+USER_PASSWORD_LABEL=User Password
+SKIP_REG_LABEL=Skip Registration.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Create Sun Online Account P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_EMAIL_ADDRESS=Email Address
+MQ_PASSWORD=Password
+MQ_RETYPE_PASSWORD=Retype Password
+MQ_FIRST_NAME=First Name
+MQ_LAST_NAME=Last Name
+MQ_COUNTRY=Country
+
+CREATE_SOA_TITLE=Create Sun Online Account
+
+CREATE_SOA_TEXT1=${BODY_START}\
+Please enter the following information to create a Sun Online Account.  All fields are required.\
+${BODY_END}
+
+CREATE_SOA_TEXT2=${BODY_START}\
+Click here to view &lt;a href=http://www.oracle.com/privacy/&gt;Oracle's Privacy Policy&lt;/a&gt;.\
+${BODY_END}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Preferences P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_USE_PROXY_HEADER=${BODY_START}\
+Registration is performed by sending data via the internet. If an internet proxy is \
+required to access the internet from this host, this screen should be used to specify \
+the internet proxy host and port.&lt;BR&gt;&lt;BR&gt;The default setting is to not use a proxy\
+${BODY_END}
+MQ_USE_PROXY=Use Internet Proxy
+MQ_PROXY_HOST=Proxy Host
+MQ_PROXY_PORT=Proxy Port
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_REG_PROGRESS=Registration Progress
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT_CDDL=OpenMQ Dual License Header and License Notice\n Insert Rest Here

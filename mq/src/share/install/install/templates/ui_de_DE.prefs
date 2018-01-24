@@ -1,0 +1,121 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+# Properties file for all the view pages
+# Fragments line ${varname} are replaced by FreeMarker templating mechanism from other properties
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ COMMON STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PRODUCT_NAME=Oracle GlassFish(tm) Server Message Queue 4.5
+
+app_title=${PRODUCT_NAME}
+
+# L10n - Do not translate the next two properties
+BODY_START=&lt;HTML&gt;&lt;BODY&gt;&lt;FONT face=&quot;Sans-Serif&quot; size=&quot;3&quot;&gt;
+BODY_END=&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~W E L C O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Welcome_WELCOME_TEXT=${BODY_START}Willkommen beim Installationsprogramm von &lt;b&gt;${PRODUCT_NAME}&lt;/b&gt;.&lt;BR&gt;&lt;BR&lt;b&gt;Hinweis:&lt;/b&gt; Dieses Installationsprogramm aktualisiert Software auf Ihrem System, die m\u00f6glicherweise mit einem anderen Installationsprogramm installiert wurde. Dies kann zu inkonsistenten Produktregistrierungen f\u00fchren. Im Installationshandbuch f\u00fcr ${PRODUCT_NAME} finden Sie weitere Informationen.&lt;BR&gt;&lt;BR&gt;${Copyright_HTML_FRAGMENT}${BODY_END}
+
+RegistrationWelcome_WELCOME_TEXT=${BODY_START}Willkommen beim Installationsprogramm von &lt;b&gt;${PRODUCT_NAME}&lt;/b&gt; (nur Registrierungsmodus).&lt;BR&gt;&lt;BR&gt;${Copyright_HTML_FRAGMENT}${BODY_END}
+
+Copyright_HTML_FRAGMENT=Copyright (c) 2010, 2017 Oracle und/oder seine Tochtergesellschaften.  Alle Rechte vorbehalten.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~L I C E N S E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+License_LICENSE_TEXT1=${BODY_START}Lesen Sie die nachfolgende Lizenzvereinbarung.  Sie m\u00fcssen die Bedingungen dieser Vereinbarung akzeptieren, bevor Sie mit der Installation fortfahren.${BODY_END}
+
+#
+# L10N: License_LICENSE_TEXT2 needs to be localized.
+# I have provided the translated text.  Please insert the text within each
+# ui_*_.prefs file so that it shows up in the installer correctly.  
+# Note that each line ends with "backslash n backslash n backslash"
+# (except the very last line).
+#
+License_LICENSE_TEXT2= 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    H O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DEFAULT_INSTALL_HOME=
+
+INSTALL_TOP_TEXT=${BODY_START}Geben Sie das Verzeichnis an, das auf dem Zielsystem als Installationsverzeichnis f\u00fcr das ${PRODUCT_NAME}-Produkt verwendet werden soll.&lt;BR&gt;${BODY_END}
+
+SPECIFY_HOME_MSG=Geben Sie ein Installationsverzeichnis an.
+
+INSTALL_BOTTOM_TEXT=${BODY_START}Wenn Sie ein nicht vorhandenes Installationsverzeichnis angeben, wird dieses vom Installationsprogramm f\u00fcr Sie erstellt.${BODY_END}
+
+MQ_INSTALL_HOME_LABEL=Installationsausgangsverzeichnis
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    D I R   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INSTALLDIR_TOP_TEXT=${BODY_START}Geben Sie das Verzeichnis f\u00fcr die Installation von ${PRODUCT_NAME} an, die Sie registrieren m\u00f6chten.${BODY_END}\n
+
+SPECIFY_INSTALLDIR_MSG=Geben Sie das Verzeichnis an, das die Installation enth\u00e4lt.
+
+MQ_INSTALL_DIR_LABEL=Installationsverzeichnis
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  L10N SELECTION PAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10N SELECTION PAGE 
+L10N_HOME_TEXT=${BODY_START}W\u00e4hlen Sie eine der folgenden Optionen aus.${BODY_END}
+
+L10N_CHOICE_TEXT=Pakete mit mehreren Sprachen f\u00fcr Message Queue installieren
+INSTALL_L10N_TOOLTIP=W\u00e4hlen Sie dies aus, um Pakete mit mehreren Sprachen f\u00fcr Message Queue zu installieren
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~A D M I N   P A S S W O R D   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~UPGRADE PAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~R E A D Y   T O   I N S T A L L   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~P R O G R E S S   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10n: only translate the "Progress:" string.  leave the rest unchanged.
+PROGRESS_TITLE=${BODY_START}Fortschritt:${BODY_END}
+
+
+# L10n: only translate the "Please wait" string.  leave the rest unchanged.
+PROGRESS_WAIT=${BODY_START}Bitte warten${BODY_END}
+               
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~S U M M A R Y   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~REGISTRATION OPTIONS   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+REGISTRATION_TEXT1=${BODY_START}Warum registrieren? Sie erhalten bequemen Zugriff auf&lt;UL&gt;&lt;LI&gt;Patch-Informationen und Aktualisierungen zu Bugs,&lt;/LI&gt;&lt;LI&gt;Screencasts und Tutorials,&lt;/LI&gt;&lt;LI&gt;Support- und Schulungsangebote ... und vieles mehr.&lt;/LI&gt;&lt;/UL&gt;${BODY_END}
+CREATE_ACCT_LABEL=Ich habe kein Sun-Onlinekonto. Registrieren.
+USE_ACCT_LABEL=Ich habe bereits ein Sun-Onlinekonto.
+USER_NAME_LABEL=Benutzername
+USER_PASSWORD_LABEL=Benutzerpasswort
+SKIP_REG_LABEL=Registrierung \u00fcberspringen.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Create Sun Online Account P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_EMAIL_ADDRESS=E-Mail-Adresse
+MQ_PASSWORD=Passwort
+MQ_RETYPE_PASSWORD=Passwort wiederholen
+MQ_FIRST_NAME=Vorname
+MQ_LAST_NAME=Nachname
+MQ_COUNTRY=Land
+
+CREATE_SOA_TITLE=Sun-Onlinekonto erstellen
+
+CREATE_SOA_TEXT1=${BODY_START}Geben Sie die folgenden Informationen zur Erstellung eines Sun-Onlinekontos ein.  Alle Felder m\u00fcssen ausgef\u00fcllt werden.${BODY_END}
+
+CREATE_SOA_TEXT2=${BODY_START}Klicken Sie hier, um die &lt;a href=http://www.oracle.com/privacy/&gt;Datenschutzrichtlinien von Oracle&lt;/a&gt; anzuzeigen.${BODY_END}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Preferences P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_USE_PROXY_HEADER=${BODY_START}Bei der Registrierung werden Daten \u00fcber das Internet \u00fcbertragen. Wenn f\u00fcr diesen Host ein Internet-Proxy f\u00fcr denZugriff auf das Internet ben\u00f6tigt wird, geben sie in diesem Bildschirm den Internet-Proxy-Host und -Anschluss an.&lt;BR&gt;&lt;BR&gt;Standardm\u00e4\u00dfig wird kein Proxy verwendet.${BODY_END}
+MQ_USE_PROXY=Internet-Proxy verwenden
+MQ_PROXY_HOST=Proxy-Host
+MQ_PROXY_PORT=Proxy-Port
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_REG_PROGRESS=Registrierungsfortschritt
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT_CDDL=OpenMQ Dual License Header and License Notice\n Insert Rest Here

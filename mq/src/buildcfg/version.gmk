@@ -1,0 +1,279 @@
+#
+# Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+#
+# This file contains general version strings
+#
+# these strings are imbedded into dynamic libraries, and executables
+#
+#
+#
+# Change this string which each build (to pick up the version string
+# in the libraries)
+
+# NOTE: the BUILD_NUMBER and PROMOTION_LETTER should have
+# exactly 1 space after the = to work with the update script
+# correctly
+# 
+#
+# Version number (used for creating versioned dynamic libs)
+# the version number should ONLY be changed when an incompatiable
+# api is changed
+VERSION_NUM = 1
+
+# general version info
+JMQ_BUILD_NUMBER= 6
+JMQ_BUILD_LETTER= a
+
+#
+# Milestone 'label' that follows the version # on the banner
+# This should be one of the following.
+#
+# Dev Alpha1 Alpha2 (etc.) Beta1 Beta2 (etc.) FCS
+#
+# When it is set to FCS the banner does not show this
+# Must be set to FCS after the last beta build and before the first FCS build
+#
+JMQ_BUILD_MILESTONE=
+
+# NOTE: both "blank" and integer
+# values are allowed for:
+#    MAJOR, MINOR, MICRO, SERVICEPACK
+#
+JMQ_MAJOR_VERSION=5
+JMQ_MINOR_VERSION=1
+JMQ_MICRO_VERSION=1
+JMQ_SERVICE_PACK_VERSION=
+JMQ_PROTOCOL_VERSION= 5.1
+JMS_API_VERSION= 2.0
+J2EECA_API_VERSION= 7
+JAXM_API_VERSION= 1.1
+SAAJ_API_VERSION= 1.1
+SAAJ_IMPL_VERSION= 1.1
+JMQ_API_VERSION= 5.1
+JMQ_BROKER_API_VERSION= 5.1
+JMQ_JMSADMIN_SPI_VERSION= 2.0
+JMQ_DATE= $(DATE)
+
+#
+#------------------------------------
+# The version numberis expected to be one of the
+#  following formats:
+#      <MAJOR>
+#      <MAJOR>.<MINOR>
+#      <MAJOR>.<MINOR> SP<SERVICEPACK>
+#      <MAJOR>.<MINOR>.<MICRO>
+#      <MAJOR>.<MINOR>.<MICRO> SP<SERVICEPACK>
+#
+# Please change the JMQ_PRODUCT_VERSION and JMQ_VERSION as appropriate
+#
+#---------------------------------------------------
+JMQ_PRODUCT_VERSION= $(JMQ_MAJOR_VERSION).$(JMQ_MINOR_VERSION).$(JMQ_MICRO_VERSION)
+# JMQ_PRODUCT_VERSION can have SP* in the string
+#JMQ_PRODUCT_VERSION=$(JMQ_MAJOR_VERSION).$(JMQ_MINOR_VERSION)
+# No "SP*" in JMQ_DOT_VERSION
+JMQ_DOT_VERSION=$(JMQ_MAJOR_VERSION).$(JMQ_MINOR_VERSION).$(JMQ_MICRO_VERSION)
+JMQ_VERSION= $(JMQ_MAJOR_VERSION)_$(JMQ_MINOR_VERSION)_$(JMQ_MICRO_VERSION)
+JMQ_PRODUCT_VERSIONSTR= MQ $(JMQ_PRODUCT_VERSION)
+JMQ_BUILD_STR=$(JMQ_PRODUCT_VERSION) (Build $(JMQ_BUILD_NUMBER)-$(JMQ_BUILD_LETTER))
+
+# -----------------------------------------
+# General product information for jar files
+# -----------------------------------------
+
+JMQ_SOFTWARE_NAME=Open Message Queue
+JMQ_SOFTWARE_NAME_JAR=Open Message Queue / Oracle GlassFish(tm) Server Message Queue
+JMQ_SOFTWARE_NAME_BRAND=Oracle GlassFish(tm) Server Message Queue
+JMQ_SOFTWARE_NAME_ABBREV=MQ
+JMQ_SOFTWARE_NAME_ABBREV_LOWERCASE=mq
+JMQ_SOFTWARE_NAME_SHORT=Message Queue
+JMQ_RELEASE_Q_ID=5.1
+
+#
+# Product ID (ie swoRDFish ID)
+#
+# Use these real URN's when the 4.4 IDs become valid (they are currently invalid)
+JMQ_PRODUCT_URN=urn:uuid:951b3aa2-ee40-11dd-8c47-080020a9ed93
+JMQ_PRODUCT_BRAND_URN=urn:uuid:5f1932ee-ee3f-11dd-8c47-080020a9ed93
+
+#old -invalid ID
+#JMQ_PRODUCT_URN=urn:uuid:589ac4b2-baef-11dc-8f02-080020a9ed93
+#JMQ_PRODUCT_BRAND_URN=urn:uuid:589ac4b2-baef-11dc-8f02-080020a9ed93
+
+JMS_API_JAR_NAME=Java Message Service (JMS) API
+JMQ_SPI_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) JMSAdmin SPI
+
+JAXM_API_JAR_NAME=Java API for XML Messaging (JAXM)
+SAAJ_API_JAR_NAME=SOAP with Attachments API for Java (SAAJ)
+SAAJ_IMPL_JAR_NAME=SAAJ Runtime
+
+JMQ_CLIENT_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) JMS Client
+JMQ_JMSRA_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) J2EE Resource Adapter for JMS
+JMQ_XM_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) XML Messaging Client
+JMQ_BROKER_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Broker
+JMQ_ADMIN_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Administration
+JMQ_UTIL_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Utilities
+JMQ_SERVLET_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Servlet
+JMQ_STOMP_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) STOMP Bridge 
+JMQ_JMSBRIDGE_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) JMS Bridge
+JMQ_BRIDGEMGR_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) JMS Bridge Administration
+JMQ_UMS_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) UMS
+JMQ_JMX_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) JMX Client
+JMQ_BRAND_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Oracle Brand Product version information
+JMQ_L10N_JAR_NAME=$(JMQ_SOFTWARE_NAME_JAR) Localizations
+
+# Copyright string ... replace with correct string later
+JMQ_COMPANY_NAME=Oracle
+JMQ_COPYRIGHT_DATE=Copyright (c) 2014, 2017
+JMQ_COPYRIGHT_STR=$(JMQ_COPYRIGHT_DATE), $(JMQ_COMPANY_NAME) and/or its affiliates.  All rights reserved.
+
+# -----------------------------
+# Versioning info for JAR files
+# -----------------------------
+MANIFEST_VERSION_STR=1.0
+
+# -----------------------------------
+# Package Names for various jar files
+# -----------------------------------
+
+# Add more sections for additional pkgs as needed (suffixed 8,9 etc)
+
+#--------
+# jms.jar
+#--------
+JMSJAR_MNAME1=javax/jms/
+
+#--------
+# imqjmsra.jar
+#--------
+JMSRAJAR_MNAME1=com/sun/messaging/jms/ra
+
+#--------
+# jaxm-api.jar
+#--------
+JAXMJAR_MNAME1=javax/xml/messaging
+
+#--------
+# saaj-api.jar
+#--------
+SAAJJAR_MNAME1=javax/xml/soap
+
+#--------
+# saaj-impl.jar
+#--------
+SAAJIMPLJAR_MNAME1=com/sun/xml
+
+#--------
+# jmsspi.jar
+#--------
+JMSSPIJAR_MNAME1=com/sun/jms/spi/xa
+
+#--------
+# jmqspi.jar
+#--------
+JMQSPIJAR_MNAME1=com/sun/jms/spi/xa
+JMQSPIJAR_MNAME2=com/sun/messaging/jmq/jmsspi
+
+#--------
+# jmq.jar
+#--------
+JMQJAR_MNAME1=com/sun/messaging/
+JMQJAR_MNAME2=com/sun/messaging/naming
+JMQJAR_MNAME3=com/sun/messaging/jms
+JMQJAR_MNAME4=com/sun/messaging/jmq/jmsclient
+JMQJAR_MNAME5=com/sun/messaging/jmq/auth
+JMQJAR_MNAME6=com/sun/messaging/jmq/httptunnel
+JMQJAR_MNAME7=com/sun/messaging/jmq/io
+JMQJAR_MNAME9=com/sun/messaging/jmq/util
+JMQJAR_MNAME10=com/sun/jms/spi/xa
+
+#--------
+# jmqxm.jar
+#--------
+JMQXMJAR_MNAME1=com/sun/messaging/xml
+
+#-------------
+# jmqadmin.jar
+#-------------
+JMQADMINJAR_MNAME1=com/sun/messaging/jmq/admin/
+
+#--------------
+# jmqbroker.jar
+#--------------
+JMQBROKERJAR_MNAME1=com/sun/messaging/jmq/jmsserver
+JMQBROKERJAR_MNAME2=com/sun/messaging/jmq/auth
+JMQBROKERJAR_MNAME3=com/sun/messaging/jmq/httptunnel
+JMQBROKERJAR_MNAME4=com/sun/messaging/bridge
+
+#------------
+# jmqutil.jar
+#------------
+JMQUTILJAR_MNAME1=com/sun/messaging/jmq/io
+JMQUTILJAR_MNAME2=com/sun/messaging/jmq/net
+JMQUTILJAR_MNAME3=com/sun/messaging/jmq/util
+JMQUTILJAR_MNAME4=com/sun/messaging/jmq/resources
+JMQUTILJAR_MNAME5=com/sun/messaging/jmq/jmsselector
+
+#---------------
+# jmqservlet.jar
+#---------------
+JMQSERVLETJAR_MNAME1=com/sun/messaging/jmq/httptunnel
+
+#---------------
+# imqstomp.jar
+#---------------
+JMQSTOMPJAR_MNAME1=com/sun/messaging/bridge/api
+JMQSTOMPJAR_MNAME2=com/sun/messaging/bridge/service/stomp
+
+#---------------
+# imqjmsbridge.jar
+#---------------
+JMQJMSBRIDGEJAR_MNAME1=com/sun/messaging/bridge/api
+JMQJMSBRIDGEJAR_MNAME2=com/sun/messaging/bridge/service/jms
+
+#---------------
+# imqbridgemgr.jar
+#---------------
+JMQBRIDGEMGRJAR_MNAME1=com/sun/messaging/bridge/api
+JMQBRIDGEMGRJAR_MNAME2=com/sun/messaging/bridge/admin
+
+#---------------
+# imqums.jar
+#---------------
+JMQUMSJAR_MNAME1=com/sun/messaging/ums
+
+#---------------
+# imqjmx.jar
+#---------------
+JMQJMXJAR_MNAME1=com/sun/messaging/
+JMQJMXJAR_MNAME2=com/sun/messaging/jmq
+JMQJMXJAR_MNAME3=com/sun/messaging/jms/management/server
+JMQJMXJAR_MNAME4=com/sun/messaging/jmq/management
+
+#---------------
+# imqbrand.jar
+#---------------
+JMQBRANDJAR_MNAME1=com/sun/messaging/
+JMQBRANDJAR_MNAME2=com/sun/messaging/jmq
+
+#---------------
+# imql10n_<locale>.jar
+#---------------
+JMQL10NJAR_MNAME1=com/sun/messaging/jmq/jmsserver/resources
+JMQL10NJAR_MNAME2=com/sun/messaging/jmq/admin/resources
+JMQL10NJAR_MNAME3=com/sun/messaging/jmq/jmsclient/resources
+JMQL10NJAR_MNAME4=com/sun/messaging/jmq/resources
+

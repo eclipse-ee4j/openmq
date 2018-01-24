@@ -1,0 +1,63 @@
+
+@(#)README	1.4 03/22/05
+================================================================================
+
+mqping utility
+
+Description
+-----------
+The mqping utility is similar to the Unix ping utility in some regards.  
+With mqping, messages are sent to and received from a running broker.
+The utility measures the round trip time.  The utility allows the user
+to control the size of the message, the destination type, delivery mode
+and send interval.
+
+Files
+-----
+mqping.java		Source file for this example.
+*.class			Prebuilt Java class files for this example.
+README			This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac mqping.java
+
+Running the example
+-------------------
+In the simplest form the mqping utility can be run with no options:
+
+    java mqping
+
+This utility takes the following arguments:
+      -t dest_type    Specify the optional destination type.  Valid values
+                      are 't' or 'q'.  Default: 'q'
+      -r              Optionally indicate the message is persistent.  
+                      Not specifying this option indicates the message 
+                      should not be persisted.
+      -s size         Specify the optional size of the messages in bytes.
+                      Default: 1024 
+      -i delay        The interval (in seconds) between successive 
+                      transmissions.  Default: 0 (no delay)
+
+ By default mqping will connect to the broker running on localhost:7676.
+ You can use -DimqAddressList attribute to change the host, port and 
+ transport:
+ 
+ 	java -DimqAddressList=mq://<host>:<port>/jms mqping
+

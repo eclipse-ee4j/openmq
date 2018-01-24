@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="InstallDirectory" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="InstallDirectory" apt:label="InstallDirectory" >
+   <apt:page apt:name="InstallDir_page" apt:label="InstallDirectory" >
+  <apt:section apt:name="install" apt:label="DirectorySelection" >
+      <apt:property apt:name="INSTALL_TEXT_TOP"
+         apt:dataPath=""
+         apt:type="xs:string">
+         <apt:prop-value>$INSTALLDIR_TOP_TEXT</apt:prop-value>
+         <apt:visual>
+            <apt:htmlPanel/>
+         </apt:visual>
+        </apt:property>
+        <apt:property apt:name="INSTALL_DIRECTORY" apt:label="$MQ_INSTALL_DIR_LABEL"
+         apt:dataPath="directory.INSTALL_DIRECTORY"
+         apt:type="xs:string">
+         <apt:prop-value>$DEFAULT_INSTALL_HOME</apt:prop-value>
+         <apt:visual>
+            <apt:directorySelector apt:toolTip="$SPECIFY_INSTALLDIR_MSG"/>
+         </apt:visual>
+        </apt:property>
+        <apt:property apt:name="INSTALL_TEXT_BOTTOM"
+         apt:dataPath=""
+         apt:type="xs:string">
+         <apt:prop-value></apt:prop-value>
+         <apt:visual>
+            <apt:htmlPanel/>
+         </apt:visual>
+        </apt:property>
+  </apt:section>
+  <apt:scriptHandler apt:scriptLanguage="beanshell" >
+  <apt:scriptCode><![CDATA[
+import org.openinstaller.bus.*;
+import org.openinstaller.core.*;
+import org.openinstaller.provider.conf.ConfigHelper;
+import org.openinstaller.provider.dependency.*;
+import org.openinstaller.provider.operation.*;
+import org.openinstaller.provider.sims.*;
+import org.openinstaller.provider.task.*;
+import org.openinstaller.provider.task.TaskControl.TaskCommand;
+import org.openinstaller.util.*;
+import org.openinstaller.util.install.Common;
+import org.openinstaller.core.PROCESSING_MODE;
+import java.util.logging.Logger;
+import java.util.List;
+import java.lang.String;
+import java.io.*;
+
+
+void run ()  {
+
+    // XXX
+    // Doing a ConfigHelper.getValue() hangs before it returns on UNIX.
+    // However, this code is currently only needed on windows.
+    // Should revisit this code if we decide to use InstallDirectory on solaris/linux.
+    //
+    // Isa 10/14/2008
+    // Could not figure out why this hangs.
+    // Addressed this by relying on the value InstallDirectory.directory.INSTALL_DIRECTORY
+    // set in the relevant install.properties file
+    //
+    //dirTextField = wizard.getComponentByName(content, "INSTALL_DIRECTORY");
+    //String defaultDir = ConfigHelper.getValue("InstallHome.directory.INSTALL_HOME");
+    //dirTextField.setText(defaultDir); 
+
+
+    wizard.enableCancel(true);
+    wizard.enableHelp(true);
+    wizard.enableBack(true);
+    wizard.enableNext(true);
+  }
+
+
+return (Runnable)this;]]>
+  </apt:scriptCode>
+  </apt:scriptHandler>
+ </apt:page>
+ </apt:category>
+</apt:template>

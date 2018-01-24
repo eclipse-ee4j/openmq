@@ -1,0 +1,101 @@
+
+messageheader example
+----------------------
+
+Description
+-----------
+This example illustrates how to write an application that uses a
+JMS2.0 simplified API to set message header properties on producer and to check message header properties on message.
+
+Some basic info on this example:
+
+- MessageHeadersProducer.class sends message with message 
+  headers(setJMSReplyTo,setJMSType,setJMSCorrelationID,setJMSCorrelationIDAsBytes) set on producer.
+- MessageHeadersConsumer.class receives message and check the message headers on Message that were set by producer.
+
+Files
+-----
+MessageHeadersConsumer.java           Source file for this example.
+MessageHeadersProducer.java           Source file for this example.
+*.class                 	       Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac MessageHeadersConsumer.java
+    javac MessageHeadersProducer.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java MessageHeadersProducer <queue_name>
+
+Run the following command on another terminal:
+
+   java MessageHeadersConsumer <queue_name>
+
+The output of MessageHeadersProducer looks like this:
+
+java MessageHeadersProducer q1
+
+Queue name is q1
+Set message headers on producer
+setJMSReplyTo on producer
+setJMSType on producer
+setJMSCorrelationID on producer
+setJMSCorrelationIDAsBytes on producer
+Message 1361837160489 sent successfully
+
+The output of MessageHeadersConsumer looks like this:
+
+java MessageHeadersconsumer q1
+
+Queue name is q1
+Message Received : 1361837160489
+getJMSType : MyJMSType
+getJMSReplyTo : Oracle GlassFish(tm) Server MQ Destination
+getName():              SomeOtherQueue
+Class:                  com.sun.messaging.BasicQueue
+getVERSION():           3.0
+isReadonly():           false
+getProperties():        {imqDestinationName=SomeOtherQueue, imqDestinationDescription=A Description for the Destination Object}
+getJMSCorrelationIdAsBytes length : 15
+getJMSCorrelationIdAsBytes[0] :77
+getJMSCorrelationIdAsBytes[1] :121
+getJMSCorrelationIdAsBytes[2] :67
+getJMSCorrelationIdAsBytes[3] :111
+getJMSCorrelationIdAsBytes[4] :114
+getJMSCorrelationIdAsBytes[5] :114
+getJMSCorrelationIdAsBytes[6] :101
+getJMSCorrelationIdAsBytes[7] :108
+getJMSCorrelationIdAsBytes[8] :97
+getJMSCorrelationIdAsBytes[9] :116
+getJMSCorrelationIdAsBytes[10] :105
+getJMSCorrelationIdAsBytes[11] :111
+getJMSCorrelationIdAsBytes[12] :110
+getJMSCorrelationIdAsBytes[13] :73
+getJMSCorrelationIdAsBytes[14] :68
+getJMSCorrelationID : MyCorrelationID
+

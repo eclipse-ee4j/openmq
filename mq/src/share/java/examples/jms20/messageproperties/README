@@ -1,0 +1,113 @@
+
+messageproperties examples
+--------------------------
+
+Description
+-----------
+This example illustrates how to write an application that uses a
+JMS2.0 simplified API to set message properties on producer and check message properties on message.
+
+Some basic info on this example:
+
+- MessagePropertiesProducer.class sends message with various message 
+  properties(boolean,byte,short,int,long,float,double,String))
+  set on producer.
+- MessagePropertiesConsumer.class receives message and check the message properties on Message that were set by producer.
+
+Files
+-----
+MessagePropertiesConsumer.java           Source file for this example.
+MessagePropertiesProducer.java           Source file for this example.
+*.class                 	         Prebuilt Java class files for this example.
+README                                   This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac MessagePropertiesConsumer.java
+    javac MessagePropertiesProducer.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java MessagePropertiesProducer <queue_name>
+
+Run the following command on another terminal:
+
+   java MessagePropertiesConsumer <queue_name>
+
+The output of MessageHeaderProducer looks like this:
+
+java MessagePropertiesProducer q1
+
+Queue name is q1
+Set properties on producer
+Set boolean property on producer
+booleanProp on producer through getObjectProperty :true
+booleanProp on producer through getBooleanProperty :true
+Set byte property on producer
+byteProp on producer through getObjectProperty :7
+byteProp on producer through getBytesProperty :7
+Set short property on producer
+shortProp on producer through getObjectProperty :123
+shortProp on producer through getShortProperty :123
+Set int property on producer
+intProp on producer through getObjectProperty :1357924680
+intProp on producer through getIntProperty :1357924680
+Set long property on producer
+longProp on producer through getObjectProperty :84838481357924680
+longProp on producer through getLongProperty :84838481357924680
+Set long property on producer
+floatProp on producer through getObjectProperty :3.1415927
+floatProp on producer through getFloatProperty :3.1415927
+Set double property on producer
+doubleProp on producer through getObjectProperty :2.71828182846
+doubleProp on producer through getDoubleProperty :2.71828182846
+Set String property on producer
+stringProp on producer through getObjectProperty :Hello
+stringProp on producer through getStringProperty :Hello
+Mesage 1361837446224 sent successfully
+
+The output of MessageHeaderConsumer looks like this:
+
+java MessagePropertiesConsumer q1
+
+Queue name is q1
+Message Received : 1361837446224
+booleanProp on Message through getObjectProperty :true
+booleanProp on Message through getBooleanProperty :true
+byteProp on Message through getObjectProperty :7
+byteProp on Message through getBytesProperty :7
+shortProp on Message through getObjectProperty :123
+shortProp on Message through getShortProperty :123
+intProp on Message through getObjectProperty :1357924680
+intProp on Message through getIntProperty :1357924680
+longProp on Message through getObjectProperty :84838481357924680
+longProp on Message through getLongProperty :84838481357924680
+floatProp on Message through getObjectProperty :3.1415927
+floatProp on Message through getFloatProperty :3.1415927
+doubleProp on Message through getObjectProperty :2.71828182846
+doubleProp on Message through getDoubleProperty :2.71828182846
+stringProp on Message through getObjectProperty :Hello
+stringProp on Message through getStringProperty :Hello

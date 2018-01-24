@@ -1,0 +1,39 @@
+@(#)README      1.0 11/10/08
+
+STOMP examples
+
+Description
+-----------
+This directory contains MQ STOMP examples that illustrates the use of the
+STOMP protocol to send and receive JMS message.
+
+Files
+-----
+SendMsg.rb		Source file for Ruby STOMP client that sends text
+			message to a MQ STOMP server.
+ReceiveMsg.rb		Source file for Ruby Stomp client that receives text
+			message from a MQ STOMP server.
+README			This file.
+
+Configuring the environment
+---------------------------
+SendMsg.rb and ReceiveMsg.rb require Ruby 1.8.6 or later version.
+A compatible Ruby interpreter such as JRuby 1.1.5 can also be used.
+
+Running the example
+-------------------
+The examples can be run using the ruby command, e.g.
+
+    ruby <application> -h
+
+    or
+
+    jruby <application> -h
+
+For example,
+
+    ruby SendMsg.rb -h
+
+    or
+
+    jruby SendMsg.rb -h

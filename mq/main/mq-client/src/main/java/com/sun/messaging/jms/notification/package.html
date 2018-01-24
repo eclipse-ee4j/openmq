@@ -1,0 +1,67 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 3.2 Final//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+</HEAD>
+<BODY BGCOLOR="#ffffff">
+<P>
+Provides a notification API for the MQ client runtime to inform an application about 
+a MQ connection state changes.</P>
+
+The current notification types defined for the MQ 4.0 release are as follows:
+<UL>
+	<Li>Connection closing event.  A connection closing event is generated 
+	and delivered to the event listener if the broker is about to close
+	a MQ connection (such as admin requested shutdown) and an event listener 
+	is set to the MQ connection.
+	</Li>
+	
+	<Li>Connection closed event.  A connection closed event is generated 
+	and delivered to the event listener if the broker closed a MQ connection 
+	(such as admin requested shutdown, restart, out of memory, etc.) and an 
+	event listener is set to the MQ connection.	
+    </Li>
+	
+	<Li>
+    Connection reconnected event.  A connection reconnected event is generated 
+	and delivered to the event listener if the MQ client runtime reconnected to
+	a broker and an event listener is set to the MQ connection.
+    </Li>
+	
+	<li>
+    Connection reconnect failed event.  A connection reconnect failed event is 
+    generated and delivered to the event listener if a reconnect attempt to a 
+    broker failed and an event listener is set to the MQ connection. (MQ client 
+    runtime will retry base on the reconnect contract).
+    </li>
+    
+	</UL>
+	
+	<P>
+    A MQ application sets a connection event listener in order to 
+    be notified for the MQ events. The API to set the notification 
+    listener is defined in the <code>com.sun.messaging.jms.Connection</code> class.
+    </P>
+
+@see com.sun.messaging.jms
+
+</BODY>
+</HTML>
+

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE jmsbridge SYSTEM "sun_jmsbridge_1_0.dtd">
+<!--
+
+    Copyright (c)  200, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<jmsbridge name="mqtomq">
+
+  <link name="7676to7677">
+    <source connection-factory-ref="CF7676" destination-ref="myqueue7676">
+    </source>
+    <target connection-factory-ref="CF7677" destination-ref="myqueue7677">
+    </target>
+  </link>
+
+<!--
+   This connection factory creates connections to the broker that 
+   this jmsbridge is running in
+-->
+  <connection-factory ref-name="CF7676" /> 
+
+  <connection-factory ref-name="CF7677" lookup-name="cn=CF7677">
+    <property name="java.naming.factory.initial"
+              value="com.sun.jndi.fscontext.RefFSContextFactory"/>
+    <property name="java.naming.provider.url" value="file:///tmp/mq/"/>
+  </connection-factory>
+
+  <destination ref-name="myqueue7676" name="myqueue7676" type="queue">
+  </destination>
+  <destination ref-name="myqueue7677" name="myqueue7677" type="queue">
+  </destination>
+
+</jmsbridge>

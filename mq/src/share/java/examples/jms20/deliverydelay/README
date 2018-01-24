@@ -1,0 +1,92 @@
+
+deliverydelay examples
+----------------------
+
+Description
+-----------
+A message producer can set delivery delay time which means a message must not be delivered until after that specified delivery delay time.
+
+This example illustrates how to write an application that demonstrates the 
+use of new JMS2.0 apis setDeliveryDelay & getDeliveryDelay.
+It also illustrates the use of jdk7 feature try-with-resources in JMS application.
+
+Some basic info on this example:
+
+- DeliveryDelayProducer.class sends messages to the particular topic specified with the delivery delay set on 
+  producer to random time intervals.
+- DeliveryDelayConsumer.class receives the message , checks the delivery time, & displays the messages 
+  received with the delivery time. You will see the messages receiving until after that specified delivery 
+  delay time on producer.
+- Start DeliveryDelayConsumer before starting the producer DeliveryDelayProducer
+  since a topic subscription will not receive messages which were sent to the topic before the subscription
+  was created.
+
+Files
+-----
+DeliveryDelayConsumer.java           Source file for this example.
+DeliveryDelayProducer.java           Source file for this example.
+*.class                 	  Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac DeliveryDelayConsumer.java
+    javac DeliveryDelayProducer.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java DeliveryDelayConsumer <topic_name> [<number_of_messages>]
+
+Run the following command on another terminal:
+
+   java DeliveryDelayProducer <topic_name> [<number_of_messages>]
+  
+
+The output of DeliveryDelayConsumer looks like this:
+
+java DeliveryDelayConsumer topic1 5
+
+Topic name is topic1
+Created jms context successfully
+Created topic successfully
+Message Message 1 received with delivery time 1361836834958 ms
+Message Message 2 received with delivery time 1361836844972 ms
+Message Message 3 received with delivery time 1361836854975 ms
+Message Message 4 received with delivery time 1361836864978 ms
+Message Message 5 received with delivery time 1361836875273 ms
+
+The output of DeliveryDelayProducer looks like this:
+
+java DeliveryDelayProducer topic1 5
+
+Topic name is topic1
+Created jms context successfully
+Created topic successfully
+Message Message 1 sent with delayed delivery time 10000 ms
+Message Message 2 sent with delayed delivery time 20000 ms
+Message Message 3 sent with delayed delivery time 30000 ms
+Message Message 4 sent with delayed delivery time 40000 ms
+Message Message 5 sent with delayed delivery time 50000 ms

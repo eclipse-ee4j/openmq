@@ -1,0 +1,321 @@
+JAVA(TM) API for XML MESSAGING (JAXM) CODE EXAMPLES
+===================================================
+
+
+Notes for use with Oracle GlassFish(tm) Server Message Queue
+------------------------------------------------------------
+
+These notes describe the sample applications provided in this
+directory and explain how to use them.  The examples consist of a three
+JAXM SOAP messaging examples (including two servlets that receive SOAP)
+along with two examples that illustrate the use of JAXM and JMS together.
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+The material in these notes is organized into the following sections:
+
+1. List of example applications
+2. Compiling the examples in a Oracle GlassFish(tm) Server Message Queue environment
+3. Assembling and deploying the servlets
+4. Running the example client applications
+
+
+===============================
+1. List of Example Applications
+===============================
+
+The examples consist of the following:
+
+- SOAPEchoServlet.java:
+
+  A JAXM servlet that echoes a SOAP message.
+
+
+- SOAPtoJMSServlet.java:
+
+  A JAXM servlet that receives a SOAP message, wraps it as a JMS message
+  and uses JMS to publish it to a JMS Topic destination.
+
+
+- SendSOAPMessage.java:
+
+  A standalone JAXM client that sends a SOAP message.
+
+
+- SendSOAPMessageWithJMS.java:
+
+  A standalone client that constructs a SOAP message using JAXM,
+  wraps it as a JMS message, and then uses JMS to publish this message
+  to a JMS Topic destination.
+
+
+- ReceiveSOAPMessageWithJMS.java:
+
+  A standalone client that uses JMS to subscribe to a JMS Topic,
+  receives a JMS-wrapped SOAP message, which it then converts to a SOAP
+  message.
+
+
+The first two examples are servlets that consume SOAP messages - i.e. are
+SOAP message 'endpoints'.
+The next two examples create SOAP messages using JAXM; the first of these
+sends the SOAP message using JAXM while the second converts the SOAP message
+to a JMS message and sends it using JMS.
+The last example receives a JMS-wrapped SOAP message which it can convert
+back to a SOAP message which can be manipulated using JAXM.
+
+The three examples that convert SOAP messages into JMS messages
+(and vice-versa) take advantage of the reliable messaging and
+publish and subscribe capabilities of Oracle GlassFish(tm) Server Message Queue.
+
+
+
+====================================================================================
+2. Compiling the examples in a Oracle GlassFish(tm) Server Message Queue Environment
+====================================================================================
+
+The examples have been pre-compiled using the 
+Java 2 Standard Edition SDK version 1.5 (JDK1.5).
+
+To compile the examples,
+ - ensure that all of the following jar files are in
+   your CLASSPATH -
+
+     <IMQ_HOME>/lib/jaxm-api.jar
+     <IMQ_HOME>/lib/jms.jar
+     <IMQ_HOME>/lib/imq.jar
+     <IMQ_HOME>/lib/imqxm.jar
+     javax.xml.soap-api.jar  (http://search.maven.org/remotecontent?filepath=javax/xml/soap/javax.xml.soap-api/1.3.5/javax.xml.soap-api-1.3.5.jar; rename to javax.xml.soap-api.jar)
+     activation.jar  (http://java.sun.com/products/archive/javabeans/jaf11.html)
+
+   You will also need to include the javax.servlet classes in your
+   CLASSPATH to compile the servlets.
+
+   The javax.servlet classes are delivered with the Sun Java(tm) System 
+   Application Server, and the Sun Java(tm) System Web Server in the
+   following locations -
+
+     Application Server - <INSTALL_ROOT>/lib/j2ee-ext.jar
+     Web Server - <INSTALL_ROOT>/bin/https/jar/servlet.jar
+
+To run the examples, you will only need <IMQ_HOME>/lib/imqxm.jar
+in your CLASSPATH.
+
+
+========================================
+3. Assembling and deploying the servlets
+========================================
+
+This section outlines the procedures for assembling and deploying the sample
+servlets to the Sun Java(tm) System Application Server (version 7.0 and later) 
+and the Sun Java(tm) System Web Server (version 6.0 and later).
+You can adapt these procedures to any server that supports a
+J2EE1.3 Web Container.
+
+
+1.  Make the <IMQ_HOME>/examples/jaxm directory your current directory.
+
+
+2.  Ensure that all the examples have been compiled as in the previous section.
+
+
+3.  Create a directory called WEB-INF/classes.
+
+
+4.  Copy the SOAPEchoServlet class file to the WEB-INF/classes directory. 
+
+
+5.  Create a file named web.xml in the WEB-INF directory. 
+
+    The contents of the file should be as follows:
+
+
+        <?xml version="1.0" encoding="UTF-8"?>
+
+        <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
+            http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+
+        <!-- Define servlet-mapped and path-mapped example filters -->
+
+        <!-- Define servlets that are included in the example application -->
+
+        <servlet>
+            <servlet-name>SOAPEchoServlet</servlet-name>
+            <servlet-class>SOAPEchoServlet</servlet-class>
+        </servlet>
+
+        <servlet-mapping>
+            <servlet-name>SOAPEchoServlet</servlet-name>
+            <url-pattern>/imqSOAPexamples/SOAPEchoServlet</url-pattern>
+        </servlet-mapping>
+
+        </web-app>
+
+
+
+6.  Create the war file by running the following command:
+
+    % jar -cvf imqSOAPexamples.war WEB-INF 
+
+    The structure of the output file, imqSOAPexamples.war, looks like this: 
+
+      WEB-INF 
+         |
+         |
+       --|---------------
+       |                |
+    classes          web.xml
+       |
+    SOAPEchoServlet.class
+     
+
+7.  Start the Application Server server using the following command:
+
+    % asadmin start-domain
+
+    which is located in <INSTALL_ROOT>/bin
+
+
+8.  To deploy the imqSOAPexamples.war file to the Sun Java(tm) System Application 
+    Server use the asadmin deploy command.
+    Check with the Application Server documentation for the complete syntax.
+    Only options whose arguments are given below are listed.
+
+    % asadmin deploy [--type application|ejb|web|connector] [--contextroot \
+        contextroot] [--name component-name] [...other options...] filepath
+
+    In this instance, specify - 
+    "web" for the type-application argument,
+    "imqExamples" for the contextroot and name arguments, and
+    the location of the war file for the filepath argument
+        which for these instructions is <IMQ_ROOT>/examples/jaxm/imqSOAPexamples.war
+    
+
+
+==========================================
+4. Running the example client applications
+==========================================
+
+
+The servlet examples  - SOAPEchoServlet and SOAPtoJMSServlet - are described below.
+
+
+  - SOAPEchoServlet.java
+
+    The SOAPEchoServlet.java example uses the javax.xml.messaging.JAXMServlet
+    class to implement a servlet that receives a SOAP messages and echoes a
+    SOAP message back as an acknowledgement.
+
+
+  - SOAPtoJMSServlet.java
+
+    The SOAPtoJMSServlet.java example uses the javax.xml.messaging.JAXMServlet
+    class to implement a servlet that receives a SOAP message and sends the
+    SOAP message using JMS.
+    The onMessage() method of the servlet uses the Oracle GlassFish(tm) Server Message 
+    Queue Message Transformer facility to convert the SOAP message to a JMS message,
+    and then uses JMS to 'publish' the JMS message to a JMS Topic.
+    The default topic name used is "TestTopic". This can be changed via the
+    servlet init parameter called "TopicName".
+    The onMessage() method also adds a message status element with the
+    value "published" to the SOAPBody and returns the SOAP message to the caller.
+
+
+The JAXM client example - SendSOAPMessage is described below.
+
+  - SendSOAPMessage.java
+
+    The SendSOAPMessage.jave example uses the JAXM API to send a
+    "hello world" SOAP message to a SOAP endpoint.
+    The sendMessage method (called from main) uses JAXM to construct a
+    SOAP message object and an endpoint object, and then send the SOAP message
+    to that endpoint.
+
+
+    To exercise either servlet deployed in the previous section run the
+    SendSOAPMessage example using the following command:
+
+
+    % java SendSOAPMessage <soap_servlet_url>
+
+      where <soap_servlet_url> is the url at which a SOAP endpoint/servlet
+      has been deployed.
+
+      e.g.
+
+      % java SendSOAPMessage http://<host>:<port>/<contextroot>/<servletname>
+
+    This command runs the SendSOAPMessage program, passing in (command line)
+    the parameter that specifies the url of the soap servlet.
+    You need to specify values for the host, port, and contextroot arguments.
+    You also need to specify the name of the servlet you want to run:
+        either SOAPEchoServlet or SOAPtoJMSServlet in <servletname>.
+
+
+    Output on the screen for the SOAPEchoServlet should look like this: 
+
+    <soap-env:Envelope xmlns: soap-env="http://schemas.xmlsoap.org/soap/envelope/"><soap-env:Header/> 
+    <soap-env:Body><HelloWorld>Welcome to SunOne Web Services!</HelloWorld></soap-env:Body> 
+    </soap-env:Envelope> 
+
+    NOTE: You can also send the SOAP message to an HTTPS URL.
+          You will need to refer to the server documentation for
+          information on how to deploy the servlet at an https URL.
+
+
+The next two examples demonstrate how to use SOAP messages with JMS clients.
+
+  - SendSOAPMessageWithJMS.java
+
+    The SendSOAPMessageWithJMS example uses the Oracle GlassFish(tm) Server Message Queue 
+    MessageTransformer to send SOAP messages to a JMS Topic.
+    In this example, a SOAP message is first constructed using the
+    javax.xml.soap package.
+    Next, content acquired from http://www.oracle.com/technetwork/java/index-jsp-137004.html
+    is added to the SOAP message.
+    The SOAP message is then converted to a JMS message using the
+    MessageTransformer utility.
+    Finally, the JMS message is published to a JMS topic.
+
+    To run this program, use the following command:
+
+    % java SendSOAPMessageWithJMS <topic_name>
+
+    If you do not specify a topic_name argument, the default value
+    of "TestTopic" will be used.
+
+    NOTE: If your environment requires routing internet HTTP requests
+          via a proxy, be sure to specify HTTP proxy settings using
+          the -D command line options as shown below.
+          The Java platform properties that need to be set are -
+              http.proxyHost <defaults to None>
+              http.proxyPort <defaults to 80 if http.proxyHost is specified>
+
+    % java -D"http.ProxyHost=proxy_server_name" SendSOAPMessageWithJMS <topic_name>
+
+
+  - ReceiveSOAPMessageWithJMS.java
+
+    The ReceiveSOAPMessageWithJMS example, a JMS message listener receives
+    a JMS message (containing a SOAP message). The listener uses the
+    MessageTransformer to convert JMS messages back to a SOAP message.
+
+    To run this program, use the following command
+
+    % java ReceiveSOAPMessageWithJMS <topic_name>
+
+    If you do not specify a topic_name argument, the default value
+    of "TestTopic" will be used.
+    This example can be used to receive messages sent with either the
+    SendSOAPMessageWithJMS example client or the SOAPtoJMSServlet example
+    servlet.
+
+
+================================================================================
+

@@ -1,0 +1,59 @@
+
+
+To use the file based HA config store for testing:
+
+    -Dimq.cluster.ha=true
+    -Dimq.cluster.clusterid=someid
+    -Dimq.brokerid=someid
+
+For now, you will also have to pass in -cluster (since the multibroker
+code uses it)
+
+The filebased store creates a directory in:
+
+    <varhome>/ha
+
+An entry per broker is placed there (this means that two brokers running
+in a cluster must use the same varhome)
+
+
+
+As a temp measure to have the cluster notify the HAMonitoringService that
+code is indoubt (obviously this wont be needed after changes are made to
+the multibroker):
+
+   - in multibroker/ClusterBroadcaster.brokerDown() add code like this:
+
+        try {
+            com.sun.messaging.jmq.jmsserver.
+                  multibroker.fullyconnected.BrokerAddressImpl bi 
+               = (com.sun.messaging.jmq.jmsserver.multibroker.
+                    fullyconnected.BrokerAddressImpl) badr;
+            MQAddress address = MQAddress.createMQAddress(
+                  bi.getHost().getHostName() + ":" + bi.getPort());
+            String id = Globals.getClusterConfig().findBrokerID(address);
+            ClusteredBroker cb = Globals.getClusterConfig().getBroker(id);
+            cb.setStatus(BrokerStatus.INDOUBT);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+
+
+    - in multibroker/raptor/RaptorProtocol.addBrokerInfo(...)  add something like:
+
+        try {
+            BrokerAddress badr = brokerInfo.getBrokerAddr();
+            com.sun.messaging.jmq.jmsserver.
+                  multibroker.fullyconnected.BrokerAddressImpl bi 
+               = (com.sun.messaging.jmq.jmsserver.multibroker.
+                    fullyconnected.BrokerAddressImpl) badr;
+
+             MQAddress address = MQAddress.createMQAddress(
+                bi.getHost().getHostName() + ":" + bi.getPort());
+             String id= Globals.getClusterConfig().addBroker(address);
+             ClusteredBroker cb = Globals.getClusterConfig().getBroker(id);
+             cb.setStatus(BrokerStatus.OPERATING);
+        } catch (Exception ex) {
+             ex.printStackTrace();
+        }
+

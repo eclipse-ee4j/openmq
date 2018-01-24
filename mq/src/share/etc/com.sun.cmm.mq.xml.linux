@@ -1,0 +1,173 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE module SYSTEM "urn:sun:n1:cacao:module:dtd:1_1">
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<!--
+   This is the Message Queue Component Product Module descriptor.
+-->
+
+<!--
+   This module instance name is used to refer the module instance.
+   The end part of the module name (i.e : "mq" in this case) MUST BE
+   the same String (case sensitive) as "PRODUCT_CODE_NAME_CTX_KEY" in 
+   the instrumented component product (initialize method of the Managed 
+   element server).
+-->
+<module name="com.sun.cmm.mq" initial-administrative-state="UNLOCKED">
+
+ <description>
+    GlassFish(tm) Message Queue Module
+ </description>
+
+<!--
+   This section described a strong dependencies to the Java ES MF
+   Node Agent 2.0 Module. This implies that the Node Agent 2.0 must
+   be loaded by cacao and offering services before this current module
+   could be loaded and offer services. The name of the Node Agent Module
+   is "com.sun.mfwk".
+-->
+
+ <module-dependencies>
+    <instance-dependency dependency-type="STRONG_DEPENDENCY">
+       <name>
+          com.sun.mfwk
+       </name>
+    </instance-dependency>
+ </module-dependencies>
+
+<!--
+   The Java ES MF Node agent 2.0 provides a build-in or generic Module for Java ES 
+   Component Products using the Java ES Monitoring Framework instrumentation toolkit (java or C)
+   The Name of this generic module is com.sun.mfwk.MfCpModule.
+-->
+
+ <module-class>
+      com.sun.mfwk.MfCpModule
+ </module-class>
+    
+  <cacao-version-supported>
+       1.1
+  </cacao-version-supported>
+  
+  <heap-requirements-kilobytes>
+       100
+  </heap-requirements-kilobytes>
+  
+  
+     <parameters>
+       
+    <parameter> 
+       <!--
+       Java ES Product Name (exhaustive human readable string identifying the product) 
+       This parameter must be filled and is case sensitive.
+       This paraneter string MUST be the SAME as the "PRODUCT_NAME_CTX_KEY" provided
+       at the initialize  method (Managed Element Server API) in the instrumented component product. 
+       -->
+       <param-name>ProductName</param-name>   
+       <param-value>Message Queue</param-value>
+    </parameter>
+    
+    <parameter>
+       <!--
+       Java ES Installation Location 
+       This parameter must be filled and is case sensitive.
+       The String used here MUST be the SAME as the "PRODUCT_COLLECTIONID_CTX_KEY" provided at
+       the initialize  method  (Managed Element Server API) in the instrumented component product.
+       -->
+       <param-name>InstalledLocation</param-name>   
+       <param-value>/opt/sun/mq</param-value> 
+    </parameter>
+    
+    <parameter> 
+       <!--
+       The InstalledProduct's Build Number.
+       --> 
+       <param-name>BuildNumber</param-name>   
+       <param-value>26</param-value> 
+    </parameter>
+    
+    <parameter> 
+       <!--
+       The InstalledProduct's Patch ID.
+       --> 
+       <param-name>PatchID</param-name>   
+       <param-value>1.0</param-value>  
+    </parameter>
+    
+    <parameter>
+       <!--
+       The InstalledProduct's Revision
+       --> 
+       <param-name>RevisionNumber</param-name>   
+       <param-value>4.1</param-value> 
+    </parameter>
+    
+    <parameter>
+       <!--
+       The InstalledProduct's Installation Date in milliseconds.
+       -->   
+       <param-name>InstallDate</param-name>   
+       <param-value>123456789</param-value>
+    </parameter>
+    
+     <parameter>
+        <!--
+        The Caption property is a short textual description (one-line string) of the 
+        installed product.
+        -->    
+       <param-name>Caption</param-name>   
+       <param-value>GlassFish(tm) Message Queue</param-value>
+    </parameter>
+    
+    <parameter>
+       <!--
+       The Description property provides a textual description of the installed product.
+       -->   
+       <param-name>Description</param-name>   
+       <param-value>GlassFish(tm) Message Queue</param-value>
+    </parameter>
+    
+    <parameter> 
+       <!--
+       The scoping Product's identification.
+       -->  
+       <param-name>ProductIdentifyingNumber</param-name>   
+       <param-value>urn:uuid:44344096-b760-11db-8069-080020a9ed93</param-value>
+    </parameter>
+    
+    <parameter>
+       <!--
+       The scoping Product's vendor.
+       -->    
+       <param-name>ProductVendor</param-name>   
+       <param-value>Oracle</param-value>
+    </parameter>
+    
+    <parameter>
+       <!--
+       The scoping Product's version.
+       -->    
+       <param-name>ProductVersion</param-name>   
+       <param-value>4.1</param-value>
+    </parameter>
+    
+    
+  </parameters>
+    
+</module>

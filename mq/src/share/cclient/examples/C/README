@@ -1,0 +1,91 @@
+C Client Examples For Message Queue C-API
+
+
+This directory contains C client examples to help you get started
+using the Message Queue C-API. 
+
+The Message Queue C-API allows clients written in the C/C++ programming 
+languages to use Message Queue directly. The Message Queue C-API client 
+runtime library communicates directly with the Message Queue broker.
+
+The Message Queue C-API client runtime library mqcrt and the API header 
+files are located in the following directories:
+
+IPS image: IMQ_HOME/lib (32-bit platforms, where supported)
+	   IMQ_HOME/lib/64 (64-bit platforms, where supported)
+	   IMQ_HOME/lib (Linux)
+	   IMQ_HOME/lib64 (Linux X64)
+	   IMQ_HOME/include
+
+Solaris SVR4 packages: 
+   	 /opt/SUNWimq/lib 
+         /opt/SUNWimq/lib/sparcv9 (64-bit Solaris SPARC)
+         /opt/SUNWimq/lib/amd64   (64-bit Solaris x86)
+         /opt/SUNWimq/include
+
+Linux RPM packages:   
+	 /opt/sun/mq/lib
+         /opt/sun/mq/include
+
+where IMQ_HOME is the root Message Queue installation directory.
+
+
+To build the examples, use a supported compiler (see Message Queue C-API 
+documentation).
+
+For example, to build the example program Producer in the directory 
+producer_consumer,
+
+On Solaris:
+
+CC  -compat=5 -mt -DSOLARIS -I<header_path> -o Producer \
+    -L<runtime_path> -lmqcrt Producer.c
+
+for 64-bit on Solaris SPARC,
+
+CC  -compat=5 -mt -xarch=v9 -DSOLARIS -I<header_path> -o Producer \
+    -L<runtime_path> -lmqcrt Producer.c
+
+for 64-bit on Solaris x86,
+
+CC  -compat=5 -mt -xarch=amd64 -DSOLARIS -I<header_path> -o Producer \
+    -L<runtime_path> -lmqcrt Producer.c
+
+On Linux: 
+
+g++ -DLINUX -D_REENTRANT -I<header_path> -o Producer \
+    -L<runtime_path> -lmqcrt Producer.c
+
+On AIX:
+
+xlC_r -qthreaded -DAIX -I<header_path> -o Producer \
+    -blibsuff:so -L<runtime_path> -lmqcrt Producer.c
+
+On Windows:
+
+with Microsoft Visual Studio 2008 C/C++ compiler
+
+to compile,
+
+cl /c /MD -DWIN32 -I%IMQ_HOME%\include Producer.c
+
+to link,
+
+link Producer.obj /NODEFAULTLIB kernel32.lib msvcrt.lib /LIBPATH:%IMQ_HOME%\lib mqcrt.lib
+
+to run on Windows, include %IMQ_HOME%\lib;%IMQ_HOME%\..\nss\lib in library search path
+
+
+The following is a list of directories which contain the C client examples:
+
+. producer_consumer
+. producer_async_consumer
+. request_reply
+. tuxedo
+
+Please see individual source files description or the Developer's Guide for
+C Clients on how to run the examples. 
+
+You should start the Message Queue broker before running the examples.
+
+For tuxedo examples, please see README in tuxedo directory.

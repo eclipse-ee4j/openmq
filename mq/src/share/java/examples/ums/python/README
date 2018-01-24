@@ -1,0 +1,39 @@
+@(#)README      1.0 09/09/08
+
+UMS APIs examples
+
+Description
+-----------
+This directory contains Python examples that illustrates the use of the
+UMS APIs to send and receive text or binary message.
+
+Files
+-----
+SendMsg.py		Source file for Python application that sends text
+			message to a UMS server.
+ReceiveMsg.py		Source file for Python application that receives text
+			message from a UMS server.
+SendSOAPMsg.py		Source file for Python application that sends text
+			or binary message as XML/SOAP message to a UMS server.
+ReceiveSOAPMsg.py	Source file for Python application that receives text
+			or binary message as XML/SOAP message from a UMS server.
+README			This file.
+
+Configuring the environment
+---------------------------
+SendMsg.py and ReceiveMsg.py require Python 2.3 or later version.
+SendSOAPMsg.py and ReceiveSOAPMsg.py require Python 2.5 or later version.
+
+The examples above assume that the Context Root for the UMS web module
+is '/ums'. If this is not the case, please modify the DEFAULT_CONTEXT_ROOT
+variable in the application accordingly.
+
+Running the example
+-------------------
+The examples can be run using the python command, e.g.
+
+    python <application> -h
+
+For example,
+
+    python SendMsg.py -h

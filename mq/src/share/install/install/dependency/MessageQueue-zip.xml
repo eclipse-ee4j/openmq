@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<Component xmlns="http://openinstaller.org/dependency/V1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://bindings.install.sun.com/Component ../schemas/Comp
+onent.xsd">
+
+  <!-- MQ dependency file -->
+
+  <Identity>
+    <Identifier feature="true">mq</Identifier>
+    <Description>Oracle GlassFish(tm) Server Message Queue</Description>
+    <IdentityVersion>
+      <VersionBaseline>5.0.0.0</VersionBaseline>
+    </IdentityVersion>
+    <Vendor>Oracle</Vendor>
+    <Other>Java Enterprise System</Other>
+  </Identity>
+
+   <Requirements>
+    <ComponentRefs>
+<!--
+      <ComponentRef>
+        <ComponentIdentifier>NSPR</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>4.7</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+-->
+
+      <ComponentRef>
+        <ComponentIdentifier>NSS</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>3.13.1</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+
+<!--
+      <ComponentRef>
+        <ComponentIdentifier>jdk5</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>1.5.0_15</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+-->
+      <ComponentRef>
+        <ComponentIdentifier>JavaHelpRuntime</ComponentIdentifier>
+        <ComponentRefVersion>
+          <VersionBaseline>2.0</VersionBaseline>
+        </ComponentRefVersion>
+      </ComponentRef>
+    </ComponentRefs>
+  </Requirements>
+
+  <Payload>
+    <CompositeUnit>
+      <Name>core</Name>
+
+      <!-- Unix -->
+      <Realization version="5.0.0.0">
+        <OS>
+          <Type>unix</Type>
+          <Name>SunOS</Name>
+          <OtherName>linux</OtherName>
+	  <OtherName>hpux</OtherName>
+	  <OtherName>aix</OtherName>
+	  <OtherName>sco</OtherName>
+	  <OtherName>irix</OtherName>
+	  <OtherName>osf1</OtherName>
+          <OtherName>macosx</OtherName>
+	  <OtherName>UNDEFINED</OtherName>
+          <Arch>sparc</Arch>
+          <OtherArch>sparcv9</OtherArch>
+          <OtherArch>x86_64</OtherArch>
+          <OtherArch>i386</OtherArch>
+          <OtherArch>alpha</OtherArch>
+          <OtherArch>mips</OtherArch>
+          <OtherArch>pa-risc</OtherArch>
+	  <OtherArch>powerpc</OtherArch>
+	  <OtherArch>UNDEFINED</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>1</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">25Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>mq-image.zip</InstallableUnit>
+        <InstallableUnit>mq-oi.zip</InstallableUnit>
+      </Realization>
+
+      <!-- Windows -->
+      <Realization>
+        <OS>
+          <Type>windows</Type>
+          <Name>Windows XP</Name>
+          <OtherName>Windows 2000</OtherName>
+          <OtherName>Windows 2003</OtherName>
+          <OtherName>UNDEFINED</OtherName>
+          <Arch>i386</Arch>
+          <OtherArch>x86_64</OtherArch>
+          <VersionCertified>
+            <VersionBaseline>5.1</VersionBaseline>
+          </VersionCertified>
+          <RequirementsRealization>
+            <Item type="disk">52Mb</Item>
+          </RequirementsRealization>
+        </OS>
+        <InstallableUnit>mq-image.zip</InstallableUnit>
+        <InstallableUnit>mq-oi.zip</InstallableUnit>
+      </Realization>
+
+    </CompositeUnit>
+
+  </Payload>
+</Component>
+

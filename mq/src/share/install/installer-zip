@@ -1,0 +1,315 @@
+#!/bin/sh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+PRODUCTNAME="mq"
+ORIG_ARGS=$@
+
+# binaries needed on both Solaris, Linux, etc.
+BASENAME=basename
+DIRNAME=dirname
+CAT=/bin/cat
+ECHO=/bin/echo
+_PWD=/bin/pwd
+RM=/bin/rm
+UNAME=uname
+
+NAME=`$BASENAME $0`
+MYDIR=`$DIRNAME $0`
+MYDIR=`cd ${MYDIR}; ${_PWD}`
+
+ENGINE_DIR=${MYDIR}/install
+META_DATA_DIR=
+INIT_CONFIG_DIR=
+
+# global settings
+JAVAHOME=""				# java home path
+JAVA_OPTIONS=""			# java options
+INSTALLPROPS=""         # install specific properties
+
+# user options
+DRYRUN=
+SILENT=
+ANSWERFILE=
+ALTROOT=
+DEBUGLEVEL="INFO"
+MEDIALOC=
+#LOGDIR=/tmp
+
+DEFAULT_INSTALL_DIR="${HOME}/MessageQueue"
+INSTALLHOME_PROP_NAME=InstallHome.directory.INSTALL_HOME
+
+BASE_INSTALL_PROPS="${MYDIR}/install.properties"
+INSTALL_PROPS=/tmp/installprops.XXXX
+INSTALL_LIB_CLASSES="${MYDIR}/install-lib/classes"
+
+#-------------------------------------------------------------------------------
+# usage only: define what parameters are available here
+# input(s):  exitCode
+#-------------------------------------------------------------------------------
+usageWithoutTextOption() {
+  ${CAT} <<EOF
+Usage: $NAME [OPTION]
+
+Options:
+  -a <file>
+  Specify an answer file to be used by installer in non interactive mode.
+
+  -h
+  Show usage help
+
+  -j <path>
+  Specify java runtime to use to run the installer
+
+  -s
+  Silent mode. No output will be displayed. Typically used with an answer file
+  specified with -a
+
+  -n <file>
+  Dry run mode. Does not install anything. Your install responses are saved to
+  <file> and can be used with -a to replicate this install.
+
+  -r
+  Register product. Does not install anything. Runs the installer's product 
+  registration screens.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+  Usage examples:
+   Generate answer file
+    installer -n file1
+
+   Using an answer file in silent mode
+    installer -a file1 -s
+
+EOF
+  exit $1
+}
+
+usageWithTextOption() {
+  ${CAT} <<EOF
+Usage: $NAME [OPTION]
+
+Options:
+  -a <file>
+  Specify an answer file to be used by installer in non interactive mode.
+
+  -h
+  Show usage help
+
+  -j <path>
+  Specify java runtime to use to run the installer
+
+  -s
+  Silent mode. No output will be displayed. Typically used with an answer file
+  specified with -a
+
+  -n <file>
+  Dry run mode. Does not install anything. Your install responses are saved to
+  <file> and can be used with -a to replicate this install.
+
+  -r
+  Register product. Does not install anything. Runs the installer's product 
+  registration screens.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+  Usage examples:
+   Generate answer file
+    installer -n file1
+
+   Using an answer file in silent mode
+    installer -a file1 -s
+
+EOF
+  exit $1
+}
+
+usage() {
+  if [ `${UNAME} -s` = SunOS -o `${UNAME} -s` = Linux ]; then
+      usageWithTextOption;
+  else
+      usageWithoutTextOption
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# Writes out installer properties to temp file.
+# input(s):	HOME, JAVA_HOME, BASE_INSTALL_PROPS
+# output(s):	INSTALL_PROPS
+#
+# This is a workaround for the fact that 'mktemp' is not available on AIX
+#-------------------------------------------------------------------------------
+writeTmpInstallProps() {
+    INSTALL_PROPS=`${JAVA_HOME}/bin/java -cp ${INSTALL_LIB_CLASSES} MkTemp`
+
+    if [ $? -ne 0 ]; then
+        echo "Unable to create temporary file, exiting..."
+        exit 1
+    fi
+
+    ${CAT} ${BASE_INSTALL_PROPS} >> ${INSTALL_PROPS}
+    echo "${INSTALLHOME_PROP_NAME}=${DEFAULT_INSTALL_DIR}" >> ${INSTALL_PROPS}
+}
+
+#-------------------------------------------------------------------------------
+# perform actual operation for the script: install/uninstall
+# input(s):  none
+# output(s): instCode
+#-------------------------------------------------------------------------------
+perform() {
+REG_CP=${INSTALL_LIB_CLASSES}
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/commons-codec-1.3.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/registration-api.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/registration-impl.jar"
+REG_CP="${REG_CP}:${MYDIR}/install-lib/registration/sysnet-all.jar"
+
+ENGINE_OPS="-p Default-Product-ID=${PRODUCTNAME}"
+ENGINE_OPS="${ENGINE_OPS} -p Init-Config-Locations=${PRODUCTNAME}:${INIT_CONFIG_DIR}"
+ENGINE_OPS="${ENGINE_OPS} -p UI-Options=internalBrowserOnly"
+ENGINE_OPS="${ENGINE_OPS} -p Merge-Config-Data=false"
+ENGINE_OPS="${ENGINE_OPS} -m file://${META_DATA_DIR}/"
+ENGINE_OPS="${ENGINE_OPS} -i file://${MYDIR}/Product"
+ENGINE_OPS="${ENGINE_OPS} -a ${INSTALL_PROPS}"
+ENGINE_OPS="${ENGINE_OPS} -C ${REG_CP}"
+ENGINE_OPS="${ENGINE_OPS} -p Exclude-JVMs=${MYDIR}"
+ENGINE_OPS="${ENGINE_OPS} -p Pkg-Format=zip"
+JAVA_OPTIONS="${JAVA_OPTIONS} -Dmq.install.servicetag.registry.relpath=${ST_REG_RELPATH}"
+
+if [ -n "${DRYRUN}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -n ${DRYRUN}"
+fi
+
+if [ -n "${SILENT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Display-Mode=SILENT"
+fi
+
+if [ -n "${ANSWERFILE}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -a ${ANSWERFILE}"
+fi
+
+if [ -n "${ALTROOT}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -R ${ALTROOT}"
+fi
+
+if [ -n "${LOGLEVEL}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -l ${LOGLEVEL}"
+fi
+
+if [ -n "${LOGDIR}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -p Logs-Location=${LOGDIR}"
+fi
+
+if [ -n "${JAVA_HOME}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} -j ${JAVA_HOME}"
+fi
+
+if [ -n "${INSTALLPROPS}" ] ; then
+    ENGINE_OPS="${ENGINE_OPS} ${INSTALLPROPS}"
+fi
+
+${ENGINE_DIR}/bin/engine-wrapper -J "${JAVA_OPTIONS}" ${ENGINE_OPS}
+instCode=$?
+
+}
+
+#-------------------------------------------------------------------------------
+# ****************************** MAIN THREAD ***********************************
+#-------------------------------------------------------------------------------
+
+OPTSTRING="hl:n:rsvta:j:J:p:"
+
+# check arguments
+while getopts "${OPTSTRING}" opt ; do
+    case "${opt}" in
+
+	a) ANSWERFILE=${OPTARG}
+	    if [ ! -r ${ANSWERFILE} ] ; then
+		${ECHO} "Error: Answer file ${ANSWERFILE} does not exist or is not readable."
+		exit 1
+	    fi
+	;;
+
+        r) BASE_INSTALL_PROPS="${MYDIR}/install_regonly.properties"; INSTALLHOME_PROP_NAME=InstallDirectory.directory.INSTALL_DIRECTORY
+        ;;
+
+	l) LOGDIR=${OPTARG}
+
+	    if [ ! -d ${LOGDIR} -o ! -w ${LOGDIR} ] ; then
+		${ECHO} "${LOGDIR} is not a directory or is not writable"
+		exit 1
+	    fi
+	;;
+
+	s) SILENT=true
+	;;
+	v) LOGLEVEL=FINEST
+	;;  
+        t) INSTALLPROPS="${INSTALLPROPS} -p Display-Mode=CUI"
+  	    if [ `${UNAME} -s` = AIX ]; then
+	  	usage
+	    fi
+        ;;
+        n) DRYRUN=${OPTARG}
+        ;;
+	j) _CMDLINEJAVA_HOME=${OPTARG}
+	;;
+	J) JAVA_OPTIONS=${OPTARG}
+	;;
+	p) INSTALLPROPS="${INSTALLPROPS} -p ${OPTARG}"
+	;;
+	?|h) usage
+	;;
+    esac
+done
+
+
+ENGINE_DIR=${MYDIR}/install
+INIT_CONFIG_DIR=${MYDIR}/mq/lib/install
+ST_REG_RELPATH=etc/mq/registry/servicetag.xml
+
+META_DATA_DIR=${MYDIR}/var/install/contents/${PRODUCTNAME}
+
+
+trap 'exit' 1 2 13 15
+
+if [ "$_CMDLINEJAVA_HOME" != "" ]; then
+    JAVA_HOME=${_CMDLINEJAVA_HOME}
+fi
+
+if [ "$JAVA_HOME" = "" ] ; then
+    ${ECHO} "Please specify the root directory of a valid java runtime using the JAVA_HOME environment variable or the -j option."
+    exit 1
+fi
+
+if [ ! -s ${JAVA_HOME}/bin/java -o ! -x ${JAVA_HOME}/bin/java ] ; then
+    ${ECHO} "The java runtime specified (via the JAVA_HOME environment variable or the -j option) does not appear to be valid: ${JAVA_HOME}"
+    exit 1
+fi
+
+writeTmpInstallProps
+
+perform
+
+${RM} -rf ${INSTALL_PROPS}
+
+exit $instCode
+
+

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="CreateSOA" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="CreateSOA" apt:label="Create Sun Online Account" >
+
+    <apt:page apt:name="CreateSOAPage" apt:label="Create Sun Online Account" >
+
+      <apt:section apt:name="userinfo" apt:label="User Info" >
+
+        <apt:property apt:name="CREATE_SOA_HEADER" apt:dataPath="" apt:type="xs:string">
+	<apt:prop-value>$CREATE_SOA_TEXT1</apt:prop-value>
+	    <apt:visual>
+	        <apt:htmlPanel/>
+	    </apt:visual>
+        </apt:property>
+
+
+        <apt:property apt:name="EMAIL_ADDRESS" apt:label="$MQ_EMAIL_ADDRESS"
+                      apt:dataPath="userinfo.EMAIL"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:textField apt:toolTip="$MQ_EMAIL_ADDRESS"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="PASSWORD" apt:label="$MQ_PASSWORD"
+                      apt:dataPath="userinfo.PASSWORD"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:password apt:toolTip="$MQ_PASSWORD"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="RETYPEPASSWORD" apt:label="$MQ_RETYPE_PASSWORD"
+                      apt:dataPath="userinfo.RETYPEPASSWORD"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:password apt:toolTip="$MQ_RETYPE_PASSWORD"/>
+	  </apt:visual>
+        </apt:property>
+
+
+        <apt:property apt:name="FIRSTNAME" apt:label="$MQ_FIRST_NAME"
+                      apt:dataPath="userinfo.FIRSTNAME"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:textField apt:toolTip="$MQ_FIRST_NAME"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="LASTNAME" apt:label="$MQ_LAST_NAME"
+                      apt:dataPath="userinfo.LASTNAME"
+                      apt:type="xs:string">
+	  <apt:visual>
+	    <apt:textField apt:toolTip="$MQ_LAST_NAME"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="COUNTRY" apt:label="$MQ_COUNTRY"
+                      apt:dataPath="userinfo.COUNTRY"
+                      apt:type="xs:string">
+	<apt:prop-value>$COUNTRY_LIST</apt:prop-value>
+	  <apt:visual>
+	    <apt:comboBox apt:toolTip="$MQ_COUNTRY"/>
+	  </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="CREATE_SOA_FOOTER" apt:dataPath="" apt:type="xs:string">
+	<apt:prop-value>$CREATE_SOA_TEXT2</apt:prop-value>
+	    <apt:visual>
+	        <apt:htmlPanel/>
+	    </apt:visual>
+        </apt:property>
+
+        <apt:property apt:name="DUMMY_PROP" apt:label=""
+                      apt:dataPath="userinfo.DUMMY_PROP"
+                      apt:type="xs:string">
+	  <apt:prop-value></apt:prop-value>
+	  <apt:visual>
+	    <apt:textField/>
+	  </apt:visual>
+        </apt:property>
+
+
+
+      </apt:section>
+
+
+  <apt:scriptHandler apt:scriptLanguage="beanshell" >
+  <apt:scriptCode><![CDATA[
+  import java.lang.String;
+  import java.util.List;
+  import java.util.HashMap;
+  import java.util.Properties;
+  import java.io.*;
+  import org.openinstaller.provider.conf.ConfigHelper;
+  import org.openinstaller.util.EnhancedException;
+  import org.openinstaller.util.Msg;
+
+    getComponentByName(aParent, aName) {
+      if (aParent == null || ! (aParent instanceof Container)) {
+        return null;
+      }
+      Component[] theComponents = ((Container)aParent).getComponents();
+      for (Component theComp : theComponents) {
+        if (aName.equals(theComp.getName())) {
+          return theComp;
+        }
+      }
+      for (Component theComp : theComponents) {
+        if (theComp instanceof Container) {
+          Object theCompo = getComponentByName((Container) theComp, aName);
+          if (theCompo != null) {
+            return theCompo;
+          }
+        }
+      }
+      return null;
+    }
+
+    createSOACheckNullEmpty(prop)  {
+        createSOACheckNullEmpty(prop, false);
+    }
+
+    createSOACheckNullEmpty(prop, checkLatin1)  {
+	String inputStatus = (String)ConfigHelper.getValue("CreateSOA.userinfo.STATUS");
+
+	/*
+	 * If the error status is already set, don't do the check again. One error dialog
+	 * is enough. If there are 5 fields on the form and the user didn't fill in any of 
+	 * them, we don't need to show 5 popups.
+	 */
+	if ((inputStatus != null) && (inputStatus.equals("ERROR")))  {
+	    return;
+	}
+
+	String myValue = (String)prop.getUnconfirmedValue();
+	if ((myValue == null) || myValue.equals("")) {
+            ConfigHelper.setValue("CreateSOA.userinfo.STATUS", "ERROR");
+	    throw new EnhancedException("NULL_OR_EMPTY_VALUE", new String[]{});
+	}
+
+	if (checkLatin1)  {
+	    /*
+	     * Throw exception if input contains strings that are not in iso-8859-1
+	     * charset. eg. if it contains multibyte chars.
+	     */
+	    for(int i = 0; i < myValue.length(); i++)  {
+	        if (!Character.UnicodeBlock.of(myValue.charAt(i)).
+	                equals(Character.UnicodeBlock.BASIC_LATIN) &&
+	            !Character.UnicodeBlock.of(myValue.charAt(i)).
+	                equals(Character.UnicodeBlock.LATIN_1_SUPPLEMENT) &&
+	            !Character.UnicodeBlock.of(myValue.charAt(i)).
+	                equals(Character.UnicodeBlock.LATIN_EXTENDED_A) &&
+	            !Character.UnicodeBlock.of(myValue.charAt(i)).
+	                equals(Character.UnicodeBlock.LATIN_EXTENDED_B))  {
+                ConfigHelper.setValue("CreateSOA.userinfo.STATUS", "ERROR");
+	        throw new EnhancedException("INPUT_NOT_LATIN1", new String[]{});
+	        }
+	    }
+	}
+    }
+
+    setCountryToSend(prop)  {
+
+	// Get the index into the list of countries displayed.
+   	// Use that to index into the list of countries to send.
+        countryCombo = getComponentByName(content, "COUNTRY");
+        cIndex = countryCombo.getSelectedIndex();
+
+        countriesSend = Msg.get("MQ_COUNTRIES_SEND", null);
+        cListSend = countriesSend.split(";");
+
+	// Check cIndex is within array bounds of cListSend.
+	// If cIndex is out of bounds, then the country lists are
+	// not equal so let's default to U.S. in hoping that 
+	// U.S. in the first postition.
+        if (cIndex + 1 > cListSend.length) {
+	    cIndex = 0;
+	}
+	countryToSend = cListSend[cIndex];
+
+    	// Save this value for later.
+	ConfigHelper.setValue("CreateSOA.userinfo.COUNTRY_SEND", countryToSend);
+       
+    }
+
+
+    run() {
+
+      // 
+      // Get list of countries for both localized list and 
+      // the English list (list to send).
+      //
+      countriesDisplay = Msg.get("MQ_COUNTRIES", null);
+
+      // See if a country was previously set/selected
+      String countrySet = (String)ConfigHelper.getValue("CreateSOA.userinfo.COUNTRY");
+      int countrySetIndex = -1;
+
+      //
+      // Parse out list of countries and add each country to the combo list.
+      //
+      countryCombo = getComponentByName(content, "COUNTRY");
+      if (countriesDisplay != null && countryCombo != null) {
+        cList = countriesDisplay.split(";");
+        for (int i = 0; i < cList.length; i++) {
+	    countryCombo.addItem(cList[i]);
+
+	    //
+	    // Look for index of previously selected country if not already found
+	    //
+            if ((countrySetIndex == -1) && 
+		(countrySet != null) && !countrySet.equals(""))  {
+		if (countrySet.equals(cList[i]))  {
+		    countrySetIndex = i;
+		}
+	    }
+        }
+      }
+
+      if (countrySetIndex != -1)  {
+          countryCombo.setSelectedIndex(countrySetIndex);
+      }
+
+      dummyProp = getComponentByName(content, "DUMMY_PROP");
+      if (dummyProp != null)  {
+	dummyProp.setVisible(false);
+	dummyProp.setText("");
+      }
+
+      wizard.enableCancel(true);
+      wizard.enableBack(true);
+      wizard.enableNext(true);
+     }
+
+    return (Runnable)this;
+  ]]></apt:scriptCode>
+  </apt:scriptHandler>
+
+
+
+    </apt:page>
+  </apt:category>
+</apt:template>
+

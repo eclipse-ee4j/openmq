@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2006, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<apt:template apt:name="RegistrationWelcome" xmlns:apt="http://www.sun.com/jds/apoc/2004/template"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+   xmlns:oor="http://openoffice.org/2001/registry"
+  xsi:schemaLocation="http://www.sun.com/jds/apoc/2004/template ../../../consumables/schemas/config/apoc/policytemplate.xsd">
+  <apt:category apt:name="RegistrationWelcome" apt:label="Welcome" >
+
+ <apt:page apt:name="RegistrationWelcomePage" apt:label="WelcomePage" >
+
+  <apt:section apt:name="regwelcome" apt:label="WELCOME" >
+        <apt:property apt:name="WELCOME_TEXT"
+         apt:dataPath=""
+         apt:type="xs:string">
+         <apt:prop-value>$RegistrationWelcome_WELCOME_TEXT</apt:prop-value>
+         <apt:visual>
+              <apt:htmlPanel />
+         </apt:visual>
+         </apt:property>
+  </apt:section>
+   <apt:scriptHandler apt:scriptLanguage="beanshell">
+    <apt:scriptCode>
+   import org.openinstaller.bus.*;
+   import org.openinstaller.core.*;
+   import org.openinstaller.provider.dependency.*;
+   import org.openinstaller.provider.operation.*;
+   import org.openinstaller.provider.operation.*;
+   import org.openinstaller.provider.sims.*;
+   import org.openinstaller.provider.task.*;
+   import org.openinstaller.provider.task.TaskControl.TaskCommand;
+   import org.openinstaller.util.*;
+
+   wizard.enableCancel(true);
+   wizard.enableHelp(true);
+   wizard.enableNext(true);
+    </apt:scriptCode>
+  </apt:scriptHandler>
+  </apt:page>
+
+  </apt:category>
+</apt:template>

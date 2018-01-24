@@ -1,0 +1,50 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>broker config messaging</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H2>Query/Update Broker &gt; <BR>Messaging</H2>
+ 
+<P>Use this tab to configure messaging capacity and message size for this instance 
+  of the broker.</P>
+
+<P><b>Max Number of Messages in System </b>Specifies maximum number of messages 
+  in both memory and disk (due to swapping). Additional messages will be rejected. 
+  Default is Unlimited.</P>
+
+<P><b>Max Total Message Bytes in System</b> Specifies maximum total size (in bytes, 
+  Kbytes, or Mbytes) of messages in both memory and disk (due to swapping). Additional 
+  messages will be rejected. Default is Unlimited. Use the drop list to specify 
+  the units used to calculate the size: bytes, kilobytes, or megabytes.</P>
+
+<P><b>Max Message Size</b> Specifies maximum allowed size (in bytes, Kbytes, or 
+  Mbytes) of a message body. Any message larger than this will be rejected. Default 
+  is 70 megabytes. Use the drop list to specify the units used to calculate the 
+  size: bytes, kilobytes, or megabytes.</P>
+
+<P>&nbsp;</P>
+
+</BODY>
+</HTML>

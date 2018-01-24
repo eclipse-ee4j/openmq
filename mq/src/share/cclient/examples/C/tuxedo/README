@@ -1,0 +1,103 @@
+This directory contains examples of using MQ C-API XA feature
+in Tuxedo applications with MQ as a X/Open XA-compliant resource 
+manager (RM). 
+
+The following are the public information for MQ C-API XA:
+
+. The name of the xa_switch_t:   sun_mq_xa_switch 
+. The name of the RM:            SUN_MQ
+. xa_open  string and format:    ';' separated name=value pairs
+                                 (see details in documentation)
+. xa_close string and format:    none
+. MQ C-API library to be linked: mqcrt (see README in parent directory)
+
+
+----------------------------------------------------------------------
+step 1: Install Tuxedo under $TUXDIR
+
+step 2: Setup environment
+
+        LD_LIBRARY_PATH        - Modify to include MQ C-API runtime library
+                                 path and TUXDIR/lib
+        TUXDIR                 - Tuxedo install root
+        PATH                   - Modify to include $TUXDIR/bin and compiler path
+        TUXCONFIG              - TUXCONFIG filename path
+        TLOGDEVICE             - Tuxedo transaction log filename path
+        MQ_HOME                - MQ install root
+        MQ_LOG_FILE            - MQ C-API runtime log file name
+        MQ_LOG_FILE_APPEND_PID - Set so MQ C-API runtime log file name will be 
+                                 auto-appended with Tuxedo server process id 
+
+step 3: Build TMS 
+
+     a. Add the following entry to the $TUXDIR/udataobj/RM file: 
+
+        SUN_MQ:sun_mq_xa_switch:-lmqcrt
+ 
+     b. Build the TMS executable using buildtms
+
+        buildtms -o $TUXDIR/bin/<exe-name> -r SUN_MQ
+
+step 4: Build server-side of application
+
+     for example on Solaris,
+
+     cc -I$MQ_HOME/include -I$TUXDIR/include -g -c jmsserver.c
+
+     buildserver -v -t -r SUN_MQ -s SENDMESSAGES,RECVMESSAGES -o jmsserver -f jmsserver.o -f -lmqcrt
+     
+step 5: Build client-side of application
+
+     for example on Solaris,
+
+     cc -I$TUXDIR/include -c jmsclient_sender.c
+     buildclient -o jmsclient_sender -f jmsclient_sender.o
+
+
+     cc -I$TUXDIR/include -c jmsclient_receiver.c
+     buildclient -o jmsclient_receiver -f jmsclient_receiver.o
+
+step 6: Configure Texudo servers
+
+     tmloadcf <config-file> 
+
+step 7: Start MQ broker
+
+     imqbrokerd -tty
+
+step 8: Start Tuxedo servers
+
+     tmboot
+
+step 9: Run Tuxedo client-side application
+
+     jmsclient_sender
+
+     jmsclient_receiver
+
+     You can run imqcmd to confirm the messages are produced to or 
+     consumed from the destination after you have run jmsclient_sender
+	 or jmsclient_receiver 
+
+     imqcmd list dst -u admin 
+
+
+---------------------------------------------------------------------
+The following are the distributed transaction examples: 
+
+jmsserver.c -  Implements Tuxedo services that send and receive 
+               messages using the Message Queue C-API 
+
+jmsclient_sender.c - Tuxedo client that uses the message producing
+                     service in jmsserver.c
+
+jmsclient_receiver.c - Tuxedo client that uses the message receiving
+                       service in jmsserver.c
+
+async_jmsserver.c - Implements a Tuxedo service that asynchronously 
+                    consumes messages using the Message Queue C-API 
+
+jmsclient_async_receiver.c - Tuxedo client that uses the asynchronous
+                             message consuming service in async_jmsserver.c 
+
+

@@ -1,0 +1,797 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project name="rules" >
+
+
+ <!-- ==================== imports =========================== -->
+
+ <property name="rulesdir" value="${ws.top.dir}/src/buildant"/>
+ <property name="extjars" value="${ws.top.dir}/extlib"/>
+
+ <!-- load the initial OS settings -->
+ <import file="${rulesdir}/defs.xml"/>
+
+ <!-- load any overriding properties -->
+ <property file="${ws.top.dir}/build.properties"/>
+
+ <!-- load default properties -->
+ <property file="${rulesdir}/default.properties"/>
+
+ <!-- load version string information -->
+ <property file="${rulesdir}/../buildcfg/version.gmk"/>
+
+
+ <!-- load the definitions file -->
+ <import file="${rulesdir}/paths.xml"/>
+
+ <!-- load the definitions file for native code-->
+ <import file="${rulesdir}/cpaths.xml"/>
+
+ <!-- load the jar files rules -->
+ <import file="${rulesdir}/jarrules.xml"/>
+
+ <!-- load the dist (install) rules -->
+ <import file="${rulesdir}/distrules.xml"/>
+
+ <!-- load the C rules -->
+ <import file="${rulesdir}/crules.xml"/>
+
+
+  <target name="environment">
+     <echo message="----------------------------"/>
+     <echo message="      General environment"/>
+     <echo message="----------------------------"/>
+     <echo message="family       : ${family}"/>
+     <echo message="arch         :${arch}"/>
+     <echo message="os           :${os}"/>
+     <echo message="os.name      :${os.name}"/>
+     <echo message="jmqexternal  :${jmqexternal}"/>
+     <echo message="----------------------------"/>
+     <echo message="      jar locations"/>
+     <echo message="----------------------------"/>
+     <echo message="javaeehome     :${javaeehome}"/>
+     <echo message="servlethome    :${servlethome}"/>
+     <echo message="grizzlyhome    :${grizzlyhome}"/>
+     <echo message="nucleus        :${nucleushome}"/>
+     <echo message="jtahome        :${jtahome}"/>
+     <echo message="javahelphome   :${javahelphome}"/>
+     <echo message="jafhome        :${jafhome}"/>
+     <echo message="javamailhome   :${javamailhome}"/>
+     <echo message="audithome      :${audithome}"/>
+     <echo message="connectorhome  :${connectorhome}"/>
+     <echo message="j2eemgthome    :${j2eemgthome}"/>
+     <echo message="jaxphome       :${jaxphome}"/>
+     <echo message="soaphome       :${soaphome}"/>
+     <echo message="jndihome       :${jndihome}"/>
+     <echo message="jndifshome     :${jndifshome}"/>
+     <echo message="dom4jhome      :${dom4jhome}"/>
+     <echo message="jemmyhome      :${jemmyhome}"/>
+     <echo message="ccargs         :${ccargs}"/>
+     <echo message="cincludes	   :${cincludes}"/>
+     <echo message="----------------------------"/>
+  </target>
+
+
+  <!-- ===================== general Rules ============================== -->
+  <!--  the basic targets are supported are:
+             - all [clean, build, deploy, test]
+             - build [build,docs]
+             - test
+             - clean
+             - docs
+             - deploy [install image, zip bundle]
+    -->
+
+  <target name="all" 
+          depends="build, deploy, test"
+          description="Builds the MQ product">
+  </target>
+
+  <target name="all-ri"
+          depends="build-ri, deploy-ri, test"
+          description="Builds the MQ RI product">
+          <echo message="##### Building MQ RI Standalone"/>
+  </target>
+
+  <target name="all-mqgf-ri"
+	  depends="build-mqgf-ri, deploy-mqgf-ri"
+	  description="Builds the MQ GF RI product">
+          <echo message="##### Building MQ RI for GF"/>
+  </target>
+
+  <target name="build" 
+          depends="buildprops, buildetc, build_resources, buildimages, buildhelp, buildjars, buildwars, builddocs, buildexamples"
+          description="Builds the MQ product">
+  </target>
+
+ <target name="build-ri"
+          depends="buildprops, buildetc, build_resources, buildjars-ri, buildwars-ri, buildexamples-ri"
+          description="Builds the MQ RI product">
+  </target>
+
+  <target name="build-mqgf-ri"
+	   depends="buildprops, buildetc, build_resources, buildjars-ri, buildwars-ri"
+	   description="Builds the GF MQ RI product">
+  </target>
+
+  <target name="javadebug" 
+          depends="setdebug, buildjava"
+          description="Builds the debug java sources">
+  </target>
+
+  <target name="builddebug" 
+          depends="javadebug, buildprops, buildetc, build_resources, buildimages, buildhelp, buildjars, buildwars, builddocs"
+          description="Builds the MQ product with debug.">
+  </target>
+
+
+  <target name="builddocs" 
+          depends="javadocs"
+          description="Builds the MQ javadocs">
+  </target>
+
+  <target name="builddocs-ri"
+          depends="javadocs-ri"
+          description="Builds the MQ RI javadocs">
+  </target>
+
+  <target name="test" 
+          description="Builds the test worksapce for MQ product">
+         <echo message="Not implemented"/>
+  </target>
+
+  <target name="clean" 
+          description="clean up binary information">
+         <delete dir="${binary.dir}" failonerror="false"/>
+  </target>
+
+  <target name="setjavaeehome" depends="checkjavaeehome" unless="javaeehomeset">
+        <property name="javaeehome" value=""/>
+  </target>
+
+  <target name="checkjavaeehome">
+        <condition property="javaeehomeset">
+            <isset property="$javaeehome"/>
+        </condition>
+  </target>
+
+  <target name="setgrizzlyhome" depends="checkgrizzlyhome" unless="grizzlyhomeset">
+        <property name="grizzlyhome" value=""/>
+  </target>
+
+  <target name="checkgrizzlyhome">
+        <condition property="grizzlyhomeset">
+            <isset property="$grizzlyhome"/>
+        </condition>
+  </target>
+
+  <target name="setnucleushome" depends="checknucleushome" unless="nucleushomeset">
+        <property name="nucleushome" value=""/>
+  </target>
+
+  <target name="checknucleushome">
+        <condition property="nucleushomeset">
+            <isset property="$nucleushome"/>
+        </condition>
+  </target>
+
+  <target name="setjavahelphome" depends="checkjavahelphome" unless="javahelphomeset">
+        <property name="javahelphome" value=""/>
+  </target>
+
+  <target name="checkjavahelphome">
+        <condition property="javahelphomeset">
+            <isset property="$javahelphome"/>
+        </condition>
+  </target>
+
+  <target name="deploy" 
+	  depends="setgrizzlyhome, setjavahelphome, setnucleushome"
+	  description="Builds Install Image">
+        <echo message="### Calling target install"/> 
+	<ant antfile="${rulesdir}/distrules.xml" target="install"/>
+        <echo message="### Done install"/>
+        <echo message="### Calling target bundles"/> 
+	<ant antfile="${rulesdir}/distrules.xml" target="bundles"/>
+        <echo message="### Done bundles"/>
+  </target>
+
+   <target name="deploy-ri"
+          depends="setgrizzlyhome, setjavahelphome, setnucleushome"
+          description="Builds Install Image">
+        <echo message="### Calling target install"/>
+        <ant antfile="${rulesdir}/distrules.xml" target="install-ri"/>
+        <echo message="### Done install"/>
+        <echo message="### Calling target bundles"/>
+        <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
+        <echo message="### Done bundles"/>
+  </target>
+
+  <target name="deploy-mqgf-ri"
+          depends="setgrizzlyhome, setjavahelphome, setnucleushome"
+          description="Builds Install Image">
+        <echo message="### Calling target install"/>
+        <ant antfile="${rulesdir}/distrules.xml" target="install-mqgf-ri"/>
+        <echo message="### Done install"/>
+        <echo message="### Calling target bundles"/>
+        <ant antfile="${rulesdir}/distrules.xml" target="bundles-ri"/>
+        <echo message="### Done bundles"/>
+  </target>
+
+
+
+ <!-- ==================== Compilation Classpath =========================== -->
+    <!-- Include all JAR files that will be included in /WEB-INF/lib -->
+    <!-- *** CUSTOMIZE HERE AS REQUIRED BY YOUR APPLICATION *** -->
+<!--
+-->
+  <path id="platform.classpath">
+    <pathelement location="${packager.artifacts}/javax.jms-api.jar"/>
+    <pathelement location="${packager.artifacts}/grizzly-framework.jar"/>
+    <pathelement location="${packager.artifacts}/grizzly-portunif.jar"/>
+    <pathelement location="${packager.artifacts}/javax.servlet-api.jar"/>
+    <pathelement location="${packager.artifacts}/javax.resource-api.jar"/>
+    <pathelement location="${packager.artifacts}/javax.transaction-api.jar"/>
+    <pathelement location="${packager.artifacts}/jhall.jar"/>
+    <pathelement location="${packager.artifacts}/glassfish-api.jar"/>
+    <pathelement location="${packager.artifacts}/hk2-api.jar"/>
+    <pathelement location="${classes.dir}"/>
+
+  </path>
+  <!-- ================= General initialization ======================== -->
+  <target name="init">
+     <tstamp>
+         <format property="builddate" pattern="MM/dd/yyyy HH:mm:ss" locale="en"/>
+     </tstamp>
+     <!--  do other stuff -->
+  </target>
+ <!-- ==================== javadocs =========================== -->
+
+     <target name="cleandocs">
+         <delete dir="${javadocs.dir}" failonerror="false"/>
+     </target>
+     <target name="javadocs">
+        <echo message="### Build the MQ javadocs"/>
+        <mkdir dir="${javadocs.dir}"/>
+        <javadoc packagenames="com.sun.messaging, com.sun.messaging.jms, com.sun.messaging.jms.management.server, com.sun.messaging.xml, com/sun/messaging/bridge/api/MessageTransformer.java, javax.jms, javax.xml.messaging, com.sun.messaging.jms.notification" 
+		 destdir="${javadocs.dir}"
+		 version="true"
+		 use="true"
+		 windowtitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification"
+		 doctitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification">
+          <fileset dir="${ws.top.dir}/main/bridge/bridge-api/src/main/java/com/sun/messaging/bridge/api/">
+            <include name="**/MessageTransformer.java"/>
+          </fileset>
+	  <sourcepath>
+	    <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
+            <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-share/src/main/java"/>
+	    <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-server/src/main/java"/>
+	    <path location="${ws.top.dir}/main/http-tunnel/tunnel/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-ums/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/comm-io/src/main/java"/> 
+  	    <path location="${ws.top.dir}/main/comm-util/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/persist/disk-io/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/> 
+ 	    <path location="${ws.top.dir}/main/portunif/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/jaxm-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/javax-jms/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/bridge-admin/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/bridge-jms/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/bridge/bridge-stomp/src/main/java"/> 
+  	    <path location="${ws.top.dir}/main/mq-jmsra/jmsra-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-admin/admin-cli/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-admin/admin-gui/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-client/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/broker-core/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/cluster/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/broker-comm/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/persist-file/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/persist-jdbc/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/partition/persist-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-broker/partition/persist-jdbc/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-direct/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mq-share/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/mqjmx-api/src/main/java"/> 
+	    <path location="${ws.top.dir}/main/logger/src/main/java"/> 
+	  </sourcepath>
+          <classpath refid="platform.classpath"/>
+   	  <doctitle><![CDATA[<h1>${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification</h1>]]></doctitle>
+   	  <header><![CDATA[${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification]]></header>
+    	  <bottom><![CDATA[<font size="-2"><i>Copyright (c) 2010, 2017 Oracle and/or its affiliates.  All rights reserved.</i></font>]]></bottom>
+    	  <tag name="todo" scope="all" description="To do:"/>
+    	  <link href="http://download.oracle.com/javase/6/docs/api/"/>
+	</javadoc>
+
+     </target>
+
+     <target name="javadocs-ri">
+        <echo message="### Build the MQ javadocs"/>
+        <mkdir dir="${javadocs.dir}"/>
+        <javadoc packagenames="com.sun.messaging, com.sun.messaging.jms, com.sun.messaging.jms.management.server, com/sun/messaging/bridge/api/MessageTransformer.java, javax.jms, com.sun.messaging.jms.notification"
+                 destdir="${javadocs.dir}"
+                 version="true"
+                 use="true"
+                 windowtitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification"
+                 doctitle="${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification">
+          <fileset dir="${ws.top.dir}/main/bridge/bridge-api/src/main/java/com/sun/messaging/bridge/api/">
+            <include name="**/MessageTransformer.java"/>
+          </fileset>
+          <sourcepath>
+            <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
+            <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-share/src/main/java"/>
+            <path location="${ws.top.dir}/main/http-tunnel/tunnel-api-server/src/main/java"/>
+            <path location="${ws.top.dir}/main/comm-io/src/main/java"/>
+            <path location="${ws.top.dir}/main/comm-util/src/main/java"/>
+            <path location="${ws.top.dir}/main/persist/disk-io/src/main/java"/>
+            <path location="${ws.top.dir}/main/persist/txnlog/src/main/java"/>
+            <path location="${ws.top.dir}/main/portunif/src/main/java"/>
+            <path location="${ws.top.dir}/main/javax-jms/src/main/java"/>
+            <path location="${ws.top.dir}/main/bridge/bridge-api/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-jmsra/jmsra-api/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-admin/admin-cli/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-client/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-broker/broker-core/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-broker/broker-comm/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-broker/persist-file/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-direct/src/main/java"/>
+            <path location="${ws.top.dir}/main/mq-share/src/main/java"/>
+            <path location="${ws.top.dir}/main/mqjmx-api/src/main/java"/>
+            <path location="${ws.top.dir}/main/logger/src/main/java"/>
+          </sourcepath>
+          <classpath refid="platform.classpath"/>
+          <doctitle><![CDATA[<h1>${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification</h1>]]></doctitle>
+          <header><![CDATA[${JMQ_SOFTWARE_NAME_SHORT}, 5.1 API Specification]]></header>
+          <bottom><![CDATA[<font size="-1"><i>Copyright (c) 2010, 2017 Oracle and/or its affiliates.
+All rights reserved.</i></font>]]></bottom>
+          <tag name="todo" scope="all" description="To do:"/>
+          <link href="http://download.oracle.com/javase/6/docs/api/"/>
+        </javadoc>
+
+     </target>
+
+
+
+  <!-- ================== Help file Rules     ========================== -->
+     <target name="cleanhelp">
+         <delete dir="${helpinstall.dir}"/>
+     </target>
+
+     <target name="buildhelp">
+        <echo message="### Installing help files"/>
+        <mkdir dir="${helpinstall.dir}"/>
+        <unzip src="${base_helpsrc.zip}"
+               dest="${helpinstall.dir}"/>
+     </target>
+
+  <!-- ==================    etc file Rules    ========================== -->
+     <target name="cleanetc">
+         <delete dir="${archetc.dir}"/>
+     </target>
+
+     <target name="buildetc" 
+          depends="buildetc-unix, buildetc-windows"
+          description="### Builds the etc files ">
+        <echo message="### Installing shared etc files from ${base_src.dir}/share/etc to ${archetc.dir}"/>
+
+        <mkdir dir="${archetc.dir}"/>
+        <copy todir="${archetc.dir}">
+           <fileset dir="${base_src.dir}/share/etc">
+           <include name="**/passfile.sample"/>
+          </fileset>
+        </copy>     
+     </target>
+
+     <target name="buildetc-unix" if="isUnix">
+        <echo message="### Installing unix etc files from ${base_src.dir}/solaris/etc to ${archetc.dir}"/>
+        <mkdir dir="${archetc.dir}"/>
+        <copy todir="${archetc.dir}">
+           <fileset dir="${base_src.dir}/solaris/etc">
+           <include name="**/imqbrokerd.conf"/>
+           <include name="**/imqenv.conf"/>
+          </fileset>
+        </copy>     
+     </target>
+
+     <target name="buildetc-windows" if="isWindows">
+        <echo message="### Installing windows etc files from ${base_src.dir}/win32/etc} to ${archetc.dir}"/>
+        <mkdir dir="${archetc.dir}"/>
+        <copy todir="${archetc.dir}">
+           <fileset dir="${base_src.dir}/win32/etc">
+           <include name="**/imqenv.conf"/>
+          </fileset>
+        </copy>     
+     </target>
+
+<!--
+        <echo message="### Installing license etc files"/>
+        <copy todir="${archetclic.dir}">
+           <fileset dir="${licsrc.dir}">
+           <include name="**/*lic"/>
+           <exclude name="**/*GNUmakefile"/>
+          </fileset>
+        </copy>     
+-->
+
+  <!-- ======================== images Rules =============================== -->
+     <target name="cleanimages">
+         <delete dir="${imagesinstall.dir}"/>
+     </target>
+
+     <target name="buildimages">
+        <echo message="### Installing image files"/>
+        <mkdir dir="${imagesinstall.dir}"/>
+        <copy todir="${imagesinstall.dir}">
+           <fileset dir="${imagessrc.dir}">
+           <include name="**/*gif"/>
+           <exclude name="**/*GNUmakefile"/>
+           <exclude name="**/*build.xml"/>
+          </fileset>
+        </copy>     
+     </target>
+  <!-- ================== Version file Rules ========================== -->
+  <target name="versionclean">
+         <delete file="${versionprops}"/>
+         <delete file="${brandversionprops}"/>
+  </target>
+
+  <target name="buildversion" depends="builddefaultversion"
+   description="Build version properties files">
+	<echo message="### Finished building version properties files"/>
+  </target>
+
+  <target name="builddefaultversion"
+          depends="init">
+
+       <echo message="### Copying version.properties ${versionprops}"/>
+       <copy todir="${sharebinary.dir}/classes/com/sun/messaging/jmq">
+	    <fileset dir="${ws.top.dir}/main/mq-share/target/classes/com/sun/messaging/jmq/">
+	        <include name="version.properties"/>
+	        <include name="brand_version.properties"/>
+	    </fileset>
+       </copy>
+  </target>
+
+  <!-- ================== Property file Rules ========================== -->
+
+  <target name="cleanprops">
+     <delete dir="${propsinstall.dir}"/>
+  </target>
+
+  <target name="buildprops" 
+          description="Install Property Files">
+     <mkdir dir="${propsinstall.dir}"/>
+     <echo message="### Copying over property files from ${propsrc.dir} to ${propsinstall.dir}"/>
+     <echo message="###"/>
+
+     <copy todir="${propsinstall.dir}">
+        <fileset dir="${propsrc.dir}">
+           <include name="**/*.properties"/>
+           <exclude name="**/*ri*.properties"/>
+           <exclude name="**/*build.xml"/>
+           <exclude name="**/*GNUmakefile*"/>
+         </fileset>
+     </copy>     
+
+
+     <!-- Generate a default_linux.properties from default.properties (remove ,syslog) -->
+
+     <copy file="${propsrc.dir}/broker/default.properties" tofile="${propsinstall.dir}/broker/default_linux.properties"/>  
+     <replaceregexp match="syslog," replace= "" byline="true">
+ 	<fileset file="${propsinstall.dir}/broker/default_linux.properties"/>
+     </replaceregexp> 
+
+     <!--exec executable = "/bin/sh" os="SunOS,Linux,Solaris">
+	<arg line='-c "sed -e &#39;1,$$s/,syslog//&#39; ${propsrc.dir}/broker/default.properties &gt; ${propsinstall.dir}/broker/default_linux.properties"' />
+     </exec>
+     -->
+
+ <!--
+     <echo message="### Updating with OS specific files (if applicable)"/>
+     <echo message="###"/>
+     <echo message="### Ignore warnings on solaris or linux"/>
+     <copy todir="${propsinstall.dir}"
+           overwrite="true"
+           failonerror="false">
+        <fileset dir="${prop_arc_src.dir}">
+           <include name="**/*.properties"/>
+           <exclude name="**/*ri*.properties"/>
+         </fileset>
+      </copy>     
+-->
+  </target>
+
+  <!-- ================== prop file Rules ========================== -->
+  <target name="build_resources" 
+          description="Install Resource Property Files">
+     <mkdir dir="${classes.dir}"/>
+     <echo message="### Copying over resource property files"/>
+     <echo message="###"/>
+     <copy todir="${classes.dir}">
+        <fileset dir="${base_javasrc.dir}">
+           <include name="**/*.properties"/>
+           <exclude name="examples/**/*.properties"/>
+         </fileset>
+      </copy>     
+  </target>
+
+  <!-- ===================== Java Rules ================================= -->
+
+  <target name="buildjava" depends="setjavaeehome, setgrizzlyhome, setjavahelphome, buildjavaclient, buildjavaserver, buildexamples"
+   description="Compile Java sources">
+       <echo message="### Finished building java classes"/>
+  </target>
+
+  <target name="cleanclasses"
+   description="Delete build directory">
+    <echo message="### Cleaning up ${classes.dir}/"/>
+    <delete dir="${classes.dir}/"/>
+  </target>
+
+  <target name="cleanjava"
+   description="Delete build directory">
+    <echo message="### Cleaning up ${classes.dir}/"/>
+    <delete dir="${classes.dir}/"/>
+  </target>
+
+  <target name="preparejava">
+    <!-- Create build directory -->
+    <mkdir  dir="${classes.dir}"/>
+  </target>
+
+
+   <target name="setdebug">
+       <property name="compile.debug" value="true"/>
+       <echo message="### Setting debug flag to ${compile.debug}"/>
+   </target>
+
+
+
+  <target name="buildjavaclient" 
+          depends="preparejava"
+          description="Compile Java sources ">
+
+    <echo message="### Building java files under ${package} "/>
+    <!-- generate temp file with all excludes -->
+    <property name="tmpfile" value="${rulesdir}/temp12.txt"/>
+    <concat destfile="${tmpfile}">
+        <filelist dir="${rulesdir}" 
+            files="excludefiles.txt,serverfiles.txt"/>
+    </concat>
+
+    <!-- Compile Java classes as necessary -->
+    <javac 
+          srcdir="${base_javasrc.dir}"
+          listfiles="no"
+          verbose="no"
+          includes="${package}/**/*java"
+          excludesfile="${tmpfile}" 
+          destdir="${classes.dir}"
+          debug="${compile.debug}"
+          deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}"
+	  source="1.6"
+          >
+        <classpath refid="platform.classpath"/>
+        <src path="${base_javasrc.dir}"/>
+    </javac>
+    <delete file="${tmpfile}"/>
+
+  </target>
+
+
+  <target name="buildjavaserver" 
+          depends="preparejava"
+          description="Compile Java sources ">
+    <echo message="### Building java files under ${package} "/>
+    <!-- Compile Java classes as necessary 
+          listfiles="yes"
+     -->
+    <javac 
+          srcdir="${base_javasrc.dir}"
+          includes="${package}/**/*java"
+          excludes="${examples_src.dir}/**/*java"
+          includesfile="${rulesdir}/serverfiles.txt"
+          excludesfile="${rulesdir}/excludefiles.txt"
+          destdir="${classes.dir}"
+           debug="${compile.debug}"
+     deprecation="${compile.deprecation}"
+        optimize="${compile.optimize}"
+        >
+        <classpath refid="platform.classpath"/>
+    </javac>
+  </target>
+
+  <target name="buildexamples" 
+          depends="preparejava"
+          description="Compile MQ Java examples">
+
+    <echo message="### Building java files under ${examples_src.dir} "/>
+
+    <!-- Compile Java classes as necessary -->
+    <javac 
+          srcdir="${examples_src.dir}"
+          listfiles="no"
+          verbose="no"
+          debug="${compile.debug}"
+          deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}"
+          >
+        <classpath refid="platform.classpath"/>
+    </javac>
+
+  </target>
+
+
+  <target name="buildexamples-ri"
+          depends="preparejava"
+          description="Compile MQ Java examples">
+
+    <echo message="### Building java files under ${examples_src.dir} "/>
+
+    <!-- Compile Java classes as necessary -->
+    <javac
+          srcdir="${examples_src.dir}"
+	  excludes="jaxm/**"
+          listfiles="no"
+          verbose="no"
+          debug="${compile.debug}"
+          deprecation="${compile.deprecation}"
+          optimize="${compile.optimize}"
+          >
+        <classpath refid="platform.classpath"/>
+    </javac>
+
+  </target>
+
+
+    <!-- download javaee6-api.jar -->
+    <target name="bootstrap1">
+        <echo message="get javaee6-api.jar from ${mq.bootstrap.url1}."/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url1}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar1}" tofile="${extjars}/javaee-api-6.0.jar"/>
+    </target>
+
+    <!-- download grizzly framework -->
+    <target name="bootstrap2">
+        <echo message="copy grizzly.jar from ${mq.bootstrap.url2}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url2}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar2}" tofile="${extjars}/grizzly.jar"/>
+    </target>
+
+    <!-- download javahelp jhall.jar -->
+    <target name="bootstrap3">
+        <echo message="get jhall.jar from ${mq.bootstrap.url3}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url3}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar3}" tofile="${extjars}/jhall.jar"/>
+    </target>
+
+    <!-- download grizzly portunif -->
+    <target name="bootstrap4">
+        <echo message="get grizzly-portunif.jar from ${mq.bootstrap.url4}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url4}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar4}" tofile="${extjars}/grizzly-portunif.jar"/>
+    </target>
+
+    <!-- download hk2 auto-depends -->
+    <target name="bootstrap5">
+        <echo message="get auto-depends.jar from ${mq.bootstrap.url5}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url5}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar5}" tofile="${extjars}/auto-depends.jar"/>
+    </target>
+
+    <!-- download glassfish-api -->
+    <target name="bootstrap6">
+        <echo message="get glassfish-api.jar from ${mq.bootstrap.url6}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url6}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar6}" tofile="${extjars}/glassfish-api.jar"/>
+    </target>
+
+    <!-- download hk2-api -->
+    <target name="bootstrap7">
+        <echo message="get hk2-api.jar from ${mq.bootstrap.url7}"/>
+        <echo message="downloading to ${extjars}"/>
+	<mkdir dir="${extjars}"/>
+        <exec executable="wget" dir="${extjars}" failonerror="true" >
+	    <arg line="--no-check-certificate" />
+            <arg line="${mq.bootstrap.url7}" />
+	</exec>
+	<move file="${extjars}/${mq.bootstrap.jar7}" tofile="${extjars}/hk2-api.jar"/>
+    </target>
+
+    <target name="bootstrap"
+	    depends="bootstrap1, bootstrap2, bootstrap3, bootstrap4, bootstrap5, bootstrap6, bootstrap7"
+	    description="Bootstrap external dependences for MQ">
+    </target>
+  <!-- ================== C Rules ========================== 
+  <target name="buildc" 
+	  description="Builds C Client API">
+        <echo message="### Calling target buildcclient"/> 
+	<ant antfile="${rulesdir}/crules.xml" target="buildcclient"/>
+        <echo message="### Done buildcclient"/>
+
+  </target>
+
+  <target name="buildcdebug" 
+          depends="setdebug"
+	  description="Builds C Client debug source">
+        <echo message="### Calling target buildcclient with debug"/> 
+	<ant antfile="${rulesdir}/crules.xml" target="buildcclient"/>
+        <echo message="### Done buildcclient with debug"/>
+
+  </target>
+  -->
+<!-- XXX -->
+  <!-- ================== Security file Rules ========================== -->
+<!-- XXX -->
+  <!-- ================== imqadmin image Rules ========================== -->
+<!-- XXX -->
+  <!-- ======================== bin Rules =============================== -->
+<!-- XXX -->
+
+
+  <!-- ======================== test broker =============================== -->
+
+  <target name="runbroker" 
+          description="Runs the MQ broker">
+       <java fork="true"
+           classname="com.sun.messaging.jmq.jmsserver.Broker">
+	   <sysproperty key="imq.home" value="${archbinary.dir}"/>
+	   <arg value="-tty"/>
+	   <!--jvmarg value=""/ -->
+	   <classpath>
+               <pathelement location="${classes.dir}"/>
+           </classpath>
+       </java>
+   </target>
+
+	  
+</project>

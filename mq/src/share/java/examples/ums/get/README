@@ -1,0 +1,21 @@
+@(#)README      1.0 09/09/08
+
+UMS APIs examples
+
+Description
+-----------
+This directory contains sample HTML files that demonstrate how to
+construct simple HTTP GET operations that perform simple utility operations
+
+
+Files
+-----
+
+UtilsUsingGet.html      HTML file that demonstrates various utilities that use the HTTP GET protocol     
+			            
+README			This file.
+
+Minimum Browser Requirements
+----------------------------
+Require Firefox 2 and higher or Internet Explorer 6 and higher.
+In your browser, you must enable JavaScript.

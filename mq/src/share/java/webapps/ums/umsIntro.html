@@ -1,0 +1,170 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="CREATED" CONTENT="20080912;10073063">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGED" CONTENT="20090305;17065512">
+	<META NAME="CHANGEDBY" CONTENT="chiaming">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 21.59cm 27.94cm; margin: 2.01cm }
+		P { margin-bottom: 0.2cm }
+		TD P { margin-bottom: 0.2cm }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=3><B>Universal
+Message Service (UMS)</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Message
+Queue 4.3 introduces a new universal messaging service (UMS) and
+messaging API that provides access to Message Queue from any
+http-enabled device. As a result, almost any application can
+communicate with any other application and benefit from the
+reliability and guaranteed delivery of JMS messaging. In addition,
+the UMS provides enhanced scalability for JMS messaging, allowing the
+number of messaging clients to reach internet-scale proportions.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Architecture</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+basic UMS architecture is shown in the following figure:</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><IMG SRC="umsArchitecture.jpg" NAME="graphics1" ALIGN=LEFT WIDTH=508 HEIGHT=234 BORDER=0><BR CLEAR=LEFT><BR><BR>
+</P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+UMS, which runs in a web server, is language neutral and platform
+independent. The UMS serves as a gateway between any non-JMS client
+application and a JMS provider. It receives messages sent using the
+UMS API, transforms them into JMS messages, and produces them to
+destinations in the JMS provider by way of the provider's native
+protocol. Similarly, it retrieves messages from destinations in the
+JMS provider, transforms them into text or SOAP messages, and sends
+the messages to non-JMS clients as requested by the clients through
+the UMS API.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+simple, language-independent, protocol-based UMS API supports both
+web-based and non-web-based applications, and can be used with both
+scripting and programming languages. The API is offered in two
+styles: a simple messaging API, and an XML messaging API that embeds
+the protocol in a SOAP message header. In both cases, however, the
+API requires only a single http request to send or receive a message.
+</FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+simplicity and flexibility of the UMS API means that AJAX, .NET,
+Python, C, Java, and many other applications can send text message
+and/or SOAP (with attachment) messages to JMS destinations or receive
+messages from JMS destinations. For example, Python applications can
+communicate with .NET applications, iPhone can communicate with Java
+applications, and so forth.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For
+Message Queue 4.3, the UMS supports only Message Queue as a JMS
+provider.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Additional
+Features</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+UMS serves as more than the simple gateway described above. It
+supports stateful as well as stateless client sessions. If requested
+by the client, the UMS will maintain session state for the client
+application across multiple service requests. The UMS can use
+container-managed authentication, or be configured to authenticate
+clients with the Message Queue broker, or both. The UMS also supports
+transactions, enabling client applications to commit or roll back
+multiple service requests as a single atomic unit.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>Because
+the UMS can support a large number of clients on a single connection
+to the Message Queue broker, it eases the load on the broker's
+connection services, allowing for maximum scalability. In addition,
+UMS capacity can be increased by horizontal scaling, allowing for
+internet-scale messaging loads.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>On
+the client side, because of the simplicity of the protocol-based UMS
+API, no client libraries are required. As a result, the API can be
+extended in the future to implement additional JMS features without
+any need to upgrade client applications. </FONT></FONT>
+</P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2><B>Using
+the UMS</B></FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>To
+use the UMS, you deploy the UMS into a web container that supports
+Servlet 2.4 or later specifications, start the Message Queue broker,
+create the appropriate destinations, and write a messaging
+application that uses the UMS API to send or receive messages.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>The
+UMS imqums.war file, contained in the Message Queue 4.3 distribution,
+is installed in the following location, depending on platform:</FONT></FONT></P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=3>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><B>Platform</B></P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><B>Location of imqums.war</B></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>Solaris</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>/usr/share/lib/imq</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>Linux</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>/opt/sun/mq/share/lib</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>AIX</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IMQ_HOME/lib </FONT></FONT>
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>Windows</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><FONT FACE="Arial, sans-serif"><FONT SIZE=2>IMQ_HOME\lib</FONT></FONT></P>
+		</TD>
+	</TR>
+</TABLE>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>You
+can rename the .war file as appropriate.</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For
+information on configuring the UMS, see (<A HREF="config.html">./config.html</A>)</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For
+documentation of the UMS API, see (<A HREF="protocol.html">./protocol.html</A>).</FONT></FONT></P>
+<P STYLE="margin-bottom: 0.25cm"><FONT FACE="Arial, sans-serif"><FONT SIZE=2>For
+programming examples in several languages, see
+(<A HREF="examples/README.html">./examples/README.html</A>)</FONT></FONT></P>
+</BODY>
+</HTML>

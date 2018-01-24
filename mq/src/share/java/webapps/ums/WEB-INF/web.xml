@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+    <session-config>
+        <session-timeout>
+            30
+        </session-timeout>
+    </session-config>
+    <welcome-file-list>
+        <welcome-file>umsMain.html</welcome-file>
+    </welcome-file-list>
+    
+    <display-name>UMS</display-name>
+    
+    <servlet>
+        <servlet-name>UMS</servlet-name>
+        <servlet-class>
+            com.sun.messaging.ums.core.UMSServlet
+        </servlet-class>
+        
+        <!-- set openmq broker address here. default localhost:7676 -->
+        <!--
+        <init-param>
+            <param-name>imqAddressList</param-name>
+            <param-value>localhost</param-value>
+        </init-param>
+        -->
+        
+        <!-- uncomment this if SSL is required between UMS and broker -->
+        <!--
+        <init-param>
+            <param-name>imqConnectionType</param-name>
+            <param-value>TLS</param-value>
+        </init-param>
+        -->
+        
+        <!-- set cache object duration, default 7 minutes -->
+        <!-- 
+        <init-param>
+            <param-name>ums.cache.duration</param-name>
+            <param-value>420000</param-value>
+        </init-param>
+        -->
+        
+        <!-- cache sweep interval, default 2 minutes -->
+        <!--
+        <init-param>
+            <param-name>ums.cache.sweep.interval</param-name>
+            <param-value>120000</param-value>
+        </init-param>
+        -->
+        
+        <!-- default receive timeout, default 7 seconds -->
+        <!--
+        <init-param>
+            <param-name>ums.receive.timeout</param-name>
+            <param-value>7000</param-value>
+        </init-param>
+        -->
+        
+        <!-- default max ums sessions per JMS connection -->
+        
+        <!--
+        <init-param>
+            <param-name>ums.cache.connection.max.clients</param-name>
+            <param-value>100</param-value>
+        </init-param>
+        -->
+        
+        <!-- authenticate with JMS server -->
+        <!-- applications must provide user/pass for JMS server if set to true -->
+        
+       
+        <init-param>
+            <param-name>ums.service.authenticate</param-name>
+            <param-value>true</param-value>
+        </init-param>
+        
+        
+        <!-- applications must encode password with base64 encoding if set to true -->
+        <!--
+        <init-param>
+            <param-name>ums.service.authenticate.basic</param-name>
+            <param-value>false</param-value>
+        </init-param>
+        -->
+        
+        <!-- user name for UMS to authenticate with JMS Server -->
+        <!-- this is used by UMS internally to maintain JMS cached object -->
+        <!-- this is NOT for applications to authenticate with JMS server -->
+        
+        <!--
+        <init-param>
+            <param-name>ums.user.name</param-name>
+            <param-value>guest</param-value>
+        </init-param>
+        -->
+        
+        <!-- password for ums to authenticate with JMS server -->
+        <!--
+        <init-param>
+            <param-name>ums.password</param-name>
+            <param-value>guest</param-value>
+        </init-param>
+        -->
+        
+    </servlet>
+    
+    <!-- simple messaging service url -->
+    <servlet-mapping>
+        <servlet-name>UMS</servlet-name>
+        <url-pattern>/simple</url-pattern>
+    </servlet-mapping>
+    
+    <!-- xml messaging service url -->
+    <servlet-mapping>
+        <servlet-name>UMS</servlet-name>
+        <url-pattern>/xml</url-pattern>
+    </servlet-mapping>
+    
+</web-app>

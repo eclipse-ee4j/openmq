@@ -1,0 +1,187 @@
+
+sharedsub examples
+----------------------
+
+Description
+-----------
+This example illustrates how to write an application the use of 
+JMS2.0 simplified API to create shared non durable & durable consumers and sharing
+of messages between them.
+
+Some basic info on this example:
+
+- ProducerExample.class sends messages to the particular topic and displays the messages sent.
+- SharedNonDuraConsumerExample.java creates two shared non durable subscriber threads and displays 
+  the shared messages between them.
+- SharedDuraConsumerExample.java creates two shared durable subscriber threads and displays
+  the shared messages between them.
+
+Files
+-----
+SharedDuraConsumerExample.java           Source file for this example.
+SharedNonDuraConsumerExample.java        Source file for this example.
+ProducerExample.java                     Source file for this example.
+*.class                 	         Prebuilt Java class files for this example.
+README                                   This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac SharedDuraConsumerExample.java
+    javac SharedNonDuraConsumerExample.java
+    javac ProducerExample.java
+
+Running the shareddura example
+----------------------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java SharedDuraConsumerExample <topic_name> [<number_of_messages>]
+
+Run the following command on another terminal:
+
+   java ProducerExample <topic_name> [<number_of_messages>]
+
+
+The output of SharedDuraConsumerExample looks like this:
+
+java SharedDuraConsumerExample test1 20
+Topic name is test1
+SUBSCRIBER 2 : Message received: Message 1
+SUBSCRIBER 1 : Message received: Message 2
+SUBSCRIBER 2 : Message received: Message 3
+SUBSCRIBER 1 : Message received: Message 4
+SUBSCRIBER 2 : Message received: Message 5
+SUBSCRIBER 1 : Message received: Message 6
+SUBSCRIBER 2 : Message received: Message 7
+SUBSCRIBER 1 : Message received: Message 8
+SUBSCRIBER 2 : Message received: Message 9
+SUBSCRIBER 1 : Message received: Message 10
+SUBSCRIBER 2 : Message received: Message 11
+SUBSCRIBER 1 : Message received: Message 12
+SUBSCRIBER 2 : Message received: Message 13
+SUBSCRIBER 1 : Message received: Message 14
+SUBSCRIBER 2 : Message received: Message 15
+SUBSCRIBER 1 : Message received: Message 16
+SUBSCRIBER 2 : Message received: Message 17
+SUBSCRIBER 1 : Message received: Message 18
+SUBSCRIBER 2 : Message received: Message 19
+SUBSCRIBER 1 : Message received: Message 20
+Received all messages
+
+The output of ProducerExample looks like this:
+
+java ProducerExample test1 20
+Topic name is test1
+Created jms context successfully
+Created topic successfully
+Message sent : Message 1
+Message sent : Message 2
+Message sent : Message 3
+Message sent : Message 4
+Message sent : Message 5
+Message sent : Message 6
+Message sent : Message 7
+Message sent : Message 8
+Message sent : Message 9
+Message sent : Message 10
+Message sent : Message 11
+Message sent : Message 12
+Message sent : Message 13
+Message sent : Message 14
+Message sent : Message 15
+Message sent : Message 16
+Message sent : Message 17
+Message sent : Message 18
+Message sent : Message 19
+Message sent : Message 20
+
+
+Running the sharednondura example
+----------------------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java SharedNonDuraConsumerExample <topic_name> [<number_of_messages>]
+
+Run the following command on another terminal:
+
+   java ProducerExample <topic_name> [<number_of_messages>]
+
+
+The output of SharedNonDuraConsumerExample looks like this:
+
+java SharedNonDuraConsumerExample t1 20
+Topic name is t1
+SUBSCRIBER 1 : Message received: Message 1
+SUBSCRIBER 2 : Message received: Message 2
+SUBSCRIBER 1 : Message received: Message 3
+SUBSCRIBER 2 : Message received: Message 4
+SUBSCRIBER 1 : Message received: Message 5
+SUBSCRIBER 2 : Message received: Message 6
+SUBSCRIBER 2 : Message received: Message 7
+SUBSCRIBER 1 : Message received: Message 8
+SUBSCRIBER 2 : Message received: Message 9
+SUBSCRIBER 1 : Message received: Message 10
+SUBSCRIBER 2 : Message received: Message 11
+SUBSCRIBER 1 : Message received: Message 12
+SUBSCRIBER 2 : Message received: Message 13
+SUBSCRIBER 1 : Message received: Message 14
+SUBSCRIBER 2 : Message received: Message 15
+SUBSCRIBER 1 : Message received: Message 16
+SUBSCRIBER 2 : Message received: Message 17
+SUBSCRIBER 1 : Message received: Message 18
+SUBSCRIBER 2 : Message received: Message 19
+SUBSCRIBER 1 : Message received: Message 20
+Received all messages
+
+The output of ProducerExample looks like this:
+
+java ProducerExample t1 20
+Topic name is t1
+Created jms context successfully
+Created topic successfully
+Message sent : Message 1
+Message sent : Message 2
+Message sent : Message 3
+Message sent : Message 4
+Message sent : Message 5
+Message sent : Message 6
+Message sent : Message 7
+Message sent : Message 8
+Message sent : Message 9
+Message sent : Message 10
+Message sent : Message 11
+Message sent : Message 12
+Message sent : Message 13
+Message sent : Message 14
+Message sent : Message 15
+Message sent : Message 16
+Message sent : Message 17
+Message sent : Message 18
+Message sent : Message 19
+Message sent : Message 20
+

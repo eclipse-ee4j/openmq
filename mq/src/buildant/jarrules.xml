@@ -1,0 +1,1099 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<!-- this file contains the rule to build the misc jar files -->
+
+<project name="jarrules" >
+
+ <!-- load jars string information -->
+ <property file="${rulesdir}/jars.properties"/>
+
+  <!-- not dealing with the RI right now -->
+  <path id="imqjar.classlist">
+    <pathelement path="${classes.dir}"/>
+    <fileset includes="com/sun/messaging/jmq/admin/**/*.class"/>   
+    <pathelement location="${versionprops}"/>
+  </path>
+      
+
+
+
+  <!-- ======================== Jar Rules =============================== -->
+  <target name="buildjars" 
+          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, jaxm-apijar, imqxmjar, fscontextjar, dependjars"
+          description="Builds the MQ Jar Files">
+  </target>
+ 
+   <target name="buildjars-ri"
+          depends="jmsjar-ri, imqjar-ri, imqadminjar, imqbrokerjar-ri, imqutiljar, imqjmxjar, fscontextjar, dependjars-ri"
+          description="Builds the MQ RI Jar Files">
+  </target>
+
+  <target name="cleanjars" 
+          description="Cleans the MQ Jar Files">
+    <delete dir="${classes.dir}" includes="*.jar"/>
+  </target>
+
+  <!-- ======================== War Rules =============================== -->
+  <target name="buildwars" 
+          depends="imqumswar, imqhttpwar, imqhttpswar, imqjmsrarar"
+          description="Builds the MQ War Files">
+  </target>
+
+  <target name="buildwars-ri"
+          depends="imqjmsrarar-ri"
+          description="Builds the MQ RI War Files">
+  </target>
+
+  <target name="cleanwars" 
+          description="Cleans the MQ War Files">
+    <delete dir="${classes.dir}" includes="*.war"/>
+  </target>
+
+  <!-- ======================== Jar Rules Start =============================== -->
+  <!-- ======================== jms.jar =============================== -->
+
+  <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
+   <target name="jmsjar">
+       <echo message="Building (copying) javax.jms-api.jar to jms.jar"/>
+
+	<!--
+       <fileset id="mq.jms.fileset" dir="${classes.dir}">
+          	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+           	<include name="javax/jms/**/**"/>   
+           	<include name="com/sun/messaging/jms/*.class"/>   
+	</fileset>
+        <manifest file="${classes.dir}/jms.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="Java Message Service (JMS) API"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="javax/jms"/>
+        </manifest>  
+ 	<jar destfile="${classes.dir}/jms.jar" manifest="${classes.dir}/jms.mf" >
+      		<fileset refid="mq.jms.fileset"/>			
+	</jar>
+	-->
+        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/javax.jms-api.jar" tofile="${classes.dir}/jms.jar"/>  
+   </target>
+
+   <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
+   <target name="jmsjar-ri">
+       <echo message="Building (copying) javax.jms-api.jar to jms.jar"/>
+
+        <!--
+       <fileset id="mq.jms.fileset" dir="${classes.dir}">
+                <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
+                <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
+                <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>
+                <include name="com/sun/messaging/jmq/version.properties"/>
+                <include name="com/sun/messaging/jmq/Version.class"/>
+                <include name="com/sun/messaging/Version.class"/>
+                <include name="javax/jms/**/**"/>
+                <include name="com/sun/messaging/jms/*.class"/>
+        </fileset>
+        <manifest file="${classes.dir}/jms.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="Java Message Service (JMS) API"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="javax/jms"/>
+        </manifest>
+        <jar destfile="${classes.dir}/jms.jar" manifest="${classes.dir}/jms.mf" >
+                <fileset refid="mq.jms.fileset"/>
+        </jar>
+        -->
+        <copy file="${ws.top.dir}/main/packager-ri/target/artifacts/jars/javax.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
+   </target>
+
+  <!-- ======================== imq.jar =============================== -->
+
+   <target name="imqjar">
+       <echo message="Building imq.jar"/>
+       <fileset id="mq.imq.fileset" dir="${classes.dir}">
+
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+
+           	<include name="com/sun/messaging/jms/*.class"/>   
+
+           	<include name="com/sun/messaging/*.class"/>   
+           	<include name="com/sun/messaging/*.properties"/>   
+           	<include name="com/sun/messaging/jmq/jmsclient/**/**"/>   
+           	<include name="com/sun/messaging/jms/notification/**/**"/>   
+           	<include name="com/sun/messaging/naming/**/**"/>   
+           	<include name="com/sun/messaging/jmq/auth/**/**"/>   
+           	<include name="com/sun/messaging/jmq/util/io/**/**"/>   
+           	<include name="com/sun/messaging/jmq/util/timer/**/**"/>   
+
+           	<include name="com/sun/messaging/jmq/io/SysMessageID.class"/>   
+           	<include name="com/sun/messaging/jmq/io/Status.class"/>   
+           	<include name="com/sun/messaging/jmq/io/JMQByteArrayOutputStream.class"/>   
+           	<include name="com/sun/messaging/jmq/io/Packet.class"/>   
+           	<include name="com/sun/messaging/jmq/io/InvalidSysMessageIDException.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketReadEOFException.class"/>   
+           	<include name="com/sun/messaging/jmq/io/ByteBufferPool.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketVariableHeader*.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketPayload.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketUtil.class"/>   
+           	<include name="com/sun/messaging/jmq/io/BigPacketException.class"/>   
+           	<include name="com/sun/messaging/jmq/io/ByteBufferOutput.class"/>  
+           	<include name="com/sun/messaging/jmq/io/PacketFlag.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketString.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketType.class"/>   
+           	<include name="com/sun/messaging/jmq/io/ReadOnlyPacket.class"/>   
+           	<include name="com/sun/messaging/jmq/io/ReadWritePacket.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketProperties.class"/>   
+           	<include name="com/sun/messaging/jmq/io/JMQByteArrayInputStream.class"/>   
+           	<include name="com/sun/messaging/jmq/io/JMQByteBufferInputStream.class"/>   
+           	<include name="com/sun/messaging/jmq/io/JMQByteBufferOutputStream.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PortMapperEntry.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PortMapperTable.class"/>   
+           	<include name="com/sun/messaging/jmq/io/MQAddress.class"/>   
+           	<include name="com/sun/messaging/jmq/io/MQAddressList.class"/>   
+           	<include name="com/sun/messaging/jmq/io/JMSPacket.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketDispatcher.class"/>   
+
+           	<include name="com/sun/messaging/jmq/util/net/IPAddress.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/util/CEStreamExhausted.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MD5.class"/>   
+           	<include name="com/sun/messaging/jmq/util/Bits.class"/>   
+           	<include name="com/sun/messaging/jmq/util/BASE64Decoder.class"/>   
+           	<include name="com/sun/messaging/jmq/util/BASE64Encoder.class"/>   
+           	<include name="com/sun/messaging/jmq/util/CharacterDecoder.class"/>   
+           	<include name="com/sun/messaging/jmq/util/CharacterEncoder.class"/>   
+           	<include name="com/sun/messaging/jmq/util/XidImpl.class"/>   
+           	<include name="com/sun/messaging/jmq/util/JMQXid.class"/>   
+           	<include name="com/sun/messaging/jmq/util/DebugPrinter.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MultiColumnPrinter.class"/>   
+           	<include name="com/sun/messaging/jmq/util/DiagManager*.class"/>   
+           	<include name="com/sun/messaging/jmq/util/DiagDictionaryEntry.class"/>   
+
+           	<include name="com/sun/messaging/jmq/DestinationName.class"/>   
+           	<include name="com/sun/messaging/jmq/ClientConstants.class"/>   
+
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+
+           	<include name="com/sun/messaging/jmq/jmsspi/ServerSession.class"/>   
+           	<include name="com/sun/messaging/jmq/jmsservice/JMSPacketProperties.class"/>   
+           	<include name="com/sun/messaging/jmq/jmsservice/JMSPacketBody.class"/>   
+
+           	<include name="com/sun/messaging/jms/ra/api/*.class"/>   
+
+           	<include name="com/sun/messaging/portunif/*.class"/>   
+
+           	<include name="com/sun/jms/spi/xa/**/**"/>   
+
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/*.class"/>   
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/client/*.class"/>   
+	
+	</fileset>
+
+        <manifest file="${classes.dir}/imq.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjar.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} JMS Client"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="com/sun/messaging"/>
+               <section name="com/sun/messaging/naming"/>
+               <section name="com/sun/messaging/jms"/>
+               <section name="com/sun/messaging/jmq/net"/>
+               <section name="com/sun/messaging/jmq/jmsclient"/>
+               <section name="com/sun/messaging/jmq/auth"/>
+               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/io"/>
+               <section name="com/sun/messaging/jmq/util"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imq.jar" manifest="${classes.dir}/imq.mf" >
+		      <fileset refid="mq.imq.fileset"/>			
+	</jar>
+   </target>
+
+   <target name="imqjar-ri">
+       <echo message="Building imq.jar"/>
+       <fileset id="mq.imq.fileset" dir="${classes.dir}">
+
+                <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
+                <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
+                <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>
+                <include name="com/sun/messaging/jmq/version.properties"/>
+                <include name="com/sun/messaging/jmq/Version.class"/>
+                <include name="com/sun/messaging/Version.class"/>
+
+                <include name="com/sun/messaging/jms/*.class"/>
+
+                <include name="com/sun/messaging/*.class"/>
+                <include name="com/sun/messaging/*.properties"/>
+                <include name="com/sun/messaging/jmq/jmsclient/**/**"/>
+                <include name="com/sun/messaging/jms/notification/**/**"/>
+                <include name="com/sun/messaging/naming/**/**"/>
+                <include name="com/sun/messaging/jmq/auth/**/**"/>
+           	<include name="com/sun/messaging/jmq/util/io/**/**"/>   
+                <include name="com/sun/messaging/jmq/util/timer/**/**"/>
+
+                <include name="com/sun/messaging/jmq/io/SysMessageID.class"/>
+                <include name="com/sun/messaging/jmq/io/Status.class"/>
+                <include name="com/sun/messaging/jmq/io/JMQByteArrayOutputStream.class"/>
+                <include name="com/sun/messaging/jmq/io/Packet.class"/>
+           	<include name="com/sun/messaging/jmq/io/InvalidSysMessageIDException.class"/>   
+           	<include name="com/sun/messaging/jmq/io/PacketReadEOFException.class"/>   
+                <include name="com/sun/messaging/jmq/io/ByteBufferPool.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketVariableHeader*.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketPayload.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketUtil.class"/>
+                <include name="com/sun/messaging/jmq/io/BigPacketException.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketFlag.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketString.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketType.class"/>
+                <include name="com/sun/messaging/jmq/io/ReadOnlyPacket.class"/>
+                <include name="com/sun/messaging/jmq/io/ReadWritePacket.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketProperties.class"/>
+                <include name="com/sun/messaging/jmq/io/JMQByteArrayInputStream.class"/>
+                <include name="com/sun/messaging/jmq/io/JMQByteBufferInputStream.class"/>
+                <include name="com/sun/messaging/jmq/io/JMQByteBufferOutputStream.class"/>
+                <include name="com/sun/messaging/jmq/io/PortMapperEntry.class"/>
+                <include name="com/sun/messaging/jmq/io/PortMapperTable.class"/>
+                <include name="com/sun/messaging/jmq/io/MQAddress.class"/>
+                <include name="com/sun/messaging/jmq/io/MQAddressList.class"/>
+                <include name="com/sun/messaging/jmq/io/JMSPacket.class"/>
+                <include name="com/sun/messaging/jmq/io/PacketDispatcher.class"/>
+
+                <include name="com/sun/messaging/jmq/util/net/IPAddress.class"/>
+                <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>
+                <include name="com/sun/messaging/jmq/util/CEStreamExhausted.class"/>
+                <include name="com/sun/messaging/jmq/util/MD5.class"/>
+                <include name="com/sun/messaging/jmq/util/Bits.class"/>
+                <include name="com/sun/messaging/jmq/util/BASE64Decoder.class"/>
+                <include name="com/sun/messaging/jmq/util/BASE64Encoder.class"/>
+                <include name="com/sun/messaging/jmq/util/CharacterDecoder.class"/>
+                <include name="com/sun/messaging/jmq/util/CharacterEncoder.class"/>
+                <include name="com/sun/messaging/jmq/util/XidImpl.class"/>
+                <include name="com/sun/messaging/jmq/util/JMQXid.class"/>
+                <include name="com/sun/messaging/jmq/util/DebugPrinter.class"/>
+                <include name="com/sun/messaging/jmq/util/MultiColumnPrinter.class"/>
+		<include name="com/sun/messaging/jmq/util/DiagManager*.class"/>
+                <include name="com/sun/messaging/jmq/util/DiagDictionaryEntry.class"/>
+
+                <include name="com/sun/messaging/jmq/DestinationName.class"/>
+                <include name="com/sun/messaging/jmq/ClientConstants.class"/>
+
+                <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
+                <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
+
+                <include name="com/sun/messaging/jmq/jmsspi/ServerSession.class"/>
+                <include name="com/sun/messaging/jmq/jmsservice/JMSPacketProperties.class"/>
+                <include name="com/sun/messaging/jmq/jmsservice/JMSPacketBody.class"/>
+
+                <include name="com/sun/messaging/jms/ra/api/*.class"/>
+
+                <include name="com/sun/messaging/portunif/*.class"/>
+
+                <include name="com/sun/jms/spi/xa/**/**"/>
+
+	</fileset>
+	<manifest file="${classes.dir}/imq.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjar.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} JMS Client"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="com/sun/messaging"/>
+               <section name="com/sun/messaging/naming"/>
+               <section name="com/sun/messaging/jms"/>
+               <section name="com/sun/messaging/jmq/net"/>
+               <section name="com/sun/messaging/jmq/jmsclient"/>
+               <section name="com/sun/messaging/jmq/auth"/>
+               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/jmq/io"/>
+               <section name="com/sun/messaging/jmq/util"/>
+        </manifest>
+        <jar destfile="${classes.dir}/imq.jar" manifest="${classes.dir}/imq.mf" >
+                      <fileset refid="mq.imq.fileset"/>
+        </jar>
+   </target>
+
+
+  <!-- ======================== imqadmin.jar =============================== -->
+
+   <target name="imqadminjar">
+       <echo message="Building imqadmin.jar"/>
+       <fileset id = "mq.admin.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+	
+           	<include name="com/sun/messaging/jmq/jmsspi/**/**"/>   
+           	<include name="com/sun/messaging/jmq/admin/**/**"/>   
+	</fileset>
+
+        <manifest file="${classes.dir}/imqadmin.mf">
+           <attribute name="Built-By" value="${user.name}"/>
+           <attribute name="Class-Path" value="${mqadmin.classpath}"/>
+           <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} Administration"/>
+           <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+           <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+           <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+           <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+           <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+           <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+           <section name="com/sun/messaging/jmq/admin"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqadmin.jar" manifest="${classes.dir}/imqadmin.mf" >
+		      <fileset refid="mq.admin.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqbroker.jar =============================== -->
+   <target name="imqbrokerjar">
+       <echo message="Building imqbroker.jar"/>
+	<fileset id="mq.broker.fileset" dir="${classes.dir}">
+		<include name="com/sun/messaging/jmq/version.properties"/>   
+		<include name="com/sun/messaging/jmq/Version.class"/>   
+		<include name="com/sun/messaging/Version.class"/>   
+		<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+		<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+		<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+
+		<include name="com/sun/messaging/jmq/jmsserver/**/**"/>   
+		<include name="com/sun/messaging/jmq/auth/**/**"/>   
+		<include name="com/sun/messaging/jmq/jmsservice/**/**"/>   
+		<include name="com/sun/messaging/jmq/httptunnel/api/share/*.class"/>   
+		<include name="com/sun/messaging/jmq/httptunnel/api/server/*.class"/>
+           	<include name="com/sun/messaging/jmq/httptunnel/tunnel/server/*.class"/>   
+
+		<include name="com/sun/messaging/bridge/api/*.class"/>   
+		<include name="com/sun/messaging/bridge/admin/*.class"/>   
+		<include name="com/sun/messaging/bridge/admin/resources/*.class"/>   
+		<include name="com/sun/messaging/bridge/admin/resources/*.properties"/>   
+		<include name="com/sun/messaging/bridge/admin/handlers/*.class"/>   
+		<include name="com/sun/messaging/bridge/admin/util/*.class"/>   
+	</fileset>
+	<manifest file="${classes.dir}/imqbroker.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqbroker.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} Broker"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jmq/jmsserver"/>
+               <section name="com/sun/messaging/jmq/auth"/>
+               <section name="com/sun/messaging/jmq/transport"/>
+               <section name="com/sun/messaging/bridge"/>
+	</manifest>
+	<jar destfile="${classes.dir}/imqbroker.jar" manifest="${classes.dir}/imqbroker.mf" >
+		      <fileset refid="mq.broker.fileset"/>			
+	</jar>
+    </target>
+
+    <target name="imqbrokerjar-ri">
+       <echo message="Building imqbroker.jar"/>
+        <fileset id="mq.broker.fileset" dir="${classes.dir}">
+                <include name="com/sun/messaging/jmq/version.properties"/>
+                <include name="com/sun/messaging/jmq/Version.class"/>
+                <include name="com/sun/messaging/Version.class"/>
+                <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>
+                <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
+                <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
+
+
+                <include name="com/sun/messaging/jmq/jmsserver/**/**"/>
+                <include name="com/sun/messaging/jmq/auth/**/**"/>
+                <include name="com/sun/messaging/jmq/jmsservice/**/**"/>
+                <include name="com/sun/messaging/jmq/httptunnel/api/share/*.class"/>
+                <include name="com/sun/messaging/jmq/httptunnel/api/server/*.class"/>
+
+		<include name="com/sun/messaging/bridge/api/*.class"/>
+
+        </fileset>
+        <manifest file="${classes.dir}/imqbroker.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqbroker.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} Broker"/>               
+	       <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jmq/jmsserver"/>
+	       <section name="com/sun/messaging/jmq/auth"/>
+               <section name="com/sun/messaging/jmq/transport"/>
+	       <section name="com/sun/messaging/bridge"/>
+        </manifest>
+        <jar destfile="${classes.dir}/imqbroker.jar" manifest="${classes.dir}/imqbroker.mf" >
+                      <fileset refid="mq.broker.fileset"/>
+        </jar>
+    </target>
+
+
+  <!-- ======================== imqutil.jar =============================== -->
+   <target name="imqutiljar">
+       <echo message="Building imqutil.jar"/>
+       <fileset id="mq.util.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+
+           	<include name="com/sun/messaging/jmq/io/**/**"/>   
+           	<include name="com/sun/messaging/jmq/net/**/**"/>   
+           	<include name="com/sun/messaging/jmq/util/**/**"/>   
+           	<include name="com/sun/messaging/jmq/resources/**/**"/>   
+           	<include name="com/sun/messaging/jmq/jmsselector/**/**"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqutil.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqutil.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} Utilities"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jmq/io"/>
+               <section name="com/sun/messaging/jmq/net"/>
+               <section name="com/sun/messaging/jmq/util"/>
+               <section name="com/sun/messaging/jmq/resources"/>
+               <section name="com/sun/messaging/jmq/jmsselector"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqutil.jar" manifest="${classes.dir}/imqutil.mf" >
+		      <fileset refid="mq.util.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqjmx.jar =============================== -->
+   <target name="imqjmxjar">
+       <echo message="Building imqjmx.jar"/>
+       <fileset id="mq.jmx.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+	
+	   	<include name="com/sun/messaging/AdminConnectionFactory_*.properties"/>   
+           	<include name="com/sun/messaging/AdminConnectionFactory.class"/>   
+           	<include name="com/sun/messaging/AdminConnectionConfiguration.class"/>   
+           	<include name="com/sun/messaging/jms/management/server/*.class"/>   
+           	<include name="com/sun/messaging/jmq/management/*.class"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqjmx.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjmx.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} JMX Client"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging"/>
+               <section name="com/sun/messaging/jmq"/>
+               <section name="com/sun/messaging/jms/management/server"/>
+               <section name="com/sun/messaging/jmq/management"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqjmx.jar" manifest="${classes.dir}/imqjmx.mf" >
+		      <fileset refid="mq.jmx.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqservlet.jar =============================== -->
+   <target name="imqservletjar">
+       <echo message="Building imqservlet.jar"/>
+       <fileset id="mq.servlet.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+	
+           	<include name="com/sun/messaging/jmq/transport/httptunnel/HttpTunnelDefaults.class"/>   
+           	<include name="com/sun/messaging/jmq/transport/httptunnel/HttpTunnelPacket.class"/>   
+           	<include name="com/sun/messaging/jmq/transport/httptunnel/Link.class"/>   
+           	<include name="com/sun/messaging/jmq/transport/httptunnel/servlet/*.class"/>   
+	</fileset>
+
+        <manifest file="${classes.dir}/imqservlet.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqservlet.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} Servlet"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jmq/transport/httptunnel"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqservlet.jar" manifest="${classes.dir}/imqservlet.mf" >
+		      <fileset refid="mq.servlet.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqjmsbridge.jar =============================== -->
+
+   <target name="imqjmsbridgejar">
+       <echo message="Building imqjmsbridge.jar"/>
+       <fileset id="mq.jmsbridge.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+
+           	<include name="com/sun/messaging/bridge/api/*.class"/>   
+           	<include name="com/sun/messaging/bridge/service/jms/**/**"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqjmsbridge.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjmsbridge.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} JMS Bridge"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="com/sun/messaging/bridge/api"/>
+               <section name="com/sun/messaging/bridge/service/jms"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqjmsbridge.jar" manifest="${classes.dir}/imqjmsbridge.mf" >
+		      <fileset refid="mq.jmsbridge.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqbridgemgr.jar =============================== -->
+
+   <target name="imqbridgemgrjar">
+       <echo message="Building imqbridgemgr.jar"/>
+       <fileset id="mq.bridgemgr.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+
+           	<include name="com/sun/messaging/bridge/api/BridgeCmdSharedResources.class"/>   
+           	<include name="com/sun/messaging/bridge/api/BridgeCmdSharedReplyData.class"/>   
+           	<include name="com/sun/messaging/bridge/admin/util/*.class"/>   
+           	<include name="com/sun/messaging/bridge/admin/bridgemgr/**/**"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqbridgemgr.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqbridgemgr.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} JMS Bridge Administration"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="com/sun/messaging/bridge/api"/>
+               <section name="com/sun/messaging/bridge/admin"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqbridgemgr.jar" manifest="${classes.dir}/imqbridgemgr.mf" >
+		      <fileset refid="mq.bridgemgr.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqstomp.jar =============================== -->
+
+   <target name="imqstompjar">
+       <echo message="Building imqstomp.jar"/>
+       <fileset id="mq.stomp.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+
+           	<include name="com/sun/messaging/bridge/api/*.class"/>   
+           	<include name="com/sun/messaging/bridge/service/stomp/**/**"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqstomp.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqstomp.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} STOMP Bridge"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+               <section name="com/sun/messaging/bridge/api"/>
+               <section name="com/sun/messaging/bridge/service/stomp"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqstomp.jar" manifest="${classes.dir}/imqstomp.mf" >
+		      <fileset refid="mq.stomp.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== jaxm-api.jar =============================== -->
+   <target name="jaxm-apijar">
+       <echo message="Building jaxm-api.jar"/>
+       <fileset id="mq.jaxm.fileset" dir="${classes.dir}">
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           	<include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           	<include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           	<include name="com/sun/messaging/jmq/version.properties"/>   
+           	<include name="com/sun/messaging/jmq/Version.class"/>   
+           	<include name="com/sun/messaging/Version.class"/>   
+	
+           	<include name="javax/xml/messaging/**/**"/>   
+	</fileset>
+        <manifest file="${classes.dir}/jaxm-api.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="Java API for XML Messaging (JAXM)"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="javax.xml.messaging"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/jaxm-api.jar" manifest="${classes.dir}/jaxm-api.mf" >
+		      <fileset refid="mq.jaxm.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqxm.jar =============================== -->
+   <target name="imqxmjar">
+       <echo message="Building imqxm.jar"/>
+       <fileset id="mq.xm.fileset" dir="${classes.dir}">
+           <include name="com/sun/messaging/xml/**/**"/>   
+           <include name="com/sun/messaging/AdministeredObject.class"/>   
+           <include name="com/sun/messaging/naming/AdministeredObjectFactory.class"/>   
+           <include name="com/sun/messaging/naming/ReferenceGenerator.class"/>   
+           <include name="com/sun/messaging/jmq/jmsclient/resources/ClientResources.properties"/>   
+
+	   <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           <include name="com/sun/messaging/jmq/version.properties"/>   
+           <include name="com/sun/messaging/jmq/Version.class"/>   
+           <include name="com/sun/messaging/Version.class"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqxm.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqxm.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} XML Messaging Client"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/xml"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqxm.jar" manifest="${classes.dir}/imqxm.mf" >
+		      <fileset refid="mq.xm.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== imqums.jar =============================== -->
+   <target name="imqumsjar">
+       <echo message="Building imqums.jar"/>
+       <fileset id="mq.ums.fileset" dir="${classes.dir}">
+           <include name="com/sun/messaging/ums/**/**"/>   
+
+           <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           <include name="com/sun/messaging/jmq/version.properties"/>   
+           <include name="com/sun/messaging/jmq/Version.class"/>   
+           <include name="com/sun/messaging/Version.class"/>   
+	</fileset>
+        <manifest file="${classes.dir}/imqums.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} UMS"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/ums"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqums.jar" manifest="${classes.dir}/imqums.mf" >
+		      <fileset refid="mq.ums.fileset"/>			
+	</jar>
+   </target>
+
+  <!-- ======================== fscontext.jar =============================== -->
+   <target name="fscontextjar"
+          description="Copies the fscontext.jar file">
+       <echo message="Copying fscontext.jar"/>
+     <copy file="${buildcfg.dir}/tools/ri/fscontext/fscontext.jar" tofile="${classes.dir}/fscontext.jar"/>  
+   </target>
+
+  <!-- ======================== depend jars =============================== -->
+   <target name="dependjars"
+          description="Copies the depend jar files">
+     <copy file="${packager.artifacts}/grizzly-framework.jar" tofile="${classes.dir}/grizzly-framework.jar"/>  
+     <copy file="${packager.artifacts}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>  
+     <copy file="${packager.artifacts}/javax.transaction-api.jar" tofile="${classes.dir}/javax.transaction-api.jar"/>  
+     <copy file="${packager.artifacts}/jhall.jar" tofile="${classes.dir}/jhall.jar"/>  
+     <copy file="${packager.artifacts}/glassfish-api.jar" tofile="${classes.dir}/glassfish-api.jar"/>  
+     <copy file="${packager.artifacts}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
+     <copy file="${packager.artifacts}/grizzly-http.jar" tofile="${classes.dir}/grizzly-http.jar"/>  
+     <copy file="${packager.artifacts}/grizzly-http-server.jar" tofile="${classes.dir}/grizzly-http-server.jar"/>  
+     <copy file="${packager.artifacts}/grizzly-http-servlet.jar" tofile="${classes.dir}/grizzly-http-servlet.jar"/>  
+     <copy file="${packager.artifacts}/javax.servlet-api.jar" tofile="${classes.dir}/javax.servlet-api.jar"/>  
+     <copy file="${packager.artifacts}/grizzly-websockets.jar" tofile="${classes.dir}/grizzly-websockets.jar"/>  
+     <copy file="${packager.artifacts}/javax.json.jar" tofile="${classes.dir}/javax.json.jar"/>  
+     <copy file="${packager.artifacts}/tyrus-standalone-client.jar" tofile="${classes.dir}/tyrus-standalone-client.jar"/>  
+   </target>
+
+    <target name="dependjars-ri"
+          description="Copies the depend jar files">
+     <copy file="${packager.artifacts}/grizzly-framework.jar" tofile="${classes.dir}/grizzly-framework.jar"/>
+     <copy file="${packager.artifacts}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>
+     <copy file="${packager.artifacts}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>
+   </target>
+
+  <!-- ======================== grizzly.jar =============================== -->
+   <target name="grizzlyjar"
+          description="Copies the grizzly.jar file">
+       <echo message="Copying grizzly.jar"/>
+     <copy file="${grizzlyhome}/grizzly.jar" tofile="${classes.dir}/grizzly.jar"/>  
+   </target>
+
+  <!-- ======================== grizzly-portunif.jar =============================== -->
+   <target name="grizzly-portunifjar"
+          description="Copies the grizzly-portunif.jar file">
+       <echo message="Copying grizzly-portunif.jar"/>
+     <copy file="${grizzlyhome}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>  
+   </target>
+
+  <!-- ======================== hk2-api.jar =============================== -->
+   <target name="hk2-apijar"
+          description="Copies the hk2-api.jar file">
+       <echo message="Copying hk2-api.jar"/>
+     <copy file="${nucleushome}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
+   </target>
+
+  <!-- ======================== glassfish-api.jar =============================== -->
+   <target name="glassfish-apijar"
+          description="Copies the glassfish-api.jar file">
+       <echo message="Copying glassfish-api.jar"/>
+     <copy file="${nucleushome}/glassfish-api.jar" tofile="${classes.dir}/glassfish-api.jar"/>  
+   </target>
+
+  <!-- ======================== jhall.jar =============================== -->
+   <target name="jhalljar"
+          description="Copies the jhall.jar file">
+       <echo message="Copying jhall.jar"/>
+     <copy file="${javahelphome}/jhall.jar" tofile="${classes.dir}/jhall.jar"/>  
+   </target>
+
+  <!-- ======================== imqjmsra.jar =============================== -->
+   <target name="imqjmsrajar">
+       <echo message="Building imqjmsra.jar"/>
+       	<fileset id="mq.jmsra.fileset" dir="${classes.dir}">
+           <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>   
+           <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>   
+           <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>   
+           <include name="com/sun/messaging/jmq/version.properties"/>   
+           <include name="com/sun/messaging/jmq/Version.class"/>   
+           <include name="com/sun/messaging/Version.class"/>   
+
+	   <include name="com/sun/messaging/*.class"/>   
+           <include name="com/sun/messaging/*.properties"/>   
+           <include name="com/sun/messaging/jmq/DestinationName.class"/>   
+           <include name="com/sun/messaging/jmq/ClientConstants.class"/>   
+           <include name="com/sun/messaging/jms/**/**"/>   
+           <include name="com/sun/messaging/jmq/jmsserver/*.class"/>   
+           <include name="com/sun/messaging/jmq/jmsspi/**/**"/>   
+           <include name="com/sun/jms/spi/xa/**/**"/>   
+           <include name="com/sun/messaging/jmq/io/**/**"/>   
+           <include name="com/sun/messaging/jmq/net/**/**"/>   
+           <include name="com/sun/messaging/jmq/util/**/**"/>   
+           <include name="com/sun/messaging/jmq/resources/**/**"/>   
+           <include name="com/sun/messaging/naming/**/**"/>   
+           <include name="com/sun/messaging/jmq/jmsclient/**/**"/>   
+           <include name="com/sun/messaging/jmq/auth/**/**"/>   
+           <include name="com/sun/messaging/jmq/jmsselector/**/**"/>   
+           <include name="com/sun/messaging/jmq/admin/**/**"/>   
+           <include name="com/sun/messaging/jmq/jmsservice/**/**"/>   
+           <include name="com/sun/messaging/jmq/transport/httptunnel/*.class"/>   
+           <include name="com/sun/messaging/jmq/transport/httptunnel/client/*.class"/>   
+	   <include name="com/sun/messaging/portunif/*.class"/>
+	</fileset>
+        <manifest file="${classes.dir}/imqjmsra.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjmsra.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} J2EE Resource Adapater for JMS"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jms/ra"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqjmsra.jar" manifest="${classes.dir}/imqjmsra.mf" >
+		      <fileset refid="mq.jmsra.fileset"/>			
+	</jar>
+   </target>
+
+   <target name="imqjmsrajar-ri">
+       <echo message="Building imqjmsra.jar"/>
+        <fileset id="mq.jmsra.fileset" dir="${classes.dir}">
+           <include name="com/sun/messaging/jmq/resources/SharedResources.properties"/>
+           <include name="com/sun/messaging/jmq/resources/SharedResources.class"/>
+           <include name="com/sun/messaging/jmq/util/MQResourceBundle.class"/>
+           <include name="com/sun/messaging/jmq/version.properties"/>
+           <include name="com/sun/messaging/jmq/Version.class"/>
+           <include name="com/sun/messaging/Version.class"/>
+
+           <include name="com/sun/messaging/*.class"/>
+           <include name="com/sun/messaging/*.properties"/>
+           <include name="com/sun/messaging/jmq/DestinationName.class"/>
+           <include name="com/sun/messaging/jmq/ClientConstants.class"/>
+           <include name="com/sun/messaging/jms/**/**"/>
+           <include name="com/sun/messaging/jmq/jmsserver/*.class"/>
+           <include name="com/sun/messaging/jmq/jmsspi/**/**"/>
+           <include name="com/sun/jms/spi/xa/**/**"/>
+           <include name="com/sun/messaging/jmq/io/**/**"/>
+           <include name="com/sun/messaging/jmq/net/**/**"/>
+           <include name="com/sun/messaging/jmq/util/**/**"/>
+           <include name="com/sun/messaging/jmq/resources/**/**"/>
+           <include name="com/sun/messaging/naming/**/**"/>
+           <include name="com/sun/messaging/jmq/jmsclient/**/**"/>
+           <include name="com/sun/messaging/jmq/auth/**/**"/>
+           <include name="com/sun/messaging/jmq/jmsselector/**/**"/>
+           <include name="com/sun/messaging/jmq/admin/**/**"/>
+           <include name="com/sun/messaging/jmq/jmsservice/**/**"/>
+	   <include name="com/sun/messaging/portunif/*.class"/>
+        </fileset>
+        <manifest file="${classes.dir}/imqjmsra.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="${mqjmsra.classpath}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} J2EE Resource Adapater for JMS"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+	       <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jms/ra"/>
+        </manifest>
+        <jar destfile="${classes.dir}/imqjmsra.jar" manifest="${classes.dir}/imqjmsra.mf" >
+                      <fileset refid="mq.jmsra.fileset"/>
+        </jar>
+   </target>
+
+
+
+  <!-- ======================== War Rules Start =============================== -->
+
+  <!-- ======================== imqums.war =============================== -->
+   <target name="imqumswar" depends="imqumsjar"
+          description="Builds the MQ UMS war">
+       <echo message="Building imqums.war"/>
+       <war destfile="${classes.dir}/imqums.war" 
+	    webxml="${base_javasrc.dir}/webapps/ums/WEB-INF/web.xml">
+
+	   <webinf dir="${base_javasrc.dir}/webapps/ums/WEB-INF" includes="sun-web.xml"/>
+	   <lib dir="${classes.dir}" 
+ 		includes="imq.jar, jms.jar, imqjmx.jar, imqums.jar, imqutil.jar, 
+			  imqxm.jar, jaxm-api.jar"/>   
+
+	   <metainf dir="${base_javasrc.dir}/webapps/ums/META-INF" includes="context.xml"/>
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} UMS WAR"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+           </manifest>  
+   
+	   <!-- XXX change dir values here when move ums to src/share/java/webapps/ums -->
+	   <fileset dir="${base_javasrc.dir}/webapps/ums" includes="*.html, *.jpg"/>
+	   <fileset dir="${base_javasrc.dir}/webapps/ums/protocol" includes="*.html, *.xsd"/>
+	   <fileset dir="${base_javasrc.dir}/webapps/ums/config" includes="*.html"/>
+	   <fileset dir="${base_javasrc.dir}/webapps/ums/config" includes="*.html"/>
+	   <zipfileset dir="${examples_src.dir}/ums" prefix="examples" includes="**/**"/>
+
+       </war>
+       <delete file="${classes.dir}/imqums.jar"/>
+
+   </target>
+
+  <!-- ======================== imqhttp.war =============================== -->
+   <target name="imqhttpwar"
+          description="Builds the MQ HTTP war">
+       <echo message="Building imqhttp.war"/>
+       <war destfile="${classes.dir}/imqhttp.war" 
+	    webxml="${base_javasrc.dir}/webapps/imqhttp/web.xml">
+
+	   <lib dir="${classes.dir}" includes="imqservlet.jar"/>   
+
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} HTTP WAR"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+           </manifest>  
+   
+       </war>
+   </target>
+
+  <!-- ======================== imqhttps.war =============================== -->
+   <target name="imqhttpswar"
+          description="Builds the MQ HTTPS war">
+       <echo message="Building imqhttps.war"/>
+       <war destfile="${classes.dir}/imqhttps.war" 
+	    webxml="${base_javasrc.dir}/webapps/imqhttps/web.xml">
+
+	   <lib dir="${classes.dir}" includes="imqservlet.jar"/>   
+
+           <manifest>
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} HTTPS WAR"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+           </manifest>  
+   
+       </war>
+   </target>
+
+  <!-- ======================== imqjmsra.rar =============================== -->
+   <target name="imqjmsrarar" depends="imqjmsrajar">
+       <echo message="Building imqjmsra.rar"/>
+        <fileset id="mq.jmsrarar.fileset" dir="${classes.dir}">
+           <include name="imqjmsra.jar"/>   
+           <include name="imqbroker.jar"/>   
+           <include name="imqjmx.jar"/>   
+           <include name="imqstomp.jar"/>   
+           <include name="imqjmsbridge.jar"/>   
+           <include name="fscontext.jar"/>   
+	</fileset>
+
+
+        <manifest file="${classes.dir}/imqjmsra.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="imqbroker.jar"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} J2EE Resource Adapater for JMS"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jms/ra"/>
+        </manifest>  
+	<jar destfile="${classes.dir}/imqjmsra.rar" manifest="${classes.dir}/imqjmsra.mf" >
+	      <fileset refid="mq.jmsrarar.fileset"/>			
+	      <metainf dir="${ws.top.dir}/main/mq-jmsra/jmsra-ra/src/main/java/com/sun/messaging/jms/ra" includes="ra.xml"/>
+	</jar>
+        <delete file="${classes.dir}/imqjmsra.jar"/>
+   </target>
+
+   <target name="imqjmsrarar-ri" depends="imqjmsrajar-ri">
+       <echo message="Building imqjmsra.rar"/>
+        <fileset id="mq.jmsrarar.fileset" dir="${classes.dir}">
+           <include name="imqjmsra.jar"/>
+           <include name="imqbroker.jar"/>
+           <include name="imqjmx.jar"/>
+           <include name="fscontext.jar"/>
+        </fileset>
+
+
+        <manifest file="${classes.dir}/imqjmsra.mf">
+               <attribute name="Built-By" value="${user.name}"/>
+               <attribute name="Class-Path" value="imqbroker.jar"/>
+               <attribute name="Specification-Title" value="${JMQ_SOFTWARE_NAME_JAR} J2EE Resource Adapater for JMS"/>
+               <attribute name="Specification-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION}"/>
+               <attribute name="Specification-Vendor" value=" ${JMQ_COMPANY_NAME}"/>
+               <attribute name="Implementation-Title" value="${JMQ_SOFTWARE_NAME_JAR}"/>
+               <attribute name="Implementation-Version" value="${JMQ_MAJOR_VERSION}.${JMQ_MINOR_VERSION}.${JMQ_MICRO_VERSION} (Build ${JMQ_BUILD_NUMBER}-${JMQ_BUILD_LETTER})"/>
+               <attribute name="Implementation-Vendor" value="${JMQ_COMPANY_NAME}"/>
+               <attribute name="Main-Class" value="com.sun.messaging.jmq.Version"/>
+
+               <section name="com/sun/messaging/jms/ra"/>
+        </manifest>
+        <jar destfile="${classes.dir}/imqjmsra.rar" manifest="${classes.dir}/imqjmsra.mf" >
+              <fileset refid="mq.jmsrarar.fileset"/>
+              <metainf dir="${ws.top.dir}/main/mq-jmsra/jmsra-ra/src/main/java/com/sun/messaging/jms/ra" includes="ra.xml"/>
+        </jar>
+	<delete file="${classes.dir}/imqjmsra.jar"/>
+   </target>
+
+
+</project>

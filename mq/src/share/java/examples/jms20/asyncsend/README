@@ -1,0 +1,141 @@
+
+asyncsend example
+-------------------
+
+Description
+-----------
+This example illustrates how to write an application that uses a
+JMS2.0 simplified API to send messages using async send and receive messages asynchronously 
+to/from topic. It also illustrates the use of jdk7 feature try-with-resources in JMS application.
+
+Some basic info on this example:
+
+- AsyncTopicProducerExample.class sends messages to the particular topic specified using asynchronous send.
+  When the mesage has been succesfully sent, the callback method onCompletion is invoked on an 
+  MyCompletionListener object.
+- AsyncTopicConsumerExample.class receives messages asynchronously from the particular topic specified
+  and displays the messages received.
+- Start AsyncTopicConsumerExample before starting the producer AsyncTopicProducerExample 
+  since a topic subscription will not receive messages which were sent to the topic before the subscription 
+  was created.
+
+Files
+-----
+AsyncTopicConsumerExample.java           Source file for this example.
+AsyncTopicProducerExample.java           Source file for this example.
+*.class                 	  Prebuilt Java class files for this example.
+README                            This file.
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your environment and setting CLASSPATH
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue
+Developer's Guide.
+
+Building the example
+--------------------
+Run the following:
+
+    javac AsyncTopicConsumerExample.java
+    javac AsyncTopicProducerExample.java
+
+Running the example
+-------------------
+
+Start a broker
+
+   imqbrokerd -tty
+
+Run the following command first on one terminal:
+
+   java AsyncTopicConsumerExample <topic_name> [<number_of_messages>]
+
+Run the following command on another terminal:
+
+   java AsyncTopicProducerExample <topic_name> [<number_of_messages>]
+  
+
+The output of AsyncTopicConsumerExample looks like this:
+
+java AsyncTopicConsumerExample topic1 20
+
+Topic name is topic1
+Created jms context successfully
+Created topic successfully
+Message Received : Message 1
+Message Received : Message 2
+Message Received : Message 3
+Message Received : Message 4
+Message Received : Message 5
+Message Received : Message 6
+Message Received : Message 7
+Message Received : Message 8
+Message Received : Message 9
+Message Received : Message 10
+Message Received : Message 11
+Message Received : Message 12
+Message Received : Message 13
+Message Received : Message 14
+Message Received : Message 15
+Message Received : Message 16
+Message Received : Message 17
+Message Received : Message 18
+Message Received : Message 19
+Message Received : Message 20
+
+The output of AsyncTopicProducerExample looks like this:
+
+java AsyncTopicProducerExample topic1 20
+
+Topic name is topic1
+Created jms context successfully
+Created topic successfully
+Async send started for message Message 1
+Async send started for message Message 2
+Async send completed for message : Message 1
+Async send completed for message : Message 2
+Async send started for message Message 3
+Async send started for message Message 4
+Async send started for message Message 5
+Async send started for message Message 6
+Async send started for message Message 7
+Async send started for message Message 8
+Async send started for message Message 9
+Async send started for message Message 10
+Async send started for message Message 11
+Async send started for message Message 12
+Async send started for message Message 13
+Async send started for message Message 14
+Async send started for message Message 15
+Async send started for message Message 16
+Async send started for message Message 17
+Async send started for message Message 18
+Async send started for message Message 19
+Async send started for message Message 20
+Async send completed for message : Message 3
+Async send completed for message : Message 4
+Async send completed for message : Message 5
+Async send completed for message : Message 6
+Async send completed for message : Message 7
+Async send completed for message : Message 8
+Async send completed for message : Message 9
+Async send completed for message : Message 10
+Async send completed for message : Message 11
+Async send completed for message : Message 12
+Async send completed for message : Message 13
+Async send completed for message : Message 14
+Async send completed for message : Message 15
+Async send completed for message : Message 16
+Async send completed for message : Message 17
+Async send completed for message : Message 18
+Async send completed for message : Message 19
+Async send completed for message : Message 20
+All async sends completed

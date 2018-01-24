@@ -1,0 +1,4 @@
+
+The files in this directory are copied into the directory <TOP>/dist/sys/mq/bin 
+at build time. The exact files that are copied are listed in 
+<TOP>/src/buildcfg/Install-*.gmk

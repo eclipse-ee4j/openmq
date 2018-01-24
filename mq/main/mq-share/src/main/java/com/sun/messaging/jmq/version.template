@@ -1,0 +1,49 @@
+#
+# Copyright (c) 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+# Property file
+# 
+# - version file for com.sun.messaging.jmq
+#
+imq.version.package=com.sun.messaging.jmq
+imq.product.name=@PRODUCT_NAME@
+imq.product.jarname=@FULL_NAME@
+imq.product.name.abbrev=@PRODUCT_ABBREVNAME@
+imq.product.name.abbrev.lowercase=mq
+imq.product.name.short=@PRODUCT_NAME@
+imq.product.releaseqid=@PRODUCT_VERSION@
+imq.product.companyname=Oracle
+imq.build.date=@DATE@
+imq.build.number=@BUILD_NUMBER@
+imq.build.letter=@BUILD_LETTER@
+imq.build.milestone=
+imq.product.major=@MAJOR_VERSION@
+imq.product.minor=@MINOR_VERSION@
+imq.product.micro=@MICRO_VERSION@
+imq.product.servicepack=
+imq.product.version=@PRODUCT_VERSION@
+imq.product.versionstr=MQ @PRODUCT_VERSION@
+imq.product.urn=urn:uuid:951b3aa2-ee40-11dd-8c47-080020a9ed93
+imq.protocol.version=@PRODUCT_VERSION@
+imq.api.version=@PRODUCT_VERSION@
+imq.jms.api.version=@JMS_VERSION@
+imq.jmsadmin.spi.version=2.0
+imq.router.api.version=
+imq.product.buildstr=@PRODUCT_VERSION@ (Build @MAJOR_VERSION@.@MINOR_VERSION@)
+imq.product.copyright=@COPYRIGHT@
+imq.product.copyright.date=@COPYRIGHT@
+imq.product.copyright.long=@COPYRIGHT@
+

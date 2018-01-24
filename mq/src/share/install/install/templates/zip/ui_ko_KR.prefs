@@ -1,0 +1,121 @@
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+# Properties file for all the view pages
+# Fragments line ${varname} are replaced by FreeMarker templating mechanism from other properties
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ COMMON STUFF ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+PRODUCT_NAME=Open Message Queue 4.5
+
+app_title=${PRODUCT_NAME}
+
+# L10n - Do not translate the next two properties
+BODY_START=&lt;HTML&gt;&lt;BODY&gt;&lt;FONT face=&quot;Sans-Serif&quot; size=&quot;3&quot;&gt;
+BODY_END=&lt;/FONT&gt;&lt;/BODY&gt;&lt;/HTML&gt;
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~W E L C O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Welcome_WELCOME_TEXT=${BODY_START}&lt;b&gt;${PRODUCT_NAME}&lt;/b&gt; \uc124\uce58 \ud504\ub85c\uadf8\ub7a8\uc785\ub2c8\ub2e4.&lt;BR&gt;&lt;BR&gt;&lt;b&gt;\uc8fc:&lt;/b&gt; \uc774 \uc124\uce58 \ud504\ub85c\uadf8\ub7a8\uc740 \uc2dc\uc2a4\ud15c\uc5d0\uc11c \ub2e4\ub978 \uc124\uce58 \ud504\ub85c\uadf8\ub7a8\uc774 \uc124\uce58\ud588\uc744 \uc218 \uc788\ub294 \uc18c\ud504\ud2b8\uc6e8\uc5b4\ub97c \uc5c5\ub370\uc774\ud2b8\ud569\ub2c8\ub2e4. \uc774\ub85c \uc778\ud574 \uc81c\ud488 \ub808\uc9c0\uc2a4\ud2b8\ub9ac\uac00 \ubd88\uc77c\uce58 \uc0c1\ud0dc\uac00 \ub420 \uc218 \uc788\uc2b5\ub2c8\ub2e4. \uc790\uc138\ud55c \ub0b4\uc6a9\uc740 ${PRODUCT_NAME} \uc124\uce58 \uc124\uba85\uc11c\ub97c \ucc38\uc870\ud558\uc2ed\uc2dc\uc624.&lt;BR&gt;&lt;BR&gt;${Copyright_HTML_FRAGMENT}${BODY_END}
+
+RegistrationWelcome_WELCOME_TEXT=${BODY_START}&lt;b&gt;${PRODUCT_NAME}&lt;/b&gt; \uc124\uce58 \ud504\ub85c\uadf8\ub7a8\uc785\ub2c8\ub2e4(\ub4f1\ub85d \uc804\uc6a9 \ubaa8\ub4dc).&lt;BR&gt;&lt;BR&gt;${Copyright_HTML_FRAGMENT}${BODY_END}
+
+Copyright_HTML_FRAGMENT=Copyright (c) 2010, 2017 Oracle and/or its affiliates. \ubaa8\ub4e0 \uad8c\ub9ac\ub294 \uc800\uc791\uad8c\uc790\uc758 \uc18c\uc720\uc785\ub2c8\ub2e4.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~L I C E N S E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+License_LICENSE_TEXT1=${BODY_START}\ub2e4\uc74c \uc0ac\uc6a9\uad8c \uacc4\uc57d\uc744 \uc77d\uc5b4 \uc8fc\uc2ed\uc2dc\uc624.  \uc124\uce58\ub97c \uacc4\uc18d\ud558\ub824\uba74 \uc774 \uacc4\uc57d\uc11c \ub0b4\uc6a9\uc5d0 \ub3d9\uc758\ud574\uc57c \ud569\ub2c8\ub2e4.${BODY_END}
+
+#
+# L10N: License_LICENSE_TEXT2 needs to be localized.
+# I have provided the translated text.  Please insert the text within each
+# ui_*_.prefs file so that it shows up in the installer correctly.  
+# Note that each line ends with "backslash n backslash n backslash"
+# (except the very last line).
+#
+License_LICENSE_TEXT2= 
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    H O M E   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+DEFAULT_INSTALL_HOME=
+
+INSTALL_TOP_TEXT=${BODY_START}${PRODUCT_NAME} \uc81c\ud488\uc758 \ub300\uc0c1 \uc2dc\uc2a4\ud15c\uc5d0 \uc124\uce58 \uc704\uce58\ub85c \uc0ac\uc6a9\ud560 \ub514\ub809\ud1a0\ub9ac\ub97c \uc9c0\uc815\ud569\ub2c8\ub2e4.&lt;BR&gt;${BODY_END}
+
+SPECIFY_HOME_MSG=\uc124\uce58 \ub514\ub809\ud1a0\ub9ac\ub97c \uc9c0\uc815\ud569\ub2c8\ub2e4.
+
+INSTALL_BOTTOM_TEXT=${BODY_START}\uc874\uc7ac\ud558\uc9c0 \uc54a\ub294 \uc124\uce58 \ub514\ub809\ud1a0\ub9ac\ub97c \uc9c0\uc815\ud558\ub294 \uacbd\uc6b0 \uc774 \uc124\uce58 \ud504\ub85c\uadf8\ub7a8\uc774 \ud574\ub2f9 \ub514\ub809\ud1a0\ub9ac\ub97c \ub9cc\ub4ed\ub2c8\ub2e4.${BODY_END}
+
+MQ_INSTALL_HOME_LABEL=\uc124\uce58 \ud648
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~I N S T A L L    D I R   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+INSTALLDIR_TOP_TEXT=${BODY_START}\ub4f1\ub85d\ud560 ${PRODUCT_NAME} \uc124\uce58 \ub514\ub809\ud1a0\ub9ac\ub97c \uc9c0\uc815\ud569\ub2c8\ub2e4.${BODY_END}
+
+SPECIFY_INSTALLDIR_MSG=\uc124\uce58\uac00 \ud3ec\ud568\ub41c \ub514\ub809\ud1a0\ub9ac\ub97c \uc9c0\uc815\ud569\ub2c8\ub2e4.
+
+MQ_INSTALL_DIR_LABEL=\uc124\uce58 \ub514\ub809\ud1a0\ub9ac
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~  L10N SELECTION PAGE ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10N SELECTION PAGE 
+L10N_HOME_TEXT=${BODY_START}\ub2e4\uc74c \uc911\uc5d0\uc11c \uc635\uc158\uc744 \uc120\ud0dd\ud569\ub2c8\ub2e4.${BODY_END}
+
+L10N_CHOICE_TEXT=Message Queue \ub2e4\uad6d\uc5b4 \ud328\ud0a4\uc9c0 \uc124\uce58
+INSTALL_L10N_TOOLTIP=Message Queue \ub2e4\uad6d\uc5b4 \ud328\ud0a4\uc9c0\ub97c \uc124\uce58\ud558\ub824\uba74 \uc774 \uc635\uc158\uc744 \uc120\ud0dd\ud569\ub2c8\ub2e4.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~A D M I N   P A S S W O R D   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~UPGRADE PAGE~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~R E A D Y   T O   I N S T A L L   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~P R O G R E S S   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# L10n: only translate the "Progress:" string.  leave the rest unchanged.
+PROGRESS_TITLE=${BODY_START}\uc9c4\ud589\ub960:${BODY_END}
+
+
+# L10n: only translate the "Please wait" string.  leave the rest unchanged.
+PROGRESS_WAIT=${BODY_START}\uc7a0\uc2dc \uae30\ub2e4\ub824 \uc8fc\uc2ed\uc2dc\uc624.${BODY_END}
+               
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~S U M M A R Y   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~REGISTRATION OPTIONS   P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+REGISTRATION_TEXT1=${BODY_START}\ub4f1\ub85d\ud558\uba74 \ub2e4\uc74c\uc744 \uac04\ud3b8\ud558\uac8c \uc561\uc138\uc2a4\ud560 \uc218 \uc788\uc2b5\ub2c8\ub2e4.&lt;UL&gt;&lt;LI&gt;\ud328\uce58 \uc815\ubcf4\uc640 \ubc84\uadf8 \uc5c5\ub370\uc774\ud2b8&lt;/LI&gt;&lt;LI&gt;\uc2a4\ud06c\ub9b0 \uc0f7 \ubc0f \uc790\uc2b5\uc11c&lt;/LI&gt;&lt;LI&gt;\uc624\ud37c\ub9c1 \uc9c0\uc6d0 \ubc0f \uad50\uc721 \ub4f1&lt;/LI&gt;&lt;/UL&gt;${BODY_END}
+CREATE_ACCT_LABEL=Sun \uc628\ub77c\uc778 \uacc4\uc815\uc774 \uc5c6\uc2b5\ub2c8\ub2e4. \ub4f1\ub85d\ud569\ub2c8\ub2e4.
+USE_ACCT_LABEL=Sun \uc628\ub77c\uc778 \uacc4\uc815\uc774 \uc788\uc2b5\ub2c8\ub2e4.
+USER_NAME_LABEL=\uc0ac\uc6a9\uc790 \uc774\ub984
+USER_PASSWORD_LABEL=\uc0ac\uc6a9\uc790 \ube44\ubc00\ubc88\ud638
+SKIP_REG_LABEL=\ub4f1\ub85d\uc744 \uac74\ub108\ub701\ub2c8\ub2e4.
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Create Sun Online Account P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_EMAIL_ADDRESS=\uc804\uc790 \uba54\uc77c \uc8fc\uc18c
+MQ_PASSWORD=\ube44\ubc00\ubc88\ud638
+MQ_RETYPE_PASSWORD=\ube44\ubc00\ubc88\ud638 \uc7ac\uc785\ub825
+MQ_FIRST_NAME=\uc774\ub984
+MQ_LAST_NAME=\uc131
+MQ_COUNTRY=\uad6d\uac00
+
+CREATE_SOA_TITLE=Sun \uc628\ub77c\uc778 \uacc4\uc815 \ub9cc\ub4e4\uae30
+
+CREATE_SOA_TEXT1=${BODY_START}Sun \uc628\ub77c\uc778 \uacc4\uc815\uc744 \ub9cc\ub4e4\ub824\uba74 \ub2e4\uc74c \uc815\ubcf4\ub97c \uc785\ub825\ud558\uc2ed\uc2dc\uc624. \ubaa8\ub4e0 \ud544\ub4dc\ub97c \ubc18\ub4dc\uc2dc \uc785\ub825\ud574\uc57c \ud569\ub2c8\ub2e4.${BODY_END}
+
+CREATE_SOA_TEXT2=${BODY_START}&lt;a href=http://www.oracle.com/privacy/&gt;Oracle\uc758 \uac1c\uc778 \uc815\ubcf4 \ubcf4\ud638\uc815\ucc45&lt;/a&gt;\uc744 \ubcf4\ub824\uba74 \uc5ec\uae30\ub97c \ub204\ub974\uc2ed\uc2dc\uc624.${BODY_END}
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Preferences P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_USE_PROXY_HEADER=${BODY_START}\uc778\ud130\ub137\uc73c\ub85c \ub370\uc774\ud130\ub97c \ubcf4\ub0b4\uc5b4 \ub4f1\ub85d\uc744 \uc218\ud589\ud569\ub2c8\ub2e4. \uc778\ud130\ub137 \ud504\ub85d\uc2dc\uac00 \uc774 \ud638\uc2a4\ud2b8\uc5d0\uc11c \uc778\ud130\ub137\uc5d0 \uc561\uc138\uc2a4\ud574\uc57c \ud558\ub294 \uacbd\uc6b0 \uc774 \ud654\uba74\uc744 \uc0ac\uc6a9\ud558\uc5ec \uc778\ud130\ub137 \ud504\ub85d\uc2dc \ud638\uc2a4\ud2b8 \ubc0f \ud3ec\ud2b8\ub97c \uc9c0\uc815\ud574\uc57c \ud569\ub2c8\ub2e4.&lt;BR&gt;&lt;BR&gt;\uae30\ubcf8 \uc124\uc815\uc740 \ud504\ub85d\uc2dc\ub97c \uc0ac\uc6a9\ud558\uc9c0 \uc54a\ub294 \uac83\uc785\ub2c8\ub2e4.${BODY_END}
+MQ_USE_PROXY=\uc778\ud130\ub137 \ud504\ub85d\uc2dc \uc0ac\uc6a9
+MQ_PROXY_HOST=\ud504\ub85d\uc2dc \ud638\uc2a4\ud2b8
+MQ_PROXY_PORT=\ud504\ub85d\uc2dc \ud3ec\ud2b8
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MQ_REG_PROGRESS=\ub4f1\ub85d \uc9c4\ud589\ub960
+
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT_CDDL=

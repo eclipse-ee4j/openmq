@@ -1,0 +1,322 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE>UMS Broker monitoring service</TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="CREATED" CONTENT="0;0">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<META NAME="CHANGED" CONTENT="20090216;16134687">
+	<META NAME="CHANGEDBY" CONTENT="Nigel Deakin">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { size: 21cm 29.7cm }
+		H2.western { font-family: "Albany", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-family: "HG Mincho Light J"; font-size: 14pt; font-style: italic }
+		H2.ctl { font-family: "Arial Unicode MS"; font-size: 14pt; font-style: italic }
+		H3.western { font-family: "Albany", sans-serif }
+		H3.cjk { font-family: "HG Mincho Light J" }
+		H3.ctl { font-family: "Arial Unicode MS" }
+		H4.western { font-family: "Albany", sans-serif; font-size: 11pt; font-style: italic }
+		H4.cjk { font-family: "HG Mincho Light J"; font-size: 11pt; font-style: italic }
+		H4.ctl { font-family: "Arial Unicode MS"; font-size: 11pt; font-style: italic }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><BR><BR>
+</P>
+<H2 CLASS="western">UMS Broker Monitoring service: XML output
+specification</H2>
+<P>The UMS Broker Monitoring services <FONT FACE="Cumberland, monospace"><FONT SIZE=2>getBrokerInfo</FONT></FONT>
+is a service which returns XML containing MQ Broker monitoring data.
+The content of this XML depends on the query string that is used. 
+</P>
+<P>This is a description of the XML that is returned by this service.</P>
+<H3 CLASS="western">XML elements 
+</H3>
+<P>The XML document returned by a getBrokerInfo query has the
+following general structure:</P>
+<PRE STYLE="margin-left: 1.25cm"><CODE>&lt;BrokerInfo&gt;</CODE>
+<CODE>    &lt;Header&gt;</CODE>
+<CODE>        &lt;GeneratedDate&gt;</CODE>
+<CODE>            &lt;Milliseconds&gt;2347657265323342&lt;/Milliseconds&gt;</CODE>
+            <CODE>&lt;DateString&gt;Monday, November 10, 2008 4:25:24 PM PST&lt;/DateString&gt;</CODE>
+<CODE>        &lt;/GeneratedDate&gt;</CODE>
+<CODE>        &lt;RequestProperties cmd=&quot;getDestinations&quot;/&gt;</CODE>
+<CODE>        &lt;Broker&gt;</CODE>
+<CODE>            &lt;InstanceName&gt;imqbroker&lt;/InstanceName&gt;</CODE>
+            <CODE>&lt;Port&gt;7676&lt;/Port&gt;</CODE>
+            <CODE>&lt;Version&gt;5.1&lt;/Version&gt;</CODE>
+<CODE>            &lt;Host&gt;myHost&lt;/Host&gt;</CODE>
+<CODE>            &lt;VarHome&gt;/var/imq&lt;/VarHome&gt;</CODE>
+<CODE>            ...</CODE>
+<CODE>        &lt;/Broker&gt;</CODE>
+<CODE>    &lt;Header&gt;</CODE>
+<CODE>    &lt;Body&gt;</CODE>
+<CODE>    ...</CODE>
+<CODE>    &lt;/Body&gt;</CODE>
+<CODE>&lt;/BrokerInfo&gt;</CODE></PRE><P>
+<BR>There are two main elements; &lt;Header&gt; and &lt;Body&gt;. 
+</P>
+<P>The &lt;Header&gt; element is common to all queries and should
+return the same information for each request apart for
+&lt;GeneratedDate&gt;. 
+</P>
+<P>The &lt;Body&gt; element will depend on the particular query being
+performed</P>
+<H3 CLASS="western">Header elements</H3>
+<TABLE BORDER=1 CELLPADDING=2 CELLSPACING=2>
+	<TR>
+		<TH>
+			<P>XML Element</P>
+		</TH>
+		<TH>
+			<P>Description</P>
+		</TH>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>Header</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>Header element of&nbsp; UMS BrokerInfo reply XML</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>GeneratedDate</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>Date when this XML reply was generated.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>Milliseconds</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>Milliseconds since Jan 1, 1970</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>DateString</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>Human readable date string.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>RequestProperties</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>Request properties as submitted via the query string. This is a
+			list of key=value pairs.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TD>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=2>Broker</FONT></FONT></P>
+		</TD>
+		<TD>
+			<P>High level details on the broker being queried.</P>
+		</TD>
+	</TR>
+</TABLE>
+<H3 CLASS="western">Body Elements</H3>
+<P>The information returned in the Body element depends on the type
+of query being performed, as defined by the <FONT FACE="Cumberland, monospace"><FONT SIZE=2>cmd</FONT></FONT>
+request parameter. 
+</P>
+<P>Currently the only type of query available is <FONT FACE="Cumberland, monospace"><FONT SIZE=2>cmd=getDestinations</FONT></FONT></P>
+<H4 CLASS="western">Body elements for cmd=getDestinations</H4>
+<P ALIGN=LEFT>The Body element has the following structure:</P>
+<TABLE WIDTH=680 BORDER=1 CELLPADDING=2 CELLSPACING=3>
+	<COL WIDTH=88>
+	<COL WIDTH=573>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Query String</P>
+		</TH>
+		<TD WIDTH=573>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=3>service=getBrokerInfo&amp;cmd=getDestinations</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Description</P>
+		</TH>
+		<TD WIDTH=573>
+			<P>List all destinations and show all monitoring/runtime
+			information of those destinations.</P>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>XML returned</P>
+		</TH>
+		<TD WIDTH=573>
+<PRE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Destinations&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>   &lt;Destination&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumActiveConsumers&gt;0&lt;/AvgNumActiveConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumBackupConsumers&gt;0&lt;/AvgNumBackupConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumConsumers&gt;0&lt;/AvgNumConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumMsgs&gt;0&lt;/AvgNumMsgs&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgTotalMsgBytes&gt;0&lt;/AvgTotalMsgBytes&gt;</FONT></FONT>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;ConnectionID&gt;0&lt;/ConnectionID&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;CreatedByAdmin&gt;false&lt;/CreatedByAdmin&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;DiskReserved&gt;0&lt;/DiskReserved&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;Name&gt;mq.sys.dmq&lt;/Name&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;Type&gt;q&lt;/Type&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE><CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;ConsumerIDs/&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>   &lt;/Destination&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>   &lt;Destination&gt;</FONT></FONT></CODE>>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumActiveConsumers&gt;0&lt;/AvgNumActiveConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumBackupConsumers&gt;0&lt;/AvgNumBackupConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumConsumers&gt;0&lt;/AvgNumConsumers&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgNumMsgs&gt;0&lt;/AvgNumMsgs&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;AvgTotalMsgBytes&gt;0&lt;/AvgTotalMsgBytes&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;ConnectionID&gt;0&lt;/ConnectionID&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;CreatedByAdmin&gt;false&lt;/CreatedByAdmin&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;DiskReserved&gt;0&lt;/DiskReserved&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;Name&gt;SimpleTopic&lt;/Name&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;Type&gt;t&lt;/Type&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE> 
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;ConsumerIDs&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>         &lt;ConsumerID&gt;129230792242097664&lt;/ConsumerID&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>         &lt;ConsumerID&gt;129230792243460352&lt;/ConsumerID&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;/ConsumerIDs&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      &lt;/Destination&gt;</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>      ...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;/Destinations&gt;</FONT></FONT></CODE>
+</PRE>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Notes</P>
+		</TH>
+		<TD WIDTH=573>
+			<P>The child elements that are returned within the <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Destination&gt;</FONT></FONT>
+			elements come directly from the corresponding JMX MBean:
+			<FONT FACE="Cumberland, monospace"><FONT SIZE=2>DestinationMonitor</FONT></FONT>
+			in this case.</P>
+			<P STYLE="margin-bottom: 0cm">Attributes</P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm">There is a one-to-one mapping
+				between the MBean attribute name and the XML el<FONT FACE="Thorndale, serif">ement
+				name e.g. </FONT><FONT FACE="Thorndale, serif"><FONT SIZE=3>The
+				</FONT></FONT><FONT COLOR="#000000"><FONT FACE="Cumberland, monospace"><FONT SIZE=2>getCreatedByAdmin()</FONT></FONT></FONT><FONT COLOR="#000000">
+				</FONT><FONT COLOR="#000000"><FONT FACE="Thorndale, serif"><FONT SIZE=3>attribute
+				corresponds to the</FONT></FONT></FONT> <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;CreatedByAdmin&gt;</FONT></FONT>
+				<FONT FACE="Thorndale, serif"><FONT SIZE=3>element.</FONT></FONT></P>
+				<P STYLE="margin-bottom: 0cm"></P>
+			</UL>
+			<P STYLE="margin-bottom: 0cm">Operations</P>
+			<UL>
+				<LI><P STYLE="margin-bottom: 0cm">Only operations that are
+				read-only are considered. This means operations that do not have
+				any impact on the destination, which is most of them.</P>
+				<LI><P STYLE="margin-bottom: 0cm">Only operations that do not
+				require any parameters are considered 
+				</P>
+				<LI><P STYLE="margin-bottom: 0cm">The XML element name is
+				constructed by removing the prefix <FONT FACE="Cumberland, monospace"><FONT SIZE=2>get</FONT></FONT>
+				from the operation name. For example: the value returned by the
+				<FONT FACE="Cumberland, monospace"><FONT SIZE=2>getConsumerIDs()</FONT></FONT>
+				operation will be listed under the <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;ConsumerIDs&gt;</FONT></FONT>
+				XML element 
+				</P>
+				<LI><P>If the data returned is an array, a sub-element is created
+				for each array element. The name used for this sub-element is the
+				singular of its parent. For example, the <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;ConsumerIDs&gt;</FONT></FONT>
+				XML element will contain an element named <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;ConsumerID&gt;</FONT></FONT>
+				for each consumer of this destination.</P>
+			</UL>
+		</TD>
+	</TR>
+</TABLE>
+<P>The dest-elements attribute can be appended to the query to
+specify which particular elements should be returned:</P>
+<P ALIGN=CENTER STYLE="margin-bottom: 0cm"><BR>
+</P>
+<TABLE WIDTH=680 BORDER=1 CELLPADDING=2 CELLSPACING=3>
+	<COL WIDTH=88>
+	<COL WIDTH=574>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Query String</P>
+		</TH>
+		<TD WIDTH=574>
+			<P><FONT FACE="Cumberland, monospace"><FONT SIZE=3>service=getBrokerInfo&amp;cmd=getDestinations<BR>&amp;dest-elements=Name,Type,NumMsgs</FONT></FONT></P>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Description</P>
+		</TH>
+		<TD WIDTH=574>
+			<P>List all destinations and show the specified monitoring/runtime
+			information of those destinations</P>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>XML returned</P>
+		</TH>
+		<TD WIDTH=574>
+			<PRE><CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Destinations&gt;</FONT></FONT></CODE>
+<CODE>   <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Destination&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Name&gt;mq.sys.dmq&lt;/Name&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;NumMsgs&gt;300&lt;/NumMsgs&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Type&gt;q&lt;/Type&gt;</FONT></FONT></CODE>
+<CODE>   <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;/Destination&gt;</FONT></FONT></CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2><BR><BR>   </FONT></FONT><CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Destination&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Name&gt;SimpleTopic&lt;/Name&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;NumMsgs&gt;300&lt;/NumMsgs&gt;</FONT></FONT></CODE>
+<CODE>      <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;Type&gt;t&lt;/Type&gt;</FONT></FONT></CODE>
+<CODE>   <FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;/Destination&gt;</FONT></FONT></CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2><BR>   </FONT></FONT><CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>...</FONT></FONT></CODE>
+<CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2>&lt;/Destinations&gt;</FONT></FONT></CODE><FONT FACE="Cumberland, monospace"><FONT SIZE=2> </FONT></FONT></PRE>
+		</TD>
+	</TR>
+	<TR>
+		<TH WIDTH=88>
+			<P ALIGN=LEFT>Notes</P>
+		</TH>
+		<TD WIDTH=574>
+			<P>The values listed after the <FONT FACE="Cumberland, monospace"><FONT SIZE=2>dest-elements</FONT></FONT>
+			parameter are comma-separated and designate the XML elements (for
+			both attributes and operations) that are to be returned. 
+			</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><BR><BR>
+</P>
+</BODY>
+</HTML>

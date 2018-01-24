@@ -1,0 +1,380 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html lang="en-US">
+<head>
+<title>UMS - UtilsUsingGet</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+<script type="text/javascript" language="javascript">
+
+// the URLs we are going to GET
+var pingURL = "";
+var debugURL = "";
+var getConfigurationURL = "";
+var getMonitoringURL = "";
+  
+function init() {
+
+  // Use current URL's host:port as default value for host field
+  var url = unescape(window.document.location);
+  var pos = url.indexOf("http://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('http').checked = true;
+  }
+  pos = url.indexOf("https://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('https').checked = true;
+  }
+  
+  // Extract context root from current URL and use as default value in context root field
+  var context = document.getElementById('context');
+  var splitRes = url.split("/"); 
+  context.value = "/"+splitRes[3];
+  
+  recalculateURLs();
+}
+
+function recalculateURLs(){
+
+	recalculatePingURL();
+	recalculateDebugURL();
+	recalculateGetConfigurationURL();
+	recalculateGetMonitoringURL();
+	
+}
+
+function recalculatePingURL(){
+
+   pingURL = calculateGenericURL("ping");
+   pingURL = pingURL + calculateUserPassword();
+   updatePingURLField(pingURL);
+  
+}
+
+function recalculateDebugURL(){
+   
+   debugURL = calculateGenericURL("debug");
+   
+   var debugFlag = "false";
+   if (document.getElementById('debugon').checked == true) {
+      debugURL = debugURL + "&debug=true";
+   } else {
+      debugURL = debugURL + "&debug=false";
+   }
+   
+   debugURL = debugURL + calculateUserPassword();
+   
+   updateDebugURLField(debugURL);
+}
+
+function recalculateGetConfigurationURL(){
+   
+   getConfigurationURL = calculateGenericURL("getConfiguration");
+   getConfigurationURL = getConfigurationURL + calculateUserPassword();
+   updateGetConfigurationURLField(getConfigurationURL);
+}
+
+function recalculateGetMonitoringURL(){
+   getMonitoringURL = calculateGenericURL("getBrokerInfo");
+   getMonitoringURL = getMonitoringURL + "&cmd=getDestinations";
+   getMonitoringURL = getMonitoringURL + calculateUserPassword();
+   updateGetMonitoringURLField(getMonitoringURL);
+}
+
+// return whether the generic input fields are valid
+function validateGenericFields() {
+
+   // Make sure all fields are filled in
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   if (hostVal == null || hostVal == "") {
+      alert("Error: Server Host[:Port] field is required!");
+      host.focus();
+      return false;
+   }
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   if (contextVal == null || contextVal == "") {
+      alert("Error: Context Root field is required!");
+      context.focus();
+      return false;
+   }
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (userVal == null || userVal == "") {
+      // user not specified: check password not specified either
+      if (pwdVal == null || pwdVal == "") {
+      } else {
+         alert("Error: Password is specified. Need to specify user as well!");
+         user.focus();
+         return false;
+      }
+   } else {
+      // user specified: check password is specified
+      if (pwdVal == null || pwdVal == "") {
+         alert("Error: User is specified: Need to specify password as well!");
+         pwd.focus();
+         return false;
+      }
+   }
+
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   
+   return true;
+}
+
+// return the URL corresponding to the specified service
+function calculateGenericURL(service){
+
+   var url;
+   
+   // protocol
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   url = connectionVal;
+   
+   // host
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   url = url + hostVal;
+ 
+   // context
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   url = url + contextVal
+   
+   // service
+   url = url + '/simple?service=' + service ;
+          
+   return url;
+   
+}
+
+function calculateUserPassword(){
+   var userPassword = "";
+
+   // user
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   if (userVal == null || userVal == "") {
+      // user not supplied
+   } else {
+      userPassword = userPassword + '&user=' + userVal
+   }
+   
+   // password
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (pwdVal == null || pwdVal == "") {
+      // password not supplied
+   } else {
+      userPassword = userPassword + '&password=' + pwdVal
+   } 
+   
+   return userPassword;
+}
+
+function updatePingURLField(value){
+	document.getElementById("pingfield").innerHTML = value;
+}
+
+function updateDebugURLField(value){
+	document.getElementById("debugfield").innerHTML = value;
+}
+
+function updateGetConfigurationURLField(value){
+	document.getElementById("getConfigurationfield").innerHTML = value;
+}
+
+function updateGetMonitoringURLField(value){
+	document.getElementById("getMonitoringfield").innerHTML = value;
+}
+
+function pingButtonPressed() {
+
+	if (validateGenericFields()){
+   		// recalculate the URL
+   		recalculateURLs();
+   		// follow the URL  
+   		location.href=pingURL;
+   }
+}
+
+function debugButtonPressed() {
+
+	if (validateGenericFields()){
+   		// recalculate the URL
+   		recalculateURLs();
+   		// follow the URL  
+   		location.href=debugURL;
+   }
+}
+
+function getConfigurationButtonPressed() {
+
+	if (validateGenericFields()){
+   		// recalculate the URL
+   		recalculateURLs();
+   		// follow the URL  
+   		location.href=getConfigurationURL;
+   }
+}
+
+function getMonitoringButtonPressed() {
+
+	if (validateGenericFields()){
+   		// recalculate the URL
+   		recalculateURLs();
+   		// follow the URL  
+   		location.href=getMonitoringURL;
+   }
+}
+
+</script>
+</head>
+
+<body onLoad="init()">
+
+<table border="0" align="center" width="800">
+<tr>
+<td>
+
+<h3>Simple UMS example demonstrating various utilities that use the HTTP GET protocol</h3>
+<hr>
+<br>
+<table border="0">
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Connection Type:</td>
+    <td>
+      <input type="radio" id="http"  name="connection" value="http" onchange="recalculateURLs()" CHECKED>http
+      <input type="radio" id="https" name="connection" value="https"onchange="recalculateURLs()" >https
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Server Host[:Port]:</td>
+    <td><input type="text" id="host" name="host" size="25" maxlength="100" onkeyup="recalculateURLs()"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Context Root:</td>
+    <td><input type="text" id="context" name="context" size="25" maxlength="100" onkeyup="recalculateURLs()"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Admin User:</td>
+    <td><input type="text" id="user" name="user" value="admin" size="25" maxlength="25" onkeyup="recalculateURLs()"></td>
+    <td>&nbsp;&nbsp;</td>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Password:</td>
+    <td><input type="text" id="pwd" name="pwd" value="admin" size="15" maxlength="25" onkeyup="recalculateURLs()"></td>
+  </tr>
+</table>
+<table>
+  <tr>
+     <td colspan=5">
+     Fill in the fields above to construct the URLs below. Click on a URL to try it. Then user the browser's back button to return.
+     </td>
+  </tr> 
+</table>
+<br>
+<hr>
+<table>
+  <tr>
+     <td colspan=5">
+     ping service: URL to ping the broker
+     </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <span style="color:blue;text-decoration:underline" id="pingfield" name="pingfield" rows="3" cols="40" style="width:99%;" 
+            readonly="true" onclick="pingButtonPressed()" onmouseover="this.style.cursor='pointer'">
+       </span>
+    </td>
+  </tr>   
+</table>
+<hr>
+<table>
+  <tr>
+     <td colspan=5">
+     debug service: URL to turn UMS service debug logging on or off
+     </td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Debug:</td>
+    <td>
+      <input type="radio" id="debugon" name="debug" value="true" CHECKED onchange="recalculateURLs()">true
+      <input type="radio" id="debugoff" name="debug" value="false" onchange="recalculateURLs()">false
+    </td>
+    <td colspan="3"></td>
+  </tr> 
+  <tr>
+    <td colspan="5">
+      <span style="color:blue;text-decoration:underline" id="debugfield" name="debugfield" rows="3" cols="40" style="width:99%;" 
+            readonly="true" onclick="debugButtonPressed()" onmouseover="this.style.cursor='pointer'">
+       </span>
+    </td>
+  </tr>   
+</table>
+<hr>
+<table>
+  <tr>
+     <td colspan=5">
+     getConfiguration service: URL to get the UMS configuration data
+     </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <span style="color:blue;text-decoration:underline" id="getConfigurationfield" name="getConfigurationfield" rows="3" cols="40" style="width:99%;" 
+            readonly="true" onclick="getConfigurationButtonPressed()" onmouseover="this.style.cursor='pointer'">
+       </span>
+    </td>
+  </tr>   
+</table>
+<hr>
+<table>
+  <tr>
+     <td colspan=5">
+     getBrokerInfo service: URL to get broker information (only getDestinations currently available)
+     </td>
+  </tr>
+  <tr>
+    <td colspan="5">
+      <span style="color:blue;text-decoration:underline" id="getMonitoringfield" name="getMonitoringfield" rows="3" cols="40" style="width:99%;" 
+            readonly="true" onclick="getMonitoringButtonPressed()" onmouseover="this.style.cursor='pointer'">
+       </span>
+    </td>
+  </tr>   
+</table>
+<hr>
+
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

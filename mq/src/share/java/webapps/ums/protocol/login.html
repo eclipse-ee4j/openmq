@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;12184800">
+	<META NAME="CHANGED" CONTENT="20081001;10491218">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><A NAME="fpuh"></A><A NAME="fpuh0"></A><A NAME="fpuh1"></A><A NAME="f7gs"></A><A NAME="w18v"></A><A NAME="w18v0"></A><A NAME="w18v1"></A><A NAME="w18v2"></A><A NAME="f-gb"></A><A NAME="a:lh"></A><A NAME="a:lh0"></A><A NAME="f-gb0"></A><A NAME="f-gb1"></A><A NAME="wfdi"></A><A NAME="krcn"></A><A NAME="krcn1"></A><A NAME="d6bn"></A><A NAME="krcn2"></A><A NAME="krcn3"></A><A NAME="d6bn0"></A><A NAME="krcn4"></A><A NAME="dbp2"></A><A NAME="f-gb2"></A><A NAME="jl6z"></A><A NAME="f5tu"></A><A NAME="bku7"></A><A NAME="bku70"></A><A NAME="m6me"></A><A NAME="o0go"></A><A NAME="o0go0"></A><A NAME="o0go1"></A><A NAME="o0go2"></A><A NAME="o0go3"></A><A NAME="o0go4"></A><A NAME="wfdi0"></A>
+<B><FONT SIZE=4>login </FONT></B><BR><BR>The <B>login</B> service
+request is an http request message sent to the UMS  in accordance
+with the Simple Messaging API or the XML Messaging API.</P>
+<P>The <B>login</B> service request must conform to the following
+criteria:</P>
+<TABLE WIDTH=100% BORDER=1 CELLPADDING=4 CELLSPACING=3>
+	<COL WIDTH=128*>
+	<COL WIDTH=128*>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><B>Required field/attribute values</B></P>
+		</TD>
+		<TD WIDTH=50%>
+			<P><B>Optional field/attribute values</B></P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P>service=login</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>transacted=false (by default) 
+			</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>user=guest (by default)</P>
+		</TD>
+	</TR>
+	<TR VALIGN=TOP>
+		<TD WIDTH=50%>
+			<P><BR>
+			</P>
+		</TD>
+		<TD WIDTH=50%>
+			<P>password=guest (by default)</P>
+		</TD>
+	</TR>
+</TABLE>
+<P><B><BR>Notes:<BR><BR></B><SPAN STYLE="font-weight: medium">A
+successful <B>login</B> service request result in the creation of a
+UMS client session.</SPAN></P>
+<P>If the transacted field/attribute is present and its value is set
+to true, a transacted client session is created and a new transaction
+is started. A transaction is completed after a successful <B>commit</B>
+or <B>rollback</B> service request. A new transaction is started
+whenever a transaction is completed.</P>
+<P>If the transacted field/attribute is set to false or is not
+present, a non-transacted client session is created.</P>
+<P><SPAN STYLE="font-weight: medium">Service response message:
+</SPAN><A HREF="./login_reply.html"><B>login_reply</B></A></P>
+<P><FONT SIZE=3 STYLE="font-size: 13pt"><B>1. Simple Messaging API
+Example: </B></FONT>
+</P>
+<P><FONT SIZE=3>The following is a <B>login</B> service request for a
+non-transacted session.</FONT></P>
+<P><FONT SIZE=3>POST
+/ums/simple?service=login&amp;user=guest&amp;password=guest HTTP/1.1
+<FONT SIZE=3><BR>Content-Type: text/plain;charset=UTF-8 <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Accept: text/html,
+image/gif, image/jpeg, *; q=.2, */*; q=.2 <BR>Connection: keep-alive
+<BR>Content-Length: 0 <BR></FONT><BR><FONT SIZE=3>The following is a
+<B>login</B> service request for a transacted session.</FONT></FONT></P>
+<P><FONT SIZE=3>POST /ums/simple?service=login&amp;transacted=true
+HTTP/1.1 <BR>Content-Type: text/plain;charset=UTF-8 <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Accept: text/html,
+image/gif, image/jpeg, *; q=.2, */*; q=.2 <BR>Connection: keep-alive
+<BR>Content-Length: 0 </FONT><BR><BR><BR>
+</P>
+<P><B><FONT SIZE=3 STYLE="font-size: 13pt">2. XML Messaging API
+Example:</FONT></B></P>
+<P><FONT SIZE=3>The following is a <B>login</B> service request for a
+non-transacted session.</FONT></P>
+<P>POST /ums/xml HTTP/1.1 <BR>Accept: text/xml, text/html, image/gif,
+image/jpeg, *; q=.2, */*; q=.2 <BR>Content-Type: text/xml;
+charset=utf-8 <BR>Content-Length: 315 <BR>SOAPAction: &quot;&quot;
+<BR>Cache-Control: no-cache <BR>Pragma: no-cache <BR>User-Agent:
+Java/1.6.0_07 <BR>Host: localhost:8888 <BR>Connection: keep-alive
+<BR><BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;login&quot;/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Body/&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;<BR><BR><A HREF="./protocol.html">Back
+to UMS protocol page.</A></P>
+</BODY>
+</HTML>

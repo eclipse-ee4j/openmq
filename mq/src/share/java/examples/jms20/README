@@ -1,0 +1,101 @@
+@(#)README	1.14 05/03/22
+
+Oracle GlassFish(tm) Server Message Queue Examples 
+--------------------------------------------------
+
+This README file describes the different categories of 
+JMS2.0 examples found in the directories listed below.
+
+This README also describes how to configure your 
+environment and explains how CLASSPATH should be set
+to run the Java examples.
+
+Each individual directory has README which has more details on how to run the samples.
+
+Samples under the below directories are explicitly using new com.sun.messaging.ConnectionFactory() to get the connectionfactory object.
+Applications are recommended to obtain the connection factory by doing a JNDI lookup.
+
+
+Directory     		Description
+---------     		-----------
+asyncsend    		Contains sample programs that demonstrate the 
+              		use of new async send JMS2.0 feature with Message Queue.
+
+asynctopicconsumer      Contains sample programs that demonstrate the
+                        use of new JMS2.0 simplified API to send and 
+			asynchrously receive messages.
+
+deliverycount           Contains sample programs that demonstrate the
+                        use of new JMS2.0 message property JMSXDeliveryCount 
+                        with Message Queue.
+
+deliverydelay           Contains sample programs that demonstrate the 
+			use of new JMS2.0 setDeliveryDelay & getDeliveryDelay 
+			apis with Message Queue.
+
+messagegetbody          Contains sample programs that demonstrate the
+			use of new JMS2.0 getBody api with Message Queue.
+
+messageheader  		Contains sample programs that demonstrate the
+			use of new jms2.0 simplified api to set message
+			header properties on producer.
+
+messageproperties       Contains sample programs that demonstrate the
+                        use of new jms2.0 simplified api to set message
+                        properties on producer.
+
+selector                Contains sample programs that demonstrate the
+                        use of new jms2.0 simplified api to create a 
+                        message selector on a non-durable topic subscription.
+
+syncqueue   		Contains sample programs that demonstrate the
+                        use of new JMS2.0 simplified API to send and 
+			synchronously receive messages.
+
+sharedsub               Contains sample programs that demonstrate the
+                        use of new JMS2.0 simplified API to create shared 
+                        consumers and sharing of messages between them.
+
+-----------------------------------------------------------------
+
+Configuring the Environment For the Java Examples
+-------------------------------------------------
+
+You should install Oracle GlassFish(tm) Server Message Queue and start the 
+broker (imqbrokerd) before attempting to compile and/or run the example
+applications.  imqbrokerd is located in the <IMQ_HOME>/bin directory.
+
+The Message Queue examples are found under the <IMQ_HOME>/examples
+directory.  If you installed SVR4 packages, the examples are under
+/usr/demo/imq.  If you installed RPMs, the examples are under
+/opt/sun/mq/examples.
+
+IMQ_HOME
+--------
+IMQ_HOME denotes the directory <mqInstallHome>/mq where
+mqInstallHome is specified when you install the product.
+
+CLASSPATH
+---------
+The Java examples have already been compiled using JDK1.7.
+
+To recompile or run the examples with JDK1.7, you will need to ensure
+that the following jar files are in your CLASSPATH -
+    jms.jar
+    imq.jar
+    directory containing this example
+
+On SJSMQ/OpenMQ (all platforms):
+    set CLASSPATH to <IMQ_HOME>/lib/jms.jar:<IMQ_HOME>/lib/imq.jar:.
+
+On Solaris with SVR4 Packages:
+    set CLASSPATH to /usr/share/lib/jms.jar:/usr/share/lib/imq.jar:.
+
+On Linux with RH RPMs:
+    set CLASSPATH to /opt/sun/mq/share/lib/jms.jar:/opt/sun/mq/share/lib/imq.jar:.
+
+For running a client application that uses JNDI with File System
+Provider, fscontext.jar should be added to the CLASSPATH.
+
+Additional CLASSPATH requirements (if any) are noted with the
+description of each example.

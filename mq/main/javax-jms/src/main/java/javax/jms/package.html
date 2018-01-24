@@ -1,0 +1,221 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN""http://www.w3.org/TR/REC-html40/loose.dtd>
+<HEAD>
+<!--
+
+    Copyright (c) 1997, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+</HEAD>
+<BODY>
+<P>
+The Java Message Service (JMS) API provides a common way for Java programs to create, send, receive and read an enterprise messaging system's messages. 
+
+<H3>JMS Applications</H3>
+
+<P>A JMS application is composed of the following parts:</P>
+
+<UL>
+  <LI>JMS provider - a messaging system that implements the JMS API
+      in addition to the other administrative and control functionality required 
+      of a full-featured messaging product</LI>
+  <LI>JMS clients - the Java language programs that send and receive 
+      messages</LI>
+
+  <LI>Messages - objects that are used to communicate information between the 
+      clients of an application</LI>
+  <LI>Administered objects - provider-specific objects that clients look up
+      and use to interact portably with a JMS provider</LI>
+  <LI>Non-JMS clients - clients that use a message system's native 
+      client API instead of the JMS API. If the application predated the 
+      availability of the JMS API, it is likely that it will include both JMS 
+      clients and non-JMS clients.</LI>
+</UL>
+
+<H3>Administration</H3>
+
+<P>JMS providers differ significantly in their implementations of 
+underlying messaging technology. There are also major 
+differences in how a JMS provider's system is installed and administered.</P>
+
+<P>For JMS clients to be portable, they must be isolated from these 
+proprietary aspects of a provider. This is done by defining JMS administered
+objects that are created and customised by a provider's administrator and 
+later used by clients. The client uses them through JMS interfaces that are 
+portable. The administrator creates them using provider-specific facilities.</P>
+
+<P>There are two types of JMS administered objects:</P>
+
+<UL>
+  <LI>{@code ConnectionFactory} - the object a client uses to create a 
+      connection with a JMS provider</LI>
+  <LI>{@code Destination} - the object a client uses to specify the 
+      destination of messages it is sending and the source of messages 
+      it receives</LI>
+</UL>
+
+<P>Administered objects are placed by an administrator in a JNDI (Java Naming and Directory 
+Interface) namespace.
+A JMS client typically notes in its documentation the JMS administered objects 
+it requires and how the JNDI names of these objects should be provided to it.</P>
+
+<H3>Two Messaging Styles</H3>
+
+<p>JMS supports two styles of messaging:
+<ul>
+<li>point-to-point (PTP) messaging using queues</li>
+<li>publish-and-subscribe (pub/sub)messaging using topics</li>
+</ul>
+<p>These two styles represent two of the dominant approaches to messaging currently in use.  
+
+<h3>JMS APIs</h3>
+<p>
+For historical reasons JMS offers four alternative sets of interfaces for sending and receiving messages:
+<ul>
+<li>JMS 1.0 defined two domain-specific APIs, one for point-to-point messaging (queues) 
+and one for pub/sub (topics). Although these remain part of JMS for reasons of backwards 
+compatibility they should be considered to be completely superseded by the later APIs.</li>
+<li>JMS 1.1 introduced a new unified API which offered a single set of interfaces that could 
+be used for both point-to-point and pub/sub messaging. This is referred to here as the classic API.</li>
+<li>JMS 2.0 introduces a simplified API which offers all the features of the classic API but 
+which requires fewer interfaces and is simpler to use.</li>
+</ul>
+
+<p>
+Each API offers a different set of interfaces for connecting to a JMS provider and for sending
+and receiving messages. However they all share a common set of interfaces for representing 
+messages and message destinations and to provide various utility features.
+<p>
+All interfaces are in the {@code javax.jms} package. 
+<P>
+<h4>Interfaces common to multiple APIs</h4>
+<p>
+The main interfaces common to multiple APIs are as follows:
+<ul>
+<li>{@code Message}, {@code BytesMessage}, {@code MapMessage}, {@code ObjectMessage}, {@code StreamMessage} and {@code TextMessage} - 
+     a message sent to or received from a JMS provider.</li>
+<li>{@code Queue} - an administered object that encapsulates the identity of a message destination for point-to-point messaging</li>
+<li>{@code Topic} - an administered object that encapsulates the identity of a message destination for pub/sub messaging.</li>
+<li>{@code Destination} - the common supertype of {@code Queue} and {@code Topic}</li>
+</ul>
+
+<h4>Classic API interfaces</h4>
+
+The main interfaces provided by the classic API are as follows:
+<ul>
+<li>{@code ConnectionFactory} - an administered object used by a client to create a {@code Connection}. This interface is also used by the simplified API.
+<li>{@code Connection} - an active connection to a JMS provider
+<li>{@code Session} - a single-threaded context for sending and receiving messages
+<li>{@code MessageProducer} - an object created by a Session that is used for sending messages to a queue or topic
+<li>{@code MessageConsumer} - an object created by a Session that is used for receiving messages sent to a queue or topic
+</ul>
+
+<h4>Simplified API interfaces</h4>
+
+The simplified API provides the same messaging functionality as the classic API but requires fewer interfaces and is simpler to use.
+The main interfaces provided by the simplified API are as follows:
+<ul>
+<li>{@code ConnectionFactory} - an administered object used by a client to create a {@code JMSContext}. This interface is also used by the classic API.
+<li>{@code JMSContext} - an active connection to a JMS provider and a single-threaded context for sending and receiving messages
+<li>{@code JMSProducer} - an object created by a {@code JMSContext} that is used for sending messages to a queue or topic
+<li>{@code JMSConsumer} - an object created by a {@code JMSContext} that is used for receiving messages sent to a queue or topic
+</ul>
+
+<h4>Legacy domain-specific API interfaces</h4>
+
+<p>
+Although the domain-specific API remains part of JMS for reasons of backwards compatibility it should be considered 
+to be completely superseded by the classic and simplified APIs.
+<p>
+The main interfaces provided by the domain-specific API for point-to-point messaging are as follows:
+
+<ul>
+<li>{@code QueueConnectionFactory} - an administered object used by a client to create a {@code QueueConnection}.
+<li>{@code QueueConnection} - an active connection to a JMS provider
+<li>{@code QueueSession} - a single-threaded context for sending and receiving messages
+<li>{@code QueueSender} - an object created by a {@code QueueSession} that is used for sending messages to a queue
+<li>{@code QueueReceiver} - an object created by a {@code QueueSession} that is used for receiving messages sent to a queue
+</ul>
+
+The main interfaces provided by the domain-specific API for pub/sub messaging are as follows:
+<ul>
+<li>{@code TopicConnectionFactory} - an administered object used by a client to create a {@code TopicConnection}.
+<li>{@code TopicConnection} - an active connection to a JMS provider
+<li>{@code TopicSession} - a single-threaded context for sending and receiving messages
+<li>{@code TopicPublisher} - an object created by a {@code TopicSession} that is used for sending messages to a topic
+<li>{@code TopicSubscriber} - an object created by a {@code TopicSession} that is used for receiving messages sent to a topic
+</ul>
+
+<h3>Terminology for sending and receiving messages</h3>
+<p>
+The term <em>consume</em> is used in this document to mean the receipt of a message by a JMS client; that is, 
+a JMS provider has received a message and has given it to its client. 
+Since JMS supports both synchronous and asynchronous receipt of messages, 
+the term <em>consume</em> is used when there is no need to make a distinction between them.
+<p>
+The term <em>produce</em> is used as the most general term for sending a message. 
+It means giving a message to a JMS provider for delivery to a destination.
+
+<H3>Developing a JMS Application</H3>
+
+<P>Broadly speaking, a JMS application is one or more JMS clients that exchange 
+messages. The application may also involve non-JMS clients; however, these 
+clients use the JMS provider's native API in place of the JMS API.</P>
+
+<P>A JMS application can be architected and deployed as a unit. In many cases, 
+JMS clients are added incrementally to an existing application.</P>
+
+<P>The message definitions used by an application may originate with JMS, or they 
+may have been defined by the non-JMS part of the application.</P>
+
+<H3>Developing a JMS Client</H3>
+
+<p>A typical JMS client using the classic API executes the following JMS setup procedure:
+<ul>
+<li>Use JNDI to find a {@code ConnectionFactory} object</li>
+<li>Use JNDI to find one or more {@code Destination} objects</li>
+<li>Use the ConnectionFactory to create a JMS {@code Connection} object with message delivery inhibited</li>
+<li>Use the Connection to create one or more JMS {@code Session} objects</li>
+<li>Use a Session and the Destinations to create the {@code MessageProducer} and {@code MessageConsumer} objects needed</li>
+<li>Tell the {@code Connection} to start delivery of messages</li>
+</ul>
+
+<p>In contrast, a typical JMS client using the simplified API does the following:
+<ul>
+<li>Use JNDI to find a {@code ConnectionFactory} object</li>
+<li>Use JNDI to find one or more {@code Destination} objects</li>
+<li>Use the {@code ConnectionFactory} to create a {@code JMSContext} object</li>
+<li>Use the {@code JMSContext} to create the {@code JMSProducer} and {@code JMSConsumer} objects needed.</li>
+<li>Delivery of message is started automatically</li>
+</ul>
+
+<p>
+At this point a client has the basic JMS setup needed to produce and consume messages. 
+
+<H3>Package Specification</H3>
+
+<BLOCKQUOTE>
+  <A HREF="http://jcp.org/en/jsr/detail?id=343" target="_top">Java Message Service 2.0 specification</A>
+</BLOCKQUOTE>
+
+<H3>Related Documentation</H3>
+
+<BLOCKQUOTE>
+  <A HREF="http://docs.oracle.com/javaee/" target="_top">Java Platform, Enterprise Edition (Java EE) Technical Documentation</A>
+</BLOCKQUOTE>
+
+</BODY>
+</HTML>
+

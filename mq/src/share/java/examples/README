@@ -1,0 +1,130 @@
+@(#)README	1.14 05/03/22
+
+Oracle GlassFish(tm) Server Message Queue Examples 
+--------------------------------------------------
+
+This README file describes the different categories of 
+Message Queue examples found in the directories listed below.
+
+This README also describes how to configure your 
+environment and explains how CLASSPATH should be set
+to run the Java examples.
+
+
+Directory     Description
+---------     -----------
+helloworld    Contains simple programs that show how
+              a JMS client is created and deployed in 
+	      Message Queue. These examples are closely 
+	      tied to the tutorials in the documentation.
+
+	      In addition to showing how to send and
+	      receive messages, these examples also
+              demonstrate all the steps necessary to 
+	      create administered objects in Message Queue, 
+	      as well as how to use JNDI in the client to lookup 
+	      and use those administered objects.
+
+
+jms           Contains sample programs that demonstrate the
+              use of the JMS API with Message Queue.
+
+jms20         Contains sample programs that demonstrate the
+              use of the new JMS2.0 API with Message Queue.
+
+C             Contains sample programs that demonstrate how to
+              create C language clients that use the Message Queue 
+	      C API. This directory is only installed with the
+              Enterprise Edition of Message Queue.
+
+              Note that on Solaris with SVR4 packages this category 
+              is found in /opt/SUNWimq/demo/C - which is a different
+              from the location of the examples included
+              with the Platform Edition of Message Queue.
+
+
+jaxm          Contains sample programs that demonstrate how to
+              use SOAP messages in conjunction with JMS in Message 
+              Queue.
+
+
+applications  This directory contains sub directories, each
+              with more elaborate sample applications, that
+              can be used with Message Queue. 
+
+
+monitoring    Contains sample programs that demonstrate how to
+              use the JMS API for monitoring the broker.
+
+
+imqobjmgr     Contains examples of imqobjmgr command files that
+              demonstrate the basic features of the imqobjmgr
+              tool.
+
+
+jdbc          Contains configuration properties for various
+              databases that can be plugged in for broker
+              persistence.
+
+
+jmx           Contains sample programs that demonstrate how to
+	      use the broker JMX Management and Monitoring API.
+
+
+ums           Contains sample programs that demonstrate how to
+	      use the UMS API.
+
+
+stomp         Contains sample programs that demonstrate how to
+	      use the STOMP protocol to send and receive messages.
+
+jmsbridge     Contains a sample of the use of JMS Bridge.
+
+jaas          Contains a README explaining how to plug in the 
+	      SampleLoginModule from the JAAS Authentication 
+  	      Tutorial to MQ broker.
+
+-----------------------------------------------------------------
+-----------------------------------------------------------------
+
+Configuring the Environment For the Java Examples
+-------------------------------------------------
+
+You should install Oracle GlassFish(tm) Server Message Queue and start the 
+broker (imqbrokerd) before attempting to compile and/or run the example
+applications.  imqbrokerd is located in the <IMQ_HOME>/bin directory.
+
+The Message Queue examples are found under the <IMQ_HOME>/examples
+directory.  If you installed SVR4 packages, the examples are under
+/usr/demo/imq.  If you installed RPMs, the examples are under
+/opt/sun/mq/examples.
+
+IMQ_HOME
+--------
+IMQ_HOME denotes the directory <mqInstallHome>/mq where
+mqInstallHome is specified when you install the product.
+
+CLASSPATH
+---------
+The Java examples have already been compiled using JDK1.7.x.
+
+To recompile or run the examples with JDK1.7.x, you will need to ensure
+that the following jar files are in your CLASSPATH -
+    jms.jar
+    imq.jar
+    directory containing this example
+
+On SJSMQ/OpenMQ (all platforms):
+    set CLASSPATH to <IMQ_HOME>/lib/jms.jar:<IMQ_HOME>/lib/imq.jar:.
+
+On Solaris with SVR4 Packages:
+    set CLASSPATH to /usr/share/lib/jms.jar:/usr/share/lib/imq.jar:.
+
+On Linux with RH RPMs:
+    set CLASSPATH to /opt/sun/mq/share/lib/jms.jar:/opt/sun/mq/share/lib/imq.jar:.
+
+For running a client application that uses JNDI with File System
+Provider, fscontext.jar should be added to the CLASSPATH.
+
+Additional CLASSPATH requirements (if any) are noted with the
+description of each example.

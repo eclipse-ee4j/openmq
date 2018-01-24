@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<project name="paths" >
+
+ <!-- ==================== jmqExternal =========================== -->
+      <!-- XXX - I'd really like to look set this by retrieving a
+           composite property e.g. jmqexternal=${jmqexternal.${arch}
+           but I cant get it to work -->
+
+     <condition property="jmqexternal" value="${jmqexternal.solaris}">
+         <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="jmqexternal.solaris"/>
+         </and>
+     </condition>
+     <condition property="jmqexternal" value="${jmqexternal.linux}">
+         <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="jmqexternal.linux"/>
+         </and>
+     </condition>
+     <condition property="jmqexternal" value="${jmqexternal.win32}">
+         <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="jmqexternal.win32"/>
+         </and>
+     </condition>
+     <condition property="jmqexternal" value="-unset-">
+         <not>
+            <isset property="jmqexternal"/>
+         </not>
+     </condition>
+
+ <!-- ==================== sbc =========================== -->
+      <!-- XXX - I'd really like to look set this by retrieving a
+           composite property e.g. sbc=${sbc.${arch}}
+           but I cant get it to work -->
+
+     <condition property="sbc" value="${sbc.solaris}">
+         <and>
+            <equals arg1="${arch}" arg2="solaris"/>
+            <isset property="sbc.solaris"/>
+         </and>
+     </condition>
+     <condition property="sbc" value="${sbc.linux}">
+         <and>
+            <equals arg1="${arch}" arg2="linux"/>
+            <isset property="sbc.linux"/>
+         </and>
+     </condition>
+     <condition property="sbc" value="${sbc.win32}">
+         <and>
+            <equals arg1="${arch}" arg2="win32"/>
+            <isset property="sbc.win32"/>
+         </and>
+     </condition>
+     <condition property="sbc" value="-unset-">
+         <not>
+            <isset property="sbc"/>
+         </not>
+     </condition>
+
+ <!-- ==================== locations =========================== -->
+     <!-- useJMQExternal  determines if jmq external is used -->
+
+
+     <!-- fallbacks -->
+     <property name="useJMQExternal" value="true"/>
+     <property name="jmqexternal" value="-unset fallback-"/>
+
+     <!--  packager.artifacts -->
+     <condition property="packager.artifacts"  
+             value="${ws.top.dir}/main/packager-opensource/target/artifacts/jars">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <!--  javaee home -->
+     <condition property="javaeehome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="javaeehome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  servlet home -->
+     <condition property="servlethome"  
+             value="${buildcfg.dir}/tools/ri/servlet2.5/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="servlethome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  grizzly home -->
+     <condition property="grizzlyhome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="grizzlyhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  nucleus home -->
+     <condition property="nucleushome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="nucleushome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  bdb je home -->
+     <condition property="bdbhome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="bdbhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  coherence home -->
+     <condition property="coherencehome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="coherencehome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  jta home -->
+     <condition property="jtahome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jtahome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+  
+     <!--  javahelphome home -->
+     <condition property="javahelphome"  
+             value="${ws.top.dir}/extlib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="javahelphome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jaf home -->
+     <condition property="jafhome"  
+             value="${sbc}/jaf/1.0.3/b34/share/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jafhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  javamail home -->
+     <condition property="javamailhome"  
+             value="${sbc}/javamail/1.3.2/b34/share/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="javamailhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+
+     <!--  audit home -->
+     <condition property="audithome"  
+             value="${jmqexternal}/audit/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="audithome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  connector home -->
+     <condition property="connectorhome"  
+             value="${buildcfg.dir}/tools/ri/j2ee-connector">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="connectorhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  j2ee mgt home -->
+     <condition property="j2eemgthome"  
+             value="${jmqexternal}/j2ee-management">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="j2eemgthome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jaxm home -->
+     <condition property="jaxmhome"  
+             value="${jmqexternal}/jaxm">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jaxmhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jaxp home -->
+     <condition property="jaxphome"  
+             value="${jmqexternal}/aspkgs-mq36/jaxp">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jaxphome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  soap home -->
+     <condition property="soaphome"  
+             value="${sbc}/jwsdp/2.0_b28/saaj/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="soaphome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jndi home -->
+     <condition property="jndihome"  
+             value="${jmqexternal}/jndi">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jndihome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jndifs home -->
+     <condition property="jndifshome"  
+             value="${jmqexternal}/jndifs">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jndifshome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+
+     <!--  dom4j home -->
+     <condition property="dom4jhome"  
+             value="${jmqexternal}/dom4j">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="dom4jhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jemmyhome home -->
+     <condition property="jemmyhome"  
+             value="${jmqexternal}/qa_extjars/jemmy">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jemmyhome"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+     <!--  jmxhome home -->
+     <condition property="jmxhome"  
+             value="${jmqexternal}/jdmk/lib">
+        <and>
+          <istrue value="${useJMQExternal}"/>
+        </and>
+     </condition>
+     <condition property="jmx_jar"  
+             value="${localJarLocation}">
+        <and>
+          <isfalse value="${useJMQExternal}"/>
+        </and>
+     </condition>
+
+
+</project>

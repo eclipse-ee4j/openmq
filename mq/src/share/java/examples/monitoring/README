@@ -1,0 +1,148 @@
+================================================================================
+@(#)README	1.6 09/14/04
+================================================================================
+
+Broker Monitoring API examples
+
+Description
+-----------
+This directory contain examples that demonstrate the Oracle GlassFish(tm)
+Server Message Queue broker monitoring API. The examples consist of separate 
+applications each showing how to subscribe to and receive different monitoring 
+information from the broker.
+
+Files
+-----
+BrokerMetrics.java	Source file for monitoring application that
+			displays broker metrics.
+DestListMetrics.java	Source file for monitoring application that
+			displays destination list metrics.
+DestMetrics.java	Source file for monitoring application that
+			displays a specific destination's metrics.
+MetricsPrinter.java	Utility class used for printing in neat columns.
+MultiColumnPrinter.java	Utility class used for printing in neat columns.
+VMMetrics.java		Source file for monitoring application that
+			displays broker VM metrics.
+*.class			Prebuilt Java class files for these examples.
+README			This file.
+
+There are four different types of monitoring information 
+that a JMS application can subscribe to on the broker.
+
+The example applications consist of four JMS applications,
+each demonstrating, for each of the different monitoring types:
+- how to subscribe to the relevant monitoring topic
+- how to process the received monitoring messages
+
+Here are the different monitoring types and a summary of information
+that is available:
+
+Broker metrics
+  Cumulative number of messages/packets flowing in/out of broker
+  Cumulative sizes of messages/packets flowing in/out of broker
+  Connection/destination counts
+
+Destination List
+  List of destinations on the broker
+
+Destination metrics (information here is for a specific destination)
+  Current/average/peak counts of active/backup consumers
+  Cumulative number of messages flowing in/out of destination
+  Cumulative size of messages flowing in/out of destination
+  Current/average/peak counts of messages, 
+  Current/average/peak total size of messages
+  Disk usage
+
+Java VM metrics
+  JVM memory heap size: max, total, free
+
+Configuring the environment
+---------------------------
+To recompile or run this example, you need to set CLASSPATH
+to include at least:
+    jms.jar
+    imq.jar
+    directory containing this example
+
+A detailed guideline on configuring your enrivonment and setting CLASSPATH 
+is found in the top-level README file of the examples (demo) directory of
+the Message Queue installation (<IMQ_HOME>/examples/README) as well as in
+the "Quick Start Tutorial" in the Oracle GlassFish(tm) Server Message Queue 
+Developer's Guide.
+
+Building the example
+--------------------
+Compile the sample programs individually if you wish, or all at 
+once by using the command
+
+    javac *.java
+
+Running the example
+-------------------
+The examples can be run using the java command e.g.
+ 
+    java <classname> <options>
+
+For example,
+
+    java BrokerMetrics
+
+By default all monitoring examples will connect to the broker running on localhost:7676.
+You can use -DimqAddressList attribute to change the host, port and 
+transport:
+
+    java -DimqAddressList=mq://<host>:<port>/jms DestMetrics -t q -n SimpleQueue 
+
+Here is a description of each of the examples:
+
+BrokerMetrics
+-------------
+This application displays broker metrics. It also
+shows how to calculate rate information, similar
+to what is displayed by the command:
+
+ imqcmd metrics bkr -m rts
+
+This application takes the following options (similar to
+imqcmd):
+
+ -m ttl   Show totals e.g. total/accumulative number of msgs
+          that flowed in/out of the broker. This is the
+          default.
+ -m rts   Show rates e.g. rate of message flow in/out of
+          broker.
+
+Example usage:
+    java BrokerMetrics
+    java BrokerMetrics -m ttl
+    java BrokerMetrics -m rts
+
+DestListMetrics
+---------------
+This application displays the current list of destinations
+on the broker.
+
+Example usage:
+    java DestListMetrics
+
+DestMetrics
+-----------
+This application displays the metric information for a specific
+destination. It simulates the following command:
+
+$IMQ_HOME/bin/imqcmd metrics dst -t <dest type> -n <dest name>
+
+The destination can be specified using the same options as imqcmd:
+ -t   Destination type (t or q)
+ -n   Destination name
+
+Example usage:
+    java DestMetrics -t q -n SimpleQueue
+    java DestMetrics -t t -n SimpleTopic
+
+VMMetrics
+---------
+Displays the free, maximum, and total memory used by the broker JVM.
+
+Example usage:
+    java VMMetrics

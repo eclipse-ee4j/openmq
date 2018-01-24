@@ -1,0 +1,23 @@
+@(#)README	1.0 11/13/08
+
+STOMP Examples
+--------------
+
+This README file describes the different categories of 
+STOMP examples found in the directories listed below.
+
+Before you can run the examples, the broker's STOMP bridge service
+must be running. To enable STOMP bridge service, set the following
+properties in the broker's instance configuration file:
+
+imq.bridge.admin.user=<username>
+imq.bridge.admin.password=<password>
+imq.bridge.activelist=stomp
+imq.bridge.enabled=true
+
+
+Directory     Description
+---------     -----------
+ruby          Contains sample programs that demonstrate how to
+              create Ruby clients that use STOMP Protocol
+              to send and receive messages.

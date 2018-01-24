@@ -1,0 +1,73 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+<!--
+
+    Copyright (c) 2010, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=windows-1252">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="StarOffice 8  (Win32)">
+	<META NAME="AUTHOR" CONTENT="chiaming">
+	<META NAME="CREATED" CONTENT="20080902;12395900">
+	<META NAME="CHANGED" CONTENT="20081001;13402935">
+</HEAD>
+<BODY LANG="en-US" DIR="LTR">
+<P><B><FONT SIZE=4>rollback_reply</FONT></B></P>
+<P><B>rollback_reply </B><SPAN STYLE="font-weight: medium">is an http
+response message to the </SPAN><B><A HREF="./rollback.html">rollback</A>
+</B><SPAN STYLE="font-weight: medium">service</SPAN><B> </B><SPAN STYLE="font-weight: medium">request</SPAN><B>.</B></P>
+<P STYLE="font-weight: medium">For the Simple Messaging API,
+<B>rollback_reply</B> contains no information in the http response
+message body, but sets the following extension-header fields:</P>
+<P>ums.service: rollback_reply <BR>ums.mom: openmq <BR>ums.status:
+200&nbsp; <BR><BR>For the XML Messaging API, <B>rollback_reply</B>
+includes a SOAP message in the http response message body, and sets
+the following attributes of the Service element of the SOAP message
+header :</P>
+<P>&lt;ums:Service <BR>ums:mom=&quot;openmq&quot;
+<BR>ums:service=&quot;rollback_reply&quot; <BR>ums:status=&quot;200&quot;/&gt;<B><BR><BR></B>For
+both the Simple Messaging API and the XML Messaging API, a 200 status
+code indicates the <B>rollback</B> service request was successful.
+All other status codes indicate the <B>rollback</B> service request
+might not be successful.</P>
+<P><B><FONT SIZE=3 STYLE="font-size: 13pt">1. Simple Messaging API
+Example: </FONT></B>
+</P>
+<P>The following is a <B>rollback_reply</B> response message.</P>
+<P>HTTP/1.1 200 OK <BR>Server: Apache-Coyote/1.1 <BR>ums.service:
+rollback_reply <BR>ums.mom: openmq <BR>ums.status: 200 <BR>Content-Type:
+text/plain;charset=UTF-8 <BR>Content-Length: 0 <BR>Date: Tue, 02 Sep
+2008 23:04:05 GMT <BR><BR><B><FONT SIZE=3 STYLE="font-size: 13pt">2.
+XML Messaging API Example:</FONT></B></P>
+<P>The following is a <B>rollback_reply</B> response message that
+includes a SOAP message with Service element attribute values in the
+header.</P>
+<P STYLE="margin-bottom: 0in">HTTP/1.1 200 OK <BR>Server:
+Apache-Coyote/1.1 <BR>Accept: text/xml, text/html, image/gif,
+image/jpeg, *; q=.2, */*; q=.2 <BR>Content-Type:
+text/xml;charset=utf-8 <BR>Transfer-Encoding: chunked <BR>Date: Tue,
+02 Sep 2008 23:06:25 GMT <BR><BR>&lt;SOAP-ENV:Envelope
+xmlns:SOAP-ENV=&quot;<A HREF="http://schemas.xmlsoap.org/soap/envelope/">http://schemas.xmlsoap.org/soap/envelope/</A>&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:MessageHeader
+xmlns:ums=&quot;https://mq.java.net/ums&quot; ums:id=&quot;1.0&quot;
+ums:version=&quot;1.0&quot;&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;ums:Service
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:service=&quot;rollback_reply&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:mom=&quot;openmq&quot;
+<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ums:status=&quot;200&quot;/&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/ums:MessageHeader&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;/SOAP-ENV:Header&gt;<BR>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;SOAP-ENV:Body/&gt;<BR>&lt;/SOAP-ENV:Envelope&gt;<BR><BR><A HREF="./protocol.html">Back
+to UMS protocol page.</A></P>
+</BODY>
+</HTML>

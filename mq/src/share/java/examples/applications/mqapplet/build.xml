@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<project name="MQApplet" default="install" basedir=".">
+    <description>MQ test applet</description>
+
+    <!-- Modify the libdir property as necessary -->
+    <property name="libdir" location="/usr/share/lib"/>
+
+    <property name="jmsjar" location="${libdir}/jms.jar"/>
+    <property name="imqjar" location="${libdir}/imq.jar"/>
+
+    <property name="src" location="."/>
+    <property name="build" location="build"/>
+    <property name="install" location="install"/>
+    <property name="classes" location=":${jmsjar}:${imqjar}:"/>
+
+    <target name="install" depends="signjars">
+        <copy file="mqapplet.html" tofile="${install}/mqapplet.html"/>
+    </target>
+
+    <target name="signjars" depends="certstore, appletjar, copyjars">
+        <signjar jar="${install}/mqapplet.jar"
+            keystore="${build}/certstore" alias="mqapplet-key"
+            storepass="secret"/>
+        <signjar jar="${install}/imq.jar"
+            keystore="${build}/certstore" alias="mqapplet-key"
+            storepass="secret"/>
+        <signjar jar="${install}/jms.jar"
+            keystore="${build}/certstore" alias="mqapplet-key"
+            storepass="secret"/>
+    </target>
+
+    <target name="certstore" depends="builddirs">
+        <genkey alias="mqapplet-key" keystore="${build}/certstore"
+            storepass="secret" >
+            <dname>
+                <param name="CN" value="Message Queue Test Applet Developer"/>
+                <param name="OU" value="Software Products"/>
+                <param name="O"  value="Foobar Enterprise, Inc."/>
+                <param name="C"  value="US"/>
+            </dname>
+        </genkey>
+    </target>
+
+    <target name="copyjars" depends="builddirs">
+        <copy file="${jmsjar}" tofile="${install}/jms.jar"/>
+        <copy file="${imqjar}" tofile="${install}/imq.jar"/>
+    </target>
+
+    <target name="appletjar" depends="compile">
+        <jar destfile="${install}/mqapplet.jar">
+            <fileset dir="${build}" includes="*.class"/>
+        </jar>
+    </target>
+
+    <target name="compile" depends="builddirs" description="compile the source">
+        <javac debug="on" srcdir="${src}" classpath="${classes}"
+            destdir="${build}"/>
+    </target>
+
+    <target name="builddirs">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${install}"/>
+    </target>
+
+    <target name="clean" description="clean up" >
+        <delete dir="${build}"/>
+        <delete dir="${install}"/>
+    </target>
+</project>
+
+<!-- EOF -->

@@ -1,0 +1,439 @@
+#!/bin/sh
+#
+# Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Eclipse Public License v. 2.0, which is available at
+# http://www.eclipse.org/legal/epl-2.0.
+#
+# This Source Code may also be made available under the following Secondary
+# Licenses when the conditions for such availability set forth in the
+# Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+# version 2 with the GNU Classpath Exception, which is available at
+# https://www.gnu.org/software/classpath/license.html.
+#
+# SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+#
+
+#
+# mqconfigmf
+#
+# Script to replace the tokens in com.sun.cmm.mq.xml and register/unregister MQ with JESMF
+# Usage:
+#
+# mqconfigmf [OPTION]
+#
+# Options:
+#  -h
+#  Show this message
+#
+#  -j <dir>
+#  Specify javahome location.
+#
+#  -r
+#  Generate Cacao Module file and register with JESMF. This is the default action.
+#
+#  -s
+#  Silent mode. No output will be displayed.
+#
+#  -u
+#  Unregister MQ from JESMF using generated Cacao Module File.
+#
+#  Exit Status
+#  0    Success
+#  >0   An error occurred.
+#
+# Current tokens supported:
+#
+#   _INSTALL_DATE_
+#	Installation date. This token does not need to be specified, it is searched for by default by the GenerateXMLFile
+#	utility. The date used is the current date.
+#
+#   _INSTALL_LOCATION_
+#	Installation location.
+#
+CAT=/bin/cat
+BASENAME=/bin/basename
+ECHO=/bin/echo
+
+MYDIR=`dirname $0`
+cd ${MYDIR}
+MYDIR=`pwd`
+CMD_NAME=`${BASENAME} $0`
+
+PATH=/usr/bin:/usr/sbin:/bin
+JAVA_HOME=""
+_CMDLINEJAVA_HOME=""
+JAVA_CLASSPATH=${CLASSPATH}:${MYDIR}
+JESMF_REGISTER=true
+
+MQ_INSTALL_DIR=""
+
+#-------------------------------------------------------------------------------
+# usage only: define what parameters are available here
+# input(s):  exitCode
+#-------------------------------------------------------------------------------
+usage() {
+  ${CAT} <<EOF
+Usage: $CMD_NAME [OPTION]
+
+Options:
+  -h
+  Show usage help
+
+  -j
+  Specify javahome location.
+
+  -r
+  Generate Cacao Module file and register with JESMF. This is the default action.
+
+  -s
+  Silent mode. No output will be displayed.
+
+  -u
+  Unregister MQ from JESMF using generated Cacao Module File.
+
+  Exit status
+  0	Success
+  >0	An error occurred
+
+EOF
+  exit $1
+}
+
+checkRoot()
+{
+    if [ "`uname -s`" = SunOS ] ; then
+        if [ `/usr/xpg4/bin/id -u` != 0 ]; then
+            echo "$0: You must be \"root\" to run this script."
+            echo "Exiting."
+            exit 1
+        fi
+    else
+        if [ `/usr/bin/id -u` != 0 ]; then
+            echo "$0: You must be \"root\" to run this script."
+            echo "Exiting."
+            exit 1
+        fi
+    fi
+}
+
+
+# Set error codes to be used by caller. The codes starts @101 to make sure
+# that the existing OS codes are not used.
+setErrorCodes() {
+    INVALID_OS_ARCH=101
+    MFWKSETUP_CMD_NOT_FOUND=102
+    MQ_INSTALL_DIR_NOT_FOUND=103
+    COM_SUN_CMM_MQ_XML_NOT_FOUND=104
+    MFWK_CMD_FAILED=105
+    TOKEN_REPLACEMENT_FAILED=106
+    CACAOADM_CMD_NOT_FOUND=107
+    CACAO_NOT_RUNNING=108
+    USAGE_ERROR=109
+}
+
+setSolarisDefaults(){
+    MQ_INSTALL_DIR="/"
+    MFWK_HOME="/opt/SUNWmfwk"
+    CACAOADM_CMD="/usr/sbin/cacaoadm"
+
+    if [ ! -f "$JAVA_HOME" ]
+    then
+        JAVA_HOME=/usr/jdk/instances/jdk1.5.0
+    fi
+}
+
+setLinuxDefaults(){
+    MQ_INSTALL_DIR="/opt/sun/mq/"
+    MFWK_HOME="/opt/sun/mfwk"
+    CACAOADM_CMD="/opt/sun/cacao/bin/cacaoadm"
+
+    if [ ! -f "$JAVA_HOME" ]
+    then
+        JAVA_HOME=/usr/java/jdk1.5.0_15
+    fi
+}
+
+
+# This script can only be run on Solaris and Linux. Bails out if an attempt is
+# made to run on any other OS.
+checkOSAndSetDefaults() {
+    UNAME=uname
+    uName=`${UNAME}`
+
+    if [ "${uName}" = "SunOS" ]
+    then
+        setSolarisDefaults
+    else if [ "${uName}" = "Linux" ]
+        then
+            setLinuxDefaults
+        else
+            exit ${INVALID_OS_ARCH}
+        fi
+    fi
+}
+
+parseArgs() {
+    OPTSTRING="hrsuj:"
+
+    # check arguments
+    while getopts "${OPTSTRING}" opt ; do
+        case "${opt}" in
+	    r) JESMF_REGISTER=true
+	    ;;
+
+	    s) LOGLEVEL=WARNING
+	    ;;
+
+	    u) JESMF_REGISTER=false
+	    ;;
+
+	    j) _CMDLINEJAVA_HOME=${OPTARG}
+	        if [ ! -d ${_CMDLINEJAVA_HOME} -o ! -r ${_CMDLINEJAVA_HOME} ] ; then
+		    ${ECHO} "${_CMDLINEJAVA_HOME} must be the root directory of a valid JVM installation"
+		    exit 1
+	        fi
+	    ;;
+
+	    h) usage 0
+	    ;;
+
+	    ?) usage 1
+	    ;;
+        esac
+    done
+}
+
+parseArgsOld() {
+    if [ $# -gt 3 ]
+    then
+	    exit ${USAGE_ERROR}
+    fi
+
+    if [ $# -gt 0 ]
+    then
+	MFWK_OPTION=$1
+    fi
+
+    if [ $# -gt 1 ]
+    then
+	MQ_INSTALL_DIR=$2
+    fi
+
+    if [ $# -gt 2 ]
+    then
+        MFWK_HOME=$3
+    fi
+}
+
+checkOSAndInitVars() {
+    XML_FILENAME="com.sun.cmm.mq.xml"
+    MFWKSETUP="bin/mfwksetup"
+    MFWKSETUP_CMD=${MFWK_HOME}/${MFWKSETUP}
+
+    uName=`${UNAME}`
+    if [ "${uName}" = "SunOS" ]
+    then
+        initVarsSolaris
+    else if [ "${uName}" = "Linux" ]
+        then
+            initVarsLinux
+        else
+            exit ${INVALID_OS_ARCH}
+        fi
+    fi
+}
+
+#
+# Initializing the variables used in the script
+# The relative paths from MQ_INSTALL_DIR is different for a given platform
+#
+initVarsSolaris() {
+    SRC=${MQ_INSTALL_DIR}etc/imq/xml/template/${XML_FILENAME}
+    DEST=${MQ_INSTALL_DIR}etc/imq/xml/${XML_FILENAME}
+}
+
+initVarsLinux() {
+    SRC=${MQ_INSTALL_DIR}etc/xml/template/${XML_FILENAME}
+    DEST=${MQ_INSTALL_DIR}etc/xml/${XML_FILENAME}
+}
+
+
+#validate the arguments
+validateArgs(){
+    if [ ! -f "${MFWK_HOME}/${MFWKSETUP}" ]
+    then
+	exit ${MFWKSETUP_CMD_NOT_FOUND}
+    fi
+
+    if [ ! -f "${CACAOADM_CMD}" ]
+    then
+	exit ${CACAOADM_CMD_NOT_FOUND}
+    fi
+
+    if [ ! -d "${MQ_INSTALL_DIR}" ]
+    then
+	exit ${MQ_INSTALL_DIR_NOT_FOUND}
+    fi
+}
+
+doProcessing(){
+    #
+    # Use user specified JVM
+    #
+    if [ ! "$_CMDLINEJAVA_HOME" = "" ]; then
+        JAVA_HOME=${_CMDLINEJAVA_HOME}
+    fi
+
+    echo SRC: $SRC
+    echo DEST: $DEST
+    echo MFWKSETUP_CMD: ${MFWKSETUP_CMD}
+    echo CACAOADM_CMD: ${CACAOADM_CMD}
+    echo JAVA_HOME: ${JAVA_HOME}
+    echo JAVA_CLASSPATH: ${JAVA_CLASSPATH}
+
+    #
+    # Check if cacao is running
+    #
+    ${CACAOADM_CMD} list-modules > /dev/null 2>&1
+    RETVAL=$?
+    if [ ! ${RETVAL} = 0 ]
+    then
+        echo "Cacao management daemon not running. Exiting."
+        exit ${CACAO_NOT_RUNNING}
+    else
+        echo "Cacao management daemon is running. Continuing."
+    fi
+
+    #
+    # Register/unregister with JESMF
+    #
+
+    if [ "${JESMF_REGISTER}" = "true" ]
+    then
+	#
+	# Register with JESMF
+	#
+
+	#
+	# Check it template file exists
+	#
+        if [ ! -f "$SRC" ]
+        then
+	    echo "${SRC} not found. Exiting."
+	    exit ${COM_SUN_CMM_MQ_XML_NOT_FOUND}
+        fi
+
+	#
+	# Unregister with JESMF in case an older version of MQ is registered
+	# This may fail (if MQ wasn't already registered) in which case we
+	# will just proceed. 
+	#
+
+	# Best case is if the XML file that was used for registration ($DEST) is 
+	# around. This file can then be used for unregistration. If this file is 
+	# not around, the template file ($SRC) can be used.
+	#
+        if [ ! -f "$DEST" ]
+	then
+	    UNREGISTER_XML=$DEST
+	else
+	    UNREGISTER_XML=$SRC
+	fi
+
+	#
+	# Check if module is registered
+	#
+        ${CACAOADM_CMD} list-modules -r | grep ${XML_FILENAME} > /dev/null 2>&1
+        RETVAL=$?
+        if [ ! ${RETVAL} = 0 ]
+	then
+	    echo "MQ Cacao module ${XML_FILENAME} not registered with JESMF"
+	else
+	    echo "Attempting to unregister existing MQ Cacao module from JESMF: $UNREGISTER_XML"
+
+            ${MFWKSETUP_CMD} -u ${UNREGISTER_XML}
+            RETVAL=$?
+            if [ ! ${RETVAL} = 0 ]
+            then
+	        echo "Unregister of existing Message Queue Cacao module unsuccessful. Continuing."
+	    else
+	        echo "Unregister of existing Message Queue Cacao module successful."
+            fi
+	fi
+
+	#
+	# Perform token replacement
+	#
+	echo Running: ${JAVA_HOME}/bin/java -cp ${JAVA_CLASSPATH} GenerateXMLFile -i "${SRC}" -o "${DEST}" -t "_INSTALL_LOCATION_=${MQ_INSTALL_DIR}"
+	${JAVA_HOME}/bin/java -cp ${JAVA_CLASSPATH} GenerateXMLFile -i "${SRC}" -o "${DEST}" -t "_INSTALL_LOCATION_=${MQ_INSTALL_DIR}"
+        RETVAL=$?
+
+        if [ ! ${RETVAL} = 0 ]
+        then
+	    exit ${TOKEN_REPLACEMENT_FAILED}
+        fi	
+
+	#
+	# Register with JESMF
+	#
+        ${MFWKSETUP_CMD} -r ${DEST}
+        RETVAL=$?
+        if [ ! ${RETVAL} = 0 ]
+        then
+	    exit ${MFWK_CMD_FAILED}
+        fi
+	echo "Registered with JESMF succesful"
+    else if [ "${JESMF_REGISTER}" = "false" ]
+	then
+	    #
+	    # Unregister with JESMF
+	    #
+
+	    #
+	    # Check if xml file used for registration exists
+	    #
+            if [ ! -f "$DEST" ]
+            then
+		echo "${DEST} not found. Exiting."
+	        exit ${COM_SUN_CMM_MQ_XML_NOT_FOUND}
+            fi
+
+	    #
+	    # Check if module is registered
+	    #
+            ${CACAOADM_CMD} list-modules -r | grep ${XML_FILENAME} > /dev/null 2>&1
+            RETVAL=$?
+            if [ ! ${RETVAL} = 0 ]
+	    then
+	        echo "MQ Cacao module ${XML_FILENAME} not registered with JESMF. Unregister not needed."
+	    else
+	        #
+	        # Unregister with JESMF
+	        #
+                ${MFWKSETUP_CMD} -u ${DEST}
+                RETVAL=$?
+                if [ ! ${RETVAL} = 0 ]
+                then
+	            exit ${MFWK_CMD_FAILED}
+                fi
+	        echo "Unregistered with JESMF succesful"
+	    fi
+	fi
+    fi 
+
+    exit 0
+}
+
+########
+# MAIN #
+########
+setErrorCodes
+checkOSAndSetDefaults
+parseArgs $*
+checkRoot
+checkOSAndInitVars
+validateArgs
+doProcessing
+

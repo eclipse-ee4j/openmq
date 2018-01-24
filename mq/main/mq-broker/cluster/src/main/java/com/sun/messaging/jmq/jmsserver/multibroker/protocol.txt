@@ -1,0 +1,64 @@
+
+MB_MESSAGE_DATA
+
+    Version
+    Number of target InterestIDs
+
+    InterestID = Target(1)
+    InterestID = Target(2)
+    InterestID = Target(3)
+    ...
+    InterestID = Target(n)
+
+    ReadOnlyPacket
+
+
+MB_MESSAGE_ACK
+
+    Version
+    SysMessageID
+    InterestID
+    ackType
+
+MB_INTEREST_UPDATE
+
+    Version
+    InterestUpdateType = MB_NEW_INTEREST
+    Number of Interests
+    Serialized Interest Object = Interest(1)
+    Serialized Interest Object = Interest(2)
+    Serialized Interest Object = Interest(3)
+    ...
+    Serialized Interest Object = Interest(n)
+
+
+    Version
+    InterestUpdateType = MB_REM_INTEREST |
+                         MB_DURABLE_DETACH |
+                         MB_NEW_PRIMARY_INTEREST
+    Number of Interests
+    InterestID = Interest(1)
+    InterestID = Interest(2)
+    InterestID = Interest(3)
+    ...
+    InterestID = Interest(n)
+
+MB_CLIENT_CLOSED
+
+    Version
+    ConnectionID
+
+MB_LOCK_REQUEST
+
+    Version
+    ResourceID UTF string
+    Timestamp
+    Xid
+
+MB_LOCK_RESPONSE
+
+    ResourceID UTF string
+    Xid
+    Response
+
+

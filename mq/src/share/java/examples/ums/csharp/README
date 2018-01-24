@@ -1,0 +1,53 @@
+@(#)README      1.0 09/09/08
+
+UMS APIs examples
+
+Description
+-----------
+This directory contains C# .NET examples that illustrates the use of the
+UMS APIs to send and receive text or binary message.
+
+Files
+-----
+SendSOAPMsg.cs		Source file for C# application that sends text
+			or binary message as XML/SOAP message to a UMS server.
+ReceiveSOAPMsg.cs	Source file for C# application that receives text
+                    or binary message as XML/SOAP message from a UMS server.
+
+README			This file.
+
+Configuring the environment
+---------------------------
+
+
+The examples above assume that the Context Root for the UMS web module
+is '/ums'. If this is not the case, please modify the DEFAULT_CONTEXT_ROOT
+variable in the application accordingly.
+
+Running the example
+-------------------
+
+Build the examples to create executables `SendSOAPMsg.exe` and `ReceiveSOAPMsg.exe`, using .NET Framework 2.0 or later.
+
+SendSOAPMsg.exe command line parameters:
+
+  -h               Usage
+  -s <host:port>   Specify the server host and port.
+  -d <name>        Specify the destination name. Default is simpleSoapQ.
+  [-m "<message>" | -f <file>] Specify a text message or a file to sent.
+  -n <count>       Specify number of message to send.
+  -q               Specify domain is a queue. Default is queue.
+  -t               Specify domain is a topic.
+  -u <user>        Specify the user name. Default is guest.
+  -p <password>    Specify the password. Default is guest.
+
+
+ReceiveSOAPMsg.exe command line parameters:
+
+  -h               Usage
+  -s <host:port>   Specify the server host and port.
+  -d <name>        Specify the destination name. Default is simpleSoapQ.
+  -q               Specify domain is a queue. Default is queue.
+  -t               Specify domain is a topic.
+  -u <user>        Specify the user name. Default is guest.
+  -p <password>    Specify the password. Default is guest.

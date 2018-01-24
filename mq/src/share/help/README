@@ -1,0 +1,3 @@
+The JavaHelp files contained in the "helpfiles" dirctory was originally distributed as a .zip archive
+Before building this project, create the zip file:
+jar cf helpfiles1.zip -C helpfiles .

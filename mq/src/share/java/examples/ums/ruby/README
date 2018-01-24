@@ -1,0 +1,43 @@
+@(#)README      1.0 11/10/08
+
+UMS APIs examples
+
+Description
+-----------
+This directory contains Ruby examples that illustrates the use of the
+UMS APIs to send and receive text message.
+
+Files
+-----
+SendMsg.rb		Source file for Ruby application that sends text
+			message to a UMS server.
+ReceiveMsg.rb		Source file for Ruby application that receives text
+			message from a UMS server.
+README			This file.
+
+Configuring the environment
+---------------------------
+SendMsg.rb and ReceiveMsg.rb require Ruby 1.8.6 or later version.
+A compatible Ruby interpreter such as JRuby 1.1.5 can also be used.
+
+The examples above assume that the Context Root for the UMS web module
+is '/ums'. If this is not the case, please modify the DEFAULT_CONTEXT_ROOT
+variable in the application accordingly.
+
+Running the example
+-------------------
+The examples can be run using the ruby command, e.g.
+
+    ruby <application> -h
+
+    or
+
+    jruby <application> -h
+
+For example,
+
+    ruby SendMsg.rb -h
+
+    or
+
+    jruby SendMsg.rb -h

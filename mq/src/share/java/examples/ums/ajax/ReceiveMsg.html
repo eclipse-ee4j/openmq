@@ -1,0 +1,336 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<!--
+
+    Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Distribution License v. 1.0, which is available at
+    http://www.eclipse.org/org/documents/edl-v10.php.
+
+    SPDX-License-Identifier: BSD-3-Clause
+
+-->
+
+<html lang="en-US">
+<head>
+<title>UMS - ReceiveMsg</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript" language="javascript">
+var DEFAULT_TIMEOUT = "15000";
+var httpRequest = null;
+var sid = null;
+var logMsgCount = 0;
+var recvMode = false;
+
+function init() {
+  // Use current URL's host:port as default value for host field
+  var url = unescape(window.document.location);
+  var pos = url.indexOf("http://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('http').checked = true;
+  }
+  pos = url.indexOf("https://");
+  if (pos > -1) {
+    var host = document.getElementById('host');
+    var splitRes = url.split("/");
+    host.value = splitRes[2];
+    document.getElementById('https').checked = true;
+  }
+  
+  // Extract context root from current URL and use as default value in context root field
+  var context = document.getElementById('context');
+  var splitRes = url.split("/"); 
+  context.value = "/"+splitRes[3];
+}
+
+function clearLog() {
+   var obj = document.getElementById("logOutput");
+   obj.value = '';
+   obj.scrollTop = obj.scrollHeight;
+}
+
+function log(msg) {
+   if (logMsgCount % 100 == 0) {
+      clearLog();
+      logMsgCount = 0;
+   }
+   var obj = document.getElementById("logOutput");
+   obj.value += msg;
+   obj.value += '\n';
+   obj.scrollTop = obj.scrollHeight;
+   logMsgCount++;
+   return true;
+}
+
+function setRecvMode(value) {
+   if (value) {
+      // Toggle button label to 'Stop' when receiving
+      recvMode = true;
+      obj = document.getElementById("receiveBtn");
+      obj.innerHTML = "Stop Receiving";
+      obj.style.color='red';
+   } else {
+      // Toggle button label back to 'Start' when stop receiving
+      recvMode = false;
+      obj = document.getElementById("receiveBtn");
+      obj.innerHTML = "Start Receiving";
+      obj.style.color='black';
+   }
+}
+
+function postRequest() {
+   // Make sure all fields are filled in
+   var host = document.getElementById('host');
+   var hostVal = host.value;
+   if (hostVal == null || hostVal == "") {
+      alert("Error: Server Host[:Port] field is required!");
+      host.focus();
+      return false;
+   }
+   var context = document.getElementById('context');
+   var contextVal = context.value;
+   if (contextVal == null || contextVal == "") {
+      alert("Error: Context Root field is required!");
+      context.focus();
+      return false;
+   }
+   var user = document.getElementById('user');
+   var userVal = user.value;
+   if (userVal == null || userVal == "") {
+      alert("Error: User field is required!");
+      user.focus();
+      return false;
+   }
+   var pwd = document.getElementById('pwd');
+   var pwdVal = pwd.value;
+   if (pwdVal == null || pwdVal == "") {
+      alert("Error: Password field is required!");
+      pwd.focus();
+      return false;
+   }
+   var dst = document.getElementById('dst');
+   var dstVal = dst.value;
+   if (dstVal == null || dstVal == "") {
+      alert("Error: Destination field is required!");
+      dst.focus();
+      return false;
+   }
+   var connectionVal = "http://";
+   if (document.getElementById('https').checked == true) {
+      connectionVal = "https://";
+   }
+   var domainVal = "queue";
+   if (document.getElementById('topic').checked == true) {
+      domainVal = "topic";
+   }
+
+   // Create XMLHttpRequest object
+   if (!httpRequest) {
+      if (window.XMLHttpRequest) { // Mozilla, Safari, ...
+         httpRequest = new XMLHttpRequest();
+         if (httpRequest.overrideMimeType) {
+            httpRequest.overrideMimeType('text/xml');
+         }
+      } else if (window.ActiveXObject) { // IE
+         try {
+            httpRequest = new ActiveXObject("Msxml2.XMLHTTP");
+         } catch (e) {
+            try {
+               httpRequest = new ActiveXObject("Microsoft.XMLHTTP");
+            } catch (e) {}
+         }
+      }
+
+      if (!httpRequest) {
+         alert('Error: Cannot create an XMLHTTP instance');
+         return false;
+      }
+   }
+
+   var url = null;
+
+   if (recvMode) {
+      setRecvMode(false);
+      httpRequest.abort();
+
+      // Close the UMS session
+      if (!sid) {
+        url = connectionVal + hostVal + contextVal;
+        url += '/simple?service=close&sid=' + sid;
+        doSyncPost(url);
+        sid = null;
+      }
+   } else {
+      // Login to UMS
+      url = connectionVal + hostVal + contextVal;
+      url += '/simple?service=login';
+      url += '&user=' + escape(userVal);
+      url += '&password=' + escape(pwdVal);
+
+      sid = doSyncPost(url);
+      if (sid == null) {
+         log("Failed to login to UMS server.");
+         return false;
+      }
+
+      // Construct the Service URL
+      url = connectionVal + hostVal + contextVal;
+      url += '/simple?service=receive';
+      url += '&destination=' + dstVal;
+      url += '&domain=' + domainVal;
+      url += '&sid=' + sid;
+      url += '&timeout=' + DEFAULT_TIMEOUT;
+
+      setRecvMode(true);
+      log("Service URL: " + url);
+      doPost(url);
+   }
+   return true;
+}
+
+function doSyncPost(url) {
+   try {
+      httpRequest.open('POST', url, false);
+      httpRequest.send(null);
+      if (httpRequest.status == 200) {
+         return httpRequest.responseText;
+      } else {
+         log("Failed to post data to " + url);
+         log("Response: " + httpRequest.status + ", " + httpRequest.statusText);
+      }
+   } catch (e) {
+      log("Error: " + e.message);
+   }
+
+   return null;
+}
+
+function doPost(url) {
+   try {
+      httpRequest.open('POST', url, true);
+   } catch (e) {
+      log("Error: " + e.message);
+      setRecvMode(false);
+      return false;
+   }
+
+   httpRequest.onreadystatechange = function(aEvt) {
+      if (httpRequest.readyState == 4) {
+         var d = new Date();
+         var tsStr = "[" + checkTime(d.getDate()) + "/" + 
+                     checkTime(d.getMonth() + 1) + "/" +
+                     checkTime(d.getFullYear()) + ":" + 
+                     checkTime(d.getHours()) + ":" + 
+                     checkTime(d.getMinutes()) + ":" + 
+                     checkTime(d.getSeconds()) + "] ";
+         if (httpRequest.status == 200) {
+            if (httpRequest.responseText.length > 0) {               
+               log(tsStr + "Received msg: " + httpRequest.responseText);
+            } else {
+               //log(tsStr + "No message available!");
+            }
+         } else {
+            if (recvMode) {
+               // Log error only in receiving mode, i.e. not abort!
+               log(tsStr + "Failed to post data to " + url);
+               log("Response: " + httpRequest.status + ", " + httpRequest.statusText);
+            }
+         }
+
+         // Keep polling UMS server for message until user click "Stop Receiving" button
+         if (recvMode) {
+            doPost(url);
+         }
+      }
+   };
+
+   httpRequest.setRequestHeader('Content-Type', 'text/plain;charset=UTF-8');
+   httpRequest.setRequestHeader('Accept', 'text/plain');   
+   httpRequest.setRequestHeader("Cache-Control", "no-cache");
+   httpRequest.send(null);
+}
+
+function checkTime(i) {
+   if (i < 10) {
+      i = "0" + i;
+   }
+   return i;
+}
+</script>
+</head>
+
+<body onLoad="init()">
+
+<table border="0" align="center" width="800">
+<tr>
+<td>
+
+<h3>A Simple Ajax Example To Receive JMS Text Message(s) Using UMS APIs.</h3>
+<hr>
+<br>
+<table border="0">
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Connection Type:</td>
+    <td>
+      <input type="radio" id="http" name="connection" value="http" CHECKED>http
+      <input type="radio" id="https" name="connection" value="https">https
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Server Host[:Port]:</td>
+    <td><input type="text" id="host" name="host" size="25" maxlength="100"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Context Root:</td>
+    <td><input type="text" id="context" name="context" size="25" maxlength="100"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">User:</td>
+    <td><input type="text" id="user" name="user" value="guest" size="25" maxlength="25"></td>
+    <td>&nbsp;&nbsp;</td>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Password:</td>
+    <td><input type="text" id="pwd" name="pwd" value="guest" size="15" maxlength="25"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Domain:</td>
+    <td>
+      <input type="radio" id="queue" name="domain" value="queue" checked="checked">Queue
+      <input type="radio" id="topic" name="domain" value="topic">Topic
+    </td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td style="vertical-align: top; padding-top: 2px; text-align: right">Destination:</td>
+    <td><input type="text" id="dst" name="dst" value="simpleQ" size="25" maxlength="25"></td>
+    <td colspan="3"></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td>
+      <br><button id="receiveBtn" style="cursor: pointer;" onclick="postRequest();">Start Receiving</button>
+    </td>
+    <td colspan="3"></td>
+  </tr>
+</table>
+<br>
+<hr>
+
+<span title="Click to clear all log entries"
+  onmouseover="this.style.color='red';" onmouseout="this.style.color='blue';"
+  style="color: blue; cursor: pointer;" onclick="clearLog()">&#160;&#187;Clear Log Console</span>
+<br>
+<textarea id="logOutput" rows="10" cols="40" style="width:99%;" readonly="readonly"></textarea>
+
+</td>
+</tr>
+</table>
+
+</body>
+</html>

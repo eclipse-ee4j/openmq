@@ -1,0 +1,55 @@
+<!--
+
+    Copyright (c) 2000-2017 Oracle and/or its affiliates. All rights reserved.
+
+    This program and the accompanying materials are made available under the
+    terms of the Eclipse Public License v. 2.0, which is available at
+    http://www.eclipse.org/legal/epl-2.0.
+
+    This Source Code may also be made available under the following Secondary
+    Licenses when the conditions for such availability set forth in the
+    Eclipse Public License v. 2.0 are satisfied: GNU General Public License,
+    version 2 with the GNU Classpath Exception, which is available at
+    https://www.gnu.org/software/classpath/license.html.
+
+    SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
+
+-->
+
+<HTML>
+<HEAD>
+ <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=ISO-8859-1">
+ <TITLE>add connfact jmsx</TITLE>
+ <LINK rel="StyleSheet" href="ide.css">
+ 
+</HEAD>
+<BODY>
+ 
+<H2>Add Connection Factory Object &gt; <BR>
+  JMSX Properties</H2>
+ 
+<P>Use this tab to specify which JMS-defined properties should be set by Message Queue.</P>
+<p>Message Queue supports a number of JMS-defined attributes, though at the cost of resources. 
+  To conserve resources, you should determine which of these properties are actually 
+  needed by the client application and enable setting of those properties by clicking 
+  the appropriate checkbox.</p>
+<p><b>Enable JMSXAppID Message Property</b> Specifies whether Message Queue should set the 
+  JMS-defined property, JMSXAppID (identity of application sending the message), 
+  on produced messages. Default: false</p>
+<p><b>Enable JMSXUserID Message Property</b> Specifies whether Message Queue should set the 
+  JMS-defined property, JMSXUserID (identity of user sending the message), on 
+  produced messages. Default: false</p>
+<p><b>Enable JMSXProducerTXID Message Property</b> Specifies whether Message Queue should 
+  set the JMS-defined property, JMSXProducerTXID (transaction identifier of the 
+  transaction within which this message was produced), on produced messages. Default: 
+  false</p>
+<p><b>Enable JMSXConsumerTXID</b> <b>Message Property</b> Specifies whether Message Queue should set the JMS-defined property, JMSXConsumerTXID (transaction identifier 
+  of the transaction within which this message was consumed), on consumed messages. 
+  Default: false</p>
+<p><b>Enable JMSXRcvTimestamp Message Property</b> Specifies whether Message Queue should 
+  set the JMS-defined property, JMSXRcvTimestamp (the time the message is delivered 
+  to the consumer), on consumed messages. Default: false</p>
+<p>&nbsp;</p>
+
+</BODY>
+</HTML>
