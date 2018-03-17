@@ -3758,7 +3758,7 @@ Serializable, com.sun.messaging.jmq.util.lists.EventListener
 
         if (Globals.getStore().getPartitionModeEnabled() && takeoverMsgs != null) {
             String emsg = br.getKString(br.E_INTERNAL_BROKER_ERROR,
-              ": Unexpected call:Destionation.load(takeoverMsgs) for partition mode");
+              ": Unexpected call:Destination.load(takeoverMsgs) for partition mode");
             BrokerException ex = new BrokerException(emsg);
             logger.logStack(logger.ERROR, emsg, ex);
             throw ex;
