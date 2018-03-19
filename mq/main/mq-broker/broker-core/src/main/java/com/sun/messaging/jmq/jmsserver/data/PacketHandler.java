@@ -112,7 +112,7 @@ public abstract class PacketHandler
         if (destination == null) { 
             throw new BrokerException(Globals.getBrokerResources().getString(
                BrokerResources.X_INTERNAL_EXCEPTION,
-               "checkPermission() no JMQDestionation"));
+               "checkPermission() no JMQDestination"));
         }
 
         Integer dtype = (Integer)prop.get("JMQDestType");

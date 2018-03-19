@@ -737,7 +737,7 @@ public class EndpointConsumer implements
                 if (destObj instanceof com.sun.messaging.Destination) {
                     destName = ((com.sun.messaging.Destination) destObj).getName();
                 } else {
-                    String errorMessage = "MQRA:EC:Invalid destinationLookup " + destinationLookup + " configured in ActivationSpec of MDB, The JNDI object is required to be a Destionation";
+                    String errorMessage = "MQRA:EC:Invalid destinationLookup " + destinationLookup + " configured in ActivationSpec of MDB, The JNDI object is required to be a Destination";
                     throw new NotSupportedException(errorMessage);
                 }
             } else {
