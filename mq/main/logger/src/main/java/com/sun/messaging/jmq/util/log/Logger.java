@@ -494,7 +494,7 @@ public class Logger implements LoggerWrapper {
     	// that breaks some of ourtests as well. This is a workaround only for outside nucleus env case.
     	Properties p = System.getProperties();
     	String installRoot = StringUtil.expandVariables("${imq.instanceshome}${/}${imq.instancename}", props);
-    	if(!(inProcess && jmsraManaged)) {
+        if(!(inProcess && jmsraManaged) && System.getProperty("com.sun.aas.installRoot") == null) {
     	    p.put("com.sun.aas.installRoot", installRoot);
         }
     	String key = JULLOGFILEKEY;
