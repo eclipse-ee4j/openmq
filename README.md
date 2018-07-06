@@ -3,4 +3,4 @@ JMS RI
 
 The project contains the following modules:
 
-- [Java MQ](mq)
+- [Message Queue](mq)
