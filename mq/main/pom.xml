@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -30,7 +30,7 @@
     <groupId>org.glassfish.mq</groupId>
     <artifactId>mq</artifactId>
     <packaging>pom</packaging>
-    <version> 5.1.1-SNAPSHOT </version>
+    <version> 5.1.2-SNAPSHOT </version>
     <name>MQ Main Project</name>
 
     <scm>
@@ -43,7 +43,7 @@
 
     <properties>
 	<!-- Change these for each build -->
-	<build.number>6</build.number>
+	<build.number>1</build.number>
         <build.letter>a</build.letter>
 
 	<!-- Product-specific -->
@@ -52,11 +52,11 @@
         <vendor.name>Oracle</vendor.name>
         <major.version>5</major.version>
         <minor.version>1</minor.version>
-        <micro.version>1</micro.version>
-        <product.version>5.1.1</product.version>
+        <micro.version>2</micro.version>
+        <product.version>5.1.2</product.version>
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
-        <product.copyright>Copyright (c) 2012, 2017 Oracle and/or its affiliates.  All rights reserved.</product.copyright>
+        <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates.  All rights reserved.</product.copyright>
         <javax-jms.version>2.0.1</javax-jms.version>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
