@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -28,10 +28,10 @@
 
 #define MQ_NAME    "Oracle GlassFish(tm) Server Message Queue"
 
-#define MQ_VERSION "5.1.1"
+#define MQ_VERSION "5.1.2"
 #define MQ_VMAJOR   5
 #define MQ_VMINOR   1
-#define MQ_VMICRO   1 
+#define MQ_VMICRO   2 
 #define MQ_SVCPACK  0
 #define MQ_URELEASE 0
 
