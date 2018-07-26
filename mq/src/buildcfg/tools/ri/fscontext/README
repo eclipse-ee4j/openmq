@@ -1,3 +1,0 @@
-The contents of the fscontext_jar directory need to be used to create an
-fscontext.jar file before building this project, for example, by executing:
-$ jar cf fscontext.jar -C fscontext_jar . 

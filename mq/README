@@ -21,7 +21,7 @@ Message Queue Build Instructions
      <proxy>
       <active>true</active>
       <protocol>http</protocol>
-        <host>www-proxy.us.oracle.com</host>
+        <host>proxy-host</host>
         <port>80</port>
      </proxy>
   </proxies>
@@ -31,17 +31,11 @@ Message Queue Build Instructions
       unzip mq5.1.1-source.zip
       and set JAVA_HOME.
 
-3. Create the following files manually as described in the READMEs 
-src/buildcfg/tools/ri/fscontext/fscontext.jar (see src/buildcfg/tools/ri/fscontext/README)
-src/share/help/helpfiles.zip (see src/share/help/README)
-
-Important Note: The project won't build without these jars.
-
-4. Build the source and distribution.
+3. Build the source and distribution.
       cd mq5.1.1-source/
       mvn clean install
 
-5. If you get a java OutOfMemory Error while running the mvn command, 
+4. If you get a java OutOfMemory Error while running the mvn command, 
    set MAVEN_OPTS to "-Xmx512m -Xms256m -XX:MaxPermSize=512m".
 
 
