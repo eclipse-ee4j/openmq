@@ -117,5 +117,5 @@ MQ_PROXY_PORT=Porta do proxy
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MQ_REG_PROGRESS=Andamento do registro
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-License_LICENSE_TEXT_CDDL=OpenMQ Dual License Header and License Notice\n Insert Rest Here
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT=OpenMQ Dual License Header and License Notice\n Insert Rest Here

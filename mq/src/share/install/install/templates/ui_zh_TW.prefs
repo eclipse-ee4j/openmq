@@ -117,5 +117,5 @@ MQ_PROXY_PORT=\u4ee3\u7406\u9023\u63a5\u57e0
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MQ_REG_PROGRESS=\u8a3b\u518a\u9032\u5ea6
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-License_LICENSE_TEXT_CDDL=OpenMQ Dual License Header and License Notice\n Insert Rest Here
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT=OpenMQ Dual License Header and License Notice\n Insert Rest Here

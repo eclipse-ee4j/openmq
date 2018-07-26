@@ -117,5 +117,5 @@ MQ_PROXY_PORT=\ud504\ub85d\uc2dc \ud3ec\ud2b8
 # ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~Registration Progress P A G E~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 MQ_REG_PROGRESS=\ub4f1\ub85d \uc9c4\ud589\ub960
 
-# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~CDDL LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-License_LICENSE_TEXT_CDDL=
+# ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~LICENSE FOR OPEN MQ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+License_LICENSE_TEXT=

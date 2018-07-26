@@ -946,8 +946,7 @@ class TidList {
             // We may have transactions left in the txnAckList that did not
             // have an entry in the tidMap (maybe it was removed by a commit
             // that never had a chance to complete processing the acks).
-            // Check for those "orphaned" ack transactions here. We check
-            // state here too just to be anal.
+            // Check for those "orphaned" ack transactions here.
             TransactionUID[] tids = txnAckList.getAllTids();
             for (int i = 0; i < tids.length; i++) {
                 TransactionInfo txnInfo = (TransactionInfo)tidMap.get(tids[i]);

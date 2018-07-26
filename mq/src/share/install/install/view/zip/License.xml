@@ -34,10 +34,10 @@
             <apt:htmlPanel/>
          </apt:visual>
         </apt:property>
-     <apt:property apt:name="LICENSE_TEXT_CDDL"
+     <apt:property apt:name="LICENSE_TEXT"
          apt:dataPath=""
          apt:type="xs:string">
-       <apt:prop-value>$License_LICENSE_TEXT_CDDL</apt:prop-value>
+       <apt:prop-value>$License_LICENSE_TEXT</apt:prop-value>
        <apt:visual>
             <apt:textArea apt:rows="9" apt:columns="33" apt:readOnly="true"/>
          </apt:visual>
@@ -100,7 +100,7 @@
       wizard.enableBack(true);
 
       // Default the license agreement text to the beginning of the text
-      myComp = getComponentByName(content, "LICENSE_TEXT_CDDL");
+      myComp = getComponentByName(content, "LICENSE_TEXT");
       myComp.setCaretPosition(0);
 
       wizard.enableNext(getComponentByName((Container)content, "0").isSelected());
