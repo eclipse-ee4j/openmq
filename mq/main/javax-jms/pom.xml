@@ -44,12 +44,7 @@
     </properties>
     <name>JMS API</name>
 
-    <url>https://github.com/eclipse-ee4j/openmq</url>
-
-    <issueManagement>
-        <system>Github</system>
-        <url>https://github.com/eclipse-ee4j/openmq/issues</url>
-    </issueManagement>
+    <url>https://github.com/eclipse-ee4j/jms-api</url>
 
     <licenses>
         <license>
@@ -66,8 +61,7 @@
 
     <developers>
         <developer>
-            <id>yaminikb</id>
-            <name>Yamini K B</name>
+            <name>Nigel Deakin</name>
             <organization>Oracle Corporation</organization>
             <organizationUrl>http://www.oracle.com/</organizationUrl>
         </developer>
@@ -80,6 +74,22 @@
             <organizationUrl>http://www.oracle.com/</organizationUrl>
         </contributor>
     </contributors>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/eclipse-ee4j/jms-api/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>JMS API mailing list</name>
+            <post>jms-dev@eclipse.org</post>
+            <subscribe>https://dev.eclipse.org/mailman/listinfo/jms-dev</subscribe>
+            <unsubscribe>https://dev.eclipse.org/mailman/listinfo/jms-dev</unsubscribe>
+            <archive>https://dev.eclipse.org/mhonarc/lists/jms-dev/</archive>
+        </mailingList>
+    </mailingLists>
+
 
     <build>
        <plugins>
