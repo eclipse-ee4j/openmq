@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2017 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -21,9 +21,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-	<groupId>net.java</groupId>
-	<artifactId>jvnet-parent</artifactId>
-	<version>3</version>
+	<groupId>org.eclipse.ee4j</groupId>
+	<artifactId>project</artifactId>
+	<version>1.0.1</version>
     </parent>
 
     <groupId>javax.jms</groupId>
@@ -44,28 +44,52 @@
     </properties>
     <name>JMS API</name>
 
-    <url>http://java.net/projects/jms-spec/pages/Home</url>
-
-    <issueManagement>
-    	<system>jira</system>
-    	<url>http://java.net/jira/browse/JMS_SPEC</url>
-    </issueManagement>
+    <url>https://github.com/eclipse-ee4j/jms-api</url>
 
     <licenses>
         <license>
-            <name>CDDL + GPLv2 with classpath exception</name>
-            <url>https://oss.oracle.com/licenses/CDDL+GPL-1.1</url>
+            <name>EPL 2.0</name>
+            <url>http://www.eclipse.org/legal/epl-2.0</url>
             <distribution>repo</distribution>
-            <comments>A business-friendly OSS license</comments>
+        </license>
+        <license>
+            <name>GPL2 w/ CPE</name>
+            <url>https://www.gnu.org/software/classpath/license.html</url>
+            <distribution>repo</distribution>
         </license>
     </licenses>
 
     <developers>
         <developer>
-            <url>https://javaee.github.io/jms-spec/</url>
+            <name>Nigel Deakin</name>
             <organization>Oracle Corporation</organization>
+            <organizationUrl>http://www.oracle.com/</organizationUrl>
         </developer>
     </developers>
+
+    <contributors>
+        <contributor>
+            <name>Amy Kang</name>
+            <organization>Oracle Corporation</organization>
+            <organizationUrl>http://www.oracle.com/</organizationUrl>
+        </contributor>
+    </contributors>
+
+    <issueManagement>
+        <system>Github</system>
+        <url>https://github.com/eclipse-ee4j/jms-api/issues</url>
+    </issueManagement>
+
+    <mailingLists>
+        <mailingList>
+            <name>JMS API mailing list</name>
+            <post>jms-dev@eclipse.org</post>
+            <subscribe>https://dev.eclipse.org/mailman/listinfo/jms-dev</subscribe>
+            <unsubscribe>https://dev.eclipse.org/mailman/listinfo/jms-dev</unsubscribe>
+            <archive>https://dev.eclipse.org/mhonarc/lists/jms-dev/</archive>
+        </mailingList>
+    </mailingLists>
+
 
     <build>
        <plugins>

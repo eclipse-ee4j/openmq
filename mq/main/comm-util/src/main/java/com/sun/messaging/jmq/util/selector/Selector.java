@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2000, 2018 Oracle and/or its affiliates. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v. 2.0, which is available at
@@ -1651,8 +1651,7 @@ public class Selector {
     }
 
     /**
-     * Perform a numeric operation. God this is lame. There must
-     * be a better way, but it's late and I'm not thinking well.
+     * Perform a numeric operation. 
      *
      * The operands are either Long or Double.
      */
@@ -1997,7 +1996,7 @@ public static void main(String args[]) {
 
     /* Dummy up some message properties and fields */
     props.put("color", "red");
-    props.put("description", "Galvanized hot dipped wing nuts");
+    props.put("description", "Dark hot chocolate with nuts");
     props.put("size", Integer.valueOf(1024));
     props.put("msgnum", Integer.valueOf(5));
     props.put("msgnumStr", "5");
