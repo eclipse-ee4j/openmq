@@ -30,6 +30,7 @@ nbdist/
 .nb-gradle/
 
 ### Other ###
+binary/
 bin/
 .factorypath
 *.log
