@@ -104,4 +104,3 @@ Appendix: Message Queue Build Instructions for C-API Client Library
 
 2. cd $TOP/main/packager-opensource
    ant builddclient
-
