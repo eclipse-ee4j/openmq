@@ -22,7 +22,10 @@
     <packaging>pom</packaging>
     <name>MQ Parent Project</name>
     <url>https://github.com/eclipse-ee4j/openmq</url>
-
+  	<groupId>org.glassfish.mq</groupId>
+    <artifactId>project</artifactId>
+    <version> 5.1.2-SNAPSHOT </version>
+    
     <scm>
         <connection>scm:git:https://github.com/eclipse-ee4j/openmq.git</connection>
         <developerConnection>
@@ -85,5 +88,4 @@
     	<artifactId>project</artifactId>
     	<groupId>org.eclipse.ee4j</groupId>
     </parent>
-    <artifactId>openmq</artifactId>
 </project>
