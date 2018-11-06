@@ -19,11 +19,18 @@
 
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.eclipse.ee4j</groupId>
+        <artifactId>project</artifactId>
+        <version>1.0.2</version>
+    </parent>
+
     <packaging>pom</packaging>
     <name>MQ Parent Project</name>
     <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
-    <version> 5.1.2-SNAPSHOT </version>
+    <version>5.1.2-SNAPSHOT</version>
     <url>https://github.com/eclipse-ee4j/openmq</url>
 
     <scm>
@@ -35,44 +42,13 @@
         <tag>HEAD</tag>
     </scm>
 
-    <repositories>
-        <repository>
-            <id>jvnet-nexus-snapshots</id>
-            <name>Java.net Nexus Snapshots Repository</name>
-            <url>
-                https://maven.java.net/content/repositories/snapshots
-            </url>
-            <releases>
-                <enabled>false</enabled>
-                <updatePolicy>never</updatePolicy>
-            </releases>
-            <snapshots>
-                <enabled>true</enabled>
-                <updatePolicy>never</updatePolicy>
-            </snapshots>
-        </repository>
-    </repositories>
-    <distributionManagement>
-        <snapshotRepository>
-            <id>jvnet-nexus-snapshots</id>
-            <name>Java.net Nexus Snapshots Repository</name>
-            <url>${jvnetDistMgmtSnapshotsUrl}</url>
-        </snapshotRepository>
-        <repository>
-            <id>jvnet-nexus-staging</id>
-            <name>Java.net Nexus Staging Repository</name>
-            <url>
-                https://maven.java.net/service/local/staging/deploy/maven2/
-            </url>
-        </repository>
-    </distributionManagement>
-
+    <organization>
+        <name>Eclipse Foundation</name>
+        <url>https://www.eclipse.org/org/foundation/</url>
+    </organization>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jvnetDistMgmtSnapshotsUrl>
-            https://maven.java.net/content/repositories/snapshots/
-        </jvnetDistMgmtSnapshotsUrl>
     </properties>
 
     <build>
@@ -83,9 +59,4 @@
       	<module>main</module>
     </modules>
 
-    <parent>
-    	<groupId>org.eclipse.ee4j</groupId>
-    	<artifactId>project</artifactId>
-    	<version>1.0.1</version>
-    </parent>
 </project>
