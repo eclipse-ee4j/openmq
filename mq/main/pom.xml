@@ -45,9 +45,9 @@
         <build.letter>a</build.letter>
 
 	<!-- Product-specific -->
-        <full.name>Open Message Queue / Oracle GlassFish(tm) Server Message Queue</full.name>
-        <brand.name>Open Message Queue / Oracle GlassFish(tm) Server Message Queue</brand.name>
-        <vendor.name>Oracle</vendor.name>
+        <full.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</full.name>
+        <brand.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</brand.name>
+        <vendor.name>Eclipse Foundation</vendor.name>
         <major.version>5</major.version>
         <minor.version>1</minor.version>
         <micro.version>2</micro.version>
@@ -55,29 +55,29 @@
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
         <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates.  All rights reserved.</product.copyright>
-        <javax-jms.version>2.0.1</javax-jms.version>
+        <jakarta-jms.version>2.0.1</jakarta-jms.version>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
 	<!-- Versions of dependencies -->
-        <hk2.version>2.5.0-b42</hk2.version>
-        <hk2.plugin.version>2.5.0-b42</hk2.plugin.version>
+        <hk2.version>2.5.0-b63</hk2.version>
+        <hk2.plugin.version>2.5.0-b63</hk2.plugin.version>
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
-        <glassfish.version>4.1.2</glassfish.version>
-        <grizzly.version>2.4.1</grizzly.version>
+        <glassfish.version>5.0.1</glassfish.version>
+        <grizzly.version>2.4.4</grizzly.version>
 
 	<!-- begin of websocket dependencies -->
-		<json.version>1.1</json.version>
+        <json.version>1.1.4</json.version>
         <tyrus.version>1.13.1</tyrus.version>
 	<!-- end of websocket dependencies -->
 	
         <servlet-api.version>4.0.0</servlet-api.version>
-        <jsp-api.version>2.3.2-b02</jsp-api.version>
-        <javax.resource-api.version>1.7</javax.resource-api.version>
+        <jsp-api.version>2.3.4</jsp-api.version>
+        <jakarta.resource-api.version>1.7</jakarta.resource-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
-        <jaf.version>1.1.1</jaf.version>
-        <javamail.version>1.6.0</javamail.version>
-        <javax.xml.soap-api.version>1.4.0-b01</javax.xml.soap-api.version>
+        <jaf.version>1.2.1</jaf.version>
+        <javamail.version>1.6.3</javamail.version>
+        <jakarta.xml.soap-api.version>1.4.0-b01</jakarta.xml.soap-api.version>
         <saaj-impl.version>1.4.0-b03</saaj-impl.version>
         <junit.version>4.12</junit.version>
         <findbugs.skip>false</findbugs.skip>
@@ -108,8 +108,8 @@
                      the same under release profiles as well (below) -->
  		<!-- Also, for now every time you change the module list,
 		     please update mq-nucleus/install-mq2nucleus.sh -->
-		<!-- Comment out javax-jms and use version 2.0.1 in maven until we work on next release -->
-                <!--module>javax-jms</module-->
+		<!-- Comment out jakarta-jms and use version 2.0.1 in maven until we work on next release -->
+                <!--module>jakarta-jms</module-->
                 <module>logger</module>
                 <module>comm-util</module>
                 <module>comm-io</module>
@@ -689,15 +689,15 @@
 
              <dependency>
                  <groupId>org.glassfish</groupId>
-                 <artifactId>javax.json</artifactId>
+                 <artifactId>jakarta.json</artifactId>
                  <version>${json.version}</version>
              </dependency>
 <!-- end of websocket dependencies -->
 
             <dependency>
-                <groupId>javax.jms</groupId>
-                <artifactId>javax.jms-api</artifactId>
-                <version>${javax-jms.version}</version>
+                <groupId>jakarta.jms</groupId>
+                <artifactId>jakarta.jms-api</artifactId>
+                <version>${jakarta-jms.version}</version>
             </dependency>
 <!--
            <dependency>
@@ -707,24 +707,24 @@
             </dependency>
 -->
             <dependency>
-                <groupId>javax.resource</groupId>
-                <artifactId>javax.resource-api</artifactId>
-                <version>${javax.resource-api.version}</version>
+                <groupId>jakarta.resource</groupId>
+                <artifactId>jakarta.resource-api</artifactId>
+                <version>${jakarta.resource-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.servlet</groupId>
-                <artifactId>javax.servlet-api</artifactId>
+                <groupId>jakarta.servlet</groupId>
+                <artifactId>jakarta.servlet-api</artifactId>
                 <version>${servlet-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.servlet.jsp</groupId>
-                <artifactId>javax.servlet.jsp-api</artifactId>
+                <groupId>jakarta.servlet.jsp</groupId>
+                <artifactId>jakarta.servlet.jsp-api</artifactId>
                 <version>${jsp-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.xml.soap</groupId>
-                <artifactId>javax.xml.soap-api</artifactId>
-                <version>${javax.xml.soap-api.version}</version>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
+                <version>${jakarta.xml.soap-api.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.main.transaction</groupId>
@@ -908,13 +908,13 @@
 
 	    <!-- compile test only -->
             <dependency>
-                <groupId>javax.activation</groupId>
+                <groupId>jakarta.activation</groupId>
                 <artifactId>activation</artifactId>
                 <version>${jaf.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.mail</groupId>
-                <artifactId>javax.mail-api</artifactId>
+                <groupId>jakarta.mail</groupId>
+                <artifactId>jakarta.mail-api</artifactId>
                 <version>${javamail.version}</version>
             </dependency>
             <dependency>
