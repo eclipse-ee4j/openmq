@@ -142,6 +142,7 @@
                 <module>mq-broker/partition/persist-jdbc</module>
                 <module>mq-client</module>
                 <module>mq-admin</module>
+                <module>packager-opensource</module>
                 <!-- FIXME make the Ant goal work at least in Jenkins >module>packager-opensource</module -->
             </modules>
         </profile>

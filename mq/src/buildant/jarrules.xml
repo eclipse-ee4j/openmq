@@ -71,7 +71,7 @@
 
   <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
    <target name="jmsjar">
-       <echo message="Building (copying) javax.jms-api.jar to jms.jar"/>
+       <echo message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
 
 	<!--
        <fileset id="mq.jms.fileset" dir="${classes.dir}">
@@ -99,12 +99,12 @@
       		<fileset refid="mq.jms.fileset"/>			
 	</jar>
 	-->
-        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/javax.jms-api.jar" tofile="${classes.dir}/jms.jar"/>  
+        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/jakarta.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
    </target>
 
    <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->
    <target name="jmsjar-ri">
-       <echo message="Building (copying) javax.jms-api.jar to jms.jar"/>
+       <echo message="Building (copying) jakarta.jms-api.jar to jms.jar"/>
 
         <!--
        <fileset id="mq.jms.fileset" dir="${classes.dir}">
@@ -132,7 +132,7 @@
                 <fileset refid="mq.jms.fileset"/>
         </jar>
         -->
-        <copy file="${ws.top.dir}/main/packager-ri/target/artifacts/jars/javax.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
+        <copy file="${ws.top.dir}/main/packager-ri/target/artifacts/jars/jakarta.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
    </target>
 
   <!-- ======================== imq.jar =============================== -->
@@ -798,14 +798,14 @@
           description="Copies the depend jar files">
      <copy file="${packager.artifacts}/grizzly-framework.jar" tofile="${classes.dir}/grizzly-framework.jar"/>  
      <copy file="${packager.artifacts}/grizzly-portunif.jar" tofile="${classes.dir}/grizzly-portunif.jar"/>  
-     <copy file="${packager.artifacts}/javax.transaction-api.jar" tofile="${classes.dir}/javax.transaction-api.jar"/>  
+     <copy file="${packager.artifacts}/jakarta.transaction-api.jar" tofile="${classes.dir}/jakarta.transaction-api.jar"/>
      <copy file="${packager.artifacts}/jhall.jar" tofile="${classes.dir}/jhall.jar"/>  
      <copy file="${packager.artifacts}/glassfish-api.jar" tofile="${classes.dir}/glassfish-api.jar"/>  
      <copy file="${packager.artifacts}/hk2-api.jar" tofile="${classes.dir}/hk2-api.jar"/>  
      <copy file="${packager.artifacts}/grizzly-http.jar" tofile="${classes.dir}/grizzly-http.jar"/>  
      <copy file="${packager.artifacts}/grizzly-http-server.jar" tofile="${classes.dir}/grizzly-http-server.jar"/>  
      <copy file="${packager.artifacts}/grizzly-http-servlet.jar" tofile="${classes.dir}/grizzly-http-servlet.jar"/>  
-     <copy file="${packager.artifacts}/javax.servlet-api.jar" tofile="${classes.dir}/javax.servlet-api.jar"/>  
+     <copy file="${packager.artifacts}/jakarta.servlet-api.jar" tofile="${classes.dir}/jakarta.servlet-api.jar"/>
      <copy file="${packager.artifacts}/grizzly-websockets.jar" tofile="${classes.dir}/grizzly-websockets.jar"/>  
      <copy file="${packager.artifacts}/javax.json.jar" tofile="${classes.dir}/javax.json.jar"/>  
      <copy file="${packager.artifacts}/tyrus-standalone-client.jar" tofile="${classes.dir}/tyrus-standalone-client.jar"/>  
