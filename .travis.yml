@@ -1,0 +1,11 @@
+os: linux
+
+language: java
+
+jdk:
+ - openjdk8
+
+install: true
+
+script: mvn -f mq -ntp -V -B -P staging clean install
+
