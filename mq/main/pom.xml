@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -17,14 +17,15 @@
 
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-	<groupId>org.glassfish.mq</groupId>
-	<artifactId>project</artifactId>
-	<version>5.1.2-SNAPSHOT</version>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>project</artifactId>
+        <version>5.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>mq</artifactId>
@@ -40,39 +41,44 @@
     </scm>
 
     <properties>
-	<!-- Change these for each build -->
-	<build.number>1</build.number>
+        <!-- Change these for each build -->
+        <build.number>1</build.number>
         <build.letter>a</build.letter>
 
-	<!-- Product-specific -->
+        <!-- Product-specific -->
         <full.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</full.name>
         <brand.name>Open Message Queue / Eclipse GlassFish(tm) Server Message Queue</brand.name>
         <vendor.name>Eclipse Foundation</vendor.name>
         <major.version>5</major.version>
         <minor.version>1</minor.version>
-        <micro.version>2</micro.version>
-        <product.version>5.1.2</product.version>
+        <micro.version>3</micro.version>
+        <product.version>5.1.3</product.version>
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
-        <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates.  All rights reserved.</product.copyright>
+        <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.</product.copyright>
         <jakarta-jms.version>2.0.1</jakarta-jms.version>
-	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-	<!-- Versions of dependencies -->
-        <hk2.version>2.5.0-b63</hk2.version>
-        <hk2.plugin.version>2.5.0-b63</hk2.plugin.version>
+        <!-- Versions of dependencies -->
+        
+        <!-- Should be 2.5.1 or b63, but not staged yet -->
+        <hk2.version>2.5.0-b62</hk2.version>
+        <hk2.plugin.version>2.5.0-b53</hk2.plugin.version>
+        <hk2.config-generator.version>5.1.0</hk2.config-generator.version>
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
-        <glassfish.version>5.0.1</glassfish.version>
-        <grizzly.version>2.4.4</grizzly.version>
+        <glassfish.version>5.1.0</glassfish.version>
+        
+        <!-- Should be 2.4.4, but not staged yet -->
+        <grizzly.version>2.4.3</grizzly.version>
 
-	<!-- begin of websocket dependencies -->
-        <json.version>1.1.4</json.version>
+        <!-- begin of websocket dependencies -->
+        <json.version>1.1.5</json.version>
         <tyrus.version>1.13.1</tyrus.version>
-	<!-- end of websocket dependencies -->
-	
-        <servlet-api.version>4.0.0</servlet-api.version>
+        <!-- end of websocket dependencies -->
+
+        <servlet-api.version>4.0.2</servlet-api.version>
         <jsp-api.version>2.3.4</jsp-api.version>
-        <jakarta.resource-api.version>1.7</jakarta.resource-api.version>
+        <jakarta.resource-api.version>1.7.2</jakarta.resource-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
         <jaf.version>1.2.1</jaf.version>
@@ -87,29 +93,30 @@
     </properties>
 
     <modules>
-        <!-- Don't add any other module here. Instead add them in default profile -->
-        <!-- To avoid JVM crash while using JDK 6, we are not
-             building this module in anonymous profile anymore.
-             See bug #6766662 for more details.
-              <module>build</module>
-        -->
+        <!-- Don't add any other module here. Instead add them in default 
+            profile -->
+        <!-- To avoid JVM crash while using JDK 6, we are not building this 
+            module in anonymous profile anymore. See bug #6766662 for more details. <module>build</module> -->
     </modules>
 
     <profiles>
-        
+
         <profile>
             <!-- this profile is used during the development -->
             <id>default</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+
             <modules>
-                <!-- Every time you change module list, please change
-                     the same under release profiles as well (below) -->
- 		<!-- Also, for now every time you change the module list,
-		     please update mq-nucleus/install-mq2nucleus.sh -->
-		<!-- Comment out jakarta-jms and use version 2.0.1 in maven until we work on next release -->
-                <!--module>jakarta-jms</module-->
+                <!-- Every time you change module list, please change the 
+                    same under release profiles as well (below) Also, for now every time you 
+                    change the module list, please update mq-nucleus/install-mq2nucleus.sh -->
+
+                <!-- Comment out jakarta-jms and use version 2.0.1 in maven 
+                    until we work on next release -->
+                <!--module>jakarta-jms</module -->
+
                 <module>logger</module>
                 <module>comm-util</module>
                 <module>comm-io</module>
@@ -142,11 +149,9 @@
         <profile>
             <id>release-phase1</id>
             <modules>
-                 <!--
-                    The resource provided by the copyright module is needed
-                    before running "mvn glassfish-copyright:copyright".
-                    To ensure that, we build it in this separate phase.
-                -->
+                <!-- The resource provided by the copyright module is needed 
+                    before running "mvn glassfish-copyright:copyright". To ensure that, we build 
+                    it in this separate phase. -->
                 <module>copyright</module>
             </modules>
         </profile>
@@ -159,7 +164,7 @@
         <sourceDirectory>src/main/java</sourceDirectory>
         <finalName>${project.artifactId}</finalName>
 
-        <!--    Begin: Parent Plugin Management Section -->
+        <!-- Begin: Parent Plugin Management Section -->
         <pluginManagement>
             <plugins>
                 <plugin>
@@ -186,8 +191,8 @@
                     <version> 1.42 </version>
                 </plugin>
 
-		<!-- GF uses 1.1, but we need 1.6 for symlink -->
-                 <plugin>
+                <!-- GF uses 1.1, but we need 1.6 for symlink -->
+                <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-antrun-plugin</artifactId>
                     <version> 1.6 </version>
@@ -204,8 +209,8 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version> 2.4 </version>
                     <configuration>
-                       <source>1.8</source>
-                       <target>1.8</target>
+                        <source>1.8</source>
+                        <target>1.8</target>
                     </configuration>
                 </plugin>
 
@@ -215,7 +220,7 @@
                     <version> 2.4 </version>
                 </plugin>
 
-		 <plugin>
+                <plugin>
                     <groupId>org.glassfish.build</groupId>
                     <artifactId>glassfishbuild-maven-plugin</artifactId>
                     <version>${glassfishbuild.version}</version>
@@ -225,40 +230,40 @@
                 <plugin>
                     <groupId>org.glassfish.hk2</groupId>
                     <artifactId>config-generator</artifactId>
-                    <version>${hk2.plugin.version}</version>
+                    <version>${hk2.config-generator.version}</version>
                 </plugin>
 
-             <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>build-helper-maven-plugin</artifactId>
-              <version>1.7</version>
-              <executions>
-                <execution>
-                  <id>add-source</id>
-                  <phase>generate-sources</phase>
-                  <goals>
-                    <goal>add-source</goal>
-                  </goals>
-                  <configuration>
-                    <sources>
-                      <source>target/generated-sources/hk2-config-generator/src/main/java</source>
-                    </sources>
-                  </configuration>
-                </execution>
-                <execution>
-                  <id>add-test-source</id>
-                  <phase>generate-test-sources</phase>
-                  <goals>
-                    <goal>add-test-source</goal>
-                  </goals>
-                  <configuration>
-                    <sources>
-                      <source>target/generated-sources/hk2-config-generator/src/test/java</source>
-                    </sources>
-                  </configuration>
-                </execution>
-              </executions>
-            </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.7</version>
+                    <executions>
+                        <execution>
+                            <id>add-source</id>
+                            <phase>generate-sources</phase>
+                            <goals>
+                                <goal>add-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>target/generated-sources/hk2-config-generator/src/main/java</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                        <execution>
+                            <id>add-test-source</id>
+                            <phase>generate-test-sources</phase>
+                            <goals>
+                                <goal>add-test-source</goal>
+                            </goals>
+                            <configuration>
+                                <sources>
+                                    <source>target/generated-sources/hk2-config-generator/src/test/java</source>
+                                </sources>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
 
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -288,17 +293,15 @@
                     </configuration>
                 </plugin>
 
-                <!--
-                     Get the latest version of release plugin.
-                     There is a bug in 2.0-beta-7 where the releaseVersion
-                     and developmentVersion properties are noop.
-                -->
+                <!-- Get the latest version of release plugin. There is a 
+                    bug in 2.0-beta-7 where the releaseVersion and developmentVersion properties 
+                    are noop. -->
                 <plugin>
-                   <groupId>org.apache.maven.plugins</groupId>
+                    <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-release-plugin</artifactId>
                     <version>2.4</version>
                 </plugin>
-                
+
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>antlr-maven-plugin</artifactId>
@@ -323,18 +326,18 @@
                     <version>2.4.3</version>
                 </plugin>
 
-               <plugin>
+                <plugin>
                     <groupId>org.jvnet.jaxb2.maven2</groupId>
                     <artifactId>maven-jaxb2-plugin</artifactId>
                     <version>0.8.1</version>
                 </plugin>
 
-             </plugins>
+            </plugins>
         </pluginManagement>
-        <!--    End: Parent Plugin Management Section    -->
+        <!-- End: Parent Plugin Management Section -->
 
         <plugins>
-	    <plugin>
+            <plugin>
                 <groupId>org.glassfish.build</groupId>
                 <artifactId>glassfishbuild-maven-plugin</artifactId>
                 <extensions>true</extensions>
@@ -349,7 +352,7 @@
                         <configuration>
                             <messages>
                                 <message>Building in ${project.basedir} </message>
-                           </messages>
+                            </messages>
                         </configuration>
                     </execution>
                 </executions>
@@ -368,41 +371,44 @@
                 </configuration>
             </plugin>
 
-            <!-- Enforces maven 3.0.3 and jdk 1.6.0-22 and above to be used to build v3 -->
+            <!-- Enforces maven 3.0.3 and jdk 1.6.0-22 and above to be used 
+                to build v3 -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-enforcer-plugin</artifactId>
                 <version>1.0-beta-1</version>
                 <executions>
                     <execution>
-                    <id>enforce-versions</id>
-                    <goals>
-                        <goal>enforce</goal>
-                    </goals>
-                    <configuration>
-                        <rules>
-                            <requireJavaVersion>
-                                <version>[1.6.0-22,)</version>
-                                <message>##### You need JDK 1.6.0 or later!!! #####</message>
-                            </requireJavaVersion>
-                            <requireMavenVersion>
-                                <version>[3.0.3,)</version>
-                                <message>##### You need to Maven 3.0.3 !!! #####</message>
-                            </requireMavenVersion>
-                        </rules>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireJavaVersion>
+                                    <version>[1.6.0-22,)</version>
+                                    <message>##### You need JDK 1.6.0 or
+                                        later!!! #####</message>
+                                </requireJavaVersion>
+                                <requireMavenVersion>
+                                    <version>[3.0.3,)</version>
+                                    <message>##### You need to Maven
+                                        3.0.3 !!! #####</message>
+                                </requireMavenVersion>
+                            </rules>
                         </configuration>
                     </execution>
-                    </executions>
+                </executions>
             </plugin>
 
-	     <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
                 <executions>
                     <execution>
                         <configuration>
-                          <silent>true</silent>
-                          <outputFile>${project.build.directory}/classpath.txt</outputFile>
+                            <silent>true</silent>
+                            <outputFile>${project.build.directory}/classpath.txt</outputFile>
                         </configuration>
                         <goals>
                             <goal>build-classpath</goal>
@@ -450,54 +456,51 @@
             </plugin>
 
 
-	     <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>build-helper-maven-plugin</artifactId>
-              <version>1.7</version>
-              <executions>
-                <execution>
-                  <id>add-source</id>
-                  <phase>generate-sources</phase>
-                  <goals>
-                    <goal>add-source</goal>
-                  </goals>
-                  <configuration>
-                    <sources>
-                      <source>target/generated-sources/hk2-config-generator/src/main/java</source>
-                    </sources>
-                  </configuration>
-                </execution>
-                <execution>
-                  <id>add-test-source</id>
-                  <phase>generate-test-sources</phase>
-                  <goals>
-                    <goal>add-test-source</goal>
-                  </goals>
-                  <configuration>
-                    <sources>
-                      <source>target/generated-sources/hk2-config-generator/src/test/java</source>
-                    </sources>
-                  </configuration>
-                </execution>
-              </executions>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>1.7</version>
+                <executions>
+                    <execution>
+                        <id>add-source</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>add-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/hk2-config-generator/src/main/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>add-test-source</id>
+                        <phase>generate-test-sources</phase>
+                        <goals>
+                            <goal>add-test-source</goal>
+                        </goals>
+                        <configuration>
+                            <sources>
+                                <source>target/generated-sources/hk2-config-generator/src/test/java</source>
+                            </sources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
 
-            <!-- Configure maven-bundle-plugin to generate OSGi manifest.
-                 Please note: we use the manifest goal only and not the bundle goal.
-                  The bundle goal can lead to very surprising results if the
-                  package names are not correctly specified. So,
-                  we use the jar plugin to generate the jar.-->
+            <!-- Configure maven-bundle-plugin to generate OSGi manifest. 
+                Please note: we use the manifest goal only and not the bundle goal. The bundle 
+                goal can lead to very surprising results if the package names are not correctly 
+                specified. So, we use the jar plugin to generate the jar. -->
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
                 <configuration>
-                    <!-- By default, we don't export anything.
-                    -->
+                    <!-- By default, we don't export anything. -->
                     <Export-Package></Export-Package>
                     <instructions>
-                        <!-- Read all the configuration from osgi.bundle file, if it exists.
-                             See Felix-699 to find out why we use ${basedir}.
-                        -->
+                        <!-- Read all the configuration from osgi.bundle 
+                            file, if it exists. See Felix-699 to find out why we use ${basedir}. -->
                         <_include>-${basedir}/osgi.bundle</_include>
                     </instructions>
                 </configuration>
@@ -515,21 +518,22 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
-                <!-- if project does not contain source, plugin will fail, so add pom.xml.  -->
-                <!-- See:  http://jira.codehaus.org/browse/MSOURCES-44.  -->
+                <!-- if project does not contain source, plugin will fail, 
+                    so add pom.xml. -->
+                <!-- See: http://jira.codehaus.org/browse/MSOURCES-44. -->
                 <configuration>
                     <includePom>true</includePom>
                 </configuration>
                 <executions>
                     <execution>
-                       <id>attach-sources</id>
-                       <phase>verify</phase>
-                       <goals>
-                           <goal>jar-no-fork</goal> 
-                       </goals>
+                        <id>attach-sources</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
                     </execution>
                 </executions>
-          </plugin>
+            </plugin>
 
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -541,11 +545,10 @@
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>osgiversion-maven-plugin</artifactId>
                 <executions>
-                    <!-- Since we don't want qualifier like b05 or SNAPSHOT to appear
-                         in package version attribute, we use the following goal to
-                         populate a project property with an OSGi version which is
-                         equivalent to maven version without qualifier and then use that
-                         property in osgi.bundle while exporting. -->
+                    <!-- Since we don't want qualifier like b05 or SNAPSHOT 
+                        to appear in package version attribute, we use the following goal to populate 
+                        a project property with an OSGi version which is equivalent to maven version 
+                        without qualifier and then use that property in osgi.bundle while exporting. -->
                     <execution>
                         <id>compute-osgi-version</id>
                         <goals>
@@ -559,18 +562,17 @@
                 </executions>
             </plugin>
 
-	    <!-- This is needed so that the bundle generator can
-                 operate on the manifest file
-            -->
+            <!-- This is needed so that the bundle generator can operate 
+                on the manifest file -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
                 <configuration>
-                <archive>
-                  <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
-                </archive>
-              </configuration>
+                    <archive>
+                        <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+                    </archive>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -589,23 +591,6 @@
                         <groupId>org.glassfish.findbugs</groupId>
                         <artifactId>findbugs</artifactId>
                         <version>1.6</version>
-                    </dependency>
-                </dependencies>
-            </plugin>
-            <plugin>
-                <groupId>org.glassfish.copyright</groupId>
-                <artifactId>glassfish-copyright-maven-plugin</artifactId>
-                <configuration>
-                    <excludeFile>
-                        copyright-exclude
-                    </excludeFile>
-                    <scm>git</scm>
-                </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.glassfish.mq</groupId>
-                        <artifactId>copyright</artifactId>
-                        <version>${project.version}</version>
                     </dependency>
                 </dependencies>
             </plugin>
@@ -629,12 +614,13 @@
         </plugins>
     </reporting>
 
-    <!--  Begin: Dependency management -->
-    <!--  Specify dependencies with version in this section, then in each pom.xml module, just
-          specify groupId and artifactId w/o versions in poms for modules. -->
+    <!-- Begin: Dependency management -->
+    <!-- Specify dependencies with version in this section, then in each 
+        pom.xml module, just specify groupId and artifactId w/o versions in poms 
+        for modules. -->
     <dependencyManagement>
         <dependencies>
-           <dependency>
+            <dependency>
                 <groupId>org.glassfish.hk2</groupId>
                 <artifactId>hk2-bom</artifactId>
                 <version>${hk2.version}</version>
@@ -657,55 +643,48 @@
                 <version>${grizzly.version}</version>
             </dependency>
 
-<!-- begin of websocket dependencies -->
-             <dependency>
-                 <groupId>org.glassfish.grizzly</groupId>
-                 <artifactId>grizzly-http</artifactId>
-                 <version>${grizzly.version}</version>
-             </dependency>
-             <dependency>
-                 <groupId>org.glassfish.grizzly</groupId>
-                 <artifactId>grizzly-http-server</artifactId>
-                 <version>${grizzly.version}</version>
-             </dependency>
-             <dependency>
-                 <groupId>org.glassfish.grizzly</groupId>
-                 <artifactId>grizzly-websockets</artifactId>
-                 <version>${grizzly.version}</version>
-             </dependency>
-             <dependency>
-                 <groupId>org.glassfish.grizzly</groupId>
-                 <artifactId>grizzly-http-servlet</artifactId>
-                 <version>${grizzly.version}</version>
-             </dependency>
+            <!-- begin of websocket dependencies -->
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-server</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-websockets</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.grizzly</groupId>
+                <artifactId>grizzly-http-servlet</artifactId>
+                <version>${grizzly.version}</version>
+            </dependency>
 
-             <!-- begin of tyrus client runtime dependencies -->
-             <dependency> 
+            <!-- begin of tyrus client runtime dependencies -->
+            <dependency>
                 <groupId>org.glassfish.tyrus.bundles</groupId>
-                <artifactId>tyrus-standalone-client</artifactId> 
+                <artifactId>tyrus-standalone-client</artifactId>
                 <version>${tyrus.version}</version>
-             </dependency> 
-             <!-- end of tyrus client runtime dependencies -->
+            </dependency>
+            <!-- end of tyrus client runtime dependencies -->
 
-             <dependency>
-                 <groupId>org.glassfish</groupId>
-                 <artifactId>jakarta.json</artifactId>
-                 <version>${json.version}</version>
-             </dependency>
-<!-- end of websocket dependencies -->
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>jakarta.json</artifactId>
+                <version>${json.version}</version>
+            </dependency>
+            <!-- end of websocket dependencies -->
 
             <dependency>
                 <groupId>jakarta.jms</groupId>
                 <artifactId>jakarta.jms-api</artifactId>
                 <version>${jakarta-jms.version}</version>
             </dependency>
-<!--
-           <dependency>
-                <groupId>org.glassfish.main.core</groupId>
-                <artifactId>logging</artifactId>
-                <version>${glassfish.version}</version>
-            </dependency>
--->
             <dependency>
                 <groupId>jakarta.resource</groupId>
                 <artifactId>jakarta.resource-api</artifactId>
@@ -722,8 +701,8 @@
                 <version>${jsp-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>jakarta.xml.soap</groupId>
-                <artifactId>jakarta.xml.soap-api</artifactId>
+                <groupId>javax.xml.soap</groupId>
+                <artifactId>javax.xml.soap-api</artifactId>
                 <version>${jakarta.xml.soap-api.version}</version>
             </dependency>
             <dependency>
@@ -736,13 +715,8 @@
                 <artifactId>glassfish-api</artifactId>
                 <version>${glassfish.version}</version>
             </dependency>
-<!--
-            <dependency>
-                 <groupId>org.glassfish.main.external</groupId>
-                 <artifactId>ant</artifactId>
-                 <version>${glassfish.version}</version>
-             </dependency>
--->
+            <!-- <dependency> <groupId>org.glassfish.main.external</groupId> 
+                <artifactId>ant</artifactId> <version>${glassfish.version}</version> </dependency> -->
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-logger</artifactId>
@@ -763,7 +737,7 @@
                 <artifactId>mqjmx-api</artifactId>
                 <version>${project.version}</version>
             </dependency>
-	    <dependency>
+            <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqhttp-tunnel-api-share</artifactId>
                 <version>${project.version}</version>
@@ -806,7 +780,7 @@
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqbridge-stomp</artifactId>
-                 <version>${project.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
@@ -828,13 +802,9 @@
                 <artifactId>javahelp</artifactId>
                 <version>${javahelp.version}</version>
             </dependency>
-<!--
-            <dependency>
-                <groupId>org.glassfish.mq.dependlibs</groupId>
-                <artifactId>fscontext</artifactId>
-                <version>${fscontext.version}</version>
-            </dependency>
--->
+            <!-- <dependency> <groupId>org.glassfish.mq.dependlibs</groupId> 
+                <artifactId>fscontext</artifactId> <version>${fscontext.version}</version> 
+                </dependency> -->
             <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mq-share</artifactId>
@@ -850,7 +820,7 @@
                 <artifactId>mq-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
-	    <dependency>
+            <dependency>
                 <groupId>org.glassfish.mq</groupId>
                 <artifactId>mqbroker-core</artifactId>
                 <version>${project.version}</version>
@@ -906,7 +876,7 @@
                 <version>${project.version}</version>
             </dependency>
 
-	    <!-- compile test only -->
+            <!-- compile test only -->
             <dependency>
                 <groupId>jakarta.activation</groupId>
                 <artifactId>activation</artifactId>
@@ -923,19 +893,19 @@
                 <version>${saaj-impl.version}</version>
             </dependency>
 
-	    <dependency>
+            <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
-	    <dependency>
+            <dependency>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>2.4</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
-    <!--  End:   Dependency management -->
+    <!-- End: Dependency management -->
 
     <dependencies>
         <dependency>
@@ -943,15 +913,7 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-      </dependency>
+        </dependency>
     </dependencies>
-
-   <repositories>
-        <repository>
-            <id>maven.java.net.promoted</id>
-            <name>Maven Java Net Promoted</name>
-            <url>https://maven.java.net/content/repositories/promoted/</url>
-        </repository>
-    </repositories>
 
 </project>
