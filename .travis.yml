@@ -1,0 +1,11 @@
+language: java
+
+sudo: false
+
+jdk:
+ - openjdk8
+
+install: true
+
+script: cd mq && mvn -V -B -P staging clean install
+
