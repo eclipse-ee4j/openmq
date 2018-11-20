@@ -491,7 +491,7 @@
 			
                     <copy todir="${ws.binary.share.dir}/opt/depend/">
                         <fileset dir="${project.build.directory}/artifacts/jars/">
-			    <include name="javax.jms-api.jar"/>
+			    <include name="jakarta.jms-api.jar"/>
 			    <include name="grizzly-framework.jar"/>
 			    <include name="grizzly-portunif.jar"/>
 			    <include name="glassfish-api.jar"/>
@@ -501,7 +501,7 @@
 			    <include name="grizzly-http.jar"/>
 			    <include name="grizzly-http-server.jar"/>
 			    <include name="grizzly-http-servlet.jar"/>
-			    <include name="javax.servlet-api.jar"/>
+			    <include name="jakarta.servlet-api.jar"/>
 			    <include name="grizzly-websockets.jar"/>
 			    <include name="javax.json.jar"/>
                             <!-- end websocket broker dependencies -->
@@ -511,7 +511,7 @@
                             <!-- end websocket client dependencies -->
 
 			    <include name="jhall.jar"/>
-			    <include name="javax.transaction-api.jar"/>
+			    <include name="jakarta.transaction-api.jar"/>
 			    <include name="javax.xml.soap-api.jar"/>
 			    <include name="saaj-impl.jar"/>
 			    <include name="activation.jar"/>
@@ -560,6 +560,15 @@
          <dependency>
              <groupId>jakarta.jms</groupId>
              <artifactId>jakarta.jms-api</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>jakarta.servlet</groupId>
+             <artifactId>jakarta.servlet-api</artifactId>
+         </dependency>
+         <dependency>
+             <groupId>jakarta.transaction</groupId>
+             <artifactId>jakarta.transaction-api</artifactId>
+             <version>1.3.1</version>
          </dependency>
          <dependency>
              <groupId>org.glassfish.mq</groupId>
@@ -712,10 +721,6 @@
 	     <optional>true</optional>
          </dependency>
 -->
-         <dependency>
-             <groupId>javax.servlet.jsp</groupId>
-             <artifactId>javax.servlet.jsp-api</artifactId>
-         </dependency>
 <!--
          <dependency>
              <groupId>org.glassfish.mq.dependlibs</groupId>
@@ -728,24 +733,12 @@
 -->
 
          <dependency>
-             <groupId>javax.activation</groupId>
-             <artifactId>activation</artifactId>
-         </dependency>
-         <dependency>
-             <groupId>javax.mail</groupId>
-             <artifactId>javax.mail-api</artifactId>
-         </dependency>
-         <dependency>
              <groupId>com.sun.xml.messaging.saaj</groupId>
              <artifactId>saaj-impl</artifactId>
          </dependency>
 	 <dependency>
              <groupId>junit</groupId>
              <artifactId>junit</artifactId>
-         </dependency>
-        <dependency>
-             <groupId>javax.resource</groupId>
-             <artifactId>javax.resource-api</artifactId>
          </dependency>
          <dependency>
              <groupId>org.glassfish.main.common</groupId>
@@ -773,6 +766,7 @@
          <dependency>
              <groupId>org.glassfish</groupId>
             <artifactId>javax.json</artifactId>
+             <version>1.1</version>
          </dependency>
 
          <!-- begin of tyrus client runtime dependencies -->
