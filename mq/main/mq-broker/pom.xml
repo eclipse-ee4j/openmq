@@ -22,10 +22,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-       <groupId>org.glassfish.mq</groupId>
-       <artifactId>mq</artifactId>
-       <version>5.1.3-SNAPSHOT</version>
-       <relativePath>../pom.xml</relativePath>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>mq</artifactId>
+        <version>5.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>mq-broker</artifactId>
@@ -33,16 +32,12 @@
     <name>MQ Broker Modules</name>
 
     <modules>
-	<module>broker-comm</module>
-	<module>broker-audit</module>
-	<module>broker-core</module>
-	<module>cluster</module>
-	<module>persist-file</module>
-	<module>persist-bdb</module>
-	<module>persist-jdbc</module>
-	<module>persist-inmemory</module>
-	<module>persist-coherence</module>
-	<module>partition</module>
+        <module>broker-comm</module>
+        <module>broker-core</module>
+        <module>cluster</module>
+        <module>persist-file</module>
+        <module>persist-jdbc</module>
+        <module>partition</module>
     </modules>
 
 </project>
