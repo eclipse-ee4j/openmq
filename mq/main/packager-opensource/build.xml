@@ -19,32 +19,28 @@
 
 <project name="top" default="all" basedir=".">
 
-<!--  ================ include files  ==================== -->
-<property name="ws.top.dir" value="${basedir}/../.."/>
-<property name="build.compiler" value="extJavac"/>
-<echo message="### ws.top.dir is ${ws.top.dir}"/>
-<import file="${ws.top.dir}/src/buildant/rules.xml"/>
+	<!--  ================ include files  ==================== -->
+	<property name="ws.top.dir" value="${basedir}/../.."/>
+	<property name="build.compiler" value="extJavac"/>
+	<echo message="### ws.top.dir is ${ws.top.dir}"/>
+	<import file="${ws.top.dir}/src/buildant/rules.xml"/>
 
+	<target name="setOSConditions">
+		<condition property="isUnix">
+			<os family="unix"/>
+		</condition>
+		<condition property="isWindows">
+			<os family="windows" />
+		</condition>
+	</target>
 
-
-<target name="setOSConditions">
-  <condition property="isUnix">
-    <os family="unix"/>
-  </condition>
-  <condition property="isWindows">
-    <os family="windows" />
-  </condition>
-</target>
-
-<target name="make_symlinks" depends="setOSConditions" if="isUnix">
-    <echo message="### ws.top.dir is ${ws.top.dir}"/>
-    <echo message="### unix symlink to solaris"/>
-    <symlink action="delete" link="${ws.top.dir}/binary/unix"/>
-    <symlink overwrite="true" link="${ws.top.dir}/binary/unix"
-	     resource="solaris">
-    </symlink>
-
-</target>
-
+	<target name="make_symlinks" depends="setOSConditions" if="isUnix">
+		<echo message="### ws.top.dir is ${ws.top.dir}"/>
+		<echo message="### unix symlink to solaris"/>
+		<symlink action="delete" link="${ws.top.dir}/binary/unix"/>
+		<symlink overwrite="true" link="${ws.top.dir}/binary/unix"
+	        resource="solaris">
+		</symlink>
+	</target>
 
 </project>
