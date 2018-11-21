@@ -38,7 +38,7 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  * is created.
  */
 
-public class Transaction extends Object {
+public class Transaction {
 
     protected SessionImpl session = null;
     protected ProtocolHandler protocolHandler = null;
