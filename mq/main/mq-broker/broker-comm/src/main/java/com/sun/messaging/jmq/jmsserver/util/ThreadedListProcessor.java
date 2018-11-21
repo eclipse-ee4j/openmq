@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
-import java.lang.Thread;
 import java.util.List;
 import java.util.ArrayList;
 import com.sun.messaging.jmq.util.MQThread;

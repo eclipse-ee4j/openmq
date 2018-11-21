@@ -27,7 +27,6 @@ import java.io.Serializable;
 import java.io.ObjectOutputStream;
 import java.io.ObjectInputStream;
 import java.io.IOException;
-import java.lang.ClassNotFoundException;
 
 /**
  * This class contains attributes needed to open the ObjStore

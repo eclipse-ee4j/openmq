@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.pool;
 
 import java.util.TimerTask;
-import java.lang.Runnable;
 import java.util.Hashtable;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
