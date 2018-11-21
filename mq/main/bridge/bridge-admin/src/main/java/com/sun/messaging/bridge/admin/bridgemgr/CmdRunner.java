@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
-import java.io.*;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Properties;

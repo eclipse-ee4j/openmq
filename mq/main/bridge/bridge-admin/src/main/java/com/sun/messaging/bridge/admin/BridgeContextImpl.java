@@ -23,7 +23,6 @@ import java.util.Locale;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Enumeration;
-import javax.net.ssl.SSLContext;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
 import com.sun.messaging.bridge.api.JMSBridgeStore;

@@ -41,12 +41,9 @@ import com.sun.messaging.jmq.jmsserver.service.PortMapper;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerShutdownRuntimeException;
-import com.sun.messaging.jmq.jmsserver.util.LoggerManager;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
@@ -68,7 +65,6 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.portunif.PUService;
 import com.sun.messaging.jmq.jmsserver.tlsutil.KeystoreUtil;
 
-import java.io.File;
 /**
  * Singleton class which contains any Globals for the
  * system.<P>

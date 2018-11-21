@@ -19,7 +19,6 @@
  */ 
 
 package com.sun.jms.spi;
-import javax.jms.*;
 import java.util.Map;
 
 public interface JMSRIConstants {

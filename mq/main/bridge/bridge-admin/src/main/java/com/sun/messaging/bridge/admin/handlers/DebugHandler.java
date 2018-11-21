@@ -19,7 +19,6 @@
 
 package com.sun.messaging.bridge.admin.handlers;
 
-import java.util.Hashtable;
 import java.util.Properties;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;

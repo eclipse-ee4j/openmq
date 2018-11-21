@@ -29,7 +29,6 @@ import javax.jms.DeliveryMode;
 import javax.jms.Destination;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
 import com.sun.messaging.bridge.api.BridgeException;
-import com.sun.messaging.bridge.api.BridgeServiceManager;
 import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;
 import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;

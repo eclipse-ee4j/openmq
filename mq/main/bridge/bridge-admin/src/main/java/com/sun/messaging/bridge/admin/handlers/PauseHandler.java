@@ -21,7 +21,6 @@ import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.bridge.api.BridgeException;
-import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
 import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
