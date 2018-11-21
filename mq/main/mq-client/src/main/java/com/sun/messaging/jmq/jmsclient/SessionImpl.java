@@ -3823,13 +3823,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      * @see javax.jms.ServerSession
      */
     public void run() {
-
-    	try {
-    		serverSessionRunner.run();    
-    	} finally {
-    		//clean up?
-    		;
-    	}
+        serverSessionRunner.run();
     }
 
     protected void loadMessageToServerSession(MessageImpl message,

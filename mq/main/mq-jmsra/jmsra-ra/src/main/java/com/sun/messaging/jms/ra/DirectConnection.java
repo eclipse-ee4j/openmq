@@ -1342,8 +1342,6 @@ public class DirectConnection
             jmse = new JMSException(exerrmsg);
             jmse.initCause(jmsse);
             _loggerJC.warning(exerrmsg);
-        } finally {
-            //this.removeTemporaryDestination(t_destination);
         }
         if (jmse != null){
             throw jmse;

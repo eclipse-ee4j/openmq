@@ -1826,7 +1826,6 @@ public final class DestinationList implements ConnToPartitionStrategyContext
         } catch (IOException ex) {
             logger.logStack(Logger.ERROR, BrokerResources.X_LOAD_DESTINATIONS_FAILED, ex);
             throw new BrokerException(BrokerResources.X_LOAD_DESTINATIONS_FAILED, ex);
-        } finally {
         }
 
     }

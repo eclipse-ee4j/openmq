@@ -332,7 +332,6 @@ abstract class SelectThread
                 processPendingConnection(con);
             } catch (IOException ex) {
                 logger.logStack(Logger.DEBUG,"Exception on pending con " + con + " : can not process", ex);
-            } finally {
             }
         }
         HashMap cancelreasons = null;

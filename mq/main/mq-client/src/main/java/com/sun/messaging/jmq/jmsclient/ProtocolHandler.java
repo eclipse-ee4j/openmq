@@ -899,8 +899,6 @@ public class ProtocolHandler {
             //get IP and local port from the router if it is Applet.
             ExceptionHandler.handleException(
                 e, ClientResources.X_CAUGHT_EXCEPTION, true);
-        } finally {
-            //init_end();
         }
     }
 
