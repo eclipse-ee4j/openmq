@@ -68,7 +68,7 @@
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
         <glassfish.version>5.1.0</glassfish.version>
         
-        <!-- Should be 2.4.4, but not staged yet -->
+        <!-- Should be 2.4.4, but at 21-11-2018 not fully staged yet -->
         <grizzly.version>2.4.3</grizzly.version>
 
         <!-- begin of websocket dependencies -->
@@ -100,7 +100,6 @@
     </modules>
 
     <profiles>
-
         <profile>
             <!-- this profile is used during the development -->
             <id>default</id>
@@ -110,12 +109,7 @@
 
             <modules>
                 <!-- Every time you change module list, please change the 
-                    same under release profiles as well (below) Also, for now every time you 
-                    change the module list, please update mq-nucleus/install-mq2nucleus.sh -->
-
-                <!-- Comment out jakarta-jms and use version 2.0.1 in maven 
-                    until we work on next release -->
-                <!--module>jakarta-jms</module -->
+                    same under release profiles as well (below). -->
 
                 <module>logger</module>
                 <module>comm-util</module>
@@ -127,37 +121,16 @@
                 <module>portunif</module>
                 <module>jaxm-api</module>
                 <module>mq-jmsra</module>
-                <module>bridge/bridge-api</module>
-                <module>bridge/bridge-admin</module>
-                <module>bridge/bridge-jms</module>
-                <module>bridge/bridge-stomp</module>
+                <module>bridge</module>
                 <module>mq-share</module>
                 <module>mq-direct</module>
-                <module>mq-broker/broker-comm</module>
-                <module>mq-broker/broker-core</module>
-                <module>mq-broker/persist-file</module>
-                <module>mq-broker/persist-jdbc</module>
-                <module>mq-broker/cluster</module>
-                <module>mq-broker/partition/persist-api</module>
-                <module>mq-broker/partition/persist-jdbc</module>
+                <module>mq-broker</module>
                 <module>mq-client</module>
                 <module>mq-admin</module>
                 <module>packager-opensource</module>
                 <!-- FIXME make the Ant goal work at least in Jenkins >module>packager-opensource</module -->
             </modules>
         </profile>
-
-        <profile>
-            <id>release-phase1</id>
-            <modules>
-                <!-- The resource provided by the copyright module is needed 
-                    before running "mvn glassfish-copyright:copyright". To ensure that, we build 
-                    it in this separate phase. -->
-                <module>copyright</module>
-            </modules>
-        </profile>
-
-
     </profiles>
 
     <build>

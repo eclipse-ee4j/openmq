@@ -22,10 +22,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-       <groupId>org.glassfish.mq</groupId>
-       <artifactId>mq-broker</artifactId>
-       <version>5.1.3-SNAPSHOT</version>
-       <relativePath>../pom.xml</relativePath>
+        <groupId>org.glassfish.mq</groupId>
+        <artifactId>mq-broker</artifactId>
+        <version>5.1.3-SNAPSHOT</version>
     </parent>
 
     <artifactId>mq-partition</artifactId>
@@ -33,8 +32,8 @@
     <name>MQ Partition Modules</name>
 
     <modules>
-	<module>persist-api</module>
-	<module>persist-jdbc</module>
+        <module>persist-api</module>
+        <module>persist-jdbc</module>
     </modules>
 
 </project>
