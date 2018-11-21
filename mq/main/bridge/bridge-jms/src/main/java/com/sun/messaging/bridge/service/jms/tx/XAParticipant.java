@@ -22,8 +22,6 @@ import java.util.logging.Logger;
 import java.util.logging.Level;
 import javax.transaction.*;
 import javax.transaction.xa.*;
-import java.lang.IllegalStateException;
-import java.lang.SecurityException;
 import com.sun.messaging.bridge.api.FaultInjection;
 import com.sun.messaging.bridge.service.jms.JMSBridge;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;

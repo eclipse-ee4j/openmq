@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.util;
 
 
-import java.lang.StackTraceElement;
 import java.lang.reflect.*;
 import java.util.Hashtable;
 import java.util.Vector;

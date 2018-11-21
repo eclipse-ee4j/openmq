@@ -84,7 +84,6 @@ import com.sun.messaging.jmq.util.lists.*;
 
 import java.util.*;
 import java.io.*;
-import java.lang.*;
 
 /**
  * This class represents a destination (topic or queue name)
