@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
-import java.util.Properties;
 import com.sun.messaging.jmq.util.options.OptionDesc;
 import com.sun.messaging.jmq.util.options.OptionParser;
 import com.sun.messaging.jmq.util.options.OptionException;

@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.admin.bridgemgr;
 import java.io.*;
 import java.util.Properties;
 import java.util.Enumeration;
-import javax.jms.*;
 
 import com.sun.messaging.jmq.util.options.OptionException;
 import com.sun.messaging.jmq.admin.apps.broker.CommonCmdRunnerUtil;

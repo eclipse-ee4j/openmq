@@ -17,7 +17,6 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Hashtable;
 import java.util.Locale;

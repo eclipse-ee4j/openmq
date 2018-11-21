@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.admin.bridgemgr.resources;
 import java.util.ResourceBundle;
 import java.util.Locale;
 import com.sun.messaging.jmq.util.MQResourceBundle;
-import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 
 /**
  * This class wraps a PropertyResourceBundle, and provides constants

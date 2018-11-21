@@ -17,7 +17,6 @@
 package com.sun.messaging.bridge.admin.bridgemgr;
 
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
-import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
