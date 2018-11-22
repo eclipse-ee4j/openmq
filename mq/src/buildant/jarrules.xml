@@ -38,7 +38,7 @@
 
   <!-- ======================== Jar Rules =============================== -->
   <target name="buildjars" 
-          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, imqxmjar, dependjars"
+          depends="jmsjar, imqjar, imqadminjar, imqbrokerjar, imqutiljar, imqjmxjar, imqservletjar, imqjmsbridgejar, imqbridgemgrjar, imqstompjar, imqxmjar, dependjars, soapjar, jafjar"
           description="Builds the MQ Jar Files">
   </target>
  
@@ -102,6 +102,16 @@
 	</jar>
 	-->
         <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/jakarta.jms-api.jar" tofile="${classes.dir}/jms.jar"/>
+   </target>
+
+   <target name="soapjar">
+        <echo message="Copy soap-api.jar"/>
+        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/jakarta.xml.soap-api.jar" tofile="${classes.dir}/jakarta.xml.soap-api.jar"/>
+   </target>
+
+   <target name="jafjar">
+        <echo message="Copy activation-api.jar"/>
+        <copy file="${ws.top.dir}/main/packager-opensource/target/artifacts/jars/jakarta.activation-api.jar" tofile="${classes.dir}/jakarta.activation-api.jar"/>
    </target>
 
    <!-- For jms.jar we want to use the one built from maven because it has correct properties set. -->

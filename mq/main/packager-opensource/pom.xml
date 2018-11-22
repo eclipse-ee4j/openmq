@@ -684,7 +684,7 @@
                                         <include name="jhall.jar" />
                                         <include name="jakarta.transaction-api.jar" />
                                         <include name="jakarta.xml.soap-api.jar" />
-                                        <include name="activation.jar" />
+                                        <include name="jakarta.activation-api.jar" />
                                         <include name="mail.jar" />
                                         <include name="jakarta.resource-api.jar" />
                                     </fileset>
