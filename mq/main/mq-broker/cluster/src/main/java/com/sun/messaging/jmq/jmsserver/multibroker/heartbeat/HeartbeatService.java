@@ -141,7 +141,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         } catch (IOException e) {
             logger.logStack(logger.WARNING, br.getKString(br.W_CLUSTER_HB_STOP_SERVICE_EXCEPTION), e);
         }
-        timeoutTimer.destroy();
+        timeoutTimer.terminate();
         clsmgr.removeEventListener(this);
     }
 
@@ -216,8 +216,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             }
         }
 
-        @Override
-        public void destroy() {
+        public void terminate() {
             synchronized (lock) {
                 stopped = true;
                 lock.notifyAll();
