@@ -116,17 +116,14 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 	}
 	
 	public BrokerEventListener getBrokerEventListener() {
-		// TODO Auto-generated method stub
 		return this.evlistener;
 	}
 
 	public Properties getProperties() {
-		// TODO Auto-generated method stub
 		return this.props;
 	}
 
 	public synchronized void init(Properties props, BrokerEventListener evlistener) {
-		// TODO Auto-generated method stub
 		this.props = props;
 		this.evlistener = evlistener;
 		
@@ -149,8 +146,6 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 	}
 
 	public Properties parseArgs(String[] args) throws IllegalArgumentException {
-		// TODO Auto-generated method stub
-		
 		//System.out.println ("*** parsing args ...");
 		
 		this.getBroker();
@@ -195,8 +190,6 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 	}
 
 	public synchronized void stop() {
-		// TODO Auto-generated method stub
-		
 		if (this.running == false) {
 			return;
 		}

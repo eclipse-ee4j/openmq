@@ -194,7 +194,6 @@ public class DirectConnectionHandler implements ConnectionHandler {
 			return;
 		}
 		
-		// TODO Auto-generated method stub
 		ReadWritePacket pkt = new ReadWritePacket();
 		
 		pkt.setPacketType(PacketType.NONE);
@@ -211,12 +210,10 @@ public class DirectConnectionHandler implements ConnectionHandler {
 	}
 
 	public String getBrokerAddress() {
-		// TODO Auto-generated method stub
 		return "localhost";
 	}
 
 	public String getBrokerHostName() {
-		// TODO Auto-generated method stub
 		return "localhost";
 	}
 
