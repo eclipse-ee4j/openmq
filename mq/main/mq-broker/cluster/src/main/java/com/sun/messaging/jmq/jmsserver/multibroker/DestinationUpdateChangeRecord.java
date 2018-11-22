@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -52,4 +52,3 @@ public class DestinationUpdateChangeRecord extends ChangeRecord {
         return (operation == ProtocolGlobals.G_UPDATE_DESTINATION);
     }
 }
-

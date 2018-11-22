@@ -16,7 +16,7 @@
 
 /*
  * @(#)UserMgrUtils.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
@@ -26,69 +26,63 @@ import com.sun.messaging.jmq.util.Password;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-/** 
+/**
  * This class contains utility methods used by jmqusermgr.
  */
-public class UserMgrUtils implements UserMgrOptions  {
+public class UserMgrUtils implements UserMgrOptions {
 
     /**
      * Constructor
      */
     public UserMgrUtils() {
-    } 
+    }
 
     /**
      * Return user input. Throws an exception if an error occurred.
      */
-    public static String getUserInput(UserMgrProperties userMgrProps,
-			String question) throws UserMgrException  {
-        return(getUserInput(userMgrProps, question, null));
+    public static String getUserInput(UserMgrProperties userMgrProps, String question) throws UserMgrException {
+        return (getUserInput(userMgrProps, question, null));
     }
 
     /**
-     * Return user input. Return defResponse if no response ("") was
-     * given. Throws an exception if an error occurred.
+     * Return user input. Return defResponse if no response ("") was given. Throws an exception if an error occurred.
      */
-    public static String getUserInput(UserMgrProperties userMgrProps,
-			String question, String defResponse) throws UserMgrException  {
+    public static String getUserInput(UserMgrProperties userMgrProps, String question, String defResponse) throws UserMgrException {
 
         try {
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-	    Output.stdOutPrint(question);
-	    String s = in.readLine();
+            Output.stdOutPrint(question);
+            String s = in.readLine();
 
             if (s == null) {
                 throw new EOFException("null");
             }
-	    if (s.equals("") && (defResponse != null))  {
-	        s = defResponse;
-	    }
-	    return(s);
+            if (s.equals("") && (defResponse != null)) {
+                s = defResponse;
+            }
+            return (s);
 
         } catch (IOException ioex) {
-	    UserMgrException ex = 
-		new UserMgrException(UserMgrException.PROBLEM_GETTING_INPUT);
-	    ex.setProperties(userMgrProps);
-	    ex.setLinkedException(ioex);
-	    
-	    throw (ex);
+            UserMgrException ex = new UserMgrException(UserMgrException.PROBLEM_GETTING_INPUT);
+            ex.setProperties(userMgrProps);
+            ex.setLinkedException(ioex);
+
+            throw (ex);
         }
-    }    
+    }
 
     /**
-     * Return password input.  
+     * Return password input.
      */
-    public static String getPasswordInput(UserMgrProperties userMgrProps,
-			String question) {
+    public static String getPasswordInput(UserMgrProperties userMgrProps, String question) {
 
-	Password pw = new Password();
-    if (pw.echoPassword()) {
-        Output.stdOutPrintln(Globals.getBrokerResources().
-                getString(BrokerResources.W_ECHO_PASSWORD));
-    }
-	Output.stdOutPrint(question);
-	return pw.getPassword();
+        Password pw = new Password();
+        if (pw.echoPassword()) {
+            Output.stdOutPrintln(Globals.getBrokerResources().getString(BrokerResources.W_ECHO_PASSWORD));
+        }
+        Output.stdOutPrint(question);
+        return pw.getPassword();
 
     }
 
-}    
+}

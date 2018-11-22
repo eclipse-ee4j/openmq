@@ -16,20 +16,18 @@
 
 /*
  * @(#)Event.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 /**
- * Class which represents a event on a list which may
- * generate a notification.
+ * Class which represents a event on a list which may generate a notification.
  *
  * @deprecated since 3.0
  * @see EventBroadcaster
  */
 
-public class Event extends java.util.EventObject
-{
+public class Event extends java.util.EventObject {
 
     /**
      * type of this event
@@ -50,74 +48,65 @@ public class Event extends java.util.EventObject
      * reason the event occurred
      */
     protected Reason reason;
-    
+
     /**
      * create a new event without a reason
      */
-    public Event(EventType id, Object target, Object original,
-           Object newval) 
-    {
+    public Event(EventType id, Object target, Object original, Object newval) {
         this(id, target, original, newval, null);
     }
-    
+
     /**
      * create a new event with a reason
      */
-    public Event(EventType id, Object target, Object original,
-         Object newval, Reason reason) {
+    public Event(EventType id, Object target, Object original, Object newval, Reason reason) {
         super(target);
         this.id = id;
         this.reason = reason;
         this.original_value = original;
         this.new_value = newval;
     }
-    
+
     /**
      * @returns the event type for this event
      */
     public EventType getEventType() {
         return id;
     }
-   
-    
+
     /**
-     * @returns the original object for this event
-     *  (may be null)
+     * @returns the original object for this event (may be null)
      */
     public Object getOriginalValue() {
         return original_value;
     }
-    
+
     /**
-     * @returns the current object for this event
-     *  (may be null)
+     * @returns the current object for this event (may be null)
      */
     public Object getCurrentValue() {
         return new_value;
     }
-    
+
     /**
-     * @returns the reasont this event occurred
-     *  (may be null)
+     * @returns the reasont this event occurred (may be null)
      */
     public Reason getReason() {
         return reason;
     }
-    
-    
+
     /**
      * string representation of this event
+     * 
      * @returns the string of this object
      */
     public String toString() {
-        return id.toString() + " target(" +
-               getSource() + ") Reason(" +
-               getReason() + ") [was,is]=[" +
-          original_value + "," + new_value + "]";
+        return id.toString() + " target(" + getSource() + ") Reason(" + getReason() + ") [was,is]=[" + original_value + "," + new_value + "]";
     }
 
     /**
      * compares this object against another object
+     * 
      * @param o the object to compare
      * @returns true if the objects are the same, false otherwise
      */
@@ -129,6 +118,5 @@ public class Event extends java.util.EventObject
     public int hashCode() {
         return super.hashCode();
     }
-
 
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)TLSProtocol.java	1.50 09/11/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.tls;
 
@@ -49,7 +49,7 @@ public class TLSProtocol extends TcpProtocol {
 
     private static boolean DEBUG = false;
 
-    private static final int defaultPort    = 11001;
+    private static final int defaultPort = 11001;
 
     // generated once when the first server socket is needed
     private static ServerSocketFactory ssfactory = null;
@@ -74,75 +74,61 @@ public class TLSProtocol extends TcpProtocol {
      * Empty Constructor
      */
 
-    public TLSProtocol() {	
+    public TLSProtocol() {
         canChangeBlocking = false; // dont let us block
         port = defaultPort;
     }
 
+    public ProtocolStreams accept() throws IOException {
+        if (serversocket == null) {
+            throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Unable to accept on un-opened protocol"));
+        }
+        SSLSocket s = (SSLSocket) serversocket.accept();
 
-    public ProtocolStreams accept()  throws IOException {
-	if (serversocket == null)  {	 
-	    throw new IOException(Globals.getBrokerResources().getString(
-                BrokerResources.X_INTERNAL_EXCEPTION,
-                "Unable to accept on un-opened protocol"));
-	}
-	SSLSocket s = (SSLSocket)serversocket.accept();
+        try {
+            s.setTcpNoDelay(nodelay);
+        } catch (SocketException e) {
+            Globals.getLogger().log(Logger.WARNING,
+                    getClass().getSimpleName() + ".accept(): [" + s.toString() + "]setTcpNoDelay(" + nodelay + "): " + e.toString(), e);
+        }
 
-    try {
-    s.setTcpNoDelay(nodelay);
-    } catch (SocketException e) {
-    Globals.getLogger().log(Logger.WARNING, getClass().getSimpleName()+
-    ".accept(): ["+s.toString()+"]setTcpNoDelay("+nodelay+"): "+ e.toString(), e);
+        TLSStreams streams = createConnection(s);
+        return streams;
+
     }
-
-	TLSStreams streams = createConnection(s);
-	return streams;
-	
-    }
-    
- 
 
     public String toString() {
         return "SSL/TLS [ " + port + "," + backlog + "]";
     }
 
-    protected ServerSocket createSocket(String hostname, int port,
-                            int backlog, boolean blocking, boolean useChannel) 
-	throws IOException  { 
-        //ignore blocking and useChannel (they wont work)
+    protected ServerSocket createSocket(String hostname, int port, int backlog, boolean blocking, boolean useChannel) throws IOException {
+        // ignore blocking and useChannel (they wont work)
 
-	ServerSocketFactory ssf = getServerSocketFactory();	
+        ServerSocketFactory ssf = getServerSocketFactory();
         if (hostname != null && !hostname.equals(Globals.HOSTNAME_ALL)) {
             InetAddress endpoint = InetAddress.getByName(hostname);
 
-	    serversocket = ssf.createServerSocket(port, backlog, endpoint);
-        } else {    
-	    serversocket = ssf.createServerSocket(port, backlog);
+            serversocket = ssf.createServerSocket(port, backlog, endpoint);
+        } else {
+            serversocket = ssf.createServerSocket(port, backlog);
         }
         if (Globals.getPoodleFixEnabled()) {
             Globals.applyPoodleFix(serversocket, "TLSProtocol");
         }
 
         if (DEBUG && serversocket != null) {
-                logger.log(Logger.DEBUG,
-                "TLSProtocol: " + serversocket + " " +
-                MQServerSocketFactory.serverSocketToString(serversocket) +
-                ", backlog=" + backlog +
-                "");
+            logger.log(Logger.DEBUG,
+                    "TLSProtocol: " + serversocket + " " + MQServerSocketFactory.serverSocketToString(serversocket) + ", backlog=" + backlog + "");
         }
-	    
-	return serversocket;
-    }
-    
-    protected TLSStreams createConnection(SSLSocket socket)  
-        throws IOException
-    {
-        return new TLSStreams((SSLSocket)socket,
-            inputBufferSize, outputBufferSize);
+
+        return serversocket;
     }
 
-    public static ServerSocketFactory getServerSocketFactory()
-	throws IOException {
+    protected TLSStreams createConnection(SSLSocket socket) throws IOException {
+        return new TLSStreams((SSLSocket) socket, inputBufferSize, outputBufferSize);
+    }
+
+    public static ServerSocketFactory getServerSocketFactory() throws IOException {
 
         synchronized (classlock) {
 
@@ -152,89 +138,82 @@ public class TLSProtocol extends TcpProtocol {
 
             // need to get a SSLServerSocketFactory
             try {
-	    
-		// set up key manager to do server authentication
-		// Don't i18n Strings here.  They are key words
-		SSLContext ctx;
-		KeyManagerFactory kmf;
-		KeyStore ks;		
 
-		// Get Keystore location
-		String keystore_location = KeystoreUtil.getKeystoreLocation();
+                // set up key manager to do server authentication
+                // Don't i18n Strings here. They are key words
+                SSLContext ctx;
+                KeyManagerFactory kmf;
+                KeyStore ks;
 
-		// Got Keystore full filename 
+                // Get Keystore location
+                String keystore_location = KeystoreUtil.getKeystoreLocation();
 
-		// Check if the keystore exists.  If not throw exception.
-		// This is done first as if the keystore does not exist, then
-		// there is no point in going further.
-	    	   
-		File kf = new File(keystore_location);	
-		if (kf.exists()) {
-		    // nothing to do for now.		
-		} else {
-		    throw new IOException(
-			br.getKString(BrokerResources.E_KEYSTORE_NOT_EXIST,
-					keystore_location));
-		}	
+                // Got Keystore full filename
 
-		/*
-		 * Get passphrase
-		 */
-		String pass_phrase = KeystoreUtil.getKeystorePassword();
+                // Check if the keystore exists. If not throw exception.
+                // This is done first as if the keystore does not exist, then
+                // there is no point in going further.
 
-		// Got Passphrase. 
- 	    
-		if (pass_phrase == null) {
-		    // In reality we should never reach this stage, but, 
-		    // just in case, a check		
-		    pass_phrase = "";
-		    logger.log(Logger.ERROR, br.getKString(
-					BrokerResources.E_PASS_PHRASE_NULL));
-		}
-	    
-		char[] passphrase = pass_phrase.toCharArray();
+                File kf = new File(keystore_location);
+                if (kf.exists()) {
+                    // nothing to do for now.
+                } else {
+                    throw new IOException(br.getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystore_location));
+                }
 
-		// Magic key to select the TLS protocol needed by JSSE
-		// do not i18n these key strings.
-		ctx = SSLContext.getInstance("TLS");
+                /*
+                 * Get passphrase
+                 */
+                String pass_phrase = KeystoreUtil.getKeystorePassword();
+
+                // Got Passphrase.
+
+                if (pass_phrase == null) {
+                    // In reality we should never reach this stage, but,
+                    // just in case, a check
+                    pass_phrase = "";
+                    logger.log(Logger.ERROR, br.getKString(BrokerResources.E_PASS_PHRASE_NULL));
+                }
+
+                char[] passphrase = pass_phrase.toCharArray();
+
+                // Magic key to select the TLS protocol needed by JSSE
+                // do not i18n these key strings.
+                ctx = SSLContext.getInstance("TLS");
                 try {
-		    kmf = KeyManagerFactory.getInstance("SunX509");  // Cert type
+                    kmf = KeyManagerFactory.getInstance("SunX509"); // Cert type
                 } catch (NoSuchAlgorithmException e) {
                     String defaultAlg = KeyManagerFactory.getDefaultAlgorithm();
-                    logger.log(logger.INFO,
-                        br.getKString(br.I_KEYMGRFACTORY_USE_DEFAULT_ALG,
-                        e.getMessage(),defaultAlg));
+                    logger.log(logger.INFO, br.getKString(br.I_KEYMGRFACTORY_USE_DEFAULT_ALG, e.getMessage(), defaultAlg));
 
                     kmf = KeyManagerFactory.getInstance(defaultAlg);
                 }
-		ks = KeyStore.getInstance("JKS");  // Keystore type
+                ks = KeyStore.getInstance("JKS"); // Keystore type
 
                 try (FileInputStream fis = new FileInputStream(keystore_location)) {
                     ks.load(fis, passphrase);
                 }
-		kmf.init(ks, passphrase);
-	    
-		TrustManager[] tm = new TrustManager[1];
-		tm[0] = new DefaultTrustManager();
-	    
-		// SHA1 random number generator
-		SecureRandom random = SecureRandom.getInstance("SHA1PRNG");  
-	    
-		ctx.init(kmf.getKeyManagers(), tm, random);
+                kmf.init(ks, passphrase);
 
-		//ssfactory = ctx.getServerSocketFactory();
-                ssfactory = MQServerSocketFactory.wrapFactory(
-                                ctx.getServerSocketFactory());
-	    } catch (IOException e) {
-        	throw e;
+                TrustManager[] tm = new TrustManager[1];
+                tm[0] = new DefaultTrustManager();
+
+                // SHA1 random number generator
+                SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+
+                ctx.init(kmf.getKeyManagers(), tm, random);
+
+                // ssfactory = ctx.getServerSocketFactory();
+                ssfactory = MQServerSocketFactory.wrapFactory(ctx.getServerSocketFactory());
+            } catch (IOException e) {
+                throw e;
             } catch (Exception ex) {
-		logger.logStack(Logger.ERROR, 
-                    br.getKString(BrokerResources.X_GET_SSL_SOCKET_FACT), ex);
+                logger.logStack(Logger.ERROR, br.getKString(BrokerResources.X_GET_SSL_SOCKET_FACT), ex);
                 throw new IOException(ex.getMessage());
-	    }			    
+            }
             return ssfactory;
-	}
+        }
     }
-    
+
     private static final Object classlock = new Object();
 }

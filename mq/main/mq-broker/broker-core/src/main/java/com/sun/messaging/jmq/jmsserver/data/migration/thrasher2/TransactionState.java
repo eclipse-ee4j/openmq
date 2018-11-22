@@ -27,40 +27,30 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-
 /**
- * The state of a transaction, plus additional information that may
- * useful to know about the transaction.
+ * The state of a transaction, plus additional information that may useful to know about the transaction.
  *
  * Object format from 3.7 ur2 filestore, use for migration purpose only.
+ * 
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionState
  */
 public class TransactionState implements Externalizable {
 
     static final long serialVersionUID = 4438769866522991889L;
 
-    public static final int CREATED    = 0;
-    public static final int STARTED    = 1;
-    public static final int FAILED     = 2;
+    public static final int CREATED = 0;
+    public static final int STARTED = 1;
+    public static final int FAILED = 2;
     public static final int INCOMPLETE = 3;
-    public static final int COMPLETE   = 4;
-    public static final int PREPARED   = 5;
-    public static final int COMMITTED  = 6;
+    public static final int COMPLETE = 4;
+    public static final int PREPARED = 5;
+    public static final int COMMITTED = 6;
     public static final int ROLLEDBACK = 7;
     public static final int LAST = 7;
 
-    private static final String names[] = {
-        "CREATED",
-        "STARTED",
-        "FAILED",
-        "INCOMPLETE",
-        "COMPLETE",
-        "PREPARED",
-        "COMMITED",
-        "ROLLEDBACK"
-        };
+    private static final String names[] = { "CREATED", "STARTED", "FAILED", "INCOMPLETE", "COMPLETE", "PREPARED", "COMMITED", "ROLLEDBACK" };
 
-    private JMQXid  xid = null;
+    private JMQXid xid = null;
 
     // State of the transaction
     private int state = CREATED;
@@ -98,7 +88,7 @@ public class TransactionState implements Externalizable {
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("xid", (xid == null ? "none" : xid.toString()));
-        ht.put("state",names[state]);
+        ht.put("state", names[state]);
         ht.put("user", (user == null ? "none" : user));
         ht.put("connectionString", (connectionString == null ? "none" : connectionString));
         ht.put("connectionUID", (connectionUID == null ? "null" : connectionUID.toString()));
@@ -106,13 +96,10 @@ public class TransactionState implements Externalizable {
         return ht;
     }
 
-    public void setState(int state)
-        throws BrokerException {
+    public void setState(int state) throws BrokerException {
         if (state < CREATED || state > LAST) {
             // Internal error
-            throw new BrokerException("Illegal state " +
-                state + ". Should be between " + CREATED + " and " + LAST +
-                    " inclusive.");
+            throw new BrokerException("Illegal state " + state + ". Should be between " + CREATED + " and " + LAST + " inclusive.");
         } else {
             this.state = state;
         }
@@ -163,81 +150,63 @@ public class TransactionState implements Externalizable {
     }
 
     /**
-     * Returns the next state for this object, given an operation
-     * and XAResource flag. For example if the current state is
-     * STARTED and nextState is called with operation=END_TRANSACTION,
-     * and xaFlag=XAResource.TMSUCCESS, then we return the state
-     * COMPLETE.
+     * Returns the next state for this object, given an operation and XAResource flag. For example if the current state is
+     * STARTED and nextState is called with operation=END_TRANSACTION, and xaFlag=XAResource.TMSUCCESS, then we return the
+     * state COMPLETE.
      *
-     * Throws an IllegalStateException if the state transition is not
-     * allowed.
+     * Throws an IllegalStateException if the state transition is not allowed.
      *
-     * Note that nextState does NOT alter the state of this object.
-     * setState() must be called to do that.
+     * Note that nextState does NOT alter the state of this object. setState() must be called to do that.
      */
-    public int nextState(int pktType, Integer xaFlag)
-        throws BrokerException {
+    public int nextState(int pktType, Integer xaFlag) throws BrokerException {
 
         switch (pktType) {
 
         case PacketType.START_TRANSACTION:
             if (isFlagSet(XAResource.TMNOFLAGS, xaFlag)) {
-                if (this.state == CREATED ||
-                    this.state == COMPLETE ||
-                    this.state == STARTED) {
+                if (this.state == CREATED || this.state == COMPLETE || this.state == STARTED) {
                     return STARTED;
                 }
                 break;
             } else if (isFlagSet(XAResource.TMJOIN, xaFlag)) {
-                if (this.state == STARTED ||
-                    this.state == COMPLETE) {
+                if (this.state == STARTED || this.state == COMPLETE) {
                     return STARTED;
                 }
             } else if (isFlagSet(XAResource.TMRESUME, xaFlag)) {
-                if (this.state == INCOMPLETE ||
-                    this.state == STARTED) {
+                if (this.state == INCOMPLETE || this.state == STARTED) {
                     return STARTED;
                 }
             }
             break;
         case PacketType.END_TRANSACTION:
             if (isFlagSet(XAResource.TMSUSPEND, xaFlag)) {
-                if (this.state == STARTED ||
-                    this.state == INCOMPLETE) {
+                if (this.state == STARTED || this.state == INCOMPLETE) {
                     return INCOMPLETE;
                 }
             } else if (isFlagSet(XAResource.TMFAIL, xaFlag)) {
-                if (this.state == STARTED ||
-                    this.state == INCOMPLETE ||
-                    this.state == FAILED) {
+                if (this.state == STARTED || this.state == INCOMPLETE || this.state == FAILED) {
                     return FAILED;
                 }
-            } else if (isFlagSet(XAResource.TMSUCCESS, xaFlag) ||
-                       isFlagSet(XAResource.TMONEPHASE, xaFlag)) {
+            } else if (isFlagSet(XAResource.TMSUCCESS, xaFlag) || isFlagSet(XAResource.TMONEPHASE, xaFlag)) {
                 // XXX REVISIT 12/17/2001 dipol allow ONEPHASE since RI
                 // appears to use it.
-                if (this.state == STARTED ||
-                    this.state == INCOMPLETE ||
-                    this.state == COMPLETE) {
+                if (this.state == STARTED || this.state == INCOMPLETE || this.state == COMPLETE) {
                     return COMPLETE;
                 }
             }
             break;
         case PacketType.PREPARE_TRANSACTION:
-            if (this.state == COMPLETE ||
-                this.state == PREPARED) {
+            if (this.state == COMPLETE || this.state == PREPARED) {
                 return PREPARED;
             }
             break;
         case PacketType.COMMIT_TRANSACTION:
             if (isFlagSet(XAResource.TMONEPHASE, xaFlag)) {
-                if (this.state == COMPLETE ||
-                    this.state == COMMITTED) {
+                if (this.state == COMPLETE || this.state == COMMITTED) {
                     return COMMITTED;
                 }
             } else {
-                if (this.state == PREPARED ||
-                    this.state == COMMITTED) {
+                if (this.state == PREPARED || this.state == COMMITTED) {
                     return COMMITTED;
                 }
             }
@@ -253,23 +222,19 @@ public class TransactionState implements Externalizable {
             break;
         }
 
-        Object[] args = {PacketType.getString(pktType),
-                         xaFlagToString(xaFlag),
-                         this.toString(this.state)};
+        Object[] args = { PacketType.getString(pktType), xaFlagToString(xaFlag), this.toString(this.state) };
 
-        throw new BrokerException(Globals.getBrokerResources().getString(
-            BrokerResources.X_BAD_TXN_TRANSITION, args));
+        throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_BAD_TXN_TRANSITION, args));
     }
 
-    public static int remoteTransactionNextState(TransactionState ts, int nextState)
-                      throws BrokerException {
+    public static int remoteTransactionNextState(TransactionState ts, int nextState) throws BrokerException {
         int currState = ts.getState();
 
-        switch(nextState) {
+        switch (nextState) {
 
         case COMMITTED:
             if (currState == PREPARED || currState == COMMITTED) {
-                    return COMMITTED;
+                return COMMITTED;
             }
             break;
         case ROLLEDBACK:
@@ -279,21 +244,17 @@ public class TransactionState implements Externalizable {
             break;
         }
 
-        throw new BrokerException("Transaction state "+toString(currState)+
-        " can not transit to state "+toString(nextState));
+        throw new BrokerException("Transaction state " + toString(currState) + " can not transit to state " + toString(nextState));
     }
 
-
     /**
-     * Returns "true" if the specified flag is set in xaFlags, else
-     * returns "false".
+     * Returns "true" if the specified flag is set in xaFlags, else returns "false".
      */
     public static boolean isFlagSet(int flag, Integer xaFlags) {
 
         if (xaFlags == null) {
             return (flag == XAResource.TMNOFLAGS);
-        } else if (flag == XAResource.TMNOFLAGS ||
-                   xaFlags.intValue() == XAResource.TMNOFLAGS) {
+        } else if (flag == XAResource.TMNOFLAGS || xaFlags.intValue() == XAResource.TMNOFLAGS) {
             return (flag == xaFlags.intValue());
         } else {
             return ((xaFlags.intValue() & flag) == flag);
@@ -331,37 +292,44 @@ public class TransactionState implements Externalizable {
             found = true;
         }
         if (isFlagSet(XAResource.TMFAIL, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMFAIL");
             found = true;
         }
         if (isFlagSet(XAResource.TMJOIN, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMJOIN");
             found = true;
         }
         if (isFlagSet(XAResource.TMONEPHASE, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMONEPHASE");
             found = true;
         }
         if (isFlagSet(XAResource.TMRESUME, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMRESUME");
             found = true;
         }
         if (isFlagSet(XAResource.TMSTARTRSCAN, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMSTARTSCAN");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUCCESS, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMSUCCESS");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUSPEND, flags)) {
-            if (found) sb.append("|");
+            if (found)
+                sb.append("|");
             sb.append("TMSUSPEND");
             found = true;
         }
@@ -374,14 +342,13 @@ public class TransactionState implements Externalizable {
         return sb.toString();
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         xid = JMQXid.read(in);
         state = in.readInt();
-        user = (String)in.readObject();
-        clientID = (String)in.readObject();
-        connectionString = (String)in.readObject();
+        user = (String) in.readObject();
+        clientID = (String) in.readObject();
+        connectionString = (String) in.readObject();
         connectionUID = null;
     }
 
@@ -403,17 +370,15 @@ public class TransactionState implements Externalizable {
         if (xid == null) {
             return user + "@" + clientID + ":" + toString(state);
         } else {
-            return user + "@" + clientID + ":" + toString(state) +
-                ":xid=" + xid.toString();
+            return user + "@" + clientID + ":" + toString(state) + ":xid=" + xid.toString();
         }
     }
 
     public Object readResolve() throws ObjectStreamException {
         try {
             // Replace w/ the new object
-            com.sun.messaging.jmq.jmsserver.data.TransactionState obj =
-                new com.sun.messaging.jmq.jmsserver.data.TransactionState(
-                    AutoRollbackType.NOT_PREPARED, 0, true);
+            com.sun.messaging.jmq.jmsserver.data.TransactionState obj = new com.sun.messaging.jmq.jmsserver.data.TransactionState(AutoRollbackType.NOT_PREPARED,
+                    0, true);
             obj.setXid(xid);
             obj.setState(state);
             obj.setUser(user);

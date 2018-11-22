@@ -15,21 +15,26 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
 /**
  *
  */
-public interface LoggerWrapper 
-{
+public interface LoggerWrapper {
 
     public void logInfo(String msg, Throwable t);
+
     public void logWarn(String msg, Throwable t);
+
     public void logSevere(String msg, Throwable t);
+
     public void logFine(String msg, Throwable t);
+
     public void logFinest(String msg, Throwable t);
+
     public boolean isFineLoggable();
+
     public boolean isFinestLoggable();
-}     
+}

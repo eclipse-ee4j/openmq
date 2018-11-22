@@ -16,12 +16,11 @@
 
 /*
  * @(#)SelectorFormatException.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.selector;
 
 import java.util.*;
-
 
 /**
  * Exception thrown when an invlaid selector is encoutnered.
@@ -30,7 +29,7 @@ import java.util.*;
 public class SelectorFormatException extends java.lang.Exception {
 
     String selector = null;
-    int    index = -1;
+    int index = -1;
 
     public SelectorFormatException() {
         super();
@@ -63,10 +62,9 @@ public class SelectorFormatException extends java.lang.Exception {
 
         if (selector != null) {
             if (index > -1) {
-                return super.getMessage() + ": \"" + selector + "\" at pos=" +
-                            index;
+                return super.getMessage() + ": \"" + selector + "\" at pos=" + index;
             } else {
-                return super.getMessage() + ": \"" + selector + "\"" ;
+                return super.getMessage() + ": \"" + selector + "\"";
             }
         } else {
             return super.getMessage();

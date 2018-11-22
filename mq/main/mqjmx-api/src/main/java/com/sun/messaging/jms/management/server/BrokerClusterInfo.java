@@ -16,51 +16,49 @@
 
 /*
  * @(#)BrokerClusterInfo.java	1.13 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * This class contains constants/names for fields in the CompositeData
- * that is returned by the operations of the Cluster Monitor and Cluster
- * Config MBeans.
+ * This class contains constants/names for fields in the CompositeData that is returned by the operations of the Cluster
+ * Monitor and Cluster Config MBeans.
  */
-public class BrokerClusterInfo implements java.io.Serializable  {
+public class BrokerClusterInfo implements java.io.Serializable {
     /**
      * Address of broker in the form of host:port
      */
-    public static final String ADDRESS			= "Address";
+    public static final String ADDRESS = "Address";
 
     /**
      * The ID of the broker.
      */
-    public static final String ID     			= "ID";
+    public static final String ID = "ID";
 
     /**
      * State of broker
      */
-    public static final String STATE  			= "State";
+    public static final String STATE = "State";
 
     /**
-     * State label of broker. This is useful when viewe in a JMX browser
-     * like jconsole.
+     * State label of broker. This is useful when viewe in a JMX browser like jconsole.
      */
-    public static final String STATE_LABEL		= "StateLabel";
+    public static final String STATE_LABEL = "StateLabel";
 
     /**
      * Number of messages stored in this broker's message store.
      */
-    public static final String NUM_MSGS			= "NumMsgs";
+    public static final String NUM_MSGS = "NumMsgs";
 
     /**
      * ID of the broker that has taken over this broker's store.
      */
-    public static final String TAKEOVER_BROKER_ID	= "TakeoverBrokerID";
+    public static final String TAKEOVER_BROKER_ID = "TakeoverBrokerID";
 
     /**
      * Status Timestamp.
      */
-    public static final String STATUS_TIMESTAMP		= "StatusTimestamp";
+    public static final String STATUS_TIMESTAMP = "StatusTimestamp";
 
     /*
      * Class cannot be instantiated

@@ -16,13 +16,12 @@
 
 /*
  * @(#)ConsoleHelp.java	1.9 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.io.File;
 import java.net.URL;
-
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
@@ -30,10 +29,8 @@ import javax.help.HelpSet;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 
-
-/** 
- * This class initializes all the help objects used by the JMQ admin
- * console.
+/**
+ * This class initializes all the help objects used by the JMQ admin console.
  *
  */
 public class ConsoleHelp {
@@ -41,93 +38,86 @@ public class ConsoleHelp {
     /*
      * Image file names.
      *
-     * File names are relative to
-     * JMQ_HOME/lib/help
+     * File names are relative to JMQ_HOME/lib/help
      */
-    private static String hsURLStrs[] = {
-	    "Master.hs",				/* CONSOLE_HELP */
+    private static String hsURLStrs[] = { "Master.hs", /* CONSOLE_HELP */
     };
 
     /*
      * Indices for help sets
      */
-    public final static int CONSOLE_HELP 			= 0;
+    public final static int CONSOLE_HELP = 0;
 
-
-
-
-    static HelpBroker 	hb[];
-    static HelpSet 	hs[];
+    static HelpBroker hb[];
+    static HelpSet hs[];
     static CSH.DisplayHelpFromSource hl[];
 
-    private static boolean	helpLoaded = false;
-    private static Exception	helpLoadException = null;
+    private static boolean helpLoaded = false;
+    private static Exception helpLoadException = null;
 
     public static boolean helpLoaded() {
-	return (helpLoaded);
+        return (helpLoaded);
     }
 
     public static Exception getHelpLoadException() {
-	return (helpLoadException);
+        return (helpLoadException);
     }
 
     public static void loadHelp() {
-	int		hsTotal;
+        int hsTotal;
 
-	if (helpLoaded)
-	    return;
+        if (helpLoaded)
+            return;
 
-	hsTotal = hsURLStrs.length;
+        hsTotal = hsURLStrs.length;
 
-	try {
-	    Class c;
+        try {
+            Class c;
 
-	    c = Class.forName("javax.help.HelpBroker");
-	    c = Class.forName("javax.help.HelpSet");
-	    c = Class.forName("javax.help.CSH");
-	} catch (Exception e)  {
-	    helpLoadException = e;
-	    return;
-	}
+            c = Class.forName("javax.help.HelpBroker");
+            c = Class.forName("javax.help.HelpSet");
+            c = Class.forName("javax.help.CSH");
+        } catch (Exception e) {
+            helpLoadException = e;
+            return;
+        }
 
-	hb = new HelpBroker[ hsTotal ];
-	hs = new HelpSet[ hsTotal ];
-	hl = new CSH.DisplayHelpFromSource[ hsTotal ];
+        hb = new HelpBroker[hsTotal];
+        hs = new HelpSet[hsTotal];
+        hl = new CSH.DisplayHelpFromSource[hsTotal];
 
-	/*
-	System.out.println("Loading Help ...");
-	*/
+        /*
+         * System.out.println("Loading Help ...");
+         */
 
-	/*
-         * File names are relative to
-         * JMQ_HOME/lib which should already be
-	 * in the CLASSPATH.
-	 */
+        /*
+         * File names are relative to JMQ_HOME/lib which should already be in the CLASSPATH.
+         */
 
-	for (int i = 0; i < hsTotal; ++i)  {
-	    String fileName;
+        for (int i = 0; i < hsTotal; ++i) {
+            String fileName;
 
-	    fileName = hsURLStrs[i];
+            fileName = hsURLStrs[i];
 
-	    /*
-            System.err.println("loading: " + fileName);
-	    */
+            /*
+             * System.err.println("loading: " + fileName);
+             */
 
-	    try {
-	        URL hsURL = HelpSet.findHelpSet(null, fileName);
-		if (hsURL == null)  {
-		    return;
-		}
-	        hs[i] = new HelpSet(null, hsURL);
-	        hb[i] = hs[i].createHelpBroker();
-	        hl[i] = new CSH.DisplayHelpFromSource(hb[i]);
+            try {
+                URL hsURL = HelpSet.findHelpSet(null, fileName);
+                if (hsURL == null) {
+                    return;
+                }
+                hs[i] = new HelpSet(null, hsURL);
+                hb[i] = hs[i].createHelpBroker();
+                hl[i] = new CSH.DisplayHelpFromSource(hb[i]);
 
-	    } catch (Exception e) {
-		System.err.println("HelpSet " + fileName + " not found.");
-		return;
-	    }
-	}
+            } catch (Exception e) {
+                System.err.println("HelpSet " + fileName + " not found.");
+                return;
+            }
+        }
 
-	helpLoaded = true;
+        helpLoaded = true;
     }
 }

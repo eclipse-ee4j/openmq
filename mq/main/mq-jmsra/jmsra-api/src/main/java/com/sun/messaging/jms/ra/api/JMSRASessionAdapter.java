@@ -18,7 +18,6 @@ package com.sun.messaging.jms.ra.api;
 
 /**
  */
-public interface JMSRASessionAdapter
-{
+public interface JMSRASessionAdapter {
     public JMSRAXASession getJMSRAXASession();
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceState.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,7 +24,7 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on service states.
  */
 public class ServiceState {
-    /** 
+    /**
      * Unknown service state.
      */
     public static final int UNKNOWN = -1;
@@ -44,32 +44,31 @@ public class ServiceState {
      */
     public static final int QUIESCED = 2;
 
-
     /*
      * Class cannot be instantiated
      */
     private ServiceState() {
     }
-    
+
     /**
      * Returns a string representation of the specified service state.
      *
      * @param state Service state.
      * @return String representation of the specified service state.
      */
-    public static String toString(int state)  {
+    public static String toString(int state) {
         switch (state) {
-            case RUNNING:
-                return "RUNNING";
+        case RUNNING:
+            return "RUNNING";
 
-            case PAUSED:
-                return "PAUSED";
+        case PAUSED:
+            return "PAUSED";
 
-            case QUIESCED:
-                return "QUIESCED";
+        case QUIESCED:
+            return "QUIESCED";
 
-	    default:
-                return "UNKNOWN";
+        default:
+            return "UNKNOWN";
         }
     }
 }

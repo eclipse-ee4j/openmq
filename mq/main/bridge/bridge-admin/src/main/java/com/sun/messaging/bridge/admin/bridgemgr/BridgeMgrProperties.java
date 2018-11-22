@@ -20,9 +20,8 @@ import java.util.Properties;
 import java.util.Enumeration;
 
 /**
- * This class encapsulates the information that the user
- * has provided to perform any JMQ Bridge Administration
- * task. It contains properties that describe:
+ * This class encapsulates the information that the user has provided to perform any JMQ Bridge Administration task. It
+ * contains properties that describe:
  * <UL>
  * <LI>the type of command
  * <LI>the command argument, options
@@ -30,9 +29,8 @@ import java.util.Enumeration;
  * </UL>
  */
 
-public class BridgeMgrProperties extends Properties
-                      implements BridgeMgrOptions {
-    
+public class BridgeMgrProperties extends Properties implements BridgeMgrOptions {
+
     public BridgeMgrProperties() {
         super();
     }
@@ -48,26 +46,26 @@ public class BridgeMgrProperties extends Properties
      * Returns the command argument string. e.g. <EM>bridge</EM>.
      */
     public String getCommandArg() {
-	    return (getProperty(PropName.CMDARG));
+        return (getProperty(PropName.CMDARG));
     }
 
     /**
      */
     public String getBridgeType() {
-	    return (getProperty(PropName.OPTION_BRIDGE_TYPE));
+        return (getProperty(PropName.OPTION_BRIDGE_TYPE));
     }
 
     /**
      */
     public String getBridgeName() {
-	    return (getProperty(PropName.OPTION_BRIDGE_NAME));
+        return (getProperty(PropName.OPTION_BRIDGE_NAME));
     }
 
     /**
      */
     public String getLinkName() {
-	    return (getProperty(PropName.OPTION_LINK_NAME));
-	}
+        return (getProperty(PropName.OPTION_LINK_NAME));
+    }
 
     /**
      * Returns the broker host:port.
@@ -79,100 +77,96 @@ public class BridgeMgrProperties extends Properties
     /**
      */
     public String getAdminUserId() {
-	    return (getProperty(PropName.OPTION_ADMIN_USERID));
+        return (getProperty(PropName.OPTION_ADMIN_USERID));
     }
 
     /**
      */
     public String getAdminPasswd() {
-	    return (getProperty(PropName.OPTION_ADMIN_PRIVATE_PASSWD));
-	}
+        return (getProperty(PropName.OPTION_ADMIN_PRIVATE_PASSWD));
+    }
 
     /**
      * Returns the admin passfile (file containing admin password).
      */
     public String getAdminPassfile() {
-	    return getProperty(PropName.OPTION_ADMIN_PASSFILE);
+        return getProperty(PropName.OPTION_ADMIN_PASSFILE);
     }
 
-
     /**
-     * Returns whether force mode was specified by the user.
-     * Force mode is when no user interaction will be needed.
+     * Returns whether force mode was specified by the user. Force mode is when no user interaction will be needed.
      *
      * @return true if force mode is set, false otherwise
      */
     public boolean forceModeSet() {
         String s = getProperty(PropName.OPTION_FORCE);
 
-        if (s == null) return false;
+        if (s == null)
+            return false;
 
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
-           return true;
+            return true;
         } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
-           return  false;
-	    }
+            return false;
+        }
 
         return false;
     }
 
-
     /**
-     * Returns whether debug mode was specified.
-     * This is not a public/documented mode. It's main use
-     * is as a back door to get debug information.
+     * Returns whether debug mode was specified. This is not a public/documented mode. It's main use is as a back door to
+     * get debug information.
      *
-     * @return true if debug mode is set, false otherwise 
+     * @return true if debug mode is set, false otherwise
      */
-    public boolean debugModeSet()  {
+    public boolean debugModeSet() {
         String s = getProperty(PropName.OPTION_DEBUG);
-        if (s == null) return false; 
+        if (s == null)
+            return false;
 
-        if (s.equalsIgnoreCase(Boolean.TRUE.toString()))  {
+        if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
-        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString()))  {
+        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
             return false;
         }
         return false;
     }
 
     /**
-     * Returns whether no-check mode was specified.
-     * This is not a public/documented mode. It's main use
-     * is as a back door to force imqbridgemgr to accept undocumented
-     * options to be set.
+     * Returns whether no-check mode was specified. This is not a public/documented mode. It's main use is as a back door to
+     * force imqbridgemgr to accept undocumented options to be set.
      *
      * @return true if no-check mode is set, false otherwise
      */
-    public boolean noCheckModeSet()  {
+    public boolean noCheckModeSet() {
         String s = getProperty(PropName.OPTION_NOCHECK);
 
-        if (s == null) return false;
+        if (s == null)
+            return false;
 
-        if (s.equalsIgnoreCase(Boolean.TRUE.toString()))  {
+        if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
-        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString()))  {
+        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
             return false;
         }
 
-	    return false;
+        return false;
     }
 
     /**
-     * Returns whether admin debug mode was specified.
-     * This is not a public/documented mode. It's main use
-     * is as a back door to get debug information about the
-     * admin connection made to the broker.
+     * Returns whether admin debug mode was specified. This is not a public/documented mode. It's main use is as a back door
+     * to get debug information about the admin connection made to the broker.
      *
-     * @return  true if admin debug mode is set, false otherwise 
+     * @return true if admin debug mode is set, false otherwise
      */
-    public boolean adminDebugModeSet()  {
+    public boolean adminDebugModeSet() {
         String s = getProperty(PropName.OPTION_ADMIN_DEBUG);
 
-        if (s == null) return false;
-        if (s.equalsIgnoreCase(Boolean.TRUE.toString()))  {
+        if (s == null)
+            return false;
+        if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
-        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString()))  {
+        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
             return false;
         }
 
@@ -181,14 +175,15 @@ public class BridgeMgrProperties extends Properties
 
     /**
      */
-    public boolean useSSLTransportSet()  {
+    public boolean useSSLTransportSet() {
         String s = getProperty(PropName.OPTION_SSL);
 
-        if (s == null) return false;
+        if (s == null)
+            return false;
 
-        if (s.equalsIgnoreCase(Boolean.TRUE.toString()))  {
+        if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
-        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString()))  {
+        } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
             return false;
         }
 
@@ -198,16 +193,17 @@ public class BridgeMgrProperties extends Properties
     /**
      * @return the receive timeout in seconds
      */
-    public int getReceiveTimeout()  {
+    public int getReceiveTimeout() {
         String s = getProperty(PropName.OPTION_RECV_TIMEOUT);
 
-        if (s == null)  return -1;
+        if (s == null)
+            return -1;
 
         int ret;
         try {
             ret = Integer.parseInt(s);
-        } catch (NumberFormatException nfe)  {
-	        ret = -1;
+        } catch (NumberFormatException nfe) {
+            ret = -1;
         }
 
         return ret;
@@ -216,44 +212,43 @@ public class BridgeMgrProperties extends Properties
     /**
      * Returns the number of 'receive()' retries.
      */
-    public int getNumRetries()  {
+    public int getNumRetries() {
         String s = getProperty(PropName.OPTION_NUM_RETRIES);
 
-        if (s == null) return -1;
+        if (s == null)
+            return -1;
 
         int ret;
         try {
-	        ret = Integer.parseInt(s);
-        } catch (NumberFormatException nfe)  {
-	        ret = -1;
+            ret = Integer.parseInt(s);
+        } catch (NumberFormatException nfe) {
+            ret = -1;
         }
 
         return ret;
     }
 
     /**
-     * Returns a Properties object containing the system
-     * properties to set.
+     * Returns a Properties object containing the system properties to set.
      *
-     * @return  A Properties object containing system properties
-     *      to set
+     * @return A Properties object containing system properties to set
      */
-    public Properties getSysProps()  {
-    Properties  props = new Properties();
-    String      targetAttrs = PropName.OPTION_SYS_PROPS + ".";
-    int     targetAttrsLen = targetAttrs.length();
+    public Properties getSysProps() {
+        Properties props = new Properties();
+        String targetAttrs = PropName.OPTION_SYS_PROPS + ".";
+        int targetAttrsLen = targetAttrs.length();
 
-        for (Enumeration e = propertyNames();  e.hasMoreElements() ;) {
-        String propName = (String)e.nextElement();
+        for (Enumeration e = propertyNames(); e.hasMoreElements();) {
+            String propName = (String) e.nextElement();
 
-        if (propName.startsWith(targetAttrs))  {
-            String newPropName, value;
+            if (propName.startsWith(targetAttrs)) {
+                String newPropName, value;
 
-            newPropName = propName.substring(targetAttrsLen);
-            value = getProperty(propName);
+                newPropName = propName.substring(targetAttrsLen);
+                value = getProperty(propName);
 
-            props.put(newPropName, value);
-        }
+                props.put(newPropName, value);
+            }
 
         }
 
@@ -262,42 +257,35 @@ public class BridgeMgrProperties extends Properties
 
     /**
      */
-    public String getTargetName()  {
+    public String getTargetName() {
         return (getProperty(PropName.OPTION_TARGET_NAME));
     }
 
-
     /**
-     * Returns a Properties object containing the properties
-     * specified for the target object. The properties are
-     * normalized.
+     * Returns a Properties object containing the properties specified for the target object. The properties are normalized.
      *
-     * @return  A Properties object containing properties
-     *      for the target object.
+     * @return A Properties object containing properties for the target object.
      */
-    public Properties getTargetAttrs()  {
-    Properties  props = new Properties();
-    String      targetAttrs = PropName.OPTION_TARGET_ATTRS + ".";
-    int     targetAttrsLen = targetAttrs.length();
+    public Properties getTargetAttrs() {
+        Properties props = new Properties();
+        String targetAttrs = PropName.OPTION_TARGET_ATTRS + ".";
+        int targetAttrsLen = targetAttrs.length();
 
-        for (Enumeration e = propertyNames();  e.hasMoreElements() ;) {
+        for (Enumeration e = propertyNames(); e.hasMoreElements();) {
 
-        String propName = (String)e.nextElement();
+            String propName = (String) e.nextElement();
 
-        if (propName.startsWith(targetAttrs))  {
-            String newPropName, value;
+            if (propName.startsWith(targetAttrs)) {
+                String newPropName, value;
 
-            newPropName = propName.substring(targetAttrsLen);
-            value = getProperty(propName);
+                newPropName = propName.substring(targetAttrsLen);
+                value = getProperty(propName);
 
-            props.put(newPropName, value);
-        }
+                props.put(newPropName, value);
+            }
         }
 
         return (props);
     }
 
-
-
 }
-

@@ -36,80 +36,78 @@ import javax.xml.soap.SOAPMessage;
 
 public class SendServiceImpl implements SendService {
 
-    //private Lock lock = null;
+    // private Lock lock = null;
     private Properties props = null;
     private ClientPool cache = null;
-    //cache sweeper
+    // cache sweeper
     private CacheSweeper sweeper = null;
     private Logger logger = UMSServiceImpl.logger;
-    
+
     private static final String SERVICE_NAME = "SEND_SERVICE";
-    
+
     private String myName = null;
-    
+
     private String provider = null;
 
     public SendServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
-        
+
         this.provider = provider;
-        
+
         this.sweeper = sweeper;
-        
+
         this.myName = provider + "_" + SERVICE_NAME;
-        
+
         this.props = p;
 
-        //lock = new Lock();
+        // lock = new Lock();
 
-        //cache = new JMSCache(MY_NAME, props, lock, logger);
-        //cache = new ClientPool(provider, SERVICE_NAME, props, lock);
-       
-        //add my cache to the sweeper
-        //sweeper.addClientPool(cache);
+        // cache = new JMSCache(MY_NAME, props, lock, logger);
+        // cache = new ClientPool(provider, SERVICE_NAME, props, lock);
+
+        // add my cache to the sweeper
+        // sweeper.addClientPool(cache);
         this.cache = cache;
     }
-    
-    //public String authenticate (String user, String password) throws JMSException {
-    //    return cache.authenticate(user, password);
-    //}
-    
-    //public void authenticateUUID (String clientId) throws JMSException {
-    //    cache.authenticateUUID (clientId);
-    //}
-       
+
+    // public String authenticate (String user, String password) throws JMSException {
+    // return cache.authenticate(user, password);
+    // }
+
+    // public void authenticateUUID (String clientId) throws JMSException {
+    // cache.authenticateUUID (clientId);
+    // }
+
     public void send(SOAPMessage sm) throws JMSException {
 
         Client client = null;
         Message message = null;
-        
+
         String user = null;
         String pass = null;
 
         try {
-            
-            /**
-            String clientId = MessageUtil.getServiceClientId(sm);
 
-            if (clientId == null) {
-                user = MessageUtil.getServiceAttribute(sm, Constants.USER);
-                pass = MessageUtil.getServiceAttribute(sm, Constants.PASSWORD);
-            }
-            
-            client = cache.getClient(clientId, user, pass);
-            **/
-            
+            /**
+             * String clientId = MessageUtil.getServiceClientId(sm);
+             * 
+             * if (clientId == null) { user = MessageUtil.getServiceAttribute(sm, Constants.USER); pass =
+             * MessageUtil.getServiceAttribute(sm, Constants.PASSWORD); }
+             * 
+             * client = cache.getClient(clientId, user, pass);
+             **/
+
             client = cache.getClient(sm);
-            
-            //Object syncObj = lock.getLock(client.getId());
+
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
-            
+
             if (UMSServiceImpl.debug) {
                 logger.info("*** SendServiceImpl sending message: " + sm);
             }
-            
+
             synchronized (syncObj) {
 
-                //client = cache.getClient(clientId);
+                // client = cache.getClient(clientId);
 
                 Session session = client.getSession();
 
@@ -117,15 +115,15 @@ public class SendServiceImpl implements SendService {
                 boolean isTopic = MessageUtil.isServiceTopicDomain(sm);
 
                 Destination dest = cache.getJMSDestination(destName, isTopic);
-                
-                //XXX remove message header element
+
+                // XXX remove message header element
                 MessageUtil.removeMessageHeaderElement(sm);
-                
+
                 if (UMSServiceImpl.debug) {
                     logger.info("*** SendServiceImpl sending message: " + sm);
                 }
-                //sm.writeTo(System.out);
-                
+                // sm.writeTo(System.out);
+
                 message = MessageTransformer.SOAPMessageIntoJMSMessage(sm, session);
 
                 MessageProducer producer = client.getProducer();
@@ -134,9 +132,9 @@ public class SendServiceImpl implements SendService {
             }
 
             if (UMSServiceImpl.debug) {
-                logger.info ("*** SendServiceImpl sent message: " + message);
+                logger.info("*** SendServiceImpl sent message: " + message);
             }
-            
+
         } catch (Exception ex) {
 
             if (ex instanceof JMSException) {
@@ -171,18 +169,18 @@ public class SendServiceImpl implements SendService {
 
         try {
 
-            client = cache.getClient(sid, map); 
-            
-            //Object syncObj = lock.getLock(client.getId());
+            client = cache.getClient(sid, map);
+
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
-            
+
             if (UMSServiceImpl.debug) {
                 logger.info("*** SendServiceImpl sending simple message: sid = " + sid + ", text=" + text);
             }
-            
+
             synchronized (syncObj) {
 
-                //client = cache.getClient(clientId);
+                // client = cache.getClient(clientId);
 
                 Session session = client.getSession();
 
@@ -198,9 +196,9 @@ public class SendServiceImpl implements SendService {
             if (UMSServiceImpl.debug) {
                 logger.info("*** SendServiceImpl sent text message... ");
             }
-            
+
         } catch (Exception ex) {
-            
+
             logger.log(Level.WARNING, ex.getMessage(), ex);
 
             if (ex instanceof JMSException) {
@@ -215,61 +213,60 @@ public class SendServiceImpl implements SendService {
             cache.returnClient(client);
         }
     }
-    
-    public void commit (SimpleMessage sm) throws JMSException {
-        
+
+    public void commit(SimpleMessage sm) throws JMSException {
+
         String sid = sm.getMessageProperty(Constants.CLIENT_ID);
         Map map = sm.getMessageProperties();
-        
+
         if (sid == null) {
-            throw new JMSException ("Cannot commit a transaction because sid is null.");
+            throw new JMSException("Cannot commit a transaction because sid is null.");
         }
-        
+
         Client client = cache.getClient(sid, map);
-        
+
         this.commit(client);
     }
-    
-     public void rollback (SimpleMessage sm) throws JMSException {
-        
+
+    public void rollback(SimpleMessage sm) throws JMSException {
+
         String sid = sm.getMessageProperty(Constants.CLIENT_ID);
         Map map = sm.getMessageProperties();
-        
-         if (sid == null) {
-             throw new JMSException("Cannot rollback a transaction because sid is null.");
-         }
-        
+
+        if (sid == null) {
+            throw new JMSException("Cannot rollback a transaction because sid is null.");
+        }
+
         Client client = cache.getClient(sid, map);
-        
-        this.rollback (client);
+
+        this.rollback(client);
     }
-    
-    public void commit (SOAPMessage sm) throws JMSException {
-        
+
+    public void commit(SOAPMessage sm) throws JMSException {
+
         try {
-            
+
             String sid = MessageUtil.getServiceClientId(sm);
-            
+
             if (sid == null) {
                 throw new JMSException("Cannot commit a transaction because sid is null.");
             }
-        
+
             Client client = cache.getClient(sm);
-        
+
             this.commit(client);
-            
+
         } catch (SOAPException soape) {
-            JMSException jmse = new JMSException (soape.getMessage());
-            
-            jmse.setLinkedException (soape);
+            JMSException jmse = new JMSException(soape.getMessage());
+
+            jmse.setLinkedException(soape);
             throw jmse;
         }
     }
-    
+
     public void rollback(SOAPMessage sm) throws JMSException {
 
         try {
-
 
             String sid = MessageUtil.getServiceClientId(sm);
 
@@ -287,30 +284,30 @@ public class SendServiceImpl implements SendService {
             throw jmse;
         }
     }
-    
-     private void commit (Client client) throws JMSException {
+
+    private void commit(Client client) throws JMSException {
 
         try {
-           
-            //client = cache.getClient(sm);
-            
-            //Object syncObj = lock.getLock(client.getId());
+
+            // client = cache.getClient(sm);
+
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
-            
+
             if (UMSServiceImpl.debug) {
                 logger.info("*** Commiting transaction, sid = " + client.getId());
             }
-            
+
             synchronized (syncObj) {
 
                 Session session = client.getSession();
                 session.commit();
             }
-               
+
             if (UMSServiceImpl.debug) {
-                logger.info ("*** Transaction committed. sid=" + client.getId());
+                logger.info("*** Transaction committed. sid=" + client.getId());
             }
-            
+
         } catch (Exception ex) {
 
             if (ex instanceof JMSException) {
@@ -325,30 +322,30 @@ public class SendServiceImpl implements SendService {
             cache.returnClient(client);
         }
     }
-     
-    private void rollback (Client client) throws JMSException {
+
+    private void rollback(Client client) throws JMSException {
 
         try {
-           
-            //client = cache.getClient(sm);
-            
-            //Object syncObj = lock.getLock(client.getId());
+
+            // client = cache.getClient(sm);
+
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
-            
+
             if (UMSServiceImpl.debug) {
                 logger.info("*** rolling back transaction, sid = " + client.getId());
             }
-            
+
             synchronized (syncObj) {
 
                 Session session = client.getSession();
                 session.rollback();
             }
-               
+
             if (UMSServiceImpl.debug) {
-                logger.info ("*** Transaction rolled back. sid=" + client.getId());
+                logger.info("*** Transaction rolled back. sid=" + client.getId());
             }
-            
+
         } catch (Exception ex) {
 
             if (ex instanceof JMSException) {
@@ -365,14 +362,14 @@ public class SendServiceImpl implements SendService {
     }
 
     public void close() {
-        
+
         try {
-            //sweeper.removeClientPool(cache);
+            // sweeper.removeClientPool(cache);
             cache.close();
         } catch (Exception e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         }
-        
+
     }
 
 }

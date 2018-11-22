@@ -16,7 +16,7 @@
 
 /*
  * @(#)CacheHashMap.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -25,8 +25,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * A LinkedHashMap that is bounded by size. Once the HashMap is 
- * full, the oldest entry is discarded as new entries are added.
+ * A LinkedHashMap that is bounded by size. Once the HashMap is full, the oldest entry is discarded as new entries are
+ * added.
  */
 public class CacheHashMap extends LinkedHashMap {
 
@@ -34,9 +34,9 @@ public class CacheHashMap extends LinkedHashMap {
     private int capacity = DEFAULT_CAPACITY;
 
     /**
-     * Create a CacheHashMap with a the specified capacity 
+     * Create a CacheHashMap with a the specified capacity
      *
-     * @param   capacity    Capacity of the CacheHashMap.
+     * @param capacity Capacity of the CacheHashMap.
      */
     public CacheHashMap(int capacity) {
         super(capacity);
@@ -51,13 +51,13 @@ public class CacheHashMap extends LinkedHashMap {
     }
 
     public int capacity() {
-	// BugId 6360052
-	// Tom Ross
-	// 10 Oct 2006
+        // BugId 6360052
+        // Tom Ross
+        // 10 Oct 2006
 
-	// old line
-	// return capacity();
-	//new line
+        // old line
+        // return capacity();
+        // new line
         return capacity;
     }
 

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
@@ -33,50 +33,43 @@ import javax.inject.Singleton;
 @Singleton
 public interface HAMonitorService {
 
-     public void init(String brokerID, MQAddress brokerURL, 
-         boolean resetTakeoverThenExit) throws Exception;
+    public void init(String brokerID, MQAddress brokerURL, boolean resetTakeoverThenExit) throws Exception;
 
-     /**
-      * @return true if in takeover 
-      */
-     public boolean inTakeover();
+    /**
+     * @return true if in takeover
+     */
+    public boolean inTakeover();
 
-     /**
-      * @return in seconds 
-      */
-     public int getMonitorInterval(); 
+    /**
+     * @return in seconds
+     */
+    public int getMonitorInterval();
 
-     /**
-      * @return true if d is a destination being taken over 
-      */
-     public boolean checkTakingoverDestination(Destination d);
+    /**
+     * @return true if d is a destination being taken over
+     */
+    public boolean checkTakingoverDestination(Destination d);
 
-     /**
-      * @return true if p is a message being taken over
-      */
-     public boolean checkTakingoverMessage(Packet p);
+    /**
+     * @return true if p is a message being taken over
+     */
+    public boolean checkTakingoverMessage(Packet p);
 
-     /**
-      * @return remote broker id running on host:port
-      */
-     public String getRemoteBrokerIDFromPortMapper(
-            String host, int port, String brokerID); 
+    /**
+     * @return remote broker id running on host:port
+     */
+    public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID);
 
-     /**
-      */
-     public void takeoverBroker(HAClusteredBroker cb, Object extraInfo1,
-                               Object extraInfo2, boolean force)
-                               throws BrokerException; 
-
+    /**
+     */
+    public void takeoverBroker(HAClusteredBroker cb, Object extraInfo1, Object extraInfo2, boolean force) throws BrokerException;
 
     /**
      * @return host:port string of the broker that takes over this broker
      *
      * Status code of exception thrown is important
      */
-    public String takeoverME(HAClusteredBroker cb,
-                           String brokerID, Long syncTimeout)
-                           throws BrokerException; 
+    public String takeoverME(HAClusteredBroker cb, String brokerID, Long syncTimeout) throws BrokerException;
 
-    public boolean isTakingoverTarget(String brokerID, UID storeSession); 
+    public boolean isTakingoverTarget(String brokerID, UID storeSession);
 }

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.service.jms.resources;
 
@@ -24,10 +24,8 @@ import java.util.Locale;
 import com.sun.messaging.jmq.util.MQResourceBundle;
 
 /**
- * This class wraps a PropertyResourceBundle, and provides constants
- * to use as message keys. The reason we use constants for the message
- * keys is to provide some compile time checking when the key is used
- * in the source.
+ * This class wraps a PropertyResourceBundle, and provides constants to use as message keys. The reason we use constants
+ * for the message keys is to provide some compile time checking when the key is used in the source.
  */
 
 public class JMSBridgeResources extends MQResourceBundle {
@@ -44,39 +42,33 @@ public class JMSBridgeResources extends MQResourceBundle {
             locale = Locale.getDefault();
         }
 
-	    if (resources == null || !locale.equals(resources.getLocale())) { 
-	        ResourceBundle b = ResourceBundle.getBundle(
-            "com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources", locale);
+        if (resources == null || !locale.equals(resources.getLocale())) {
+            ResourceBundle b = ResourceBundle.getBundle("com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources", locale);
             resources = new JMSBridgeResources(b);
-	    }
-	    return resources;
+        }
+        return resources;
     }
 
     private JMSBridgeResources(ResourceBundle rb) {
         super(rb);
     }
 
-
-    /***************** Start of message key constants *******************
-     * We use numeric values as the keys because the MQ has a requirement
-     * that each error message have an associated error code (for 
-     * documentation purposes). We use numeric Strings instead of primitive
-     * integers because that is what ListResourceBundles support. We could
-     * write our own ResourceBundle to support integer keys, but since
-     * we'd just be converting them back to strings (to display them)
-     * it's unclear if that would be a big win. Also the performance of
-     * ListResourceBundles under Java 2 is pretty good.
+    /*****************
+     * Start of message key constants ******************* We use numeric values as the keys because the MQ has a requirement
+     * that each error message have an associated error code (for documentation purposes). We use numeric Strings instead of
+     * primitive integers because that is what ListResourceBundles support. We could write our own ResourceBundle to support
+     * integer keys, but since we'd just be converting them back to strings (to display them) it's unclear if that would be
+     * a big win. Also the performance of ListResourceBundles under Java 2 is pretty good.
      * 
      *
-     * Note To Translators: Do not copy these message key String constants
-     * into the locale specific resource bundles. They are only required
-     * in this default resource bundle.
+     * Note To Translators: Do not copy these message key String constants into the locale specific resource bundles. They
+     * are only required in this default resource bundle.
      */
 
-    // 0-999     Miscellaneous messages
+    // 0-999 Miscellaneous messages
 
     /**
-     * commneted out M_WITH_CLIENTID=BSJ0000, no longer used 
+     * commneted out M_WITH_CLIENTID=BSJ0000, no longer used
      */
     final public static String M_SOURCE = "BSJ0001";
     final public static String M_TARGET = "BSJ0002";
@@ -166,8 +158,8 @@ public class JMSBridgeResources extends MQResourceBundle {
     final public static String I_TRANSFER_TO_GETJMSDESTINATION = "BSJ1066";
     final public static String I_TRANSFORMER_TRANSFER_TO_GETJMSDESTINATION = "BSJ1067";
     /**
-     * removed I_TRANSFORMER_TRANSFER_TO_GETJMSDESTINATION_DIFF = "BSJ1068";
-     * from here and JMSBridgeResources.properties, not used 
+     * removed I_TRANSFORMER_TRANSFER_TO_GETJMSDESTINATION_DIFF = "BSJ1068"; from here and JMSBridgeResources.properties,
+     * not used
      */
     final public static String I_TRANSFORMER_BRANCHTO = "BSJ1069";
     final public static String I_UPDATE_RECOVER_INFO_GXIDS = "BSJ1070";

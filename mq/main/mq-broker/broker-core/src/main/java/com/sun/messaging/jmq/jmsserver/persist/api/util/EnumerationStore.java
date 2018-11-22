@@ -16,7 +16,7 @@
 
 /*
  * @(#)EnumerationStore.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api.util;
 
@@ -29,4 +29,3 @@ import java.util.*;
 public interface EnumerationStore {
     public Object getData(Object id) throws BrokerException;
 }
-

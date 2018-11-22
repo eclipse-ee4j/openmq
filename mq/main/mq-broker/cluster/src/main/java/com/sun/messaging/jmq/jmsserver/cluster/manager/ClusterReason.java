@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterManager.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
@@ -33,72 +33,64 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 /**
  * Typesafe enum class which represents a Reason passed into broker changed
  */
-public class ClusterReason
-{
-        
-        /**
-         * descriptive string associated with the reason
-         */
-        private final String name;
-        
-        /**
-         * private constructor for ClusterReason
-         */
-        private ClusterReason(String name) {
-            this.name = name;
-        }
+public class ClusterReason {
 
-        /**
-         * a string representation of the object
-         */
-        public String toString() {
-            return "ClusterReason["+ name +"]";
-        }
+    /**
+     * descriptive string associated with the reason
+     */
+    private final String name;
 
-        /**
-         * A broker has been added to the cluster.
-         */
-        public static final ClusterReason ADDED = 
-                 new ClusterReason("ADDED");
+    /**
+     * private constructor for ClusterReason
+     */
+    private ClusterReason(String name) {
+        this.name = name;
+    }
 
-        /**
-         * A broker has been removed from the cluster.
-         */
-        public static final ClusterReason REMOVED = 
-                 new ClusterReason("REMOVED");
+    /**
+     * a string representation of the object
+     */
+    public String toString() {
+        return "ClusterReason[" + name + "]";
+    }
 
-        /**
-         * The status of a broker has changed.
-         * @see BrokerStatus
-         */
-        public static final ClusterReason STATUS_CHANGED = 
-                 new ClusterReason("STATUS_CHANGED");
+    /**
+     * A broker has been added to the cluster.
+     */
+    public static final ClusterReason ADDED = new ClusterReason("ADDED");
 
-        /**
-         * The state of a broker has changed.
-         * @see BrokerState
-         */
-        public static final ClusterReason STATE_CHANGED = 
-                 new ClusterReason("STATE_CHANGED");
+    /**
+     * A broker has been removed from the cluster.
+     */
+    public static final ClusterReason REMOVED = new ClusterReason("REMOVED");
 
-        /**
-         * The protocol version of a broker has changed.
-         */
-        public static final ClusterReason VERSION_CHANGED = 
-                 new ClusterReason("VERSION_CHANGED");
+    /**
+     * The status of a broker has changed.
+     * 
+     * @see BrokerStatus
+     */
+    public static final ClusterReason STATUS_CHANGED = new ClusterReason("STATUS_CHANGED");
 
-        /**
-         * The portmapper address of a broker has changed.
-         */
-        public static final ClusterReason ADDRESS_CHANGED = 
-                 new ClusterReason("ADDRESS_CHANGED");
+    /**
+     * The state of a broker has changed.
+     * 
+     * @see BrokerState
+     */
+    public static final ClusterReason STATE_CHANGED = new ClusterReason("STATE_CHANGED");
 
-        /**
-         * The address of the master broker in the cluster
-         * has changed.
-         */
-        public static final ClusterReason MASTER_BROKER_CHANGED = 
-                 new ClusterReason("MASTER_BROKER_CHANGED");
-    
+    /**
+     * The protocol version of a broker has changed.
+     */
+    public static final ClusterReason VERSION_CHANGED = new ClusterReason("VERSION_CHANGED");
+
+    /**
+     * The portmapper address of a broker has changed.
+     */
+    public static final ClusterReason ADDRESS_CHANGED = new ClusterReason("ADDRESS_CHANGED");
+
+    /**
+     * The address of the master broker in the cluster has changed.
+     */
+    public static final ClusterReason MASTER_BROKER_CHANGED = new ClusterReason("MASTER_BROKER_CHANGED");
+
 }
-

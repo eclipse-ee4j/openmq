@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSPacketProperties.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -24,14 +24,13 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- *  The JMSPacketProperties class encapsulates the properties as used by the
- *  MQ wire protocol.<p>
- *  All relevant properties that need to be passed can be correctly
- *  set using methods that follow the pattern {@code set<PropertyName>}, where
- *  {@code <PropertyName>} is replaced with the name of the property in the
- *  MQ wire protocol.<br>
+ * The JMSPacketProperties class encapsulates the properties as used by the MQ wire protocol.
+ * <p>
+ * All relevant properties that need to be passed can be correctly set using methods that follow the pattern
+ * {@code set<PropertyName>}, where {@code <PropertyName>} is replaced with the name of the property in the MQ wire
+ * protocol.<br>
  */
-public class JMSPacketProperties extends Hashtable <String, Object> {
+public class JMSPacketProperties extends Hashtable<String, Object> {
 
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";
@@ -43,34 +42,32 @@ public class JMSPacketProperties extends Hashtable <String, Object> {
         super();
     }
 
-    public JMSPacketProperties(Map <? extends String, ? extends Object> map){
+    public JMSPacketProperties(Map<? extends String, ? extends Object> map) {
         super(map);
     }
 
     /**
-     *  Sets the JMQUserAgent property for JMS-DIRECT mode clients
+     * Sets the JMQUserAgent property for JMS-DIRECT mode clients
      */
-    public void setJMQUserAgent(){
-        String ua = "SJSMQ/4.1 JMS-DIRECT; "
-                + System.getProperty("os.name") +" "
-                + System.getProperty("os.version") +" "
-                + System.getProperty("os.arch") +" )";
+    public void setJMQUserAgent() {
+        String ua = "SJSMQ/4.1 JMS-DIRECT; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " " + System.getProperty("os.arch")
+                + " )";
         super.put("JMQUserAgent", ua);
     }
 
     /**
-     *  Gets the JMQUserAgent property from this JMSService request parameter
+     * Gets the JMQUserAgent property from this JMSService request parameter
      *
-     *  @return The JMQUserAgent string
+     * @return The JMQUserAgent string
      */
-    public String getJMQUserAgent(){
-        return (String)super.get("JMQUserAgent");
+    public String getJMQUserAgent() {
+        return (String) super.get("JMQUserAgent");
     }
 
     /**
-     *  Sets the JMQConnectionID property for JMS-DIRECT clients
+     * Sets the JMQConnectionID property for JMS-DIRECT clients
      */
-    public void setJMQConnectionID(long connectionID){
+    public void setJMQConnectionID(long connectionID) {
         super.put("JMQConnectionID", connectionID);
     }
 }

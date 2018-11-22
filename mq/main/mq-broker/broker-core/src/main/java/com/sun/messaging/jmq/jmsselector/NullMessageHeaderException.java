@@ -16,7 +16,7 @@
 
 /*
  * @(#)NullMessageHeaderException.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
@@ -28,9 +28,8 @@ public class NullMessageHeaderException extends java.lang.Exception {
     /**
      * Construct a NullMessageHeaderException
      */
-    public NullMessageHeaderException () {
+    public NullMessageHeaderException() {
         super();
     }
 
 }
-

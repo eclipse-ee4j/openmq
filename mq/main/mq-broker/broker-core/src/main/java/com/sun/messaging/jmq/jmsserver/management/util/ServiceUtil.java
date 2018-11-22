@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceUtil.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -37,128 +37,122 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jms.management.server.MQObjectName;
 
 public class ServiceUtil {
-    public static ServiceInfo getServiceInfo(String service)  {
-	ServiceInfo si = GetServicesHandler.getServiceInfo(service);
+    public static ServiceInfo getServiceInfo(String service) {
+        ServiceInfo si = GetServicesHandler.getServiceInfo(service);
 
-	return (si);
+        return (si);
     }
 
-    public static void pauseService(String service) 
-		throws BrokerException {
-	PauseHandler.pauseService(true, service);
+    public static void pauseService(String service) throws BrokerException {
+        PauseHandler.pauseService(true, service);
     }
 
-    public static void resumeService(String service)
-		throws BrokerException {
-	PauseHandler.pauseService(false, service);
+    public static void resumeService(String service) throws BrokerException {
+        PauseHandler.pauseService(false, service);
     }
 
     /*
-     * Returns a List of service names that are visible to
-     * the outside
+     * Returns a List of service names that are visible to the outside
      */
-    public static List getVisibleServiceNames()  {
+    public static List getVisibleServiceNames() {
 
         ServiceManager sm = Globals.getServiceManager();
         List serviceNames = sm.getAllServiceNames();
-	return (serviceNames);
+        return (serviceNames);
     }
-   
+
     /*
-     * Returns an ArrayList of services (ServiceInfo) that are visible to
-     * the outside
+     * Returns an ArrayList of services (ServiceInfo) that are visible to the outside
      */
-    public static List getVisibleServices()  {
+    public static List getVisibleServices() {
 
         List serviceNames = getVisibleServiceNames();
         Iterator iter = serviceNames.iterator();
 
-	ArrayList al = new ArrayList();
+        ArrayList al = new ArrayList();
 
         while (iter.hasNext()) {
-            String service = (String)iter.next();
-	    /*
-            System.out.println("\t" + service);
-	    */
-	    ServiceInfo sInfo = GetServicesHandler.getServiceInfo(service);
-	    al.add(sInfo);
+            String service = (String) iter.next();
+            /*
+             * System.out.println("\t" + service);
+             */
+            ServiceInfo sInfo = GetServicesHandler.getServiceInfo(service);
+            al.add(sInfo);
         }
 
-	return (al);
+        return (al);
     }
 
-    public static int toExternalServiceState(int internalServiceState)  {
-	switch (internalServiceState)  {
-	case com.sun.messaging.jmq.util.ServiceState.RUNNING:
-	    return (com.sun.messaging.jms.management.server.ServiceState.RUNNING);
+    public static int toExternalServiceState(int internalServiceState) {
+        switch (internalServiceState) {
+        case com.sun.messaging.jmq.util.ServiceState.RUNNING:
+            return (com.sun.messaging.jms.management.server.ServiceState.RUNNING);
 
-	case com.sun.messaging.jmq.util.ServiceState.PAUSED:
-	    return (com.sun.messaging.jms.management.server.ServiceState.PAUSED);
+        case com.sun.messaging.jmq.util.ServiceState.PAUSED:
+            return (com.sun.messaging.jms.management.server.ServiceState.PAUSED);
 
-	case com.sun.messaging.jmq.util.ServiceState.QUIESCED:
-	    return (com.sun.messaging.jms.management.server.ServiceState.QUIESCED);
+        case com.sun.messaging.jmq.util.ServiceState.QUIESCED:
+            return (com.sun.messaging.jms.management.server.ServiceState.QUIESCED);
 
-	default:
-	    return (com.sun.messaging.jms.management.server.ServiceState.UNKNOWN);
-	}
+        default:
+            return (com.sun.messaging.jms.management.server.ServiceState.UNKNOWN);
+        }
     }
 
-    public static int toInternalServiceState(int externalServiceState)  {
-	switch (externalServiceState)  {
-	case com.sun.messaging.jms.management.server.ServiceState.RUNNING:
-	    return (com.sun.messaging.jmq.util.ServiceState.RUNNING);
+    public static int toInternalServiceState(int externalServiceState) {
+        switch (externalServiceState) {
+        case com.sun.messaging.jms.management.server.ServiceState.RUNNING:
+            return (com.sun.messaging.jmq.util.ServiceState.RUNNING);
 
-	case com.sun.messaging.jms.management.server.ServiceState.PAUSED:
-	    return (com.sun.messaging.jmq.util.ServiceState.PAUSED);
+        case com.sun.messaging.jms.management.server.ServiceState.PAUSED:
+            return (com.sun.messaging.jmq.util.ServiceState.PAUSED);
 
-	case com.sun.messaging.jms.management.server.ServiceState.QUIESCED:
-	    return (com.sun.messaging.jmq.util.ServiceState.QUIESCED);
+        case com.sun.messaging.jms.management.server.ServiceState.QUIESCED:
+            return (com.sun.messaging.jmq.util.ServiceState.QUIESCED);
 
-	default:
-	    return (com.sun.messaging.jmq.util.ServiceState.UNKNOWN);
-	}
+        default:
+            return (com.sun.messaging.jmq.util.ServiceState.UNKNOWN);
+        }
     }
 
-    public static List getConsumerIDs(String service)  {
-	List	consumerIDs = new ArrayList(),
-		connections = ConnectionUtil.getConnectionInfoList(service);
+    public static List getConsumerIDs(String service) {
+        List consumerIDs = new ArrayList(), connections = ConnectionUtil.getConnectionInfoList(service);
 
-	if ((connections == null) || (connections.size() == 0))  {
-	    return (consumerIDs);
-	}
+        if ((connections == null) || (connections.size() == 0)) {
+            return (consumerIDs);
+        }
 
-	Iterator itr = connections.iterator();
-	int i = 0;
-	while (itr.hasNext()) {
-	    ConnectionInfo cxnInfo = (ConnectionInfo)itr.next();
-	    long cxnID = cxnInfo.uuid;
-	    List oneCxnConsumerIDs = ConnectionUtil.getConsumerIDs(cxnID);
+        Iterator itr = connections.iterator();
+        int i = 0;
+        while (itr.hasNext()) {
+            ConnectionInfo cxnInfo = (ConnectionInfo) itr.next();
+            long cxnID = cxnInfo.uuid;
+            List oneCxnConsumerIDs = ConnectionUtil.getConsumerIDs(cxnID);
 
-	    consumerIDs.addAll(oneCxnConsumerIDs);
-	}
+            consumerIDs.addAll(oneCxnConsumerIDs);
+        }
 
-	return (consumerIDs);
+        return (consumerIDs);
     }
 
-    public static List getProducerIDs(String service)  {
-	List	producerIDs = new ArrayList(),
-		connections = ConnectionUtil.getConnectionInfoList(service);
+    public static List getProducerIDs(String service) {
+        List producerIDs = new ArrayList(), connections = ConnectionUtil.getConnectionInfoList(service);
 
-	if ((connections == null) || (connections.size() == 0))  {
-	    return (producerIDs);
-	}
+        if ((connections == null) || (connections.size() == 0)) {
+            return (producerIDs);
+        }
 
-	Iterator itr = connections.iterator();
-	int i = 0;
-	while (itr.hasNext()) {
-	    ConnectionInfo cxnInfo = (ConnectionInfo)itr.next();
-	    long cxnID = cxnInfo.uuid;
-	    List oneCxnProducerIDs = ConnectionUtil.getProducerIDs(cxnID);
+        Iterator itr = connections.iterator();
+        int i = 0;
+        while (itr.hasNext()) {
+            ConnectionInfo cxnInfo = (ConnectionInfo) itr.next();
+            long cxnID = cxnInfo.uuid;
+            List oneCxnProducerIDs = ConnectionUtil.getProducerIDs(cxnID);
 
-	    producerIDs.addAll(oneCxnProducerIDs);
-	}
+            producerIDs.addAll(oneCxnProducerIDs);
+        }
 
-	return (producerIDs);
+        return (producerIDs);
     }
 
 }

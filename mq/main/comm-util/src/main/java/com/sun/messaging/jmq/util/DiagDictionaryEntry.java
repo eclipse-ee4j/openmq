@@ -16,18 +16,16 @@
 
 /*
  * @(#)DiagDictionaryEntry.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-
 /**
- * Diagnostic dictionary entry. 
+ * Diagnostic dictionary entry.
  *
- * DiagManager requires a data dictionary listing all fields to be
- * inspected and displayed for a particular data class. A dictionary
- * is a List of DiagDictionaryEntry's. The fields will be displayed in
- * the order that they appear in the dictionary.
+ * DiagManager requires a data dictionary listing all fields to be inspected and displayed for a particular data class.
+ * A dictionary is a List of DiagDictionaryEntry's. The fields will be displayed in the order that they appear in the
+ * dictionary.
  */
 public class DiagDictionaryEntry {
 
@@ -35,8 +33,7 @@ public class DiagDictionaryEntry {
     protected int type = 0;
 
     /**
-     * Create a diag dictionary entry. And entry consists of the 
-     * name of the field, and it's type. type should be one of
+     * Create a diag dictionary entry. And entry consists of the name of the field, and it's type. type should be one of
      * DiagManager.CONSTANT, DiagManager.VARIABLE, DiagManager.COUNTER
      */
     public DiagDictionaryEntry(String name, int type) {

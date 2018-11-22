@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetDestinationsHandler.java	1.39 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -47,23 +47,21 @@ import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 
-public class GetDestinationsHandler extends AdminCmdHandler
-{
+public class GetDestinationsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public GetDestinationsHandler(AdminDataHandler parent) {
-    super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con    The Connection the message came in on.
-     * @param cmd_msg    The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-                       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {
             logger.log(Logger.INFO, "GetDestiantionsHandler: " + cmd_props);
@@ -73,19 +71,18 @@ public class GetDestinationsHandler extends AdminCmdHandler
         int status = Status.OK;
         String errMsg = null;
 
-        String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-        Integer destType = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
-        Boolean val = (Boolean)cmd_props.get(MessageType.JMQ_SHOW_PARTITION);
-        boolean showpartition = (val == null ? false:val.booleanValue());
-        val = (Boolean)cmd_props.get(MessageType.JMQ_LOAD_DESTINATION);
-        boolean load = (val == null ? false:val.booleanValue());
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer destType = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        Boolean val = (Boolean) cmd_props.get(MessageType.JMQ_SHOW_PARTITION);
+        boolean showpartition = (val == null ? false : val.booleanValue());
+        val = (Boolean) cmd_props.get(MessageType.JMQ_LOAD_DESTINATION);
+        boolean load = (val == null ? false : val.booleanValue());
 
         assert destination == null || destType != null;
 
         if (destination != null) {
             try {
-                Destination[] ds = DL.getDestination(null, destination,
-                          DestType.isQueue(destType.intValue()));
+                Destination[] ds = DL.getDestination(null, destination, DestType.isQueue(destType.intValue()));
                 Destination d = null;
                 DestinationInfo dinfo = null;
                 for (int i = 0; i < ds.length; i++) {
@@ -101,77 +98,74 @@ public class GetDestinationsHandler extends AdminCmdHandler
                         if (showpartition) {
                             v.add(dinfo);
                         }
-                    } 
+                    }
                 }
                 if (dinfo == null) {
-                    throw new BrokerException(
-                        rb.getString(rb.X_DESTINATION_NOT_FOUND,
-                            destination), Status.NOT_FOUND);
+                    throw new BrokerException(rb.getString(rb.X_DESTINATION_NOT_FOUND, destination), Status.NOT_FOUND);
                 }
                 if (!showpartition) {
                     v.add(dinfo);
                 }
             } catch (Exception ex) {
                 status = Status.ERROR;
-                errMsg= ex.getMessage();
+                errMsg = ex.getMessage();
                 if (ex instanceof BrokerException) {
-                    status = ((BrokerException)ex).getStatusCode();
+                    status = ((BrokerException) ex).getStatusCode();
                 }
                 logger.logStack(Logger.ERROR, errMsg, ex);
             }
         } else {
-                // Get info on ALL destinations
-    
+            // Get info on ALL destinations
+
             try {
 
-            LinkedHashMap<DestinationUID, DestinationInfo> map = 
-                          new LinkedHashMap<DestinationUID, DestinationInfo>();
-            Iterator[] itrs = DL.getAllDestinations(null);
-            int cnt = itrs.length;
-            DestinationInfo dinfo = null;
-            DestinationUID duid = null;
-            Destination d = null;
-            for (int i = 0; i < cnt; i++) {
-                 Iterator itr = itrs[i];
-                 while (itr.hasNext()) {
-                     d = (Destination)itr.next();
-                     if (load) {
-                         d.load();
-                     }
-                     duid = d.getDestinationUID();
-                     dinfo = map.get(d.getDestinationUID());
-                     dinfo = getDestinationInfo(d, dinfo, showpartition);
-                     map.put(duid, dinfo);
-                     if (showpartition) {
-                         v.add(dinfo);
-                     } 
-                }  
-            }
-            if (!showpartition) {
-                Iterator<DestinationInfo> itr = map.values().iterator();
-                while (itr.hasNext()) {
-                    v.add(itr.next());
+                LinkedHashMap<DestinationUID, DestinationInfo> map = new LinkedHashMap<DestinationUID, DestinationInfo>();
+                Iterator[] itrs = DL.getAllDestinations(null);
+                int cnt = itrs.length;
+                DestinationInfo dinfo = null;
+                DestinationUID duid = null;
+                Destination d = null;
+                for (int i = 0; i < cnt; i++) {
+                    Iterator itr = itrs[i];
+                    while (itr.hasNext()) {
+                        d = (Destination) itr.next();
+                        if (load) {
+                            d.load();
+                        }
+                        duid = d.getDestinationUID();
+                        dinfo = map.get(d.getDestinationUID());
+                        dinfo = getDestinationInfo(d, dinfo, showpartition);
+                        map.put(duid, dinfo);
+                        if (showpartition) {
+                            v.add(dinfo);
+                        }
+                    }
                 }
-            }
+                if (!showpartition) {
+                    Iterator<DestinationInfo> itr = map.values().iterator();
+                    while (itr.hasNext()) {
+                        v.add(itr.next());
+                    }
+                }
 
             } catch (Exception ex) {
-            status = Status.ERROR;
-            errMsg= ex.getMessage();
-            if (ex instanceof BrokerException) {
-                status = ((BrokerException)ex).getStatusCode();
-            }
-            logger.logStack(Logger.ERROR, errMsg, ex);
+                status = Status.ERROR;
+                errMsg = ex.getMessage();
+                if (ex instanceof BrokerException) {
+                    status = ((BrokerException) ex).getStatusCode();
+                }
+                logger.logStack(Logger.ERROR, errMsg, ex);
             }
         }
         // Send reply
         Packet reply = new Packet(con.useDirectBuffers());
         reply.setPacketType(PacketType.OBJECT_MESSAGE);
-   
+
         setProperties(reply, MessageType.GET_DESTINATIONS_REPLY, status, errMsg);
-   
+
         setBodyObject(reply, v);
         parent.sendReply(con, cmd_msg, reply);
- 
+
         return true;
     }
 
@@ -179,8 +173,7 @@ public class GetDestinationsHandler extends AdminCmdHandler
         return getDestinationInfo(d, null, false);
     }
 
-    private static DestinationInfo getDestinationInfo(
-        Destination d, DestinationInfo dinfo, boolean showpartition) {
+    private static DestinationInfo getDestinationInfo(Destination d, DestinationInfo dinfo, boolean showpartition) {
 
         DestinationInfo di = dinfo;
         if (di == null || showpartition) {
@@ -194,22 +187,19 @@ public class GetDestinationsHandler extends AdminCmdHandler
         }
         di.nProducers += d.getProducerCount();
         if (dinfo == null || showpartition) {
-            di.autocreated= (d.isAutoCreated() || d.isInternal() || d.isDMQ()
-                             || d.isAdmin());
+            di.autocreated = (d.isAutoCreated() || d.isInternal() || d.isDMQ() || d.isAdmin());
         }
         if (dinfo == null || showpartition) {
             di.destState = d.getState();
         }
         if (d.isAdmin() || !showpartition) {
-            di.name=d.getDestinationName();
+            di.name = d.getDestinationName();
         } else {
             PartitionedStore pstore = d.getPartitionedStore();
-            di.name=d.getDestinationName()+
-                "["+pstore.getPartitionID()+(pstore.isPrimaryPartition() ? "*]":"]");
+            di.name = d.getDestinationName() + "[" + pstore.getPartitionID() + (pstore.isPrimaryPartition() ? "*]" : "]");
         }
         if (dinfo == null || showpartition) {
-            di.type = d.getType() &
-                ~(DestType.DEST_INTERNAL | DestType.DEST_AUTO | DestType.DEST_ADMIN);
+            di.type = d.getType() & ~(DestType.DEST_INTERNAL | DestType.DEST_AUTO | DestType.DEST_ADMIN);
             di.fulltype = d.getType();
         }
 
@@ -243,69 +233,69 @@ public class GetDestinationsHandler extends AdminCmdHandler
             di.reloadXMLSchemaOnFailure = d.reloadXMLSchemaOnFailure();
         }
 
-	if (!d.isQueue())  {
-	    Hashtable<String, Integer> h = new Hashtable<String, Integer>();
+        if (!d.isQueue()) {
+            Hashtable<String, Integer> h = new Hashtable<String, Integer>();
 
             if (dinfo == null || showpartition) {
 
-	    if (di.nConsumers > 0)  {
-		Iterator consumers = d.getConsumers();
+                if (di.nConsumers > 0) {
+                    Iterator consumers = d.getConsumers();
 
-		while (consumers.hasNext())  {
-		    Consumer oneCon = (Consumer)consumers.next();
+                    while (consumers.hasNext()) {
+                        Consumer oneCon = (Consumer) consumers.next();
 
-		    if (oneCon.isWildcard())  {
-			DestinationUID id = oneCon.getDestinationUID();
-			String wildcard = id.getName();
+                        if (oneCon.isWildcard()) {
+                            DestinationUID id = oneCon.getDestinationUID();
+                            String wildcard = id.getName();
 
-			Integer count = h.get(wildcard), newCount;
+                            Integer count = h.get(wildcard), newCount;
 
-			if (count == null)  {
-			    newCount = Integer.valueOf(1);
-			} else  {
-			    newCount = Integer.valueOf(count.intValue() + 1);
-			}
-			h.put(wildcard, newCount);
-		    }
-		}
-	    }
-	    if (h.size() > 0)  {
-	        di.consumerWildcards = h;
-	    }
+                            if (count == null) {
+                                newCount = Integer.valueOf(1);
+                            } else {
+                                newCount = Integer.valueOf(count.intValue() + 1);
+                            }
+                            h.put(wildcard, newCount);
+                        }
+                    }
+                }
+                if (h.size() > 0) {
+                    di.consumerWildcards = h;
+                }
             }
 
-	    h = di.producerWildcards; 
+            h = di.producerWildcards;
             if (h == null) {
                 h = new Hashtable<String, Integer>();
             }
-	    if (di.nProducers > 0)  {
-		Iterator producers = d.getProducers();
+            if (di.nProducers > 0) {
+                Iterator producers = d.getProducers();
 
-		while (producers.hasNext())  {
-		    Producer oneProd = (Producer)producers.next();
+                while (producers.hasNext()) {
+                    Producer oneProd = (Producer) producers.next();
 
-		    if (oneProd.isWildcard())  {
-			DestinationUID id = oneProd.getDestinationUID();
-			String wildcard = id.getName();
+                    if (oneProd.isWildcard()) {
+                        DestinationUID id = oneProd.getDestinationUID();
+                        String wildcard = id.getName();
 
-			Integer count = h.get(wildcard), newCount;
+                        Integer count = h.get(wildcard), newCount;
 
-			if (count == null)  {
-			    newCount = Integer.valueOf(1);
-			} else  {
-			    newCount = Integer.valueOf(count.intValue() + 1);
-			}
-			h.put(wildcard, newCount);
-		    }
-		}
-	    }
+                        if (count == null) {
+                            newCount = Integer.valueOf(1);
+                        } else {
+                            newCount = Integer.valueOf(count.intValue() + 1);
+                        }
+                        h.put(wildcard, newCount);
+                    }
+                }
+            }
 
-	    if (h.size() > 0)  {
-	        di.producerWildcards = h;
-	    }
-	}
- 
+            if (h.size() > 0) {
+                di.producerWildcards = h;
+            }
+        }
+
         return di;
-        
+
     }
 }

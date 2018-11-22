@@ -16,7 +16,7 @@
 
 /*
  * @(#)PauseHandler.java	1.27 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -46,112 +46,93 @@ import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-public class PauseHandler extends AdminCmdHandler
-{
+public class PauseHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();
 
     public PauseHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "Pausing: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Pausing: " + cmd_props);
         }
 
-	    String pauseTarget = (String)cmd_props.get(MessageType.JMQ_PAUSE_TARGET);
-	    String service = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
-	    String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-        Integer type = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        String pauseTarget = (String) cmd_props.get(MessageType.JMQ_PAUSE_TARGET);
+        String service = (String) cmd_props.get(MessageType.JMQ_SERVICE_NAME);
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer type = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
 
-        Integer pauseType = (Integer)cmd_props.get(MessageType.JMQ_DEST_STATE);
+        Integer pauseType = (Integer) cmd_props.get(MessageType.JMQ_DEST_STATE);
 
         int status = Status.OK;
         String errMsg = null;
 
         assert service == null || destination == null;
 
-	/*
-	 * Compatibility with MQ 3.0.1
-	 * If pause target not set, assume that the service is being
-	 * paused.
-	 */
-	if (pauseTarget == null)  {
-	    pauseTarget = MessageType.JMQ_SERVICE_NAME;
-	}
+        /*
+         * Compatibility with MQ 3.0.1 If pause target not set, assume that the service is being paused.
+         */
+        if (pauseTarget == null) {
+            pauseTarget = MessageType.JMQ_SERVICE_NAME;
+        }
 
         try {
-	    if (MessageType.JMQ_SERVICE_NAME.equals(pauseTarget))  {
-		if (service == null)  {
-                    logger.log(Logger.INFO,
-                       BrokerResources.I_PAUSING_ALL_SVCS);
-		} else  {
-                    logger.log(Logger.INFO,
-                       BrokerResources.I_PAUSING_SVC,
-                       service);
-		}
+            if (MessageType.JMQ_SERVICE_NAME.equals(pauseTarget)) {
+                if (service == null) {
+                    logger.log(Logger.INFO, BrokerResources.I_PAUSING_ALL_SVCS);
+                } else {
+                    logger.log(Logger.INFO, BrokerResources.I_PAUSING_SVC, service);
+                }
                 pauseService(true, service);
-	    } else if (MessageType.JMQ_DESTINATION.equals(pauseTarget))  {
-                logger.log(Logger.INFO,
-                       BrokerResources.I_PAUSING_DST,
-                       destination);
-                int pauseval = (pauseType == null ? 
-                   DestState.PAUSED : pauseType.intValue());
+            } else if (MessageType.JMQ_DESTINATION.equals(pauseTarget)) {
+                logger.log(Logger.INFO, BrokerResources.I_PAUSING_DST, destination);
+                int pauseval = (pauseType == null ? DestState.PAUSED : pauseType.intValue());
 
-		if (destination == null)  {
+                if (destination == null) {
                     Iterator[] itrs = DL.getAllDestinations(null);
-                    Iterator itr = itrs[0]; //PART
+                    Iterator itr = itrs[0]; // PART
                     while (itr.hasNext()) {
-                        Destination d =(Destination)itr.next();
+                        Destination d = (Destination) itr.next();
 
-			/*
-			 * Skip internal, admin, or temp destinations.
-			 * Skipping temp destinations may need to be
-			 * revisited.
-			 */
-			if (d.isInternal() || d.isAdmin() || d.isTemporary())  {
-			    continue;
-			}
+                        /*
+                         * Skip internal, admin, or temp destinations. Skipping temp destinations may need to be revisited.
+                         */
+                        if (d.isInternal() || d.isAdmin() || d.isTemporary()) {
+                            continue;
+                        }
 
                         d.pauseDestination(pauseval);
                     }
-		} else  {
-                    Destination[] ds = DL.getDestination(null,
-                                        destination,
-                                        DestType.isQueue(type.intValue()));
-                    Destination d = ds[0]; //PART
+                } else {
+                    Destination[] ds = DL.getDestination(null, destination, DestType.isQueue(type.intValue()));
+                    Destination d = ds[0]; // PART
                     if (d == null) {
-                        String msg = Globals.getBrokerResources().getString(
-                             BrokerResources.I_PAUSED_DST_NOT_EXIST,
-                       (DestType.isQueue(type.intValue()) ? " queue:" :
-                           " topic:") +destination );
+                        String msg = Globals.getBrokerResources().getString(BrokerResources.I_PAUSED_DST_NOT_EXIST,
+                                (DestType.isQueue(type.intValue()) ? " queue:" : " topic:") + destination);
 
                         errMsg = msg;
                         status = Status.NOT_FOUND;
-                        logger.log(Logger.ERROR,msg);
+                        logger.log(Logger.ERROR, msg);
                     } else {
-			if (d.isInternal() || d.isAdmin())  {
-                             errMsg = Globals.getBrokerResources().getString(
-                                 BrokerResources.I_PAUSED_ADMIN,
-                                (DestType.isQueue(type.intValue()) ? " queue:" :
-                                 " topic:") +destination );
+                        if (d.isInternal() || d.isAdmin()) {
+                            errMsg = Globals.getBrokerResources().getString(BrokerResources.I_PAUSED_ADMIN,
+                                    (DestType.isQueue(type.intValue()) ? " queue:" : " topic:") + destination);
                             logger.log(Logger.INFO, errMsg);
 
                             status = Status.ERROR;
-			} else  {
+                        } else {
                             d.pauseDestination(pauseval);
-			}
+                        }
                     }
                 }
             }
@@ -168,34 +149,30 @@ public class PauseHandler extends AdminCmdHandler
             status = Status.NOT_FOUND;
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.PAUSE_REPLY, status, errMsg);
+        setProperties(reply, MessageType.PAUSE_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
     }
 
     /**
-     * Pause/Resume a service. If service is null we pause/resume all nonADMIN 
-     * services. 
+     * Pause/Resume a service. If service is null we pause/resume all nonADMIN services.
      *
-     * @throws IllegalArgumentException If serviceName is not a valid service
-     *                                  name
+     * @throws IllegalArgumentException If serviceName is not a valid service name
      * @throws BrokerException If service can't be paused/resumed
      */
-    public static void pauseService(boolean pause, String serviceName)
-        throws BrokerException, IllegalArgumentException {
+    public static void pauseService(boolean pause, String serviceName) throws BrokerException, IllegalArgumentException {
 
-	ServiceManager sm = Globals.getServiceManager();
+        ServiceManager sm = Globals.getServiceManager();
         Set activeServices = null;
         BrokerResources rb = Globals.getBrokerResources();
 
         if (serviceName != null && sm.getService(serviceName) == null) {
-            throw new IllegalArgumentException(rb.getString(
-                rb.X_NO_SUCH_SERVICE, serviceName));
+            throw new IllegalArgumentException(rb.getString(rb.X_NO_SUCH_SERVICE, serviceName));
         }
 
         if (pause) {

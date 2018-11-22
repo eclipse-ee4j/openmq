@@ -31,20 +31,13 @@ import com.sun.messaging.bridge.api.KeyNotFoundException;
 public interface JMSBGDAO extends BaseDAO {
 
     /**
-     * TMLogRecord table:
-     * Holds all the txlog records
+     * TMLogRecord table: Holds all the txlog records
      *
-     * CREATE TABLE MQJMSBG<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *     NAME VARCHAR(100) NOT NULL,\
-     *     BROKER_ID VARCHAR(100) NOT NULL,\
-     *     CREATED_TS DOUBLE INTEGER NOT NULL,\
-     *     UPDATED_TS DOUBLE INTEGER NOT NULL,\
-     *     PRIMARY KEY(NAME))
+     * CREATE TABLE MQJMSBG<schemaVersion>[C<clusterID>|S<brokerID>] ( NAME VARCHAR(100) NOT NULL,\ BROKER_ID VARCHAR(100)
+     * NOT NULL,\ CREATED_TS DOUBLE INTEGER NOT NULL,\ UPDATED_TS DOUBLE INTEGER NOT NULL,\ PRIMARY KEY(NAME))
      *
-     * NAME - jmsbridge name
-     * BROKER_ID - The Broker ID who owns the jmsbridge
-     * CREATED_TS_COLUMN - Timestamp when the entry is created 
-     * UPDATED_TS_COLUMN - Timestamp when the entry was last updated 
+     * NAME - jmsbridge name BROKER_ID - The Broker ID who owns the jmsbridge CREATED_TS_COLUMN - Timestamp when the entry
+     * is created UPDATED_TS_COLUMN - Timestamp when the entry was last updated
      */
     public static final String TABLE = "MQJMSBG";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
@@ -55,14 +48,11 @@ public interface JMSBGDAO extends BaseDAO {
 
     /**
      * @param conn database connection
-     * @param name jmsbridge name 
+     * @param name jmsbridge name
      * @param logger_ can be null;
      * @throws Exception
      */
-    public void insert(Connection conn,
-                       String name,
-                       java.util.logging.Logger logger_)
-                       throws Exception;
+    public void insert(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
@@ -72,57 +62,42 @@ public interface JMSBGDAO extends BaseDAO {
      * @param logger_ can be null;
      * @throws Exception
      */
-    public void updateBrokerId(Connection conn,
-                               String name,
-                               String newBrokerId,
-                               String expectedBrokerId,
-                               java.util.logging.Logger logger_)
-                               throws Exception;
-
-    /**
-     * @param conn database connection
-     * @param name jmsbridge name 
-     * @param logger_ can be null;
-     * @throws Exception
-     */
-    public void delete(Connection conn,
-                       String name,
-                       java.util.logging.Logger logger_)
-                       throws Exception;
+    public void updateBrokerId(Connection conn, String name, String newBrokerId, String expectedBrokerId, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
      * @param name jmsbridge name
      * @param logger_ can be null;
-     * @return brokerId 
      * @throws Exception
      */
-    public String getBrokerId(Connection conn, 
-                              String name,
-                              java.util.logging.Logger logger_)
-                              throws Exception;
+    public void delete(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
-     * @param name jmsbridge name 
+     * @param name jmsbridge name
+     * @param logger_ can be null;
+     * @return brokerId
+     * @throws Exception
+     */
+    public String getBrokerId(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
+
+    /**
+     * @param conn database connection
+     * @param name jmsbridge name
      * @param logger_ can be null;
      * @return updated time
      * @throws Exception
      */
-    public long getUpdatedTime(Connection conn, String name,
-                               java.util.logging.Logger logger_)
-                               throws Exception;
+    public long getUpdatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * @param conn database connection
-     * @param name jmsbridge name 
+     * @param name jmsbridge name
      * @param logger_ can be null;
      * @return created time
      * @throws Exception
      */
-    public long getCreatedTime(Connection conn, String name,
-                               java.util.logging.Logger logger_)
-                               throws Exception;
+    public long getCreatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws Exception;
 
     /**
      * Get JMS bridge names owned by a broker
@@ -133,10 +108,6 @@ public interface JMSBGDAO extends BaseDAO {
      * @return list of names owned by the brokerId
      * @throws Exception
      */
-    public List getNamesByBroker(Connection conn, 
-                                 String brokerID,
-                                 java.util.logging.Logger logger_)
-                                 throws Exception;
-
+    public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception;
 
 }

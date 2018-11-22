@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestroyDestinationHandler.java	1.29 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -37,87 +37,74 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditSession;
 
-public class DestroyDestinationHandler extends AdminCmdHandler
-{
+public class DestroyDestinationHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public DestroyDestinationHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "Destroying destination: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Destroying destination: " + cmd_props);
         }
 
-	String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-	Integer destType = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer destType = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
 
         int status = Status.OK;
         String errMsg = null;
 
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + errMsg);
-	} else  {
-        try {
+        } else {
+            try {
 
-            if (destType == null) {
-                throw new Exception(rb.X_NO_DEST_TYPE_SET);
-            }
+                if (destType == null) {
+                    throw new Exception(rb.X_NO_DEST_TYPE_SET);
+                }
 
-            // audit logging for destroy destination
-            Globals.getAuditSession().destinationOperation(
-            		con.getUserName(), con.remoteHostString(),
-            		MQAuditSession.DESTROY_DESTINATION,
-            		DestType.isQueue(destType.intValue())?MQAuditSession.QUEUE:MQAuditSession.TOPIC,
-					destination);
+                // audit logging for destroy destination
+                Globals.getAuditSession().destinationOperation(con.getUserName(), con.remoteHostString(), MQAuditSession.DESTROY_DESTINATION,
+                        DestType.isQueue(destType.intValue()) ? MQAuditSession.QUEUE : MQAuditSession.TOPIC, destination);
 
-            Destination[] ds = DL.removeDestination(null, destination,
-                             DestType.isQueue(destType.intValue()),
-                             rb.getString(rb.M_ADMIN_REQUEST));
-            Destination d = ds[0];
-            boolean ok = (d != null);
+                Destination[] ds = DL.removeDestination(null, destination, DestType.isQueue(destType.intValue()), rb.getString(rb.M_ADMIN_REQUEST));
+                Destination d = ds[0];
+                boolean ok = (d != null);
 
-            if (!ok) {
+                if (!ok) {
+                    status = Status.ERROR;
+                    String subError = rb.getString(rb.E_NO_SUCH_DESTINATION, getDestinationType(destType.intValue()), destination);
+                    errMsg = rb.getString(rb.X_DESTROY_DEST_EXCEPTION, destination, subError);
+
+                }
+            } catch (Exception ex) {
                 status = Status.ERROR;
-                String subError = rb.getString(rb.E_NO_SUCH_DESTINATION,
-                        getDestinationType(destType.intValue()), destination);
-                errMsg = rb.getString( rb.X_DESTROY_DEST_EXCEPTION, 
-                            destination, subError);
+                errMsg = rb.getString(rb.X_DESTROY_DEST_EXCEPTION, destination, getMessageFromException(ex));
+                logger.logStack(Logger.WARNING, rb.X_DESTROY_DEST_EXCEPTION, destination, "", ex);
 
             }
-        } catch (Exception ex) {
-            status = Status.ERROR;
-            errMsg = rb.getString( rb.X_DESTROY_DEST_EXCEPTION, 
-                            destination, getMessageFromException(ex));
-            logger.logStack(Logger.WARNING, rb.X_DESTROY_DEST_EXCEPTION,
-                             destination, "",ex);
-
-        }
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.DESTROY_DESTINATION_REPLY,
-		status, errMsg);
+        setProperties(reply, MessageType.DESTROY_DESTINATION_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
     }
 }

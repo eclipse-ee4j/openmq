@@ -16,34 +16,29 @@
 
 /*
  * @(#)ServerSession.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsspi;
 
 /**
- * A ConnectionConsumer implemented by a JMS provider uses a ServerSession
- * to process one or more messages that have arrived. It does this by getting
- * a ServerSession from the ConnectionConsumer's ServerSessionPool; getting
- * the ServerSession's JMS session; loading it with the messages; and then
- * starting the ServerSession.
-
- * ServerSession is an abstraction of the association between a JMS Session,
- * a thread and a message-bean instance. Each ServerSession given to a
- * ConnectionConsumer represents a single thread of message-delivery.
+ * A ConnectionConsumer implemented by a JMS provider uses a ServerSession to process one or more messages that have
+ * arrived. It does this by getting a ServerSession from the ConnectionConsumer's ServerSessionPool; getting the
+ * ServerSession's JMS session; loading it with the messages; and then starting the ServerSession.
+ * 
+ * ServerSession is an abstraction of the association between a JMS Session, a thread and a message-bean instance. Each
+ * ServerSession given to a ConnectionConsumer represents a single thread of message-delivery.
  *
- * This interface extends javax.jms.ServerSession 
+ * This interface extends javax.jms.ServerSession
  *
  */
 
 public interface ServerSession extends javax.jms.ServerSession {
 
     /**
-     * Hook to enable container processing just prior to msg delivery.
-     * For example, allow a transaction to be started just prior to msg
-     * being delivered to the Session MessageListener.
+     * Hook to enable container processing just prior to msg delivery. For example, allow a transaction to be started just
+     * prior to msg being delivered to the Session MessageListener.
      *
-     * To be called by the thread that invokes Session's 
-     * MessageListener.onMessage()
+     * To be called by the thread that invokes Session's MessageListener.onMessage()
      *
      * This call must be paired with the call afterMessageDelivery
      *
@@ -54,23 +49,19 @@ public interface ServerSession extends javax.jms.ServerSession {
     /**
      * Hook to enable container processing after msg delivery.
      *
-     * To be called by the thread that invokes Session's 
-     * MessageListener.onMessage()
+     * To be called by the thread that invokes Session's MessageListener.onMessage()
      *
      * @param msg Message that was delivered.
      */
     void afterMessageDelivery(javax.jms.Message msg);
 
     /**
-     * Indicate that this ServerSession is invalidate and should not 
-     * be used again. 
+     * Indicate that this ServerSession is invalidate and should not be used again.
      *
-     * To be called by ConnectionConsumer when finds the ServerSession
-     * invalid (e.g. unable to getSession or its Session is invalid).
+     * To be called by ConnectionConsumer when finds the ServerSession invalid (e.g. unable to getSession or its Session is
+     * invalid).
      *
-     * This method must not be called after ServerSession.start() has
-     * been successfully returned.
+     * This method must not be called after ServerSession.start() has been successfully returned.
      */
     void destroy();
 }
-

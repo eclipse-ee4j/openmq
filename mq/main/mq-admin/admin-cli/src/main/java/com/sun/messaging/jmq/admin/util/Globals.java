@@ -16,7 +16,7 @@
 
 /*
  * @(#)Globals.java	1.15 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.util;
 
@@ -26,17 +26,15 @@ import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
 /**
- * Singleton class which contains any Globals for the
- * system.<P>
+ * Singleton class which contains any Globals for the system.
+ * <P>
  *
- * Other singleton classes which can be considered static
- * once they are retrieved (they do not need to be retrieved
- * from the static method each time they are used) should
- * also be defined here <P>
+ * Other singleton classes which can be considered static once they are retrieved (they do not need to be retrieved from
+ * the static method each time they are used) should also be defined here
+ * <P>
  */
 
-public class Globals extends CommonGlobals
-{
+public class Globals extends CommonGlobals {
     private static final Object lock = Globals.class;
 
     private static AdminResources ar = null;
@@ -44,16 +42,16 @@ public class Globals extends CommonGlobals
 
     private static Globals globals = null;
 
+    // ------------------------------------------------------------------------
+    // -- static brokerConfig objects --
+    // ------------------------------------------------------------------------
 
-    //------------------------------------------------------------------------
-    //--                 static brokerConfig objects                 --
-    //------------------------------------------------------------------------
-  
-    private Globals() { }
+    private Globals() {
+    }
 
     public static Globals getGlobals() {
         if (globals == null) {
-            synchronized(lock) {
+            synchronized (lock) {
                 if (globals == null)
                     globals = new Globals();
             }
@@ -61,27 +59,26 @@ public class Globals extends CommonGlobals
         return globals;
     }
 
-
     public static AdminResources getAdminResources() {
-	if (ar == null) {
-            synchronized(lock) {
-	        if (ar == null) {
-	            ar = AdminResources.getResources(Locale.getDefault());
-		}
-	    }
-	}
-	return ar;
+        if (ar == null) {
+            synchronized (lock) {
+                if (ar == null) {
+                    ar = AdminResources.getResources(Locale.getDefault());
+                }
+            }
+        }
+        return ar;
     }
 
     public static AdminConsoleResources getAdminConsoleResources() {
-	if (acr == null) {
-            synchronized(lock) {
-	        if (acr == null) {
-	            acr = AdminConsoleResources.getResources(Locale.getDefault());
-		}
-	    }
-	}
-	return acr;
+        if (acr == null) {
+            synchronized (lock) {
+                if (acr == null) {
+                    acr = AdminConsoleResources.getResources(Locale.getDefault());
+                }
+            }
+        }
+        return acr;
     }
 
     /*---------------------------------------------
@@ -93,51 +90,46 @@ public class Globals extends CommonGlobals
     /**
      * system property name for the non-editable JMQ home location
      */
-    public static final String JMQ_HOME_PROPERTY="imq.home";
+    public static final String JMQ_HOME_PROPERTY = "imq.home";
 
     /**
      * system property name for the editable JMQ home location
      */
-    public static final String JMQ_VAR_HOME_PROPERTY="imq.varhome";
+    public static final String JMQ_VAR_HOME_PROPERTY = "imq.varhome";
 
     /**
      * system property name for the /usr/share/lib location
      */
-    public static final String JMQ_LIB_HOME_PROPERTY="imq.libhome";
+    public static final String JMQ_LIB_HOME_PROPERTY = "imq.libhome";
 
     /**
-     * default value for the non-editable JMQ home location (used if
-     * the system property is not set)
+     * default value for the non-editable JMQ home location (used if the system property is not set)
      */
     public static final String JMQ_HOME_default = ".";
 
     /**
-     * default value for the non-editable JMQ home location (used if
-     * the system property is not set)
+     * default value for the non-editable JMQ home location (used if the system property is not set)
      */
     public static final String JMQ_VAR_HOME_default = "var";
 
     /**
      * location the configuration is using for the non-editable home location
      */
-    public static final String JMQ_HOME = System.getProperty(JMQ_HOME_PROPERTY,JMQ_HOME_default); 
+    public static final String JMQ_HOME = System.getProperty(JMQ_HOME_PROPERTY, JMQ_HOME_default);
 
     /**
      * location the configuration is using for the editable home location
      */
-    public static final String JMQ_VAR_HOME = System.getProperty(JMQ_VAR_HOME_PROPERTY,JMQ_HOME + File.separator + JMQ_VAR_HOME_default);
+    public static final String JMQ_VAR_HOME = System.getProperty(JMQ_VAR_HOME_PROPERTY, JMQ_HOME + File.separator + JMQ_VAR_HOME_default);
 
     /**
      * location the configuration is using for the share lib home location
      */
-    public static final String JMQ_LIB_HOME = System.getProperty(JMQ_LIB_HOME_PROPERTY,JMQ_HOME + File.separator + "lib") ;
-
+    public static final String JMQ_LIB_HOME = System.getProperty(JMQ_LIB_HOME_PROPERTY, JMQ_HOME + File.separator + "lib");
 
     /**
-     * subdirectory under either the editable or non-editable location where the 
-     * configuration files are location
+     * subdirectory under either the editable or non-editable location where the configuration files are location
      */
-    public static final String JMQ_ADMIN_PROP_LOC = "props"+File.separator + "admin"+File.separator;
+    public static final String JMQ_ADMIN_PROP_LOC = "props" + File.separator + "admin" + File.separator;
 
 }
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQEmbeddedServiceFactory.java	10/28/08
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -38,56 +38,44 @@ import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
 
-public class IMQEmbeddedServiceFactory extends ServiceFactory
-{
+public class IMQEmbeddedServiceFactory extends ServiceFactory {
 
     protected static final Logger logger = Globals.getLogger();
 
     protected BrokerConfig props = Globals.getConfig();
 
-    protected int DEFAULT_DESTROY_TIMEOUT=30;
+    protected int DEFAULT_DESTROY_TIMEOUT = 30;
 
     @Override
-    public void checkFactoryHandlerName(String handlerName)
-    throws IllegalAccessException {
+    public void checkFactoryHandlerName(String handlerName) throws IllegalAccessException {
         String myname = "mqdirect";
         if (!myname.equals(handlerName)) {
-            throw new IllegalAccessException(
-            "Unexpected service Handler name "+handlerName+", expected "+myname);
+            throw new IllegalAccessException("Unexpected service Handler name " + handlerName + ", expected " + myname);
         }
     }
 
-    public  void updateService(Service s)
-        throws BrokerException
-    {
-        IMQService ss = (IMQService)s;
+    public void updateService(Service s) throws BrokerException {
+        IMQService ss = (IMQService) s;
         String name = s.getName();
 
         // set changes to the service
         int newmin = getThreadMin(name);
         int newmax = getThreadMax(name);
         try {
-        ss.setMinMaxThreadpool(newmin, newmax);
+            ss.setMinMaxThreadpool(newmin, newmax);
         } catch (IllegalArgumentException e) {
             throw new BrokerException(
-                     Globals.getBrokerResources().getKString(
-                         BrokerResources.X_THREADPOOL_BAD_SET,
-                         String.valueOf(newmin),
-                         String.valueOf(newmax)),
-                     e);
+                    Globals.getBrokerResources().getKString(BrokerResources.X_THREADPOOL_BAD_SET, String.valueOf(newmin), String.valueOf(newmax)), e);
         }
 
         // Register port with portmapper
-        Globals.getPortMapper().addService(name, "none",
-            props.getProperty(SERVICE_PREFIX + name + ".servicetype"),
-            0, ss.getServiceProperties());
-        
+        Globals.getPortMapper().addService(name, "none", props.getProperty(SERVICE_PREFIX + name + ".servicetype"), 0, ss.getServiceProperties());
+
     }
 
 // XXX - this is not optimized, but it should rarely happen
 
-    public  void startMonitoringService(Service s)
-        throws BrokerException {
+    public void startMonitoringService(Service s) throws BrokerException {
 
         String name = s.getName();
 
@@ -95,75 +83,60 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory
         String bstr = SERVICE_PREFIX + name + ".min_threads";
         props.addListener(bstr, this);
 
-
         bstr = SERVICE_PREFIX + name + ".max_threads";
         props.addListener(bstr, this);
     }
 
-    public  void stopMonitoringService(Service s)   
-        throws BrokerException
-    {
+    public void stopMonitoringService(Service s) throws BrokerException {
         String name = s.getName();
 
         // remove min/max properties
         String bstr = SERVICE_PREFIX + name + ".min";
         props.removeListener(bstr, this);
 
-
         bstr = SERVICE_PREFIX + name + ".max";
         props.removeListener(bstr, this);
     }
 
-
-    public  void validate(String name, String value)
-        throws PropertyUpdateException {
+    public void validate(String name, String value) throws PropertyUpdateException {
         // for now, dont bother with validation
     }
 
-    public  boolean update(String name, String value) 
-    {
+    public boolean update(String name, String value) {
 
         return true;
     }
 
-    protected int getThreadMin(String instancename) 
-    {
+    protected int getThreadMin(String instancename) {
         String bstr = SERVICE_PREFIX + instancename + ".min_threads";
-        return props.getIntProperty(bstr); 
+        return props.getIntProperty(bstr);
     }
 
-    protected int getPoolTimeout(String instancename) 
-    {
+    protected int getPoolTimeout(String instancename) {
         String bstr = SERVICE_PREFIX + instancename + ".destroy_timeout";
 
         // get timer and covert to seconds
-        return props.getIntProperty(bstr,DEFAULT_DESTROY_TIMEOUT )*1000; 
+        return props.getIntProperty(bstr, DEFAULT_DESTROY_TIMEOUT) * 1000;
     }
 
-    protected int getThreadMax(String instancename) 
-    {
+    protected int getThreadMax(String instancename) {
         String bstr = SERVICE_PREFIX + instancename + ".max_threads";
-        return props.getIntProperty(bstr); 
+        return props.getIntProperty(bstr);
     }
 
-    public Service createService(String instancename, int type) 
-        throws BrokerException
-    {
+    public Service createService(String instancename, int type) throws BrokerException {
         if (DEBUG) {
-            logger.log(Logger.DEBUG, " Creating new Service("+ instancename +
-                  ": Embedded )");
+            logger.log(Logger.DEBUG, " Creating new Service(" + instancename + ": Embedded )");
         }
 
-        Service svc = new IMQEmbeddedService(instancename,
-                type, Globals.getPacketRouter(type), getThreadMin(instancename),
-                getThreadMax(instancename)); 
+        Service svc = new IMQEmbeddedService(instancename, type, Globals.getPacketRouter(type), getThreadMin(instancename), getThreadMax(instancename));
 
         // bug 4433282 -> support optional timeout for pool
         long timeout = getPoolTimeout(instancename);
         if (timeout > 0)
-               ((IMQService)svc).setDestroyWaitTime(timeout);
+            ((IMQService) svc).setDestroyWaitTime(timeout);
         return svc;
- 
+
     }
 
 }

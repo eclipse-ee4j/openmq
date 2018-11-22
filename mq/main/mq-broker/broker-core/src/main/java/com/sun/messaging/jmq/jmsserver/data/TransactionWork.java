@@ -29,129 +29,120 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 
 public class TransactionWork {
-	List<TransactionWorkMessage> sentMessages;
-	List<TransactionWorkMessageAck> messageAcknowledgments;
+    List<TransactionWorkMessage> sentMessages;
+    List<TransactionWorkMessageAck> messageAcknowledgments;
 
-	public TransactionWork() {
-		sentMessages = new ArrayList<TransactionWorkMessage>();
-	}
+    public TransactionWork() {
+        sentMessages = new ArrayList<TransactionWorkMessage>();
+    }
 
-	public void addMessage(TransactionWorkMessage msg) {
-		if (sentMessages == null)
-			sentMessages = new ArrayList<TransactionWorkMessage>();
-		sentMessages.add(msg);
-	}
+    public void addMessage(TransactionWorkMessage msg) {
+        if (sentMessages == null)
+            sentMessages = new ArrayList<TransactionWorkMessage>();
+        sentMessages.add(msg);
+    }
 
-	public void addMessageAcknowledgement(TransactionWorkMessageAck ack) {
-		if (messageAcknowledgments == null)
-			messageAcknowledgments = new ArrayList<TransactionWorkMessageAck>();
-		messageAcknowledgments.add(ack);
-	}
+    public void addMessageAcknowledgement(TransactionWorkMessageAck ack) {
+        if (messageAcknowledgments == null)
+            messageAcknowledgments = new ArrayList<TransactionWorkMessageAck>();
+        messageAcknowledgments.add(ack);
+    }
 
-	public List<TransactionWorkMessage> getSentMessages() {
-		return sentMessages;
-	}
+    public List<TransactionWorkMessage> getSentMessages() {
+        return sentMessages;
+    }
 
-	public void setMessages(List<TransactionWorkMessage> sentMessages) {
-		this.sentMessages = sentMessages;
-	}
+    public void setMessages(List<TransactionWorkMessage> sentMessages) {
+        this.sentMessages = sentMessages;
+    }
 
-	public List<TransactionWorkMessageAck> getMessageAcknowledgments() {
-		return messageAcknowledgments;
-	}
+    public List<TransactionWorkMessageAck> getMessageAcknowledgments() {
+        return messageAcknowledgments;
+    }
 
-	public void setMessageAcknowledgments(
-			List<TransactionWorkMessageAck> messageAcknowledgments) {
-		this.messageAcknowledgments = messageAcknowledgments;
-	}
+    public void setMessageAcknowledgments(List<TransactionWorkMessageAck> messageAcknowledgments) {
+        this.messageAcknowledgments = messageAcknowledgments;
+    }
 
-	public int numSentMessages() {
-		if (sentMessages == null)
-			return 0;
-		return sentMessages.size();
-	}
+    public int numSentMessages() {
+        if (sentMessages == null)
+            return 0;
+        return sentMessages.size();
+    }
 
-	public int numMessageAcknowledgments() {
-		if (messageAcknowledgments == null)
-			return 0;
-		return messageAcknowledgments.size();
-	}
+    public int numMessageAcknowledgments() {
+        if (messageAcknowledgments == null)
+            return 0;
+        return messageAcknowledgments.size();
+    }
 
-	public void readWork(DataInputStream dis) throws IOException,
-			BrokerException {
-		
-		
-		// read sent messages
-		int numSentMessages = dis.readInt();
-		if (Store.getDEBUG()) {
-			Globals.getLogger().log(Logger.DEBUG,
-					getPrefix() + "readWork numSentMessages="+ numSentMessages);
-		}
-		List<TransactionWorkMessage> sentMessages = new ArrayList<TransactionWorkMessage>(
-				numSentMessages);
-		for (int i = 0; i < numSentMessages; i++) {
-			// Reconstruct the message
-			
-			TransactionWorkMessage workMessage = new TransactionWorkMessage();
-			workMessage.readWork(dis);					
-			sentMessages.add(workMessage);
-		}
-		this.setMessages(sentMessages);
+    public void readWork(DataInputStream dis) throws IOException, BrokerException {
 
-		// read message acknowledgements
-		int numConsumedMessages = dis.readInt();
-		List<TransactionWorkMessageAck> consumedMessages = new ArrayList<TransactionWorkMessageAck>(
-				numConsumedMessages);
-		for (int i = 0; i < numConsumedMessages; i++) {
-			TransactionWorkMessageAck messageAck = new TransactionWorkMessageAck();
-			messageAck.readWork(dis);			
-			consumedMessages.add(messageAck);
-		}
-		this.setMessageAcknowledgments(consumedMessages);
-	}
+        // read sent messages
+        int numSentMessages = dis.readInt();
+        if (Store.getDEBUG()) {
+            Globals.getLogger().log(Logger.DEBUG, getPrefix() + "readWork numSentMessages=" + numSentMessages);
+        }
+        List<TransactionWorkMessage> sentMessages = new ArrayList<TransactionWorkMessage>(numSentMessages);
+        for (int i = 0; i < numSentMessages; i++) {
+            // Reconstruct the message
 
-	public void writeWork(DataOutputStream dos) throws IOException {
-		// Msgs produce section
-		dos.writeInt(numSentMessages());
-		// Number of msgs (4 bytes)
-		if (Store.getDEBUG()) {
-			String msg = getPrefix() + " writeWork numSentMessages="
-					+ numSentMessages() + " numMessageAcknowledgments="
-					+ numMessageAcknowledgments();
-			Globals.getLogger().log(Logger.DEBUG, msg);
-		}
+            TransactionWorkMessage workMessage = new TransactionWorkMessage();
+            workMessage.readWork(dis);
+            sentMessages.add(workMessage);
+        }
+        this.setMessages(sentMessages);
 
-		if (numSentMessages() > 0) {
-			Iterator<TransactionWorkMessage> itr = getSentMessages().iterator();
-			while (itr.hasNext()) {
-				TransactionWorkMessage workMessage = itr.next();
-				workMessage.writeWork(dos);
-			}
-		}
+        // read message acknowledgements
+        int numConsumedMessages = dis.readInt();
+        List<TransactionWorkMessageAck> consumedMessages = new ArrayList<TransactionWorkMessageAck>(numConsumedMessages);
+        for (int i = 0; i < numConsumedMessages; i++) {
+            TransactionWorkMessageAck messageAck = new TransactionWorkMessageAck();
+            messageAck.readWork(dis);
+            consumedMessages.add(messageAck);
+        }
+        this.setMessageAcknowledgments(consumedMessages);
+    }
 
-		// Msgs consume section
-		dos.writeInt(numMessageAcknowledgments());
-		// Number of acks (4 bytes)
-		if (numMessageAcknowledgments() > 0) {
-			Iterator<TransactionWorkMessageAck> ackItr = getMessageAcknowledgments()
-					.iterator();
-			while (ackItr.hasNext()) {
-				TransactionWorkMessageAck messageAck = ackItr.next();
-				messageAck.writeWork(dos);
-			}
-		}
-	}
+    public void writeWork(DataOutputStream dos) throws IOException {
+        // Msgs produce section
+        dos.writeInt(numSentMessages());
+        // Number of msgs (4 bytes)
+        if (Store.getDEBUG()) {
+            String msg = getPrefix() + " writeWork numSentMessages=" + numSentMessages() + " numMessageAcknowledgments=" + numMessageAcknowledgments();
+            Globals.getLogger().log(Logger.DEBUG, msg);
+        }
 
-	public String toString() {
-		StringBuffer s = new StringBuffer();
-		s.append(" num messages ").append(numSentMessages());
-		s.append(" num acks ").append(numMessageAcknowledgments());
-		String result = super.toString() + new String(s);
-		return result;
-	}
-	
-	String getPrefix() {
-		return "TransactionWork: " + Thread.currentThread().getName();
-	}
+        if (numSentMessages() > 0) {
+            Iterator<TransactionWorkMessage> itr = getSentMessages().iterator();
+            while (itr.hasNext()) {
+                TransactionWorkMessage workMessage = itr.next();
+                workMessage.writeWork(dos);
+            }
+        }
+
+        // Msgs consume section
+        dos.writeInt(numMessageAcknowledgments());
+        // Number of acks (4 bytes)
+        if (numMessageAcknowledgments() > 0) {
+            Iterator<TransactionWorkMessageAck> ackItr = getMessageAcknowledgments().iterator();
+            while (ackItr.hasNext()) {
+                TransactionWorkMessageAck messageAck = ackItr.next();
+                messageAck.writeWork(dos);
+            }
+        }
+    }
+
+    public String toString() {
+        StringBuffer s = new StringBuffer();
+        s.append(" num messages ").append(numSentMessages());
+        s.append(" num acks ").append(numMessageAcknowledgments());
+        String result = super.toString() + new String(s);
+        return result;
+    }
+
+    String getPrefix() {
+        return "TransactionWork: " + Thread.currentThread().getName();
+    }
 
 }

@@ -15,10 +15,9 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.api;
-
 
 /**
  * 
@@ -28,10 +27,10 @@ package com.sun.messaging.bridge.api;
 public interface UpdateOpaqueDataCallback {
 
     /**
-     * To be called by the store to obtain updated version of the data 
+     * To be called by the store to obtain updated version of the data
      *
      * @param currentData the current data in store
-     * @return updated data 
+     * @return updated data
      * @Exception Exception if error
      */
     public Object update(Object currentData) throws Exception;

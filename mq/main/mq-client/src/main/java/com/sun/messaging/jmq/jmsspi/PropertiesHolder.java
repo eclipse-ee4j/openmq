@@ -19,18 +19,17 @@ package com.sun.messaging.jmq.jmsspi;
 import java.util.Properties;
 
 /**
- * This interface provides a convenient way of passing a Properties object into a JMSAdmin
- * which can be regenerated (possibly giving different property names and values)
- * at a later stage. Whenever getProperties() is called, the properties
- * are regenerated and returned to the caller.
+ * This interface provides a convenient way of passing a Properties object into a JMSAdmin which can be regenerated
+ * (possibly giving different property names and values) at a later stage. Whenever getProperties() is called, the
+ * properties are regenerated and returned to the caller.
  */
 public interface PropertiesHolder {
-	
-	/**
-	 * Regenerate the Properties associated with this PropertiesHolder
-	 * and return them to the caller
-	 * @return
-	 */
-	public Properties getProperties();
+
+    /**
+     * Regenerate the Properties associated with this PropertiesHolder and return them to the caller
+     * 
+     * @return
+     */
+    public Properties getProperties();
 
 }

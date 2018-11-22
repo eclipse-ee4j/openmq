@@ -16,28 +16,29 @@
 
 /*
  * @(#)JMSXAQueueSession.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** An JMSXAQueueSession provides a regular QueueSession which can be used to
-  * create QueueReceivers, QueueSenders and QueueBrowsers (optional).
-  *
-  * @see         com.sun.jms.spi.xa.XASession
-  * @see         javax.jms.QueueSession
-  */
+/**
+ * An JMSXAQueueSession provides a regular QueueSession which can be used to create QueueReceivers, QueueSenders and
+ * QueueBrowsers (optional).
+ *
+ * @see com.sun.jms.spi.xa.XASession
+ * @see javax.jms.QueueSession
+ */
 
 public interface JMSXAQueueSession extends JMSXASession {
 
-    /** Get the queue session associated with this JMSXAQueueSession object.
-      *  
-      * @return the queue session object.
-      *  
-      * @exception JMSException if a JMS error occurs.
-      */ 
- 
-    QueueSession
-    getQueueSession() throws JMSException;
+    /**
+     * Get the queue session associated with this JMSXAQueueSession object.
+     * 
+     * @return the queue session object.
+     * 
+     * @exception JMSException if a JMS error occurs.
+     */
+
+    QueueSession getQueueSession() throws JMSException;
 }

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
@@ -29,4 +29,3 @@ public class MQSQLException extends SQLException {
         super(reason, sqlState, vendorCode);
     }
 }
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)StreamHandler.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -26,14 +26,10 @@ import javax.jms.JMSException;
  * JMQ Stream handler implements this interface.
  */
 public interface StreamHandler {
-    //At this time, we are thinking to use java.util.Properties for
-    //connectionProperties.
-    public ConnectionHandler
-    openConnection(Object connectionProperties) throws JMSException;
+    // At this time, we are thinking to use java.util.Properties for
+    // connectionProperties.
+    public ConnectionHandler openConnection(Object connectionProperties) throws JMSException;
 
-    public ConnectionHandler openConnection(MQAddress addr,
-        ConnectionImpl conn) throws JMSException;
-        // TBD : Use Object instead of ConnectionImpl
+    public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn) throws JMSException;
+    // TBD : Use Object instead of ConnectionImpl
 }
-
-

@@ -22,7 +22,6 @@ package com.sun.messaging.bridge.api;
 
 public class StompNotConnectedException extends Exception {
 
-
     public StompNotConnectedException(String message) {
         super(message);
     }

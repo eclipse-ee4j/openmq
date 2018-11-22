@@ -16,21 +16,20 @@
 
 /*
  * @(#)AdminInfo.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.admin;
 
 /**
- * Abstract base class for all the admin *Info classes. Basically
- * just provides the implementation for maintaining updateMask.
+ * Abstract base class for all the admin *Info classes. Basically just provides the implementation for maintaining
+ * updateMask.
  */
 public class AdminInfo implements java.io.Serializable {
 
     static final long serialVersionUID = 6731577042303829252L;
 
     /**
-     * A bit mask that subclasses use to indicate if a particular field
-     * in the object has been updated or not.
+     * A bit mask that subclasses use to indicate if a particular field in the object has been updated or not.
      */
     private int updateMask = 0;
 
@@ -38,7 +37,7 @@ public class AdminInfo implements java.io.Serializable {
      * Constructor
      */
     public AdminInfo() {
-	reset();
+        reset();
     }
 
     /*

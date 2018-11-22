@@ -16,7 +16,7 @@
 
 /*
  * @(#)GeneralNamingException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
@@ -26,10 +26,10 @@ package com.sun.messaging.jmq.admin.objstore;
 public class GeneralNamingException extends ObjStoreException {
 
     public GeneralNamingException() {
-	super();
+        super();
     }
 
     public GeneralNamingException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

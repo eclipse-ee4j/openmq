@@ -16,23 +16,23 @@
 
 /*
  * @(#)DurableSubscription.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.jms.spi;
+
 import javax.jms.*;
 
 /**
- * A DurableSubscription is a descriptor of a provider-specific
- * durable subscription used for administration purposes.
+ * A DurableSubscription is a descriptor of a provider-specific durable subscription used for administration purposes.
  *
  * @see com.sun.jms.spi.JMSAdmin#getDurableSubscriptions()
  * @see com.sun.jms.spi.JMSAdmin#getDurableSubscriptions( Topic )
- * @see com.sun.jms.spi.JMSAdmin#createDurableSubscription( String, TopicConnectionFactory, Topic, String, java.util.Map )
+ * @see com.sun.jms.spi.JMSAdmin#createDurableSubscription( String, TopicConnectionFactory, Topic, String, java.util.Map
+ * )
  * @see com.sun.jms.spi.JMSAdmin#deleteDurableSubscription( String, TopicConnectionFactory, Topic )
- * @see com.sun.jms.spi.JMSAdmin#deleteDurableSubscription( DurableSubscription ) 
+ * @see com.sun.jms.spi.JMSAdmin#deleteDurableSubscription( DurableSubscription )
  */
 public interface DurableSubscription {
-
 
     /**
      * Accessor for the client ID associated with this durable subscription.
@@ -43,19 +43,16 @@ public interface DurableSubscription {
      */
     public String getClientID() throws JMSException;
 
-
     /**
-     * Accessor for the name of the durable subscription.  This value should
-     * be identical to the name that would be supplied to the
-     * javax.jms.TopicSession.createDurableSubscription() API - it should
-     * not be the internal provider-specific name assigned to the subscription.
+     * Accessor for the name of the durable subscription. This value should be identical to the name that would be supplied
+     * to the javax.jms.TopicSession.createDurableSubscription() API - it should not be the internal provider-specific name
+     * assigned to the subscription.
      *
      * @return the logical name of the durable subscription
      * @exception JMSException thrown if there are any internal errors
      * @see javax.jms.TopicSession#createDurableSubscriber( Topic, String, String, boolean )
      */
     public String getSubscriptionName() throws JMSException;
-
 
     /**
      * Accessor for the topic that the subscription is consuming from.
@@ -65,17 +62,14 @@ public interface DurableSubscription {
      */
     public Topic getTopic() throws JMSException;
 
-
     /**
-     * This method returns a TopicConnectionFactory which a client could
-     * use to create a subscriber for this durable subscription.
+     * This method returns a TopicConnectionFactory which a client could use to create a subscriber for this durable
+     * subscription.
      *
-     * @return the associated TopicConnectionFactory or null if one wasn't specified 
-     * during creation
+     * @return the associated TopicConnectionFactory or null if one wasn't specified during creation
      * @exception JMSException thrown if there are any internal errors
      */
     public TopicConnectionFactory getConnectionFactory() throws JMSException;
-
 
     /**
      * Accessor for the message selector
@@ -85,6 +79,4 @@ public interface DurableSubscription {
      */
     public String getMessageSelector() throws JMSException;
 
-
 }
-

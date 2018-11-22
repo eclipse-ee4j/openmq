@@ -16,7 +16,7 @@
 
 /*
  * @(#)ViewLogHandler.java	1.11 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -34,43 +34,39 @@ import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
-public class ViewLogHandler extends AdminCmdHandler
-{
+public class ViewLogHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public ViewLogHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + cmd_props);
         }
 
-        //String     log = (String)cmd_props.get("logFile");
-        //Integer offset = (Integer)cmd_props.get("offset");
-        //Integer length = (Integer)cmd_props.get("length");
+        // String log = (String)cmd_props.get("logFile");
+        // Integer offset = (Integer)cmd_props.get("offset");
+        // Integer length = (Integer)cmd_props.get("length");
 
         // If length == -1 it means get to end of file
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.BYTES_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.BYTES_MESSAGE);
 
-	setProperties(reply, MessageType.VIEW_LOG_REPLY, Status.NOT_IMPLEMENTED,
-            null);
+        setProperties(reply, MessageType.VIEW_LOG_REPLY, Status.NOT_IMPLEMENTED, null);
 
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
     }
 }

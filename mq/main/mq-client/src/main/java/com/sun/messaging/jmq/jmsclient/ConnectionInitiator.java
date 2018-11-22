@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionInitiator.java	1.32 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -32,12 +32,11 @@ import java.util.logging.Level;
 //import java.util.logging.*;
 
 /**
- * This class encapsulates the connection establishment, reconnect and
- * failover logic.
+ * This class encapsulates the connection establishment, reconnect and failover logic.
  */
 public class ConnectionInitiator {
     private ConnectionImpl connection = null;
-    //private int next = 0;
+    // private int next = 0;
     private MQAddressList addrList = null;
 
     private String addrListString = null;
@@ -60,25 +59,24 @@ public class ConnectionInitiator {
 
     private static final String SSLJMS_SERVICE_NAME = "ssljms";
 
-    //ha reconnect delay
+    // ha reconnect delay
     public static final int HA_RECONNECT_DELAY = 3000;
 
-    //set to true if not to use the list returned in HELLO_REPLY.
+    // set to true if not to use the list returned in HELLO_REPLY.
     private boolean useStaticAddressList = false;
 
     private boolean isJMSService = true;
 
-    //this flag is set to true by ReadChannel when HELLO_REPLY status is "301".
+    // this flag is set to true by ReadChannel when HELLO_REPLY status is "301".
     private volatile boolean shouldRedirect = false;
 
     private boolean isRedirected = false;
 
     private String redirectURL = null;
 
-    //private Logger rootLogger = Logger.getLogger(ConnectionImpl.ROOT_LOGGER_NAME);
+    // private Logger rootLogger = Logger.getLogger(ConnectionImpl.ROOT_LOGGER_NAME);
 
-    public ConnectionInitiator(ConnectionImpl connection) throws JMSException,
-        MalformedURLException {
+    public ConnectionInitiator(ConnectionImpl connection) throws JMSException, MalformedURLException {
 
         this.connection = connection;
 
@@ -93,43 +91,38 @@ public class ConnectionInitiator {
 
         useStaticAddressList = Boolean.getBoolean("imq.useStaticAddressList");
 
-        String prop = connection.getTrimmedProperty(
-            ConnectionConfiguration.imqReconnectInterval);
+        String prop = connection.getTrimmedProperty(ConnectionConfiguration.imqReconnectInterval);
 
         if (prop != null) {
             reconnectDelay = Integer.parseInt(prop);
 
-            if ( connection.isConnectedToHABroker ) {
-                //if HA connection and the reconnect delay value is less than
-                //the HA_RECONNECT_DELAY value, use the HA value.
+            if (connection.isConnectedToHABroker) {
+                // if HA connection and the reconnect delay value is less than
+                // the HA_RECONNECT_DELAY value, use the HA value.
                 if (reconnectDelay < HA_RECONNECT_DELAY) {
                     reconnectDelay = HA_RECONNECT_DELAY;
                 }
             }
 
         } else {
-            if ( connection.isConnectedToHABroker ) {
+            if (connection.isConnectedToHABroker) {
                 reconnectDelay = HA_RECONNECT_DELAY;
             }
         }
 
-        prop = connection.getTrimmedProperty(
-            ConnectionConfiguration.imqReconnectAttempts);
+        prop = connection.getTrimmedProperty(ConnectionConfiguration.imqReconnectAttempts);
 
         if (prop != null) {
             reconnectRetries = Integer.parseInt(prop);
         }
 
-        prop = connection.getTrimmedProperty(
-            ConnectionConfiguration.imqAddressListIterations);
+        prop = connection.getTrimmedProperty(ConnectionConfiguration.imqAddressListIterations);
 
         if (prop != null) {
             addressListIterations = Integer.parseInt(prop);
         }
 
-        prop =
-            connection.getTrimmedProperty(ConnectionConfiguration.
-                                          imqAddressList);
+        prop = connection.getTrimmedProperty(ConnectionConfiguration.imqAddressList);
 
         addrList = this.createAddressList(prop);
 
@@ -140,8 +133,7 @@ public class ConnectionInitiator {
         return createConnection(false);
     }
 
-    protected ConnectionHandler reconnect() throws JMSException,
-        MalformedURLException {
+    protected ConnectionHandler reconnect() throws JMSException, MalformedURLException {
 
         ConnectionHandler handler = null;
 
@@ -149,8 +141,8 @@ public class ConnectionInitiator {
             Debug.println("In ConnectionInitiator.reconnect()");
         }
 
-        if ( connection.isConnectedToHABroker ) {
-            if ( reconnectDelay < HA_RECONNECT_DELAY ) {
+        if (connection.isConnectedToHABroker) {
+            if (reconnectDelay < HA_RECONNECT_DELAY) {
                 reconnectDelay = HA_RECONNECT_DELAY;
             }
         }
@@ -159,15 +151,13 @@ public class ConnectionInitiator {
             handler = redirect();
         } else {
 
-            Debug.println("*** Old broker list: " +
-                          connection.savedJMQBrokerList);
+            Debug.println("*** Old broker list: " + connection.savedJMQBrokerList);
             Debug.println("*** New broker list: " + connection.JMQBrokerList);
 
             if (connection.shouldUpdateAddressList()) {
 
                 if (debug) {
-                    Debug.println("*** updating broker address list: " +
-                                  connection.JMQBrokerList);
+                    Debug.println("*** updating broker address list: " + connection.JMQBrokerList);
                 }
 
                 resetAddressList(connection.JMQBrokerList);
@@ -181,8 +171,7 @@ public class ConnectionInitiator {
         return handler;
     }
 
-    private ConnectionHandler createConnection(boolean isReconnect) throws
-        JMSException {
+    private ConnectionHandler createConnection(boolean isReconnect) throws JMSException {
 
         ConnectionHandler ch = null;
 
@@ -192,9 +181,9 @@ public class ConnectionInitiator {
             ch = createConnectionOld(isReconnect); // TBD: Rename the method.
         }
 
-        if ( ch == null ) {
+        if (ch == null) {
 
-            if ( debug ) {
+            if (debug) {
                 Debug.println("*** ConnectionInitiator.createConnection() returning null ConnectionHandler ...");
             }
         }
@@ -202,29 +191,27 @@ public class ConnectionInitiator {
         return ch;
     }
 
-    private ConnectionHandler createConnectionNew(boolean isReconnect) throws
-        JMSException {
+    private ConnectionHandler createConnectionNew(boolean isReconnect) throws JMSException {
         if (debug) {
             Debug.println("In ConnectionInitiator.createConnectionNew()");
         }
-        
-        //for bug id 6517341 - HA: Client runtime needs to improve reconnect 
-        //logic if imqReconnectEnabled property is set to true.
-        if ( isReconnect ) {
-        	if (this.connection.isConnectedToHABroker) {
-        		//we are trying forever until successful or closed
-        		this.addressListIterations = -1;
-        	}
+
+        // for bug id 6517341 - HA: Client runtime needs to improve reconnect
+        // logic if imqReconnectEnabled property is set to true.
+        if (isReconnect) {
+            if (this.connection.isConnectedToHABroker) {
+                // we are trying forever until successful or closed
+                this.addressListIterations = -1;
+            }
         }
-        
+
         // elist keeps track of the last lower level exception for
         // each address in the addrList.
         Exception elist[] = new Exception[addrList.size()];
         String alist[] = new String[addrList.size()];
-        //Exception lastException = null;
+        // Exception lastException = null;
 
-        for (int i = 0; addressListIterations <= 0 ||
-                     i < addressListIterations; i++) {
+        for (int i = 0; addressListIterations <= 0 || i < addressListIterations; i++) {
 
             for (int j = 0; j < addrList.size(); j++) {
 
@@ -234,22 +221,21 @@ public class ConnectionInitiator {
                 try {
 
                     ConnectionHandler connHandler = this.createConnection(addr);
-                    nextStart = this.getNextStartIndex(isReconnect,
-                        currentIndex);
+                    nextStart = this.getNextStartIndex(isReconnect, currentIndex);
 
                     return connHandler;
 
                 } catch (Exception e) {
 
-                	if ( connection.isCloseCalled ) { //CCC
-                		//connection is closed.  quit now.
-                		if ( e instanceof JMSException ) {
-                			throw ((JMSException) e);
-                		} else {
-                			ExceptionHandler.handleConnectException (e, null);
-                		}
-                	}
-                	
+                    if (connection.isCloseCalled) { // CCC
+                        // connection is closed. quit now.
+                        if (e instanceof JMSException) {
+                            throw ((JMSException) e);
+                        } else {
+                            ExceptionHandler.handleConnectException(e, null);
+                        }
+                    }
+
                     if (debug) {
                         Debug.printStackTrace(e);
                     }
@@ -260,16 +246,18 @@ public class ConnectionInitiator {
 
                 if (j != addrList.size() - 1) {
                     try {
-                    	// sleep before trying next address
+                        // sleep before trying next address
                         Thread.sleep(reconnectDelay);
-                    } catch (Exception se) {}
+                    } catch (Exception se) {
+                    }
                 }
             }
 
             if (i != addressListIterations - 1) {
                 try {
                     Thread.sleep(reconnectDelay);
-                } catch (Exception se) {}
+                } catch (Exception se) {
+                }
             }
         }
         if (elist.length == 1) {
@@ -278,23 +266,17 @@ public class ConnectionInitiator {
 
             String url = addr.getURL();
 
-            ExceptionHandler.handleConnectException(
-                elist[0], url);
+            ExceptionHandler.handleConnectException(elist[0], url);
 
             // This statement is never executed because
             // handleException() method always throws an exception...
             return null;
         } else {
-            String errorString = AdministeredObject.cr.getKString(
-                ClientResources.X_NET_CREATE_CONNECTION,
-                "[" + addrListString + "]");
-            
-            ConnectException ce = new ConnectException(errorString,
-            		ClientResources.X_NET_CREATE_CONNECTION,
-            		elist, alist);
+            String errorString = AdministeredObject.cr.getKString(ClientResources.X_NET_CREATE_CONNECTION, "[" + addrListString + "]");
 
-            ExceptionHandler.handleConnectException(
-                ce, "");
+            ConnectException ce = new ConnectException(errorString, ClientResources.X_NET_CREATE_CONNECTION, elist, alist);
+
+            ExceptionHandler.handleConnectException(ce, "");
 
             // This statement is never executed because
             // handleException() method always throws an exception...
@@ -302,8 +284,7 @@ public class ConnectionInitiator {
         }
     }
 
-    private ConnectionHandler
-        createConnectionOld(boolean isReconnect) throws JMSException {
+    private ConnectionHandler createConnectionOld(boolean isReconnect) throws JMSException {
 
         if (debug) {
             Debug.println("In ConnectionInitiator.createConnectionOld()");
@@ -313,15 +294,13 @@ public class ConnectionInitiator {
         while (true) {
             // If the connection is closed at this time
             // just return with false status
-            //bug 6189645 -- general blocking issues.
+            // bug 6189645 -- general blocking issues.
 
             if (connection.isCloseCalled) {
 
-                String errstr =
-                    AdministeredObject.cr.getKString(ClientResources.X_CONNECTION_CLOSED);
+                String errstr = AdministeredObject.cr.getKString(ClientResources.X_CONNECTION_CLOSED);
 
-                JMSException jmse = new com.sun.messaging.jms.JMSException
-                (errstr, ClientResources.X_CONNECTION_CLOSED);
+                JMSException jmse = new com.sun.messaging.jms.JMSException(errstr, ClientResources.X_CONNECTION_CLOSED);
 
                 ExceptionHandler.throwJMSException(jmse);
             }
@@ -334,23 +313,23 @@ public class ConnectionInitiator {
                     sleep(reconnectDelay);
                 }
 
-                //bug 6189645 -- general blocking issues.
-                //synchronized (connection) {
-                //String handler = connection.getProperty(
-                //    ConnectionConfiguration.imqConnectionHandler);
-                //StreamHandler sh =
-                //    StreamHandlerFactory.getStreamHandler(handler);
-                //return sh.openConnection(connection);
+                // bug 6189645 -- general blocking issues.
+                // synchronized (connection) {
+                // String handler = connection.getProperty(
+                // ConnectionConfiguration.imqConnectionHandler);
+                // StreamHandler sh =
+                // StreamHandlerFactory.getStreamHandler(handler);
+                // return sh.openConnection(connection);
 
                 return this.openConnection();
 
             } catch (JMSException jmse) {
 
-                //logCaughtException(jmse);
+                // logCaughtException(jmse);
 
                 if (isReconnect == false) {
-                    //log throwing an exception
-                    //rootLogger.throwing("ConnectionInitiator", "createConnectionOld", jmse);
+                    // log throwing an exception
+                    // rootLogger.throwing("ConnectionInitiator", "createConnectionOld", jmse);
 
                     throw jmse;
                 } else {
@@ -358,19 +337,19 @@ public class ConnectionInitiator {
                 }
 
                 if (reconnectRetries > 0 && count >= reconnectRetries) {
-                    //break;
+                    // break;
 
-                    //rootLogger.throwing("ConnectionInitiator", "createConnectionOld", jmse);
+                    // rootLogger.throwing("ConnectionInitiator", "createConnectionOld", jmse);
 
                     throw jmse;
                 }
             }
         }
 
-        //throw new JMSException("Unable to connect.");
+        // throw new JMSException("Unable to connect.");
     }
 
-    private void sleep (long time) {
+    private void sleep(long time) {
         try {
             Thread.sleep(time);
         } catch (Exception e) {
@@ -380,17 +359,16 @@ public class ConnectionInitiator {
 
     /**
      * called from createConnectionOld.
+     * 
      * @return ConnectionHandler
      * @throws JMSException
      */
-    private ConnectionHandler openConnection () throws JMSException {
+    private ConnectionHandler openConnection() throws JMSException {
 
         try {
 
-            String handler = connection.getProperty(
-                    ConnectionConfiguration.imqConnectionHandler);
-            StreamHandler sh =
-                StreamHandlerFactory.getStreamHandler(handler);
+            String handler = connection.getProperty(ConnectionConfiguration.imqConnectionHandler);
+            StreamHandler sh = StreamHandlerFactory.getStreamHandler(handler);
 
             return sh.openConnection(connection);
 
@@ -405,7 +383,7 @@ public class ConnectionInitiator {
                 jmse.setLinkedException(e);
             }
 
-            //throw jmse;
+            // throw jmse;
             ExceptionHandler.throwJMSException(jmse);
         }
 
@@ -414,6 +392,7 @@ public class ConnectionInitiator {
 
     /**
      * Get if this connection uses address list.
+     * 
      * @return
      */
     public boolean getUseAddressList() {
@@ -422,6 +401,7 @@ public class ConnectionInitiator {
 
     /**
      * Get address list size used in this connection.
+     * 
      * @return
      */
     public int getAddrListSize() {
@@ -436,6 +416,7 @@ public class ConnectionInitiator {
 
     /**
      * Hawk development.
+     * 
      * @param aList MQAddressList
      * @throws JMSException
      */
@@ -447,16 +428,14 @@ public class ConnectionInitiator {
 
             useAddressList = true;
 
-            String prop = connection.getProperty(
-                ConnectionConfiguration.imqAddressListBehavior);
+            String prop = connection.getProperty(ConnectionConfiguration.imqAddressListBehavior);
 
             if (PRIORITY.equalsIgnoreCase(prop)) {
                 aList.setBehavior(MQAddressList.PRIORITY);
             } else if (RANDOM.equalsIgnoreCase(prop)) {
                 aList.setBehavior(MQAddressList.RANDOM);
             } else {
-                JMSException jmse = new com.sun.messaging.jms.JMSException (
-                    "Bad imqAddressListBehavior value : " + prop);
+                JMSException jmse = new com.sun.messaging.jms.JMSException("Bad imqAddressListBehavior value : " + prop);
 
                 ExceptionHandler.throwJMSException(jmse);
             }
@@ -470,22 +449,23 @@ public class ConnectionInitiator {
 
     /**
      * This validates if the address list fulfils HAWK HA requirement.
+     * 
      * @param aList MQAddressList
      * @throws JMSException
      */
     private void validate(MQAddressList aList) throws JMSException {
-        //validate if all MQAddress use the same service.
+        // validate if all MQAddress use the same service.
     }
 
     /**
      * Create an AddressList object from the address list string
+     * 
      * @param addrString String
      * @return MQAddressList
      * @throws JMSException
      * @throws MalformedURLException
      */
-    private MQAddressList createAddressList(String addrString) throws
-        JMSException, MalformedURLException {
+    private MQAddressList createAddressList(String addrString) throws JMSException, MalformedURLException {
 
         MQAddressList aList = null;
 
@@ -498,7 +478,7 @@ public class ConnectionInitiator {
 
         setBehavior(aList);
 
-        //reinit next start counter.
+        // reinit next start counter.
         this.nextStart = 0;
 
         return aList;
@@ -506,16 +486,14 @@ public class ConnectionInitiator {
 
     private void setDefaultService(MQAddressList aList) {
 
-        Debug.println("*** set default service with address list: "
-                          + aList);
+        Debug.println("*** set default service with address list: " + aList);
 
         if (aList != null && aList.size() > 0) {
-            //get the first service name
+            // get the first service name
             MQAddress addr = (MQAddress) aList.get(0);
             defaultService = addr.getServiceName();
         } else {
-            defaultService = connection.getTrimmedProperty (
-                ConnectionConfiguration.imqBrokerServiceName);
+            defaultService = connection.getTrimmedProperty(ConnectionConfiguration.imqBrokerServiceName);
 
             if (defaultService == null) {
                 defaultService = JMS_SERVICE_NAME;
@@ -538,8 +516,7 @@ public class ConnectionInitiator {
         return this.defaultService;
     }
 
-    public void resetAddressList(String alString) throws JMSException,
-        MalformedURLException {
+    public void resetAddressList(String alString) throws JMSException, MalformedURLException {
 
         boolean resetAddr = false;
 
@@ -547,7 +524,7 @@ public class ConnectionInitiator {
             return;
         }
 
-        //min check only -- if null or at least start with "mq://"
+        // min check only -- if null or at least start with "mq://"
         if (alString == null || alString.length() < 5) {
             return;
         }
@@ -561,11 +538,10 @@ public class ConnectionInitiator {
 
             resetAddr = true;
         } else {
-            //if ssljms service, construct new addr list string
+            // if ssljms service, construct new addr list string
             if (SSLJMS_SERVICE_NAME.equalsIgnoreCase(defaultService)) {
-                //append ssljms service name to each address in the list.
-                String newAddrList =
-                    appendServiceName(alString, SSLJMS_SERVICE_NAME);
+                // append ssljms service name to each address in the list.
+                String newAddrList = appendServiceName(alString, SSLJMS_SERVICE_NAME);
 
                 addrListString = newAddrList;
 
@@ -584,14 +560,13 @@ public class ConnectionInitiator {
     }
 
     /**
-     * This method only support addrString in the following syntax:
-     * "mq://host:port" or "mq://host:port/".
+     * This method only support addrString in the following syntax: "mq://host:port" or "mq://host:port/".
+     * 
      * @param addrString String
      * @param serviceName String
      * @return String
      */
-    public static String appendServiceName(String addrString,
-                                           String serviceName) {
+    public static String appendServiceName(String addrString, String serviceName) {
 
         StringBuffer sb = new StringBuffer();
         StringTokenizer st = new StringTokenizer(addrString, " ,");
@@ -602,7 +577,7 @@ public class ConnectionInitiator {
 
             sb.append(s);
 
-            //search first '/' after "mq://"
+            // search first '/' after "mq://"
             if (s.indexOf('/', 5) < 0) {
                 sb.append('/');
             }
@@ -641,15 +616,15 @@ public class ConnectionInitiator {
 
         try {
 
-            //1. get MQAddress.
-            //2. connect to the MQ address.
+            // 1. get MQAddress.
+            // 2. connect to the MQ address.
             if (this.isJMSService == false) {
                 StringBuffer sb = new StringBuffer();
 
-                //construct MQAddress with ssljms service name.
+                // construct MQAddress with ssljms service name.
                 sb.append(redirectURL);
 
-                //search first '/' after "mq://"
+                // search first '/' after "mq://"
                 if (redirectURL.indexOf('/', 5) < 0) {
                     sb.append('/');
                 }
@@ -660,8 +635,7 @@ public class ConnectionInitiator {
             }
 
             if (debug) {
-                Debug.info("**** ConnectionInitiator: redirecting connection: " +
-                           newaddr);
+                Debug.info("**** ConnectionInitiator: redirecting connection: " + newaddr);
             }
 
             MQAddress mqaddr = MQAddress.createMQAddress(newaddr);
@@ -673,17 +647,16 @@ public class ConnectionInitiator {
             this.isRedirected = true;
 
             if (debug) {
-                Debug.info("**** ConnectionInitiator: conn redirected: " +
-                           newaddr);
+                Debug.info("**** ConnectionInitiator: conn redirected: " + newaddr);
             }
 
         } catch (JMSException jmse) {
             throw jmse;
         } catch (Exception e) {
-            //JMSException je = new JMSException(e.getMessage());
-            //je.setLinkedException(e);
-            //throw je;
-            ExceptionHandler.handleConnectException(e,connection.getLastContactedBrokerAddress());
+            // JMSException je = new JMSException(e.getMessage());
+            // je.setLinkedException(e);
+            // throw je;
+            ExceptionHandler.handleConnectException(e, connection.getLastContactedBrokerAddress());
 
         } finally {
             this.shouldRedirect = false;
@@ -698,7 +671,7 @@ public class ConnectionInitiator {
     public void setRedirectURL(String url) {
         this.shouldRedirect = true;
         this.redirectURL = url;
-        
+
         String msg = "RedirectURL=" + url;
         ConnectionImpl.connectionLogger.log(Level.INFO, msg);
     }
@@ -713,8 +686,7 @@ public class ConnectionInitiator {
         }
     }
 
-    private ConnectionHandler
-        createConnection(MQAddress address) throws JMSException {
+    private ConnectionHandler createConnection(MQAddress address) throws JMSException {
 
         ConnectionHandler connHandler = null;
 
@@ -732,17 +704,15 @@ public class ConnectionInitiator {
         while (keepTrying) {
             // If the connection is closed at this time
             // just return with false status
-            //bug 6189645 -- general blocking issues.
+            // bug 6189645 -- general blocking issues.
             if (connection.isCloseCalled) {
                 if (debug) {
                     Debug.println("#### connection.isClosed = true");
                 }
 
-                String errstr =
-                    AdministeredObject.cr.getKString(ClientResources.X_CONNECTION_CLOSED);
+                String errstr = AdministeredObject.cr.getKString(ClientResources.X_CONNECTION_CLOSED);
 
-                JMSException jmse = new com.sun.messaging.jms.JMSException
-                (errstr, ClientResources.X_CONNECTION_CLOSED);
+                JMSException jmse = new com.sun.messaging.jms.JMSException(errstr, ClientResources.X_CONNECTION_CLOSED);
 
                 ExceptionHandler.throwJMSException(jmse);
             }
@@ -750,17 +720,15 @@ public class ConnectionInitiator {
             try {
 
                 if (debug) {
-                    Debug.println("#### Connecting to :" + address +
-                                  "  counter: " + ct);
+                    Debug.println("#### Connecting to :" + address + "  counter: " + ct);
                 }
 
                 String handler = address.getHandlerClass();
-                StreamHandler sh =
-                    StreamHandlerFactory.getStreamHandler(handler);
+                StreamHandler sh = StreamHandlerFactory.getStreamHandler(handler);
 
                 connHandler = sh.openConnection(address, connection);
 
-                //break out of the loop.
+                // break out of the loop.
                 return connHandler;
 
             } catch (Exception e) {
@@ -768,9 +736,7 @@ public class ConnectionInitiator {
                 ct++;
 
                 if (debug) {
-                    Debug.println("\nConnection Attempt failed.\n" +
-                                  ", Address = " + address +
-                                  ", attempt# = " + ct);
+                    Debug.println("\nConnection Attempt failed.\n" + ", Address = " + address + ", attempt# = " + ct);
                     Debug.printStackTrace(e);
                 }
 
@@ -778,16 +744,16 @@ public class ConnectionInitiator {
 
                 this.triggerConnectionReconnectFailedEvent(jmse);
 
-                //logCaughtException (jmse);
+                // logCaughtException (jmse);
 
-                if ( e instanceof JMSException == false ) {
+                if (e instanceof JMSException == false) {
                     ExceptionHandler.logCaughtException(e);
                 }
 
                 if (this.reconnectRetries < 0 || ct < this.reconnectRetries) {
                     this.sleepReconnectDelay();
                 } else {
-                    //throw jmse;
+                    // throw jmse;
                     ExceptionHandler.throwJMSException(jmse);
                 }
             }
@@ -849,13 +815,14 @@ public class ConnectionInitiator {
 
     /**
      * log the linked exception from the caught JMSException.
+     * 
      * @param jmse JMSException
      */
-    //private static void logException (JMSException jmse) {
+    // private static void logException (JMSException jmse) {
 
-    //    Throwable throwable = jmse.getLinkedException();
+    // Throwable throwable = jmse.getLinkedException();
 
-    //    ExceptionHandler.logCaughtException(throwable);
-    //}
+    // ExceptionHandler.logCaughtException(throwable);
+    // }
 
 }

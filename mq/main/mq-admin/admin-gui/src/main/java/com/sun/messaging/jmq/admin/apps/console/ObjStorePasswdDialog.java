@@ -16,7 +16,7 @@
 
 /*
  * @(#)ObjStorePasswdDialog.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -42,25 +42,24 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 
-/** 
- * This dialog is used for object store attributes.
- * It can be used to Add an object store to the list
- * or to modify (update) an existing object store.
+/**
+ * This dialog is used for object store attributes. It can be used to Add an object store to the list or to modify
+ * (update) an existing object store.
  *
  */
 public class ObjStorePasswdDialog extends AdminDialog {
-    
-    private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static String close[] = {acr.getString(acr.I_DIALOG_CLOSE)};
 
-    private ObjStore		os;
-    private JTextField		principalText;
-    private JTextField		credentialsText;
-    private Vector 		missingInfo;
+    private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
+    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
+
+    private ObjStore os;
+    private JTextField principalText;
+    private JTextField credentialsText;
+    private Vector missingInfo;
 
     /**
-     * Creates a non-modal dialog using the specified frame as parent and string
-     * as title. By default, will contain the following buttons:
+     * Creates a non-modal dialog using the specified frame as parent and string as title. By default, will contain the
+     * following buttons:
      * <UL>
      * <LI>OK
      * <LI>CANCEL
@@ -70,130 +69,129 @@ public class ObjStorePasswdDialog extends AdminDialog {
      * @param parent the Frame from which the dialog is displayed
      * @param title the String to display in the dialog's title bar
      */
-    public ObjStorePasswdDialog(Frame parent)  {
-	super(parent, acr.getString(acr.I_CONNECT_OBJSTORE), (OK | CANCEL | HELP));
-	setHelpId(ConsoleHelpID.CONNECT_OBJECT_STORE);
+    public ObjStorePasswdDialog(Frame parent) {
+        super(parent, acr.getString(acr.I_CONNECT_OBJSTORE), (OK | CANCEL | HELP));
+        setHelpId(ConsoleHelpID.CONNECT_OBJECT_STORE);
     }
 
     public ObjStorePasswdDialog(Frame parent, int whichButtons) {
-	super(parent, acr.getString(acr.I_CONNECT_OBJSTORE), whichButtons);
-	setHelpId(ConsoleHelpID.CONNECT_OBJECT_STORE);
+        super(parent, acr.getString(acr.I_CONNECT_OBJSTORE), whichButtons);
+        setHelpId(ConsoleHelpID.CONNECT_OBJECT_STORE);
     }
 
-    public JPanel createWorkPanel()  {
+    public JPanel createWorkPanel() {
 
-	JPanel workPanel = new JPanel();
-	GridBagLayout gridbag = new GridBagLayout();
-	workPanel.setLayout(gridbag);
-	GridBagConstraints c = new GridBagConstraints();
-	LabelledComponent items[] = new LabelledComponent[2];
+        JPanel workPanel = new JPanel();
+        GridBagLayout gridbag = new GridBagLayout();
+        workPanel.setLayout(gridbag);
+        GridBagConstraints c = new GridBagConstraints();
+        LabelledComponent items[] = new LabelledComponent[2];
 
-	principalText = new JTextField(20);
-	principalText.addActionListener(this);
-	items[0] = new LabelledComponent(Context.SECURITY_PRINCIPAL + ":", 
-				         principalText);
-	credentialsText = new JPasswordField(20);
-	credentialsText.addActionListener(this);
-	items[1] = new LabelledComponent(Context.SECURITY_CREDENTIALS + ":", 
-				         credentialsText);
-	
-	LabelValuePanel lvp = new LabelValuePanel(items, 5, 5);
+        principalText = new JTextField(20);
+        principalText.addActionListener(this);
+        items[0] = new LabelledComponent(Context.SECURITY_PRINCIPAL + ":", principalText);
+        credentialsText = new JPasswordField(20);
+        credentialsText.addActionListener(this);
+        items[1] = new LabelledComponent(Context.SECURITY_CREDENTIALS + ":", credentialsText);
 
-	c.gridx = 0;
-	c.gridy = 0;
-	c.anchor = GridBagConstraints.WEST;
-	gridbag.setConstraints(lvp, c);
-	workPanel.add(lvp);
+        LabelValuePanel lvp = new LabelValuePanel(items, 5, 5);
 
-	return (workPanel);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.WEST;
+        gridbag.setConstraints(lvp, c);
+        workPanel.add(lvp);
+
+        return (workPanel);
     }
 
-    public void doOK()  { 
-	String principalValue = principalText.getText().trim();
+    public void doOK() {
+        String principalValue = principalText.getText().trim();
 
-	if (principalValue.equals("")) {
-            JOptionPane.showOptionDialog(this,
-		acr.getString(acr.E_NO_PROP_VALUE, Context.SECURITY_PRINCIPAL),
-		acr.getString(acr.I_CONNECT_OBJSTORE),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+        if (principalValue.equals("")) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, Context.SECURITY_PRINCIPAL), acr.getString(acr.I_CONNECT_OBJSTORE),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             principalText.requestFocus();
             return;
-	} 
-	
-	String credentialsValue = credentialsText.getText().trim();
+        }
 
-	if (credentialsValue.equals("")) {
-            JOptionPane.showOptionDialog(this,
-		acr.getString(acr.E_NO_PROP_VALUE, Context.SECURITY_CREDENTIALS),
-		acr.getString(acr.I_CONNECT_OBJSTORE),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+        String credentialsValue = credentialsText.getText().trim();
+
+        if (credentialsValue.equals("")) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, Context.SECURITY_CREDENTIALS), acr.getString(acr.I_CONNECT_OBJSTORE),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             credentialsText.requestFocus();
             return;
-	}
+        }
 
         /*
-	 * Now add these to the object store.
-	 */
-	ObjStoreAttrs osa = os.getObjStoreAttrs();
+         * Now add these to the object store.
+         */
+        ObjStoreAttrs osa = os.getObjStoreAttrs();
 
-	if (!osa.containsKey(Context.SECURITY_PRINCIPAL)) {
-	    this.os.addObjStoreAttr(Context.SECURITY_PRINCIPAL, principalValue);
-	}
-	if (!osa.containsKey(Context.SECURITY_CREDENTIALS)) {
-	    this.os.addObjStoreAttr(Context.SECURITY_CREDENTIALS, credentialsValue);
-	}
-	
-	ObjAdminEvent oae = new ObjAdminEvent(this,
-				ObjAdminEvent.UPDATE_CREDENTIALS);
-	oae.setObjStore(os);
-	oae.setObjStoreAttrs(osa);
-	oae.setMissingAuthInfo(missingInfo);
-	oae.setOKAction(true);
-	fireAdminEventDispatched(oae);
-	
+        if (!osa.containsKey(Context.SECURITY_PRINCIPAL)) {
+            this.os.addObjStoreAttr(Context.SECURITY_PRINCIPAL, principalValue);
+        }
+        if (!osa.containsKey(Context.SECURITY_CREDENTIALS)) {
+            this.os.addObjStoreAttr(Context.SECURITY_CREDENTIALS, credentialsValue);
+        }
+
+        ObjAdminEvent oae = new ObjAdminEvent(this, ObjAdminEvent.UPDATE_CREDENTIALS);
+        oae.setObjStore(os);
+        oae.setObjStoreAttrs(osa);
+        oae.setMissingAuthInfo(missingInfo);
+        oae.setOKAction(true);
+        fireAdminEventDispatched(oae);
+
     }
 
-    public void doApply()  { }
-    public void doReset() { }
-
-    public void doCancel() { hide(); }
-    public void doClose() { hide(); }
-    public void doClear() { 
-	principalText.setText("");
-	credentialsText.setText("");
+    public void doApply() {
     }
 
-    public void show(ObjStore os, Vector missingInfo) { 
+    public void doReset() {
+    }
 
-	this.os = os;
-	this.missingInfo  = missingInfo;
+    public void doCancel() {
+        hide();
+    }
 
-	doClear();
+    public void doClose() {
+        hide();
+    }
 
-	ObjStoreAttrs osa = os.getObjStoreAttrs();
-	/*
-	 * Fill in principal, credentials if we have it
-	 */
-	if (osa.containsKey(Context.SECURITY_CREDENTIALS)) {
-	    credentialsText.setText((String)osa.get(Context.SECURITY_CREDENTIALS));
-	} else {
-	    credentialsText.requestFocus();
-	}
+    public void doClear() {
+        principalText.setText("");
+        credentialsText.setText("");
+    }
 
-	/*
-	 * Fill in this one second in case both are missing
-	 * and we want to focus in the principal text field.
-	 */
-	if (osa.containsKey(Context.SECURITY_PRINCIPAL)) {
-	    principalText.setText((String)osa.get(Context.SECURITY_PRINCIPAL));
-	} else {
-	    principalText.requestFocus();
-	}
+    public void show(ObjStore os, Vector missingInfo) {
 
-	setDefaultButton(OK);
-	super.show();
+        this.os = os;
+        this.missingInfo = missingInfo;
+
+        doClear();
+
+        ObjStoreAttrs osa = os.getObjStoreAttrs();
+        /*
+         * Fill in principal, credentials if we have it
+         */
+        if (osa.containsKey(Context.SECURITY_CREDENTIALS)) {
+            credentialsText.setText((String) osa.get(Context.SECURITY_CREDENTIALS));
+        } else {
+            credentialsText.requestFocus();
+        }
+
+        /*
+         * Fill in this one second in case both are missing and we want to focus in the principal text field.
+         */
+        if (osa.containsKey(Context.SECURITY_PRINCIPAL)) {
+            principalText.setText((String) osa.get(Context.SECURITY_PRINCIPAL));
+        } else {
+            principalText.requestFocus();
+        }
+
+        setDefaultButton(OK);
+        super.show();
     }
 
     /**********************************************************************
@@ -204,10 +202,10 @@ public class ObjStorePasswdDialog extends AdminDialog {
         if (ev.getSource() == principalText) {
             credentialsText.requestFocus();
         } else if (ev.getSource() == credentialsText) {
-	    doOK();
-	} else {
-	    super.actionPerformed(ev);
-	}
+            doOK();
+        } else {
+            super.actionPerformed(ev);
+        }
 
     }
 

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
@@ -34,11 +34,8 @@ public abstract class ShareConfigRecordBaseDAOImpl extends CommBaseDAOImpl {
         return ShareConfigChangeDBManager.getDBManager();
     }
 
-    protected void closeSQLObjects( ResultSet rs, Statement stmt,
-                                    Connection conn, Throwable ex )
-                                    throws BrokerException {
+    protected void closeSQLObjects(ResultSet rs, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
 
-        getDBManager().closeSQLObjects( rs, stmt, conn, ex );
+        getDBManager().closeSQLObjects(rs, stmt, conn, ex);
     }
 }
-

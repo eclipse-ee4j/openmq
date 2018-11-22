@@ -16,7 +16,7 @@
 
 /*
  * @(#)TLSStreams.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.tls;
 
@@ -27,50 +27,40 @@ import javax.net.ssl.*;
 import com.sun.messaging.jmq.jmsserver.net.tcp.TcpStreams;
 
 /**
- * This class handles the input and output streams to a specific connection 
- * of a protocol (e.g. with TLS/SSL this class will really be a socket and 
- * its output streams).
+ * This class handles the input and output streams to a specific connection of a protocol (e.g. with TLS/SSL this class
+ * will really be a socket and its output streams).
  *
  * <B><U>NOTE:</B></U> This class may be removed later.
  */
 
-public class TLSStreams extends TcpStreams  {
+public class TLSStreams extends TcpStreams {
 
-    public TLSStreams(SSLSocket soc) 
-        throws IOException
-    {
+    public TLSStreams(SSLSocket soc) throws IOException {
         super(soc);
     }
-    public TLSStreams(SSLSocket soc, int inBufSz, int outBufSz) 
-        throws IOException
-    {
+
+    public TLSStreams(SSLSocket soc, int inBufSz, int outBufSz) throws IOException {
         super(soc, true/* must be blocking */, inBufSz, outBufSz);
     }
 
     public String toString() {
-	if (socket != null) {
-	    return "SSL/TLS connection to " + socket;
-	}
-	else {
-	    return "SSL/TLS connection to NULL";
-	} 
+        if (socket != null) {
+            return "SSL/TLS connection to " + socket;
+        } else {
+            return "SSL/TLS connection to NULL";
+        }
     }
 
     /**
-     * fix for 4809079: broker hangs at shutdown when ssl is used
-     * Work around for jdk bug 4814140 (commited for tiger 1.5)
-     * - Call socket.close() instead of inputStream.close() to
-     *   prevent com.sun.net.ssl.internal.ssl.AppInputStream's
-     *   close() and read() locking each other causing the broker
-     *   to hang.
+     * fix for 4809079: broker hangs at shutdown when ssl is used Work around for jdk bug 4814140 (commited for tiger 1.5) -
+     * Call socket.close() instead of inputStream.close() to prevent com.sun.net.ssl.internal.ssl.AppInputStream's close()
+     * and read() locking each other causing the broker to hang.
      */
-    public synchronized void close() 
-        throws IOException
-    {
-	if (socket != null) {
+    public synchronized void close() throws IOException {
+        if (socket != null) {
             socket.close();
             socket = null;
-	}
+        }
     }
 
 }

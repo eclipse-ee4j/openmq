@@ -16,14 +16,13 @@
 
 /*
  * @(#)InvalidHardCodedValueException.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * the value specified in the OptionDesc object
- * is invalid (null in most cases).
+ * This exception is for reporting cases where the value specified in the OptionDesc object is invalid (null in most
+ * cases).
  **/
 
 public class InvalidHardCodedValueException extends OptionException {

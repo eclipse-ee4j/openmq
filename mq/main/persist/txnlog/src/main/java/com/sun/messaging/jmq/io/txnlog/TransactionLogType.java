@@ -16,37 +16,35 @@
 
 /*
  * @(#)TransactionLogType.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.txnlog;
 
 /**
- * This class defines the bitmaps for setting the type of data
- * logged in the TransactionLogRecord. 
+ * This class defines the bitmaps for setting the type of data logged in the TransactionLogRecord.
  *
  * @see TransactionLogRecord#setType
  * @see TransactionLogRecord#getType
  */
 public class TransactionLogType {
-	
+
     /**
      * Type definition for a transaction involves in producing messages only.
      */
     public static final int PRODUCE_TRANSACTION = 0x00000001;
-    
+
     /**
      * Type definition for a transaction involves in consuming messages only.
      */
     public static final int CONSUME_TRANSACTION = 0x00000002;
-    
+
     /**
      * Type definition for a transaction involves in both producing and consuming messages.
      */
     public static final int PRODUCE_AND_CONSUME_TRANSACTION = 0x00000004;
-    
+
     /**
      * Type definition for a compound transaction comprised of multiple transactions.
      */
     public static final int COMPOUND_TRANSACTION = 0x00000008;
 }
-

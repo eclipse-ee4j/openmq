@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,25 +39,19 @@ public class NewMasterBrokerHandler extends GPacketHandler {
 
         if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE) {
             handleNewMasterBrokerPrepare(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY) {
             handleNewMasterBrokerPrepareReply(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER) {
+        } else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER) {
             handleNewMasterBroker(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY) {
             handleNewMasterBrokerReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "NewMasterBrokerHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "NewMasterBrokerHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     private void handleNewMasterBrokerPrepare(BrokerAddress sender, GPacket pkt) {
-        int status = Status.OK; 
+        int status = Status.OK;
         String reason = null;
         try {
             p.receivedNewMasterBrokerPrepare(sender, pkt);
@@ -65,31 +59,24 @@ public class NewMasterBrokerHandler extends GPacketHandler {
             status = Status.ERROR;
             reason = e.getMessage();
             if (!(e instanceof BrokerException)) {
-                String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-                reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+                String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+                reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
                 logger.log(logger.ERROR, reason);
             }
         }
-        ClusterNewMasterBrokerPrepareInfo nmpi = 
-            ClusterNewMasterBrokerPrepareInfo.newInstance(pkt, c);
+        ClusterNewMasterBrokerPrepareInfo nmpi = ClusterNewMasterBrokerPrepareInfo.newInstance(pkt, c);
         GPacket reply = nmpi.getReplyGPacket(status, reason);
         try {
-            c.unicast(sender, reply);  
+            c.unicast(sender, reply);
         } catch (Exception e) {
-            String[] args = new String[] {
-                ProtocolGlobals.getPacketTypeDisplayString(
-                    ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY),
-                    sender.toString(), nmpi.toString() };
-            logger.logStack(logger.ERROR, br.getKString(
-                br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
+            String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY), sender.toString(),
+                    nmpi.toString() };
+            logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
         }
     }
 
     private void handleNewMasterBroker(BrokerAddress sender, GPacket pkt) {
-        int status = Status.OK; 
+        int status = Status.OK;
         String reason = null;
         try {
             p.receivedNewMasterBroker(sender, pkt);
@@ -97,26 +84,19 @@ public class NewMasterBrokerHandler extends GPacketHandler {
             status = Status.ERROR;
             reason = e.getMessage();
             if (!(e instanceof BrokerException)) {
-                String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-                reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+                String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+                reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
                 logger.log(logger.ERROR, reason);
             }
         }
-        ClusterNewMasterBrokerInfo nmi = 
-            ClusterNewMasterBrokerInfo.newInstance(pkt, c);
+        ClusterNewMasterBrokerInfo nmi = ClusterNewMasterBrokerInfo.newInstance(pkt, c);
         GPacket reply = nmi.getReplyGPacket(status, reason);
         try {
-            c.unicast(sender, reply);  
+            c.unicast(sender, reply);
         } catch (Exception e) {
-            String[] args = new String[] {
-                ProtocolGlobals.getPacketTypeDisplayString(
-                    ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY),
-                    sender.toString(), nmi.toString() };
-            logger.logStack(logger.ERROR, br.getKString(
-                br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
+            String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY), sender.toString(),
+                    nmi.toString() };
+            logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
         }
     }
 

@@ -16,43 +16,37 @@
 
 /*
  * @(#)PropertyUpdateException.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.config;
 
 import com.sun.messaging.jmq.jmsserver.util.*;
 
-
 /**
- * Exception thrown when a property could not be updated
- * because a ConfigListener rejected the change.
+ * Exception thrown when a property could not be updated because a ConfigListener rejected the change.
  */
 
-public class PropertyUpdateException extends Exception
-{
+public class PropertyUpdateException extends Exception {
     public static final int Unknown = 0;
     public static final int OutOfBounds = 1;
     public static final int InvalidSetting = 2;
 
     private int reason = 0;
 
-
     public PropertyUpdateException(String msg) {
-        this(0,msg, null);
+        this(0, msg, null);
     }
 
     public PropertyUpdateException(int reason, String msg) {
         this(0, msg, null);
     }
 
-    public PropertyUpdateException(int reason, String msg, Throwable rootcause)
-    {
+    public PropertyUpdateException(int reason, String msg, Throwable rootcause) {
         super(msg, rootcause);
-        this.reason  = reason;
+        this.reason = reason;
     }
 
     public int getReason() {
         return reason;
     }
 }
-

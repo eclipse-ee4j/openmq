@@ -16,15 +16,15 @@
 
 /*
  * @(#)TopicConnectionFactory.java	1.14 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 /**
- * A <code>TopicConnectionFactory</code> is used to create TopicConnections with
- * the Sun MQ Java Message Service (JMS) Publish/Subscribe (Pub/Sub) provider.
+ * A <code>TopicConnectionFactory</code> is used to create TopicConnections with the Sun MQ Java Message Service (JMS)
+ * Publish/Subscribe (Pub/Sub) provider.
  *
- * @see         javax.jms.TopicConnectionFactory javax.jms.TopicConnectionFactory
+ * @see javax.jms.TopicConnectionFactory javax.jms.TopicConnectionFactory
  */
 public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.TopicConnectionFactory {
 
@@ -35,7 +35,7 @@ public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory 
     public TopicConnectionFactory() {
         super();
     }
- 
+
     /**
      * Constructs a TopicConnectionFactory with the specified configuration.
      * 
@@ -43,5 +43,5 @@ public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory 
     protected TopicConnectionFactory(String defaultsBase) {
         super(defaultsBase);
     }
- 
+
 }

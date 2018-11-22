@@ -18,8 +18,7 @@ package com.sun.messaging.jms.ra.api;
 
 /**
  */
-public interface JMSRAManagedConnection
-{
+public interface JMSRAManagedConnection {
     public boolean xaTransactionStarted();
 
     public long getTransactionID();

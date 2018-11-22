@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.api;
 
@@ -25,163 +25,158 @@ import com.sun.messaging.jmq.util.RuntimeFaultInjection;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
 
 /**
- * All fault target constants start with FAULT_ and
- * only fault target constant starts with FAULT_
+ * All fault target constants start with FAULT_ and only fault target constant starts with FAULT_
  *
  */
-public class FaultInjection extends RuntimeFaultInjection
-{
-     private static BridgeBaseContext _bc = null;
+public class FaultInjection extends RuntimeFaultInjection {
+    private static BridgeBaseContext _bc = null;
 
-     private Logger _logger = null;
+    private Logger _logger = null;
 
-     private static FaultInjection _fault = null;
+    private static FaultInjection _fault = null;
 
-     /**
-      * 1 is before func call 
-      * 2 is after func call
-      */
-     public static final String STAGE_1 = "1";
-     public static final String STAGE_2 = "2";
+    /**
+     * 1 is before func call 2 is after func call
+     */
+    public static final String STAGE_1 = "1";
+    public static final String STAGE_2 = "2";
 
-     /*********************************************************************************
-      * example usages:
-      *
-      * imqbridgemgr debug fault -n receive.2 -debug
-      * imqbridgemgr debug fault -n xa.prepare.1 -o selector="cfref = 'CF9666'" -debug
-      *
-      *********************************************************************************/
+    /*********************************************************************************
+     * example usages:
+     *
+     * imqbridgemgr debug fault -n receive.2 -debug imqbridgemgr debug fault -n xa.prepare.1 -o selector="cfref = 'CF9666'"
+     * -debug
+     *
+     *********************************************************************************/
 
-     /*****************************************************************
-      * START of JMS Bridge faults
-      *****************************************************************/
+    /*****************************************************************
+     * START of JMS Bridge faults
+     *****************************************************************/
 
-     /**
-      * faults for transacted links
-      *
-      * throw XAException(String) on next specified operation with cfref
-      ******************************************************************/
-     public static final String FAULT_XA_START_1 = "xa.start.1";
-     public static final String FAULT_XA_START_2 = "xa.start.2";
-     public static final String FAULT_XA_END_1 = "xa.end.1";
-     public static final String FAULT_XA_END_2 = "xa.end.2";
-     public static final String FAULT_XA_PREPARE_1 = "xa.prepare.1";
-     public static final String FAULT_XA_PREPARE_2 = "xa.prepare.2";
-     public static final String FAULT_XA_COMMIT_1 = "xa.commit.1";
-     public static final String FAULT_XA_COMMIT_2 = "xa.commit.2";
-     public static final String FAULT_XA_ROLLBACK_1 = "xa.rollback.1";
-     public static final String FAULT_XA_ROLLBACK_2 = "xa.rollback.2";
-     public static final String FAULT_XA_RECOVER_1 = "xa.recover.1";
+    /**
+     * faults for transacted links
+     *
+     * throw XAException(String) on next specified operation with cfref
+     ******************************************************************/
+    public static final String FAULT_XA_START_1 = "xa.start.1";
+    public static final String FAULT_XA_START_2 = "xa.start.2";
+    public static final String FAULT_XA_END_1 = "xa.end.1";
+    public static final String FAULT_XA_END_2 = "xa.end.2";
+    public static final String FAULT_XA_PREPARE_1 = "xa.prepare.1";
+    public static final String FAULT_XA_PREPARE_2 = "xa.prepare.2";
+    public static final String FAULT_XA_COMMIT_1 = "xa.commit.1";
+    public static final String FAULT_XA_COMMIT_2 = "xa.commit.2";
+    public static final String FAULT_XA_ROLLBACK_1 = "xa.rollback.1";
+    public static final String FAULT_XA_ROLLBACK_2 = "xa.rollback.2";
+    public static final String FAULT_XA_RECOVER_1 = "xa.recover.1";
 
-     
-     /**
-      * faults for both transacted and non-transacted links
-      *
-      * throw JMSException on next specified operation 
-      ***********************************************************/
-     public static final String FAULT_RECEIVE_1 = "receive.1";
-     public static final String FAULT_RECEIVE_2 = "receive.2";
-     public static final String FAULT_TRANSFORM_2 = "transform.2";
-     public static final String FAULT_SEND_1 = "send.1";
-     public static final String FAULT_SEND_2 = "send.2";
+    /**
+     * faults for both transacted and non-transacted links
+     *
+     * throw JMSException on next specified operation
+     ***********************************************************/
+    public static final String FAULT_RECEIVE_1 = "receive.1";
+    public static final String FAULT_RECEIVE_2 = "receive.2";
+    public static final String FAULT_TRANSFORM_2 = "transform.2";
+    public static final String FAULT_SEND_1 = "send.1";
+    public static final String FAULT_SEND_2 = "send.2";
 
-     /**
-      * faults for dmq
-      *
-      * throw JMSException on next specified operation with dmqName 
-      **************************************************************/
-     public static final String FAULT_DMQ_SEND_1 = "dmq.send.1";
-     public static final String FAULT_DMQ_TRANSFORM_2 = "dmq.transform.2";
+    /**
+     * faults for dmq
+     *
+     * throw JMSException on next specified operation with dmqName
+     **************************************************************/
+    public static final String FAULT_DMQ_SEND_1 = "dmq.send.1";
+    public static final String FAULT_DMQ_TRANSFORM_2 = "dmq.transform.2";
 
-     /**
-      * faults for non-transaced links
-      *
-      * throw JMSException on next specified operation 
-      ******************************************************/
-     public static final String FAULT_ACK_1 = "ack.1";
-     public static final String FAULT_ACK_2 = "ack.2";
-     
-     /**
-      * fault properties 
-      ***********************************************************/
-     //for dmq faults
-     public static final String DMQ_NAME_PROP = "dmqName";
+    /**
+     * faults for non-transaced links
+     *
+     * throw JMSException on next specified operation
+     ******************************************************/
+    public static final String FAULT_ACK_1 = "ack.1";
+    public static final String FAULT_ACK_2 = "ack.2";
 
-     //for xa transaction faults
-     public static final String CFREF_PROP = "cfref";
+    /**
+     * fault properties
+     ***********************************************************/
+    // for dmq faults
+    public static final String DMQ_NAME_PROP = "dmqName";
 
-     /******************************************************************
-      * END of JMS Bridge faults
-      ******************************************************************/
+    // for xa transaction faults
+    public static final String CFREF_PROP = "cfref";
 
-     private static final String SLEEP_INTERVAL_PROP = "mqSleepInterval"; //in secs
-     private static final int   SLEEP_INTERVAL_DEFAULT = 60;
+    /******************************************************************
+     * END of JMS Bridge faults
+     ******************************************************************/
 
-     /**
-      * This method need to be called before constructor
-      */
-     public static void setBridgeBaseContext(BridgeBaseContext bc) {
-         _bc = bc;
-     }
+    private static final String SLEEP_INTERVAL_PROP = "mqSleepInterval"; // in secs
+    private static final int SLEEP_INTERVAL_DEFAULT = 60;
 
-     public void setLogger(Logger l) {
-         _logger = l;
-     }
+    /**
+     * This method need to be called before constructor
+     */
+    public static void setBridgeBaseContext(BridgeBaseContext bc) {
+        _bc = bc;
+    }
 
-     public static synchronized FaultInjection getInjection()
-     {
-         if (_fault == null)
-             _fault = new FaultInjection();
+    public void setLogger(Logger l) {
+        _logger = l;
+    }
 
-         return _fault;
-     }
+    public static synchronized FaultInjection getInjection() {
+        if (_fault == null)
+            _fault = new FaultInjection();
 
-     public FaultInjection() {
-         super();
-         setProcessName((_bc.isEmbeded() ? "BROKER":"PROCESS"));
-     }
+        return _fault;
+    }
 
-     protected void exit(int exitCode) {
-         logWarn("EXIST JVM from bridge is not supported", null);
-     }
+    public FaultInjection() {
+        super();
+        setProcessName((_bc.isEmbeded() ? "BROKER" : "PROCESS"));
+    }
 
-     protected String sleepIntervalPropertyName() {
-         return SLEEP_INTERVAL_PROP;
-     }
+    protected void exit(int exitCode) {
+        logWarn("EXIST JVM from bridge is not supported", null);
+    }
 
-     protected int sleepIntervalDefault() {
-         return SLEEP_INTERVAL_DEFAULT;
-     }
+    protected String sleepIntervalPropertyName() {
+        return SLEEP_INTERVAL_PROP;
+    }
 
-     @Override
-     protected void logInfo(String msg, Throwable t) {
-         if (_bc != null) {
-             _bc.logInfo(msg, t);
-         }
+    protected int sleepIntervalDefault() {
+        return SLEEP_INTERVAL_DEFAULT;
+    }
 
-         Logger logger = _logger;
-         if (logger != null) {
-             if (t == null) {
-                 logger.log(Level.INFO, msg);
-             } else {
-                 logger.log(Level.INFO, msg, t);
-             }
-         }
-     }
+    @Override
+    protected void logInfo(String msg, Throwable t) {
+        if (_bc != null) {
+            _bc.logInfo(msg, t);
+        }
 
-     @Override
-     protected void logWarn(String msg, Throwable t) {
-         if (_bc != null) {
-             _bc.logWarn(msg, t);
-         }
+        Logger logger = _logger;
+        if (logger != null) {
+            if (t == null) {
+                logger.log(Level.INFO, msg);
+            } else {
+                logger.log(Level.INFO, msg, t);
+            }
+        }
+    }
 
-         Logger logger = _logger;
-         if (logger != null) {
-             if (t == null) {
-                 logger.log(Level.WARNING, msg);
-             } else {
-                 logger.log(Level.WARNING, msg, t);
-             }
-         }
-     }
+    @Override
+    protected void logWarn(String msg, Throwable t) {
+        if (_bc != null) {
+            _bc.logWarn(msg, t);
+        }
+
+        Logger logger = _logger;
+        if (logger != null) {
+            if (t == null) {
+                logger.log(Level.WARNING, msg);
+            } else {
+                logger.log(Level.WARNING, msg, t);
+            }
+        }
+    }
 }

@@ -16,33 +16,35 @@
 
 /*
  * @(#)InvalidPropertyValueException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 import javax.jms.JMSException;
 
 /**
- * An <code>InvalidPropertyValueException</code> is thrown when setProperty
- * is called with an invalid property value parameter.
+ * An <code>InvalidPropertyValueException</code> is thrown when setProperty is called with an invalid property value
+ * parameter.
  *
- * @see         javax.jms.ConnectionFactory javax.jms.ConnectionFactory
- * @see         com.sun.messaging.AdministeredObject#setProperty(String, String) com.sun.messaging.AdministeredObject.setProperty(propname, propval)
+ * @see javax.jms.ConnectionFactory javax.jms.ConnectionFactory
+ * @see com.sun.messaging.AdministeredObject#setProperty(String, String)
+ * com.sun.messaging.AdministeredObject.setProperty(propname, propval)
  */
 
 public class InvalidPropertyValueException extends javax.jms.JMSException {
 
     /**
      * Constructs an InvalidPropertyValueException.
-     * <p>The exception message is formatted as
-     * <p><b><code>name=value</code><b>
-     *   
+     * <p>
+     * The exception message is formatted as
+     * <p>
+     * <b><code>name=value</code><b>
+     * 
      * @param name The property name.
      * @param value The invalid property value.
-     */  
+     */
     public InvalidPropertyValueException(String name, String value) {
         super(name + "=" + value);
     }
 
 }
-

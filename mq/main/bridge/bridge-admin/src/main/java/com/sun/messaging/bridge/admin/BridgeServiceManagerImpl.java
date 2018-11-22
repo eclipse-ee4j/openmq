@@ -56,34 +56,28 @@ import org.glassfish.hk2.api.ServiceLocator;
  *
  * @author amyk
  */
-@RunLevel(StartupRunLevel.VAL+2)
+@RunLevel(StartupRunLevel.VAL + 2)
 @Service
 //@Singleton
-public class BridgeServiceManagerImpl extends BridgeServiceManager
-                     implements ExceptionListener, MessageListener,
-                     PostConstruct, PreDestroy
-{
+public class BridgeServiceManagerImpl extends BridgeServiceManager implements ExceptionListener, MessageListener, PostConstruct, PreDestroy {
 
-    private static transient final String BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR = 
-                   "com.sun.messaging.bridge.internal.BrokerBridgeBaseContext";
+    private static transient final String BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR = "com.sun.messaging.bridge.internal.BrokerBridgeBaseContext";
 
-    private static transient final String className =
-                   "com.sun.messaging.bridge.admin.BridgeServiceManagerImpl";
+    private static transient final String className = "com.sun.messaging.bridge.admin.BridgeServiceManagerImpl";
 
-    private static transient final Logger logger =
-	      Logger.getLogger("com.sun.messaging.bridge");
+    private static transient final Logger logger = Logger.getLogger("com.sun.messaging.bridge");
     private static transient final String LOGMSG_PREFIX = "MQBRIDGESTRAP: ";
 
-    private enum State {UNINITIALIZED, STOPPING, STOPPED, STARTING, STARTED};
+    private enum State {
+        UNINITIALIZED, STOPPING, STOPPED, STARTING, STARTED
+    };
+
     private static boolean DEBUG = false;
-    
 
     private static BridgeManagerResources _bmr = getBridgeManagerResources();
-    private static Map<Locale, BridgeManagerResources> _bmrs = Collections.synchronizedMap(
-                                              new HashMap<Locale, BridgeManagerResources>());
+    private static Map<Locale, BridgeManagerResources> _bmrs = Collections.synchronizedMap(new HashMap<Locale, BridgeManagerResources>());
 
-    private Map<String, Bridge> _bridges = Collections.synchronizedMap(
-                                   new LinkedHashMap<String, Bridge>()); 
+    private Map<String, Bridge> _bridges = Collections.synchronizedMap(new LinkedHashMap<String, Bridge>());
     private BridgeBaseContext _bc = null;
 
     private com.sun.messaging.ConnectionFactory _cf = null;
@@ -91,19 +85,18 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
     private Session _session = null;
     private String _user = null;
     private String _passwd = null;
-    private TemporaryQueue _adminQueue = null; 
+    private TemporaryQueue _adminQueue = null;
 
     private State _state = State.UNINITIALIZED;
 
     private AdminMessageHandler _adminHandler = null;
 
-    @Inject    
+    @Inject
     private ServiceLocator habitat;
 
     public void postConstruct() {
-        logger.entering(className, LOGMSG_PREFIX+"postConstruct()", "");
-        BridgeBaseContext bbc = habitat.getService(BridgeBaseContext.class, 
-                                    BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR);
+        logger.entering(className, LOGMSG_PREFIX + "postConstruct()", "");
+        BridgeBaseContext bbc = habitat.getService(BridgeBaseContext.class, BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR);
         if (bbc == null) {
             String emsg = "BridgeBaseContext null";
             logger.log(Level.SEVERE, emsg);
@@ -119,23 +112,24 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
     }
 
     public void preDestroy() {
-	logger.entering(className, LOGMSG_PREFIX+"preDestroy()", "");
-	logger.info(LOGMSG_PREFIX+"Stopping bridge service manager ..");
+        logger.entering(className, LOGMSG_PREFIX + "preDestroy()", "");
+        logger.info(LOGMSG_PREFIX + "Stopping bridge service manager ..");
         try {
             stop();
         } catch (Exception e) {
-            logger.log(Level.WARNING, LOGMSG_PREFIX+"Failed to stop bridge service manager", e);
+            logger.log(Level.WARNING, LOGMSG_PREFIX + "Failed to stop bridge service manager", e);
         }
-	logger.info(LOGMSG_PREFIX+"Stopped bridge service manager");
+        logger.info(LOGMSG_PREFIX + "Stopped bridge service manager");
     }
 
     /**
      *  
      */
-    public BridgeServiceManagerImpl() {} 
+    public BridgeServiceManagerImpl() {
+    }
 
     /**
-     * Initialize the bridge service manager 
+     * Initialize the bridge service manager
      */
     public synchronized void init(BridgeBaseContext ctx) throws Exception {
         com.sun.messaging.jmq.jmsclient.Debug.setUseLogger(true);
@@ -144,7 +138,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         _bc = ctx;
         Properties props = _bc.getBridgeConfig();
 
-        String activekey = props.getProperty(BridgeBaseContext.PROP_PREFIX)+".activelist";
+        String activekey = props.getProperty(BridgeBaseContext.PROP_PREFIX) + ".activelist";
         List<String> alist = BridgeUtil.getListProperty(activekey, props);
         int size = alist.size();
 
@@ -155,17 +149,19 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
             try {
                 loadBridge(name);
             } catch (BridgeException e) {
-                if (e.getStatus() == Status.NOT_MODIFIED) continue;
+                if (e.getStatus() == Status.NOT_MODIFIED)
+                    continue;
 
-                _bc.logError(_bmr.getKString(_bmr.E_LOAD_BRIDGE_FAILED, name, e.getMessage()),  null);
+                _bc.logError(_bmr.getKString(_bmr.E_LOAD_BRIDGE_FAILED, name, e.getMessage()), null);
                 throw e;
             }
         }
 
         if (_bc.isHAEnabled()) {
-            
-            JMSBridgeStore store = (JMSBridgeStore)_bc.getJDBCStore();
-            if (store == null) throw new BridgeException("null JDBC store");
+
+            JMSBridgeStore store = (JMSBridgeStore) _bc.getJDBCStore();
+            if (store == null)
+                throw new BridgeException("null JDBC store");
 
             List jmsbridges = store.getJMSBridges(null);
 
@@ -173,9 +169,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
             itr = alist.iterator();
             while (itr.hasNext()) {
                 name = itr.next();
-                String type = props.getProperty(
-                              props.getProperty(
-                              BridgeBaseContext.PROP_PREFIX)+"."+name+".type");
+                String type = props.getProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + name + ".type");
                 if (type == null) {
                     throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_NO_TYPE, name));
                 }
@@ -187,7 +181,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 }
                 try {
                     store.addJMSBridge(name, true, null);
-                } catch (DupKeyException e)  {
+                } catch (DupKeyException e) {
                     _bc.logInfo(_bmr.getKString(_bmr.I_JMSBRIDGE_NOT_OWNER, name), null);
                     itr.remove();
                 }
@@ -203,7 +197,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 try {
                     loadBridge(name);
                 } catch (BridgeException e) {
-                    _bc.logError(_bmr.getKString(_bmr.E_LOAD_BRIDGE_FAILED, name, e.getMessage()),  null);
+                    _bc.logError(_bmr.getKString(_bmr.E_LOAD_BRIDGE_FAILED, name, e.getMessage()), null);
                     throw e;
                 }
             }
@@ -212,7 +206,8 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 int i = 0;
                 itr = alist.iterator();
                 while (itr.hasNext()) {
-                    if (i > 0) sb.append(",");
+                    if (i > 0)
+                        sb.append(",");
                     sb.append(itr.next());
                     i++;
                 }
@@ -222,18 +217,17 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
             }
         }
 
-
-        String keyu = props.getProperty(BridgeBaseContext.PROP_PREFIX)+ctx.PROP_ADMIN_USER_SUFFIX;
-        String keyp = props.getProperty(BridgeBaseContext.PROP_PREFIX)+ctx.PROP_ADMIN_PASSWORD_SUFFIX;
+        String keyu = props.getProperty(BridgeBaseContext.PROP_PREFIX) + ctx.PROP_ADMIN_USER_SUFFIX;
+        String keyp = props.getProperty(BridgeBaseContext.PROP_PREFIX) + ctx.PROP_ADMIN_PASSWORD_SUFFIX;
         _user = props.getProperty(keyu);
-        _passwd = props.getProperty(keyp); 
+        _passwd = props.getProperty(keyp);
         if (_user == null || _user.trim().length() == 0) {
             throw new JMSException(_bmr.getString(_bmr.X_BRIDGE_NO_ADMIN_USER, keyu));
         }
         _user = _user.trim();
-        if (_passwd  == null || _passwd.trim().length() == 0) {
+        if (_passwd == null || _passwd.trim().length() == 0) {
             throw new JMSException(_bmr.getString(_bmr.X_BRIDGE_NO_ADMIN_PASSWORD, keyp));
-        } 
+        }
         _passwd = _passwd.trim();
 
         _adminHandler = new AdminMessageHandler(this);
@@ -272,57 +266,58 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
 
         try {
 
-        Bridge b = null;
-        String name = null;
-        for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
-            b = pair.getValue();
-            name = b.getName();
-            String autostart = props.getProperty(
-                               props.getProperty(
-                               BridgeBaseContext.PROP_PREFIX)+"."+name+".autostart", "true");
-            boolean doautostart = Boolean.valueOf(autostart);
-            try {
-                if (doautostart) {
-                    String[] args = null;
-                    if (_bc.isStartWithReset()) args = new String[]{"-reset"};
-                    startBridge(b, args);
+            Bridge b = null;
+            String name = null;
+            for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
+                b = pair.getValue();
+                name = b.getName();
+                String autostart = props.getProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + name + ".autostart", "true");
+                boolean doautostart = Boolean.valueOf(autostart);
+                try {
+                    if (doautostart) {
+                        String[] args = null;
+                        if (_bc.isStartWithReset())
+                            args = new String[] { "-reset" };
+                        startBridge(b, args);
+                    }
+                } catch (BridgeException e) {
+                    if (e.getStatus() == Status.CREATED) {
+                        continue;
+                    }
+                    throw e;
                 }
-            } catch (BridgeException e) {
-                if (e.getStatus() == Status.CREATED) {
-                    continue; 
-                }
-                throw e;
             }
-        }
 
         } catch (Exception e) {
             try {
                 stopBridge(null, null, null);
-            } catch (Throwable t) { }
+            } catch (Throwable t) {
+            }
             throw e;
         }
 
         try {
-        _cf = new com.sun.messaging.ConnectionFactory();
-        _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqAddressList,
-                        _bc.getBrokerServiceAddress("tcp",
-                            com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN));
+            _cf = new com.sun.messaging.ConnectionFactory();
+            _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqAddressList,
+                    _bc.getBrokerServiceAddress("tcp", com.sun.messaging.jmq.ClientConstants.CONNECTIONTYPE_ADMIN));
 
-        _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqReconnectEnabled, "false");
+            _cf.setProperty(com.sun.messaging.ConnectionConfiguration.imqReconnectEnabled, "false");
 
-        _connection = _cf.createConnection(_user, _passwd);
-        _session = _connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		_adminQueue = _session.createTemporaryQueue();
-        MessageConsumer mc = _session.createConsumer(_adminQueue);
-        mc.setMessageListener(this);
-        _connection.start();
+            _connection = _cf.createConnection(_user, _passwd);
+            _session = _connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            _adminQueue = _session.createTemporaryQueue();
+            MessageConsumer mc = _session.createConsumer(_adminQueue);
+            mc.setMessageListener(this);
+            _connection.start();
 
         } catch (Exception e) {
             try {
                 stopBridge(null, null, null);
-                if (_connection != null) _connection.close();
-            } catch (Throwable t) { }
-            
+                if (_connection != null)
+                    _connection.close();
+            } catch (Throwable t) {
+            }
+
             throw e;
         }
         _state = State.STARTED;
@@ -332,61 +327,42 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      *
      */
     public synchronized void loadBridge(String name) throws Exception {
-        _bc.logInfo("Loading bridge "+name, null);
-        Locale loc = _bmr.getLocale(); 
+        _bc.logInfo("Loading bridge " + name, null);
+        Locale loc = _bmr.getLocale();
 
         Bridge b = _bridges.get(name);
-        if (b != null) { 
-            _bc.logInfo("Bridge "+name+" is already loaded.", null);
-           throw new BridgeException(_bmr.getString(_bmr.I_BRIDGE_ALREADY_LOADED, name), Status.NOT_MODIFIED);
+        if (b != null) {
+            _bc.logInfo("Bridge " + name + " is already loaded.", null);
+            throw new BridgeException(_bmr.getString(_bmr.I_BRIDGE_ALREADY_LOADED, name), Status.NOT_MODIFIED);
         }
 
         /*
-        Properties props = _bc.getBridgeConfig();
-
-        String activekey = props.getProperty(
-                                  BridgeBaseContext.PROP_PREFIX)+".activelist";
-        List<String> alist = BridgeUtil.getListProperty(activekey, props);
-        
-        String tmpn = null;
-        boolean found = false;
-        Iterator<String> itr = alist.iterator();
-        while (itr.hasNext()) {
-            tmpn = itr.next();
-            if (tmpn.equals(name)) {
-                found = true;
-                break; 
-            }
-        }
-        if (!found) {
-            String oldactives = props.getProperty(activekey);
-            String newactives = oldactives+","+name;
-            Properties p = new Properties();
-            p.setProperty(activekey, newactives);
-            _bc.updateBridgeConfig(p);
-        }
-        */
+         * Properties props = _bc.getBridgeConfig();
+         * 
+         * String activekey = props.getProperty( BridgeBaseContext.PROP_PREFIX)+".activelist"; List<String> alist =
+         * BridgeUtil.getListProperty(activekey, props);
+         * 
+         * String tmpn = null; boolean found = false; Iterator<String> itr = alist.iterator(); while (itr.hasNext()) { tmpn =
+         * itr.next(); if (tmpn.equals(name)) { found = true; break; } } if (!found) { String oldactives =
+         * props.getProperty(activekey); String newactives = oldactives+","+name; Properties p = new Properties();
+         * p.setProperty(activekey, newactives); _bc.updateBridgeConfig(p); }
+         */
 
         Properties props = _bc.getBridgeConfig();
-        String type = props.getProperty(
-                      props.getProperty(
-                      BridgeBaseContext.PROP_PREFIX)+"."+name+".type");
+        String type = props.getProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + name + ".type");
         if (type == null) {
             String emsg = _bmr.getKString(_bmr.E_LOAD_BRIDGE_NO_TYPE, name);
             _bc.logError(emsg, null);
             throw new BridgeException(emsg);
         }
         type = type.toLowerCase(loc);
-        if (!type.toUpperCase(loc).equals(Bridge.JMS_TYPE) &&
-            !type.toUpperCase(loc).equals(Bridge.STOMP_TYPE)) { 
+        if (!type.toUpperCase(loc).equals(Bridge.JMS_TYPE) && !type.toUpperCase(loc).equals(Bridge.STOMP_TYPE)) {
             String emsg = _bmr.getKString(_bmr.X_BRIDGE_TYPE_NOSUPPORT, name, type);
             _bc.logError(emsg, null);
             throw new BridgeException(emsg);
         }
 
-        String classn = props.getProperty(
-                        props.getProperty(
-                        BridgeBaseContext.PROP_PREFIX)+"."+type+".class");
+        String classn = props.getProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + type + ".class");
 
         if (classn == null) {
             String emsg = _bmr.getKString(_bmr.E_LOAD_BRIDGE_NO_CLASS, name);
@@ -396,25 +372,24 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         if (_bc.isRunningOnNucleus()) {
             b = habitat.getService(Bridge.class, type.toUpperCase(loc));
         } else {
-            b = (Bridge)Class.forName(classn).newInstance();
+            b = (Bridge) Class.forName(classn).newInstance();
         }
 
         if (!b.isMultipliable() && !b.getType().toLowerCase().equals(name.toLowerCase())) {
-            String emsg =  _bmr.getKString(_bmr.E_BRIDGE_NAME_TYPE_NOT_SAME, name, b.getType());
+            String emsg = _bmr.getKString(_bmr.E_BRIDGE_NAME_TYPE_NOT_SAME, name, b.getType());
             _bc.logError(emsg, null);
             throw new BridgeException(emsg);
         }
 
         if (DEBUG) {
-            _bc.logInfo("Loaded brigde "+name+" by classloader "+
-                        b.getClass().getClassLoader()+ 
-                        "(parent:"+this.getClass().getClassLoader()+")", null);
+            _bc.logInfo("Loaded brigde " + name + " by classloader " + b.getClass().getClassLoader() + "(parent:" + this.getClass().getClassLoader() + ")",
+                    null);
         }
 
         b.setName(name);
         _bridges.put(name, b);
 
-        _bc.logInfo("Loaded bridge "+name, null);
+        _bc.logInfo("Loaded bridge " + name, null);
 
     }
 
@@ -426,27 +401,27 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      */
     public synchronized boolean startBridge(String name, String[] args, String type) throws Exception {
 
-        if (type != null && 
-            !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) { 
+        if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
             throw new IllegalArgumentException(_bmr.getKString(_bmr.X_BRIDGE_INVALID_TYPE, type));
         }
         Bridge b = null;
         if (name != null) {
             b = _bridges.get(name);
-            if (b == null) { 
+            if (b == null) {
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name));
             }
             if (type != null && !type.equals(b.getType())) {
-                String[] eparam = new String[] {name, b.getType(), type};
-                throw new  BridgeException(_bmr.getKString(_bmr.X_BRIDGE_TYPE_MISMATCH, eparam));
+                String[] eparam = new String[] { name, b.getType(), type };
+                throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_TYPE_MISMATCH, eparam));
             }
             return startBridge(b, args);
         }
 
         boolean async = false;
-        for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
+        for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
             b = pair.getValue();
-            if (type != null && !b.getType().equals(type)) continue;
+            if (type != null && !b.getType().equals(type))
+                continue;
 
             if (!startBridge(b, args)) {
                 async = true;
@@ -463,38 +438,38 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      * @throws Exception if start failed
      */
     private boolean startBridge(Bridge b, String[] args) throws Exception {
-         if (args == null) {
-             _bc.logInfo(_bmr.getString(_bmr.I_STARTING_BRIDGE, b.getName()), null);
-         }
+        if (args == null) {
+            _bc.logInfo(_bmr.getString(_bmr.I_STARTING_BRIDGE, b.getName()), null);
+        }
 
-         if (b.getState() == Bridge.State.STARTED && args == null) {
-             _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_ALREADY_STARTED, b.getName()), null);
-             return true;
-         } 
+        if (b.getState() == Bridge.State.STARTED && args == null) {
+            _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_ALREADY_STARTED, b.getName()), null);
+            return true;
+        }
 
-         BridgeContext ctx = new BridgeContextImpl(_bc, b.getName());
-         StringBuffer sf = new StringBuffer();
-         sf.append(_bmr.getString(_bmr.I_STARTING_BRIDGE_WITH_PROPS, b.getName()));
-         String key = null;
-         Enumeration e = ctx.getConfig().propertyNames();
-         while (e.hasMoreElements()) {
-             key = (String)e.nextElement();
-             sf.append("\t"+key+"="+ctx.getConfig().getProperty(key)+"\n");
-         }
-         if (args == null) {
-             _bc.logInfo(sf.toString(), null);
-         }
+        BridgeContext ctx = new BridgeContextImpl(_bc, b.getName());
+        StringBuffer sf = new StringBuffer();
+        sf.append(_bmr.getString(_bmr.I_STARTING_BRIDGE_WITH_PROPS, b.getName()));
+        String key = null;
+        Enumeration e = ctx.getConfig().propertyNames();
+        while (e.hasMoreElements()) {
+            key = (String) e.nextElement();
+            sf.append("\t" + key + "=" + ctx.getConfig().getProperty(key) + "\n");
+        }
+        if (args == null) {
+            _bc.logInfo(sf.toString(), null);
+        }
 
-         try {
-             boolean ret = b.start(ctx, args);
-             if (args == null) {
-                 _bc.logInfo(_bmr.getString(_bmr.I_STARTED_BRIDGE, b.getName()), null);
-             }
-             return ret;
-         } catch (Exception e1) {
-             _bc.logError(_bmr.getKString(_bmr.E_START_BRIDGE_FAILED, b.getName(), e1.getMessage()), null);
-             throw e1;
-         }
+        try {
+            boolean ret = b.start(ctx, args);
+            if (args == null) {
+                _bc.logInfo(_bmr.getString(_bmr.I_STARTED_BRIDGE, b.getName()), null);
+            }
+            return ret;
+        } catch (Exception e1) {
+            _bc.logError(_bmr.getKString(_bmr.E_START_BRIDGE_FAILED, b.getName(), e1.getMessage()), null);
+            throw e1;
+        }
     }
 
     /**
@@ -502,8 +477,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      */
     public synchronized void stopBridge(String name, String[] args, String type) throws Exception {
 
-        if (type != null &&
-            !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
+        if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
             throw new IllegalArgumentException(_bmr.getKString(_bmr.X_BRIDGE_INVALID_TYPE, type));
         }
         Bridge b = null;
@@ -513,29 +487,28 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name));
             }
             if (type != null && !type.equals(b.getType())) {
-                String[] eparam = new String[] {name, b.getType(), type};
+                String[] eparam = new String[] { name, b.getType(), type };
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_TYPE_MISMATCH, eparam));
             }
             stopBridge(b, args);
             return;
         }
 
-        for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
-             b = pair.getValue();
-             if (type != null && !b.getType().equals(type)) continue;
+        for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
+            b = pair.getValue();
+            if (type != null && !b.getType().equals(type))
+                continue;
 
-             stopBridge(b, args);
+            stopBridge(b, args);
         }
     }
-
 
     /**
      *
      */
     public synchronized void pauseBridge(String name, String[] args, String type) throws Exception {
 
-        if (type != null &&
-            !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
+        if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
             throw new IllegalArgumentException(_bmr.getKString(_bmr.X_BRIDGE_INVALID_TYPE, type));
         }
         if (name == null && type == null) {
@@ -548,29 +521,28 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name));
             }
             if (type != null && !type.equals(b.getType())) {
-                String[] eparam = new String[] {name, b.getType(), type};
+                String[] eparam = new String[] { name, b.getType(), type };
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_TYPE_MISMATCH, eparam));
             }
             pauseBridge(b, args);
             return;
         }
 
-        for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
-             b = pair.getValue();
-             if (type != null && !b.getType().equals(type)) continue;
+        for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
+            b = pair.getValue();
+            if (type != null && !b.getType().equals(type))
+                continue;
 
-             pauseBridge(b, args);
+            pauseBridge(b, args);
         }
     }
-
 
     /**
      *
      */
     public synchronized void resumeBridge(String name, String[] args, String type) throws Exception {
 
-        if (type != null &&
-            !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
+        if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
             throw new IllegalArgumentException(_bmr.getKString(_bmr.X_BRIDGE_INVALID_TYPE, type));
         }
         if (name == null && type == null) {
@@ -584,18 +556,19 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name));
             }
             if (type != null && !type.equals(b.getType())) {
-                String[] eparam = new String[] {name, b.getType(), type};
+                String[] eparam = new String[] { name, b.getType(), type };
                 throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_TYPE_MISMATCH, eparam));
             }
             resumeBridge(b, args);
             return;
         }
 
-        for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
-             b = pair.getValue();
-             if (type != null && !b.getType().equals(type)) continue;
+        for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
+            b = pair.getValue();
+            if (type != null && !b.getType().equals(type))
+                continue;
 
-             resumeBridge(b, args);
+            resumeBridge(b, args);
         }
     }
 
@@ -606,9 +579,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         _bc.logInfo(_bmr.getString(_bmr.I_PAUSING_BRIDGE, b.getName()), null);
 
         if (b.getState() == Bridge.State.PAUSED && args == null) {
-             _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_ALREADY_PAUSED, b.getName()), null);
-             return;
-         }
+            _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_ALREADY_PAUSED, b.getName()), null);
+            return;
+        }
 
         b.pause(new BridgeContextImpl(_bc, b.getName()), args);
         _bc.logInfo(_bmr.getString(_bmr.I_PAUSED_BRIDGE, b.getName()), null);
@@ -621,9 +594,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         _bc.logInfo(_bmr.getString(_bmr.I_RESUMING_BRIDGE, b.getName()), null);
 
         if (b.getState() == Bridge.State.STARTED && args == null) {
-             _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_IS_RUNNING, b.getName()), null);
-             return;
-         }
+            _bc.logInfo(_bmr.getString(_bmr.I_BRIDGE_IS_RUNNING, b.getName()), null);
+            return;
+        }
 
         b.resume(new BridgeContextImpl(_bc, b.getName()), args);
         _bc.logInfo(_bmr.getString(_bmr.I_RESUMED_BRIDGE, b.getName()), null);
@@ -634,40 +607,37 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      *
      */
     public synchronized void unloadBridge(String name) throws Exception {
-        _bc.logInfo("Unloading bridge "+name, null);
+        _bc.logInfo("Unloading bridge " + name, null);
 
         Bridge b = _bridges.get(name);
-        if (b == null) { 
-            _bc.logInfo("Bridge "+name+" is not loaded.",  null);
-            throw new BridgeException("Bridge "+name+" is not loaded.", Status.NOT_MODIFIED);
+        if (b == null) {
+            _bc.logInfo("Bridge " + name + " is not loaded.", null);
+            throw new BridgeException("Bridge " + name + " is not loaded.", Status.NOT_MODIFIED);
         }
         stopBridge(name, null, null);
         _bridges.remove(name);
         b.setName(null);
 
         Properties props = _bc.getBridgeConfig();
-        List<String> alist = BridgeUtil.getListProperty(
-                                props.getProperty(
-                                BridgeBaseContext.PROP_PREFIX)+".activelist", props);
-        
+        List<String> alist = BridgeUtil.getListProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + ".activelist", props);
+
         String tmpn = null;
         StringBuffer sbuf = new StringBuffer();
         Iterator<String> itr = alist.iterator();
         while (itr.hasNext()) {
             tmpn = itr.next();
             if (!tmpn.equals(name)) {
-                if (sbuf.length() > 0 ) {
+                if (sbuf.length() > 0) {
                     sbuf.append(",");
                 }
                 sbuf.append(tmpn);
             }
         }
         Properties p = new Properties();
-        p.setProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX)+".activelist",
-                      sbuf.toString());
+        p.setProperty(props.getProperty(BridgeBaseContext.PROP_PREFIX) + ".activelist", sbuf.toString());
         _bc.updateBridgeConfig(p);
 
-        _bc.logInfo("Unloaded bridge "+name, null);
+        _bc.logInfo("Unloaded bridge " + name, null);
     }
 
     /**
@@ -676,9 +646,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
     private void stopBridge(Bridge b, String[] args) throws Exception {
 
         if (b.getState() == Bridge.State.STOPPED && args == null) {
-             _bc.logDebug(_bmr.getString(_bmr.I_BRIDGE_ALREADY_STOPPED, b.getName()), null);
-             return;
-         }
+            _bc.logDebug(_bmr.getString(_bmr.I_BRIDGE_ALREADY_STOPPED, b.getName()), null);
+            return;
+        }
 
         _bc.logInfo(_bmr.getString(_bmr.I_STOPPING_BRIDGE, b.getName()), null);
 
@@ -688,40 +658,37 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
 
     /**
      */
-    public synchronized ArrayList<BridgeCmdSharedReplyData> listBridge(
-                               String name, String[] args, String type,
-                               BridgeManagerResources bmr)
-                               throws Exception {
+    public synchronized ArrayList<BridgeCmdSharedReplyData> listBridge(String name, String[] args, String type, BridgeManagerResources bmr) throws Exception {
 
-        if (type != null && 
-            !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) { 
+        if (type != null && !type.equals(Bridge.JMS_TYPE) && !type.equals(Bridge.STOMP_TYPE)) {
             throw new IllegalArgumentException(_bmr.getString(_bmr.X_BRIDGE_INVALID_TYPE, type));
         }
 
-        if (name == null) { 
-            _bc.logDebug("Listing all bridges (type="+type+")" , null);
+        if (name == null) {
+            _bc.logDebug("Listing all bridges (type=" + type + ")", null);
 
             BridgeCmdSharedReplyData reply = new BridgeCmdSharedReplyData(3, 4, "-");
-            String   oneRow[] = new String [3]; 
-            oneRow[0] =  bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_NAME);
-            oneRow[1] =  bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_TYPE);
-            oneRow[2] =  bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_STATE);
+            String oneRow[] = new String[3];
+            oneRow[0] = bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_NAME);
+            oneRow[1] = bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_TYPE);
+            oneRow[2] = bmr.getString(BridgeCmdSharedResources.I_BGMGR_TITLE_BRIDGE_STATE);
             reply.addTitle(oneRow);
 
             Bridge b = null;
-            for (Map.Entry<String, Bridge> pair: _bridges.entrySet()) {
+            for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
                 b = pair.getValue();
-                if (type != null && !b.getType().equals(type)) continue;
-                oneRow[0] = b.getName(); 
+                if (type != null && !b.getType().equals(type))
+                    continue;
+                oneRow[0] = b.getName();
                 oneRow[1] = b.getType();
-                oneRow[2] = b.getState().toString(bmr); 
+                oneRow[2] = b.getState().toString(bmr);
                 reply.add(oneRow);
             }
-            _bc.logDebug("Listed all bridges (type="+type+")", null);
+            _bc.logDebug("Listed all bridges (type=" + type + ")", null);
             ArrayList<BridgeCmdSharedReplyData> replys = new ArrayList<BridgeCmdSharedReplyData>();
             replys.add(reply);
             return replys;
-        }                 
+        }
 
         if (args == null) {
             _bc.logInfo(_bmr.getString(_bmr.I_LISTING_BRIDGE, name), null);
@@ -730,7 +697,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         }
 
         Bridge b = _bridges.get(name);
-        if (b == null) { 
+        if (b == null) {
             String emsg = _bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name);
             _bc.logError(emsg, null);
             throw new BridgeException(emsg);
@@ -747,34 +714,34 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         if (_state == State.STOPPING || _state == State.STOPPED) {
             return;
         }
-        synchronized(this) {
+        synchronized (this) {
 
-        if (_bc == null) {
-            throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_SERVICE_MANAGER_NOT_INITED));
-        }
-        _state = State.STOPPING;
-        try {
-            stopBridge(null, null, null);
-        } catch (Throwable t) {
-            if (t instanceof java.util.concurrent.RejectedExecutionException) {
-            _bc.logDebug(_bmr.getKString(_bmr.W_EXCEPTION_STOP_BRIDGES, t.getMessage()), null);
-            } else {
-            _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_STOP_BRIDGES, t.getMessage()), t);
+            if (_bc == null) {
+                throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_SERVICE_MANAGER_NOT_INITED));
             }
-        }
-
-        if (_connection != null) {
+            _state = State.STOPPING;
             try {
-            _connection.close();
+                stopBridge(null, null, null);
             } catch (Throwable t) {
-            if (DEBUG) {
-            _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_CLOSE_ADMIN_CONN, t.getMessage()), t);
-            } else {
-            _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_CLOSE_ADMIN_CONN, t.getMessage()), null);
+                if (t instanceof java.util.concurrent.RejectedExecutionException) {
+                    _bc.logDebug(_bmr.getKString(_bmr.W_EXCEPTION_STOP_BRIDGES, t.getMessage()), null);
+                } else {
+                    _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_STOP_BRIDGES, t.getMessage()), t);
+                }
             }
+
+            if (_connection != null) {
+                try {
+                    _connection.close();
+                } catch (Throwable t) {
+                    if (DEBUG) {
+                        _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_CLOSE_ADMIN_CONN, t.getMessage()), t);
+                    } else {
+                        _bc.logWarn(_bmr.getKString(_bmr.W_EXCEPTION_CLOSE_ADMIN_CONN, t.getMessage()), null);
+                    }
+                }
             }
-        }
-        _state = State.STOPPED;
+            _state = State.STOPPED;
 
         }
     }
@@ -784,7 +751,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
      */
     public Bridge getBridge(String name) throws Exception {
         Bridge b = _bridges.get(name);
-        if (b == null) { 
+        if (b == null) {
             throw new BridgeException(_bmr.getKString(_bmr.X_BRIDGE_NAME_NOT_FOUND, name));
         }
         return b;
@@ -798,7 +765,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
         if (_bc.isEmbeded()) {
             _bc.logError(_bmr.getKString(_bmr.E_EXCEPTION_OCCURRED_ADMIN_CONN, e.getMessage()), e);
         } else {
-            //not supported else do reconnect   
+            // not supported else do reconnect
             _bc.logError("Not supported: bridge servie manager is not embeded!", null);
         }
     }
@@ -811,12 +778,12 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
             _adminHandler.sendReply(_session, msg, null, Status.UNAVAILABLE, emsg, _bmr);
         }
         if (!(msg instanceof ObjectMessage)) {
-            String emsg = "Unexpected bridge admin message type: "+msg.getClass().getName();
+            String emsg = "Unexpected bridge admin message type: " + msg.getClass().getName();
             _bc.logError(emsg, null);
             _adminHandler.sendReply(_session, msg, null, Status.BAD_REQUEST, emsg, _bmr);
             return;
         }
-        _adminHandler.handle(_session, (ObjectMessage)msg);
+        _adminHandler.handle(_session, (ObjectMessage) msg);
     }
 
     public static synchronized BridgeManagerResources getBridgeManagerResources() {
@@ -827,12 +794,14 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager
     }
 
     public static BridgeManagerResources getBridgeManagerResources(Locale l) {
-        if (l == null) return getBridgeManagerResources();
+        if (l == null)
+            return getBridgeManagerResources();
 
         BridgeManagerResources bmr = _bmrs.get(l);
-        if (bmr != null) return bmr;
+        if (bmr != null)
+            return bmr;
 
-        synchronized(_bmrs) {
+        synchronized (_bmrs) {
             bmr = _bmrs.get(l);
             if (bmr == null) {
                 bmr = BridgeManagerResources.getResources(l);

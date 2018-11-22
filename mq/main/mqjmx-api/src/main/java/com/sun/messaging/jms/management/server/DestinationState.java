@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestinationState.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,29 +24,28 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on destination states.
  */
 public class DestinationState {
-    /** 
+    /**
      * Unknown destination state.
      */
     public static final int UNKNOWN = -1;
 
-    /** 
+    /**
      * Destination is active.
      */
     public static final int RUNNING = 0;
 
-    /** 
+    /**
      * Message delivery to consumers is paused.
      */
     public static final int CONSUMERS_PAUSED = 1;
 
-    /** 
+    /**
      * Message delivery from producers is paused.
      */
     public static final int PRODUCERS_PAUSED = 2;
 
-    /** 
-     * Message delivery from producers and to consumers
-     * is paused.
+    /**
+     * Message delivery from producers and to consumers is paused.
      */
     public static final int PAUSED = 3;
 
@@ -55,30 +54,30 @@ public class DestinationState {
      */
     private DestinationState() {
     }
-    
+
     /**
      * Returns a string representation of the specified destination state.
      *
      * @param state Destination state.
      * @return String representation of the specified destination state.
      */
-    public static String toString(int state)  {
+    public static String toString(int state) {
 
-	switch (state)  {
-	case RUNNING:
-	    return("Running");
+        switch (state) {
+        case RUNNING:
+            return ("Running");
 
-	case CONSUMERS_PAUSED:
-	    return("Consumers Paused");
+        case CONSUMERS_PAUSED:
+            return ("Consumers Paused");
 
-	case PRODUCERS_PAUSED:
-	    return("Producers Paused");
+        case PRODUCERS_PAUSED:
+            return ("Producers Paused");
 
-	case PAUSED:
-	    return("Paused");
+        case PAUSED:
+            return ("Paused");
 
-	default:
-	    return("unknown");
-	}
+        default:
+            return ("unknown");
+        }
     }
 }

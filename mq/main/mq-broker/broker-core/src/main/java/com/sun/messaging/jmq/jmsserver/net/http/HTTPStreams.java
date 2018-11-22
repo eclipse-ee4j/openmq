@@ -16,7 +16,7 @@
 
 /*
  * @(#)HTTPStreams.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.http;
 
@@ -38,8 +38,7 @@ import java.util.Hashtable;
 /**
  * HTTP Input and Output streams.
  */
-public class HTTPStreams implements ProtocolStreams
-{
+public class HTTPStreams implements ProtocolStreams {
     private HttpTunnelSocket socket = null;
     private volatile InputStream is = null;
     private volatile OutputStream os = null;
@@ -47,13 +46,11 @@ public class HTTPStreams implements ProtocolStreams
     private int inputBufferSize = 2048;
     private int outputBufferSize = 2048;
 
-    public HTTPStreams(HttpTunnelSocket soc)
-    {
+    public HTTPStreams(HttpTunnelSocket soc) {
         socket = soc;
     }
 
-    public HTTPStreams(HttpTunnelSocket soc, int inBufSz, int outBufSz)
-    {
+    public HTTPStreams(HttpTunnelSocket soc, int inBufSz, int outBufSz) {
         socket = soc;
         inputBufferSize = inBufSz;
         outputBufferSize = outBufSz;
@@ -63,45 +60,37 @@ public class HTTPStreams implements ProtocolStreams
         return true;
     }
 
-
     public AbstractSelectableChannel getChannel() {
         return null;
     }
 
-
-    public InputStream getInputStream() 
-        throws IOException
-    {
-        if (socket == null) 
-            throw new
-                IOException("Can not get an input stream without a socket");
+    public InputStream getInputStream() throws IOException {
+        if (socket == null)
+            throw new IOException("Can not get an input stream without a socket");
 
         if (is == null) {
-            synchronized(this) {
+            synchronized (this) {
                 if (is == null) {
-                     is = socket.getInputStream();
-                     if (inputBufferSize > 0) {
+                    is = socket.getInputStream();
+                    if (inputBufferSize > 0) {
                         is = new BufferedInputStream(is, inputBufferSize);
-                     }
-                 }
+                    }
+                }
             }
         }
         return is;
     }
 
-    public OutputStream getOutputStream() 
-        throws IOException
-    {
-        if (socket == null) 
-           throw new
-               IOException("Can not get an output stream without a socket");
+    public OutputStream getOutputStream() throws IOException {
+        if (socket == null)
+            throw new IOException("Can not get an output stream without a socket");
 
         if (os == null) {
-            synchronized(this) {
+            synchronized (this) {
                 if (os == null) {
                     os = socket.getOutputStream();
                     if (outputBufferSize > 0) {
-                         os = new BufferedOutputStream(os, outputBufferSize);
+                        os = new BufferedOutputStream(os, outputBufferSize);
                     }
                 }
             }
@@ -109,19 +98,19 @@ public class HTTPStreams implements ProtocolStreams
         return os;
     }
 
-    public synchronized void close() 
-        throws IOException
-    {
+    public synchronized void close() throws IOException {
         if (is != null) {
             try {
                 is.close();
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            }
             is = null;
         }
         if (os != null) {
             try {
                 os.close();
-            } catch (IOException ex) {}
+            } catch (IOException ex) {
+            }
             os = null;
         }
         socket.close();
@@ -136,22 +125,21 @@ public class HTTPStreams implements ProtocolStreams
         return -1;
     }
 
-
     public InetAddress getLocalAddress() {
         return null;
     }
 
     public InetAddress getRemoteAddress() {
         HttpTunnelSocket s = socket;
-        if (s == null) return null;
+        if (s == null)
+            return null;
         try {
-        return s.getRemoteAddress();
+            return s.getRemoteAddress();
         } catch (Exception e) {
-        Globals.getLogger().log(Logger.WARNING, "HttpTunnelSocket - "+e.getMessage());
-        return null;
+            Globals.getLogger().log(Logger.WARNING, "HttpTunnelSocket - " + e.getMessage());
+            return null;
         }
     }
-
 
     public String toString() {
         return "HTTP connection to " + socket;
@@ -177,7 +165,7 @@ public class HTTPStreams implements ProtocolStreams
         return new Hashtable();
     }
 }
-    
+
 /*
  * EOF
  */

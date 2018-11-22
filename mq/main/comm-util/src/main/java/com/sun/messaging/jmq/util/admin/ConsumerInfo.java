@@ -16,19 +16,17 @@
 
 /*
  * @(#)ConsumerInfo.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.admin;
 
 import com.sun.messaging.jmq.util.DestType;
 
 /**
- * ConsumerInfo encapsulates information about a JMQ Consumer.
- * It is used to pass this information between the Broker and an
- * administration client.
+ * ConsumerInfo encapsulates information about a JMQ Consumer. It is used to pass this information between the Broker
+ * and an administration client.
  *
- * This class has no updateable fields. The admin client should consider
- * it "read-only"
+ * This class has no updateable fields. The admin client should consider it "read-only"
  */
 public class ConsumerInfo extends AdminInfo {
 
@@ -37,14 +35,14 @@ public class ConsumerInfo extends AdminInfo {
     /**
      * Broker internal consumer ID
      */
-    public byte[]	id;
+    public byte[] id;
 
     /**
      */
     public String uidString = null;
 
     /**
-     * The subscription ID if there is one 
+     * The subscription ID if there is one
      */
     public String subuidString = null;
 
@@ -55,39 +53,37 @@ public class ConsumerInfo extends AdminInfo {
     /**
      * Destination the consumer is registered on
      */
-    public String	destination;
+    public String destination;
 
     /**
-     * Type of destination. Set at creation only. Should be a combination
-     * of bitmasks defined by DestType
+     * Type of destination. Set at creation only. Should be a combination of bitmasks defined by DestType
      */
-    public int		type;
-
+    public int type;
 
     /**
      * Selector this consumer is using
      */
-    public String	selector;
+    public String selector;
 
     /**
      * Information about the connection this consumer is on
      */
-    public ConnectionInfo	connection;
+    public ConnectionInfo connection;
 
     /**
      * Constructor for Consumer.
      */
 
     public ConsumerInfo() {
-	reset();
+        reset();
     }
 
     public void reset() {
-	id = null;
+        id = null;
         type = 0;
         destination = null;
         selector = null;
-	connection = null;
+        connection = null;
         uidString = null;
         subuidString = null;
         brokerAddressShortString = null;
@@ -100,9 +96,8 @@ public class ConsumerInfo extends AdminInfo {
      */
     public String toString() {
 
-	return "Consumer: destination=" + destination +
-            ":" + DestType.toString(type) +" connection=" +
-	    (connection == null? "remote consumer" :connection.toString());
+        return "Consumer: destination=" + destination + ":" + DestType.toString(type) + " connection="
+                + (connection == null ? "remote consumer" : connection.toString());
     }
 
 }

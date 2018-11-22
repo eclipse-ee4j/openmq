@@ -16,7 +16,7 @@
 
 /*
  * @(#)ProducerAttributes.java	1.8 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,20 +24,20 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on producer attributes.
  */
 public class ProducerAttributes {
-    /** 
+    /**
      * Number of producers.
      */
-    public static final String		NUM_PRODUCERS = "NumProducers";
+    public static final String NUM_PRODUCERS = "NumProducers";
 
-    /** 
+    /**
      * Number of wildcard producers.
      */
-    public static final String		NUM_WILDCARD_PRODUCERS = "NumWildcardProducers";
+    public static final String NUM_WILDCARD_PRODUCERS = "NumWildcardProducers";
 
     /*
      * Class cannot be instantiated
      */
     private ProducerAttributes() {
     }
-    
+
 }

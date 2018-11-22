@@ -16,7 +16,7 @@
 
 /*
  * @(#)LicenseCmd.java	1.12 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.license;
 
@@ -55,8 +55,7 @@ class LicenseCmd {
         readProps(p);
 
         String lictype = p.getProperty("imq.license_type");
-        File file = new File(LICENSE_FILE_PREFIX +
-            lictype + LICENSE_FILE_SUBFIX);
+        File file = new File(LICENSE_FILE_PREFIX + lictype + LICENSE_FILE_SUBFIX);
 
         FileLicense fl = new FileLicense();
         fl.setAutoChecking(false);
@@ -65,73 +64,31 @@ class LicenseCmd {
         fl.writeLicense(file);
     }
 
-    private static String codeFragment1 =
-		"/*\n" +
-		" * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.\n" +
-		" *\n" +
-		" * This program and the accompanying materials are made available under the\n" +
-		" * terms of the Eclipse Public License v. 2.0, which is available at\n" +
-		" * http://www.eclipse.org/legal/epl-2.0.\n" +
-		" *\n" +
-		" * This Source Code may also be made available under the following Secondary\n" +
-		" * Licenses when the conditions for such availability set forth in the\n" +
-		" * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,\n" +
-		" * version 2 with the GNU Classpath Exception, which is available at\n" +
-		" * https://www.gnu.org/software/classpath/license.html.\n" +
-		" *\n" +
-		" * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0\n" +
-        " */\n" +
-		" *\n" +
-        "package com.sun.messaging.jmq.jmsserver.license;\n" +
-        "\n" +
-        "import java.io.*;\n" +
-        "import java.util.*;\n" +
-        "import java.security.*;\n" +
-        "import com.sun.messaging.jmq.jmsserver.util.BrokerException;\n" +
-        "\n" +
-        "/**\n" +
-        " * This is a generated license class file.\n" +
-        " */\n" +
-        "public class ";
+    private static String codeFragment1 = "/*\n" + " * Copyright (c) 2000, 2017 Oracle and/or its affiliates. All rights reserved.\n" + " *\n"
+            + " * This program and the accompanying materials are made available under the\n"
+            + " * terms of the Eclipse Public License v. 2.0, which is available at\n" + " * http://www.eclipse.org/legal/epl-2.0.\n" + " *\n"
+            + " * This Source Code may also be made available under the following Secondary\n"
+            + " * Licenses when the conditions for such availability set forth in the\n"
+            + " * Eclipse Public License v. 2.0 are satisfied: GNU General Public License,\n"
+            + " * version 2 with the GNU Classpath Exception, which is available at\n" + " * https://www.gnu.org/software/classpath/license.html.\n" + " *\n"
+            + " * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0\n" + " */\n" + " *\n"
+            + "package com.sun.messaging.jmq.jmsserver.license;\n" + "\n" + "import java.io.*;\n" + "import java.util.*;\n" + "import java.security.*;\n"
+            + "import com.sun.messaging.jmq.jmsserver.util.BrokerException;\n" + "\n" + "/**\n" + " * This is a generated license class file.\n" + " */\n"
+            + "public class ";
 
-    private static String codeFragment2 =
-        " extends LicenseBase {\n" +
-        "    private static byte[] data = {\n        ";
+    private static String codeFragment2 = " extends LicenseBase {\n" + "    private static byte[] data = {\n        ";
 
-    private static String codeFragment3 =
-        "\n    public ";
+    private static String codeFragment3 = "\n    public ";
 
-    private static String codeFragment4 =
-        "() throws BrokerException {\n" +
-        "        super();\n" +
-        "\n" +
-        "        try {\n" +
-        "            byte[] plain = FileLicense.scramble(data);\n" +
-        "            ByteArrayInputStream bais =\n" +
-        "                new ByteArrayInputStream(plain);\n" +
-        "            Properties tmp = new Properties();\n" +
-        "            tmp.load(bais);\n" +
-        "            superimpose(tmp);\n" +
-        "        }\n" +
-        "        catch (Exception e) {\n" +
-        "            throw new BrokerException(\"Bad license.\", e);\n" +
-        "        }\n" +
-        "    }\n" +
-        "\n" +
-        "    public boolean isLicenseFileRequired() {\n" +
-        "        return false;\n" +
-        "    }\n" +
-        "\n" +
-        "    public static void main(String args[]) throws Exception {\n";
+    private static String codeFragment4 = "() throws BrokerException {\n" + "        super();\n" + "\n" + "        try {\n"
+            + "            byte[] plain = FileLicense.scramble(data);\n" + "            ByteArrayInputStream bais =\n"
+            + "                new ByteArrayInputStream(plain);\n" + "            Properties tmp = new Properties();\n" + "            tmp.load(bais);\n"
+            + "            superimpose(tmp);\n" + "        }\n" + "        catch (Exception e) {\n"
+            + "            throw new BrokerException(\"Bad license.\", e);\n" + "        }\n" + "    }\n" + "\n"
+            + "    public boolean isLicenseFileRequired() {\n" + "        return false;\n" + "    }\n" + "\n"
+            + "    public static void main(String args[]) throws Exception {\n";
 
-    private static String codeFragment5 =
-        "        System.out.println(l.getProperties());\n" +
-        "    }\n" +
-        "}\n" +
-        "\n" +
-        "/*\n" +
-        " * EOF\n" +
-        " */\n";
+    private static String codeFragment5 = "        System.out.println(l.getProperties());\n" + "    }\n" + "}\n" + "\n" + "/*\n" + " * EOF\n" + " */\n";
 
     private static void generateCode(String cname) throws Exception {
         Properties p = new Properties();
@@ -144,18 +101,17 @@ class LicenseCmd {
 
         byte[] encrypted = FileLicense.scramble(plain);
 
-        StringBuffer sbuf = new StringBuffer(); 
+        StringBuffer sbuf = new StringBuffer();
         for (int i = 0; i < encrypted.length; i++) {
-            sbuf.append(Integer.toString((int)encrypted[i]) + ", ");
-            if ((i+1) % 10 == 0) {
+            sbuf.append(Integer.toString((int) encrypted[i]) + ", ");
+            if ((i + 1) % 10 == 0) {
                 sbuf.append("\n        ");
             }
         }
         sbuf.append("};\n");
 
-        String code = codeFragment1 + cname + codeFragment2 + sbuf.toString() +
-            codeFragment3 + cname + codeFragment4 + "        " +
-            cname + " l = new " + cname + "();\n" + codeFragment5;
+        String code = codeFragment1 + cname + codeFragment2 + sbuf.toString() + codeFragment3 + cname + codeFragment4 + "        " + cname + " l = new " + cname
+                + "();\n" + codeFragment5;
 
         File file = new File(cname + ".java");
         FileOutputStream fos = new FileOutputStream(file);
@@ -201,13 +157,11 @@ class LicenseCmd {
     private static String dumpDateString(String s) {
         if (s.startsWith(NONE_STRING)) {
             return "NONE";
-        }
-        else if (s.startsWith(TRY_STRING)) {
+        } else if (s.startsWith(TRY_STRING)) {
             // this license contains the number of days to try
             int oindex = s.indexOf(OPEN_BRACKET);
             int cindex = s.indexOf(CLOSE_BRACKET);
-            int d = Integer.parseInt(
-                s.substring(oindex+1, cindex));
+            int d = Integer.parseInt(s.substring(oindex + 1, cindex));
             return "Expires after " + d + " days.";
         } else if (s.startsWith(VALID_STRING)) {
             String ret = null;
@@ -219,15 +173,13 @@ class LicenseCmd {
 
             if ((dashindex - oindex) > 1) {
                 // we have a start date
-                long start = Long.parseLong(
-                    s.substring(oindex+1, dashindex));
+                long start = Long.parseLong(s.substring(oindex + 1, dashindex));
                 ret = "start = " + (new Date(start)).toString();
             }
 
             if ((cindex - dashindex) > 1) {
                 // we have an exipriation date
-                long end = Long.parseLong(
-                    s.substring(dashindex+1, cindex));
+                long end = Long.parseLong(s.substring(dashindex + 1, cindex));
                 ret = ret + " --- end = " + (new Date(end)).toString();
             }
 
@@ -237,8 +189,7 @@ class LicenseCmd {
         }
     }
 
-    private static void readCommonProperties(Properties p)
-        throws Exception {
+    private static void readCommonProperties(Properties p) throws Exception {
         for (int i = 0; i < commonParams.length; i++) {
             String name = commonParams[i];
 
@@ -267,8 +218,7 @@ class LicenseCmd {
                 value = readBoolean(prompt);
 
             if (value == null) {
-                System.out.println("Bad value : name = " + name +
-                    ", value = " + value);
+                System.out.println("Bad value : name = " + name + ", value = " + value);
                 System.exit(1);
             }
 
@@ -276,8 +226,7 @@ class LicenseCmd {
         }
     }
 
-    private static void readRaptorProperties(Properties p)
-        throws Exception {
+    private static void readRaptorProperties(Properties p) throws Exception {
         for (int i = 0; i < raptorParams.length; i++) {
             String name = raptorParams[i];
 
@@ -306,8 +255,7 @@ class LicenseCmd {
                 value = readBoolean(prompt);
 
             if (value == null) {
-                System.out.println("Bad value : name = " + name +
-                    ", value = " + value);
+                System.out.println("Bad value : name = " + name + ", value = " + value);
                 System.exit(1);
             }
 
@@ -315,144 +263,78 @@ class LicenseCmd {
         }
     }
 
-    private static BufferedReader reader = new BufferedReader(
-        new InputStreamReader(System.in));
+    private static BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private static final String USAGE =
-        "java com.sun.messaging.jmq.jmsserver.license.LicenseCmd\n" +
-        "\t-generateFile\n" +
-        "\t-generateCode license_class_name\n" +
-        "\t-dump  license_file\n";
+    private static final String USAGE = "java com.sun.messaging.jmq.jmsserver.license.LicenseCmd\n" + "\t-generateFile\n"
+            + "\t-generateCode license_class_name\n" + "\t-dump  license_file\n";
 
     public static void usage() {
         System.out.println(USAGE);
         System.exit(1);
     }
 
-    private static final String[] commonParams = {
-        "imq.license_type",
-        "imq.file_version",
-        "imq.license_version",
-        "description", // Shared with iAS.
-        "imq.precedence",
+    private static final String[] commonParams = { "imq.license_type", "imq.file_version", "imq.license_version", "description", // Shared with iAS.
+            "imq.precedence", };
+
+    private static final String[] raptorParams = { "imq.max_client_conns", "imq.max_broker_conns", "date_string", // Shared with iAS.
+            "imq.enable_cluster", "imq.enable_http", "imq.enable_ssl", "imq.enable_sharedpool", "imq.max_backup_cons", "imq.max_active_cons",
+            "imq.enable_c_api", "imq.enable_failover", "imq.enable_monitoring", "imq.enable_localdest", "imq.enable_dmq", "imq.enable_clientping",
+            "imq.enable_msgbody_compression", "imq.enable_shared_sub", "imq.enable_audit_ccc", "imq.enable_no_ack", "imq.enable_reconnect", "imq.enable_ha",
+
     };
 
-    private static final String[] raptorParams = {
-        "imq.max_client_conns",
-        "imq.max_broker_conns",
-        "date_string", // Shared with iAS.
-        "imq.enable_cluster",
-        "imq.enable_http",
-        "imq.enable_ssl",
-        "imq.enable_sharedpool",
-        "imq.max_backup_cons",
-        "imq.max_active_cons",
-        "imq.enable_c_api",
-        "imq.enable_failover",
-        "imq.enable_monitoring",
-        "imq.enable_localdest",
-        "imq.enable_dmq", 
-        "imq.enable_clientping",
-        "imq.enable_msgbody_compression",
-        "imq.enable_shared_sub",
-        "imq.enable_audit_ccc",
-        "imq.enable_no_ack",
-        "imq.enable_reconnect",
-        "imq.enable_ha",
-    
-    };
+    private static final String LICENCE_TYPE_P = "\nEnter basename for the file\n" + "(e.g. for imqbrokerdev.lic, the basename would be dev)\n" + "BaseName: ";
 
-    private static final String LICENCE_TYPE_P =
-        "\nEnter basename for the file\n" +
-        "(e.g. for imqbrokerdev.lic, the basename would be dev)\n" +
-        "BaseName: ";
+    private static final String FILE_VERSION_P = "\nEnter license file verion #\n" + "(Current File Format since Falcon=4) : ";
 
-    private static final String FILE_VERSION_P =
-        "\nEnter license file verion #\n" +
-        "(Current File Format since Falcon=4) : ";
+    private static final String LICENSE_VERSION_P = "\nEnter the license version #\n" + "(e.g. \"3.6 Beta\", \"3.6 FCS\"...) : ";
 
-    private static final String LICENSE_VERSION_P =
-        "\nEnter the license version #\n" +
-        "(e.g. \"3.6 Beta\", \"3.6 FCS\"...) : ";
+    private static final String DESCRIPTION_P = "\nEnter a description of the license: ";
 
-    private static final String DESCRIPTION_P =
-        "\nEnter a description of the license: ";
+    private static final String PRECEDENCE_P = "\nEnter a precedence value for this license\n" + "(e.g. try = 1000, developer = 2000, enterprise = 10000..) : ";
 
-    private static final String PRECEDENCE_P =
-        "\nEnter a precedence value for this license\n" +
-        "(e.g. try = 1000, developer = 2000, enterprise = 10000..) : ";
+    private static final String CONNLIMIT_P = "\nEnter the max # of client connections " + "(-1 = unlimited) : ";
 
-    private static final String CONNLIMIT_P =
-        "\nEnter the max # of client connections " +
-        "(-1 = unlimited) : ";
+    private static final String BROKERLIMIT_P = "\nEnter the max # of broker connections " + "(-1 = unlimited) : ";
 
-    private static final String BROKERLIMIT_P =
-        "\nEnter the max # of broker connections " +
-        "(-1 = unlimited) : ";
+    private static final String EXPIRY_DATE_P = "\nEnter the date information :\n" + "\t0 - unlimited\n\tTn - for n trial days\n"
+            + "\tEmmnnyyyy - for expiration date\n" + "\tRmmnnyyyy-mmnnyyyy - for a valid date range\n" + "Date : ";
 
-    private static final String EXPIRY_DATE_P =
-        "\nEnter the date information :\n" +
-        "\t0 - unlimited\n\tTn - for n trial days\n" +
-        "\tEmmnnyyyy - for expiration date\n" +
-        "\tRmmnnyyyy-mmnnyyyy - for a valid date range\n" +
-        "Date : ";
+    private static final String ENABLE_CLUSTER_P = "\nEnable clustering (y/n) : ";
 
-    private static final String ENABLE_CLUSTER_P =
-        "\nEnable clustering (y/n) : ";
+    private static final String ENABLE_HTTP_P = "\nEnable http/https (y/n) : ";
 
-    private static final String ENABLE_HTTP_P =
-        "\nEnable http/https (y/n) : ";
+    private static final String ENABLE_SSL_P = "\nEnable ssl (y/n) : ";
 
-    private static final String ENABLE_SSL_P =
-        "\nEnable ssl (y/n) : ";
+    private static final String ENABLE_SHAREDPOOL_P = "\nEnable shared threadpool (y/n) : ";
 
-    private static final String ENABLE_SHAREDPOOL_P =
-        "\nEnable shared threadpool (y/n) : ";
+    private static final String BACKUP_CONS_LIMIT_P = "\nEnter the max # of backup consumers " + "(-1 = unlimited) : ";
 
-    private static final String BACKUP_CONS_LIMIT_P =
-        "\nEnter the max # of backup consumers " +
-        "(-1 = unlimited) : ";
+    private static final String ACTIVE_CONS_LIMIT_P = "\nEnter the max # of active consumers " + "(-1 = unlimited) : ";
 
-    private static final String ACTIVE_CONS_LIMIT_P =
-        "\nEnter the max # of active consumers " +
-        "(-1 = unlimited) : ";
+    private static final String ENABLE_C_API_P = "\nEnable C API (y/n) : ";
 
-    private static final String ENABLE_C_API_P =
-        "\nEnable C API (y/n) : ";
+    private static final String ENABLE_FAILOVER_P = "\nEnable Connection Failover (y/n) : ";
 
-    private static final String ENABLE_FAILOVER_P =
-        "\nEnable Connection Failover (y/n) : ";
+    private static final String ENABLE_MONITORING_P = "\nEnable Monitoring (y/n) : ";
 
-    private static final String ENABLE_MONITORING_P =
-        "\nEnable Monitoring (y/n) : ";
+    private static final String ENABLE_LOCAL_DESTINATIONS_P = "\nEnable Local Destinations (y/n) : ";
 
-    private static final String ENABLE_LOCAL_DESTINATIONS_P =
-        "\nEnable Local Destinations (y/n) : ";
-    
-   private static final String ENABLE_DMQ_P =
-        "\nEnable DMQ (y/n) : ";
-    
-    private static final String ENABLE_CLIENTPING_P =
-        "\nEnable client side ping (y/n) : ";
-    
-    private static final String ENABLE_MSGBODYCOMP_P =
-        "\nEnable message body compression (y/n) : ";
-    
-    private static final String ENABLE_SHAREDSUB_P =
-        "\nEnable shared subscriptions (y/n) : ";
-    
-    private static final String ENABLE_AUDITCCC_P =
-        "\nEnable auditing for common criteria certification (y/n) : ";
-    
-    private static final String ENABLE_NOACK_P =
-        "\nEnable no acknowledgement mode (y/n) : ";
-    
-     private static final String ENABLE_RECONNECT =
-        "\nEnable reconnect mode (y/n) : ";
-    
-    private static final String ENABLE_HA_P =
-        "\nEnable high availability (y/n) : ";
-       
+    private static final String ENABLE_DMQ_P = "\nEnable DMQ (y/n) : ";
+
+    private static final String ENABLE_CLIENTPING_P = "\nEnable client side ping (y/n) : ";
+
+    private static final String ENABLE_MSGBODYCOMP_P = "\nEnable message body compression (y/n) : ";
+
+    private static final String ENABLE_SHAREDSUB_P = "\nEnable shared subscriptions (y/n) : ";
+
+    private static final String ENABLE_AUDITCCC_P = "\nEnable auditing for common criteria certification (y/n) : ";
+
+    private static final String ENABLE_NOACK_P = "\nEnable no acknowledgement mode (y/n) : ";
+
+    private static final String ENABLE_RECONNECT = "\nEnable reconnect mode (y/n) : ";
+
+    private static final String ENABLE_HA_P = "\nEnable high availability (y/n) : ";
 
     private static HashMap types = new HashMap();
     private static HashMap prompts = new HashMap();
@@ -482,9 +364,9 @@ class LicenseCmd {
         types.put("imq.enable_shared_sub", "Boolean");
         types.put("imq.enable_audit_ccc", "Boolean");
         types.put("imq.enable_no_ack", "Boolean");
-        types.put("imq.enable_reconnect","Boolean");
+        types.put("imq.enable_reconnect", "Boolean");
         types.put("imq.enable_ha", "Boolean");
-    
+
         prompts.put("imq.license_type", LICENCE_TYPE_P);
         prompts.put("imq.file_version", FILE_VERSION_P);
         prompts.put("imq.license_version", LICENSE_VERSION_P);
@@ -509,36 +391,24 @@ class LicenseCmd {
         prompts.put("imq.enable_shared_sub", ENABLE_SHAREDSUB_P);
         prompts.put("imq.enable_audit_ccc", ENABLE_AUDITCCC_P);
         prompts.put("imq.enable_no_ack", ENABLE_NOACK_P);
-        prompts.put("imq.enable_reconnect",ENABLE_RECONNECT);
+        prompts.put("imq.enable_reconnect", ENABLE_RECONNECT);
         prompts.put("imq.enable_ha", ENABLE_HA_P);
-        
+
     }
 
     /*
-    private static int readIntChoice(String prompt, int[] choices)
-        throws Exception {
-        System.out.println(prompt);
-        System.out.flush();
+     * private static int readIntChoice(String prompt, int[] choices) throws Exception { System.out.println(prompt);
+     * System.out.flush();
+     * 
+     * String line = getLine(); int value = Integer.parseInt(line);
+     * 
+     * boolean good = false; for (int i = 0; i < choices.length; i++) { if (choices[i] == value) good = true; } if (!good) {
+     * System.out.println("Bad value : " + line); System.exit(1); }
+     * 
+     * return value; }
+     */
 
-        String line = getLine();
-        int value = Integer.parseInt(line);
-
-        boolean good = false;
-        for (int i = 0; i < choices.length; i++) {
-            if (choices[i] == value)
-                good = true;
-        }
-        if (!good) {
-            System.out.println("Bad value : " + line);
-            System.exit(1);
-        }
-
-        return value;
-    }
-    */
-
-    private static String readBoolean(String prompt)
-        throws Exception {
+    private static String readBoolean(String prompt) throws Exception {
         System.out.print(prompt);
         System.out.flush();
 
@@ -551,8 +421,7 @@ class LicenseCmd {
         return null;
     }
 
-    private static String readInt(String prompt)
-        throws Exception {
+    private static String readInt(String prompt) throws Exception {
         System.out.print(prompt);
         System.out.flush();
 
@@ -561,8 +430,7 @@ class LicenseCmd {
         return line;
     }
 
-    private static String readLimit(String prompt)
-        throws Exception {
+    private static String readLimit(String prompt) throws Exception {
         System.out.print(prompt);
         System.out.flush();
 
@@ -574,8 +442,7 @@ class LicenseCmd {
         return String.valueOf(value);
     }
 
-    private static String readString(String prompt)
-        throws Exception {
+    private static String readString(String prompt) throws Exception {
         System.out.print(prompt);
         System.out.flush();
 
@@ -592,8 +459,7 @@ class LicenseCmd {
     private static final String CLOSE_BRACKET = "]";
     private static final String DASH = "-";
 
-    private static String readDateInfo(String prompt)
-        throws Exception {
+    private static String readDateInfo(String prompt) throws Exception {
         System.out.print(prompt);
         System.out.flush();
 
@@ -611,15 +477,12 @@ class LicenseCmd {
         if (di._noExpiration) {
             string = NONE_STRING;
         } else if (di._start != null || di._end != null) {
-            String start = ((di._start != null) ?
-                String.valueOf(di._start.getTime()) : "");
-            String end = ((di._end != null) ?
-                String.valueOf(di._end.getTime()) : "");
+            String start = ((di._start != null) ? String.valueOf(di._start.getTime()) : "");
+            String end = ((di._end != null) ? String.valueOf(di._end.getTime()) : "");
 
-            string = formatString(VALID_STRING, start+DASH+end);
+            string = formatString(VALID_STRING, start + DASH + end);
         } else {
-            string = formatString(TRY_STRING,
-                String.valueOf(di._daysToUse));
+            string = formatString(TRY_STRING, String.valueOf(di._daysToUse));
         }
         return string;
     }
@@ -628,8 +491,7 @@ class LicenseCmd {
         return prefix + OPEN_BRACKET + content + CLOSE_BRACKET;
     }
 
-    private static void parseDateInfo(String line, DateInfo di)
-        throws Exception {
+    private static void parseDateInfo(String line, DateInfo di) throws Exception {
         // sanity check
         if (!line.equals("0") && !(line.length() > 1)) {
             System.out.println("Bad input: " + line);
@@ -644,7 +506,7 @@ class LicenseCmd {
             dateString = line.substring(1, line.length());
             checkDateString(dateString);
             Calendar cal = Calendar.getInstance();
-            cal.set(cal.MONTH, getMonth(dateString)-1);
+            cal.set(cal.MONTH, getMonth(dateString) - 1);
             cal.set(cal.DAY_OF_MONTH, getDay(dateString));
             cal.set(cal.YEAR, getYear(dateString));
             cal.set(cal.HOUR_OF_DAY, 0);
@@ -661,12 +523,13 @@ class LicenseCmd {
             int dashindex = line.indexOf(DASH);
             if (dashindex > 1 || dashindex == -1) {
                 // get start date
-                if (dashindex == -1) dashindex = line.length();
+                if (dashindex == -1)
+                    dashindex = line.length();
 
                 dateString = line.substring(1, dashindex);
                 checkDateString(dateString);
                 Calendar cal = Calendar.getInstance();
-                cal.set(cal.MONTH, getMonth(dateString)-1);
+                cal.set(cal.MONTH, getMonth(dateString) - 1);
                 cal.set(cal.DAY_OF_MONTH, getDay(dateString));
                 cal.set(cal.YEAR, getYear(dateString));
                 cal.set(cal.HOUR_OF_DAY, 0);
@@ -678,11 +541,11 @@ class LicenseCmd {
 
             if ((line.length() - dashindex) > 1) {
                 // get end date
-                dateString = line.substring(dashindex+1, line.length());
+                dateString = line.substring(dashindex + 1, line.length());
                 checkDateString(dateString);
                 Calendar cal = Calendar.getInstance();
-                cal.set(cal.MONTH, getMonth(dateString)-1);
-                cal.set(cal.DAY_OF_MONTH, getDay(dateString)+1);
+                cal.set(cal.MONTH, getMonth(dateString) - 1);
+                cal.set(cal.DAY_OF_MONTH, getDay(dateString) + 1);
                 cal.set(cal.YEAR, getYear(dateString));
                 cal.set(cal.HOUR_OF_DAY, 0);
                 cal.set(cal.MINUTE, 0);
@@ -698,8 +561,7 @@ class LicenseCmd {
         }
     }
 
-    private static final String errorMsg =
-			"Expected date in this format: mmnnyyy"; 
+    private static final String errorMsg = "Expected date in this format: mmnnyyy";
 
     // format expected
     // mmnnyyyy
@@ -734,7 +596,6 @@ class LicenseCmd {
         }
     }
 
-
     private static String getLine() throws Exception {
         String line = reader.readLine();
         if (line == null) {
@@ -750,14 +611,11 @@ class DateInfo {
     public int _daysToUse = 0;
     public boolean _noExpiration = false;
 
-    public DateInfo() {}
+    public DateInfo() {
+    }
 
     public String toString() {
-        return
-            "(start = " + _start +
-            ", end = " + _end +
-            ", daysToUse = " + _daysToUse +
-            ", Expiration = " + _noExpiration + ")";
+        return "(start = " + _start + ", end = " + _end + ", daysToUse = " + _daysToUse + ", Expiration = " + _noExpiration + ")";
     }
 };
 

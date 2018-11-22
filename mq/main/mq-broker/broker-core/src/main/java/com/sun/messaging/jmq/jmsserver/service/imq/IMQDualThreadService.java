@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQDualThreadService
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -43,33 +43,26 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 import java.nio.channels.SelectionKey;
 
-
-
-
-public class IMQDualThreadService extends IMQService 
-{
+public class IMQDualThreadService extends IMQService {
 
     private static boolean DEBUG = false;
 
-
-    //Properties cfg = System.getProperties();
-    //BrokerConfig cprops = Globals.getConfig();
+    // Properties cfg = System.getProperties();
+    // BrokerConfig cprops = Globals.getConfig();
 
     /**
      * the list of connections which this service knows about
      */
 
     protected PacketRouter router = null;
-    //private AuthCacheData authCacheData = new AuthCacheData();
+    // private AuthCacheData authCacheData = new AuthCacheData();
 
-    public IMQDualThreadService(String name,
-            int type, PacketRouter router)
-    {
-	    super(name, type);
+    public IMQDualThreadService(String name, int type, PacketRouter router) {
+        super(name, type);
         this.router = router;
     }
 
-    public synchronized  void startService(boolean startPaused) {
+    public synchronized void startService(boolean startPaused) {
         // we really don't do much on starting/stopping a service
         //
         // we will have to do something with concurrent queues when paused
@@ -77,34 +70,24 @@ public class IMQDualThreadService extends IMQService
         //
         if (isServiceRunning()) {
             /*
-             * this error should never happen in normal operation
-             * if its does, we will need to add an error message 
-             * to the resource bundle
+             * this error should never happen in normal operation if its does, we will need to add an error message to the resource
+             * bundle
              */
-            logger.log(Logger.DEBUG, 
-                       BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "unable to start service, already started.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to start service, already started.");
             return;
         }
         setState(ServiceState.STARTED);
         {
-            String args[] = { getName(), 
-                              "in-process connections", 
-                              String.valueOf(getMinThreadpool()),
-                              String.valueOf(getMaxThreadpool()) };
+            String args[] = { getName(), "in-process connections", String.valueOf(getMinThreadpool()), String.valueOf(getMaxThreadpool()) };
             logger.log(Logger.INFO, BrokerResources.I_SERVICE_START, args);
             try {
-            logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
-                       AccessController.getInstance(
-                       getName(), getServiceType()).getUserRepository(),
-                       getName());
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
+                        AccessController.getInstance(getName(), getServiceType()).getUserRepository(), getName());
             } catch (BrokerException e) {
-            logger.log(Logger.WARNING, 
-                       BrokerResources.W_SERVICE_USER_REPOSITORY,
-                       getName(), e.getMessage());
+                logger.log(Logger.WARNING, BrokerResources.W_SERVICE_USER_REPOSITORY, getName(), e.getMessage());
             }
         }
-    
+
         if (startPaused) {
             setServiceRunning(false);
             setState(ServiceState.PAUSED);
@@ -115,7 +98,7 @@ public class IMQDualThreadService extends IMQService
         notifyAll();
     }
 
-    public void stopService(boolean all) { 
+    public void stopService(boolean all) {
         synchronized (this) {
 
             if (isShuttingDown()) {
@@ -125,23 +108,19 @@ public class IMQDualThreadService extends IMQService
 
             String strings[] = { getName(), "none" };
             if (all) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_STOP, 
-                           strings);
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_STOP, strings);
             } else if (!isShuttingDown()) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_SHUTTINGDOWN, 
-                           strings);
-            } 
-           
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_SHUTTINGDOWN, strings);
+            }
+
             setShuttingDown(true);
         }
 
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
                 con.stopConnection();
             }
         }
@@ -159,11 +138,9 @@ public class IMQDualThreadService extends IMQService
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
-                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, 
-                    Globals.getBrokerResources().getKString(
-                        BrokerResources.M_SERVICE_SHUTDOWN));
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
+                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
             }
         }
 
@@ -173,30 +150,20 @@ public class IMQDualThreadService extends IMQService
         }
 
         if (DEBUG) {
-            logger.log(Logger.DEBUG, 
-                "Destroying Service {0} with protocol {1} ", 
-                getName(), "none");
+            logger.log(Logger.DEBUG, "Destroying Service {0} with protocol {1} ", getName(), "none");
         }
     }
 
-    public void stopNewConnections() 
-        throws IOException, IllegalStateException
-    {
+    public void stopNewConnections() throws IOException, IllegalStateException {
         if (getState() != ServiceState.RUNNING) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_STOP_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }
         setState(ServiceState.QUIESCED);
     }
 
-    public void startNewConnections() 
-        throws IOException
-    {
+    public void startNewConnections() throws IOException {
         if (getState() != ServiceState.QUIESCED && getState() != ServiceState.PAUSED) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_START_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
         }
 
         synchronized (this) {
@@ -208,22 +175,17 @@ public class IMQDualThreadService extends IMQService
     public void pauseService(boolean all) {
 
         if (!isServiceRunning()) {
-            logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to pause service " 
-                    + name + ", already paused.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to pause service " + name + ", already paused.");
             return;
-        }  
+        }
 
-        String strings[] = { getName(), "none"};
+        String strings[] = { getName(), "none" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_PAUSE, strings);
 
         try {
             stopNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         setState(ServiceState.PAUSED);
 
@@ -232,20 +194,15 @@ public class IMQDualThreadService extends IMQService
 
     public void resumeService() {
         if (isServiceRunning()) {
-             logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to resume service " 
-                    + name + ", already running.");
-           return;
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");
+            return;
         }
         String strings[] = { getName(), "none" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_RESUME, strings);
         try {
             startNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         setServiceRunning(true);
 
@@ -253,13 +210,10 @@ public class IMQDualThreadService extends IMQService
             setState(ServiceState.RUNNING);
             this.notifyAll();
         }
-        
+
     }
 
-
-    public IMQDualThreadConnection createConnection()
-        throws IOException, BrokerException
-    {
+    public IMQDualThreadConnection createConnection() throws IOException, BrokerException {
         IMQDualThreadConnection con = new IMQDualThreadConnection(this, router);
 
         // put on the connectionManager:
@@ -270,4 +224,3 @@ public class IMQDualThreadService extends IMQService
     }
 
 }
-

@@ -31,51 +31,52 @@ import java.util.Properties;
  * @author chiaming
  */
 public class ping implements ReadOnlyService {
-    
+
     private Properties initParams = null;
     private static long seq = 0;
-    
+
     /**
      * initialize with the servlet init params.
+     * 
      * @param props
      */
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
-    public ReadOnlyResponseMessage request (ReadOnlyRequestMessage request) {
-        
+
+    public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
+
         try {
-            
+
             String respMsg = null;
-            
+
             Map map = request.getMessageProperties();
-            
-            String destName = "PING_"+  nextSequence() + "_" + System.currentTimeMillis();
+
+            String destName = "PING_" + nextSequence() + "_" + System.currentTimeMillis();
             String msg = destName;
-            
+
             UMSServiceImpl service = (UMSServiceImpl) this.initParams.get(DefaultReadOnlyService.JMSSERVICE);
-            
+
             long start = System.currentTimeMillis();
-            
+
             service.sendText(null, false, destName, msg, map);
-            
+
             String msg2 = service.receiveText(null, destName, false, 30000, map);
-            
+
             long end = System.currentTimeMillis();
-            
+
             if (msg2 != null) {
                 respMsg = "Broker is alive, round trip = " + (end - start) + " milli secs.";
             } else {
                 respMsg = "Broker is not responding for more than 30 seconds.";
             }
-            
+
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
-            
+
             response.setResponseMessage(respMsg);
-            
+
             return response;
-            
+
         } catch (Exception e) {
 
             UMSServiceException umse = new UMSServiceException(e);
@@ -83,7 +84,7 @@ public class ping implements ReadOnlyService {
             throw umse;
         }
     }
-    
+
     private static synchronized long nextSequence() {
         return ++seq;
     }

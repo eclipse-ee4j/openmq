@@ -15,28 +15,28 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.util.timer;
 
 /**
  */
 
-public interface TimerEventHandler
-{
+public interface TimerEventHandler {
     /**
-     * @return the time (millisecs) for next run; 
-     *     0 if periodic task or wait for wakeup notifications
+     * @return the time (millisecs) for next run; 0 if periodic task or wait for wakeup notifications
      */
-    public long runTask(); 
+    public long runTask();
 
-   /** 
-    * returns true if the method actually did something with the error
-    */
+    /**
+     * returns true if the method actually did something with the error
+     */
     public void handleOOMError(Throwable e);
 
     public void handleLogInfo(String msg);
+
     public void handleLogWarn(String msg, Throwable e);
+
     public void handleLogError(String msg, Throwable e);
 
     public void handleTimerExit(Throwable e);

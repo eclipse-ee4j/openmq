@@ -28,79 +28,76 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class RemoteTransaction extends BaseTransaction {
 
-	TransactionAcknowledgement[] txnAcks;
-	DestinationUID[] destIds;
-	BrokerAddress txnHomeBroker;
+    TransactionAcknowledgement[] txnAcks;
+    DestinationUID[] destIds;
+    BrokerAddress txnHomeBroker;
 
-	public RemoteTransaction() {
-		super(BaseTransaction.REMOTE_TRANSACTION_TYPE);
+    public RemoteTransaction() {
+        super(BaseTransaction.REMOTE_TRANSACTION_TYPE);
 
-	}
+    }
 
-	public RemoteTransaction(TransactionUID id, TransactionState ts,
-			TransactionAcknowledgement[] txnAcks, DestinationUID[] destIds, BrokerAddress txnHomeBroker) {
-		this();
-		transactionDetails.setTid(id);
-		transactionDetails.setState(ts.getState());
-		transactionDetails.setXid(ts.getXid());
-		transactionState = ts;
-		setTxnAcks(txnAcks);
-		setDestIds(destIds);
-		setTxnHomeBroker(txnHomeBroker);
-	}
+    public RemoteTransaction(TransactionUID id, TransactionState ts, TransactionAcknowledgement[] txnAcks, DestinationUID[] destIds,
+            BrokerAddress txnHomeBroker) {
+        this();
+        transactionDetails.setTid(id);
+        transactionDetails.setState(ts.getState());
+        transactionDetails.setXid(ts.getXid());
+        transactionState = ts;
+        setTxnAcks(txnAcks);
+        setDestIds(destIds);
+        setTxnHomeBroker(txnHomeBroker);
+    }
 
-	public void readData(DataInputStream dis) throws IOException,
-			BrokerException {
-		transactionDetails.readContent(dis);
+    public void readData(DataInputStream dis) throws IOException, BrokerException {
+        transactionDetails.readContent(dis);
 
-	}
+    }
 
-	public void readObjects(ObjectInputStream ois) throws IOException,
-			ClassNotFoundException {
-		transactionState = (TransactionState) ois.readObject();
-		txnAcks = (TransactionAcknowledgement[]) ois.readObject();
-		destIds = (DestinationUID[])ois.readObject();
-		txnHomeBroker = (BrokerAddress) ois.readObject();
-	}
+    public void readObjects(ObjectInputStream ois) throws IOException, ClassNotFoundException {
+        transactionState = (TransactionState) ois.readObject();
+        txnAcks = (TransactionAcknowledgement[]) ois.readObject();
+        destIds = (DestinationUID[]) ois.readObject();
+        txnHomeBroker = (BrokerAddress) ois.readObject();
+    }
 
-	public void writeData(DataOutputStream dos) throws IOException {
-		transactionDetails.writeContent(dos);
+    public void writeData(DataOutputStream dos) throws IOException {
+        transactionDetails.writeContent(dos);
 
-	}
+    }
 
-	public void writeObjects(ObjectOutputStream oos) throws IOException {
-		oos.writeObject(transactionState);
-		oos.writeObject(txnAcks);
-		oos.writeObject(destIds);
-		oos.writeObject(txnHomeBroker);
-	}
+    public void writeObjects(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(transactionState);
+        oos.writeObject(txnAcks);
+        oos.writeObject(destIds);
+        oos.writeObject(txnHomeBroker);
+    }
 
-	String getPrefix() {
-		return "RemoteTransaction: " + Thread.currentThread().getName() + " "
-				+ this.getTid();
-	}
+    String getPrefix() {
+        return "RemoteTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
+    }
 
-	public TransactionAcknowledgement[] getTxnAcks() {
-		return txnAcks;
-	}
+    public TransactionAcknowledgement[] getTxnAcks() {
+        return txnAcks;
+    }
 
-	public void setTxnAcks(TransactionAcknowledgement[] txnAcks) {
-		this.txnAcks = txnAcks;
-	}
+    public void setTxnAcks(TransactionAcknowledgement[] txnAcks) {
+        this.txnAcks = txnAcks;
+    }
 
-	public BrokerAddress getTxnHomeBroker() {
-		return txnHomeBroker;
-	}
+    public BrokerAddress getTxnHomeBroker() {
+        return txnHomeBroker;
+    }
 
-	public void setTxnHomeBroker(BrokerAddress txnHomeBroker) {
-		this.txnHomeBroker = txnHomeBroker;
-	}
+    public void setTxnHomeBroker(BrokerAddress txnHomeBroker) {
+        this.txnHomeBroker = txnHomeBroker;
+    }
 
-	public DestinationUID[] getDestIds() {
-		return destIds;
-	}
+    public DestinationUID[] getDestIds() {
+        return destIds;
+    }
 
-	public void setDestIds(DestinationUID[] destIds) {
-		this.destIds = destIds;
-	}
+    public void setDestIds(DestinationUID[] destIds) {
+        this.destIds = destIds;
+    }
 }

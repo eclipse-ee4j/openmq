@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerLinkWriter.java	1.15 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
@@ -30,8 +30,8 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.io.*;
 
 /**
- * This class implements a dedicated packet writer thread. Each
- * BrokerLink instance has its own BrokerLinkWriter instance..
+ * This class implements a dedicated packet writer thread. Each BrokerLink instance has its own BrokerLinkWriter
+ * instance..
  */
 class BrokerLinkWriter extends Thread {
     private OutputStream os = null;
@@ -42,7 +42,7 @@ class BrokerLinkWriter extends Thread {
     private ArrayList backupQ = null;
 
     private static final int MAX_BUFFER_SIZE = 8192;
-    //private Logger logger = Globals.getLogger();
+    // private Logger logger = Globals.getLogger();
 
     private boolean stopThread = false;
     private boolean threadInWaiting = false;
@@ -70,11 +70,12 @@ class BrokerLinkWriter extends Thread {
 
     public void setFlowControl(boolean enabled) {
         synchronized (q) {
-            if (stopThread || this.shutdownOutput) return;
+            if (stopThread || this.shutdownOutput)
+                return;
 
             flowControl = enabled;
             if (flowControl == false) {
-                if (! backupQ.isEmpty()) {
+                if (!backupQ.isEmpty()) {
                     q.addAll(0, backupQ);
                     backupQ.clear();
                     q.notifyAll();
@@ -87,37 +88,37 @@ class BrokerLinkWriter extends Thread {
      * Terminate the writer thread.
      */
     public void shutdown() {
-        if (q == null) return;
+        if (q == null)
+            return;
         synchronized (q) {
-            if (shutdownOutput) return;
+            if (shutdownOutput)
+                return;
             stopThread = true;
             q.notifyAll();
         }
     }
 
     public boolean isOutputShutdown() {
-        if (q == null) return false;
-        synchronized(q) {
+        if (q == null)
+            return false;
+        synchronized (q) {
             return shutdownOutput;
         }
     }
 
-    public void sendPacket(Object p, boolean shutdownOutput)
-    throws IOException {
+    public void sendPacket(Object p, boolean shutdownOutput) throws IOException {
         sendPacket(p, shutdownOutput, false);
     }
 
     /**
      * Adds a packet to the queue and wakes up the writer thread.
      */
-    public void sendPacket(Object p, boolean shutdownOutput, boolean urgent)
-    throws IOException {
+    public void sendPacket(Object p, boolean shutdownOutput, boolean urgent) throws IOException {
         synchronized (q) {
             if (stopThread || this.shutdownOutput) {
-                throw new IOException(
-                  "Packet send failed. Unreachable BrokerAddress : " + parent.getRemoteString());
+                throw new IOException("Packet send failed. Unreachable BrokerAddress : " + parent.getRemoteString());
             }
-            if (!shutdownOutput) { 
+            if (!shutdownOutput) {
                 if (!urgent) {
                     q.add(p);
                 } else {
@@ -127,10 +128,11 @@ class BrokerLinkWriter extends Thread {
                 return;
             }
             this.shutdownOutput = true;
-            while (this.isAlive() && !threadInWaiting) {   
+            while (this.isAlive() && !threadInWaiting) {
                 try {
-                q.wait();
-                } catch (Exception e) {/* Ignore */}
+                    q.wait();
+                } catch (Exception e) {
+                    /* Ignore */}
             }
             try {
                 sendPacketDirect(p);
@@ -142,7 +144,7 @@ class BrokerLinkWriter extends Thread {
                 }
             } catch (IOException e) {
                 this.shutdownOutput = false;
-                parent.closeConn(false, true); 
+                parent.closeConn(false, true);
                 throw e;
             }
         }
@@ -152,12 +154,11 @@ class BrokerLinkWriter extends Thread {
         sendPacket(p, false, false);
     }
 
-
     private void sendPacketDirect(Object p) throws IOException {
         if (p instanceof GPacket) {
-           sendPacketDirect((GPacket)p, true);
+            sendPacketDirect((GPacket) p, true);
         } else {
-           sendPacketDirect((Packet)p, true);
+            sendPacketDirect((Packet) p, true);
         }
     }
 
@@ -165,14 +166,16 @@ class BrokerLinkWriter extends Thread {
      * Actually writes the packet to the wire.
      */
     private void sendPacketDirect(GPacket gp, boolean doFlush) throws IOException {
-        if (os == null) throw new IOException("os null");
+        if (os == null)
+            throw new IOException("os null");
 
         try {
             gp.write(os);
-            if (doFlush) os.flush();
-            if (gp.getType() != ProtocolGlobals.G_PING) writeActive = true;
-        }
-        catch (IOException e) {
+            if (doFlush)
+                os.flush();
+            if (gp.getType() != ProtocolGlobals.G_PING)
+                writeActive = true;
+        } catch (IOException e) {
             os = null;
             throw e;
         }
@@ -182,14 +185,16 @@ class BrokerLinkWriter extends Thread {
      * Actually writes the packet to the wire.
      */
     private void sendPacketDirect(Packet p, boolean doFlush) throws IOException {
-        if (os == null) throw new IOException("os null");
+        if (os == null)
+            throw new IOException("os null");
 
         try {
             p.writePacket(os);
-            if (doFlush) os.flush();
-            if (p.getPacketType() != Packet.PING) writeActive = true;
-        }
-        catch (IOException e) {
+            if (doFlush)
+                os.flush();
+            if (p.getPacketType() != Packet.PING)
+                writeActive = true;
+        } catch (IOException e) {
             os = null;
             throw e;
         }
@@ -199,7 +204,7 @@ class BrokerLinkWriter extends Thread {
         writeActive = false;
     }
 
-    protected boolean isWriteActive() { 
+    protected boolean isWriteActive() {
         return writeActive;
     }
 
@@ -215,8 +220,8 @@ class BrokerLinkWriter extends Thread {
                         q.notifyAll();
                         q.wait();
                         threadInWaiting = false;
+                    } catch (Exception e) {
                     }
-                    catch (Exception e) {}
                 }
 
                 if (stopThread)
@@ -225,7 +230,7 @@ class BrokerLinkWriter extends Thread {
                 int n = 0;
                 boolean bufferFull = false;
 
-                while (! q.isEmpty()) {
+                while (!q.isEmpty()) {
                     Object o = q.getFirst();
 
                     GPacket gp = null;
@@ -233,8 +238,7 @@ class BrokerLinkWriter extends Thread {
 
                     try {
                         gp = (GPacket) o;
-                    }
-                    catch (ClassCastException cce) {
+                    } catch (ClassCastException cce) {
                         // Not a GPacket.
                         p = (Packet) o;
                     }
@@ -242,8 +246,7 @@ class BrokerLinkWriter extends Thread {
                     if (gp != null) {
                         if (flowControl && gp.getBit(gp.F_BIT)) {
                             backupQ.add(gp);
-                        }
-                        else {
+                        } else {
                             if (n + gp.getSize() > MAX_BUFFER_SIZE) {
                                 bufferFull = true;
                                 break;
@@ -252,12 +255,10 @@ class BrokerLinkWriter extends Thread {
                             l.add(gp);
                             n += gp.getSize();
                         }
-                    }
-                    else {
+                    } else {
                         if (flowControl && p.getFlag(p.USE_FLOW_CONTROL)) {
                             backupQ.add(p);
-                        }
-                        else {
+                        } else {
                             if (n + p.getPacketSize() > MAX_BUFFER_SIZE) {
                                 bufferFull = true;
                                 break;
@@ -284,16 +285,15 @@ class BrokerLinkWriter extends Thread {
                     try {
                         GPacket gp = (GPacket) l.get(i);
                         sendPacketDirect(gp, false);
-                    }
-                    catch (ClassCastException cce) {
+                    } catch (ClassCastException cce) {
                         Packet p = (Packet) l.get(i);
                         sendPacketDirect(p, false);
                     }
                 }
 
-                if (os != null) os.flush();
-            }
-            catch (Exception e) {
+                if (os != null)
+                    os.flush();
+            } catch (Exception e) {
                 os = null;
             }
         }

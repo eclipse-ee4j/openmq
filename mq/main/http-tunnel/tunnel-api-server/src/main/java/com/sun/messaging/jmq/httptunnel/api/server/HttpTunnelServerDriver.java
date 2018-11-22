@@ -15,32 +15,29 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.api.server;
 
 import java.util.Vector;
 import java.io.IOException;
 
-public interface HttpTunnelServerDriver 
-{
+public interface HttpTunnelServerDriver {
 
     public void init(String serviceName) throws IOException;
 
-    public void init(String serviceName, String webServerHostName,
-        int webServerPort) throws IOException; 
- 
-    public Vector getListenQ(); 
+    public void init(String serviceName, String webServerHostName, int webServerPort) throws IOException;
+
+    public Vector getListenQ();
 
     public void listen(boolean listenState) throws IOException;
 
     public void start();
 
-    public void setRxBufSize(int rxBufSize); 
+    public void setRxBufSize(int rxBufSize);
 
     public int getInactiveConnAbortInterval();
 
     public void setInactiveConnAbortInterval(int inactiveConnAbortInterval);
 
 }
-

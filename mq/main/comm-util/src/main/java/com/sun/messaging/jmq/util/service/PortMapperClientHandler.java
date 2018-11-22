@@ -19,22 +19,24 @@ package com.sun.messaging.jmq.util.service;
 import java.nio.channels.SocketChannel;
 
 /**
-* <p>If an external proxy port mapper is being used to listen for connections to the port mapper, 
-* then after accepting the connection it should forward the new client socket this class for handling</p>
-*/
+ * <p>
+ * If an external proxy port mapper is being used to listen for connections to the port mapper, then after accepting the
+ * connection it should forward the new client socket this class for handling
+ * </p>
+ */
 public interface PortMapperClientHandler {
-	
+
     /**
-     * <p>Process a newly-connected PortMapper client and then close the socket.</p>
+     * <p>
+     * Process a newly-connected PortMapper client and then close the socket.
+     * </p>
      * 
-     * <p>This method takes a <tt>SocketChannel</tt> and is intended to be called by an external proxy 
-     * which has accepted the connection for us and created the new socket</tt>
+     * <p>
+     * This method takes a <tt>SocketChannel</tt> and is intended to be called by an external proxy which has accepted the
+     * connection for us and created the new socket</tt>
      * 
      * @param clientSocketChannel the newly-connected PortMapper client
      */
-	void handleRequest(SocketChannel clientSocketChannel) ;
+    void handleRequest(SocketChannel clientSocketChannel);
 
 }
-
-
- 

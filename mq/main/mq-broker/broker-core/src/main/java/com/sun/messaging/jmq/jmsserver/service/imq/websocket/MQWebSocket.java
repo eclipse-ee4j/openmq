@@ -31,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-
 /**
  * @author amyk
  */
@@ -53,10 +52,7 @@ public abstract class MQWebSocket extends DefaultWebSocket {
         return DEBUG;
     }
 
-    public MQWebSocket(MQWebSocketServiceApp app, 
-                       ProtocolHandler protocolHandler,
-                       HttpRequestPacket request,
-                       WebSocketListener... listeners) {
+    public MQWebSocket(MQWebSocketServiceApp app, ProtocolHandler protocolHandler, HttpRequestPacket request, WebSocketListener... listeners) {
         super(protocolHandler, request, listeners);
         this.requestURL = request.getRequestURI();
         this.websocketApp = app;
@@ -65,36 +61,33 @@ public abstract class MQWebSocket extends DefaultWebSocket {
     }
 
     public InetAddress getRemoteAddress() {
-        return ((InetSocketAddress)protocolHandler.getConnection().
-                   getPeerAddress()).getAddress();
+        return ((InetSocketAddress) protocolHandler.getConnection().getPeerAddress()).getAddress();
     }
 
     public int getRemotePort() {
-        return ((InetSocketAddress)protocolHandler.getConnection().
-                   getPeerAddress()).getPort();
+        return ((InetSocketAddress) protocolHandler.getConnection().getPeerAddress()).getPort();
     }
 
     protected int getLocalPort() {
-        return ((InetSocketAddress)protocolHandler.getConnection().
-                   getLocalAddress()).getPort();
+        return ((InetSocketAddress) protocolHandler.getConnection().getLocalAddress()).getPort();
     }
 
-    protected abstract void writePacket(Packet pkt) throws IOException; 
+    protected abstract void writePacket(Packet pkt) throws IOException;
+
     protected abstract void processData(String text) throws Exception;
-    protected abstract void processData(byte[] data) throws Exception; 
+
+    protected abstract void processData(byte[] data) throws Exception;
 
     @Override
     public void onClose(final DataFrame frame) {
         super.onClose(frame);
-        synchronized(closeLock) {
-             if (closed) {
-                 return;
-             }
-             closed = true;
+        synchronized (closeLock) {
+            if (closed) {
+                return;
+            }
+            closed = true;
         }
-        logger.log(Logger.INFO, br.getKString(
-            br.I_CLIENT_CLOSE_WEBSOCKET, 
-            getLogString()+(frame == null ? "":"["+frame+"]")));
+        logger.log(Logger.INFO, br.getKString(br.I_CLIENT_CLOSE_WEBSOCKET, getLogString() + (frame == null ? "" : "[" + frame + "]")));
     }
 
     public boolean isClosed() {
@@ -102,6 +95,6 @@ public abstract class MQWebSocket extends DefaultWebSocket {
     }
 
     protected String getLogString() {
-        return "["+requestURL+"@"+this.hashCode()+"]";
+        return "[" + requestURL + "@" + this.hashCode() + "]";
     }
 }

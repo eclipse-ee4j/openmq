@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetLicenseHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -35,97 +35,88 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-
 /**
- * Handler class which deals with the GET_LICENSE message
- * GET_LICENSE requests licensing information so the client can restrict
- * licensed features.
+ * Handler class which deals with the GET_LICENSE message GET_LICENSE requests licensing information so the client can
+ * restrict licensed features.
  */
-public class GetLicenseHandler extends PacketHandler 
-{
-    //private ConnectionManager connectionList;
+public class GetLicenseHandler extends PacketHandler {
+    // private ConnectionManager connectionList;
 
     private Logger logger = Globals.getLogger();
-    //private BrokerResources rb = Globals.getBrokerResources();
+    // private BrokerResources rb = Globals.getBrokerResources();
     private static boolean DEBUG = false;
 
-    //private static boolean ALLOW_C_CLIENTS = false;
+    // private static boolean ALLOW_C_CLIENTS = false;
     private static boolean CAN_RECONNECT = false;
 
     static {
         try {
             LicenseBase license = Globals.getCurrentLicense(null);
         } catch (BrokerException ex) {
-            
+
         }
         try {
             LicenseBase license = Globals.getCurrentLicense(null);
-            CAN_RECONNECT = license.getBooleanProperty(
-                                license.PROP_ENABLE_FAILOVER, false);
+            CAN_RECONNECT = license.getBooleanProperty(license.PROP_ENABLE_FAILOVER, false);
         } catch (BrokerException ex) {
             CAN_RECONNECT = false;
         }
 
     }
 
-    public GetLicenseHandler()
-    {
+    public GetLicenseHandler() {
     }
 
     /**
      * Method to handle GET_LICENSE messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException 
-    { 
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
-         if (DEBUG) {
-             logger.log(Logger.DEBUGHIGH, "GetLicenseHandler: handle(" + con + ", " + PacketType.getString(msg.getPacketType()) + ")" );
-          }
+        if (DEBUG) {
+            logger.log(Logger.DEBUGHIGH, "GetLicenseHandler: handle(" + con + ", " + PacketType.getString(msg.getPacketType()) + ")");
+        }
 
-          String reason = "";
-	  int    status = Status.OK;
+        String reason = "";
+        int status = Status.OK;
 
-          // Create reply packet
-          Packet pkt = new Packet(con.useDirectBuffers());
-          pkt.setPacketType(PacketType.GET_LICENSE_REPLY);
-          pkt.setConsumerID(msg.getConsumerID());
+        // Create reply packet
+        Packet pkt = new Packet(con.useDirectBuffers());
+        pkt.setPacketType(PacketType.GET_LICENSE_REPLY);
+        pkt.setConsumerID(msg.getConsumerID());
 
-          Hashtable hash = new Hashtable();
-          try {
-              // Added licensing description properties
-              LicenseBase license = Globals.getCurrentLicense(null);
-              hash.put("JMQLicense",
-                  license.getProperty(LicenseBase.PROP_LICENSE_TYPE));
-              hash.put("JMQLicenseDesc",
-                  license.getProperty(LicenseBase.PROP_DESCRIPTION));
+        Hashtable hash = new Hashtable();
+        try {
+            // Added licensing description properties
+            LicenseBase license = Globals.getCurrentLicense(null);
+            hash.put("JMQLicense", license.getProperty(LicenseBase.PROP_LICENSE_TYPE));
+            hash.put("JMQLicenseDesc", license.getProperty(LicenseBase.PROP_DESCRIPTION));
 
-              // Copy license properties into packet
-              Properties props = license.getProperties();
-              Enumeration e = props.propertyNames();
-              while (e.hasMoreElements()) {
-                  String key = (String)e.nextElement();
-                  hash.put(key, props.get(key));
-              }
-          } catch (BrokerException ex) {
-              // This should never happen, but go ahead and at least
-              // capture exception here
-              reason = ex.toString();
-              status = Status.ERROR;
-          }
+            // Copy license properties into packet
+            Properties props = license.getProperties();
+            Enumeration e = props.propertyNames();
+            while (e.hasMoreElements()) {
+                String key = (String) e.nextElement();
+                hash.put(key, props.get(key));
+            }
+        } catch (BrokerException ex) {
+            // This should never happen, but go ahead and at least
+            // capture exception here
+            reason = ex.toString();
+            status = Status.ERROR;
+        }
 
-          hash.put("JMQStatus", Integer.valueOf(status));
-          if (status != Status.OK) {
-              hash.put("JMQReason", reason);
-           }
+        hash.put("JMQStatus", Integer.valueOf(status));
+        if (status != Status.OK) {
+            hash.put("JMQReason", reason);
+        }
 
-          // Set packet properties
-          pkt.setProperties(hash);
+        // Set packet properties
+        pkt.setProperties(hash);
 
-          // Send message
-	  con.sendControlMessage(pkt);
+        // Send message
+        con.sendControlMessage(pkt);
 
-          return true;
+        return true;
     }
 
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)RollbackReason.java	1.2 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
@@ -26,13 +26,12 @@ import com.sun.messaging.jmq.util.lists.Reason;
  * Reasons a packet may be added to list.
  */
 
-public class RollbackReason extends Reason
-{
-    public static final RollbackReason APPLICATION = new RollbackReason(1,"APPLICATION");
-    public static final RollbackReason ADMIN = new RollbackReason(2,"ADMIN");
-    public static final RollbackReason CONNECTION_CLEANUP = new RollbackReason(3,"CONNECTION_CLEANUP");
-    public static final RollbackReason TAKEOVER_CLEANUP = new RollbackReason(4,"TAKEOVER_CLEANUP");
-    public static final RollbackReason TIMEOUT = new RollbackReason(5,"TIMEOUT");
+public class RollbackReason extends Reason {
+    public static final RollbackReason APPLICATION = new RollbackReason(1, "APPLICATION");
+    public static final RollbackReason ADMIN = new RollbackReason(2, "ADMIN");
+    public static final RollbackReason CONNECTION_CLEANUP = new RollbackReason(3, "CONNECTION_CLEANUP");
+    public static final RollbackReason TAKEOVER_CLEANUP = new RollbackReason(4, "TAKEOVER_CLEANUP");
+    public static final RollbackReason TIMEOUT = new RollbackReason(5, "TIMEOUT");
 
     private RollbackReason(int id, String str) {
         super(id, str);

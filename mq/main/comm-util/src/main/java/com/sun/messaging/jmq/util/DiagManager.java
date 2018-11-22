@@ -16,51 +16,43 @@
 
 /*
  * @(#)DiagManager.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
 import java.lang.reflect.*;
 import java.util.*;
 
-
 /**
  * DiagManager: Diagnostic data manager.
  *
- * DiagManager gathers and displays diagnostic data via introspection
- * of classes that have registered themselves with the manager.
+ * DiagManager gathers and displays diagnostic data via introspection of classes that have registered themselves with
+ * the manager.
  *
- * A class that wishes to be inspected must implement the DiagManager.Data
- * interface. It then must register itself with DiagManager using the
- * register() method.
+ * A class that wishes to be inspected must implement the DiagManager.Data interface. It then must register itself with
+ * DiagManager using the register() method.
  *
- * A data class must also provide a data dictionary (via
- * DiagManager.Data.getDictionary()) in the form of a List of
- * DiagDictionaryEntry's -- one entry per field. An entry consists of the
- * string name of the field and an integer containing one of the data type
- * constants that describe how the field will be used:
+ * A data class must also provide a data dictionary (via DiagManager.Data.getDictionary()) in the form of a List of
+ * DiagDictionaryEntry's -- one entry per field. An entry consists of the string name of the field and an integer
+ * containing one of the data type constants that describe how the field will be used:
  *
- *          VARIABLE    The field may change value in any direction by
- *                      any amount from sample to sample.
- *          CONSTANT    The field will not change value from sample to sample.
- *          COUNTER     The field will only increase in value from sample
- *                      to sample (with the understanding that it may
- *                      wrap or be set to 0 on occasion).
+ * VARIABLE The field may change value in any direction by any amount from sample to sample. CONSTANT The field will not
+ * change value from sample to sample. COUNTER The field will only increase in value from sample to sample (with the
+ * understanding that it may wrap or be set to 0 on occasion).
  *
- * These types may influence how the data is gathered displayed. For example
- * CONSTANTs may only be sampled and displayed once. VARIABLEs may always
- * display the sampled value. COUNTERs may display the delta between the
- * previous sample and the current sample.
+ * These types may influence how the data is gathered displayed. For example CONSTANTs may only be sampled and displayed
+ * once. VARIABLEs may always display the sampled value. COUNTERs may display the delta between the previous sample and
+ * the current sample.
  *
- * Once data classes are registered, DiagManager.allToString() can be called
- * to generate a formatted string representing data in all registered classes.
+ * Once data classes are registered, DiagManager.allToString() can be called to generate a formatted string representing
+ * data in all registered classes.
  */
 public class DiagManager {
 
     // Data types
-    public static final int VARIABLE = 1;   // Data that may change
-    public static final int CONSTANT = 2;   // Data that will not change
-    public static final int COUNTER  = 3;   // Data that increases
+    public static final int VARIABLE = 1; // Data that may change
+    public static final int CONSTANT = 2; // Data that will not change
+    public static final int COUNTER = 3; // Data that increases
 
     // List of registered diagnostic data objects
     protected static final Vector regList = new Vector();
@@ -73,7 +65,7 @@ public class DiagManager {
     // to register.
     private static boolean allowAllReg = false;
 
-    // Create a new DiagManager. 
+    // Create a new DiagManager.
     public DiagManager() {
     }
 
@@ -91,11 +83,9 @@ public class DiagManager {
     // Register diagnostic data class with DiagManager.
     // Only objects that are instances of registered classes
     // are allowed to register as diagnostic data.
-    public static void registerClass(String diagName) 
-	throws ClassNotFoundException, 
-	       IllegalArgumentException, IllegalAccessException {
+    public static void registerClass(String diagName) throws ClassNotFoundException, IllegalArgumentException, IllegalAccessException {
 
-	Class cl = Class.forName(diagName);
+        Class cl = Class.forName(diagName);
         diagClasses.put(cl, cl);
     }
 
@@ -112,7 +102,7 @@ public class DiagManager {
         Enumeration e = regList.elements();
         while (e.hasMoreElements()) {
             sb.append("\n");
-            DiagManager.Data o = (DiagManager.Data)e.nextElement();
+            DiagManager.Data o = (DiagManager.Data) e.nextElement();
             sb.append(toDiagString(o));
         }
         return sb.toString();
@@ -127,7 +117,7 @@ public class DiagManager {
         diag.update();
 
         String prefix = diag.getPrefix();
-        String title  = diag.getTitle();
+        String title = diag.getTitle();
 
         // The dictionary contains a list of field names that we are
         // to display the values for.
@@ -141,7 +131,7 @@ public class DiagManager {
         DiagDictionaryEntry entry = null;
 
         while (iter.hasNext()) {
-            entry = (DiagDictionaryEntry)iter.next();
+            entry = (DiagDictionaryEntry) iter.next();
             String name = entry.name;
             int type = entry.type;
             String value;
@@ -173,8 +163,7 @@ public class DiagManager {
                     value = (f.get(diag)).toString();
                 }
             } catch (Exception e) {
-                value = "Exception getting field value for '" + name + "': " +
-                    e.toString();
+                value = "Exception getting field value for '" + name + "': " + e.toString();
             }
 
             d.setLength(0);
@@ -200,83 +189,75 @@ public class DiagManager {
     }
 
     /**
-     * Enable diagnostics for classes specified by values in a
-     * a Properties object. The Properties object should contain
-     * a series of properties of the format:
+     * Enable diagnostics for classes specified by values in a a Properties object. The Properties object should contain a
+     * series of properties of the format:
+     * 
      * <pre>
      * <prefix>.<classname>=true|false
      * </pre>
-     * This method will enable/disable diagnostics for <classname>.
-     * For example if "jmq.diag." is the prefix then
+     * 
+     * This method will enable/disable diagnostics for <classname>. For example if "jmq.diag." is the prefix then
+     * 
      * <pre>
-     * jmq.diag.com.sun.messaging.jmq.util.ByteBufferPool=true
+     * jmq.diag.com.sun.messaging.jmq.util.ByteBufferPool = true
      * </pre>
-     * Will enable instances of the
-     * com.sun.messaging.jmq.util.ByteBufferPool
-     * to register themselves to produce diagnostics.
+     * 
+     * Will enable instances of the com.sun.messaging.jmq.util.ByteBufferPool to register themselves to produce diagnostics.
      * <p>
-     * If an error occurs when processing the properties further processing
-     * stops and the appropriate exception is thrown.
+     * If an error occurs when processing the properties further processing stops and the appropriate exception is thrown.
      *
-     * @param props	Properties object containing entries to enable diag on
-     * @param prefix	String that the prefixes each classname. If a property
-     *			does not begin with this string then it is ignored.
+     * @param props Properties object containing entries to enable diag on
+     * @param prefix String that the prefixes each classname. If a property does not begin with this string then it is
+     * ignored.
      *
      * @throws ClassNotFoundException if class is not found
      * @throws NoSuchFieldExcetpion if DEBUG field is not found in class
      */
-    public static void registerClasses(Properties props, String prefix) 
-	throws ClassNotFoundException, IllegalAccessException {
+    public static void registerClasses(Properties props, String prefix) throws ClassNotFoundException, IllegalAccessException {
 
         String key;
         String value;
 
         // If imq.diag.*=true then allow all classes to register
         value = props.getProperty(prefix + "all");
-        if (value != null && value.equalsIgnoreCase("true") ) {
+        if (value != null && value.equalsIgnoreCase("true")) {
             registerAllClasses(true);
             return;
         }
 
-	// Scan through properties
-	for (Enumeration e = props.propertyNames(); e.hasMoreElements(); ) {
-	    key = (String)e.nextElement();
+        // Scan through properties
+        for (Enumeration e = props.propertyNames(); e.hasMoreElements();) {
+            key = (String) e.nextElement();
 
-	    // Find properties that match prefix
-	    if (key.startsWith(prefix)) {
+            // Find properties that match prefix
+            if (key.startsWith(prefix)) {
 
-		// Get className and value and set debug
-		String className = key.substring(prefix.length());
-		if (className.length() != 0) {
-		    value = (String)props.getProperty(key);
+                // Get className and value and set debug
+                String className = key.substring(prefix.length());
+                if (className.length() != 0) {
+                    value = (String) props.getProperty(key);
                     if (value.equalsIgnoreCase("true")) {
                         registerClass(className);
                     }
-		}
-	    }
-	}
+                }
+            }
+        }
     }
 
-
     /**
-     * Diagnostic Data. Any class that is going to register with
-     * the DiagnosticManager must implement this interface.
+     * Diagnostic Data. Any class that is going to register with the DiagnosticManager must implement this interface.
      */
     public interface Data {
 
         /**
-         * Update the diagnostic fields because a sample is about to
-         * be taken. This method could be a no-op if your diagnostic
-         * fields are updated continuously, but if you need to compute
-         * or set values this is your opportunity to do so.
+         * Update the diagnostic fields because a sample is about to be taken. This method could be a no-op if your diagnostic
+         * fields are updated continuously, but if you need to compute or set values this is your opportunity to do so.
          */
         public void update();
 
         /**
-         * Provide a data dictionary that defines what fields in the
-         * class should be gathered and displayed as diagnostic data.
-         * The data dictionary is a List of DiagDictionaryEntry's.
-         * The fields in the dictionary will be displayed in the order
+         * Provide a data dictionary that defines what fields in the class should be gathered and displayed as diagnostic data.
+         * The data dictionary is a List of DiagDictionaryEntry's. The fields in the dictionary will be displayed in the order
          * that they are listed in the List.
          *
          * getDictionary() may be called as often as before every sample.
@@ -284,10 +265,8 @@ public class DiagManager {
         public List getDictionary();
 
         /**
-         * Provide a prefix that should be used if this data is merged
-         * with other diagnostic data. For example this prefix could be
-         * used to avoid field name conflicts if this data is merged 
-         * into a hashtable with over diagnostic data.
+         * Provide a prefix that should be used if this data is merged with other diagnostic data. For example this prefix could
+         * be used to avoid field name conflicts if this data is merged into a hashtable with over diagnostic data.
          */
         public String getPrefix();
 

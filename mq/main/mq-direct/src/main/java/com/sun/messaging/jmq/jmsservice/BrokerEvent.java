@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerEvent.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -28,57 +28,56 @@ import java.util.EventObject;
 public class BrokerEvent extends EventObject {
 
     public static enum Type {
-        READY,          // Broker *ready* after successful JMSBroker.start()
-        PAUSED,         // Broker 'paused'
-        RESUMED,        // Broker 'resumed'
-        SHUTDOWN,       // imqcmd shutdown was executed
-        RESTART,        // imqcmd restart was executed
-        FATAL_ERROR,    // a fatal broker error occurred
-        ERROR,          // a serious but non-fatal error occurred
-        EXCEPTION,      // an uncaught throwable has been thrown
+        READY, // Broker *ready* after successful JMSBroker.start()
+        PAUSED, // Broker 'paused'
+        RESUMED, // Broker 'resumed'
+        SHUTDOWN, // imqcmd shutdown was executed
+        RESTART, // imqcmd restart was executed
+        FATAL_ERROR, // a fatal broker error occurred
+        ERROR, // a serious but non-fatal error occurred
+        EXCEPTION, // an uncaught throwable has been thrown
     }
-
 
     /**
      * Shutdown of the broker has been requested through imqcmd
      */
-    //LKS public static final int REASON_SHUTDOWN = 0;
+    // LKS public static final int REASON_SHUTDOWN = 0;
 
     /**
      * Restart of the broker has been requested through imqcmd
      */
-    //LKS public static final int REASON_RESTART = 1;
+    // LKS public static final int REASON_RESTART = 1;
 
     /**
      * A fatal error of the broker has occurred
      */
-    //LKS public static final int REASON_FATAL = 2;
+    // LKS public static final int REASON_FATAL = 2;
 
     /**
      * A serious (but non-fatal) error of the broker has occurred
      */
-    //LKS public static final int REASON_ERROR = 3;
+    // LKS public static final int REASON_ERROR = 3;
 
     /**
      * An uncaught throwable has been thrown
      */
-    //LKS public static final int REASON_EXCEPTION = 4;
+    // LKS public static final int REASON_EXCEPTION = 4;
 
     /**
      * JMSBroker.stop() was called
      */
-    //LKS public static final int REASON_STOP = 5;
-    
+    // LKS public static final int REASON_STOP = 5;
+
     /**
      * The Id of this event
      */
-    //LKS private int eventId;
+    // LKS private int eventId;
 
     /**
-     *  The type of this event
+     * The type of this event
      */
     private BrokerEvent.Type eventType;
-    
+
     /**
      * The message associated with this event
      */
@@ -86,13 +85,13 @@ public class BrokerEvent extends EventObject {
 
     /** Creates a new instance of BrokerEvent with source and type */
     public BrokerEvent(Object source, BrokerEvent.Type type) {
-        super (source);
+        super(source);
         eventType = type;
     }
 
-   /** Creates a new instance of BrokerEvent with source, type and info */
+    /** Creates a new instance of BrokerEvent with source, type and info */
     public BrokerEvent(Object source, BrokerEvent.Type type, String msg) {
-        super (source);
+        super(source);
         eventType = type;
         eventMessage = msg;
     }
@@ -100,29 +99,29 @@ public class BrokerEvent extends EventObject {
 //------------------------------------------------------------------------------
 
     /**
-     *  returns the Type of this event
+     * returns the Type of this event
      *
-     *  @return the Type of this event
+     * @return the Type of this event
      */
-    public Type getType(){
+    public Type getType() {
         return eventType;
     }
 
     /**
-     *  returns the Name of the event Type
+     * returns the Name of the event Type
      *
-     *  @return The name of the event type as declared
+     * @return The name of the event type as declared
      */
-    public String getName(){
+    public String getName() {
         return eventType.name();
     }
 
     /**
-     *  returns the Message associated with this event
+     * returns the Message associated with this event
      *
-     *  @return The message associated with this event
+     * @return The message associated with this event
      */
-    public String getMessage(){
+    public String getMessage() {
         return eventMessage;
     }
 

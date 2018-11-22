@@ -16,7 +16,7 @@
 
 /*
  * @(#)UserPrinter.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
@@ -38,11 +38,11 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
 public class UserPrinter extends MultiColumnPrinter {
 
     public UserPrinter(int numCol, int gap, String border) {
-	super(numCol, gap, border);
+        super(numCol, gap, border);
     }
 
     public UserPrinter(int numCol, int gap) {
-	super(numCol, gap);
+        super(numCol, gap);
     }
 
     public void doPrint(String str) {

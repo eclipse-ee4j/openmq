@@ -16,136 +16,130 @@
 
 /*
  * @(#)ConsumerInfo.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
 /**
- * This class contains constants/names for fields in the CompositeData
- * that is returned by the operations of the Consumer Manager Monitor 
- * MBean.
+ * This class contains constants/names for fields in the CompositeData that is returned by the operations of the
+ * Consumer Manager Monitor MBean.
  */
-public class ConsumerInfo implements java.io.Serializable  {
-    /** 
+public class ConsumerInfo implements java.io.Serializable {
+    /**
      * Acknowledge mode
      */
-    public static final String		ACKNOWLEDGE_MODE = "AcknowledgeMode";
+    public static final String ACKNOWLEDGE_MODE = "AcknowledgeMode";
 
-    /** 
+    /**
      * Acknowledge mode label
      */
-    public static final String		ACKNOWLEDGE_MODE_LABEL 
-							= "AcknowledgeModeLabel";
+    public static final String ACKNOWLEDGE_MODE_LABEL = "AcknowledgeModeLabel";
 
-    /** 
+    /**
      * Client ID
      */
-    public static final String		CLIENT_ID = "ClientID";
+    public static final String CLIENT_ID = "ClientID";
 
-    /** 
+    /**
      * Connection ID
      */
-    public static final String		CONNECTION_ID = "ConnectionID";
+    public static final String CONNECTION_ID = "ConnectionID";
 
-    /** 
+    /**
      * Consumer ID
      */
-    public static final String		CONSUMER_ID = "ConsumerID";
+    public static final String CONSUMER_ID = "ConsumerID";
 
-    /** 
+    /**
      * Creation Time
      */
-    public static final String		CREATION_TIME = "CreationTime";
+    public static final String CREATION_TIME = "CreationTime";
 
-    /** 
+    /**
      * Destination Name
      */
-    public static final String		DESTINATION_NAME = "DestinationName";
+    public static final String DESTINATION_NAME = "DestinationName";
 
-    /** 
+    /**
      * Destination Names (that match wildcard)
      */
-    public static final String		DESTINATION_NAMES = "DestinationNames";
+    public static final String DESTINATION_NAMES = "DestinationNames";
 
-    /** 
+    /**
      * Destination Type
      */
-    public static final String		DESTINATION_TYPE = "DestinationType";
+    public static final String DESTINATION_TYPE = "DestinationType";
 
-    /** 
+    /**
      * Durable (whether the consume is a durable or not)
      */
-    public static final String		DURABLE = "Durable";
+    public static final String DURABLE = "Durable";
 
-    /** 
+    /**
      * DurableActive (whether the durable is active or not)
      */
-    public static final String		DURABLE_ACTIVE = "DurableActive";
+    public static final String DURABLE_ACTIVE = "DurableActive";
 
-    /** 
+    /**
      * Durable name
      */
-    public static final String		DURABLE_NAME = "DurableName";
+    public static final String DURABLE_NAME = "DurableName";
 
-    /** 
+    /**
      * Flow Paused
      */
-    public static final String		FLOW_PAUSED = "FlowPaused";
+    public static final String FLOW_PAUSED = "FlowPaused";
 
-    /** 
+    /**
      * Host
      */
-    public static final String		HOST = "Host";
+    public static final String HOST = "Host";
 
-    /** 
+    /**
      * Last acknowledge time
      */
-    public static final String		LAST_ACK_TIME = "LastAckTime";
+    public static final String LAST_ACK_TIME = "LastAckTime";
 
-    /** 
+    /**
      * Number of messages held for consumer.
      */
-    public static final String		NUM_MSGS = "NumMsgs";
+    public static final String NUM_MSGS = "NumMsgs";
 
-    /** 
-     * Number of messages still held for consumer because
-     * acks for them from the consumer are still pending.
+    /**
+     * Number of messages still held for consumer because acks for them from the consumer are still pending.
      */
-    public static final String		NUM_MSGS_PENDING_ACKS 
-						= "NumMsgsPendingAcks";
+    public static final String NUM_MSGS_PENDING_ACKS = "NumMsgsPendingAcks";
 
-    /** 
+    /**
      * Selector
      */
-    public static final String		SELECTOR = "Selector";
+    public static final String SELECTOR = "Selector";
 
-    /** 
+    /**
      * Service Name
      */
-    public static final String		SERVICE_NAME = "ServiceName";
+    public static final String SERVICE_NAME = "ServiceName";
 
-    /** 
+    /**
      * User
      */
-    public static final String		USER = "User";
+    public static final String USER = "User";
 
-    /** 
+    /**
      * Wildcard (whether the consumer is a wildcard or not)
      */
-    public static final String		WILDCARD = "Wildcard";
+    public static final String WILDCARD = "Wildcard";
 
-    /** 
-     * Number of messages still held for consumer because
-     * either they are queued for deliver or pending an ack
+    /**
+     * Number of messages still held for consumer because either they are queued for deliver or pending an ack
      */
-    public static final String		NUM_MSGS_PENDING 
-						= "NumMsgsPending";
+    public static final String NUM_MSGS_PENDING = "NumMsgsPending";
 
     /**
      * Next message which should be delivered
      */
 
-     public static final String NEXT_MESSAGE_ID = "NextMessageID";
+    public static final String NEXT_MESSAGE_ID = "NextMessageID";
 
     /*
      * Class cannot be instantiated

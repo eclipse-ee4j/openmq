@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetMetricsHandler.java	1.20 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -40,83 +40,72 @@ import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 
-
-public class GetMetricsHandler extends AdminCmdHandler
-{
+public class GetMetricsHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();
 
     public GetMetricsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + cmd_props);
         }
 
         int status = Status.OK;
         String errMsg = null;
 
-	String service = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
+        String service = (String) cmd_props.get(MessageType.JMQ_SERVICE_NAME);
 
-	String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-        Integer type = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer type = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
 
         Object replyobj = null;
         String msgtype = null;
         if (destination != null) {
             try {
-                Destination[] ds = DL.getDestination(null,
-                    destination, DestType.isQueue((type == null ? 0 : type.intValue())));
-                Destination d = ds[0]; //PART
+                Destination[] ds = DL.getDestination(null, destination, DestType.isQueue((type == null ? 0 : type.intValue())));
+                Destination d = ds[0]; // PART
                 if (d == null) {
                     status = Status.NOT_FOUND;
-                    int mytype = (type== null ? 0 : type.intValue());
-                    errMsg = rb.getString(rb.E_NO_SUCH_DESTINATION, 
-                       getDestinationType(mytype), destination);
+                    int mytype = (type == null ? 0 : type.intValue());
+                    errMsg = rb.getString(rb.E_NO_SUCH_DESTINATION, getDestinationType(mytype), destination);
                 } else {
                     replyobj = d.getMetrics();
                 }
-               
+
             } catch (Exception ex) {
-                int mytype = (type== null ? 0 : type.intValue());
-                errMsg = rb.getString(rb.E_NO_SUCH_DESTINATION, 
-                		getDestinationType(mytype),destination);
+                int mytype = (type == null ? 0 : type.intValue());
+                errMsg = rb.getString(rb.E_NO_SUCH_DESTINATION, getDestinationType(mytype), destination);
                 status = Status.ERROR;
 
-		// log the error
-	    	logger.logStack(Logger.ERROR, rb.E_INTERNAL_BROKER_ERROR,
-                	this.getClass().getName() + 
-                	": failed to get destination ("+
-			DestType.toString(mytype) + ":" +
-			destination + ")",  ex);
+                // log the error
+                logger.logStack(Logger.ERROR, rb.E_INTERNAL_BROKER_ERROR,
+                        this.getClass().getName() + ": failed to get destination (" + DestType.toString(mytype) + ":" + destination + ")", ex);
             }
             msgtype = "DESTINATION";
-        } else {	
+        } else {
             ServiceManager sm = Globals.getServiceManager();
             MetricManager mm = Globals.getMetricManager();
             MetricCounters mc = null;
 
-            if (service != null &&
-                sm.getServiceType(service) == ServiceType.UNKNOWN) {
+            if (service != null && sm.getServiceType(service) == ServiceType.UNKNOWN) {
 
                 status = Status.NOT_FOUND;
                 errMsg = rb.getString(rb.X_NO_SUCH_SERVICE, service);
             } else {
-	        // If service is null getMetricCounters() will get counters
-	        // for all services
-	        mc = mm.getMetricCounters(service);
+                // If service is null getMetricCounters() will get counters
+                // for all services
+                mc = mm.getMetricCounters(service);
                 if (service != null) {
                     msgtype = "SERVICE";
                 }
@@ -124,22 +113,21 @@ public class GetMetricsHandler extends AdminCmdHandler
             }
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
         Hashtable pr = new Hashtable();
         if (msgtype != null) {
             pr.put(MessageType.JMQ_BODY_TYPE, msgtype);
         }
 
-	setProperties(reply, MessageType.GET_METRICS_REPLY, status, errMsg,
-              pr);
+        setProperties(reply, MessageType.GET_METRICS_REPLY, status, errMsg, pr);
 
         if (replyobj != null) {
-	    setBodyObject(reply, replyobj);
+            setBodyObject(reply, replyobj);
         }
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
     }
 }

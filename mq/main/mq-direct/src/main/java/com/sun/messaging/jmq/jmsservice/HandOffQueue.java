@@ -16,10 +16,10 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-public interface HandOffQueue<E>
-{
+public interface HandOffQueue<E> {
     public E take() throws InterruptedException;
+
     public void put(E e) throws InterruptedException;
+
     public void close();
 }
-

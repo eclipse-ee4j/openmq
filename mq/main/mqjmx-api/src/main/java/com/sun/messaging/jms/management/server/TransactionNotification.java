@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionNotification.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -28,41 +28,41 @@ import javax.management.Notification;
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class TransactionNotification extends MQNotification  {
-    /** 
+public class TransactionNotification extends MQNotification {
+    /**
      * A transaction was committed.
      */
-    public static final String		TRANSACTION_COMMIT = MQNotification.PREFIX + "transaction.commit";
+    public static final String TRANSACTION_COMMIT = MQNotification.PREFIX + "transaction.commit";
 
-    /** 
+    /**
      * A transaction has entered the prepared state.
      */
-    public static final String		TRANSACTION_PREPARE = MQNotification.PREFIX + "transaction.prepare";
+    public static final String TRANSACTION_PREPARE = MQNotification.PREFIX + "transaction.prepare";
 
-    /** 
+    /**
      * A transaction was rolled back.
      */
-    public static final String		TRANSACTION_ROLLBACK = MQNotification.PREFIX + "transaction.rollback";
+    public static final String TRANSACTION_ROLLBACK = MQNotification.PREFIX + "transaction.rollback";
 
     private String id;
 
-    
     /**
      * Creates a TransactionNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public TransactionNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
 
-    public void setTransactionID(String id)  {
-	this.id = id;
+    public void setTransactionID(String id) {
+        this.id = id;
     }
-    public String getTransactionID()  {
-	return(id);
+
+    public String getTransactionID() {
+        return (id);
     }
-    
+
 }

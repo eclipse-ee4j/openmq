@@ -16,7 +16,7 @@
 
 /*
  * @(#)TemporaryTopicImpl.java	1.14 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -24,32 +24,32 @@ import javax.jms.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
 
-/** A TemporaryTopic is a unique Topic object created for the duration of a
-  * Connection. It is a system defined queue that can only be consumed
-  * by the Connection that created it.
-  *
-  * @see TopicSession#createTemporaryTopic()
-  */
+/**
+ * A TemporaryTopic is a unique Topic object created for the duration of a Connection. It is a system defined queue that
+ * can only be consumed by the Connection that created it.
+ *
+ * @see TopicSession#createTemporaryTopic()
+ */
 public class TemporaryTopicImpl extends TemporaryDestination implements TemporaryTopic {
 
     /**
      * Constructor used by createTemporaryTopic()
      */
-    protected TemporaryTopicImpl (ConnectionImpl connection) throws JMSException {
+    protected TemporaryTopicImpl(ConnectionImpl connection) throws JMSException {
         super(connection, ClientConstants.TEMPORARY_TOPIC_URI_NAME);
     }
 
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryTopicImpl (String name) throws JMSException {
+    protected TemporaryTopicImpl(String name) throws JMSException {
         super(name);
     }
 
     /**
      * Constructor used by MessageImpl.getJMSReplyTo()
      */
-    protected TemporaryTopicImpl () throws JMSException {
+    protected TemporaryTopicImpl() throws JMSException {
         super();
     }
 

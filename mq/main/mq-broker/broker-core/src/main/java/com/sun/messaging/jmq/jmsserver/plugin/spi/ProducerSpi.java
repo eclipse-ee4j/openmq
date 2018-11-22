@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
@@ -37,8 +37,8 @@ import com.sun.messaging.jmq.util.CacheHashMap;
  */
 
 public abstract class ProducerSpi {
-    
-    protected static boolean DEBUG=false;
+
+    protected static boolean DEBUG = false;
 
     protected transient Logger logger = Globals.getLogger();
 
@@ -47,22 +47,21 @@ public abstract class ProducerSpi {
     protected final static CacheHashMap cache = new CacheHashMap(20);
 
     private boolean valid = true;
-    
-    protected final static Map<ProducerUID, ProducerSpi> allProducers =
-        Collections.synchronizedMap(new HashMap<ProducerUID, ProducerSpi>());
+
+    protected final static Map<ProducerUID, ProducerSpi> allProducers = Collections.synchronizedMap(new HashMap<ProducerUID, ProducerSpi>());
 
     protected static final Set wildcardProducers = Collections.synchronizedSet(new HashSet());
 
     protected transient Map lastResumeFlowSizes = Collections.synchronizedMap(new HashMap());
 
     private ConnectionUID connection_uid;
-    
+
     protected DestinationUID destination_uid;
-    //protected transient Set destinations = null;
+    // protected transient Set destinations = null;
 
     protected ProducerUID uid;
-    
-    //private long creationTime;
+
+    // private long creationTime;
 
     private int pauseCnt = 0;
     private int resumeCnt = 0;
@@ -71,10 +70,9 @@ public abstract class ProducerSpi {
     protected transient String creator = null;
 
     public String toString() {
-        return "Producer["+ uid + "," + destination_uid + "," +
-               connection_uid + "]";
+        return "Producer[" + uid + "," + destination_uid + "," + connection_uid + "]";
     }
-    
+
     public static Hashtable getAllDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("TABLE", "AllProducers");
@@ -82,56 +80,53 @@ public abstract class ProducerSpi {
         synchronized (cache) {
             Iterator itr = cache.keySet().iterator();
             while (itr.hasNext()) {
-                v.add(String.valueOf(((ProducerUID)itr.next()).longValue()));
+                v.add(String.valueOf(((ProducerUID) itr.next()).longValue()));
             }
-            
+
         }
         ht.put("cache", v);
         HashMap<ProducerUID, ProducerSpi> tmp = null;
-        synchronized(allProducers) {
+        synchronized (allProducers) {
             tmp = new HashMap<ProducerUID, ProducerSpi>(allProducers);
         }
         Hashtable producers = new Hashtable();
         Iterator<Map.Entry<ProducerUID, ProducerSpi>> itr = tmp.entrySet().iterator();
-         Map.Entry<ProducerUID, ProducerSpi> pair = null;
-        while(itr.hasNext()) {
+        Map.Entry<ProducerUID, ProducerSpi> pair = null;
+        while (itr.hasNext()) {
             pair = itr.next();
             ProducerUID p = pair.getKey();
             ProducerSpi producer = pair.getValue();
-            producers.put(String.valueOf(p.longValue()),
-                  producer.getDebugState());
+            producers.put(String.valueOf(p.longValue()), producer.getDebugState());
         }
         ht.put("producersCnt", Integer.valueOf(allProducers.size()));
         ht.put("producers", producers);
         return ht;
-            
+
     }
 
     public synchronized void pause() {
-        pauseCnt ++;
+        pauseCnt++;
     }
 
-    public synchronized void addMsg()
-    {
-        msgCnt ++;
+    public synchronized void addMsg() {
+        msgCnt++;
     }
 
-    public synchronized int getMsgCnt()
-    {
+    public synchronized int getMsgCnt() {
         return msgCnt;
     }
-    public synchronized boolean isPaused()
-    {
+
+    public synchronized boolean isPaused() {
         return pauseCnt > resumeCnt;
     }
 
-    public synchronized void resume() { 
-        resumeCnt ++;
+    public synchronized void resume() {
+        resumeCnt++;
     }
 
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
-        ht.put("TABLE", "Producer["+uid.longValue()+"]");
+        ht.put("TABLE", "Producer[" + uid.longValue() + "]");
         ht.put("uid", String.valueOf(uid.longValue()));
         ht.put("valid", String.valueOf(valid));
         ht.put("pauseCnt", String.valueOf(pauseCnt));
@@ -150,13 +145,12 @@ public abstract class ProducerSpi {
         this.connection_uid = cuid;
         this.destination_uid = duid;
         this.creator = id;
-        logger.log(Logger.DEBUG,"Creating new Producer " + uid + " on "
-             + duid + " for connection " + cuid);
+        logger.log(Logger.DEBUG, "Creating new Producer " + uid + " on " + duid + " for connection " + cuid);
     }
 
     public ProducerUID getProducerUID() {
         return uid;
-    } 
+    }
 
     public ConnectionUID getConnectionUID() {
         return connection_uid;
@@ -174,7 +168,7 @@ public abstract class ProducerSpi {
         wildcardProducers.clear();
     }
 
-	public abstract boolean isWildcard(); 
+    public abstract boolean isWildcard();
 
     public static Iterator getWildcardProducers() {
         return (new ArrayList(wildcardProducers)).iterator();
@@ -184,22 +178,19 @@ public abstract class ProducerSpi {
         return (wildcardProducers.size());
     }
 
-
-    public static String checkProducer(ProducerUID uid)
-    {
+    public static String checkProducer(ProducerUID uid) {
         String str = null;
 
         synchronized (cache) {
-            str = (String)cache.get(uid);
+            str = (String) cache.get(uid);
         }
         if (str == null) {
-             return " pid " + uid + " not of of last 20 removed";
+            return " pid " + uid + " not of of last 20 removed";
         }
-        return "Producer[" +uid + "]:" + str;
+        return "Producer[" + uid + "]:" + str;
     }
 
-    public static void updateProducerInfo(ProducerUID uid, String str)
-    {
+    public static void updateProducerInfo(ProducerUID uid, String str) {
         synchronized (cache) {
             cache.put(uid, System.currentTimeMillis() + ":" + str);
         }
@@ -214,7 +205,7 @@ public abstract class ProducerSpi {
     }
 
     public static ProducerSpi getProducer(ProducerUID uid) {
-        return (ProducerSpi)allProducers.get(uid);
+        return (ProducerSpi) allProducers.get(uid);
     }
 
     /** 
@@ -239,11 +230,11 @@ public abstract class ProducerSpi {
         return valid;
     }
 
-    public static ProducerSpi getProducer(String creator)
-    {
-        if (creator == null) return null;
+    public static ProducerSpi getProducer(String creator) {
+        if (creator == null)
+            return null;
 
-        synchronized(allProducers) {
+        synchronized (allProducers) {
             Iterator<ProducerSpi> itr = allProducers.values().iterator();
             while (itr.hasNext()) {
                 ProducerSpi c = itr.next();
@@ -254,33 +245,31 @@ public abstract class ProducerSpi {
         return null;
     }
 
-    public abstract Set getDestinations(); 
+    public abstract Set getDestinations();
 
     static class ResumeFlowSizes {
-         int size = 0;
-         long bytes = 0;
-         long mbytes = 0;
+        int size = 0;
+        long bytes = 0;
+        long mbytes = 0;
 
-         public ResumeFlowSizes(int s, long b, long mb) {
-             size = s;
-             bytes = b;
-             mbytes = mb;
-         }
-   }
+        public ResumeFlowSizes(int s, long b, long mb) {
+            size = s;
+            bytes = b;
+            mbytes = mb;
+        }
+    }
 
     public void sendResumeFlow(DestinationUID duid, int maxbatch) {
         resume();
         sendResumeFlow(duid, 0, 0, 0, ("Resuming " + this), true, maxbatch);
-        logger.log(Logger.DEBUGHIGH,"Producer.sendResumeFlow("+duid+") resumed: "+this);
+        logger.log(Logger.DEBUGHIGH, "Producer.sendResumeFlow(" + duid + ") resumed: " + this);
     }
 
-    public void sendResumeFlow(DestinationUID duid,
-                               int size, long bytes, long mbytes,
-                               String reason, boolean uselast, int maxbatch) {
+    public void sendResumeFlow(DestinationUID duid, int size, long bytes, long mbytes, String reason, boolean uselast, int maxbatch) {
 
         ResumeFlowSizes rfs = null;
         if (uselast) {
-            rfs = (ResumeFlowSizes)lastResumeFlowSizes.get(duid);
+            rfs = (ResumeFlowSizes) lastResumeFlowSizes.get(duid);
             if (rfs == null) {
                 rfs = new ResumeFlowSizes(maxbatch, -1, Limitable.UNLIMITED_BYTES);
                 lastResumeFlowSizes.put(duid, rfs);
@@ -292,14 +281,14 @@ public abstract class ProducerSpi {
 
         ConnectionUID cuid = getConnectionUID();
         if (cuid == null) {
-            logger.log(Logger.DEBUG,"cant resume flow[no con_uid] " + this);
+            logger.log(Logger.DEBUG, "cant resume flow[no con_uid] " + this);
             return;
         }
 
-        IMQConnection con =(IMQConnection)Globals.getConnectionManager()
-                                                 .getConnection(cuid);
+        IMQConnection con = (IMQConnection) Globals.getConnectionManager().getConnection(cuid);
 
-        if (reason == null) reason = "Resuming " + this;
+        if (reason == null)
+            reason = "Resuming " + this;
 
         Hashtable hm = new Hashtable();
         hm.put("JMQSize", rfs.size);

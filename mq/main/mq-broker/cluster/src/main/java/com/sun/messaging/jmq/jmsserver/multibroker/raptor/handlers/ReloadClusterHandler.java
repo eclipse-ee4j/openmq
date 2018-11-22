@@ -16,8 +16,8 @@
 
 /*
  * @(#)ReloadClusterHandler.java	1.4 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
@@ -37,9 +37,7 @@ public class ReloadClusterHandler extends GPacketHandler {
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_RELOAD_CLUSTER) {
             if (DEBUG) {
-                logger.log(logger.DEBUG,
-"MessageBus: Received reset cluster notification from {0}.",
-                    sender);
+                logger.log(logger.DEBUG, "MessageBus: Received reset cluster notification from {0}.", sender);
             }
 
             if (pkt.getBit(pkt.A_BIT)) {
@@ -49,25 +47,18 @@ public class ReloadClusterHandler extends GPacketHandler {
 
                 try {
                     c.unicast(sender, gp);
+                } catch (IOException e) {
                 }
-                catch (IOException e) {}
             }
 
             c.reloadCluster();
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_RELOAD_CLUSTER_REPLY) {
-            logger.log(logger.DEBUG,
-"MessageBus: Received reset cluster reply from {0} : STATUS = {1}",
-                sender, ((Integer) pkt.getProp("S")));
-        }
-        else {
-            logger.log(logger.WARNING, "ReloadClusterHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else if (pkt.getType() == ProtocolGlobals.G_RELOAD_CLUSTER_REPLY) {
+            logger.log(logger.DEBUG, "MessageBus: Received reset cluster reply from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+        } else {
+            logger.log(logger.WARNING, "ReloadClusterHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

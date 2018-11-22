@@ -16,7 +16,7 @@
 
 /*
  * @(#)VerifyAddressException.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 

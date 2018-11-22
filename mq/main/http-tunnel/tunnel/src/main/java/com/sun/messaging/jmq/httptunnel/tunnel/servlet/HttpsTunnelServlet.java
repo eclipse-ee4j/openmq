@@ -16,8 +16,8 @@
 
 /*
  * @(#)HttpsTunnelServlet.java	1.8 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import java.io.PrintWriter;
@@ -27,7 +27,6 @@ import java.util.Vector;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 
 public class HttpsTunnelServlet extends HttpTunnelServlet {
     public void init() throws ServletException {
@@ -39,14 +38,13 @@ public class HttpsTunnelServlet extends HttpTunnelServlet {
             linkTable = new ServerLinkTable(this.getServletConfig(), true);
             inService = true;
         } catch (Exception e) {
-            // save the exception 
+            // save the exception
             initException = e;
             servletContext.log(servletName + ": initialization failed, " + e);
         }
     }
 
-    public void handleTest(HttpServletRequest request,
-        HttpServletResponse response) {
+    public void handleTest(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("text/html; charset=UTF-8 ");
 
@@ -63,12 +61,10 @@ public class HttpsTunnelServlet extends HttpTunnelServlet {
             if (inService) {
                 pw.println("HTTPS tunneling servlet ready.<BR>");
                 pw.println("Servlet Start Time : " + startTime + " <BR>");
-                pw.println("Accepting secured connections from brokers on " +
-                    "port : " + linkTable.getServletPort() + " <P>");
+                pw.println("Accepting secured connections from brokers on " + "port : " + linkTable.getServletPort() + " <P>");
 
                 Vector slist = linkTable.getServerList();
-                pw.println("Total available brokers = " + slist.size() +
-                    "<BR>");
+                pw.println("Total available brokers = " + slist.size() + "<BR>");
                 pw.println("Broker List : <BR>");
 
                 pw.println("<BLOCKQUOTE><PRE>");

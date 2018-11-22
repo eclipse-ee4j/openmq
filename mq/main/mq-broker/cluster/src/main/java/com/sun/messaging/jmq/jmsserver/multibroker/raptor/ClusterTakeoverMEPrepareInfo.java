@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -39,8 +39,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 /**
  */
 
-public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
-{
+public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper {
     protected Logger logger = Globals.getLogger();
 
     private String groupName = null;
@@ -55,11 +54,8 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
 
     private GPacket pkt = null;
 
-    private ClusterTakeoverMEPrepareInfo(String groupName, String nodeName,
-                                         String masterHostPort,
-                                         byte[] commitToken, Long syncTimeout,
-                                         String targetNodeName, String uuid,
-                                         Long xid, Cluster c) {
+    private ClusterTakeoverMEPrepareInfo(String groupName, String nodeName, String masterHostPort, byte[] commitToken, Long syncTimeout, String targetNodeName,
+            String uuid, Long xid, Cluster c) {
         this.groupName = groupName;
         this.nodeName = nodeName;
         this.masterHostPort = masterHostPort;
@@ -76,13 +72,9 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
         this.c = c;
     }
 
-    public static ClusterTakeoverMEPrepareInfo newInstance(
-                      String groupName, String nodeName, 
-                      String masterHostPort, byte[] commitToken,
-                      Long syncTimeout, String targetNodeName, String uuid,
-                      Long xid, Cluster c) {
-        return new ClusterTakeoverMEPrepareInfo(groupName, nodeName, masterHostPort,
-                   commitToken, syncTimeout, targetNodeName, uuid, xid,  c);
+    public static ClusterTakeoverMEPrepareInfo newInstance(String groupName, String nodeName, String masterHostPort, byte[] commitToken, Long syncTimeout,
+            String targetNodeName, String uuid, Long xid, Cluster c) {
+        return new ClusterTakeoverMEPrepareInfo(groupName, nodeName, masterHostPort, commitToken, syncTimeout, targetNodeName, uuid, xid, c);
     }
 
     /**
@@ -93,7 +85,7 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
         return new ClusterTakeoverMEPrepareInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws IOException { 
+    public GPacket getGPacket() throws IOException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME_PREPARE);
@@ -106,37 +98,37 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
         gp.putProp("UUID", uuid);
         gp.putProp("TS", Long.valueOf(System.currentTimeMillis()));
         if (syncTimeout != null) {
-            gp.putProp("syncTimeout", syncTimeout); 
+            gp.putProp("syncTimeout", syncTimeout);
         }
-        c.marshalBrokerAddress(c.getSelfAddress(), gp); 
-		gp.setPayload(ByteBuffer.wrap(commitToken));
+        c.marshalBrokerAddress(c.getSelfAddress(), gp);
+        gp.setPayload(ByteBuffer.wrap(commitToken));
         gp.setBit(gp.A_BIT, true);
 
         return gp;
     }
 
     public String getGroupName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("groupName");
+        assert (pkt != null);
+        return (String) pkt.getProp("groupName");
     }
 
     public String getNodeName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("nodeName");
+        assert (pkt != null);
+        return (String) pkt.getProp("nodeName");
     }
 
     public String getMasterHostPort() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("masterHostPort");
+        assert (pkt != null);
+        return (String) pkt.getProp("masterHostPort");
     }
 
     public String getClusterID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("clusterid");
+        assert (pkt != null);
+        return (String) pkt.getProp("clusterid");
     }
 
     public byte[] getCommitToken() {
-        assert ( pkt != null );
+        assert (pkt != null);
         byte[] buf = null;
         if (pkt.getPayload() != null) {
             buf = pkt.getPayload().array();
@@ -145,47 +137,47 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
     }
 
     public Long getSyncTimeout() {
-        assert ( pkt != null );
-        return (Long)pkt.getProp("syncTimeout");
+        assert (pkt != null);
+        return (Long) pkt.getProp("syncTimeout");
     }
 
     public String getTargetNodeName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("targetNodeName");
+        assert (pkt != null);
+        return (String) pkt.getProp("targetNodeName");
     }
 
     public BrokerAddress getOwnerAddress() throws Exception {
-        assert ( pkt != null );
+        assert (pkt != null);
         return c.unmarshalBrokerAddress(pkt);
     }
 
     public String getUUID() {
         if (pkt != null) {
-            return (String)pkt.getProp("UUID");
+            return (String) pkt.getProp("UUID");
         }
         return uuid;
     }
 
     public Long getXid() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
 
     public Long getTimestamp() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public GPacket getReplyGPacket(int status, String reason, String replicaHostPort) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", (Long) pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -196,22 +188,18 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
         return gp;
     }
 
-    public void sendReply(BrokerAddress recipient, int status,
-                          String reason, Object extraInfo) {
+    public void sendReply(BrokerAddress recipient, int status, String reason, Object extraInfo) {
         if (!needReply()) {
             return;
         }
-        String replicaHostPort = (String)extraInfo;
+        String replicaHostPort = (String) extraInfo;
         GPacket reply = getReplyGPacket(status, reason, replicaHostPort);
         try {
             c.unicast(recipient, reply);
         } catch (Exception e) {
-            String[] args = new String[] {
-                ProtocolGlobals.getPacketTypeDisplayString(
-                    ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY),
-                    recipient.toString(), this.toString() };
-            logger.logStack(logger.ERROR, Globals.getBrokerResources().getKString(
-                Globals.getBrokerResources().E_CLUSTER_SEND_PACKET_FAILED, args), e);
+            String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY), recipient.toString(),
+                    this.toString() };
+            logger.logStack(logger.ERROR, Globals.getBrokerResources().getKString(Globals.getBrokerResources().E_CLUSTER_SEND_PACKET_FAILED, args), e);
         }
     }
 
@@ -220,19 +208,18 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper
     public String toString() {
 
         if (pkt == null) {
-            return "["+groupName+"["+nodeName+", "+masterHostPort+"]target="+
-                   targetNodeName+", timeout="+syncTimeout+", xid="+xid+", uuid="+uuid+"]";
-        } 
-        return "["+getGroupName()+"["+getNodeName()+", "+getMasterHostPort()+"]target="+
-               getTargetNodeName()+", timeout="+getSyncTimeout()+", xid="+getXid()+
-               ", uuid="+getUUID()+", time="+getTimestamp()+"]";
+            return "[" + groupName + "[" + nodeName + ", " + masterHostPort + "]target=" + targetNodeName + ", timeout=" + syncTimeout + ", xid=" + xid
+                    + ", uuid=" + uuid + "]";
+        }
+        return "[" + getGroupName() + "[" + getNodeName() + ", " + getMasterHostPort() + "]target=" + getTargetNodeName() + ", timeout=" + getSyncTimeout()
+                + ", xid=" + getXid() + ", uuid=" + getUUID() + ", time=" + getTimestamp() + "]";
     }
 
     protected static Long getReplyPacketXid(GPacket gp) {
-        return (Long)gp.getProp("X");
+        return (Long) gp.getProp("X");
     }
 
-    protected String getReplyReplicaHostPort(GPacket gp) { 
-        return (String)gp.getProp("replicaHostPort");
+    protected String getReplyReplicaHostPort(GPacket gp) {
+        return (String) gp.getProp("replicaHostPort");
     }
 }

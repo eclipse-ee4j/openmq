@@ -25,38 +25,37 @@ import javax.servlet.http.HttpServletResponse;
  * @author chiaming
  */
 public class ReadOnlyResponseMessage {
-    
+
     private int respStatusCode = HttpServletResponse.SC_OK;
-    
+
     private Map map = null;
-    
+
     private String responseMessage = null;
-    
-    
-    public ReadOnlyResponseMessage () {
+
+    public ReadOnlyResponseMessage() {
     }
-    
-    public void setResponseMap (Map map) {
+
+    public void setResponseMap(Map map) {
         this.map = map;
     }
-    
-    public Map getResponseMap () {
+
+    public Map getResponseMap() {
         return this.map;
     }
-    
-    public void setStatusCode (int respStatusCode) {
+
+    public void setStatusCode(int respStatusCode) {
         this.respStatusCode = respStatusCode;
     }
-            
+
     public int getStatusCode() {
         return this.respStatusCode;
     }
-    
+
     public void setResponseMessage(String msg) {
         this.responseMessage = msg;
     }
-    
-    public String getResponseMessage () {
+
+    public String getResponseMessage() {
         return this.responseMessage;
     }
 

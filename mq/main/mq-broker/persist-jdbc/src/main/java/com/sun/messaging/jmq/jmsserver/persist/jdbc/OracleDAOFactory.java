@@ -16,7 +16,7 @@
 
 /*
  * @(#)OracleDAOFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -29,7 +29,7 @@ public class OracleDAOFactory extends GenericDAOFactory {
 
     public MessageDAO getMessageDAO() throws BrokerException {
 
-        if ( messageDAO == null ) {
+        if (messageDAO == null) {
             messageDAO = new OracleMessageDAOImpl();
         }
         return messageDAO;

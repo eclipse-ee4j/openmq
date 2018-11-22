@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAddDialog.java	1.11 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -27,101 +27,97 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
 
-/** 
- * This dialog is used to add new brokers to the list of
- * brokers displayed in the administration console.
+/**
+ * This dialog is used to add new brokers to the list of brokers displayed in the administration console.
  */
-public class BrokerAddDialog extends BrokerDialog  {
-    public static final String DEFAULT_BROKER_HOST 	= "localhost";
-    public static final String DEFAULT_PRIMARY_PORT 	= "7676";
+public class BrokerAddDialog extends BrokerDialog {
+    public static final String DEFAULT_BROKER_HOST = "localhost";
+    public static final String DEFAULT_PRIMARY_PORT = "7676";
 
     private BrokerListCObj blCObj;
 
     public BrokerAddDialog(Frame parent, BrokerListCObj blCObj) {
-	super(parent, acr.getString(acr.I_ADD_BROKER), (OK | RESET | CANCEL | HELP));
-	setHelpId(ConsoleHelpID.ADD_BROKER);
-	this.blCObj = blCObj;
+        super(parent, acr.getString(acr.I_ADD_BROKER), (OK | RESET | CANCEL | HELP));
+        setHelpId(ConsoleHelpID.ADD_BROKER);
+        this.blCObj = blCObj;
     }
 
     public void doOK() {
-	String	brokerName = null;
+        String brokerName = null;
 
-	brokerName = brokerNameTF.getText();
-	brokerName = brokerName.trim();
+        brokerName = brokerNameTF.getText();
+        brokerName = brokerName.trim();
 
-	if (brokerName.equals(""))  {
-            JOptionPane.showOptionDialog(this,
-                acr.getString(acr.E_NO_BROKER_NAME),
-                acr.getString(acr.I_ADD_BROKER) 
-	            + ": " 
-	            + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_NAME),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+        if (brokerName.equals("")) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_BROKER_NAME),
+                    acr.getString(acr.I_ADD_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_NAME), JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             return;
         }
 
-	// Check to make sure host and port are non-empty
-	if (!isValidString (hostTF.getText()) || 
-	    !isValidString (portTF.getText())) {
+        // Check to make sure host and port are non-empty
+        if (!isValidString(hostTF.getText()) || !isValidString(portTF.getText())) {
 
-	    JOptionPane.showOptionDialog(this,
-                acr.getString(acr.E_NO_BROKER_HOST_PORT),
-                acr.getString(acr.I_ADD_BROKER) + ": " 
-		        + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_HOST_PORT),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-	    return;
-	}
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_BROKER_HOST_PORT),
+                    acr.getString(acr.I_ADD_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, acr.E_NO_BROKER_HOST_PORT), JOptionPane.YES_NO_OPTION,
+                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+            return;
+        }
         BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.ADD_BROKER);
-	bae.setConnectAttempt(false);
-	bae.setBrokerName(brokerName);
-	bae.setHost(hostTF.getText());
-	bae.setPort(Integer.parseInt(portTF.getText()));
-	bae.setUsername(userTF.getText());
-	bae.setPassword(String.valueOf(passwdTF.getPassword()));
+        bae.setConnectAttempt(false);
+        bae.setBrokerName(brokerName);
+        bae.setHost(hostTF.getText());
+        bae.setPort(Integer.parseInt(portTF.getText()));
+        bae.setUsername(userTF.getText());
+        bae.setPassword(String.valueOf(passwdTF.getPassword()));
         bae.setOKAction(true);
         fireAdminEventDispatched(bae);
     }
 
-    public void doReset() { 
-	reset();
-    } 
+    public void doReset() {
+        reset();
+    }
 
     public void doCancel() {
-	hide(); 
-	reset();
+        hide();
+        reset();
     }
 
     // not used
-    public void doApply() {}
-    public void doClear() {}
-    public void doClose() {}
+    public void doApply() {
+    }
+
+    public void doClear() {
+    }
+
+    public void doClose() {
+    }
 
     public void show() {
-	doReset();
-	setEditable(true);
-	super.show();
+        doReset();
+        setEditable(true);
+        super.show();
     }
 
     private void reset() {
-	brokerNameTF.setText(getBrokerName(acr.getString(acr.I_BROKER_LABEL)));
-	hostTF.setText(DEFAULT_BROKER_HOST);
+        brokerNameTF.setText(getBrokerName(acr.getString(acr.I_BROKER_LABEL)));
+        hostTF.setText(DEFAULT_BROKER_HOST);
         portTF.setText(DEFAULT_PRIMARY_PORT);
         userTF.setText(BrokerAdmin.DEFAULT_ADMIN_USERNAME);
         passwdTF.setText("");
     }
 
-    protected String getBrokerName(String baseName)  {
+    protected String getBrokerName(String baseName) {
 
-	ConsoleBrokerAdminManager baMgr = blCObj.getBrokerAdminManager();
+        ConsoleBrokerAdminManager baMgr = blCObj.getBrokerAdminManager();
 
-        if (!baMgr.exist(baseName))  {
+        if (!baMgr.exist(baseName)) {
             return (baseName);
         }
 
-        for (int i = 1; i < 1000; ++i)  {
+        for (int i = 1; i < 1000; ++i) {
             String newStr = baseName + i;
-            if (!baMgr.exist(newStr))  {
+            if (!baMgr.exist(newStr)) {
                 return (newStr);
             }
         }

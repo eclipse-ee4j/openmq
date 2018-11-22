@@ -16,7 +16,7 @@
 
 /*
  * @(#)OracleMessageDAOImpl.java	1.16 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -44,6 +44,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Constructor
+     * 
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     OracleMessageDAOImpl() throws BrokerException {
@@ -51,48 +52,32 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
         super();
 
         // Initialize message column with an "empty" BLOB
-        insertSQL = new StringBuffer(128)
-            .append( "INSERT INTO " ).append( tableName )
-            .append( " ( " )
-            .append( ID_COLUMN ).append( ", " )
-            .append( MESSAGE_SIZE_COLUMN ).append( ", " )
-            .append( STORE_SESSION_ID_COLUMN ).append( ", " )
-            .append( DESTINATION_ID_COLUMN ).append( ", " )
-            .append( TRANSACTION_ID_COLUMN ).append( ", " )
-            .append( CREATED_TS_COLUMN ).append( ", " )
-            .append( MESSAGE_COLUMN )
-            .append( ") VALUES ( ?, ?, ?, ?, ?, ?, EMPTY_BLOB() )" )
-            .toString();
+        insertSQL = new StringBuffer(128).append("INSERT INTO ").append(tableName).append(" ( ").append(ID_COLUMN).append(", ").append(MESSAGE_SIZE_COLUMN)
+                .append(", ").append(STORE_SESSION_ID_COLUMN).append(", ").append(DESTINATION_ID_COLUMN).append(", ").append(TRANSACTION_ID_COLUMN).append(", ")
+                .append(CREATED_TS_COLUMN).append(", ").append(MESSAGE_COLUMN).append(") VALUES ( ?, ?, ?, ?, ?, ?, EMPTY_BLOB() )").toString();
 
         // Blob column need to be update separately
-        updateDestinationSQL = new StringBuffer(128)
-            .append( "UPDATE " ).append( tableName )
-            .append( " SET " )
-            .append( DESTINATION_ID_COLUMN ).append( " = ?, " )
-            .append( MESSAGE_SIZE_COLUMN ).append( " = ? " )
-            .append( " WHERE " )
-            .append( ID_COLUMN ).append( " = ?" )
-            .toString();
+        updateDestinationSQL = new StringBuffer(128).append("UPDATE ").append(tableName).append(" SET ").append(DESTINATION_ID_COLUMN).append(" = ?, ")
+                .append(MESSAGE_SIZE_COLUMN).append(" = ? ").append(" WHERE ").append(ID_COLUMN).append(" = ?").toString();
     }
 
     /**
      * Insert a new entry.
+     * 
      * @param conn database connection
      * @param message the message to be persisted
      * @param dstID the destination
-     * @param conUIDs an array of interest ids whose states are to be
-     *      stored with the message
+     * @param conUIDs an array of interest ids whose states are to be stored with the message
      * @param states an array of states
      * @param storeSessionID the store session ID that owns the msg
      * @param createdTime timestamp
      * @param checkMsgExist check if message & destination exist in the store
      * @param replaycheck true if replay needs to check previous insert succeeded
-     * @exception com.sun.messaging.jmq.jmsserver.util.BrokerException if a message with the same id exists
-     *  in the store already
+     * @exception com.sun.messaging.jmq.jmsserver.util.BrokerException if a message with the same id exists in the store
+     * already
      */
-    public void insert( Connection conn, String dstID, Packet message,
-        ConsumerUID[] conUIDs, int[] states, long storeSessionID, long createdTime,
-        boolean checkMsgExist, boolean replaycheck ) throws BrokerException {
+    public void insert(Connection conn, String dstID, Packet message, ConsumerUID[] conUIDs, int[] states, long storeSessionID, long createdTime,
+            boolean checkMsgExist, boolean replaycheck) throws BrokerException {
 
         boolean myConn = false;
         PreparedStatement pstmt = null;
@@ -103,42 +88,40 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
             // Verify that we're using an Oracle driver because we're using
             // Oracle Extensions for LOBs.
-            if ( ! dbMgr.isOracleDriver() ) {
+            if (!dbMgr.isOracleDriver()) {
                 // Try generic implementation
-                super.insert( conn, dstID, message, conUIDs, states, storeSessionID,
-                              createdTime, checkMsgExist, replaycheck );
+                super.insert(conn, dstID, message, conUIDs, states, storeSessionID, createdTime, checkMsgExist, replaycheck);
                 return;
             }
 
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( false );
+            if (conn == null) {
+                conn = dbMgr.getConnection(false);
                 myConn = true;
             }
 
-            SysMessageID sysMsgID = (SysMessageID)message.getSysMessageID();
+            SysMessageID sysMsgID = (SysMessageID) message.getSysMessageID();
             String id = sysMsgID.getUniqueName();
             int size = message.getPacketSize();
             long txnID = message.getTransactionID();
 
-            if ( dstID == null ) {
-                dstID = DestinationUID.getUniqueString(
-                    message.getDestination(), message.getIsQueue() );
+            if (dstID == null) {
+                dstID = DestinationUID.getUniqueString(message.getDestination(), message.getIsQueue());
             }
 
-            if ( checkMsgExist ) {
+            if (checkMsgExist) {
                 boolean hasmsg = false;
                 try {
-                    hasmsg = hasMessage( conn, id );
+                    hasmsg = hasMessage(conn, id);
                 } catch (BrokerException e) {
                     e.setSQLRecoverable(true);
                     e.setSQLReplayCheck(replaycheck);
                     throw e;
                 }
-                if ( hasmsg && replaycheck ) {
-                    if ( conUIDs != null ) {
+                if (hasmsg && replaycheck) {
+                    if (conUIDs != null) {
                         HashMap map = null;
                         try {
-                            map = dbMgr.getDAOFactory().getConsumerStateDAO().getStates( conn, sysMsgID );
+                            map = dbMgr.getDAOFactory().getConsumerStateDAO().getStates(conn, sysMsgID);
                         } catch (BrokerException e) {
                             e.setSQLRecoverable(true);
                             e.setSQLReplayCheck(true);
@@ -149,9 +132,9 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
                         Map.Entry pair = null;
                         ConsumerUID cid = null;
                         while (itr.hasNext()) {
-                            pair = (Map.Entry)itr.next();
-                            cid = (ConsumerUID)pair.getKey();
-                            int st = ((Integer)pair.getValue()).intValue();
+                            pair = (Map.Entry) itr.next();
+                            cid = (ConsumerUID) pair.getKey();
+                            int st = ((Integer) pair.getValue()).intValue();
                             for (int i = 0; i < conUIDs.length; i++) {
                                 if (conUIDs[i].equals(cid)) {
                                     if (states[i] == st) {
@@ -161,20 +144,19 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
                             }
                         }
                         if (cids.size() == 0) {
-                            logger.log(Logger.INFO, BrokerResources.I_CANCEL_SQL_REPLAY, id+"["+dstID+"]"+cids);
+                            logger.log(Logger.INFO, BrokerResources.I_CANCEL_SQL_REPLAY, id + "[" + dstID + "]" + cids);
                             return;
                         }
                     } else {
-                        logger.log(Logger.INFO, BrokerResources.I_CANCEL_SQL_REPLAY, id+"["+dstID+"]");
+                        logger.log(Logger.INFO, BrokerResources.I_CANCEL_SQL_REPLAY, id + "[" + dstID + "]");
                         return;
                     }
                 }
-                if ( hasmsg ) {
-                    throw new BrokerException(
-                        br.getKString(BrokerResources.E_MSG_EXISTS_IN_STORE, id, dstID ) );
+                if (hasmsg) {
+                    throw new BrokerException(br.getKString(BrokerResources.E_MSG_EXISTS_IN_STORE, id, dstID));
                 }
                 try {
-                    dbMgr.getDAOFactory().getDestinationDAO().checkDestination( conn, dstID );
+                    dbMgr.getDAOFactory().getDestinationDAO().checkDestination(conn, dstID);
                 } catch (BrokerException e) {
                     if (e.getStatusCode() != Status.NOT_FOUND) {
                         e.setSQLRecoverable(true);
@@ -184,26 +166,26 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
             }
             String sql = insertSQL;
             try {
-                pstmt = dbMgr.createPreparedStatement( conn, sql );
+                pstmt = dbMgr.createPreparedStatement(conn, sql);
                 if (fi.FAULT_INJECTION) {
                     if (fi.checkFault(FaultInjection.FAULT_HA_BADSYSID, null)) {
                         fi.unsetFault(FaultInjection.FAULT_HA_BADSYSID);
-                        id = id+"abc";
-                    } 
-                } 
-                pstmt.setString( 1, id );
-                pstmt.setInt( 2, size );
-                pstmt.setLong( 3, storeSessionID );
-                pstmt.setString( 4, dstID );
-                Util.setLong( pstmt, 5, (( txnID == 0 ) ? -1 : txnID) );
-                pstmt.setLong( 6, createdTime );
+                        id = id + "abc";
+                    }
+                }
+                pstmt.setString(1, id);
+                pstmt.setInt(2, size);
+                pstmt.setLong(3, storeSessionID);
+                pstmt.setString(4, dstID);
+                Util.setLong(pstmt, 5, ((txnID == 0) ? -1 : txnID));
+                pstmt.setLong(6, createdTime);
                 pstmt.executeUpdate();
                 pstmt.close();
 
                 // Obtain a "handle" to the BLOB for the message column
                 sql = selectForUpdateSQL;
-                pstmt = dbMgr.createPreparedStatement( conn, sql );
-                pstmt.setString( 1, id );
+                pstmt = dbMgr.createPreparedStatement(conn, sql);
+                pstmt.setString(1, id);
                 ResultSet rs = pstmt.executeQuery();
                 rs.next();
                 Blob blob = rs.getBlob(1);
@@ -211,46 +193,43 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
                 pstmt.close();
 
                 // Write out the message using the BLOB locator
-                OutputStream bos = Util.OracleBLOB_getBinaryOutputStream( blob );
-                message.writePacket( bos );
+                OutputStream bos = Util.OracleBLOB_getBinaryOutputStream(blob);
+                message.writePacket(bos);
                 bos.close();
 
                 // Store the consumer's states if any
-                if ( conUIDs != null ) {
-                    dbMgr.getDAOFactory().getConsumerStateDAO().insert(
-                        conn, dstID, sysMsgID, conUIDs, states, false, false );
+                if (conUIDs != null) {
+                    dbMgr.getDAOFactory().getConsumerStateDAO().insert(conn, dstID, sysMsgID, conUIDs, states, false, false);
                 }
-                
+
                 // Commit all changes
-                if ( myConn ) {
+                if (myConn) {
                     conn.commit();
                 }
-            } catch ( Exception e ) {
+            } catch (Exception e) {
                 myex = e;
                 boolean replayck = false;
                 try {
-                    if ( !conn.getAutoCommit() ) {
+                    if (!conn.getAutoCommit()) {
                         conn.rollback();
                     }
-                } catch ( SQLException rbe ) {
+                } catch (SQLException rbe) {
                     replayck = true;
-                    logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+                    logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
                 }
 
                 Exception ex;
-                if ( e instanceof BrokerException ) {
-                    throw (BrokerException)e;
-                } else if ( e instanceof IOException ) {
-                    ex = DBManager.wrapIOException("[" + insertSQL + "]", (IOException)e);
-                } else if ( e instanceof SQLException ) {
-                    ex = DBManager.wrapSQLException("[" + insertSQL + "]", (SQLException)e);
+                if (e instanceof BrokerException) {
+                    throw (BrokerException) e;
+                } else if (e instanceof IOException) {
+                    ex = DBManager.wrapIOException("[" + insertSQL + "]", (IOException) e);
+                } else if (e instanceof SQLException) {
+                    ex = DBManager.wrapSQLException("[" + insertSQL + "]", (SQLException) e);
                 } else {
                     ex = e;
                 }
 
-                BrokerException be = new BrokerException(
-                    br.getKString( BrokerResources.X_PERSIST_MESSAGE_FAILED,
-                    id ), ex );
+                BrokerException be = new BrokerException(br.getKString(BrokerResources.X_PERSIST_MESSAGE_FAILED, id), ex);
                 be.setSQLRecoverable(true);
                 if (replayck) {
                     be.setSQLReplayCheck(true);
@@ -261,31 +240,30 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
             myex = e;
             throw e;
         } finally {
-            if ( myConn ) {
-                Util.close( null, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(null, pstmt, conn, myex);
             } else {
-                Util.close( null, pstmt, null, myex );
+                Util.close(null, pstmt, null, myex);
             }
         }
     }
 
     /**
      * Move a message to another destination.
+     * 
      * @param conn database connection
      * @param message the message
      * @param fromDst the destination
      * @param toDst the destination to move to
-     * @param conUIDs an array of interest ids whose states are to be
-     *      stored with the message
+     * @param conUIDs an array of interest ids whose states are to be stored with the message
      * @param states an array of states
      * @throws IOException
      * @throws BrokerException
      */
-    public void moveMessage( Connection conn, Packet message,
-        DestinationUID fromDst, DestinationUID toDst, ConsumerUID[] conUIDs,
-        int[] states ) throws IOException, BrokerException {
+    public void moveMessage(Connection conn, Packet message, DestinationUID fromDst, DestinationUID toDst, ConsumerUID[] conUIDs, int[] states)
+            throws IOException, BrokerException {
 
-	SysMessageID sysMsgID = (SysMessageID)message.getSysMessageID().clone();
+        SysMessageID sysMsgID = (SysMessageID) message.getSysMessageID().clone();
         String id = sysMsgID.getUniqueName();
         int size = message.getPacketSize();
 
@@ -299,27 +277,25 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
             // Verify that we're using an Oracle driver because we're using
             // Oracle Extensions for LOBs.
-            if ( ! dbMgr.isOracleDriver() ) {
+            if (!dbMgr.isOracleDriver()) {
                 // Try generic implementation
-                super.moveMessage( conn, message, fromDst, toDst, conUIDs, states );
+                super.moveMessage(conn, message, fromDst, toDst, conUIDs, states);
                 return;
             }
 
-            if ( conn == null ) {
-                conn = dbMgr.getConnection( false );
+            if (conn == null) {
+                conn = dbMgr.getConnection(false);
                 myConn = true;
             }
 
             // Obtain a "handle" to the BLOB for the message column
-            pstmt = dbMgr.createPreparedStatement( conn, sql );
-            pstmt.setString( 1, id );
+            pstmt = dbMgr.createPreparedStatement(conn, sql);
+            pstmt.setString(1, id);
             ResultSet rs = pstmt.executeQuery();
 
-            if ( !rs.next() ) {
+            if (!rs.next()) {
                 // We're assuming the entry does not exist
-                throw new BrokerException(
-                    br.getKString( BrokerResources.E_MSG_NOT_FOUND_IN_STORE,
-                        id, fromDst ), Status.NOT_FOUND );
+                throw new BrokerException(br.getKString(BrokerResources.E_MSG_NOT_FOUND_IN_STORE, id, fromDst), Status.NOT_FOUND);
             }
 
             Blob blob = rs.getBlob(1);
@@ -327,61 +303,56 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
             pstmt.close();
 
             // Write out the message using the BLOB locator
-            OutputStream bos = Util.OracleBLOB_getBinaryOutputStream( blob );
-            message.writePacket( bos );
+            OutputStream bos = Util.OracleBLOB_getBinaryOutputStream(blob);
+            message.writePacket(bos);
             bos.close();
 
             sql = updateDestinationSQL;
-            pstmt = dbMgr.createPreparedStatement( conn, sql );
-            pstmt.setString( 1, toDst.toString() );
-            pstmt.setInt( 2, size );
-            pstmt.setString( 3, id );
+            pstmt = dbMgr.createPreparedStatement(conn, sql);
+            pstmt.setString(1, toDst.toString());
+            pstmt.setInt(2, size);
+            pstmt.setString(3, id);
             pstmt.executeUpdate();
 
             /**
-             * Update consumer states:
-             * 1. remove the old states
-             * 2. re-insert the states
+             * Update consumer states: 1. remove the old states 2. re-insert the states
              */
             ConsumerStateDAO conStateDAO = dbMgr.getDAOFactory().getConsumerStateDAO();
-            conStateDAO.deleteByMessageID( conn, id );
-            if ( conUIDs != null || states != null ) {
-                conStateDAO.insert(
-                    conn, toDst.toString(), sysMsgID, conUIDs, states, false, false );
+            conStateDAO.deleteByMessageID(conn, id);
+            if (conUIDs != null || states != null) {
+                conStateDAO.insert(conn, toDst.toString(), sysMsgID, conUIDs, states, false, false);
             }
 
             // Commit all changes
-            if ( myConn ) {
+            if (myConn) {
                 conn.commit();
             }
-        } catch ( Exception e ) {
+        } catch (Exception e) {
             myex = e;
             try {
-                if ( (conn != null) && !conn.getAutoCommit() ) {
+                if ((conn != null) && !conn.getAutoCommit()) {
                     conn.rollback();
                 }
-            } catch ( SQLException rbe ) {
-                logger.log( Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe );
+            } catch (SQLException rbe) {
+                logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED, rbe);
             }
 
             Exception ex;
-            if ( e instanceof BrokerException ) {
-                throw (BrokerException)e;
-            } else if ( e instanceof SQLException ) {
-                ex = DBManager.wrapSQLException("[" + updateDestinationSQL + "]", (SQLException)e);
+            if (e instanceof BrokerException) {
+                throw (BrokerException) e;
+            } else if (e instanceof SQLException) {
+                ex = DBManager.wrapSQLException("[" + updateDestinationSQL + "]", (SQLException) e);
             } else {
                 ex = e;
             }
 
             Object[] args = { id, fromDst, toDst };
-            throw new BrokerException(
-                br.getKString( BrokerResources.X_MOVE_MESSAGE_FAILED,
-                args ), ex );
+            throw new BrokerException(br.getKString(BrokerResources.X_MOVE_MESSAGE_FAILED, args), ex);
         } finally {
-            if ( myConn ) {
-                Util.close( null, pstmt, conn, myex );
+            if (myConn) {
+                Util.close(null, pstmt, conn, myex);
             } else {
-                Util.close( null, pstmt, null, myex );
+                Util.close(null, pstmt, null, myex);
             }
         }
     }

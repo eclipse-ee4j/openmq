@@ -16,47 +16,35 @@
 
 /*
  * @(#)AdminObjectConstants.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.naming;
 
 /**
- * This interface defines all constants used for admin objects
- * management.
+ * This interface defines all constants used for admin objects management.
  */
 public interface AdminObjectConstants {
 
     /**
-     * The following format is used for the reference object representing 
-     * Destination objects.
+     * The following format is used for the reference object representing Destination objects.
      *
-     * [0] = reserved for version
-     * [1] = reserved for topicName
+     * [0] = reserved for version [1] = reserved for topicName
      *
      *
-     * The following format is used for the reference object representing 
-     * ConnectionFactory objects.
+     * The following format is used for the reference object representing ConnectionFactory objects.
      *
-     *  [0] = reserved for version
-     *  [1] = reserved for securityPort
-     *  [2] = reserved for JMSXUserID
-     *  [3] = reserved for JMSXAppID
-     *  [4] = reserved for JMSXProducerTXID
-     *  [5] = reserved for JMSXConsumerTXID
-     *  [6] = reserved for JMSXRcvTimestamp
-     *  [7] = reserved for --
-     *  [8] = reserved for host
-     *  [9] = reserved for subnet
-     * [10] = reserved for ackTimeout
+     * [0] = reserved for version [1] = reserved for securityPort [2] = reserved for JMSXUserID [3] = reserved for JMSXAppID
+     * [4] = reserved for JMSXProducerTXID [5] = reserved for JMSXConsumerTXID [6] = reserved for JMSXRcvTimestamp [7] =
+     * reserved for -- [8] = reserved for host [9] = reserved for subnet [10] = reserved for ackTimeout
      *
      */
 
     /** used by both Destination and ConnectionFactory reference objects */
     public static final String REF_VERSION = "version";
-    
+
     /** used only by Destination reference objects */
     public static final String REF_DESTNAME = "destName";
-   
+
     /** used only by ConnectionFactory reference objects */
     public static final String REF_SECURITYPORT = "securityPort";
     public static final String REF_JMSXUSERID = "JMSXUserID";
@@ -71,7 +59,7 @@ public interface AdminObjectConstants {
 
     /** the content of the parm, if the configuration object exists */
     public static final String REF_PARM_CONTENT = "--";
-   
+
     /** JMSXxxx properties */
     public static final String JMSXUSERID = "JMSXUserID";
     public static final String JMSXAPPID = "JMSXAppID";
@@ -79,9 +67,8 @@ public interface AdminObjectConstants {
     public static final String JMSXCONSUMERTXID = "JMSXConsumerTXID";
     public static final String JMSXRCVTIMESTAMP = "JMSXRcvTimestamp";
 
-    /** 
-     * generic default value: if value is not specified in the reference 
-     * object, its value defaults to this value 
+    /**
+     * generic default value: if value is not specified in the reference object, its value defaults to this value
      */
     public static final String DEFAULT = "default";
 
@@ -96,4 +83,3 @@ public interface AdminObjectConstants {
     public static final int DEFAULT_SECURITYPORT = 22000;
     public static final int DEFAULT_ACKTIMEOUT = 30000;
 }
-

@@ -24,7 +24,7 @@ import com.sun.messaging.jmq.io.PacketVariableHeader;
  * @author oleksiys
  */
 public class GrizzlyMQPacketVariableHeader extends PacketVariableHeader {
-        /**
+    /**
      * Reset packet to initial values
      */
     @Override
@@ -33,7 +33,7 @@ public class GrizzlyMQPacketVariableHeader extends PacketVariableHeader {
             stringItems[n] = null;
         }
         transactionID = 0;
-        producerID    = 0;
+        producerID = 0;
 
         buffer = null;
         bufferDirty = false;

@@ -28,94 +28,91 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TransactionWorkMessage {
 
-	private DestinationUID destUID;
-	private Packet message;
-	private ConsumerUID[] storedInterests;
-	private PacketReference packetRef;
+    private DestinationUID destUID;
+    private Packet message;
+    private ConsumerUID[] storedInterests;
+    private PacketReference packetRef;
 
-	public TransactionWorkMessage(DestinationUID destUID, Packet message, ConsumerUID[] storedInterests) {
-		this.destUID = destUID;
-		this.message = message;
-		this.storedInterests = storedInterests;
-	}
-	
-	public TransactionWorkMessage() {			
-	}
+    public TransactionWorkMessage(DestinationUID destUID, Packet message, ConsumerUID[] storedInterests) {
+        this.destUID = destUID;
+        this.message = message;
+        this.storedInterests = storedInterests;
+    }
 
-	public DestinationUID getDestUID() {
-		return destUID;
-	}
+    public TransactionWorkMessage() {
+    }
 
-	public void setDestUID(DestinationUID destUID) {
-		this.destUID = destUID;
-	}
+    public DestinationUID getDestUID() {
+        return destUID;
+    }
 
-	public Packet getMessage() {
-		return message;
-	}
-	
-	public PacketReference getPacketReference() {
-		return packetRef;
-	}
+    public void setDestUID(DestinationUID destUID) {
+        this.destUID = destUID;
+    }
 
-	public void setPacketReference(PacketReference ref) {
-		this.packetRef= ref;
-		this.message = ref.getPacket();
-	}
+    public Packet getMessage() {
+        return message;
+    }
 
-	public String toString()
-	{
-		StringBuffer result= new StringBuffer("sysMessageID=").append(message.getMessageID());
-		result.append(" destUID=").append(destUID);
-		result.append(" dest=").append(message.getDestination());
-	
-		return result.toString();
-	}
+    public PacketReference getPacketReference() {
+        return packetRef;
+    }
 
-	public ConsumerUID[] getStoredInterests() {
-		return storedInterests;
-	}
+    public void setPacketReference(PacketReference ref) {
+        this.packetRef = ref;
+        this.message = ref.getPacket();
+    }
 
-	public void setStoredInterests(ConsumerUID[] storedInterests) {
-		this.storedInterests = storedInterests;
-	}
-	
-	public void writeWork(DataOutputStream dos) throws IOException {
+    public String toString() {
+        StringBuffer result = new StringBuffer("sysMessageID=").append(message.getMessageID());
+        result.append(" destUID=").append(destUID);
+        result.append(" dest=").append(message.getDestination());
 
-		byte[] data = getMessage().getBytes();
+        return result.toString();
+    }
 
-		dos.write(data); // Message			
-		ConsumerUID[] storedInterests = getStoredInterests();
-		if (storedInterests == null) {
-			dos.writeInt(0);
-		} else {
-			dos.writeInt(storedInterests.length);
-			for (int i = 0; i < storedInterests.length; i++) {
-				dos.writeLong(storedInterests[i].longValue());
-			}
-		}
-	}
-	
-	public void readWork(DataInputStream dis) throws IOException,
-			BrokerException {
-		message = new Packet(false);
-		message.generateTimestamp(false);
-		message.generateSequenceNumber(false);
-		message.readPacket(dis);
+    public ConsumerUID[] getStoredInterests() {
+        return storedInterests;
+    }
 
-		int numStoredInterests = dis.readInt();
-		storedInterests = new ConsumerUID[numStoredInterests];
-		for (int j = 0; j < numStoredInterests; j++) {
-			long cuid = dis.readLong();
-			storedInterests[j] = new ConsumerUID(cuid);
-		}
+    public void setStoredInterests(ConsumerUID[] storedInterests) {
+        this.storedInterests = storedInterests;
+    }
 
-		// Make sure dest exists; auto-create if possible
-		// this is because we will need to add messages to this
-		// destination
-		destUID = DestinationUID.getUID(message.getDestination(), message
-				.getIsQueue());
+    public void writeWork(DataOutputStream dos) throws IOException {
 
-	}
-	
+        byte[] data = getMessage().getBytes();
+
+        dos.write(data); // Message
+        ConsumerUID[] storedInterests = getStoredInterests();
+        if (storedInterests == null) {
+            dos.writeInt(0);
+        } else {
+            dos.writeInt(storedInterests.length);
+            for (int i = 0; i < storedInterests.length; i++) {
+                dos.writeLong(storedInterests[i].longValue());
+            }
+        }
+    }
+
+    public void readWork(DataInputStream dis) throws IOException, BrokerException {
+        message = new Packet(false);
+        message.generateTimestamp(false);
+        message.generateSequenceNumber(false);
+        message.readPacket(dis);
+
+        int numStoredInterests = dis.readInt();
+        storedInterests = new ConsumerUID[numStoredInterests];
+        for (int j = 0; j < numStoredInterests; j++) {
+            long cuid = dis.readLong();
+            storedInterests[j] = new ConsumerUID(cuid);
+        }
+
+        // Make sure dest exists; auto-create if possible
+        // this is because we will need to add messages to this
+        // destination
+        destUID = DestinationUID.getUID(message.getDestination(), message.getIsQueue());
+
+    }
+
 }

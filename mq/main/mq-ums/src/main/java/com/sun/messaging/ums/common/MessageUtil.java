@@ -37,11 +37,11 @@ public class MessageUtil {
     private static SOAPFactory soapFactory = null;
     private static String HOST_ADDRESS = null;
     private static Object syncObj = new Object();
-    
+
     private static long sequence = 0;
-    
+
     private static long MSG_RANDOM = 0;
-    
+
     private static String MSG_ID_PREFIX = null;
 
     static {
@@ -49,19 +49,19 @@ public class MessageUtil {
         try {
             soapFactory = SOAPFactory.newInstance();
 
-            //messageFactory = MessageFactory.newInstance();
-            //messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
+            // messageFactory = MessageFactory.newInstance();
+            // messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
             messageFactory = MessageFactory.newInstance(SOAPConstants.DEFAULT_SOAP_PROTOCOL);
             HOST_ADDRESS = InetAddress.getLocalHost().toString();
-            
+
             sequence = 0;
-            
+
             Random random = new Random();
             random.setSeed(System.currentTimeMillis());
             MSG_RANDOM = random.nextLong();
-            
+
             MSG_ID_PREFIX = HOST_ADDRESS + "-" + MSG_RANDOM + "-";
-            
+
         } catch (Exception se) {
             se.printStackTrace();
         }
@@ -75,17 +75,17 @@ public class MessageUtil {
 
         return she;
     }
-    
+
     public static SOAPHeaderElement removeMessageHeaderElement(SOAPMessage message) throws SOAPException {
 
         SOAPHeader soapHeader = message.getSOAPHeader();
 
-        SOAPHeaderElement she = (SOAPHeaderElement) getJMSChildElement (soapHeader, Constants.MESSAGE_HEADER);
+        SOAPHeaderElement she = (SOAPHeaderElement) getJMSChildElement(soapHeader, Constants.MESSAGE_HEADER);
 
         she.detachNode();
-        
+
         message.saveChanges();
-        
+
         return she;
     }
 
@@ -102,7 +102,7 @@ public class MessageUtil {
             return she.getChildElements();
         }
 
-        //iterator with no elements.
+        // iterator with no elements.
         return it;
 
     }
@@ -194,8 +194,7 @@ public class MessageUtil {
 
     }
 
-    public static SOAPHeaderElement getSOAPHeaderElement(SOAPMessage message, String headerName,
-            String nameSpace) throws SOAPException {
+    public static SOAPHeaderElement getSOAPHeaderElement(SOAPMessage message, String headerName, String nameSpace) throws SOAPException {
 
         Iterator it = message.getSOAPHeader().examineAllHeaderElements();
 
@@ -206,7 +205,7 @@ public class MessageUtil {
             String localName = she.getLocalName();
 
             if (headerName.equals(localName) && nameSpace.equals(uri)) {
-                //found message header.
+                // found message header.
                 return she;
             }
 
@@ -279,9 +278,9 @@ public class MessageUtil {
 
         SOAPHeaderElement she = null;
 
-        //Name pname = createJMSName (Constants.JMS_PROPERTY);
+        // Name pname = createJMSName (Constants.JMS_PROPERTY);
 
-        //System.out.println("*** JMS property exists: " + pname.getQualifiedName());
+        // System.out.println("*** JMS property exists: " + pname.getQualifiedName());
         she = getJMSPropertyElement(sheader);
 
         if (she == null) {
@@ -291,13 +290,11 @@ public class MessageUtil {
         return she;
     }
 
-    public static SOAPElement setObjectProperty(SOAPMessage soapm, String pname, Object pvalue)
-            throws SOAPException {
+    public static SOAPElement setObjectProperty(SOAPMessage soapm, String pname, Object pvalue) throws SOAPException {
 
         SOAPHeader sheader = soapm.getSOAPHeader();
 
-        SOAPHeaderElement jmsPropertyRoot =
-                getJMSPropertyElement(sheader);
+        SOAPHeaderElement jmsPropertyRoot = getJMSPropertyElement(sheader);
 
         if (jmsPropertyRoot == null) {
             jmsPropertyRoot = addJMSPropertyElement(sheader);
@@ -308,43 +305,41 @@ public class MessageUtil {
         return propEle;
     }
 
-    public static SOAPElement setJMSProperty(SOAPHeaderElement jmsPropertyRoot, String pname, Object pvalue)
-            throws SOAPException {
+    public static SOAPElement setJMSProperty(SOAPHeaderElement jmsPropertyRoot, String pname, Object pvalue) throws SOAPException {
 
-        //prop element to be added to JMSProperty element
+        // prop element to be added to JMSProperty element
         String eleName = null;
 
         if (pvalue instanceof String) {
             eleName = InternalConstants.STRING_PROPERTY;
-        // System.out.println ("Message util setting String prop ... " +
-        // pvalue );
+            // System.out.println ("Message util setting String prop ... " +
+            // pvalue );
         } else if (pvalue instanceof Integer) {
             eleName = InternalConstants.INT_PROPERTY;
-        // System.out.println ("Message util setting Int prop ... " + pvalue
-        // );
+            // System.out.println ("Message util setting Int prop ... " + pvalue
+            // );
         } else if (pvalue instanceof Long) {
             eleName = InternalConstants.LONG_PROPERTY;
-        // System.out.println ("Message util setting Long prop ... " +
-        // pvalue );
+            // System.out.println ("Message util setting Long prop ... " +
+            // pvalue );
         } else if (pvalue instanceof Boolean) {
             eleName = InternalConstants.BOOLEAN_PROPERTY;
-        // System.out.println ("Message util setting Boolean prop... " +
-        // pvalue );
+            // System.out.println ("Message util setting Boolean prop... " +
+            // pvalue );
         } else if (pvalue instanceof Short) {
             eleName = InternalConstants.SHORT_PROPERTY;
-        // System.out.println ("Message util setting SHORT prop... " +
-        // pvalue );
+            // System.out.println ("Message util setting SHORT prop... " +
+            // pvalue );
         } else if (pvalue instanceof Byte) {
             eleName = InternalConstants.BYTE_PROPERTY;
-        // System.out.println ("Message util setting Byte prop ... " +
-        // pvalue );
+            // System.out.println ("Message util setting Byte prop ... " +
+            // pvalue );
         } else {
             throw new SOAPException("Invalid property value." + pvalue);
         }
 
         // SOAPElement propEle = jmsPropertyRoot.addChildElement(eleName);
-        SOAPElement propEle =
-                MessageUtil.addJMSChildElement(jmsPropertyRoot, eleName);
+        SOAPElement propEle = MessageUtil.addJMSChildElement(jmsPropertyRoot, eleName);
 
         // pname attr
         Name propNameAttr = createJMSName(InternalConstants.PNAME);
@@ -365,9 +360,7 @@ public class MessageUtil {
 
     public static Name createJMSName(String localName) throws SOAPException {
 
-        Name name =
-                soapFactory.createName(localName,
-                Constants.JMS_NS_PREFIX, Constants.JMS_NS_URI);
+        Name name = soapFactory.createName(localName, Constants.JMS_NS_PREFIX, Constants.JMS_NS_URI);
 
         return name;
     }
@@ -399,8 +392,7 @@ public class MessageUtil {
 
         SOAPHeader sh = soapm.getSOAPHeader();
 
-        SOAPHeaderElement she =
-                addJMSNsSOAPHeaderElement(sh, Constants.MESSAGE_HEADER);
+        SOAPHeaderElement she = addJMSNsSOAPHeaderElement(sh, Constants.MESSAGE_HEADER);
 
         addMessageHeaderChildElements(she);
 
@@ -409,8 +401,7 @@ public class MessageUtil {
         return soapm;
     }
 
-    public static SOAPHeaderElement addJMSNsSOAPHeaderElement(SOAPHeader soapHeader, String localName)
-            throws SOAPException {
+    public static SOAPHeaderElement addJMSNsSOAPHeaderElement(SOAPHeader soapHeader, String localName) throws SOAPException {
 
         SOAPHeaderElement headerElement = null;
 
@@ -423,8 +414,7 @@ public class MessageUtil {
         return headerElement;
     }
 
-    public static void addHeaderAttributes(SOAPHeaderElement she)
-            throws SOAPException {
+    public static void addHeaderAttributes(SOAPHeaderElement she) throws SOAPException {
 
         Name id = createJMSName(Constants.ID);
         she.addAttribute(id, "1.0");
@@ -432,29 +422,28 @@ public class MessageUtil {
         Name version = createJMSName(Constants.VERSION);
         she.addAttribute(version, "1.1");
 
-    //she.setMustUnderstand(true);
+        // she.setMustUnderstand(true);
     }
 
-    public static void addMessageHeaderChildElements(SOAPHeaderElement messageHeader)
-            throws SOAPException {
-        
+    public static void addMessageHeaderChildElements(SOAPHeaderElement messageHeader) throws SOAPException {
+
         SOAPElement se = null;
-        
-        //se = addJMSChildElement(messageHeader, Constants.FROM);
-        //se.setValue(Constants.FROM_DEFAULT_VALUE);
 
-        //se = addJMSChildElement(messageHeader, Constants.TO);
-        //se.setValue(Constants.TO_DEAFULT_VALUE);
-        
-        //se = addJMSChildElement(messageHeader, Constants.MESSAGE_ID);
-        //String mid = getNewMessageID();
-        //se.setValue(mid);
+        // se = addJMSChildElement(messageHeader, Constants.FROM);
+        // se.setValue(Constants.FROM_DEFAULT_VALUE);
 
-        //se = addJMSChildElement(messageHeader, Constants.TIMESTAMP);
-        //String ts = getTimestamp(mid);
-        //se.setValue(ts);
+        // se = addJMSChildElement(messageHeader, Constants.TO);
+        // se.setValue(Constants.TO_DEAFULT_VALUE);
 
-        //addJMSChildElement(messageHeader, Constants.REF_TO_MESSAGE_ID);
+        // se = addJMSChildElement(messageHeader, Constants.MESSAGE_ID);
+        // String mid = getNewMessageID();
+        // se.setValue(mid);
+
+        // se = addJMSChildElement(messageHeader, Constants.TIMESTAMP);
+        // String ts = getTimestamp(mid);
+        // se.setValue(ts);
+
+        // addJMSChildElement(messageHeader, Constants.REF_TO_MESSAGE_ID);
 
         addJMSChildElement(messageHeader, Constants.SERVICE);
     }
@@ -467,20 +456,20 @@ public class MessageUtil {
 
     /**
      * Create ack message from the specified soap message.
+     * 
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
      */
     public static SOAPMessage createAcknowledgeMessage(SOAPMessage soapm) throws SOAPException {
 
-        //create message
+        // create message
         SOAPMessage ackm = newMessageInstance();
 
-        //add acknowledge element
-        SOAPHeaderElement ackele =
-                addJMSNsSOAPHeaderElement(ackm.getSOAPHeader(), InternalConstants.ACKNOWLEDGMENT);
+        // add acknowledge element
+        SOAPHeaderElement ackele = addJMSNsSOAPHeaderElement(ackm.getSOAPHeader(), InternalConstants.ACKNOWLEDGMENT);
 
-        //message to be acked
+        // message to be acked
         SOAPHeaderElement messageHeader = getMessageHeaderElement(soapm);
         String mid = getJMSChildElementValue(messageHeader, Constants.MESSAGE_ID);
 
@@ -488,92 +477,92 @@ public class MessageUtil {
         SOAPElement se = getJMSChildElement(ackMsgHdr, Constants.REF_TO_MESSAGE_ID);
         se.setValue(mid);
 
-        //add RefToMessageID element
+        // add RefToMessageID element
         SOAPElement refEle = addJMSChildElement(ackele, Constants.REF_TO_MESSAGE_ID);
         refEle.setValue(mid);
-
 
         ackm.saveChanges();
 
         return ackm;
     }
-    
+
     /**
      * Create ack message from the specified soap message.
+     * 
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
      */
-    public static SOAPMessage createResponseMessage (SOAPMessage soapm) throws SOAPException {
+    public static SOAPMessage createResponseMessage(SOAPMessage soapm) throws SOAPException {
 
-        //create message
+        // create message
         SOAPMessage ackm = newMessageInstance();
 
-       ackm = createResponseMessage2 (soapm, ackm);
+        ackm = createResponseMessage2(soapm, ackm);
 
         return ackm;
     }
-    
-    
+
     /**
      * Create ack message from the specified soap message.
+     * 
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
      */
-    public static SOAPMessage createResponseMessage2 (SOAPMessage req, SOAPMessage resp) throws SOAPException {
+    public static SOAPMessage createResponseMessage2(SOAPMessage req, SOAPMessage resp) throws SOAPException {
 
-        //create message
-        //SOAPMessage ackm = newMessageInstance();
-        
-        checkJMSMessageHeader (resp);
-        
+        // create message
+        // SOAPMessage ackm = newMessageInstance();
+
+        checkJMSMessageHeader(resp);
+
         resp.saveChanges();
 
         return resp;
     }
 
-    public static SOAPMessage createResponseMessage2_save (SOAPMessage req, SOAPMessage resp) throws SOAPException {
+    public static SOAPMessage createResponseMessage2_save(SOAPMessage req, SOAPMessage resp) throws SOAPException {
 
-        //create message
-        //SOAPMessage ackm = newMessageInstance();
-        
-        checkJMSMessageHeader (resp);
-        
-        //set ref to mid
+        // create message
+        // SOAPMessage ackm = newMessageInstance();
+
+        checkJMSMessageHeader(resp);
+
+        // set ref to mid
         SOAPHeaderElement messageHeader = getMessageHeaderElement(req);
         String mid = getJMSChildElementValue(messageHeader, Constants.MESSAGE_ID);
 
         SOAPHeaderElement ackMsgHdr = getMessageHeaderElement(resp);
         SOAPElement se = getJMSChildElement(ackMsgHdr, Constants.REF_TO_MESSAGE_ID);
         se.setValue(mid);
-        
-        //get <from> value from req msg 
+
+        // get <from> value from req msg
         String from = getJMSChildElementValue(messageHeader, Constants.FROM);
-        
-        //get <to> element from resp msg
-        SOAPElement toEle = getJMSChildElement (ackMsgHdr, Constants.TO);
+
+        // get <to> element from resp msg
+        SOAPElement toEle = getJMSChildElement(ackMsgHdr, Constants.TO);
         toEle.setValue(from);
-        
+
         resp.saveChanges();
 
         return resp;
     }
-    
-    public static void checkJMSMessageHeader (SOAPMessage sm) throws SOAPException {
-        SOAPHeaderElement msgHeader = getMessageHeaderElement (sm);
-        
+
+    public static void checkJMSMessageHeader(SOAPMessage sm) throws SOAPException {
+        SOAPHeaderElement msgHeader = getMessageHeaderElement(sm);
+
         if (msgHeader != null) {
             msgHeader.detachNode();
         }
-        
+
         addMessageHeader(sm);
-        
+
     }
 
-    
     /**
      * XXX chiaming 06/19/2008- OLD -- to be removed
+     * 
      * @param soapm
      * @param value
      * @throws javax.xml.soap.SOAPException
@@ -625,23 +614,23 @@ public class MessageUtil {
 
         return destName;
     }
-    
-    public static long getServiceReceiveTimeout (SOAPMessage soapm) throws SOAPException {
-        
-        //in milli secconds
+
+    public static long getServiceReceiveTimeout(SOAPMessage soapm) throws SOAPException {
+
+        // in milli secconds
         long timeout = 30000;
-        
+
         String str = getServiceAttribute(soapm, Constants.RECEIVE_TIMEOUT);
-        
+
         if (str != null) {
-            
+
             try {
                 timeout = Integer.parseInt(str);
             } catch (Exception e) {
-                throw new SOAPException (e);
+                throw new SOAPException(e);
             }
         }
-        
+
         return timeout;
     }
 
@@ -679,33 +668,31 @@ public class MessageUtil {
     }
 
     public static String getNewMessageID() {
-       
+
         return MSG_ID_PREFIX + System.currentTimeMillis() + getNextSequence();
-        
+
     }
-    
+
     public static long getNextSequence() {
-        
+
         synchronized (syncObj) {
-            
+
             if (sequence == Long.MAX_VALUE) {
                 sequence = 0;
             }
-            
-            sequence ++;
+
+            sequence++;
         }
-        
+
         return sequence;
-        
+
     }
 
     /*
-    private static String getTimestamp(String mid) {
-        int index = mid.lastIndexOf('-') + 1;
-
-        String ts = mid.substring(index);
-
-        return ts;
-    }
-    */
+     * private static String getTimestamp(String mid) { int index = mid.lastIndexOf('-') + 1;
+     * 
+     * String ts = mid.substring(index);
+     * 
+     * return ts; }
+     */
 }

@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
@@ -35,35 +35,37 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 
 public interface ConsumerSpi {
 
-	public Object getAndFillNextPacket(Packet p);
+    public Object getAndFillNextPacket(Packet p);
 
     public void attachToSession(SessionUID uid);
 
     public Object removeEventListener(Object id);
 
-    public Object addEventListener(
-        EventListener listener, EventType type, Object userData)
-        throws UnsupportedOperationException;
+    public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException;
 
-    public int getPrefetch(); 
+    public int getPrefetch();
 
     public ConsumerUID getConsumerUID();
+
     public ConsumerUID getStoredConsumerUID();
+
     public DestinationUID getDestinationUID();
+
     public ConnectionUID getConnectionUID();
 
-    public void resumeFlow(int v); 
+    public void resumeFlow(int v);
 
     public DestinationSpi getFirstDestination();
 
-	public void pause(String reason); 
-	public void resume(String reason); 
+    public void pause(String reason);
+
+    public void resume(String reason);
 
     public void setPrefetch(int count, boolean useConsumerFlowControl);
 
     public void attachToConnection(ConnectionUID uid);
 
-    public void debug(String prefix); 
+    public void debug(String prefix);
 
     public void dump(String prefix);
 

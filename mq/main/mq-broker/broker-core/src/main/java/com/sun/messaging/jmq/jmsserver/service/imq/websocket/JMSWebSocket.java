@@ -39,7 +39,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyMQPacketList;
 
-
 /**
  * @author amyk
  */
@@ -48,37 +47,33 @@ public class JMSWebSocket extends MQWebSocket {
     private Object packetLock = new Object();
     private Packet packetPending = null;
 
-    public JMSWebSocket(MQWebSocketServiceApp app, 
-                       ProtocolHandler protocolHandler,
-                       HttpRequestPacket request,
-                       WebSocketListener... listeners) {
+    public JMSWebSocket(MQWebSocketServiceApp app, ProtocolHandler protocolHandler, HttpRequestPacket request, WebSocketListener... listeners) {
         super(app, protocolHandler, request, listeners);
     }
 
     @Override
     protected void writePacket(Packet pkt) throws IOException {
         if (!isConnected()) {
-            throw new IOException("JMSWebSocket@"+hashCode()+" is not connected"); 
+            throw new IOException("JMSWebSocket@" + hashCode() + " is not connected");
         }
         if (DEBUG) {
-            logger.log(logger.INFO, Thread.currentThread()+"JMSWebSocket@"+hashCode()+": WRITE PACKET="+pkt);
+            logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + ": WRITE PACKET=" + pkt);
         }
 
         pkt.writePacket(new ByteBufferOutput() {
             public void writeByteBuffer(ByteBuffer data) throws IOException {
-                throw new IOException("Unexpected call", 
-                    new UnsupportedOperationException("writeByteBuffer(ByteBuffer)"));
+                throw new IOException("Unexpected call", new UnsupportedOperationException("writeByteBuffer(ByteBuffer)"));
             }
+
             public void writeBytes(byte[] data) throws IOException {
                 if (DEBUG) {
-                    logger.log(logger.INFO, Thread.currentThread()+"JMSWebSocket@"+hashCode()+
-                    ": writeBytes(data.len="+data.length+")");
+                    logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + ": writeBytes(data.len=" + data.length + ")");
                 }
                 send(data);
             }
-            }, false);
+        }, false);
         if (DEBUG) {
-            logger.log(logger.INFO, Thread.currentThread()+"JMSWebSocket@"+hashCode()+": SENT PACKET="+pkt);
+            logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + ": SENT PACKET=" + pkt);
         }
     }
 
@@ -96,14 +91,13 @@ public class JMSWebSocket extends MQWebSocket {
     private void processData(ByteBuffer buf) throws IOException {
 
         if (DEBUG) {
-            logger.log(Logger.INFO, 
-                Thread.currentThread()+" processData:buf.remaining="+buf.remaining());
+            logger.log(Logger.INFO, Thread.currentThread() + " processData:buf.remaining=" + buf.remaining());
         }
 
         List<Packet> packetList = null;
 
-	while (buf.hasRemaining()) {
-            synchronized(packetLock) {
+        while (buf.hasRemaining()) {
+            synchronized (packetLock) {
                 if (packetPending != null) {
                     try {
                         if (packetPending.readPacket(buf)) {
@@ -111,29 +105,26 @@ public class JMSWebSocket extends MQWebSocket {
                                 if (packetList == null) {
                                     packetList = new ArrayList<Packet>();
                                 }
-                                packetList.add(packetPending); 
+                                packetList.add(packetPending);
                                 if (DEBUG) {
-                                logger.log(logger.INFO, 
-                                    Thread.currentThread()+"JMSWebSocket@"+hashCode()+" processData(): READ pending PACKET="+
-                                     packetPending+", buf.remaining="+buf.remaining());
+                                    logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + " processData(): READ pending PACKET="
+                                            + packetPending + ", buf.remaining=" + buf.remaining());
                                 }
                             }
                             packetPending = null;
-                        }  
+                        }
                     } catch (BigPacketException e) {
-                        logger.log(logger.ERROR, Thread.currentThread()+"readPacket: "+e.getMessage(), e);
+                        logger.log(logger.ERROR, Thread.currentThread() + "readPacket: " + e.getMessage(), e);
                         WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
-                        conn.handleBigPacketException(packetPending, e); //XXopt close conn if too big
+                        conn.handleBigPacketException(packetPending, e); // XXopt close conn if too big
 
                     } catch (IllegalArgumentException e) {
                         WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
                         conn.handleIllegalArgumentExceptionPacket(packetPending, e);
 
-                    } catch (OutOfMemoryError err) { //XXopt close conn
-		        Globals.handleGlobalError(err,
-                            Globals.getBrokerResources().getKString(
-                            BrokerResources.M_LOW_MEMORY_READALLOC) + ": "
-                            +packetPending.headerToString());
+                    } catch (OutOfMemoryError err) { // XXopt close conn
+                        Globals.handleGlobalError(err,
+                                Globals.getBrokerResources().getKString(BrokerResources.M_LOW_MEMORY_READALLOC) + ": " + packetPending.headerToString());
                     }
                     continue;
                 }
@@ -150,32 +141,29 @@ public class JMSWebSocket extends MQWebSocket {
             try {
                 if (packet.readPacket(buf)) {
                     if (!packet.hasBigPacketException()) {
-                        packetList.add(packet); 
-                        if (DEBUG) { 
-                            logger.log(logger.INFO, Thread.currentThread()+
-                            "JMSWebSocket@"+hashCode()+" processData(): READ a PACKET="+packet);
+                        packetList.add(packet);
+                        if (DEBUG) {
+                            logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + " processData(): READ a PACKET=" + packet);
                         }
                     }
                 } else {
-                    synchronized(packetLock) {
+                    synchronized (packetLock) {
                         packetPending = packet;
                     }
                 }
             } catch (BigPacketException e) {
-                logger.log(logger.ERROR, "readPacket: "+e.getMessage(), e);
+                logger.log(logger.ERROR, "readPacket: " + e.getMessage(), e);
                 WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
-                conn.handleBigPacketException(packet, e); //XXopt close conn if too big
+                conn.handleBigPacketException(packet, e); // XXopt close conn if too big
 
             } catch (IllegalArgumentException e) {
-                logger.log(logger.ERROR, "readPacket: "+e.getMessage(), e);
-                 WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
-                 conn.handleIllegalArgumentExceptionPacket(packet, e);
+                logger.log(logger.ERROR, "readPacket: " + e.getMessage(), e);
+                WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
+                conn.handleIllegalArgumentExceptionPacket(packet, e);
 
-            } catch (OutOfMemoryError err) { //XXopt close conn
-		Globals.handleGlobalError(err,
-                        Globals.getBrokerResources().getKString(
-                        BrokerResources.M_LOW_MEMORY_READALLOC) + ": "
-                        + packet.headerToString());
+            } catch (OutOfMemoryError err) { // XXopt close conn
+                Globals.handleGlobalError(err,
+                        Globals.getBrokerResources().getKString(BrokerResources.M_LOW_MEMORY_READALLOC) + ": " + packet.headerToString());
             }
             continue;
         }
@@ -185,22 +173,20 @@ public class JMSWebSocket extends MQWebSocket {
             return;
         }
 
-	if (DEBUG) {
-            logger.log(logger.INFO,
-            "[JMSWebSocket@"+this.hashCode()+"]processData() after processed buf: remaining="+buf.remaining());
-	}
+        if (DEBUG) {
+            logger.log(logger.INFO, "[JMSWebSocket@" + this.hashCode() + "]processData() after processed buf: remaining=" + buf.remaining());
+        }
 
-	WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
+        WebSocketMQIPConnection conn = websocketApp.getMQIPConnection(this);
 
         for (int i = 0; i < packetList.size(); i++) {
-	    try {
-        	final Packet packet = packetList.get(i);
-        	conn.receivedPacket(packet);
-        	conn.readData();
-            } catch (BrokerException e) { //XXclean
-                Globals.getLogger().logStack(Logger.ERROR,
-        	"Failed to process packet from connection "+this, e);
-            } 
+            try {
+                final Packet packet = packetList.get(i);
+                conn.receivedPacket(packet);
+                conn.readData();
+            } catch (BrokerException e) { // XXclean
+                Globals.getLogger().logStack(Logger.ERROR, "Failed to process packet from connection " + this, e);
+            }
         }
         packetList.clear();
         packetList = null;

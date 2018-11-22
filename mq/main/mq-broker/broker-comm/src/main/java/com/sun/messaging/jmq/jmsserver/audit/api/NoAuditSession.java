@@ -29,39 +29,32 @@ public class NoAuditSession implements MQAuditSession {
 
     /**
      * Invoked post authentication.
-     * @param user	user who is being authenticated
+     * 
+     * @param user user who is being authenticated
      * @param remoteHost host the user connects from
-     * @param success	status of authentication
+     * @param success status of authentication
      */
     public void authentication(String user, String host, boolean success) {
     }
 
     /**
-     * Invoked for the following events:
-     *   broker startup
-     *   broker shutdown
-     *   broker restart
-     *   remove instance
+     * Invoked for the following events: broker startup broker shutdown broker restart remove instance
      */
     public void brokerOperation(String user, String host, String op) {
     }
 
-    public void connectionAuth(String user, String host, String type,
-                               String name, boolean success) {
+    public void connectionAuth(String user, String host, String type, String name, boolean success) {
     }
 
-    public void destinationAuth(String user, String host, String type,
-                                String name, String op, boolean success) {
+    public void destinationAuth(String user, String host, String type, String name, String op, boolean success) {
     }
 
     public void storeOperation(String user, String host, String op) {
     }
 
-    public void destinationOperation(
-	String user, String host, String op, String type, String name) {
+    public void destinationOperation(String user, String host, String op, String type, String name) {
     }
 
-    public void durableSubscriberOperation(
-	String user, String host, String op, String name, String clientID) {
+    public void durableSubscriberOperation(String user, String host, String op, String name, String clientID) {
     }
 }

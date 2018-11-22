@@ -28,38 +28,38 @@ import com.sun.messaging.jmq.jmsclient.ConnectionHandler;
 import com.sun.messaging.jmq.jmsclient.Debug;
 
 public abstract class SocketConnectionHandler implements ConnectionHandler {
-	
-    //default buffer size - String for use with system property.
+
+    // default buffer size - String for use with system property.
     private static String defaultBufferSize = "2048";
-	
+
     private boolean debug = Debug.debug;
-	
+
     private InputStream is = null;
     private OutputStream os = null;
-    
-	protected abstract void closeSocket() throws IOException ;    
-	
-	public boolean isDirectMode(){
-		return false;
-	}
-	
-	public ReadWritePacket readPacket () throws IOException {
-		ReadWritePacket pkt = new ReadWritePacket();
-		pkt.readPacket(is);
-		return pkt;
-	}
-	
-	public void writePacket (ReadWritePacket pkt) throws IOException {
-		pkt.writePacket(os);
-	}
-	
-	public void configure(Properties configuration) throws IOException {
-        //for output stream
-        String prop = getProperty(configuration,"imqOutputBuffer", "true");
+
+    protected abstract void closeSocket() throws IOException;
+
+    public boolean isDirectMode() {
+        return false;
+    }
+
+    public ReadWritePacket readPacket() throws IOException {
+        ReadWritePacket pkt = new ReadWritePacket();
+        pkt.readPacket(is);
+        return pkt;
+    }
+
+    public void writePacket(ReadWritePacket pkt) throws IOException {
+        pkt.writePacket(os);
+    }
+
+    public void configure(Properties configuration) throws IOException {
+        // for output stream
+        String prop = getProperty(configuration, "imqOutputBuffer", "true");
         if (prop.equals("true")) {
-            String bufsize = getProperty(configuration,"imqOutputBufferSize", defaultBufferSize);
+            String bufsize = getProperty(configuration, "imqOutputBufferSize", defaultBufferSize);
             int outSize = Integer.parseInt(bufsize);
-            os = new BufferedOutputStream (getOutputStream(), outSize);
+            os = new BufferedOutputStream(getOutputStream(), outSize);
             if (debug) {
                 Debug.println("buffered output stream, buffer size: " + outSize);
             }
@@ -68,13 +68,12 @@ public abstract class SocketConnectionHandler implements ConnectionHandler {
             os = getOutputStream();
         }
 
-        //for input stream
-        prop = getProperty(configuration,"imqInputBuffer", "true");
+        // for input stream
+        prop = getProperty(configuration, "imqInputBuffer", "true");
         if (prop.equals("true")) {
-            String bufsize = getProperty(configuration,"imqInputBufferSize",
-                "2048");
+            String bufsize = getProperty(configuration, "imqInputBufferSize", "2048");
             int inSize = Integer.parseInt(bufsize);
-            is = new BufferedInputStream (getInputStream(), inSize);
+            is = new BufferedInputStream(getInputStream(), inSize);
 
             if (debug) {
                 Debug.println("buffered input stream, buffer size: " + inSize);
@@ -82,37 +81,33 @@ public abstract class SocketConnectionHandler implements ConnectionHandler {
         } else {
             is = getInputStream();
         }
-	}
-	
+    }
+
     /**
-     * Returns a configuration property.
-     * Uses a System property if non-existant and a default if
-     * the System property doesn't exist.
+     * Returns a configuration property. Uses a System property if non-existant and a default if the System property doesn't
+     * exist.
      *
      * @param propname The key with which to retreive the property value.
      * @param propdefault The default value to be returned.
      *
-     * @return The property value of the property key <code>propname</code>
-     *         If the key <code>propname</code> does not exist, then if a System
-     *         property named <code>propname</code> exists, return that, otherwise
-     *         return the value <code>propdefault</code>.
+     * @return The property value of the property key <code>propname</code> If the key <code>propname</code> does not exist,
+     * then if a System property named <code>propname</code> exists, return that, otherwise return the value
+     * <code>propdefault</code>.
      */
     private String getProperty(Properties configuration, String propname, String propdefault) {
-        String propval = (String)configuration.get(propname);
+        String propval = (String) configuration.get(propname);
         if (propval == null) {
-            propval = System.getProperty(propname) ;
+            propval = System.getProperty(propname);
         }
         return (propval == null ? propdefault : propval);
-    }	
-	
-	public void close() throws IOException {
+    }
 
-	    	getInputStream().close();
-	    	is.close();
-	    	os.close();
-	    	closeSocket();
-	}
+    public void close() throws IOException {
 
+        getInputStream().close();
+        is.close();
+        os.close();
+        closeSocket();
+    }
 
 }
-

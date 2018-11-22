@@ -30,7 +30,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /**
- * @author amyk 
+ * @author amyk
  */
 public class StompFrameMessageImpl extends StompFrameMessage {
 
@@ -39,7 +39,7 @@ public class StompFrameMessageImpl extends StompFrameMessage {
 
     private static final StompFrameMessageFactory factory = new StompFrameMessageFactoryImpl();
 
-    static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory { 
+    static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory {
         public StompFrameMessage newStompFrameMessage(Command cmd, LoggerWrapper logger) {
             return new StompFrameMessageImpl(cmd, logger);
         }
@@ -51,20 +51,19 @@ public class StompFrameMessageImpl extends StompFrameMessage {
 
     protected StompFrameMessageImpl(Command cmd, LoggerWrapper logger) {
         super(cmd, logger);
-    } 
+    }
 
     public static StompFrameMessageImpl parseCommand(Buffer buf) throws Exception {
-        return (StompFrameMessageImpl)StompFrameMessage.parseCommand(
-                new ByteBufferWrapperImpl(buf), logger, factory);
+        return (StompFrameMessageImpl) StompFrameMessage.parseCommand(new ByteBufferWrapperImpl(buf), logger, factory);
     }
-         
+
     public void parseHeader(Buffer buf) throws Exception {
         super.parseHeader(new ByteBufferWrapperImpl(buf));
     }
 
     public void readBody(Buffer buf) throws Exception {
         super.readBody(new ByteBufferWrapperImpl(buf));
-    } 
+    }
 
     public void readNULL(Buffer buf) throws Exception {
         super.readNULL(new ByteBufferWrapperImpl(buf));
@@ -72,13 +71,13 @@ public class StompFrameMessageImpl extends StompFrameMessage {
 
     @Override
     protected OutputStream newBufferOutputStream(Object obj) throws IOException {
-        MemoryManager mm = (MemoryManager)obj;
+        MemoryManager mm = (MemoryManager) obj;
         return new BufferOutputStream(mm);
     }
 
     @Override
     protected ByteBufferWrapper getBuffer(OutputStream os) throws IOException {
-        BufferOutputStream bos = (BufferOutputStream)os;
+        BufferOutputStream bos = (BufferOutputStream) os;
         return new ByteBufferWrapperImpl(bos.getBuffer());
     }
 
@@ -86,41 +85,49 @@ public class StompFrameMessageImpl extends StompFrameMessage {
     protected String getKStringX_CANNOT_PARSE_BODY_TO_TEXT(String cmd, String emsg) {
         return br.getKString(br.X_STOMP_CANNOT_PARSE_BODY_TO_TEXT, cmd, emsg);
     }
+
     @Override
     protected String getKStringX_HEADER_NOT_SPECIFIED_FOR(String headerName, String cmd) {
         return br.getKString(br.X_STOMP_HEADER_NOT_SPECIFIED_FOR, headerName, cmd);
     }
+
     @Override
     protected String getKStringX_INVALID_HEADER_VALUE(String headerValue, String cmd) {
         return br.getKString(br.X_STOMP_INVALID_HEADER_VALUE, headerValue, cmd);
     }
+
     @Override
     protected String getKStringX_INVALID_HEADER(String headerName) {
         return br.getKString(br.X_STOMP_INVALID_HEADER, headerName);
     }
+
     @Override
     protected String getKStringX_MAX_HEADERS_EXCEEDED(int maxHeaders) {
         return br.getKString(br.X_STOMP_MAX_HEADERS_EXCEEDED, maxHeaders);
     }
+
     @Override
     protected String getKStringX_EXCEPTION_PARSE_HEADER(String headerName, String emsg) {
         return br.getKString(br.X_STOMP_EXCEPTION_PARSE_HEADER, headerName, emsg);
     }
+
     @Override
     protected String getKStringX_NO_NULL_TERMINATOR(String contentlen) {
         return br.getKString(br.X_STOMP_NO_NULL_TERMINATOR, contentlen);
     }
+
     @Override
     protected String getKStringX_UNKNOWN_STOMP_CMD(String cmd) {
         return br.getKString(br.X_STOMP_UNKNOWN_CMD, cmd);
     }
+
     @Override
     protected String getKStringX_MAX_LINELEN_EXCEEDED(int maxbytes) {
         return br.getKString(br.X_STOMP_MAX_LINELEN_EXCEEDED, maxbytes);
     }
 
     private static class ByteBufferWrapperImpl implements ByteBufferWrapper<Buffer> {
-        private Buffer buf =  null;
+        private Buffer buf = null;
 
         public ByteBufferWrapperImpl(Buffer buf) {
             this.buf = buf;
@@ -157,4 +164,3 @@ public class StompFrameMessageImpl extends StompFrameMessage {
         }
     }
 }
-

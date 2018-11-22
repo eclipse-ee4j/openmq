@@ -16,7 +16,7 @@
 
 /*
  * @(#)GroupRunnable.java	1.10 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
@@ -28,16 +28,13 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-
-public class GroupRunnable extends BasicRunnable
-{
+public class GroupRunnable extends BasicRunnable {
 
     SelectThread selthr = null;
     protected int ioevents = 0;
     Object threadUpdateLock = new Object();
 
     boolean paused = false;
-
 
     public GroupRunnable(int id, ThreadPool pool) {
         super(id, pool);
@@ -53,16 +50,11 @@ public class GroupRunnable extends BasicRunnable
         return ht;
     }
 
-    public  void assignThread(SelectThread selthr, int events) 
-        throws IOException
-    {
+    public void assignThread(SelectThread selthr, int events) throws IOException {
         synchronized (threadUpdateLock) {
             if (this.selthr != null) {
-                throw new IOException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    "Error trying to assign " + selthr + 
-                     " to  group runnable " + this));
+                throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION,
+                        "Error trying to assign " + selthr + " to  group runnable " + this));
             }
             this.selthr = selthr;
             selthr.assign(this);
@@ -71,12 +63,9 @@ public class GroupRunnable extends BasicRunnable
         }
     }
 
-
     public String toString() {
-         return "GroupRun[id ="+ id + ", ioevents=" + ioevents 
-                    + ", behavior=" +behaviorToString(behavior)
-                    + ", selthr={" + selthr + "}, state=" 
-                    + stateToString(state) + "]";
+        return "GroupRun[id =" + id + ", ioevents=" + ioevents + ", behavior=" + behaviorToString(behavior) + ", selthr={" + selthr + "}, state="
+                + stateToString(state) + "]";
     }
 
     public void freeThread() {
@@ -103,11 +92,7 @@ public class GroupRunnable extends BasicRunnable
         }
     }
 
-
-
-    protected void process() 
-        throws IOException
-    {
+    protected void process() throws IOException {
         boolean OK = false;
 
         synchronized (this) {
@@ -132,27 +117,22 @@ public class GroupRunnable extends BasicRunnable
             // SO ... if we get a null pointer exception .. just ignore
             // it and exit the thread ... its what we want to do anyway
             if (selthr != null && selthr.isValid())
-                logger.logStack(Logger.WARNING,
-                        BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                        selthr.getSelector().toString(), ex);
+                logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, selthr.getSelector().toString(), ex);
             err = ex;
         } catch (IOException ex) {
             // ignore, its OK
             OK = true;
             err = ex;
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING,
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, ex);
             err = ex;
         } finally {
             if (!OK) {
                 if (err != null)
-                    logger.logStack(Logger.WARNING,"got an unexpected error " + err + " freeing thread " + this, err);
+                    logger.logStack(Logger.WARNING, "got an unexpected error " + err + " freeing thread " + this, err);
                 freeThread();
             }
         }
     }
-    
+
 }
-
-

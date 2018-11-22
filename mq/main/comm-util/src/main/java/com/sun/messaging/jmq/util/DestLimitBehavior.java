@@ -16,20 +16,17 @@
 
 /*
  * @(#)DestLimitBehavior.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-
 /**
- * Limiting behavior used by the destination when it 
- * becomes full.
+ * Limiting behavior used by the destination when it becomes full.
  * <P>
  * <B>XXX</B> How should serialization be handled.
  */
 
-public class DestLimitBehavior 
-{
+public class DestLimitBehavior {
     public static final int UNKNOWN = -1;
     public static final int FLOW_CONTROL = 0;
     public static final int REMOVE_OLDEST = 1;
@@ -37,32 +34,30 @@ public class DestLimitBehavior
     public static final int REMOVE_LOW_PRIORITY = 3;
 
     public static int getStateFromString(String str) {
-        if (str.equals("FLOW_CONTROL")) 
+        if (str.equals("FLOW_CONTROL"))
             return FLOW_CONTROL;
-        if (str.equals("REMOVE_OLDEST")) 
+        if (str.equals("REMOVE_OLDEST"))
             return REMOVE_OLDEST;
-        if (str.equals("REJECT_NEWEST") )
+        if (str.equals("REJECT_NEWEST"))
             return REJECT_NEWEST;
-        if (str.equals("REMOVE_LOW_PRIORITY")) 
+        if (str.equals("REMOVE_LOW_PRIORITY"))
             return REMOVE_LOW_PRIORITY;
         return UNKNOWN;
     }
 
-
-    public static String getString(int state)
-    {
+    public static String getString(int state) {
         switch (state) {
-            case FLOW_CONTROL:
-                return "FLOW_CONTROL";
+        case FLOW_CONTROL:
+            return "FLOW_CONTROL";
 
-            case REMOVE_OLDEST:
-                return "REMOVE_OLDEST";
+        case REMOVE_OLDEST:
+            return "REMOVE_OLDEST";
 
-            case REJECT_NEWEST:
-                return "REJECT_NEWEST";
+        case REJECT_NEWEST:
+            return "REJECT_NEWEST";
 
-            case REMOVE_LOW_PRIORITY:
-                return "REMOVE_LOW_PRIORITY";
+        case REMOVE_LOW_PRIORITY:
+            return "REMOVE_LOW_PRIORITY";
 
         }
         return "UNKNOWN";

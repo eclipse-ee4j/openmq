@@ -16,7 +16,7 @@
 
 /*
  * @(#)KeystoreUtil.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.tlsutil;
 
@@ -41,10 +41,8 @@ import com.sun.messaging.jmq.util.StringUtil;
 import com.sun.messaging.jmq.util.Password;
 
 public class KeystoreUtil implements SSLPropertyMap {
-    public final static String
-        KEYSTORE_DIR_PROP          = Globals.IMQ + ".keystore.file.dirpath",
-        KEYSTORE_FILE_PROP         = Globals.IMQ + ".keystore.file.name",
-        KEYSTORE_PASSWORD_PROP     = Globals.IMQ + ".keystore.password";
+    public final static String KEYSTORE_DIR_PROP = Globals.IMQ + ".keystore.file.dirpath", KEYSTORE_FILE_PROP = Globals.IMQ + ".keystore.file.name",
+            KEYSTORE_PASSWORD_PROP = Globals.IMQ + ".keystore.password";
 
     private static String keystore_location = null;
     private static String pass_phrase = null;
@@ -57,16 +55,16 @@ public class KeystoreUtil implements SSLPropertyMap {
     }
 
     public static String getKeystoreLocation() throws IOException {
-	if (keystore_location == null)  {
-	    BrokerConfig bcfg;
-	    bcfg = Globals.getConfig();	    	    
+        if (keystore_location == null) {
+            BrokerConfig bcfg;
+            bcfg = Globals.getConfig();
 
-            // Get Keystore Location and  Passphrase here .....
-	    
+            // Get Keystore Location and Passphrase here .....
+
             String dir, file, value, pf_dir, pf_file, pf_value, file_sep;
-	    
+
             file_sep = System.getProperty("file.separator");
-	    
+
             // Get Keystore location by getting the directory and the name
             // of the keystore file.
 
@@ -74,41 +72,35 @@ public class KeystoreUtil implements SSLPropertyMap {
                 value = StringUtil.expandVariables(value, bcfg);
                 dir = value;
             } else {
-                dir = bcfg.getProperty(Globals.IMQ + ".varhome") +
-                file_sep + "security";
+                dir = bcfg.getProperty(Globals.IMQ + ".varhome") + file_sep + "security";
             }
-	    
-            keystore_location = dir + file_sep
-			+ bcfg.getProperty(KEYSTORE_FILE_PROP);
-	
-	}
 
-	return (keystore_location);
+            keystore_location = dir + file_sep + bcfg.getProperty(KEYSTORE_FILE_PROP);
+
+        }
+
+        return (keystore_location);
     }
 
     public static String getKeystorePassword() throws IOException {
-	if (pass_phrase == null)  {
-	    BrokerConfig bcfg;
-       	    Password pw = null;
+        if (pass_phrase == null) {
+            BrokerConfig bcfg;
+            Password pw = null;
 
-	    bcfg = Globals.getConfig();	    	    
+            bcfg = Globals.getConfig();
 
-            // Get Passphrase from property setting 
+            // Get Passphrase from property setting
             pass_phrase = bcfg.getProperty(KEYSTORE_PASSWORD_PROP);
             // if passphrase is null then get it thro' user interaction
             int retry = 0;
             pw = new Password();
             if (pw.echoPassword()) {
-                System.err.println(Globals.getBrokerResources().
-                    getString(BrokerResources.W_ECHO_PASSWORD));
+                System.err.println(Globals.getBrokerResources().getString(BrokerResources.W_ECHO_PASSWORD));
             }
-            while ((pass_phrase == null || pass_phrase.equals("")) &&
-                retry <= 5) {
+            while ((pass_phrase == null || pass_phrase.equals("")) && retry <= 5) {
 
-                System.err.print(br.getString(
-                    BrokerResources.M_ENTER_KEY_PWD,
-                    getKeystoreLocation()));
-                    System.err.flush();
+                System.err.print(br.getString(BrokerResources.M_ENTER_KEY_PWD, getKeystoreLocation()));
+                System.err.flush();
 
                 if (Broker.getBroker().background) {
                     // We're running in the background and can't
@@ -121,7 +113,7 @@ public class KeystoreUtil implements SSLPropertyMap {
                 }
 
                 pass_phrase = pw.getPassword();
-    
+
                 // Limit the number of times we try reading the passwd.
                 // If the VM is run in the background the readLine()
                 // will always return null and we'd get stuck
@@ -129,8 +121,8 @@ public class KeystoreUtil implements SSLPropertyMap {
                 retry++;
             }
         }
-	
-	return (pass_phrase);
+
+        return (pass_phrase);
     }
 
     public static final String KEYSTORE_FILE = "javax.net.ssl.keyStore";
@@ -152,48 +144,43 @@ public class KeystoreUtil implements SSLPropertyMap {
     /**
      * Get default SSLContext configuration properties
      */
-    public static Properties getDefaultSSLContextConfig(String caller,
-                                                        SSLPropertyMap pm) 
-                                                        throws Exception {
-        if (pm == null) pm = new KeystoreUtil();
+    public static Properties getDefaultSSLContextConfig(String caller, SSLPropertyMap pm) throws Exception {
+        if (pm == null)
+            pm = new KeystoreUtil();
 
         Properties props = new Properties();
         String keystoreloc = getKeystoreLocation();
         File kf = new File(keystoreloc);
         if (!kf.exists()) {
-            throw new IOException(Globals.getBrokerResources().getKString(
-                                  BrokerResources.E_KEYSTORE_NOT_EXIST, keystoreloc));
+            throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystoreloc));
         }
         props.setProperty(pm.mapSSLProperty(KEYSTORE_FILE), keystoreloc);
         props.setProperty(pm.mapSSLProperty(TRUSTSTORE_FILE), keystoreloc);
 
         String keystorepwd = getKeystorePassword();
         if (keystorepwd == null) {
-            throw new IOException(Globals.getBrokerResources().getKString(
-                                  BrokerResources.E_PASS_PHRASE_NULL));
+            throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.E_PASS_PHRASE_NULL));
         }
         props.setProperty(pm.mapSSLProperty(KEYSTORE_PASSWORD), keystorepwd);
         props.setProperty(pm.mapSSLProperty(TRUSTSTORE_PASSWORD), keystorepwd);
         props.setProperty(pm.mapSSLProperty(KEYSTORE_TYPE), "JKS");
         props.setProperty(pm.mapSSLProperty(TRUSTSTORE_TYPE), "JKS");
 
-        String alg = "SunX509"; 
+        String alg = "SunX509";
         try {
-             KeyManagerFactory.getInstance("SunX509");
+            KeyManagerFactory.getInstance("SunX509");
         } catch (NoSuchAlgorithmException e) {
             alg = KeyManagerFactory.getDefaultAlgorithm();
-            Globals.getLogger().log(Globals.getLogger().INFO, caller+":"+e.getMessage()+
-                                ", use default KeyManagerFactory algorithm "+alg);
+            Globals.getLogger().log(Globals.getLogger().INFO, caller + ":" + e.getMessage() + ", use default KeyManagerFactory algorithm " + alg);
         }
         props.setProperty(pm.mapSSLProperty(KEYSTORE_ALGORITHM), alg);
 
         alg = "SunX509";
         try {
-             TrustManagerFactory.getInstance("SunX509");
+            TrustManagerFactory.getInstance("SunX509");
         } catch (NoSuchAlgorithmException e) {
-             alg = TrustManagerFactory.getDefaultAlgorithm();
-             Globals.getLogger().log(Globals.getLogger().INFO, caller+":"+e.getMessage()+
-                                 ", use default TrustManagerFactory algorithm "+alg);
+            alg = TrustManagerFactory.getDefaultAlgorithm();
+            Globals.getLogger().log(Globals.getLogger().INFO, caller + ":" + e.getMessage() + ", use default TrustManagerFactory algorithm " + alg);
         }
         props.setProperty(pm.mapSSLProperty(TRUSTSTORE_ALGORITHM), alg);
 
@@ -202,18 +189,14 @@ public class KeystoreUtil implements SSLPropertyMap {
         return props;
     }
 
-    private static SSLContext getDefaultSSLContext(
-        String caller, boolean trustAll)
-        throws Exception {
+    private static SSLContext getDefaultSSLContext(String caller, boolean trustAll) throws Exception {
 
         KeyStore ks = null;
         KeyManagerFactory kmf = null;
         if (!trustAll) {
             String keystorepwd = getKeystorePassword();
             if (keystorepwd == null) {
-                throw new IOException(
-                    Globals.getBrokerResources().getKString(
-                    BrokerResources.E_PASS_PHRASE_NULL));
+                throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.E_PASS_PHRASE_NULL));
             }
             char[] keystorepwdc = keystorepwd.toCharArray();
             ks = getKeyStore(keystorepwdc);
@@ -227,8 +210,7 @@ public class KeystoreUtil implements SSLPropertyMap {
                 tmf = TrustManagerFactory.getInstance("SunX509");
             } catch (NoSuchAlgorithmException e) {
                 String alg = TrustManagerFactory.getDefaultAlgorithm();
-                Globals.getLogger().log(Globals.getLogger().INFO, caller+":"+e.getMessage()+
-                                    ", use default TrustManagerFactory algorithm "+alg);
+                Globals.getLogger().log(Globals.getLogger().INFO, caller + ":" + e.getMessage() + ", use default TrustManagerFactory algorithm " + alg);
                 tmf = TrustManagerFactory.getInstance(alg);
             }
             tmf.init(ks);
@@ -238,22 +220,21 @@ public class KeystoreUtil implements SSLPropertyMap {
             tm[0] = new DefaultTrustManager();
         }
 
-       SSLContext ctx = SSLContext.getInstance("TLS");
-       SecureRandom random = null;
-       if (!trustAll) {
-           random = SecureRandom.getInstance("SHA1PRNG");
-       }
-       ctx.init((kmf == null ? null:kmf.getKeyManagers()), tm, random);
+        SSLContext ctx = SSLContext.getInstance("TLS");
+        SecureRandom random = null;
+        if (!trustAll) {
+            random = SecureRandom.getInstance("SHA1PRNG");
+        }
+        ctx.init((kmf == null ? null : kmf.getKeyManagers()), tm, random);
 
-       return ctx;
+        return ctx;
     }
 
     private static KeyStore getKeyStore(char[] keystorepwdc) throws Exception {
         String keystoreloc = getKeystoreLocation();
         File kf = new File(keystoreloc);
         if (!kf.exists()) {
-            throw new IOException(Globals.getBrokerResources().getKString(
-                          BrokerResources.E_KEYSTORE_NOT_EXIST, keystoreloc));
+            throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystoreloc));
         }
         KeyStore ks = KeyStore.getInstance("JKS");
         FileInputStream is = new FileInputStream(keystoreloc);
@@ -261,23 +242,21 @@ public class KeystoreUtil implements SSLPropertyMap {
             ks.load(is, keystorepwdc);
         } finally {
             try {
-            is.close();
+                is.close();
             } catch (Exception e) {
-            /* ignore */
+                /* ignore */
             }
         }
         return ks;
     }
 
-    private static KeyManagerFactory getKeyManagerFactory(
-        KeyStore ks, char[] keystorepwdc, String caller) throws Exception {
+    private static KeyManagerFactory getKeyManagerFactory(KeyStore ks, char[] keystorepwdc, String caller) throws Exception {
         KeyManagerFactory kmf;
         try {
-             kmf = KeyManagerFactory.getInstance("SunX509");
+            kmf = KeyManagerFactory.getInstance("SunX509");
         } catch (NoSuchAlgorithmException e) {
             String alg = KeyManagerFactory.getDefaultAlgorithm();
-            Globals.getLogger().log(Globals.getLogger().INFO, caller+":"+e.getMessage()+
-                                    ", use default KeyManagerFactory algorithm "+alg);
+            Globals.getLogger().log(Globals.getLogger().INFO, caller + ":" + e.getMessage() + ", use default KeyManagerFactory algorithm " + alg);
             kmf = KeyManagerFactory.getInstance(alg);
         }
         kmf.init(ks, keystorepwdc);
@@ -289,7 +268,8 @@ public class KeystoreUtil implements SSLPropertyMap {
             SSLContext sc = getDefaultSSLContext(caller, true);
             SSLEngine se = sc.createSSLEngine();
             return se.getEnabledProtocols();
-        } catch (Exception e) {}
-        return new String[]{"TLSv1"};
+        } catch (Exception e) {
+        }
+        return new String[] { "TLSv1" };
     }
 }

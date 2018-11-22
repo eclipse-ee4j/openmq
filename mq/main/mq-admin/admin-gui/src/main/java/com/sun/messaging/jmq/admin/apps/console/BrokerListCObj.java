@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerListCObj.java	1.20 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -28,77 +28,74 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to the list of brokers.
+/**
+ * This class is used in the JMQ Administration console to store information related to the list of brokers.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerListCObj extends BrokerAdminCObj  {
+public class BrokerListCObj extends BrokerAdminCObj {
 
     private transient ConsoleBrokerAdminManager baMgr = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     private String label;
 
-    public BrokerListCObj(ConsoleBrokerAdminManager baMgr)  {
+    public BrokerListCObj(ConsoleBrokerAdminManager baMgr) {
         this.baMgr = baMgr;
-	label = acr.getString(acr.I_BROKER_LIST); 
+        label = acr.getString(acr.I_BROKER_LIST);
     }
 
     public ConsoleBrokerAdminManager getBrokerAdminManager() {
         return (baMgr);
     }
 
-    public String getExplorerLabel()  {
-	return (label);
+    public String getExplorerLabel() {
+        return (label);
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_LIST]);
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_LIST]);
     }
 
-    public String getActionLabel(int actionFlag, boolean forMenu)  {
-	if (forMenu)  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_MENU_ADD_BROKER));
-	    }
-	} else  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_ADD_BROKER));
-	    }
-	}
+    public String getActionLabel(int actionFlag, boolean forMenu) {
+        if (forMenu) {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_MENU_ADD_BROKER));
+            }
+        } else {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_ADD_BROKER));
+            }
+        }
 
-	return (null);
+        return (null);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
-	return (ActionManager.ADD);
+    public int getActiveActions() {
+        return (ActionManager.ADD);
     }
 
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".BrokerListInspector");
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".BrokerListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return ("Broker List");
+    public String getInspectorPanelId() {
+        return ("Broker List");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

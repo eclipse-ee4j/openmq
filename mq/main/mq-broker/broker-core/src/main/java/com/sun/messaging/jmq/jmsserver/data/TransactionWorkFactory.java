@@ -20,35 +20,31 @@ import java.io.IOException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TransactionWorkFactory {
-	
-	
-	
-	
-	static public BaseTransaction readFromBytes(byte[] data) throws IOException,BrokerException
-	{
-		
-		BaseTransaction result = null;
-		byte type = data[0];
-		result = create(type);
-		result.readFromBytes(data);						
-		return result;		
-	}
-	
-	static BaseTransaction create(byte type) {
-		BaseTransaction result = null;
-		switch (type) {
-                default:
-		case BaseTransaction.LOCAL_TRANSACTION_TYPE:
-			result = new LocalTransaction();
-			break;
-		case BaseTransaction.CLUSTER_TRANSACTION_TYPE:
-			result = new ClusterTransaction();
-			break;
-		case BaseTransaction.REMOTE_TRANSACTION_TYPE:
-			result = new RemoteTransaction();
-			break;
-		}
-		return result;
-	}
+
+    static public BaseTransaction readFromBytes(byte[] data) throws IOException, BrokerException {
+
+        BaseTransaction result = null;
+        byte type = data[0];
+        result = create(type);
+        result.readFromBytes(data);
+        return result;
+    }
+
+    static BaseTransaction create(byte type) {
+        BaseTransaction result = null;
+        switch (type) {
+        default:
+        case BaseTransaction.LOCAL_TRANSACTION_TYPE:
+            result = new LocalTransaction();
+            break;
+        case BaseTransaction.CLUSTER_TRANSACTION_TYPE:
+            result = new ClusterTransaction();
+            break;
+        case BaseTransaction.REMOTE_TRANSACTION_TYPE:
+            result = new RemoteTransaction();
+            break;
+        }
+        return result;
+    }
 
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionReconnectFailedEvent.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
@@ -25,56 +25,47 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 import javax.jms.JMSException;
 
 /**
- * MQ Connection Reconnect Failed Event is generated and delivered to the
- * event listener if a MQ reconnect failed and an event listener is
- * set to the MQ connection.
+ * MQ Connection Reconnect Failed Event is generated and delivered to the event listener if a MQ reconnect failed and an
+ * event listener is set to the MQ connection.
  * <p>
- * The application can also obtain the current broker's address from the API
- * defined in the ConnectionEvent.
+ * The application can also obtain the current broker's address from the API defined in the ConnectionEvent.
  */
 public class ConnectionReconnectFailedEvent extends ConnectionEvent {
 
     // if there is any exception that caused the connection to be closed,
-    //it is set to this event.
+    // it is set to this event.
     private JMSException exception = null;
 
     /**
      * Connection reconnect failed event code.
      */
-    public static final String CONNECTION_RECONNECT_FAILED =
-                  ClientResources.E_CONNECTION_RECONNECT_FAILED;
+    public static final String CONNECTION_RECONNECT_FAILED = ClientResources.E_CONNECTION_RECONNECT_FAILED;
 
     /**
-     * Connection reconnect failed event code - reconnect to the
-     * same broker failed.
+     * Connection reconnect failed event code - reconnect to the same broker failed.
      */
-    //public static final String CONNECTION_RECONNECT_FAILED_SAME_BROKER =
-    //              ClientResources.E_CONNECTION_RECONNECT_FAILED_SAME_BROKER;
+    // public static final String CONNECTION_RECONNECT_FAILED_SAME_BROKER =
+    // ClientResources.E_CONNECTION_RECONNECT_FAILED_SAME_BROKER;
 
     /**
-     * Connection reconnect event code - reconnect to a different
-     * broker failed.
+     * Connection reconnect event code - reconnect to a different broker failed.
      */
-    //public static final String CONNECTION_RECONNECT_FAILED_DIFF_BROKER =
-    //              ClientResources.E_CONNECTION_RECONNECT_FAILED_DIFF_BROKER;
+    // public static final String CONNECTION_RECONNECT_FAILED_DIFF_BROKER =
+    // ClientResources.E_CONNECTION_RECONNECT_FAILED_DIFF_BROKER;
 
     /**
-     * Construct a connection reconnect failed event associated with the
-     * specified connection.
+     * Construct a connection reconnect failed event associated with the specified connection.
      *
-     * @param conn the connection associated with the reconnect event.
-     *             MQ may automatically reconnect to the same broker
-     *             or a different broker depends on the client runtime
-     *             configuration.
+     * @param conn the connection associated with the reconnect event. MQ may automatically reconnect to the same broker or
+     * a different broker depends on the client runtime configuration.
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
      * @param jmse the JMSException that caused this event.
-
+     * 
      */
-    public ConnectionReconnectFailedEvent
-    (Connection conn, String evCode, String evMessage, JMSException jmse) {
+    public ConnectionReconnectFailedEvent(Connection conn, String evCode, String evMessage, JMSException jmse) {
 
-        super (conn, evCode, evMessage);
+        super(conn, evCode, evMessage);
 
         this.exception = jmse;
     }
@@ -82,9 +73,8 @@ public class ConnectionReconnectFailedEvent extends ConnectionEvent {
     /**
      * Get the JMSException that caused the connection to be closed.
      *
-     * @return the JMSException that caused the connection to be closed.
-     *         return null if no JMSException associated with this event,
-     *         such as connection closed caused by admin requested shutdown.
+     * @return the JMSException that caused the connection to be closed. return null if no JMSException associated with this
+     * event, such as connection closed caused by admin requested shutdown.
      */
     public JMSException getJMSException() {
         return exception;

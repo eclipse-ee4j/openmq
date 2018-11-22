@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQObjectInputStream.java	1.7 07/25/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api.util;
 
@@ -25,19 +25,16 @@ import java.io.*;
 import com.sun.messaging.jmq.util.io.ClassFilter;
 
 /**
- * A special subclasses of ObjectInputStream that is used for store migration.
- * This class allow us to deserialize an old object format by allowing us to
- * locate class file containing the definitions for the old object format that
- * has been moved to a different package.
+ * A special subclasses of ObjectInputStream that is used for store migration. This class allow us to deserialize an old
+ * object format by allowing us to locate class file containing the definitions for the old object format that has been
+ * moved to a different package.
  *
- * As an example, we want to change the TransactionUID class, which would make
- * it incompatible with the serialized version in the old store. First, we
- * moved the original version of the TransactionUID to another package, e.g.
- * com.sun.messaging.jmq.jmsserver.data.migration.TransactionUID. Next, we
- * create a new version of com.sun.messaging.jmq.jmsserver.data.TransactionUID
- * class. When loading the old serialized TransactionUID object, we use this
- * class to locate the class definition of the old TransactionUID which has
- * been moved to com.sun.messaging.jmq.jmsserver.data.migration.
+ * As an example, we want to change the TransactionUID class, which would make it incompatible with the serialized
+ * version in the old store. First, we moved the original version of the TransactionUID to another package, e.g.
+ * com.sun.messaging.jmq.jmsserver.data.migration.TransactionUID. Next, we create a new version of
+ * com.sun.messaging.jmq.jmsserver.data.TransactionUID class. When loading the old serialized TransactionUID object, we
+ * use this class to locate the class definition of the old TransactionUID which has been moved to
+ * com.sun.messaging.jmq.jmsserver.data.migration.
  */
 public class MQObjectInputStream extends ObjectInputStream {
 
@@ -46,15 +43,14 @@ public class MQObjectInputStream extends ObjectInputStream {
     }
 
     /**
-     * Overide the ObjectInputStream.resolveClass() to return the old class
-     * definition for serialized object prior to 3.7 release.
+     * Overide the ObjectInputStream.resolveClass() to return the old class definition for serialized object prior to 3.7
+     * release.
      */
-    protected Class resolveClass(ObjectStreamClass osc)
-        throws IOException, ClassNotFoundException {
+    protected Class resolveClass(ObjectStreamClass osc) throws IOException, ClassNotFoundException {
 
         String className = osc.getName();
         if (className != null && !className.isEmpty() && ClassFilter.isBlackListed(className)) {
-          throw new InvalidClassException("Unauthorized deserialization attempt", osc.getName());
+            throw new InvalidClassException("Unauthorized deserialization attempt", osc.getName());
         }
 
         Class clazz = null;
@@ -67,15 +63,15 @@ public class MQObjectInputStream extends ObjectInputStream {
                 clazz = Class.forName("com.sun.messaging.jmq.jmsserver.data.migration.TransactionAcknowledgement");
             }
         } else if (serialVersion == -6848527428749630176L) {
-                if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
+            if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
                 clazz = Class.forName("com.sun.messaging.jmq.jmsserver.data.migration.TransactionState");
             }
         } else if (serialVersion == 4438769866522991889L) {
-                if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
+            if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
                 clazz = Class.forName("com.sun.messaging.jmq.jmsserver.data.migration.thrasher2.TransactionState");
             }
         } else if (serialVersion == 4132677693277056907L) {
-                if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
+            if (name.equals("com.sun.messaging.jmq.jmsserver.data.TransactionState")) {
                 clazz = Class.forName("com.sun.messaging.jmq.jmsserver.data.migration.finch.TransactionState");
             }
         } else if (serialVersion == 3158474602500727000L) {

@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpsProtocol.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.https;
 
@@ -30,8 +30,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.net.http.HTTPProtocol;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-public class HttpsProtocol extends HTTPProtocol
-{
+public class HttpsProtocol extends HTTPProtocol {
 
     static private final String SERVLET_HOST_TRUSTED_PROP = "isHostTrusted";
 
@@ -44,8 +43,7 @@ public class HttpsProtocol extends HTTPProtocol
 
     @Override
     protected void createDriver() throws IOException {
-        String name = InetAddress.getLocalHost().getHostName() + ":" +
-            Globals.getConfigName();
+        String name = InetAddress.getLocalHost().getHostName() + ":" + Globals.getConfigName();
 
         if (servletHost != null || servletPort != -1) {
             String host = servletHost;
@@ -60,31 +58,24 @@ public class HttpsProtocol extends HTTPProtocol
             InetAddress saddr = InetAddress.getByName(host);
             InetAddress laddr = InetAddress.getByName("localhost");
 
-            if (port == Globals.getPortMapper().getPort() &&
-                (saddr.equals(paddr) || saddr.equals(laddr))) {
-                throw new IOException(Globals.getBrokerResources().getString(
-                    BrokerResources.X_HTTP_PORT_CONFLICT));
+            if (port == Globals.getPortMapper().getPort() && (saddr.equals(paddr) || saddr.equals(laddr))) {
+                throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_HTTP_PORT_CONFLICT));
             }
 
             try {
-                driver = (HttpTunnelServerDriver)
-                             Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
-            ((HttpsTunnelServerDriver)driver).init(name, host, 
-                         port, isServletHostTrusted, 
-                         Globals.getPoodleFixHTTPSEnabled());
+            ((HttpsTunnelServerDriver) driver).init(name, host, port, isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
             driver.start();
         } else {
             try {
-                driver = (HttpTunnelServerDriver)
-                             Class.forName(driverClass).newInstance();
+                driver = (HttpTunnelServerDriver) Class.forName(driverClass).newInstance();
             } catch (Exception e) {
                 throw new IOException(e.getMessage(), e);
             }
-            ((HttpsTunnelServerDriver)driver).init(name, 
-                isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
+            ((HttpsTunnelServerDriver) driver).init(name, isServletHostTrusted, Globals.getPoodleFixHTTPSEnabled());
             driver.start();
         }
 
@@ -100,12 +91,13 @@ public class HttpsProtocol extends HTTPProtocol
     public Map setParameters(Map params) {
 
         // check for SERVLET_HOST_TRUSTED_PROP
-        String propval = (String)params.get(SERVLET_HOST_TRUSTED_PROP);
+        String propval = (String) params.get(SERVLET_HOST_TRUSTED_PROP);
         if (propval != null) {
             try {
-            boolean value = Boolean.valueOf(propval).booleanValue();
-            isServletHostTrusted = value;
-            } catch (Exception ex) {}
+                boolean value = Boolean.valueOf(propval).booleanValue();
+                isServletHostTrusted = value;
+            } catch (Exception ex) {
+            }
         }
 
         return super.setParameters(params);

@@ -16,14 +16,13 @@
 
 /*
  * @(#)PropertyAlreadyExistsException.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * the property name that is about to be written already
- * exists in the Properties object.
+ * This exception is for reporting cases where the property name that is about to be written already exists in the
+ * Properties object.
  **/
 
 public class PropertyAlreadyExistsException extends OptionException {
@@ -31,13 +30,12 @@ public class PropertyAlreadyExistsException extends OptionException {
     String propName;
 
     /**
-     * Sets the property name causing the problem - because it alredy
-     * exists in the Properties object.
+     * Sets the property name causing the problem - because it alredy exists in the Properties object.
      *
-     * @param propName	The property name that already exists. 
+     * @param propName The property name that already exists.
      */
-    public void setPropertyName(String propName)  {
-	this.propName = propName;
+    public void setPropertyName(String propName) {
+        this.propName = propName;
     }
 
     /**
@@ -45,7 +43,7 @@ public class PropertyAlreadyExistsException extends OptionException {
      *
      * @return The property name causing the problem.
      */
-    public String getPropertyName()  {
-	return (propName);
+    public String getPropertyName() {
+        return (propName);
     }
 }

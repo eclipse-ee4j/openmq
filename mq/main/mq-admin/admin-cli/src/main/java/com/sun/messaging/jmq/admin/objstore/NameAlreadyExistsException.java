@@ -16,22 +16,21 @@
 
 /*
  * @(#)NameAlreadyExistsException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the name of the object
- * already exists in the store.
+ * This exception must be thrown when the name of the object already exists in the store.
  */
 
 public class NameAlreadyExistsException extends ObjStoreException {
 
     public NameAlreadyExistsException() {
-	super();
+        super();
     }
 
     public NameAlreadyExistsException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

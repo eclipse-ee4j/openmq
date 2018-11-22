@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.api.share;
 
@@ -28,13 +28,13 @@ import java.net.UnknownHostException;
 
 public interface HttpTunnelSocket {
 
-    public void init(String serverAddr) throws IOException; 
+    public void init(String serverAddr) throws IOException;
 
-    public InputStream getInputStream() throws IOException; 
+    public InputStream getInputStream() throws IOException;
 
     public OutputStream getOutputStream() throws IOException;
 
-    public void close() throws IOException; 
+    public void close() throws IOException;
 
     public int getConnId();
 
@@ -46,7 +46,7 @@ public interface HttpTunnelSocket {
 
     public int getConnectionTimeout();
 
-    public void setConnectionTimeout(int connectionTimeout) throws IOException; 
+    public void setConnectionTimeout(int connectionTimeout) throws IOException;
 
-    public Hashtable getDebugState(); 
+    public Hashtable getDebugState();
 }

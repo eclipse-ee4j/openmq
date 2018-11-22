@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAddress.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -27,16 +27,13 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 
 /**
- * This class encapsulates the broker address / identifier. The
- * implementation is specific to the broker topology.
+ * This class encapsulates the broker address / identifier. The implementation is specific to the broker topology.
  */
-public abstract class BrokerAddress 
-       implements Cloneable, Serializable {
+public abstract class BrokerAddress implements Cloneable, Serializable {
 
     static final long serialVersionUID = -8900410708742494160L;
 
     BrokerMQAddress address = null;
-
 
     public BrokerAddress() {
     }
@@ -45,28 +42,28 @@ public abstract class BrokerAddress
         return address;
     }
 
-    public void initialize(String host, int port)
-        throws MalformedURLException, UnknownHostException
-    {
+    public void initialize(String host, int port) throws MalformedURLException, UnknownHostException {
         address = BrokerMQAddress.createAddress(host, port);
     }
 
-    public void initialize(BrokerMQAddress ba)
-        throws MalformedURLException
-    {
-        address = ba; 
+    public void initialize(BrokerMQAddress ba) throws MalformedURLException {
+        address = ba;
     }
-        
 
     public int getClusterVersion() {
         return -1;
     }
 
     public abstract boolean getHAEnabled();
+
     public abstract String getBrokerID();
+
     public abstract UID getBrokerSessionUID();
+
     public abstract UID getStoreSessionUID();
+
     public abstract void setStoreSessionUID(UID uid);
+
     public abstract String getInstanceName();
 
     /**
@@ -75,8 +72,7 @@ public abstract class BrokerAddress
     public abstract Object clone();
 
     /**
-     * Makes a shallow copy of the BrokerAddress object using
-     * Object.clone().
+     * Makes a shallow copy of the BrokerAddress object using Object.clone().
      */
     protected Object getObjectClone() throws CloneNotSupportedException {
         return super.clone();
@@ -100,8 +96,7 @@ public abstract class BrokerAddress
     }
 
     /**
-     * Get the string representation with the syntax used
-     * in the configuration file.
+     * Get the string representation with the syntax used in the configuration file.
      */
     public String toConfigString() {
         return toString();
@@ -114,12 +109,10 @@ public abstract class BrokerAddress
 
     public abstract BrokerAddress fromProtocolString(String s) throws Exception;
 
-
     /**
      * Writes the broker address to a given <code> DataOutputStream </code>.
      */
-    public abstract void writeBrokerAddress(DataOutputStream dos)
-        throws IOException;
+    public abstract void writeBrokerAddress(DataOutputStream dos) throws IOException;
 
     /**
      * Writes the broker address to a given <code> OutputStream </code>.
@@ -132,14 +125,12 @@ public abstract class BrokerAddress
     /**
      * Reads the broker address from a given <code> DataInputStream </code>
      */
-    public abstract void readBrokerAddress(DataInputStream dis)
-        throws IOException;
+    public abstract void readBrokerAddress(DataInputStream dis) throws IOException;
 
     /**
      * Reads the broker address from a given <code> InputStream </code>
      */
-    public void readBrokerAddress(InputStream is)
-        throws IOException {
+    public void readBrokerAddress(InputStream is) throws IOException {
         DataInputStream dis = new DataInputStream(is);
         readBrokerAddress(dis);
     }

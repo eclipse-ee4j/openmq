@@ -16,7 +16,7 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.management;
 
@@ -24,16 +24,16 @@ import javax.net.ssl.X509TrustManager;
 import java.security.cert.X509Certificate;
 
 /**
- * The default trust manager.  
+ * The default trust manager.
  *
- * TBD: Need to describe *when* this class is used i.e. what JMX configuration
- * properties trigger it's use.
+ * TBD: Need to describe *when* this class is used i.e. what JMX configuration properties trigger it's use.
  *
- * <p>If this class is used, the client does not require to install/configure
- * server certificates because all server certs are accepted.
+ * <p>
+ * If this class is used, the client does not require to install/configure server certificates because all server certs
+ * are accepted.
  *
- * <p>This is useful for intra-net applications where servers are inside
- * firewall and are treated as trusted.
+ * <p>
+ * This is useful for intra-net applications where servers are inside firewall and are treated as trusted.
  */
 public class DefaultTrustManager implements X509TrustManager {
     private boolean debug = false;
@@ -42,7 +42,7 @@ public class DefaultTrustManager implements X509TrustManager {
     }
 
     public void checkServerTrusted(X509Certificate[] chain, String authType) {
-        if ( debug ) {
+        if (debug) {
             System.err.println("default trust manager is called to validate certs ...");
             System.err.println("returning 'true' for isServerTrusted call ...");
         }

@@ -28,80 +28,81 @@ import javax.jms.JMSException;
 
 public interface JMSAdminFactory {
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin() throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin() throws JMSException;
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @param secure Use secure transport
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin(boolean secure) throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @param secure Use secure transport
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin(boolean secure) throws JMSException;
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @param jmsAdminURL JMSAdmin URL
-	 * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
-	 * @param userName Administrator username
-	 * @param password Administrator password (needed for client connections and when starting broker if not specified in brokerProperties)
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException  thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String password)
-			throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @param jmsAdminURL JMSAdmin URL
+     * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
+     * @param userName Administrator username
+     * @param password Administrator password (needed for client connections and when starting broker if not specified in
+     * brokerProperties)
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String password) throws JMSException;
 
-	JMSAdmin getJMSAdmin(String jmsAdminURL, String userName, String password) throws JMSException;
+    JMSAdmin getJMSAdmin(String jmsAdminURL, String userName, String password) throws JMSException;
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @param jmsAdminURL JMSAdmin URL
-	 * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
-	 * @param userName Administrator username
-	 * @param password Administrator password (needed for client connections and when starting broker if not specified in brokerProperties)
-	 * @param secure Use secure transport
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String password,
-			boolean secure) throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @param jmsAdminURL JMSAdmin URL
+     * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
+     * @param userName Administrator username
+     * @param password Administrator password (needed for client connections and when starting broker if not specified in
+     * brokerProperties)
+     * @param secure Use secure transport
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String password, boolean secure) throws JMSException;
 
-	/**
-	 * 
-	 * @param jmsAdminURL JMSAdmin URL
-	 * @param userName Administrator username
-	 * @param password Administrator password (needed for client connections and when starting broker if not specified in brokerProperties)
-	 * @param secure Use secure transport
-	 * @return
-	 * @throws JMSException
-	 */
-	JMSAdmin getJMSAdmin(String jmsAdminURL, String userName, String password, boolean secure) throws JMSException;
+    /**
+     * 
+     * @param jmsAdminURL JMSAdmin URL
+     * @param userName Administrator username
+     * @param password Administrator password (needed for client connections and when starting broker if not specified in
+     * brokerProperties)
+     * @param secure Use secure transport
+     * @return
+     * @throws JMSException
+     */
+    JMSAdmin getJMSAdmin(String jmsAdminURL, String userName, String password, boolean secure) throws JMSException;
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @param jmsAdminURL JMSAdmin URL
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin(String jmsAdminURL) throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @param jmsAdminURL JMSAdmin URL
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin(String jmsAdminURL) throws JMSException;
 
-	/**
-	 * Create/return an instance implementing JMSAdmin.
-	 * 
-	 * @param jmsAdminURL JMSAdmin URL
-	 * @param secure Use secure transport.
-	 * @return Implementation of JMSAdmin.
-	 * @exception JMSException thrown if JMSAdmin could not be created/returned.
-	 */
-	JMSAdmin getJMSAdmin(String jmsAdminURL, boolean secure) throws JMSException;
+    /**
+     * Create/return an instance implementing JMSAdmin.
+     * 
+     * @param jmsAdminURL JMSAdmin URL
+     * @param secure Use secure transport.
+     * @return Implementation of JMSAdmin.
+     * @exception JMSException thrown if JMSAdmin could not be created/returned.
+     */
+    JMSAdmin getJMSAdmin(String jmsAdminURL, boolean secure) throws JMSException;
 
 }

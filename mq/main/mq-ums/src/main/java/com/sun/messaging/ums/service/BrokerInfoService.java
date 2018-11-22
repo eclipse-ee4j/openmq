@@ -20,7 +20,6 @@ import com.sun.messaging.ums.provider.openmq.ProviderBrokerInfoService;
 import java.util.Properties;
 import javax.jms.JMSException;
 
-
 /**
  *
  * @author isa
@@ -29,23 +28,23 @@ import javax.jms.JMSException;
  */
 public class BrokerInfoService {
 
-    //private static final String defaultServiceClassName = 
-    //        "com.sun.messaging.ums.provider.openmq.ProviderBrokerInfoService";
-    
-    //private static Properties props = null;
-    
+    // private static final String defaultServiceClassName =
+    // "com.sun.messaging.ums.provider.openmq.ProviderBrokerInfoService";
+
+    // private static Properties props = null;
+
     private static ProviderBrokerInfoService service = null;
-    
-    public static void init (Properties props) throws JMSException {
-        //props = props;
-        
+
+    public static void init(Properties props) throws JMSException {
+        // props = props;
+
         service = new ProviderBrokerInfoService();
         service.init(props);
     }
-    
-    public static ProviderBrokerInfoService getProviderBrokerInfoService (String provider) {
-        
+
+    public static ProviderBrokerInfoService getProviderBrokerInfoService(String provider) {
+
         return service;
     }
-        
+
 }

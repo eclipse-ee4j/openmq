@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterGoodbyeInfo.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -35,8 +35,7 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
  * An instance of this class is intended to be used one direction only
  */
 
-public class ClusterGoodbyeInfo 
-{
+public class ClusterGoodbyeInfo {
     private boolean requestTakeover = false;
     private Cluster c = null;
 
@@ -49,14 +48,14 @@ public class ClusterGoodbyeInfo
     }
 
     private ClusterGoodbyeInfo(GPacket pkt, Cluster c) throws Exception {
-        assert (pkt.getType() == ProtocolGlobals.G_GOODBYE );
+        assert (pkt.getType() == ProtocolGlobals.G_GOODBYE);
 
         this.pkt = pkt;
         this.c = c;
 
         sender = c.unmarshalBrokerAddress(pkt);
         if (sender.getHAEnabled()) {
-            requestTakeover = ((Boolean)pkt.getProp("requestTakeover")).booleanValue();
+            requestTakeover = ((Boolean) pkt.getProp("requestTakeover")).booleanValue();
         }
     }
 
@@ -80,7 +79,7 @@ public class ClusterGoodbyeInfo
         return new ClusterGoodbyeInfo(pkt, c);
     }
 
-    public GPacket getGPacket() { 
+    public GPacket getGPacket() {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_GOODBYE);
@@ -94,28 +93,28 @@ public class ClusterGoodbyeInfo
     }
 
     public boolean getRequestTakeover() {
-        assert ( pkt != null );
-        Boolean b = (Boolean)pkt.getProp("requestTakeover");
-        if (b == null) return false;
+        assert (pkt != null);
+        Boolean b = (Boolean) pkt.getProp("requestTakeover");
+        if (b == null)
+            return false;
         return b.booleanValue();
     }
 
-
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public String toString() {
         if (pkt == null) {
             if (Globals.getHAEnabled()) {
-                return "requestTakeover="+requestTakeover+" "+c.getSelfAddress().toString();
+                return "requestTakeover=" + requestTakeover + " " + c.getSelfAddress().toString();
             }
-            return  c.getSelfAddress().toString();
+            return c.getSelfAddress().toString();
         }
 
         if (sender.getHAEnabled()) {
-            return "requestTakeover="+requestTakeover+" "+sender.toString();
+            return "requestTakeover=" + requestTakeover + " " + sender.toString();
         }
         return sender.toString();
     }

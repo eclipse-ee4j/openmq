@@ -16,7 +16,7 @@
 
 /*
  * @(#)ObjStoreDestListCObj.java	1.16 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -26,90 +26,86 @@ import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to the list of destination
- * objects in an object store.
+/**
+ * This class is used in the JMQ Administration console to store information related to the list of destination objects
+ * in an object store.
  *
  * @see ConsoleObj
  * @see ObjStoreAdminCObj
  *
  */
-public class ObjStoreDestListCObj extends ObjStoreAdminCObj  {
-    private transient ObjStore	os = null;
+public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
+    private transient ObjStore os = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Create/initialize the admin explorer GUI component.
      */
     public ObjStoreDestListCObj(ObjStore os) {
-	this.os = os;
-    } 
-
-    public void setObjStore(ObjStore os)  {
-	this.os = os;
+        this.os = os;
     }
 
-    public ObjStore getObjStore()  {
-	return (os);
+    public void setObjStore(ObjStore os) {
+        this.os = os;
     }
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_OBJSTORE_DEST_LIST));
+    public ObjStore getObjStore() {
+        return (os);
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_OBJSTORE_DEST_LIST));
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.OBJSTORE_DEST_LIST]);
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public String getActionLabel(int actionFlag, boolean forMenu)  {
-	if (forMenu)  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_MENU_ADD_OBJSTORE_DEST));
-	    }
-	} else  {
-	    switch (actionFlag)  {
-	    case ActionManager.ADD:
-	        return (acr.getString(acr.I_ADD_OBJSTORE_DEST));
-	    }
-	}
-
-	return (null);
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.OBJSTORE_DEST_LIST]);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (ActionManager.ADD);
+    public String getActionLabel(int actionFlag, boolean forMenu) {
+        if (forMenu) {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_MENU_ADD_OBJSTORE_DEST));
+            }
+        } else {
+            switch (actionFlag) {
+            case ActionManager.ADD:
+                return (acr.getString(acr.I_ADD_OBJSTORE_DEST));
+            }
+        }
+
+        return (null);
     }
 
-    public int getActiveActions()  {
-	int mask;
-
-	if (os.isOpen())  {
-	    mask = ActionManager.ADD | ActionManager.REFRESH;
-	} else  {
-	    mask = 0;
-	}
-	
-	return (mask);
+    public int getExplorerPopupMenuItemMask() {
+        return (ActionManager.ADD);
     }
 
+    public int getActiveActions() {
+        int mask;
 
+        if (os.isOpen()) {
+            mask = ActionManager.ADD | ActionManager.REFRESH;
+        } else {
+            mask = 0;
+        }
 
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".ObjStoreDestListInspector");
+        return (mask);
     }
 
-    public String getInspectorPanelId()  {
-	return ("Destinations");
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".ObjStoreDestListInspector");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    public String getInspectorPanelId() {
+        return ("Destinations");
+    }
+
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

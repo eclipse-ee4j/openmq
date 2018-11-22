@@ -26,60 +26,60 @@ import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.data.TransactionWorkMessageAck;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-public class NonTransactedMsgAckEvent extends TransactionEvent{
-	TransactionWorkMessageAck messageAck;
+public class NonTransactedMsgAckEvent extends TransactionEvent {
+    TransactionWorkMessageAck messageAck;
 
-	static TransactionEvent create(byte subtype) {
-		TransactionEvent result = null;
+    static TransactionEvent create(byte subtype) {
+        TransactionEvent result = null;
 
-		result = new NonTransactedMsgAckEvent();
-		return result;
-	}
+        result = new NonTransactedMsgAckEvent();
+        return result;
+    }
 
-	int getType() {
-		return BaseTransaction.NON_TRANSACTED_ACK_TYPE;
-	}
+    int getType() {
+        return BaseTransaction.NON_TRANSACTED_ACK_TYPE;
+    }
 
-	int getSubType() {
-		return 0;
-	}
+    int getSubType() {
+        return 0;
+    }
 
-	public NonTransactedMsgAckEvent() {
+    public NonTransactedMsgAckEvent() {
 
-	}
+    }
 
-	public NonTransactedMsgAckEvent(TransactionWorkMessageAck messageAck) {
-		this.messageAck = messageAck;
-	}
+    public NonTransactedMsgAckEvent(TransactionWorkMessageAck messageAck) {
+        this.messageAck = messageAck;
+    }
 
-	public byte[] writeToBytes() throws IOException {
-		// Log all msgs and acks for producing and consuming txn
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		DataOutputStream dos = new DataOutputStream(baos);
+    public byte[] writeToBytes() throws IOException {
+        // Log all msgs and acks for producing and consuming txn
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        DataOutputStream dos = new DataOutputStream(baos);
 
-		dos.writeByte(BaseTransaction.NON_TRANSACTED_ACK_TYPE);
-		dos.writeByte(0);
+        dos.writeByte(BaseTransaction.NON_TRANSACTED_ACK_TYPE);
+        dos.writeByte(0);
 
-		messageAck.writeWork(dos);
+        messageAck.writeWork(dos);
 
-		dos.close();
-		baos.close();
+        dos.close();
+        baos.close();
 
-		byte[] data = baos.toByteArray();
-		return data;
+        byte[] data = baos.toByteArray();
+        return data;
 
-	}
+    }
 
-	public void readFromBytes(byte[] data) throws IOException, BrokerException {
-		ByteArrayInputStream bais = new ByteArrayInputStream(data);
-		DataInputStream dis = new DataInputStream(bais);
+    public void readFromBytes(byte[] data) throws IOException, BrokerException {
+        ByteArrayInputStream bais = new ByteArrayInputStream(data);
+        DataInputStream dis = new DataInputStream(bais);
 
-		dis.skip(2);
-		messageAck = new TransactionWorkMessageAck();
-		messageAck.readWork(dis);
+        dis.skip(2);
+        messageAck = new TransactionWorkMessageAck();
+        messageAck.readWork(dis);
 
-		dis.close();
-		bais.close();
-	}
+        dis.close();
+        bais.close();
+    }
 
 }

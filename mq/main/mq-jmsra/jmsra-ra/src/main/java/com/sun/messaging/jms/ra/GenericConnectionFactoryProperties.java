@@ -20,35 +20,45 @@ package com.sun.messaging.jms.ra;
  * This interface defines JavaBean properties that are common to a ManagedConnectionFactory and an ActivationSpec
  */
 public interface GenericConnectionFactoryProperties {
-	
+
     public void setAddressList(String addressList);
+
     public String getAddressList();
-    
+
     public void setUserName(String userName);
+
     public String getUserName();
-    
+
     public void setPassword(String password);
+
     public String getPassword();
-    
+
     public void setClientId(String clientId);
+
     public String getClientId();
-    
+
     public void setAddressListBehavior(String addressListBehavior);
+
     public String getAddressListBehavior();
-    
+
     public void setAddressListIterations(int addressListIterations);
+
     public int getAddressListIterations();
-    
+
     public void setReconnectEnabled(boolean flag);
+
     public boolean getReconnectEnabled();
-    
+
     public void setReconnectAttempts(int reconnectAttempts);
+
     public int getReconnectAttempts();
-    
+
     public void setReconnectInterval(int reconnectInterval);
+
     public int getReconnectInterval();
 
     public void setOptions(String stringProps);
-    public String getOptions();  
-    
+
+    public String getOptions();
+
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAddressList.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -32,17 +32,13 @@ public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
     public static final int PRIORITY = 1;
     public static final int RANDOM = 2;
 
-	private int behavior;
+    private int behavior;
 
-
-    protected  com.sun.messaging.jmq.io.MQAddress createMQAddress(String s) 
-         throws java.net.MalformedURLException
-   {
-            return com.sun.messaging.jmq.jmsclient.MQAddress.createMQAddress(s);
+    protected com.sun.messaging.jmq.io.MQAddress createMQAddress(String s) throws java.net.MalformedURLException {
+        return com.sun.messaging.jmq.jmsclient.MQAddress.createMQAddress(s);
     }
 
-    public static MQAddressList createMQAddressList(String addrs)
-        throws MalformedURLException {
+    public static MQAddressList createMQAddressList(String addrs) throws MalformedURLException {
         MQAddressList alist = new MQAddressList();
         StringTokenizer st = new StringTokenizer(addrs, " ,");
         while (st.hasMoreTokens()) {
@@ -53,12 +49,12 @@ public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
         return alist;
     }
 
-	public int getBehavior() {
-		return behavior;
-	}
+    public int getBehavior() {
+        return behavior;
+    }
 
-	public void setBehavior(int behavior) {
-		this.behavior = behavior;
+    public void setBehavior(int behavior) {
+        this.behavior = behavior;
 
         if (behavior == RANDOM) {
             // Randomize the sequence.
@@ -73,7 +69,7 @@ public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
                 set(pos, o);
             }
         }
-	}
+    }
 
     public String toString() {
         StringBuffer ret = new StringBuffer();
@@ -85,7 +81,7 @@ public class MQAddressList extends com.sun.messaging.jmq.io.MQAddressList {
     }
 
     public static void main(String[] args) throws Exception {
-        MQAddressList list = createMQAddressList(args[0]); 
+        MQAddressList list = createMQAddressList(args[0]);
         if (System.getProperty("test.random") != null)
             list.setBehavior(RANDOM);
         System.out.println(list);

@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAdminUtil.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
@@ -52,18 +52,18 @@ public class BrokerAdminUtil {
         else if (DestType.isFailover(mask))
             return ar.getString(ar.I_FAILOVER);
         else if (DestType.isQueue(mask))
-            return ar.getString(ar.I_SINGLE);  // This is the default
+            return ar.getString(ar.I_SINGLE); // This is the default
         else
             return ar.getString(ar.I_UNKNOWN);
     }
-    
+
     public static String getDestinationState(int destState) {
-    	switch (destState) {
-    	
+        switch (destState) {
+
         case DestState.RUNNING:
             return ar.getString(AdminResources.I_DEST_STATE_RUNNING);
 
-        case DestState.CONSUMERS_PAUSED:            
+        case DestState.CONSUMERS_PAUSED:
             return ar.getString(AdminResources.I_DEST_STATE_CONSUMERS_PAUSED);
 
         case DestState.PRODUCERS_PAUSED:
@@ -72,73 +72,71 @@ public class BrokerAdminUtil {
         case DestState.PAUSED:
             return ar.getString(AdminResources.I_DEST_STATE_PAUSED);
 
+        }
+        return "UNKNOWN";
     }
-    return "UNKNOWN";
-    }
-    
+
     public static String getServiceState(int serviceState) {
 
-		switch (serviceState) {
-		case ServiceState.UNINITIALIZED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_UNINITIALIZED);
+        switch (serviceState) {
+        case ServiceState.UNINITIALIZED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_UNINITIALIZED);
 
-		case ServiceState.INITIALIZED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_INITIALIZED);
+        case ServiceState.INITIALIZED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_INITIALIZED);
 
-		case ServiceState.STARTED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_STARTED);
+        case ServiceState.STARTED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_STARTED);
 
-		case ServiceState.RUNNING:
-			return ar.getString(AdminResources.I_SERVICE_STATE_RUNNING);
+        case ServiceState.RUNNING:
+            return ar.getString(AdminResources.I_SERVICE_STATE_RUNNING);
 
-		case ServiceState.PAUSED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_PAUSED);
+        case ServiceState.PAUSED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_PAUSED);
 
-		case ServiceState.SHUTTINGDOWN:
-			return ar.getString(AdminResources.I_SERVICE_STATE_SHUTTINGDOWN);
+        case ServiceState.SHUTTINGDOWN:
+            return ar.getString(AdminResources.I_SERVICE_STATE_SHUTTINGDOWN);
 
-		case ServiceState.STOPPED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_STOPPED);
+        case ServiceState.STOPPED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_STOPPED);
 
-		case ServiceState.DESTROYED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_DESTROYED);
+        case ServiceState.DESTROYED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_DESTROYED);
 
-		case ServiceState.QUIESCED:
-			return ar.getString(AdminResources.I_SERVICE_STATE_QUIESCED);
+        case ServiceState.QUIESCED:
+            return ar.getString(AdminResources.I_SERVICE_STATE_QUIESCED);
 
-		}
-		return ar.getString(AdminResources.I_SERVICE_STATE_UNKNOWN);
+        }
+        return ar.getString(AdminResources.I_SERVICE_STATE_UNKNOWN);
 
-	}
-        	
-   
+    }
 
     public static String getActiveConsumers(int mask, int value) {
         if (DestType.isTopic(mask))
             return "-";
         else {
-	    if (value == -1) 
-		return ar.getString(ar.I_UNLIMITED);
-	    else
-	    	return Integer.toString(value);
-	}
+            if (value == -1)
+                return ar.getString(ar.I_UNLIMITED);
+            else
+                return Integer.toString(value);
+        }
     }
 
     public static String getFailoverConsumers(int mask, int value) {
         if (DestType.isTopic(mask))
             return "-";
         else {
-	    if (value == -1) 
-		return ar.getString(ar.I_UNLIMITED);
-	    else
-	    	return Integer.toString(value);
-	}
+            if (value == -1)
+                return ar.getString(ar.I_UNLIMITED);
+            else
+                return Integer.toString(value);
+        }
     }
 
     /**
      * see com.sun.messaging.jmq.jmsserver.core.Subscription.getDSubLogString
      */
     public static String getDSubLogString(String clientID, String duraName) {
-        return "["+(clientID == null ? "":clientID)+":"+duraName+"]";
+        return "[" + (clientID == null ? "" : clientID) + ":" + duraName + "]";
     }
 }

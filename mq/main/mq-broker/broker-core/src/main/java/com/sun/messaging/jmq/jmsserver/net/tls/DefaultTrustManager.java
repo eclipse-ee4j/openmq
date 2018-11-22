@@ -16,7 +16,7 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.9 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.tls;
 
@@ -28,18 +28,14 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
 /**
- * DefaultTrustManager to manage authentication trust decisions for 
- * different types of authentication material.  Here X509TrustManager is 
- * implemented as the keystore is of type JKS which contains certificates
- * of type X509.
+ * DefaultTrustManager to manage authentication trust decisions for different types of authentication material. Here
+ * X509TrustManager is implemented as the keystore is of type JKS which contains certificates of type X509.
  *
- * X509TrustManager is an interface to manage which X509 certificates which
- * are used to authenticate the remote side of a secure socket. Decisions may
- * be based on trusted certificate authorities, certificate revocation lists,
- * online status checking or other means. 
+ * X509TrustManager is an interface to manage which X509 certificates which are used to authenticate the remote side of
+ * a secure socket. Decisions may be based on trusted certificate authorities, certificate revocation lists, online
+ * status checking or other means.
  * 
- * Currently contains some dummy methods.  This should be sufficient for 
- * the 2.0 product.
+ * Currently contains some dummy methods. This should be sufficient for the 2.0 product.
  *
  * @see java.security.cert.X509TrustManager
  *
@@ -47,31 +43,29 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 
 public class DefaultTrustManager implements X509TrustManager {
 
-    private static  boolean DEBUG = false;
+    private static boolean DEBUG = false;
     Logger logger = Globals.getLogger();
 
     public void checkClientTrusted(java.security.cert.X509Certificate[] chain) {
         return;
     }
 
-    public void checkClientTrusted(java.security.cert.X509Certificate[] chain,
-				String type) {
+    public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
         return;
     }
-    
-    public void checkServerTrusted(java.security.cert.X509Certificate[] chain) { 
+
+    public void checkServerTrusted(java.security.cert.X509Certificate[] chain) {
         if (DEBUG) {
-	    logger.log(Logger.DEBUGHIGH,"DefaultTrustManager called to validate certs ..");
-	    logger.log(Logger.DEBUGHIGH,"returning 'true' for isServerTrusted call ...");
+            logger.log(Logger.DEBUGHIGH, "DefaultTrustManager called to validate certs ..");
+            logger.log(Logger.DEBUGHIGH, "returning 'true' for isServerTrusted call ...");
         }
         return;
     }
 
-    public void checkServerTrusted(java.security.cert.X509Certificate[] chain,
-			String type) { 
+    public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
-	    logger.log(Logger.DEBUGHIGH,"DefaultTrustManager called to validate certs ..");
-	    logger.log(Logger.DEBUGHIGH,"returning 'true' for isServerTrusted call ...");
+            logger.log(Logger.DEBUGHIGH, "DefaultTrustManager called to validate certs ..");
+            logger.log(Logger.DEBUGHIGH, "returning 'true' for isServerTrusted call ...");
         }
         return;
     }

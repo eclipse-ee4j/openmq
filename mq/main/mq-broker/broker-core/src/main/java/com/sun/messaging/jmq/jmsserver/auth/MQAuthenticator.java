@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAuthenticator.java	1.14 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
@@ -38,71 +38,63 @@ import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.auth.api.server.*;
 
 /**
- * This class is to be used to shut-circus client connection authentication.
- * An object of this class should only be used for 1 connection
+ * This class is to be used to shut-circus client connection authentication. An object of this class should only be used
+ * for 1 connection
  */
 
 public class MQAuthenticator {
 
-    private static boolean DEBUG = false; 
+    private static boolean DEBUG = false;
 
     private String serviceName = null;
-    //private int serviceType;
+    // private int serviceType;
     private String serviceTypeStr = null;
 
     private Hashtable handlers = new Hashtable();
     private AuthCacheData authCacheData = new AuthCacheData();
     private AccessController ac = null;
 
-    public MQAuthenticator(String serviceName, int serviceType) 
-                                      throws BrokerException {
+    public MQAuthenticator(String serviceName, int serviceType) throws BrokerException {
 
         this.serviceName = serviceName;
-        //this.serviceType = serviceType;
+        // this.serviceType = serviceType;
         this.serviceTypeStr = ServiceType.getServiceTypeString(serviceType);
-        this.ac = AccessController.getInstance(serviceName, serviceType); 
+        this.ac = AccessController.getInstance(serviceName, serviceType);
     }
 
-    public void authenticate(String username, String password) 
-           throws BrokerException, LoginException, AccessControlException {
+    public void authenticate(String username, String password) throws BrokerException, LoginException, AccessControlException {
         authenticate(username, password, true);
     }
 
-    public void authenticate(String username, String password, boolean logout) 
-           throws BrokerException, LoginException, AccessControlException {
+    public void authenticate(String username, String password, boolean logout) throws BrokerException, LoginException, AccessControlException {
 
         String authType = ac.getAuthType();
-        com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd
-                                               = getClientAuthHandler(authType);
+        com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd = getClientAuthHandler(authType);
         if (!hd.getType().equals(authType)) {
-            String[] args = {authType, hd.getType(), hd.getClass().getName()};
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                                    BrokerResources.X_AUTHTYPE_MISMATCH, args));
+            String[] args = { authType, hd.getType(), hd.getClass().getName() };
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_AUTHTYPE_MISMATCH, args));
         }
         hd.init(username, password, null /* props */);
 
         int seq = 0;
-        byte[] req = ac.getChallenge(seq, 
-                                     new Properties(), 
-                                     getAuthCacheData().getCacheData(), 
-                                     null /* overrideType */);
+        byte[] req = ac.getChallenge(seq, new Properties(), getAuthCacheData().getCacheData(), null /* overrideType */);
         do {
             req = ac.handleResponse(hd.handleRequest(req, seq++), seq);
         } while (req != null);
         authCacheData.setCacheData(ac.getCacheData());
 
-        ac.checkConnectionPermission(serviceName, serviceTypeStr); 
+        ac.checkConnectionPermission(serviceName, serviceTypeStr);
 
-        //Subject sj = ac.getAuthenticatedSubject();
-	if (logout)  {
+        // Subject sj = ac.getAuthenticatedSubject();
+        if (logout) {
             ac.logout();
-	}
+        }
     }
 
-    public void logout()  {
-	if (ac != null)  {
+    public void logout() {
+        if (ac != null) {
             ac.logout();
-	}
+        }
     }
 
     public AuthCacheData getAuthCacheData() {
@@ -113,14 +105,12 @@ public class MQAuthenticator {
         return ac;
     }
 
-    private com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler 
-                                           getClientAuthHandler(String authType) 
-                                                         throws BrokerException {
+    private com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler getClientAuthHandler(String authType) throws BrokerException {
 
-        com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd =
-           (com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler)
-                                                          handlers.get(authType);
-        if (hd != null) return hd;
+        com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd = (com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler) handlers
+                .get(authType);
+        if (hd != null)
+            return hd;
 
         if (authType.equals(AccessController.AUTHTYPE_BASIC)) {
             hd = new com.sun.messaging.jmq.auth.handlers.BasicAuthenticationHandler();
@@ -130,15 +120,13 @@ public class MQAuthenticator {
             handlers.put(authType, hd);
         } else {
 
-            /* 
-             * Currently not supported, client side uses the following property to
-             * indicate a plugin
+            /*
+             * Currently not supported, client side uses the following property to indicate a plugin
              *
              * "JMQAuthClass" + "." + authType
              */
-        
-            throw new BrokerException(Globals.getBrokerResources().getKString(
-                         BrokerResources.X_UNSUPPORTED_AUTHTYPE, authType));
+
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_UNSUPPORTED_AUTHTYPE, authType));
         }
         return hd;
     }
@@ -150,39 +138,35 @@ public class MQAuthenticator {
     public static boolean authenticateCMDUserIfset() {
         BrokerConfig bcfg = Globals.getConfig();
         String cmduser = bcfg.getProperty(CMDUSER_PROPERTY);
-        if (cmduser == null)  return true;
+        if (cmduser == null)
+            return true;
 
         Logger logger = Globals.getLogger();
         BrokerResources rb = Globals.getBrokerResources();
         if (cmduser.trim().length() == 0) {
-            logger.log(Logger.FORCE, rb.X_BAD_PROPERTY_VALUE,
-                                     CMDUSER_PROPERTY+ "=" + cmduser);
+            logger.log(Logger.FORCE, rb.X_BAD_PROPERTY_VALUE, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
-            /*
-            if (!bcfg.getBooleanProperty(Globals.KEYSTORE_USE_PASSFILE_PROP)) {
-                logger.log(Logger.FORCE, rb.E_AUTH_CMDUSER_PASSFILE_NOT_ENABLED,
-                           Globals.KEYSTORE_USE_PASSFILE_PROP, cmduserProp);
-                return false;
-            }
-            */
+        /*
+         * if (!bcfg.getBooleanProperty(Globals.KEYSTORE_USE_PASSFILE_PROP)) { logger.log(Logger.FORCE,
+         * rb.E_AUTH_CMDUSER_PASSFILE_NOT_ENABLED, Globals.KEYSTORE_USE_PASSFILE_PROP, cmduserProp); return false; }
+         */
         String cmdpwd = bcfg.getProperty(CMDUSER_PWD_PROPERTY);
         if (cmdpwd == null) {
-            logger.log(Logger.FORCE, rb.X_PASSWORD_NOT_PROVIDED,
-                                     CMDUSER_PROPERTY+"="+cmduser);
+            logger.log(Logger.FORCE, rb.X_PASSWORD_NOT_PROVIDED, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
         String cmdsvc = bcfg.getProperty(CMDUSER_SVC_PROPERTY);
-        if (cmdsvc == null) cmdsvc = "admin";
-        List activesvcs= ServiceManager.getAllActiveServiceNames();
+        if (cmdsvc == null)
+            cmdsvc = "admin";
+        List activesvcs = ServiceManager.getAllActiveServiceNames();
         if (activesvcs == null || !activesvcs.contains(cmdsvc)) {
-            logger.log(Logger.FORCE, rb.E_NOT_ACTIVE_SERVICE, cmdsvc, 
-                                     CMDUSER_PROPERTY+"="+cmduser);
+            logger.log(Logger.FORCE, rb.E_NOT_ACTIVE_SERVICE, cmdsvc, CMDUSER_PROPERTY + "=" + cmduser);
             return false;
         }
         String str = ServiceManager.getServiceTypeString(cmdsvc);
         if (str == null || ServiceType.getServiceType(str) != ServiceType.ADMIN) {
-            String args[] = {cmdsvc, str, CMDUSER_PROPERTY+"="+cmduser};
+            String args[] = { cmdsvc, str, CMDUSER_PROPERTY + "=" + cmduser };
             logger.log(Logger.FORCE, rb.E_NOT_ADMIN_SERVICE, args);
             return false;
         }
@@ -190,17 +174,16 @@ public class MQAuthenticator {
             MQAuthenticator a = new MQAuthenticator(cmdsvc, ServiceType.ADMIN);
             a.authenticate(cmduser, cmdpwd);
             if (DEBUG) {
-            logger.log(Logger.FORCE, rb.I_AUTH_OK, 
-                       CMDUSER_PROPERTY+"="+cmduser, cmdsvc);
+                logger.log(Logger.FORCE, rb.I_AUTH_OK, CMDUSER_PROPERTY + "=" + cmduser, cmdsvc);
             }
             return true;
         } catch (Exception e) {
             if (DEBUG) {
-            logger.logStack(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc, e);
+                logger.logStack(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc, e);
             } else {
-            logger.log(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc);
+                logger.log(Logger.FORCE, rb.W_AUTH_FAILED, cmduser, cmdsvc);
             }
-            return false; 
+            return false;
         }
     }
 }

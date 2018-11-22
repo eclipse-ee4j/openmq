@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
@@ -28,21 +28,16 @@ public interface MigratableStore extends FileTransferCallback {
 
     /**
      */
-    public void initTakeoverBrokerStore(String groupName, 
-                                       String nodeName,
-                                       String masterHostPort, String uuid,
-                                       BrokerAddress from, ClusterProtocolHelper cpi)
-                                       throws BrokerException; 
+    public void initTakeoverBrokerStore(String groupName, String nodeName, String masterHostPort, String uuid, BrokerAddress from, ClusterProtocolHelper cpi)
+            throws BrokerException;
 
     /**
      * @return the host:port of the broker that takes over this broker
      */
-    public String takeoverME(String brokerID, Long syncTimeout)
-    throws BrokerException; 
-
+    public String takeoverME(String brokerID, Long syncTimeout) throws BrokerException;
 
     /**
      */
-    public String getMyEffectiveBrokerID(); 
+    public String getMyEffectiveBrokerID();
 
 }

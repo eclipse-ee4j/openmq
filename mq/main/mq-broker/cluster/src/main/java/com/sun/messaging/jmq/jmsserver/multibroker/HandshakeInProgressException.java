@@ -15,8 +15,8 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.IOException;
@@ -25,8 +25,7 @@ import java.io.IOException;
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class HandshakeInProgressException extends IOException
-{
+public class HandshakeInProgressException extends IOException {
     /**
      * create an exception with a message but no root cause
      *

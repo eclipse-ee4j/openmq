@@ -16,7 +16,7 @@
 
 /*
  * @(#)SetEntry.java	1.8 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
@@ -26,8 +26,7 @@ import java.util.*;
  * Entry used in the ordered list. package private
  */
 
-class SetEntry
-{
+class SetEntry {
     public static boolean DEBUG = false;
 
     SetEntry next = null;
@@ -37,14 +36,13 @@ class SetEntry
 
     static int ctr = 0;
     int debugid = 0;
-    
+
     /**
-     * takes a linked list which starts with the first
-     * SetEntry and sorts it
+     * takes a linked list which starts with the first SetEntry and sorts it
      */
-    public SetEntry sort(Comparator comp)
-    {
-        if (this.next == null) return this;
+    public SetEntry sort(Comparator comp) {
+        if (this.next == null)
+            return this;
 
         // OK, for now we are doing this the slow/easy way
         // the assumption is that this is an infrequent operation
@@ -61,40 +59,38 @@ class SetEntry
         Collections.sort(al, comp);
         // now fill in the next entries
         SetEntry back = null;
-        for (int i = 0; i < al.size(); i ++) {
-            SetEntry fwd = (i < (al.size() -1)) ?
-                            (SetEntry)al.get(i+1) : null;
-            SetEntry cur =  (SetEntry)al.get(i);
+        for (int i = 0; i < al.size(); i++) {
+            SetEntry fwd = (i < (al.size() - 1)) ? (SetEntry) al.get(i + 1) : null;
+            SetEntry cur = (SetEntry) al.get(i);
             cur.previous = back;
             cur.next = fwd;
             back = cur;
         }
-        return (SetEntry)al.get(0);
+        return (SetEntry) al.get(0);
     }
 
-    protected Comparator createSortComparator(Comparator comp)
-    {
+    protected Comparator createSortComparator(Comparator comp) {
         return new SetEntryComparator(comp);
     }
 
-        
     static class SetEntryComparator implements Comparator {
         Comparator datacmp = null;
 
         public SetEntryComparator(Comparator c) {
-            datacmp = c;        
+            datacmp = c;
         }
+
         public int compare(Object o1, Object o2) {
             if (o1 instanceof SetEntry && o2 instanceof SetEntry) {
                 // compare
-                Object d1 = ((SetEntry)o1).data;
-                Object d2 = ((SetEntry)o2).data;
+                Object d1 = ((SetEntry) o1).data;
+                Object d2 = ((SetEntry) o2).data;
                 return datacmp.compare(d1, d2);
             } else if (o1 instanceof SetEntry) {
-                Object d1 = ((SetEntry)o1).data;
+                Object d1 = ((SetEntry) o1).data;
                 return datacmp.compare(d1, o2);
             } else if (o2 instanceof SetEntry) {
-                Object d2 = ((SetEntry)o2).data;
+                Object d2 = ((SetEntry) o2).data;
                 return datacmp.compare(o1, d2);
             } else if (o1 == null && o2 == null) {
                 return 0;
@@ -106,6 +102,7 @@ class SetEntry
                 return o1.hashCode() - o2.hashCode();
             }
         }
+
         public boolean equals(Object o1) {
             return super.equals(o1);
         }
@@ -113,7 +110,7 @@ class SetEntry
 
     public SetEntry(Object data) {
         if (DEBUG) {
-            debugid = ctr ++; 
+            debugid = ctr++;
         } else {
             debugid = hashCode();
         }
@@ -121,14 +118,9 @@ class SetEntry
     }
 
     public String toString() {
-        return "SetEntry(" + debugid 
-            +")[ before(" +
-            (previous == null ? null : String.valueOf(previous.debugid)) 
-            + ") after(" +
-            (next == null ? null : String.valueOf(next.debugid)) 
-            +") ] " +data+"]valid="+isValid();
+        return "SetEntry(" + debugid + ")[ before(" + (previous == null ? null : String.valueOf(previous.debugid)) + ") after("
+                + (next == null ? null : String.valueOf(next.debugid)) + ") ] " + data + "]valid=" + isValid();
     }
-       
 
     public SetEntry getNext() {
         return next;
@@ -172,8 +164,7 @@ class SetEntry
         }
         if (next == null || previous == null)
             return true; // first or last
-        assert previous.next == next
-              && next.previous == previous;
+        assert previous.next == next && next.previous == previous;
         return false;
     }
 
@@ -200,7 +191,7 @@ class SetEntry
     }
 
 }
- 
+
 /*
  * EOF
  */

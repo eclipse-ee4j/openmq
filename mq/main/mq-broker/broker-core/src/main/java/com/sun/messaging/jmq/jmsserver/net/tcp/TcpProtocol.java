@@ -16,7 +16,7 @@
 
 /*
  * @(#)TcpProtocol.java	1.47 09/11/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net.tcp;
 
@@ -35,8 +35,7 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-public class TcpProtocol implements Protocol
-{
+public class TcpProtocol implements Protocol {
 
     private static boolean DEBUG = false;
 
@@ -58,7 +57,7 @@ public class TcpProtocol implements Protocol
     protected int lingerTimeout = defaultLingerTimeout;
     protected int port = defaultPort;
     protected String hostname = null; // all hosts
-    protected int backlog = defaultBacklog; 
+    protected int backlog = defaultBacklog;
     protected boolean nodelay = true;
     protected boolean blocking = true;
     protected int inputBufferSize = 0;
@@ -66,7 +65,6 @@ public class TcpProtocol implements Protocol
 
     protected ServerSocket serversocket = null;
     ServerSocketChannel chl = null;
-
 
     Selector selector = null;
     SelectionKey key = null;
@@ -77,14 +75,11 @@ public class TcpProtocol implements Protocol
 
     private String modelName = null;
 
-
     public TcpProtocol() {
         // does nothing
     }
 
-    public void registerProtocolCallback(ProtocolCallback cb, 
-             Object callback_data)
-    {
+    public void registerProtocolCallback(ProtocolCallback cb, Object callback_data) {
         this.cb = cb;
         this.callback_data = callback_data;
     }
@@ -106,15 +101,8 @@ public class TcpProtocol implements Protocol
 
     boolean resetSocket = false;
     boolean startSocket = false;
-        
 
-    protected ServerSocket createSocket(String hostname, 
-                                        int port, 
-                                        int backlog, 
-                                        boolean blocking, 
-                                        boolean useChannel)
-        throws IOException
-    {
+    protected ServerSocket createSocket(String hostname, int port, int backlog, boolean blocking, boolean useChannel) throws IOException {
         ServerSocket svc = null;
         synchronized (protocolLock) {
             this.useChannels = useChannel;
@@ -126,24 +114,24 @@ public class TcpProtocol implements Protocol
                     selector = Selector.open();
                 chl = ServerSocketChannel.open();
                 svc = chl.socket();
-                // Bug 6294767: Force SO_REUSEADDRR to true 
+                // Bug 6294767: Force SO_REUSEADDRR to true
                 svc.setReuseAddress(true);
                 InetSocketAddress endpoint = null;
-                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL)) 
+                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL))
                     endpoint = new InetSocketAddress(port);
-                else 
+                else
                     endpoint = new InetSocketAddress(hostname, port);
                 svc.bind(endpoint, backlog);
                 serversocket = svc;
                 if (!blocking) {
                     configureBlocking(blocking);
                     key = chl.register(selector, SelectionKey.OP_ACCEPT);
-                   selector.wakeup();
+                    selector.wakeup();
                 }
             } else {
                 if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL))
                     svc = ssf.createServerSocket(port, backlog);
-                else  {
+                else {
                     InetAddress endpoint = InetAddress.getByName(hostname);
                     svc = ssf.createServerSocket(port, backlog, endpoint);
                 }
@@ -151,44 +139,33 @@ public class TcpProtocol implements Protocol
 
         }
 
-	if (DEBUG && svc != null) {
-	    Globals.getLogger().log(Logger.DEBUG,
-		"TcpProtocol.creatSocket: " + svc + " " +
-		MQServerSocketFactory.serverSocketToString(svc) +
-		", backlog=" + backlog + "");
-	}
+        if (DEBUG && svc != null) {
+            Globals.getLogger().log(Logger.DEBUG,
+                    "TcpProtocol.creatSocket: " + svc + " " + MQServerSocketFactory.serverSocketToString(svc) + ", backlog=" + backlog + "");
+        }
 
         return svc;
     }
 
-    public void configureBlocking(boolean blocking) 
-        throws UnsupportedOperationException, IOException
-    {
+    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
         if (!useChannels)
-             return;
+            return;
         if (!canChangeBlocking && !blocking)// we cant be non-blocking
             throw new UnsupportedOperationException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                   "This protocol can not be non-blocking"));
+                    Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "This protocol can not be non-blocking"));
 
         // OK .. only configure blocking IF we have a channel
         AbstractSelectableChannel asc = getChannel();
         if (asc == null) {
             // didnt create w/ blocking.configureBlocking(blocking);
-            throw new UnsupportedOperationException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                  "Can not change blocking because "
-                  + "there isnt a socket channel"));
+            throw new UnsupportedOperationException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    "Can not change blocking because " + "there isnt a socket channel"));
         }
         this.blocking = blocking;
         asc.configureBlocking(blocking);
     }
 
-    public AbstractSelectableChannel getChannel()
-        throws IOException
-    {
+    public AbstractSelectableChannel getChannel() throws IOException {
         synchronized (protocolLock) {
             if (serversocket == null) {
                 return null;
@@ -197,22 +174,15 @@ public class TcpProtocol implements Protocol
         }
     }
 
-
-
-    protected TcpStreams createConnection(Socket socket)
-        throws IOException
-    {
-        return new TcpStreams(socket, blocking,
-                    inputBufferSize, outputBufferSize);
+    protected TcpStreams createConnection(Socket socket) throws IOException {
+        return new TcpStreams(socket, blocking, inputBufferSize, outputBufferSize);
     }
 
-    public ProtocolStreams accept()  
-        throws IOException
-    {
-         ServerSocket currentsocket = null;
-         synchronized (protocolLock) {
-             currentsocket = serversocket;
-         }
+    public ProtocolStreams accept() throws IOException {
+        ServerSocket currentsocket = null;
+        synchronized (protocolLock) {
+            currentsocket = serversocket;
+        }
 
         try {
             Socket s = null;
@@ -221,11 +191,10 @@ public class TcpProtocol implements Protocol
                 if (resetSocket) {
                     try {
                         close();
-                        serversocket = createSocket(hostname, 
-                                 port, backlog, blocking, useChannels);
+                        serversocket = createSocket(hostname, port, backlog, blocking, useChannels);
                         // if we are a non-blocking port -> its changed here
                         notifyProtocolCallback();
-                        
+
                     } catch (IOException ex) {
                     } finally {
                         resetSocket = false;
@@ -233,8 +202,7 @@ public class TcpProtocol implements Protocol
                 }
                 if (startSocket) {
                     try {
-                        serversocket = createSocket(hostname, 
-                                port, backlog, blocking, useChannels);
+                        serversocket = createSocket(hostname, port, backlog, blocking, useChannels);
                         // if we are a non-blocking port -> its changed here
                         notifyProtocolCallback();
                     } catch (IOException ex) {
@@ -247,10 +215,9 @@ public class TcpProtocol implements Protocol
                     Set keys = selector.selectedKeys();
                     Iterator itr = keys.iterator();
                     if (itr.hasNext()) {
-                        SelectionKey listenkey = (SelectionKey)itr.next();
+                        SelectionKey listenkey = (SelectionKey) itr.next();
                         itr.remove();
-                        ServerSocketChannel channel = (ServerSocketChannel)
-                            listenkey.channel();
+                        ServerSocketChannel channel = (ServerSocketChannel) listenkey.channel();
                         // workaround for 5046333
                         // get channel, then accept vs
                         // accepting on the low level socket
@@ -264,30 +231,28 @@ public class TcpProtocol implements Protocol
                 if (serversocket != null)
                     s = serversocket.accept();
             }
-            if (s == null) throw new IOException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    "no socket"));
+            if (s == null)
+                throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "no socket"));
             try {
-            s.setTcpNoDelay(nodelay);
+                s.setTcpNoDelay(nodelay);
             } catch (SocketException e) {
-            Globals.getLogger().log(Logger.WARNING, getClass().getSimpleName()+
-            ".accept(): ["+s.toString()+"]setTcpNoDelay("+nodelay+"): "+ e.toString(), e);
+                Globals.getLogger().log(Logger.WARNING,
+                        getClass().getSimpleName() + ".accept(): [" + s.toString() + "]setTcpNoDelay(" + nodelay + "): " + e.toString(), e);
             }
             if (readTimeout > 0) {
                 try {
-                s.setSoTimeout(readTimeout*1000);
+                    s.setSoTimeout(readTimeout * 1000);
                 } catch (SocketException e) {
-                Globals.getLogger().log(Logger.WARNING, getClass().getSimpleName()+
-                ".accept(): ["+s.toString()+"]setSoTimeout("+readTimeout+"): "+ e.toString(), e);
+                    Globals.getLogger().log(Logger.WARNING,
+                            getClass().getSimpleName() + ".accept(): [" + s.toString() + "]setSoTimeout(" + readTimeout + "): " + e.toString(), e);
                 }
             }
             if (lingerTimeout > 0) {
                 try {
-                s.setSoLinger(true, lingerTimeout*1000);
+                    s.setSoLinger(true, lingerTimeout * 1000);
                 } catch (SocketException e) {
-                Globals.getLogger().log(Logger.WARNING, getClass().getSimpleName()+
-                ".accept(): ["+s.toString()+"]setSoLinger("+lingerTimeout+"): "+ e.toString(), e);
+                    Globals.getLogger().log(Logger.WARNING,
+                            getClass().getSimpleName() + ".accept(): [" + s.toString() + "]setSoLinger(" + lingerTimeout + "): " + e.toString(), e);
                 }
             }
 
@@ -301,51 +266,39 @@ public class TcpProtocol implements Protocol
         }
     }
 
-    public void open() 
-        throws IOException, IllegalStateException
-    {
-         synchronized (protocolLock) {
-             if (selector != null && !startSocket) { // we are a channel
-                 startSocket = true;
-                 selector.wakeup();
-                 return;
-             }
-             if (serversocket != null || startSocket)
-                 throw new IOException( 
-                      Globals.getBrokerResources().getString(
-                          BrokerResources.X_INTERNAL_EXCEPTION,
-                          "can not open already opened protocol"));
-             serversocket = createSocket(hostname, port, 
-                        backlog, blocking, useChannels);
-             notifyProtocolCallback();
-         }
+    public void open() throws IOException, IllegalStateException {
+        synchronized (protocolLock) {
+            if (selector != null && !startSocket) { // we are a channel
+                startSocket = true;
+                selector.wakeup();
+                return;
+            }
+            if (serversocket != null || startSocket)
+                throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "can not open already opened protocol"));
+            serversocket = createSocket(hostname, port, backlog, blocking, useChannels);
+            notifyProtocolCallback();
+        }
     }
 
-    public boolean isOpen()
-    {
+    public boolean isOpen() {
         synchronized (protocolLock) {
             return serversocket != null;
         }
     }
 
-    public void close() 
-        throws IOException, IllegalStateException
-    {
+    public void close() throws IOException, IllegalStateException {
         synchronized (protocolLock) {
             try {
                 if (serversocket == null) {
-                     throw new IOException( 
-                         Globals.getBrokerResources().getString(
-                           BrokerResources.X_INTERNAL_EXCEPTION,
-                           "can not close un-opened protocol"));
+                    throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "can not close un-opened protocol"));
                 }
                 // handle closing channel, etc
-                ServerSocketChannel channel = (ServerSocketChannel)getChannel();
+                ServerSocketChannel channel = (ServerSocketChannel) getChannel();
                 if (channel != null) {
                     SelectionKey mykey = channel.keyFor(selector);
                     if (mykey != null) {
-                       mykey.cancel();
-                    }   
+                        mykey.cancel();
+                    }
                     channel.close();
                 }
                 serversocket.close();
@@ -357,16 +310,14 @@ public class TcpProtocol implements Protocol
                 key = null;
             }
         }
-                
+
     }
 
-    public void checkParameters(Map params)
-    throws IllegalArgumentException {
+    public void checkParameters(Map params) throws IllegalArgumentException {
         checkTcpParameters(params);
     }
 
-    public static void checkTcpParameters(Map params)
-    throws IllegalArgumentException {
+    public static void checkTcpParameters(Map params) throws IllegalArgumentException {
         checkIntValue("port", params, zero, null);
         checkIntValue("backlog", params, one, null);
     }
@@ -374,7 +325,7 @@ public class TcpProtocol implements Protocol
     public Map setParameters(Map params) throws IOException {
 
         if (params.get("serviceFactoryHandlerName") != null) {
-            this.modelName = (String)params.get("serviceFactoryHandlerName");
+            this.modelName = (String) params.get("serviceFactoryHandlerName");
         }
 
         boolean active = serversocket != null;
@@ -388,20 +339,18 @@ public class TcpProtocol implements Protocol
         String newhostname = (String) params.get("hostname");
 
         if (newhostname == null) {
-            newhostname =  Globals.getHostname();
+            newhostname = Globals.getHostname();
         }
 
-        if (newhostname == null ||  newhostname.trim().length() == 0) {
+        if (newhostname == null || newhostname.trim().length() == 0) {
             newhostname = Globals.HOSTNAME_ALL;
         }
 
         int oldport = port;
         int oldbacklog = backlog;
 
-        boolean newhost = (newhostname == null && hostname != null) ||
-                   (newhostname != null && hostname == null) ||
-                   (newhostname != null && hostname != null &&
-                         ! newhostname.equals(hostname));
+        boolean newhost = (newhostname == null && hostname != null) || (newhostname != null && hostname == null)
+                || (newhostname != null && hostname != null && !newhostname.equals(hostname));
 
         if (newport != port || newbacklog != backlog || newhost) {
 
@@ -412,43 +361,40 @@ public class TcpProtocol implements Protocol
             if (newhost)
                 hostname = newhostname;
 
-             if (!active) {
-                 return null;
-             }
+            if (!active) {
+                return null;
+            }
 
-             // canceling the key and registering the new one will hang
-             // so .. just call wakeup
-             if (getChannel() != null) {
-                 resetSocket = true;
-                 selector.wakeup();
-                 return null;
-             }
+            // canceling the key and registering the new one will hang
+            // so .. just call wakeup
+            if (getChannel() != null) {
+                resetSocket = true;
+                selector.wakeup();
+                return null;
+            }
 
-             ServerSocket oldserversocket = serversocket;
+            ServerSocket oldserversocket = serversocket;
 
-             try {
-                 serversocket = createSocket(hostname, port, 
-                               backlog, blocking, useChannels);
-                 notifyProtocolCallback();
-                 oldserversocket.close();
-             } catch (IOException ex) {
-                 serversocket = oldserversocket;
-                 port = oldport;
-                 backlog = oldbacklog;
-                 throw ex;
-             }
+            try {
+                serversocket = createSocket(hostname, port, backlog, blocking, useChannels);
+                notifyProtocolCallback();
+                oldserversocket.close();
+            } catch (IOException ex) {
+                serversocket = oldserversocket;
+                port = oldport;
+                backlog = oldbacklog;
+                throw ex;
+            }
         }
         return null;
     }
 
-    private static int checkIntValue(String propname, Map params)
-        throws IllegalArgumentException
-    {
+    private static int checkIntValue(String propname, Map params) throws IllegalArgumentException {
         if (params == null) {
             return -1;
         }
 
-        String propvalstr = (String)params.get(propname);
+        String propvalstr = (String) params.get(propname);
 
         if (propvalstr == null) {
             return -1;
@@ -456,43 +402,31 @@ public class TcpProtocol implements Protocol
 
         try {
             return Integer.parseInt(propvalstr);
-        } catch (Exception ex) {}
+        } catch (Exception ex) {
+        }
 
-        throw new IllegalArgumentException( 
-           Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,
-               "Can not convert " + propname));
+        throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not convert " + propname));
     }
 
-    private static int checkIntValue(String propname, Map params,
-             Integer min, Integer max)
-        throws IllegalArgumentException
-    {
+    private static int checkIntValue(String propname, Map params, Integer min, Integer max) throws IllegalArgumentException {
         int value = checkIntValue(propname, params);
         if (value == -1) {
             return value;
         }
 
         if (min != null && value < min.intValue())
-            throw new IllegalArgumentException( 
-                Globals.getBrokerResources().getString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    propname + "(" + value + ")" 
-                + " value below minimum of " + min));
+            throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    propname + "(" + value + ")" + " value below minimum of " + min));
 
         if (max != null && value > max.intValue())
-            throw new IllegalArgumentException( 
-                 Globals.getBrokerResources().getString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    propname + "(" + value + ")" 
-                +  " value above maximum of " + max));
+            throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    propname + "(" + value + ")" + " value above maximum of " + max));
 
         return value;
     }
-        
-    public static int getIntValue(String propname, 
-                                  Map params, int defval) {
-        String propvalstr = (String)params.get(propname);
+
+    public static int getIntValue(String propname, Map params, int defval) {
+        String propvalstr = (String) params.get(propname);
         if (propvalstr == null) {
             return defval;
         }
@@ -500,15 +434,13 @@ public class TcpProtocol implements Protocol
             int val = Integer.parseInt(propvalstr);
             return val;
         } catch (Exception ex) {
-            Globals.getLogger().log(Logger.INFO,
-                BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);
+            Globals.getLogger().log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);
             return defval;
         }
     }
 
-    public static boolean getBooleanValue(String propname, 
-                          Map params, boolean defval) {
-        String propvalstr = (String)params.get(propname);
+    public static boolean getBooleanValue(String propname, Map params, boolean defval) {
+        String propvalstr = (String) params.get(propname);
         if (propvalstr == null) {
             return defval;
         }
@@ -516,8 +448,7 @@ public class TcpProtocol implements Protocol
             boolean val = Boolean.valueOf(propvalstr).booleanValue();
             return val;
         } catch (Exception ex) {
-            Globals.getLogger().log(Logger.INFO,
-                BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);
+            Globals.getLogger().log(Logger.INFO, BrokerResources.E_BAD_PROPERTY_VALUE, propname, ex);
             return defval;
         }
     }
@@ -532,14 +463,11 @@ public class TcpProtocol implements Protocol
         return serversocket.getLocalPort();
     }
 
-
     public String toString() {
         boolean nio = (chl != null);
         boolean blockednio = (nio && blocking);
-        return "tcp(host = " 
-                 + (hostname == null ? Globals.HOSTNAME_ALL  : hostname) 
-                 + ", port=" + port + ", mode="+ modelName
-                 + (blockednio ? " [blocked i/o]" : "") + ")";
+        return "tcp(host = " + (hostname == null ? Globals.HOSTNAME_ALL : hostname) + ", port=" + port + ", mode=" + modelName
+                + (blockednio ? " [blocked i/o]" : "") + ")";
     }
 
     public void setNoDelay(boolean val) {
@@ -547,8 +475,7 @@ public class TcpProtocol implements Protocol
     }
 
     public void setTimeout(int val) {
-        throw new UnsupportedOperationException(
-            "Setting timeouts no longer supported");
+        throw new UnsupportedOperationException("Setting timeouts no longer supported");
     }
 
     public void setInputBufferSize(int val) {
@@ -566,7 +493,6 @@ public class TcpProtocol implements Protocol
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
-
 
     public boolean getBlocking() {
         return blocking;

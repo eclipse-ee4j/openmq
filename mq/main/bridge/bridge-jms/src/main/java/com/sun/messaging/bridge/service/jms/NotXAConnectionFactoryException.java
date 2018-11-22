@@ -15,18 +15,16 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.service.jms;
-
 
 /**
  * 
  * @author amyk
  */
 
-public class NotXAConnectionFactoryException extends Exception
-{
+public class NotXAConnectionFactoryException extends Exception {
     /**
      *
      * @param msg the detail message

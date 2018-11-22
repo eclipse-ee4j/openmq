@@ -16,7 +16,7 @@
 
 /*
  * @(#)UnknownTransactionException.java	1.1 10/24/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 

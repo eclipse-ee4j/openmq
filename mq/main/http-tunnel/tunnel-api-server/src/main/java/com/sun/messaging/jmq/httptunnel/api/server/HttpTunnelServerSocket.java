@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.httptunnel.api.server;
 
 import java.io.IOException;
@@ -23,10 +23,9 @@ import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 
 public interface HttpTunnelServerSocket {
 
-    public void init(HttpTunnelServerDriver wire) throws IOException; 
+    public void init(HttpTunnelServerDriver wire) throws IOException;
 
-    public HttpTunnelSocket accept() throws IOException; 
+    public HttpTunnelSocket accept() throws IOException;
 
-    public void close() throws IOException; 
+    public void close() throws IOException;
 }
-

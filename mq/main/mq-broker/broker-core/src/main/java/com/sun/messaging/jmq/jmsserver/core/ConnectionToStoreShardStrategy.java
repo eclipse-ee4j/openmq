@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -29,8 +29,6 @@ import org.glassfish.hk2.api.PerLookup;
  */
 @Contract
 @PerLookup
-public interface ConnectionToStoreShardStrategy 
-{
-    public PartitionedStore chooseStorePartition(Collection<ShardStrategyContext> pscs)
-    throws BrokerException;
+public interface ConnectionToStoreShardStrategy {
+    public PartitionedStore chooseStorePartition(Collection<ShardStrategyContext> pscs) throws BrokerException;
 }

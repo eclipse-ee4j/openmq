@@ -17,6 +17,7 @@
 package com.sun.messaging.bridge.service.jms;
 
 import javax.jms.Connection;
+
 /**
  *
  * @author amyk
@@ -43,9 +44,9 @@ public abstract class PooledConnection {
         _idletime = System.currentTimeMillis();
     }
 
-    public void idleEnd() { 
+    public void idleEnd() {
         _idletime = 0;
-    }        
+    }
 
     public long getIdleStartTime() {
         return _idletime;

@@ -16,7 +16,7 @@
 
 /*
  * @(#)IntegerField.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console.util;
 
@@ -28,21 +28,20 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
 public class IntegerField extends JTextField {
-    
-    //*****************************************************************
+
+    // *****************************************************************
     // Constructors
-    
+
     public IntegerField(long min, long max, String text) {
-	this(min, max, text, 0);
+        this(min, max, text, 0);
     }
 
     public IntegerField(long min, long max, int columns) {
-	this(min, max, null, columns);
+        this(min, max, null, columns);
     }
 
-    public IntegerField(long min, long max, 
-			String text, int columns) {
-	super(new IntegerDocument(min, max), text, columns);
+    public IntegerField(long min, long max, String text, int columns) {
+        super(new IntegerDocument(min, max), text, columns);
     }
 }
 
@@ -53,63 +52,53 @@ class IntegerDocument extends PlainDocument {
     long min;
     long max;
 
-    //*********************************************************************
+    // *********************************************************************
     // Constructors
-    
+
     public IntegerDocument(long min, long max) {
-	this.min = min;
-	this.max = max;
+        this.min = min;
+        this.max = max;
     }
-    
-    //*********************************************************************
+
+    // *********************************************************************
     // Validation routines
 
-    public void insertString(int offset, String str, AttributeSet a)
-	 throws BadLocationException 
-    {
-	// Validate each char in str checking if in '0' .. '9'.
-	// If the min value is < 0, then allow a '-' only in the
-	// first position.
+    public void insertString(int offset, String str, AttributeSet a) throws BadLocationException {
+        // Validate each char in str checking if in '0' .. '9'.
+        // If the min value is < 0, then allow a '-' only in the
+        // first position.
 
-	for (int i=0; i<str.length(); i++) {
-	    int keyCode = (int)str.charAt(i);
-	    if (keyCode < KeyEvent.VK_0 || keyCode > KeyEvent.VK_9) {
-		// keyCode 45 is the '-' char.
-		if (!(min < 0 && offset == 0 && keyCode == 45)) {
-		    Toolkit.getDefaultToolkit().beep();
-		    return;
-		}
-	    }
-	}
-	
-	// Validate the entire string in text field making
-	// sure it's within range.
+        for (int i = 0; i < str.length(); i++) {
+            int keyCode = (int) str.charAt(i);
+            if (keyCode < KeyEvent.VK_0 || keyCode > KeyEvent.VK_9) {
+                // keyCode 45 is the '-' char.
+                if (!(min < 0 && offset == 0 && keyCode == 45)) {
+                    Toolkit.getDefaultToolkit().beep();
+                    return;
+                }
+            }
+        }
 
-	String sval = getText(0, getLength());
-	sval = sval.substring(0, offset) + str +
-	    sval.substring(offset, sval.length());
-	// Max digits for a number to fit in a type long.
-	// And also make sure two '-'s weren't entered.
-	if (sval.length() > 18 || sval.startsWith("--")) {
-	    Toolkit.getDefaultToolkit().beep();
-	    return;
-	} else if (!sval.equals("-") && sval.length() > 0) {
-	    // Evaluate only if it's not a single '-' char.
-	    long ival = Long.parseLong(sval);
-	    if (ival < min || ival > max) {
-		Toolkit.getDefaultToolkit().beep();
-		return;
-	    }
-	}
-	
-	// Accept the input.
-	super.insertString(offset, str, a);
+        // Validate the entire string in text field making
+        // sure it's within range.
+
+        String sval = getText(0, getLength());
+        sval = sval.substring(0, offset) + str + sval.substring(offset, sval.length());
+        // Max digits for a number to fit in a type long.
+        // And also make sure two '-'s weren't entered.
+        if (sval.length() > 18 || sval.startsWith("--")) {
+            Toolkit.getDefaultToolkit().beep();
+            return;
+        } else if (!sval.equals("-") && sval.length() > 0) {
+            // Evaluate only if it's not a single '-' char.
+            long ival = Long.parseLong(sval);
+            if (ival < min || ival > max) {
+                Toolkit.getDefaultToolkit().beep();
+                return;
+            }
+        }
+
+        // Accept the input.
+        super.insertString(offset, str, a);
     }
 }
-
-
-
-
-
-
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQRMIServerSocketFactory.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
@@ -66,221 +66,203 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
     protected static final Logger logger = Globals.getLogger();
     protected static final BrokerResources br = Globals.getBrokerResources();
 
-    public MQRMIServerSocketFactory(String jmxHostname, int backlog, boolean useSSL)  {
+    public MQRMIServerSocketFactory(String jmxHostname, int backlog, boolean useSSL) {
         this.jmxHostname = jmxHostname;
         this.backlog = backlog;
         this.useSSL = useSSL;
     }
 
     public ServerSocket createServerSocket(int port) throws IOException {
-        ServerSocket serversocket = null;      
+        ServerSocket serversocket = null;
 
-	if (useSSL)  {
-            SSLServerSocketFactory ssf =
-                (SSLServerSocketFactory)getSSLServerSocketFactory();
+        if (useSSL) {
+            SSLServerSocketFactory ssf = (SSLServerSocketFactory) getSSLServerSocketFactory();
 
             InetSocketAddress endpoint;
-	    if (jmxHostname != null && !jmxHostname.equals(Globals.HOSTNAME_ALL)) {
-	        /*
-	         * Scenario: SSL + multihome
-	         */
+            if (jmxHostname != null && !jmxHostname.equals(Globals.HOSTNAME_ALL)) {
+                /*
+                 * Scenario: SSL + multihome
+                 */
                 InetAddress bindAddr = Globals.getJMXInetAddress();
-		endpoint = new InetSocketAddress(bindAddr, port);
-                serversocket = (SSLServerSocket)ssf.createServerSocket();
+                endpoint = new InetSocketAddress(bindAddr, port);
+                serversocket = (SSLServerSocket) ssf.createServerSocket();
 
-		serversocket.setReuseAddress(true);
+                serversocket.setReuseAddress(true);
 
-	    } else  {
-	        /*
-	         * Scenario: SSL
-	         */
-		endpoint = new InetSocketAddress(port);
-                serversocket = (SSLServerSocket)ssf.createServerSocket();
+            } else {
+                /*
+                 * Scenario: SSL
+                 */
+                endpoint = new InetSocketAddress(port);
+                serversocket = (SSLServerSocket) ssf.createServerSocket();
 
-		serversocket.setReuseAddress(true);
-	    }
+                serversocket.setReuseAddress(true);
+            }
             if (Globals.getPoodleFixEnabled()) {
                 Globals.applyPoodleFix(serversocket, "MQRMIServerSocketFactory");
             }
             serversocket.bind(endpoint, backlog);
-	} else  {
-	    if (jmxHostname != null && !jmxHostname.equals(Globals.HOSTNAME_ALL)) {
-	        /*
-	         * Scenario: multihome
-	         */
+        } else {
+            if (jmxHostname != null && !jmxHostname.equals(Globals.HOSTNAME_ALL)) {
+                /*
+                 * Scenario: multihome
+                 */
                 InetAddress bindAddr = Globals.getJMXInetAddress();
-		InetSocketAddress endpoint = new InetSocketAddress(bindAddr, port);
+                InetSocketAddress endpoint = new InetSocketAddress(bindAddr, port);
 
-		serversocket = new ServerSocket();
+                serversocket = new ServerSocket();
 
-		serversocket.setReuseAddress(true);
+                serversocket.setReuseAddress(true);
 
-		serversocket.bind(endpoint, backlog);
-	    } else  {
-		/*
-		 * We shouldn't really get here since this socket factory should only be used
-		 * for ssl and/or multihome support. For the normal case (no ssl, no multihome),
-		 * no special socket factory should be needed.
-		 */
-		InetSocketAddress endpoint = new InetSocketAddress(port);
-		serversocket = new ServerSocket();
+                serversocket.bind(endpoint, backlog);
+            } else {
+                /*
+                 * We shouldn't really get here since this socket factory should only be used for ssl and/or multihome support. For the
+                 * normal case (no ssl, no multihome), no special socket factory should be needed.
+                 */
+                InetSocketAddress endpoint = new InetSocketAddress(port);
+                serversocket = new ServerSocket();
 
-		serversocket.setReuseAddress(true);
+                serversocket.setReuseAddress(true);
 
-		serversocket.bind(endpoint, backlog);
-	    }
-	}
+                serversocket.bind(endpoint, backlog);
+            }
+        }
 
-	return (serversocket);
+        return (serversocket);
     }
 
-    public String toString()  {
-	return ("jmxHostname="
-		+ jmxHostname
-		+ ",backlog="
-		+ backlog
-		+ ",useSSL="
-		+ useSSL);
+    public String toString() {
+        return ("jmxHostname=" + jmxHostname + ",backlog=" + backlog + ",useSSL=" + useSSL);
     }
 
-    public boolean equals(Object obj)  {
-	if (!(obj instanceof MQRMIServerSocketFactory))  {
-	    return (false);
-	}
+    public boolean equals(Object obj) {
+        if (!(obj instanceof MQRMIServerSocketFactory)) {
+            return (false);
+        }
 
-	MQRMIServerSocketFactory that = (MQRMIServerSocketFactory)obj;
+        MQRMIServerSocketFactory that = (MQRMIServerSocketFactory) obj;
 
-	if (this.jmxHostname != null)  {
-	    if ((that.jmxHostname == null) || !that.jmxHostname.equals(this.jmxHostname))  {
-	        return (false);
-	    }
-	} else  {
-	    if (that.jmxHostname != null)  {
-	        return (false);
-	    }
-	}
+        if (this.jmxHostname != null) {
+            if ((that.jmxHostname == null) || !that.jmxHostname.equals(this.jmxHostname)) {
+                return (false);
+            }
+        } else {
+            if (that.jmxHostname != null) {
+                return (false);
+            }
+        }
 
-	if (this.backlog != that.backlog)  {
-	    return (false);
-	}
+        if (this.backlog != that.backlog) {
+            return (false);
+        }
 
-	if (this.useSSL != that.useSSL)  {
-	    return (false);
-	}
+        if (this.useSSL != that.useSSL) {
+            return (false);
+        }
 
-	return (true);
+        return (true);
     }
 
-    public int hashCode()  {
-	return toString().hashCode();
+    public int hashCode() {
+        return toString().hashCode();
     }
 
-    private static ServerSocketFactory getSSLServerSocketFactory()
-	throws IOException {
+    private static ServerSocketFactory getSSLServerSocketFactory() throws IOException {
 
         synchronized (classlock) {
 
-	  if (ssfactory == null) {
+            if (ssfactory == null) {
 
-	    // need to get a SSLServerSocketFactory
-	    try {
-	    
-		// set up key manager to do server authentication
-		// Don't i18n Strings here.  They are key words
-		SSLContext ctx;
-		KeyManagerFactory kmf;
-		KeyStore ks;		
-
-		String keystore_location = KeystoreUtil.getKeystoreLocation();
-
-		// Got Keystore full filename 
-
-		// Check if the keystore exists.  If not throw exception.
-		// This is done first as if the keystore does not exist, then
-		// there is no point in going further.
-	    	   
-		File kf = new File(keystore_location);	
-		if (kf.exists()) {
-		    // nothing to do for now.		
-		} else {
-		    throw new IOException(
-			br.getKString(BrokerResources.E_KEYSTORE_NOT_EXIST,
-					keystore_location));
-		}	
-
-		/*
-		 *     check if password is in the property file
-		 *        if not present, 
-		 *            then prompt for password.
-		 *
-		 * If password is not set by any of the above 2 methods, then
-		 * keystore cannot be opened and the program exists by 
-		 * throwing an exception stating:
-		 * "Keystore was tampered with, or password was incorrect"
-		 *
-		 */
-
-		// Get Passphrase from property setting 
-
-		String pass_phrase = KeystoreUtil.getKeystorePassword();
-	    
-		// Got Passphrase. 
- 	    
-		if (pass_phrase == null) {
-		    // In reality we should never reach this stage, but, 
-		    // just in case, a check		
-		    pass_phrase = "";
-		    logger.log(Logger.ERROR, br.getKString(
-					BrokerResources.E_PASS_PHRASE_NULL));
-		}
-	    
-		char[] passphrase = pass_phrase.toCharArray();
-
-
-		// Magic key to select the TLS protocol needed by JSSE
-		// do not i18n these key strings.
-		ctx = SSLContext.getInstance("TLS");
-        try {
-            kmf = KeyManagerFactory.getInstance("SunX509");  // Cert type
-        } catch (NoSuchAlgorithmException e) {
-            String defaultAlg = KeyManagerFactory.getDefaultAlgorithm();
-            logger.log(logger.INFO, 
-                   br.getKString(br.I_KEYMGRFACTORY_USE_DEFAULT_ALG, 
-                                 e.getMessage(),defaultAlg));
-            kmf = KeyManagerFactory.getInstance(defaultAlg);
-        }
-
-		ks = KeyStore.getInstance("JKS");  // Keystore type
-
-                FileInputStream is =  new FileInputStream(keystore_location);
+                // need to get a SSLServerSocketFactory
                 try {
-		    ks.load(is, passphrase);
-                } finally {
-                    try {              
-                    is.close();
-                    } catch (Exception e) {
-                    /* ignore */
+
+                    // set up key manager to do server authentication
+                    // Don't i18n Strings here. They are key words
+                    SSLContext ctx;
+                    KeyManagerFactory kmf;
+                    KeyStore ks;
+
+                    String keystore_location = KeystoreUtil.getKeystoreLocation();
+
+                    // Got Keystore full filename
+
+                    // Check if the keystore exists. If not throw exception.
+                    // This is done first as if the keystore does not exist, then
+                    // there is no point in going further.
+
+                    File kf = new File(keystore_location);
+                    if (kf.exists()) {
+                        // nothing to do for now.
+                    } else {
+                        throw new IOException(br.getKString(BrokerResources.E_KEYSTORE_NOT_EXIST, keystore_location));
                     }
+
+                    /*
+                     * check if password is in the property file if not present, then prompt for password.
+                     *
+                     * If password is not set by any of the above 2 methods, then keystore cannot be opened and the program exists by
+                     * throwing an exception stating: "Keystore was tampered with, or password was incorrect"
+                     *
+                     */
+
+                    // Get Passphrase from property setting
+
+                    String pass_phrase = KeystoreUtil.getKeystorePassword();
+
+                    // Got Passphrase.
+
+                    if (pass_phrase == null) {
+                        // In reality we should never reach this stage, but,
+                        // just in case, a check
+                        pass_phrase = "";
+                        logger.log(Logger.ERROR, br.getKString(BrokerResources.E_PASS_PHRASE_NULL));
+                    }
+
+                    char[] passphrase = pass_phrase.toCharArray();
+
+                    // Magic key to select the TLS protocol needed by JSSE
+                    // do not i18n these key strings.
+                    ctx = SSLContext.getInstance("TLS");
+                    try {
+                        kmf = KeyManagerFactory.getInstance("SunX509"); // Cert type
+                    } catch (NoSuchAlgorithmException e) {
+                        String defaultAlg = KeyManagerFactory.getDefaultAlgorithm();
+                        logger.log(logger.INFO, br.getKString(br.I_KEYMGRFACTORY_USE_DEFAULT_ALG, e.getMessage(), defaultAlg));
+                        kmf = KeyManagerFactory.getInstance(defaultAlg);
+                    }
+
+                    ks = KeyStore.getInstance("JKS"); // Keystore type
+
+                    FileInputStream is = new FileInputStream(keystore_location);
+                    try {
+                        ks.load(is, passphrase);
+                    } finally {
+                        try {
+                            is.close();
+                        } catch (Exception e) {
+                            /* ignore */
+                        }
+                    }
+                    kmf.init(ks, passphrase);
+
+                    TrustManager[] tm = new TrustManager[1];
+                    tm[0] = new DefaultTrustManager();
+
+                    // SHA1 random number generator
+                    SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+
+                    ctx.init(kmf.getKeyManagers(), null, random);
+
+                    ssfactory = ctx.getServerSocketFactory();
+                } catch (IOException e) {
+                    throw e;
+                } catch (Exception e) {
+                    throw new IOException(e.toString());
                 }
-		kmf.init(ks, passphrase);
-	    
-		TrustManager[] tm = new TrustManager[1];
-		tm[0] = new DefaultTrustManager();
-	    
-		// SHA1 random number generator
-		SecureRandom random = SecureRandom.getInstance("SHA1PRNG");  
-	    
-		ctx.init(kmf.getKeyManagers(), null, random);
+            } // if (ssfactory == null)
 
-		ssfactory = ctx.getServerSocketFactory();
-	    } catch (IOException e) {
-        	throw e;
-	    } catch (Exception e)  {
-		throw new IOException(e.toString());
-            }
-	  } // if (ssfactory == null)
-
-	  return ssfactory;
-	}
+            return ssfactory;
+        }
     }
 }

@@ -27,23 +27,21 @@ import java.util.Map;
  * @author chiaming
  */
 public class ReadOnlyMessageFactory {
-         
-    public static ReadOnlyRequestMessage 
-            createRequestMessage (Map props, InputStream in) throws IOException {
-        
+
+    public static ReadOnlyRequestMessage createRequestMessage(Map props, InputStream in) throws IOException {
+
         String body = SimpleMessageFactory.readHttpBody(props, in);
-        
+
         ReadOnlyRequestMessage message = new ReadOnlyRequestMessage(props, body);
-        
-        
+
         return message;
     }
-    
-    public static ReadOnlyResponseMessage createResponseMessage () {
-        
+
+    public static ReadOnlyResponseMessage createResponseMessage() {
+
         ReadOnlyResponseMessage message = new ReadOnlyResponseMessage();
-        
+
         return message;
     }
-   
+
 }

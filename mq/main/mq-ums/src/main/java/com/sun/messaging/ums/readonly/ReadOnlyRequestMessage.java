@@ -25,40 +25,40 @@ import java.util.Map;
  * @author chiaming
  */
 public class ReadOnlyRequestMessage {
-   
-     /**
+
+    /**
      * plain text message body content type.
      */
     public static final String CONTENT_TYPE = "text/plain;charset=UTF-8";
-      
+
     private String requestMessage = null;
-    
-    //private String destinationName = null;
-    
+
+    // private String destinationName = null;
+
     private Map properties = null;
-    
+
     public ReadOnlyRequestMessage(Map map, String text) {
         this.properties = map;
         this.requestMessage = text;
     }
-    
+
     public Map getMessageProperties() {
         return this.properties;
     }
-    
-    public String getMessageProperty (String name) {
-        
-        String[] values =  (String[]) this.properties.get (name);
-        
+
+    public String getMessageProperty(String name) {
+
+        String[] values = (String[]) this.properties.get(name);
+
         if (values != null) {
-            return values [0];
+            return values[0];
         } else {
             return null;
         }
     }
-        
+
     public String getRequestMessage() {
         return this.requestMessage;
     }
-    
+
 }

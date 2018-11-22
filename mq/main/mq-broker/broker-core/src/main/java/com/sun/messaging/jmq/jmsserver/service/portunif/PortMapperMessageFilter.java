@@ -33,9 +33,8 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.PortMapper;
 
-
 public class PortMapperMessageFilter extends BaseFilter {
-   
+
     protected static boolean DEBUG = false;
 
     /**
@@ -44,16 +43,13 @@ public class PortMapperMessageFilter extends BaseFilter {
      * @throws java.io.IOException
      */
     @Override
-    public NextAction handleRead(final FilterChainContext ctx)
-    throws IOException {
+    public NextAction handleRead(final FilterChainContext ctx) throws IOException {
 
         final Buffer input = ctx.getMessage();
 
         String data = input.toStringContent(Charset.forName("UTF-8"));
         if (DEBUG) {
-            Globals.getLogger().log(Logger.INFO,
-            "PortMapperMessageFilter.handleRead called with data="+data+
-            " from connection "+ctx.getConnection());
+            Globals.getLogger().log(Logger.INFO, "PortMapperMessageFilter.handleRead called with data=" + data + " from connection " + ctx.getConnection());
         }
         input.tryDispose();
 
@@ -66,55 +62,36 @@ public class PortMapperMessageFilter extends BaseFilter {
      * @throws java.io.IOException
      */
     @Override
-    public NextAction handleWrite(final FilterChainContext ctx)
-    throws IOException {
+    public NextAction handleWrite(final FilterChainContext ctx) throws IOException {
 
         final Buffer output = ctx.getMessage();
         output.flip();
 
         if (DEBUG) {
             Globals.getLogger().log(Logger.INFO,
-            "PortMapperMessageFilter.handleWrite called with data size "+output.remaining()+
-            " for connection "+ctx.getConnection());
+                    "PortMapperMessageFilter.handleWrite called with data size " + output.remaining() + " for connection " + ctx.getConnection());
         }
         ctx.setMessage(output);
 
         return ctx.getInvokeAction();
     }
 
-    public static PUProtocol configurePortMapperProtocol(
-        PUService pu, 
-        PUServiceCallback cb) throws IOException {
+    public static PUProtocol configurePortMapperProtocol(PUService pu, PUServiceCallback cb) throws IOException {
 
-        final FilterChain pmProtocolFilterChain =
-                pu.getPUFilterChainBuilder()
-                    .add(new PortMapperMessageFilter())
-                    .add(new PortMapperServiceFilter(false))
-                    .build();
-        return new PUProtocol(new PortMapperProtocolFinder(cb, false),
-                              pmProtocolFilterChain);
+        final FilterChain pmProtocolFilterChain = pu.getPUFilterChainBuilder().add(new PortMapperMessageFilter()).add(new PortMapperServiceFilter(false))
+                .build();
+        return new PUProtocol(new PortMapperProtocolFinder(cb, false), pmProtocolFilterChain);
     }
 
-    public static PUProtocol configurePortMapperSSLProtocol(
-        PUService pu, 
-        PUServiceCallback cb, 
-        Properties sslprops, boolean clientAuthRequired)
-        throws IOException {
+    public static PUProtocol configurePortMapperSSLProtocol(PUService pu, PUServiceCallback cb, Properties sslprops, boolean clientAuthRequired)
+            throws IOException {
 
-        if (!pu.initializeSSL(sslprops, clientAuthRequired, cb, 
-                 Globals.getPoodleFixEnabled(),
-                 Globals.getKnownSSLEnabledProtocols("PortMapper"))) {
-            throw new IOException(
-            "Unexpected: Someone initialized SSL PUService before PortMapper service");
+        if (!pu.initializeSSL(sslprops, clientAuthRequired, cb, Globals.getPoodleFixEnabled(), Globals.getKnownSSLEnabledProtocols("PortMapper"))) {
+            throw new IOException("Unexpected: Someone initialized SSL PUService before PortMapper service");
         }
 
-        final FilterChain pmSSLProtocolFilterChain =
-                pu.getSSLPUFilterChainBuilder()
-                    .add(new PortMapperMessageFilter())
-                    .add(new PortMapperServiceFilter(true))
-                    .build();
-        return new PUProtocol(new PortMapperProtocolFinder(cb, true),
-                              pmSSLProtocolFilterChain);
+        final FilterChain pmSSLProtocolFilterChain = pu.getSSLPUFilterChainBuilder().add(new PortMapperMessageFilter()).add(new PortMapperServiceFilter(true))
+                .build();
+        return new PUProtocol(new PortMapperProtocolFinder(cb, true), pmSSLProtocolFilterChain);
     }
 }
-

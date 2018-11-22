@@ -16,33 +16,33 @@
 
 /*
  * @(#)JMSXATopicConnection.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** An JMSXATopicConnection creates JMSXATopicSession and provides the associated TopicConnection.
-  *
-  * @see         com.sun.jms.xa.XAConnection
-  */
+/**
+ * An JMSXATopicConnection creates JMSXATopicSession and provides the associated TopicConnection.
+ *
+ * @see com.sun.jms.xa.XAConnection
+ */
 
-public interface JMSXATopicConnection 
-	extends JMSXAConnection {
+public interface JMSXATopicConnection extends JMSXAConnection {
 
-    /** Create an XATopicSession.
-      *  
-      * @exception JMSException if JMS Connection fails to create a
-      *                         XA topic session due to some internal error.
-      */ 
+    /**
+     * Create an XATopicSession.
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
 
-    JMSXATopicSession
-    createXATopicSession(boolean transacted, int acknowledgeMode) throws JMSException;
+    JMSXATopicSession createXATopicSession(boolean transacted, int acknowledgeMode) throws JMSException;
 
-    /** get a TopicConnection associated with this XATopicConnection object.
-      *  
-      * @return a TopicConnection.
-      */ 
+    /**
+     * get a TopicConnection associated with this XATopicConnection object.
+     * 
+     * @return a TopicConnection.
+     */
 
     TopicConnection getTopicConnection();
 }

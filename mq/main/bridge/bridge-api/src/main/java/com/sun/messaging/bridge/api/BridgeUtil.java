@@ -33,7 +33,8 @@ public class BridgeUtil {
      */
     public static List<String> getListProperty(String name, Properties props) {
         String value = props.getProperty(name);
-        if (value == null) return new ArrayList<String>();
+        if (value == null)
+            return new ArrayList<String>();
         return breakToList(value, ",");
     }
 
@@ -47,16 +48,15 @@ public class BridgeUtil {
             while (start < newtoken.length()) {
                 if (!Character.isSpaceChar(newtoken.charAt(start)))
                     break;
-                start ++;
+                start++;
             }
             if (start > 0)
-                newtoken = newtoken.substring(start+1);
+                newtoken = newtoken.substring(start + 1);
             if (newtoken.trim().length() > 0)
                 retv.add(newtoken.trim());
         }
         return retv;
     }
-
 
     /**
      * Returns a list of property names that match specified name prefix.
@@ -68,7 +68,7 @@ public class BridgeUtil {
         ArrayList<String> list = new ArrayList<String>();
         Enumeration e = props.keys();
         while (e.hasMoreElements()) {
-            String key = (String)e.nextElement();
+            String key = (String) e.nextElement();
             if (key.startsWith(prefix)) {
                 list.add(key);
             }
@@ -79,8 +79,8 @@ public class BridgeUtil {
     public static String toString(String[] args) {
         StringBuffer buf = new StringBuffer();
         for (int i = 0; i < args.length; i++) {
-           buf.append(args[i]);
-           buf.append(" ");
+            buf.append(args[i]);
+            buf.append(" ");
         }
         return buf.toString();
     }

@@ -16,13 +16,12 @@
 
 /*
  * @(#)NoPermissionException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when attempting to perform an
- * operation for which the client has no permission.
+ * This exception must be thrown when attempting to perform an operation for which the client has no permission.
  */
 
 public class NoPermissionException extends ObjStoreException {
@@ -35,4 +34,3 @@ public class NoPermissionException extends ObjStoreException {
         super(reason);
     }
 }
-

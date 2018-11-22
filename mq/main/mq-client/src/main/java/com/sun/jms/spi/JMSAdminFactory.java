@@ -16,39 +16,36 @@
 
 /*
  * @(#)JMSAdminFactory.java	1.5 06/28/07
- */ 
- 
+ */
+
 package com.sun.jms.spi;
+
 import javax.jms.JMSException;
 
 /**
- * Interface definition to return an instance which implements JMSAdmin. 
+ * Interface definition to return an instance which implements JMSAdmin.
  */
 
-public interface JMSAdminFactory
-{
+public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
+     * 
      * @param jmsAdminURL JMSAdmin URL
-     * @param userName        
-     * @param password 
+     * @param userName
+     * @param password
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
-    JMSAdmin getJMSAdmin(String jmsAdminURL, 
-                         String userName, String password)
-        throws JMSException;
+    JMSAdmin getJMSAdmin(String jmsAdminURL, String userName, String password) throws JMSException;
 
     /**
      * Create/return an instance implementing JMSAdmin.
+     * 
      * @param jmsAdminURL JMSAdmin URL
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
-    JMSAdmin getJMSAdmin(String jmsAdminURL)
-        throws JMSException;
+    JMSAdmin getJMSAdmin(String jmsAdminURL) throws JMSException;
 
 }
-
-

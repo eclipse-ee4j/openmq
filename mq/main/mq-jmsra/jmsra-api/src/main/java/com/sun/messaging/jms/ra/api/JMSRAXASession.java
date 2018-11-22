@@ -20,10 +20,11 @@ import javax.jms.JMSException;
 
 /**
  */
-public interface JMSRAXASession
-{
+public interface JMSRAXASession {
     public void finishXATransactionForMC();
+
     public void setFailoverOccurred(boolean v);
+
     public void initXATransactionForMC(long transactionID) throws JMSException;
 
 }

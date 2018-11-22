@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 
@@ -40,10 +40,9 @@ import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyProtocolImpl;
 /**
  * @author amyk
  */
-public class WebSocketProtocolImpl extends GrizzlyProtocolImpl
-{
+public class WebSocketProtocolImpl extends GrizzlyProtocolImpl {
 
-    private static final int DEFAULT_WS_PORT = 7670; 
+    private static final int DEFAULT_WS_PORT = 7670;
     private static final int DEFAULT_WSS_PORT = 7671;
 
     public WebSocketProtocolImpl(WebSocketIPService s, String proto) {
@@ -57,7 +56,7 @@ public class WebSocketProtocolImpl extends GrizzlyProtocolImpl
 
     @Override
     protected boolean isSSLProtocol() {
-        if (proto.equals("wss")) { 
+        if (proto.equals("wss")) {
             return true;
         }
         return false;

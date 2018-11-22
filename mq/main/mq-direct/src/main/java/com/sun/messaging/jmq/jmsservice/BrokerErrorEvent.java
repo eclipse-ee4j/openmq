@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerErrorEvent.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -26,27 +26,26 @@ package com.sun.messaging.jmq.jmsservice;
 public class BrokerErrorEvent extends BrokerEvent {
 
     /**
-     *  The error number of the error
+     * The error number of the error
      */
     private int errorNumber;
 
     /**
-     *  The timestamp of when the error occurred
+     * The timestamp of when the error occurred
      */
     private long errorTimestamp;
 
     /**
-     *  The error level of the error
+     * The error level of the error
      */
     private int errorLevel;
 
     /** Creates a new instance of BrokerErrorEvent */
-    public BrokerErrorEvent(Object source, int errno, int level,
-            long timestamp, String msg) {
-        super (source, BrokerEvent.Type.ERROR, msg);
+    public BrokerErrorEvent(Object source, int errno, int level, long timestamp, String msg) {
+        super(source, BrokerEvent.Type.ERROR, msg);
         errorNumber = errno;
         errorLevel = level;
         errorTimestamp = timestamp;
     }
-    
+
 }

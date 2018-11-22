@@ -16,7 +16,7 @@
 
 /*
  * @(#)GenerateUIDHandler.java	1.11 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -36,83 +36,74 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-
 /**
  * Handler class which deals with the GenerateUID packet.
  */
-public class GenerateUIDHandler extends PacketHandler 
-{
+public class GenerateUIDHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
 
-    public GenerateUIDHandler()
-    {
-        
+    public GenerateUIDHandler() {
+
     }
 
     /**
-     * Method to handle GenerateUID packet.
-     * We generate one or more unique ID's and return them in the body
-     * of the reply.
+     * Method to handle GenerateUID packet. We generate one or more unique ID's and return them in the body of the reply.
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException 
-    { 
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
-         if (DEBUG) {
-             logger.log(Logger.DEBUGHIGH, "GenerateUIDHandler: handle() [ Received GenerateUID Packet]");
-          }
+        if (DEBUG) {
+            logger.log(Logger.DEBUGHIGH, "GenerateUIDHandler: handle() [ Received GenerateUID Packet]");
+        }
 
-          Hashtable props = null;
-          try {
-              props = msg.getProperties();
-          } catch (Exception ex) {
-              logger.logStack(Logger.WARNING, "GEN-UID Packet.getProperties()", ex);
-              props = new Hashtable();
-          }
+        Hashtable props = null;
+        try {
+            props = msg.getProperties();
+        } catch (Exception ex) {
+            logger.logStack(Logger.WARNING, "GEN-UID Packet.getProperties()", ex);
+            props = new Hashtable();
+        }
 
-          Integer value = null; 
-          int quantity = 1;
-          if (props != null) {
-              value = (Integer)props.get("JMQQuantity");
-              if (value != null) {
+        Integer value = null;
+        int quantity = 1;
+        if (props != null) {
+            value = (Integer) props.get("JMQQuantity");
+            if (value != null) {
                 quantity = value.intValue();
-              }
-          }
+            }
+        }
 
-	  int status = Status.OK;
+        int status = Status.OK;
 
-          // Each UID is a long (8 bytes);
-          int size = quantity * 8;
+        // Each UID is a long (8 bytes);
+        int size = quantity * 8;
 
-          ByteBuffer body = ByteBuffer.allocate(size);
+        ByteBuffer body = ByteBuffer.allocate(size);
 
-          // Get the prefix used by this broker and allocate IDs.
-          // We could also do this by creating new jmq.util.UID's, but by
-          // doing it this way we avoid the object creation overhead.
-          short prefix = UID.getPrefix();
-          for (int n = 0; n < quantity; n++) {
+        // Get the prefix used by this broker and allocate IDs.
+        // We could also do this by creating new jmq.util.UID's, but by
+        // doing it this way we avoid the object creation overhead.
+        short prefix = UID.getPrefix();
+        for (int n = 0; n < quantity; n++) {
             body.putLong(UniqueID.generateID(prefix));
-          }
+        }
 
-          props = new Hashtable();
-          props.put("JMQStatus", Integer.valueOf(status));
-          props.put("JMQQuantity", Integer.valueOf(quantity));
-          if (((IMQBasicConnection)con).getDumpPacket() ||
-              ((IMQBasicConnection)con).getDumpOutPacket())
-              props.put("JMQReqID", msg.getSysMessageID().toString());
+        props = new Hashtable();
+        props.put("JMQStatus", Integer.valueOf(status));
+        props.put("JMQQuantity", Integer.valueOf(quantity));
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+            props.put("JMQReqID", msg.getSysMessageID().toString());
 
+        // Send reply
+        Packet pkt = new Packet(con.useDirectBuffers());
+        pkt.setPacketType(PacketType.GENERATE_UID_REPLY);
+        pkt.setConsumerID(msg.getConsumerID());
+        pkt.setProperties(props);
+        body.rewind();
+        pkt.setMessageBody(body);
 
-          // Send reply 
-          Packet pkt = new Packet(con.useDirectBuffers());
-          pkt.setPacketType(PacketType.GENERATE_UID_REPLY);
-          pkt.setConsumerID(msg.getConsumerID());
-          pkt.setProperties(props);
-          body.rewind();
-          pkt.setMessageBody(body);
+        con.sendControlMessage(pkt);
 
-	  con.sendControlMessage(pkt);
-
-          return true;
+        return true;
     }
 }

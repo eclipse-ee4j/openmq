@@ -16,13 +16,12 @@
 
 /*
  * @(#)SchemaViolationException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the service provider's schema
- * is violated in some way.
+ * This exception must be thrown when the service provider's schema is violated in some way.
  */
 
 public class SchemaViolationException extends ObjStoreException {
@@ -35,4 +34,3 @@ public class SchemaViolationException extends ObjStoreException {
         super(reason);
     }
 }
-

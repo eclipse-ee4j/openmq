@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAddress.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -27,8 +27,7 @@ import java.io.Serializable;
 /**
  * This class represents broker address URL.
  */
-public class MQAddress implements Serializable 
-{
+public class MQAddress implements Serializable {
     static final long serialVersionUID = -8430608988259524061L;
 
     public static final String isHostTrusted = "isHostTrusted";
@@ -54,33 +53,29 @@ public class MQAddress implements Serializable
 
     protected transient String tostring = null;
 
-    //This flag is used to indicate if 'isHostTrusted' prop is set in
-    //the imqAddressList.  If set, it over rides 'imqSSLIsHostTrusted'
-    //property.  If not set, 'imqSSLIsHostTrusted' value is used.
+    // This flag is used to indicate if 'isHostTrusted' prop is set in
+    // the imqAddressList. If set, it over rides 'imqSSLIsHostTrusted'
+    // property. If not set, 'imqSSLIsHostTrusted' value is used.
     protected transient boolean isSSLHostTrustedSet = false;
 
+    protected MQAddress() {
+    }
 
-    protected MQAddress() {}
-
-    protected void initialize(String addr) 
-        throws MalformedURLException
-    {
+    protected void initialize(String addr) throws MalformedURLException {
         this.addr = addr;
         this.init();
         this.parseAndValidate();
     }
 
-    protected void initialize(String host, int port) 
-        throws MalformedURLException
-    {
+    protected void initialize(String host, int port) throws MalformedURLException {
         if (port < 0) {
-            throw new MalformedURLException("Illegal port :"+port);
+            throw new MalformedURLException("Illegal port :" + port);
         }
         if (host == null || host.trim().length() == 0) {
-            this.addr = ":"+port;
+            this.addr = ":" + port;
         } else {
             URL u = new URL("http", host, port, "");
-            this.addr = u.getHost()+":"+port;
+            this.addr = u.getHost() + ":" + port;
         }
         this.init();
         this.parseAndValidate();
@@ -88,11 +83,11 @@ public class MQAddress implements Serializable
 
     private void init() {
         // Set the default value for isHostTrusted attribute.
-        props.setProperty(isHostTrusted, "false"); //TCR #3 default to false
+        props.setProperty(isHostTrusted, "false"); // TCR #3 default to false
     }
 
     protected void parseAndValidate() throws MalformedURLException {
-        //String tmp = new String(addr);
+        // String tmp = new String(addr);
         String tmp = addr;
 
         // Find scheme name.
@@ -104,22 +99,20 @@ public class MQAddress implements Serializable
             tmp = tmp.substring(i + 3);
         }
 
-        if (schemeName.equalsIgnoreCase("mq") ||
-            schemeName.equalsIgnoreCase("mq+ssl")) {
+        if (schemeName.equalsIgnoreCase("mq") || schemeName.equalsIgnoreCase("mq+ssl")) {
 
             /*
-             * Typical example -
-             * mq://jpgserv:7676/ssljms?isHostTrusted=true
+             * Typical example - mq://jpgserv:7676/ssljms?isHostTrusted=true
              */
             i = tmp.indexOf('?');
             if (i >= 0) {
-                String qs = tmp.substring(i+1);
+                String qs = tmp.substring(i + 1);
                 parseQueryString(qs);
                 tmp = tmp.substring(0, i);
             }
             i = tmp.indexOf('/');
             if (i >= 0) {
-                serviceName = tmp.substring(i+1);
+                serviceName = tmp.substring(i + 1);
                 tmp = tmp.substring(0, i);
             }
 
@@ -127,63 +120,53 @@ public class MQAddress implements Serializable
 
             if (serviceName == null || serviceName.equals(""))
                 serviceName = getDefaultServiceName();
-        }
-        else if (schemeName.equalsIgnoreCase("mqssl") ||
-                 schemeName.equalsIgnoreCase("mqtcp") ||
-                 schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS) ||
-                 schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
-           if (schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS) ||
-               schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
-               isWebSocket = true;
-           }
+        } else if (schemeName.equalsIgnoreCase("mqssl") || schemeName.equalsIgnoreCase("mqtcp") || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS)
+                || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
+            if (schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS) || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
+                isWebSocket = true;
+            }
             /*
-             * Typical example -
-             * mqtcp://jpgserv:12345/jms
-             * mqssl://jpgserv:23456/ssladmin
+             * Typical example - mqtcp://jpgserv:12345/jms mqssl://jpgserv:23456/ssladmin
              */
             i = tmp.indexOf('?');
             if (i >= 0) {
-                String qs = tmp.substring(i+1);
+                String qs = tmp.substring(i + 1);
                 parseQueryString(qs);
                 tmp = tmp.substring(0, i);
             }
 
             i = tmp.indexOf('/');
             if (i >= 0) {
-                serviceName = tmp.substring(i+1);
+                serviceName = tmp.substring(i + 1);
                 tmp = tmp.substring(0, i);
             }
             parseHostPort(tmp);
-        }
-        else if (schemeName.equalsIgnoreCase("http") ||
-            schemeName.equalsIgnoreCase("https")) {
+        } else if (schemeName.equalsIgnoreCase("http") || schemeName.equalsIgnoreCase("https")) {
             isHTTP = true;
             return;
-        }
-        else {
-            throw new MalformedURLException(
-                "Illegal address. Unknown address scheme : " + addr);
+        } else {
+            throw new MalformedURLException("Illegal address. Unknown address scheme : " + addr);
         }
     }
 
     protected void parseHostPort(String tmp) throws MalformedURLException {
-         
+
         int i = tmp.indexOf(':');
         if (i != -1 && i == tmp.lastIndexOf(':')) {
             String half1 = tmp.substring(0, i).trim();
-            String half2 = tmp.substring(i+1).trim();
+            String half2 = tmp.substring(i + 1).trim();
             if (half1.length() == 0 || half2.length() == 0) {
                 if (half1.length() == 0) {
                     addrHost = DEFAULT_HOSTNAME;
                 } else {
-                    addrHost = half1; 
+                    addrHost = half1;
                 }
                 if (half2.length() == 0) {
                     port = DEFAULT_PORTMAPPER_PORT;
                 } else {
                     port = Integer.parseInt(half2);
                     if (port < 0) {
-                        throw new MalformedURLException("Illegal port in :"+tmp);
+                        throw new MalformedURLException("Illegal port in :" + tmp);
                     }
 
                 }
@@ -191,7 +174,7 @@ public class MQAddress implements Serializable
             }
         }
 
-        URL hp = new URL("http://"+tmp);
+        URL hp = new URL("http://" + tmp);
         port = hp.getPort();
         if (port == -1) {
             port = DEFAULT_PORTMAPPER_PORT;
@@ -203,7 +186,7 @@ public class MQAddress implements Serializable
     }
 
     protected void parseQueryString(String qs) throws MalformedURLException {
-        //String tmp = new String(qs);
+        // String tmp = new String(qs);
         String tmp = qs;
 
         while (tmp.length() > 0) {
@@ -212,31 +195,27 @@ public class MQAddress implements Serializable
             int i = tmp.indexOf('&');
             if (i >= 0) {
                 pair = tmp.substring(0, i);
-                tmp = tmp.substring(i+1);
-            }
-            else {
+                tmp = tmp.substring(i + 1);
+            } else {
                 tmp = "";
             }
 
             int n = pair.indexOf('=');
             if (n <= 0)
-                throw new MalformedURLException(
-                    "Illegal address. Bad query string : " + addr);
+                throw new MalformedURLException("Illegal address. Bad query string : " + addr);
 
             String name = pair.substring(0, n);
-            String value = pair.substring(n+1);
+            String value = pair.substring(n + 1);
             props.setProperty(name, value);
 
-            if ( isHostTrusted.equals(name) ) {
+            if (isHostTrusted.equals(name)) {
                 isSSLHostTrustedSet = true;
             }
         }
     }
 
     public boolean isServicePortFinal() {
-        return (isHTTP || isWebSocket ||
-                schemeName.equalsIgnoreCase("mqtcp") ||
-                schemeName.equalsIgnoreCase("mqssl"));
+        return (isHTTP || isWebSocket || schemeName.equalsIgnoreCase("mqtcp") || schemeName.equalsIgnoreCase("mqssl"));
     }
 
     public String getProperty(String pname) {
@@ -246,8 +225,6 @@ public class MQAddress implements Serializable
     public boolean getIsSSLHostTrustedSet() {
         return this.isSSLHostTrustedSet;
     }
-
-
 
     public String getSchemeName() {
         return schemeName;
@@ -302,34 +279,29 @@ public class MQAddress implements Serializable
         if (obj == this) {
             return true;
         }
-        if(obj.getClass() != this.getClass()) {
-           return false;
+        if (obj.getClass() != this.getClass()) {
+            return false;
         }
-        return this.toString().equals(((MQAddress)obj).toString());
+        return this.toString().equals(((MQAddress) obj).toString());
     }
 
-    public String getDefaultServiceName()  {
-	return (DEFAULT_SERVICENAME);
+    public String getDefaultServiceName() {
+        return (DEFAULT_SERVICENAME);
     }
 
-
-     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+    /**
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static MQAddress getMQAddress(String addr) 
-        throws MalformedURLException {
+    public static MQAddress getMQAddress(String addr) throws MalformedURLException {
         MQAddress ret = new MQAddress();
         ret.initialize(addr);
         return ret;
     }
 
-    public static MQAddress getMQAddress(String host, int port) 
-        throws MalformedURLException {
+    public static MQAddress getMQAddress(String host, int port) throws MalformedURLException {
         MQAddress ret = new MQAddress();
         ret.initialize(host, port);
         return ret;
     }
-       
 
 }

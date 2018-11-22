@@ -16,7 +16,7 @@
 
 /*
  * @(#)SessionReader.java	1.34 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -35,34 +35,33 @@ public class SessionReader extends ConsumerReader {
     private boolean debug = Debug.debug;
 
     protected SessionImpl session = null;
-    
-    //bug 6360068 - Class defines field that obscures a superclass field.
-    //protected long timeout = 0;
 
-    //the message that is delivering/delivered to the message consumer
+    // bug 6360068 - Class defines field that obscures a superclass field.
+    // protected long timeout = 0;
+
+    // the message that is delivering/delivered to the message consumer
     protected volatile MessageImpl currentMessage = null;
 
-    public SessionReader (SessionImpl session) {
+    public SessionReader(SessionImpl session) {
         super(session.getConnection(), session.getSessionQueue());
         this.session = session;
 
-        //set timeout value
-        if ( (session.acknowledgeMode==Session.DUPS_OK_ACKNOWLEDGE) &&
-             (session.dupsOkAckOnTimeout == true) ) {
+        // set timeout value
+        if ((session.acknowledgeMode == Session.DUPS_OK_ACKNOWLEDGE) && (session.dupsOkAckOnTimeout == true)) {
 
-            if ( debug ) {
+            if (debug) {
                 Debug.println("**** setting dupsOkAckTimeout: " + session.dupsOkAckTimeout);
             }
 
-            //set dups ok ack timeout.
+            // set dups ok ack timeout.
             setTimeout(session.dupsOkAckTimeout);
         }
 
         init();
     }
-    
-    protected void setCurrentMessage (MessageImpl cm) {
-    	this.currentMessage = cm;
+
+    protected void setCurrentMessage(MessageImpl cm) {
+        this.currentMessage = cm;
     }
 
     /**
@@ -73,18 +72,17 @@ public class SessionReader extends ConsumerReader {
      * @exception IOException
      * @exception JMSException
      */
-    protected void deliver(ReadOnlyPacket packet)
-                      throws IOException, JMSException {
-    	
-        //XXX PROTOCOL2.1
+    protected void deliver(ReadOnlyPacket packet) throws IOException, JMSException {
+
+        // XXX PROTOCOL2.1
         long interestId = 0;
         Consumer consumer = null;
 
-        currentMessage = getJMSMessage ( packet );
-        //get intID
+        currentMessage = getJMSMessage(packet);
+        // get intID
         interestId = currentMessage.getInterestID();
 
-        //delegate to message consumer
+        // delegate to message consumer
         consumer = session.getMessageConsumer(Long.valueOf(interestId));
 
         if (consumer == null) {
@@ -94,9 +92,8 @@ public class SessionReader extends ConsumerReader {
         if (consumer != null) {
             consumer.onMessage(currentMessage);
         } else {
-            if ( debug ) {
-                String errorString = AdministeredObject.cr.getKString(
-                                     ClientResources.X_CONSUMER_NOTFOUND);
+            if (debug) {
+                String errorString = AdministeredObject.cr.getKString(ClientResources.X_CONSUMER_NOTFOUND);
 
                 Debug.getPrintStream().println(errorString);
                 packet.dump(Debug.getPrintStream());
@@ -112,25 +109,25 @@ public class SessionReader extends ConsumerReader {
      */
     protected void deliver() throws IOException, JMSException {
 
-        if ( sessionQueue.getIsClosed() == false ) {
+        if (sessionQueue.getIsClosed() == false) {
 
-            if ( session.dupsOkAckOnTimeout ) {
-                //do dups ok ack.
-                if ( debug ) {
+            if (session.dupsOkAckOnTimeout) {
+                // do dups ok ack.
+                if (debug) {
                     Debug.println("*** Calling dups ok commit from timeout thread");
                 }
 
                 session.syncedDupsOkCommitAcknowledge();
             }
 
-            if ( sessionQueue.isListenerSetLate() ) {
-                //someone set message listener
-                //after messages were delivered
-                //to the receiveQueue of the
-                //consumer.
+            if (sessionQueue.isListenerSetLate()) {
+                // someone set message listener
+                // after messages were delivered
+                // to the receiveQueue of the
+                // consumer.
                 onMessageToLateListeners();
 
-                //reset flag
+                // reset flag
                 sessionQueue.setListenerLate(false);
             }
         }
@@ -138,18 +135,15 @@ public class SessionReader extends ConsumerReader {
     }
 
     /**
-     * Check each message consumer and deliver messages
-     * from receive queue to the message listener.
-     * Loop through consumers table and call
-     * consumer.onMessageToListenerFromReceiveQueue() if
-     * the consumer has a message listener set.
+     * Check each message consumer and deliver messages from receive queue to the message listener. Loop through consumers
+     * table and call consumer.onMessageToListenerFromReceiveQueue() if the consumer has a message listener set.
      */
     protected void onMessageToLateListeners() throws JMSException {
         MessageConsumerImpl consumer = null;
         Enumeration enum2 = session.consumers.elements();
-        while ( enum2.hasMoreElements() ) {
+        while (enum2.hasMoreElements()) {
             consumer = (MessageConsumerImpl) enum2.nextElement();
-            if ( consumer.getSyncReadFlag() == false ) {
+            if (consumer.getSyncReadFlag() == false) {
                 consumer.onMessageToListenerFromReceiveQueue();
             }
         }
@@ -160,17 +154,16 @@ public class SessionReader extends ConsumerReader {
      *
      * @param pkt the packet to be converted.
      */
-    protected MessageImpl
-    getJMSMessage (ReadOnlyPacket pkt) throws JMSException {
-        MessageImpl msg = protocolHandler.getJMSMessage( pkt );
-        msg.setSession ( session );
+    protected MessageImpl getJMSMessage(ReadOnlyPacket pkt) throws JMSException {
+        MessageImpl msg = protocolHandler.getJMSMessage(pkt);
+        msg.setSession(session);
 
         return msg;
     }
 
-    public void dump (PrintStream ps) {
-        ps.println ("------ SessionReader dump ------");
-        ps.println ("Session ID: " + session.getSessionId() );
+    public void dump(PrintStream ps) {
+        ps.println("------ SessionReader dump ------");
+        ps.println("Session ID: " + session.getSessionId());
         super.dump(ps);
     }
 }

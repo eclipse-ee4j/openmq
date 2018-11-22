@@ -27,26 +27,25 @@ import org.glassfish.grizzly.ThreadCache;
  * @author oleksiys
  */
 public final class GrizzlyMQPacketList {
-    private static final ThreadCache.CachedTypeIndex<GrizzlyMQPacketList> CACHED_IDX =
-            ThreadCache.<GrizzlyMQPacketList>obtainIndex(GrizzlyMQPacketList.class, 1);
-    
-    private final List<Packet> packets =
-            new ArrayList<Packet>();
-    
+    private static final ThreadCache.CachedTypeIndex<GrizzlyMQPacketList> CACHED_IDX = ThreadCache.<GrizzlyMQPacketList>obtainIndex(GrizzlyMQPacketList.class,
+            1);
+
+    private final List<Packet> packets = new ArrayList<Packet>();
+
     private Buffer packetsBuffer;
 
     private GrizzlyMQPacketList() {
     }
-    
+
     public static GrizzlyMQPacketList create() {
         GrizzlyMQPacketList list = ThreadCache.takeFromCache(CACHED_IDX);
         if (list == null) {
             list = new GrizzlyMQPacketList();
         }
-        
+
         return list;
     }
-    
+
     public List<Packet> getPackets() {
         return packets;
     }
@@ -58,15 +57,15 @@ public final class GrizzlyMQPacketList {
     public Buffer getPacketsBuffer() {
         return packetsBuffer;
     }
-    
+
     public void recycle(final boolean isDisposeBuffer) {
         if (isDisposeBuffer && packetsBuffer != null) {
             packetsBuffer.dispose();
         }
         packetsBuffer = null;
-        
+
         packets.clear();
-        
+
         ThreadCache.putToCache(CACHED_IDX, this);
     }
 }

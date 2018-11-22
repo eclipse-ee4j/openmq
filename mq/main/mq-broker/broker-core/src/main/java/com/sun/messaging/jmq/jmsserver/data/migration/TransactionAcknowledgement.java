@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionAcknowledgement.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.migration;
 
@@ -27,13 +27,13 @@ import com.sun.messaging.jmq.util.log.*;
 import java.io.*;
 
 /**
- * Acknowledgement for transactions. 
+ * Acknowledgement for transactions.
  *
  * Object format prior to 370 filestore, use for migration purpose only.
+ * 
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement
  */
-public class TransactionAcknowledgement implements Serializable
-{
+public class TransactionAcknowledgement implements Serializable {
     // compatibility w/ 3.0.1
     static final long serialVersionUID = 1518763750089861353L;
 
@@ -55,11 +55,11 @@ public class TransactionAcknowledgement implements Serializable
 
     /**
      * Construct the acknowledgement with the specified sysid and iid.
-     * @param sysid	message system id
-     * @param iid	interest id
+     * 
+     * @param sysid message system id
+     * @param iid interest id
      */
-    public TransactionAcknowledgement(SysMessageID sysid, ConsumerUID iid,
-            ConsumerUID sid) {
+    public TransactionAcknowledgement(SysMessageID sysid, ConsumerUID iid, ConsumerUID sid) {
         this.sysid = sysid;
         this.iid = iid;
         this.sid = sid;
@@ -83,59 +83,53 @@ public class TransactionAcknowledgement implements Serializable
      * @return the message system id
      */
     public SysMessageID getSysMessageID() {
-	return sysid;
+        return sysid;
     }
 
     /**
-     * Returns a hash code value for this object.
-     * ?? just added the hashCode of sysid and iid together ??
+     * Returns a hash code value for this object. ?? just added the hashCode of sysid and iid together ??
      */
     public int hashCode() {
-	return sysid.hashCode() + iid.hashCode();
+        return sysid.hashCode() + iid.hashCode();
     }
 
     // just compare the hashcode
     public boolean equals(Object o) {
-	if ((o instanceof TransactionAcknowledgement) &&
-	    (hashCode() == o.hashCode())) {
-	    return true;
-	} else {
-	    return false;
-	}
+        if ((o instanceof TransactionAcknowledgement) && (hashCode() == o.hashCode())) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public String toString() {
-	return "[" + sysid.toString() + "]" + iid.toString() + ":"
-             + sid.toString();
+        return "[" + sysid.toString() + "]" + iid.toString() + ":" + sid.toString();
     }
 
     // for serializing the object
     private void writeObject(ObjectOutputStream s) throws IOException {
-	sysid.writeID(new DataOutputStream(s));
-	s.writeObject(iid);
-	s.writeObject(sid);
+        sysid.writeID(new DataOutputStream(s));
+        s.writeObject(iid);
+        s.writeObject(sid);
     }
 
     // for serializing the object
-    private void readObject(ObjectInputStream s)
-	throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
 
-	sysid = new SysMessageID();
-	sysid.readID(new DataInputStream(s));
-	iid = (ConsumerUID)s.readObject();
+        sysid = new SysMessageID();
+        sysid.readID(new DataInputStream(s));
+        iid = (ConsumerUID) s.readObject();
         try {
-	    sid = (ConsumerUID)s.readObject();
+            sid = (ConsumerUID) s.readObject();
         } catch (Exception ex) { // deal w/ missing field in 3.0.1
-            logger.log(Logger.DEBUG,"ReadObject: old transaction format");
+            logger.log(Logger.DEBUG, "ReadObject: old transaction format");
             sid = iid;
         }
     }
 
     public Object readResolve() throws ObjectStreamException {
         // Replace w/ the new object
-        Object obj = new 
-            com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement(
-                sysid, iid, sid);
+        Object obj = new com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement(sysid, iid, sid);
         return obj;
     }
 }

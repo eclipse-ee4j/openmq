@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestinationDAO.java	1.12 07/24/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -29,34 +29,21 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * This class is an interface for the Destination table which will be implemented
- * by database specific code.
+ * This class is an interface for the Destination table which will be implemented by database specific code.
  */
 public interface DestinationDAO extends BaseDAO {
 
     /**
-     * Destination table:
-     * Holds all the destination in the system.
+     * Destination table: Holds all the destination in the system.
      *
-     * CREATE TABLE MQDST<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *      ID                  VARCHAR(100) NOT NULL,
-     *      DESTINATION         LONGVARBINARY NOT NULL,
-     *      IS_LOCAL            INTEGER NOT NULL,
-     *      CONNECTION_ID       BIGINT,
-     *      CONNECTED_TS        BIGINT,
-     *      STORE_SESSION_ID    BIGINT,
-     *      CREATED_TS          BIGINT NOT NULL,
-     *      PRIMARY KEY(ID)
-     * );
+     * CREATE TABLE MQDST<schemaVersion>[C<clusterID>|S<brokerID>] ( ID VARCHAR(100) NOT NULL, DESTINATION LONGVARBINARY NOT
+     * NULL, IS_LOCAL INTEGER NOT NULL, CONNECTION_ID BIGINT, CONNECTED_TS BIGINT, STORE_SESSION_ID BIGINT, CREATED_TS
+     * BIGINT NOT NULL, PRIMARY KEY(ID) );
      *
-     * ID - Unique name of the Destination object
-     * DESTINATION - Serialized Destination object
-     * IS_LOCAL - Specify whether the destination is local
-     * CONNECTION_ID - Connection ID for temporary destination
-     * CONNECTED_TS - Timestamp when a temporary destination was created or
-     *      when a consumer connected to the destination
-     * STORE_SESSION_ID - Store session ID associated with the temporary destination
-     * CREATED_TS - Timestamp when the entry was created
+     * ID - Unique name of the Destination object DESTINATION - Serialized Destination object IS_LOCAL - Specify whether the
+     * destination is local CONNECTION_ID - Connection ID for temporary destination CONNECTED_TS - Timestamp when a
+     * temporary destination was created or when a consumer connected to the destination STORE_SESSION_ID - Store session ID
+     * associated with the temporary destination CREATED_TS - Timestamp when the entry was created
      */
     public static final String TABLE = "MQDST";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
@@ -68,36 +55,25 @@ public interface DestinationDAO extends BaseDAO {
     public static final String STORE_SESSION_ID_COLUMN = "STORE_SESSION_ID";
     public static final String CREATED_TS_COLUMN = "CREATED_TS";
 
-    void insert( Connection conn, Destination destination, long storeSessionID,
-        long connectedTime, long createdTime ) throws BrokerException;
+    void insert(Connection conn, Destination destination, long storeSessionID, long connectedTime, long createdTime) throws BrokerException;
 
-    void update( Connection conn, Destination destination )
-        throws BrokerException;
-    
-    void updateConnectedTime( Connection conn, Destination destination,
-        long connectedTime ) throws BrokerException;
+    void update(Connection conn, Destination destination) throws BrokerException;
 
-    boolean delete( Connection conn, DestinationUID dstUID, int type )
-        throws BrokerException;
+    void updateConnectedTime(Connection conn, Destination destination, long connectedTime) throws BrokerException;
 
-    boolean delete( Connection conn, Destination destination, Long storeSessionID )
-        throws BrokerException;
+    boolean delete(Connection conn, DestinationUID dstUID, int type) throws BrokerException;
 
-    List getAllDestinations( Connection conn, String brokerID )
-        throws BrokerException;
+    boolean delete(Connection conn, Destination destination, Long storeSessionID) throws BrokerException;
 
-    List getLocalDestinationsByBroker( Connection conn, String brokerID )
-        throws BrokerException;
+    List getAllDestinations(Connection conn, String brokerID) throws BrokerException;
 
-    Destination getDestination( Connection conn, String destName )
-        throws BrokerException;
+    List getLocalDestinationsByBroker(Connection conn, String brokerID) throws BrokerException;
 
-    long getDestinationConnectedTime( Connection conn, String destName )
-        throws BrokerException;
+    Destination getDestination(Connection conn, String destName) throws BrokerException;
 
-    void checkDestination( Connection conn, String destName )
-        throws BrokerException;
+    long getDestinationConnectedTime(Connection conn, String destName) throws BrokerException;
 
-    boolean hasDestination( Connection conn, String destName )
-        throws BrokerException;
+    void checkDestination(Connection conn, String destName) throws BrokerException;
+
+    boolean hasDestination(Connection conn, String destName) throws BrokerException;
 }

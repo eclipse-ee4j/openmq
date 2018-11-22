@@ -16,12 +16,11 @@
 
 /*
  * @(#)BigPacketException.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
 import java.io.IOException;
-
 
 /**
  * BigPacketException
@@ -30,11 +29,11 @@ public class BigPacketException extends IOException {
 
     private int skipBytesRemaining = 0;
 
-    public BigPacketException () {
+    public BigPacketException() {
         super();
     }
 
-    public BigPacketException (String s) {
+    public BigPacketException(String s) {
         super(s);
     }
 
@@ -43,6 +42,6 @@ public class BigPacketException extends IOException {
     }
 
     public int getSkipBytesRemaining() {
-        return skipBytesRemaining; 
+        return skipBytesRemaining;
     }
 }

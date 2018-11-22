@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionHandler.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -26,41 +26,36 @@ import java.util.Properties;
 import com.sun.messaging.jmq.io.ReadWritePacket;
 
 /**
- *  The connection handler knows how to communicate with the broker uses the
- *  specified protocol.
+ * The connection handler knows how to communicate with the broker uses the specified protocol.
  *
- *  The implementation of InputStream and OutputStream should be in the way
- *  that no protocol specific values are exposed to the API user.
+ * The implementation of InputStream and OutputStream should be in the way that no protocol specific values are exposed
+ * to the API user.
  */
 public interface ConnectionHandler {
 
-    public InputStream
-    getInputStream() throws IOException;
+    public InputStream getInputStream() throws IOException;
 
-    public OutputStream
-    getOutputStream() throws IOException;
+    public OutputStream getOutputStream() throws IOException;
 
-    public int
-    getLocalPort() throws IOException;
+    public int getLocalPort() throws IOException;
 
-    public void
-    close() throws IOException;
+    public void close() throws IOException;
 
     public String getBrokerHostName();
 
     /**
      * Get broker address.
      *
-     * @return [host,port] for TCP and SSL protocols.
-     *         URL string for HTTP/HTTPS protocols.
+     * @return [host,port] for TCP and SSL protocols. URL string for HTTP/HTTPS protocols.
      */
     public String getBrokerAddress();
-    
+
     public ReadWritePacket readPacket() throws IOException;
-    public void writePacket (ReadWritePacket pkt) throws IOException;
-    
+
+    public void writePacket(ReadWritePacket pkt) throws IOException;
+
     public void configure(Properties configuration) throws IOException;
-    
+
     public boolean isDirectMode();
-	
+
 }

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
@@ -27,8 +27,7 @@ import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 import com.sun.messaging.jmq.httptunnel.tunnel.client.HttpTunnelClientDriver;
 
 /**
- * This class implements socket-like interface for the HTTP tunnel
- * connections.
+ * This class implements socket-like interface for the HTTP tunnel connections.
  */
 public class HttpTunnelSocketImpl implements HttpTunnelSocket {
     private HttpTunnelConnection conn = null;
@@ -37,11 +36,11 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
     private OutputStream os = null;
     private boolean sockClosed = false;
 
-    public HttpTunnelSocketImpl() { }
+    public HttpTunnelSocketImpl() {
+    }
 
     /**
-     * Creates a socket and establishes a connection with the specified
-     * server address.
+     * Creates a socket and establishes a connection with the specified server address.
      */
     public void init(String serverAddr) throws IOException {
         HttpTunnelClientDriver wire = new HttpTunnelClientDriver(serverAddr);
@@ -50,8 +49,7 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
     }
 
     /**
-     * Creates a socket with a given HTTP tunnel connection. Used
-     * internally by the server socket (accept) implementation.
+     * Creates a socket with a given HTTP tunnel connection. Used internally by the server socket (accept) implementation.
      */
     public HttpTunnelSocketImpl(HttpTunnelConnection conn) {
         this.conn = conn;
@@ -107,11 +105,11 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
         return conn.getConnId();
     }
 
-    public InetAddress getRemoteAddress() 
-        throws UnknownHostException, SecurityException { 
+    public InetAddress getRemoteAddress() throws UnknownHostException, SecurityException {
 
         HttpTunnelConnection c = conn;
-        if (c == null || c.getRemoteAddr() == null) return null;
+        if (c == null || c.getRemoteAddr() == null)
+            return null;
         return InetAddress.getByName(c.getRemoteAddr());
     }
 
@@ -127,8 +125,7 @@ public class HttpTunnelSocketImpl implements HttpTunnelSocket {
         return conn.getConnectionTimeout();
     }
 
-    public void setConnectionTimeout(int connectionTimeout)
-        throws IOException {
+    public void setConnectionTimeout(int connectionTimeout) throws IOException {
         conn.setConnectionTimeout(connectionTimeout);
     }
 

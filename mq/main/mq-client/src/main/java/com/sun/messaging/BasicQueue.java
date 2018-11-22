@@ -16,45 +16,42 @@
 
 /*
  * @(#)BasicQueue.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 import javax.jms.*;
 
 /**
- * A <code>BasicQueue</code> represents an identity of a repository of messages used
- * in the JMS Point-To-Point messaging domain.
+ * A <code>BasicQueue</code> represents an identity of a repository of messages used in the JMS Point-To-Point messaging
+ * domain.
  *
- * @see         javax.jms.Queue javax.jms.Queue
+ * @see javax.jms.Queue javax.jms.Queue
  */
 public class BasicQueue extends com.sun.messaging.Destination implements javax.jms.Queue {
 
     /**
      * Constructs an identity of a Point-To-Point Queue with the default name
      */
-    public BasicQueue () {
-	super();
+    public BasicQueue() {
+        super();
     }
 
     /**
      * Constructs an identity of a Point-To-Point Queue with the given name
      *
-     * @param   name The name of the Queue
+     * @param name The name of the Queue
      */
-    public BasicQueue (String name) throws javax.jms.JMSException {
-	super(name);
+    public BasicQueue(String name) throws javax.jms.JMSException {
+        super(name);
     }
 
     /**
-     * Compares this Queue to the specified object.
-     * The result is <code>true</code> if and only if the arguement is not
-     * <code>null</code> and is a <code>Queue</code> object with the same
-     * Queue Name as this object.
+     * Compares this Queue to the specified object. The result is <code>true</code> if and only if the arguement is not
+     * <code>null</code> and is a <code>Queue</code> object with the same Queue Name as this object.
      *
-     * @param   anObject  The object to compare this <code>Queue</code> against.
-     * @return  <code>true</code> if the object and this <code>Queue</code>are equal;
-     *          <code>false</code> otherwise.
+     * @param anObject The object to compare this <code>Queue</code> against.
+     * @return <code>true</code> if the object and this <code>Queue</code>are equal; <code>false</code> otherwise.
      *
      */
     public boolean equals(Object anObject) {
@@ -63,14 +60,14 @@ public class BasicQueue extends com.sun.messaging.Destination implements javax.j
         }
         if ((anObject != null) && (anObject instanceof BasicQueue)) {
             try {
-                //null test - since getQueueName could also return null
+                // null test - since getQueueName could also return null
                 String name = getQueueName();
                 if (name != null) {
-                    return name.equals(((BasicQueue)anObject).getQueueName());
+                    return name.equals(((BasicQueue) anObject).getQueueName());
                 } else {
-                    return (name == ((BasicQueue)anObject).getQueueName()) ;
+                    return (name == ((BasicQueue) anObject).getQueueName());
                 }
-            } catch(JMSException e) {
+            } catch (JMSException e) {
                 return false;
             }
         } else {
@@ -84,7 +81,8 @@ public class BasicQueue extends com.sun.messaging.Destination implements javax.j
             name = getQueueName();
         } catch (Exception ex) {
         }
-        if (name == null) return super.hashCode();
+        if (name == null)
+            return super.hashCode();
         return name.hashCode();
     }
 

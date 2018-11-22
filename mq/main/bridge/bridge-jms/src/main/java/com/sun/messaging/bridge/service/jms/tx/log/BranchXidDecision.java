@@ -19,35 +19,31 @@ package com.sun.messaging.bridge.service.jms.tx.log;
 import java.io.*;
 import com.sun.messaging.bridge.service.jms.tx.BranchXid;
 
-
 /**
  * @author amyk
- */ 
+ */
 
 public class BranchXidDecision implements Externalizable {
 
-    //must be same as in GlobalXidDecision values
+    // must be same as in GlobalXidDecision values
     public static final int COMMIT = 0;
-    public static final int ROLLBACK = 1 ;
+    public static final int ROLLBACK = 1;
 
-    //must not overlap with above 
+    // must not overlap with above
     public static final int HEUR_COMMIT = 50;
-    public static final int HEUR_ROLLBACK = 51 ;
+    public static final int HEUR_ROLLBACK = 51;
     public static final int HEUR_MIXED = 52;
 
     private BranchXid _xid = null;
     private int _decision = COMMIT;
 
-    public BranchXidDecision() {}
+    public BranchXidDecision() {
+    }
 
     public BranchXidDecision(BranchXid xid, int decision) throws Exception {
-        if (decision != COMMIT && 
-            decision != ROLLBACK &&
-            decision != HEUR_COMMIT && 
-            decision != HEUR_ROLLBACK &&
-            decision != HEUR_MIXED) {
+        if (decision != COMMIT && decision != ROLLBACK && decision != HEUR_COMMIT && decision != HEUR_ROLLBACK && decision != HEUR_MIXED) {
 
-            throw new IllegalArgumentException("Invalid decision value: "+decision); 
+            throw new IllegalArgumentException("Invalid decision value: " + decision);
         }
         _xid = xid;
         _decision = decision;
@@ -62,20 +58,14 @@ public class BranchXidDecision implements Externalizable {
     }
 
     public boolean isHeuristic() {
-        return (_decision == HEUR_COMMIT ||
-                _decision == HEUR_ROLLBACK ||
-                _decision == HEUR_MIXED); 
+        return (_decision == HEUR_COMMIT || _decision == HEUR_ROLLBACK || _decision == HEUR_MIXED);
     }
 
     public void setBranchDecision(int d) {
-        if (d != COMMIT &&
-            d != ROLLBACK &&
-            d != HEUR_COMMIT &&
-            d != HEUR_ROLLBACK &&
-            d != HEUR_MIXED) {
-            throw new IllegalArgumentException("Invalid decision value: "+d); 
+        if (d != COMMIT && d != ROLLBACK && d != HEUR_COMMIT && d != HEUR_ROLLBACK && d != HEUR_MIXED) {
+            throw new IllegalArgumentException("Invalid decision value: " + d);
         }
-       _decision = d;
+        _decision = d;
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -84,23 +74,29 @@ public class BranchXidDecision implements Externalizable {
         out.writeInt(_decision);
     }
 
-    public void readExternal(ObjectInput in) throws IOException,
-                                        ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         _xid = BranchXid.read(in);
         _decision = in.readInt();
     }
 
     private static String decisionString(int d) {
         switch (d) {
-            case COMMIT: return "COMMIT";
-            case ROLLBACK: return "ROLLBACK";
-            case HEUR_COMMIT: return "HEUR_COMMIT";
-            case HEUR_ROLLBACK: return "HEUR_ROLLBACK";
-            case HEUR_MIXED: return "HEUR_MIXED";
-            default: return "UNKNOWN";
+        case COMMIT:
+            return "COMMIT";
+        case ROLLBACK:
+            return "ROLLBACK";
+        case HEUR_COMMIT:
+            return "HEUR_COMMIT";
+        case HEUR_ROLLBACK:
+            return "HEUR_ROLLBACK";
+        case HEUR_MIXED:
+            return "HEUR_MIXED";
+        default:
+            return "UNKNOWN";
         }
     }
+
     public String toString() {
-        return _xid.toString()+"("+decisionString(_decision)+")";
+        return _xid.toString() + "(" + decisionString(_decision) + ")";
     }
 }

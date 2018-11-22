@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -30,21 +30,18 @@ import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 
 /**
  */
-public class ClusterNewMasterBrokerPrepareInfo 
-{
+public class ClusterNewMasterBrokerPrepareInfo {
 
-    private ArrayList<ChangeRecordInfo> records = null; 
+    private ArrayList<ChangeRecordInfo> records = null;
     private Long xid = null;
     private String uuid = null;
 
     private BrokerAddress newmaster = null;
     Cluster c = null;
 
-    private GPacket pkt = null; 
+    private GPacket pkt = null;
 
-    private ClusterNewMasterBrokerPrepareInfo(BrokerAddress newmaster, 
-                            ArrayList<ChangeRecordInfo> records,
-                            Long xid, Cluster c) {
+    private ClusterNewMasterBrokerPrepareInfo(BrokerAddress newmaster, ArrayList<ChangeRecordInfo> records, Long xid, Cluster c) {
         this.records = records;
         this.xid = xid;
         this.c = c;
@@ -57,10 +54,8 @@ public class ClusterNewMasterBrokerPrepareInfo
         this.c = c;
     }
 
-    public static ClusterNewMasterBrokerPrepareInfo newInstance(BrokerAddress newmaster, 
-                                              ArrayList<ChangeRecordInfo> records,
-                                              Long xid, Cluster c) {
-        return new ClusterNewMasterBrokerPrepareInfo(newmaster, records, xid, c); 
+    public static ClusterNewMasterBrokerPrepareInfo newInstance(BrokerAddress newmaster, ArrayList<ChangeRecordInfo> records, Long xid, Cluster c) {
+        return new ClusterNewMasterBrokerPrepareInfo(newmaster, records, xid, c);
     }
 
     /**
@@ -71,7 +66,7 @@ public class ClusterNewMasterBrokerPrepareInfo
         return new ClusterNewMasterBrokerPrepareInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws Exception { 
+    public GPacket getGPacket() throws Exception {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE);
@@ -96,34 +91,34 @@ public class ClusterNewMasterBrokerPrepareInfo
 
     public String getUUID() {
         if (pkt != null) {
-            return (String)pkt.getProp("UUID");
+            return (String) pkt.getProp("UUID");
         }
         return uuid;
     }
 
     public BrokerAddress getNewMasterBroker() throws Exception {
-        assert( pkt != null);
+        assert (pkt != null);
         newmaster = c.unmarshalBrokerAddress(pkt);
         return newmaster;
     }
 
     public int getRecordCount() {
-        assert( pkt != null);
-        return ((Integer)pkt.getProp("C")).intValue();
+        assert (pkt != null);
+        return ((Integer) pkt.getProp("C")).intValue();
     }
-    
+
     public Long getXid() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
 
     public Long getTimestamp() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public byte[] getRecords() {
-        assert( pkt != null);
+        assert (pkt != null);
         byte[] buf = null;
         if (pkt.getPayload() != null) {
             buf = pkt.getPayload().array();
@@ -132,10 +127,10 @@ public class ClusterNewMasterBrokerPrepareInfo
     }
 
     public GPacket getReplyGPacket(int status, String reason) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", (Long) pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -145,14 +140,13 @@ public class ClusterNewMasterBrokerPrepareInfo
 
     public String toString() {
         if (pkt == null) {
-            return "[newMasterBroker="+newmaster+", records="+
-                     records.size()+", xid="+xid+", uuid="+uuid+"]";
-        } 
-        return (newmaster == null ? "":"[newMasterBroker="+newmaster)+", records="+
-            getRecordCount()+", xid="+getXid()+", ts="+getTimestamp()+", uuid="+getUUID()+"]";
+            return "[newMasterBroker=" + newmaster + ", records=" + records.size() + ", xid=" + xid + ", uuid=" + uuid + "]";
+        }
+        return (newmaster == null ? "" : "[newMasterBroker=" + newmaster) + ", records=" + getRecordCount() + ", xid=" + getXid() + ", ts=" + getTimestamp()
+                + ", uuid=" + getUUID() + "]";
     }
 
     public static Long getReplyPacketXid(GPacket gp) {
-        return (Long)gp.getProp("X");
+        return (Long) gp.getProp("X");
     }
 }

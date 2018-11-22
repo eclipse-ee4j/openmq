@@ -16,7 +16,7 @@
 
 /*
  * @(#)DefaultTrustManager.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
@@ -24,23 +24,21 @@ import javax.net.ssl.*;
 import java.security.cert.*;
 
 /**
- * The default trust manager.  This class is instantiated when the connection
- * factory sets 'trustServer' value to true.
+ * The default trust manager. This class is instantiated when the connection factory sets 'trustServer' value to true.
  *
- * <p>If this class is used, the client does not require to install/configure
- * server certificates because all server certs are accepted.
+ * <p>
+ * If this class is used, the client does not require to install/configure server certificates because all server certs
+ * are accepted.
  *
- * <p>This is useful for intra-net applications where servers are inside
- * firewall and are treated as trusted.
+ * <p>
+ * This is useful for intra-net applications where servers are inside firewall and are treated as trusted.
  */
 public class DefaultTrustManager implements X509TrustManager {
 
-    public void checkClientTrusted(X509Certificate[] chain,
-        String authType) throws CertificateException {
+    public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
-    public void checkServerTrusted(X509Certificate[] chain,
-        String authType) throws CertificateException {
+    public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
     public X509Certificate[] getAcceptedIssuers() {

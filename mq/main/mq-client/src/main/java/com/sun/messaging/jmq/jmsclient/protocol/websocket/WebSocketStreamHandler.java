@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.jmsclient.protocol.websocket;
 
 import java.io.*;
@@ -32,8 +32,9 @@ public class WebSocketStreamHandler implements StreamHandler, PropertyOwner {
 
     /**
      * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */  
-    public WebSocketStreamHandler() {}
+     */
+    public WebSocketStreamHandler() {
+    }
 
     @Override
     public String[] getPropertyNames() {
@@ -49,23 +50,20 @@ public class WebSocketStreamHandler implements StreamHandler, PropertyOwner {
     public String getPropertyLabel(String propname) {
         return null;
     }
- 
+
     @Override
     public String getPropertyDefault(String propname) {
         return null;
     }
- 
+
     /**
      * @param connection is the ConnectionImpl object.
      */
-    public ConnectionHandler
-    openConnection(Object connection) throws JMSException {
-        throw new JMSException(
-            getClass().getSimpleName()+"(Object): unnexpected call");
+    public ConnectionHandler openConnection(Object connection) throws JMSException {
+        throw new JMSException(getClass().getSimpleName() + "(Object): unnexpected call");
     }
 
-    public ConnectionHandler openConnection(
-        MQAddress addr, ConnectionImpl connection) throws JMSException {
+    public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl connection) throws JMSException {
         return new WebSocketConnectionHandler(addr, connection);
     }
 

@@ -16,7 +16,7 @@
 
 /*
  * @(#)UnknownPacketHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -38,7 +38,6 @@ public class UnknownPacketHandler extends GPacketHandler {
 
     }
 }
-
 
 /*
  * EOF

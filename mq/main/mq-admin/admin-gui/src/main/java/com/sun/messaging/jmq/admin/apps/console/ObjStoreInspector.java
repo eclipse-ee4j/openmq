@@ -16,14 +16,14 @@
 
 /*
  * @(#)ObjStoreInspector.java	1.16 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
+/**
  * Inspector panel for an object store.
  *
  * @see InspectorPanel
@@ -31,35 +31,32 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * @see ConsoleObj
  */
 public class ObjStoreInspector extends TabledInspector {
-    
+
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
+     * 
      * @return the array of Strings containing the collumn labels/headers.
      */
-    public String[] getColumnHeaders()  {
-        String[] columnNames = {acr.getString(acr.I_CONTENTS),
-				acr.getString(acr.I_COUNT)};
-	return (columnNames);
+    public String[] getColumnHeaders() {
+        String[] columnNames = { acr.getString(acr.I_CONTENTS), acr.getString(acr.I_COUNT) };
+        return (columnNames);
     }
 
     /**
-     * Returns the Object at a particular cell collumn for a given
-     * ConsoleObj object. Each row in the JTable represents one ConsoleObj.
-     * This method returns the object/value for the ConsoleObj, for a particular 
-     * collumn.
+     * Returns the Object at a particular cell collumn for a given ConsoleObj object. Each row in the JTable represents one
+     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
      *
-     * @return the Object at a particular cell collumn for a given
-     * ConsoleObj object.
+     * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
-    public Object getValueAtCollumn(ConsoleObj conObj, int col)  {
-	if (col == 0) {
-	    return (conObj);
-	} else if (col == 1) {
-	    return Integer.toString(conObj.getChildCount());
-	}
+    public Object getValueAtCollumn(ConsoleObj conObj, int col) {
+        if (col == 0) {
+            return (conObj);
+        } else if (col == 1) {
+            return Integer.toString(conObj.getChildCount());
+        }
 
-	return (null);
+        return (null);
     }
 }

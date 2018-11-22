@@ -16,58 +16,54 @@
 
 /*
  * @(#)QueueReceiverImpl.java	1.9 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
 
-/** A client uses a QueueReceiver for receiving messages that have been
-  * delivered to a queue.
-  *
-  * <P>Although it is possible to have multiple QueueReceivers for the same queue,
-  * JMS does not define how messages are distributed between the QueueReceivers.
-  *
-  * @see         javax.jms.QueueSession#createReceiver(Queue, String)
-  * @see         javax.jms.QueueSession#createReceiver(Queue)
-  * @see         javax.jms.MessageConsumer
-  */
+/**
+ * A client uses a QueueReceiver for receiving messages that have been delivered to a queue.
+ *
+ * <P>
+ * Although it is possible to have multiple QueueReceivers for the same queue, JMS does not define how messages are
+ * distributed between the QueueReceivers.
+ *
+ * @see javax.jms.QueueSession#createReceiver(Queue, String)
+ * @see javax.jms.QueueSession#createReceiver(Queue)
+ * @see javax.jms.MessageConsumer
+ */
 
-public class QueueReceiverImpl extends MessageConsumerImpl implements QueueReceiver{
+public class QueueReceiverImpl extends MessageConsumerImpl implements QueueReceiver {
 
     private Queue queue = null;
 
+    public QueueReceiverImpl(SessionImpl session, Queue queue) throws JMSException {
 
-    public QueueReceiverImpl (SessionImpl session, Queue queue)
-                              throws JMSException {
-
-        super (session, queue);
+        super(session, queue);
         this.queue = queue;
-        //setIsTopic ( false );
-        init(); //register interest
+        // setIsTopic ( false );
+        init(); // register interest
     }
 
-    public QueueReceiverImpl (SessionImpl session, Queue queue,
-                              String selector) throws JMSException {
-        //isTopic is false;
-        super (session, queue);
+    public QueueReceiverImpl(SessionImpl session, Queue queue, String selector) throws JMSException {
+        // isTopic is false;
+        super(session, queue);
         this.queue = queue;
-        //setIsTopic ( false );
-        setMessageSelector ( selector );
-        init(); //register interest
+        // setIsTopic ( false );
+        setMessageSelector(selector);
+        init(); // register interest
     }
 
-    /** Get the queue associated with this queue receiver.
-      *
-      * @return the queue
-      *
-      * @exception JMSException if JMS fails to get queue for
-      *                         this queue receiver
-      *                         due to some internal error.
-      */
+    /**
+     * Get the queue associated with this queue receiver.
+     *
+     * @return the queue
+     *
+     * @exception JMSException if JMS fails to get queue for this queue receiver due to some internal error.
+     */
 
-    public Queue
-    getQueue() throws JMSException {
+    public Queue getQueue() throws JMSException {
         checkState();
         return queue;
     }

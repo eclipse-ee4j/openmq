@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAddress.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -31,20 +31,15 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
 
     protected static final HashMap handlers = new HashMap();
 
-    private static final String TCP_HANDLER =
-        "com.sun.messaging.jmq.jmsclient.protocol.tcp.TCPStreamHandler";
+    private static final String TCP_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.tcp.TCPStreamHandler";
 
-    private static final String SSL_HANDLER =
-        "com.sun.messaging.jmq.jmsclient.protocol.ssl.SSLStreamHandler";
+    private static final String SSL_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.ssl.SSLStreamHandler";
 
-    private static final String HTTP_HANDLER =
-            "com.sun.messaging.jmq.jmsclient.protocol.http.HTTPStreamHandler";
-    
-    private static final String DIRECT_HANDLER =
-        "com.sun.messaging.jmq.jmsclient.protocol.direct.DirectStreamHandler";
+    private static final String HTTP_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.http.HTTPStreamHandler";
 
-    private static final String WEBSOCKET_HANDLER =
-        "com.sun.messaging.jmq.jmsclient.protocol.websocket.WebSocketStreamHandler";
+    private static final String DIRECT_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.direct.DirectStreamHandler";
+
+    private static final String WEBSOCKET_HANDLER = "com.sun.messaging.jmq.jmsclient.protocol.websocket.WebSocketStreamHandler";
 
     static {
         handlers.put("jms", TCP_HANDLER);
@@ -60,25 +55,18 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
         handlers.put(DEFAULT_WSS_SERVICE, WEBSOCKET_HANDLER);
     }
 
-
     protected MQAddress() {
-         super();
+        super();
     }
 
     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static MQAddress 
-           createMQAddress(String addr)
-        throws MalformedURLException {
+    public static MQAddress createMQAddress(String addr) throws MalformedURLException {
         MQAddress ret = new MQAddress();
         ret.initialize(addr);
         return ret;
     }
-
-
-
 
     public String getHandlerClass() {
         if (isHTTP) {
@@ -96,14 +84,13 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
 
         String ret = (String) handlers.get(serviceName);
         // assert (ret != null);
-        
+
         if (Debug.debug) {
             ConnectionImpl.getConnectionLogger().info("Handler class: " + ret);
         }
-        
+
         return ret;
     }
-
 
     public static void main(String args[]) throws Exception {
         MQAddress addr = createMQAddress(args[0]);

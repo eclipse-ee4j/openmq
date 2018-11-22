@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConsumerDAO.java	1.11 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -29,29 +29,18 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * This class is an interface for the Consumer table which will be implemented
- * by database specific code.
+ * This class is an interface for the Consumer table which will be implemented by database specific code.
  */
 public interface ConsumerDAO extends BaseDAO {
 
     /**
-     * Consumer table:
-     * Holds durable subscriptions.
+     * Consumer table: Holds durable subscriptions.
      *
-     * CREATE TABLE MQCON<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *      ID		    BIGINT NOT NULL,
-     *      CLIENT_ID       VARCHAR(1024),
-     *      DURABLE_NAME    VARCHAR(1024),
-     *      CONSUMER	    LONGVARBINARY NOT NULL,
-     *      CREATED_TS      BIGINT NOT NULL,
-     *      PRIMARY KEY(ID)
-     * );
+     * CREATE TABLE MQCON<schemaVersion>[C<clusterID>|S<brokerID>] ( ID BIGINT NOT NULL, CLIENT_ID VARCHAR(1024),
+     * DURABLE_NAME VARCHAR(1024), CONSUMER LONGVARBINARY NOT NULL, CREATED_TS BIGINT NOT NULL, PRIMARY KEY(ID) );
      *
-     * ID - Long value of the ConsumerUID of the consumer object
-     * CONSUMER - Serialized Consumer object
-     * DURABLE_NAME - JMS durable name
-     * CLIENT_ID - JMS client ID
-     * CREATED_TS - Timestamp when the entry was created
+     * ID - Long value of the ConsumerUID of the consumer object CONSUMER - Serialized Consumer object DURABLE_NAME - JMS
+     * durable name CLIENT_ID - JMS client ID CREATED_TS - Timestamp when the entry was created
      */
     public static final String TABLE = "MQCON";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
@@ -61,11 +50,11 @@ public interface ConsumerDAO extends BaseDAO {
     public static final String CONSUMER_COLUMN = "CONSUMER";
     public static final String CREATED_TS_COLUMN = "CREATED_TS";
 
-    void insert( Connection conn, Consumer consumer, long createdTS ) throws BrokerException;
+    void insert(Connection conn, Consumer consumer, long createdTS) throws BrokerException;
 
-    void delete( Connection conn, Consumer consumer ) throws BrokerException;
+    void delete(Connection conn, Consumer consumer) throws BrokerException;
 
-    List getAllConsumers( Connection conn ) throws BrokerException;
+    List getAllConsumers(Connection conn) throws BrokerException;
 
-    Consumer getConsumer( Connection conn, ConsumerUID consumerUID ) throws BrokerException;
+    Consumer getConsumer(Connection conn, ConsumerUID consumerUID) throws BrokerException;
 }

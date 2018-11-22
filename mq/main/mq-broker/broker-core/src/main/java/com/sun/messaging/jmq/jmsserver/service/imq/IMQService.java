@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQService.java	1.56 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -36,11 +36,7 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 
-
-
-
-public abstract class IMQService implements Service
-{
+public abstract class IMQService implements Service {
 
     protected static boolean DEBUG = false;
 
@@ -63,20 +59,18 @@ public abstract class IMQService implements Service
     protected static final long DESTROY_WAIT_DEFAULT = 30000;
 
     private long serviceDestroyWait = DESTROY_WAIT_DEFAULT;
- 
+
     HashMap serviceprops = null;
 
-    private HashSet serviceress =  new HashSet();
-    private ArrayList serviceressListeners =  new ArrayList();
+    private HashSet serviceress = new HashSet();
+    private ArrayList serviceressListeners = new ArrayList();
 
-
-    public IMQService(String name, int type)
-    {
+    public IMQService(String name, int type) {
         this.name = name;
         this.type = type;
     }
 
-    protected boolean getDEBUG() { 
+    protected boolean getDEBUG() {
         return DEBUG;
     }
 
@@ -86,12 +80,11 @@ public abstract class IMQService implements Service
         serviceprops.put(name, value);
     }
 
-    public void resetCounters()
-    {
+    public void resetCounters() {
         List cons = connectionList.getConnectionList(this);
         Iterator itr = cons.iterator();
         while (itr.hasNext()) {
-            ((IMQConnection)itr.next()).resetCounters();
+            ((IMQConnection) itr.next()).resetCounters();
         }
     }
 
@@ -103,29 +96,28 @@ public abstract class IMQService implements Service
         if (serviceprops != null)
             ht.put("props", new Hashtable(serviceprops));
         ht.put("connections", connectionList.getDebugState(this));
-        return ht; 
+        return ht;
     }
+
     public Hashtable getPoolDebugState() {
         return (new Hashtable());
     }
 
-
     /*
-    public void dumpPool()  {
-        pool.debug();
-    }
-    */
+     * public void dumpPool() { pool.debug(); }
+     */
 
     public int size() {
         List list = connectionList.getConnectionList(this);
         return list.size();
     }
+
     public List getConsumers() {
         ArrayList list = new ArrayList();
         List cons = connectionList.getConnectionList(this);
         Iterator itr = cons.iterator();
         while (itr.hasNext()) {
-            List newList = ((IMQConnection)itr.next()).getConsumers();
+            List newList = ((IMQConnection) itr.next()).getConsumers();
             list.addAll(newList);
         }
         return list;
@@ -136,7 +128,7 @@ public abstract class IMQService implements Service
         List cons = connectionList.getConnectionList(this);
         Iterator itr = cons.iterator();
         while (itr.hasNext()) {
-            List newList = ((IMQConnection)itr.next()).getProducers();
+            List newList = ((IMQConnection) itr.next()).getProducers();
             list.addAll(newList);
         }
         return list;
@@ -157,7 +149,7 @@ public abstract class IMQService implements Service
     public void setState(int state) {
         this.state = state;
     }
-    
+
     public int getServiceType() {
         return type;
     }
@@ -189,43 +181,35 @@ public abstract class IMQService implements Service
     }
 
     public long getDestroyWaitTime() {
-        return(serviceDestroyWait);
+        return (serviceDestroyWait);
     }
 
-    public void setServiceRunning(boolean value)  {
-	serviceRunning = value;
+    public void setServiceRunning(boolean value) {
+        serviceRunning = value;
     }
 
-    public boolean isServiceRunning()  {
-	return(serviceRunning);
+    public boolean isServiceRunning() {
+        return (serviceRunning);
     }
 
-    public void setShuttingDown(boolean value)  {
-	shuttingDown = value;
+    public void setShuttingDown(boolean value) {
+        shuttingDown = value;
     }
 
-    public boolean isShuttingDown()  {
-	return(shuttingDown);
+    public boolean isShuttingDown() {
+        return (shuttingDown);
     }
 
-    public void stopNewConnections() 
-        throws IOException, IllegalStateException
-    {
+    public void stopNewConnections() throws IOException, IllegalStateException {
         if (state != ServiceState.RUNNING) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_STOP_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }
         state = ServiceState.QUIESCED;
     }
 
-    public void startNewConnections() 
-        throws IOException
-    {
+    public void startNewConnections() throws IOException {
         if (state != ServiceState.QUIESCED && state != ServiceState.PAUSED) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_START_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
         }
 
         synchronized (this) {
@@ -244,17 +228,15 @@ public abstract class IMQService implements Service
 
     }
 
-    public void updateService(int port, int min, int max) 
-    throws IOException, PropertyUpdateException, BrokerException {
+    public void updateService(int port, int min, int max) throws IOException, PropertyUpdateException, BrokerException {
     }
 
     public AuthCacheData getAuthCacheData() {
-        return authCacheData;     
-    }  
+        return authCacheData;
+    }
 
     public void removeConnection(ConnectionUID uid, int reason, String str) {
-         connectionList.removeConnection(uid,
-             true, reason, str);
+        connectionList.removeConnection(uid, true, reason, str);
     }
 
     public HashMap getServiceProperties() {
@@ -270,48 +252,46 @@ public abstract class IMQService implements Service
     }
 
     public void addServiceRestriction(ServiceRestriction sr) {
-        synchronized(serviceress) {
+        synchronized (serviceress) {
             serviceress.add(sr);
             notifyServiceRestrictionChanged();
         }
     }
 
     public void removeServiceRestriction(ServiceRestriction sr) {
-        synchronized(serviceress) {
+        synchronized (serviceress) {
             serviceress.remove(sr);
             notifyServiceRestrictionChanged();
         }
     }
 
     public ServiceRestriction[] getServiceRestrictions() {
-        synchronized(serviceress) {
-            return (ServiceRestriction[])serviceress.toArray(
-                   new ServiceRestriction[serviceress.size()]);
+        synchronized (serviceress) {
+            return (ServiceRestriction[]) serviceress.toArray(new ServiceRestriction[serviceress.size()]);
         }
     }
 
     public void addServiceRestrictionListener(ServiceRestrictionListener l) {
-        synchronized(serviceress) {
+        synchronized (serviceress) {
             serviceressListeners.add(l);
         }
     }
 
     public void removeServiceRestrictionListener(ServiceRestrictionListener l) {
-        synchronized(serviceress) {
+        synchronized (serviceress) {
             serviceressListeners.remove(l);
         }
     }
 
     private void notifyServiceRestrictionChanged() {
-        synchronized(serviceress) {
+        synchronized (serviceress) {
             Iterator itr = serviceressListeners.iterator();
             ServiceRestrictionListener l = null;
             while (itr.hasNext()) {
-                l = (ServiceRestrictionListener)itr.next();
+                l = (ServiceRestrictionListener) itr.next();
                 l.serviceRestrictionChanged(this);
             }
         }
     }
 
 }
-

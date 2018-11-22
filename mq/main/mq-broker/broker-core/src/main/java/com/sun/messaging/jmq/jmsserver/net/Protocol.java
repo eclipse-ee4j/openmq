@@ -16,7 +16,7 @@
 
 /*
  * @(#)Protocol.java	1.15 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.net;
 
@@ -31,37 +31,28 @@ import java.net.*;
  * This interface class handles a specific type of protocol (e.g. tcp)
  */
 
-public interface Protocol 
-{
+public interface Protocol {
     public void registerProtocolCallback(ProtocolCallback cb, Object data);
 
     /**
-     * The canPause() method is a temporary workaround for bugid
-     * 4435336 for jmq2.0 fcs. The TCP and TLS (SSL) transports
-     * always return "true". The HTTPProtocol class always returns
-     * false.
+     * The canPause() method is a temporary workaround for bugid 4435336 for jmq2.0 fcs. The TCP and TLS (SSL) transports
+     * always return "true". The HTTPProtocol class always returns false.
      */
     public boolean canPause();
 
-    public ProtocolStreams accept()  
-        throws IOException;
+    public ProtocolStreams accept() throws IOException;
 
-    public AbstractSelectableChannel getChannel()
-        throws IOException;
+    public AbstractSelectableChannel getChannel() throws IOException;
 
-    public void configureBlocking(boolean blocking)
-        throws UnsupportedOperationException,IOException;
+    public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException;
 
-    public void open() 
-        throws IOException, IllegalStateException;
+    public void open() throws IOException, IllegalStateException;
 
-    public void close() 
-        throws IOException, IllegalStateException;
+    public void close() throws IOException, IllegalStateException;
 
     public boolean isOpen();
 
-    public void checkParameters(Map params)
-        throws IllegalArgumentException;
+    public void checkParameters(Map params) throws IllegalArgumentException;
 
     /**
      * @return old params if param change cause rebind
@@ -73,14 +64,12 @@ public interface Protocol
     public String getHostName();
 
     /**
-     * method to set the TCP no delay flag on all
-     * sockets created if applicable
+     * method to set the TCP no delay flag on all sockets created if applicable
      */
     public void setNoDelay(boolean val);
 
     /**
-     * method to set the socket timeout (if any)
-     * 0 indicates no timeout
+     * method to set the socket timeout (if any) 0 indicates no timeout
      */
     public void setTimeout(int time);
 
@@ -106,5 +95,3 @@ public interface Protocol
 
     public boolean getBlocking();
 }
- 
-

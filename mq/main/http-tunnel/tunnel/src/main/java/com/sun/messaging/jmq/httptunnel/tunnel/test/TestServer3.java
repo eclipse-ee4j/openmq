@@ -16,7 +16,7 @@
 
 /*
  * @(#)TestServer3.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
@@ -34,7 +34,7 @@ class TestServer3 {
         ss.init(driver);
         while (true) {
             HttpTunnelSocket s = ss.accept();
-            System.out.println("["+s.getConnId()+"] -- Accepted.");
+            System.out.println("[" + s.getConnId() + "] -- Accepted.");
 
             Reader r = new Reader(s);
             r.start();

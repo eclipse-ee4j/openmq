@@ -16,13 +16,12 @@
 
 /*
  * @(#)ParseInvalidJMSPropertyInSelectorException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when an invalid JMS property is detected
- * during parsing (in the selector).
+ * Exception thrown when an invalid JMS property is detected during parsing (in the selector).
  */
 public class ParseInvalidJMSPropertyInSelectorException extends ParseException {
 
@@ -34,4 +33,3 @@ public class ParseInvalidJMSPropertyInSelectorException extends ParseException {
     }
 
 }
-

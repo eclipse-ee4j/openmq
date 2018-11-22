@@ -20,19 +20,19 @@ import javax.jms.JMSException;
 import javax.xml.soap.SOAPMessage;
 
 public interface ReceiveService {
-	
-	/**
-	 * Receive a SOAPMessage from MQ Service.
-	 * 
-     * @param message the SOAP message specifies JMS (MQ) destination, domain, 
-     * clientID, etc. that the MQ Service used to receive message (from MQ).
-     *  
-	 * 
-	 * @throws JMSException if any internal error occurred to receive a message.
+
+    /**
+     * Receive a SOAPMessage from MQ Service.
+     * 
+     * @param message the SOAP message specifies JMS (MQ) destination, domain, clientID, etc. that the MQ Service used to
+     * receive message (from MQ).
+     * 
+     * 
+     * @throws JMSException if any internal error occurred to receive a message.
      * 
      * @return SOAPMessage the message received from MQ (JMS).
-	 */
-	public SOAPMessage receive(SOAPMessage message) throws JMSException;
+     */
+    public SOAPMessage receive(SOAPMessage message) throws JMSException;
 
-	public void close() throws JMSException;
+    public void close() throws JMSException;
 }

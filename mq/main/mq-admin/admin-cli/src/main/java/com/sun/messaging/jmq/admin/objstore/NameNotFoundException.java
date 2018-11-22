@@ -16,22 +16,21 @@
 
 /*
  * @(#)NameNotFoundException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the name does not
- * exist.
+ * This exception must be thrown when the name does not exist.
  */
 
 public class NameNotFoundException extends ObjStoreException {
 
     public NameNotFoundException() {
-	super();
+        super();
     }
 
     public NameNotFoundException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

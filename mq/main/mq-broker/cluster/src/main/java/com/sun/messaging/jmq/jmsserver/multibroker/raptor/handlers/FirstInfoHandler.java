@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -35,8 +35,7 @@ public class FirstInfoHandler extends GPacketHandler {
     }
 
     public void handle(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.WARNING, "Unexpected "+
-             ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+ " packet received");
+        logger.log(logger.WARNING, "Unexpected " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " packet received");
     }
 
 }

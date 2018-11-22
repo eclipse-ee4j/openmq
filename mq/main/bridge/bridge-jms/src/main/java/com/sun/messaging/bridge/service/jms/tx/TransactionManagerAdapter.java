@@ -21,16 +21,10 @@ import java.util.Properties;
 import javax.transaction.TransactionManager;
 import javax.transaction.xa.XAResource;
 
-
 /**
  *
- * A TransactionManager adapter interface.  At startup, the method call sequences are 
- *     1. instantiation
- *     2. setLogger
- *     4. init(props)
- *     5. if (registerRM()) registerRM(...)  <-- 0 or more times
- *     6. ...
- *     7. shutdown
+ * A TransactionManager adapter interface. At startup, the method call sequences are 1. instantiation 2. setLogger 4.
+ * init(props) 5. if (registerRM()) registerRM(...) <-- 0 or more times 6. ... 7. shutdown
  *
  * @author amyk
  */
@@ -42,11 +36,11 @@ public interface TransactionManagerAdapter {
 
     /**
      * This will be the first method to be called after instantiation
-     * @param props the properties 
-     * @param reset if true, clear existing data  
+     * 
+     * @param props the properties
+     * @param reset if true, clear existing data
      */
-    public void init(Properties props, boolean reset) throws Exception; 
-
+    public void init(Properties props, boolean reset) throws Exception;
 
     /**
      * 
@@ -57,18 +51,16 @@ public interface TransactionManagerAdapter {
     /**
      * Register a resource manager to the transaction manager
      *
-     * @param rmName resource manager name which uniquely identify
-     *               the RM in global transactions that it's going 
-     *               be participanting
+     * @param rmName resource manager name which uniquely identify the RM in global transactions that it's going be
+     * participanting
      * @param xar a XAResource object that is representing the RM
      *
      */
     public void registerRM(String rmName, XAResource xar) throws Exception;
 
     /**
-     * Unregister a resource manager from the transaction manager. 
-     * Afterward, the resource manager should not participant
-     * any global trasanctions that are managed by this transactio manager 
+     * Unregister a resource manager from the transaction manager. Afterward, the resource manager should not participant
+     * any global trasanctions that are managed by this transactio manager
      *
      * @param rmName The resource manage name that is used in registerRM()
      */
@@ -84,7 +76,7 @@ public interface TransactionManagerAdapter {
      */
     public String[] getAllTransactions() throws Exception;
 
-    /** 
+    /**
      * Shutdown the transaction manager
      */
     public void shutdown() throws Exception;

@@ -16,18 +16,16 @@
 
 /*
  * @(#)MQConnectionPermission.java	1.4 06/27/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.auth.jaas;
 
 /**
- * This class is for MQ service connection permissions.  It contains
- * a name (also referred to as a "target name") but no actions list;
- * you either have the named permission or you don't.
+ * This class is for MQ service connection permissions. It contains a name (also referred to as a "target name") but no
+ * actions list; you either have the named permission or you don't.
  */
 
-public final class MQConnectionPermission extends MQBasicPermission 
-{ 
+public final class MQConnectionPermission extends MQBasicPermission {
 
     private static final long serialVersionUID = 1919911567794615301L;
 
@@ -39,9 +37,8 @@ public final class MQConnectionPermission extends MQBasicPermission
     }
 
     public void validateName(String name) throws IllegalArgumentException {
-        if (!name.equals(PermissionFactory.CONN_NORMAL) && 
-            !name.equals(PermissionFactory.CONN_ADMIN)) {
-            throw new IllegalArgumentException("invalidate name "+name);
+        if (!name.equals(PermissionFactory.CONN_NORMAL) && !name.equals(PermissionFactory.CONN_ADMIN)) {
+            throw new IllegalArgumentException("invalidate name " + name);
         }
     }
 }

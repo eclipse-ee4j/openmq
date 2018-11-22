@@ -24,23 +24,22 @@ import java.io.ObjectInputStream;
 /**
  * A Filtering ObjectInputStream wrapper to provide automatic black list filtering using <code>ClassFilter</code>
  *
- * example :
- * ObjectInputStream ois = new FilteringObjectInputStream(yourInputStream);
+ * example : ObjectInputStream ois = new FilteringObjectInputStream(yourInputStream);
  *
  */
 public class FilteringObjectInputStream extends ObjectInputStream {
 
-  public FilteringObjectInputStream(InputStream in) throws IOException {
-    super(in);
-  }
-
-  @Override
-  protected Class<?> resolveClass(java.io.ObjectStreamClass descriptor) throws ClassNotFoundException, IOException {
-    String className = descriptor.getName();
-    if (className != null && className.length() > 0 && ClassFilter.isBlackListed(className)) {
-
-      throw new InvalidClassException("Unauthorized deserialization attempt", descriptor.getName());
+    public FilteringObjectInputStream(InputStream in) throws IOException {
+        super(in);
     }
-    return super.resolveClass(descriptor);
-  }
+
+    @Override
+    protected Class<?> resolveClass(java.io.ObjectStreamClass descriptor) throws ClassNotFoundException, IOException {
+        String className = descriptor.getName();
+        if (className != null && className.length() > 0 && ClassFilter.isBlackListed(className)) {
+
+            throw new InvalidClassException("Unauthorized deserialization attempt", descriptor.getName());
+        }
+        return super.resolveClass(descriptor);
+    }
 }

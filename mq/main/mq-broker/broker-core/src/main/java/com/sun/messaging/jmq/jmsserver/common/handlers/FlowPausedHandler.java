@@ -16,7 +16,7 @@
 
 /*
  * @(#)FlowPausedHandler.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -36,36 +36,28 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 
 import java.util.*;
 
-
-
 /**
  */
-public class FlowPausedHandler extends PacketHandler 
-{
+public class FlowPausedHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
+
     public FlowPausedHandler() {
     }
 
     /**
      * Method to handle FlowPaused messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         assert msg.getPacketType() == PacketType.FLOW_PAUSED;
         Hashtable props = null;
         try {
             props = msg.getProperties();
         } catch (Exception ex) {
-            logger.logStack(Logger.ERROR,
-                  Globals.getBrokerResources().getString(
-                      BrokerResources.X_INTERNAL_EXCEPTION,
-                      "FlowPaused"
-                     ), ex);
+            logger.logStack(Logger.ERROR, Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "FlowPaused"), ex);
             assert false : ex;
         }
 
-        Long size_var = (props != null ?(Long)props.get("JMQSize") : null);
+        Long size_var = (props != null ? (Long) props.get("JMQSize") : null);
         long size = (size_var == null ? 0 : size_var.longValue());
 
         con.flowPaused(size);
@@ -73,7 +65,6 @@ public class FlowPausedHandler extends PacketHandler
         // client doesnt sent this message at this time
 
         assert false : "Unsupported - XXX " + msg;
-
 
         return true;
     }

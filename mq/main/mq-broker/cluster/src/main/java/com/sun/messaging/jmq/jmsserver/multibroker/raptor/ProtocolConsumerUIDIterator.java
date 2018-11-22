@@ -16,7 +16,7 @@
 
 /*
  * @(#)ProtocolConsumerUIDIterator.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -30,8 +30,7 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
  * A helper class to read list of ConsumerUIDs in cluster protocols
  */
 
-public class ProtocolConsumerUIDIterator implements Iterator
-{
+public class ProtocolConsumerUIDIterator implements Iterator {
     private int count = 0;
     private int count_read = 0;
     private DataInputStream dis = null;
@@ -52,7 +51,8 @@ public class ProtocolConsumerUIDIterator implements Iterator
     }
 
     public boolean hasNext() {
-        if (count_read < 0) throw new IllegalStateException("ConsumerUIDIterator");  
+        if (count_read < 0)
+            throw new IllegalStateException("ConsumerUIDIterator");
         return count_read < count;
     }
 
@@ -61,13 +61,14 @@ public class ProtocolConsumerUIDIterator implements Iterator
      */
     public Object next() throws RuntimeException {
         try {
-        ConsumerUID cid =  ClusterConsumerInfo.readConsumerUID(dis);
-        if (from != null) cid.setBrokerAddress(from);
-        count_read++;
-        return cid;
+            ConsumerUID cid = ClusterConsumerInfo.readConsumerUID(dis);
+            if (from != null)
+                cid.setBrokerAddress(from);
+            count_read++;
+            return cid;
         } catch (IOException e) {
-        count_read = -1;
-        throw new RuntimeException(e);
+            count_read = -1;
+            throw new RuntimeException(e);
         }
     }
 
@@ -75,4 +76,3 @@ public class ProtocolConsumerUIDIterator implements Iterator
         throw new UnsupportedOperationException("Not supported");
     }
 }
-

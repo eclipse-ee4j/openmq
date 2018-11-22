@@ -14,16 +14,19 @@
  * SPDX-License-Identifier: EPL-2.0 OR GPL-2.0 WITH Classpath-exception-2.0
  */
 
-package com.sun.messaging.bridge.service.jms; 
+package com.sun.messaging.bridge.service.jms;
 
 /**
  * @author amyk
  *
  */
-public interface Refable  {
-    
+public interface Refable {
+
     public String getRef();
+
     public Object getRefed();
+
     public boolean isEmbeded();
+
     public boolean isMultiRM();
 }

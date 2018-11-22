@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.util.List;
@@ -31,36 +31,34 @@ public interface TxnLoggingStore {
 
     public void init() throws BrokerException;
 
-    public void logTxn(BaseTransaction txnWork) throws BrokerException; 
-     
+    public void logTxn(BaseTransaction txnWork) throws BrokerException;
+
     public void logTxnCompletion(TransactionUID tid, int state, int type) throws BrokerException;
-     
-    public void loggedCommitWrittenToMessageStore(TransactionUID tid, int type); 
 
-    public boolean isTxnConversionRequired(); 
+    public void loggedCommitWrittenToMessageStore(TransactionUID tid, int type);
 
-    public void convertTxnFormats(TransactionList transactionList)
-    throws BrokerException, IOException; 
+    public boolean isTxnConversionRequired();
+
+    public void convertTxnFormats(TransactionList transactionList) throws BrokerException, IOException;
 
     public List<BaseTransaction> getIncompleteTransactions(int type);
 
     public void rollbackAllTransactions();
 
     /**
-     * Perform a checkpoint
-     * Only applicable to FileStore with new txn log
+     * Perform a checkpoint Only applicable to FileStore with new txn log
      *
      * @param sync Flag to determine whther method block until checpoint is complete
      * @return status of checkpoint. Will return 0 if completed ok.
      */
-    public int doCheckpoint(boolean sync); 
+    public int doCheckpoint(boolean sync);
 
     /**************************************************
-     * OLD Transaction Logging Methods 
+     * OLD Transaction Logging Methods
      **************************************************/
 
-    public boolean initTxnLogger() throws BrokerException; 
+    public boolean initTxnLogger() throws BrokerException;
 
-    public void logTxn(int type, byte[] data) throws IOException; 
+    public void logTxn(int type, byte[] data) throws IOException;
 
 }

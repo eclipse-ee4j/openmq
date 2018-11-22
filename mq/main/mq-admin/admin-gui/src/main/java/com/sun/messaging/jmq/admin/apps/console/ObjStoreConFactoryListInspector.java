@@ -16,14 +16,14 @@
 
 /*
  * @(#)ObjStoreConFactoryListInspector.java	1.12 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
+/**
  * Inspector panel for the object store connection factory list.
  *
  * @see InspectorPanel
@@ -31,48 +31,45 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * @see ConsoleObj
  */
 public class ObjStoreConFactoryListInspector extends TabledInspector {
-    
+
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
+     * 
      * @return the array of Strings containing the collumn labels/headers.
      */
-    public String[] getColumnHeaders()  {
-        String[] columnNames = {acr.getString(acr.I_OBJSTORE_LOOKUP_NAME),
-                                acr.getString(acr.I_OBJSTORE_FACTORY_TYPE)};
+    public String[] getColumnHeaders() {
+        String[] columnNames = { acr.getString(acr.I_OBJSTORE_LOOKUP_NAME), acr.getString(acr.I_OBJSTORE_FACTORY_TYPE) };
         return (columnNames);
     }
 
     /**
-     * Returns the Object at a particular cell collumn for a given
-     * ConsoleObj object. Each row in the JTable represents one ConsoleObj.
-     * This method returns the object/value for the ConsoleObj, for a particular 
-     * collumn.
+     * Returns the Object at a particular cell collumn for a given ConsoleObj object. Each row in the JTable represents one
+     * ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
      *
-     * @return the Object at a particular cell collumn for a given
-     * ConsoleObj object.
+     * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
-    public Object getValueAtCollumn(ConsoleObj conObj, int col)  {
-	if (col == 0) {
-	    return (conObj);
-	} else if (col == 1) {
-	    Object object = ((ObjStoreConFactoryCObj)conObj).getObject();
-	    if (object instanceof com.sun.messaging.XATopicConnectionFactory) {
-		return acr.getString(acr.I_XATCF);
-	    } else if (object instanceof com.sun.messaging.XAQueueConnectionFactory) {
-		return acr.getString(acr.I_XAQCF);
-	    } else if (object instanceof com.sun.messaging.XAConnectionFactory) {
-		return acr.getString(acr.I_XACF);
-	    } else if (object instanceof com.sun.messaging.TopicConnectionFactory) {
-		return acr.getString(acr.I_TCF);
-	    } else if (object instanceof com.sun.messaging.QueueConnectionFactory) {
-		return acr.getString(acr.I_QCF);
-	    } else if (object instanceof com.sun.messaging.ConnectionFactory) {
-		return acr.getString(acr.I_CF);
-	    }
-	}
+    public Object getValueAtCollumn(ConsoleObj conObj, int col) {
+        if (col == 0) {
+            return (conObj);
+        } else if (col == 1) {
+            Object object = ((ObjStoreConFactoryCObj) conObj).getObject();
+            if (object instanceof com.sun.messaging.XATopicConnectionFactory) {
+                return acr.getString(acr.I_XATCF);
+            } else if (object instanceof com.sun.messaging.XAQueueConnectionFactory) {
+                return acr.getString(acr.I_XAQCF);
+            } else if (object instanceof com.sun.messaging.XAConnectionFactory) {
+                return acr.getString(acr.I_XACF);
+            } else if (object instanceof com.sun.messaging.TopicConnectionFactory) {
+                return acr.getString(acr.I_TCF);
+            } else if (object instanceof com.sun.messaging.QueueConnectionFactory) {
+                return acr.getString(acr.I_QCF);
+            } else if (object instanceof com.sun.messaging.ConnectionFactory) {
+                return acr.getString(acr.I_CF);
+            }
+        }
 
-	return (null);
+        return (null);
     }
 }

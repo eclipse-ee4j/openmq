@@ -16,8 +16,8 @@
 
 /*
  * @(#)HttpTunnelClientDriver.java	1.14 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.tunnel.client;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection;
@@ -39,14 +39,11 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
- * This class provides unreliable packet delivery mechanism on
- * the client side. It also uses a dedicated thread to continuously
- * send HTTP pull requests to fetch packets sent by the server.
+ * This class provides unreliable packet delivery mechanism on the client side. It also uses a dedicated thread to
+ * continuously send HTTP pull requests to fetch packets sent by the server.
  */
-public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults,
-    HttpTunnelDriver {
+public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults, HttpTunnelDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private boolean stopThread = false;
     private String urlString = null;
@@ -149,8 +146,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
             String newurlParam = "&" + serverName;
 
             if (!urlParam.equals("") && !newurlParam.equals(urlParam)) {
-                throw new IOException("Unexpected new ServerName: " +
-                    serverName);
+                throw new IOException("Unexpected new ServerName: " + serverName);
             }
 
             if (urlParam.equals("")) {
@@ -158,8 +154,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
             }
 
             pushUrl = new URL(urlString + "?Type=push" + urlParam);
-            pullUrl = new URL(urlString + "?Type=pull&ConnId=" + connId +
-                    urlParam);
+            pullUrl = new URL(urlString + "?Type=pull&ConnId=" + connId + urlParam);
 
             while (conn == null) {
                 Vector v = pullPackets();
@@ -191,9 +186,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
             String message = "Connection refused : ";
 
             if (e instanceof EOFException) {
-                message = "Connection refused : " +
-                    "Make sure that the broker is running and " +
-                    "its HTTP service is active...";
+                message = "Connection refused : " + "Make sure that the broker is running and " + "its HTTP service is active...";
             }
 
             // Concatenate the underlying exception's message.
@@ -252,9 +245,9 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     }
 
     /**
-     * Send a HTTP pull request to fetch any packets sent by the
-     * server. The server-side driver can send multiple packets
+     * Send a HTTP pull request to fetch any packets sent by the server. The server-side driver can send multiple packets
      * with each HTTP pull response.
+     * 
      * @return A <code>Vector</code> containing received packets.
      */
     private Vector pullPackets() throws Exception {

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
@@ -24,7 +24,8 @@ import com.sun.messaging.jms.Connection;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
- * MQ Consumer Event.  
+ * MQ Consumer Event.
+ * 
  * @since 4.5
  */
 public class ConsumerEvent extends Event {
@@ -34,12 +35,10 @@ public class ConsumerEvent extends Event {
      */
     public static final String CONSUMER_READY = ClientResources.E_CONSUMER_READY;
 
-
     /**
      * No consumer event code
      */
     public static final String CONSUMER_NOT_READY = ClientResources.E_CONSUMER_NOT_READY;
-
 
     /**
      * The broker address that sent the event
@@ -51,36 +50,35 @@ public class ConsumerEvent extends Event {
      */
     private transient Connection connection = null;
 
-
     /**
-     * Construct a MQ consumer event.  
+     * Construct a MQ consumer event.
      *
-     * <p><code>dest</code> is the {@link com.sun.messaging.Destination} 
-     * object that was passed in 
-     * {@link com.sun.messaging.jms.Connection#setConsumerEventListener}
-     * and is what will be returned by {@link #getDestination()}
+     * <p>
+     * <code>dest</code> is the {@link com.sun.messaging.Destination} object that was passed in
+     * {@link com.sun.messaging.jms.Connection#setConsumerEventListener} and is what will be returned by
+     * {@link #getDestination()}
      *
-     * <p><code>conn</code> is the {@link com.sun.messaging.jms.Connection} 
-     * on which this event was received and is what will be returned by 
-     * {@link #getConnection()}
+     * <p>
+     * <code>conn</code> is the {@link com.sun.messaging.jms.Connection} on which this event was received and is what will
+     * be returned by {@link #getConnection()}
      *
-     * <p><code>evCode</code> is what will be returned by 
-     * {@link #getEventCode()} which can be either 
-     * {@link #CONSUMER_READY} or {@link #CONSUMER_NOT_READY}
+     * <p>
+     * <code>evCode</code> is what will be returned by {@link #getEventCode()} which can be either {@link #CONSUMER_READY}
+     * or {@link #CONSUMER_NOT_READY}
      *
-     * <p><code>evMessage</code> is a description of the <code>evCode</code>
-     * and is what will be returned by {@link #getEventMessage()}
+     * <p>
+     * <code>evMessage</code> is a description of the <code>evCode</code> and is what will be returned by
+     * {@link #getEventMessage()}
      *
      *
      * @param dest the destination on which the event occurred.
      * @param conn the connection on which the event was received
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
-
+     * 
      */
-    public ConsumerEvent (Destination dest, Connection conn,
-                          String evCode, String evMessage) {
-        super (dest, evCode, evMessage);
+    public ConsumerEvent(Destination dest, Connection conn, String evCode, String evMessage) {
+        super(dest, evCode, evMessage);
 
         this.connection = conn;
         this.brokerAddress = conn.getBrokerAddress();
@@ -88,6 +86,7 @@ public class ConsumerEvent extends Event {
 
     /**
      * Get the connection on which the event was received.
+     * 
      * @return the connection on which the event was received.
      */
     public Connection getConnection() {
@@ -105,10 +104,11 @@ public class ConsumerEvent extends Event {
 
     /**
      * Get the registered destination on which the event was occurred.
+     * 
      * @return the registered destination on which the event was occurred.
      */
     public Destination getDestination() {
-        return (Destination)this.getSource();
+        return (Destination) this.getSource();
     }
 
 }

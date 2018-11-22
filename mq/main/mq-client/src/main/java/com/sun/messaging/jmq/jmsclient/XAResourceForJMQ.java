@@ -22,38 +22,36 @@ import javax.jms.JMSException;
  * This interface defines certain method common to the various XAResource implementations supported by MQ
  */
 public interface XAResourceForJMQ {
-	
+
     /**
-     * Return whether this XAResourceForJMQ and the specified XAResourceForJMQ
-     * represent the same resource manager instance.
+     * Return whether this XAResourceForJMQ and the specified XAResourceForJMQ represent the same resource manager instance.
      * 
-     * This is determined by checking whether the two resources 
-     * have the same brokerSessionID
+     * This is determined by checking whether the two resources have the same brokerSessionID
      *
-     * @param xaResource XAResourceForJMQ  
+     * @param xaResource XAResourceForJMQ
      * @return true if same RM instance, otherwise false.
-     */  
+     */
     public boolean isSameJMQRM(XAResourceForJMQ xaResource);
 
     /**
      * Return the brokerSessionID of this object's connection
+     * 
      * @return
      */
-	public long getBrokerSessionID();
+    public long getBrokerSessionID();
 
-	/**
-	 * Return whether this XAResource is in the COMPLETE state.
-	 * This state is reached when end(TMSUCCESS) is called
-	 * 
-	 * @return
-	 */
-	public boolean isComplete();
+    /**
+     * Return whether this XAResource is in the COMPLETE state. This state is reached when end(TMSUCCESS) is called
+     * 
+     * @return
+     */
+    public boolean isComplete();
 
-	/**
-	 * Clean up the state of this object following a commit or rollback,
-	 * ready for it to be used again if necessary
-	 * @throws JMSException 
-	 */ 
-	public void clearTransactionInfo() throws JMSException;
-	
+    /**
+     * Clean up the state of this object following a commit or rollback, ready for it to be used again if necessary
+     * 
+     * @throws JMSException
+     */
+    public void clearTransactionInfo() throws JMSException;
+
 }

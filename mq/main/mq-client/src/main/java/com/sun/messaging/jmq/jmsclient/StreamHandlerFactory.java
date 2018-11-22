@@ -16,7 +16,7 @@
 
 /*
  * @(#)StreamHandlerFactory.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -24,27 +24,23 @@ package com.sun.messaging.jmq.jmsclient;
  * StreamHandler factory provides a standard way to get a JMQ StreamHandler.
  */
 public class StreamHandlerFactory {
-     private static final String defaultProtocol =
-               "com.sun.messaging.jmq.jmsclient.protocol.tcp.TCPStreamHandler";
+    private static final String defaultProtocol = "com.sun.messaging.jmq.jmsclient.protocol.tcp.TCPStreamHandler";
 
     /**
      * Called by ProtocolHandler to get the specified StreamHandler.
-     * @return StreamHandler.  If className is null, the default
-     * StreamHandler - TCPStreamHandler is returned.
+     * 
+     * @return StreamHandler. If className is null, the default StreamHandler - TCPStreamHandler is returned.
      */
-    public static StreamHandler
-    getStreamHandler (String protocolName) throws ClassNotFoundException,
-                                IllegalAccessException, InstantiationException {
+    public static StreamHandler getStreamHandler(String protocolName) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
 
         String className = null;
-        if ( protocolName == null ) {
+        if (protocolName == null) {
             className = defaultProtocol;
         } else {
             className = protocolName;
         }
 
-        return (StreamHandler) Class.forName (className).newInstance();
+        return (StreamHandler) Class.forName(className).newInstance();
     }
 
 }
-

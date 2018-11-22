@@ -26,17 +26,18 @@ import com.sun.messaging.jmq.jmsclient.MQAddress;
 import com.sun.messaging.jmq.jmsclient.StreamHandler;
 
 public class DirectStreamHandler implements StreamHandler, PropertyOwner {
-	
-	/**
+
+    /**
      * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */  
-    public DirectStreamHandler() {}
+     */
+    public DirectStreamHandler() {
+    }
 
     /**
      * XXX chiaming 10/22/2008: update with direct mode values
      */
     public String[] getPropertyNames() {
-        String [] propnames = new String [4];
+        String[] propnames = new String[4];
         propnames[0] = ConnectionConfiguration.imqBrokerHostName;
         propnames[1] = ConnectionConfiguration.imqBrokerHostPort;
         propnames[2] = ConnectionConfiguration.imqBrokerServicePort;
@@ -45,12 +46,10 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
     }
 
     public String getPropertyType(String propname) {
-        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || 
-                ConnectionConfiguration.imqBrokerServiceName.equals(propname)) { 
+        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || ConnectionConfiguration.imqBrokerServiceName.equals(propname)) {
             return AdministeredObject.AO_PROPERTY_TYPE_STRING;
         } else {
-            if (ConnectionConfiguration.imqBrokerHostPort.equals(propname) ||
-                   ConnectionConfiguration.imqBrokerServicePort.equals(propname)) {
+            if (ConnectionConfiguration.imqBrokerHostPort.equals(propname) || ConnectionConfiguration.imqBrokerServicePort.equals(propname)) {
                 return AdministeredObject.AO_PROPERTY_TYPE_INTEGER;
             }
         }
@@ -75,7 +74,7 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         }
         return null;
     }
- 
+
     public String getPropertyDefault(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return "localhost";
@@ -94,19 +93,17 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         }
         return null;
     }
-    
-	public ConnectionHandler openConnection(Object connection)
-			throws JMSException {
-		DirectConnectionHandler dsh = new DirectConnectionHandler(connection);
-		
-		return dsh;
-	}
 
-	public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn)
-			throws JMSException {
-		DirectConnectionHandler dsh = new DirectConnectionHandler(conn);
-		
-		return dsh;
-	}
+    public ConnectionHandler openConnection(Object connection) throws JMSException {
+        DirectConnectionHandler dsh = new DirectConnectionHandler(connection);
+
+        return dsh;
+    }
+
+    public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn) throws JMSException {
+        DirectConnectionHandler dsh = new DirectConnectionHandler(conn);
+
+        return dsh;
+    }
 
 }

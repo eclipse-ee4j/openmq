@@ -16,7 +16,7 @@
 
 /*
  * @(#)MessageConvert.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -28,8 +28,7 @@ import java.lang.reflect.Modifier;
 import com.sun.messaging.AdministeredObject;
 
 /**
- * This class is to convert other vendor's message to JMQ message
- * type.
+ * This class is to convert other vendor's message to JMQ message type.
  */
 
 public class MessageConvert {
@@ -50,30 +49,29 @@ public class MessageConvert {
      *
      * @return Message JMQ message implementation of JMS Message.
      */
-    protected Message
-    convertJMSMessage (Message foreignMessage) throws JMSException {
+    protected Message convertJMSMessage(Message foreignMessage) throws JMSException {
         Message message = null;
 
-        //1. Convert message body
-        if ( foreignMessage instanceof TextMessage ) {
-            message = convertTextMessage ( (TextMessage) foreignMessage );
-        } else if ( foreignMessage instanceof MapMessage ) {
-            message = convertMapMessage ( (MapMessage) foreignMessage );
-        } else if ( foreignMessage instanceof BytesMessage ) {
-            message = convertBytesMessage ( (BytesMessage) foreignMessage );
-        } else if ( foreignMessage instanceof ObjectMessage ) {
-            message = convertObjectMessage ( (ObjectMessage) foreignMessage );
-        } else if ( foreignMessage instanceof StreamMessage ) {
-            message = convertStreamMessage ( (StreamMessage) foreignMessage );
+        // 1. Convert message body
+        if (foreignMessage instanceof TextMessage) {
+            message = convertTextMessage((TextMessage) foreignMessage);
+        } else if (foreignMessage instanceof MapMessage) {
+            message = convertMapMessage((MapMessage) foreignMessage);
+        } else if (foreignMessage instanceof BytesMessage) {
+            message = convertBytesMessage((BytesMessage) foreignMessage);
+        } else if (foreignMessage instanceof ObjectMessage) {
+            message = convertObjectMessage((ObjectMessage) foreignMessage);
+        } else if (foreignMessage instanceof StreamMessage) {
+            message = convertStreamMessage((StreamMessage) foreignMessage);
         } else {
             message = new MessageImpl();
         }
 
-        //2. Convert JMS message header
-        convertJMSHeader (message, foreignMessage);
+        // 2. Convert JMS message header
+        convertJMSHeader(message, foreignMessage);
 
-        //3. Convert JMS message properties
-        convertJMSProperties (message, foreignMessage);
+        // 3. Convert JMS message properties
+        convertJMSProperties(message, foreignMessage);
 
         return message;
     }
@@ -81,36 +79,34 @@ public class MessageConvert {
     /**
      * Convert JMS message headers from foreign message to JMQ message.
      */
-    protected void
-    convertJMSHeader (Message message, Message foreignMessage) throws JMSException {
+    protected void convertJMSHeader(Message message, Message foreignMessage) throws JMSException {
 
-        message.setJMSCorrelationID( foreignMessage.getJMSCorrelationID() );
+        message.setJMSCorrelationID(foreignMessage.getJMSCorrelationID());
 
-        //message.setJMSDeliveryMode( foreignMessage.getJMSDeliveryMode() );
-        //This is provider dependent
-        //message.setJMSDestination( foreignMessage.getJMSDestination() );
-        //message.setJMSExpiration( foreignMessage.getJMSExpiration() );
-        //message.setJMSMessageID( foreignMessage.getJMSMessageID() );
-        //message.setJMSPriority( foreignMessage.getJMSPriority() );
-        //message.setJMSRedelivered( foreignMessage.getJMSRedelivered() );
-        //This is provider dependent
-        //message.setJMSReplyTo( foreignMessage.getJMSReplyTo() );
-        //message.setJMSTimestamp( foreignMessage.getJMSTimestamp() );
-        message.setJMSType( message.getJMSType() );
+        // message.setJMSDeliveryMode( foreignMessage.getJMSDeliveryMode() );
+        // This is provider dependent
+        // message.setJMSDestination( foreignMessage.getJMSDestination() );
+        // message.setJMSExpiration( foreignMessage.getJMSExpiration() );
+        // message.setJMSMessageID( foreignMessage.getJMSMessageID() );
+        // message.setJMSPriority( foreignMessage.getJMSPriority() );
+        // message.setJMSRedelivered( foreignMessage.getJMSRedelivered() );
+        // This is provider dependent
+        // message.setJMSReplyTo( foreignMessage.getJMSReplyTo() );
+        // message.setJMSTimestamp( foreignMessage.getJMSTimestamp() );
+        message.setJMSType(message.getJMSType());
 
     }
 
     /**
      * reset foreign message headers after it is sent by iMQ.
      */
-    protected void
-    resetForeignMessageHeader (Message message, Message foreignMessage) throws JMSException {
-        foreignMessage.setJMSDeliveryMode( message.getJMSDeliveryMode() );
-        foreignMessage.setJMSExpiration( message.getJMSExpiration() );
+    protected void resetForeignMessageHeader(Message message, Message foreignMessage) throws JMSException {
+        foreignMessage.setJMSDeliveryMode(message.getJMSDeliveryMode());
+        foreignMessage.setJMSExpiration(message.getJMSExpiration());
         Method m = null;
         try {
             Class c = foreignMessage.getClass();
-            m = c.getMethod("getJMSDeliveryTime", (Class[])null);
+            m = c.getMethod("getJMSDeliveryTime", (Class[]) null);
             if (Modifier.isAbstract(m.getModifiers())) {
                 m = null;
             }
@@ -118,28 +114,27 @@ public class MessageConvert {
             m = null;
         }
         if (m != null && message.getJMSDeliveryTime() != 0L) {
-            foreignMessage.setJMSDeliveryTime( message.getJMSDeliveryTime() );
+            foreignMessage.setJMSDeliveryTime(message.getJMSDeliveryTime());
         }
-        foreignMessage.setJMSMessageID( message.getJMSMessageID() );
-        foreignMessage.setJMSPriority( message.getJMSPriority() );
-        foreignMessage.setJMSTimestamp( message.getJMSTimestamp() );
-        foreignMessage.setJMSDestination( message.getJMSDestination() );
-        //System.out.println ("*****MID: " + message.getJMSMessageID() );
+        foreignMessage.setJMSMessageID(message.getJMSMessageID());
+        foreignMessage.setJMSPriority(message.getJMSPriority());
+        foreignMessage.setJMSTimestamp(message.getJMSTimestamp());
+        foreignMessage.setJMSDestination(message.getJMSDestination());
+        // System.out.println ("*****MID: " + message.getJMSMessageID() );
     }
 
     /**
      * Convert JMS message properties from foreign message to JMQ message.
      */
-    protected void
-    convertJMSProperties (Message message, Message foreignMessage) throws JMSException {
+    protected void convertJMSProperties(Message message, Message foreignMessage) throws JMSException {
         Enumeration keys = foreignMessage.getPropertyNames();
         String key = null;
         Object value = null;
 
-        while ( keys.hasMoreElements() ) {
+        while (keys.hasMoreElements()) {
             key = (String) keys.nextElement();
             value = foreignMessage.getObjectProperty(key);
-            message.setObjectProperty( key, value);
+            message.setObjectProperty(key, value);
         }
     }
 
@@ -152,11 +147,10 @@ public class MessageConvert {
      *
      * @exception JMSException if message conversion failed.
      */
-    protected Message
-    convertTextMessage ( TextMessage foreignMessage ) throws JMSException {
+    protected Message convertTextMessage(TextMessage foreignMessage) throws JMSException {
 
         TextMessageImpl message = new TextMessageImpl();
-        message.setText( foreignMessage.getText() );
+        message.setText(foreignMessage.getText());
 
         return message;
     }
@@ -170,15 +164,14 @@ public class MessageConvert {
      *
      * @exception JMSException if message conversion failed.
      */
-    protected Message
-    convertMapMessage ( MapMessage foreignMessage ) throws JMSException {
+    protected Message convertMapMessage(MapMessage foreignMessage) throws JMSException {
         MapMessageImpl message = new MapMessageImpl();
         String key = null;
 
         Enumeration keys = foreignMessage.getMapNames();
-        while ( keys.hasMoreElements() ) {
+        while (keys.hasMoreElements()) {
             key = (String) keys.nextElement();
-            message.setObject( key, foreignMessage.getObject(key) );
+            message.setObject(key, foreignMessage.getObject(key));
         }
 
         return message;
@@ -193,22 +186,22 @@ public class MessageConvert {
      *
      * @exception JMSException if message conversion failed.
      */
-    protected Message
-    convertBytesMessage ( BytesMessage foreignMessage ) throws JMSException {
+    protected Message convertBytesMessage(BytesMessage foreignMessage) throws JMSException {
         BytesMessageImpl message = new BytesMessageImpl(true);
         byte b = 0;
 
         foreignMessage.reset();
         try {
-            while ( true ) {
+            while (true) {
                 b = foreignMessage.readByte();
                 message.writeByte(b);
             }
-        } catch ( MessageEOFException e) {
-            //ok if we catch this
-        } catch ( Exception e ) {
-            //String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION) + "\n" + e.toString();
-            //throw new JMSException (error);
+        } catch (MessageEOFException e) {
+            // ok if we catch this
+        } catch (Exception e) {
+            // String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION) + "\n" +
+            // e.toString();
+            // throw new JMSException (error);
 
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION);
         }
@@ -225,11 +218,10 @@ public class MessageConvert {
      *
      * @exception JMSException if message conversion failed.
      */
-    protected Message
-    convertObjectMessage ( ObjectMessage foreignMessage ) throws JMSException {
+    protected Message convertObjectMessage(ObjectMessage foreignMessage) throws JMSException {
         ObjectMessageImpl message = new ObjectMessageImpl();
 
-        message.setObject( foreignMessage.getObject() );
+        message.setObject(foreignMessage.getObject());
 
         return message;
     }
@@ -243,21 +235,21 @@ public class MessageConvert {
      *
      * @exception JMSException if message conversion failed.
      */
-    protected Message
-    convertStreamMessage ( StreamMessage foreignMessage ) throws JMSException {
+    protected Message convertStreamMessage(StreamMessage foreignMessage) throws JMSException {
         StreamMessageImpl message = new StreamMessageImpl(true);
         Object obj = null;
         foreignMessage.reset();
         try {
-            while ( true ) {
+            while (true) {
                 obj = foreignMessage.readObject();
-                message.writeObject( obj );
+                message.writeObject(obj);
             }
-        } catch ( MessageEOFException e) {
-            //ok if we catch this
-        } catch ( Exception e ) {
-            //String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION) + "\n" + e.toString();
-            //throw new JMSException (error);
+        } catch (MessageEOFException e) {
+            // ok if we catch this
+        } catch (Exception e) {
+            // String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION) + "\n" +
+            // e.toString();
+            // throw new JMSException (error);
             ExceptionHandler.handleException(e, AdministeredObject.cr.X_ERROR_FOREIGN_CONVERSION);
         }
 
@@ -265,4 +257,3 @@ public class MessageConvert {
     }
 
 }
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestinationUpdateHandler.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -41,18 +41,12 @@ public class DestinationUpdateHandler extends GPacketHandler {
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION) {
             handleUpdateDestination(cb, sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_REM_DESTINATION) {
+        } else if (pkt.getType() == ProtocolGlobals.G_REM_DESTINATION) {
             handleRemDestination(cb, sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION_REPLY ||
-            pkt.getType() == ProtocolGlobals.G_REM_DESTINATION_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION_REPLY || pkt.getType() == ProtocolGlobals.G_REM_DESTINATION_REPLY) {
             handleReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "DestinationUpdateHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "DestinationUpdateHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
@@ -60,29 +54,24 @@ public class DestinationUpdateHandler extends GPacketHandler {
         ClusterDestInfo cdi = ClusterDestInfo.newInstance(pkt);
 
         try {
-            DestinationUID duid = cdi.getDestUID(); 
+            DestinationUID duid = cdi.getDestUID();
             Hashtable props = cdi.getDestProps();
 
             Destination[] ds = DL.getDestination(null, duid);
             Destination d = ds[0];
             if (d == null) {
-                ds = DL.createDestination(null, cdi.getDestName(), cdi.getDestType(),
-                    ! DestType.isTemporary(cdi.getDestType()), false, selfAddress);
+                ds = DL.createDestination(null, cdi.getDestName(), cdi.getDestType(), !DestType.isTemporary(cdi.getDestType()), false, selfAddress);
                 d = ds[0];
                 d.setDestinationProperties(props);
                 cb.notifyCreateDestination(d);
-            }
-            else {
+            } else {
                 cb.notifyUpdateDestination(duid, props);
             }
             if (cdi.getShareccInfo() != null) {
                 cb.setLastReceivedChangeRecord(sender, cdi.getShareccInfo());
             }
-        }
-        catch (Exception e) {
-            logger.logStack(logger.INFO,
-                "Internal Exception, unable to process message " +
-                pkt, e);
+        } catch (Exception e) {
+            logger.logStack(logger.INFO, "Internal Exception, unable to process message " + pkt, e);
             return;
         }
     }
@@ -90,17 +79,14 @@ public class DestinationUpdateHandler extends GPacketHandler {
     public void handleRemDestination(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         try {
             ClusterDestInfo cdi = ClusterDestInfo.newInstance(pkt);
-            DestinationUID duid = cdi.getDestUID(); 
+            DestinationUID duid = cdi.getDestUID();
 
             cb.notifyDestroyDestination(duid);
             if (cdi.getShareccInfo() != null) {
                 cb.setLastReceivedChangeRecord(sender, cdi.getShareccInfo());
             }
-        }
-        catch (Exception e) {
-            logger.logStack(logger.INFO,
-                "Internal Exception, unable to process message " +
-                pkt, e);
+        } catch (Exception e) {
+            logger.logStack(logger.INFO, "Internal Exception, unable to process message " + pkt, e);
             return;
         }
     }
@@ -108,7 +94,6 @@ public class DestinationUpdateHandler extends GPacketHandler {
     public void handleReply(BrokerAddress sender, GPacket pkt) {
     }
 }
-
 
 /*
  * EOF

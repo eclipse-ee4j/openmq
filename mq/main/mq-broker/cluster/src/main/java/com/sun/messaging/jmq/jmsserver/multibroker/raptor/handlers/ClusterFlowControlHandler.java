@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterFlowControlHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,7 +39,6 @@ public class ClusterFlowControlHandler extends GPacketHandler {
             logger.log(logger.DEBUG, "ClusterFlowControlHandler");
     }
 }
-
 
 /*
  * EOF

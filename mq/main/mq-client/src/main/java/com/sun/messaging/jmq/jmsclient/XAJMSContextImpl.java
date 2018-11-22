@@ -31,100 +31,100 @@ import com.sun.messaging.jms.MQSecurityRuntimeException;
 
 public class XAJMSContextImpl extends JMSContextImpl implements XAJMSContext {
 
-	XAConnection xaConnection;
-	XASession xaSession;
-	    
-	public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType, String userName, String password) {
-		super();
-		this.containerType = containerType;
+    XAConnection xaConnection;
+    XASession xaSession;
 
-		// create connection
-		try {
-			xaConnection = connectionFactory.createXAConnection(userName, password);
-			connection = xaConnection;
-		} catch (SecurityException e) {
-			JMSSecurityRuntimeException jsre = new com.sun.messaging.jms.MQSecurityRuntimeException(e.getMessage(), null, e);
-			ExceptionHandler.throwJMSRuntimeException(jsre);
-		} catch (JMSSecurityException e) {
-			throw new MQSecurityRuntimeException(e);
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-		// create session
-		try {
-			xaSession = xaConnection.createXASession();
-			session = xaSession;
-		} catch (JMSException e) {
-			try {
-				connection.close();
-			} catch (JMSException e1) {
-			}
-			throw new MQRuntimeException(e);
-		}
-		initializeForNewConnection();
-	}
+    public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType, String userName, String password) {
+        super();
+        this.containerType = containerType;
 
-	public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType) {
-		super();
-		this.containerType = containerType;
+        // create connection
+        try {
+            xaConnection = connectionFactory.createXAConnection(userName, password);
+            connection = xaConnection;
+        } catch (SecurityException e) {
+            JMSSecurityRuntimeException jsre = new com.sun.messaging.jms.MQSecurityRuntimeException(e.getMessage(), null, e);
+            ExceptionHandler.throwJMSRuntimeException(jsre);
+        } catch (JMSSecurityException e) {
+            throw new MQSecurityRuntimeException(e);
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+        // create session
+        try {
+            xaSession = xaConnection.createXASession();
+            session = xaSession;
+        } catch (JMSException e) {
+            try {
+                connection.close();
+            } catch (JMSException e1) {
+            }
+            throw new MQRuntimeException(e);
+        }
+        initializeForNewConnection();
+    }
 
-		// create connection
-		try {
-			xaConnection = connectionFactory.createXAConnection();
-			connection = xaConnection;
-		} catch (SecurityException e) {
-			JMSSecurityRuntimeException jsre = new com.sun.messaging.jms.MQSecurityRuntimeException(e.getMessage(), null, e);
-			ExceptionHandler.throwJMSRuntimeException(jsre);
-		} catch (JMSSecurityException e) {
-			throw new MQSecurityRuntimeException(e);
-		} catch (JMSException e) {
-			throw new MQRuntimeException(e);
-		}
-		// create session
-		try {
-			xaSession = xaConnection.createXASession();
-			session = xaSession;
-		} catch (JMSException e) {
-			try {
-				connection.close();
-			} catch (JMSException e1) {
-			}
-			throw new MQRuntimeException(e);
-		}
-		initializeForNewConnection();
-	}
+    public XAJMSContextImpl(XAConnectionFactory connectionFactory, ContainerType containerType) {
+        super();
+        this.containerType = containerType;
 
-	@Override
-	public JMSContext getContext() {
-		return this;
-	}
+        // create connection
+        try {
+            xaConnection = connectionFactory.createXAConnection();
+            connection = xaConnection;
+        } catch (SecurityException e) {
+            JMSSecurityRuntimeException jsre = new com.sun.messaging.jms.MQSecurityRuntimeException(e.getMessage(), null, e);
+            ExceptionHandler.throwJMSRuntimeException(jsre);
+        } catch (JMSSecurityException e) {
+            throw new MQSecurityRuntimeException(e);
+        } catch (JMSException e) {
+            throw new MQRuntimeException(e);
+        }
+        // create session
+        try {
+            xaSession = xaConnection.createXASession();
+            session = xaSession;
+        } catch (JMSException e) {
+            try {
+                connection.close();
+            } catch (JMSException e1) {
+            }
+            throw new MQRuntimeException(e);
+        }
+        initializeForNewConnection();
+    }
 
-	@Override
-	public XAResource getXAResource() {
-		return xaSession.getXAResource();
-	}
+    @Override
+    public JMSContext getContext() {
+        return this;
+    }
 
-	@Override
-	public boolean getTransacted() {
-		// the API states that this should always return true
-		// but the underlying XASession should be able to handle this
-		return super.getTransacted();
-	}
+    @Override
+    public XAResource getXAResource() {
+        return xaSession.getXAResource();
+    }
 
-	@Override
-	public void commit() {
-		// the API states that this should always return a
-		// TransactionInProgressRuntimeException
-		// but the underlying XASession should be able to handle this
-		super.commit();
-	}
+    @Override
+    public boolean getTransacted() {
+        // the API states that this should always return true
+        // but the underlying XASession should be able to handle this
+        return super.getTransacted();
+    }
 
-	@Override
-	public void rollback() {
-		// the API states that this should always return a
-		// TransactionInProgressRuntimeException
-		// but the underlying XASession should be able to handle this
-		super.rollback();
-	}
+    @Override
+    public void commit() {
+        // the API states that this should always return a
+        // TransactionInProgressRuntimeException
+        // but the underlying XASession should be able to handle this
+        super.commit();
+    }
+
+    @Override
+    public void rollback() {
+        // the API states that this should always return a
+        // TransactionInProgressRuntimeException
+        // but the underlying XASession should be able to handle this
+        super.rollback();
+    }
 
 }

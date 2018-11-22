@@ -39,33 +39,30 @@ import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompSenderSession extends StompSessionImpl  {
+public class StompSenderSession extends StompSessionImpl {
 
-    //protected by closeLock
+    // protected by closeLock
     protected Map<String, Long> producers = new HashMap<String, Long>();
 
     public StompSenderSession(StompConnectionImpl stompc) throws Exception {
         super(stompc, StompAckMode.AUTO_ACK, false);
     }
 
-    protected StompSenderSession(StompConnectionImpl stompc, boolean transacted)
-    throws Exception {
+    protected StompSenderSession(StompConnectionImpl stompc, boolean transacted) throws Exception {
         super(stompc, StompAckMode.AUTO_ACK, transacted);
     }
 
     @Override
     public String toString() {
-        return "[StompSenderSession@"+hashCode()+
-               ", producers="+producers.size()+"]";
+        return "[StompSenderSession@" + hashCode() + ", producers=" + producers.size() + "]";
     }
 
     @Override
     protected synchronized void closeProducers() {
-        Iterator<Long> itr = producers.values().iterator(); 
+        Iterator<Long> itr = producers.values().iterator();
         Long prodid = null;
         while (itr.hasNext()) {
             prodid = itr.next();
@@ -84,8 +81,7 @@ public class StompSenderSession extends StompSessionImpl  {
         checkSession();
 
         Packet pkt = new Packet();
-        pkt.setPersistent(jmsservice.DEFAULT_MessageDeliveryMode ==
-                          MessageDeliveryMode.PERSISTENT);
+        pkt.setPersistent(jmsservice.DEFAULT_MessageDeliveryMode == MessageDeliveryMode.PERSISTENT);
         pkt.setPriority(jmsservice.DEFAULT_MessagePriority.priority());
         pkt.setExpiration(jmsservice.DEFAULT_TIME_TO_LIVE);
         pkt.setDeliveryTime(jmsservice.DEFAULT_DELIVERY_DELAY);
@@ -100,17 +96,16 @@ public class StompSenderSession extends StompSessionImpl  {
             JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
             if (status == JMSServiceReply.Status.CONFLICT) {
                 if (logger.isFineLoggable() || stompconn.getProtocolHandler().getDEBUG()) {
-                    logger.log(logger.INFO, "Destination "+stompdest+" already exist");
+                    logger.log(logger.INFO, "Destination " + stompdest + " already exist");
                 }
             } else {
                 throw jmsse;
             }
         }
-        synchronized(this) {
+        synchronized (this) {
             Long prodid = producers.get(stompdest);
             if (prodid == null) {
-                JMSServiceReply reply = jmsservice.addProducer(
-                    connectionId, sessionId, d.getDestination());
+                JMSServiceReply reply = jmsservice.addProducer(connectionId, sessionId, d.getDestination());
                 prodid = Long.valueOf(reply.getJMQProducerID());
                 producers.put(stompdest, prodid);
             }
@@ -118,7 +113,7 @@ public class StompSenderSession extends StompSessionImpl  {
         }
 
         pkt.prepareToSend();
-        synchronized(this) {
+        synchronized (this) {
             if (isTransacted()) {
                 pkt.setTransactionID(getTransactionId());
             } else {
@@ -126,13 +121,13 @@ public class StompSenderSession extends StompSessionImpl  {
             }
             final Packet p = pkt;
             jmsservice.sendMessage(connectionId, new JMSPacket() {
-                       public Packet getPacket() {
-                       return p;
-                   }
-                   });
+                public Packet getPacket() {
+                    return p;
+                }
+            });
         }
         if (logger.isFineLoggable() || stompconn.getProtocolHandler().getDEBUG()) {
-            logger.log(logger.INFO, "Sent message "+pkt.getSysMessageID());
+            logger.log(logger.INFO, "Sent message " + pkt.getSysMessageID());
         }
     }
 }

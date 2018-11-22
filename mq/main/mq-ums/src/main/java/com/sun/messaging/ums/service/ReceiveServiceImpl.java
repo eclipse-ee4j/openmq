@@ -37,48 +37,47 @@ import java.util.logging.Logger;
 import javax.jms.MessageProducer;
 
 public class ReceiveServiceImpl implements ReceiveService {
-   
-    //private Lock lock = null;
+
+    // private Lock lock = null;
     private Properties props = null;
     private ClientPool cache = null;
-    //default receive timeout
+    // default receive timeout
     private long receiveTimeout = 7000;
     private Logger logger = UMSServiceImpl.logger;
-    //cache sweeper
+    // cache sweeper
     private CacheSweeper sweeper = null;
     private static final String SERVICE_NAME = "RECEIVE_SERVICE";
     private MessageFactory soapMF = null;
-    
+
     private String provider = null;
-    
+
     private String myName = null;
-    
+
     private static final String UMS_DMQ = "UMS.DMQ";
-    
+
     public ReceiveServiceImpl(String provider, ClientPool cache, CacheSweeper sweeper, Properties p) throws JMSException {
-        
+
         this.provider = provider;
-        
+
         this.sweeper = sweeper;
-        
-        this.myName = provider + "_" + SERVICE_NAME; 
-        
+
+        this.myName = provider + "_" + SERVICE_NAME;
+
         this.props = p;
 
-        //lock = new Lock();
+        // lock = new Lock();
 
-        //cache = new ClientPool(provider, SERVICE_NAME, props, lock);
-        
-        //sweeper.addClientPool(cache);
+        // cache = new ClientPool(provider, SERVICE_NAME, props, lock);
+
+        // sweeper.addClientPool(cache);
 
         this.cache = cache;
-        
+
         String tmp = props.getProperty(Constants.IMQ_RECEIVE_TIMEOUT, Constants.IMQ_RECEIVE_TIMEOUT_DEFAULT_VALUE);
         receiveTimeout = Long.parseLong(tmp);
 
         initSOAPMessageFactory();
 
-        
     }
 
     private void initSOAPMessageFactory() throws JMSException {
@@ -97,29 +96,27 @@ public class ReceiveServiceImpl implements ReceiveService {
     public SOAPMessage receive(SOAPMessage request) throws JMSException {
         SOAPMessage reply = null;
         Client client = null;
-        
+
         String user = null;
         String pass = null;
 
         try {
 
             /**
-            String clientId = MessageUtil.getServiceClientId(request);
-             
-            if (clientId == null) {
-                user = MessageUtil.getServiceAttribute(request, "user");
-                pass = MessageUtil.getServiceAttribute(request, "password");             
-            }
-            
-            client = cache.getClient(clientId, user, pass);
-            **/
-            
+             * String clientId = MessageUtil.getServiceClientId(request);
+             * 
+             * if (clientId == null) { user = MessageUtil.getServiceAttribute(request, "user"); pass =
+             * MessageUtil.getServiceAttribute(request, "password"); }
+             * 
+             * client = cache.getClient(clientId, user, pass);
+             **/
+
             client = cache.getClient(request);
-            
-            //Object syncObj = lock.getLock(client.getId());
+
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
 
-            //Object syncObj = lock.getLock(clientId);
+            // Object syncObj = lock.getLock(clientId);
 
             MessageConsumer consumer = null;
 
@@ -128,42 +125,42 @@ public class ReceiveServiceImpl implements ReceiveService {
             if (UMSServiceImpl.debug) {
                 logger.info("Receiving message ...");
             }
-            
+
             synchronized (syncObj) {
 
-                //client = cache.getClient(clientId);
+                // client = cache.getClient(clientId);
 
                 boolean isTopic = MessageUtil.isServiceTopicDomain(request);
 
                 String destName = MessageUtil.getServiceDestinationName(request);
 
                 consumer = client.getConsumer(isTopic, destName);
-                
-                long timeout = getTimeout (request);
+
+                long timeout = getTimeout(request);
 
                 jmsMessage = consumer.receive(timeout);
             }
 
-            //logger.info ("ReceiveService received message ...");
+            // logger.info ("ReceiveService received message ...");
 
             if (jmsMessage == null) {
-                
+
                 if (UMSServiceImpl.debug) {
-                    logger.info ("No messages received ...");
+                    logger.info("No messages received ...");
                 }
-                
+
             } else if (jmsMessage instanceof BytesMessage) {
 
                 reply = MessageTransformer.SOAPMessageFromJMSMessage(jmsMessage, soapMF);
 
                 if (UMSServiceImpl.debug) {
-                    logger.info ("received soap message : " + reply);
+                    logger.info("received soap message : " + reply);
                 }
-                //reply.writeTo(System.out);
+                // reply.writeTo(System.out);
 
             } else {
-                //XXX I18N
-                logger.warning ("received message is not a JMS BytesMessage type: " + jmsMessage);
+                // XXX I18N
+                logger.warning("received message is not a JMS BytesMessage type: " + jmsMessage);
                 this.sendToDMQ(client, jmsMessage);
             }
 
@@ -175,8 +172,8 @@ public class ReceiveServiceImpl implements ReceiveService {
                 throw (JMSException) ex;
             } else {
                 JMSException jmse = new JMSException(ex.getMessage());
-                if ( ex instanceof Exception) {
-                    jmse.setLinkedException( (Exception)ex);
+                if (ex instanceof Exception) {
+                    jmse.setLinkedException((Exception) ex);
                 }
                 throw jmse;
             }
@@ -187,24 +184,24 @@ public class ReceiveServiceImpl implements ReceiveService {
 
         return reply;
     }
-    
-    private long getTimeout (SOAPMessage sm) {
+
+    private long getTimeout(SOAPMessage sm) {
         long timeout = 30000;
-        
+
         try {
             timeout = MessageUtil.getServiceReceiveTimeout(sm);
-            
-            if (timeout <= 0 ||timeout >= 60000) {
+
+            if (timeout <= 0 || timeout >= 60000) {
                 timeout = this.receiveTimeout;
-                
-                //XXX I18N
-                logger.info ("timeout value is between 0 (exclusive) and 60000 (inclusive) milli secs.");
+
+                // XXX I18N
+                logger.info("timeout value is between 0 (exclusive) and 60000 (inclusive) milli secs.");
             }
-            
+
         } catch (Exception e) {
             logger.log(Level.WARNING, e.getMessage(), e);
         }
-        
+
         return timeout;
     }
 
@@ -221,31 +218,25 @@ public class ReceiveServiceImpl implements ReceiveService {
         String reply = null;
 
         Client client = null;
-               
+
         String user = null;
         String pass = null;
 
         try {
 
             /**
-            if (clientId == null) {
-                
-                String[] ua = (String[]) map.get("user");
-
-                if (ua != null && ua.length == 1) {
-                    user = ua[0];
-                }
-
-                String[] pa = (String[]) map.get("password");
-                if (pa != null && pa.length == 1) {
-                    pass = pa[0];
-                }
-            }
-
-            client = cache.getClient(clientId, user, pass);
-            **/
+             * if (clientId == null) {
+             * 
+             * String[] ua = (String[]) map.get("user");
+             * 
+             * if (ua != null && ua.length == 1) { user = ua[0]; }
+             * 
+             * String[] pa = (String[]) map.get("password"); if (pa != null && pa.length == 1) { pass = pa[0]; } }
+             * 
+             * client = cache.getClient(clientId, user, pass);
+             **/
             client = cache.getClient(sid, map);
-            //Object syncObj = lock.getLock(client.getId());
+            // Object syncObj = lock.getLock(client.getId());
             Object syncObj = client.getLock();
 
             MessageConsumer consumer = null;
@@ -253,11 +244,10 @@ public class ReceiveServiceImpl implements ReceiveService {
             Message jmsMessage = null;
 
             if (UMSServiceImpl.debug) {
-                logger.info ("ReceiveService receiving Text message ...");
+                logger.info("ReceiveService receiving Text message ...");
             }
-            
-            synchronized (syncObj) {
 
+            synchronized (syncObj) {
 
                 consumer = client.getConsumer(isTopic, destName);
 
@@ -265,28 +255,27 @@ public class ReceiveServiceImpl implements ReceiveService {
             }
 
             if (UMSServiceImpl.debug) {
-                logger.info ("ReceiveService received message ..." + jmsMessage);
+                logger.info("ReceiveService received message ..." + jmsMessage);
             }
-            
-            if (jmsMessage == null) {
-                
-                if (UMSServiceImpl.debug) {
-                    logger.info ("No messages received ...");
-                }
-                
-            } else if (jmsMessage instanceof TextMessage) {
 
+            if (jmsMessage == null) {
+
+                if (UMSServiceImpl.debug) {
+                    logger.info("No messages received ...");
+                }
+
+            } else if (jmsMessage instanceof TextMessage) {
 
                 reply = ((TextMessage) jmsMessage).getText();
 
                 if (UMSServiceImpl.debug) {
-                    logger.info ("received text message : " + reply);
+                    logger.info("received text message : " + reply);
                 }
-                
+
             } else {
-                
-                //XXX I18N
-                logger.warning ("received message is not a TextMessage type, message=" + jmsMessage);
+
+                // XXX I18N
+                logger.warning("received message is not a TextMessage type, message=" + jmsMessage);
                 this.sendToDMQ(client, jmsMessage);
             }
 
@@ -311,27 +300,28 @@ public class ReceiveServiceImpl implements ReceiveService {
 
     /**
      * Messages unable to process is sent to UMS_DMQ
+     * 
      * @param client
      * @param message
      */
-    public void sendToDMQ (Client client, Message message) throws JMSException {
-        
+    public void sendToDMQ(Client client, Message message) throws JMSException {
+
         javax.jms.Destination dmq = cache.getJMSDestination(UMS_DMQ, false);
         MessageProducer producer = client.getProducer();
-        
+
         producer.send(dmq, message);
-        
-        //if (UMSServiceImpl.debug) {
-            logger.info("Message sent to DMQ, destination=" + UMS_DMQ + ", message=" + message);
-        //}
-        
+
+        // if (UMSServiceImpl.debug) {
+        logger.info("Message sent to DMQ, destination=" + UMS_DMQ + ", message=" + message);
+        // }
+
     }
 
     public void close() {
-        
+
         try {
 
-            //sweeper.removeClientPool(cache);
+            // sweeper.removeClientPool(cache);
 
             this.cache.close();
         } catch (Exception e) {

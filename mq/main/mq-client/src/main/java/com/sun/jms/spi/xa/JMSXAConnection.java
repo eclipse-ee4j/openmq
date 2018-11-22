@@ -16,17 +16,18 @@
 
 /*
  * @(#)JMSXAConnection.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** JMSXAConnection is the super interface for JMSXAQueueConnection and JMSXATopicConnection.
-  *
-  * @see         com.sun.jms.spi.xa.JMSXAQueueConnection
-  * @see         com.sun.jms.spi.xa.JMSXATopicConnection
-  */
+/**
+ * JMSXAConnection is the super interface for JMSXAQueueConnection and JMSXATopicConnection.
+ *
+ * @see com.sun.jms.spi.xa.JMSXAQueueConnection
+ * @see com.sun.jms.spi.xa.JMSXATopicConnection
+ */
 
 public interface JMSXAConnection {
     /*

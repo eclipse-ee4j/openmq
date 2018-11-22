@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -35,85 +35,78 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.io.MQAddress;
 
-public class UpdateClusterBrokerListHandler extends AdminCmdHandler
-{
+public class UpdateClusterBrokerListHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public UpdateClusterBrokerListHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;
         String msg = null;
 
         if (DEBUG) {
-            logger.log(Logger.INFO, this.getClass().getName()+": "+cmd_props);
+            logger.log(Logger.INFO, this.getClass().getName() + ": " + cmd_props);
         }
 
         if (Globals.getHAEnabled()) {
             status = Status.ERROR;
-            msg =  rb.getKString(rb.E_OP_NOT_APPLY_TO_HA_BROKER, 
-                   MessageType.getString(MessageType.UPDATE_CLUSTER_BROKERLIST));
+            msg = rb.getKString(rb.E_OP_NOT_APPLY_TO_HA_BROKER, MessageType.getString(MessageType.UPDATE_CLUSTER_BROKERLIST));
             logger.log(Logger.ERROR, msg);
 
         } else if (!Globals.isJMSRAManagedBroker()) {
             status = Status.ERROR;
-            msg =  rb.getKString(rb.E_BROKER_NOT_JMSRA_MANAGED_IGNORE_OP, 
-                   MessageType.getString(MessageType.UPDATE_CLUSTER_BROKERLIST));
+            msg = rb.getKString(rb.E_BROKER_NOT_JMSRA_MANAGED_IGNORE_OP, MessageType.getString(MessageType.UPDATE_CLUSTER_BROKERLIST));
             logger.log(Logger.ERROR, msg);
             msg = "BAD REQUEST";
 
-        } else  {
-             try {
-                 ClusterManager cm = Globals.getClusterManager();
-                 MQAddress self = cm.getMQAddress();
-                 String brokerlist = (String)cmd_props.get(MessageType.JMQ_CLUSTER_BROKERLIST);
-                 Set brokers = cm.parseBrokerList(brokerlist);
-                 MQAddress master = (cm.getMasterBroker() == null ? 
-                                     null:cm.getMasterBroker().getBrokerURL());
-                 logger.log(logger.INFO, rb.getKString(rb.I_UPDATE_BROKERLIST, 
-                     self+(master == null ?"]":"("+cm.CONFIG_SERVER+"="+master+")"),
-                     "["+brokerlist+"]"));
-                 if (master != null && !brokers.contains(master)) {
-                     msg = rb.getKString(rb.X_REMOVE_MASTERBROKER_NOT_ALLOWED,
-                               master.toString(), brokers.toString()+"["+brokerlist+"]");
-                     throw new BrokerException(msg);
-                 }
-                 if (!brokers.contains(self)) {
-                     brokerlist = "";
-                 }
-                 Properties prop = new Properties(); 
-                 prop.put(cm.AUTOCONNECT_PROPERTY, brokerlist);
-                 BrokerConfig bcfg = Globals.getConfig();
-                 bcfg.updateProperties(prop, true);
-             } catch (PropertyUpdateException e) {
-                 status = Status.BAD_REQUEST;
-                 msg = e.getMessage();
-                 logger.log(Logger.WARNING, msg);
-             } catch (Exception e) {
-                 status = Status.ERROR;
-                 msg = e.toString();
-                 logger.log(Logger.WARNING, msg);
-             }
-         }
+        } else {
+            try {
+                ClusterManager cm = Globals.getClusterManager();
+                MQAddress self = cm.getMQAddress();
+                String brokerlist = (String) cmd_props.get(MessageType.JMQ_CLUSTER_BROKERLIST);
+                Set brokers = cm.parseBrokerList(brokerlist);
+                MQAddress master = (cm.getMasterBroker() == null ? null : cm.getMasterBroker().getBrokerURL());
+                logger.log(logger.INFO, rb.getKString(rb.I_UPDATE_BROKERLIST, self + (master == null ? "]" : "(" + cm.CONFIG_SERVER + "=" + master + ")"),
+                        "[" + brokerlist + "]"));
+                if (master != null && !brokers.contains(master)) {
+                    msg = rb.getKString(rb.X_REMOVE_MASTERBROKER_NOT_ALLOWED, master.toString(), brokers.toString() + "[" + brokerlist + "]");
+                    throw new BrokerException(msg);
+                }
+                if (!brokers.contains(self)) {
+                    brokerlist = "";
+                }
+                Properties prop = new Properties();
+                prop.put(cm.AUTOCONNECT_PROPERTY, brokerlist);
+                BrokerConfig bcfg = Globals.getConfig();
+                bcfg.updateProperties(prop, true);
+            } catch (PropertyUpdateException e) {
+                status = Status.BAD_REQUEST;
+                msg = e.getMessage();
+                logger.log(Logger.WARNING, msg);
+            } catch (Exception e) {
+                status = Status.ERROR;
+                msg = e.toString();
+                logger.log(Logger.WARNING, msg);
+            }
+        }
 
-         // Send reply
-	     Packet reply = new Packet(con.useDirectBuffers());
-	     reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	     setProperties(reply, MessageType.UPDATE_CLUSTER_BROKERLIST_REPLY, status, msg);
-         parent.sendReply(con, cmd_msg, reply);
+        setProperties(reply, MessageType.UPDATE_CLUSTER_BROKERLIST_REPLY, status, msg);
+        parent.sendReply(con, cmd_msg, reply);
 
-         return true;
+        return true;
     }
 }

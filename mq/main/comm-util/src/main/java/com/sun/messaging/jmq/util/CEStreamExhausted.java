@@ -16,11 +16,12 @@
 
 /*
  * @(#)CEStreamExhausted.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
 import java.io.IOException;
 
 /** This exception is thrown when EOF is reached */
-public class CEStreamExhausted extends IOException { };
+public class CEStreamExhausted extends IOException {
+};

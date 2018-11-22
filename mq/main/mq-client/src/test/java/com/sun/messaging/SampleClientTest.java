@@ -30,7 +30,6 @@ import static org.junit.Assert.*;
  */
 public class SampleClientTest {
 
-
     public SampleClientTest() {
     }
 
@@ -55,10 +54,9 @@ public class SampleClientTest {
      */
     @Test
     public void testA() {
-	int i = 5;
+        int i = 5;
         System.out.println("Checking whether i=5.Will get test as pass");
         assertEquals(i, 5);
     }
-
 
 }

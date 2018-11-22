@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpTunnelOutputStream.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
@@ -24,11 +24,9 @@ import java.io.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 /**
- * Provides an output stream for writing data to an HTTP tunnel
- * connection.
+ * Provides an output stream for writing data to an HTTP tunnel connection.
  */
-public class HttpTunnelOutputStream extends OutputStream
-    implements HttpTunnelDefaults {
+public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDefaults {
     private HttpTunnelConnection conn = null;
 
     /**
@@ -39,17 +37,14 @@ public class HttpTunnelOutputStream extends OutputStream
     }
 
     /**
-     * Writes the specified byte to this output stream. The general 
-     * contract for <code>write</code> is that one byte is written 
-     * to the output stream. The byte to be written is the eight 
-     * low-order bits of the argument <code>b</code>. The 24 
-     * high-order bits of <code>b</code> are ignored.
+     * Writes the specified byte to this output stream. The general contract for <code>write</code> is that one byte is
+     * written to the output stream. The byte to be written is the eight low-order bits of the argument <code>b</code>. The
+     * 24 high-order bits of <code>b</code> are ignored.
      * <p>
      *
-     * @param      b   the <code>byte</code>.
-     * @exception  IOException  if an I/O error occurs. In particular, 
-     *             an <code>IOException</code> may be thrown if the 
-     *             output stream has been closed.
+     * @param b the <code>byte</code>.
+     * @exception IOException if an I/O error occurs. In particular, an <code>IOException</code> may be thrown if the output
+     * stream has been closed.
      */
     public synchronized void write(int b) throws IOException {
         byte[] buf = new byte[1];
@@ -58,24 +53,19 @@ public class HttpTunnelOutputStream extends OutputStream
     }
 
     /**
-     * Writes <code>len</code> bytes from the specified byte array 
-     * starting at offset <code>off</code> to this output stream. 
-     * The general contract for <code>write(b, off, len)</code> is that 
-     * some of the bytes in the array <code>b</code> are written to the 
-     * output stream in order; element <code>b[off]</code> is the first 
-     * byte written and <code>b[off+len-1]</code> is the last byte written 
-     * by this operation.
+     * Writes <code>len</code> bytes from the specified byte array starting at offset <code>off</code> to this output
+     * stream. The general contract for <code>write(b, off, len)</code> is that some of the bytes in the array
+     * <code>b</code> are written to the output stream in order; element <code>b[off]</code> is the first byte written and
+     * <code>b[off+len-1]</code> is the last byte written by this operation.
      * <p>
      *
-     * @param      b     the data.
-     * @param      off   the start offset in the data.
-     * @param      len   the number of bytes to write.
-     * @exception  IOException  if an I/O error occurs. In particular, 
-     *             an <code>IOException</code> is thrown if the output 
-     *             stream is closed.
+     * @param b the data.
+     * @param off the start offset in the data.
+     * @param len the number of bytes to write.
+     * @exception IOException if an I/O error occurs. In particular, an <code>IOException</code> is thrown if the output
+     * stream is closed.
      */
-    public synchronized void write(byte b[], int off, int len)
-        throws IOException {
+    public synchronized void write(byte b[], int off, int len) throws IOException {
         byte[] buf;
 
         while (len > 0) {
@@ -93,10 +83,9 @@ public class HttpTunnelOutputStream extends OutputStream
     }
 
     /**
-     * Closes this output stream and releases any system resources associated
-     * with the stream.
+     * Closes this output stream and releases any system resources associated with the stream.
      *
-     * @exception  IOException  if an I/O error occurs.
+     * @exception IOException if an I/O error occurs.
      */
     public synchronized void close() throws IOException {
     }

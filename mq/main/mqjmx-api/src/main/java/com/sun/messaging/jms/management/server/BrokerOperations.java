@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerOperations.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,45 +24,45 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on broker operations.
  */
 public class BrokerOperations {
-    /** 
+    /**
      * GetProperty operation.
      */
-    public static final String		GET_PROPERTY = "getProperty";
+    public static final String GET_PROPERTY = "getProperty";
 
-    /** 
+    /**
      * Quiesce operation.
      */
-    public static final String		QUIESCE = "quiesce";
+    public static final String QUIESCE = "quiesce";
 
-    /** 
+    /**
      * Reset metrics operation.
      */
-    public static final String		RESET_METRICS = "resetMetrics";
+    public static final String RESET_METRICS = "resetMetrics";
 
-    /** 
+    /**
      * Restart operation.
      */
-    public static final String		RESTART = "restart";
+    public static final String RESTART = "restart";
 
-    /** 
+    /**
      * Shutdown operation.
      */
-    public static final String		SHUTDOWN = "shutdown";
+    public static final String SHUTDOWN = "shutdown";
 
-    /** 
+    /**
      * Takeover operation.
      */
-    public static final String		TAKEOVER = "takeover";
+    public static final String TAKEOVER = "takeover";
 
-    /** 
+    /**
      * Unquiesce operation.
      */
-    public static final String		UNQUIESCE = "unquiesce";
+    public static final String UNQUIESCE = "unquiesce";
 
     /*
      * Class cannot be instantiated
      */
     private BrokerOperations() {
     }
-    
+
 }

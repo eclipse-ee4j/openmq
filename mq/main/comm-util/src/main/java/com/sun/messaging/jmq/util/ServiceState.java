@@ -16,12 +16,11 @@
 
 /*
  * @(#)ServiceState.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-public class ServiceState
-{
+public class ServiceState {
     public static final int UNKNOWN = -1;
     public static final int UNINITIALIZED = 0;
     public static final int INITIALIZED = 1;
@@ -36,55 +35,53 @@ public class ServiceState
     public static int getStateFromString(String str) {
         if (str.equals("UNINITIALIZED"))
             return UNINITIALIZED;
-        if (str.equals("INITIALIZED")) 
+        if (str.equals("INITIALIZED"))
             return INITIALIZED;
-        if (str.equals("STARTED")) 
+        if (str.equals("STARTED"))
             return STARTED;
-        if (str.equals("RUNNING") )
+        if (str.equals("RUNNING"))
             return RUNNING;
-        if (str.equals("PAUSED")) 
+        if (str.equals("PAUSED"))
             return PAUSED;
-        if (str.equals("SHUTTINGDOWN") )
+        if (str.equals("SHUTTINGDOWN"))
             return SHUTTINGDOWN;
-        if (str.equals("STOPPED") )
+        if (str.equals("STOPPED"))
             return STOPPED;
-        if (str.equals("DESTROYED") )
+        if (str.equals("DESTROYED"))
             return DESTROYED;
-        if (str.equals("QUIESCED") )
+        if (str.equals("QUIESCED"))
             return QUIESCED;
         return UNKNOWN;
     }
 
-
-    public static String getString(int state)
-    {
+    public static String getString(int state) {
         switch (state) {
-            case UNINITIALIZED:
-                return "UNINITIALIZED";
+        case UNINITIALIZED:
+            return "UNINITIALIZED";
 
-            case INITIALIZED:
-                return "INITIALIZED";
+        case INITIALIZED:
+            return "INITIALIZED";
 
-            case STARTED:
-                return "STARTED";
+        case STARTED:
+            return "STARTED";
 
-            case RUNNING:
-                return "RUNNING";
+        case RUNNING:
+            return "RUNNING";
 
-            case PAUSED:
-                return "PAUSED";
+        case PAUSED:
+            return "PAUSED";
 
-            case SHUTTINGDOWN:
-                return "SHUTTINGDOWN";
+        case SHUTTINGDOWN:
+            return "SHUTTINGDOWN";
 
-            case STOPPED:
-                return "STOPPED";
+        case STOPPED:
+            return "STOPPED";
 
-            case DESTROYED:
-                return "DESTROYED";
+        case DESTROYED:
+            return "DESTROYED";
 
-            case QUIESCED:
-                return "QUIESCED";
+        case QUIESCED:
+            return "QUIESCED";
 
         }
         return "UNKNOWN";

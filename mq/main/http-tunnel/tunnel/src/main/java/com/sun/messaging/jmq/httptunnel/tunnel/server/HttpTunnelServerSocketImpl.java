@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.server;
 
@@ -26,8 +26,8 @@ import com.sun.messaging.jmq.httptunnel.api.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 
 /**
- * This class implements server sockets for HTTP tunnel protocol.
- * A server socket waits for connection requests from the clients.
+ * This class implements server sockets for HTTP tunnel protocol. A server socket waits for connection requests from the
+ * clients.
  */
 public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     private Vector listenQ = null;
@@ -49,8 +49,7 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     }
 
     /**
-     * Listens for a connection to be made to this socket and accepts
-     * it. The method blocks until a connection is made. 
+     * Listens for a connection to be made to this socket and accepts it. The method blocks until a connection is made.
      */
     public HttpTunnelSocket accept() throws IOException {
         synchronized (listenQ) {
@@ -61,18 +60,17 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
 
                 try {
                     listenQ.wait(5000);
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
             }
 
             if (closed) {
-                if (! listenQ.isEmpty())
+                if (!listenQ.isEmpty())
                     listenQ.notifyAll(); // Wakeup the next thread
                 throw new IOException("Socket closed");
             }
 
-            HttpTunnelConnection conn =
-                (HttpTunnelConnection) listenQ.elementAt(0);
+            HttpTunnelConnection conn = (HttpTunnelConnection) listenQ.elementAt(0);
             listenQ.removeElementAt(0);
             return new HttpTunnelSocketImpl(conn);
         }

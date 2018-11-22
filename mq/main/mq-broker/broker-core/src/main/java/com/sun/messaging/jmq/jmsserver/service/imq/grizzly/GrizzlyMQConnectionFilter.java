@@ -30,19 +30,16 @@ import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
-import org.glassfish.grizzly.attributes.AttributeHolder; 
+import org.glassfish.grizzly.attributes.AttributeHolder;
 import org.glassfish.grizzly.filterchain.NextAction;
 
 public class GrizzlyMQConnectionFilter extends BaseFilter {
 
     private static boolean DEBUG = false;
 
-    protected static final String GRIZZLY_MQIPCONNECTION_ATTR = 
-        GrizzlyMQConnectionFilter.class + "connAttr"; 
+    protected static final String GRIZZLY_MQIPCONNECTION_ATTR = GrizzlyMQConnectionFilter.class + "connAttr";
 
-    private final Attribute<GrizzlyMQIPConnection>
-            connAttr =
-            Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(GRIZZLY_MQIPCONNECTION_ATTR);
+    private final Attribute<GrizzlyMQIPConnection> connAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(GRIZZLY_MQIPCONNECTION_ATTR);
 
     private static final BrokerResources br = Globals.getBrokerResources();
 
@@ -53,24 +50,21 @@ public class GrizzlyMQConnectionFilter extends BaseFilter {
     }
 
     /**
-     * Method is called, when new {@link Connection} was
-     * accepted by a {@link org.glassfish.grizzly.Transport}
+     * Method is called, when new {@link Connection} was accepted by a {@link org.glassfish.grizzly.Transport}
      *
      * @param ctx the filter chain context
      * @return the next action to be executed by chain
      * @throws java.io.IOException
      */
     @Override
-    public NextAction handleAccept(FilterChainContext ctx)
-    throws IOException {
-        Connection c = ctx.getConnection(); 
+    public NextAction handleAccept(FilterChainContext ctx) throws IOException {
+        Connection c = ctx.getConnection();
         try {
             GrizzlyMQIPConnection conn = service.createConnection(c);
             connAttr.set(c, conn);
             Globals.getConnectionManager().addConnection(conn);
             if (DEBUG) {
-               Globals.getLogger().log(Logger.INFO, 
-               "GrizzlyMQConnectionFilter.handleAccept(): "+conn+"["+c+"]");
+                Globals.getLogger().log(Logger.INFO, "GrizzlyMQConnectionFilter.handleAccept(): " + conn + "[" + c + "]");
             }
         } catch (Exception e) {
             Globals.getLogger().logStack(Globals.getLogger().ERROR, e.getMessage(), e);
@@ -88,22 +82,19 @@ public class GrizzlyMQConnectionFilter extends BaseFilter {
      * @throws java.io.IOException
      */
     @Override
-    public NextAction handleClose(FilterChainContext ctx)
-    throws IOException {
+    public NextAction handleClose(FilterChainContext ctx) throws IOException {
         Connection c = ctx.getConnection();
         GrizzlyMQIPConnection conn = connAttr.get(c);
         if (DEBUG) {
-            Globals.getLogger().log(Logger.INFO, 
-            "GrizzlyMQConnectionFilter.handleClose(): "+conn+"["+c+"]");
+            Globals.getLogger().log(Logger.INFO, "GrizzlyMQConnectionFilter.handleClose(): " + conn + "[" + c + "]");
         }
         if (conn != null) {
             if (conn.getConnectionState() < GrizzlyMQIPConnection.STATE_CLOSED) {
                 try {
-                    conn.destroyConnection(true, GoodbyeReason.CLIENT_CLOSED, 
-                                           br.getKString(br.M_CONNECTION_CLOSE));
+                    conn.destroyConnection(true, GoodbyeReason.CLIENT_CLOSED, br.getKString(br.M_CONNECTION_CLOSE));
                 } catch (Exception e) {
                     if (DEBUG) {
-                    Globals.getLogger().log(Logger.WARNING, e.getMessage(), e);
+                        Globals.getLogger().log(Logger.WARNING, e.getMessage(), e);
                     }
                 }
             }

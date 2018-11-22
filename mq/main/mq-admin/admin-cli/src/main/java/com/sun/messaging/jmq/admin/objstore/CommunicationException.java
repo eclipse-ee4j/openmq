@@ -16,13 +16,12 @@
 
 /*
  * @(#)CommunicationException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the client is unable to
- * communicate with the directory or naming service.
+ * This exception must be thrown when the client is unable to communicate with the directory or naming service.
  */
 
 public class CommunicationException extends ObjStoreException {
@@ -35,4 +34,3 @@ public class CommunicationException extends ObjStoreException {
         super(reason);
     }
 }
-

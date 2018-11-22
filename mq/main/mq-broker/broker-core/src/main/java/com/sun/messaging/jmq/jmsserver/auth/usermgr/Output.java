@@ -16,14 +16,13 @@
 
 /*
  * @(#)Output.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.io.PrintStream;
 
-
-/** 
+/**
  * This class prints the usage/help statements for the jmqobjmgr.
  *
  */
@@ -32,49 +31,53 @@ public class Output {
     private static boolean silentMode = false;
 
     public static void setSilentMode(boolean mode) {
-	silentMode = mode;
+        silentMode = mode;
     }
 
     public static void stdErrPrintln(String msg) {
         doPrintln(System.err, msg);
     }
+
     public static void stdErrPrint(String msg) {
         doPrint(System.err, msg);
     }
+
     public static void stdErrPrintln(String type, String msg) {
         doPrintln(System.err, type + " " + msg);
     }
+
     public static void stdErrPrint(String type, String msg) {
         doPrint(System.err, type + " " + msg);
     }
 
-
     public static void stdOutPrintln(String msg) {
         doPrintln(System.out, msg);
     }
+
     public static void stdOutPrint(String msg) {
         doPrint(System.out, msg);
     }
+
     public static void stdOutPrintln(String type, String msg) {
         doPrintln(System.out, type + " " + msg);
     }
+
     public static void stdOutPrint(String type, String msg) {
         doPrint(System.out, type + " " + msg);
     }
 
-
     private static void doPrintln(PrintStream out, String msg) {
-	if (silentMode)  {
-	    return;
-	}
+        if (silentMode) {
+            return;
+        }
 
         out.println(msg);
     }
 
     private static void doPrint(PrintStream out, String msg) {
-	if (silentMode)  {
-	    return;
-	}
+        if (silentMode) {
+            return;
+        }
 
         out.print(msg);
     }

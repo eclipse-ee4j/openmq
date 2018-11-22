@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestinationNotFoundException.java	1.1 07/18/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 

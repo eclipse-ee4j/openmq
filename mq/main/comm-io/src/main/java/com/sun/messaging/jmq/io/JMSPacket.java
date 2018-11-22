@@ -16,24 +16,23 @@
 
 /*
  * @(#)JMSPacket.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
 /**
- *  The interface definition for the Type used when exchanging JMS Message data
- *  via the JMSService interface.
+ * The interface definition for the Type used when exchanging JMS Message data via the JMSService interface.
  */
 public interface JMSPacket {
-    
+
     /**
-     *  Return the Sun MQ Packet.<p>
-     *  The Packet is the fundamental unit of message data that is persisted to
-     *  stable storage.
+     * Return the Sun MQ Packet.
+     * <p>
+     * The Packet is the fundamental unit of message data that is persisted to stable storage.
      * 
      * 
-     *  @return The Packet
+     * @return The Packet
      */
     public com.sun.messaging.jmq.io.Packet getPacket();
-    
+
 }

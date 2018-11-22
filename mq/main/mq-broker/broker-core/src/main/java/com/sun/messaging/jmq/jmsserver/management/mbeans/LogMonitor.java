@@ -16,7 +16,7 @@
 
 /*
  * @(#)LogMonitor.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -31,53 +31,44 @@ import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
-public class LogMonitor extends MQMBeanReadOnly  {
-    private static String[] logNotificationTypes = {
-		    LogNotification.LOG_LEVEL_PREFIX + LogLevel.WARNING,
-		    LogNotification.LOG_LEVEL_PREFIX + LogLevel.ERROR,
-		    LogNotification.LOG_LEVEL_PREFIX + LogLevel.INFO
-		};
+public class LogMonitor extends MQMBeanReadOnly {
+    private static String[] logNotificationTypes = { LogNotification.LOG_LEVEL_PREFIX + LogLevel.WARNING, LogNotification.LOG_LEVEL_PREFIX + LogLevel.ERROR,
+            LogNotification.LOG_LEVEL_PREFIX + LogLevel.INFO };
 
     private static MBeanNotificationInfo[] notifs = {
-	    new MBeanNotificationInfo(
-		    logNotificationTypes,
-		    LogNotification.class.getName(),
-	            mbr.getString(mbr.I_LOG_NOTIFICATIONS)
-		    )
-		};
+            new MBeanNotificationInfo(logNotificationTypes, LogNotification.class.getName(), mbr.getString(mbr.I_LOG_NOTIFICATIONS)) };
 
-    public LogMonitor()  {
-	super();
+    public LogMonitor() {
+        super();
     }
 
-    public String getMBeanName()  {
-	return ("LogMonitor");
+    public String getMBeanName() {
+        return ("LogMonitor");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_LOG_MON_DESC));
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_LOG_MON_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (null);
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (null);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (null);
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (null);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (notifs);
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (notifs);
     }
 
-    public void notifyLogMessage(String level, String msg)  {
-	LogNotification n;
-	n = new LogNotification(LogNotification.LOG_LEVEL_PREFIX + level, 
-			this, sequenceNumber++);
+    public void notifyLogMessage(String level, String msg) {
+        LogNotification n;
+        n = new LogNotification(LogNotification.LOG_LEVEL_PREFIX + level, this, sequenceNumber++);
 
-	n.setMessage(msg);
-	n.setLevel(level);
+        n.setMessage(msg);
+        n.setLevel(level);
 
-	sendNotification(n);
+        sendNotification(n);
     }
 }

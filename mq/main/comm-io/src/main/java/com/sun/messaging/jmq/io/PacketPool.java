@@ -16,7 +16,7 @@
 
 /*
  * @(#)PacketPool.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -26,10 +26,8 @@ import java.util.ArrayList;
  *
  * A pool of Packets.
  *
- * The latest Packet code makes use of nio direct ByteBuffers. Direct
- * buffers are faster than byte[]s, but are more expensive to allocate.
- * To compensate for this we introduce a packet pool so that packets
- * can be reaused.
+ * The latest Packet code makes use of nio direct ByteBuffers. Direct buffers are faster than byte[]s, but are more
+ * expensive to allocate. To compensate for this we introduce a packet pool so that packets can be reaused.
  *
  */
 public class PacketPool {
@@ -45,19 +43,17 @@ public class PacketPool {
     int size = 0;
 
     // Diagnostic counters
-    int   hits = 0;
+    int hits = 0;
     int misses = 0;
 
     int drops = 0;
     int adds = 0;
 
     boolean resetPacket = false;
-    boolean dontTimestampPacket= false;
-
-
+    boolean dontTimestampPacket = false;
 
     /**
-     *Create an empty packet pool with a default capacity (128)
+     * Create an empty packet pool with a default capacity (128)
      */
     public PacketPool() {
         pool = new ArrayList(INITIALSIZE);
@@ -96,17 +92,16 @@ public class PacketPool {
     }
 
     /**
-     * Get a packet from the pool. If the pool is empty a newly allocated
-     * packet is returned.
+     * Get a packet from the pool. If the pool is empty a newly allocated packet is returned.
      */
     public synchronized Packet get() {
         if (size > 0) {
             size--;
-	    hits++;
-            return (Packet)(pool.remove(pool.size() - 1));
+            hits++;
+            return (Packet) (pool.remove(pool.size() - 1));
         } else {
             misses++;
-            Packet p =  new Packet();
+            Packet p = new Packet();
             if (dontTimestampPacket) {
                 p.generateSequenceNumber(false);
                 p.generateTimestamp(false);
@@ -116,23 +111,23 @@ public class PacketPool {
     }
 
     /**
-     * Return a packet to the pool. If the pool capacity is exceeded the
-     * packet is not placed in the pool (and presumeably left for 
-     * garbage collection).
+     * Return a packet to the pool. If the pool capacity is exceeded the packet is not placed in the pool (and presumeably
+     * left for garbage collection).
      */
     public void put(Packet p) {
-        if (p == null) return;
+        if (p == null)
+            return;
 
         if (resetPacket)
             p.reset();
-   
-        synchronized(this) {
-        
+
+        synchronized (this) {
+
             if (size < capacity) {
                 // Clear packet and add it to the pool
                 size++;
                 pool.add(p);
-	        adds++;
+                adds++;
             } else {
                 // Drop it on floor
                 drops++;
@@ -151,12 +146,10 @@ public class PacketPool {
     }
 
     public String toString() {
-        return super.toString() + ": capacity=" + capacity +
-                 ", size=" + size;
+        return super.toString() + ": capacity=" + capacity + ", size=" + size;
     }
 
     public String toDiagString() {
-        return toString() + ", hits=" + hits + ", misses=" + misses +
-            ", adds=" + adds + ", drops=" + drops;
+        return toString() + ", hits=" + hits + ", misses=" + misses + ", adds=" + adds + ", drops=" + drops;
     }
 }

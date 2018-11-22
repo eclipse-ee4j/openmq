@@ -16,7 +16,7 @@
 
 /*
  * @(#)ObjStoreConFactoryCObj.java	1.12 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -24,49 +24,48 @@ import javax.swing.ImageIcon;
 
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a particular connection
- * factory object in an object store.
+/**
+ * This class is used in the JMQ Administration console to store information related to a particular connection factory
+ * object in an object store.
  *
  * @see ConsoleObj
  * @see ObjStoreAdminCObj
  *
  */
-public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj  {
+public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj {
 
     private ObjStoreCObj osCObj = null;
-    private transient ObjStore	 os = null;
-    private String       lookupName = null;
-    private Object       object;
+    private transient ObjStore os = null;
+    private String lookupName = null;
+    private Object object;
 
     /**
      * Create/initialize the admin explorer GUI component.
      */
     public ObjStoreConFactoryCObj(ObjStoreCObj osCObj, String lookupName, Object object) {
-	this.osCObj = osCObj;
-	this.os = osCObj.getObjStore();
+        this.osCObj = osCObj;
+        this.os = osCObj.getObjStore();
         this.lookupName = lookupName;
         this.object = object;
-    } 
-
-    public ObjStore getObjStore()  {
-	return this.os;
     }
 
-    public String getExplorerLabel()  {
-	return this.lookupName;
+    public ObjStore getObjStore() {
+        return this.os;
     }
 
-    public void setLookupName(String lookupName)  {
-        this.lookupName = lookupName;
-    }
-
-    public String getLookupName()  {
+    public String getExplorerLabel() {
         return this.lookupName;
     }
 
-    public Object getObject()  {
+    public void setLookupName(String lookupName) {
+        this.lookupName = lookupName;
+    }
+
+    public String getLookupName() {
+        return this.lookupName;
+    }
+
+    public Object getObject() {
         return this.object;
     }
 
@@ -74,37 +73,35 @@ public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj  {
         this.object = object;
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (null);
+    public ImageIcon getExplorerIcon() {
+        return (null);
     }
 
-    public ObjStoreCObj getObjStoreCObj()  {
+    public ObjStoreCObj getObjStoreCObj() {
         return this.osCObj;
     }
 
-
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-    public int getActiveActions()  {
-	return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.REFRESH);
+    public int getActiveActions() {
+        return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.REFRESH);
     }
 
-    public String getInspectorPanelClassName()  {
-        return (ConsoleUtils.getPackageName(this) + 
-			".ObjStoreConFactoryListInspector");
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".ObjStoreConFactoryListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return (null);
+    public String getInspectorPanelId() {
+        return (null);
     }
 
-    public String getInspectorPanelHeader()  {
-	return (null);
+    public String getInspectorPanelHeader() {
+        return (null);
     }
 }

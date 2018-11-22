@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMQAdminKeyAuthenticationHandler.java	1.17 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
@@ -55,90 +55,77 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
     /**
      * This method is called once before any handleResponse() calls
      *
-     * @param sequence packet sequence number 
+     * @param sequence packet sequence number
      * @param authProperties authentication properties
-     * @param cacheData the cacheData 
+     * @param cacheData the cacheData
      *
      * @return initial authentication request data if any
      */
-    public byte[] init(int sequence, Properties authProperties,
-                       Refreshable cacheData) throws LoginException {
-       this.authProps = authProperties;
-       return null;
+    public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException {
+        this.authProps = authProperties;
+        return null;
     }
 
     /**
-     * @param authResponse the authentication response data.
-     *                     This is the AUTHENCATE_RESPONSE packet body.
+     * @param authResponse the authentication response data. This is the AUTHENCATE_RESPONSE packet body.
      * @param sequence packet sequence number
      *
-     * @return next request data if any; null if no more request.
-     *  The request data will be sent as packet body in AUTHENTICATE_REQUEST
-     *                 
-     * @exception LoginException 
+     * @return next request data if any; null if no more request. The request data will be sent as packet body in
+     * AUTHENTICATE_REQUEST
+     * 
+     * @exception LoginException
      */
     public byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
         Subject subject = null;
         acc = null;
 
         if (authProps == null) {
-        throw new LoginException(Globals.getBrokerResources().getKString(
-                               BrokerResources.X_ILLEGAL_AUTHSTATE, getType()));
+            throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_ILLEGAL_AUTHSTATE, getType()));
         }
 
         try {
-        ByteArrayInputStream bis = new ByteArrayInputStream(authResponse);
-        DataInputStream dis = new DataInputStream(bis);
+            ByteArrayInputStream bis = new ByteArrayInputStream(authResponse);
+            DataInputStream dis = new DataInputStream(bis);
 
-        String username = dis.readUTF();
+            String username = dis.readUTF();
 
-        BASE64Decoder decoder = new BASE64Decoder();
-		String pass = dis.readUTF();
-        String password = new String(decoder.decodeBuffer(pass), "UTF8");
-        dis.close();
+            BASE64Decoder decoder = new BASE64Decoder();
+            String pass = dis.readUTF();
+            String password = new String(decoder.decodeBuffer(pass), "UTF8");
+            dis.close();
 
-        String adminkey = authProps.getProperty(AccessController.PROP_ADMINKEY);
-        if (DEBUG) {
-        logger.log(Logger.DEBUG, AccessController.PROP_ADMINKEY+":"+adminkey+":"
-                   +" password:"+password+":");
-        }
-        if (adminkey != null) {
-            if (username.equals(ADMINKEYNAME) && password.equals(adminkey)) {
-                final String tempUserName = username;
-                subject = (Subject) java.security.AccessController.doPrivileged(
-                    new PrivilegedAction<Object>() {
-                        public Object run(){
+            String adminkey = authProps.getProperty(AccessController.PROP_ADMINKEY);
+            if (DEBUG) {
+                logger.log(Logger.DEBUG, AccessController.PROP_ADMINKEY + ":" + adminkey + ":" + " password:" + password + ":");
+            }
+            if (adminkey != null) {
+                if (username.equals(ADMINKEYNAME) && password.equals(adminkey)) {
+                    final String tempUserName = username;
+                    subject = (Subject) java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                        public Object run() {
                             Subject tempSubject = new Subject();
-                            tempSubject.getPrincipals().add(
-                                    new MQUser(tempUserName));
-                            tempSubject.getPrincipals().add(
-                                    new MQAdminGroup(ADMINKEYNAME));
+                            tempSubject.getPrincipals().add(new MQUser(tempUserName));
+                            tempSubject.getPrincipals().add(new MQAdminGroup(ADMINKEYNAME));
                             return tempSubject;
                         }
-                    }
-                );
-/*
-//                subject = new Subject(); 
-//                subject.getPrincipals().add(new MQUser(username));
-//                subject.getPrincipals().add(new MQAdminGroup(ADMINKEYNAME));
-*/
-                acc = new JMQAccessControlContext(new MQUser(username), subject, authProps);
-                return null;
+                    });
+                    /*
+                     * // subject = new Subject(); // subject.getPrincipals().add(new MQUser(username)); // subject.getPrincipals().add(new
+                     * MQAdminGroup(ADMINKEYNAME));
+                     */
+                    acc = new JMQAccessControlContext(new MQUser(username), subject, authProps);
+                    return null;
+                }
+                FailedLoginException ex = new FailedLoginException(Globals.getBrokerResources().getKString(BrokerResources.X_FORBIDDEN, username));
+                ex.setUser(username);
+                throw ex;
             }
-	    FailedLoginException ex = new FailedLoginException(
-			Globals.getBrokerResources().getKString(
-                        BrokerResources.X_FORBIDDEN, username));
-	    ex.setUser(username);
-	    throw ex;
-        }
-        throw new LoginException(Globals.getBrokerResources().getKString(
-                                         BrokerResources.X_ADMINKEY_NOT_EXIST));
+            throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_ADMINKEY_NOT_EXIST));
         } catch (IOException e) {
-            throw new LoginException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"IOException: "+e.getMessage()));
+            throw new LoginException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IOException: " + e.getMessage()));
         }
     }
-    
+
     public AccessControlContext getAccessControlContext() {
         return acc;
     }
@@ -147,8 +134,8 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
         return null;
     }
 
-    public void logout() { 
-        authProps = null; 
+    public void logout() {
+        authProps = null;
     }
 
 }

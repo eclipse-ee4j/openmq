@@ -16,7 +16,7 @@
 
 /*
  * @(#)VersionDAO.java	1.8 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -26,40 +26,30 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import java.sql.Connection;
 
 /**
- * This class is an interface for the Version table which will be implemented
- * by database specific code.
+ * This class is an interface for the Version table which will be implemented by database specific code.
  */
 public interface VersionDAO extends BaseDAO {
 
     /**
-     * Version table:
-     * Version information about the current store.
+     * Version table: Version information about the current store.
      *
-     * CREATE TABLE MQVER<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *      STORE_VERSION   INTEGER NOT NULL,
-     *      LOCK_ID         VARCHAR(100),
-     *      REAP_TIME       BIGINT
-     * );
+     * CREATE TABLE MQVER<schemaVersion>[C<clusterID>|S<brokerID>] ( STORE_VERSION INTEGER NOT NULL, LOCK_ID VARCHAR(100),
+     * REAP_TIME BIGINT );
      *
-     * STORE_VERSION - Version of this store
-     * LOCK_ID - Identifier of the broker or imqdbmgr that is currently using the store
-     * REAP_TIME - Minimum time that a broker will maintain resources from a
-     * 	failed broker to allow for clients to reconnect. After this time has
-     * 	expired, temporary destinations and other information may be reaped
-     * 	from the system.
+     * STORE_VERSION - Version of this store LOCK_ID - Identifier of the broker or imqdbmgr that is currently using the
+     * store REAP_TIME - Minimum time that a broker will maintain resources from a failed broker to allow for clients to
+     * reconnect. After this time has expired, temporary destinations and other information may be reaped from the system.
      */
     public static final String TABLE = "MQVER";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
     public static final String STORE_VERSION_COLUMN = "STORE_VERSION";
     public static final String LOCK_ID_COLUMN = "LOCK_ID";
 
-    void insert( Connection conn, int storeVersion )
-        throws BrokerException;
+    void insert(Connection conn, int storeVersion) throws BrokerException;
 
-    boolean updateLock( Connection conn, int storeVersion, String newLockID,
-        String oldLockID ) throws BrokerException;
+    boolean updateLock(Connection conn, int storeVersion, String newLockID, String oldLockID) throws BrokerException;
 
-    int getStoreVersion( Connection conn ) throws BrokerException;
+    int getStoreVersion(Connection conn) throws BrokerException;
 
-    String getLock( Connection conn, int storeVersion ) throws BrokerException;
+    String getLock(Connection conn, int storeVersion) throws BrokerException;
 }

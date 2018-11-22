@@ -16,7 +16,7 @@
 
 /*
  * @(#)StoreSessionDAO.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -28,30 +28,19 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * This class is an interface for the Store Session table which will be
- * implemented by database specific code.
+ * This class is an interface for the Store Session table which will be implemented by database specific code.
  */
 public interface StoreSessionDAO extends BaseDAO {
 
     /**
-     * Store Session table:
-     * Keep track of store sessions that a broker currently owns.
+     * Store Session table: Keep track of store sessions that a broker currently owns.
      *
-     * CREATE TABLE MQSES<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *      ID              BIGINT NOT NULL,
-     *      BROKER_ID	    VARCHAR(100) NOT NULL,
-     *      IS_CURRENT      INTEGER NOT NULL,
-     *      CREATED_BY      VARCHAR(100) NOT NULL,
-     *      CREATED_TS      BIGINT NOT NULL,
-     *      PRIMARY KEY(ID)
-     * );
+     * CREATE TABLE MQSES<schemaVersion>[C<clusterID>|S<brokerID>] ( ID BIGINT NOT NULL, BROKER_ID VARCHAR(100) NOT NULL,
+     * IS_CURRENT INTEGER NOT NULL, CREATED_BY VARCHAR(100) NOT NULL, CREATED_TS BIGINT NOT NULL, PRIMARY KEY(ID) );
      *
-     * ID - Unique store session ID associated with this run of the broker
-     * BROKER_ID - Broker ID that owns or responsible for routing the messages
-     *  associated with this session
-     * IS_CURRENT - Specify whether the session is current
-     * CREATED_BY_COLUMN - Broker ID that creates this session
-     * CREATED_TS_COLUMN - Timestamp when the session created
+     * ID - Unique store session ID associated with this run of the broker BROKER_ID - Broker ID that owns or responsible
+     * for routing the messages associated with this session IS_CURRENT - Specify whether the session is current
+     * CREATED_BY_COLUMN - Broker ID that creates this session CREATED_TS_COLUMN - Timestamp when the session created
      */
     public static final String TABLE = "MQSES";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
@@ -61,43 +50,32 @@ public interface StoreSessionDAO extends BaseDAO {
     public static final String CREATED_BY_COLUMN = "CREATED_BY";
     public static final String CREATED_TS_COLUMN = "CREATED_TS";
 
-    long insert( Connection conn, String brokerID, long sessionID, boolean failExist )
-        throws BrokerException;
+    long insert(Connection conn, String brokerID, long sessionID, boolean failExist) throws BrokerException;
 
-    void insert( Connection conn, String brokerID, long sessionID,
-                 int isCurrent, String createdBy, long createdTS )
-        throws BrokerException;
+    void insert(Connection conn, String brokerID, long sessionID, int isCurrent, String createdBy, long createdTS) throws BrokerException;
 
-    void delete( Connection conn, long id ) throws BrokerException;
+    void delete(Connection conn, long id) throws BrokerException;
 
-    void deleteByBrokerID( Connection conn, String brokerID )
-        throws BrokerException;
+    void deleteByBrokerID(Connection conn, String brokerID) throws BrokerException;
 
-    List<Long> deleteInactiveStoreSession( Connection conn ) throws BrokerException;
+    List<Long> deleteInactiveStoreSession(Connection conn) throws BrokerException;
 
-    List<Long> takeover( Connection conn, String brokerID, String targetBrokerID )
-        throws BrokerException;
+    List<Long> takeover(Connection conn, String brokerID, String targetBrokerID) throws BrokerException;
 
-    long getStoreSession( Connection conn, String brokerID )
-        throws BrokerException;
+    long getStoreSession(Connection conn, String brokerID) throws BrokerException;
 
-    String getStoreSessionOwner( Connection conn, long sessionID )
-        throws BrokerException;
+    String getStoreSessionOwner(Connection conn, long sessionID) throws BrokerException;
 
-    boolean ifOwnStoreSession( Connection conn, long id, String brokerID )
-        throws BrokerException;
+    boolean ifOwnStoreSession(Connection conn, long id, String brokerID) throws BrokerException;
 
-    String getStoreSessionCreator( Connection conn, long sessionID )
-        throws BrokerException;
+    String getStoreSessionCreator(Connection conn, long sessionID) throws BrokerException;
 
-    Map getAllStoreSessions( Connection conn ) throws BrokerException;
+    Map getAllStoreSessions(Connection conn) throws BrokerException;
 
-    List<Long> getStoreSessionsByBroker( Connection conn, String brokerID )
-        throws BrokerException;
+    List<Long> getStoreSessionsByBroker(Connection conn, String brokerID) throws BrokerException;
 
-    boolean isCurrent( Connection conn, long sessionID ) throws BrokerException;
+    boolean isCurrent(Connection conn, long sessionID) throws BrokerException;
 
-    void moveStoreSession( Connection conn, long sessionID, 
-                   String targetBrokerID ) throws BrokerException;
+    void moveStoreSession(Connection conn, long sessionID, String targetBrokerID) throws BrokerException;
 
 }

@@ -16,42 +16,42 @@
 
 /*
  * @(#)Filter.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
-
 /**
  * 
- * A algorithm which can be used to determine if an object
- * matches a specific critera. <P>
+ * A algorithm which can be used to determine if an object matches a specific critera.
+ * <P>
  * 
  * Used to determine the set of "items" which match a "view"
  *
  */
 
-
-public interface Filter
-{
-   /**
-    * determines if an object matches the filters criteria
-    * @param o object to compare against filter
-    * @returns true if the object matches, false otherwise
-    */
+public interface Filter {
+    /**
+     * determines if an object matches the filters criteria
+     * 
+     * @param o object to compare against filter
+     * @returns true if the object matches, false otherwise
+     */
     public boolean matches(Object o);
 
-   /**
-    * determines if an object is the same as the filter
-    * @param o object to compare against filter
-    * @returns true if the object matches, false otherwise
-    * @see Object#equals
-    */
+    /**
+     * determines if an object is the same as the filter
+     * 
+     * @param o object to compare against filter
+     * @returns true if the object matches, false otherwise
+     * @see Object#equals
+     */
     public boolean equals(Object o);
 
-   /**
-    * This hashcode of this object
-    * @returns value of the hashcode
-    * @see Object#hashCode
-    */
+    /**
+     * This hashcode of this object
+     * 
+     * @returns value of the hashcode
+     * @see Object#hashCode
+     */
     public int hashCode();
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)SSLAdminMQAddress.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
@@ -24,25 +24,23 @@ import com.sun.messaging.jmq.io.MQAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class SSLAdminMQAddress extends MQAddress  {
-    private static final String	DEFAULT_SERVICE_NAME		= "ssladmin";
+public class SSLAdminMQAddress extends MQAddress {
+    private static final String DEFAULT_SERVICE_NAME = "ssladmin";
 
-    protected SSLAdminMQAddress() {} 
+    protected SSLAdminMQAddress() {
+    }
 
-    public String getDefaultServiceName()  {
+    public String getDefaultServiceName() {
         return (DEFAULT_SERVICE_NAME);
     }
 
     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static SSLAdminMQAddress createAddress(String addr)
-        throws MalformedURLException, UnknownHostException {
+    public static SSLAdminMQAddress createAddress(String addr) throws MalformedURLException, UnknownHostException {
         SSLAdminMQAddress ret = new SSLAdminMQAddress();
         ret.initialize(addr);
         return ret;
     }
-
 
 }

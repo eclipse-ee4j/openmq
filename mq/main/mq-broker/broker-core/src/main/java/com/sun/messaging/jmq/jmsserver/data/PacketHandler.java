@@ -16,7 +16,7 @@
 
 /*
  * @(#)PacketHandler.java	1.45 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
@@ -46,11 +46,9 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 
 /**
- * super classes which deal with handling specific
- * message types
+ * super classes which deal with handling specific message types
  */
-public abstract class PacketHandler 
-{
+public abstract class PacketHandler {
     private static boolean DEBUG = false;
 
     public static boolean getDEBUG() {
@@ -68,22 +66,20 @@ public abstract class PacketHandler
     }
 
     public CoreLifecycleSpi getCoreLifecycle() {
-        return coreLifecycle; 
+        return coreLifecycle;
     }
 
     /**
-     * method to handle processing the specific packet associated
-     * with this PacketHandler
+     * method to handle processing the specific packet associated with this PacketHandler
+     * 
      * @returns true if the packet can be freed
      */
-    public abstract boolean handle(IMQConnection con, Packet msg) throws
-        BrokerException;
+    public abstract boolean handle(IMQConnection con, Packet msg) throws BrokerException;
 
-    public void handleForbidden(IMQConnection con, Packet msg,
-                                int replyType) throws BrokerException {
+    public void handleForbidden(IMQConnection con, Packet msg, int replyType) throws BrokerException {
         Packet reply = new Packet(con.useDirectBuffers());
         if (DEBUG) {
-        logger.log(Logger.DEBUG, "handle forbidden: sending "+PacketType.getString(replyType));
+            logger.log(Logger.DEBUG, "handle forbidden: sending " + PacketType.getString(replyType));
         }
         reply.setPacketType(replyType);
         reply.setConsumerID(msg.getConsumerID());
@@ -92,13 +88,11 @@ public abstract class PacketHandler
         reply.setProperties(hash);
         con.sendControlMessage(reply);
     }
-   
+
     /**
      * entry point for destination access control check
      */
-    public void checkPermission(Packet msg, IMQConnection con)
-                            throws AccessControlException, IOException,
-                            ClassNotFoundException, BrokerException {
+    public void checkPermission(Packet msg, IMQConnection con) throws AccessControlException, IOException, ClassNotFoundException, BrokerException {
 
         int id = msg.getPacketType();
         String op = PacketType.mapOperation(id);
@@ -107,19 +101,15 @@ public abstract class PacketHandler
         }
         Hashtable prop = msg.getProperties();
 
-        String destination = (String)prop.get("JMQDestination");
-        //all non-null op should have destination
-        if (destination == null) { 
-            throw new BrokerException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,
-               "checkPermission() no JMQDestination"));
+        String destination = (String) prop.get("JMQDestination");
+        // all non-null op should have destination
+        if (destination == null) {
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "checkPermission() no JMQDestination"));
         }
 
-        Integer dtype = (Integer)prop.get("JMQDestType");
+        Integer dtype = (Integer) prop.get("JMQDestType");
         if (dtype == null) {
-            throw new BrokerException(Globals.getBrokerResources().getString(
-                BrokerResources.X_INTERNAL_EXCEPTION,
-                "checkPermission() no JMQDestType"));
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "checkPermission() no JMQDestType"));
         }
         int destTypeInt = dtype.intValue();
 
@@ -127,18 +117,14 @@ public abstract class PacketHandler
 
     }
 
-    public void checkPermission(int id, String op, String destination, int destTypeInt, 
-                                       IMQConnection con)
-                            throws AccessControlException,
-                                   BrokerException
-    {
-        //Temporary destination should return null
+    public void checkPermission(int id, String op, String destination, int destTypeInt, IMQConnection con) throws AccessControlException, BrokerException {
+        // Temporary destination should return null
         String destTypeStr = DestType.queueOrTopic(destTypeInt);
-        if (destTypeStr == null) { 
+        if (destTypeStr == null) {
             return;
         }
 
-        Service service  = con.getService();
+        Service service = con.getService();
         int serviceType = service.getServiceType();
 
         if (!checkIsNonAdminDest(con, service, serviceType, destination)) {
@@ -147,9 +133,9 @@ public abstract class PacketHandler
 
         String acdestination = destination;
 
-        //if autocreate false, return to normal path
+        // if autocreate false, return to normal path
         if (id == PacketType.CREATE_DESTINATION) {
-            if (!checkForAutoCreate(destination, destTypeInt)) { 
+            if (!checkForAutoCreate(destination, destTypeInt)) {
                 return;
             }
             DestinationUID duid = DestinationUID.getUID(destination, DestType.isQueue(destTypeInt));
@@ -159,25 +145,22 @@ public abstract class PacketHandler
                 return;
             }
             acdestination = null;
-        } 
-        checkPermission(con, service, serviceType,
-                        op, acdestination, destTypeStr, destination);
-        
+        }
+        checkPermission(con, service, serviceType, op, acdestination, destTypeStr, destination);
+
         // audit logging for destination authorization
-        Globals.getAuditSession().destinationAuth(con.getUserName(), con.remoteHostString(),destTypeStr, acdestination, op, true);
-   }
+        Globals.getAuditSession().destinationAuth(con.getUserName(), con.remoteHostString(), destTypeStr, acdestination, op, true);
+    }
 
     /**
-     * @return true if need access control check on create
-     *         false if no need access control check
+     * @return true if need access control check on create false if no need access control check
      */
-    private static boolean checkForAutoCreate(String destination, int destType) { 
+    private static boolean checkForAutoCreate(String destination, int destType) {
         if (DestType.isQueue(destType)) {
             if (!GlobalProperties.getGlobalProperties().AUTOCREATE_QUEUE) {
                 return false;
             }
-        }
-        else if (DestType.isTopic(destType)) {
+        } else if (DestType.isTopic(destType)) {
             if (!GlobalProperties.getGlobalProperties().AUTOCREATE_TOPIC) {
                 return false;
             }
@@ -186,47 +169,37 @@ public abstract class PacketHandler
     }
 
     /**
-     * @return true destination is not JMQ_ADMIN_DEST
-     *         false ADMIN service access JMQ_ADMIN_DEST
+     * @return true destination is not JMQ_ADMIN_DEST false ADMIN service access JMQ_ADMIN_DEST
      * @exception non ADMIN service access JMQ_ADMIN_DEST
      * @exception restricted ADMIN service access non JMQ_ADMIN_DEST
      */
-    private static boolean checkIsNonAdminDest(IMQConnection con,
-                    Service service, int serviceType, String destination)
-                            throws AccessControlException, BrokerException {
+    private static boolean checkIsNonAdminDest(IMQConnection con, Service service, int serviceType, String destination)
+            throws AccessControlException, BrokerException {
 
         if (!destination.equals(MessageType.JMQ_ADMIN_DEST)) {
-            if (serviceType == ServiceType.ADMIN 
-                && con.getAccessController().isRestrictedAdmin()) {
-            String emsg = Globals.getBrokerResources().getKString(
-                        BrokerResources.X_RESTRICTED_ADMIN_NON_JMQADMINDEST,
-                        destination, service.getName());
-            Globals.getLogger().log(Logger.WARNING, emsg);
-            throw new AccessControlException(emsg);
+            if (serviceType == ServiceType.ADMIN && con.getAccessController().isRestrictedAdmin()) {
+                String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_RESTRICTED_ADMIN_NON_JMQADMINDEST, destination, service.getName());
+                Globals.getLogger().log(Logger.WARNING, emsg);
+                throw new AccessControlException(emsg);
             }
             if (!destination.equals(MessageType.JMQ_BRIDGE_ADMIN_DEST)) {
-                 return true;
+                return true;
             }
         }
         /*
-         * Protect JMQ_ADMIN_DEST to ADMIN service only
-         * ADMIN service (when get here the connection has been
-         * authenticated and service type connection access control
-         * has been applied) should automatically to be allowed to
-         * access JMQ_ADMIN_DEST
+         * Protect JMQ_ADMIN_DEST to ADMIN service only ADMIN service (when get here the connection has been authenticated and
+         * service type connection access control has been applied) should automatically to be allowed to access JMQ_ADMIN_DEST
          */
         if (serviceType == ServiceType.ADMIN) {
             return false;
         }
         String name = "";
         Principal pp = con.getAccessController().getAuthenticatedName();
-        if (pp!= null) {
+        if (pp != null) {
             name = pp.getName();
         }
-        String[] args = {name, service.getName(),
-                         ServiceType.getServiceTypeString(serviceType)};
-        String emsg = Globals.getBrokerResources().getKString(
-                       BrokerResources.X_FORBIDDEN_JMQ_ADMIN_DEST, args);
+        String[] args = { name, service.getName(), ServiceType.getServiceTypeString(serviceType) };
+        String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_FORBIDDEN_JMQ_ADMIN_DEST, args);
         Globals.getLogger().log(Logger.WARNING, emsg);
         throw new AccessControlException(emsg);
     }
@@ -237,97 +210,79 @@ public abstract class PacketHandler
      * @param con connection
      * @param service
      * @param serviceType
-     * @param op operation 
+     * @param op operation
      * @param destination null if op = create otherwise = dest
-     * @param destTypeStr 
+     * @param destTypeStr
      * @param dest the destination as JMQDestination property
      */
-    private static void checkPermission(IMQConnection con, 
-                                 Service service, 
-                                 int serviceType,
-                                 String op, 
-                                 String destination,
-                                 String destType,
-                                 String dest) 
-                                 throws AccessControlException {
+    private static void checkPermission(IMQConnection con, Service service, int serviceType, String op, String destination, String destType, String dest)
+            throws AccessControlException {
         try {
 
-        con.getAccessController().checkDestinationPermission(
-                      service.getName(),
-                      ServiceType.getServiceTypeString(serviceType),
-                      op, destination, destType);
+            con.getAccessController().checkDestinationPermission(service.getName(), ServiceType.getServiceTypeString(serviceType), op, destination, destType);
 
         } catch (AccessControlException e) {
 
-        if (destination !=  null) {
-        String[] args = {op, destType, destination};
-        String emsg = Globals.getBrokerResources().getKString(
-                         BrokerResources.W_DESTINATION_ACCESS_DENIED, args);
-        Globals.getLogger().log(Logger.WARNING, emsg + " - " + e.getMessage(), e);
-        }
-        else { //AC_DESTCREATE
-        String[] args = {op, destType, dest};
-        String emsg = Globals.getBrokerResources().getKString(
-                         BrokerResources.W_DESTINATION_CREATE_DENIED, args);
-        Globals.getLogger().log(Logger.WARNING, emsg + " - " + e.getMessage(), e);
-        }
+            if (destination != null) {
+                String[] args = { op, destType, destination };
+                String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_DESTINATION_ACCESS_DENIED, args);
+                Globals.getLogger().log(Logger.WARNING, emsg + " - " + e.getMessage(), e);
+            } else { // AC_DESTCREATE
+                String[] args = { op, destType, dest };
+                String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_DESTINATION_CREATE_DENIED, args);
+                Globals.getLogger().log(Logger.WARNING, emsg + " - " + e.getMessage(), e);
+            }
 
-        throw e;
+            throw e;
         }
     }
 
-    public void checkServiceRestriction(Packet msg, IMQConnection con,
-                                        ErrHandler defhandler)
-                                        throws BrokerException,
-                                        IOException, ClassNotFoundException {
+    public void checkServiceRestriction(Packet msg, IMQConnection con, ErrHandler defhandler) throws BrokerException, IOException, ClassNotFoundException {
 
         Service service = con.getService();
         if (service.getServiceType() != ServiceType.NORMAL) {
             return;
         }
         int id = msg.getPacketType();
-        if (id != PacketType.CREATE_DESTINATION && 
-            id != PacketType.ADD_CONSUMER && id != PacketType.ADD_PRODUCER) {
+        if (id != PacketType.CREATE_DESTINATION && id != PacketType.ADD_CONSUMER && id != PacketType.ADD_PRODUCER) {
             return;
         }
         ServiceRestriction[] srs = service.getServiceRestrictions();
-        if (srs == null) return;
+        if (srs == null)
+            return;
         ServiceRestriction sr = null;
         for (int i = 0; i < srs.length; i++) {
-            sr = srs[i];  
+            sr = srs[i];
             if (sr == ServiceRestriction.NO_SYNC_WITH_MASTERBROKER) {
                 Hashtable prop = msg.getProperties();
-                String dest = (String)prop.get("JMQDestination");
-                int dtype = ((Integer)prop.get("JMQDestType")).intValue();
+                String dest = (String) prop.get("JMQDestination");
+                int dtype = ((Integer) prop.get("JMQDestType")).intValue();
                 if (id == PacketType.CREATE_DESTINATION) {
-                    if (!checkForAutoCreate(dest, dtype)) return;
+                    if (!checkForAutoCreate(dest, dtype))
+                        return;
                     DestinationUID duid = DestinationUID.getUID(dest, DestType.isQueue(dtype));
                     DestinationSpi[] ds = coreLifecycle.getDestination(con.getPartitionedStore(), duid);
                     DestinationSpi d = ds[0];
-                    if (d != null) return;
-                    if (DestType.isQueue(dtype) && DestType.isTemporary(dtype)) return;
-                    String[] args = {Thread.currentThread().getName(), 
-                                     dest, service.toString(), sr.toString(true)};
-                    String emsg = Globals.getBrokerResources().getKString(
-                                  BrokerResources.X_SERVICE_RESTRICTION_AUTO_CREATE_DEST, args);
+                    if (d != null)
+                        return;
+                    if (DestType.isQueue(dtype) && DestType.isTemporary(dtype))
+                        return;
+                    String[] args = { Thread.currentThread().getName(), dest, service.toString(), sr.toString(true) };
+                    String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_SERVICE_RESTRICTION_AUTO_CREATE_DEST, args);
                     logger.log(logger.WARNING, emsg);
                     waitForMasterBrokerSync(con, msg, emsg, emsg, defhandler);
                     return;
                 } else if (DestType.isTopic(dtype)) {
                     if (id == PacketType.ADD_PRODUCER) {
-                        String[] args = {Thread.currentThread().getName(),
-                                         dest, service.toString(), sr.toString(true)};
-                        String emsg = Globals.getBrokerResources().getKString(
-                                      BrokerResources.X_SERVICE_RESTRICTION_TOPIC_PRODUCER, args);
+                        String[] args = { Thread.currentThread().getName(), dest, service.toString(), sr.toString(true) };
+                        String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_SERVICE_RESTRICTION_TOPIC_PRODUCER, args);
                         logger.log(logger.WARNING, emsg);
                         waitForMasterBrokerSync(con, msg, emsg, emsg, defhandler);
                         return;
-                       
+
                     } else {
-                        String[] args = {Thread.currentThread().getName(), 
-                                         dest, service.toString(), sr.toString(true)};
-                        String emsg =  Globals.getBrokerResources().getKString(
-                                       BrokerResources.X_SERVICE_RESTRICTION_TOPIC_CONSUMER, args);
+                        String[] args = { Thread.currentThread().getName(), dest, service.toString(), sr.toString(true) };
+                        String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_SERVICE_RESTRICTION_TOPIC_CONSUMER, args);
                         logger.log(logger.WARNING, emsg);
                         waitForMasterBrokerSync(con, msg, emsg, emsg, defhandler);
                         return;
@@ -335,47 +290,35 @@ public abstract class PacketHandler
                 }
 
             } else {
-                throw new BrokerException(Globals.getBrokerResources().getString(
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                "Unknown service restriction "+sr+" on service "+service));
+                throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.E_INTERNAL_BROKER_ERROR,
+                        "Unknown service restriction " + sr + " on service " + service));
             }
         }
     }
 
-    private boolean waitForMasterBrokerSync(IMQConnection con, Packet pkt,
-                                            String retrymsg, String errmsg,
-                                            ErrHandler defhandler)
-                                            throws BrokerException {
+    private boolean waitForMasterBrokerSync(IMQConnection con, Packet pkt, String retrymsg, String errmsg, ErrHandler defhandler) throws BrokerException {
 
-        if (con.getClientProtocolVersion() < Connection.MQ450_PROTOCOL) { 
+        if (con.getClientProtocolVersion() < Connection.MQ450_PROTOCOL) {
             throw new ServiceRestrictionException(errmsg, Status.UNAVAILABLE);
         }
 
         if (!MasterBrokerWaiter.addRequest(pkt, con, retrymsg, errmsg, defhandler)) {
             throw new ServiceRestrictionException(errmsg, Status.UNAVAILABLE);
         }
-        
-        throw new ServiceRestrictionWaitException(
-              Globals.getBrokerResources().getKString(
-                  BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER,
-                  Thread.currentThread().getName(), "["+MasterBrokerWaiter.maxwait/1000+"]"),
-                  Status.UNAVAILABLE);
-   }
+
+        throw new ServiceRestrictionWaitException(Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER,
+                Thread.currentThread().getName(), "[" + MasterBrokerWaiter.maxwait / 1000 + "]"), Status.UNAVAILABLE);
+    }
 
 }
 
-
-class MasterBrokerWaiter extends Thread 
-implements ServiceRestrictionListener, ConnectionClosedListener
-{
+class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, ConnectionClosedListener {
     static Logger logger = Globals.getLogger();
 
-    static final long waitinterval = 15*1000L;
-    static final int DEFAULT_MAXWAIT = 90; //seconds
+    static final long waitinterval = 15 * 1000L;
+    static final int DEFAULT_MAXWAIT = 90; // seconds
 
-    static long maxwait  = Globals.getConfig().getIntProperty(
-           Globals.IMQ+".cluster.nowaitForMasterBrokerTimeoutInSeconds",
-                            DEFAULT_MAXWAIT)*1000L;
+    static long maxwait = Globals.getConfig().getIntProperty(Globals.IMQ + ".cluster.nowaitForMasterBrokerTimeoutInSeconds", DEFAULT_MAXWAIT) * 1000L;
 
     static MasterBrokerWaiter waiter = null;
     static ErrHandler defaultHandler = null;
@@ -385,7 +328,7 @@ implements ServiceRestrictionListener, ConnectionClosedListener
     boolean notified = false;
 
     public void serviceRestrictionChanged(Service s) {
-        synchronized(lock) {
+        synchronized (lock) {
             notified = true;
             lock.notifyAll();
         }
@@ -393,26 +336,24 @@ implements ServiceRestrictionListener, ConnectionClosedListener
 
     public void connectionClosed(Connection con) {
         if (PacketHandler.getDEBUG()) {
-            logger.log(logger.INFO, "MasterBrokerWaiter.connectionClosed(): "+con);
+            logger.log(logger.INFO, "MasterBrokerWaiter.connectionClosed(): " + con);
         }
-        synchronized(lock) {
+        synchronized (lock) {
             notified = true;
             lock.notifyAll();
         }
     }
 
     public void waitForNotify(long timeout, boolean log) throws InterruptedException {
-        synchronized(lock) {
-           if (!notified && !requests.isEmpty()) {
-               if (log) {
-                   logger.log(Logger.INFO, Globals.getBrokerResources().getKString(
-                              BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER,
-                              Thread.currentThread().getName(),
-                              ""+(timeout/1000)+"["+maxwait/1000+"]"));
-               }
-               lock.wait(timeout);
-           }
-           notified = false;
+        synchronized (lock) {
+            if (!notified && !requests.isEmpty()) {
+                if (log) {
+                    logger.log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER,
+                            Thread.currentThread().getName(), "" + (timeout / 1000) + "[" + maxwait / 1000 + "]"));
+                }
+                lock.wait(timeout);
+            }
+            notified = false;
         }
     }
 
@@ -433,23 +374,20 @@ implements ServiceRestrictionListener, ConnectionClosedListener
         long consumerID;
     }
 
-
     /**
-     * @return true if the request is added for waiting 
+     * @return true if the request is added for waiting
      */
-    public static boolean addRequest(Packet pkt, IMQConnection con,
-                                     String retrymsg, String errmsg,
-                                     ErrHandler defh) {
+    public static boolean addRequest(Packet pkt, IMQConnection con, String retrymsg, String errmsg, ErrHandler defh) {
         if (maxwait == 0) {
             return false;
         }
 
-        synchronized(MasterBrokerWaiter.class) {
+        synchronized (MasterBrokerWaiter.class) {
             if (defaultHandler == null) {
                 defaultHandler = defh;
             }
             boolean started = true;
-            if (waiter  == null) { 
+            if (waiter == null) {
                 waiter = new MasterBrokerWaiter();
                 waiter.setDaemon(true);
                 waiter.setName("MQ-mbwaiter");
@@ -464,27 +402,28 @@ implements ServiceRestrictionListener, ConnectionClosedListener
     }
 
     public void requestTimedout(Request rq) {
-        synchronized(lock) {
+        synchronized (lock) {
             rq.timedout = true;
             notified = true;
             lock.notifyAll();
         }
     }
 
-    static class TimeoutTimerTask extends TimerTask { 
+    static class TimeoutTimerTask extends TimerTask {
         MasterBrokerWaiter waiter = null;
         Request rq = null;
+
         public TimeoutTimerTask(MasterBrokerWaiter waiter, Request rq) {
             this.waiter = waiter;
             this.rq = rq;
         }
+
         public void run() {
             waiter.requestTimedout(rq);
         }
     }
 
-    public void addRequest(Packet pkt, IMQConnection con,
-                           String retrymsg, String errmsg) {
+    public void addRequest(Packet pkt, IMQConnection con, String retrymsg, String errmsg) {
         Request rq = new Request();
         PacketInfo pi = new PacketInfo();
         pi.sendack = pkt.getSendAcknowledge();
@@ -498,18 +437,18 @@ implements ServiceRestrictionListener, ConnectionClosedListener
         rq.service.addServiceRestrictionListener(this);
         rq.con.addConnectionClosedListener(this);
 
-        synchronized(lock) {
+        synchronized (lock) {
             requests.add(rq);
             lock.notifyAll();
         }
         if (maxwait > 0) {
-           rq.timertask = new TimeoutTimerTask(this, rq);
-           Globals.getTimer().schedule(rq.timertask, maxwait);
+            rq.timertask = new TimeoutTimerTask(this, rq);
+            Globals.getTimer().schedule(rq.timertask, maxwait);
         }
     }
 
     public void removeRequest(Request rq) {
-        synchronized(lock) {
+        synchronized (lock) {
             requests.remove(rq);
         }
         rq.service.removeServiceRestrictionListener(this);
@@ -523,10 +462,8 @@ implements ServiceRestrictionListener, ConnectionClosedListener
         Iterator itr = rqs.iterator();
         Request rq = null;
         while (itr.hasNext()) {
-            rq = (Request)itr.next();
-            defaultHandler.sendError(rq.con, 
-                rq.pi.sendack, rq.pi.pktype, rq.pi.consumerID,
-                rq.retrymsg, Status.RETRY);
+            rq = (Request) itr.next();
+            defaultHandler.sendError(rq.con, rq.pi.sendack, rq.pi.pktype, rq.pi.consumerID, rq.retrymsg, Status.RETRY);
         }
     }
 
@@ -534,10 +471,8 @@ implements ServiceRestrictionListener, ConnectionClosedListener
         Iterator itr = rqs.iterator();
         Request rq = null;
         while (itr.hasNext()) {
-            rq = (Request)itr.next();
-            defaultHandler.sendError(rq.con,
-                rq.pi.sendack, rq.pi.pktype, rq.pi.consumerID,
-                rq.errmsg, Status.UNAVAILABLE);
+            rq = (Request) itr.next();
+            defaultHandler.sendError(rq.con, rq.pi.sendack, rq.pi.pktype, rq.pi.consumerID, rq.errmsg, Status.UNAVAILABLE);
         }
     }
 
@@ -548,23 +483,21 @@ implements ServiceRestrictionListener, ConnectionClosedListener
         long timewaited = 0L;
 
         while (true) {
-            synchronized(MasterBrokerWaiter.class) {
-                synchronized(lock) { 
+            synchronized (MasterBrokerWaiter.class) {
+                synchronized (lock) {
                     if (requests.isEmpty()) {
-                        waiter = null; 
-                        logger.log(logger.INFO, 
-                            Globals.getBrokerResources().getKString(
-                            BrokerResources.I_MASTER_BROKER_WAITER_THREAD_EXITS, 
-                            "["+Thread.currentThread().getName()+"]"));
-                       return;
+                        waiter = null;
+                        logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_MASTER_BROKER_WAITER_THREAD_EXITS,
+                                "[" + Thread.currentThread().getName() + "]"));
+                        return;
                     }
                 }
             }
             ArrayList retrys = new ArrayList();
             ArrayList errors = new ArrayList();
             Request[] rqs = null;
-            synchronized(MasterBrokerWaiter.class) {
-                synchronized(lock) {
+            synchronized (MasterBrokerWaiter.class) {
+                synchronized (lock) {
                     rqs = requests.toArray(new Request[requests.size()]);
                 }
             }
@@ -580,8 +513,8 @@ implements ServiceRestrictionListener, ConnectionClosedListener
                         removeRequest(rqs[i]);
                     }
                     ServiceRestriction[] srs = rqs[i].service.getServiceRestrictions();
-                    if (srs == null) { 
-                        retrys.add(rqs[i]); 
+                    if (srs == null) {
+                        retrys.add(rqs[i]);
                         removeRequest(rqs[i]);
                     } else {
                         boolean found = false;
@@ -604,45 +537,41 @@ implements ServiceRestrictionListener, ConnectionClosedListener
             boolean log = false;
             if ((currtime - logtime) > waitinterval) {
                 log = true;
-                logtime =  currtime;
+                logtime = currtime;
             }
             try {
-                synchronized(lock) {
+                synchronized (lock) {
                     rqs = requests.toArray(new Request[requests.size()]);
                     waitForNotify(waitinterval, log);
                 }
                 long precurrtime = currtime;
                 currtime = System.currentTimeMillis();
-                timewaited = ((currtime - precurrtime) > 0 ?
-                              (currtime - precurrtime):0);
+                timewaited = ((currtime - precurrtime) > 0 ? (currtime - precurrtime) : 0);
                 for (int i = 0; i < rqs.length; i++) {
                     rqs[i].totalwaited += timewaited;
                 }
 
             } catch (InterruptedException ex) {
-                 logger.log(Logger.INFO, Globals.getBrokerResources().getKString(
-                     BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER_INTERRUPTED,
-                     Thread.currentThread().getName()));
+                logger.log(Logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_WAIT_FOR_SYNC_WITH_MASTERBROKER_INTERRUPTED,
+                        Thread.currentThread().getName()));
 
-                 ArrayList all = new ArrayList(); 
-                 synchronized(MasterBrokerWaiter.class) {
-                     synchronized(lock) {
-                         rqs = requests.toArray(new Request[requests.size()]);
-                         for (int i = 0; i < rqs.length; i++) {
-                             removeRequest(rqs[i]);
-                             all.add(rqs[i]);
-                         }
-                     }
-                     waiter = null;
-                 }
-                 sendError(all);
-                 logger.log(logger.INFO, 
-                     Globals.getBrokerResources().getKString(
-                     BrokerResources.I_MASTER_BROKER_WAITER_THREAD_EXITS, 
-                     "["+Thread.currentThread().getName()+"]"));
-                 return;
+                ArrayList all = new ArrayList();
+                synchronized (MasterBrokerWaiter.class) {
+                    synchronized (lock) {
+                        rqs = requests.toArray(new Request[requests.size()]);
+                        for (int i = 0; i < rqs.length; i++) {
+                            removeRequest(rqs[i]);
+                            all.add(rqs[i]);
+                        }
+                    }
+                    waiter = null;
+                }
+                sendError(all);
+                logger.log(logger.INFO, Globals.getBrokerResources().getKString(BrokerResources.I_MASTER_BROKER_WAITER_THREAD_EXITS,
+                        "[" + Thread.currentThread().getName() + "]"));
+                return;
             }
-        } 
+        }
     }
 
 }

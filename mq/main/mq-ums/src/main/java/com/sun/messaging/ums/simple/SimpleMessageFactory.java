@@ -29,31 +29,29 @@ import java.util.logging.Logger;
  * @author chiaming
  */
 public class SimpleMessageFactory {
-    
-    public static final String UTF8 =  "UTF-8";
-    
+
+    public static final String UTF8 = "UTF-8";
+
     private static Logger logger = UMSServiceImpl.logger;
-    
-    public static SimpleMessage 
-            createMessage (Map props, InputStream in) throws IOException {
-        
+
+    public static SimpleMessage createMessage(Map props, InputStream in) throws IOException {
+
         String body = readHttpBody(props, in);
-        
+
         SimpleMessage message = new SimpleMessage(props, body);
-        
-        //message.setMessageProperties(props);
-        
-        //message.setText(body);
-        
+
+        // message.setMessageProperties(props);
+
+        // message.setText(body);
+
         return message;
     }
-   
-    
+
     public static String readHttpBody(Map props, InputStream in) throws IOException {
-        
+
         String text = null;
         String enc = null;
-        
+
         DataInputStream din = new DataInputStream(in);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -76,12 +74,12 @@ public class SimpleMessageFactory {
 
         byte[] body = baos.toByteArray();
 
-        //String enc = req.getCharacterEncoding();
-        
+        // String enc = req.getCharacterEncoding();
+
         if (enc == null) {
             enc = UTF8;
         }
-        
+
         baos.close();
         din.close();
 

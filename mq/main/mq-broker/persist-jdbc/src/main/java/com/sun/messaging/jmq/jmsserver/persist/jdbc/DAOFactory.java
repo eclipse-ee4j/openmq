@@ -16,7 +16,7 @@
 
 /*
  * @(#)DAOFactory.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -48,7 +48,7 @@ public abstract class DAOFactory {
     protected TransactionDAO transactionDAO = null;
     protected List daoList = null;
 
-    //JMSBridgeStore interface support
+    // JMSBridgeStore interface support
     protected TMLogRecordDAO tmLogRecordDAOJMSBG = null;
     protected JMSBGDAO jmsbgDAO = null;
 
@@ -73,26 +73,27 @@ public abstract class DAOFactory {
     public abstract TransactionDAO getTransactionDAO() throws BrokerException;
 
     public abstract TMLogRecordDAO getTMLogRecordDAOJMSBG() throws BrokerException;
+
     public abstract JMSBGDAO getJMSBGDAO() throws BrokerException;
 
     public List getAllDAOs() throws BrokerException {
 
-        if ( daoList == null ) {
-            synchronized( this ) {
-                if ( daoList == null ) {
+        if (daoList == null) {
+            synchronized (this) {
+                if (daoList == null) {
                     ArrayList list = new ArrayList(10);
-                    list.add( getVersionDAO() );
-                    list.add( getBrokerDAO() );
-                    list.add( getStoreSessionDAO() );
-                    list.add( getPropertyDAO() );
-                    list.add( getConfigRecordDAO() );
-                    list.add( getConsumerDAO() );
-                    list.add( getConsumerStateDAO() );
-                    list.add( getDestinationDAO() );
-                    list.add( getMessageDAO() );
-                    list.add( getTransactionDAO() );
-                    list.add( getTMLogRecordDAOJMSBG() );
-                    list.add( getJMSBGDAO() );
+                    list.add(getVersionDAO());
+                    list.add(getBrokerDAO());
+                    list.add(getStoreSessionDAO());
+                    list.add(getPropertyDAO());
+                    list.add(getConfigRecordDAO());
+                    list.add(getConsumerDAO());
+                    list.add(getConsumerStateDAO());
+                    list.add(getDestinationDAO());
+                    list.add(getMessageDAO());
+                    list.add(getTransactionDAO());
+                    list.add(getTMLogRecordDAOJMSBG());
+                    list.add(getJMSBGDAO());
                     daoList = list;
                 }
             }

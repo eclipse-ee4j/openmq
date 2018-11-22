@@ -16,7 +16,7 @@
 
 /*
  * @(#)EventBroadcastHelper.java	1.20 08/06/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
@@ -25,14 +25,11 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 import java.util.concurrent.locks.Lock;
 import java.io.*;
 
-
 /**
- * this is a helper class to be used by
- * lists that implement EventBroadcaster
+ * this is a helper class to be used by lists that implement EventBroadcaster
  */
 
-public class EventBroadcastHelper implements EventBroadcaster
-{
+public class EventBroadcastHelper implements EventBroadcaster {
     Collection c[] = new Collection[EventType.EVENT_TYPE_NUM];
     boolean busy[] = new boolean[EventType.EVENT_TYPE_NUM];
     int start[] = null;
@@ -49,9 +46,9 @@ public class EventBroadcastHelper implements EventBroadcaster
     // I'm keeping the old behavior in the system incase
     // we ever need the system to respond in a more definitive manner
     /**
-     * determines if listeners should always be called in
-     * the same order or the system should change the order on
-     * each call. Added to address bug 4939969.
+     * determines if listeners should always be called in the same order or the system should change the order on each call.
+     * Added to address bug 4939969.
+     * 
      * @param order if true, order will be maintained
      */
     public void setOrderMaintained(boolean order) {
@@ -76,7 +73,7 @@ public class EventBroadcastHelper implements EventBroadcaster
         exclusiveLock.lock();
         try {
             c = new Collection[EventType.EVENT_TYPE_NUM];
-            for (int i=0; i < EventType.EVENT_TYPE_NUM; i ++)
+            for (int i = 0; i < EventType.EVENT_TYPE_NUM; i++)
                 busy[i] = false;
         } finally {
             exclusiveLock.unlock();
@@ -85,6 +82,7 @@ public class EventBroadcastHelper implements EventBroadcaster
 
     /**
      * dumps the state of the helper
+     * 
      * @param ps stream to write the state to
      */
     public void dump(PrintStream ps) {
@@ -93,6 +91,7 @@ public class EventBroadcastHelper implements EventBroadcaster
 
     /**
      * converts the state of the object to a string
+     * 
      * @return the object as a string
      */
     public String toString() {
@@ -101,10 +100,10 @@ public class EventBroadcastHelper implements EventBroadcaster
 
         shareLock.lock();
         try {
-            str.append("\tcnt="+cnt+"\n");
-            for (int i =0, len = c.length; i < len; i++) {
+            str.append("\tcnt=" + cnt + "\n");
+            for (int i = 0, len = c.length; i < len; i++) {
                 boolean indent = false;
-                str.append("\t"+i+"busy["+i+"]="+busy[i]+" { ");
+                str.append("\t" + i + "busy[" + i + "]=" + busy[i] + " { ");
                 if (c[i] == null) {
                     str.append("null");
                 } else {
@@ -112,21 +111,15 @@ public class EventBroadcastHelper implements EventBroadcaster
                     boolean first = true;
                     int indx = 0;
                     while (itr.hasNext()) {
-                        ListenerInfo li = (ListenerInfo)itr.next();
+                        ListenerInfo li = (ListenerInfo) itr.next();
                         indent = true;
                         if (!first) {
                             str.append("\t    ");
                         }
                         first = false;
-                        str.append(indx + ":  "+li.getListener()
-                                + "\n\t        "
-                                + li.getType()
-                                + "\n\t        "
-                                + li.getReason()
-                                + "\n\t        "
-                                + li.getUserData()
-                                + "\n");
-                        indx ++;
+                        str.append(indx + ":  " + li.getListener() + "\n\t        " + li.getType() + "\n\t        " + li.getReason() + "\n\t        "
+                                + li.getUserData() + "\n");
+                        indx++;
                     }
                 }
                 if (indent) {
@@ -144,32 +137,29 @@ public class EventBroadcastHelper implements EventBroadcaster
 
     /**
      * Request notification when the specific event occurs.
+     * 
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
      * @return an id associated with this notification
      */
-    public Object addEventListener(EventListener listener,
-                        EventType type, Object userData) {
+    public Object addEventListener(EventListener listener, EventType type, Object userData) {
         return addEventListener(listener, type, null, userData);
     }
 
     /**
-     * Request notification when the specific event occurs AND
-     * the reason matched the passed in reason.
+     * Request notification when the specific event occurs AND the reason matched the passed in reason.
+     * 
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
-     * @param reason reason which must be associated with the
-     *               event (or null for all events)
+     * @param reason reason which must be associated with the event (or null for all events)
      * @return an id associated with this notification
      */
-    public Object addEventListener(EventListener listener,
-                        EventType type, Reason reason,
-                        Object userData) {
+    public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         ListenerInfo li = new ListenerInfo(listener, type, reason, userData);
         int indx = type.getEvent();
- 
+
         // OK .. assuming adding & removing listeners are a rare
         // event so it can be slow (limit locks later)
         exclusiveLock.lock();
@@ -182,8 +172,8 @@ public class EventBroadcastHelper implements EventBroadcaster
                 ls.add(li);
                 c[indx] = ls;
             }
-            busy[indx]=true;
-            cnt ++;
+            busy[indx] = true;
+            cnt++;
         } finally {
             exclusiveLock.unlock();
         }
@@ -192,26 +182,29 @@ public class EventBroadcastHelper implements EventBroadcaster
     }
 
     /**
-     * remove the listener registered with the passed in
-     * id.
+     * remove the listener registered with the passed in id.
+     * 
      * @return the listener callback which was removed
      */
     public Object removeEventListener(Object id) {
         exclusiveLock.lock();
         try {
-            if (id == null) return null;
+            if (id == null)
+                return null;
             ListenerInfo li = (ListenerInfo) id;
-            if (!li.isValid()) return null;
+            if (!li.isValid())
+                return null;
             int indx = li.getType().getEvent();
             Collection s = c[indx];
-            if (s == null) return null;
+            if (s == null)
+                return null;
             ArrayList newset = new ArrayList(s);
             newset.remove(li);
-            busy[indx]=!newset.isEmpty();
+            busy[indx] = !newset.isEmpty();
             c[indx] = newset;
             EventListener l = li.getListener();
             li.clear();
-            cnt --;
+            cnt--;
             return l;
         } finally {
             exclusiveLock.unlock();
@@ -219,20 +212,18 @@ public class EventBroadcastHelper implements EventBroadcaster
     }
 
     /**
-     * method which notifies all listeners an event
-     * has occurred.
+     * method which notifies all listeners an event has occurred.
+     * 
      * @param type of event that has occurred
      * @param r why the event occurred (may be null)
      * @param target the event occurred on
      * @param oldval value before the event
      * @param newval value after the event
      */
-    public void notifyChange(EventType type,  Reason r, 
-        Object target, Object oldval, Object newval)
-    {
+    public void notifyChange(EventType type, Reason r, Object target, Object oldval, Object newval) {
         shareLock.lock();
         try {
-            ArrayList l = (ArrayList)c[type.getEvent()];
+            ArrayList l = (ArrayList) c[type.getEvent()];
             if (l == null || l.isEmpty()) {
                 return;
             }
@@ -243,31 +234,32 @@ public class EventBroadcastHelper implements EventBroadcaster
                 synchronized (orderMaintainedLock) {
                     if (!orderMaintained && start != null) {
                         offset = start[type.getEvent()];
-                        start[type.getEvent()] = (offset>= size-1) ? 0 : offset + 1;
+                        start[type.getEvent()] = (offset >= size - 1) ? 0 : offset + 1;
                     }
                 }
             }
 
-            for (int count = 0; count < size; count ++) {
+            for (int count = 0; count < size; count++) {
                 // OK .. this code seems to be very timing senstive
                 // on mq880 ... dont know why
                 // this obscure calculation insures:
-                //     offset = 0, index goes from 0-size
-                //     offset = n, index wraps from n -> n-1
+                // offset = 0, index goes from 0-size
+                // offset = n, index wraps from n -> n-1
                 ListenerInfo info = null;
-                int index = (offset == 0 ? count : ((count + offset)%size));
+                int index = (offset == 0 ? count : ((count + offset) % size));
                 if (index < l.size()) {
-                    info = (ListenerInfo)l.get(index);
+                    info = (ListenerInfo) l.get(index);
                 } else {
                     continue; // list changed
                 }
 
-                if (info == null) continue;
+                if (info == null)
+                    continue;
 
                 EventListener ll = info.getListener();
                 Reason lr = info.getReason();
                 Object ud = info.getUserData();
-                if (ll != null && (lr == null || lr == r )) {
+                if (ll != null && (lr == null || lr == r)) {
                     ll.eventOccured(type, r, target, oldval, newval, ud);
                 }
             }
@@ -277,11 +269,10 @@ public class EventBroadcastHelper implements EventBroadcaster
     }
 
     /**
-     * quick check to determine if the broadcaster
-     * has any listeners of a specific type
+     * quick check to determine if the broadcaster has any listeners of a specific type
+     * 
      * @param type type of event to look at
-     * @return true if the broadcaster has listeners of that
-     *          type
+     * @return true if the broadcaster has listeners of that type
      */
     public boolean hasListeners(EventType type) {
         shareLock.lock();
@@ -293,8 +284,8 @@ public class EventBroadcastHelper implements EventBroadcaster
     }
 
     /**
-     * quick check to determine if the broadcaster
-     * has any listeners of a any type
+     * quick check to determine if the broadcaster has any listeners of a any type
+     * 
      * @return true if the broadcaster has any listeners
      */
     public boolean hasListeners() {
@@ -316,17 +307,17 @@ public class EventBroadcastHelper implements EventBroadcaster
         Object userData;
         Reason reason;
 
-        public ListenerInfo(EventListener l, EventType t, Reason r, Object ud) 
-        {
+        public ListenerInfo(EventListener l, EventType t, Reason r, Object ud) {
             this.l = l;
             this.type = t;
-            this.userData =ud;
+            this.userData = ud;
             this.reason = r;
         }
 
         Reason getReason() {
             return reason;
         }
+
         boolean isValid() {
             return valid;
         }
@@ -350,10 +341,9 @@ public class EventBroadcastHelper implements EventBroadcaster
             reason = null;
             type = null;
         }
+
         public String toString() {
-            return l+"["+type+", reason="+reason+", userData="+userData+", valid="+valid+"]";
+            return l + "[" + type + ", reason=" + reason + ", userData=" + userData + ", valid=" + valid + "]";
         }
     }
 }
-
-

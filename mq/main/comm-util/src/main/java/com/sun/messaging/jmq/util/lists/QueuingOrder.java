@@ -15,12 +15,10 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.util.lists;
 
-
-public class QueuingOrder
-{
+public class QueuingOrder {
 
     protected int priority = 0;
     protected long position = 0L;
@@ -35,4 +33,3 @@ public class QueuingOrder
         return this.position > o.position;
     }
 }
-    

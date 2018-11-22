@@ -16,7 +16,7 @@
 
 /*
  * @(#)OperationRunnable.java	1.26 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -28,9 +28,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-
-public class OperationRunnable extends BasicRunnable
-{
+public class OperationRunnable extends BasicRunnable {
     public static final int FOREVER = -1;
     public static final int UNTIL_DONE = 0;
 
@@ -41,7 +39,6 @@ public class OperationRunnable extends BasicRunnable
     protected boolean wait = false;
     Object opUpdateLock = new Object();
 
-
     public OperationRunnable(int id, ThreadPool pool, boolean wait) {
         super(id, pool);
         this.wait = wait;
@@ -50,7 +47,7 @@ public class OperationRunnable extends BasicRunnable
     public void clear() {
         synchronized (opUpdateLock) {
             op = null;
-        } 
+        }
         release();
     }
 
@@ -66,32 +63,20 @@ public class OperationRunnable extends BasicRunnable
             op.resume();
     }
 
-
-
-
     public String toString() {
-         return "OpRun[id ="+ id + ", ioevents=" + ioevents 
-                    + ", behavior=" +behaviorToString(behavior)
-                    + ", op={" + op + "}, state=" 
-                    + stateToString(state) + "]";
+        return "OpRun[id =" + id + ", ioevents=" + ioevents + ", behavior=" + behaviorToString(behavior) + ", op={" + op + "}, state=" + stateToString(state)
+                + "]";
     }
 
-    public  void assignOperation(Operation newop, 
-                                 int ioevents, 
-                                 int how_long) 
-         throws IllegalAccessException
-    {
+    public void assignOperation(Operation newop, int ioevents, int how_long) throws IllegalAccessException {
         synchronized (opUpdateLock) {
             if (op != null) {
-                throw new IllegalAccessException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    "Error trying to assign " + newop 
-                    + " to  assigned operation " + this));
+                throw new IllegalAccessException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION,
+                        "Error trying to assign " + newop + " to  assigned operation " + this));
             }
 
             this.op = newop;
-            op.threadAssigned(this, ioevents); 
+            op.threadAssigned(this, ioevents);
             operationCount = how_long;
             opcnt = 0;
             this.ioevents = ioevents;
@@ -110,82 +95,65 @@ public class OperationRunnable extends BasicRunnable
         release();
     }
 
-    public  void destroy(String reason) {
+    public void destroy(String reason) {
         if (op != null)
             op.destroy(true, GoodbyeReason.OTHER, reason);
         super.destroy();
     }
 
-
-
-
-    protected void process() 
-        throws IOException
-    {
+    protected void process() throws IOException {
         Operation myop = null;
         synchronized (opUpdateLock) {
             myop = op;
         }
-        
+
         if (myop == null || state < RUN_ASSIGNED) {
-                return;
+            return;
         }
         if (!myop.isValid()) {
-              freeOperation();
-              return;
+            freeOperation();
+            return;
         }
-        if (state > RUN_CRITICAL)  {
+        if (state > RUN_CRITICAL) {
             if (myop.isValid()) {
-                myop.destroy(false, GoodbyeReason.CON_FATAL_ERROR,
-                             "invalid operation");
+                myop.destroy(false, GoodbyeReason.CON_FATAL_ERROR, "invalid operation");
             }
             freeOperation();
-            throw new IOException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                   "Exiting"));
+            throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Exiting"));
         }
 
         // OK .. determine when to free
         try {
             boolean done = myop.process(ioevents, wait);
             switch (operationCount) {
-                case FOREVER:
-                    return;
-                case UNTIL_DONE:
-                {
-                    if (done) {
-                        freeOperation();
-                    }
-                    return;
+            case FOREVER:
+                return;
+            case UNTIL_DONE: {
+                if (done) {
+                    freeOperation();
                 }
-                default:
-                {
-                    opcnt ++;
-                    if (opcnt >= operationCount || done) {
-                        freeOperation();
-                    }
-                    return;
+                return;
+            }
+            default: {
+                opcnt++;
+                if (opcnt >= operationCount || done) {
+                    freeOperation();
                 }
+                return;
+            }
             }
         } catch (IOException ex) {
             // OK .. destroy the operation ... its gone
             if (getDEBUG()) {
-                logger.logStack(Logger.DEBUG,
-                    "Debug: Connection going away", ex);
+                logger.logStack(Logger.DEBUG, "Debug: Connection going away", ex);
             }
             if (ex instanceof EOFException) {
-                myop.destroy(false, GoodbyeReason.CLIENT_CLOSED,
-                    Globals.getBrokerResources().getKString(
-                    BrokerResources.M_CONNECTION_CLOSE));
+                myop.destroy(false, GoodbyeReason.CLIENT_CLOSED, Globals.getBrokerResources().getKString(BrokerResources.M_CONNECTION_CLOSE));
             } else {
-                myop.destroy(false, GoodbyeReason.CON_FATAL_ERROR,
-                             ex.toString());
+                myop.destroy(false, GoodbyeReason.CON_FATAL_ERROR, ex.toString());
             }
             freeOperation();
         }
     }
-    
+
 }
-
-

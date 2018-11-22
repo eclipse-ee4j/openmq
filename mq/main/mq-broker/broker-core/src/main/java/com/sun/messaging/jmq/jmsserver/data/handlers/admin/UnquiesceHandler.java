@@ -16,7 +16,7 @@
 
 /*
  * @(#)UnquiesceHandler.java	1.5 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -40,55 +40,52 @@ import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 
-public class UnquiesceHandler extends AdminCmdHandler
-{
+public class UnquiesceHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public UnquiesceHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "Unquiescing broker: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Unquiescing broker: " + cmd_props);
         }
 
         int status = Status.OK;
         String errMsg = null;
 
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + errMsg);
-	} else  {
-        try {
-            BrokerStateHandler bsh = Globals.getBrokerStateHandler();
-            bsh.stopQuiesce();
-        } catch (Exception ex) {
-            errMsg = ex.toString();
-            status = Status.ERROR;
+        } else {
+            try {
+                BrokerStateHandler bsh = Globals.getBrokerStateHandler();
+                bsh.stopQuiesce();
+            } catch (Exception ex) {
+                errMsg = ex.toString();
+                status = Status.ERROR;
+            }
         }
-        }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.UNQUIESCE_BROKER_REPLY, status, errMsg);
+        setProperties(reply, MessageType.UNQUIESCE_BROKER_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
+        parent.sendReply(con, cmd_msg, reply);
 
         return true;
     }

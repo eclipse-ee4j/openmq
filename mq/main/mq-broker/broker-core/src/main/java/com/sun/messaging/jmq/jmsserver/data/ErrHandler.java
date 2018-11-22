@@ -16,7 +16,7 @@
 
 /*
  * @(#)ErrHandler.java	1.11 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
 
@@ -24,20 +24,18 @@ import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
+
 /**
- * abstract class for classes which deal with handling specific
- * message types
+ * abstract class for classes which deal with handling specific message types
  */
-public abstract class ErrHandler  extends PacketHandler
-{
+public abstract class ErrHandler extends PacketHandler {
     /**
-     * method to handle processing the specific packet associated
-     * with this PacketHandler
+     * method to handle processing the specific packet associated with this PacketHandler
      */
     public abstract void sendError(IMQConnection con, Packet pkt, String emsg, int status);
-    public abstract void sendError(IMQConnection con,
-                                   boolean sendack, int pktype, long consumerID,
-                                   String emsg, int status);
+
+    public abstract void sendError(IMQConnection con, boolean sendack, int pktype, long consumerID, String emsg, int status);
+
     public abstract void sendError(IMQConnection con, BrokerException ex, Packet pkt);
 
 }

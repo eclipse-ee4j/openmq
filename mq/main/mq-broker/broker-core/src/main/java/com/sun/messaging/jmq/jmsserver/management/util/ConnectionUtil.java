@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionUtil.java	1.12 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -44,191 +44,183 @@ public class ConnectionUtil {
     /**
      * Returns a List of IMQConnection
      */
-    public static List getConnections()  {
-	List connections = getConnections(null);
+    public static List getConnections() {
+        List connections = getConnections(null);
 
-	return (connections);
+        return (connections);
     }
 
     /**
      * Returns a List of IMQConnection for a given service
      */
-    public static List getConnections(String service)  {
-	ConnectionManager cm = Globals.getConnectionManager();
-	List connections = null;
+    public static List getConnections(String service) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        List connections = null;
 
-	try  {
-	    Service s = null;
+        try {
+            Service s = null;
 
-	    if (service != null)  {
-	        s = Globals.getServiceManager().getService(service);
+            if (service != null) {
+                s = Globals.getServiceManager().getService(service);
 
-		/*
-		 * If service object is null, service may not exist or is inactive
-		 */
-		if (s == null)  {
-		    return (connections);
-		}
-	    }
+                /*
+                 * If service object is null, service may not exist or is inactive
+                 */
+                if (s == null) {
+                    return (connections);
+                }
+            }
 
-	    connections = cm.getConnectionList(s);
-	} catch(Exception e)  {
-            BrokerResources	rb = Globals.getBrokerResources();
-	    Logger logger = Globals.getLogger();
+            connections = cm.getConnectionList(s);
+        } catch (Exception e) {
+            BrokerResources rb = Globals.getBrokerResources();
+            Logger logger = Globals.getLogger();
 
-            logger.log(Logger.WARNING, 
-		rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_CONNECTION_LIST),
-		e);
-	}
+            logger.log(Logger.WARNING, rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_CONNECTION_LIST), e);
+        }
 
-	return (connections);
+        return (connections);
     }
 
     /**
-     * Returns a List of ConnectionInfo for the given service
-     * or all services if the passed service is null.
+     * Returns a List of ConnectionInfo for the given service or all services if the passed service is null.
      */
-    public static List getConnectionInfoList(String service)  {
-	ConnectionManager cm = Globals.getConnectionManager();
-	List connections, connectionInfoList = new ArrayList();
-	IMQConnection  cxn;
-	ConnectionInfo cxnInfo;
+    public static List getConnectionInfoList(String service) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        List connections, connectionInfoList = new ArrayList();
+        IMQConnection cxn;
+        ConnectionInfo cxnInfo;
 
-	try  {
-	    Service s = null;
+        try {
+            Service s = null;
 
-	    if (service != null)  {
-	        s = Globals.getServiceManager().getService(service);
+            if (service != null) {
+                s = Globals.getServiceManager().getService(service);
 
-		/*
-		 * If service object is null, service may not exist or is inactive
-		 */
-		if (s == null)  {
-		    return (connectionInfoList);
-		}
-	    }
+                /*
+                 * If service object is null, service may not exist or is inactive
+                 */
+                if (s == null) {
+                    return (connectionInfoList);
+                }
+            }
 
-	    connections = cm.getConnectionList(s);
-	} catch(Exception e)  {
-            BrokerResources	rb = Globals.getBrokerResources();
-	    Logger logger = Globals.getLogger();
+            connections = cm.getConnectionList(s);
+        } catch (Exception e) {
+            BrokerResources rb = Globals.getBrokerResources();
+            Logger logger = Globals.getLogger();
 
-            logger.log(Logger.WARNING, 
-		rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_CONNECTION_LIST),
-		e);
+            logger.log(Logger.WARNING, rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_CONNECTION_LIST), e);
 
-	    return (connectionInfoList);
-	}
+            return (connectionInfoList);
+        }
 
-	if (connections.size() == 0)  {
-	    return (connectionInfoList);
-	}
+        if (connections.size() == 0) {
+            return (connectionInfoList);
+        }
 
         Iterator iter = connections.iterator();
 
         while (iter.hasNext()) {
-	    cxn     = (IMQConnection)iter.next();
-	    cxnInfo = cxn.getConnectionInfo();
+            cxn = (IMQConnection) iter.next();
+            cxnInfo = cxn.getConnectionInfo();
 
-	    connectionInfoList.add(cxnInfo);
+            connectionInfoList.add(cxnInfo);
         }
 
-	return (connectionInfoList);
+        return (connectionInfoList);
     }
 
     /**
      * Returns the ConnectionInfo for the passed connection ID.
      */
-    public static ConnectionInfo getConnectionInfo(long id)  {
-	ConnectionManager cm = Globals.getConnectionManager();
-	ConnectionInfo cxnInfo = null;
-	IMQConnection  cxn = null;
+    public static ConnectionInfo getConnectionInfo(long id) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        ConnectionInfo cxnInfo = null;
+        IMQConnection cxn = null;
 
-	cxn = (IMQConnection)cm.getConnection(new ConnectionUID(id));
+        cxn = (IMQConnection) cm.getConnection(new ConnectionUID(id));
 
-	if (cxn == null)  {
-	    return (null);
-	}
+        if (cxn == null) {
+            return (null);
+        }
 
-	cxnInfo = cxn.getConnectionInfo();
+        cxnInfo = cxn.getConnectionInfo();
 
-	return (cxnInfo);
+        return (cxnInfo);
     }
 
-    public static String getServiceOfConnection(long id)  {
-	ConnectionInfo cxnInfo = getConnectionInfo(id);
+    public static String getServiceOfConnection(long id) {
+        ConnectionInfo cxnInfo = getConnectionInfo(id);
 
-	if (cxnInfo == null)  {
-	    return (null);
-	}
+        if (cxnInfo == null) {
+            return (null);
+        }
 
-	return(cxnInfo.service);
+        return (cxnInfo.service);
     }
 
-    public static Long getCreationTime(long cxnId)  {
-	long currentTime = System.currentTimeMillis();
-	ConnectionUID cxnUID = new ConnectionUID(cxnId);
+    public static Long getCreationTime(long cxnId) {
+        long currentTime = System.currentTimeMillis();
+        ConnectionUID cxnUID = new ConnectionUID(cxnId);
 
-	return (Long.valueOf(currentTime - cxnUID.age(currentTime)));
+        return (Long.valueOf(currentTime - cxnUID.age(currentTime)));
     }
 
+    public static List getConsumerIDs(long cxnId) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        ConnectionInfo cxnInfo = null;
+        IMQConnection cxn = null;
+        List consumerIDs;
 
-    public static List getConsumerIDs(long cxnId)  {
-	ConnectionManager	cm = Globals.getConnectionManager();
-	ConnectionInfo		cxnInfo = null;
-	IMQConnection		cxn = null;
-	List			consumerIDs;
+        cxn = (IMQConnection) cm.getConnection(new ConnectionUID(cxnId));
+        consumerIDs = cxn.getConsumersIDs();
 
-	cxn = (IMQConnection)cm.getConnection(new ConnectionUID(cxnId));
-	consumerIDs = cxn.getConsumersIDs();
-
-	return (consumerIDs);
+        return (consumerIDs);
     }
 
-    public static List getProducerIDs(long cxnId)  {
-	ConnectionManager	cm = Globals.getConnectionManager();
-	ConnectionInfo		cxnInfo = null;
-	IMQConnection		cxn = null;
-	List			producerIDs;
+    public static List getProducerIDs(long cxnId) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        ConnectionInfo cxnInfo = null;
+        IMQConnection cxn = null;
+        List producerIDs;
 
-	cxn = (IMQConnection)cm.getConnection(new ConnectionUID(cxnId));
-	producerIDs = cxn.getProducerIDs();
+        cxn = (IMQConnection) cm.getConnection(new ConnectionUID(cxnId));
+        producerIDs = cxn.getProducerIDs();
 
-	return (producerIDs);
+        return (producerIDs);
     }
 
-    public static void destroyConnection(long cxnId, String reasonString)  {
-	ConnectionManager	cm = Globals.getConnectionManager();
-	IMQConnection		cxn = null;
+    public static void destroyConnection(long cxnId, String reasonString) {
+        ConnectionManager cm = Globals.getConnectionManager();
+        IMQConnection cxn = null;
 
-	cxn = (IMQConnection)cm.getConnection(new ConnectionUID(cxnId));
+        cxn = (IMQConnection) cm.getConnection(new ConnectionUID(cxnId));
 
-	if (cxn != null)  {
-	    cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON,
-				    reasonString);
-	}
+        if (cxn != null) {
+            cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON, reasonString);
+        }
     }
 
-    public static void destroyConnection(String serviceName, String reasonString)  {
-	List			cxnList = getConnections(serviceName);
-	IMQConnection		cxn = null;
+    public static void destroyConnection(String serviceName, String reasonString) {
+        List cxnList = getConnections(serviceName);
+        IMQConnection cxn = null;
 
-	/*
-	 * Return if no connections to destroy
-	 */
-	if ((cxnList == null) || (cxnList.size() == 0))  {
-	    return;
-	}
+        /*
+         * Return if no connections to destroy
+         */
+        if ((cxnList == null) || (cxnList.size() == 0)) {
+            return;
+        }
 
         Iterator iter = cxnList.iterator();
 
         while (iter.hasNext()) {
-	    cxn     = (IMQConnection)iter.next();
+            cxn = (IMQConnection) iter.next();
 
-	    if (cxn != null)  {
-	        cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON,
-				    reasonString);
-	    }
+            if (cxn != null) {
+                cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON, reasonString);
+            }
         }
     }
 }

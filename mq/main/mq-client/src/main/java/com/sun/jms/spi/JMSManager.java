@@ -16,48 +16,44 @@
 
 /*
  * @(#)JMSManager.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi;
+
 import javax.jms.JMSException;
 
 /**
- * Interface definition to allow external control of the JMS Server. 
- * Typically this would be the J2EE Server. The intention is to support 
- * pluggable JMS Services.
+ * Interface definition to allow external control of the JMS Server. Typically this would be the J2EE Server. The
+ * intention is to support pluggable JMS Services.
  */
 
- 
 public interface JMSManager {
 
     /**
      * Set an instance of the external manager.
+     * 
      * @param externalManager JMS manager.
      */
     void setExternalManager(ExternalManager externalManager);
-    
 
     /**
-    * Get an instance of the external manager.
-    * @return manager set by a previous set call.
-    */
+     * Get an instance of the external manager.
+     * 
+     * @return manager set by a previous set call.
+     */
     ExternalManager getExternalManager();
 
-
     /**
-     * Start an instance of the JMS Service within the
-     * current java virtual machine.
+     * Start an instance of the JMS Service within the current java virtual machine.
+     * 
      * @exception JMSException thrown if start not successful.
      */
     void startJMSService() throws JMSException;
 
-
     /**
-     * Stop the instance of the JMS Service running
-     * within the current java virtual machine.
+     * Stop the instance of the JMS Service running within the current java virtual machine.
+     * 
      * @exception JMSException thrown if stop not successful.
      */
     void stopJMSService() throws JMSException;
 }
-
-

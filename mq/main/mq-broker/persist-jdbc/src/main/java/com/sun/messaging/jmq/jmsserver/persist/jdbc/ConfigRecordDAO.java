@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConfigRecordDAO.java	1.7 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -28,32 +28,27 @@ import java.sql.Connection;
 import java.util.List;
 
 /**
- * This class is an interface for the Configuration Change Record table
- * which will be implemented by database specific code.
+ * This class is an interface for the Configuration Change Record table which will be implemented by database specific
+ * code.
  */
 public interface ConfigRecordDAO extends BaseDAO {
 
     /**
-     * Configuration Change Record table:
-     * Holds change record; used by master broker only.
+     * Configuration Change Record table: Holds change record; used by master broker only.
      *
-     * CREATE TABLE MQCREC<schemaVersion>[C<clusterID>|S<brokerID>] (
-     *      RECORD          LONGVARBINARY NOT NULL,
-     *      CREATED_TS      BIGINT NOT NULL
-     * );
+     * CREATE TABLE MQCREC<schemaVersion>[C<clusterID>|S<brokerID>] ( RECORD LONGVARBINARY NOT NULL, CREATED_TS BIGINT NOT
+     * NULL );
      *
-     * RECORD - Configuration Record
-     * CREATED_TS - Timestamp when the entry was created
+     * RECORD - Configuration Record CREATED_TS - Timestamp when the entry was created
      */
     public static final String TABLE = "MQCREC";
     public static final String TABLE_NAME_PREFIX = TABLE + DBConstants.SCHEMA_VERSION;
     public static final String RECORD_COLUMN = "RECORD";
     public static final String CREATED_TS_COLUMN = "CREATED_TS";
 
-    void insert( Connection conn, byte[] recordData, long timeStamp )
-        throws BrokerException;
+    void insert(Connection conn, byte[] recordData, long timeStamp) throws BrokerException;
 
-    List<ChangeRecordInfo> getRecordsSince( Connection conn, long timestamp ) throws BrokerException;
+    List<ChangeRecordInfo> getRecordsSince(Connection conn, long timestamp) throws BrokerException;
 
-    List<ChangeRecordInfo> getAllRecords( Connection conn ) throws BrokerException;
+    List<ChangeRecordInfo> getAllRecords(Connection conn) throws BrokerException;
 }

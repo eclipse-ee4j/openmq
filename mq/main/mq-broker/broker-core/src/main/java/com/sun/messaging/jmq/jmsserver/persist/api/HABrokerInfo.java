@@ -16,7 +16,7 @@
 
 /*
  * @(#)HABrokerInfo.java	1.9 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
@@ -28,8 +28,7 @@ import java.util.Collections;
 import java.io.*;
 
 /**
- * This immutable object encapsulates general information about
- * a broker in an HA cluster.
+ * This immutable object encapsulates general information about a broker in an HA cluster.
  */
 public final class HABrokerInfo implements Externalizable {
 
@@ -47,9 +46,9 @@ public final class HABrokerInfo implements Externalizable {
     private String url;
     private int version;
     private int state;
-    private long sessionID;     // Current session ID
+    private long sessionID; // Current session ID
     private long heartbeat;
-    private List sessionList;   // All sessions IDs own by this broker
+    private List sessionList; // All sessions IDs own by this broker
 
     private long takeoverTimestamp = 0;
 
@@ -61,6 +60,7 @@ public final class HABrokerInfo implements Externalizable {
 
     /**
      * Constructor
+     * 
      * @param id Broker ID
      * @param takeoverBrokerID Broker ID taken over the store
      * @param url the broker's URL
@@ -69,11 +69,10 @@ public final class HABrokerInfo implements Externalizable {
      * @param sessionID the broker's session ID
      * @param heartbeat broker's last heartbeat
      */
-    public HABrokerInfo( String id, String takeoverBrokerID, String url, int version,
-        int state, long sessionID, long heartbeat ) {
+    public HABrokerInfo(String id, String takeoverBrokerID, String url, int version, int state, long sessionID, long heartbeat) {
 
         this.id = id;
-        this.takeoverBrokerID = ( takeoverBrokerID == null ) ? "" : takeoverBrokerID;
+        this.takeoverBrokerID = (takeoverBrokerID == null) ? "" : takeoverBrokerID;
         this.url = url;
         this.version = version;
         this.state = state;
@@ -115,11 +114,11 @@ public final class HABrokerInfo implements Externalizable {
         return heartbeat;
     }
 
-    public void setSessionID( long id ) {
+    public void setSessionID(long id) {
         sessionID = id;
     }
 
-    public void setSessionList( List list ) {
+    public void setSessionList(List list) {
         sessionList = list;
     }
 
@@ -133,33 +132,24 @@ public final class HABrokerInfo implements Externalizable {
 
     public String toString() {
 
-        StringBuffer strBuf = new StringBuffer( 128 )
-            .append( "(")
-            .append( "brokerID=" ).append( id )
-            .append( ", URL=" ).append( url )
-            .append( ", version=" ).append( version )
-            .append( ", state=" ).append( state ).append( " [" )
-            .append( BrokerState.getState( state ).toString() ).append( "]" )
-            .append( ", sessionID=" ).append( sessionID )
-            .append( ", heartbeatTS=").append( heartbeat )
-            .append( (heartbeat > 0) ? " [" + new Date( heartbeat ) + "]" : "" )
-            .append( ", takeoverBrokerID=" ).append( takeoverBrokerID )
-            .append( ")");
+        StringBuffer strBuf = new StringBuffer(128).append("(").append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
+                .append(", state=").append(state).append(" [").append(BrokerState.getState(state).toString()).append("]").append(", sessionID=")
+                .append(sessionID).append(", heartbeatTS=").append(heartbeat).append((heartbeat > 0) ? " [" + new Date(heartbeat) + "]" : "")
+                .append(", takeoverBrokerID=").append(takeoverBrokerID).append(")");
 
         return strBuf.toString();
     }
 
-    public void readExternal(ObjectInput in)
-        throws IOException, ClassNotFoundException {
+    public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
-        id = (String)in.readObject();
-        takeoverBrokerID = (String)in.readObject();
-        url = (String)in.readObject();
+        id = (String) in.readObject();
+        takeoverBrokerID = (String) in.readObject();
+        url = (String) in.readObject();
         version = in.readInt();
         state = in.readInt();
         sessionID = in.readLong();
         heartbeat = in.readLong();
-        sessionList = (List)in.readObject();
+        sessionList = (List) in.readObject();
     }
 
     public void writeExternal(ObjectOutput out) throws IOException {
@@ -190,8 +180,7 @@ public final class HABrokerInfo implements Externalizable {
         public StoreSession() {
         }
 
-        public StoreSession( long id, String brokerID, int isCurrent,
-            String createdBy, long createdTS ) {
+        public StoreSession(long id, String brokerID, int isCurrent, String createdBy, long createdTS) {
 
             this.id = id;
             this.brokerID = brokerID;
@@ -220,13 +209,12 @@ public final class HABrokerInfo implements Externalizable {
             return createdTS;
         }
 
-        public void readExternal(ObjectInput in)
-            throws IOException, ClassNotFoundException {
+        public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
             id = in.readLong();
-            brokerID = (String)in.readObject();
+            brokerID = (String) in.readObject();
             isCurrent = in.readInt();
-            createdBy = (String)in.readObject();
+            createdBy = (String) in.readObject();
             createdTS = in.readLong();
         }
 
@@ -240,4 +228,3 @@ public final class HABrokerInfo implements Externalizable {
         }
     }
 }
-

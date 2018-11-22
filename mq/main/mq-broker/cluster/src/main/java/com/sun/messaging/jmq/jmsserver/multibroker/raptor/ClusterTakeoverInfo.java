@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterTakeoverInfo.java	1.12 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -37,8 +37,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  * An instance of this class is intended to be used one direction only
  */
 
-public class ClusterTakeoverInfo 
-{
+public class ClusterTakeoverInfo {
     private static boolean DEBUG = false;
 
     private GPacket pkt = null;
@@ -47,16 +46,14 @@ public class ClusterTakeoverInfo
     private UID storeSession = null;
     private UID brokerSession = null;
     private String brokerHost = null;
-    private Long xid =   null;
-    //if issued or pkt originated from sender
-    private boolean fromTaker = true; 
+    private Long xid = null;
+    // if issued or pkt originated from sender
+    private boolean fromTaker = true;
     private String taker = null;
     private Long timestamp = null;
     private boolean timedout = false;
 
-    private ClusterTakeoverInfo(String brokerID, UID storeSession, 
-                                String brokerHost, UID brokerSession,
-                                Long xid, boolean fromTaker, boolean timedout) {
+    private ClusterTakeoverInfo(String brokerID, UID storeSession, String brokerHost, UID brokerSession, Long xid, boolean fromTaker, boolean timedout) {
         this.brokerID = brokerID;
         this.storeSession = storeSession;
         this.brokerHost = brokerHost;
@@ -67,23 +64,23 @@ public class ClusterTakeoverInfo
     }
 
     private ClusterTakeoverInfo(GPacket pkt) {
-        assert ( pkt.getType() == ProtocolGlobals.G_TAKEOVER_COMPLETE ||
-                 pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING ||
-                 pkt.getType() == ProtocolGlobals.G_TAKEOVER_ABORT );
+        assert (pkt.getType() == ProtocolGlobals.G_TAKEOVER_COMPLETE || pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING
+                || pkt.getType() == ProtocolGlobals.G_TAKEOVER_ABORT);
 
         this.pkt = pkt;
-        brokerID = (String)pkt.getProp("brokerID");
-        storeSession = new UID(((Long)pkt.getProp("storeSession")).longValue());
-        Long v = (Long)pkt.getProp("brokerSession");
-        if (v != null) brokerSession = new UID(v.longValue());
-        brokerHost =(String)pkt.getProp("brokerHost");
-        taker = (String)pkt.getProp("taker");
+        brokerID = (String) pkt.getProp("brokerID");
+        storeSession = new UID(((Long) pkt.getProp("storeSession")).longValue());
+        Long v = (Long) pkt.getProp("brokerSession");
+        if (v != null)
+            brokerSession = new UID(v.longValue());
+        brokerHost = (String) pkt.getProp("brokerHost");
+        taker = (String) pkt.getProp("taker");
         fromTaker = (taker != null);
-        timestamp = (Long)pkt.getProp("timestamp");
+        timestamp = (Long) pkt.getProp("timestamp");
         if (timestamp != null) {
             timedout = (timestamp.equals(Long.valueOf(0)));
         }
-        xid = (Long)pkt.getProp("X");
+        xid = (Long) pkt.getProp("X");
     }
 
     /**
@@ -92,18 +89,13 @@ public class ClusterTakeoverInfo
         return new ClusterTakeoverInfo(brokerID, storeSession, null, null, null, false, false);
     }
 
-    public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession, 
-                                                  String brokerHost, UID brokerSession,
-                                                  Long xid, boolean fromTaker) {
-        return new ClusterTakeoverInfo(brokerID, storeSession, brokerHost,
-                                       brokerSession, xid, fromTaker, false);
+    public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession, String brokerHost, UID brokerSession, Long xid, boolean fromTaker) {
+        return new ClusterTakeoverInfo(brokerID, storeSession, brokerHost, brokerSession, xid, fromTaker, false);
     }
 
-    public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession, 
-                                        String brokerHost, UID brokerSession, Long xid,
-                                        boolean fromTaker, boolean timedout) {
-        return new ClusterTakeoverInfo(brokerID, storeSession, brokerHost,
-                                       brokerSession, xid, fromTaker, timedout);
+    public static ClusterTakeoverInfo newInstance(String brokerID, UID storeSession, String brokerHost, UID brokerSession, Long xid, boolean fromTaker,
+            boolean timedout) {
+        return new ClusterTakeoverInfo(brokerID, storeSession, brokerHost, brokerSession, xid, fromTaker, timedout);
     }
 
     /**
@@ -114,20 +106,17 @@ public class ClusterTakeoverInfo
         return new ClusterTakeoverInfo(pkt);
     }
 
-    public GPacket getGPacket(short protocol) throws BrokerException { 
+    public GPacket getGPacket(short protocol) throws BrokerException {
 //        assert ( protocol == ProtocolGlobals.G_TAKEOVER_COMPLETE ||
 //                 protocol == ProtocolGlobals.G_TAKEOVER_PENDING ||
 //                 protocol == ProtocolGlobals.G_TAKEOVER_ABORT );
         if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
-            throw new BrokerException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.E_INTERNAL_BROKER_ERROR,
-                    "Broker is not running in HA mode"));
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_INTERNAL_BROKER_ERROR, "Broker is not running in HA mode"));
         }
 
         if (pkt != null) {
-            assert ( pkt.getType() == protocol );
-           return pkt;
+            assert (pkt.getType() == protocol);
+            return pkt;
         }
 
         GPacket gp = GPacket.getInstance();
@@ -140,18 +129,18 @@ public class ClusterTakeoverInfo
             return gp;
         }
 
-        HAClusteredBroker cb = (HAClusteredBroker)Globals.getClusterManager().getLocalBroker();
+        HAClusteredBroker cb = (HAClusteredBroker) Globals.getClusterManager().getLocalBroker();
         if (protocol == ProtocolGlobals.G_TAKEOVER_PENDING) {
             gp.setType(ProtocolGlobals.G_TAKEOVER_PENDING);
             gp.setBit(gp.A_BIT, false);
             gp.putProp("brokerSession", Long.valueOf(brokerSession.longValue()));
-            gp.putProp("brokerHost",  brokerHost);
+            gp.putProp("brokerHost", brokerHost);
             if (fromTaker) {
                 taker = cb.getBrokerName();
                 gp.putProp("taker", taker);
                 gp.putProp("timestamp", Long.valueOf(cb.getHeartbeat()));
                 gp.setBit(gp.A_BIT, true);
-            } else if (timedout) { 
+            } else if (timedout) {
                 gp.putProp("timestamp", Long.valueOf(0));
             }
             gp.putProp("X", xid);
@@ -167,7 +156,7 @@ public class ClusterTakeoverInfo
             gp.putProp("X", xid);
             return gp;
         }
-        throw new BrokerException("Unknown protocol: "+protocol);
+        throw new BrokerException("Unknown protocol: " + protocol);
     }
 
     public String getBrokerID() {
@@ -209,73 +198,75 @@ public class ClusterTakeoverInfo
 
     public String toString() {
         if (pkt == null) {
-            return getTaker()+
-                ":[brokerID="+getBrokerID()+", storeSession="+getStoreSession()+"]"+
-                (getBrokerSession() == null ? "":"brokerSession="+getBrokerSession())+", xid="+xid;
-        }          
+            return getTaker() + ":[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
+                    + (getBrokerSession() == null ? "" : "brokerSession=" + getBrokerSession()) + ", xid=" + xid;
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_COMPLETE) {
-            return "[brokerID="+getBrokerID()+", storeSession="+getStoreSession()+"]";
+            return "[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]";
         }
 
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING) {
-        String prefix = "";
+            String prefix = "";
 
-        if (DEBUG) {
-        if (getTaker() != null) prefix = getTaker()+"("+ ((timestamp == null) ? "":""+timestamp)+":";
-        return prefix+ "[brokerID="+getBrokerID()+
-                       ", storeSession="+getStoreSession()+"]"+
-                        (getBrokerSession() == null ? "":"brokerSession="+getBrokerSession())+
-                        ", "+getBrokerHost()+", xid="+xid;
-        }
-        return prefix+ "[brokerID="+getBrokerID()+", storeSession="+getStoreSession()+"]"+
-            (getBrokerSession() == null ? "":"brokerSession="+getBrokerSession())+", xid="+xid;
+            if (DEBUG) {
+                if (getTaker() != null)
+                    prefix = getTaker() + "(" + ((timestamp == null) ? "" : "" + timestamp) + ":";
+                return prefix + "[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
+                        + (getBrokerSession() == null ? "" : "brokerSession=" + getBrokerSession()) + ", " + getBrokerHost() + ", xid=" + xid;
+            }
+            return prefix + "[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
+                    + (getBrokerSession() == null ? "" : "brokerSession=" + getBrokerSession()) + ", xid=" + xid;
         }
 
-        return getTaker()+":[brokerID="+getBrokerID()+", storeSession="+getStoreSession()+"]"+
-            (getBrokerSession() == null ? "":"brokerSession="+getBrokerSession())+", xid="+xid;
+        return getTaker() + ":[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
+                + (getBrokerSession() == null ? "" : "brokerSession=" + getBrokerSession()) + ", xid=" + xid;
     }
 
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public GPacket getReplyGPacket(short protocol, int status, String reason) {
-        assert ( pkt != null );
-        assert ( protocol == ProtocolGlobals.G_TAKEOVER_PENDING_REPLY );
+        assert (pkt != null);
+        assert (protocol == ProtocolGlobals.G_TAKEOVER_PENDING_REPLY);
 
         GPacket gp = GPacket.getInstance();
         gp.setType(protocol);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", (Long) pkt.getProp("X"));
         gp.putProp("brokerID", pkt.getProp("brokerID"));
         gp.putProp("storeSession", pkt.getProp("storeSession"));
         gp.putProp("taker", pkt.getProp("taker"));
         gp.putProp("S", Integer.valueOf(status));
-        if (reason != null) gp.putProp("reason", reason);
+        if (reason != null)
+            gp.putProp("reason", reason);
 
         return gp;
     }
 
     public static int getReplyStatus(GPacket reply) {
-        return ((Integer)reply.getProp("S")).intValue();
+        return ((Integer) reply.getProp("S")).intValue();
     }
+
     public static String getReplyStatusReason(GPacket reply) {
-        return (String)reply.getProp("reason");
+        return (String) reply.getProp("reason");
     }
+
     public static Long getReplyXid(GPacket reply) {
-        return (Long)reply.getProp("X");
+        return (Long) reply.getProp("X");
     }
+
     public static String toString(GPacket reply) {
         StringBuffer buf = new StringBuffer();
         buf.append("\n\tstatus=").append(Status.getString(getReplyStatus(reply)));
         if (reply.getProp("reason") != null) {
-        buf.append("\n\treason=").append(getReplyStatusReason(reply));
+            buf.append("\n\treason=").append(getReplyStatusReason(reply));
         }
-        buf.append("[brokerID=").append((String)reply.getProp("brokerID"));
-        buf.append(", storeSession=").append((Long)reply.getProp("storeSession"));
-        buf.append("]xid=").append((Long)reply.getProp("X"));
-        buf.append(", taker=").append((String)reply.getProp("taker"));
+        buf.append("[brokerID=").append((String) reply.getProp("brokerID"));
+        buf.append(", storeSession=").append((Long) reply.getProp("storeSession"));
+        buf.append("]xid=").append((Long) reply.getProp("X"));
+        buf.append(", taker=").append((String) reply.getProp("taker"));
         return buf.toString();
     }
 }

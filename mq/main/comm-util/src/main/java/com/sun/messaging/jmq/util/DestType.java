@@ -16,80 +16,81 @@
 
 /*
  * @(#)DestType.java	1.15 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-
 /**
- * DestType defines the bitmaps for setting destination types. Strictly
- * speaking a destination has three attributes:
+ * DestType defines the bitmaps for setting destination types. Strictly speaking a destination has three attributes:
+ * 
  * <pre>
  *      1. Its type (Queue or Topic)
  *      2. Its lifespan (temporary or not)
  *      3. Its flavor (single, round robin, failover, etc)
  * </pre>
- * In practice all combinations are not used (for example you don't have
- * round-robin topics), but by using bitmaps we have that flexibility.
+ * 
+ * In practice all combinations are not used (for example you don't have round-robin topics), but by using bitmaps we
+ * have that flexibility.
  * <P>
- * This class defines the bitmaps to specify these three components of
- * a destination type.
+ * This class defines the bitmaps to specify these three components of a destination type.
  * <P>
  * A couple examples of specifying a destination type are:
+ * 
  * <pre>
- *      // A round robin queue
- *      int type = DEST_TYPE_QUEUE | DEST_FLAVOR_RROBIN;
+ * // A round robin queue
+ * int type = DEST_TYPE_QUEUE | DEST_FLAVOR_RROBIN;
  *
- *      // A temporary topic
- *      int type = DEST_TYPE_TOPIC | DEST_TMP;
+ * // A temporary topic
+ * int type = DEST_TYPE_TOPIC | DEST_TMP;
  * </pre>
  */
 public class DestType {
 
-    public static final int DEST_TYPE_QUEUE         = 0x00000001;
-    public static final int DEST_TYPE_TOPIC         = 0x00000002;
+    public static final int DEST_TYPE_QUEUE = 0x00000001;
+    public static final int DEST_TYPE_TOPIC = 0x00000002;
 
-    public static final int DEST_TEMP               = 0x00000010;
-    public static final int DEST_AUTO               = 0x00000020;
-    public static final int DEST_INTERNAL           = 0x00000040;
-    public static final int DEST_ADMIN              = 0x00000080;
-    public static final int DEST_DMQ                = 0x00001000;
+    public static final int DEST_TEMP = 0x00000010;
+    public static final int DEST_AUTO = 0x00000020;
+    public static final int DEST_INTERNAL = 0x00000040;
+    public static final int DEST_ADMIN = 0x00000080;
+    public static final int DEST_DMQ = 0x00001000;
 
     /**
      * @since 3.7
      */
-    public static final int DEST_LOCAL              = 0x00002000;
+    public static final int DEST_LOCAL = 0x00002000;
 
     /**
      * @deprecated since 3.5
      */
-    public static final int DEST_FLAVOR_SINGLE      = 0x00000100;
+    public static final int DEST_FLAVOR_SINGLE = 0x00000100;
 
     /**
      * @deprecated since 3.5
      */
-    public static final int DEST_FLAVOR_RROBIN      = 0x00000200;
+    public static final int DEST_FLAVOR_RROBIN = 0x00000200;
 
     /**
      * @deprecated since 3.5
      */
-    public static final int DEST_FLAVOR_FAILOVER    = 0x00000400;
+    public static final int DEST_FLAVOR_FAILOVER = 0x00000400;
 
     /**
      * Internal destination name prefix
+     * 
      * @since 3.5
      */
     public static final String INTERNAL_DEST_PREFIX = "mq.";
 
-    public static final String QUEUESTR = "queue";  //used by acl
+    public static final String QUEUESTR = "queue"; // used by acl
     public static final String TOPICSTR = "topic";
 
     /**
-     * access control method 
+     * access control method
      */
     public static String queueOrTopic(int type) {
         // only access control for non-temp QUEUES and TOPICS
-        if ( (type & DEST_TEMP) == DEST_TEMP)
+        if ((type & DEST_TEMP) == DEST_TEMP)
             return null;
         if ((type & DEST_TYPE_QUEUE) == DEST_TYPE_QUEUE)
             return toString(DEST_TYPE_QUEUE);
@@ -102,7 +103,7 @@ public class DestType {
      * used by access control
      */
     public static boolean isQueueStr(String queueOrTopic) {
-        if (queueOrTopic == null) { //should never happen
+        if (queueOrTopic == null) { // should never happen
             return false;
         }
         if (queueOrTopic.equals(QUEUESTR)) {
@@ -122,7 +123,6 @@ public class DestType {
     public static boolean isTemporary(int mask) {
         return (mask & DEST_TEMP) == DEST_TEMP;
     }
-
 
     /**
      * @since 4.0
@@ -145,7 +145,6 @@ public class DestType {
         return (mask & DEST_ADMIN) == DEST_ADMIN;
     }
 
-
     /**
      * @since 3.5
      */
@@ -164,24 +163,22 @@ public class DestType {
      * @since 3.5
      */
     public static boolean destNameIsInternal(String destName) {
-	if ((destName != null) &&
-	    destName.startsWith(INTERNAL_DEST_PREFIX))  {
-	    return (true);
-	}
+        if ((destName != null) && destName.startsWith(INTERNAL_DEST_PREFIX)) {
+            return (true);
+        }
 
-	return (false);
+        return (false);
     }
 
     /**
      * @since 3.5
      */
     public static boolean destNameIsInternalLogging(String destName) {
-	if ((destName != null) &&
-	    destName.startsWith(INTERNAL_DEST_PREFIX + "log.broker"))  {
-	    return (true);
-	}
+        if ((destName != null) && destName.startsWith(INTERNAL_DEST_PREFIX + "log.broker")) {
+            return (true);
+        }
 
-	return (false);
+        return (false);
     }
 
     /**
@@ -218,19 +215,19 @@ public class DestType {
 
         if (isTemporary(mask)) {
             s.append(":temporary");
-        } 
+        }
         if (isAutoCreated(mask)) {
             s.append(":autocreated");
-        } 
+        }
         if (isInternal(mask)) {
             s.append(":internal");
         }
         if (isAdmin(mask)) {
             s.append(":admin");
-        } 
+        }
         if (isLocal(mask)) {
             s.append(":local");
-        } 
+        }
 
         if (isSingle(mask)) {
             s.append(":single");

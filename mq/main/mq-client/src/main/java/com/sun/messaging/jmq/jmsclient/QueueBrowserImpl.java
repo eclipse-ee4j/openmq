@@ -16,7 +16,7 @@
 
 /*
  * @(#)QueueBrowserImpl.java	1.12 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -26,22 +26,21 @@ import javax.jms.*;
 
 import com.sun.messaging.AdministeredObject;
 
-/** A client uses a QueueBrowser to look at messages on a queue without
-  * removing them.
-  *
-  * <P>The browse methods return a java.util.Enumeration that is used to scan
-  * the queue's messages. It may be an enumeration of the entire content of a
-  * queue or it may only contain the messages matching a message selector.
-  *
-  * <P>Messages may be arriving and expiring while the scan is done. JMS does
-  * not require the content of an enumeration to be a static snapshot of queue
-  * content. Whether these changes are visible or not depends on the JMS
-  * provider.
-  *
-  * @see         javax.jms.QueueSession#createBrowser(Queue)
-  * @see         javax.jms.QueueSession#createBrowser(Queue, String)
-  * @see         javax.jms.QueueReceiver
-  */
+/**
+ * A client uses a QueueBrowser to look at messages on a queue without removing them.
+ *
+ * <P>
+ * The browse methods return a java.util.Enumeration that is used to scan the queue's messages. It may be an enumeration
+ * of the entire content of a queue or it may only contain the messages matching a message selector.
+ *
+ * <P>
+ * Messages may be arriving and expiring while the scan is done. JMS does not require the content of an enumeration to
+ * be a static snapshot of queue content. Whether these changes are visible or not depends on the JMS provider.
+ *
+ * @see javax.jms.QueueSession#createBrowser(Queue)
+ * @see javax.jms.QueueSession#createBrowser(Queue, String)
+ * @see javax.jms.QueueReceiver
+ */
 
 public class QueueBrowserImpl implements QueueBrowser {
 
@@ -52,19 +51,14 @@ public class QueueBrowserImpl implements QueueBrowser {
 
     private boolean isClosed = false;
 
-    public QueueBrowserImpl (SessionImpl session,
-                             Queue queue) throws JMSException {
+    public QueueBrowserImpl(SessionImpl session, Queue queue) throws JMSException {
         this(session, queue, null);
     }
 
-    public QueueBrowserImpl (SessionImpl session,
-                             Queue queue,
-                             String selector) throws JMSException {
+    public QueueBrowserImpl(SessionImpl session, Queue queue, String selector) throws JMSException {
         if (queue == null) {
-            String errorString =
-                AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DESTINATION_NAME, "null");
-            throw new InvalidDestinationException(errorString,
-                AdministeredObject.cr.X_INVALID_DESTINATION_NAME);
+            String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DESTINATION_NAME, "null");
+            throw new InvalidDestinationException(errorString, AdministeredObject.cr.X_INVALID_DESTINATION_NAME);
         }
         this.session = session;
         this.queue = queue;
@@ -73,59 +67,50 @@ public class QueueBrowserImpl implements QueueBrowser {
     }
 
     private void init() throws JMSException {
-		//ConnectionConsumer workaround 4715054
-		session.checkBrowserCreation();
+        // ConnectionConsumer workaround 4715054
+        session.checkBrowserCreation();
         session.verifyDestination(queue, messageSelector, true);
     }
 
-    /** Get the queue associated with this queue browser.
-      *
-      * @return the queue
-      *
-      * @exception JMSException if JMS fails to get the
-      *                         queue associated with this Browser
-      *                         due to some JMS error.
-      */
+    /**
+     * Get the queue associated with this queue browser.
+     *
+     * @return the queue
+     *
+     * @exception JMSException if JMS fails to get the queue associated with this Browser due to some JMS error.
+     */
 
-    public Queue
-    getQueue() throws JMSException {
+    public Queue getQueue() throws JMSException {
         checkState();
         return queue;
     }
 
+    /**
+     * Get this queue browser's message selector expression.
+     *
+     * @return this queue browser's message selector
+     *
+     * @exception JMSException if JMS fails to get the message selector for this browser due to some JMS error.
+     */
 
-    /** Get this queue browser's message selector expression.
-      *
-      * @return this queue browser's message selector
-      *
-      * @exception JMSException if JMS fails to get the
-      *                         message selector for this browser
-      *                         due to some JMS error.
-      */
-
-    public String
-    getMessageSelector() throws JMSException {
+    public String getMessageSelector() throws JMSException {
         checkState();
         return messageSelector;
     }
 
-    /** Get an enumeration for browsing the current queue messages in the
-      * order they would be received.
-      *
-      * @return an enumeration for browsing the messages
-      *
-      * @exception JMSException if JMS fails to get the
-      *                         enumeration for this browser
-      *                         due to some JMS error.
-      */
+    /**
+     * Get an enumeration for browsing the current queue messages in the order they would be received.
+     *
+     * @return an enumeration for browsing the messages
+     *
+     * @exception JMSException if JMS fails to get the enumeration for this browser due to some JMS error.
+     */
 
-    public Enumeration
-    getEnumeration() throws JMSException {
+    public Enumeration getEnumeration() throws JMSException {
 
         checkState();
 
-        return (Enumeration)(new BrowserConsumer(this, queue,
-                                                 messageSelector));
+        return (Enumeration) (new BrowserConsumer(this, queue, messageSelector));
     }
 
     protected void addBrowserConsumer(BrowserConsumer consumer) {
@@ -136,20 +121,18 @@ public class QueueBrowserImpl implements QueueBrowser {
         consumers.removeElement(consumer);
     }
 
-    /** Since a provider may allocate some resources on behalf of a
-      * QueueBrowser outside the JVM, clients should close them when they
-      * are not needed. Relying on garbage collection to eventually reclaim
-      * these resources may not be timely enough.
-      *
-      * @exception JMSException if a JMS fails to close this
-      *                         Browser due to some JMS error.
-      */
+    /**
+     * Since a provider may allocate some resources on behalf of a QueueBrowser outside the JVM, clients should close them
+     * when they are not needed. Relying on garbage collection to eventually reclaim these resources may not be timely
+     * enough.
+     *
+     * @exception JMSException if a JMS fails to close this Browser due to some JMS error.
+     */
 
-    public void
-    close() throws JMSException {
+    public void close() throws JMSException {
         BrowserConsumer consumer = null;
-        for(int i = consumers.size()-1; i >= 0; i--) {
-            consumer = (BrowserConsumer)consumers.elementAt(i);
+        for (int i = consumers.size() - 1; i >= 0; i--) {
+            consumer = (BrowserConsumer) consumers.elementAt(i);
             consumer.close();
         }
 
@@ -162,7 +145,7 @@ public class QueueBrowserImpl implements QueueBrowser {
 
     protected void checkState() throws JMSException {
 
-        if ( isClosed ) {
+        if (isClosed) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
             throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_BROWSER_CLOSED);
         }

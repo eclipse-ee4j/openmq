@@ -40,7 +40,7 @@ public abstract class TxLog {
     public static final String FILECLASS = "com.sun.messaging.bridge.service.jms.tx.log.FileTxLogImpl";
     public static final String JDBCCLASS = "com.sun.messaging.bridge.service.jms.tx.log.JDBCTxLogImpl";
     public static final int DEFAULT_REAPLIMIT = 50;
-    public static final int DEFAULT_REAPINTERVAL = 60; //1min
+    public static final int DEFAULT_REAPINTERVAL = 60; // 1min
 
     Logger _logger = null;
 
@@ -50,7 +50,7 @@ public abstract class TxLog {
     private Object _inprogressLock = new Object();
 
     private TransactionReaper _reaper = null;
-    private int _reapLimit    = DEFAULT_REAPLIMIT;
+    private int _reapLimit = DEFAULT_REAPLIMIT;
     private int _reapInterval = DEFAULT_REAPINTERVAL;
 
     protected String _tmname = null;
@@ -65,8 +65,7 @@ public abstract class TxLog {
     }
 
     /**
-     * @param props The properties is guaranteed to contain 
-     *              "txlogDir", "txlogSuffix", "txlogMaxBranches"
+     * @param props The properties is guaranteed to contain "txlogDir", "txlogSuffix", "txlogMaxBranches"
      * @param reset true to reset the txlog
      */
     public void init(Properties props, boolean reset) throws Exception {
@@ -103,14 +102,14 @@ public abstract class TxLog {
     public abstract void logGlobalDecision(LogRecord lr) throws Exception;
 
     /**
-     * @param lr the LogRecord to identify the record to update 
-     * @param bxid the branch xid to update 
+     * @param lr the LogRecord to identify the record to update
+     * @param bxid the branch xid to update
      */
     public abstract void logHeuristicBranch(BranchXid bxid, LogRecord lr) throws Exception;
 
     /**
      *
-     * @param gxid the GlobalXid 
+     * @param gxid the GlobalXid
      * @return a copy of LogRecord corresponding gxid or null if not exist
      */
     public abstract LogRecord getLogRecord(GlobalXid gxid) throws Exception;
@@ -119,16 +118,16 @@ public abstract class TxLog {
      * @return a list of all log records
      */
     public abstract List getAllLogRecords() throws Exception;
-    
+
     /**
-     * @param gxid the global xid record to remove 
+     * @param gxid the global xid record to remove
      */
     public void remove(GlobalXid gxid) throws Exception {
         _reaper.addTransaction(gxid);
     }
 
     /**
-     * @param gxid the global xid record to remove 
+     * @param gxid the global xid record to remove
      */
     public abstract void reap(String gxid) throws Exception;
 
@@ -137,16 +136,18 @@ public abstract class TxLog {
     }
 
     /**
-     * subclass override 
+     * subclass override
      */
     public void close() throws Exception {
-        synchronized(_closedLock) {
-            if (!isClosed()) _closed = true ; 
+        synchronized (_closedLock) {
+            if (!isClosed())
+                _closed = true;
         }
-        if (_reaper != null) _reaper.destroy();
+        if (_reaper != null)
+            _reaper.destroy();
     }
 
-    //The following methods are similar as in Store.java
+    // The following methods are similar as in Store.java
     protected void setClosedAndWait() {
         synchronized (_closedLock) {
             _closed = true;
@@ -155,7 +156,8 @@ public abstract class TxLog {
             while (_inprogressCount > 0) {
                 try {
                     _inprogressLock.wait();
-                } catch (Exception e) {}
+                } catch (Exception e) {
+                }
             }
         }
     }
@@ -163,7 +165,7 @@ public abstract class TxLog {
     protected void checkClosedAndSetInProgress() throws Exception {
         synchronized (_closedLock) {
             if (_closed) {
-                String emsg = "Accessing TM txLog after store closed"; 
+                String emsg = "Accessing TM txLog after store closed";
                 throw new BridgeException(emsg, Status.UNAVAILABLE);
             } else {
                 setInProgress(true);
@@ -186,20 +188,19 @@ public abstract class TxLog {
     }
 }
 
-class TransactionReaper implements TimerEventHandler
-{
+class TransactionReaper implements TimerEventHandler {
     private TxLog _txlog = null;
-	private Logger _logger = null;
+    private Logger _logger = null;
 
-    private Vector removes = new Vector(); 
+    private Vector removes = new Vector();
     private WakeupableTimer reapTimer = null;
     private int _reapLimit = 1;
-    private long _reapInterval = 1000; //in millisecs
-    
+    private long _reapInterval = 1000; // in millisecs
+
     /*
-     * @param reapInterval in secs 
+     * @param reapInterval in secs
      */
-    public  TransactionReaper(TxLog txlog, int reapLimit, int reapInterval) { 
+    public TransactionReaper(TxLog txlog, int reapLimit, int reapInterval) {
         _txlog = txlog;
         _logger = _txlog.getLogger();
         _reapLimit = reapLimit;
@@ -210,20 +211,18 @@ class TransactionReaper implements TimerEventHandler
     }
 
     public void addTransaction(GlobalXid gxid) {
-        if (_reapLimit == 0 ||
-            removes.size() > (2*_reapLimit)) {
+        if (_reapLimit == 0 || removes.size() > (2 * _reapLimit)) {
             try {
-                 _txlog.reap(gxid.toString());
-                 return;
+                _txlog.reap(gxid.toString());
+                return;
             } catch (Exception e) {
-                 _logger.log(Level.WARNING,
-                 "Failed to cleanup global transaction "+gxid+":"+e+", will retry later", e);
+                _logger.log(Level.WARNING, "Failed to cleanup global transaction " + gxid + ":" + e + ", will retry later", e);
             }
         }
         removes.add(gxid);
         createTimer();
         if (removes.size() > _reapLimit) {
-            synchronized(this) {
+            synchronized (this) {
                 if (reapTimer != null) {
                     reapTimer.wakeup();
                 }
@@ -232,48 +231,49 @@ class TransactionReaper implements TimerEventHandler
     }
 
     private synchronized void createTimer() {
-        if (reapTimer == null) { 
+        if (reapTimer == null) {
             try {
-            String startString = "Transaction reaper thread has started for TM "+_txlog.getTMName();
-            String exitString = "Transaction reaper thread for TM "+_txlog.getTMName()+" is exiting"; 
+                String startString = "Transaction reaper thread has started for TM " + _txlog.getTMName();
+                String exitString = "Transaction reaper thread for TM " + _txlog.getTMName() + " is exiting";
 
-            reapTimer = new WakeupableTimer("JMSBridgeTMTransactionReaper-"+_txlog.getTMName(),
-                                            this,
-                                            _reapInterval, _reapInterval,
-                                            startString, exitString);
+                reapTimer = new WakeupableTimer("JMSBridgeTMTransactionReaper-" + _txlog.getTMName(), this, _reapInterval, _reapInterval, startString,
+                        exitString);
             } catch (Throwable ex) {
-            _logger.log(Level.WARNING, 
-            "Unable to start transaction reaper thread for TM "+_txlog.getTMName(), ex);
-            try {
-            _txlog.close();
-            } catch (Exception e) {}
+                _logger.log(Level.WARNING, "Unable to start transaction reaper thread for TM " + _txlog.getTMName(), ex);
+                try {
+                    _txlog.close();
+                } catch (Exception e) {
+                }
             }
         }
     }
 
-   
-
-   /***************************************************
-    * Methods for TimerEventHandler for WakeupableTimer
-    ***************************************************/
+    /***************************************************
+     * Methods for TimerEventHandler for WakeupableTimer
+     ***************************************************/
     public void handleOOMError(Throwable e) {
     }
 
     public void handleLogInfo(String msg) {
-        if (_logger == null) return;
+        if (_logger == null)
+            return;
         _logger.log(Level.INFO, msg);
     }
+
     public void handleLogWarn(String msg, Throwable e) {
-        if (_logger == null) return;
+        if (_logger == null)
+            return;
         _logger.log(Level.WARNING, msg, e);
     }
+
     public void handleLogError(String msg, Throwable e) {
-        if (_logger == null) return;
+        if (_logger == null)
+            return;
         _logger.log(Level.SEVERE, msg, e);
     }
 
     public void handleTimerExit(Throwable e) {
-        synchronized(this) {
+        synchronized (this) {
             if (reapTimer == null) {
                 return;
             }
@@ -281,19 +281,16 @@ class TransactionReaper implements TimerEventHandler
         if (_txlog.isClosed()) {
             return;
         }
-        _logger.log(Level.SEVERE, 
-            "["+_txlog.getTMName()+"]Unexpected transaction log reaper thread exit", e);
+        _logger.log(Level.SEVERE, "[" + _txlog.getTMName() + "]Unexpected transaction log reaper thread exit", e);
         try {
-        _txlog.close();
+            _txlog.close();
         } catch (Exception ex) {
-        _logger.log(Level.WARNING, 
-            "["+_txlog.getTMName()+"]"+e.getMessage(), e);
+            _logger.log(Level.WARNING, "[" + _txlog.getTMName() + "]" + e.getMessage(), e);
         }
     }
 
-
     public synchronized void destroy() {
-        if (reapTimer != null)  {
+        if (reapTimer != null) {
             reapTimer.cancel();
             reapTimer = null;
         }
@@ -303,21 +300,20 @@ class TransactionReaper implements TimerEventHandler
     public long runTask() {
 
         GlobalXid[] gxids = null;
-        synchronized(removes) {
-            gxids = (GlobalXid[])removes.toArray(new GlobalXid[removes.size()]);
+        synchronized (removes) {
+            gxids = (GlobalXid[]) removes.toArray(new GlobalXid[removes.size()]);
         }
-        int cnt =  gxids.length - _reapLimit;
+        int cnt = gxids.length - _reapLimit;
         for (int i = 0; i < cnt; i++) {
             String key = gxids[i].toString();
             if (_logger.isLoggable(Level.FINE)) {
-                _logger.log(Level.FINE, "Cleaning up global transaction "+key);
+                _logger.log(Level.FINE, "Cleaning up global transaction " + key);
             }
             try {
-                 _txlog.reap(key);
-                 removes.remove(gxids[i]);
+                _txlog.reap(key);
+                removes.remove(gxids[i]);
             } catch (Exception e) {
-                 _logger.log(Level.WARNING,
-                         "Failed to cleanup global transaction "+key, e);
+                _logger.log(Level.WARNING, "Failed to cleanup global transaction " + key, e);
             }
         }
         return 0L;

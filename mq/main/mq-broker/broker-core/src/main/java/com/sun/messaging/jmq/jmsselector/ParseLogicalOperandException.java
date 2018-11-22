@@ -16,13 +16,12 @@
 
 /*
  * @(#)ParseLogicalOperandException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when an invalid operand is used with
- * the logical operators AND or NOT.
+ * Exception thrown when an invalid operand is used with the logical operators AND or NOT.
  */
 public class ParseLogicalOperandException extends ParseException {
 
@@ -34,4 +33,3 @@ public class ParseLogicalOperandException extends ParseException {
     }
 
 }
-

@@ -24,9 +24,9 @@ import javax.jms.TemporaryTopic;
 import com.sun.messaging.bridge.api.StompDestination;
 
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompDestinationImpl implements StompDestination  {
+public class StompDestinationImpl implements StompDestination {
 
     Destination dest = null;
 
@@ -41,16 +41,15 @@ public class StompDestinationImpl implements StompDestination  {
 
     @Override
     public boolean isTemporary() {
-        return ((dest instanceof TemporaryQueue) ||
-                (dest instanceof TemporaryTopic)); 
+        return ((dest instanceof TemporaryQueue) || (dest instanceof TemporaryTopic));
     }
 
     @Override
     public String getName() throws Exception {
         if (isQueue()) {
-            return ((Queue)dest).getQueueName();
+            return ((Queue) dest).getQueueName();
         }
-        return ((Topic)dest).getTopicName();
+        return ((Topic) dest).getTopicName();
     }
 
     protected Destination getJMSDestination() {

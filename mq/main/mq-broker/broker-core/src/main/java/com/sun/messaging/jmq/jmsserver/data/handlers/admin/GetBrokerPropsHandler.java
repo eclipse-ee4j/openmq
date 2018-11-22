@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetBrokerPropsHandler.java	1.24 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -47,70 +47,59 @@ import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStor
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-public class GetBrokerPropsHandler extends AdminCmdHandler
-{
+public class GetBrokerPropsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public GetBrokerPropsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;
         String emsg = null;
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + cmd_props);
         }
 
-	/* We need to create a copy of the broker configuration because
-	 * the protocol requires we send a serialized java.util.Properties
-	 * object. If we just serialize (or clone the serialize) BrokerConfig
-	 * it will end up being a serialized BrokerConfig object, not
-	 * a serialized Properties object (even if we cast). So we do
-	 * this rather expensive operation.
-	 */
-	Properties brokerProps = Globals.getConfig().toProperties();
+        /*
+         * We need to create a copy of the broker configuration because the protocol requires we send a serialized
+         * java.util.Properties object. If we just serialize (or clone the serialize) BrokerConfig it will end up being a
+         * serialized BrokerConfig object, not a serialized Properties object (even if we cast). So we do this rather expensive
+         * operation.
+         */
+        Properties brokerProps = Globals.getConfig().toProperties();
 
+        /* Add the version properties */
+        Version version = Globals.getVersion();
+        brokerProps.putAll(version.getProps());
 
-	/* Add the version properties */
-	Version version = Globals.getVersion();
-	brokerProps.putAll(version.getProps());
+        try {
+            addLicenseInfo(brokerProps);
+        } catch (Exception ex) {
+            logger.log(Logger.WARNING, rb.X_CANT_GET_LICENSE_EXCEPTION, ex);
+        }
 
-
-	try  {
-	    addLicenseInfo(brokerProps);
-	} catch (Exception ex)  {
-	    logger.log(Logger.WARNING, rb.X_CANT_GET_LICENSE_EXCEPTION, ex);
-	}
-
-        brokerProps.put(Globals.IMQ + ".system.current_count",
-                        String.valueOf(DL.totalCount()));
-        brokerProps.put(Globals.IMQ + ".system.current_size",
-                         String.valueOf(DL.totalBytes()));
+        brokerProps.put(Globals.IMQ + ".system.current_count", String.valueOf(DL.totalCount()));
+        brokerProps.put(Globals.IMQ + ".system.current_size", String.valueOf(DL.totalBytes()));
 
         Queue[] qs = DL.getDMQ(null);
-        Queue dmq = qs[0]; //PART
-        brokerProps.put(Globals.IMQ + ".dmq.current_count",
-                        String.valueOf(dmq.size()));
-        brokerProps.put(Globals.IMQ + ".dmq.current_size",
-                         String.valueOf(dmq.byteSize()));
+        Queue dmq = qs[0]; // PART
+        brokerProps.put(Globals.IMQ + ".dmq.current_count", String.valueOf(dmq.size()));
+        brokerProps.put(Globals.IMQ + ".dmq.current_size", String.valueOf(dmq.byteSize()));
 
         String val = brokerProps.getProperty(DL.USE_DMQ_STR);
         if (val == null || val.trim().equals("")) {
             brokerProps.put(DL.USE_DMQ_STR, String.valueOf(DL.defaultUseDMQ));
         }
-
 
         if (Globals.getBrokerID() != null) {
             brokerProps.put(Globals.IMQ + ".brokerid", Globals.getBrokerID());
@@ -130,10 +119,10 @@ public class GetBrokerPropsHandler extends AdminCmdHandler
             brokerProps.put(StoreManager.BDB_REPLICATION_ENABLED_PROP, "true");
         }
         if (Globals.isBDBStore()) {
-            brokerProps.put(Globals.IMQ+".storemigratable", "true");
+            brokerProps.put(Globals.IMQ + ".storemigratable", "true");
         }
         if (DL.isPartitionMode() && DL.isPartitionMigratable()) {
-            brokerProps.put(Globals.IMQ+".partitionmigratable", "true");
+            brokerProps.put(Globals.IMQ + ".partitionmigratable", "true");
         }
 
         brokerProps.put(Globals.IMQ + ".embedded", Boolean.toString(Broker.isInProcess()));
@@ -144,78 +133,77 @@ public class GetBrokerPropsHandler extends AdminCmdHandler
         } else if (Globals.useSharedConfigRecord()) {
             String shareccVendor = null;
             try {
-                shareccVendor = Globals.getStore().getShareConfigChangeStore().
-                                    getVendorPropertySetting();
+                shareccVendor = Globals.getStore().getShareConfigChangeStore().getVendorPropertySetting();
             } catch (BrokerException e) {
-	            logger.logStack(Logger.WARNING, e.getMessage(), e);
+                logger.logStack(Logger.WARNING, e.getMessage(), e);
             }
-            brokerProps.put(ClusterManager.CONFIG_SERVER, "["+Globals.NO_MASTERBROKER_PROP+"="+
-                        brokerProps.get(Globals.NO_MASTERBROKER_PROP)+", "+shareccVendor+"]");
+            brokerProps.put(ClusterManager.CONFIG_SERVER,
+                    "[" + Globals.NO_MASTERBROKER_PROP + "=" + brokerProps.get(Globals.NO_MASTERBROKER_PROP) + ", " + shareccVendor + "]");
 
-        } 
+        }
 
         /**
          * OK, use the cluster object to get active and normal brokers
          */
         ClusterManager cfg = Globals.getClusterManager();
 
-            // calculate url
-            String list = null;
-            Iterator itr = cfg.getConfigBrokers();
+        // calculate url
+        String list = null;
+        Iterator itr = cfg.getConfigBrokers();
 
-            // OK we want to remove any duplicates
-            Set s = new HashSet();
-            while (itr.hasNext()) {
-                ClusteredBroker cb = (ClusteredBroker)itr.next();
-                s.add(cb.getBrokerURL().toString());
+        // OK we want to remove any duplicates
+        Set s = new HashSet();
+        while (itr.hasNext()) {
+            ClusteredBroker cb = (ClusteredBroker) itr.next();
+            s.add(cb.getBrokerURL().toString());
+        }
+        itr = s.iterator();
+        while (itr.hasNext()) {
+            if (list == null) {
+                list = itr.next().toString();
+            } else {
+                list += "," + itr.next().toString();
             }
-            itr = s.iterator();
-            while (itr.hasNext()) {
-                if (list == null) {
-                    list = itr.next().toString();
-                } else {
-                    list += "," + itr.next().toString();
-                }
+        }
+        if (list == null)
+            list = "";
+        brokerProps.put("imq.cluster.brokerlist", list);
+
+        list = null;
+        s = new HashSet();
+        itr = cfg.getActiveBrokers();
+        while (itr.hasNext()) {
+            ClusteredBroker cb = (ClusteredBroker) itr.next();
+            s.add(cb.getBrokerURL().toString());
+        }
+        itr = s.iterator();
+        while (itr.hasNext()) {
+            if (list == null) {
+                list = itr.next().toString();
+            } else {
+                list += "," + itr.next().toString();
             }
-            if (list == null) list = "";
-            brokerProps.put("imq.cluster.brokerlist", list);
+        }
+        if (list == null)
+            list = "";
+        brokerProps.put("imq.cluster.brokerlist.active", list);
 
-            list = null;
-            s = new HashSet();
-            itr = cfg.getActiveBrokers();
-            while (itr.hasNext()) {
-                ClusteredBroker cb = (ClusteredBroker)itr.next();
-                s.add(cb.getBrokerURL().toString());
-            }
-            itr = s.iterator();
-            while (itr.hasNext()) {
-                if (list == null) {
-                    list = itr.next().toString();
-                } else {
-                    list += "," + itr.next().toString();
-                }
-            }
-            if (list == null) list = "";
-            brokerProps.put("imq.cluster.brokerlist.active", list);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        setProperties(reply, MessageType.GET_BROKER_PROPS_REPLY, status, emsg);
 
-	setProperties(reply, MessageType.GET_BROKER_PROPS_REPLY,
-		status, emsg);
-
-	setBodyObject(reply, brokerProps);
-	parent.sendReply(con, cmd_msg, reply);
+        setBodyObject(reply, brokerProps);
+        parent.sendReply(con, cmd_msg, reply);
         return true;
     }
 
-    private void addLicenseInfo(Properties brokerProps) throws BrokerException  {
+    private void addLicenseInfo(Properties brokerProps) throws BrokerException {
         LicenseBase license = null;
 
-	license = Globals.getCurrentLicense(null);
+        license = Globals.getCurrentLicense(null);
 
-	brokerProps.put("imq.license.description",
-			license.getProperty(license.PROP_DESCRIPTION));
+        brokerProps.put("imq.license.description", license.getProperty(license.PROP_DESCRIPTION));
     }
 }
