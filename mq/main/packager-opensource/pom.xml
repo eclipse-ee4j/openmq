@@ -774,7 +774,7 @@
                                     <target name="all" />
                                 </ant>
 
-                                <zip destfile="${ws.dist.bundles.dir}/mq${project.version}-src.zip"
+                                <zip destfile="${ws.dist.bundles.dir}/mq-src.zip"
                                    basedir="${ws.top.dir}"
                                    includes="main/**,src/**,legal/**,pom.xml,README"
                                 />
@@ -787,7 +787,6 @@
                     </execution>
                 </executions>
             </plugin>
-
         </plugins>
     </build>
     
