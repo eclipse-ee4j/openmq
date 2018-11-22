@@ -66,7 +66,7 @@
         <grizzly.version>2.4.1</grizzly.version>
 
 	<!-- begin of websocket dependencies -->
-	<json.version>1.1</json.version>
+		<json.version>1.1</json.version>
         <tyrus.version>1.13.1</tyrus.version>
 	<!-- end of websocket dependencies -->
 	
@@ -92,7 +92,9 @@
              building this module in anonymous profile anymore.
              See bug #6766662 for more details.
               <module>build</module>
+        TODO is JDK 6 support still needed?
         -->
+        
     </modules>
 
     <profiles>
@@ -108,8 +110,6 @@
                      the same under release profiles as well (below) -->
  		<!-- Also, for now every time you change the module list,
 		     please update mq-nucleus/install-mq2nucleus.sh -->
-		<!-- Comment out javax-jms and use version 2.0.1 in maven until we work on next release -->
-                <!--module>javax-jms</module-->
                 <module>logger</module>
                 <module>comm-util</module>
                 <module>comm-io</module>
@@ -953,5 +953,4 @@
             <url>https://maven.java.net/content/repositories/promoted/</url>
         </repository>
     </repositories>
-
 </project>
