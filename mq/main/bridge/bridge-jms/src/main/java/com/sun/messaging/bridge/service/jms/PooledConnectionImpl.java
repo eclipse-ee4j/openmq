@@ -23,99 +23,78 @@ import javax.jms.*;
  * @author amyk
  */
 public class PooledConnectionImpl extends PooledConnection implements Connection {
-    
+
     public PooledConnectionImpl(Connection conn) {
         super(conn);
     }
 
-    public Session
-    createSession(boolean transacted,
-                  int acknowledgeMode) throws JMSException {
-    return _conn.createSession(transacted, acknowledgeMode);
-    }
-    
-	@Override
-	public Session createSession(int sessionMode) throws JMSException {
-		return _conn.createSession(sessionMode);
-	}
-
-	@Override
-	public Session createSession() throws JMSException {
-		return _conn.createSession();
-	}
-
-    public String
-    getClientID() throws JMSException {
-    return _conn.getClientID();
+    public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
+        return _conn.createSession(transacted, acknowledgeMode);
     }
 
-    public void
-    setClientID(String clientID) throws JMSException {
-    _conn.setClientID(clientID);
+    @Override
+    public Session createSession(int sessionMode) throws JMSException {
+        return _conn.createSession(sessionMode);
     }
 
-    public ConnectionMetaData
-    getMetaData() throws JMSException {
-    return _conn.getMetaData();
+    @Override
+    public Session createSession() throws JMSException {
+        return _conn.createSession();
     }
 
-    public ExceptionListener 
-    getExceptionListener() throws JMSException {
-    return _conn.getExceptionListener();
+    public String getClientID() throws JMSException {
+        return _conn.getClientID();
     }
 
-    public void 
-    setExceptionListener(ExceptionListener listener) throws JMSException {
-    _conn.setExceptionListener(listener);
+    public void setClientID(String clientID) throws JMSException {
+        _conn.setClientID(clientID);
     }
 
-    public void
-    start() throws JMSException {
-    _conn.start();
+    public ConnectionMetaData getMetaData() throws JMSException {
+        return _conn.getMetaData();
     }
 
-    public void
-    stop() throws JMSException {
-    _conn.stop();
+    public ExceptionListener getExceptionListener() throws JMSException {
+        return _conn.getExceptionListener();
     }
 
-    public void 
-    close() throws JMSException {
-    _conn.close();
-    }
-    
-    public ConnectionConsumer
-    createConnectionConsumer(Destination destination,
-                             String messageSelector,
-                             ServerSessionPool sessionPool,
-			     int maxMessages)
-			     throws JMSException {
-    return _conn.createConnectionConsumer(destination, messageSelector,
-                                          sessionPool, maxMessages);
+    public void setExceptionListener(ExceptionListener listener) throws JMSException {
+        _conn.setExceptionListener(listener);
     }
 
-    public ConnectionConsumer
-    createDurableConnectionConsumer(Topic topic,
-                                    String subscriptionName,
-                                    String messageSelector,
-                                    ServerSessionPool sessionPool,
-                                    int maxMessages)
-                                    throws JMSException {
-    return _conn.createDurableConnectionConsumer(topic, subscriptionName, 
-                                messageSelector, sessionPool, maxMessages);
+    public void start() throws JMSException {
+        _conn.start();
     }
-    
-	@Override
-	public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName,
-			String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
-		return _conn.createSharedConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
-	}
 
-	@Override
-	public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName,
-			String messageSelector, ServerSessionPool sessionPool, int maxMessages) throws JMSException {
-		return _conn.createSharedDurableConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
-	}
+    public void stop() throws JMSException {
+        _conn.stop();
+    }
+
+    public void close() throws JMSException {
+        _conn.close();
+    }
+
+    public ConnectionConsumer createConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
+            throws JMSException {
+        return _conn.createConnectionConsumer(destination, messageSelector, sessionPool, maxMessages);
+    }
+
+    public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+        return _conn.createDurableConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
+    }
+
+    @Override
+    public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+        return _conn.createSharedConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
+    }
+
+    @Override
+    public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+        return _conn.createSharedDurableConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
+    }
 
     public String toString() {
         return _conn.toString();

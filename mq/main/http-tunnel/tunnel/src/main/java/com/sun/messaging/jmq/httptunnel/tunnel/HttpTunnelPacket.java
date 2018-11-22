@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpTunnelPacket.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
@@ -29,7 +29,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
-
 
 /**
  * This class encapsulates the HTTP tunnel packet.
@@ -55,8 +54,7 @@ public class HttpTunnelPacket implements HttpTunnelDefaults {
         version = dis.readShort();
 
         if (version > VERSION) {
-            throw new IllegalStateException("Bad response format. " +
-                "Check the tunnel servlet URL.");
+            throw new IllegalStateException("Bad response format. " + "Check the tunnel servlet URL.");
         }
 
         packetType = dis.readShort();
@@ -191,11 +189,9 @@ public class HttpTunnelPacket implements HttpTunnelDefaults {
     }
 
     public String toString() {
-        String ret = " HttpTunnelPacket [ Version = " + version + "," +
-            " packetType = " + getPacketTypeStr() + "," + " packetSize = " +
-            packetSize + "," + " connId = " + connId + "," + " sequence = " +
-            sequence + "," + " winsize = " + winsize + "," + " reserved = " +
-            reserved + "," + " checksum = " + checksum + "]";
+        String ret = " HttpTunnelPacket [ Version = " + version + "," + " packetType = " + getPacketTypeStr() + "," + " packetSize = " + packetSize + ","
+                + " connId = " + connId + "," + " sequence = " + sequence + "," + " winsize = " + winsize + "," + " reserved = " + reserved + ","
+                + " checksum = " + checksum + "]";
 
         if (packetBuffer != null) {
             ret = ret + " [ DATA = \"" + new String(packetBuffer) + "\"]";

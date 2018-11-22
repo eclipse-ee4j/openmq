@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerLogCObj.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -27,50 +27,45 @@ import javax.swing.JMenuItem;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a particular broker
- * log.
+/**
+ * This class is used in the JMQ Administration console to store information related to a particular broker log.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerLogCObj extends BrokerAdminCObj  {
+public class BrokerLogCObj extends BrokerAdminCObj {
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_LOG));
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_LOG));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (null);
+    public ImageIcon getExplorerIcon() {
+        return (null);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
-	return (0);
+    public int getActiveActions() {
+        return (0);
     }
 
-
-
-    public String getInspectorPanelClassName()  {
-	return (null);
+    public String getInspectorPanelClassName() {
+        return (null);
     }
 
-    public String getInspectorPanelId()  {
-	return (null);
+    public String getInspectorPanelId() {
+        return (null);
     }
 
-    public String getInspectorPanelHeader()  {
-	return (null);
+    public String getInspectorPanelHeader() {
+        return (null);
     }
 }

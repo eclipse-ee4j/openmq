@@ -18,19 +18,17 @@ package com.sun.messaging.ums.service;
 
 /**
  *
- * A cache object implements this interface and register itself to the Cache
- * sweeper.  
+ * A cache object implements this interface and register itself to the Cache sweeper.
  * 
- * The CacheSweeper wakes up periodically and calls the sweep method of each
- * registered cache -- ClientPool and ConnectionPool.
+ * The CacheSweeper wakes up periodically and calls the sweep method of each registered cache -- ClientPool and
+ * ConnectionPool.
  * 
  * @author chiaming
  */
 public interface Sweepable {
-    
+
     /**
-     * Sweep the cache.  Cached object aged (not accessed time) longer than 
-     * the specified duration will be sweeped.
+     * Sweep the cache. Cached object aged (not accessed time) longer than the specified duration will be sweeped.
      * 
      * @param duration
      */

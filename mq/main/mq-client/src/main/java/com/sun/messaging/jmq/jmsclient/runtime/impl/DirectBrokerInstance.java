@@ -22,6 +22,6 @@ import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 
 public interface DirectBrokerInstance extends BrokerInstance {
 
-	public DirectBrokerConnection createDirectConnection() throws JMSException;
-		
+    public DirectBrokerConnection createDirectConnection() throws JMSException;
+
 }

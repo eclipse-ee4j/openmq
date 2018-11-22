@@ -21,78 +21,67 @@ import javax.jms.MessageFormatException;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of
- * javax.jms.MessageFormatRuntimeException and adds the methods setLogState
- * and getlogState
+ * This class is the MQ-specific implementation of javax.jms.MessageFormatRuntimeException and adds the methods
+ * setLogState and getlogState
  **/
-public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRuntimeException
-             implements Loggable {
+public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRuntimeException implements Loggable {
 
-	private boolean isLogged = false;
-	
-	/**
-	 * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 **/
-	public MQMessageFormatRuntimeException(String detailMessage) {
-		super(detailMessage);
-	}
+    private boolean isLogged = false;
 
-	/**
-	 * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message
-	 * and error code.
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 **/
-	public MQMessageFormatRuntimeException(String detailMessage, String errorCode) {
-		super(detailMessage,errorCode);
-	}
+    /**
+     * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message
+     * 
+     * @param detailMessage a description of the exception
+     **/
+    public MQMessageFormatRuntimeException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	/**
-	 * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message,
-	 * error code and cause
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 * @param cause
-	 *            the underlying cause of this exception
-	 */
-	public MQMessageFormatRuntimeException(String detailMessage, String errorCode, Throwable cause) {
-		super(detailMessage, errorCode, cause);
-	}
-	
-	/**
-	 * Construct a <code>MQMessageFormatRuntimeException</code> to wrap the
-	 * specified MessageFormatException
-	 * 
-	 * @param cause the underlying cause of this exception
-	 */
-	public MQMessageFormatRuntimeException(MessageFormatException cause) {
-		super(cause.getMessage(), cause.getErrorCode(), cause);
-	}
-	
-	/**
-	 * Specify whether this object is logged.
-	 * 
-	 * @param whether this object is logged
-	 */
-	public void setLogState(boolean state) {
-		this.isLogged = state;
-	}
+    /**
+     * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message and error code.
+     * 
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     **/
+    public MQMessageFormatRuntimeException(String detailMessage, String errorCode) {
+        super(detailMessage, errorCode);
+    }
 
-	/**
-	 * return whether this object is logged
-	 * 
-	 * @return whether this object is logged
-	 */
-	public boolean getLogState() {
-		return this.isLogged;
-	}
+    /**
+     * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message, error code and cause
+     * 
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     * @param cause the underlying cause of this exception
+     */
+    public MQMessageFormatRuntimeException(String detailMessage, String errorCode, Throwable cause) {
+        super(detailMessage, errorCode, cause);
+    }
+
+    /**
+     * Construct a <code>MQMessageFormatRuntimeException</code> to wrap the specified MessageFormatException
+     * 
+     * @param cause the underlying cause of this exception
+     */
+    public MQMessageFormatRuntimeException(MessageFormatException cause) {
+        super(cause.getMessage(), cause.getErrorCode(), cause);
+    }
+
+    /**
+     * Specify whether this object is logged.
+     * 
+     * @param whether this object is logged
+     */
+    public void setLogState(boolean state) {
+        this.isLogged = state;
+    }
+
+    /**
+     * return whether this object is logged
+     * 
+     * @return whether this object is logged
+     */
+    public boolean getLogState() {
+        return this.isLogged;
+    }
 }

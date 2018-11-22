@@ -16,11 +16,10 @@
 
 package com.sun.messaging.bridge.api;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public interface StompSubscriber  {
+public interface StompSubscriber {
 
     public void startDelivery() throws Exception;
 

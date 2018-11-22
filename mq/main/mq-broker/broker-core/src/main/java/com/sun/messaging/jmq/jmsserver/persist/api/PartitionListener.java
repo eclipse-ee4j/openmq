@@ -16,13 +16,12 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
-
 import com.sun.messaging.jmq.util.UID;
+
 /**
  */
-public interface PartitionListener  
-{
-    
+public interface PartitionListener {
+
     /**
      * @param partitionID the partition id
      */
@@ -31,7 +30,7 @@ public interface PartitionListener
     /**
      * @param partitionID the partition id
      * @param source the component or object issued this notification
-     * @param destinedTo null if the partition is deleted from cluster 
+     * @param destinedTo null if the partition is deleted from cluster
      */
     public void partitionRemoved(UID partitionID, Object source, Object destinedTo);
 

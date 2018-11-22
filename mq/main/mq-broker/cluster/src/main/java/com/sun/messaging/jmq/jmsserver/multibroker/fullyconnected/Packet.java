@@ -16,7 +16,7 @@
 
 /*
  * @(#)Packet.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
@@ -26,8 +26,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /**
- * This class encapsulates the packet format for standard
- * fully connected broker topology.
+ * This class encapsulates the packet format for standard fully connected broker topology.
  */
 class Packet {
     private static final short VERSION = 100;
@@ -55,8 +54,7 @@ class Packet {
 
     private byte[] packetBuffer = null;
 
-    public void readPacket(InputStream is)
-        throws IOException, EOFException {
+    public void readPacket(InputStream is) throws IOException, EOFException {
 
         DataInputStream dis = new DataInputStream(is);
 
@@ -67,24 +65,21 @@ class Packet {
         bitFlags = dis.readInt();
 
         if (packetSize < HEADER_SIZE || packetSize > MAX_PACKET_SIZE) {
-            String emsg = Globals.getBrokerResources().getKString(
-                BrokerResources.W_CLUSTER_INVALID_PACKET_SIZE_READ,
-                String.valueOf(packetSize))+"["+is+"]";
-            Globals.getLogger().log(Logger.WARNING,  emsg);
+            String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_INVALID_PACKET_SIZE_READ, String.valueOf(packetSize)) + "[" + is
+                    + "]";
+            Globals.getLogger().log(Logger.WARNING, emsg);
             throw new IOException(emsg);
         }
         try {
             packetBuffer = new byte[packetSize - HEADER_SIZE];
-        }
-        catch (OutOfMemoryError oom) {
+        } catch (OutOfMemoryError oom) {
             dis.skip(packetSize - HEADER_SIZE);
             throw oom;
         }
         dis.readFully(packetBuffer);
     }
 
-    public void writePacket(OutputStream os)
-        throws IOException {
+    public void writePacket(OutputStream os) throws IOException {
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
         dos.writeShort(version);
@@ -146,9 +141,7 @@ class Packet {
     }
 
     public String toString() {
-        return "PacketType = " + packetType +
-            ", DestId = " + destId + ", DATA :\n" +
-            hexdump(packetBuffer, 128);
+        return "PacketType = " + packetType + ", DestId = " + destId + ", DATA :\n" + hexdump(packetBuffer, 128);
     }
 
     public static String hexdump(byte[] buffer, int maxlen) {
@@ -204,15 +197,22 @@ class Packet {
         return str;
     }
 
-    public static String getPacketTypeString(int type) { 
-        switch(type) {
-            case BROKER_INFO: return "BROKER_INFO";
-            case LINK_INIT:   return "LINK_INIT";
-            case STOP_FLOW:   return "STOP_FLOW";
-            case RESUME_FLOW: return "RESUME_FLOW";
-            case PING:        return "PING";
-            case BROKER_INFO_REPLY: return "BROKER_INFO_REPLY";
-            default: return "UNKNOWN";
+    public static String getPacketTypeString(int type) {
+        switch (type) {
+        case BROKER_INFO:
+            return "BROKER_INFO";
+        case LINK_INIT:
+            return "LINK_INIT";
+        case STOP_FLOW:
+            return "STOP_FLOW";
+        case RESUME_FLOW:
+            return "RESUME_FLOW";
+        case PING:
+            return "PING";
+        case BROKER_INFO_REPLY:
+            return "BROKER_INFO_REPLY";
+        default:
+            return "UNKNOWN";
         }
     }
 

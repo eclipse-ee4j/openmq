@@ -18,19 +18,19 @@ package com.sun.messaging.portunif;
 
 import java.net.InetSocketAddress;
 
-
 public interface PUServiceCallback {
 
     /**
-     * @param sa the peer socket address  
+     * @param sa the peer socket address
      * @param ssl true if this is a SSL connection
      * @return true if this connection is allowed to proceed
      */
     public boolean allowConnection(InetSocketAddress sa, boolean ssl);
 
     public void logInfo(String msg);
+
     public void logWarn(String msg, Throwable e);
+
     public void logError(String msg, Throwable e);
 
 }
-

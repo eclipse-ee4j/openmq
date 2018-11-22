@@ -16,7 +16,7 @@
 
 /*
  * @(#)HttpTunnelConnection.java	1.17 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
@@ -26,13 +26,10 @@ import com.sun.messaging.jmq.util.timer.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelDefaults;
 
 /**
- * This class implements the state engine for a HTTP tunnel
- * connection. It uses the unreliable packet delivery mechanism
- * provided by the appropriate implementation of
- * {@link com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDriver}.
+ * This class implements the state engine for a HTTP tunnel connection. It uses the unreliable packet delivery mechanism
+ * provided by the appropriate implementation of {@link com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelDriver}.
  * <p>
- * It also provides methods to read bytes from and write bytes to
- * the connection stream.
+ * It also provides methods to read bytes from and write bytes to the connection stream.
  */
 public class HttpTunnelConnection implements HttpTunnelDefaults {
     private HttpTunnelDriver wire;
@@ -70,8 +67,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
     private static MQTimer timer = new MQTimer(true);
 
-    private static long CLOSE_WAIT_TIMEOUT =
-        Long.getLong("imq.httptunnel.close_wait", 60000).longValue();
+    private static long CLOSE_WAIT_TIMEOUT = Long.getLong("imq.httptunnel.close_wait", 60000).longValue();
 
     private String remoteip = null;
 
@@ -115,14 +111,14 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
         nFastRetransmit = 0;
 
         TimerTask dummyTask = new TimerTask() {
-            public void run() {}
+            public void run() {
+            }
         };
 
         try {
             timer.schedule(dummyTask, 1000);
             dummyTask.cancel();
-        }
-        catch (IllegalStateException ise) {
+        } catch (IllegalStateException ise) {
             timer = new MQTimer(true);
         }
         // DebugStats ds = new DebugStats(this);
@@ -163,10 +159,10 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
     /**
      * Handles a data packet from the network.
+     * 
      * @param p Incoming packet
-     * @param moreData <code>true</code> if driver has more data
-     * packets that need to be processed. If so, this method defers
-     * sending an acknowledgement, if possible.
+     * @param moreData <code>true</code> if driver has more data packets that need to be processed. If so, this method
+     * defers sending an acknowledgement, if possible.
      */
     private void receiveData(HttpTunnelPacket p, boolean moreData) {
         int seq = p.getSequence();
@@ -190,16 +186,13 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 return;
             }
 
-            if (checkRange(nextRecvSeq, nextRecvSeq + rxWindowMax - 1, seq))
-            {
+            if (checkRange(nextRecvSeq, nextRecvSeq + rxWindowMax - 1, seq)) {
                 // If the close packet was generated due to ungraceful
                 // termination on the other side, do not accept any
                 // packets beyond the close - because there is nobody
                 // at the other end to do retransmissions anymore...
                 if (connCloseReceived && p.getPacketType() == DATA_PACKET) {
-                    if (checkRange(
-                        rxConnCloseSeq, rxConnCloseSeq + rxWindowMax - 1,
-                        seq))
+                    if (checkRange(rxConnCloseSeq, rxConnCloseSeq + rxWindowMax - 1, seq))
                         return;
                 }
 
@@ -222,7 +215,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
                     // If driver says it has more data packets,
                     // don't ack this packet right away...
-                    ackNow = ! moreData;
+                    ackNow = !moreData;
                 }
             }
 
@@ -232,9 +225,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Send an acknowledgement packet.
-     * Besides acknowledging a data packet sequence number, an
-     * acknowledgement packet also conveys receivers window size.
+     * Send an acknowledgement packet. Besides acknowledging a data packet sequence number, an acknowledgement packet also
+     * conveys receivers window size.
      */
     private void sendAck() {
         if (connAbortReceived)
@@ -271,9 +263,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Schedule a packet for retransmission.
-     * This method always uses the current value of <code>RTO</code>
-     * as retransmission timeout.
+     * Schedule a packet for retransmission. This method always uses the current value of <code>RTO</code> as retransmission
+     * timeout.
      */
     private void startRetransmitTimer(int seq) {
         HttpTunnelTimerTask task = new HttpTunnelTimerTask(this, seq);
@@ -284,60 +275,46 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Cancel a scheduled packet retransmission. This method is
-     * called when a packet is acknowledged.
+     * Cancel a scheduled packet retransmission. This method is called when a packet is acknowledged.
      */
     private void stopRetransmitTimer(int seq) {
         HttpTunnelTimerTask task = null;
         synchronized (rexmitTable) {
-            task = (HttpTunnelTimerTask)
-                rexmitTable.remove(Integer.toString(seq));
+            task = (HttpTunnelTimerTask) rexmitTable.remove(Integer.toString(seq));
             if (task != null)
                 task.cancel();
         }
     }
 
     /**
-     * Cancels all the scheduled packet retransmissions. This method is
-     * called during connection close sequence.
+     * Cancels all the scheduled packet retransmissions. This method is called during connection close sequence.
      */
     private void stopRetransmitTimers() {
         synchronized (rexmitTable) {
-            for (Enumeration e = rexmitTable.elements();
-                e.hasMoreElements(); /* */) {
-                ((HttpTunnelTimerTask)e.nextElement()).cancel();
+            for (Enumeration e = rexmitTable.elements(); e.hasMoreElements(); /* */) {
+                ((HttpTunnelTimerTask) e.nextElement()).cancel();
             }
             rexmitTable.clear();
         }
     }
 
-    //Random r = new Random();
-    //int total = 0;
-    //int drop = 0;
+    // Random r = new Random();
+    // int total = 0;
+    // int drop = 0;
 
     static final int ERRORRATE = -1;
     /**
-     * Artificially induces packet transmission errors. This method is
-     * used ONLY FOR TESTING.
+     * Artificially induces packet transmission errors. This method is used ONLY FOR TESTING.
      */
     /*
-    private boolean dropPacket(ExtHttpTunnelPacket p) {
-        total++;
-        if ((int)(r.nextFloat()*100) < ERRORRATE) {
-            drop++;
-            if (drop % 100 == 0)
-                System.out.println(
-                    "Packet drop rate : " + (drop * 100 / total) + " %");
-            return true;
-        }
-        return false;
-    }
-    */
+     * private boolean dropPacket(ExtHttpTunnelPacket p) { total++; if ((int)(r.nextFloat()*100) < ERRORRATE) { drop++; if
+     * (drop % 100 == 0) System.out.println( "Packet drop rate : " + (drop * 100 / total) + " %"); return true; } return
+     * false; }
+     */
 
     /**
-     * Send a packet reliably over this connection.
-     * This method allocates a sequence number for this packet and
-     * lines up the packet for reliable delivery.
+     * Send a packet reliably over this connection. This method allocates a sequence number for this packet and lines up the
+     * packet for reliable delivery.
      */
     private void sendData(ExtHttpTunnelPacket p) throws IOException {
         synchronized (sendQLock) {
@@ -364,8 +341,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
             long waitStart = -1;
 
-            while (txWindowMax == 0 || checkRange(lastAckSeq + 1,
-                lastAckSeq + txWindowMax, seq) == false) {
+            while (txWindowMax == 0 || checkRange(lastAckSeq + 1, lastAckSeq + txWindowMax, seq) == false) {
 
                 if (waitStart == -1)
                     waitStart = System.currentTimeMillis();
@@ -373,8 +349,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 try {
                     // Wait for window update
                     sendQLock.wait(MAX_RETRANSMIT_PERIOD);
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
 
                 if (sendQ == null) {
                     throw new IOException("Broken pipe.");
@@ -382,9 +358,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
                 // If txWindowMax is 0, keep sending the current
                 // packet periodically as a 'window update probe'.
-                if (txWindowMax == 0 &&
-                    (System.currentTimeMillis() - waitStart >=
-                        MAX_RETRANSMIT_PERIOD)) {
+                if (txWindowMax == 0 && (System.currentTimeMillis() - waitStart >= MAX_RETRANSMIT_PERIOD)) {
                     // Set the dirty flag so that we don't updateRTO
                     // based on ACK for the probe packet.
                     p.setDirtyFlag(true);
@@ -406,14 +380,15 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
         startRetransmitTimer(p.getSequence());
 
         // if (! dropPacket(p))
-            wire.sendPacket(p);
+        wire.sendPacket(p);
     }
 
     /**
      * Retransmit a packet.
+     * 
      * @param seq Sequence number to be retransmitted.
-     * @param fromTimer <code>true</code> if the retransmission is
-     * due to timer expiry (as against the 'fast retransmission' mechanism.)
+     * @param fromTimer <code>true</code> if the retransmission is due to timer expiry (as against the 'fast retransmission'
+     * mechanism.)
      */
     public void retransmitPacket(int seq, boolean fromTimer) {
         ExtHttpTunnelPacket p = null;
@@ -461,13 +436,14 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Handles an acknowledgement packet from the network.
-     * If the acknowledged sequence number is valid - <p>
-     * 1. Removes the buffered packets and stops retransmission timers. <p>
-     * 2. Calculates the roundtrip delay and updates retransmission
-     * timeout. <p>
-     * 3. Sets the txWindowMax to receiver's advertized window size.
-     * (flow control). <p>
+     * Handles an acknowledgement packet from the network. If the acknowledged sequence number is valid -
+     * <p>
+     * 1. Removes the buffered packets and stops retransmission timers.
+     * <p>
+     * 2. Calculates the roundtrip delay and updates retransmission timeout.
+     * <p>
+     * 3. Sets the txWindowMax to receiver's advertized window size. (flow control).
+     * <p>
      * 4. Retransmits data packet using the 'fast retransmit' mechanism
      */
     private void receiveAck(HttpTunnelPacket p) {
@@ -484,14 +460,12 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
             }
 
             if (sendQ.size() > 0) {
-                int first = ((HttpTunnelPacket)
-                    sendQ.elementAt(0)).getSequence();
+                int first = ((HttpTunnelPacket) sendQ.elementAt(0)).getSequence();
                 int last = first + sendQ.size() - 1;
-                
+
                 if (checkRange(first, last, seq) == true) {
                     while (true) {
-                        ExtHttpTunnelPacket tmp =
-                            (ExtHttpTunnelPacket) sendQ.elementAt(0);
+                        ExtHttpTunnelPacket tmp = (ExtHttpTunnelPacket) sendQ.elementAt(0);
                         sendQ.removeElementAt(0);
                         stopRetransmitTimer(tmp.getSequence());
                         if (tmp.getSequence() == seq) {
@@ -517,11 +491,9 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Update the round trip delay using the latest round
-     * trip time measurement. This method uses the simple approach
-     * described in original TCP RFC 793. Current TCP implementations
-     * use much more efficient approach for RTO calculation, but
-     * for now this should be adequate.
+     * Update the round trip delay using the latest round trip time measurement. This method uses the simple approach
+     * described in original TCP RFC 793. Current TCP implementations use much more efficient approach for RTO calculation,
+     * but for now this should be adequate.
      */
     private void updateRTO(ExtHttpTunnelPacket p) {
         measuredRTO >>= 1;
@@ -543,8 +515,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     }
 
     /**
-     * Throws away the packets from the receive queue that have
-     * been consumed.
+     * Throws away the packets from the receive queue that have been consumed.
      */
     private void discardPackets(int n) {
         System.arraycopy(recvQ, n, recvQ, 0, recvQ.length - n);
@@ -556,8 +527,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
     /**
      * Consume the data received on this connection.
      */
-    public int readData(byte[] buffer, int off, int maxlen)
-        throws IOException {
+    public int readData(byte[] buffer, int off, int maxlen) throws IOException {
         int copied = 0;
         boolean endOfStream = false;
         boolean windowMoved = false;
@@ -572,9 +542,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 }
                 if (recvQ[0] != null) {
                     int packetType = recvQ[0].getPacketType();
-                    if (packetType == DATA_PACKET ||
-                        packetType == CONN_CLOSE_PACKET)
-                    break;
+                    if (packetType == DATA_PACKET || packetType == CONN_CLOSE_PACKET)
+                        break;
 
                     discardPackets(1); // e.g. CONN_OPTION_PACKET
                     windowMoved = true;
@@ -583,8 +552,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
 
                 try {
                     recvQLock.wait();
+                } catch (Exception e) {
                 }
-                catch (Exception e) {}
             }
 
             int n = 0;
@@ -608,8 +577,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                     len = maxlen - copied;
 
                 if (buffer != null) {
-                    System.arraycopy(p.getPacketBody(), readOffset,
-                        buffer, off, len);
+                    System.arraycopy(p.getPacketBody(), readOffset, buffer, off, len);
                 }
 
                 readOffset += len;
@@ -725,14 +693,13 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 try {
                     // Wait for window update
                     sendQLock.wait(CLOSE_WAIT_TIMEOUT);
+                } catch (InterruptedException e) {
                 }
-                catch (InterruptedException e) {}
 
                 if (sendQ != null)
                     sendQLock.notifyAll(); // This notification was not for me.
 
-                if ((System.currentTimeMillis() - waitStart) >
-                    CLOSE_WAIT_TIMEOUT) {
+                if ((System.currentTimeMillis() - waitStart) > CLOSE_WAIT_TIMEOUT) {
                     break; // Can't wait forever...
                 }
             }
@@ -767,8 +734,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
             dos.writeInt(pullPeriod);
             dos.flush();
             bos.flush();
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
 
         byte[] buf = bos.toByteArray();
         p.setPacketBody(buf);
@@ -780,8 +747,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
         return connectionTimeout;
     }
 
-    public void setConnectionTimeout(int connectionTimeout)
-        throws IOException {
+    public void setConnectionTimeout(int connectionTimeout) throws IOException {
         if (this.connectionTimeout == connectionTimeout)
             return;
 
@@ -801,8 +767,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
             dos.writeInt(connectionTimeout);
             dos.flush();
             bos.flush();
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
 
         byte[] buf = bos.toByteArray();
         p.setPacketBody(buf);
@@ -817,7 +783,7 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
         byte[] buf = p.getPacketBody();
         ByteArrayInputStream bis = new ByteArrayInputStream(buf);
         DataInputStream dis = new DataInputStream(bis);
-        
+
         try {
             int optname = dis.readInt();
             switch (optname) {
@@ -828,8 +794,8 @@ public class HttpTunnelConnection implements HttpTunnelDefaults {
                 connectionTimeout = dis.readInt();
                 break;
             }
+        } catch (Exception e) {
         }
-        catch (Exception e) {}
         receiveData(p, false); // Treat it like a normal data packet.
     }
 
@@ -1013,8 +979,7 @@ class DebugStats extends Thread {
 
             try {
                 Thread.sleep(10000);
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

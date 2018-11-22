@@ -19,57 +19,52 @@ package com.sun.messaging.jms.ra;
 import java.util.Properties;
 
 /**
- *  DirectConnectionMetaData encapsulates JMS ConnectionMetaData for MQ DIRECT
- *  mode operation.
+ * DirectConnectionMetaData encapsulates JMS ConnectionMetaData for MQ DIRECT mode operation.
  */
 public class DirectConnectionMetaData extends com.sun.messaging.jms.ra.ConnectionMetaData {
 
     /**
-     *  Holds the configuration properties of the JMSConnection
+     * Holds the configuration properties of the JMSConnection
      */
-    //private Properties connectionProps;
-    
+    // private Properties connectionProps;
+
     /** Creates a new instance of DirectConnectionMetaData */
     public DirectConnectionMetaData(Properties connectionProps) {
         super(connectionProps);
-        //this.connectionProps = connectionProps;
+        // this.connectionProps = connectionProps;
     }
 
-    public boolean hasJMSXAppID(){
-        if (this.connectionProps != null){
-            return Boolean.parseBoolean(
-                (String)(connectionProps.get("imqSetJMSXAppID")));
+    public boolean hasJMSXAppID() {
+        if (this.connectionProps != null) {
+            return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXAppID")));
         }
         return false;
     }
 
-    public boolean hasJMSXUserID(){
-        if (this.connectionProps != null){
-            return Boolean.parseBoolean((String)(connectionProps.get("imqSetJMSXUserID")));
+    public boolean hasJMSXUserID() {
+        if (this.connectionProps != null) {
+            return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXUserID")));
         }
         return false;
     }
 
-    public boolean hasJMSXProducerTXID(){
-        if (this.connectionProps != null){
-            return Boolean.parseBoolean(
-                (String)(connectionProps.get("imqSetJMSXProducerTXID")));
+    public boolean hasJMSXProducerTXID() {
+        if (this.connectionProps != null) {
+            return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXProducerTXID")));
         }
         return false;
     }
 
-    public boolean hasJMSXConsumerTXID(){
-        if (this.connectionProps != null){
-            return Boolean.parseBoolean(
-                (String)(connectionProps.get("imqSetJMSXConsumerTXID")));
+    public boolean hasJMSXConsumerTXID() {
+        if (this.connectionProps != null) {
+            return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXConsumerTXID")));
         }
         return false;
     }
 
-    public boolean hasJMSXRcvTimestamp(){
-        if (this.connectionProps != null){
-            return Boolean.parseBoolean(
-                (String)(connectionProps.get("imqSetJMSXRcvTimestamp")));
+    public boolean hasJMSXRcvTimestamp() {
+        if (this.connectionProps != null) {
+            return Boolean.parseBoolean((String) (connectionProps.get("imqSetJMSXRcvTimestamp")));
         }
         return false;
     }

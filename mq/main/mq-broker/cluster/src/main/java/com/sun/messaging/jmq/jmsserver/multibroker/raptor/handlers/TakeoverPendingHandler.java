@@ -16,7 +16,7 @@
 
 /*
  * @(#)TakeoverPendingHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,21 +39,19 @@ public class TakeoverPendingHandler extends GPacketHandler {
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING) {
             if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
-            logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "Received Unexpected TAKEOVER_PENDING from "+sender);
-            return;
+                logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Received Unexpected TAKEOVER_PENDING from " + sender);
+                return;
             }
 
             handleTakeoverPending(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING_REPLY) { 
+        } else if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_PENDING_REPLY) {
             handleTakeoverPendingReply(sender, pkt);
         }
     }
 
     public void handleTakeoverPending(BrokerAddress sender, GPacket pkt) {
         ClusterTakeoverInfo cti = ClusterTakeoverInfo.newInstance(pkt);
-         
+
         p.receivedTakeoverPending(sender, cti);
     }
 

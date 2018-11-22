@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.service.stomp.resources;
 
@@ -24,10 +24,8 @@ import java.util.Locale;
 import com.sun.messaging.jmq.util.MQResourceBundle;
 
 /**
- * This class wraps a PropertyResourceBundle, and provides constants
- * to use as message keys. The reason we use constants for the message
- * keys is to provide some compile time checking when the key is used
- * in the source.
+ * This class wraps a PropertyResourceBundle, and provides constants to use as message keys. The reason we use constants
+ * for the message keys is to provide some compile time checking when the key is used in the source.
  */
 
 public class StompBridgeResources extends MQResourceBundle {
@@ -44,36 +42,30 @@ public class StompBridgeResources extends MQResourceBundle {
             locale = Locale.getDefault();
         }
 
-	    if (resources == null || !locale.equals(resources.getLocale())) { 
-	        ResourceBundle b = ResourceBundle.getBundle(
-            "com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources", locale);
+        if (resources == null || !locale.equals(resources.getLocale())) {
+            ResourceBundle b = ResourceBundle.getBundle("com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources", locale);
             resources = new StompBridgeResources(b);
-	    }
-	    return resources;
+        }
+        return resources;
     }
 
     private StompBridgeResources(ResourceBundle rb) {
         super(rb);
     }
 
-
-    /***************** Start of message key constants *******************
-     * We use numeric values as the keys because the MQ has a requirement
-     * that each error message have an associated error code (for 
-     * documentation purposes). We use numeric Strings instead of primitive
-     * integers because that is what ListResourceBundles support. We could
-     * write our own ResourceBundle to support integer keys, but since
-     * we'd just be converting them back to strings (to display them)
-     * it's unclear if that would be a big win. Also the performance of
-     * ListResourceBundles under Java 2 is pretty good.
+    /*****************
+     * Start of message key constants ******************* We use numeric values as the keys because the MQ has a requirement
+     * that each error message have an associated error code (for documentation purposes). We use numeric Strings instead of
+     * primitive integers because that is what ListResourceBundles support. We could write our own ResourceBundle to support
+     * integer keys, but since we'd just be converting them back to strings (to display them) it's unclear if that would be
+     * a big win. Also the performance of ListResourceBundles under Java 2 is pretty good.
      * 
      *
-     * Note To Translators: Do not copy these message key String constants
-     * into the locale specific resource bundles. They are only required
-     * in this default resource bundle.
+     * Note To Translators: Do not copy these message key String constants into the locale specific resource bundles. They
+     * are only required in this default resource bundle.
      */
 
-    // 0-999     Miscellaneous messages
+    // 0-999 Miscellaneous messages
 
     // 1000-1999 Informational Messages
     final public static String I_CREATE_JMS_CONN = "BSS1000";

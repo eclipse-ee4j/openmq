@@ -16,7 +16,7 @@
 
 /*
  * @(#)Orange.java	1.11 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.memory.levels;
 
@@ -26,23 +26,18 @@ import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.*;
 
-
-public class Orange extends Yellow
-{
-    protected int GC_DEFAULT=5;
-    protected int GC_ITR_DEFAULT=100;
-    protected int GCCount =0;
-    protected int GCItrCount =0;
+public class Orange extends Yellow {
+    protected int GC_DEFAULT = 5;
+    protected int GC_ITR_DEFAULT = 100;
+    protected int GCCount = 0;
+    protected int GCItrCount = 0;
 
     public Orange(String name) {
         super(name);
         MEMORY_NAME_KEY = BrokerResources.M_MEMORY_ORANGE;
-        messageCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".count", 1);
-        GCCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".gccount", GC_DEFAULT);
-        GCItrCount = Globals.getConfig().getIntProperty(
-                         Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
+        messageCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".count", 1);
+        GCCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gccount", GC_DEFAULT);
+        GCItrCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
     }
 
     public int getMessageCount(long freeMem, int producers) {
@@ -50,8 +45,9 @@ public class Orange extends Yellow
     }
 
     public long getMemory(long freeMemory, int producers) {
-        if (producers >=0) producers = 1; // dont divide by 0
-        return (freeMemory - MAX_MEMORY_DELTA) / producers/2;
+        if (producers >= 0)
+            producers = 1; // dont divide by 0
+        return (freeMemory - MAX_MEMORY_DELTA) / producers / 2;
     }
 
     public int gcCount() {
@@ -70,15 +66,16 @@ public class Orange extends Yellow
     public boolean enter(boolean fromHigher) {
         super.enter(fromHigher);
 
-        if (fromHigher) return false;
+        if (fromHigher)
+            return false;
 
-        //MemoryGlobals.setMEM_FREE_P_NOCON(true);
+        // MemoryGlobals.setMEM_FREE_P_NOCON(true);
         MemoryGlobals.setMEM_EXPLICITLY_CHECK(true);
 
         return true; // change cnt/etc
     }
 
-    public boolean leave(boolean toHigher)  {
+    public boolean leave(boolean toHigher) {
         super.leave(toHigher);
         if (toHigher) {
             // moving to a new level, dont do anything
@@ -87,13 +84,12 @@ public class Orange extends Yellow
         // otherwise, reset to previous state
         // memory state varialbles
 
-        //MemoryGlobals.setMEM_FREE_P_NOCON(false);
+        // MemoryGlobals.setMEM_FREE_P_NOCON(false);
         MemoryGlobals.setMEM_EXPLICITLY_CHECK(false);
 
         return false; // dont bother to tell the client that the
                       // counts have changed -> it will fix itsself
     }
-
 
 }
 

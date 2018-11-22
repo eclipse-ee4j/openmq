@@ -16,8 +16,8 @@
 
 /*
  * @(#)FileLicense.java	1.5 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.license;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -37,19 +37,18 @@ public class FileLicense extends LicenseBase {
     protected FileLicense() {
     }
 
-    public FileLicense(File myLicenseFile, boolean autoChecking)
-    	throws BrokerException {
-    	this.myLicenseFile = myLicenseFile;
-	setAutoChecking(autoChecking);
-	readLicense();
+    public FileLicense(File myLicenseFile, boolean autoChecking) throws BrokerException {
+        this.myLicenseFile = myLicenseFile;
+        setAutoChecking(autoChecking);
+        readLicense();
     }
 
     public FileLicense(File myLicenseFile) throws BrokerException {
-	this(myLicenseFile, true);
+        this(myLicenseFile, true);
     }
 
     public File getLicenseFile() {
-	return myLicenseFile;
+        return myLicenseFile;
     }
 
     //
@@ -57,21 +56,21 @@ public class FileLicense extends LicenseBase {
     //
     // License file format.
     //
-    //   - Magic number (long)
-    //   - 16 bytes MD5 checksum
-    //   - Length of the scrambled license data
-    //   - Scrampled license data.
+    // - Magic number (long)
+    // - 16 bytes MD5 checksum
+    // - Length of the scrambled license data
+    // - Scrampled license data.
     //
     // The license data (un-encrypted) uses the property file format.
     //
 
     /**
      * Write the encrypted license to the specified file.
+     * 
      * @param file the file to write the license
      * @exception IOException if it fails to write the license
      */
-    protected void writeLicense(File file)
-        throws IOException, BrokerException {
+    protected void writeLicense(File file) throws IOException, BrokerException {
         FileOutputStream fos = null;
 
         try {
@@ -80,8 +79,7 @@ public class FileLicense extends LicenseBase {
             fos = new FileOutputStream(file);
         } catch (IOException e) {
             if (file.exists() && !file.canWrite()) {
-                throw new BrokerException(
-                    br.getString(br.E_LICENSE_FILE_NOT_WRITABLE, file));
+                throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_WRITABLE, file));
             } else {
                 throw e;
             }
@@ -104,7 +102,7 @@ public class FileLicense extends LicenseBase {
         // length of data in file
         dos.writeInt(data.length * 3);
 
-        int cut = data.length/2;
+        int cut = data.length / 2;
         dos.write(data, 0, cut); // write first half
         dos.write(data, 0, data.length); // write all
         dos.write(data, 0, data.length); // write all again
@@ -123,17 +121,14 @@ public class FileLicense extends LicenseBase {
         return scramble(buf);
     }
 
-
     /**
-     * Rewrite the license to the file it is loaded from
-     * if the dateString contains the "TRY[n]" pattern.
-     * Calculate the expiration date and rewrite the license file.
+     * Rewrite the license to the file it is loaded from if the dateString contains the "TRY[n]" pattern. Calculate the
+     * expiration date and rewrite the license file.
+     * 
      * @exception IOException if it fails to write the license
-     * @exception IllegalStateException if the License object was not
-     *      instantiated by loading data from a file
+     * @exception IllegalStateException if the License object was not instantiated by loading data from a file
      */
-    public void rewriteLicense()
-        throws IOException, BrokerException {
+    public void rewriteLicense() throws IOException, BrokerException {
         String dateString = props.getProperty(PROP_DATE_STRING);
         if (dateString == null)
             return;
@@ -159,15 +154,12 @@ public class FileLicense extends LicenseBase {
         if (!willExpire()) {
             string = NONE_STRING;
         } else if (getStartDate() != null || getExpirationDate() != null) {
-            String start = ((getStartDate() != null) ?
-                String.valueOf(getStartDate().getTime()) : "");
-            String end = ((getExpirationDate() != null) ?
-                String.valueOf(getExpirationDate().getTime()) : "");
+            String start = ((getStartDate() != null) ? String.valueOf(getStartDate().getTime()) : "");
+            String end = ((getExpirationDate() != null) ? String.valueOf(getExpirationDate().getTime()) : "");
 
-            string = formatString(VALID_STRING, start+DASH+end);
+            string = formatString(VALID_STRING, start + DASH + end);
         } else {
-            string = formatString(TRY_STRING,
-                String.valueOf(getDaysToTry()));
+            string = formatString(TRY_STRING, String.valueOf(getDaysToTry()));
         }
         return string;
     }
@@ -192,8 +184,7 @@ public class FileLicense extends LicenseBase {
             // Check the magic number.
             long magic = dis.readLong();
             if (magic != LICENSE_MAGIC_NUMBER)
-                throw new BrokerException(
-                    br.getString(br.E_BAD_LICENSE_DATA));
+                throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
 
             // Checksum
             byte[] checksum = new byte[CHECKSUM_LEN];
@@ -201,9 +192,9 @@ public class FileLicense extends LicenseBase {
 
             // read data
             int fakesize = dis.readInt();
-            int size = fakesize/BLOW_FACTOR;
+            int size = fakesize / BLOW_FACTOR;
 
-            int cut = size/CUT_FACTOR;
+            int cut = size / CUT_FACTOR;
 
             byte[] data = new byte[size];
 
@@ -223,8 +214,7 @@ public class FileLicense extends LicenseBase {
             byte[] computed = digest.digest(data);
 
             if (!goodChecksum(checksum, computed)) {
-                throw new BrokerException(
-                    br.getString(br.E_BAD_LICENSE_DATA));
+                throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
             }
 
             // unscramble and parse data
@@ -253,11 +243,9 @@ public class FileLicense extends LicenseBase {
     }
 
     /**
-     * Parse the byte stream for license data.
-     * Throws exception if the format is not what we expected.
-     * If check is true, will also throw exception if the license
-     * has expired or if the license version does not equal to the
-     * defined ValidLicenseVersion.
+     * Parse the byte stream for license data. Throws exception if the format is not what we expected. If check is true,
+     * will also throw exception if the license has expired or if the license version does not equal to the defined
+     * ValidLicenseVersion.
      */
     private void parseData(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
@@ -265,7 +253,7 @@ public class FileLicense extends LicenseBase {
         Properties tmp = new Properties();
         tmp.load(bais);
 
-	superimpose(tmp);
+        superimpose(tmp);
     }
 
     // used to compute a checksum of data to be written to file
@@ -296,22 +284,24 @@ public class FileLicense extends LicenseBase {
         }
 
         for (i = 0; i < ROTORSZ; i++) {
-            random = (5*seed) % 65521;
-            k = ROTORSZ-1 - i;
+            random = (5 * seed) % 65521;
+            k = ROTORSZ - 1 - i;
             ic = (random & MASK) % (k + 1);
             random >>= 8;
             temp = t1[k];
             t1[k] = t1[ic];
             t1[ic] = temp;
-            if(t3[k]!=0) continue;
-            ic = (random&MASK) % k;
-            while(t3[ic]!=0) ic = (ic+1) % k;
+            if (t3[k] != 0)
+                continue;
+            ic = (random & MASK) % k;
+            while (t3[ic] != 0)
+                ic = (ic + 1) % k;
             t3[k] = ic;
             t3[ic] = k;
         }
 
         for (i = 0; i < ROTORSZ; i++) {
-            t2[t1[i]&MASK] = i;
+            t2[t1[i] & MASK] = i;
         }
     }
 
@@ -321,8 +311,7 @@ public class FileLicense extends LicenseBase {
 
         byte[] newdata = new byte[data.length];
         for (int i = 0; i < data.length; i++) {
-            newdata[i] =
-                (byte)(t2[(t3[(t1[(data[i]+n1)&MASK]+n2)&MASK]-n2)&MASK]-n1);
+            newdata[i] = (byte) (t2[(t3[(t1[(data[i] + n1) & MASK] + n2) & MASK] - n2) & MASK] - n1);
             n1++;
             if (n1 == ROTORSZ) {
                 n1 = 0;

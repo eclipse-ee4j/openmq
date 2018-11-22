@@ -16,10 +16,9 @@
 
 /*
  * @(#)DestScope.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
-
 
 /**
  * Scope of a destination.
@@ -27,8 +26,7 @@ package com.sun.messaging.jmq.util;
  * <B>XXX</B> How should serialization be handled.
  */
 
-public class DestScope 
-{
+public class DestScope {
     public static final int UNKNOWN = -1;
     public static final int LOCAL = 0;
     public static final int CLUSTER = 1;
@@ -38,28 +36,25 @@ public class DestScope
     public static final int DISTRIBUTED = 2;
 
     public static int getStateFromString(String str) {
-        if (str.equals("LOCAL")) 
+        if (str.equals("LOCAL"))
             return LOCAL;
-        if (str.equals("CLUSTER")) 
+        if (str.equals("CLUSTER"))
             return CLUSTER;
-        if (str.equals("DISTRIBUTED") )
+        if (str.equals("DISTRIBUTED"))
             return DISTRIBUTED;
         return UNKNOWN;
     }
 
-
-    public static String getString(int state)
-    {
+    public static String getString(int state) {
         switch (state) {
-            case LOCAL:
-                return "LOCAL";
+        case LOCAL:
+            return "LOCAL";
 
-            case CLUSTER:
-                return "CLUSTER";
+        case CLUSTER:
+            return "CLUSTER";
 
-            case DISTRIBUTED:
-                return "DISTRIBUTED";
-
+        case DISTRIBUTED:
+            return "DISTRIBUTED";
 
         }
         return "UNKNOWN";

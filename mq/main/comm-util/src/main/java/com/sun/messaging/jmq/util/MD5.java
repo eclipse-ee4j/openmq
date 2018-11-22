@@ -16,7 +16,7 @@
 
 /*
  * @(#)MD5.java	1.8 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -25,25 +25,24 @@ import java.math.BigInteger;
 
 public class MD5 {
 
-  public static String getHashString(String plaintext) {
-      try {
-      return convertToString(getHash(plaintext.getBytes("UTF8"))); 
-      } catch (java.io.UnsupportedEncodingException  e) {
-	  throw new RuntimeException(e.toString());
-      }
-  }
-
-  public static byte[] getHash(byte[] plainText)  {
-    try {      
-      MessageDigest md = MessageDigest.getInstance("MD5");
-      return md.digest(plainText);
+    public static String getHashString(String plaintext) {
+        try {
+            return convertToString(getHash(plaintext.getBytes("UTF8")));
+        } catch (java.io.UnsupportedEncodingException e) {
+            throw new RuntimeException(e.toString());
+        }
     }
-    catch(Exception e) {      
-      throw new RuntimeException(e.toString());
-    }
-  }
 
-  public static String convertToString(byte[] digest_ba) {
-    return new BigInteger(digest_ba).toString(16);
-  }
+    public static byte[] getHash(byte[] plainText) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            return md.digest(plainText);
+        } catch (Exception e) {
+            throw new RuntimeException(e.toString());
+        }
+    }
+
+    public static String convertToString(byte[] digest_ba) {
+        return new BigInteger(digest_ba).toString(16);
+    }
 }

@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 

@@ -15,25 +15,23 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
-
 
 /**
  */
 public class InvalidSysMessageIDException extends RuntimeException {
 
-
-    public InvalidSysMessageIDException () {
+    public InvalidSysMessageIDException() {
         super();
     }
 
-    public InvalidSysMessageIDException (String s) {
+    public InvalidSysMessageIDException(String s) {
         super(s);
     }
 
-    public InvalidSysMessageIDException (String s, Throwable e) {
+    public InvalidSysMessageIDException(String s, Throwable e) {
         super(s, e);
     }
 }

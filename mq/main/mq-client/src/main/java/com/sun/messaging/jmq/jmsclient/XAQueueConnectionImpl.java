@@ -16,7 +16,7 @@
 
 /*
  * @(#)XAQueueConnectionImpl.java	1.9 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -25,70 +25,60 @@ import java.util.Properties;
 
 import com.sun.jms.spi.xa.*;
 
-/** An XAQueueConnection is an active connection to a JMS Pub/Sub provider.
-  * A client uses an XAQueueConnection to create one or more XAQueueSessions
-  * for producing and consuming messages.
-  *
-  * @see javax.jms.XAConnection
-  * @see javax.jms.XAQueueConnectionFactory
-  */
+/**
+ * An XAQueueConnection is an active connection to a JMS Pub/Sub provider. A client uses an XAQueueConnection to create
+ * one or more XAQueueSessions for producing and consuming messages.
+ *
+ * @see javax.jms.XAConnection
+ * @see javax.jms.XAQueueConnectionFactory
+ */
 
 public class XAQueueConnectionImpl extends QueueConnectionImpl implements XAQueueConnection, JMSXAQueueConnection {
 
-    public
-    XAQueueConnectionImpl(Properties configuration, String username,
-                        String password, String type) throws JMSException {
+    public XAQueueConnectionImpl(Properties configuration, String username, String password, String type) throws JMSException {
         super(configuration, username, password, type);
     }
 
     /**
      * Create an XAQueueSession.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public XAQueueSession
-    createXAQueueSession() throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public XAQueueSession createXAQueueSession() throws JMSException {
 
         checkConnectionState();
- 
-        //disallow to set client ID after this action.
+
+        // disallow to set client ID after this action.
         setClientIDFlag();
- 
-        return new XAQueueSessionImpl (this, false, 0);
+
+        return new XAQueueSessionImpl(this, false, 0);
     }
 
     /**
      * Create an XAQueueSession
-     *  
-     * @param transacted      ignored.
+     * 
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     * 
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public QueueSession
-    createQueueSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new XAQueueSessionImpl(this, transacted, acknowledgeMode);
     }
 
     /**
      * Create an XAQueueSession
-     *  
-     * @param transacted      ignored.
+     * 
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     * 
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public JMSXAQueueSession
-    createXAQueueSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new JMSXAQueueSessionImpl(this, transacted, acknowledgeMode);
     }
 
@@ -101,4 +91,3 @@ public class XAQueueConnectionImpl extends QueueConnectionImpl implements XAQueu
         return (QueueConnection) (this);
     }
 }
-

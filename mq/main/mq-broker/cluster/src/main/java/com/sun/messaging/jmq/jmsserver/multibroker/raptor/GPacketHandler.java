@@ -16,7 +16,7 @@
 
 /*
  * @(#)GPacketHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -51,8 +51,7 @@ public abstract class GPacketHandler {
     }
 
     public void handle(BrokerAddress sender, GPacket pkt) {
-	logger.log(logger.ERROR, "Unexpected "+
-             ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+ " packet received");
+        logger.log(logger.ERROR, "Unexpected " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " packet received");
     }
 
 }

@@ -15,17 +15,15 @@
  */
 
 /*
- */ 
- 
-package com.sun.messaging.bridge.api;
+ */
 
+package com.sun.messaging.bridge.api;
 
 /**
  * A exception represents duplicate key condition
  */
 
-public class DupKeyException extends Exception
-{
+public class DupKeyException extends Exception {
     /**
      * create an exception with a message but no root cause
      *

@@ -28,262 +28,243 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public class TxnConversionUtil {
 
-	static String convertingToTxnLogMode = "convertingToTxnLogMode";
-	static String convertingFromTxnLogMode = "convertingFromTxnLogMode";
-	static boolean txnConversionRequired;
-	static boolean convertingToTxnLog;
-	
-	public static final Logger logger = Globals.getLogger();
-	
-	public static String getPrefix()
-	{
-		return "TxnConversionUtil.";
-	}
+    static String convertingToTxnLogMode = "convertingToTxnLogMode";
+    static String convertingFromTxnLogMode = "convertingFromTxnLogMode";
+    static boolean txnConversionRequired;
+    static boolean convertingToTxnLog;
 
-	public static void resetAllTransactionState(File rootDir)
-			throws BrokerException {
-		logger.log(Logger.INFO, getPrefix()+"resetAllTransactionState");
-		deleteConversionFile(rootDir, convertingToTxnLogMode);
-		deleteConversionFile(rootDir, convertingFromTxnLogMode);
-		TransactionLogManager.deleteAllFileState(rootDir);
-		TidList.deleteAllFiles(rootDir);
-		TxnAckList.deleteAllFiles(rootDir);
-	}
+    public static final Logger logger = Globals.getLogger();
 
-	public static void checkForIncompleteTxnConversion(File rootDir, boolean isNewTxnLogEnabled)
-			throws BrokerException {
-		// first check if we were converting to txn log format
-		logger.log(Logger.DEBUG, getPrefix()+"checkForIncompleteTxnConversion");
-		File convertingToTxnFormatFile = new File(convertingToTxnLogMode);
-		File convertingFromTxnFormatFile = new File(convertingFromTxnLogMode);
+    public static String getPrefix() {
+        return "TxnConversionUtil.";
+    }
 
-		if (convertingToTxnFormatFile.exists()) {
-			// sanity check
-			if (convertingFromTxnFormatFile.exists())
-				throw new BrokerException("Inconsistent state. Both "
-						+ convertingToTxnFormatFile + " and "
-						+ convertingFromTxnFormatFile + " exist.");
-			resolveIncompleteConversionToTxnLog(rootDir,
-					convertingToTxnFormatFile);
-		}
+    public static void resetAllTransactionState(File rootDir) throws BrokerException {
+        logger.log(Logger.INFO, getPrefix() + "resetAllTransactionState");
+        deleteConversionFile(rootDir, convertingToTxnLogMode);
+        deleteConversionFile(rootDir, convertingFromTxnLogMode);
+        TransactionLogManager.deleteAllFileState(rootDir);
+        TidList.deleteAllFiles(rootDir);
+        TxnAckList.deleteAllFiles(rootDir);
+    }
 
-		if (convertingFromTxnFormatFile.exists()) {
-			resolveIncompleteConversionFromTxnLog(rootDir,
-					convertingFromTxnFormatFile);
-		}
+    public static void checkForIncompleteTxnConversion(File rootDir, boolean isNewTxnLogEnabled) throws BrokerException {
+        // first check if we were converting to txn log format
+        logger.log(Logger.DEBUG, getPrefix() + "checkForIncompleteTxnConversion");
+        File convertingToTxnFormatFile = new File(convertingToTxnLogMode);
+        File convertingFromTxnFormatFile = new File(convertingFromTxnLogMode);
 
-		// we were not in the middle of converting
+        if (convertingToTxnFormatFile.exists()) {
+            // sanity check
+            if (convertingFromTxnFormatFile.exists())
+                throw new BrokerException("Inconsistent state. Both " + convertingToTxnFormatFile + " and " + convertingFromTxnFormatFile + " exist.");
+            resolveIncompleteConversionToTxnLog(rootDir, convertingToTxnFormatFile);
+        }
 
-		// now let us check the status of the txn files
+        if (convertingFromTxnFormatFile.exists()) {
+            resolveIncompleteConversionFromTxnLog(rootDir, convertingFromTxnFormatFile);
+        }
 
-		// Do we have state in one mode only? (if not throw exception)
-		boolean nonTxnLogStateExists = false;
-		boolean txnLogStateExists = false;
+        // we were not in the middle of converting
 
-		if (TransactionLogManager.transactionLogExists(rootDir)) {
-			txnLogStateExists = true;
-		}
+        // now let us check the status of the txn files
 
-		if (TidList.txFileExists(rootDir)) {
-			nonTxnLogStateExists = true;
-		}
-		if (txnLogStateExists && nonTxnLogStateExists) {
-			throw new BrokerException(
-					"ack file and txnlog file both exist: transaction state exists in both txn-log and non-txn-log formats");
-		}
+        // Do we have state in one mode only? (if not throw exception)
+        boolean nonTxnLogStateExists = false;
+        boolean txnLogStateExists = false;
 
-		// Do we need to convert ( if so then set conversion required)
-		if (isNewTxnLogEnabled) {
-			if (nonTxnLogStateExists){
-				String msg = "TxnLog is enabled but non txn log files exist. TxnConversion required";
-				logger.log(Logger.INFO, msg);
-				
-				setTxnConversionRequired(true);
-			}
-		} else {
-			if (txnLogStateExists){
-				String msg = "TxnLog is not enabled but txn log files exist. TxnConversion required";
-				logger.log(Logger.INFO, msg);
-				
-				setTxnConversionRequired(true);
-			}
-		}
+        if (TransactionLogManager.transactionLogExists(rootDir)) {
+            txnLogStateExists = true;
+        }
 
-	}
+        if (TidList.txFileExists(rootDir)) {
+            nonTxnLogStateExists = true;
+        }
+        if (txnLogStateExists && nonTxnLogStateExists) {
+            throw new BrokerException("ack file and txnlog file both exist: transaction state exists in both txn-log and non-txn-log formats");
+        }
 
-	public static boolean isTxnConversionRequired() {
-		return TxnConversionUtil.txnConversionRequired;
-	}
+        // Do we need to convert ( if so then set conversion required)
+        if (isNewTxnLogEnabled) {
+            if (nonTxnLogStateExists) {
+                String msg = "TxnLog is enabled but non txn log files exist. TxnConversion required";
+                logger.log(Logger.INFO, msg);
 
-	public static void setTxnConversionRequired(boolean txnConversionRequired) {
-		TxnConversionUtil.txnConversionRequired = txnConversionRequired;
-	}
+                setTxnConversionRequired(true);
+            }
+        } else {
+            if (txnLogStateExists) {
+                String msg = "TxnLog is not enabled but txn log files exist. TxnConversion required";
+                logger.log(Logger.INFO, msg);
 
-	static void resolveIncompleteConversionToTxnLog(File rootDir,
-			File convertingToTxnFormatFile) throws BrokerException {
+                setTxnConversionRequired(true);
+            }
+        }
 
-		String msg = "Found incomplete conversion of transactions to txnLog format on startup. Will redo or complete conversion";
-		logger.log(Logger.WARNING, msg);
+    }
 
-		// stages of conversion are:
-		// 1) create convertingToTxnFormatFile
-		// 2) create txnlog file
-		// 3) copy data to txn log file
-		// 4) delete txn and txnack files
-		// 5) delete convertingToTxnFormatFile
+    public static boolean isTxnConversionRequired() {
+        return TxnConversionUtil.txnConversionRequired;
+    }
 
-		// lets work backwards and see how far we got in conversion
+    public static void setTxnConversionRequired(boolean txnConversionRequired) {
+        TxnConversionUtil.txnConversionRequired = txnConversionRequired;
+    }
 
-		// if both txn and txnack files are present,
-		// simply redo conversion
-		if (TidList.txFileExists(rootDir) && TidList.txAckFileExists(rootDir)) {
-			// delete any state in txnLog format as this will be
-			// re-converted
-			TransactionLogManager.deleteAllFileState(rootDir);
-			deleteConversionFile(rootDir, convertingToTxnLogMode);
-			return;
-		}
+    static void resolveIncompleteConversionToTxnLog(File rootDir, File convertingToTxnFormatFile) throws BrokerException {
 
-		// if either txn or txnack files are deleted then we should be
-		// at stage 4, i.e we have completed conversion. Simply tidy up.
-		if (!TidList.txFileExists(rootDir) || !TidList.txAckFileExists(rootDir)) {
-			// sanity check
-			TransactionLogManager.assertAllFilesExist(rootDir);
+        String msg = "Found incomplete conversion of transactions to txnLog format on startup. Will redo or complete conversion";
+        logger.log(Logger.WARNING, msg);
 
-			TidList.deleteAllFiles(rootDir);
-			TxnAckList.deleteAllFiles(rootDir);
-			deleteConversionFile(rootDir, convertingToTxnLogMode);
-			return;
-		}
+        // stages of conversion are:
+        // 1) create convertingToTxnFormatFile
+        // 2) create txnlog file
+        // 3) copy data to txn log file
+        // 4) delete txn and txnack files
+        // 5) delete convertingToTxnFormatFile
 
-		// source txn files exist, so let us just reconvert them
-		// delete any partially converted txn log files
-		TransactionLogManager.deleteAllFileState(rootDir);
-		deleteConversionFile(rootDir, convertingToTxnLogMode);
-		return;
+        // lets work backwards and see how far we got in conversion
 
-	}
+        // if both txn and txnack files are present,
+        // simply redo conversion
+        if (TidList.txFileExists(rootDir) && TidList.txAckFileExists(rootDir)) {
+            // delete any state in txnLog format as this will be
+            // re-converted
+            TransactionLogManager.deleteAllFileState(rootDir);
+            deleteConversionFile(rootDir, convertingToTxnLogMode);
+            return;
+        }
 
-	static void resolveIncompleteConversionFromTxnLog(File rootDir,
-			File convertingFromTxnFormatFile) throws BrokerException {
-		String msg = "Found incomplete conversion of transactions from txnLog format on startup. Will redo or complete conversion";
-		logger.log(Logger.WARNING, msg);
+        // if either txn or txnack files are deleted then we should be
+        // at stage 4, i.e we have completed conversion. Simply tidy up.
+        if (!TidList.txFileExists(rootDir) || !TidList.txAckFileExists(rootDir)) {
+            // sanity check
+            TransactionLogManager.assertAllFilesExist(rootDir);
 
-		// stages of conversion are:
-		// 1) create convertingFromTxnFormatFile
-		// 2) create txn and txn ack files
-		// 3) copy data to txn and txn ack file
-		// 4) delete txnlong and prepared txn files
-		// 5) delete convertingFromTxnFormatFile
+            TidList.deleteAllFiles(rootDir);
+            TxnAckList.deleteAllFiles(rootDir);
+            deleteConversionFile(rootDir, convertingToTxnLogMode);
+            return;
+        }
 
-		// lets work backwards and see how far we got in conversion
+        // source txn files exist, so let us just reconvert them
+        // delete any partially converted txn log files
+        TransactionLogManager.deleteAllFileState(rootDir);
+        deleteConversionFile(rootDir, convertingToTxnLogMode);
+        return;
 
-		// if both source files (txnlog and prepared txn store) are still
-		// present (i.e not deleted yet),
-		// simply redo conversion
+    }
 
-		if (TransactionLogManager.transactionLogExists(rootDir)
-				&& TransactionLogManager.incompleteTxnStoreExists(rootDir)) {
-			// delete any state in txn and txnack format as these will be
-			// re-converted
-			TidList.deleteAllFiles(rootDir);
-			TxnAckList.deleteAllFiles(rootDir);
-			deleteConversionFile(rootDir, convertingFromTxnLogMode);
-			return;
-		}
+    static void resolveIncompleteConversionFromTxnLog(File rootDir, File convertingFromTxnFormatFile) throws BrokerException {
+        String msg = "Found incomplete conversion of transactions from txnLog format on startup. Will redo or complete conversion";
+        logger.log(Logger.WARNING, msg);
 
-		// if either txnlog or prepared txn store files are deleted then we
-		// should be
-		// at stage 4, i.e we have completed conversion. Simply tidy up.
-		if (!TransactionLogManager.transactionLogExists(rootDir)
-				|| !TransactionLogManager.incompleteTxnStoreExists(rootDir)) {
+        // stages of conversion are:
+        // 1) create convertingFromTxnFormatFile
+        // 2) create txn and txn ack files
+        // 3) copy data to txn and txn ack file
+        // 4) delete txnlong and prepared txn files
+        // 5) delete convertingFromTxnFormatFile
 
-			// sanity check. txn and txnack files should both exist
-			TidList.assertAllFilesExists(rootDir);
+        // lets work backwards and see how far we got in conversion
 
-			TransactionLogManager.deleteAllFileState(rootDir);
-			deleteConversionFile(rootDir, convertingFromTxnLogMode);
-			return;
-		}
+        // if both source files (txnlog and prepared txn store) are still
+        // present (i.e not deleted yet),
+        // simply redo conversion
 
-		// source txnlog files exist, so let us just delete any converted data
-		// and reconvert.
-		// delete any partially converted txn or txnack files
-		TidList.deleteAllFiles(rootDir);
-		TxnAckList.deleteAllFiles(rootDir);
-		deleteConversionFile(rootDir, convertingFromTxnLogMode);
-		return;
+        if (TransactionLogManager.transactionLogExists(rootDir) && TransactionLogManager.incompleteTxnStoreExists(rootDir)) {
+            // delete any state in txn and txnack format as these will be
+            // re-converted
+            TidList.deleteAllFiles(rootDir);
+            TxnAckList.deleteAllFiles(rootDir);
+            deleteConversionFile(rootDir, convertingFromTxnLogMode);
+            return;
+        }
 
-	}
+        // if either txnlog or prepared txn store files are deleted then we
+        // should be
+        // at stage 4, i.e we have completed conversion. Simply tidy up.
+        if (!TransactionLogManager.transactionLogExists(rootDir) || !TransactionLogManager.incompleteTxnStoreExists(rootDir)) {
 
-	public static void convertTxnFormats(FileStore fileStore, File rootDir,
-			TransactionList transactionList) throws BrokerException,
-			IOException {
+            // sanity check. txn and txnack files should both exist
+            TidList.assertAllFilesExists(rootDir);
 
-		if (Globals.isNewTxnLogEnabled()) {
+            TransactionLogManager.deleteAllFileState(rootDir);
+            deleteConversionFile(rootDir, convertingFromTxnLogMode);
+            return;
+        }
 
-			// check if already converting
+        // source txnlog files exist, so let us just delete any converted data
+        // and reconvert.
+        // delete any partially converted txn or txnack files
+        TidList.deleteAllFiles(rootDir);
+        TxnAckList.deleteAllFiles(rootDir);
+        deleteConversionFile(rootDir, convertingFromTxnLogMode);
+        return;
 
-			// we are converting to txn log format.
-			// load txns and resolve open transactions
-			if (Store.getDEBUG()) {
-				String msg = "ConvertingTxnData :loading transactions from txn and txnack";
-				logger.log(Logger.DEBUG, msg);
-			}
-			
-			try {
-				convertingToTxnLog = true;
-				createConversionFile(rootDir, convertingToTxnLogMode);
-				transactionList.loadTransactions();
-				ToTxnLogConverter.convertToTxnLogFormat(transactionList,
-						fileStore);
+    }
 
-				fileStore.closeTidList();
-				TidList.deleteAllFiles(rootDir);
-				TxnAckList.deleteAllFiles(rootDir);
-				deleteConversionFile(rootDir, convertingToTxnLogMode);
-			} finally {
-				convertingToTxnLog = false;
+    public static void convertTxnFormats(FileStore fileStore, File rootDir, TransactionList transactionList) throws BrokerException, IOException {
 
-			}
+        if (Globals.isNewTxnLogEnabled()) {
 
-		} else {
-			createConversionFile(rootDir, convertingFromTxnLogMode);
-			FromTxnLogConverter txnCoverter = new FromTxnLogConverter(fileStore);
-			txnCoverter.convertFromTxnLogFormat();
-			transactionList.loadTransactions();
-			fileStore.closeTxnLogManager();
-			TransactionLogManager.deleteAllFileState(rootDir);
-			deleteConversionFile(rootDir, convertingFromTxnLogMode);
+            // check if already converting
 
-		}
+            // we are converting to txn log format.
+            // load txns and resolve open transactions
+            if (Store.getDEBUG()) {
+                String msg = "ConvertingTxnData :loading transactions from txn and txnack";
+                logger.log(Logger.DEBUG, msg);
+            }
 
-	}
+            try {
+                convertingToTxnLog = true;
+                createConversionFile(rootDir, convertingToTxnLogMode);
+                transactionList.loadTransactions();
+                ToTxnLogConverter.convertToTxnLogFormat(transactionList, fileStore);
 
-	public static void createConversionFile(File rootDir, String fileName)
-			throws BrokerException {
-		File file = new File(rootDir, fileName);
-		try {
-			file.createNewFile();
-		} catch (IOException e) {
-			throw new BrokerException(
-					"can not create transaction conversion file " + file, e);
-		}
+                fileStore.closeTidList();
+                TidList.deleteAllFiles(rootDir);
+                TxnAckList.deleteAllFiles(rootDir);
+                deleteConversionFile(rootDir, convertingToTxnLogMode);
+            } finally {
+                convertingToTxnLog = false;
 
-	}
+            }
 
-	public static void deleteConversionFile(File rootDir, String fileName)
-			throws BrokerException {
-		File file = new File(rootDir, fileName);
+        } else {
+            createConversionFile(rootDir, convertingFromTxnLogMode);
+            FromTxnLogConverter txnCoverter = new FromTxnLogConverter(fileStore);
+            txnCoverter.convertFromTxnLogFormat();
+            transactionList.loadTransactions();
+            fileStore.closeTxnLogManager();
+            TransactionLogManager.deleteAllFileState(rootDir);
+            deleteConversionFile(rootDir, convertingFromTxnLogMode);
 
-		if (file.exists()) {
-			boolean deleted = file.delete();
+        }
 
-			if (!deleted) {
-				throw new BrokerException(
-						"can not delete transaction conversion file " + file);
-			}
-		}
-	}
+    }
+
+    public static void createConversionFile(File rootDir, String fileName) throws BrokerException {
+        File file = new File(rootDir, fileName);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            throw new BrokerException("can not create transaction conversion file " + file, e);
+        }
+
+    }
+
+    public static void deleteConversionFile(File rootDir, String fileName) throws BrokerException {
+        File file = new File(rootDir, fileName);
+
+        if (file.exists()) {
+            boolean deleted = file.delete();
+
+            if (!deleted) {
+                throw new BrokerException("can not delete transaction conversion file " + file);
+            }
+        }
+    }
 
 }

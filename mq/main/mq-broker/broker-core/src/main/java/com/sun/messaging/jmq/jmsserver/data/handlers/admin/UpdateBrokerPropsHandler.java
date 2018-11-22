@@ -16,7 +16,7 @@
 
 /*
  * @(#)UpdateBrokerPropsHandler.java	1.12 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -35,68 +35,64 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.*;
 
-public class UpdateBrokerPropsHandler extends AdminCmdHandler
-{
+public class UpdateBrokerPropsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public UpdateBrokerPropsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;
         String msg = null;
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + cmd_props);
         }
 
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            msg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            msg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + msg);
-	} else  {
+        } else {
 
-        // Get properties we are to update from message body
-	Properties p = (Properties)getBodyObject(cmd_msg);
-	logger.log(Logger.INFO, rb.I_UPDATE_BROKER_PROPS, "["+p+"]"); 	
+            // Get properties we are to update from message body
+            Properties p = (Properties) getBodyObject(cmd_msg);
+            logger.log(Logger.INFO, rb.I_UPDATE_BROKER_PROPS, "[" + p + "]");
 
-        // Update the broker configuration
-	BrokerConfig bcfg = Globals.getConfig();
-	try {
-            bcfg.updateProperties(p, true);
-	} catch (PropertyUpdateException e) {
-            status = Status.BAD_REQUEST;
-            msg = e.getMessage();
-            logger.log(Logger.WARNING, msg);
-	} catch (IOException e) {
-            status = Status.ERROR;
-            msg = e.toString();
-            logger.log(Logger.WARNING, msg);
-	}
+            // Update the broker configuration
+            BrokerConfig bcfg = Globals.getConfig();
+            try {
+                bcfg.updateProperties(p, true);
+            } catch (PropertyUpdateException e) {
+                status = Status.BAD_REQUEST;
+                msg = e.getMessage();
+                logger.log(Logger.WARNING, msg);
+            } catch (IOException e) {
+                status = Status.ERROR;
+                msg = e.toString();
+                logger.log(Logger.WARNING, msg);
+            }
 
-	}
+        }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.UPDATE_BROKER_PROPS_REPLY,
-		status, msg);
+        setProperties(reply, MessageType.UPDATE_BROKER_PROPS_REPLY, status, msg);
 
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
     }
 }

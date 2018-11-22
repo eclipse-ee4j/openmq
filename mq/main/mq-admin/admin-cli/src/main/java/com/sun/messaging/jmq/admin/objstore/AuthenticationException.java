@@ -16,22 +16,21 @@
 
 /*
  * @(#)AuthenticationException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.objstore;
 
 /**
- * This exception must be thrown when the authentication to the
- * backend server fails.
+ * This exception must be thrown when the authentication to the backend server fails.
  */
 
 public class AuthenticationException extends ObjStoreException {
 
     public AuthenticationException() {
-	super();
+        super();
     }
 
     public AuthenticationException(String reason) {
-	super(reason);
+        super(reason);
     }
 }

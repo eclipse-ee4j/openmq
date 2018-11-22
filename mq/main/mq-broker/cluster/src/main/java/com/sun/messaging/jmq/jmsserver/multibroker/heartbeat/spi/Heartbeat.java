@@ -16,7 +16,7 @@
 
 /*
  * @(#)Heartbeat.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi;
 
@@ -30,35 +30,30 @@ public interface Heartbeat {
     /**
      * A name (can be null) for logging purpose
      */
-    String
-    getName();
+    String getName();
 
     /**
      * A protocol string
      */
-    String
-    getProtocol();
+    String getProtocol();
 
     /**
      * Initialization
      *
      * @param addr bind IP address
-     * @param port bind port 
+     * @param port bind port
      * @param cb The HeartbeatCallback
      *
      * @throws IOException if failed to initialize
      */
-    void
-    init(InetSocketAddress iaddr, HeartbeatCallback cb) throws IOException;
+    void init(InetSocketAddress iaddr, HeartbeatCallback cb) throws IOException;
 
     /**
-     * Stop  
+     * Stop
      *
      * @throws IOException if failed to start
      */
-    void
-    stop() throws IOException;
-
+    void stop() throws IOException;
 
     /**
      *
@@ -69,50 +64,40 @@ public interface Heartbeat {
      *
      * @throws IOException
      */
-    void
-    addEndpoint(Object key, InetSocketAddress iaddr, int dataLength) throws IOException;
+    void addEndpoint(Object key, InetSocketAddress iaddr, int dataLength) throws IOException;
 
     /**
      * @return true if end point, iaddr, is removed
      */
-    boolean 
-    removeEndpoint(Object key, InetSocketAddress iaddr) throws IOException;
+    boolean removeEndpoint(Object key, InetSocketAddress iaddr) throws IOException;
 
     /**
      */
-    InetSocketAddress 
-    getBindEndpoint();
+    InetSocketAddress getBindEndpoint();
 
     /**
      *
      * @param interval The inteval (in seconds) between each heartbeat
      */
-    void
-    setHeartbeatInterval(int interval);
+    void setHeartbeatInterval(int interval);
 
     /**
      *
      * @return The heartbeat interval
      */
-    int 
-    getHeartbeatInterval();
-
-
+    int getHeartbeatInterval();
 
     /**
-     * Timeout when heartbeat message not received for period of threshold*interval
-     * from a remote endpoint
+     * Timeout when heartbeat message not received for period of threshold*interval from a remote endpoint
      *
-     * @param threshold in terms of number of times of heartbeat interval 
+     * @param threshold in terms of number of times of heartbeat interval
      */
-    void
-    setTimeoutThreshold(int threshold);
+    void setTimeoutThreshold(int threshold);
 
     /**
      *
-     * @return The heartbeat timeout threshold 
+     * @return The heartbeat timeout threshold
      */
-    int 
-    getTimeoutThreshold();
+    int getTimeoutThreshold();
 
 }

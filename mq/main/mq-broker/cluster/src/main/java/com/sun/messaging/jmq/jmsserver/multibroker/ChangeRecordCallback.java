@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -32,4 +32,3 @@ public interface ChangeRecordCallback {
     public ChangeRecordInfo getLastStoredChangeRecord();
 
 }
-

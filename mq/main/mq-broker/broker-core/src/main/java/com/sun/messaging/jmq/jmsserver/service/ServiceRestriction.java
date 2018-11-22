@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceRestriction.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
@@ -24,8 +24,7 @@ import java.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-public class ServiceRestriction 
-{
+public class ServiceRestriction {
     private final String name;
 
     private ServiceRestriction(String name) {
@@ -38,31 +37,30 @@ public class ServiceRestriction
 
     public String toString(boolean verbose) {
         if (!verbose) {
-            return "["+name+ "]";
+            return "[" + name + "]";
         }
 
         if (this == NO_SYNC_WITH_MASTERBROKER) {
             Object m = Globals.getClusterManager().getMasterBroker();
-            return Globals.getBrokerResources().getString(
-                BrokerResources.I_NO_SYNC_WITH_MASTERBROKER,
-                (m == null ? "":m.toString()));
+            return Globals.getBrokerResources().getString(BrokerResources.I_NO_SYNC_WITH_MASTERBROKER, (m == null ? "" : m.toString()));
         } else {
-            return "["+name+ "]";
+            return "[" + name + "]";
         }
     }
 
     public boolean equals(Object o) {
-        if (o == null) return false;
-        if (!(o instanceof ServiceRestriction)) return false;
-        ServiceRestriction that = (ServiceRestriction)o;
+        if (o == null)
+            return false;
+        if (!(o instanceof ServiceRestriction))
+            return false;
+        ServiceRestriction that = (ServiceRestriction) o;
         return this.name.equals(that.name);
     }
-   
+
     public int hashCode() {
         return name.hashCode();
     }
 
-    public static final ServiceRestriction NO_SYNC_WITH_MASTERBROKER = 
-                     new ServiceRestriction("NO_SYNC_WITH_MASTERBROKER");
+    public static final ServiceRestriction NO_SYNC_WITH_MASTERBROKER = new ServiceRestriction("NO_SYNC_WITH_MASTERBROKER");
 
 }

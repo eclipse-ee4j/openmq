@@ -16,28 +16,25 @@
 
 /*
  * @(#)BadNameValueArgException.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * the argument for an option is not in the format
- * <EM>name=value</EM>. 
+ * This exception is for reporting cases where the argument for an option is not in the format <EM>name=value</EM>.
  */
 
 public class BadNameValueArgException extends OptionException {
 
-    String	nvArg;
+    String nvArg;
 
     /**
-     * Sets the argument containing the erroneous
-     * name/value pair.
+     * Sets the argument containing the erroneous name/value pair.
      *
-     * @param arg	The string argument causing the exception.
+     * @param arg The string argument causing the exception.
      */
-    public void setArg(String arg)  {
-	this.nvArg = arg;
+    public void setArg(String arg) {
+        this.nvArg = arg;
     }
 
     /**
@@ -45,11 +42,11 @@ public class BadNameValueArgException extends OptionException {
      *
      * @return The string argument causing the error
      */
-    public String getArg()  {
-	return (nvArg);
+    public String getArg() {
+        return (nvArg);
     }
 
-    public String toString()  {
-	return(super.toString() + " (" + getArg() + ")");
+    public String toString() {
+        return (super.toString() + " (" + getArg() + ")");
     }
 }

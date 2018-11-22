@@ -16,18 +16,16 @@
 
 /*
  * @(#)BrokerExitCode.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
 /**
- * This class defines the exit codes the broker uses to indicate
- * exit error condition.
+ * This class defines the exit codes the broker uses to indicate exit error condition.
  *
- * Note that 128+signal is used by the JVM (e.g. 129 (SIGHUP),
- * 130 (SIGINT), etc). And the restart logic of the broker checks for
- * 129 (SIGHUP), 130 (SIGINT), 143 (SIGTERM) and 255.
- * When defining new exit codes, avoid overlapping with those.
+ * Note that 128+signal is used by the JVM (e.g. 129 (SIGHUP), 130 (SIGINT), etc). And the restart logic of the broker
+ * checks for 129 (SIGHUP), 130 (SIGINT), 143 (SIGTERM) and 255. When defining new exit codes, avoid overlapping with
+ * those.
  * 
  */
 public class BrokerExitCode {
@@ -37,13 +35,13 @@ public class BrokerExitCode {
 
     // exit codes used to indicate error conditions for
     // the -remove instance option
-    public static final int INSTANCE_NOT_EXISTS			= 10;
-    public static final int INSTANCE_BEING_USED			= 11;
-    public static final int NO_PERMISSION_ON_INSTANCE		= 12;
-    public static final int PROBLEM_REMOVING_PERSISTENT_STORE	= 13;
-    public static final int IOEXCEPTION				= 14;
+    public static final int INSTANCE_NOT_EXISTS = 10;
+    public static final int INSTANCE_BEING_USED = 11;
+    public static final int NO_PERMISSION_ON_INSTANCE = 12;
+    public static final int PROBLEM_REMOVING_PERSISTENT_STORE = 13;
+    public static final int IOEXCEPTION = 14;
 
     // not to be instantiated
-    private BrokerExitCode() {}
+    private BrokerExitCode() {
+    }
 }
-

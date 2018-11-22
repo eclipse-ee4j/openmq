@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConfigChangeEventHandler.java	1.7 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -40,43 +40,34 @@ public class ConfigChangeEventHandler extends GPacketHandler {
 
         if (pkt.getType() == ProtocolGlobals.G_CONFIG_CHANGE_EVENT) {
             handleConfigChangeEvent(sender, pkt);
-        }
-        else if (pkt.getType() ==
-            ProtocolGlobals.G_CONFIG_CHANGE_EVENT_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_CONFIG_CHANGE_EVENT_REPLY) {
             handleConfigChangeEventReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, "ConfigChangeEventHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "ConfigChangeEventHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
-    public void handleConfigChangeEvent(BrokerAddress sender,
-        GPacket pkt) {
+    public void handleConfigChangeEvent(BrokerAddress sender, GPacket pkt) {
         Long xidProp = (Long) pkt.getProp("X");
-        p.receiveConfigChangeEvent(sender, xidProp,
-            pkt.getPayload().array());
+        p.receiveConfigChangeEvent(sender, xidProp, pkt.getPayload().array());
     }
 
-    public void handleConfigChangeEventReply(BrokerAddress sender,
-        GPacket pkt) {
-	//	Bug ID 6252184 Escalation ID 1-8243878
-	//
-	//	Backported by Tom Ross tom.ross@sun.com
-	//
-	//	14 April 2005
-	// old line below
-	// long xid = ((Long) pkt.getProp("X")).longValue();
-	// new line below
-	Long xid = (Long)pkt.getProp("X");
-        int status = ((Integer)pkt.getProp("S")).intValue();
-        String reason = (String)pkt.getProp("reason");
+    public void handleConfigChangeEventReply(BrokerAddress sender, GPacket pkt) {
+        // Bug ID 6252184 Escalation ID 1-8243878
+        //
+        // Backported by Tom Ross tom.ross@sun.com
+        //
+        // 14 April 2005
+        // old line below
+        // long xid = ((Long) pkt.getProp("X")).longValue();
+        // new line below
+        Long xid = (Long) pkt.getProp("X");
+        int status = ((Integer) pkt.getProp("S")).intValue();
+        String reason = (String) pkt.getProp("reason");
 
         p.receiveConfigChangeEventReply(sender, xid, status, reason);
     }
 }
-
 
 /*
  * EOF

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterImpl.java	1.18 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.standalone;
 
@@ -33,7 +33,6 @@ import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 
-
 /**
  * This class implements the 'standalone' topology.
  */
@@ -42,8 +41,7 @@ public class ClusterImpl implements Cluster, ConfigListener {
     private BrokerAddressImpl self;
 
     /**
-     * Creates and initializes a topology manager for the two broker
-     * topology using the broker configuration.
+     * Creates and initializes a topology manager for the two broker topology using the broker configuration.
      */
     public ClusterImpl() {
         self = new BrokerAddressImpl();
@@ -97,7 +95,6 @@ public class ClusterImpl implements Cluster, ConfigListener {
     public BrokerAddress unmarshalBrokerAddress(GPacket gp) throws Exception {
         return null;
     }
- 
 
     public void stopMessageFlow() throws IOException {
     }
@@ -106,17 +103,18 @@ public class ClusterImpl implements Cluster, ConfigListener {
     }
 
     public void unicastAndClose(BrokerAddress addr, GPacket gp) throws IOException {
-        if (cb != null) cb.receiveUnicast(self, gp);
+        if (cb != null)
+            cb.receiveUnicast(self, gp);
     }
 
-    public void unicast(BrokerAddress addr, GPacket gp, boolean flowControl)
-        throws IOException {
-        if (cb != null) cb.receiveUnicast(self, gp);
+    public void unicast(BrokerAddress addr, GPacket gp, boolean flowControl) throws IOException {
+        if (cb != null)
+            cb.receiveUnicast(self, gp);
     }
 
-    public void unicastUrgent(BrokerAddress addr, GPacket gp)
-        throws IOException {
-        if (cb != null) cb.receiveUnicast(self, gp);
+    public void unicastUrgent(BrokerAddress addr, GPacket gp) throws IOException {
+        if (cb != null)
+            cb.receiveUnicast(self, gp);
     }
 
     public void unicast(BrokerAddress addr, GPacket gp) throws IOException {
@@ -131,8 +129,7 @@ public class ClusterImpl implements Cluster, ConfigListener {
         return broadcast(gp, true);
     }
 
-    private Map<BrokerAddress, Object> broadcast(GPacket gp, boolean urgent) 
-    throws IOException {
+    private Map<BrokerAddress, Object> broadcast(GPacket gp, boolean urgent) throws IOException {
         Map<BrokerAddress, Object> m = new HashMap<BrokerAddress, Object>(1);
         m.put(self, null);
         return m;
@@ -141,14 +138,12 @@ public class ClusterImpl implements Cluster, ConfigListener {
     public void waitClusterInit() {
     }
 
-    public void unicast(BrokerAddress addr, int destId, byte[] pkt,
-        boolean flowControl) throws IOException {
+    public void unicast(BrokerAddress addr, int destId, byte[] pkt, boolean flowControl) throws IOException {
         if (cb != null)
             cb.receiveUnicast(self, destId, pkt);
     }
 
-    public void unicast(BrokerAddress addr, int destId, byte[] pkt)
-        throws IOException {
+    public void unicast(BrokerAddress addr, int destId, byte[] pkt) throws IOException {
         unicast(addr, destId, pkt, false);
     }
 
@@ -164,13 +159,12 @@ public class ClusterImpl implements Cluster, ConfigListener {
 
     public Hashtable getDebugState() {
         return new Hashtable();
-	}
+    }
 
     /**
      * Dynamic configuration property validation..
      */
-    public void validate(String name, String value)
-        throws PropertyUpdateException {
+    public void validate(String name, String value) throws PropertyUpdateException {
     }
 
     /**
@@ -179,17 +173,15 @@ public class ClusterImpl implements Cluster, ConfigListener {
     public boolean update(String name, String value) {
         return true;
     }
-    public void changeMasterBroker(BrokerAddress newmater, BrokerAddress oldmaster)
-    throws BrokerException { 
+
+    public void changeMasterBroker(BrokerAddress newmater, BrokerAddress oldmaster) throws BrokerException {
     }
 
     public void receivedFileTransferRequest(BrokerAddress from, String uuid) {
     }
 
-    public void transferFiles(String[] fileNames, BrokerAddress targetBroker,
-                              Long syncTimeout, String uuid, String myBrokerID,
-                              String module, FileTransferCallback callback)
-                              throws BrokerException { 
+    public void transferFiles(String[] fileNames, BrokerAddress targetBroker, Long syncTimeout, String uuid, String myBrokerID, String module,
+            FileTransferCallback callback) throws BrokerException {
     }
 }
 

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConsoleActionEvent.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console.event;
 
@@ -24,34 +24,35 @@ import java.util.EventObject;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 
 /**
- * Events related to high level semantic console operations like exit, about,
- * add, preferences, etc.
+ * Events related to high level semantic console operations like exit, about, add, preferences, etc.
  */
 public class ConsoleActionEvent extends AdminEvent {
     /*
      * Event type
      */
-    public final static int	ABOUT 		= 0;
-    public final static int	PREFERENCES	= 1;
-    public final static int	EXPAND_ALL	= 2;
-    public final static int	COLLAPSE_ALL	= 3;
-    public final static int	EXIT	 	= 4;
-    public final static int	REFRESH	 	= 5;
+    public final static int ABOUT = 0;
+    public final static int PREFERENCES = 1;
+    public final static int EXPAND_ALL = 2;
+    public final static int COLLAPSE_ALL = 3;
+    public final static int EXIT = 4;
+    public final static int REFRESH = 5;
 
     /**
      * Creates an instance of ConsoleActionEvent
+     * 
      * @param source the object where the event originated
      */
     public ConsoleActionEvent(Object source) {
-	super(source);
+        super(source);
     }
 
     /**
      * Creates an instance of ConsoleActionEvent of the specified type.
+     * 
      * @param source the object where the event originated
      * @param type the type of event
      */
     public ConsoleActionEvent(Object source, int type) {
-	super(source, type);
+        super(source, type);
     }
 }

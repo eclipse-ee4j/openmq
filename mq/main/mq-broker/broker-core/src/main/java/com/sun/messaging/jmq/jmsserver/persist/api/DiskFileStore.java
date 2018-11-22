@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.util.HashMap;
@@ -27,20 +27,16 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 public interface DiskFileStore {
 
     /**
-     * Compact the message file associated with the specified destination.
-     * If null is specified, message files assocated with all persisted
-     * destinations will be compacted..
+     * Compact the message file associated with the specified destination. If null is specified, message files assocated
+     * with all persisted destinations will be compacted..
      */
-    public void compactDestination(Destination destination)
-    throws BrokerException;
-
+    public void compactDestination(Destination destination) throws BrokerException;
 
     /**
-     * Get information about the underlying storage for the specified
-     * destination.
+     * Get information about the underlying storage for the specified destination.
+     * 
      * @return A HashMap of name value pair of information
      */
-    public HashMap getStorageInfo(Destination destination)
-    throws BrokerException;
+    public HashMap getStorageInfo(Destination destination) throws BrokerException;
 
 }

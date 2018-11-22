@@ -27,54 +27,54 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
 
 public class DirectQueueConnection extends DirectConnection {
 
-	/**
-	 * Logging
-	 */
-	private static transient final String _className = "com.sun.messaging.jms.ra.DirectQueueConnection";
-	private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
-	private static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
-	private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
-	private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
-	private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
-	private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
-	private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
-	private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
-	private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
-	private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
+    /**
+     * Logging
+     */
+    private static transient final String _className = "com.sun.messaging.jms.ra.DirectQueueConnection";
+    private static transient final String _lgrNameOutboundConnection = "javax.resourceadapter.mqjmsra.outbound.connection";
+    private static transient final String _lgrNameJMSConnection = "javax.jms.Connection.mqjmsra";
+    private static transient final Logger _loggerOC = Logger.getLogger(_lgrNameOutboundConnection);
+    private static transient final Logger _loggerJC = Logger.getLogger(_lgrNameJMSConnection);
+    private static transient final String _lgrMIDPrefix = "MQJMSRA_DC";
+    private static transient final String _lgrMID_EET = _lgrMIDPrefix + "1001: ";
+    private static transient final String _lgrMID_INF = _lgrMIDPrefix + "1101: ";
+    private static transient final String _lgrMID_WRN = _lgrMIDPrefix + "2001: ";
+    private static transient final String _lgrMID_ERR = _lgrMIDPrefix + "3001: ";
+    private static transient final String _lgrMID_EXC = _lgrMIDPrefix + "4001: ";
 
-	public DirectQueueConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {
-		super(cf, jmsservice, connectionId, inACC);
-	}
+    public DirectQueueConnection(DirectConnectionFactory cf, JMSService jmsservice, long connectionId, boolean inACC) {
+        super(cf, jmsservice, connectionId, inACC);
+    }
 
-	@Override
-	public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
-			int maxMessages) throws JMSException {
+    @Override
+    public ConnectionConsumer createSharedConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
 
-		// JMS spec and CTS tests require a IllegalStateException to be thrown
-		String methodName = "createSharedConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
-		String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
-		_loggerJC.warning(isIllegalMsg);
-		throw new javax.jms.IllegalStateException(isIllegalMsg);
-	}
+        // JMS spec and CTS tests require a IllegalStateException to be thrown
+        String methodName = "createSharedConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
+        String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
+        _loggerJC.warning(isIllegalMsg);
+        throw new javax.jms.IllegalStateException(isIllegalMsg);
+    }
 
-	@Override
-	public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector,
-			ServerSessionPool sessionPool, int maxMessages) throws JMSException {
-		// JMS spec and CTS tests require a IllegalStateException to be thrown
-		String methodName = "createSharedDurableConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
-		String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
-		_loggerJC.warning(isIllegalMsg);
-		throw new javax.jms.IllegalStateException(isIllegalMsg);
-	}
+    @Override
+    public ConnectionConsumer createSharedDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+        // JMS spec and CTS tests require a IllegalStateException to be thrown
+        String methodName = "createSharedDurableConnectionConsumer(Topic topic, String subscriptionName,String messageSelector, ServerSessionPool sessionPool, int maxMessages)";
+        String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
+        _loggerJC.warning(isIllegalMsg);
+        throw new javax.jms.IllegalStateException(isIllegalMsg);
+    }
 
-	@Override
-	public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
-			int maxMessages) throws JMSException {
-		// JMS spec and CTS tests require a IllegalStateException to be thrown
-		String methodName = "createConnectionConsumer(Queue queue,String messageSelector,ServerSessionPool sessionPool, int maxMessages)";
-		String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
-		_loggerJC.warning(isIllegalMsg);
-		throw new javax.jms.IllegalStateException(isIllegalMsg);
-	}
+    @Override
+    public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
+            int maxMessages) throws JMSException {
+        // JMS spec and CTS tests require a IllegalStateException to be thrown
+        String methodName = "createConnectionConsumer(Queue queue,String messageSelector,ServerSessionPool sessionPool, int maxMessages)";
+        String isIllegalMsg = _lgrMID_EXC + methodName + ":Invalid for a QueueConnection";
+        _loggerJC.warning(isIllegalMsg);
+        throw new javax.jms.IllegalStateException(isIllegalMsg);
+    }
 
 }

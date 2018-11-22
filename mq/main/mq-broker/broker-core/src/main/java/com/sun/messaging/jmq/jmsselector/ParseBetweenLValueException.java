@@ -16,13 +16,12 @@
 
 /*
  * @(#)ParseBetweenLValueException.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when an invalid LValue is used with
- * the BETWEEN operator
+ * Exception thrown when an invalid LValue is used with the BETWEEN operator
  */
 public class ParseBetweenLValueException extends ParseException {
 
@@ -34,4 +33,3 @@ public class ParseBetweenLValueException extends ParseException {
     }
 
 }
-

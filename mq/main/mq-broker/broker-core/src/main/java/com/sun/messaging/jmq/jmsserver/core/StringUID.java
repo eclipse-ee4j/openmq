@@ -16,23 +16,19 @@
 
 /*
  * @(#)StringUID.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
-
 
 /**
  * a UID class which is based off of a unique String
  */
 
-
-public class StringUID implements java.io.Serializable
-{
+public class StringUID implements java.io.Serializable {
     static final long serialVersionUID = -8531498672331928433L;
 
     private String str = null;
     private int hashCode = 0;
-
 
     public StringUID(String str) {
         assert str != null;

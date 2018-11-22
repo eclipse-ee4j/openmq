@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -69,7 +69,7 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 
-public class CoreLifecycleImpl extends CoreLifecycleSpi { 
+public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
     private DestinationList destinationList = null;
 
@@ -100,15 +100,13 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         Subscription.initSubscriptions();
     }
 
-    public void initHandlers(PacketRouter pktrtr, ConnectionManager cmgr,
-        PacketRouter admin_pktrtr, AdminDataHandler admin_datahdrl)
-        throws BrokerException {
+    public void initHandlers(PacketRouter pktrtr, ConnectionManager cmgr, PacketRouter admin_pktrtr, AdminDataHandler admin_datahdrl) throws BrokerException {
 
         this.pktr = pktrtr;
 
         HelloHandler hello = new HelloHandler(cmgr);
         hello.setCoreLifecycle(this);
-		 
+
         GetLicenseHandler getLicense = new GetLicenseHandler();
         getLicense.setCoreLifecycle(this);
 
@@ -174,7 +172,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
 
         VerifyTransactionHandler vthandler = new VerifyTransactionHandler();
         vthandler.setCoreLifecycle(this);
-       
+
         pktrtr.addHandler(PacketType.HELLO, hello);
         pktrtr.addHandler(PacketType.AUTHENTICATE, authenticate);
         pktrtr.addHandler(PacketType.GET_LICENSE, getLicense);
@@ -209,13 +207,13 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         pktrtr.addHandler(PacketType.RESUME_FLOW, flowhdlr);
         pktrtr.addHandler(PacketType.FLOW_PAUSED, fphandler);
 
-        pktrtr.addHandler(PacketType.CREATE_SESSION,sessionhdlr);
-        pktrtr.addHandler(PacketType.DELETE_PRODUCER,prodhandler);
-        pktrtr.addHandler(PacketType.DESTROY_SESSION,sessionhdlr);
-        pktrtr.addHandler(PacketType.PING,pinghandler);
+        pktrtr.addHandler(PacketType.CREATE_SESSION, sessionhdlr);
+        pktrtr.addHandler(PacketType.DELETE_PRODUCER, prodhandler);
+        pktrtr.addHandler(PacketType.DESTROY_SESSION, sessionhdlr);
+        pktrtr.addHandler(PacketType.PING, pinghandler);
 
-        pktrtr.addHandler(PacketType.INFO_REQUEST,infohandler);
-        pktrtr.addHandler(PacketType.VERIFY_TRANSACTION,vthandler);
+        pktrtr.addHandler(PacketType.INFO_REQUEST, infohandler);
+        pktrtr.addHandler(PacketType.VERIFY_TRANSACTION, vthandler);
 
         // Map message handles -> messages. For the admin service this
         // is just like the regular JMS service except we have a specialized
@@ -255,9 +253,9 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         admin_pktrtr.addHandler(PacketType.RESUME_FLOW, flowhdlr);
         admin_pktrtr.addHandler(PacketType.FLOW_PAUSED, fphandler);
 
-        admin_pktrtr.addHandler(PacketType.CREATE_SESSION,sessionhdlr);
-        admin_pktrtr.addHandler(PacketType.DELETE_PRODUCER,prodhandler);
-        admin_pktrtr.addHandler(PacketType.DESTROY_SESSION,sessionhdlr);
+        admin_pktrtr.addHandler(PacketType.CREATE_SESSION, sessionhdlr);
+        admin_pktrtr.addHandler(PacketType.DELETE_PRODUCER, prodhandler);
+        admin_pktrtr.addHandler(PacketType.DESTROY_SESSION, sessionhdlr);
     }
 
     public void cleanup() {
@@ -275,14 +273,14 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
      **********************************************/
 
     public SessionOpSpi newSessionOp(Session ss) {
-        return SessionOp.newInstance(ss); 
+        return SessionOp.newInstance(ss);
     }
 
     /********************************************
      * Producer static methods
      **********************************************/
 
-    public Hashtable getProducerAllDebugState() { 
+    public Hashtable getProducerAllDebugState() {
         return Producer.getAllDebugState();
     }
 
@@ -297,7 +295,6 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
     public int getNumWildcardProducers() {
         return Producer.getNumWildcardProducers();
     }
-
 
     public String checkProducer(ProducerUID uid) {
         return Producer.checkProducer(uid);
@@ -316,7 +313,7 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
     }
 
     public ProducerSpi getProducer(ProducerUID uid) {
-        return Producer.getProducer(uid); 
+        return Producer.getProducer(uid);
     }
 
     public ProducerSpi destroyProducer(ProducerUID uid, String info) {
@@ -335,43 +332,34 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         return destinationList.getDestination(ps, duid);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue)
-    throws IOException, BrokerException {
-        return destinationList.getDestination(ps,name, isQueue);
+    public DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws IOException, BrokerException {
+        return destinationList.getDestination(ps, name, isQueue);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type,
-                                                  boolean autocreate, boolean store)
-                                                  throws IOException, BrokerException {
+    public DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type, boolean autocreate, boolean store)
+            throws IOException, BrokerException {
         return destinationList.getDestination(ps, duid, type, autocreate, store);
     }
 
-    public DestinationSpi[] getDestination(PartitionedStore ps, String name, int type,
-                                                boolean autocreate, boolean store)
-                                                throws IOException, BrokerException {
-         return destinationList.getDestination(ps, name, type, autocreate, store);
+    public DestinationSpi[] getDestination(PartitionedStore ps, String name, int type, boolean autocreate, boolean store) throws IOException, BrokerException {
+        return destinationList.getDestination(ps, name, type, autocreate, store);
     }
 
-    public DestinationSpi[] createTempDestination(PartitionedStore ps, String name,
-        int type, ConnectionUID uid, boolean store, long time)
-        throws IOException, BrokerException {
+    public DestinationSpi[] createTempDestination(PartitionedStore ps, String name, int type, ConnectionUID uid, boolean store, long time)
+            throws IOException, BrokerException {
 
         return destinationList.createTempDestination(ps, name, type, uid, store, time);
     }
 
-    public List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid)
-        throws PartitionNotFoundException {
-        return  destinationList.findMatchingIDs(ps, wildcarduid);
+    public List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid) throws PartitionNotFoundException {
+        return destinationList.findMatchingIDs(ps, wildcarduid);
     }
 
-    public DestinationSpi[] removeDestination(PartitionedStore ps,
-        String name, boolean isQueue, String reason)
-        throws IOException, BrokerException {
+    public DestinationSpi[] removeDestination(PartitionedStore ps, String name, boolean isQueue, String reason) throws IOException, BrokerException {
         return destinationList.removeDestination(ps, name, isQueue, reason);
     }
 
-    public DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid,
-        boolean notify, String reason) throws IOException, BrokerException {
+    public DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid, boolean notify, String reason) throws IOException, BrokerException {
         return destinationList.removeDestination(ps, uid, notify, reason);
     }
 
@@ -387,8 +375,8 @@ public class CoreLifecycleImpl extends CoreLifecycleSpi {
         return Consumer.getConsumer(uid);
     }
 
-    public int calcPrefetch(ConsumerSpi consumer,  int cprefetch) {
-        return Consumer.calcPrefetch((Consumer)consumer, cprefetch);
+    public int calcPrefetch(ConsumerSpi consumer, int cprefetch) {
+        return Consumer.calcPrefetch((Consumer) consumer, cprefetch);
     }
 
 }

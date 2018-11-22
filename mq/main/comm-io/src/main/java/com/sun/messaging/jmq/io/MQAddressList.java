@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAddressList.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -30,16 +30,14 @@ import java.net.MalformedURLException;
  */
 public class MQAddressList extends ArrayList {
 
-    protected MQAddressList() {}
-
-    protected com.sun.messaging.jmq.io.MQAddress createMQAddress(String s)  
-         throws java.net.MalformedURLException
-   {
-            return MQAddress.getMQAddress(s);
+    protected MQAddressList() {
     }
 
-    public static MQAddressList createAddressList(String addrs)
-        throws MalformedURLException {
+    protected com.sun.messaging.jmq.io.MQAddress createMQAddress(String s) throws java.net.MalformedURLException {
+        return MQAddress.getMQAddress(s);
+    }
+
+    public static MQAddressList createAddressList(String addrs) throws MalformedURLException {
         MQAddressList alist = new MQAddressList();
         StringTokenizer st = new StringTokenizer(addrs, " ,");
         while (st.hasMoreTokens()) {

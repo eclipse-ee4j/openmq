@@ -16,7 +16,7 @@
 
 /*
  * @(#)Destination.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -28,75 +28,69 @@ import java.io.Serializable;
 public class Destination implements Serializable {
 
     /**
-     *  Enum values that specify the Type of the Destination
+     * Enum values that specify the Type of the Destination
      *
-     *  @see javax.jms.Destination javax.jms.Destination
+     * @see javax.jms.Destination javax.jms.Destination
      */
     public static enum Type {
         /**
-         *  The Destination is a Queue destination as defined by the JMS
-         *  Specification
+         * The Destination is a Queue destination as defined by the JMS Specification
          *
-         *  @see javax.jms.Queue javax.jms.Queue
+         * @see javax.jms.Queue javax.jms.Queue
          */
         QUEUE,
 
         /**
-         *  The Destination is a Topic destination as defined by the JMS
-         *  Specification
+         * The Destination is a Topic destination as defined by the JMS Specification
          *
-         *  @see javax.jms.Topic javax.jms.Topic
+         * @see javax.jms.Topic javax.jms.Topic
          */
         TOPIC
     }
 
     /**
-     *  Enum values that specify the Life of the Destination
+     * Enum values that specify the Life of the Destination
      */
     public static enum Life {
         /**
-         *  The Destination is a Standard Destination as defined by the JMS
-         *  Specification
+         * The Destination is a Standard Destination as defined by the JMS Specification
          *
-         *  @see javax.jms.Queue javax.jms.Queue
-         *  @see javax.jms.Topic javax.jms.Topic
+         * @see javax.jms.Queue javax.jms.Queue
+         * @see javax.jms.Topic javax.jms.Topic
          */
         STANDARD,
 
         /**
-         *  The Destination is a TemporaryDestination as defined by the JMS
-         *  Specification
+         * The Destination is a TemporaryDestination as defined by the JMS Specification
          *
-         *  @see javax.jms.TemporaryQueue javax.jms.TemporaryQueue
-         *  @see javax.jms.TemporaryTopic javax.jms.TemporaryTopic
+         * @see javax.jms.TemporaryQueue javax.jms.TemporaryQueue
+         * @see javax.jms.TemporaryTopic javax.jms.TemporaryTopic
          */
         TEMPORARY
     }
 
     /**
-     *  Enum values that specify how the physical Destination was created
+     * Enum values that specify how the physical Destination was created
      */
     public static enum CreationType {
         /**
-         *  The Destination is automatically created
+         * The Destination is automatically created
          */
         AUTO,
 
         /**
-         *  The Destination is administratively created
+         * The Destination is administratively created
          */
         ADMIN
-    }  
+    }
 
     /** Enum value that specify the temporary destination name prefix */
     public static enum TemporaryType {
-        queue,
-        topic
+        queue, topic
     }
 
     /** Definition of TemporaryQueue and TemporaryTopic name prefixes */
-    public static final String TEMPORARY_DESTINATION_PREFIX =
-            "temporary_destination://";
+    public static final String TEMPORARY_DESTINATION_PREFIX = "temporary_destination://";
     public static final String TEMPORARY_QUEUE_NAME_PREFIX = "queue/";
     public static final String TEMPORARY_TOPIC_NAME_PREFIX = "topic/";
 
@@ -111,9 +105,9 @@ public class Destination implements Serializable {
 
     /** The CreationType of this Destination */
     private CreationType creationType;
-    
+
     /** Creates a new instance of a Destination */
-    public Destination (String name, Type type, Life life) {
+    public Destination(String name, Type type, Life life) {
         this.name = name;
         this.type = type;
         this.life = life;
@@ -121,45 +115,45 @@ public class Destination implements Serializable {
     }
 
     /**
-     *  returns the Name of the Destination
+     * returns the Name of the Destination
      *
-     *  @return The name of the Destination
+     * @return The name of the Destination
      */
     public String getName() {
         return name;
     }
 
     /**
-     *  returns the DestinationType of this Destination
+     * returns the DestinationType of this Destination
      *
-     *  @return The DestinationType
+     * @return The DestinationType
      */
     public Type getType() {
         return this.type;
     }
 
     /**
-     *  returns the DestinationLifeSpan of this Destination
+     * returns the DestinationLifeSpan of this Destination
      *
-     *  @return The DestinationLifeSpan
+     * @return The DestinationLifeSpan
      */
     public Life getLife() {
         return this.life;
     }
 
     /**
-     *  Set the creationType for this Destination
+     * Set the creationType for this Destination
      *
-     *  @param creationType The JMSService.DestinationCreation value
+     * @param creationType The JMSService.DestinationCreation value
      */
     public void setCreationType(CreationType creationType) {
         this.creationType = creationType;
     }
 
     /**
-     *  Return the creationType for this Destination
+     * Return the creationType for this Destination
      *
-     *  @return The creationType
+     * @return The creationType
      */
     public CreationType getCreationType() {
         return this.creationType;

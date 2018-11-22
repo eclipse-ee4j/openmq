@@ -21,57 +21,66 @@ package com.sun.messaging.ums.core;
 import javax.xml.soap.SOAPException;
 
 /**
- * MQ SOAP Service interface.  This is part of the MQ SOAP Service frame work
- * that is used to implement and provide a new SOAP service in the frame work.
+ * MQ SOAP Service interface. This is part of the MQ SOAP Service frame work that is used to implement and provide a new
+ * SOAP service in the frame work.
  *
- * <p>A SOAP service consists of the following components:
+ * <p>
+ * A SOAP service consists of the following components:
  *
- * <p>1. Request Handler Chain.  The Request handler can be registered as follows
- * in the web.xml:
+ * <p>
+ * 1. Request Handler Chain. The Request handler can be registered as follows in the web.xml:
  *
- * <p>mq.soap.request.handler.#=MessageHandler class full name.
+ * <p>
+ * mq.soap.request.handler.#=MessageHandler class full name.
  *
- * <p>For example,
+ * <p>
+ * For example,
  *
- * <p>mq.soap.request.handler.1=com.sun.TestMessageListener1
- * <p>mq.soap.request.handler.2=com.sun.TestMessageListener2
+ * <p>
+ * mq.soap.request.handler.1=com.sun.TestMessageListener1
+ * <p>
+ * mq.soap.request.handler.2=com.sun.TestMessageListener2
  *
- * <P>2. Response Handler Chain.  The Response handler can be registered as
- * follows in the web.xml:
+ * <P>
+ * 2. Response Handler Chain. The Response handler can be registered as follows in the web.xml:
  *
- * <p>mq.soap.response.handler.#=MessageHandler class full name.
+ * <p>
+ * mq.soap.response.handler.#=MessageHandler class full name.
  *
- * <p>For example,
+ * <p>
+ * For example,
  *
- * <P>mq.soap.response.handler.1=com.sun.TestMessageListener1
- * <p>mq.soap.response.handler.2=com.sun.TestMessageListener2
+ * <P>
+ * mq.soap.response.handler.1=com.sun.TestMessageListener1
+ * <p>
+ * mq.soap.response.handler.2=com.sun.TestMessageListener2
  *
- * <p>3. ReqRespListener onMessage() implementation.
+ * <p>
+ * 3. ReqRespListener onMessage() implementation.
  *
- * <p>4. Service lifecycle management methods.  There are four methods defined
- * for life cycle management - init/start/stop/close.  They are used for
- * init/start/stop/close a MQ SOAP Service instance.  Sub class SHOULD
- * implement or over ride the life cycle methods if necessary.
+ * <p>
+ * 4. Service lifecycle management methods. There are four methods defined for life cycle management -
+ * init/start/stop/close. They are used for init/start/stop/close a MQ SOAP Service instance. Sub class SHOULD implement
+ * or over ride the life cycle methods if necessary.
  *
  *
- * <p>MQSOAPService is a class that provides base implementation of SOApService
- * interface.  A new SOAP service is recommended to sub class MQSOAPService
- * and over ride appropriate methods as needed.  Please see MQSOAPService
- * Javadoc for details.
+ * <p>
+ * MQSOAPService is a class that provides base implementation of SOApService interface. A new SOAP service is
+ * recommended to sub class MQSOAPService and over ride appropriate methods as needed. Please see MQSOAPService Javadoc
+ * for details.
  *
- * @author  chiaming yang
- * @see     MQSOAPService
- * @see     MessageHandler
- * @see     MessageHandlerChain
+ * @author chiaming yang
+ * @see MQSOAPService
+ * @see MessageHandler
+ * @see MessageHandlerChain
  */
 public interface SOAPService {
 
     /**
-     * init this SOAPService with the specified Properties in the parameter.
-     * This method is called when the service is loaded in the the frame
-     * work.
+     * init this SOAPService with the specified Properties in the parameter. This method is called when the service is
+     * loaded in the the frame work.
      */
-    public void init (ServiceContext context) throws SOAPException;
+    public void init(ServiceContext context) throws SOAPException;
 
     /**
      * Get req handler chain in this service.
@@ -107,8 +116,7 @@ public interface SOAPService {
      * Get this soap service URI.
      */
     public String getServiceName();
-    
-    public void service (MessageContext context) throws SOAPException;
+
+    public void service(MessageContext context) throws SOAPException;
 
 }
-

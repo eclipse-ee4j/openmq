@@ -16,7 +16,7 @@
 
 /*
  * @(#)HeartbeatCallback.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat.spi;
 
@@ -28,58 +28,49 @@ import java.net.InetSocketAddress;
 public interface HeartbeatCallback {
 
     /**
-     * The implementation of this method could check the validity
-     * of the received data and throw IOException to indicate the
-     * data should be discarded - that is it should not be counted
-     * in calculating timeout, e.g.
+     * The implementation of this method could check the validity of the received data and throw IOException to indicate the
+     * data should be discarded - that is it should not be counted in calculating timeout, e.g.
      *
-     * 1. The received data could come from a different store session
-     *    of a broker instance running on the endpoint
-     * 2. The received data could be a UDP broadcast
+     * 1. The received data could come from a different store session of a broker instance running on the endpoint 2. The
+     * received data could be a UDP broadcast
      *
      * @param sender The sender where the data received from
      * @param data The data received from the remote endpoint
      *
      * @throws IOException if the data should be discarded
      */
-    void
-    heartbeatReceived(InetSocketAddress sender, byte[] data) throws IOException;
-
+    void heartbeatReceived(InetSocketAddress sender, byte[] data) throws IOException;
 
     /**
      * This method should be called before each send to the endpoint
      *
-     * @param key The opaque key associated with this endpoint 
+     * @param key The opaque key associated with this endpoint
      * @param endpoint The endpoint to send heartbeat to
      *
      * @return array of bytes for sending to the endpoint
      *
      * @throws IOException
      */
-    byte[]
-    getBytesToSend(Object key, InetSocketAddress endpoint) throws IOException;
-
+    byte[] getBytesToSend(Object key, InetSocketAddress endpoint) throws IOException;
 
     /**
-     * Timed out in receiving data from the remote endpoint 
+     * Timed out in receiving data from the remote endpoint
      *
-     * @param key The opaque key associated with this endpoint 
+     * @param key The opaque key associated with this endpoint
      * @param endpoint The endpoint
      * @param reason The IOException if any associated with the timeout or null
-     *               
+     * 
      */
-    void
-    heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason);
+    void heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason);
 
     /**
      * Heartbeat send io exception occurred
      *
-     * @param key The opaque key associated with this endpoint 
+     * @param key The opaque key associated with this endpoint
      * @param endpoint The endpoint
      * @param reason The IOException if any associated with the timeout or null
-     *               
+     * 
      */
-    void
-    heartbeatIOException(Object key, InetSocketAddress endpoint, IOException reason);
+    void heartbeatIOException(Object key, InetSocketAddress endpoint, IOException reason);
 
 }

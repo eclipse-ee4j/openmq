@@ -19,33 +19,26 @@ package com.sun.messaging.bridge.api;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 
 /**
- * @author amyk 
+ * @author amyk
  */
-public interface StompConnection  {
+public interface StompConnection {
 
     /**
      * @return the connection id
      */
-    public String connect(String login, String passcode, String clientid) 
-    throws Exception;
+    public String connect(String login, String passcode, String clientid) throws Exception;
 
     public void disconnect(boolean closeCheck) throws Exception;
 
-    public void sendMessage(StompFrameMessage message, String tid)
-    throws Exception;
+    public void sendMessage(StompFrameMessage message, String tid) throws Exception;
 
-    public StompSubscriber createSubscriber(String subid, String stompdest,
-                                            StompAckMode ackMode, String selector,
-                                            String duraname, boolean nolocal, 
-                                            String tid, StompOutputHandler out)
-                                            throws Exception;
+    public StompSubscriber createSubscriber(String subid, String stompdest, StompAckMode ackMode, String selector, String duraname, boolean nolocal, String tid,
+            StompOutputHandler out) throws Exception;
 
-    public void ack(String id, String tid, String subid, String msgid, boolean nack) 
-    throws Exception;
+    public void ack(String id, String tid, String subid, String msgid, boolean nack) throws Exception;
 
-    //for STOMP protocol 1.0 only
-    public void ack10(String subidPrefix, String msgid,  String tid) 
-    throws Exception;
+    // for STOMP protocol 1.0 only
+    public void ack10(String subidPrefix, String msgid, String tid) throws Exception;
 
     /**
      * @return subid if duraname not null
@@ -53,7 +46,8 @@ public interface StompConnection  {
     public String closeSubscriber(String subid, String duraname) throws Exception;
 
     public void beginTransactedSession(String tid) throws Exception;
+
     public void commitTransactedSession(String tid) throws Exception;
+
     public void abortTransactedSession(String tid) throws Exception;
 }
- 

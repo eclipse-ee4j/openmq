@@ -31,10 +31,11 @@ import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
 import com.sun.messaging.jmq.io.*; //test program only
 
 /**
- * DirectBrokerProcess implementation. It wraps a singleton class
- * (only one broker can be running in any process).<P>
+ * DirectBrokerProcess implementation. It wraps a singleton class (only one broker can be running in any process).
+ * <P>
  *
- * <u>Example</u><P>
+ * <u>Example</u>
+ * <P>
  * <code><PRE>
  *      DirectBrokerProcess bp = BrokerProcess.getBrokerProcess(BrokerProcess.DIRECT_BROKER);
  *      try {
@@ -51,21 +52,18 @@ import com.sun.messaging.jmq.io.*; //test program only
  *      }
  * </PRE></code>
  */
-public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroker
-{
+public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroker {
     String name = "mqdirect";
+
     public DirectBrokerProcess() {
         super();
     }
 
-
-    public int start(boolean inProcess, 
-        Properties properties, BrokerEventListener bel, 
-        boolean initOnly,  Throwable failStartThrowable)
-        throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
+    public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
+            throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
 
         if (properties == null) {
-             properties = new Properties();
+            properties = new Properties();
         }
         properties.put(Globals.IMQ + ".service.runtimeAdd", name);
         return super.start(inProcess, properties, bel, initOnly, failStartThrowable);
@@ -75,13 +73,14 @@ public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroke
      * Returns true when the broker is ready to start processing messages
      */
     public boolean directServiceIsUp() {
-        IMQService service = (IMQService)Globals.getServiceManager().getService(name);
-        if (service == null) return false;
+        IMQService service = (IMQService) Globals.getServiceManager().getService(name);
+        if (service == null)
+            return false;
         return service.getState() == ServiceState.RUNNING;
     }
 
     public DirectBrokerConnection getConnection() {
-        IMQEmbeddedService service = (IMQEmbeddedService)Globals.getServiceManager().getService(name);
+        IMQEmbeddedService service = (IMQEmbeddedService) Globals.getServiceManager().getService(name);
         try {
             return service.createConnection();
         } catch (Exception ex) {
@@ -91,5 +90,3 @@ public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroke
     }
 
 }
-
-

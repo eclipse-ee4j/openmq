@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServerLinkTable.java	1.21 09/11/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
@@ -47,7 +47,6 @@ import javax.net.ssl.*;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-
 public class ServerLinkTable implements HttpTunnelDefaults {
     private static final int RUNNING = 0;
     private static final int SHUTTINGDOWN = 1;
@@ -68,8 +67,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         this(cfg, false);
     }
 
-    public ServerLinkTable(ServletConfig cfg, boolean useSSL)
-        throws Exception {
+    public ServerLinkTable(ServletConfig cfg, boolean useSSL) throws Exception {
         servletContext = cfg.getServletContext();
         linkTableState = RUNNING;
         nextConnId = (int) System.currentTimeMillis();
@@ -87,20 +85,18 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             try {
                 rxBufSize = Integer.parseInt(rxBufSizeStr);
             } catch (Exception e) {
-                servletContext.log("Exception in HttpTunnelServlet : " +
-                    e.getMessage());
+                servletContext.log("Exception in HttpTunnelServlet : " + e.getMessage());
             }
         }
 
         // determine port number to use
-        int defaultPort = (useSSL ? DEFAULT_HTTPS_TUNNEL_PORT
-                                  : DEFAULT_HTTP_TUNNEL_PORT);
+        int defaultPort = (useSSL ? DEFAULT_HTTPS_TUNNEL_PORT : DEFAULT_HTTP_TUNNEL_PORT);
 
         String servletPortString = cfg.getInitParameter("servletPort");
 
         if (servletPortString == null) {
-            //check if the user has specified "serverPort" as the servlet init parameters
-            //TODO remove this line: this is kept for backward compatability, one shd use servletPort instead of serverPort
+            // check if the user has specified "serverPort" as the servlet init parameters
+            // TODO remove this line: this is kept for backward compatability, one shd use servletPort instead of serverPort
             servletPortString = cfg.getInitParameter("serverPort");
         }
 
@@ -117,8 +113,8 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         servletHost = cfg.getInitParameter("servletHost");
 
         if (servletHost == null) {
-            //check if the user has specified "serverHost" as the servlet init parameters
-            //TODO remove this line: this is kept for backward compatability, one shd use servletHost instead of serverHost
+            // check if the user has specified "serverHost" as the servlet init parameters
+            // TODO remove this line: this is kept for backward compatability, one shd use servletHost instead of serverHost
             servletHost = cfg.getInitParameter("serverHost");
         }
 
@@ -135,19 +131,17 @@ public class ServerLinkTable implements HttpTunnelDefaults {
                 throw new Exception("keystore password not specified");
             }
 
-            helperThread = new HelperThread(servletPort, servletHost,
-                    rxBufSize, keystoreloc, kspassword, this);
+            helperThread = new HelperThread(servletPort, servletHost, rxBufSize, keystoreloc, kspassword, this);
         } else {
-            helperThread = new HelperThread(servletPort, servletHost,
-                    rxBufSize, this);
+            helperThread = new HelperThread(servletPort, servletHost, rxBufSize, this);
         }
 
         helperThread.start();
     }
 
-    //called from Servlet.destroy() - may have service threads running
+    // called from Servlet.destroy() - may have service threads running
     public void shuttingDown() {
-        //stop listen thread, no more server link
+        // stop listen thread, no more server link
         helperThread.close();
 
         synchronized (linkTable) {
@@ -163,8 +157,8 @@ public class ServerLinkTable implements HttpTunnelDefaults {
                 serverName = (String) servers.nextElement();
                 link = (ServerLink) linkTable.get(serverName);
                 linkTable.remove(serverName);
-                link.shutdown(); //stop link reading thread
-                link.linkDown(); //close link io/socket
+                link.shutdown(); // stop link reading thread
+                link.linkDown(); // close link io/socket
             }
         }
 
@@ -193,7 +187,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    //called from Servlet.destroy() when no more service threads
+    // called from Servlet.destroy() when no more service threads
     public void destroy() {
         linkTableState = DESTROYED;
 
@@ -209,17 +203,16 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             tmpList.removeAllElements();
         }
     }
-    
+
     /**
-     * This method is to close the server socket.  
-     * Any exception is ignored on purpose.
+     * This method is to close the server socket. Any exception is ignored on purpose.
      */
     public void close() {
-    	try {
-    		this.helperThread.close();
-    	} catch (Exception e) {
-    		;
-    	}
+        try {
+            this.helperThread.close();
+        } catch (Exception e) {
+            ;
+        }
     }
 
     protected void addServer(Socket s) {
@@ -244,9 +237,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             ServerLink oldlink = (ServerLink) linkTable.get(serverName);
 
             if ((oldlink != null) && !oldlink.isDone()) {
-                throw new IllegalStateException(
-                    "HttpTunnelServlet: ServerName " + serverName +
-                    " conflict");
+                throw new IllegalStateException("HttpTunnelServlet: ServerName " + serverName + " conflict");
             }
 
             linkTable.put(serverName, link);
@@ -261,8 +252,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         }
     }
 
-    public void updateConnection(int connId, int pullPeriod, ServerLink link)
-        throws IllegalStateException {
+    public void updateConnection(int connId, int pullPeriod, ServerLink link) throws IllegalStateException {
         Connection conn = new Connection(link);
         conn.setPullPeriod(pullPeriod);
 
@@ -278,8 +268,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
     private boolean sameServerName(String serverName, Connection conn) {
         String servname = conn.getServerLink().getServerName();
 
-        if ((servname == null) || (serverName == null) ||
-                !servname.equals(serverName)) {
+        if ((servname == null) || (serverName == null) || !servname.equals(serverName)) {
             return false;
         }
 
@@ -595,7 +584,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
             }
         }
 
-        //lock connTable outside pullQ lock 
+        // lock connTable outside pullQ lock
         if (removeConn) {
             synchronized (connTable) {
                 connTable.remove(connKey);
@@ -723,8 +712,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
                     break;
                 }
 
-                if ((size > 0) &&
-                        ((size + p.getPacketSize()) > MAX_PACKETSIZE)) {
+                if ((size > 0) && ((size + p.getPacketSize()) > MAX_PACKETSIZE)) {
                     break;
                 }
 
@@ -752,8 +740,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         return v;
     }
 
-    public void retrySendPacket(HttpTunnelPacket p, String connIdStr,
-        String serverName) {
+    public void retrySendPacket(HttpTunnelPacket p, String connIdStr, String serverName) {
         if (serverName == null) {
             return;
         }
@@ -888,7 +875,6 @@ public class ServerLinkTable implements HttpTunnelDefaults {
     }
 }
 
-
 class ConnKey {
     private String serverName;
     private int connId = -1;
@@ -898,8 +884,7 @@ class ConnKey {
         this.connId = connId;
     }
 
-    public ConnKey(String serverName, String connIdStr)
-        throws NumberFormatException {
+    public ConnKey(String serverName, String connIdStr) throws NumberFormatException {
         this.serverName = serverName;
         this.connId = Integer.parseInt(connIdStr);
     }
@@ -923,15 +908,12 @@ class ConnKey {
 
         ConnKey key = (ConnKey) obj;
 
-        return ((key.getServerName().equals(this.serverName)) &&
-        (key.getConnId() == this.connId));
+        return ((key.getServerName().equals(this.serverName)) && (key.getConnId() == this.connId));
     }
 }
 
-
 /**
- * Listens for TCP connections from servers and periodically
- * checks for connection timeouts.
+ * Listens for TCP connections from servers and periodically checks for connection timeouts.
  */
 class HelperThread extends Thread {
     private ServerSocket ss = null;
@@ -940,37 +922,34 @@ class HelperThread extends Thread {
     private boolean closed = false;
 
     // start regular ServerSocket
-    public HelperThread(int serverPort, String servletHost, int rxBufSize,
-        ServerLinkTable p) throws IOException {
+    public HelperThread(int serverPort, String servletHost, int rxBufSize, ServerLinkTable p) throws IOException {
         this.parent = p;
         closed = false;
 
-        //if (servletHost == null) {
-        //    ss = new ServerSocket(serverPort);
-        //} else {
-        //    InetAddress listenAddr = InetAddress.getByName(servletHost);
-        //    ss = new ServerSocket(serverPort, 50, listenAddr);
+        // if (servletHost == null) {
+        // ss = new ServerSocket(serverPort);
+        // } else {
+        // InetAddress listenAddr = InetAddress.getByName(servletHost);
+        // ss = new ServerSocket(serverPort, 50, listenAddr);
 
-            // Why backlog = 50? According the JDK 1.4 javadoc,
-            // that's the default value for ServerSocket().
-        //}
-        
-        //create a regular server socket.  (SSLServerSocketFactory is null).
+        // Why backlog = 50? According the JDK 1.4 javadoc,
+        // that's the default value for ServerSocket().
+        // }
+
+        // create a regular server socket. (SSLServerSocketFactory is null).
         ss = createServerSocket(null, serverPort, servletHost);
-        
+
         try {
-        ss.setSoTimeout(5000);
+            ss.setSoTimeout(5000);
         } catch (SocketException e) {
-        parent.servletContext.log("WARNING: HttpTunnelTcpListener["+
-               ss.toString()+"]setSoTimeout("+5000+"): "+e.toString()); 
+            parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
         }
 
         if (rxBufSize > 0) {
             try {
-            ss.setReceiveBufferSize(rxBufSize);
+                ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpTunnelTcpListener["+
-                   ss.toString()+"]setReceiveBufferSize("+rxBufSize+"): "+e.toString()); 
+                parent.servletContext.log("WARNING: HttpTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
             }
         }
 
@@ -978,99 +957,89 @@ class HelperThread extends Thread {
         setDaemon(true);
         servletName = "HttpTunnelServlet";
 
-        parent.servletContext.log(servletName + ": listening on port " +
-            serverPort + " ...");
+        parent.servletContext.log(servletName + ": listening on port " + serverPort + " ...");
     }
 
     // start SSLServerSocket
-    public HelperThread(int serverPort, String servletHost, int rxBufSize,
-        String ksloc, String password, ServerLinkTable p)
-        throws IOException {
+    public HelperThread(int serverPort, String servletHost, int rxBufSize, String ksloc, String password, ServerLinkTable p) throws IOException {
         this.parent = p;
         closed = false;
 
         SSLServerSocketFactory ssf = getServerSocketFactory(ksloc, password);
 
-        //if (servletHost == null) {
-        //    ss = (ServerSocket) ssf.createServerSocket(serverPort);
-        //} else {
-        //    InetAddress listenAddr = InetAddress.getByName(servletHost);
-        //    ss = (ServerSocket) ssf.createServerSocket(serverPort, 50,
-        //            listenAddr);
+        // if (servletHost == null) {
+        // ss = (ServerSocket) ssf.createServerSocket(serverPort);
+        // } else {
+        // InetAddress listenAddr = InetAddress.getByName(servletHost);
+        // ss = (ServerSocket) ssf.createServerSocket(serverPort, 50,
+        // listenAddr);
 
-            // Why backlog = 50? According the JDK 1.4 javadoc,
-            // that's the default value for ServerSocket().
-        //}
-        
+        // Why backlog = 50? According the JDK 1.4 javadoc,
+        // that's the default value for ServerSocket().
+        // }
+
         ss = createServerSocket(ssf, serverPort, servletHost);
-        
+
         try {
-        ss.setSoTimeout(5000);
+            ss.setSoTimeout(5000);
         } catch (SocketException e) {
-        parent.servletContext.log("WARNING: HttpsTunnelTcpListener["+
-                   ss.toString()+"]setSoTimeout("+5000+"): "+e.toString()); 
+            parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setSoTimeout(" + 5000 + "): " + e.toString());
         }
 
         if (rxBufSize > 0) {
             try {
-            ss.setReceiveBufferSize(rxBufSize);
+                ss.setReceiveBufferSize(rxBufSize);
             } catch (SocketException e) {
-            parent.servletContext.log("WARNING: HttpsTunnelTcpListener["+
-                   ss.toString()+"]setReceiveBufferSize("+rxBufSize+"): "+e.toString()); 
+                parent.servletContext.log("WARNING: HttpsTunnelTcpListener[" + ss.toString() + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString());
             }
-             
+
         }
 
         setName("HttpsTunnelTcpListener");
         setDaemon(true);
         servletName = "HttpsTunnelServlet";
 
-        parent.servletContext.log(servletName + ": listening on port " +
-            serverPort + " ...");
+        parent.servletContext.log(servletName + ": listening on port " + serverPort + " ...");
     }
-        
-    
-    
-    private ServerSocket createServerSocket(SSLServerSocketFactory ssf, int serverPort,
-			String servletHost) throws IOException {
 
-		ServerSocket serverSocket = null;
-		int retryCount = 0;
+    private ServerSocket createServerSocket(SSLServerSocketFactory ssf, int serverPort, String servletHost) throws IOException {
 
-		while (serverSocket == null) {
+        ServerSocket serverSocket = null;
+        int retryCount = 0;
 
-			retryCount++;
+        while (serverSocket == null) {
 
-			try {
-				
-				if (ssf != null) {
-					serverSocket = doCreateSSLServerSocket(ssf, serverPort, servletHost);
-				} else {
-					serverSocket = doCreateServerSocket(serverPort, servletHost);
-				}
-				
-			} catch (java.net.BindException ioe) {
+            retryCount++;
 
-				// we only retry if it is a BindException.
-				if (retryCount > 7) {
-					throw ioe;
-				} else {
-					parent.servletContext.log(ioe.toString(), ioe);
-				}
+            try {
 
-				pause(3000);
-			}
-		}
+                if (ssf != null) {
+                    serverSocket = doCreateSSLServerSocket(ssf, serverPort, servletHost);
+                } else {
+                    serverSocket = doCreateServerSocket(serverPort, servletHost);
+                }
 
-		return serverSocket;
-	}
-    
-    private ServerSocket 
-    doCreateServerSocket (int serverPort, String servletHost) throws IOException {
-    	ServerSocket serverSocket = null;
-    	
-    	if (servletHost == null) {
-    		serverSocket = new ServerSocket(serverPort);
+            } catch (java.net.BindException ioe) {
+
+                // we only retry if it is a BindException.
+                if (retryCount > 7) {
+                    throw ioe;
+                } else {
+                    parent.servletContext.log(ioe.toString(), ioe);
+                }
+
+                pause(3000);
+            }
+        }
+
+        return serverSocket;
+    }
+
+    private ServerSocket doCreateServerSocket(int serverPort, String servletHost) throws IOException {
+        ServerSocket serverSocket = null;
+
+        if (servletHost == null) {
+            serverSocket = new ServerSocket(serverPort);
         } else {
             InetAddress listenAddr = InetAddress.getByName(servletHost);
             serverSocket = new ServerSocket(serverPort, 50, listenAddr);
@@ -1079,38 +1048,37 @@ class HelperThread extends Thread {
             // that's the default value for ServerSocket().
         }
 
-    	return serverSocket;
+        return serverSocket;
     }
-    
-    private ServerSocket 
-    doCreateSSLServerSocket (SSLServerSocketFactory ssf, int serverPort, String servletHost) throws IOException {
-    	
-    	ServerSocket serverSocket = null;
-    	
-    	if (servletHost == null) {
-    		serverSocket = (ServerSocket) ssf.createServerSocket(serverPort);
+
+    private ServerSocket doCreateSSLServerSocket(SSLServerSocketFactory ssf, int serverPort, String servletHost) throws IOException {
+
+        ServerSocket serverSocket = null;
+
+        if (servletHost == null) {
+            serverSocket = (ServerSocket) ssf.createServerSocket(serverPort);
         } else {
             InetAddress listenAddr = InetAddress.getByName(servletHost);
-            serverSocket = (ServerSocket) ssf.createServerSocket(serverPort, 50,
-                    listenAddr);
+            serverSocket = (ServerSocket) ssf.createServerSocket(serverPort, 50, listenAddr);
 
             // Why backlog = 50? According the JDK 1.4 javadoc,
             // that's the default value for ServerSocket().
         }
 
-    	return serverSocket;
+        return serverSocket;
     }
-    
+
     /**
      * pause for the specified milli seconds.
+     * 
      * @param ptime
      */
-    private void pause (long ptime) {
-    	try {
-    		Thread.sleep(ptime);
-    	} catch (Exception e) {
-    		;
-    	}
+    private void pause(long ptime) {
+        try {
+            Thread.sleep(ptime);
+        } catch (Exception e) {
+            ;
+        }
     }
 
     public void run() {
@@ -1128,14 +1096,11 @@ class HelperThread extends Thread {
                     parent.addServer(s);
                 }
 
-                parent.servletContext.log(servletName +
-                    ": accepted socket connection. rcvbuf = " +
-                    s.getReceiveBufferSize());
+                parent.servletContext.log(servletName + ": accepted socket connection. rcvbuf = " + s.getReceiveBufferSize());
             } catch (InterruptedIOException e1) {
                 parent.checkConnectionTimeouts();
             } catch (Exception e2) {
-                parent.servletContext.log(servletName + ": accept(): " +
-                    e2.getMessage());
+                parent.servletContext.log(servletName + ": accept(): " + e2.getMessage());
             }
         }
 
@@ -1153,19 +1118,18 @@ class HelperThread extends Thread {
         }
     }
 
-    private SSLServerSocketFactory getServerSocketFactory(String ksloc,
-        String password) throws IOException {
+    private SSLServerSocketFactory getServerSocketFactory(String ksloc, String password) throws IOException {
         SSLServerSocketFactory ssf = null;
 
         try {
             // set up key manager to do server authentication
-            // Don't i18n Strings here.  They are key words
+            // Don't i18n Strings here. They are key words
             SSLContext ctx;
             KeyManagerFactory kmf;
             KeyStore ks;
 
-            // Get Keystore Location and  Passphrase here .....
-            // Check if the keystore exists.  If not throw exception.
+            // Get Keystore Location and Passphrase here .....
+            // Check if the keystore exists. If not throw exception.
             // This is done first as if the keystore does not exist, then
             // there is no point in going further.
             File kf = new File(ksloc);
@@ -1203,7 +1167,6 @@ class HelperThread extends Thread {
         }
     }
 }
-
 
 class Connection {
     private Vector pullQ = new Vector();

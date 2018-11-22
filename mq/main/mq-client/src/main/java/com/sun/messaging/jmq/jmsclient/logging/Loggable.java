@@ -16,7 +16,7 @@
 
 /*
  * @(#)Loggable.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.logging;
 
@@ -25,10 +25,9 @@ package com.sun.messaging.jmq.jmsclient.logging;
  * <p>
  * An exception can implement this interface to indicate that it is loggable.
  *
- * All JMSExceptions in com.sun.messaging.jms package implement this interface.
- * A Loggable exception thrown from ExceptionHandler.throwJMSException() can be
- * logged in the root logger name space.  The same exception will not be logged
- * again if ExceptionHandler.throwJMSException() is called more than once.
+ * All JMSExceptions in com.sun.messaging.jms package implement this interface. A Loggable exception thrown from
+ * ExceptionHandler.throwJMSException() can be logged in the root logger name space. The same exception will not be
+ * logged again if ExceptionHandler.throwJMSException() is called more than once.
  *
  * XXX HAWK -- add comment here.
  */
@@ -36,12 +35,14 @@ public interface Loggable {
 
     /**
      * set state to true if this object is logged.
+     * 
      * @param state boolean
      */
-    public void setLogState (boolean state);
+    public void setLogState(boolean state);
 
     /**
      * get logging state of this object.
+     * 
      * @return boolean true if this object is logged.
      */
     public boolean getLogState();

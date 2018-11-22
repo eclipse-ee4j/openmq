@@ -20,7 +20,6 @@ import com.sun.messaging.ums.provider.openmq.ProviderDestinationService;
 import java.util.Properties;
 import javax.jms.JMSException;
 
-
 /**
  *
  * @author chiaming
@@ -29,23 +28,23 @@ import javax.jms.JMSException;
  */
 public class DestinationService {
 
-    //private static final String defaultServiceClassName = 
-    //        "com.sun.messaging.ums.provider.openmq.ProviderDestinationService";
-    
-    //private static Properties props = null;
-    
+    // private static final String defaultServiceClassName =
+    // "com.sun.messaging.ums.provider.openmq.ProviderDestinationService";
+
+    // private static Properties props = null;
+
     private static ProviderDestinationService service = null;
-    
-    public static void init (Properties props) throws JMSException {
-        //props = props;
-        
+
+    public static void init(Properties props) throws JMSException {
+        // props = props;
+
         service = new ProviderDestinationService();
         service.init(props);
     }
-    
-    public static ProviderDestinationService getProviderDestinationService (String provider) {
-        
+
+    public static ProviderDestinationService getProviderDestinationService(String provider) {
+
         return service;
     }
-        
+
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)DeleteMessageHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -42,7 +42,7 @@ import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-public class DeleteMessageHandler extends AdminCmdHandler  {
+public class DeleteMessageHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public DeleteMessageHandler(AdminDataHandler parent) {
@@ -52,45 +52,42 @@ public class DeleteMessageHandler extends AdminCmdHandler  {
     /**
      * Handle the incomming administration message.
      *
-     * @param con    The Connection the message came in on.
-     * @param cmd_msg    The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-                       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-        if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                            "Getting messages: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Getting messages: " + cmd_props);
         }
 
         int status = Status.OK;
         String errMsg = null;
 
-        String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-        Integer destType = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
-        String msgID = (String)cmd_props.get(MessageType.JMQ_MESSAGE_ID);
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer destType = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        String msgID = (String) cmd_props.get(MessageType.JMQ_MESSAGE_ID);
 
-	if (destType == null)  {
+        if (destType == null) {
             errMsg = "DELETE_MESSAGE: destination type not specified";
             logger.log(Logger.ERROR, errMsg);
             status = Status.BAD_REQUEST;
-	}
-        if (status == Status.OK) { 
+        }
+        if (status == Status.OK) {
             try {
                 deleteMessage(msgID, destination, DestType.isQueue(destType.intValue()));
             } catch (Exception e) {
                 status = Status.ERROR;
-                errMsg= e.getMessage();
+                errMsg = e.getMessage();
                 boolean logstack = true;
                 if (e instanceof BrokerException) {
-                    status = ((BrokerException)e).getStatusCode();
-                    if (status == Status.NOT_ALLOWED || status == Status.NOT_FOUND || 
-                        status == Status.CONFLICT || status == Status.BAD_REQUEST) {
+                    status = ((BrokerException) e).getStatusCode();
+                    if (status == Status.NOT_ALLOWED || status == Status.NOT_FOUND || status == Status.CONFLICT || status == Status.BAD_REQUEST) {
                         logstack = false;
                     }
                 }
-                Object[] args = { ""+msgID, ""+destination, e.getMessage() };
+                Object[] args = { "" + msgID, "" + destination, e.getMessage() };
                 errMsg = rb.getKString(rb.X_ADMIN_DELETE_MSG, args);
                 if (logstack) {
                     logger.logStack(Logger.ERROR, errMsg, e);
@@ -107,38 +104,34 @@ public class DeleteMessageHandler extends AdminCmdHandler  {
         return true;
     }
 
-    public void deleteMessage(String msgID,  String destination, boolean isQueue) 
-    throws BrokerException, IOException {
+    public void deleteMessage(String msgID, String destination, boolean isQueue) throws BrokerException, IOException {
 
-	if (destination == null)  {
+        if (destination == null) {
             String emsg = "DELETE_MESSAGE: destination name not specified";
             throw new BrokerException(emsg, Status.BAD_REQUEST);
-	}
+        }
 
-	if (msgID == null)  {
+        if (msgID == null) {
             String emsg = "DELETE_MESSAGE: Message ID not specified";
             throw new BrokerException(emsg, Status.BAD_REQUEST);
-	}
+        }
 
         Destination[] ds = DL.getDestination(null, destination, isQueue);
-        Destination d = ds[0]; //PART
+        Destination d = ds[0]; // PART
         if (d == null) {
-            String emsg = "DELETE_MESSAGE: "+
-                           rb.getString(rb.X_DESTINATION_NOT_FOUND, destination);
+            String emsg = "DELETE_MESSAGE: " + rb.getString(rb.X_DESTINATION_NOT_FOUND, destination);
             throw new BrokerException(emsg, Status.NOT_FOUND);
         }
         if (DEBUG) {
             d.debug();
         }
 
-        logger.log(Logger.INFO, rb.getKString(
-                   rb.I_ADMIN_DELETE_MESSAGE, msgID, d.getDestinationUID()));
+        logger.log(Logger.INFO, rb.getKString(rb.I_ADMIN_DELETE_MESSAGE, msgID, d.getDestinationUID()));
 
         SysMessageID sysMsgID = SysMessageID.get(msgID);
         PacketReference pr = DL.get(d.getPartitionedStore(), sysMsgID);
-        if (pr == null)  {
-            String emsg = "Could not locate message " + msgID+
-                          " in destination " + destination;
+        if (pr == null) {
+            String emsg = "Could not locate message " + msgID + " in destination " + destination;
             throw new BrokerException(emsg, Status.NOT_FOUND);
         }
         if (!pr.isLocal()) {
@@ -147,19 +140,15 @@ public class DeleteMessageHandler extends AdminCmdHandler  {
             throw new BrokerException(emsg, Status.NOT_ALLOWED);
         }
 
-        Destination.RemoveMessageReturnInfo ret = 
-            d.removeMessageWithReturnInfo(sysMsgID, RemoveReason.REMOVE_ADMIN);
+        Destination.RemoveMessageReturnInfo ret = d.removeMessageWithReturnInfo(sysMsgID, RemoveReason.REMOVE_ADMIN);
         if (ret.inreplacing) {
-            String emsg = rb.getKString(rb.E_DELETE_MSG_IN_REPLACING, 
-                                        msgID, d.getDestinationUID()); 
+            String emsg = rb.getKString(rb.E_DELETE_MSG_IN_REPLACING, msgID, d.getDestinationUID());
             throw new BrokerException(emsg, Status.CONFLICT);
         }
         if (ret.indelivery) {
-            String emsg = rb.getKString(rb.X_ADMIN_DELETE_MSG_INDELIVERY, 
-                                        msgID, d.getDestinationUID()); 
+            String emsg = rb.getKString(rb.X_ADMIN_DELETE_MSG_INDELIVERY, msgID, d.getDestinationUID());
             throw new BrokerException(emsg, Status.CONFLICT);
         }
-        logger.log(logger.INFO, rb.getKString(rb.I_ADMIN_DELETED_MESSAGE, 
-                                    msgID, d.getDestinationUID()));  
+        logger.log(logger.INFO, rb.getKString(rb.I_ADMIN_DELETED_MESSAGE, msgID, d.getDestinationUID()));
     }
 }

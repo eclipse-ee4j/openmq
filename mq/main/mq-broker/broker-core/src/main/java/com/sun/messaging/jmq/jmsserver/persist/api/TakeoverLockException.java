@@ -16,16 +16,15 @@
 
 /*
  * @(#)TakeoverLockException.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
- * This class provides information about problems encountered when acquiring
- * takeover lock for a failed broker. The exception is thrown to signify a
- * takeover lock could not be obtained.
+ * This class provides information about problems encountered when acquiring takeover lock for a failed broker. The
+ * exception is thrown to signify a takeover lock could not be obtained.
  */
 
 public class TakeoverLockException extends BrokerException {
@@ -45,17 +44,19 @@ public class TakeoverLockException extends BrokerException {
 
     /**
      * Set the broker info before takeover started.
+     * 
      * @param bkrInfo the broker info before takeover started
-     */ 
+     */
     public void setBrokerInfo(HABrokerInfo bkrInfo) {
         this.bkrInfo = bkrInfo;
     }
 
     /**
      * Get the broker info before takeover started.
+     * 
      * @return HABrokerInfo broker info before takeover started
      */
     public HABrokerInfo getBrokerInfo() {
-	return bkrInfo;
+        return bkrInfo;
     }
 }

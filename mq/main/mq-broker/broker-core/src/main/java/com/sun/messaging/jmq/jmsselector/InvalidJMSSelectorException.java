@@ -16,7 +16,7 @@
 
 /*
  * @(#)InvalidJMSSelectorException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
@@ -28,16 +28,15 @@ public class InvalidJMSSelectorException extends java.lang.Exception {
     /**
      * Construct a InvalidJMSSelectorException
      */
-    public InvalidJMSSelectorException () {
+    public InvalidJMSSelectorException() {
         super();
     }
 
     /**
      * Construct a InvalidJMSSelectorException
      */
-    public InvalidJMSSelectorException (String reason) {
+    public InvalidJMSSelectorException(String reason) {
         super(reason);
     }
 
 }
-

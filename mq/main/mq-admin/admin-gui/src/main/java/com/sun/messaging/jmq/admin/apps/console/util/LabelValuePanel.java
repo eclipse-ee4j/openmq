@@ -16,7 +16,7 @@
 
 /*
  * @(#)LabelValuePanel.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console.util;
 
@@ -29,69 +29,66 @@ import javax.swing.JPanel;
 
 public class LabelValuePanel extends JPanel {
 
-    private int 		vgap = 5;
-    private int 		hgap = 5;
-    private JPanel 		panel;
-    private LabelledComponent 	items[];
+    private int vgap = 5;
+    private int hgap = 5;
+    private JPanel panel;
+    private LabelledComponent items[];
 
-    public LabelValuePanel(LabelledComponent items[])  {
+    public LabelValuePanel(LabelledComponent items[]) {
         this.items = items;
-	
-	init();
+
+        init();
     }
 
-    public LabelValuePanel(LabelledComponent items[], int hgap, int vgap)  {
+    public LabelValuePanel(LabelledComponent items[], int hgap, int vgap) {
         this.items = items;
-  	this.hgap = hgap;
-  	this.vgap = vgap;
-	
-	init();
-    }
+        this.hgap = hgap;
+        this.vgap = vgap;
 
+        init();
+    }
 
     public LabelledComponent[] getLabelledComponents() {
-	return this.items;
+        return this.items;
     }
 
     private void init() {
 
-	int numItems = items.length;
-	int longest = 0;
+        int numItems = items.length;
+        int longest = 0;
 
-	setBorder(BorderFactory.createEmptyBorder(vgap, hgap, vgap, hgap));
-	/*
-	 * Find the longest label while adding the 
-	 * LabelledComponents to the panel.
-	 */
-	GridBagLayout gridbag = new GridBagLayout();
-	setLayout(gridbag);
-	GridBagConstraints c = new GridBagConstraints();
+        setBorder(BorderFactory.createEmptyBorder(vgap, hgap, vgap, hgap));
+        /*
+         * Find the longest label while adding the LabelledComponents to the panel.
+         */
+        GridBagLayout gridbag = new GridBagLayout();
+        setLayout(gridbag);
+        GridBagConstraints c = new GridBagConstraints();
 
-	for (int i = 0; i < numItems; i++) {
-	    if (items[i].getLabelWidth() > longest) {
-		longest = items[i].getLabelWidth();
-	    }
-	    c.gridx = 0;
-	    c.gridy = i;
-	    c.ipadx = hgap;
-	    c.ipady = vgap;
-	    c.anchor = GridBagConstraints.WEST;
-	    c.weightx = 1.0;
-	    c.fill = GridBagConstraints.HORIZONTAL;
-	    gridbag.setConstraints(items[i], c);
-	    add(items[i]);
-	}
+        for (int i = 0; i < numItems; i++) {
+            if (items[i].getLabelWidth() > longest) {
+                longest = items[i].getLabelWidth();
+            }
+            c.gridx = 0;
+            c.gridy = i;
+            c.ipadx = hgap;
+            c.ipady = vgap;
+            c.anchor = GridBagConstraints.WEST;
+            c.weightx = 1.0;
+            c.fill = GridBagConstraints.HORIZONTAL;
+            gridbag.setConstraints(items[i], c);
+            add(items[i]);
+        }
 
-	/*
-	 * Set the label width to the longest label.
-	 * so that they are aligned equally.
-	 */
-	for (int i = 0; i < items.length; i++) {
-	    JLabel l = items[i].getLabel();
-	    Dimension dim = l.getPreferredSize();
-	    dim.width = longest;
-	    l.setPreferredSize(dim);
-	}
+        /*
+         * Set the label width to the longest label. so that they are aligned equally.
+         */
+        for (int i = 0; i < items.length; i++) {
+            JLabel l = items[i].getLabel();
+            Dimension dim = l.getPreferredSize();
+            dim.width = longest;
+            l.setPreferredSize(dim);
+        }
 
     }
 }

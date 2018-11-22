@@ -15,13 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
-
-public interface ServiceRestrictionListener 
-{
+public interface ServiceRestrictionListener {
 
     public void serviceRestrictionChanged(Service service);
 

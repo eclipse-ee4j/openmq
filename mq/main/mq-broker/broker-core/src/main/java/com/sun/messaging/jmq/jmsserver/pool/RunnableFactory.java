@@ -16,17 +16,15 @@
 
 /*
  * @(#)RunnableFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.pool;
 
 /**
- * class which allows different allocation of Runnables depending
- * on implementation
+ * class which allows different allocation of Runnables depending on implementation
  */
 
-public interface RunnableFactory 
-{
+public interface RunnableFactory {
 
     public BasicRunnable getRunnable(int indx, ThreadPool parent);
 

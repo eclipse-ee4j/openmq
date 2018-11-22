@@ -41,12 +41,10 @@ import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 
-
 /**
- * @author amyk 
+ * @author amyk
  */
-public class StompSubscriberSession 
-extends StompSessionImpl implements StompSubscriber, Consumer {
+public class StompSubscriberSession extends StompSessionImpl implements StompSubscriber, Consumer {
 
     private StompOutputHandler out = null;
     private String subid = null;
@@ -54,22 +52,18 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
     private String stompdest = null;
     private long consumerId = 0L;
 
-    private List<SysMessageID> unackedMessages = 
-        Collections.synchronizedList(new ArrayList<SysMessageID>());
+    private List<SysMessageID> unackedMessages = Collections.synchronizedList(new ArrayList<SysMessageID>());
 
-    public StompSubscriberSession(String subid, 
-        StompAckMode ackMode, StompConnectionImpl stompc)
-        throws Exception {
+    public StompSubscriberSession(String subid, StompAckMode ackMode, StompConnectionImpl stompc) throws Exception {
 
         super(stompc, ackMode, false);
         this.subid = subid;
     }
-    
+
     @Override
     public String toString() {
-        return "[StompSubscriberSession@"+hashCode()+", subid="+
-                subid+"["+consumerId+"], dura="+duraname+", stompdest+"+
-                stompdest+", unacks="+unackedMessages.size()+"]";
+        return "[StompSubscriberSession@" + hashCode() + ", subid=" + subid + "[" + consumerId + "], dura=" + duraname + ", stompdest+" + stompdest
+                + ", unacks=" + unackedMessages.size() + "]";
     }
 
     @Override
@@ -79,28 +73,23 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
         }
         try {
             SysMessageID lastseen = null;
-            synchronized(unackedMessages) {
-                int sz= unackedMessages.size();
-                if (sz > 0) { 
-                    lastseen = unackedMessages.get(sz-1);
+            synchronized (unackedMessages) {
+                int sz = unackedMessages.size();
+                if (sz > 0) {
+                    lastseen = unackedMessages.get(sz - 1);
                 }
             }
-            jmsservice.deleteConsumer(connectionId, sessionId,
-                consumerId, lastseen, false, null,
-                stompconn.getClientID());
+            jmsservice.deleteConsumer(connectionId, sessionId, consumerId, lastseen, false, null, stompconn.getClientID());
             consumerId = 0L;
             unackedMessages.clear();
         } catch (Exception e) {
             if (!isClosing() || getDEBUG()) {
                 logger.logStack(logger.WARNING, e.getMessage(), e);
-            } 
-        } 
+            }
+        }
     }
 
-    public StompSubscriber createSubscriber(
-        StompDestination d, String selector, String duraname, 
-        boolean nolocal, StompOutputHandler out)
-        throws Exception {
+    public StompSubscriber createSubscriber(StompDestination d, String selector, String duraname, boolean nolocal, StompOutputHandler out) throws Exception {
 
         if (consumerId != 0L) {
             throw new IllegalStateException("Subscriber already exists on this Session");
@@ -109,28 +98,25 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
         this.out = out;
         this.stompdest = stompconn.getProtocolHandler().toStompFrameDestination(d, false);
         this.duraname = duraname;
-        Destination dest = ((StompDestinationImpl)d).getDestination();
+        Destination dest = ((StompDestinationImpl) d).getDestination();
         JMSServiceReply reply = null;
         try {
             reply = jmsservice.createDestination(connectionId, dest);
         } catch (JMSServiceException jmsse) {
             JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
             if (status == JMSServiceReply.Status.CONFLICT) {
-                if (logger.isFineLoggable() || 
-                    stompconn.getProtocolHandler().getDEBUG()) {
-                    logger.log(logger.INFO, "Destination "+stompdest+" already exist");
+                if (logger.isFineLoggable() || stompconn.getProtocolHandler().getDEBUG()) {
+                    logger.log(logger.INFO, "Destination " + stompdest + " already exist");
                 }
             } else {
                 throw jmsse;
             }
         }
         reply = jmsservice.startConnection(connectionId);
-        reply = jmsservice.addConsumer(connectionId, sessionId,
-                    dest, selector, duraname, (duraname != null), 
-                    false, false, stompconn.getClientID(), nolocal);
+        reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(), nolocal);
         consumerId = reply.getJMQConsumerID();
         if (getDEBUG()) {
-            logger.log(logger.INFO, "Created "+this);
+            logger.log(logger.INFO, "Created " + this);
         }
         return this;
     }
@@ -142,57 +128,50 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
 
     public void ack(String msgid, boolean nack) throws Exception {
         checkSession();
-        String cmd = (nack ? "[NACK]":"[ACK]");
+        String cmd = (nack ? "[NACK]" : "[ACK]");
         long conid = consumerId;
         if (conid == 0L) {
-            throw new StompProtocolException(
-            "Can't "+cmd+msgid+" because the subscriber "+subid + "is closed"); 
+            throw new StompProtocolException("Can't " + cmd + msgid + " because the subscriber " + subid + "is closed");
         }
         SysMessageID sysid = null;
         try {
             sysid = SysMessageID.get(msgid);
         } catch (RuntimeException e) {
-            throw new StompProtocolException(
-                cmd+"invalid message-id"+e.getMessage(), e); 
+            throw new StompProtocolException(cmd + "invalid message-id" + e.getMessage(), e);
         }
 
         List<SysMessageID> list = new ArrayList<SysMessageID>();
-        synchronized(unackedMessages) {
+        synchronized (unackedMessages) {
             int index = unackedMessages.indexOf(sysid);
             if (index < 0) {
-                String emsg = cmd+br.getKString(
-                    br.X_STOMP_MSG_NOTFOUND_ON_ACK, msgid, this.toString());;
+                String emsg = cmd + br.getKString(br.X_STOMP_MSG_NOTFOUND_ON_ACK, msgid, this.toString());
+                ;
                 throw new StompProtocolException(emsg);
             }
-            if (clientackThisMessage || nack) { 
+            if (clientackThisMessage || nack) {
                 list.add(sysid);
             } else {
                 SysMessageID tmpsysid = null;
-                for (int i = 0; i <= index; i++) { 
+                for (int i = 0; i <= index; i++) {
                     tmpsysid = unackedMessages.get(i);
                     list.add(tmpsysid);
                 }
             }
         }
         if (logger.isFineLoggable() || stompconn.getDEBUG()) {
-            logger.logInfo(cmd+list.size()+" messages for subscriber "+
-                           subid+" on connection "+stompconn, null);
+            logger.logInfo(cmd + list.size() + " messages for subscriber " + subid + " on connection " + stompconn, null);
         }
         Iterator<SysMessageID> itr = list.iterator();
-        SysMessageID tmpsysid = null; 
+        SysMessageID tmpsysid = null;
         while (itr.hasNext()) {
             tmpsysid = itr.next();
             if (logger.isFinestLoggable() || stompconn.getDEBUG()) {
-                logger.logInfo(cmd+"message "+tmpsysid+" for subscriber "+
-                               subid+" on connection "+stompconn, null);
+                logger.logInfo(cmd + "message " + tmpsysid + " for subscriber " + subid + " on connection " + stompconn, null);
             }
             if (!nack) {
-                jmsservice.acknowledgeMessage(connectionId, sessionId,
-                    consumerId, tmpsysid, 0L, MessageAckType.ACKNOWLEDGE, 0);
+                jmsservice.acknowledgeMessage(connectionId, sessionId, consumerId, tmpsysid, 0L, MessageAckType.ACKNOWLEDGE, 0);
             } else {
-                jmsservice.acknowledgeMessage(connectionId, sessionId,
-                    consumerId, tmpsysid, 0L, MessageAckType.DEAD, 1,
-                    "STOMP:NACK", null);
+                jmsservice.acknowledgeMessage(connectionId, sessionId, consumerId, tmpsysid, 0L, MessageAckType.DEAD, 1, "STOMP:NACK", null);
             }
             unackedMessages.remove(tmpsysid);
         }
@@ -203,20 +182,16 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
     }
 
     @Override
-    public JMSAck deliver(JMSPacket msgpkt)
-    throws ConsumerClosedNoDeliveryException {
+    public JMSAck deliver(JMSPacket msgpkt) throws ConsumerClosedNoDeliveryException {
 
         if (closing || closed || stompconn.isClosed()) {
-            throw new ConsumerClosedNoDeliveryException(
-                "Subscriber "+this+" is closed");
+            throw new ConsumerClosedNoDeliveryException("Subscriber " + this + " is closed");
         }
         try {
-            final boolean needAck =  (ackMode != SessionAckMode.AUTO_ACKNOWLEDGE);
-            StompFrameMessage msg = toStompFrameMessage(subid, stompdest,
-                                        msgpkt.getPacket(), needAck);
+            final boolean needAck = (ackMode != SessionAckMode.AUTO_ACKNOWLEDGE);
+            StompFrameMessage msg = toStompFrameMessage(subid, stompdest, msgpkt.getPacket(), needAck);
             if (stompconn.getProtocolHandler().getDEBUG()) {
-                logger.log(logger.INFO, 
-                    " SEND message "+msg+" for "+toString());
+                logger.log(logger.INFO, " SEND message " + msg + " for " + toString());
             }
             if (ackMode != SessionAckMode.CLIENT_ACKNOWLEDGE) {
                 out.sendToClient(msg, stompconn.getProtocolHandler(), null);
@@ -225,7 +200,7 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
                 unackedMessages.add(msgpkt.getPacket().getSysMessageID());
                 out.sendToClient(msg, stompconn.getProtocolHandler(), null);
             }
-           
+
         } catch (Exception e) {
             logger.logStack(logger.WARNING, e.getMessage(), e);
         }
@@ -234,7 +209,7 @@ extends StompSessionImpl implements StompSubscriber, Consumer {
 
     private class Ack implements JMSAck {
         private Packet msg = null;
-        private MessageAckType acktype; 
+        private MessageAckType acktype;
 
         public Ack(Packet msg, MessageAckType acktype) {
             this.msg = msg;

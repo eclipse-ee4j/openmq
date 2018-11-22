@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -29,8 +29,6 @@ import org.glassfish.hk2.api.PerLookup;
  */
 @Contract
 @PerLookup
-public interface ConnToPartitionStrategy 
-{
-    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> cpsc)
-    throws BrokerException;
+public interface ConnToPartitionStrategy {
+    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> cpsc) throws BrokerException;
 }

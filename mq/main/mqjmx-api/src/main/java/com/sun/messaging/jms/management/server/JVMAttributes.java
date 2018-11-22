@@ -16,7 +16,7 @@
 
 /*
  * @(#)JVMAttributes.java	1.4 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,30 +24,30 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on JVM attributes.
  */
 public class JVMAttributes {
-    /** 
+    /**
      * FreeMemory
      */
-    public static final String		FREE_MEMORY = "FreeMemory";
+    public static final String FREE_MEMORY = "FreeMemory";
 
-    /** 
+    /**
      * InitMemory
      */
-    public static final String		INIT_MEMORY = "InitMemory";
+    public static final String INIT_MEMORY = "InitMemory";
 
-    /** 
+    /**
      * MaxMemory
      */
-    public static final String		MAX_MEMORY = "MaxMemory";
+    public static final String MAX_MEMORY = "MaxMemory";
 
-    /** 
+    /**
      * TotalMemory
      */
-    public static final String		TOTAL_MEMORY = "TotalMemory";
+    public static final String TOTAL_MEMORY = "TotalMemory";
 
     /*
      * Class cannot be instantiated
      */
     private JVMAttributes() {
     }
-    
+
 }

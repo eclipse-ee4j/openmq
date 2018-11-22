@@ -16,7 +16,7 @@
 
 /*
  * @(#)AckEntryNotFoundException.java	1.2 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
@@ -31,12 +31,12 @@ public class AckEntryNotFoundException extends BrokerException {
     public AckEntryNotFoundException(String msg) {
         super(msg, Status.NOT_FOUND);
         aes = new ArrayList[2];
-        aes[0] = new  ArrayList();
+        aes[0] = new ArrayList();
         aes[1] = new ArrayList();
     }
 
     public void addAckEntry(SysMessageID sysid, Object cuid) {
-        aes[0].add(sysid); 
+        aes[0].add(sysid);
         aes[1].add(cuid);
     }
 

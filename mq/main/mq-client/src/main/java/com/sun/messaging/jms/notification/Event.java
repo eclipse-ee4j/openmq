@@ -16,14 +16,13 @@
 
 /*
  * @(#)Event.java	1.3 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.notification;
 
 /**
- * MQ Event.  This is the super class for all MQ notification
- * events. MQ may notify an application when a specific MQ event is
- * about to occur or occurred.
+ * MQ Event. This is the super class for all MQ notification events. MQ may notify an application when a specific MQ
+ * event is about to occur or occurred.
  * <p>
  */
 public class Event extends java.util.EventObject {
@@ -34,7 +33,7 @@ public class Event extends java.util.EventObject {
     private String eventCode = null;
 
     /**
-     * MQ event message.  An event message describes a MQ specific event.
+     * MQ event message. An event message describes a MQ specific event.
      */
     private String eventMessage = null;
 
@@ -45,8 +44,8 @@ public class Event extends java.util.EventObject {
      * @param evCode the event code that represents the this event object.
      * @param evMessage the event message that describes this event object.
      */
-    public Event (Object source, String evCode, String evMessage) {
-        super (source);
+    public Event(Object source, String evCode, String evMessage) {
+        super(source);
 
         this.eventCode = evCode;
         this.eventMessage = evMessage;
@@ -54,6 +53,7 @@ public class Event extends java.util.EventObject {
 
     /**
      * Get the event code associated with the MQ event.
+     * 
      * @return the event code associated with the MQ event.
      */
     public String getEventCode() {
@@ -62,6 +62,7 @@ public class Event extends java.util.EventObject {
 
     /**
      * Get the event message associated with the connection event.
+     * 
      * @return the event message associated with the connection event.
      */
     public String getEventMessage() {
@@ -69,14 +70,13 @@ public class Event extends java.util.EventObject {
     }
 
     /**
-    * Returns a MQ event notification event message.  The format is as follows.
-    * <p>
-    * eventCode + ":" + eventMessage + ", " + source=" + source.toString().
-    *
-    * @return a String representation of this EventObject.
-    */
+     * Returns a MQ event notification event message. The format is as follows.
+     * <p>
+     * eventCode + ":" + eventMessage + ", " + source=" + source.toString().
+     *
+     * @return a String representation of this EventObject.
+     */
     public String toString() {
-        return this.getEventCode() + ":" + this.getEventMessage() + ", " +
-            super.toString();
+        return this.getEventCode() + ":" + this.getEventMessage() + ", " + super.toString();
     }
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)DeliverHandler.java	1.30 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
@@ -39,15 +39,12 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 
-
-
 /**
  * Handler class which deals with requests delivering messages
  */
-public class DeliverHandler extends PacketHandler 
-{
+public class DeliverHandler extends PacketHandler {
     // An Ack block is a 4 byte interest ID and a SysMessageID
-    static final int DELIVER_BLOCK_SIZE =  SysMessageID.ID_SIZE;
+    static final int DELIVER_BLOCK_SIZE = SysMessageID.ID_SIZE;
 
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
@@ -57,69 +54,59 @@ public class DeliverHandler extends PacketHandler
     }
 
     /**
-     * Method to handle DELIVER  messages
+     * Method to handle DELIVER messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-   {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         String reason = null;
         Hashtable props = null;
         try {
             props = msg.getProperties();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING,"Unable to retrieve "+
-                " properties from deliver message " + msg, ex);
+            logger.logStack(Logger.WARNING, "Unable to retrieve " + " properties from deliver message " + msg, ex);
             props = new Hashtable();
 
         }
 
         int size = msg.getMessageBodySize();
-        int ackcount = size/SysMessageID.ID_SIZE;
-        int mod = size%SysMessageID.ID_SIZE;
+        int ackcount = size / SysMessageID.ID_SIZE;
+        int mod = size % SysMessageID.ID_SIZE;
 
-
-        if (ackcount == 0 ) {
-            throw new BrokerException(Globals.getBrokerResources().getString(
-                BrokerResources.X_INTERNAL_EXCEPTION,"Empty Deliver Message"));
+        if (ackcount == 0) {
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Empty Deliver Message"));
         }
         if (mod != 0) {
-            throw new BrokerException(Globals.getBrokerResources().getString(
-                BrokerResources.X_INTERNAL_EXCEPTION,"Invalid Deliver Message Size: " + size +
-		". Not multiple of " + SysMessageID.ID_SIZE));
+            throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    "Invalid Deliver Message Size: " + size + ". Not multiple of " + SysMessageID.ID_SIZE));
         }
 
         if (DEBUG) {
-            logger.log(Logger.DEBUG,"Deliver Message: processing message {0} {1}",
-                     msg.toString(), 
-                     con.getConnectionUID().toString());
+            logger.log(Logger.DEBUG, "Deliver Message: processing message {0} {1}", msg.toString(), con.getConnectionUID().toString());
         }
 
-        Long lid = (Long)props.get("JMQConsumerID");
+        Long lid = (Long) props.get("JMQConsumerID");
 
-        long id = (lid == null ? (long)0 : lid.longValue());
+        long id = (lid == null ? (long) 0 : lid.longValue());
 
         assert id != 0;
 
-        DataInputStream is = new DataInputStream(
-		msg.getMessageBodyStream());
+        DataInputStream is = new DataInputStream(msg.getMessageBodyStream());
 
         Packet[] sentp = new Packet[ackcount];
 
         int sentPackets = 0; // actual # packets sent
 
         try {
-            for (int i = 0; i < ackcount; i ++ ) {
+            for (int i = 0; i < ackcount; i++) {
                 SysMessageID sysid = new SysMessageID();
-                sysid.readID(is); 
+                sysid.readID(is);
 
                 PacketReference ref = DL.get(con.getPartitionedStore(), sysid);
 
-                Packet realp = (ref == null ? 
-                      null : ref.getPacket());
+                Packet realp = (ref == null ? null : ref.getPacket());
 
                 if (ref != null && !ref.isInvalid() && realp != null) {
-                    //XXX revisit if this should not be 
+                    // XXX revisit if this should not be
                     // using a packet (queued instead)
                     Packet p = new Packet(con.useDirectBuffers());
                     p.fill(realp);
@@ -130,42 +117,33 @@ public class DeliverHandler extends PacketHandler
             }
         } catch (Exception ex) {
 
-            logger.logStack(Logger.ERROR,
-                  Globals.getBrokerResources().getString(
-                   BrokerResources.X_INTERNAL_EXCEPTION,
-                  "\tackcnt = " + ackcount + "\n"
-                 + PacketUtil.dumpPacket(msg) + "\n"
-                 + "\t" + PacketUtil.dumpThrowable(ex)), ex);
+            logger.logStack(Logger.ERROR, Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    "\tackcnt = " + ackcount + "\n" + PacketUtil.dumpPacket(msg) + "\n" + "\t" + PacketUtil.dumpThrowable(ex)), ex);
 
-            assert false ;
+            assert false;
         }
 
         // OK .. time to set the lbit on the message
         int status = Status.OK;
         try {
-            if (sentPackets > 0 ) {
-                assert sentp[sentPackets-1] != null;
-                sentp[sentPackets-1].setIsLast(true);
+            if (sentPackets > 0) {
+                assert sentp[sentPackets - 1] != null;
+                sentp[sentPackets - 1].setIsLast(true);
 
-             } else {
+            } else {
                 reason = "NOT FOUND";
-                status= Status.NOT_FOUND;
-             }
-               
+                status = Status.NOT_FOUND;
+            }
 
         } catch (Exception ex) {
-            logger.logStack(Logger.ERROR,
-                    Globals.getBrokerResources().getString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    "\tackcnt = " + ackcount + "\n"
-                    + PacketUtil.dumpPacket(msg) + "\n"
-                    + "\t" + PacketUtil.dumpThrowable(ex)), ex);
-            
+            logger.logStack(Logger.ERROR, Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    "\tackcnt = " + ackcount + "\n" + PacketUtil.dumpPacket(msg) + "\n" + "\t" + PacketUtil.dumpThrowable(ex)), ex);
+
             assert false;
             reason = ex.getMessage();
             status = Status.ERROR;
             if (ex instanceof BrokerException)
-                status = ((BrokerException)ex).getStatusCode();
+                status = ((BrokerException) ex).getStatusCode();
         }
 
         // do we need to create a reply packet each time ?
@@ -177,14 +155,11 @@ public class DeliverHandler extends PacketHandler
         hash.put("JMQStatus", Integer.valueOf(status));
         if (reason != null)
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection)con).getDumpPacket() ||
-            ((IMQBasicConnection)con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
             hash.put("JMQReqID", msg.getSysMessageID().toString());
-
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
-
 
         // before 3.5, messages were queued on the connection
         // however -> this means that browsing a queue
@@ -192,7 +167,7 @@ public class DeliverHandler extends PacketHandler
         // 3.5 and beyond, messages are place on the control
         // queue
 
-        for (int j =0; j < sentPackets; j ++) {
+        for (int j = 0; j < sentPackets; j++) {
             assert sentp[j] != null;
             if (sentp[j] != null)
                 con.sendControlMessage(sentp[j]);

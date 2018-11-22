@@ -16,7 +16,7 @@
 
 /*
  * @(#)CallbackDispatcher.java	1.33 07/23/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -52,24 +52,18 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 
 /**
- * This class schedules the MessageBusCallback notification
- * invokations.
+ * This class schedules the MessageBusCallback notification invokations.
  */
 public final class CallbackDispatcher extends Thread {
 
-    private static boolean DEBUG = false; 
+    private static boolean DEBUG = false;
 
-    private static final boolean DEBUG_CLUSTER_ALL =
-                        Globals.getConfig().getBooleanProperty(
-                                  Globals.IMQ + ".cluster.debug.all"); 
+    private static final boolean DEBUG_CLUSTER_ALL = Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.all");
 
-    private static final boolean DEBUG_CLUSTER_MSG =
-                   (Globals.getConfig().getBooleanProperty(
-                    Globals.IMQ + ".cluster.debug.msg") || DEBUG || DEBUG_CLUSTER_ALL);
+    private static final boolean DEBUG_CLUSTER_MSG = (Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.msg") || DEBUG || DEBUG_CLUSTER_ALL);
 
-    private static final boolean DEBUG_CLUSTER_TXN =
-            (Globals.getConfig().getBooleanProperty(
-             Globals.IMQ + ".cluster.debug.txn") || DEBUG || DEBUG_CLUSTER_ALL || DEBUG_CLUSTER_MSG);
+    private static final boolean DEBUG_CLUSTER_TXN = (Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn") || DEBUG || DEBUG_CLUSTER_ALL
+            || DEBUG_CLUSTER_MSG);
 
     private static final Logger logger = Globals.getLogger();
     private MessageBusCallback cb = null;
@@ -94,8 +88,7 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Initial sync with the config server is complete.
-     * We are now ready to accept connections from clients.
+     * Initial sync with the config server is complete. We are now ready to accept connections from clients.
      */
     public void configSyncComplete() {
         CallbackEvent cbe = new ConfigSyncCompleteCallbackEvent();
@@ -107,8 +100,7 @@ public final class CallbackDispatcher extends Thread {
     }
 
     public void processGPacket(BrokerAddress sender, GPacket pkt, Protocol p) {
-        CallbackEvent cbe =
-            new GPacketCallbackEvent(sender, pkt, p);
+        CallbackEvent cbe = new GPacketCallbackEvent(sender, pkt, p);
 
         synchronized (eventQ) {
             eventQ.add(cbe);
@@ -119,17 +111,15 @@ public final class CallbackDispatcher extends Thread {
     public void processMessageAckReply(final BrokerAddress sender, final GPacket pkt, final Protocol p) {
         int type = pkt.getType();
         if (type != ProtocolGlobals.G_MESSAGE_ACK_REPLY) {
-            throw new RuntimeException(
-            "Internal Error: Unexpected packet type "+type+" passed to CallbackDispatcher.processMessageAckReply()");
+            throw new RuntimeException("Internal Error: Unexpected packet type " + type + " passed to CallbackDispatcher.processMessageAckReply()");
         }
         if (processCommitAck(sender, pkt)) {
             return;
         }
 
         if (DEBUG_CLUSTER_MSG || DEBUG_CLUSTER_TXN) {
-            logger.log(logger.INFO, 
-            "processMessageAckReply: Received "+ProtocolGlobals.getPacketTypeDisplayString(type)+
-            " from "+sender+": "+ClusterMessageAckInfo.toString(pkt));
+            logger.log(logger.INFO, "processMessageAckReply: Received " + ProtocolGlobals.getPacketTypeDisplayString(type) + " from " + sender + ": "
+                    + ClusterMessageAckInfo.toString(pkt));
         }
 
         try {
@@ -138,20 +128,17 @@ public final class CallbackDispatcher extends Thread {
                 public void run() {
                     try {
                         p.handleGPacket(cb, sender, pkt);
-                    } catch (Throwable t) { 
-                        logger.logStack(logger.WARNING,
-                        "Exception in processing "+ClusterMessageAckInfo.toString(pkt)+" from "+sender, t);
+                    } catch (Throwable t) {
+                        logger.logStack(logger.WARNING, "Exception in processing " + ClusterMessageAckInfo.toString(pkt) + " from " + sender, t);
                     }
                 }
-                }
-                );
+            });
 
         } catch (Throwable t) {
             if (stopThread) {
-                logger.log(logger.DEBUG, 
-                "Cluster shutdown, ignore event "+ClusterMessageAckInfo.toString(pkt)+" from "+sender);
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore event " + ClusterMessageAckInfo.toString(pkt) + " from " + sender);
             } else {
-                logger.logStack(logger.WARNING, "Exception in submitting for processing "+ClusterMessageAckInfo.toString(pkt)+" from "+sender, t);
+                logger.logStack(logger.WARNING, "Exception in submitting for processing " + ClusterMessageAckInfo.toString(pkt) + " from " + sender, t);
             }
         }
     }
@@ -159,10 +146,10 @@ public final class CallbackDispatcher extends Thread {
     private boolean processCommitAck(final BrokerAddress sender, final GPacket pkt) {
 
         if (!ClusterMessageAckInfo.isAckAckAsync(pkt)) {
-            return false; 
+            return false;
         }
 
-        Integer acktype =  ClusterMessageAckInfo.getAckAckType(pkt);
+        Integer acktype = ClusterMessageAckInfo.getAckAckType(pkt);
         if (acktype == null || acktype.intValue() != ClusterGlobals.MB_MSG_CONSUMED) {
             return false;
         }
@@ -171,23 +158,20 @@ public final class CallbackDispatcher extends Thread {
         if (transactionID == null) {
             return false;
         }
-        
+
         if (ClusterMessageAckInfo.getAckAckStatus(pkt) != Status.OK) {
-            logger.log(logger.WARNING, br.getKString( br.W_CLUSTER_MSG_ACK_FAILED_FROM_HOME,
-                                       sender, ClusterMessageAckInfo.toString(pkt)));
+            logger.log(logger.WARNING, br.getKString(br.W_CLUSTER_MSG_ACK_FAILED_FROM_HOME, sender, ClusterMessageAckInfo.toString(pkt)));
             return true;
         }
 
         if (DEBUG_CLUSTER_TXN || DEBUG) {
-            logger.log(logger.INFO, 
-            "processCommitAck: Received "+ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+
-            " from "+sender+": "+ClusterMessageAckInfo.toString(pkt));
+            logger.log(logger.INFO, "processCommitAck: Received " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " from " + sender + ": "
+                    + ClusterMessageAckInfo.toString(pkt));
         }
 
         if (fi.FAULT_INJECTION) {
-            ClusterMessageAckInfo.CHECKFAULT(new HashMap(), 
-                                  ClusterGlobals.MB_MSG_CONSUMED, transactionID,
-                                  FaultInjection.MSG_REMOTE_ACK_P, FaultInjection.STAGE_3);
+            ClusterMessageAckInfo.CHECKFAULT(new HashMap(), ClusterGlobals.MB_MSG_CONSUMED, transactionID, FaultInjection.MSG_REMOTE_ACK_P,
+                    FaultInjection.STAGE_3);
         }
 
         try {
@@ -199,66 +183,54 @@ public final class CallbackDispatcher extends Thread {
                     try {
                         BrokerAddress addr = sender;
                         if (ss != null) {
-                            addr = (BrokerAddress)sender.clone();
+                            addr = (BrokerAddress) sender.clone();
                             addr.setStoreSessionUID(ss);
                         }
                         Object[] oo = TransactionList.getTransListAndState(tuid, null, true, false);
                         if (oo == null) {
-                            logger.log(logger.INFO,  Globals.getBrokerResources().getKString(
-                                BrokerResources.W_TXN_NOT_FOUND_ON_UPDATE_TXN_COMPLETION_FOR_BKR,
-                                tuid, addr));
+                            logger.log(logger.INFO,
+                                    Globals.getBrokerResources().getKString(BrokerResources.W_TXN_NOT_FOUND_ON_UPDATE_TXN_COMPLETION_FOR_BKR, tuid, addr));
                             return;
                         }
-                        TransactionList tl = (TransactionList)oo[0];
-                        tl.completeClusterTransactionBrokerState(tuid,
-                                   TransactionState.COMMITTED, addr, true);
-                    } catch (Throwable t) { 
-                        Object[] args = { tuid, 
-                            sender+"["+ClusterMessageAckInfo.toString(pkt)+"]", 
-                            t.getMessage() };
-                        String emsg = br.getKString(br.W_UNABLE_UPDATE_CLUSTER_TXN_COMPLETE_STATE, args); 
+                        TransactionList tl = (TransactionList) oo[0];
+                        tl.completeClusterTransactionBrokerState(tuid, TransactionState.COMMITTED, addr, true);
+                    } catch (Throwable t) {
+                        Object[] args = { tuid, sender + "[" + ClusterMessageAckInfo.toString(pkt) + "]", t.getMessage() };
+                        String emsg = br.getKString(br.W_UNABLE_UPDATE_CLUSTER_TXN_COMPLETE_STATE, args);
                         if (t instanceof BrokerException) {
-                            if (((BrokerException)t).getStatusCode() == Status.NOT_FOUND) {
+                            if (((BrokerException) t).getStatusCode() == Status.NOT_FOUND) {
                                 if (DEBUG_CLUSTER_TXN || DEBUG) {
-                                    logger.log(logger.WARNING, emsg+" - already completed");
+                                    logger.log(logger.WARNING, emsg + " - already completed");
                                 }
                                 return;
                             }
                         }
-                        logger.logStack(logger.WARNING, emsg, t); 
+                        logger.logStack(logger.WARNING, emsg, t);
                     }
                 }
-                }
-                );
+            });
 
         } catch (Throwable t) {
             if (stopThread) {
-                logger.log(logger.DEBUG, 
-                "Cluster shutdown, ignore event "+ClusterMessageAckInfo.toString(pkt)+" from "+sender);
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore event " + ClusterMessageAckInfo.toString(pkt) + " from " + sender);
             } else {
-                logger.logStack(logger.WARNING, "Exception in submitting for processing "+ClusterMessageAckInfo.toString(pkt)+" from "+sender, t);
+                logger.logStack(logger.WARNING, "Exception in submitting for processing " + ClusterMessageAckInfo.toString(pkt) + " from " + sender, t);
             }
         }
 
         return true;
     }
 
-
     public void processMessageData(final BrokerAddress sender, final GPacket pkt, final Protocol p) {
         int type = pkt.getType();
-        if (type != ProtocolGlobals.G_MESSAGE_DATA &&
-            type != ProtocolGlobals.G_NEW_INTEREST_REPLY &&
-            type != ProtocolGlobals.G_INTEREST_UPDATE_REPLY &&
-            type != ProtocolGlobals.G_DURABLE_ATTACH_REPLY &&
-            type != ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY &&
-            type != ProtocolGlobals.G_CLIENT_CLOSED_REPLY) {
-            throw new RuntimeException(
-            "Internal Error: Unexpected packet type "+type+" passed to CallbackDispatcher.processMessageData()");
+        if (type != ProtocolGlobals.G_MESSAGE_DATA && type != ProtocolGlobals.G_NEW_INTEREST_REPLY && type != ProtocolGlobals.G_INTEREST_UPDATE_REPLY
+                && type != ProtocolGlobals.G_DURABLE_ATTACH_REPLY && type != ProtocolGlobals.G_REM_DURABLE_INTEREST_REPLY
+                && type != ProtocolGlobals.G_CLIENT_CLOSED_REPLY) {
+            throw new RuntimeException("Internal Error: Unexpected packet type " + type + " passed to CallbackDispatcher.processMessageData()");
         }
 
         if (DEBUG_CLUSTER_MSG || DEBUG_CLUSTER_TXN) {
-            logger.log(logger.INFO, "processMessageData: Received "+
-                                     ProtocolGlobals.getPacketTypeDisplayString(type)+ " from "+sender);
+            logger.log(logger.INFO, "processMessageData: Received " + ProtocolGlobals.getPacketTypeDisplayString(type) + " from " + sender);
         }
 
         try {
@@ -268,40 +240,37 @@ public final class CallbackDispatcher extends Thread {
                     try {
                         p.handleGPacket(cb, sender, pkt);
                     } catch (Throwable t) {
-                        logger.logStack(logger.WARNING, "Exception in processing "+
-                        ProtocolGlobals.getPacketTypeDisplayString(pkt.getType())+" from "+sender, t);
+                        logger.logStack(logger.WARNING,
+                                "Exception in processing " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " from " + sender, t);
                     }
                 }
-                }
-                );
+            });
 
         } catch (Throwable t) {
             if (stopThread) {
-                logger.log(logger.DEBUG,
-                "Cluster shutdown, ignore packet "+ ProtocolGlobals.getPacketTypeDisplayString(type)+" from "+sender);
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore packet " + ProtocolGlobals.getPacketTypeDisplayString(type) + " from " + sender);
             } else {
-                logger.logStack(logger.WARNING, "Exception in submitting for processing "+
-                ProtocolGlobals.getPacketTypeDisplayString(type)+" from "+sender, t);
+                logger.logStack(logger.WARNING,
+                        "Exception in submitting for processing " + ProtocolGlobals.getPacketTypeDisplayString(type) + " from " + sender, t);
             }
         }
     }
-
 
     public void processGoodbye(BrokerAddress sender, ClusterGoodbyeInfo cgi) {
         CallbackEvent ev = null;
         synchronized (eventQ) {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
-                ev = (CallbackEvent)itr.next();
-                if (!(ev instanceof GPacketCallbackEvent)) continue;
-                GPacketCallbackEvent gpev = (GPacketCallbackEvent)ev;
-                if (!gpev.getSender().equals(sender)) continue; //XXXbrokerSessionUID
-                if (gpev.getEventType() == ProtocolGlobals.G_MESSAGE_ACK ||
-                    gpev.getEventType() == ProtocolGlobals.G_MESSAGE_DATA) {
+                ev = (CallbackEvent) itr.next();
+                if (!(ev instanceof GPacketCallbackEvent))
+                    continue;
+                GPacketCallbackEvent gpev = (GPacketCallbackEvent) ev;
+                if (!gpev.getSender().equals(sender))
+                    continue; // XXXbrokerSessionUID
+                if (gpev.getEventType() == ProtocolGlobals.G_MESSAGE_ACK || gpev.getEventType() == ProtocolGlobals.G_MESSAGE_DATA) {
                     if (DEBUG_CLUSTER_MSG || DEBUG_CLUSTER_TXN) {
-                        logger.log(logger.INFO, "Discard unprocessed "+
-                            ProtocolGlobals.getPacketTypeString(gpev.getEventType())+
-                            " because received GOODBYE from " +sender);
+                        logger.log(logger.INFO,
+                                "Discard unprocessed " + ProtocolGlobals.getPacketTypeString(gpev.getEventType()) + " because received GOODBYE from " + sender);
                     }
                     itr.remove();
                 }
@@ -314,13 +283,16 @@ public final class CallbackDispatcher extends Thread {
         synchronized (eventQ) {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
-                ev = (CallbackEvent)itr.next();
-                if (!(ev instanceof GPacketCallbackEvent)) continue;
-                GPacketCallbackEvent gpev = (GPacketCallbackEvent)ev;
-                if (!gpev.getSender().equals(sender)) continue; //XXXbrokerSessionUID
-                if (gpev.getEventType() != ProtocolGlobals.G_MESSAGE_ACK_REPLY) continue;
+                ev = (CallbackEvent) itr.next();
+                if (!(ev instanceof GPacketCallbackEvent))
+                    continue;
+                GPacketCallbackEvent gpev = (GPacketCallbackEvent) ev;
+                if (!gpev.getSender().equals(sender))
+                    continue; // XXXbrokerSessionUID
+                if (gpev.getEventType() != ProtocolGlobals.G_MESSAGE_ACK_REPLY)
+                    continue;
                 if (DEBUG) {
-                logger.log(logger.INFO, "Processed G_MESSAGE_ACK_REPLY from " +sender);
+                    logger.log(logger.INFO, "Processed G_MESSAGE_ACK_REPLY from " + sender);
                 }
                 gpev.dispatch(cb);
                 itr.remove();
@@ -329,8 +301,7 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Interest creation notification. This method is called when
-     * any local / remote interest is created.
+     * Interest creation notification. This method is called when any local / remote interest is created.
      */
     public void interestCreated(Consumer intr) {
         CallbackEvent cbe = new InterestCreatedCallbackEvent(intr);
@@ -342,14 +313,10 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Interest removal notification. This method is called when
-     * any local / remote interest is removed. USED by Falcon only
+     * Interest removal notification. This method is called when any local / remote interest is removed. USED by Falcon only
      */
-    public void interestRemoved(Consumer intr, 
-        Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs,
-        boolean cleanup) {
-        CallbackEvent cbe = new InterestRemovedCallbackEvent(
-                                    intr, pendingMsgs, cleanup);
+    public void interestRemoved(Consumer intr, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs, boolean cleanup) {
+        CallbackEvent cbe = new InterestRemovedCallbackEvent(intr, pendingMsgs, cleanup);
 
         synchronized (eventQ) {
             eventQ.add(cbe);
@@ -367,9 +334,8 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Primary interest change notification. This method is called when
-     * a new interest is chosen as primary interest for a failover queue.
-     * USED by Falcon only
+     * Primary interest change notification. This method is called when a new interest is chosen as primary interest for a
+     * failover queue. USED by Falcon only
      */
     public void activeStateChanged(Consumer intr) {
         CallbackEvent cbe = new PrimaryInterestChangedCallbackEvent(intr);
@@ -381,8 +347,7 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Client down notification. This method is called when a local
-     * or remote client connection is closed.
+     * Client down notification. This method is called when a local or remote client connection is closed.
      */
     public void clientDown(ConnectionUID conid) {
         CallbackEvent cbe = new ClientDownCallbackEvent(conid);
@@ -394,32 +359,27 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * Broker down notification. This method is called when any broker
-     * in this cluster goes down.
+     * Broker down notification. This method is called when any broker in this cluster goes down.
      */
     public void brokerDown(BrokerAddress broker) {
         CallbackEvent e = null;
         synchronized (eventQ) {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
-                e = (CallbackEvent)itr.next();
-                if (!(e instanceof GPacketCallbackEvent)) continue;
-                GPacketCallbackEvent ge = (GPacketCallbackEvent)e;
-                if (!ge.getSender().equals(broker)) continue; 
-                if (ge.getSender().getBrokerSessionUID() != null &&
-                    broker.getBrokerSessionUID() != null &&
-                    (!ge.getSender().getBrokerSessionUID().equals(
-                                     broker.getBrokerSessionUID()))) continue; 
-                if (ge.getEventType() == ProtocolGlobals.G_MESSAGE_ACK_REPLY ||
-                    ge.getEventType() == ProtocolGlobals.G_NEW_INTEREST ||
-                    ge.getEventType() == ProtocolGlobals.G_INTEREST_UPDATE ||
-                    ge.getEventType() == ProtocolGlobals.G_DURABLE_ATTACH ||
-                    ge.getEventType() == ProtocolGlobals.G_NEW_PRIMARY_INTEREST ||
-                    ge.getEventType() == ProtocolGlobals.G_REM_INTEREST ||
-                    ge.getEventType() == ProtocolGlobals.G_REM_DURABLE_INTEREST ||
-                    ge.getEventType() == ProtocolGlobals.G_REM_DESTINATION ||
-                    ge.getEventType() == ProtocolGlobals.G_UPDATE_DESTINATION ||
-                    ge.getEventType() == ProtocolGlobals.G_CLIENT_CLOSED) {
+                e = (CallbackEvent) itr.next();
+                if (!(e instanceof GPacketCallbackEvent))
+                    continue;
+                GPacketCallbackEvent ge = (GPacketCallbackEvent) e;
+                if (!ge.getSender().equals(broker))
+                    continue;
+                if (ge.getSender().getBrokerSessionUID() != null && broker.getBrokerSessionUID() != null
+                        && (!ge.getSender().getBrokerSessionUID().equals(broker.getBrokerSessionUID())))
+                    continue;
+                if (ge.getEventType() == ProtocolGlobals.G_MESSAGE_ACK_REPLY || ge.getEventType() == ProtocolGlobals.G_NEW_INTEREST
+                        || ge.getEventType() == ProtocolGlobals.G_INTEREST_UPDATE || ge.getEventType() == ProtocolGlobals.G_DURABLE_ATTACH
+                        || ge.getEventType() == ProtocolGlobals.G_NEW_PRIMARY_INTEREST || ge.getEventType() == ProtocolGlobals.G_REM_INTEREST
+                        || ge.getEventType() == ProtocolGlobals.G_REM_DURABLE_INTEREST || ge.getEventType() == ProtocolGlobals.G_REM_DESTINATION
+                        || ge.getEventType() == ProtocolGlobals.G_UPDATE_DESTINATION || ge.getEventType() == ProtocolGlobals.G_CLIENT_CLOSED) {
 
                     ge.dispatch(cb);
                 }
@@ -430,18 +390,15 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * A new destination was created by the administrator on a remote
-     * broker.  This broker should also add the destination if it is
-     * not already present.
+     * A new destination was created by the administrator on a remote broker. This broker should also add the destination if
+     * it is not already present.
      */
     public void notifyCreateDestination(Destination d) {
-        CallbackEvent cbe = new
-            ClusterCreateDestinationCallbackEvent(d, new CallbackEventListener());
+        CallbackEvent cbe = new ClusterCreateDestinationCallbackEvent(d, new CallbackEventListener());
 
         synchronized (eventQ) {
-            if (stopThread)  {
-                logger.log(logger.DEBUG, 
-                  "Cluster shutdown, ignore create destination event on " + d);
+            if (stopThread) {
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore create destination event on " + d);
                 return;
             }
             eventQ.add(cbe);
@@ -451,18 +408,15 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * A destination was removed by the administrator on a remote
-     * broker. This broker should also remove the destination, if it
-     * is present.
+     * A destination was removed by the administrator on a remote broker. This broker should also remove the destination, if
+     * it is present.
      */
     public void notifyDestroyDestination(DestinationUID uid) {
-        CallbackEvent cbe = new
-            ClusterDestroyDestinationCallbackEvent(uid, new CallbackEventListener());
+        CallbackEvent cbe = new ClusterDestroyDestinationCallbackEvent(uid, new CallbackEventListener());
 
         synchronized (eventQ) {
-            if (stopThread)  {
-                logger.log(logger.DEBUG, 
-                  "Cluster shutdown, ignore destroy destination event on " + uid);
+            if (stopThread) {
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore destroy destination event on " + uid);
                 return;
             }
             eventQ.add(cbe);
@@ -472,18 +426,14 @@ public final class CallbackDispatcher extends Thread {
     }
 
     /**
-     * A destination was removed by the administrator on a remote
-     * broker. This broker should also remove the destination, if it
-     * is present.
+     * A destination was removed by the administrator on a remote broker. This broker should also remove the destination, if
+     * it is present.
      */
     public void notifyUpdateDestination(DestinationUID uid, Map changes) {
-        CallbackEvent cbe = new
-            ClusterUpdateDestinationCallbackEvent(uid, changes, 
-                                        new CallbackEventListener());
+        CallbackEvent cbe = new ClusterUpdateDestinationCallbackEvent(uid, changes, new CallbackEventListener());
         synchronized (eventQ) {
-            if (stopThread)  {
-                logger.log(logger.DEBUG, 
-                  "Cluster shutdown, ignore update destination event on " + uid);
+            if (stopThread) {
+                logger.log(logger.DEBUG, "Cluster shutdown, ignore update destination event on " + uid);
                 return;
             }
             eventQ.add(cbe);
@@ -503,14 +453,13 @@ public final class CallbackDispatcher extends Thread {
 
         try {
             join(30000);
-        }
-        catch (InterruptedException e) {
+        } catch (InterruptedException e) {
             // unable to complete join
         }
         try {
             if (!msgDataExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
                 logger.log(logger.INFO, "Force cluster msgDataExecutor thread shutdown");
-                msgDataExecutor.shutdownNow(); 
+                msgDataExecutor.shutdownNow();
                 msgDataExecutor.awaitTermination(10, TimeUnit.SECONDS);
             }
         } catch (InterruptedException e) {
@@ -520,7 +469,7 @@ public final class CallbackDispatcher extends Thread {
         try {
             if (!commitAckExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
                 logger.log(logger.INFO, "Force cluster commitAckExecutor thread shutdown");
-                commitAckExecutor.shutdownNow(); 
+                commitAckExecutor.shutdownNow();
                 commitAckExecutor.awaitTermination(10, TimeUnit.SECONDS);
             }
         } catch (InterruptedException e) {
@@ -530,7 +479,7 @@ public final class CallbackDispatcher extends Thread {
         try {
             if (!syncAckExecutor.awaitTermination(30, TimeUnit.SECONDS)) {
                 logger.log(logger.INFO, "Force cluster syncAckExecutor thread shutdown");
-                syncAckExecutor.shutdownNow(); 
+                syncAckExecutor.shutdownNow();
                 syncAckExecutor.awaitTermination(10, TimeUnit.SECONDS);
             }
         } catch (InterruptedException e) {
@@ -542,13 +491,13 @@ public final class CallbackDispatcher extends Thread {
         Hashtable ht = new Hashtable();
         ht.put("stopThread", Boolean.valueOf(stopThread));
         Object[] events = null;
-        synchronized(eventQ) {
+        synchronized (eventQ) {
             events = eventQ.toArray();
         }
         ht.put("eventQCount", Integer.valueOf(events.length));
         Vector v = new Vector();
-        for (int i = 0; i < events.length; i++) { 
-            v.add(events[i].toString()); 
+        for (int i = 0; i < events.length; i++) {
+            v.add(events[i].toString());
         }
         ht.put("eventQ", v);
 
@@ -562,75 +511,79 @@ public final class CallbackDispatcher extends Thread {
         CallbackEvent cbe = null;
         try {
 
-        boolean firstpass = true;
-        while (true) {
+            boolean firstpass = true;
+            while (true) {
 
-            try {
-
-            synchronized (eventQ) {
-                while (!stopThread && eventQ.isEmpty()) {
-                    try {
-                        eventQ.wait();
-                    }
-                    catch (Exception e) {}
-                }
-
-                if (stopThread)
-                    break; // Ignore the pending events.
-
-                cbe = (CallbackEvent)eventQ.removeFirst();
-            }
-
-            try { 
-                cbe.dispatch(cb);
-                firstpass = true;
-            } finally {
-                CallbackEventListener l = cbe.getEventListener(); 
-                if (l != null) l.eventProcessed();
-            }
-
-            } catch (Exception e) {
-
-            logger.logStack(Logger.WARNING, 
-                   "Cluster dispatcher thread encountered exception: "+e.getMessage(), e);
-
-            } catch (OutOfMemoryError e) {
-
-            if (firstpass) {
-                firstpass = false;
-                Globals.handleGlobalError(e, oomsg);
                 try {
-                sleep(1);
-                } catch (InterruptedException ex) {};
-                continue;
-            }
-            Broker.getBroker().exit(restartCode, oomsg, BrokerEvent.Type.RESTART, e, false, false, false);
 
+                    synchronized (eventQ) {
+                        while (!stopThread && eventQ.isEmpty()) {
+                            try {
+                                eventQ.wait();
+                            } catch (Exception e) {
+                            }
+                        }
+
+                        if (stopThread)
+                            break; // Ignore the pending events.
+
+                        cbe = (CallbackEvent) eventQ.removeFirst();
+                    }
+
+                    try {
+                        cbe.dispatch(cb);
+                        firstpass = true;
+                    } finally {
+                        CallbackEventListener l = cbe.getEventListener();
+                        if (l != null)
+                            l.eventProcessed();
+                    }
+
+                } catch (Exception e) {
+
+                    logger.logStack(Logger.WARNING, "Cluster dispatcher thread encountered exception: " + e.getMessage(), e);
+
+                } catch (OutOfMemoryError e) {
+
+                    if (firstpass) {
+                        firstpass = false;
+                        Globals.handleGlobalError(e, oomsg);
+                        try {
+                            sleep(1);
+                        } catch (InterruptedException ex) {
+                        }
+                        ;
+                        continue;
+                    }
+                    Broker.getBroker().exit(restartCode, oomsg, BrokerEvent.Type.RESTART, e, false, false, false);
+
+                }
             }
-        }
 
         } catch (Throwable t) {
-        logger.logStack(Logger.WARNING, "Cluster dispatcher thread got unrecoverable exception", t);
+            logger.logStack(Logger.WARNING, "Cluster dispatcher thread got unrecoverable exception", t);
 
         } finally {
 
-        if (!stopThread) {
-        logger.log(Logger.WARNING, "Cluster dispatcher thread exiting");
-        }
-
-        synchronized(eventQ) {
-            try {
-
-            cbe = (CallbackEvent) eventQ.removeFirst();
-            while (cbe != null) {
-                CallbackEventListener l = cbe.getEventListener(); 
-                if (l != null) l.eventProcessed();
-                cbe = (CallbackEvent) eventQ.removeFirst();
+            if (!stopThread) {
+                logger.log(Logger.WARNING, "Cluster dispatcher thread exiting");
             }
 
-            } catch (NoSuchElementException e) { }
-            stopThread = true;
-        }
+            synchronized (eventQ) {
+                try {
+
+                    cbe = (CallbackEvent) eventQ.removeFirst();
+                    while (cbe != null) {
+                        CallbackEventListener l = cbe.getEventListener();
+                        if (l != null)
+                            l.eventProcessed();
+                        cbe = (CallbackEvent) eventQ.removeFirst();
+                    }
+
+                } catch (NoSuchElementException e) {
+                }
+                stopThread = true;
+            }
 
         }
     };
@@ -638,6 +591,7 @@ public final class CallbackDispatcher extends Thread {
 
 abstract class CallbackEvent {
     public abstract void dispatch(MessageBusCallback cb);
+
     public CallbackEventListener getEventListener() {
         return null;
     }
@@ -647,23 +601,24 @@ class CallbackEventListener {
     Object lock = new Object();
     boolean processed = false;
 
-    public void waitEventProcessed()  {
-        synchronized(lock) {
+    public void waitEventProcessed() {
+        synchronized (lock) {
             while (!processed) {
                 try {
                     lock.wait();
-                } catch (InterruptedException e) {}
+                } catch (InterruptedException e) {
+                }
             }
         }
     }
+
     public void eventProcessed() {
-        synchronized(lock) {
+        synchronized (lock) {
             processed = true;
             lock.notifyAll();
         }
     }
 }
-
 
 class ConfigSyncCompleteCallbackEvent extends CallbackEvent {
     public ConfigSyncCompleteCallbackEvent() {
@@ -702,10 +657,9 @@ class GPacketCallbackEvent extends CallbackEvent {
     }
 
     public String toString() {
-        return ProtocolGlobals.getPacketTypeString(pkt.getType())+", from "+sender;
+        return ProtocolGlobals.getPacketTypeString(pkt.getType()) + ", from " + sender;
     }
 }
-
 
 class InterestCreatedCallbackEvent extends CallbackEvent {
     private Consumer intr;
@@ -719,7 +673,7 @@ class InterestCreatedCallbackEvent extends CallbackEvent {
     }
 
     public String toString() {
-        return "InterestCreated: "+intr;
+        return "InterestCreated: " + intr;
     }
 }
 
@@ -728,9 +682,7 @@ class InterestRemovedCallbackEvent extends CallbackEvent {
     private Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs = null;
     private boolean cleanup = false;
 
-    public InterestRemovedCallbackEvent(Consumer intr, 
-        Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs,
-        boolean cleanup) {
+    public InterestRemovedCallbackEvent(Consumer intr, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs, boolean cleanup) {
         this.intr = intr;
         this.pendingMsgs = pendingMsgs;
         this.cleanup = cleanup;
@@ -741,7 +693,7 @@ class InterestRemovedCallbackEvent extends CallbackEvent {
     }
 
     public String toString() {
-        return "InterestRemoved: "+intr+", cleanup="+cleanup+", pendingMsgs="+pendingMsgs;
+        return "InterestRemoved: " + intr + ", cleanup=" + cleanup + ", pendingMsgs=" + pendingMsgs;
     }
 }
 
@@ -766,8 +718,7 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
             intr = Consumer.getConsumer(intid);
 
             if (intr == null) {
-                logger.log(logger.WARNING,
-                    br.W_MBUS_BAD_PRIMARY_INT, intid);
+                logger.log(logger.WARNING, br.W_MBUS_BAD_PRIMARY_INT, intid);
 
                 return;
             }
@@ -777,7 +728,7 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
     }
 
     public String toString() {
-        return "PrimaryInterestChanged: " +intid;
+        return "PrimaryInterestChanged: " + intid;
     }
 }
 
@@ -793,7 +744,7 @@ class ClientDownCallbackEvent extends CallbackEvent {
     }
 
     public String toString() {
-        return "ClientDown: "+conid;
+        return "ClientDown: " + conid;
     }
 }
 
@@ -808,8 +759,8 @@ class BrokerDownCallbackEvent extends CallbackEvent {
         cb.brokerDown(broker);
     }
 
-    public String toString() { 
-        return "BrokerDown: "+broker;
+    public String toString() {
+        return "BrokerDown: " + broker;
     }
 }
 
@@ -817,8 +768,7 @@ class ClusterCreateDestinationCallbackEvent extends CallbackEvent {
     private Destination d;
     private CallbackEventListener l;
 
-    public ClusterCreateDestinationCallbackEvent(
-        Destination d, CallbackEventListener listener) {
+    public ClusterCreateDestinationCallbackEvent(Destination d, CallbackEventListener listener) {
         this.d = d;
         this.l = listener;
     }
@@ -826,22 +776,22 @@ class ClusterCreateDestinationCallbackEvent extends CallbackEvent {
     public void dispatch(MessageBusCallback cb) {
         cb.notifyCreateDestination(d);
     }
-   
+
     public CallbackEventListener getEventListener() {
         return l;
     }
 
     public String toString() {
-        return "DestinationCreated: "+d;
+        return "DestinationCreated: " + d;
     }
 }
+
 class ClusterUpdateDestinationCallbackEvent extends CallbackEvent {
     private DestinationUID duid;
     private Map changes;
     private CallbackEventListener l;
 
-    public ClusterUpdateDestinationCallbackEvent(
-        DestinationUID duid, Map changes, CallbackEventListener listener) {
+    public ClusterUpdateDestinationCallbackEvent(DestinationUID duid, Map changes, CallbackEventListener listener) {
         this.duid = duid;
         this.changes = changes;
         this.l = listener;
@@ -853,10 +803,10 @@ class ClusterUpdateDestinationCallbackEvent extends CallbackEvent {
 
     public CallbackEventListener getEventListener() {
         return l;
-    }    
+    }
 
     public String toString() {
-        return "DestinationUpdated: "+duid;
+        return "DestinationUpdated: " + duid;
     }
 }
 
@@ -864,8 +814,7 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
     private DestinationUID d;
     private CallbackEventListener l;
 
-    public ClusterDestroyDestinationCallbackEvent(
-        DestinationUID d, CallbackEventListener listener) {
+    public ClusterDestroyDestinationCallbackEvent(DestinationUID d, CallbackEventListener listener) {
         this.d = d;
         this.l = listener;
     }
@@ -876,10 +825,10 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
 
     public CallbackEventListener getEventListener() {
         return l;
-    }    
+    }
 
     public String toString() {
-        return "DestinationDetroyed: "+d;
+        return "DestinationDetroyed: " + d;
     }
 }
 

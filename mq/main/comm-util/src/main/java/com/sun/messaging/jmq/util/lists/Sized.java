@@ -16,20 +16,20 @@
 
 /*
  * @(#)Sized.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 /**
- * Interface for classes which can have the size (in bytes)
- * of the object queried
+ * Interface for classes which can have the size (in bytes) of the object queried
+ * 
  * @see NFLHashMap
  * @see AbstractNFLSet
  */
-public interface Sized
-{
+public interface Sized {
     /**
      * size of the object
+     * 
      * @return size of the object
      */
     public long byteSize();

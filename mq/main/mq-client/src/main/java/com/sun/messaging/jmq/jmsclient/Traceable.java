@@ -16,19 +16,18 @@
 
 /*
  * @(#)Traceable.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.PrintStream;
 
 /**
- * All JMQ client classes that wanted to be traced need to implement this
- * interface.
+ * All JMQ client classes that wanted to be traced need to implement this interface.
  */
 public interface Traceable {
 
-    public void dump (PrintStream ps);
+    public void dump(PrintStream ps);
 
 }
 /*

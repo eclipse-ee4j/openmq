@@ -19,11 +19,11 @@ package com.sun.messaging.bridge.service.jms.tx;
 import java.io.*;
 import com.sun.messaging.jmq.util.XidImpl;
 
-
 /**
  * Xid representing a global xid to facilitate tx logging
+ * 
  * @author amyk
- */ 
+ */
 
 public class GlobalXid extends XidImpl {
 
@@ -49,7 +49,7 @@ public class GlobalXid extends XidImpl {
     public static GlobalXid read(DataInput in) throws IOException {
 
         GlobalXid gxid = new GlobalXid();
-        
+
         gxid.formatId = in.readInt();
         gxid.gtLength = in.readInt();
         in.readFully(gxid.globalTxnId, 0, MAXGTRIDSIZE);

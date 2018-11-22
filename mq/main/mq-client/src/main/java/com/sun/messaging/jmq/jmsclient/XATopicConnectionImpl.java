@@ -16,7 +16,7 @@
 
 /*
  * @(#)XATopicConnectionImpl.java	1.8 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -25,70 +25,60 @@ import java.util.Properties;
 
 import com.sun.jms.spi.xa.*;
 
-/** An XATopicConnection is an active connection to a JMS Pub/Sub provider.
-  * A client uses an XATopicConnection to create one or more XATopicSessions
-  * for producing and consuming messages.
-  *
-  * @see javax.jms.XAConnection
-  * @see javax.jms.XATopicConnectionFactory
-  */
+/**
+ * An XATopicConnection is an active connection to a JMS Pub/Sub provider. A client uses an XATopicConnection to create
+ * one or more XATopicSessions for producing and consuming messages.
+ *
+ * @see javax.jms.XAConnection
+ * @see javax.jms.XATopicConnectionFactory
+ */
 
 public class XATopicConnectionImpl extends TopicConnectionImpl implements XATopicConnection, JMSXATopicConnection {
 
-    public
-    XATopicConnectionImpl(Properties configuration, String username,
-                        String password, String type) throws JMSException {
+    public XATopicConnectionImpl(Properties configuration, String username, String password, String type) throws JMSException {
         super(configuration, username, password, type);
     }
 
     /**
      * Create an XATopicSession.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public XATopicSession
-    createXATopicSession() throws JMSException {
- 
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public XATopicSession createXATopicSession() throws JMSException {
+
         checkConnectionState();
- 
-        //disallow to set client ID after this action.
+
+        // disallow to set client ID after this action.
         setClientIDFlag();
- 
-        return new XATopicSessionImpl (this, false, 0);
+
+        return new XATopicSessionImpl(this, false, 0);
     }
 
     /**
-     *Create an XATopicSession
-     *  
-     * @param transacted      ignored.
+     * Create an XATopicSession
+     * 
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     * 
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public TopicSession
-    createTopicSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new XATopicSessionImpl(this, transacted, acknowledgeMode);
     }
 
     /**
-     *Create an XATopicSession
-     *  
-     * @param transacted      ignored.
+     * Create an XATopicSession
+     * 
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     * 
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public JMSXATopicSession
-    createXATopicSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public JMSXATopicSession createXATopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new JMSXATopicSessionImpl(this, transacted, acknowledgeMode);
     }
 
@@ -101,4 +91,3 @@ public class XATopicConnectionImpl extends TopicConnectionImpl implements XATopi
         return (TopicConnection) (this);
     }
 }
-

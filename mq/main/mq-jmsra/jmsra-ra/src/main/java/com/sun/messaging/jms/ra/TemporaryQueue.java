@@ -19,25 +19,21 @@ package com.sun.messaging.jms.ra;
 import javax.jms.*;
 
 /**
- *  TemporaryQueue for DIRECT Mode
+ * TemporaryQueue for DIRECT Mode
  */
-public class TemporaryQueue extends TemporaryDestination
-implements javax.jms.TemporaryQueue {
-    
+public class TemporaryQueue extends TemporaryDestination implements javax.jms.TemporaryQueue {
+
     /** Creates a new instance of TemporaryQueue */
-    protected TemporaryQueue(DirectConnection dc)
-    throws JMSException {
-        super(dc, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-              com.sun.messaging.jmq.jmsservice.Destination.TemporaryType.queue);
+    protected TemporaryQueue(DirectConnection dc) throws JMSException {
+        super(dc, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE, com.sun.messaging.jmq.jmsservice.Destination.TemporaryType.queue);
     }
 
     /** Creates a new instance of TemporaryQueue with a pre-assigned name */
-    protected TemporaryQueue(String name)
-    throws JMSException {
+    protected TemporaryQueue(String name) throws JMSException {
         super(name, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE);
     }
 
-    public boolean isQueue(){
+    public boolean isQueue() {
         return true;
     }
 }

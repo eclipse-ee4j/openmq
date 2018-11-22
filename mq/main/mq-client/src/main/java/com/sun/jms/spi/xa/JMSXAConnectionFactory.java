@@ -16,23 +16,23 @@
 
 /*
  * @(#)JMSXAConnectionFactory.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
-/** Some application servers provide support for grouping JTS capable 
-  * resource use into a distributed transaction (optional). To include JMS transactions
-  * in a JTS transaction, an application server requires a JTS aware JMS 
-  * provider. A JMS provider exposes its JTS support using a JMS 
-  * JMSXAConnectionFactory which an application server uses to create XASessions.
-  *
-  * <P>JMSXAConnectionFactory's are JMS administered objects just like 
-  * ConnectionFactory's. It is expected that application servers will find 
-  * them using JNDI.
-  *
-  * @see         com.sun.jms.spi.xa.JMSXAQueueConnectionFactory
-  * @see         com.sun.jms.spi.xa.JMSXATopicConnectionFactory
-  */
+/**
+ * Some application servers provide support for grouping JTS capable resource use into a distributed transaction
+ * (optional). To include JMS transactions in a JTS transaction, an application server requires a JTS aware JMS
+ * provider. A JMS provider exposes its JTS support using a JMS JMSXAConnectionFactory which an application server uses
+ * to create XASessions.
+ *
+ * <P>
+ * JMSXAConnectionFactory's are JMS administered objects just like ConnectionFactory's. It is expected that application
+ * servers will find them using JNDI.
+ *
+ * @see com.sun.jms.spi.xa.JMSXAQueueConnectionFactory
+ * @see com.sun.jms.spi.xa.JMSXATopicConnectionFactory
+ */
 
 public interface JMSXAConnectionFactory {
 }

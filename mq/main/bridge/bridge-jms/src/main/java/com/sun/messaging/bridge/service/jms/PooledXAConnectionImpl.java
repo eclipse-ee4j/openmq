@@ -22,16 +22,14 @@ import javax.jms.*;
  *
  * @author amyk
  */
-public class PooledXAConnectionImpl extends PooledConnectionImpl 
-                                       implements XAConnection {
-    
+public class PooledXAConnectionImpl extends PooledConnectionImpl implements XAConnection {
+
     public PooledXAConnectionImpl(XAConnection conn) {
         super(conn);
     }
 
-    public XASession
-    createXASession() throws JMSException {
-    return ((XAConnection)_conn).createXASession();
+    public XASession createXASession() throws JMSException {
+        return ((XAConnection) _conn).createXASession();
     }
 
 }

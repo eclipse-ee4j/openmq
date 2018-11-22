@@ -16,7 +16,7 @@
 
 /*
  * @(#)SSLStreamHandler.java	1.16 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
@@ -28,19 +28,20 @@ import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 
- /**
-  * This class is the SSL protocol handler for the iMQ JMS client
-  * implementation.  It uses SSL protocol to communicate with the Broker.
-  */
+/**
+ * This class is the SSL protocol handler for the iMQ JMS client implementation. It uses SSL protocol to communicate
+ * with the Broker.
+ */
 public class SSLStreamHandler implements StreamHandler, PropertyOwner {
 
     /**
      * Null constructor for use by AdministeredObject when used as a PropertyOwner
-     */  
-    public SSLStreamHandler() {}
+     */
+    public SSLStreamHandler() {
+    }
 
     public String[] getPropertyNames() {
-        String [] propnames = new String [6];
+        String[] propnames = new String[6];
         propnames[0] = ConnectionConfiguration.imqBrokerHostName;
         propnames[1] = ConnectionConfiguration.imqBrokerHostPort;
         propnames[2] = ConnectionConfiguration.imqBrokerServicePort;
@@ -51,9 +52,8 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
     }
 
     public String getPropertyType(String propname) {
-        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) ||
-            ConnectionConfiguration.imqBrokerServiceName.equals(propname) || 
-            ConnectionConfiguration.imqSSLProviderClassname.equals(propname)) {
+        if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || ConnectionConfiguration.imqBrokerServiceName.equals(propname)
+                || ConnectionConfiguration.imqSSLProviderClassname.equals(propname)) {
             return AdministeredObject.AO_PROPERTY_TYPE_STRING;
         } else {
             if (ConnectionConfiguration.imqBrokerHostPort.equals(propname)) {
@@ -62,7 +62,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
                 if (ConnectionConfiguration.imqSSLIsHostTrusted.equals(propname)) {
                     return AdministeredObject.AO_PROPERTY_TYPE_BOOLEAN;
                 }
-            }    
+            }
         }
         return null;
     }
@@ -89,7 +89,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
                         }
                     }
                 }
-            }    
+            }
         }
         return null;
     }
@@ -105,21 +105,21 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
                     return "com.sun.net.ssl.internal.ssl.Provider";
                 } else {
                     if (ConnectionConfiguration.imqSSLIsHostTrusted.equals(propname)) {
-                        return "false"; //TCR#3 default to false
+                        return "false"; // TCR#3 default to false
                     } else {
                         if (ConnectionConfiguration.imqBrokerServicePort.equals(propname)) {
-                            return ("0"); 
-                        } else { 
-                            if (ConnectionConfiguration.imqBrokerServiceName.equals(propname)) { 
+                            return ("0");
+                        } else {
+                            if (ConnectionConfiguration.imqBrokerServiceName.equals(propname)) {
                                 return ("");
-                            } 
-                        } 
+                            }
+                        }
                     }
                 }
             }
         }
         return null;
-    }    
+    }
 
     /**
      * Open socket a new connection.
@@ -128,13 +128,11 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
      * @return a new instance of SSLConnectionHandler.
      * @exception throws IOException if socket creation failed.
      */
-    public ConnectionHandler
-    openConnection(Object connection) throws JMSException {
+    public ConnectionHandler openConnection(Object connection) throws JMSException {
         return new SSLConnectionHandler(connection);
     }
 
-    public ConnectionHandler openConnection(
-        MQAddress addr, ConnectionImpl connection) throws JMSException {
+    public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl connection) throws JMSException {
         return new SSLConnectionHandler(addr, connection);
     }
 }

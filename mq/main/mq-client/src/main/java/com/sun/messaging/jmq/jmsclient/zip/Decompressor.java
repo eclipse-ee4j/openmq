@@ -16,7 +16,7 @@
 
 /*
  * @(#)Decompressor.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.zip;
 
@@ -34,39 +34,34 @@ public class Decompressor {
 
     private boolean debug = Boolean.getBoolean("imq.zip.debug");
 
-    private Decompressor () {
+    private Decompressor() {
     }
 
     public static Decompressor getInstance() {
         return decompressor;
     }
 
-    public synchronized void
-    decompress (byte[] zipBody, byte[] unzipBody) throws JMSException {
+    public synchronized void decompress(byte[] zipBody, byte[] unzipBody) throws JMSException {
 
         Inflater inf = getDefaultInflater();
 
         try {
-            inf.setInput( zipBody );
+            inf.setInput(zipBody);
 
-            int uncompressedSize = inf.inflate( unzipBody );
+            int uncompressedSize = inf.inflate(unzipBody);
 
-            if ( uncompressedSize != unzipBody.length ) {
-                //This should never happen!
-                throw new JMSException (
-                "Error occurred in decompression. unzip size: " +
-                uncompressedSize + " expected size: " + unzipBody.length);
+            if (uncompressedSize != unzipBody.length) {
+                // This should never happen!
+                throw new JMSException("Error occurred in decompression. unzip size: " + uncompressedSize + " expected size: " + unzipBody.length);
             }
 
-            if ( debug ) {
-                Debug.getPrintStream().println
-                    ("*** decompressor zip size: " + zipBody.length);
-                Debug.getPrintStream().println
-                    ("*** decompressor unzip size: " + uncompressedSize);
+            if (debug) {
+                Debug.getPrintStream().println("*** decompressor zip size: " + zipBody.length);
+                Debug.getPrintStream().println("*** decompressor unzip size: " + uncompressedSize);
             }
 
         } catch (DataFormatException e) {
-            JMSException jmse = new JMSException (e.toString());
+            JMSException jmse = new JMSException(e.toString());
             jmse.setLinkedException(e);
             throw jmse;
         } finally {

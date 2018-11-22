@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionManagerMonitor.java	1.16 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -36,152 +36,120 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 
 public class ConnectionManagerMonitor extends MQMBeanReadOnly {
     private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS,
-					Integer.class.getName(),
-					mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS, Integer.class.getName(), mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS), true,
+                    false, false),
 
-	    new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS_OPENED,
-					Long.class.getName(),
-					mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS_OPENED),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS_OPENED, Long.class.getName(), mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS_OPENED),
+                    true, false, false),
 
-	    new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS_REJECTED,
-					Long.class.getName(),
-					mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS_REJECTED),
-					true,
-					false,
-					false)
-			};
+            new MBeanAttributeInfo(ConnectionAttributes.NUM_CONNECTIONS_REJECTED, Long.class.getName(),
+                    mbr.getString(mbr.I_CXN_MGR_ATTR_NUM_CONNECTIONS_REJECTED), true, false, false) };
 
-    private static MBeanOperationInfo[] ops = {
-	    new MBeanOperationInfo(ConnectionOperations.GET_CONNECTIONS,
-		mbr.getString(mbr.I_CXN_MGR_MON_OP_GET_CONNECTIONS_DESC),
-		null,
-		ObjectName[].class.getName(),
-		MBeanOperationInfo.INFO)
-		};
-	
+    private static MBeanOperationInfo[] ops = { new MBeanOperationInfo(ConnectionOperations.GET_CONNECTIONS,
+            mbr.getString(mbr.I_CXN_MGR_MON_OP_GET_CONNECTIONS_DESC), null, ObjectName[].class.getName(), MBeanOperationInfo.INFO) };
 
-    private static String[] cxnNotificationTypes = {
-		    ConnectionNotification.CONNECTION_OPEN,
-		    ConnectionNotification.CONNECTION_CLOSE,
-		    ConnectionNotification.CONNECTION_REJECT
-		};
+    private static String[] cxnNotificationTypes = { ConnectionNotification.CONNECTION_OPEN, ConnectionNotification.CONNECTION_CLOSE,
+            ConnectionNotification.CONNECTION_REJECT };
 
     private static MBeanNotificationInfo[] notifs = {
-	    new MBeanNotificationInfo(
-		    cxnNotificationTypes,
-		    ConnectionNotification.class.getName(),
-		    mbr.getString(mbr.I_CXN_NOTIFICATIONS)
-		    )
-		};
+            new MBeanNotificationInfo(cxnNotificationTypes, ConnectionNotification.class.getName(), mbr.getString(mbr.I_CXN_NOTIFICATIONS)) };
 
     private long numConnectionsOpened = 0;
     private long numConnectionsRejected = 0;
 
-    public ConnectionManagerMonitor()  {
+    public ConnectionManagerMonitor() {
         super();
     }
 
-    public Integer getNumConnections()  {
-	List connections = ConnectionUtil.getConnectionInfoList(null);
+    public Integer getNumConnections() {
+        List connections = ConnectionUtil.getConnectionInfoList(null);
 
-	return (Integer.valueOf(connections.size()));
+        return (Integer.valueOf(connections.size()));
     }
 
-    public long getNumConnectionsOpened()  {
-	return (numConnectionsOpened);
+    public long getNumConnectionsOpened() {
+        return (numConnectionsOpened);
     }
 
-    public long getNumConnectionsRejected()  {
-	return (numConnectionsRejected);
+    public long getNumConnectionsRejected() {
+        return (numConnectionsRejected);
     }
 
-    public void resetMetrics()  {
+    public void resetMetrics() {
         numConnectionsOpened = 0;
         numConnectionsRejected = 0;
     }
 
-    public ObjectName[] getConnections() throws MBeanException  {
-	List connections = ConnectionUtil.getConnectionInfoList(null);
+    public ObjectName[] getConnections() throws MBeanException {
+        List connections = ConnectionUtil.getConnectionInfoList(null);
 
-	if (connections.size() == 0)  {
-	    return (null);
-	}
-
-	ObjectName oNames[] = new ObjectName [ connections.size() ];
-
-	Iterator itr = connections.iterator();
-	int i = 0;
-	while (itr.hasNext()) {
-	    ConnectionInfo cxnInfo = (ConnectionInfo)itr.next();
-	    try  {
-	        ObjectName o = 
-		    MQObjectName.createConnectionMonitor(Long.toString(cxnInfo.uuid));
-
-	        oNames[i++] = o;
-	    } catch (Exception e)  {
-		handleOperationException(ConnectionOperations.GET_CONNECTIONS, e);
-	    }
+        if (connections.size() == 0) {
+            return (null);
         }
 
-	return (oNames);
+        ObjectName oNames[] = new ObjectName[connections.size()];
+
+        Iterator itr = connections.iterator();
+        int i = 0;
+        while (itr.hasNext()) {
+            ConnectionInfo cxnInfo = (ConnectionInfo) itr.next();
+            try {
+                ObjectName o = MQObjectName.createConnectionMonitor(Long.toString(cxnInfo.uuid));
+
+                oNames[i++] = o;
+            } catch (Exception e) {
+                handleOperationException(ConnectionOperations.GET_CONNECTIONS, e);
+            }
+        }
+
+        return (oNames);
     }
 
-    public String getMBeanName()  {
-	return ("ConnectionManagerMonitor");
+    public String getMBeanName() {
+        return ("ConnectionManagerMonitor");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_CXN_MGR_MON_DESC));
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_CXN_MGR_MON_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (ops);
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (ops);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (notifs);
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (notifs);
     }
 
-    public void notifyConnectionOpen(long id)  {
-	ConnectionNotification cn;
-	cn = new ConnectionNotification(ConnectionNotification.CONNECTION_OPEN, 
-			this, sequenceNumber++);
-	cn.setConnectionID(Long.toString(id));
+    public void notifyConnectionOpen(long id) {
+        ConnectionNotification cn;
+        cn = new ConnectionNotification(ConnectionNotification.CONNECTION_OPEN, this, sequenceNumber++);
+        cn.setConnectionID(Long.toString(id));
 
-	sendNotification(cn);
+        sendNotification(cn);
         numConnectionsOpened++;
     }
 
-    public void notifyConnectionClose(long id)  {
-	ConnectionNotification cn;
-	cn = new ConnectionNotification(ConnectionNotification.CONNECTION_CLOSE, 
-			this, sequenceNumber++);
-	cn.setConnectionID(Long.toString(id));
+    public void notifyConnectionClose(long id) {
+        ConnectionNotification cn;
+        cn = new ConnectionNotification(ConnectionNotification.CONNECTION_CLOSE, this, sequenceNumber++);
+        cn.setConnectionID(Long.toString(id));
 
-	sendNotification(cn);
+        sendNotification(cn);
     }
 
-    public void notifyConnectionReject(String serviceName, String userName,
-				String remoteHostString)  {
-	ConnectionNotification cn;
-	cn = new ConnectionNotification(ConnectionNotification.CONNECTION_REJECT, 
-			this, sequenceNumber++);
-	cn.setServiceName(serviceName);
-	cn.setUserName(userName);
-	cn.setRemoteHost(remoteHostString);
+    public void notifyConnectionReject(String serviceName, String userName, String remoteHostString) {
+        ConnectionNotification cn;
+        cn = new ConnectionNotification(ConnectionNotification.CONNECTION_REJECT, this, sequenceNumber++);
+        cn.setServiceName(serviceName);
+        cn.setUserName(userName);
+        cn.setRemoteHost(remoteHostString);
 
-	sendNotification(cn);
+        sendNotification(cn);
         numConnectionsRejected++;
     }
 

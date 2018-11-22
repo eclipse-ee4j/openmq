@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSServiceException.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
@@ -32,30 +32,26 @@ public class JMSServiceException extends java.lang.Exception {
      *
      */
     private transient JMSServiceReply reply;
-    
+
     /** Creates a new instance of JMSServiceException */
-    public JMSServiceException(Map <? extends String, ? extends Object> replyProps) {
+    public JMSServiceException(Map<? extends String, ? extends Object> replyProps) {
         reply = new JMSServiceReply(replyProps, null);
     }
 
     /**
-     *  Creates a new instance of JMSServiceException with a message
+     * Creates a new instance of JMSServiceException with a message
      */
-    public JMSServiceException(String message,
-            Map <? extends String, ? extends Object> replyProps) {
-        super (message);
+    public JMSServiceException(String message, Map<? extends String, ? extends Object> replyProps) {
+        super(message);
         reply = new JMSServiceReply(replyProps, null);
     }
 
     /**
-     *  Creates a new instance of JMSServiceException 
-     *  with the specified message
-     *  that was caused by the specified Throwable.
-     *  This method appends the cause's own message to the specified message.
+     * Creates a new instance of JMSServiceException with the specified message that was caused by the specified Throwable.
+     * This method appends the cause's own message to the specified message.
      */
-    public JMSServiceException(String message, Throwable cause,
-            Map <? extends String, ? extends Object> replyProps) {
-        super (""+message+" Caused by:"+cause, cause);
+    public JMSServiceException(String message, Throwable cause, Map<? extends String, ? extends Object> replyProps) {
+        super("" + message + " Caused by:" + cause, cause);
         reply = new JMSServiceReply(replyProps, null);
     }
 
@@ -64,7 +60,7 @@ public class JMSServiceException extends java.lang.Exception {
      *
      * @return The JMSServiceReply associated with this JMSServiceException
      */
-    public JMSServiceReply getJMSServiceReply(){
+    public JMSServiceReply getJMSServiceReply() {
         return reply;
     }
 }

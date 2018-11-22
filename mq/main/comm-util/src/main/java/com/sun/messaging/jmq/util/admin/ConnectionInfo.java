@@ -16,50 +16,49 @@
 
 /*
  * @(#)ConnectionInfo.java	1.9 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.admin;
 
 import com.sun.messaging.jmq.util.MetricCounters;
 
 /**
- * ConnectionInfo encapsulates information about a JMQ Connection. It is used
- * to pass this information between the Broker and an administration client.
+ * ConnectionInfo encapsulates information about a JMQ Connection. It is used to pass this information between the
+ * Broker and an administration client.
  *
- * This class has no updateable fields. The admin client should consider
- * it "read-only"
+ * This class has no updateable fields. The admin client should consider it "read-only"
  */
 public class ConnectionInfo extends AdminInfo {
 
     /**
      * Broker internal connection ID.
      */
-    public byte[]	id;
+    public byte[] id;
 
     /**
      * Connection UUID
      */
-    public long         uuid;
+    public long uuid;
 
-    /** 
+    /**
      * Number of consumers on this connection
      */
-    public int          nconsumers = 0;
+    public int nconsumers = 0;
 
-    /** 
+    /**
      * Number of producers on this connection
      */
-    public int          nproducers = 0;
+    public int nproducers = 0;
 
     /**
      * Remote port number
      */
-    public int          remPort = 0;
+    public int remPort = 0;
 
     /**
      * IP address of client on the connection
      */
-    public byte[]	remoteIP;
+    public byte[] remoteIP;
 
     /**
      * Metrics for connection
@@ -67,46 +66,45 @@ public class ConnectionInfo extends AdminInfo {
     public MetricCounters metrics;
 
     /**
-     * Name of user authenticated on connection. Null if not authenticated
-     * by a user.
+     * Name of user authenticated on connection. Null if not authenticated by a user.
      */
-    public String	user = "";
+    public String user = "";
 
     /**
      * JMS ClientID of client on connection
      */
-    public String	clientID = "";
+    public String clientID = "";
 
     /**
      * User agent string
      */
-    public String	userAgent = "";
+    public String userAgent = "";
 
     /**
      * Service this connection is connected to
      */
-    public String	service = "";
+    public String service = "";
 
     /**
      * Constructor for Consumer.
      */
     public ConnectionInfo() {
-	reset();
+        reset();
     }
 
     public void reset() {
-	id = null;
-	remoteIP = null;
-	metrics = null;
-	user = "";
-	clientID = "";
+        id = null;
+        remoteIP = null;
+        metrics = null;
+        user = "";
+        clientID = "";
         service = "";
         userAgent = "";
     }
 
-
     /**
      * Return a string representation of the connection.
+     * 
      * <pre>
      * dipol@client1(129.144.252.154:0)
      * </pre>
@@ -115,8 +113,7 @@ public class ConnectionInfo extends AdminInfo {
      */
     public String toString() {
 
-	return user + "@" + clientID + "(" +
-	    com.sun.messaging.jmq.util.net.IPAddress.rawIPToString(remoteIP, true, true) + ")";
+        return user + "@" + clientID + "(" + com.sun.messaging.jmq.util.net.IPAddress.rawIPToString(remoteIP, true, true) + ")";
     }
 
 }

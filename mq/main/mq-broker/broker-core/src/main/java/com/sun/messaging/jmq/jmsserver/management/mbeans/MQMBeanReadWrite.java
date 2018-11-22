@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQMBeanReadWrite.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -49,100 +49,67 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
 public abstract class MQMBeanReadWrite extends MQMBeanReadOnly {
-    public MQMBeanReadWrite()  {
+    public MQMBeanReadWrite() {
         super();
     }
 
     /**
      * Sets the value of the specified attribute of the Dynamic MBean.
      */
-    public void setAttribute(Attribute attribute) throws
-			AttributeNotFoundException,
-			InvalidAttributeValueException,
-			MBeanException,
-			ReflectionException  {
+    public void setAttribute(Attribute attribute) throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException {
 
-	if (attribute == null)  {
-	    throw new RuntimeOperationsException(
-		new IllegalArgumentException(
-			"MBean "
-			+ getMBeanName()
-			+ ": Null attribute passed to setAttribute()"));
+        if (attribute == null) {
+            throw new RuntimeOperationsException(new IllegalArgumentException("MBean " + getMBeanName() + ": Null attribute passed to setAttribute()"));
         }
 
-	String name = attribute.getName();
-	String methodName = "set" + name;
-	Object value = attribute.getValue();
-	Method m = null;
+        String name = attribute.getName();
+        String methodName = "set" + name;
+        Object value = attribute.getValue();
+        Method m = null;
 
-	checkSettableAttribute(name, value);
+        checkSettableAttribute(name, value);
 
-	try  {
-	    /*
-	     * What if value is null ?
-	     */
-	    Class methodParams[] = { value.getClass() };
+        try {
+            /*
+             * What if value is null ?
+             */
+            Class methodParams[] = { value.getClass() };
 
-	    m = this.getClass().getMethod(methodName, methodParams);
-	} catch(NoSuchMethodException noSuchE)  {
-	    String tmp = "MBean "
-			+ getMBeanName()
-			+ ": Cannot find method "
-			+ methodName;
+            m = this.getClass().getMethod(methodName, methodParams);
+        } catch (NoSuchMethodException noSuchE) {
+            String tmp = "MBean " + getMBeanName() + ": Cannot find method " + methodName;
             throw (new ReflectionException(noSuchE, tmp));
-	} catch(SecurityException se)  {
-	    throw (new ReflectionException(se));
-	}
+        } catch (SecurityException se) {
+            throw (new ReflectionException(se));
+        }
 
         try {
             Object params[] = { value };
             m.invoke(this, params);
-        } catch(Exception e)  {
+        } catch (Exception e) {
             throw (new MBeanException(e, e.toString()));
         }
     }
 
-    public void logProblemGettingOldVal(String attr, Exception e)  {
-        logger.log(Logger.ERROR,
-            getMBeanName()
-            + " notification "
-            + AttributeChangeNotification.ATTRIBUTE_CHANGE
-            + ": encountered problem while getting old value of attribute "
-            + attr
-            + ": " 
-            + e);
+    public void logProblemGettingOldVal(String attr, Exception e) {
+        logger.log(Logger.ERROR, getMBeanName() + " notification " + AttributeChangeNotification.ATTRIBUTE_CHANGE
+                + ": encountered problem while getting old value of attribute " + attr + ": " + e);
     }
 
-
-    private void checkSettableAttribute(String name, Object value) throws
-		AttributeNotFoundException,
-		InvalidAttributeValueException  {
+    private void checkSettableAttribute(String name, Object value) throws AttributeNotFoundException, InvalidAttributeValueException {
         MBeanAttributeInfo attrInfo = getAttributeInfo(name);
 
-	if (attrInfo == null)  {
-	    throw new AttributeNotFoundException("The attribute "
-			+ name
-			+ " is not a valid attribute for MBean"
-			+ getMBeanName());
-	}
+        if (attrInfo == null) {
+            throw new AttributeNotFoundException("The attribute " + name + " is not a valid attribute for MBean" + getMBeanName());
+        }
 
-	if (!attrInfo.isWritable())  {
-	    throw new AttributeNotFoundException("The attribute "
-			+ name
-			+ " is not a settable attribute for MBean"
-			+ getMBeanName());
-	}
+        if (!attrInfo.isWritable()) {
+            throw new AttributeNotFoundException("The attribute " + name + " is not a settable attribute for MBean" + getMBeanName());
+        }
 
-	if (!attrInfo.getType().equals(value.getClass().getName()))  {
-	    throw new InvalidAttributeValueException(
-	"The type of the value used to set the attribute "
-			+ name
-			+ " is incorrect ("
-			+ value.getClass().getName()
-			+ ").\n"
-			+ "The expected value type is "
-			+ attrInfo.getType()
-			+ ".");
-	}
+        if (!attrInfo.getType().equals(value.getClass().getName())) {
+            throw new InvalidAttributeValueException("The type of the value used to set the attribute " + name + " is incorrect (" + value.getClass().getName()
+                    + ").\n" + "The expected value type is " + attrInfo.getType() + ".");
+        }
     }
 }

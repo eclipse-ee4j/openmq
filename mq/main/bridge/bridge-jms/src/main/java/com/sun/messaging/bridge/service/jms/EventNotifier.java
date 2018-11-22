@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
+
 /**
  * 
  * @author amyk
@@ -27,14 +28,15 @@ import java.util.Iterator;
  */
 public class EventNotifier {
 
-    private EnumMap<EventListener.EventType, ArrayList<EventListener>> _listeners = 
-        new EnumMap<EventListener.EventType, ArrayList<EventListener>>(EventListener.EventType.class);
+    private EnumMap<EventListener.EventType, ArrayList<EventListener>> _listeners = new EnumMap<EventListener.EventType, ArrayList<EventListener>>(
+            EventListener.EventType.class);
 
-    public EventNotifier() {}
+    public EventNotifier() {
+    }
 
     public void addEventListener(EventListener.EventType evt, EventListener l) {
-        synchronized(_listeners) {
-            ArrayList<EventListener> ls = _listeners.get(evt); 
+        synchronized (_listeners) {
+            ArrayList<EventListener> ls = _listeners.get(evt);
             if (ls == null) {
                 ls = new ArrayList<EventListener>();
                 _listeners.put(evt, ls);
@@ -44,29 +46,31 @@ public class EventNotifier {
     }
 
     public void removeEventListener(EventListener l) {
-        synchronized(_listeners) {
+        synchronized (_listeners) {
             Iterator<EventListener.EventType> itr = _listeners.keySet().iterator();
             while (itr.hasNext()) {
                 EventListener.EventType key = itr.next();
                 ArrayList<EventListener> ls = _listeners.get(key);
                 ls.remove(l);
-                if (ls.size() == 0) itr.remove();
+                if (ls.size() == 0)
+                    itr.remove();
             }
         }
     }
 
     public void notifyEvent(EventListener.EventType evt, Object source) {
         EventListener[] als = null;
-        synchronized(_listeners) {
+        synchronized (_listeners) {
             ArrayList<EventListener> ls = _listeners.get(evt);
-            if (ls !=  null) {
-                 als = ls.toArray(new EventListener[ls.size()]);
+            if (ls != null) {
+                als = ls.toArray(new EventListener[ls.size()]);
             }
         }
-        if (als == null) return;
+        if (als == null)
+            return;
 
-        for (int i = 0; i < als.length; i++) { 
-             als[i].onEvent(evt, source);
+        for (int i = 0; i < als.length; i++) {
+            als[i].onEvent(evt, source);
         }
     }
 }

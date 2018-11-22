@@ -20,27 +20,22 @@
 
 package com.sun.messaging.jmq.util.lists;
 
-
 import java.util.Set;
 
 /**
- * this class represents a view into an existing set.
- * This subset is different from a copy of a set, because
- * changing one affects the other. e.g.<BR>
+ * this class represents a view into an existing set. This subset is different from a copy of a set, because changing
+ * one affects the other. e.g.<BR>
  * <UL>
- *   <LI>adding an item to the original set is reflected
- *       in the subset <i>if </i>the new object should be
- *       part of the subset </li>
- *   <LI>adding an item to the subset is reflected
- *       in the original set </li>
+ * <LI>adding an item to the original set is reflected in the subset <i>if </i>the new object should be part of the
+ * subset</li>
+ * <LI>adding an item to the subset is reflected in the original set</li>
  * </UL>
  */
-public interface SubSet extends Set, EventBroadcaster
-{
+public interface SubSet extends Set, EventBroadcaster {
 
     /**
-     * Method which allows an object to be added to the
-     * class for a specific reason.
+     * Method which allows an object to be added to the class for a specific reason.
+     * 
      * @see EventBroadcaster
      * @param o object to add
      * @param r reason the object was added
@@ -49,39 +44,29 @@ public interface SubSet extends Set, EventBroadcaster
     public boolean add(Object o, Reason r);
 
     /**
-     * Method which allows an object to be removed to the
-     * class for a specific reason.
+     * Method which allows an object to be removed to the class for a specific reason.
+     * 
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed
-     * @returns true if the item was removed, false if
-     *          it didnt exist
+     * @returns true if the item was removed, false if it didnt exist
      */
     public boolean remove(Object o, Reason r);
 
     /**
-     * optional method which tells the
-     * system it can free up resources.
-     * If destroy is not called, the
-     * subset will no longer be maintained
-     * once the garbage collector frees
-     * the reference.
+     * optional method which tells the system it can free up resources. If destroy is not called, the subset will no longer
+     * be maintained once the garbage collector frees the reference.
      */
     public void destroy();
 
     /**
-     * Used instead of iterator.next(), 
-     * iterator.remove() to remove the first 
-     * item from the list.
-     * Subsets do not allow iterator.remove() to
-     * be called because of the risk on 
-     * incorrect state or deadlocks.
+     * Used instead of iterator.next(), iterator.remove() to remove the first item from the list. Subsets do not allow
+     * iterator.remove() to be called because of the risk on incorrect state or deadlocks.
      */
     public Object removeNext();
 
     public String toDebugString();
 
     public Object peekNext();
-
 
 }

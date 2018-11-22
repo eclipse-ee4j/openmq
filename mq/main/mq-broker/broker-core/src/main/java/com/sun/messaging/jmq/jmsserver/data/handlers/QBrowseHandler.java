@@ -16,7 +16,7 @@
 
 /*
  * @(#)QBrowseHandler.java	1.54 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
@@ -46,13 +46,10 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 
-
-
 /**
  * Handler class which deals with requests for the current queue state
  */
-public class QBrowseHandler extends PacketHandler 
-{
+public class QBrowseHandler extends PacketHandler {
 
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
@@ -61,23 +58,21 @@ public class QBrowseHandler extends PacketHandler
     public QBrowseHandler() {
     }
 
-    public ArrayList getQBrowseList(Destination d, String selectorstr)
-        throws BrokerException, SelectorFormatException
-    {
+    public ArrayList getQBrowseList(Destination d, String selectorstr) throws BrokerException, SelectorFormatException {
 
         Collection msgs = null;
 
         if (selectorstr == null) {
-            msgs = d.getAll((Filter)null).values();
+            msgs = d.getAll((Filter) null).values();
         } else {
             SelectorFilter f = new SelectorFilter(selectorstr);
-            Map m =  d.getAll(f);
+            Map m = d.getAll(f);
             msgs = m.values();
         }
 
         // sort the messages
         ArrayList sorted = new ArrayList(msgs);
-        Collections.sort(sorted, new RefCompare());   
+        Collections.sort(sorted, new RefCompare());
 
         TransactionList[] tls = DL.getTransactionList(d.getPartitionedStore());
         TransactionList tlist = tls[0];
@@ -85,7 +80,7 @@ public class QBrowseHandler extends PacketHandler
         // remove any expired messages or messages in open txn
         Iterator itr = sorted.iterator();
         while (itr.hasNext()) {
-            PacketReference p = (PacketReference)itr.next();
+            PacketReference p = (PacketReference) itr.next();
             if (p.isExpired()) {
                 itr.remove();
             }
@@ -100,7 +95,7 @@ public class QBrowseHandler extends PacketHandler
                     itr.remove();
                 }
             }
-            //check in takeover processing 
+            // check in takeover processing
             if (p.checkLock(false) == null) {
                 itr.remove();
             }
@@ -110,20 +105,19 @@ public class QBrowseHandler extends PacketHandler
 
         itr = sorted.iterator();
         while (itr.hasNext()) {
-            PacketReference p = (PacketReference)itr.next();
-            if (p == null) continue;
+            PacketReference p = (PacketReference) itr.next();
+            if (p == null)
+                continue;
             returnmsgs.add(p.getSysMessageID());
         }
         return returnmsgs;
-        
+
     }
 
     /**
      * Method to handle Destination (create or delete) messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
         String reason = null;
@@ -151,10 +145,10 @@ public class QBrowseHandler extends PacketHandler
         int type = 0;
         try {
             props = msg.getProperties();
-            destination = (String )props.get("JMQDestination");
+            destination = (String) props.get("JMQDestination");
             type = DestType.DEST_TYPE_QUEUE;
 
-            selectorstr = (String )props.get("JMQSelector");
+            selectorstr = (String) props.get("JMQSelector");
             if (selectorstr != null && selectorstr.trim().length() == 0) {
                 selectorstr = null;
             }
@@ -162,20 +156,18 @@ public class QBrowseHandler extends PacketHandler
             if (DEBUG) {
                 logger.log(Logger.DEBUG, "QBrowse request: destination =  " + destination + "  selector = " + selectorstr);
             }
-        
-            Destination[] ds = DL.getDestination(con.getPartitionedStore(),
-                                       destination, DestType.isQueue(type));
-            Destination d = ds[0]; //PART
 
-            Boolean getMetrics = (Boolean)props.get("JMQMetrics");
+            Destination[] ds = DL.getDestination(con.getPartitionedStore(), destination, DestType.isQueue(type));
+            Destination d = ds[0]; // PART
+
+            Boolean getMetrics = (Boolean) props.get("JMQMetrics");
 
             if (d == null) {
                 status = Status.NOT_FOUND;
                 reason = "Destination " + destination + " not found";
-                logger.log(Logger.WARNING,BrokerResources.W_QUEUE_BROWSE_FAILED_NODEST, 
-                     (destination==null? "unknown" : destination));
+                logger.log(Logger.WARNING, BrokerResources.W_QUEUE_BROWSE_FAILED_NODEST, (destination == null ? "unknown" : destination));
             } else if (getMetrics != null && getMetrics.equals(Boolean.TRUE)) {
-                logger.log(Logger.INFO,"Getting destination metrics on " + d);
+                logger.log(Logger.INFO, "Getting destination metrics on " + d);
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
                 try {
                     ObjectOutputStream oos = new ObjectOutputStream(bos);
@@ -185,25 +177,20 @@ public class QBrowseHandler extends PacketHandler
                 } catch (Exception e) {
                     // Programing error. Do not need to localize
                     logger.log(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
-                        this.getClass().getName() +
-                        " : Got exception writing metrics to browse reply message:\n" +
-                        e );
+                            this.getClass().getName() + " : Got exception writing metrics to browse reply message:\n" + e);
                 }
                 hash.put("JMQMetrics", getMetrics);
 
-               
             } else {
                 logger.log(Logger.DEBUG, "QueueBrowser created: destination =  " + destination + "  selector = " + selectorstr);
 
-                ArrayList returnmsgs= getQBrowseList(d, selectorstr); //PART
+                ArrayList returnmsgs = getQBrowseList(d, selectorstr); // PART
 
-    
-            
                 if (DEBUG) {
                     logger.log(Logger.DEBUG, "QBrowse request: current queue size is " + returnmsgs.size());
                 }
                 ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                for (int i =0; i < returnmsgs.size(); i ++) {
+                for (int i = 0; i < returnmsgs.size(); i++) {
                     SysMessageID id = (SysMessageID) returnmsgs.get(i);
                     if (DEBUG) {
                         logger.log(Logger.DEBUG, "\t[" + i + "] id = " + id);
@@ -212,37 +199,28 @@ public class QBrowseHandler extends PacketHandler
                 }
                 bos.flush();
                 body = bos.toByteArray();
-                bos.close();            
+                bos.close();
             }
         } catch (IOException ex) {
-            logger.logStack(Logger.ERROR, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                "Unable to verify destination - no properties",ex);
+            logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to verify destination - no properties", ex);
             reason = ex.getMessage();
             status = Status.ERROR;
         } catch (ClassNotFoundException ex) {
-            logger.logStack(Logger.ERROR, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                "Unable to verify destination -bad class", ex);
+            logger.logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to verify destination -bad class", ex);
             reason = ex.getMessage();
             status = Status.ERROR;
         } catch (SelectorFormatException ex) {
             reason = ex.getMessage();
             status = Status.BAD_REQUEST;
-            logger.log(Logger.WARNING,BrokerResources.W_SELECTOR_PARSE, 
-                 selectorstr, ex);
+            logger.log(Logger.WARNING, BrokerResources.W_SELECTOR_PARSE, selectorstr, ex);
         } catch (BrokerException ex) {
             reason = ex.getMessage();
             status = ex.getStatusCode();
-            logger.logStack(Logger.WARNING, 
-                BrokerResources.W_QUEUE_BROWSE_FAILED, 
-                (destination==null? "unknown" : destination), ex);
+            logger.logStack(Logger.WARNING, BrokerResources.W_QUEUE_BROWSE_FAILED, (destination == null ? "unknown" : destination), ex);
         } catch (SecurityException ex) {
             reason = ex.getMessage();
             status = Status.FORBIDDEN;
-            logger.logStack(Logger.DEBUG, 
-                BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                " access to destination " + destination + " is forbidden ",ex);
+            logger.logStack(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, " access to destination " + destination + " is forbidden ", ex);
             reason = ex.getMessage();
             // XXX - log message
         }
@@ -252,13 +230,11 @@ public class QBrowseHandler extends PacketHandler
         if (reason != null) {
             hash.put("JMQReason", reason);
         }
-        if (((IMQBasicConnection)con).getDumpPacket() ||
-                 ((IMQBasicConnection)con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
             hash.put("JMQReqID", msg.getSysMessageID().toString());
 
         if (status == Status.NOT_FOUND) {
-            hash.put("JMQCanCreate", Boolean.valueOf(
-                DL.canAutoCreate(DestType.isQueue(type))));
+            hash.put("JMQCanCreate", Boolean.valueOf(DL.canAutoCreate(DestType.isQueue(type))));
         }
 
         pkt.setProperties(hash);

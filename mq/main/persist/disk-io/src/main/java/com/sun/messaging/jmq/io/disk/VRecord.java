@@ -16,7 +16,7 @@
 
 /*
  * @(#)VRecord.java	1.12 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.disk;
 
@@ -31,31 +31,32 @@ import java.util.*;
 public abstract class VRecord {
 
     // Info from record header.
-    protected int magic = VRFile.RECORD_MAGIC_NUMBER;	// Record's magic number
-    protected short state;     // Record's state
-    protected int capacity;    // Record buffer's size including header
+    protected int magic = VRFile.RECORD_MAGIC_NUMBER; // Record's magic number
+    protected short state; // Record's state
+    protected int capacity; // Record buffer's size including header
     protected short cookie = VRFile.RESERVED_SHORT; // application cookie
 
     /*
-     * Force any modifications made to the buffer to be written
-     * to physical storage.
+     * Force any modifications made to the buffer to be written to physical storage.
      */
     public abstract void force() throws IOException;
+
     public abstract void setCookie(short cookie) throws IOException;
+
     public abstract short getCookie();
 
     /**
      * Return the capacity of this VRecord.
      */
     public int getCapacity() {
-	return capacity;
+        return capacity;
     }
 
     /**
      * Return the capacity for data (ignoring header) of this VRecord.
      */
     public int getDataCapacity() {
-	return capacity - VRFile.RECORD_HEADER_SIZE;
+        return capacity - VRFile.RECORD_HEADER_SIZE;
     }
 
     abstract void free();
@@ -63,9 +64,7 @@ public abstract class VRecord {
     abstract void allocate(short state);
 
     short getState() {
-	return state;
+        return state;
     }
 
 }
-
-

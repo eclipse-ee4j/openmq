@@ -16,7 +16,7 @@
 
 /*
  * @(#)MessageDataHandler.java	1.17 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -44,24 +44,19 @@ public class MessageDataHandler extends GPacketHandler {
 
         if (gp.getType() == ProtocolGlobals.G_MESSAGE_DATA) {
             handleMessageData(cb, sender, gp);
-        }
-        else if (gp.getType() == ProtocolGlobals.G_MESSAGE_DATA_REPLY) {
+        } else if (gp.getType() == ProtocolGlobals.G_MESSAGE_DATA_REPLY) {
             handleMessageDataReply(sender, gp);
-        }
-        else {
-            logger.log(logger.WARNING, "MessageDataHandler " +
-                "Internal error : Cannot handle this packet :" +
-                gp.toLongString());
+        } else {
+            logger.log(logger.WARNING, "MessageDataHandler " + "Internal error : Cannot handle this packet :" + gp.toLongString());
         }
     }
 
     public void handleMessageData(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
 
-        ClusterMessageInfo cmi =  ClusterMessageInfo.newInstance(pkt, c);
+        ClusterMessageInfo cmi = ClusterMessageInfo.newInstance(pkt, c);
         boolean sendMsgDeliveredAck = cmi.getSendMessageDeliveredAck();
 
-        LinkedHashMap<ConsumerUID, Integer> cuids = 
-            new LinkedHashMap<ConsumerUID, Integer>();
+        LinkedHashMap<ConsumerUID, Integer> cuids = new LinkedHashMap<ConsumerUID, Integer>();
 
         Packet roPkt;
 
@@ -69,17 +64,16 @@ public class MessageDataHandler extends GPacketHandler {
             logger.log(logger.DEBUGMED, "MessageBus: receiving message.");
         }
 
-
         try {
             cmi.initPayloadRead();
             Iterator itr = cmi.readPayloadConsumerUIDs();
             while (itr.hasNext()) {
-                ConsumerUID intid = (ConsumerUID)itr.next();
+                ConsumerUID intid = (ConsumerUID) itr.next();
                 cuids.put(intid, cmi.getDeliveryCount(intid));
             }
             roPkt = cmi.readPayloadMessage();
             BrokerAddress home = cmi.getHomeBrokerAddress();
-            if (home ==  null) {
+            if (home == null) {
                 home = sender;
             }
             Long partitionid = cmi.getPartitionID();
@@ -88,26 +82,21 @@ public class MessageDataHandler extends GPacketHandler {
             }
             cb.processRemoteMessage(roPkt, cuids, home, sendMsgDeliveredAck);
         } catch (Exception e) {
-            logger.logStack(logger.ERROR,"Internal Exception, unable to process message " +
-                       pkt, e);
+            logger.logStack(logger.ERROR, "Internal Exception, unable to process message " + pkt, e);
         }
 
         if (cmi.needReply()) {
             try {
                 c.unicast(sender, cmi.getReplyGPacket(ProtocolGlobals.G_SUCCESS));
+            } catch (IOException e) {
             }
-            catch (IOException e) {}
         }
     }
 
-
     public void handleMessageDataReply(BrokerAddress sender, GPacket gp) {
-        logger.log(logger.DEBUG,
-"MessageBus: Received reset G_MESSAGE_DATA_REPLY from {0} : STATUS = {1}",
-            sender, ((Integer) gp.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received reset G_MESSAGE_DATA_REPLY from {0} : STATUS = {1}", sender, ((Integer) gp.getProp("S")));
     }
 }
-
 
 /*
  * EOF

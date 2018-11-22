@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetJMXConnectorsHandler.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -33,50 +33,47 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.management.agent.ConnectorServerManager;
 
-public class GetJMXConnectorsHandler extends AdminCmdHandler
-{
+public class GetJMXConnectorsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public GetJMXConnectorsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "GetJMXConnectorsHandler: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "GetJMXConnectorsHandler: " + cmd_props);
         }
 
         Agent agent = Globals.getAgent();
-	ConnectorServerManager csm;
-	Vector v = null;
+        ConnectorServerManager csm;
+        Vector v = null;
         int status = Status.OK;
 
-	if (agent != null)  {
-	    csm = agent.getConnectorServerManager();
+        if (agent != null) {
+            csm = agent.getConnectorServerManager();
 
-	    if (csm != null)  {
-	        v = csm.getConnectorInfo();
-	    }
-	}
+            if (csm != null) {
+                v = csm.getConnectorInfo();
+            }
+        }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
         setProperties(reply, MessageType.GET_JMX_REPLY, status, null);
 
-	setBodyObject(reply, v);
-	parent.sendReply(con, cmd_msg, reply);
+        setBodyObject(reply, v);
+        parent.sendReply(con, cmd_msg, reply);
         return true;
     }
 }

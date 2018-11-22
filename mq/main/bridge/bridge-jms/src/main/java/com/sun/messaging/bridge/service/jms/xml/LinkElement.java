@@ -23,13 +23,13 @@ import java.util.*;
  * @author amyk
  */
 
-public class LinkElement 
-{
+public class LinkElement {
     private Properties _attrs = null;
     private Properties _source = null;
     private TargetElement _target = null;
 
-    public LinkElement() {}
+    public LinkElement() {
+    }
 
     public void setAttributes(Properties a) {
         _attrs = a;
@@ -40,8 +40,7 @@ public class LinkElement
     }
 
     public boolean isTransacted() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED,
-                            JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT)).booleanValue();
+        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.TRANSACTED, JMSBridgeXMLConstant.Link.TRANSACTED_DEFAULT)).booleanValue();
     }
 
     public String getName() {
@@ -49,10 +48,9 @@ public class LinkElement
     }
 
     public boolean isEnabled() {
-        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, 
-                           JMSBridgeXMLConstant.Link.ENABLED_DEFAULT)).booleanValue();
+        return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.Link.ENABLED, JMSBridgeXMLConstant.Link.ENABLED_DEFAULT)).booleanValue();
     }
-    
+
     public Properties getSource() {
         return _source;
     }
@@ -69,7 +67,7 @@ public class LinkElement
         _target = t;
     }
 
-    public String toString() { 
-        return JMSBridgeXMLConstant.Element.LINK+"["+getName()+"]";
+    public String toString() {
+        return JMSBridgeXMLConstant.Element.LINK + "[" + getName() + "]";
     }
 }

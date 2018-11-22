@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSXAQueueConnectionImpl.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -25,51 +25,45 @@ import java.util.Properties;
 
 import com.sun.jms.spi.xa.*;
 
-/** An XAQueueConnection is an active connection to a JMS Pub/Sub provider.
-  * A client uses an XAQueueConnection to create one or more XAQueueSessions
-  * for producing and consuming messages.
-  *
-  * @see javax.jms.XAConnection
-  * @see javax.jms.XAQueueConnectionFactory
-  */
+/**
+ * An XAQueueConnection is an active connection to a JMS Pub/Sub provider. A client uses an XAQueueConnection to create
+ * one or more XAQueueSessions for producing and consuming messages.
+ *
+ * @see javax.jms.XAConnection
+ * @see javax.jms.XAQueueConnectionFactory
+ */
 
 public class JMSXAQueueConnectionImpl extends XAQueueConnectionImpl {
 
-    public
-    JMSXAQueueConnectionImpl(Properties configuration, String username,
-                        String password, String type) throws JMSException {
+    public JMSXAQueueConnectionImpl(Properties configuration, String username, String password, String type) throws JMSException {
         super(configuration, username, password, type);
     }
 
     /**
      * Create an XAQueueSession
-     *  
-     * @param transacted      ignored.
+     * 
+     * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     *  
+     * 
      * @return a newly created XA topic session.
-     *  
-     * @exception JMSException if JMS Connection fails to create a
-     *                         XA topic session due to some internal error.
-     */ 
-    public JMSXAQueueSession
-    createXAQueueSession(boolean transacted,
-                       int acknowledgeMode) throws JMSException {
+     * 
+     * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
+     */
+    public JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         checkConnectionState();
- 
-        //disallow to set client ID after this action.
+
+        // disallow to set client ID after this action.
         setClientIDFlag();
- 
+
         return new JMSXAQueueSessionImpl(this, transacted, acknowledgeMode);
     }
 
     /**
-     *get an QueueConnection associated with this XAQueueConnection object.
-     *  
+     * get an QueueConnection associated with this XAQueueConnection object.
+     * 
      * @return a QueueConnection.
-     */ 
+     */
     public QueueConnection getQueueConnection() {
         return (QueueConnection) this;
     }
 }
-

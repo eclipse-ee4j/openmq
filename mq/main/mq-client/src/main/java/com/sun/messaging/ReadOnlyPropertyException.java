@@ -16,19 +16,18 @@
 
 /*
  * @(#)ReadOnlyPropertyException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 import javax.jms.JMSException;
 
 /**
- * A <code>ReadOnlyPropertyException</code> is thrown when an attempt is
- * made to modify a JMQ <code>AdministeredObject</code> that has been
- * set to read only.
+ * A <code>ReadOnlyPropertyException</code> is thrown when an attempt is made to modify a JMQ
+ * <code>AdministeredObject</code> that has been set to read only.
  *
- * @see         javax.jms.ConnectionFactory javax.jms.ConnectionFactory
- * @see         com.sun.messaging.AdministeredObject#setReadOnly() com.sun.messaging.AdministeredObject.setReadOnly()
+ * @see javax.jms.ConnectionFactory javax.jms.ConnectionFactory
+ * @see com.sun.messaging.AdministeredObject#setReadOnly() com.sun.messaging.AdministeredObject.setReadOnly()
  */
 public class ReadOnlyPropertyException extends javax.jms.JMSException {
 
@@ -36,11 +35,9 @@ public class ReadOnlyPropertyException extends javax.jms.JMSException {
      * Constructs a ReadOnlyPropertyException.
      *
      * @param property The property being modified.
-     */  
+     */
     public ReadOnlyPropertyException(String property) {
         super(property);
     }
 
-
 }
-

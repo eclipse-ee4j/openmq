@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMXLogHandler.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
@@ -31,8 +31,7 @@ import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PerLookup;
 
 /**
- * A LogHandler that uses the JMX infrastructure to send
- * JMX notifications to interested parties.
+ * A LogHandler that uses the JMX infrastructure to send JMX notifications to interested parties.
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.management.agent.JMXLogHandler")
 @PerLookup
@@ -51,30 +50,29 @@ public class JMXLogHandler extends Handler {
      * Return a string description of this handler.
      */
     public String toString() {
-	return this.getClass().getName();
+        return this.getClass().getName();
     }
 
     /**
      * Pass log record to JMX system
      */
-	@Override
-	public void publish(LogRecord record) {
-		// ignore FORCE messages if we have explicitly been asked to ignore them
-		if (!this.isLoggable(record)) {
-			return;
-		}
+    @Override
+    public void publish(LogRecord record) {
+        // ignore FORCE messages if we have explicitly been asked to ignore them
+        if (!this.isLoggable(record)) {
+            return;
+        }
 
-		Agent agent = Globals.getAgent();
+        Agent agent = Globals.getAgent();
 
-		if (agent != null) {
-			agent.notifyLogMessage(record.getLevel().intValue(),
-						record.getMessage());
-		}
-		
-	}
+        if (agent != null) {
+            agent.notifyLogMessage(record.getLevel().intValue(), record.getMessage());
+        }
 
-	@Override
-	public void flush() {
-		// Nothing to do
-	}
+    }
+
+    @Override
+    public void flush() {
+        // Nothing to do
+    }
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerPasswdDialog.java	1.6 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -41,21 +41,21 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelledComponent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 
-/** 
+/**
  * This dialog is used for broker authentication.
  */
 public class BrokerPasswdDialog extends AdminDialog {
-    
-    private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static String close[] = {acr.getString(acr.I_DIALOG_CLOSE)};
 
-    private JTextField		username;
-    private JTextField		password;
-    private BrokerAdmin 	ba;
+    private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
+    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
+
+    private JTextField username;
+    private JTextField password;
+    private BrokerAdmin ba;
 
     /**
-     * Creates a non-modal dialog using the specified frame as parent and string
-     * as title. By default, will contain the following buttons:
+     * Creates a non-modal dialog using the specified frame as parent and string as title. By default, will contain the
+     * following buttons:
      * <UL>
      * <LI>OK
      * <LI>CANCEL
@@ -65,128 +65,120 @@ public class BrokerPasswdDialog extends AdminDialog {
      * @param parent the Frame from which the dialog is displayed
      * @param title the String to display in the dialog's title bar
      */
-    public BrokerPasswdDialog(Frame parent)  {
-	super(parent, acr.getString(acr.I_CONNECT_BROKER), (OK | CANCEL | HELP));
-	setHelpId(ConsoleHelpID.CONNECT_BROKER);
+    public BrokerPasswdDialog(Frame parent) {
+        super(parent, acr.getString(acr.I_CONNECT_BROKER), (OK | CANCEL | HELP));
+        setHelpId(ConsoleHelpID.CONNECT_BROKER);
     }
 
     public BrokerPasswdDialog(Frame parent, int whichButtons) {
-	super(parent, acr.getString(acr.I_CONNECT_BROKER), whichButtons);
-	setHelpId(ConsoleHelpID.CONNECT_BROKER);
+        super(parent, acr.getString(acr.I_CONNECT_BROKER), whichButtons);
+        setHelpId(ConsoleHelpID.CONNECT_BROKER);
     }
 
-    public JPanel createWorkPanel()  {
+    public JPanel createWorkPanel() {
 
-	JPanel workPanel = new JPanel();
-	GridBagLayout gridbag = new GridBagLayout();
-	workPanel.setLayout(gridbag);
-	GridBagConstraints c = new GridBagConstraints();
-	LabelledComponent items[] = new LabelledComponent[2];
+        JPanel workPanel = new JPanel();
+        GridBagLayout gridbag = new GridBagLayout();
+        workPanel.setLayout(gridbag);
+        GridBagConstraints c = new GridBagConstraints();
+        LabelledComponent items[] = new LabelledComponent[2];
 
-	username = new JTextField(20);
-	username.addActionListener(this);
-	items[0] = new LabelledComponent(acr.getString(acr.I_BROKER_USERNAME), username);
-	password = new JPasswordField(20);
-	password.addActionListener(this);
-	items[1] = new LabelledComponent(acr.getString(acr.I_BROKER_PASSWD), password);
-	
-	LabelValuePanel lvp = new LabelValuePanel(items, 5, 5);
+        username = new JTextField(20);
+        username.addActionListener(this);
+        items[0] = new LabelledComponent(acr.getString(acr.I_BROKER_USERNAME), username);
+        password = new JPasswordField(20);
+        password.addActionListener(this);
+        items[1] = new LabelledComponent(acr.getString(acr.I_BROKER_PASSWD), password);
 
-	c.gridx = 0;
-	c.gridy = 0;
-	c.anchor = GridBagConstraints.WEST;
-	gridbag.setConstraints(lvp, c);
-	workPanel.add(lvp);
+        LabelValuePanel lvp = new LabelValuePanel(items, 5, 5);
 
-	return (workPanel);
+        c.gridx = 0;
+        c.gridy = 0;
+        c.anchor = GridBagConstraints.WEST;
+        gridbag.setConstraints(lvp, c);
+        workPanel.add(lvp);
+
+        return (workPanel);
     }
 
     public void doOK() {
 
-	/*
-	 * Note:
-	 * Not forcing the username and password to be mandatory,
-	 * since the plugin authentication can require anything.
-	 */	 
-	String usernameValue = username.getText().trim();
+        /*
+         * Note: Not forcing the username and password to be mandatory, since the plugin authentication can require anything.
+         */
+        String usernameValue = username.getText().trim();
 
         /*
-	if (usernameValue.equals("")) {
-            JOptionPane.showOptionDialog(this,
-		acr.getString(acr.E_NO_PROP_VALUE, "username"),
-		acr.getString(acr.I_BROKER),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-            username.requestFocus();
-            return;
-	} 
-	*/
-	
-	String passwordValue = password.getText().trim();
- 
-	/*
-	if (passwordValue.equals("")) {
-            JOptionPane.showOptionDialog(this,
-		acr.getString(acr.E_NO_PROP_VALUE, "password"),
-		acr.getString(acr.I_BROKER),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-            password.requestFocus();
-            return;
-	}
-	*/
+         * if (usernameValue.equals("")) { JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, "username"),
+         * acr.getString(acr.I_BROKER), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+         * username.requestFocus(); return; }
+         */
 
-	BrokerAdminEvent bae = 
-		new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_LOGIN);
-	bae.setUsername(usernameValue);
-	bae.setPassword(passwordValue);
-	bae.setOKAction(true);
-	fireAdminEventDispatched(bae);
+        String passwordValue = password.getText().trim();
+
+        /*
+         * if (passwordValue.equals("")) { JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, "password"),
+         * acr.getString(acr.I_BROKER), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+         * password.requestFocus(); return; }
+         */
+
+        BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_LOGIN);
+        bae.setUsername(usernameValue);
+        bae.setPassword(passwordValue);
+        bae.setOKAction(true);
+        fireAdminEventDispatched(bae);
 
         username.requestFocus();
         if ((usernameValue.length() != 0) && (passwordValue.length() == 0))
             password.requestFocus();
     }
 
-    public void doApply() { }
-    public void doReset() { }
+    public void doApply() {
+    }
 
-    public void doCancel() { hide(); }
+    public void doReset() {
+    }
 
-    public void doClose() { hide(); }
+    public void doCancel() {
+        hide();
+    }
 
-    public void doClear() { 
-	username.setText("");
-	password.setText("");
+    public void doClose() {
+        hide();
+    }
+
+    public void doClear() {
+        username.setText("");
+        password.setText("");
     }
 
     public void show(BrokerAdmin ba) {
-	
-	this.ba = ba;
+
+        this.ba = ba;
 
         doClear();
-	String usernameValue = ba.getUserName();
-	String passwordValue = ba.getPassword();
+        String usernameValue = ba.getUserName();
+        String passwordValue = ba.getPassword();
 
         username.requestFocus();
 
         /*
-	 * Missing both.
-	 */
-	if ((usernameValue.length() == 0) && (passwordValue.length() == 0)) {
+         * Missing both.
+         */
+        if ((usernameValue.length() == 0) && (passwordValue.length() == 0)) {
 
- 	/* 
-         * Missing username only.
-         */
-	} else if (usernameValue.length() == 0) {
-	    password.setText(passwordValue);
- 	/* 
-         * Missing password only.
-         */
-	} else {
-	    username.setText(usernameValue);
+            /*
+             * Missing username only.
+             */
+        } else if (usernameValue.length() == 0) {
+            password.setText(passwordValue);
+            /*
+             * Missing password only.
+             */
+        } else {
+            username.setText(usernameValue);
             password.requestFocus();
-	}
+        }
 
         setDefaultButton(OK);
         super.show();
@@ -201,8 +193,8 @@ public class BrokerPasswdDialog extends AdminDialog {
         } else if (ev.getSource() == password) {
             doOK();
         } else {
-	    super.actionPerformed(ev);
-	}
+            super.actionPerformed(ev);
+        }
 
     }
 }

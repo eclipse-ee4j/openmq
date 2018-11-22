@@ -16,36 +16,39 @@
 
 /*
  * @(#)JMSRIConstants.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.jms.spi;
+
 import java.util.Map;
 
 public interface JMSRIConstants {
     final static int QUEUE = 0;
     final static int TOPIC = 1;
-    
+
     /**
      * Return both QUEUE and TOPIC destinations.
+     * 
      * @see JMSAdmin#getDestinations(int)
      */
-    final static int ALL   = 2; 
+    final static int ALL = 2;
 
     // property identifiers for creating ConnectionFactory.
 
     /**
-     * ConnectionFactory property representing jms service host.
-     * This property is optional and defaults to accessing the
-     * jms service running on the localhost.
+     * ConnectionFactory property representing jms service host. This property is optional and defaults to accessing the jms
+     * service running on the localhost.
+     * 
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
-    final static String CF_URL       = "url";
- 
+    final static String CF_URL = "url";
+
     /**
-     * ConnectionFactory property representing transport to use to 
-     * connect from JMS client to JMS Service. <p>
+     * ConnectionFactory property representing transport to use to connect from JMS client to JMS Service.
+     * <p>
      * Defaults to TRANSPORT_RMIIIOP.
+     * 
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      * @see #TRANSPORT_RMIIIOP
@@ -54,13 +57,10 @@ public interface JMSRIConstants {
     final static String CF_TRANSPORT = "transport";
 
     /**
-     * ConnectionFactory propery representing 
-     * ClientID to assign to a connection when created
-     * from connection factory created with this property
-     * set. It is optional
-     * to set this value. JMS will generate a default one.
-     * ClientID's are only used in scoping durable subscription's
-     * namespaces as of JMS 1.0.2.
+     * ConnectionFactory propery representing ClientID to assign to a connection when created from connection factory
+     * created with this property set. It is optional to set this value. JMS will generate a default one. ClientID's are
+     * only used in scoping durable subscription's namespaces as of JMS 1.0.2.
+     * 
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
@@ -68,6 +68,7 @@ public interface JMSRIConstants {
 
     /**
      * List of properties for creating a ConnectionFactory.
+     * 
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
@@ -75,19 +76,17 @@ public interface JMSRIConstants {
 
     /**
      * Values for CF_TRANSPORT.
+     * 
      * @see #CF_TRANSPORT
      */
     final static String TRANSPORT_RMIIIOP = "rmiiiop";
     final static String TRANSPORT_RMIJRMP = "rmijrmp";
 
-
     // Map identifiers for Destination creation.
 
     /**
-     * Boolean Value. If true, create overwrites an exisiting destination with same name.
-     * If false, throw a JMSException if destination already exists.
-     * Also used for durable subscriptions.
-     * Defaults to false if not provided in properties.
+     * Boolean Value. If true, create overwrites an exisiting destination with same name. If false, throw a JMSException if
+     * destination already exists. Also used for durable subscriptions. Defaults to false if not provided in properties.
      * 
      * @see JMSAdmin#createProviderDestination(String, int, Map)
      * @see JMSAdmin#createDurableSubscription(String, TopicConnectionFactory, Topic, String, Map)
@@ -95,21 +94,16 @@ public interface JMSRIConstants {
     final static String OVERWRITE = "overwrite";
 
     /**
-     * Boolean Value. If true, create a temporary destination and ignore
-     * destinationName provided. Defaults to false if not mentioned in 
-     * properties.
+     * Boolean Value. If true, create a temporary destination and ignore destinationName provided. Defaults to false if not
+     * mentioned in properties.
      *
      * @see JMSAdmin#createProviderDestination(String, int, Map)
      */
     final static String DESTINATION_IS_TEMPORARY = "isTemporary";
 
-
-    //EXCEPTION CODES
+    // EXCEPTION CODES
     /**
-     * Error code returned by createServiceDestination() when overwriting an
-     * existing destination is not allowed.
+     * Error code returned by createServiceDestination() when overwriting an existing destination is not allowed.
      */
     final static String DESTINATION_ALREADY_EXISTS = "destinationAlreadyExists";
 }
-
-

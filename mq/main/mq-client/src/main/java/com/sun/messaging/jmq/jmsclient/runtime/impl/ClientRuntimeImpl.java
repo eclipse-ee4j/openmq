@@ -23,45 +23,45 @@ import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 
 public class ClientRuntimeImpl extends ClientRuntime {
-	
-	protected ClientRuntimeImpl() {
-		super();
-	}
 
-	public static ClientRuntime getClientRuntimeImpl() {
-		return MyInstance.runtimeImpl;
-	}
-	
-	public boolean isEmbeddedBrokerRunning() {
-		
-		if (BrokerInstanceImpl.getInstance() != null) {
-			return BrokerInstanceImpl.getInstance().isBrokerRunning();
-		} else {
-			return false;
-		}
-	}
-	
-	public DirectBrokerConnection createDirectConnection() throws JMSException {
-		 
-		if (BrokerInstanceImpl.getInstance() == null) {
-			throw new JMSException ("Cannot create direct connection. No embedded broker running in this JVM.");
-		}
-		
-		DirectBrokerConnection dbc = BrokerInstanceImpl.getInstance().createDirectConnection();	
-		
-		//ConnectionImpl.getConnectionLogger().info("ClientRuntime created direct connection ...");
-		
-		return dbc;
-	}
-	
-	public synchronized BrokerInstance createBrokerInstance() throws IllegalAccessException {
-		return BrokerInstanceImpl.createInstance();
-	}
-		
-	/**
-	 * Client runtime singleton instance is constructed here.
-	 */
-	private static class MyInstance {
-		private final static ClientRuntime runtimeImpl = new ClientRuntimeImpl();
-	}
+    protected ClientRuntimeImpl() {
+        super();
+    }
+
+    public static ClientRuntime getClientRuntimeImpl() {
+        return MyInstance.runtimeImpl;
+    }
+
+    public boolean isEmbeddedBrokerRunning() {
+
+        if (BrokerInstanceImpl.getInstance() != null) {
+            return BrokerInstanceImpl.getInstance().isBrokerRunning();
+        } else {
+            return false;
+        }
+    }
+
+    public DirectBrokerConnection createDirectConnection() throws JMSException {
+
+        if (BrokerInstanceImpl.getInstance() == null) {
+            throw new JMSException("Cannot create direct connection. No embedded broker running in this JVM.");
+        }
+
+        DirectBrokerConnection dbc = BrokerInstanceImpl.getInstance().createDirectConnection();
+
+        // ConnectionImpl.getConnectionLogger().info("ClientRuntime created direct connection ...");
+
+        return dbc;
+    }
+
+    public synchronized BrokerInstance createBrokerInstance() throws IllegalAccessException {
+        return BrokerInstanceImpl.createInstance();
+    }
+
+    /**
+     * Client runtime singleton instance is constructed here.
+     */
+    private static class MyInstance {
+        private final static ClientRuntime runtimeImpl = new ClientRuntimeImpl();
+    }
 }

@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.util.log;
 
-
 import java.util.logging.Level;
 
 /**

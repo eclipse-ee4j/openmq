@@ -40,7 +40,7 @@ import com.sun.messaging.bridge.api.StompOutputHandler;
 import com.sun.messaging.bridge.api.StompProtocolException;
 
 /**
- * @author amyk 
+ * @author amyk
  */
 public class StompTransactedSession extends StompSenderSession {
 
@@ -48,21 +48,18 @@ public class StompTransactedSession extends StompSenderSession {
     private String tid = null;
     private long transactionId = 0L;
 
-    private Map<String, TransactedSubscriber> subscribers =
-        Collections.synchronizedMap(new HashMap<String, TransactedSubscriber>());
+    private Map<String, TransactedSubscriber> subscribers = Collections.synchronizedMap(new HashMap<String, TransactedSubscriber>());
 
     private List<SubscribedMessage> unackqueue = new ArrayList<SubscribedMessage>();
 
-    public StompTransactedSession(StompConnectionImpl stompc) 
-    throws Exception {
+    public StompTransactedSession(StompConnectionImpl stompc) throws Exception {
         super(stompc, true);
     }
 
     @Override
     public String toString() {
-        return "[StompTransactedSession@"+hashCode()+", tid="+
-                tid+"["+transactionId+"], lastRB="+lastRolledbackTID+
-               ", subs="+subscribers.size()+", unacks="+unackqueue.size()+"]";
+        return "[StompTransactedSession@" + hashCode() + ", tid=" + tid + "[" + transactionId + "], lastRB=" + lastRolledbackTID + ", subs="
+                + subscribers.size() + ", unacks=" + unackqueue.size() + "]";
     }
 
     public synchronized String getLastRolledbackStompTransactionId() {
@@ -72,15 +69,15 @@ public class StompTransactedSession extends StompSenderSession {
     @Override
     protected synchronized void closeSubscribers() {
         TransactedSubscriber sub = null;
-        for (String subid: subscribers.keySet()) {
-             sub = subscribers.get(subid);
-             try {
-                 sub.close(false);
-             } catch (Exception e) {
-                 if ((!isClosing() && !sub.isClosing()) || getDEBUG()) {
-                     logger.logStack(logger.WARNING, e.getMessage(), e);
-                 }
-             }
+        for (String subid : subscribers.keySet()) {
+            sub = subscribers.get(subid);
+            try {
+                sub.close(false);
+            } catch (Exception e) {
+                if ((!isClosing() && !sub.isClosing()) || getDEBUG()) {
+                    logger.logStack(logger.WARNING, e.getMessage(), e);
+                }
+            }
         }
     }
 
@@ -100,58 +97,50 @@ public class StompTransactedSession extends StompSenderSession {
         }
     }
 
-    public void ack(String subid, String msgid, boolean nack)
-    throws Exception {
+    public void ack(String subid, String msgid, boolean nack) throws Exception {
 
         checkSession();
-        String cmd = (nack ? "NACK ":"ACK ");
-        synchronized(this) {
+        String cmd = (nack ? "NACK " : "ACK ");
+        synchronized (this) {
 
-        if (getStompTransactionId() == null) {
-            throw new StompProtocolException(
-            "Transacted "+cmd+"["+subid+", "+msgid+"] no current transaction");
-        }
+            if (getStompTransactionId() == null) {
+                throw new StompProtocolException("Transacted " + cmd + "[" + subid + ", " + msgid + "] no current transaction");
+            }
 
-        TransactedSubscriber sub = subscribers.get(subid);
-        if (sub == null) {
-            throw new StompProtocolException(
-            "Subscription "+subid+" not found to transacted "+cmd+" message "+msgid);
-        }
+            TransactedSubscriber sub = subscribers.get(subid);
+            if (sub == null) {
+                throw new StompProtocolException("Subscription " + subid + " not found to transacted " + cmd + " message " + msgid);
+            }
 
-        SysMessageID sysid = SysMessageID.get(msgid);
-        SubscribedMessage sm = new SubscribedMessage(subid, sysid);
+            SysMessageID sysid = SysMessageID.get(msgid);
+            SubscribedMessage sm = new SubscribedMessage(subid, sysid);
 
-        int index =  unackqueue.indexOf(sm);
-        if (index == -1) {
-            throw new StompProtocolException(
-            "Message "+msgid+ " for subscription "+subid+" not found in transaction "+tid);
-        }
-        ArrayList<SubscribedMessage> acks = new ArrayList<SubscribedMessage>();
-        if (nack) {
-            acks.add(sm);
-        } else {
-            for (int i = 0; i <= index; i++) {
-                sm = unackqueue.get(i);
-                if (sm.subid.equals(subid)) {
-                    acks.add(sm);
+            int index = unackqueue.indexOf(sm);
+            if (index == -1) {
+                throw new StompProtocolException("Message " + msgid + " for subscription " + subid + " not found in transaction " + tid);
+            }
+            ArrayList<SubscribedMessage> acks = new ArrayList<SubscribedMessage>();
+            if (nack) {
+                acks.add(sm);
+            } else {
+                for (int i = 0; i <= index; i++) {
+                    sm = unackqueue.get(i);
+                    if (sm.subid.equals(subid)) {
+                        acks.add(sm);
+                    }
                 }
             }
-        }
-        Iterator<SubscribedMessage> itr = acks.iterator();
-        while (itr.hasNext()) {
-            sm = itr.next();
-            if (!nack) {
-                jmsservice.acknowledgeMessage(connectionId, sessionId,
-                       sm.consumerId, sm.sysid, transactionId,
-                       MessageAckType.ACKNOWLEDGE); 
-            } else {
-                jmsservice.acknowledgeMessage(connectionId, sessionId,
-                       sm.consumerId, sm.sysid, transactionId,
-                       MessageAckType.DEAD, 1, "STOMP:NACK", null); 
+            Iterator<SubscribedMessage> itr = acks.iterator();
+            while (itr.hasNext()) {
+                sm = itr.next();
+                if (!nack) {
+                    jmsservice.acknowledgeMessage(connectionId, sessionId, sm.consumerId, sm.sysid, transactionId, MessageAckType.ACKNOWLEDGE);
+                } else {
+                    jmsservice.acknowledgeMessage(connectionId, sessionId, sm.consumerId, sm.sysid, transactionId, MessageAckType.DEAD, 1, "STOMP:NACK", null);
+                }
+                unackqueue.remove(sm);
             }
-            unackqueue.remove(sm);
-        }
-        return;
+            return;
         }
     }
 
@@ -159,124 +148,110 @@ public class StompTransactedSession extends StompSenderSession {
      * STOMP protocol 1.0
      */
     public void ack10(String subidPrefix, String msgid) throws Exception {
-        throw new StompProtocolException(
-        "STOMP 1.0 no subscription id ACK is not supported");
+        throw new StompProtocolException("STOMP 1.0 no subscription id ACK is not supported");
     }
 
-    public StompSubscriber createSubscriber(
-        String subid, StompDestination d, String selector,
-        String duraname, boolean nolocal, StompOutputHandler out)
-        throws Exception {
+    public StompSubscriber createSubscriber(String subid, StompDestination d, String selector, String duraname, boolean nolocal, StompOutputHandler out)
+            throws Exception {
 
         checkSession();
-        synchronized(this) {
+        synchronized (this) {
 
-        if (subscribers.get(subid) != null) {
-            throw new StompProtocolException(
-            "Subscriber "+subid+" already exist in transacted session "+this); 
-        }
-
-	String stompdest = stompconn.getProtocolHandler().toStompFrameDestination(d, false);
-	Destination dest = ((StompDestinationImpl)d).getDestination();
-	JMSServiceReply reply = null;
-	try {
-            reply = jmsservice.createDestination(connectionId, dest);
-	} catch (JMSServiceException jmsse) {
-            JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
-            if (status == JMSServiceReply.Status.CONFLICT) {
-		if (getDEBUG()) {
-                    logger.log(logger.INFO, "Destination "+stompdest+" already exist");
-		}
-            } else {
-		throw jmsse;
+            if (subscribers.get(subid) != null) {
+                throw new StompProtocolException("Subscriber " + subid + " already exist in transacted session " + this);
             }
-	}
-        reply = jmsservice.startConnection(connectionId);
-	reply = jmsservice.addConsumer(connectionId, sessionId,
-                    dest, selector, duraname, (duraname != null),
-                    false, false, stompconn.getClientID(), nolocal);
-	long consumerId = reply.getJMQConsumerID();
 
-        TransactedSubscriber sub = new TransactedSubscriber(subid,
-                       consumerId, duraname, stompdest, out);
-        subscribers.put(subid, sub);
-        
-	return sub;
+            String stompdest = stompconn.getProtocolHandler().toStompFrameDestination(d, false);
+            Destination dest = ((StompDestinationImpl) d).getDestination();
+            JMSServiceReply reply = null;
+            try {
+                reply = jmsservice.createDestination(connectionId, dest);
+            } catch (JMSServiceException jmsse) {
+                JMSServiceReply.Status status = jmsse.getJMSServiceReply().getStatus();
+                if (status == JMSServiceReply.Status.CONFLICT) {
+                    if (getDEBUG()) {
+                        logger.log(logger.INFO, "Destination " + stompdest + " already exist");
+                    }
+                } else {
+                    throw jmsse;
+                }
+            }
+            reply = jmsservice.startConnection(connectionId);
+            reply = jmsservice.addConsumer(connectionId, sessionId, dest, selector, duraname, (duraname != null), false, false, stompconn.getClientID(),
+                    nolocal);
+            long consumerId = reply.getJMQConsumerID();
+
+            TransactedSubscriber sub = new TransactedSubscriber(subid, consumerId, duraname, stompdest, out);
+            subscribers.put(subid, sub);
+
+            return sub;
         }
     }
-        
 
     public void begin(String stomptid) throws Exception {
         checkSession();
-        synchronized(this) {
+        synchronized (this) {
 
-        if (getDEBUG()) {
-            logger.log(logger.INFO, "Begin transaction "+stomptid+ " in ["+this+"]");
-        }
-        if (tid != null) {
-            throw new StompProtocolException(
-            "Transaction session has current transaction "+tid);
-        }
-        JMSServiceReply reply = jmsservice.startTransaction(
-                        connectionId, sessionId, null, 0,
-                        TransactionAutoRollback.UNSPECIFIED, 0L);
-        transactionId = reply.getJMQTransactionID();
-        setStompTransactionId(stomptid);
+            if (getDEBUG()) {
+                logger.log(logger.INFO, "Begin transaction " + stomptid + " in [" + this + "]");
+            }
+            if (tid != null) {
+                throw new StompProtocolException("Transaction session has current transaction " + tid);
+            }
+            JMSServiceReply reply = jmsservice.startTransaction(connectionId, sessionId, null, 0, TransactionAutoRollback.UNSPECIFIED, 0L);
+            transactionId = reply.getJMQTransactionID();
+            setStompTransactionId(stomptid);
 
         }
     }
 
     public void commit() throws Exception {
         checkSession();
-        synchronized(this) {
+        synchronized (this) {
 
-        if (getStompTransactionId() == null) {
-            throw new StompProtocolException(
-            "Commit no current transaction in session "+this);
-        }
-
-        if (getDEBUG()) {
-            logger.log(logger.INFO, "Committing transaction "+tid+ " in ["+this+"]");
-        }
-        try {
-            jmsservice.commitTransaction(connectionId, transactionId, null, 0);
-        } catch (Exception e)  {
-            String emsg = "Exception in committing transaction "+tid;
-            logger.logStack(logger.ERROR, emsg, e);
-            try {
-                rollback();
-                lastRolledbackTID = tid;
-            } catch (Exception ee) {
-                logger.logStack(logger.WARNING, 
-                "Failed to rollback transaction " +tid + " after commit failure", ee);
-            } finally {
-                throw new StompProtocolException(emsg, e);
+            if (getStompTransactionId() == null) {
+                throw new StompProtocolException("Commit no current transaction in session " + this);
             }
-        } finally {
-            setStompTransactionId(null);
-        }
+
+            if (getDEBUG()) {
+                logger.log(logger.INFO, "Committing transaction " + tid + " in [" + this + "]");
+            }
+            try {
+                jmsservice.commitTransaction(connectionId, transactionId, null, 0);
+            } catch (Exception e) {
+                String emsg = "Exception in committing transaction " + tid;
+                logger.logStack(logger.ERROR, emsg, e);
+                try {
+                    rollback();
+                    lastRolledbackTID = tid;
+                } catch (Exception ee) {
+                    logger.logStack(logger.WARNING, "Failed to rollback transaction " + tid + " after commit failure", ee);
+                } finally {
+                    throw new StompProtocolException(emsg, e);
+                }
+            } finally {
+                setStompTransactionId(null);
+            }
         }
     }
 
     public void rollback() throws Exception {
         checkSession();
-        synchronized(this) {
+        synchronized (this) {
 
-        if (getStompTransactionId() == null) {
-            throw new StompProtocolException(
-            "Rollback no current transaction in session "+this);
-        }
-        if (getDEBUG()) {
-            logger.log(logger.INFO, "Rollback transaction "+tid+ " in ["+this+"]");
-        }
+            if (getStompTransactionId() == null) {
+                throw new StompProtocolException("Rollback no current transaction in session " + this);
+            }
+            if (getDEBUG()) {
+                logger.log(logger.INFO, "Rollback transaction " + tid + " in [" + this + "]");
+            }
 
-        try {
-            jmsservice.rollbackTransaction(connectionId,
-                        transactionId, null, true, true);
-        } finally {
-            lastRolledbackTID = tid;
-            setStompTransactionId(null);
-        }
+            try {
+                jmsservice.rollbackTransaction(connectionId, transactionId, null, true, true);
+            } finally {
+                lastRolledbackTID = tid;
+                setStompTransactionId(null);
+            }
         }
     }
 
@@ -284,13 +259,11 @@ public class StompTransactedSession extends StompSenderSession {
      * @param duraname if not null, subid will be ignored
      * @return subid if found else return null
      */
-    public synchronized String closeSubscriber(
-           String subid, String duraname) 
-           throws Exception {
+    public synchronized String closeSubscriber(String subid, String duraname) throws Exception {
 
-	TransactedSubscriber sub = null;
+        TransactedSubscriber sub = null;
 
-	if (duraname == null) {
+        if (duraname == null) {
             sub = subscribers.get(subid);
             if (sub == null) {
                 return null;
@@ -298,18 +271,18 @@ public class StompTransactedSession extends StompSenderSession {
             sub.close(false);
             subscribers.remove(subid);
             return subid;
-	}
+        }
 
         sub = null;
-	String dn = null;
-        for (String id: subscribers.keySet()) {
+        String dn = null;
+        for (String id : subscribers.keySet()) {
             sub = subscribers.get(id);
             dn = sub.duraName;
             if (dn == null) {
                 continue;
             }
             if (dn.equals(duraname)) {
-                break;  
+                break;
             }
         }
         if (sub != null) {
@@ -320,23 +293,19 @@ public class StompTransactedSession extends StompSenderSession {
         return null;
     }
 
-    private void deliverMessage(TransactedSubscriber sub, 
-        SubscribedMessage sm, StompOutputHandler out) 
-        throws Exception {
-        synchronized(closeLock) {
-            if (closing || closed || stompconn.isClosed() || sub.isClosing()) { 
-                throw new ConsumerClosedNoDeliveryException(
-                    "StompSubscriber "+this+" is closed");
+    private void deliverMessage(TransactedSubscriber sub, SubscribedMessage sm, StompOutputHandler out) throws Exception {
+        synchronized (closeLock) {
+            if (closing || closed || stompconn.isClosed() || sub.isClosing()) {
+                throw new ConsumerClosedNoDeliveryException("StompSubscriber " + this + " is closed");
             }
         }
-        synchronized(this) {
+        synchronized (this) {
             unackqueue.add(sm);
             out.sendToClient(sm.msg, stompconn.getProtocolHandler(), null);
         }
     }
 
-    private class TransactedSubscriber 
-        implements Consumer, StompSubscriber {
+    private class TransactedSubscriber implements Consumer, StompSubscriber {
 
         String subid = null;
         long consumerId = 0L;
@@ -347,42 +316,38 @@ public class StompTransactedSession extends StompSenderSession {
         boolean subscriberClosing = false;
         boolean subscriberClosed = false;
 
-        public TransactedSubscriber(String subid, long id, 
-            String duraname, String stompdest, StompOutputHandler out) {
+        public TransactedSubscriber(String subid, long id, String duraname, String stompdest, StompOutputHandler out) {
             this.subid = subid;
             this.consumerId = id;
-            this.duraName =  duraname;
+            this.duraName = duraname;
             this.stompdest = stompdest;
             this.out = out;
         }
 
         public boolean isClosing() {
-            synchronized(closeLock) {
+            synchronized (closeLock) {
                 return (subscriberClosing || subscriberClosed);
             }
         }
 
         public void close(boolean unsubscribe) throws Exception {
             SysMessageID lastsysid = null;
-            synchronized(closeLock) {
+            synchronized (closeLock) {
                 if (subscriberClosed) {
                     return;
                 }
                 subscriberClosing = true;
                 lastsysid = lastseen.sysid;
             }
-            jmsservice.deleteConsumer(connectionId, sessionId,
-                       consumerId, lastsysid, true, 
-                       (unsubscribe ? duraName:null),
-                       stompconn.getClientID());
+            jmsservice.deleteConsumer(connectionId, sessionId, consumerId, lastsysid, true, (unsubscribe ? duraName : null), stompconn.getClientID());
 
-            synchronized(closeLock) {
+            synchronized (closeLock) {
                 subscriberClosed = true;
             }
 
             SubscribedMessage sm = null;
             Iterator<SubscribedMessage> itr = null;
-            synchronized(StompTransactedSession.this) {
+            synchronized (StompTransactedSession.this) {
                 itr = unackqueue.iterator();
                 while (itr.hasNext()) {
                     sm = itr.next();
@@ -394,29 +359,25 @@ public class StompTransactedSession extends StompSenderSession {
         }
 
         @Override
-        public JMSAck deliver(JMSPacket msgpkt)
-            throws ConsumerClosedNoDeliveryException {
+        public JMSAck deliver(JMSPacket msgpkt) throws ConsumerClosedNoDeliveryException {
 
             if (isClosing() || stompconn.isClosed()) {
-                throw new ConsumerClosedNoDeliveryException(
-                    "StompSubscriber "+this+" is closed");
+                throw new ConsumerClosedNoDeliveryException("StompSubscriber " + this + " is closed");
             }
             try {
-                StompFrameMessage msg = toStompFrameMessage(subid,
-                                  stompdest, msgpkt.getPacket(), true);
+                StompFrameMessage msg = toStompFrameMessage(subid, stompdest, msgpkt.getPacket(), true);
                 if (getDEBUG()) {
-                    logger.log(logger.INFO, " SEND message "+msg+" for "+toString());
+                    logger.log(logger.INFO, " SEND message " + msg + " for " + toString());
                 }
-                SubscribedMessage sm = new SubscribedMessage(
-                    subid, consumerId, msgpkt.getPacket().getSysMessageID(), msg);
+                SubscribedMessage sm = new SubscribedMessage(subid, consumerId, msgpkt.getPacket().getSysMessageID(), msg);
                 deliverMessage(this, sm, out);
-                synchronized(closeLock) {
+                synchronized (closeLock) {
                     lastseen = sm;
                 }
 
             } catch (Exception e) {
                 if (e instanceof ConsumerClosedNoDeliveryException) {
-                    throw (ConsumerClosedNoDeliveryException)e; 
+                    throw (ConsumerClosedNoDeliveryException) e;
                 }
                 logger.logStack(logger.WARNING, e.getMessage(), e);
             }
@@ -432,39 +393,38 @@ public class StompTransactedSession extends StompSenderSession {
     static class SubscribedMessage {
 
         String subid = null;
-	long consumerId = 0L;
-	SysMessageID sysid = null;
+        long consumerId = 0L;
+        SysMessageID sysid = null;
         StompFrameMessage msg = null;
 
-	public SubscribedMessage(String subid, long consumerId,
-            SysMessageID sysid, StompFrameMessage msg) {
+        public SubscribedMessage(String subid, long consumerId, SysMessageID sysid, StompFrameMessage msg) {
             this.subid = subid;
             this.consumerId = consumerId;
             this.sysid = sysid;
             this.msg = msg;
         }
 
-	public SubscribedMessage(String subid, SysMessageID sysid) {
+        public SubscribedMessage(String subid, SysMessageID sysid) {
             this.subid = subid;
             this.sysid = sysid;
-	}
+        }
 
-	public boolean equals(Object obj) {
-            if (obj == null) return false;
+        public boolean equals(Object obj) {
+            if (obj == null)
+                return false;
             if (!(obj instanceof SubscribedMessage)) {
                 return false;
             }
 
-            SubscribedMessage that = (SubscribedMessage)obj;
-            if (that.subid.equals(this.subid) &&
-		that.sysid.equals(this.sysid)) {
-		return true;
+            SubscribedMessage that = (SubscribedMessage) obj;
+            if (that.subid.equals(this.subid) && that.sysid.equals(this.sysid)) {
+                return true;
             }
             return false;
-	}
+        }
 
-	public int hashCode() {
-            return subid.hashCode()+sysid.hashCode();
-	}
+        public int hashCode() {
+            return subid.hashCode() + sysid.hashCode();
+        }
     }
 }

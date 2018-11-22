@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -23,8 +23,7 @@ import java.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
-public class ExclusiveRequest 
-{
+public class ExclusiveRequest {
     private final String name;
 
     private ExclusiveRequest(String name) {
@@ -37,28 +36,27 @@ public class ExclusiveRequest
 
     public String toString(boolean inprogress) {
         if (!inprogress) {
-            return "["+name+ "]";
+            return "[" + name + "]";
         }
 
-        return Globals.getBrokerResources().getString(
-            BrokerResources.I_OP_IN_PROGRESS, this.name);
+        return Globals.getBrokerResources().getString(BrokerResources.I_OP_IN_PROGRESS, this.name);
     }
 
     public boolean equals(Object o) {
-        if (o == null) return false;
-        if (!(o instanceof ExclusiveRequest)) return false;
-        ExclusiveRequest that = (ExclusiveRequest)o;
+        if (o == null)
+            return false;
+        if (!(o instanceof ExclusiveRequest))
+            return false;
+        ExclusiveRequest that = (ExclusiveRequest) o;
         return this.name.equals(that.name);
     }
-   
+
     public int hashCode() {
         return name.hashCode();
     }
 
-    public static final ExclusiveRequest CHANGE_MASTER_BROKER = 
-                     new ExclusiveRequest("CHANGE_MASTER_BROKER");
+    public static final ExclusiveRequest CHANGE_MASTER_BROKER = new ExclusiveRequest("CHANGE_MASTER_BROKER");
 
-    public static final ExclusiveRequest MIGRATE_STORE = 
-                     new ExclusiveRequest("MIGRATE_STORE");
+    public static final ExclusiveRequest MIGRATE_STORE = new ExclusiveRequest("MIGRATE_STORE");
 
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionNotification.java	1.9 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -28,63 +28,66 @@ import javax.management.Notification;
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
-public class ConnectionNotification extends MQNotification  {
-    /** 
+public class ConnectionNotification extends MQNotification {
+    /**
      * A connection was created.
      */
-    public static final String		CONNECTION_OPEN = MQNotification.PREFIX + "connection.open";
+    public static final String CONNECTION_OPEN = MQNotification.PREFIX + "connection.open";
 
-    /** 
+    /**
      * A connection was closed.
      */
-    public static final String		CONNECTION_CLOSE = MQNotification.PREFIX + "connection.close";
+    public static final String CONNECTION_CLOSE = MQNotification.PREFIX + "connection.close";
 
-    /** 
+    /**
      * A connection was rejected.
      */
-    public static final String		CONNECTION_REJECT = MQNotification.PREFIX + "connection.reject";
+    public static final String CONNECTION_REJECT = MQNotification.PREFIX + "connection.reject";
 
     private String id;
     private String serviceName, userName, remoteHost;
 
-    
     /**
      * Creates a ConnectionNotification object.
      *
-     * @param type		The notification type.
-     * @param source		The notification source.
-     * @param sequenceNumber	The notification sequence number within the source object.
+     * @param type The notification type.
+     * @param source The notification source.
+     * @param sequenceNumber The notification sequence number within the source object.
      */
     public ConnectionNotification(String type, Object source, long sequenceNumber) {
-	super(type, source, sequenceNumber);
+        super(type, source, sequenceNumber);
     }
 
-    public void setConnectionID(String id)  {
-	this.id = id;
-    }
-    public String getConnectionID()  {
-	return(id);
+    public void setConnectionID(String id) {
+        this.id = id;
     }
 
-    public void setServiceName(String serviceName)  {
-	this.serviceName = serviceName;
-    }
-    public String getServiceName()  {
-	return(serviceName);
+    public String getConnectionID() {
+        return (id);
     }
 
-    public void setUserName(String userName)  {
-	this.userName = userName;
-    }
-    public String getUserName()  {
-	return(userName);
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
     }
 
-    public void setRemoteHost(String remoteHost)  {
-	this.remoteHost = remoteHost;
+    public String getServiceName() {
+        return (serviceName);
     }
-    public String getRemoteHost()  {
-	return(remoteHost);
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
-    
+
+    public String getUserName() {
+        return (userName);
+    }
+
+    public void setRemoteHost(String remoteHost) {
+        this.remoteHost = remoteHost;
+    }
+
+    public String getRemoteHost() {
+        return (remoteHost);
+    }
+
 }

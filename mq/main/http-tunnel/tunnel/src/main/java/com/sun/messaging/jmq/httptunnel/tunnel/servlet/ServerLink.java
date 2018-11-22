@@ -16,8 +16,8 @@
 
 /*
  * @(#)ServerLink.java	1.10 09/11/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.tunnel.servlet;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.*;
@@ -32,10 +32,8 @@ import java.util.*;
 import javax.servlet.*;
 import javax.servlet.http.*;
 
-
 /**
- * This class implements the servlet end of the link between the
- * servlet and the server application (JMQ broker).
+ * This class implements the servlet end of the link between the servlet and the server application (JMQ broker).
  */
 public class ServerLink extends Link implements HttpTunnelDefaults {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
@@ -45,13 +43,11 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
     private boolean listenState = false;
     private boolean serverReady = false;
 
-    public ServerLink(Socket serverConn, ServerLinkTable parent)
-        throws IOException {
+    public ServerLink(Socket serverConn, ServerLinkTable parent) throws IOException {
         try {
-        serverConn.setTcpNoDelay(true);
+            serverConn.setTcpNoDelay(true);
         } catch (SocketException e) {
-        parent.servletContext.log("WARNING: HttpTunnelTcpLink()["+serverConn.toString()+
-                                  "]setTcpNoDelay: " + e.toString(), e);
+            parent.servletContext.log("WARNING: HttpTunnelTcpLink()[" + serverConn.toString() + "]setTcpNoDelay: " + e.toString(), e);
         }
 
         this.serverConn = serverConn;
@@ -94,8 +90,7 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
     }
 
     /**
-     * Enqueue the packet to the appropriate connection queue.
-     * This should wakeup the appropriate pull thread.
+     * Enqueue the packet to the appropriate connection queue. This should wakeup the appropriate pull thread.
      */
     protected void receivePacket(HttpTunnelPacket p) {
         if (serverReady) {
@@ -115,9 +110,7 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
         }
 
         if (p.getPacketType() != LINK_INIT_PACKET) {
-            parent.servletContext.log("HttpTunnelServlet: ServerLink[" +
-                serverName + "] received " + "unexpected packet type " +
-                p.getPacketType());
+            parent.servletContext.log("HttpTunnelServlet: ServerLink[" + serverName + "] received " + "unexpected packet type " + p.getPacketType());
             shutdown();
             linkDown();
 
@@ -140,15 +133,13 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
                 parent.updateConnection(connId, pullPeriod, this);
             }
 
-            parent.servletContext.log("HttpTunnelServlet: ServerLink[" +
-                serverName + "]" + " link initialized");
+            parent.servletContext.log("HttpTunnelServlet: ServerLink[" + serverName + "]" + " link initialized");
 
             parent.updateServerName(this);
 
             serverReady = true;
         } catch (Exception e) {
-            parent.servletContext.log("HttpTunnelServlet: ServerLink[" +
-                serverName + "]" + " init link failed: " + e.getMessage(), e);
+            parent.servletContext.log("HttpTunnelServlet: ServerLink[" + serverName + "]" + " init link failed: " + e.getMessage(), e);
             shutdown();
             linkDown();
         }
@@ -166,8 +157,7 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
             sname = dis.readUTF();
             listenState = dis.readBoolean();
         } catch (Exception e) {
-            parent.servletContext.log("HttpTunnelServlet: ServerLink[" + sname +
-                "]" + " receiveListenStatePacket failed: " + e.getMessage(), e);
+            parent.servletContext.log("HttpTunnelServlet: ServerLink[" + sname + "]" + " receiveListenStatePacket failed: " + e.getMessage(), e);
             shutdown();
             linkDown();
         }

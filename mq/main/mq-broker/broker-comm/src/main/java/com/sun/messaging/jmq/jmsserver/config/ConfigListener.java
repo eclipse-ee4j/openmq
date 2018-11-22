@@ -16,41 +16,35 @@
 
 /*
  * @(#)ConfigListener.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.config;
 
 /**
- * This interface is used by any object who needs to listen
- * for notification when a specific property has changed.<P>
+ * This interface is used by any object who needs to listen for notification when a specific property has changed.
+ * <P>
  *
  */
-public interface ConfigListener 
-{
+public interface ConfigListener {
     /**
-     * method which is called to validate that the passed in
-     * name/value is valid.
+     * method which is called to validate that the passed in name/value is valid.
      *
-     * If the data is not valid, a PropertyUpdateException should be
-     * thrown.
+     * If the data is not valid, a PropertyUpdateException should be thrown.
      *
      * @param name the name of the property to be validated
      * @param value the new value requested for that property
      * @throws PropertyUpdateException the the value is invalid
      *
      */
-    public void validate(String name, String value)
-        throws PropertyUpdateException;
+    public void validate(String name, String value) throws PropertyUpdateException;
 
     /**
-     * method which is called then a class which is interested in
-     * the state of a specific property should updated its internal
-     * state based on the new value of the property.
+     * method which is called then a class which is interested in the state of a specific property should updated its
+     * internal state based on the new value of the property.
      *
      * @param name the name of the property to be validated
      * @param value the new value requested for that property
-     * @return true if the property has taken affect, false if it
-     *        will not take affect until the next broker restart
+     * @return true if the property has taken affect, false if it will not take affect until the next broker restart
      *
      */
     public boolean update(String name, String value);

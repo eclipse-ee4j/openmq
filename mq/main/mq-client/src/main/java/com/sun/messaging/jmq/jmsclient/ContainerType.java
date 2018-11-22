@@ -17,7 +17,5 @@
 package com.sun.messaging.jmq.jmsclient;
 
 public enum ContainerType {
-	JavaSE, 
-	JavaEE_ACC, 
-	JavaEE_Web_or_EJB 
+    JavaSE, JavaEE_ACC, JavaEE_Web_or_EJB
 }

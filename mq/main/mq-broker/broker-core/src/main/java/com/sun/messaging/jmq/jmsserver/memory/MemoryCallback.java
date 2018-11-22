@@ -16,31 +16,25 @@
 
 /*
  * @(#)MemoryCallback.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.memory;
 
-
 /**
- * this class is used by the Client->Broker or
- * broker->broker flow control to request notification
- * when messages can resume
+ * this class is used by the Client->Broker or broker->broker flow control to request notification when messages can
+ * resume
  *
- * Any client interested in receiving notifications when
- * either memory levels have changed or a specific level
- * of free memory should implement this method and register
- * using the <I>MemoryManager:registerMemoryCallback</I> method.
- * When memory levels change, updateMemory will be called.
+ * Any client interested in receiving notifications when either memory levels have changed or a specific level of free
+ * memory should implement this method and register using the <I>MemoryManager:registerMemoryCallback</I> method. When
+ * memory levels change, updateMemory will be called.
  * <P>
- * To receive callbacks when a specific amount of memory is
- * available OR resume should be called, register the Callback
+ * To receive callbacks when a specific amount of memory is available OR resume should be called, register the Callback
  * with <I>MemoryManager:notifyWhenAvailable()</I>.
  *
  * @see MemoryManager
  */
 
-public interface MemoryCallback
-{
+public interface MemoryCallback {
     /**
      * called in respones to a notifyWhenAvailable request
      *
@@ -51,8 +45,7 @@ public interface MemoryCallback
     public void resumeMemory(int cnt, long memory, long max);
 
     /**
-     * called when the memory level has been changed
-     * because of a state change (e.g. green -> yellow)
+     * called when the memory level has been changed because of a state change (e.g. green -> yellow)
      *
      * @param cnt value of JMQSize at this time
      * @param memory value of JMQBytes at this time

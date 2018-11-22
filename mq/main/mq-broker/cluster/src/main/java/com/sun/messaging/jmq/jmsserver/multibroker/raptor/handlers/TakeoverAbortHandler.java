@@ -16,7 +16,7 @@
 
 /*
  * @(#)TakeoverAbortHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,9 +39,8 @@ public class TakeoverAbortHandler extends GPacketHandler {
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TAKEOVER_ABORT) {
             if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
-            logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "Received Unexpected TAKEOVER_ABORT from "+sender);
-            return;
+                logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Received Unexpected TAKEOVER_ABORT from " + sender);
+                return;
             }
 
             handleTakeoverAbort(sender, pkt);
@@ -50,7 +49,7 @@ public class TakeoverAbortHandler extends GPacketHandler {
 
     public void handleTakeoverAbort(BrokerAddress sender, GPacket pkt) {
         ClusterTakeoverInfo cti = ClusterTakeoverInfo.newInstance(pkt);
-         
+
         p.receivedTakeoverAbort(sender, cti);
     }
 

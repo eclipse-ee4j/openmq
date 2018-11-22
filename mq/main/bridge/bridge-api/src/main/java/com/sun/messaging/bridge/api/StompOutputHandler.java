@@ -21,10 +21,8 @@ package com.sun.messaging.bridge.api;
  * @author amyk
  */
 public interface StompOutputHandler {
-     
-    public void sendToClient(StompFrameMessage msg, 
-                             StompProtocolHandler sph,
-                             Object ctx) throws Exception;
+
+    public void sendToClient(StompFrameMessage msg, StompProtocolHandler sph, Object ctx) throws Exception;
 
     public void sendToClient(StompFrameMessage msg) throws Exception;
 

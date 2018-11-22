@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -37,22 +37,19 @@ import com.sun.messaging.jmq.util.log.Logger;
 // unfortunately we dont know what producer a message
 // comes from at this time
 public class Producer extends ProducerSpi {
-    
+
     transient Set destinations = null;
     private transient DestinationList DL = Globals.getDestinationList();
     private transient PartitionedStore pstore = null;
 
     /**
      */
-    private Producer(ConnectionUID cuid, DestinationUID duid,
-                     String id, PartitionedStore ps) {
+    private Producer(ConnectionUID cuid, DestinationUID duid, String id, PartitionedStore ps) {
         super(cuid, duid, id);
         this.pstore = ps;
     }
-   
-    public static Producer createProducer(DestinationUID duid,
-              ConnectionUID cuid, String id, PartitionedStore ps) 
-    {
+
+    public static Producer createProducer(DestinationUID duid, ConnectionUID cuid, String id, PartitionedStore ps) {
         Producer producer = new Producer(cuid, duid, id, ps);
         Object old = allProducers.put(producer.getProducerUID(), producer);
         if (duid.isWildcard()) {
@@ -63,7 +60,6 @@ public class Producer extends ProducerSpi {
         return producer;
     }
 
-
     public void destroyProducer() {
         if (getDestinationUID().isWildcard()) {
             wildcardProducers.remove(getProducerUID());
@@ -73,19 +69,18 @@ public class Producer extends ProducerSpi {
                 dss = DL.findMatchingIDs(pstore, getDestinationUID());
             } catch (PartitionNotFoundException e) {
                 if (DEBUG) {
-                logger.log(logger.INFO, 
-                "Producer.destroyProducer on "+getDestinationUID()+": "+e.getMessage());
+                    logger.log(logger.INFO, "Producer.destroyProducer on " + getDestinationUID() + ": " + e.getMessage());
                 }
-                dss = new List[]{ new ArrayList<DestinationUID>() };
+                dss = new List[] { new ArrayList<DestinationUID>() };
             }
             List duids = dss[0];
             Iterator itr = duids.iterator();
             while (itr.hasNext()) {
-                DestinationUID duid = (DestinationUID)itr.next();
+                DestinationUID duid = (DestinationUID) itr.next();
                 Destination[] dd = DL.getDestination(pstore, duid);
                 Destination d = dd[0];
                 if (d != null) {
-                   d.removeProducer(uid);
+                    d.removeProducer(uid);
                 }
             }
         } else {
@@ -118,18 +113,17 @@ public class Producer extends ProducerSpi {
                     ll = DL.findMatchingIDs(pstore, destination_uid);
                 } catch (PartitionNotFoundException e) {
                     if (DEBUG) {
-                    logger.log(logger.INFO, 
-                    "Producer.getDestinations() on "+getDestinationUID()+": "+e.getMessage());
+                        logger.log(logger.INFO, "Producer.getDestinations() on " + getDestinationUID() + ": " + e.getMessage());
                     }
-                    ll = new List[]{ new ArrayList<DestinationUID>() };
+                    ll = new List[] { new ArrayList<DestinationUID>() };
                 }
                 List l = ll[0];
                 Iterator itr = l.iterator();
                 while (itr.hasNext()) {
-                    DestinationUID duid = (DestinationUID)itr.next();
+                    DestinationUID duid = (DestinationUID) itr.next();
                     destinations.add(duid);
                 }
-                    
+
             }
         }
         return destinations;

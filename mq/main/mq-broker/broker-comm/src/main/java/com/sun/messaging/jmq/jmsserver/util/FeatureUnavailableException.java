@@ -16,7 +16,7 @@
 
 /*
  * @(#)FeatureUnavailableException.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 
@@ -27,8 +27,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * this is the sub-class for exceptions thrown by the broker
  */
 
-public class FeatureUnavailableException extends BrokerException
-{
+public class FeatureUnavailableException extends BrokerException {
     String featurename = null;
 
     /**
@@ -44,13 +43,8 @@ public class FeatureUnavailableException extends BrokerException
      * @param msg the failed feature
      */
     public FeatureUnavailableException(String msg) {
-        super(
-           (msg == null ? null :
-                 CommGlobals.getBrokerResources().getKString(
-                 BrokerResources.E_FEATURE_UNAVAILABLE,
-                 msg)), 
-            BrokerResources.E_FEATURE_UNAVAILABLE,
-            null);
+        super((msg == null ? null : CommGlobals.getBrokerResources().getKString(BrokerResources.E_FEATURE_UNAVAILABLE, msg)),
+                BrokerResources.E_FEATURE_UNAVAILABLE, null);
         featurename = msg;
     }
 

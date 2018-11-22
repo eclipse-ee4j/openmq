@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -33,8 +33,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 /**
  */
 
-public class ClusterNotifyPartitionArrivalInfo 
-{
+public class ClusterNotifyPartitionArrivalInfo {
     protected Logger logger = Globals.getLogger();
 
     private UID partitionID = null;
@@ -43,8 +42,7 @@ public class ClusterNotifyPartitionArrivalInfo
     private Cluster c = null;
     private GPacket pkt = null;
 
-    private ClusterNotifyPartitionArrivalInfo(UID partitionID, String targetBrokerID,
-                                              Long xid, Cluster c) {
+    private ClusterNotifyPartitionArrivalInfo(UID partitionID, String targetBrokerID, Long xid, Cluster c) {
         this.partitionID = partitionID;
         this.targetBrokerID = targetBrokerID;
         this.xid = xid;
@@ -56,9 +54,7 @@ public class ClusterNotifyPartitionArrivalInfo
         this.c = c;
     }
 
-    public static ClusterNotifyPartitionArrivalInfo newInstance(
-                      UID partitionID, String targetBrokerID,
-                      Long xid, Cluster c) {
+    public static ClusterNotifyPartitionArrivalInfo newInstance(UID partitionID, String targetBrokerID, Long xid, Cluster c) {
         return new ClusterNotifyPartitionArrivalInfo(partitionID, targetBrokerID, xid, c);
     }
 
@@ -70,7 +66,7 @@ public class ClusterNotifyPartitionArrivalInfo
         return new ClusterNotifyPartitionArrivalInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws IOException { 
+    public GPacket getGPacket() throws IOException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NOTIFY_PARTITION_ARRIVAL);
@@ -78,47 +74,47 @@ public class ClusterNotifyPartitionArrivalInfo
         gp.putProp("partitionID", Long.valueOf(partitionID.longValue()));
         gp.putProp("X", xid);
         gp.putProp("TS", Long.valueOf(System.currentTimeMillis()));
-        c.marshalBrokerAddress(c.getSelfAddress(), gp); 
+        c.marshalBrokerAddress(c.getSelfAddress(), gp);
         gp.setBit(gp.A_BIT, true);
 
         return gp;
     }
 
     public UID getPartitionID() {
-        assert ( pkt != null );
-        return new UID(((Long)pkt.getProp("partitionID")).longValue());
+        assert (pkt != null);
+        return new UID(((Long) pkt.getProp("partitionID")).longValue());
     }
 
     public String getTargetBrokerID() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("targetBrokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("targetBrokerID");
     }
 
     public Long getXid() {
-        assert ( pkt != null );
-        return (Long)pkt.getProp("X");
+        assert (pkt != null);
+        return (Long) pkt.getProp("X");
     }
 
     public BrokerAddress getOwnerAddress() throws Exception {
-        assert ( pkt != null );
+        assert (pkt != null);
         return c.unmarshalBrokerAddress(pkt);
     }
 
     public Long getTimestamp() {
-        assert( pkt != null);
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public boolean needReply() {
-        assert ( pkt != null );
+        assert (pkt != null);
         return pkt.getBit(pkt.A_BIT);
     }
 
     public GPacket getReplyGPacket(int status, String reason) {
-        assert( pkt != null);
+        assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NOTIFY_PARTITION_ARRIVAL_REPLY);
-        gp.putProp("X", (Long)pkt.getProp("X"));
+        gp.putProp("X", (Long) pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -131,16 +127,16 @@ public class ClusterNotifyPartitionArrivalInfo
     public String toString() {
 
         if (pkt == null) {
-            return "["+partitionID+", "+targetBrokerID+"]";
+            return "[" + partitionID + ", " + targetBrokerID + "]";
         }
-        return "["+getPartitionID()+", "+getTargetBrokerID()+"]";
+        return "[" + getPartitionID() + ", " + getTargetBrokerID() + "]";
     }
 
     protected String getReplyToString(GPacket reply) {
-        return toString()+":[status="+reply.getProp("S")+", "+reply.getProp("reason")+"]";
+        return toString() + ":[status=" + reply.getProp("S") + ", " + reply.getProp("reason") + "]";
     }
 
     public static Long getReplyPacketXid(GPacket gp) {
-        return (Long)gp.getProp("X");
+        return (Long) gp.getProp("X");
     }
 }

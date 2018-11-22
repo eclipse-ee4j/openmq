@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -37,36 +37,28 @@ public class ReplicationGroupInfoHandler extends GPacketHandler {
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_REPLICATION_GROUP_INFO) {
             if (DEBUG) {
-                logger.log(logger.INFO,
-                    "ReplicationGroupInfoHandler.G_REPLICATION_GROUP_INFO from : ", sender);
+                logger.log(logger.INFO, "ReplicationGroupInfoHandler.G_REPLICATION_GROUP_INFO from : ", sender);
             }
             try {
                 p.receivedReplicationGroupInfo(pkt, sender);
             } catch (Exception e) {
-                Object[] args = { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                                   sender, e.getMessage() };
+                Object[] args = { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender, e.getMessage() };
                 boolean logged = false;
                 if (e instanceof BrokerException) {
-                    if (((BrokerException)e).getStatusCode() == Status.NOT_ALLOWED) { 
-                        logger.log(logger.WARNING, br.getKString(
-                            br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args));
+                    if (((BrokerException) e).getStatusCode() == Status.NOT_ALLOWED) {
+                        logger.log(logger.WARNING, br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args));
                         logged = true;
-                    } 
+                    }
                 }
                 if (!logged) {
-                    logger.logStack(logger.ERROR, br.getKString(
-                        br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args), e);
+                    logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args), e);
                 }
             }
-        }
-        else {
-            logger.log(logger.WARNING, "ReplicationGroupInfoHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "ReplicationGroupInfoHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

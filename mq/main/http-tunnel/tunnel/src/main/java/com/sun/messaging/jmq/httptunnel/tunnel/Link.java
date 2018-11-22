@@ -16,7 +16,7 @@
 
 /*
  * @(#)Link.java	1.11 09/11/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel;
 
@@ -26,10 +26,8 @@ import java.io.OutputStream;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
- * This class provides a common mechanism for establishing / maintaining
- * and consuming packets from a TCP connection.
+ * This class provides a common mechanism for establishing / maintaining and consuming packets from a TCP connection.
  */
 public abstract class Link extends Thread {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
@@ -40,8 +38,7 @@ public abstract class Link extends Thread {
     private Logger logger = Logger.getLogger("Http Tunneling");
 
     /**
-     * Establish the connection. This method blocks and keeps trying
-     * until a connection is established.
+     * Establish the connection. This method blocks and keeps trying until a connection is established.
      */
     protected abstract void createLink();
 
@@ -121,11 +118,11 @@ public abstract class Link extends Thread {
     }
 
     protected void log(Exception ex) {
-    	logger.log(Level.INFO, "Http Tunneling", ex);
+        logger.log(Level.INFO, "Http Tunneling", ex);
     }
 
     protected void log(Level v, String msg, Exception ex) {
-    	logger.log(v, msg, ex);
+        logger.log(v, msg, ex);
     }
 }
 

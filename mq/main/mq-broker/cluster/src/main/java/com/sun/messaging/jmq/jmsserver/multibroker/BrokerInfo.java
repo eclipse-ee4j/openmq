@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerInfo.java	1.15 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
@@ -27,9 +27,8 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.util.UID;
 
 /**
- * This class encapsulates general information about a broker.
- * Each broker maintains a list of <code> BrokerInfo </code> objects
- * representing the brokers known to be in the same cluster.
+ * This class encapsulates general information about a broker. Each broker maintains a list of <code> BrokerInfo </code>
+ * objects representing the brokers known to be in the same cluster.
  */
 public class BrokerInfo implements Serializable {
     static final long serialVersionUID = 6384851141864345643L;
@@ -41,24 +40,24 @@ public class BrokerInfo implements Serializable {
     private long startTime = 0;
     private boolean storeDirtyFlag = false;
 
-    private String heartbeatHostAddress = null ;
+    private String heartbeatHostAddress = null;
     private int heartbeatPort = -1;
     private int heartbeatInterval = 0;
 
-	private Integer clusterProtocolVersion = null;
+    private Integer clusterProtocolVersion = null;
 
-    private transient String realRemote =  null;
+    private transient String realRemote = null;
 
     public BrokerInfo() {
     }
 
-	public Integer getClusterProtocolVersion() {
-		return clusterProtocolVersion;
-	}
+    public Integer getClusterProtocolVersion() {
+        return clusterProtocolVersion;
+    }
 
-	public void setClusterProtocolVersion(Integer v) {
-		this.clusterProtocolVersion = v;
-	}
+    public void setClusterProtocolVersion(Integer v) {
+        this.clusterProtocolVersion = v;
+    }
 
     public void setBrokerAddr(BrokerAddress brokerAddr) {
         this.brokerAddr = brokerAddr;
@@ -93,12 +92,12 @@ public class BrokerInfo implements Serializable {
     }
 
     public void setHeartbeatHostAddress(String ip) {
-        heartbeatHostAddress =  ip;
+        heartbeatHostAddress = ip;
     }
 
     public String getHeartbeatHostAddress() {
         return heartbeatHostAddress;
-          
+
     }
 
     public void setHeartbeatPort(int p) {
@@ -118,21 +117,17 @@ public class BrokerInfo implements Serializable {
     }
 
     public String toString() {
-        StringBuffer sb = new StringBuffer(
-                              "\n\tAddress = " + brokerAddr +
-                              "\n\tStartTime = " + startTime +
-          ((DEBUG == true) ? ("\n\tDescription = " + description +
-                              "\n\tStoreDirty = " + storeDirtyFlag): "")+
-                              "\n\tProtocolVersion = " + clusterProtocolVersion);
+        StringBuffer sb = new StringBuffer("\n\tAddress = " + brokerAddr + "\n\tStartTime = " + startTime
+                + ((DEBUG == true) ? ("\n\tDescription = " + description + "\n\tStoreDirty = " + storeDirtyFlag) : "") + "\n\tProtocolVersion = "
+                + clusterProtocolVersion);
         if (heartbeatHostAddress != null) {
-            sb.append("\n\tHeartbeatHost = " + heartbeatHostAddress +
-                      "\n\tHeartbeatPort = " + heartbeatPort);
+            sb.append("\n\tHeartbeatHost = " + heartbeatHostAddress + "\n\tHeartbeatPort = " + heartbeatPort);
         }
         return sb.toString();
     }
 
     public void setRealRemoteString(String str) {
-        this.realRemote = str; 
+        this.realRemote = str;
     }
 
     public String getRealRemoteString() {

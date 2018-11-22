@@ -16,16 +16,15 @@
 
 /*
  * @(#)UnsupportedVersionNumberException.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.naming;
 
-/** 
- * An <code>UnsupportedVersionNumberException</code> is thrown when the
- * <code>getInstance()</code> method of <code>AdministeredObjectFactory</code>
- * finds a Version number for an unsupported format of a iMQ Administered
- * Object in the Reference object.
- *  
+/**
+ * An <code>UnsupportedVersionNumberException</code> is thrown when the <code>getInstance()</code> method of
+ * <code>AdministeredObjectFactory</code> finds a Version number for an unsupported format of a iMQ Administered Object
+ * in the Reference object.
+ * 
  * @see com.sun.messaging.naming.AdministeredObjectFactory com.sun.messaging.naming.AdministeredObjectFactory
  */
 
@@ -37,7 +36,6 @@ public class UnsupportedVersionNumberException extends javax.naming.NamingExcept
      * @param version The unsupported version number that was found.
      */
     public UnsupportedVersionNumberException(String version) {
-	super(version);
+        super(version);
     }
 }
-

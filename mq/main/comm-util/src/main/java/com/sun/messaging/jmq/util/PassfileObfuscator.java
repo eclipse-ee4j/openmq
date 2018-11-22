@@ -19,12 +19,12 @@ package com.sun.messaging.jmq.util;
 import java.io.*;
 
 /**
- * This interface encapsulates passfile obfuscation/deobfuscation 
+ * This interface encapsulates passfile obfuscation/deobfuscation
  *
- * A MQ un-obfuscated passfile has format of properties file with 
- * MQ property name=value pairs where 'value' is a password
+ * A MQ un-obfuscated passfile has format of properties file with MQ property name=value pairs where 'value' is a
+ * password
  */
-public interface PassfileObfuscator { 
+public interface PassfileObfuscator {
 
     /**
      * @param source the fully qualified file name of the passfile to be obfuscated
@@ -32,7 +32,7 @@ public interface PassfileObfuscator {
      * @param prefix property name prefix for all name=value pairs
      * @throws IOException
      */
-    public void obfuscateFile(String source, String target, String prefix) throws IOException; 
+    public void obfuscateFile(String source, String target, String prefix) throws IOException;
 
     /**
      * @param source the fully qualified file name of the passfile to be deobfuscated
@@ -40,15 +40,15 @@ public interface PassfileObfuscator {
      * @param prefix property name prefix for all name=value pairs
      * @throws IOException
      */
-    public void deobfuscateFile(String source, String target, String prefix) throws IOException; 
+    public void deobfuscateFile(String source, String target, String prefix) throws IOException;
 
     /**
-     * @param source the fully qualified file name of the passfile 
+     * @param source the fully qualified file name of the passfile
      * @param prefix property name prefix for all name=value pairs
      * @return InputStream of the deobfuscated passfile
      * @throws IOException
      */
-    public InputStream retrieveObfuscatedFile(String source, String prefix) throws IOException; 
+    public InputStream retrieveObfuscatedFile(String source, String prefix) throws IOException;
 
     /**
      * @param source the fully qualified file name of the passfile

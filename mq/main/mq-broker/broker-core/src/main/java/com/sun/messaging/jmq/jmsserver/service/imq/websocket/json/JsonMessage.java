@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket.json;
 
-
 /**
  * @author amyk
  */
@@ -30,17 +29,16 @@ public final class JsonMessage {
         public final static String COMMAND = "command";
         public final static String HEADERS = "headers";
         public final static String BODY = "body";
-    }    
+    }
 
     public static enum BodySubKey {
         ;
         public final static String TYPE = "type";
         public final static String ENCODER = "encoder";
         public final static String TEXT = "text";
-    }    
+    }
 
     public static final String ENCODER_BASE64 = "base64";
     public static final String BODY_TYPE_TEXT = "text";
     public static final String BODY_TYPE_BYTES = "bytes";
 }
-

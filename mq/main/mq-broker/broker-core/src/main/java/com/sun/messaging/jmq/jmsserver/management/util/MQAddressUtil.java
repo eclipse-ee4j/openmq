@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQAddressUtil.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -28,118 +28,101 @@ public class MQAddressUtil {
     private static boolean DEBUG = false;
 
     /**
-     * Return portmapper MQAddress. This MQAddress does not include the service name
-     * and is of the form mq://host:port
+     * Return portmapper MQAddress. This MQAddress does not include the service name and is of the form mq://host:port
      *
-     * @param port	Portmapper port
-     * @return		Portmapper address. This MQAddress does not include the 
-     *			service name. It is of the form mq://host:port.
+     * @param port Portmapper port
+     * @return Portmapper address. This MQAddress does not include the service name. It is of the form mq://host:port.
      */
-    public static MQAddress getPortMapperMQAddress(Integer port)  {
-	MQAddress	addr = null;
+    public static MQAddress getPortMapperMQAddress(Integer port) {
+        MQAddress addr = null;
 
-	if (port == null)  {
-	    if (DEBUG)  {
-	        Logger logger = Globals.getLogger();
+        if (port == null) {
+            if (DEBUG) {
+                Logger logger = Globals.getLogger();
                 logger.log(Logger.DEBUG, "Null port passed in to getPortMapperMQAddress()");
-	    }
-	    return (null);
-	}
+            }
+            return (null);
+        }
 
-	try  {
-	    String url = Globals.getMQAddress().getHostName() + ":"  + port.toString();
-	    addr = PortMapperMQAddress.createAddress(url);
-	} catch (Exception e)  {
-	    if (DEBUG)  {
-	        Logger logger = Globals.getLogger();
+        try {
+            String url = Globals.getMQAddress().getHostName() + ":" + port.toString();
+            addr = PortMapperMQAddress.createAddress(url);
+        } catch (Exception e) {
+            if (DEBUG) {
+                Logger logger = Globals.getLogger();
                 logger.log(Logger.DEBUG, "Failed to create portmapper address", e);
-	    }
-	}
+            }
+        }
 
-	return (addr);
+        return (addr);
     }
 
     /**
-     * Return connection service MQAddress. Connection service addresses
-     * can have 2 forms and the bypassPortmapper parameter allows the caller
-     * to select which one is desired. The 2 forms depend on whether the client
-     * will contact the portmapper (mq://host:port) or the connection service 
-     * directly ({mqtcp,mqssl}://host:port/svcname).
+     * Return connection service MQAddress. Connection service addresses can have 2 forms and the bypassPortmapper parameter
+     * allows the caller to select which one is desired. The 2 forms depend on whether the client will contact the
+     * portmapper (mq://host:port) or the connection service directly ({mqtcp,mqssl}://host:port/svcname).
      *
-     * @param svcName	Connection service name.
-     * @param port	Portmapper port or connection service port.
-     * @param bypassPortmapper	Boolean to indicate which type of address is desired.
-     *				If the value for bypassPortmapper is false, the address
-     *				will be of the form mq://host:port/svcName. If the value
-     *				is true, the scheme will be one of mqtcp or mqssl. The 
-     *				address will be of the form scheme://host:svc_port/svc_name.
-     *				e.g. mqtcp://myhost:87635/jms
-     * @return		Connection service address.
+     * @param svcName Connection service name.
+     * @param port Portmapper port or connection service port.
+     * @param bypassPortmapper Boolean to indicate which type of address is desired. If the value for bypassPortmapper is
+     * false, the address will be of the form mq://host:port/svcName. If the value is true, the scheme will be one of mqtcp
+     * or mqssl. The address will be of the form scheme://host:svc_port/svc_name. e.g. mqtcp://myhost:87635/jms
+     * @return Connection service address.
      */
-    public static MQAddress getServiceMQAddress(String svcName, Integer port, 
-				boolean bypassPortmapper)  {
-	MQAddress addr = null;
-	String scheme = "mq";
-	Logger logger = Globals.getLogger();
+    public static MQAddress getServiceMQAddress(String svcName, Integer port, boolean bypassPortmapper) {
+        MQAddress addr = null;
+        String scheme = "mq";
+        Logger logger = Globals.getLogger();
 
-	if ((svcName == null) || (svcName.equals("")) || (port == null))  {
-	    if (DEBUG)  {
+        if ((svcName == null) || (svcName.equals("")) || (port == null)) {
+            if (DEBUG) {
                 logger.log(Logger.DEBUG, "Null service name and/or port passed in to getServiceMQAddress()");
-	    }
-	    return (null);
-	}
+            }
+            return (null);
+        }
 
-	if (bypassPortmapper)  {
-	    scheme = getScheme(svcName);
-	}
+        if (bypassPortmapper) {
+            scheme = getScheme(svcName);
+        }
 
-	if (scheme == null)  {
-	    return (null);
-	}
+        if (scheme == null) {
+            return (null);
+        }
 
-	if (bypassPortmapper)  {
-	    try  {
-	        String url = scheme 
-			+ "://" 
-			+ Globals.getMQAddress().getHostName() 
-			+ ":"  
-			+ port.toString() 
-			+ "/" + svcName;
-	        addr = MQAddress.getMQAddress(url);
-	    } catch (Exception e)  {
-		if (DEBUG)  {
+        if (bypassPortmapper) {
+            try {
+                String url = scheme + "://" + Globals.getMQAddress().getHostName() + ":" + port.toString() + "/" + svcName;
+                addr = MQAddress.getMQAddress(url);
+            } catch (Exception e) {
+                if (DEBUG) {
                     logger.log(Logger.DEBUG, "Failed to create service address", e);
-		}
-	    }
-	} else  {
-	    try  {
-	        String url = Globals.getMQAddress().getHostName()
-				+ ":"  
-				+ port.toString()
-				+ "/"
-				+ svcName;
-	        addr = PortMapperMQAddress.createAddress(url);
-	    } catch (Exception e)  {
-		if (DEBUG)  {
+                }
+            }
+        } else {
+            try {
+                String url = Globals.getMQAddress().getHostName() + ":" + port.toString() + "/" + svcName;
+                addr = PortMapperMQAddress.createAddress(url);
+            } catch (Exception e) {
+                if (DEBUG) {
                     logger.log(Logger.DEBUG, "Failed to create service address", e);
-		}
-	    }
-	}
+                }
+            }
+        }
 
-	return (addr);
+        return (addr);
     }
 
-    private static String getScheme(String svcName)  {
+    private static String getScheme(String svcName) {
         String proto = Globals.getConfig().getProperty(Globals.IMQ + "." + svcName + ".protocoltype");
         String scheme = null;
 
-	if (proto.equals("tcp"))  {
-	    scheme = "mqtcp";
-	} else if (proto.equals("tls"))  {
-	    scheme = "mqssl";
-	}
+        if (proto.equals("tcp")) {
+            scheme = "mqtcp";
+        } else if (proto.equals("tls")) {
+            scheme = "mqssl";
+        }
 
-	return (scheme);
+        return (scheme);
     }
 
 }

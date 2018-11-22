@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConsoleBrokerAdminManager.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -26,7 +26,6 @@ import com.sun.messaging.jmq.admin.util.UserPropertiesException;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 
-
 public class ConsoleBrokerAdminManager {
     private String fileName = "brokerlist.properties";
 
@@ -35,17 +34,15 @@ public class ConsoleBrokerAdminManager {
      */
     private Vector admins = new Vector();
 
-    public ConsoleBrokerAdminManager()  {
+    public ConsoleBrokerAdminManager() {
     }
 
     /**
-     * Adds an instance of BrokerAdmin to the list.
-     * This will simply overwrite the existing one if there is any.
-     * Should make sure dups are not added by calling exist() before doing
-     * this.
+     * Adds an instance of BrokerAdmin to the list. This will simply overwrite the existing one if there is any. Should make
+     * sure dups are not added by calling exist() before doing this.
      */
     public void addBrokerAdmin(BrokerAdmin ba) {
-	admins.addElement(ba);	
+        admins.addElement(ba);
     }
 
     /**
@@ -53,102 +50,94 @@ public class ConsoleBrokerAdminManager {
      */
     public void deleteBrokerAdmin(BrokerAdmin ba) {
 
-	String baKey = ba.getKey();
+        String baKey = ba.getKey();
 
-	for (int i = 0; i < admins.size(); i++) {
-	    BrokerAdmin ba2 = (BrokerAdmin)admins.get(i);
-	    String ba2Key = ba2.getKey();
-	    if (baKey.equals(ba2Key)) {
-		admins.remove(i);
-	        return;
-	    }
-	}
+        for (int i = 0; i < admins.size(); i++) {
+            BrokerAdmin ba2 = (BrokerAdmin) admins.get(i);
+            String ba2Key = ba2.getKey();
+            if (baKey.equals(ba2Key)) {
+                admins.remove(i);
+                return;
+            }
+        }
     }
 
     /**
-     * Reads the files and populates the manager with
-     * BrokerAdmin objects.
+     * Reads the files and populates the manager with BrokerAdmin objects.
      *
      */
-    public void readBrokerAdminsFromFile() throws UserPropertiesException, 
-					BrokerAdminException {
+    public void readBrokerAdminsFromFile() throws UserPropertiesException, BrokerAdminException {
 
-	BrokerListProperties	blProps = readFromFile();
+        BrokerListProperties blProps = readFromFile();
 
-	int count = blProps.getBrokerCount();
+        int count = blProps.getBrokerCount();
 
-	for (int i = 0; i < count; ++i)  {
-	    BrokerAdmin ba = blProps.getBrokerAdmin(i);
+        for (int i = 0; i < count; ++i) {
+            BrokerAdmin ba = blProps.getBrokerAdmin(i);
 
-	    addBrokerAdmin(ba);
-	}
+            addBrokerAdmin(ba);
+        }
     }
-
 
     /**
      * Writes broker list to files.
      */
-    public void writeBrokerAdminsToFile() throws UserPropertiesException  {
+    public void writeBrokerAdminsToFile() throws UserPropertiesException {
 
-	BrokerListProperties  blProps = new BrokerListProperties();
+        BrokerListProperties blProps = new BrokerListProperties();
 
-	for (int i = 0; i < admins.size(); i++) {
-	    BrokerAdmin ba = (BrokerAdmin)admins.get(i);
-	    blProps.addBrokerAdmin(ba);
-	}
+        for (int i = 0; i < admins.size(); i++) {
+            BrokerAdmin ba = (BrokerAdmin) admins.get(i);
+            blProps.addBrokerAdmin(ba);
+        }
 
-
-	writeToFile(blProps);
+        writeToFile(blProps);
     }
 
     /**
      * Returns the list of admin instances.
      */
     public Vector getBrokerAdmins() {
-	return admins;
+        return admins;
     }
 
     /**
-     * Returns true if the key of BrokerAdmin exists in the list.
-     * Returns false otherwise.
+     * Returns true if the key of BrokerAdmin exists in the list. Returns false otherwise.
      */
     public boolean exist(String key) {
-	for (int i = 0; i < admins.size(); i++) {
-	    BrokerAdmin ba = (BrokerAdmin)admins.get(i);
-	    String baKey = ba.getKey();
-	    if (key.equals(baKey)) {
-		return true;
-	    }
-	}
+        for (int i = 0; i < admins.size(); i++) {
+            BrokerAdmin ba = (BrokerAdmin) admins.get(i);
+            String baKey = ba.getKey();
+            if (key.equals(baKey)) {
+                return true;
+            }
+        }
 
-	return false;
+        return false;
     }
 
     /**
-     * Sets the name of the file where the objstore list is saved
-     * when writeObjStoresToFile() is called. This is also the file
-     * that is read from when readObjStoresFromFile() is called.
+     * Sets the name of the file where the objstore list is saved when writeObjStoresToFile() is called. This is also the
+     * file that is read from when readObjStoresFromFile() is called.
      *
-     * @param     fileName	The fileName where the object stores
-     *				are read from and written to.
+     * @param fileName The fileName where the object stores are read from and written to.
      */
-    public void setFileName(String fileName)  {
+    public void setFileName(String fileName) {
         this.fileName = fileName;
     }
-
 
     /**
      * Reads the files containing the list of Brokers.
      *
-     * @return    Properties object containing list of Brokers
+     * @return Properties object containing list of Brokers
      *
      */
     private BrokerListProperties readFromFile() throws UserPropertiesException {
 
-	BrokerListProperties  blProps = new BrokerListProperties();
+        BrokerListProperties blProps = new BrokerListProperties();
 
-	blProps.setFileName(fileName);
-	blProps.load();
+        blProps.setFileName(fileName);
+        blProps.load();
 
         return (blProps);
     }
@@ -157,11 +146,9 @@ public class ConsoleBrokerAdminManager {
      * Writes ObjStoreAttrs to files.
      *
      */
-    private void writeToFile(BrokerListProperties blProps) 
-					throws UserPropertiesException {
+    private void writeToFile(BrokerListProperties blProps) throws UserPropertiesException {
         blProps.setFileName(fileName);
         blProps.save();
     }
-
 
 }

@@ -16,8 +16,7 @@
 
 package com.sun.messaging.jmq.util.timer;
 
-public class WakeupableTimer implements Runnable 
-{
+public class WakeupableTimer implements Runnable {
     private static boolean DEBUG = false;
 
     private String name = null;
@@ -31,15 +30,12 @@ public class WakeupableTimer implements Runnable
     private String exitString = null;
     private TimerEventHandler handler = null;
 
-
     /**
      * @param delaytime initial delay in millisecs
-     * @param repeatInterval wait time in milliseconds to repeat the task;
-     *        if 0, wait for wakeup notifications (see also TimerEventHandler.runTask)
+     * @param repeatInterval wait time in milliseconds to repeat the task; if 0, wait for wakeup notifications (see also
+     * TimerEventHandler.runTask)
      */
-    public WakeupableTimer(String name, TimerEventHandler handler, 
-                           long delaytime, long repeatInterval,
-                           String startString, String exitString) {
+    public WakeupableTimer(String name, TimerEventHandler handler, long delaytime, long repeatInterval, String startString, String exitString) {
         this.name = name;
         this.mynexttime = delaytime + System.currentTimeMillis();
         this.repeatinterval = repeatInterval;
@@ -81,101 +77,98 @@ public class WakeupableTimer implements Runnable
     public void run() {
         try {
 
-        handler.handleLogInfo(startString);
+            handler.handleLogInfo(startString);
 
-        long time = System.currentTimeMillis();
-        long waittime = mynexttime - time;
-        if (waittime < 0L) {
-            waittime = 0L;
-        }
-        boolean nowaitOn0 = true;
-        while (valid) {
-            try {
-
-            synchronized(this) {
-                while (valid && !wakeup &&
-                       !(waittime == 0L && nowaitOn0)) {
-                    if (DEBUG) {
-                        handler.handleLogInfo(name+" run(): before wait("+waittime+"), valid="+
-                            valid+ ", wakeup="+wakeup+", nowaitOn0="+nowaitOn0);
-                    }
-                    if (nowaitOn0) {
-                        nowaitOn0 = false;
-                    }
-                    try {
-                        this.wait(waittime);
-                    } catch (InterruptedException ex) {
-                    }
-                    if (valid && !wakeup && waittime != 0L) {
-                        time = System.currentTimeMillis();
-                        waittime = mynexttime - time;
-                        if (waittime <= 0L) {
-                            waittime = 0L;
-                            if (repeatinterval > 0L) {
-                                waittime = repeatinterval;                              
-                            } 
-                            break;
-                        }
-                    }
-                }
-                if (!valid) {
-                    break;
-                }
-                wakeup = false;
-
-            } //synchronized
-
-            if (DEBUG) {
-                handler.handleLogInfo(name+" runTask "+handler.getClass().getName());
-            }
-
-            boolean asrequested = false; 
-            mynexttime = handler.runTask();
-            if (mynexttime > 0L) {
-                nowaitOn0 = true;
-                asrequested = true;
-            }
-            if (DEBUG) {
-                handler.handleLogInfo(name+" completed run "+
-                    handler.getClass().getName()+" with return "+mynexttime);
-            }
-            time = System.currentTimeMillis();
-            if (mynexttime == 0L) {
-                mynexttime = time + repeatinterval;
-            }
-            synchronized(this) {
-                if (DEBUG) {
-                    handler.handleLogInfo(name+" run() after runTask(), nexttime="+
-                                 nexttime+", mynexttime="+mynexttime+", time="+time);
-                }
-                if (nexttime > 0L && nexttime < mynexttime) {
-                    mynexttime = nexttime;
-                    nowaitOn0 = true;
-                    asrequested = true;
-                }
-                nexttime = 0L;
-            }
-            waittime = mynexttime - time;
+            long time = System.currentTimeMillis();
+            long waittime = mynexttime - time;
             if (waittime < 0L) {
                 waittime = 0L;
             }
-            if (waittime == 0L && !asrequested) {
-                nowaitOn0 = false;
-            }
+            boolean nowaitOn0 = true;
+            while (valid) {
+                try {
 
-            } catch (Throwable e) {
-            handler.handleLogWarn(e.getMessage(), e);
-            if (e instanceof OutOfMemoryError) {
-                handler.handleOOMError(e);
-            }
-            }
-        } //while
+                    synchronized (this) {
+                        while (valid && !wakeup && !(waittime == 0L && nowaitOn0)) {
+                            if (DEBUG) {
+                                handler.handleLogInfo(
+                                        name + " run(): before wait(" + waittime + "), valid=" + valid + ", wakeup=" + wakeup + ", nowaitOn0=" + nowaitOn0);
+                            }
+                            if (nowaitOn0) {
+                                nowaitOn0 = false;
+                            }
+                            try {
+                                this.wait(waittime);
+                            } catch (InterruptedException ex) {
+                            }
+                            if (valid && !wakeup && waittime != 0L) {
+                                time = System.currentTimeMillis();
+                                waittime = mynexttime - time;
+                                if (waittime <= 0L) {
+                                    waittime = 0L;
+                                    if (repeatinterval > 0L) {
+                                        waittime = repeatinterval;
+                                    }
+                                    break;
+                                }
+                            }
+                        }
+                        if (!valid) {
+                            break;
+                        }
+                        wakeup = false;
 
-        handler.handleLogInfo(exitString);
+                    } // synchronized
+
+                    if (DEBUG) {
+                        handler.handleLogInfo(name + " runTask " + handler.getClass().getName());
+                    }
+
+                    boolean asrequested = false;
+                    mynexttime = handler.runTask();
+                    if (mynexttime > 0L) {
+                        nowaitOn0 = true;
+                        asrequested = true;
+                    }
+                    if (DEBUG) {
+                        handler.handleLogInfo(name + " completed run " + handler.getClass().getName() + " with return " + mynexttime);
+                    }
+                    time = System.currentTimeMillis();
+                    if (mynexttime == 0L) {
+                        mynexttime = time + repeatinterval;
+                    }
+                    synchronized (this) {
+                        if (DEBUG) {
+                            handler.handleLogInfo(name + " run() after runTask(), nexttime=" + nexttime + ", mynexttime=" + mynexttime + ", time=" + time);
+                        }
+                        if (nexttime > 0L && nexttime < mynexttime) {
+                            mynexttime = nexttime;
+                            nowaitOn0 = true;
+                            asrequested = true;
+                        }
+                        nexttime = 0L;
+                    }
+                    waittime = mynexttime - time;
+                    if (waittime < 0L) {
+                        waittime = 0L;
+                    }
+                    if (waittime == 0L && !asrequested) {
+                        nowaitOn0 = false;
+                    }
+
+                } catch (Throwable e) {
+                    handler.handleLogWarn(e.getMessage(), e);
+                    if (e instanceof OutOfMemoryError) {
+                        handler.handleOOMError(e);
+                    }
+                }
+            } // while
+
+            handler.handleLogInfo(exitString);
 
         } catch (Throwable t) {
-        handler.handleLogError(exitString, t);
-        handler.handleTimerExit(t);
+            handler.handleLogError(exitString, t);
+            handler.handleTimerExit(t);
         }
     }
 }

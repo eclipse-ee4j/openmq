@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionOperations.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,40 +24,40 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on connection attributes.
  */
 public class ConnectionOperations {
-    /** 
+    /**
      * Destroy a connection.
      */
-    public static final String		DESTROY = "destroy";
+    public static final String DESTROY = "destroy";
 
-    /** 
+    /**
      * Get list of connection MBean object names
      */
-    public static final String		GET_CONNECTIONS = "getConnections";
+    public static final String GET_CONNECTIONS = "getConnections";
 
-    /** 
+    /**
      * Get list of consumer IDs
      */
-    public static final String		GET_CONSUMER_IDS = "getConsumerIDs";
+    public static final String GET_CONSUMER_IDS = "getConsumerIDs";
 
-    /** 
+    /**
      * Get list of producer IDs
      */
-    public static final String		GET_PRODUCER_IDS = "getProducerIDs";
+    public static final String GET_PRODUCER_IDS = "getProducerIDs";
 
-    /** 
+    /**
      * Get object names of service MBean
      */
-    public static final String		GET_SERVICE = "getService";
+    public static final String GET_SERVICE = "getService";
 
-    /** 
+    /**
      * Get object names of temporary destination MBeans
      */
-    public static final String		GET_TEMP_DESTINATIONS = "getTemporaryDestinations";
+    public static final String GET_TEMP_DESTINATIONS = "getTemporaryDestinations";
 
     /*
      * Class cannot be instantiated
      */
     private ConnectionOperations() {
     }
-    
+
 }

@@ -15,13 +15,11 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service;
 
-
-public interface ConnectionClosedListener 
-{
+public interface ConnectionClosedListener {
 
     public void connectionClosed(Connection con);
 

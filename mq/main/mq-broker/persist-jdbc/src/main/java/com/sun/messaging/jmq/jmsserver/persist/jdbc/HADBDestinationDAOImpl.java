@@ -16,7 +16,7 @@
 
 /*
  * @(#)HADBDestinationDAOImpl.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -31,6 +31,7 @@ class HADBDestinationDAOImpl extends DestinationDAOImpl {
 
     /**
      * Constructor
+     * 
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     HADBDestinationDAOImpl() throws BrokerException {
@@ -41,9 +42,8 @@ class HADBDestinationDAOImpl extends DestinationDAOImpl {
     /**
      * Delete all entries.
      */
-    protected void deleteAll( Connection conn, String whereClause,
-        String timestampColumn, int chunkSize ) throws BrokerException {
+    protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
-        super.deleteAll( conn, whereClause, CREATED_TS_COLUMN, HADB_CHUNK_SIZE );
+        super.deleteAll(conn, whereClause, CREATED_TS_COLUMN, HADB_CHUNK_SIZE);
     }
 }

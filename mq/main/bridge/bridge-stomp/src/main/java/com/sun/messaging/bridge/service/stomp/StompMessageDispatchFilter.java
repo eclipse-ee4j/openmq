@@ -31,7 +31,7 @@ import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.filterchain.NextAction;
-import org.glassfish.grizzly.memory.MemoryManager; 
+import org.glassfish.grizzly.memory.MemoryManager;
 import org.glassfish.grizzly.WriteResult;
 import org.glassfish.grizzly.CompletionHandler;
 import com.sun.messaging.bridge.api.BridgeContext;
@@ -45,95 +45,90 @@ import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
  * @author amyk
  */
 public class StompMessageDispatchFilter extends BaseFilter implements StompOutputHandler {
-     
-     protected static final String STOMP_PROTOCOL_HANDLER_ATTR = "stomp-protocol-handler";
-     private Logger _logger = null;
 
-     private BridgeContext _bc = null;
-     private Properties _jmsprop = null;
-     private StompBridgeResources _sbr = null;
+    protected static final String STOMP_PROTOCOL_HANDLER_ATTR = "stomp-protocol-handler";
+    private Logger _logger = null;
 
-     public StompMessageDispatchFilter(StompServer server) {
-         _logger = server.getLogger();
-         _bc = server.getBridgeContext();
-         _jmsprop = server.getJMSConfig();
-         _sbr = server.getStompBridgeResources();
-     }
-    
-     @Override
-     public NextAction handleRead(final FilterChainContext ctx) throws IOException {
-         BridgeContext bc = null;
-         synchronized(this) {
-             if (_bc == null || _jmsprop == null ||
-                 _logger == null || _sbr == null) {
-                 if (_logger != null) {
-                     _logger.log(Level.WARNING, "Stomp service not ready yet");
-                 }
-                 throw new IOException("Stomp service not ready yet");
-             }
-             bc = _bc;
-         }
-         final Connection conn = ctx.getConnection();
+    private BridgeContext _bc = null;
+    private Properties _jmsprop = null;
+    private StompBridgeResources _sbr = null;
+
+    public StompMessageDispatchFilter(StompServer server) {
+        _logger = server.getLogger();
+        _bc = server.getBridgeContext();
+        _jmsprop = server.getJMSConfig();
+        _sbr = server.getStompBridgeResources();
+    }
+
+    @Override
+    public NextAction handleRead(final FilterChainContext ctx) throws IOException {
+        BridgeContext bc = null;
+        synchronized (this) {
+            if (_bc == null || _jmsprop == null || _logger == null || _sbr == null) {
+                if (_logger != null) {
+                    _logger.log(Level.WARNING, "Stomp service not ready yet");
+                }
+                throw new IOException("Stomp service not ready yet");
+            }
+            bc = _bc;
+        }
+        final Connection conn = ctx.getConnection();
 
         StompProtocolHandlerImpl sph = null;
         try {
 
-        final StompFrameMessage msg = ctx.getMessage();
-        sph = (StompProtocolHandlerImpl)ctx.getAttributes().
-              getAttribute(StompMessageFilter.STOMP_PROTOCOL_HANDLER);
+            final StompFrameMessage msg = ctx.getMessage();
+            sph = (StompProtocolHandlerImpl) ctx.getAttributes().getAttribute(StompMessageFilter.STOMP_PROTOCOL_HANDLER);
 
-        switch (msg.getCommand()) { 
+            switch (msg.getCommand()) {
             case CONNECT:
             case STOMP:
                 sph.onCONNECT(msg, this, ctx);
-                break; 
+                break;
             case SEND:
                 sph.onSEND(msg, this, ctx);
-                break; 
+                break;
             case SUBSCRIBE:
                 StompOutputHandler soh = new AsyncStompOutputHandler(ctx, sph, bc);
 
                 sph.onSUBSCRIBE(msg, this, soh, ctx);
 
-                return ctx.getSuspendingStopAction(); 
+                return ctx.getSuspendingStopAction();
 
             case UNSUBSCRIBE:
                 sph.onUNSUBSCRIBE(msg, this, ctx);
-                break; 
+                break;
             case BEGIN:
                 sph.onBEGIN(msg, this, ctx);
-                break; 
+                break;
             case COMMIT:
                 sph.onCOMMIT(msg, this, ctx);
-                break; 
+                break;
             case ABORT:
                 sph.onABORT(msg, this, ctx);
-                break; 
+                break;
             case ACK:
                 sph.onACK(msg, this, ctx);
-                break; 
+                break;
             case DISCONNECT:
                 sph.onDISCONNECT(msg, this, ctx);
-                break; 
+                break;
             case ERROR:
                 sendToClient(msg, sph, ctx);
-                break; 
-            default: 
-                throw new IOException(
-                ((StompFrameMessageImpl)msg).getKStringX_UNKNOWN_STOMP_CMD(
-                     msg.getCommand().toString()));
-        }
- 
+                break;
+            default:
+                throw new IOException(((StompFrameMessageImpl) msg).getKStringX_UNKNOWN_STOMP_CMD(msg.getCommand().toString()));
+            }
+
         } catch (Throwable t) {
-            _logger.log(Level.SEVERE,  t.getMessage(), t);
+            _logger.log(Level.SEVERE, t.getMessage(), t);
             try {
 
-            StompFrameMessage err = sph.toStompErrorMessage(
-                "StompProtocolFilter", t, (t instanceof IOException));
-            sendToClient(err, sph, ctx);
+                StompFrameMessage err = sph.toStompErrorMessage("StompProtocolFilter", t, (t instanceof IOException));
+                sendToClient(err, sph, ctx);
 
             } catch (Exception e) {
-            _logger.log(Level.SEVERE, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.toString(), e.toString()), e);
+                _logger.log(Level.SEVERE, _sbr.getKString(_sbr.E_UNABLE_SEND_ERROR_MSG, t.toString(), e.toString()), e);
             }
         }
         return ctx.getInvokeAction();
@@ -142,11 +137,9 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
     public void sendToClient(StompFrameMessage msg) throws Exception {
         throw new UnsupportedOperationException("sendToclient(msg)");
     }
-    
-    public void sendToClient(final StompFrameMessage msg, 
-                             StompProtocolHandler sph, 
-                             final Object context) throws Exception {
-        FilterChainContext ctx = (FilterChainContext)context;
+
+    public void sendToClient(final StompFrameMessage msg, StompProtocolHandler sph, final Object context) throws Exception {
+        FilterChainContext ctx = (FilterChainContext) context;
         boolean closechannel = false;
         try {
             if (msg.getCommand() == StompFrameMessage.Command.ERROR) {
@@ -157,10 +150,8 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
             ctx.write(msg, true);
 
         } catch (Exception e) {
-            if (e instanceof java.nio.channels.ClosedChannelException ||
-                e.getCause() instanceof java.nio.channels.ClosedChannelException) { 
-                _logger.log(Level.WARNING, _sbr.getKString(
-                  _sbr.W_EXCEPTION_ON_SEND_MSG, msg.toString(), e.toString()));
+            if (e instanceof java.nio.channels.ClosedChannelException || e.getCause() instanceof java.nio.channels.ClosedChannelException) {
+                _logger.log(Level.WARNING, _sbr.getKString(_sbr.W_EXCEPTION_ON_SEND_MSG, msg.toString(), e.toString()));
                 if (sph != null) {
                     sph.close(false);
                 }
@@ -168,7 +159,7 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
             throw e;
         } finally {
             if (closechannel) {
-                GrizzlyFuture f = ctx.getConnection().close();              
+                GrizzlyFuture f = ctx.getConnection().close();
                 try {
                     f.get();
                 } catch (Exception ee) {
@@ -177,5 +168,5 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
             }
         }
     }
-    
+
 }

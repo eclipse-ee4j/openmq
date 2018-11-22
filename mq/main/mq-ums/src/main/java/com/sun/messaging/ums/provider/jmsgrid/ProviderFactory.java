@@ -16,7 +16,7 @@
 
 package com.sun.messaging.ums.provider.jmsgrid;
 
-    //import com.sun.messaging.xml.imq.soap.common.Constants;
+//import com.sun.messaging.xml.imq.soap.common.Constants;
 //import com.sun.messaging.ums.openmq.*;
 import com.sun.messaging.ums.factory.UMSConnectionFactory;
 import java.lang.reflect.Constructor;
@@ -31,17 +31,17 @@ import javax.jms.JMSException;
  * @author chiaming
  */
 public class ProviderFactory implements UMSConnectionFactory {
-    
+
     private ConnectionFactory factory = null;
     private Properties props = null;
-    
+
     /**
      * Called by UMS immediately after constructed.
      * 
      * @param props properties used by the connection factory.
      * @throws javax.jms.JMSException
      */
-    
+
     public void init(Properties props) throws JMSException {
         this.props = props;
 
@@ -56,20 +56,20 @@ public class ProviderFactory implements UMSConnectionFactory {
             String url = "tcp://" + hostname + ":" + portstr;
             factProps.setProperty("messageChannels", url);
 
-            //factory = new com.spirit.wave.jms.WaveConnectionFactory (factProps);
-            
+            // factory = new com.spirit.wave.jms.WaveConnectionFactory (factProps);
+
             String cname = "com.spirit.wave.jms.WaveConnectionFactory";
             Class cf_class = Class.forName(cname);
-            Class[] conargs = {Properties.class};
+            Class[] conargs = { Properties.class };
 
-            Object[] convalues = {factProps};
+            Object[] convalues = { factProps };
 
             Constructor con = cf_class.getConstructor(conargs);
-            
+
             factory = (ConnectionFactory) con.newInstance(convalues);
-            
+
         } catch (Exception e) {
-            
+
             JMSException jmse = new JMSException(e.getMessage());
             jmse.setLinkedException(e);
 
@@ -77,7 +77,7 @@ public class ProviderFactory implements UMSConnectionFactory {
         }
 
     }
-    
+
     /**
      * Same as JMS ConnectionFactory.createConnection();
      * 
@@ -87,7 +87,7 @@ public class ProviderFactory implements UMSConnectionFactory {
     public Connection createConnection() throws JMSException {
         return factory.createConnection();
     }
-    
+
     /**
      * Same as JMS ConnectionFactory.createConnection(String user, String password);
      * 

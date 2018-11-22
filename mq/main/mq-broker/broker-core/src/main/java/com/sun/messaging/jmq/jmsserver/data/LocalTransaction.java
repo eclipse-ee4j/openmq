@@ -27,60 +27,52 @@ import com.sun.messaging.jmq.util.JMQXid;
 
 public class LocalTransaction extends BaseTransaction {
 
-	public LocalTransaction() {
-		super(BaseTransaction.LOCAL_TRANSACTION_TYPE);
-		
+    public LocalTransaction() {
+        super(BaseTransaction.LOCAL_TRANSACTION_TYPE);
 
-	}
-	
-	public LocalTransaction(TransactionUID id, int state, JMQXid xid,
-			TransactionWork txnWork) {
-		super(BaseTransaction.LOCAL_TRANSACTION_TYPE);
+    }
 
-		setTransactionWork(txnWork);
-		transactionDetails.setTid(id);
-		transactionDetails.setState(state);
-		transactionDetails.setXid(xid);
-	}
+    public LocalTransaction(TransactionUID id, int state, JMQXid xid, TransactionWork txnWork) {
+        super(BaseTransaction.LOCAL_TRANSACTION_TYPE);
 
-	
+        setTransactionWork(txnWork);
+        transactionDetails.setTid(id);
+        transactionDetails.setState(state);
+        transactionDetails.setXid(xid);
+    }
 
-	public void readData(DataInputStream dis) throws IOException,
-			BrokerException {
-		transactionDetails.readContent(dis);
-		if(transactionWork==null)
-			transactionWork = new TransactionWork();
-		transactionWork.readWork(dis);
-	}
+    public void readData(DataInputStream dis) throws IOException, BrokerException {
+        transactionDetails.readContent(dis);
+        if (transactionWork == null)
+            transactionWork = new TransactionWork();
+        transactionWork.readWork(dis);
+    }
 
-	public void readObjects(ObjectInputStream ois) throws IOException,
-			ClassNotFoundException {
-		
-		transactionState = (TransactionState) ois.readObject();
+    public void readObjects(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 
-		// need to reset state
-		try {
-			transactionState.setState(transactionDetails.getState());
-		} catch (BrokerException e) {
-			e.printStackTrace();
-			throw new IOException(e.getMessage());
-		}
+        transactionState = (TransactionState) ois.readObject();
 
-	}
+        // need to reset state
+        try {
+            transactionState.setState(transactionDetails.getState());
+        } catch (BrokerException e) {
+            e.printStackTrace();
+            throw new IOException(e.getMessage());
+        }
 
-	
-	public void writeData(DataOutputStream dos) throws IOException {
-		transactionDetails.writeContent(dos);
-		transactionWork.writeWork(dos);
-	}
+    }
 
-	public void writeObjects(ObjectOutputStream oos) throws IOException {
-			oos.writeObject(transactionState);
-	}
+    public void writeData(DataOutputStream dos) throws IOException {
+        transactionDetails.writeContent(dos);
+        transactionWork.writeWork(dos);
+    }
 
-	String getPrefix() {
-		return "LocalTransaction: " + Thread.currentThread().getName() + " "
-				+ this.getTid();
-	}
+    public void writeObjects(ObjectOutputStream oos) throws IOException {
+        oos.writeObject(transactionState);
+    }
+
+    String getPrefix() {
+        return "LocalTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
+    }
 
 }

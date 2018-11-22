@@ -30,10 +30,11 @@ import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
 import com.sun.messaging.jmq.io.*; //test program only
 
 /**
- * DirectBrokerProcess implementation. It wraps a singleton class
- * (only one broker can be running in any process).<P>
+ * DirectBrokerProcess implementation. It wraps a singleton class (only one broker can be running in any process).
+ * <P>
  *
- * <u>Example</u><P>
+ * <u>Example</u>
+ * <P>
  * <code><PRE>
  *      DirectBrokerProcess bp = BrokerProcess.getBrokerProcess(BrokerProcess.DIRECT_BROKER);
  *      try {
@@ -50,14 +51,14 @@ import com.sun.messaging.jmq.io.*; //test program only
  *      }
  * </PRE></code>
  */
-public class DualThreadDBP extends DirectBrokerProcess
-{
+public class DualThreadDBP extends DirectBrokerProcess {
     public DualThreadDBP() {
         super();
         name = "mqdirect2";
     }
+
     public DirectBrokerConnection getConnection() {
-        IMQDualThreadService service = (IMQDualThreadService)Globals.getServiceManager().getService(name);
+        IMQDualThreadService service = (IMQDualThreadService) Globals.getServiceManager().getService(name);
         try {
             return service.createConnection();
         } catch (Exception ex) {
@@ -66,8 +67,4 @@ public class DualThreadDBP extends DirectBrokerProcess
         return null;
     }
 
-
-
 }
-
-

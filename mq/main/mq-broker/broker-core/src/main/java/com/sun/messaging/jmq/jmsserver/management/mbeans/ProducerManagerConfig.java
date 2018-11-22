@@ -16,7 +16,7 @@
 
 /*
  * @(#)ProducerManagerConfig.java	1.15 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -36,81 +36,70 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 
-public class ProducerManagerConfig extends MQMBeanReadWrite  {
-    private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(ProducerAttributes.NUM_PRODUCERS,
-					Integer.class.getName(),
-					mbr.getString(mbr.I_PRD_MGR_ATTR_NUM_PRODUCERS),
-					true,
-					false,
-					false)
-			};
+public class ProducerManagerConfig extends MQMBeanReadWrite {
+    private static MBeanAttributeInfo[] attrs = { new MBeanAttributeInfo(ProducerAttributes.NUM_PRODUCERS, Integer.class.getName(),
+            mbr.getString(mbr.I_PRD_MGR_ATTR_NUM_PRODUCERS), true, false, false) };
 
-    private static MBeanOperationInfo[] ops = {
-	    new MBeanOperationInfo(ProducerOperations.GET_PRODUCER_IDS,
-		mbr.getString(mbr.I_PRD_MGR_OP_GET_PRODUCER_IDS),
-		    null, 
-		    String[].class.getName(),
-		    MBeanOperationInfo.INFO)
-		};
+    private static MBeanOperationInfo[] ops = { new MBeanOperationInfo(ProducerOperations.GET_PRODUCER_IDS, mbr.getString(mbr.I_PRD_MGR_OP_GET_PRODUCER_IDS),
+            null, String[].class.getName(), MBeanOperationInfo.INFO) };
 
-    public ProducerManagerConfig()  {
-	super();
+    public ProducerManagerConfig() {
+        super();
     }
 
-    public Integer getNumProducers()  {
+    public Integer getNumProducers() {
         return (Integer.valueOf(Producer.getNumProducers()));
     }
 
-    public String[] getProducerIDs() throws MBeanException  {
-	int numProducers = getNumProducers().intValue();
-	String ids[];
-	Iterator producers;
+    public String[] getProducerIDs() throws MBeanException {
+        int numProducers = getNumProducers().intValue();
+        String ids[];
+        Iterator producers;
 
-	if (numProducers <= 0)  {
-	    return (null);
-	}
+        if (numProducers <= 0) {
+            return (null);
+        }
 
-	ids = new String [ numProducers ];
+        ids = new String[numProducers];
 
-	producers = Producer.getAllProducers();
-	int i = 0;
-	while (producers.hasNext()) {
-	    Producer oneProd = (Producer)producers.next();
-	    long prodID = oneProd.getProducerUID().longValue();
-	    String id;
+        producers = Producer.getAllProducers();
+        int i = 0;
+        while (producers.hasNext()) {
+            Producer oneProd = (Producer) producers.next();
+            long prodID = oneProd.getProducerUID().longValue();
+            String id;
 
-	    try  {
-	        id = Long.toString(prodID);
+            try {
+                id = Long.toString(prodID);
 
-	        ids[i] = id;
-	    } catch (Exception ex)  {
-		handleOperationException(ProducerOperations.GET_PRODUCER_IDS, ex);
-	    }
+                ids[i] = id;
+            } catch (Exception ex) {
+                handleOperationException(ProducerOperations.GET_PRODUCER_IDS, ex);
+            }
 
-	    i++;
-	}
+            i++;
+        }
 
-	return (ids);
+        return (ids);
     }
 
-    public String getMBeanName()  {
-	return ("ProducerManagerConfig");
+    public String getMBeanName() {
+        return ("ProducerManagerConfig");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_PRD_MGR_CFG_DESC));
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_PRD_MGR_CFG_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (ops);
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (ops);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (null);
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (null);
     }
 }

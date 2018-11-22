@@ -16,7 +16,7 @@
 
 /*
  * @(#)LogUtil.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -24,31 +24,31 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public class LogUtil {
 
-    public static String toExternalLogLevel(String internalLogLevel)  {
-	if (internalLogLevel.equals("NONE"))  {
-	    return (com.sun.messaging.jms.management.server.LogLevel.NONE);
-	} else if (internalLogLevel.equals("ERROR"))  {
-	    return (com.sun.messaging.jms.management.server.LogLevel.ERROR);
-	} else if (internalLogLevel.equals("WARNING"))  {
-	    return (com.sun.messaging.jms.management.server.LogLevel.WARNING);
-	} else if (internalLogLevel.equals("INFO"))  {
-	    return (com.sun.messaging.jms.management.server.LogLevel.INFO);
-	} else  {
-	    return (com.sun.messaging.jms.management.server.LogLevel.UNKNOWN);
-	}
+    public static String toExternalLogLevel(String internalLogLevel) {
+        if (internalLogLevel.equals("NONE")) {
+            return (com.sun.messaging.jms.management.server.LogLevel.NONE);
+        } else if (internalLogLevel.equals("ERROR")) {
+            return (com.sun.messaging.jms.management.server.LogLevel.ERROR);
+        } else if (internalLogLevel.equals("WARNING")) {
+            return (com.sun.messaging.jms.management.server.LogLevel.WARNING);
+        } else if (internalLogLevel.equals("INFO")) {
+            return (com.sun.messaging.jms.management.server.LogLevel.INFO);
+        } else {
+            return (com.sun.messaging.jms.management.server.LogLevel.UNKNOWN);
+        }
     }
 
-    public static String toInternalLogLevel(String externalLogLevel)  {
-	if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.NONE))  {
-	    return ("NONE");
-	} else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.ERROR))  {
-	    return ("ERROR");
-	} else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.WARNING))  {
-	    return ("WARNING");
-	} else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.INFO))  {
-	    return ("INFO");
-	} else  {
-	    return ("UNKNOWN");
-	}
+    public static String toInternalLogLevel(String externalLogLevel) {
+        if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.NONE)) {
+            return ("NONE");
+        } else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.ERROR)) {
+            return ("ERROR");
+        } else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.WARNING)) {
+            return ("WARNING");
+        } else if (externalLogLevel.equals(com.sun.messaging.jms.management.server.LogLevel.INFO)) {
+            return ("INFO");
+        } else {
+            return ("UNKNOWN");
+        }
     }
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ObjStoreAddDialog.java	1.29 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -32,11 +32,9 @@ import com.sun.messaging.jmq.admin.apps.console.event.ObjAdminEvent;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 
-/** 
- * The inspector component of the admin GUI displays attributes
- * of the currently selected item. It does not know or care about
- * what is currently selected. It is basically told what to display
- * i.e. what object's attributes to display.
+/**
+ * The inspector component of the admin GUI displays attributes of the currently selected item. It does not know or care
+ * about what is currently selected. It is basically told what to display i.e. what object's attributes to display.
  * <P>
  * There are a variety of objects that can be <EM>inspected</EM>:
  * <UL>
@@ -53,132 +51,117 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  * <LI>
  * </UL>
  *
- * For each of the object types above, a different inspector panel
- * is potentially needed for displaying the object's attributes.
- * This will be implemented by having a main panel stacking all the 
- * different property panels in CardLayout. For each object that
- * needs to be inspected, the object needs to be passed in to the
- * inspector as well as it's type.
+ * For each of the object types above, a different inspector panel is potentially needed for displaying the object's
+ * attributes. This will be implemented by having a main panel stacking all the different property panels in CardLayout.
+ * For each object that needs to be inspected, the object needs to be passed in to the inspector as well as it's type.
  */
-public class ObjStoreAddDialog extends ObjStoreDialog  {
-    
+public class ObjStoreAddDialog extends ObjStoreDialog {
+
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
-    private static String close[] = {acr.getString(acr.I_DIALOG_CLOSE)};
+    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
-    public ObjStoreAddDialog(Frame parent, ObjStoreListCObj oslCObj)  {
-	super(parent, acr.getString(acr.I_ADD_OBJSTORE), 
-		(OK | CLEAR | CANCEL | HELP), oslCObj);
-	setHelpId(ConsoleHelpID.ADD_OBJECT_STORE);
+    public ObjStoreAddDialog(Frame parent, ObjStoreListCObj oslCObj) {
+        super(parent, acr.getString(acr.I_ADD_OBJSTORE), (OK | CLEAR | CANCEL | HELP), oslCObj);
+        setHelpId(ConsoleHelpID.ADD_OBJECT_STORE);
     }
 
-    public void doOK()  {
+    public void doOK() {
 
-	String osName = null;
+        String osName = null;
 
-	//if (osTextButton.isSelected()) {
-	    osName = osText.getText();
-	    osName = osName.trim();
-	    //
-	    // Make sure store name is not empty.
-	    //
-	    if (osName.equals("")) {
-	        JOptionPane.showOptionDialog(this,
-		    acr.getString(acr.E_NO_OBJSTORE_NAME),
-		    acr.getString(acr.I_ADD_OBJSTORE) + ": " +
-                        acr.getString(acr.I_ERROR_CODE, 
-				      AdminConsoleResources.E_NO_OBJSTORE_NAME),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-		osText.requestFocus();
-	        return;
-	    }
-/*
-	} else if (urlButton.isSelected()) {
-	    // Make sure a provider.url property was set.
-	    osName = jndiProps.getProperty(Context.PROVIDER_URL);
-	    if (osName == null || osName.equals("")) {
-	        JOptionPane.showOptionDialog(this,
-		    acr.getString(acr.E_NO_PROVIDER_URL, Context.PROVIDER_URL),
-		    acr.getString(acr.I_ADD_OBJSTORE) + ": " +
-                        acr.getString(acr.I_ERROR_CODE,
-                                      AdminConsoleResources.E_NO_PROVIDER_URL),
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-		comboBox.setSelectedItem(Context.PROVIDER_URL);
-		valueText.requestFocus();
-	        return;
-	    }
-	}
-*/
+        // if (osTextButton.isSelected()) {
+        osName = osText.getText();
+        osName = osName.trim();
+        //
+        // Make sure store name is not empty.
+        //
+        if (osName.equals("")) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_OBJSTORE_NAME),
+                    acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_NO_OBJSTORE_NAME),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+            osText.requestFocus();
+            return;
+        }
+        /*
+         * } else if (urlButton.isSelected()) { // Make sure a provider.url property was set. osName =
+         * jndiProps.getProperty(Context.PROVIDER_URL); if (osName == null || osName.equals("")) {
+         * JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROVIDER_URL, Context.PROVIDER_URL),
+         * acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_NO_PROVIDER_URL),
+         * JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+         * comboBox.setSelectedItem(Context.PROVIDER_URL); valueText.requestFocus(); return; } }
+         */
 
-	ObjAdminEvent oae;
-	ObjStoreAttrs osa = constructAttrs(osName);
+        ObjAdminEvent oae;
+        ObjStoreAttrs osa = constructAttrs(osName);
 
-	if (osa == null)
-	    return;
+        if (osa == null)
+            return;
 
-	oae = new ObjAdminEvent(this, ObjAdminEvent.ADD_OBJSTORE);
-	oae.setObjStoreAttrs(osa);
-	//oae.setConnectAttempt(checkBox.isSelected());
-	oae.setConnectAttempt(false);
-	oae.setOKAction(true);
-	fireAdminEventDispatched(oae);
+        oae = new ObjAdminEvent(this, ObjAdminEvent.ADD_OBJSTORE);
+        oae.setObjStoreAttrs(osa);
+        // oae.setConnectAttempt(checkBox.isSelected());
+        oae.setConnectAttempt(false);
+        oae.setOKAction(true);
+        fireAdminEventDispatched(oae);
     }
 
-    public void doReset() { }
-    public void doCancel() { 
-	hide();
+    public void doReset() {
     }
 
-    public void doClose() { hide(); }
-    public void doClear() { super.doClear(); }
-
-    public void show()  {
-	doClear();
-	osText.setText(getDefaultStoreName(acr.getString(acr.I_OBJSTORE_LABEL)));
-	setEditable(true);
-	osText.selectAll();
-	doComboBox();
-	super.show();
+    public void doCancel() {
+        hide();
     }
 
-    private ObjStoreAttrs constructAttrs(String osName)  {
+    public void doClose() {
+        hide();
+    }
 
-	//
-	// Check if this store name already exists.
-	//
-	if (osMgr != null && osMgr.getStore(osName) != null)  {
-	    JOptionPane.showOptionDialog(this,
-		acr.getString(acr.E_OBJSTORE_NAME_IN_USE, osName),
-		acr.getString(acr.I_ADD_OBJSTORE) + ": " +
-                    acr.getString(acr.I_ERROR_CODE,
-                                  AdminConsoleResources.E_OBJSTORE_NAME_IN_USE),
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.ERROR_MESSAGE, null, close, close[0]);
-	    //if (osTextButton.isSelected()) {
-		osText.requestFocus();
-		osText.selectAll();
-	    //}
-	    return (null);
-	}
+    public void doClear() {
+        super.doClear();
+    }
 
-	ObjStoreAttrs osa = new ObjStoreAttrs(osName, osName);
+    public void show() {
+        doClear();
+        osText.setText(getDefaultStoreName(acr.getString(acr.I_OBJSTORE_LABEL)));
+        setEditable(true);
+        osText.selectAll();
+        doComboBox();
+        super.show();
+    }
 
-	if (jndiProps == null) {
-	    return (osa);
-	}
+    private ObjStoreAttrs constructAttrs(String osName) {
+
+        //
+        // Check if this store name already exists.
+        //
+        if (osMgr != null && osMgr.getStore(osName) != null) {
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_OBJSTORE_NAME_IN_USE, osName),
+                    acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_OBJSTORE_NAME_IN_USE),
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
+            // if (osTextButton.isSelected()) {
+            osText.requestFocus();
+            osText.selectAll();
+            // }
+            return (null);
+        }
+
+        ObjStoreAttrs osa = new ObjStoreAttrs(osName, osName);
+
+        if (jndiProps == null) {
+            return (osa);
+        }
 
         // Check for any properties that MUST be set.
         if (checkMandatoryProps() == 0) {
             return null;
         }
 
-	for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
-	    String propName = (String)e.nextElement();
-	    osa.put(propName, jndiProps.getProperty(propName));
-	}
+        for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
+            String propName = (String) e.nextElement();
+            osa.put(propName, jndiProps.getProperty(propName));
+        }
 
-	return (osa);
+        return (osa);
     }
 
 }

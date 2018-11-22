@@ -35,10 +35,8 @@ import java.util.List;
  */
 public class GrizzlyMQPacketDispatchFilter extends BaseFilter {
 
-    private final Attribute<GrizzlyMQIPConnection>
-            connAttr =
-            Grizzly.DEFAULT_ATTRIBUTE_BUILDER.createAttribute(
-               GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
+    private final Attribute<GrizzlyMQIPConnection> connAttr = Grizzly.DEFAULT_ATTRIBUTE_BUILDER
+            .createAttribute(GrizzlyMQConnectionFilter.GRIZZLY_MQIPCONNECTION_ATTR);
 
     public GrizzlyMQPacketDispatchFilter() {
     }
@@ -48,23 +46,21 @@ public class GrizzlyMQPacketDispatchFilter extends BaseFilter {
         final Connection connection = ctx.getConnection();
         final GrizzlyMQPacketList packetList = ctx.getMessage();
         final List<Packet> list = packetList.getPackets();
-        
+
         GrizzlyMQIPConnection conn = connAttr.get(connection);
 
         try {
             for (int i = 0; i < list.size(); i++) {
                 final Packet packet = list.get(i);
                 if (packet == null) {
-                    Globals.getLogger().log(Logger.ERROR,
-                        "Read null packet from connection "+connection);
+                    Globals.getLogger().log(Logger.ERROR, "Read null packet from connection " + connection);
                     throw new IOException("Null Packet");
                 }
                 conn.receivedPacket(packet);
                 conn.readData();
             }
         } catch (BrokerException e) {
-            Globals.getLogger().logStack(Logger.ERROR, 
-                "Failed to process packet from connection "+connection, e);
+            Globals.getLogger().logStack(Logger.ERROR, "Failed to process packet from connection " + connection, e);
             throw new IOException(e.getMessage(), e);
         } finally {
             // @TODO investigate. we can dispose buffer, only if nobody still use it asynchronously.

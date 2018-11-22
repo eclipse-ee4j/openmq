@@ -22,51 +22,48 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public abstract class TransactionEvent {
 
-	static public TransactionEvent createFromBytes(byte[] data)
-			throws IOException, BrokerException {
+    static public TransactionEvent createFromBytes(byte[] data) throws IOException, BrokerException {
 
-		TransactionEvent result = null;
-		byte type = data[0];
-		byte subType = data[1];
-		result = create(type, subType);
-		result.readFromBytes(data);
-		return result;
-	}
+        TransactionEvent result = null;
+        byte type = data[0];
+        byte subType = data[1];
+        result = create(type, subType);
+        result.readFromBytes(data);
+        return result;
+    }
 
-	static TransactionEvent create(byte type, byte subtype) {
-		TransactionEvent result = null;
-		switch (type) {
-		case BaseTransaction.LOCAL_TRANSACTION_TYPE:
-			result = LocalTransactionEvent.create(subtype);
-			break;
-		case BaseTransaction.CLUSTER_TRANSACTION_TYPE:
-			result = ClusterTransactionEvent.create(subtype);
-			break;
-		case BaseTransaction.REMOTE_TRANSACTION_TYPE:
-			result = RemoteTransactionEvent.create(subtype);
-			break;
-		case BaseTransaction.NON_TRANSACTED_MSG_TYPE:
-			result = NonTransactedMsgEvent.create(subtype);
-			break;		
-		case BaseTransaction.NON_TRANSACTED_ACK_TYPE:
-			result = NonTransactedMsgAckEvent.create(subtype);
-			break;		
-		case BaseTransaction.MSG_REMOVAL_TYPE:
-			result = MsgRemovalEvent.create(subtype);
-			break;		
-			
+    static TransactionEvent create(byte type, byte subtype) {
+        TransactionEvent result = null;
+        switch (type) {
+        case BaseTransaction.LOCAL_TRANSACTION_TYPE:
+            result = LocalTransactionEvent.create(subtype);
+            break;
+        case BaseTransaction.CLUSTER_TRANSACTION_TYPE:
+            result = ClusterTransactionEvent.create(subtype);
+            break;
+        case BaseTransaction.REMOTE_TRANSACTION_TYPE:
+            result = RemoteTransactionEvent.create(subtype);
+            break;
+        case BaseTransaction.NON_TRANSACTED_MSG_TYPE:
+            result = NonTransactedMsgEvent.create(subtype);
+            break;
+        case BaseTransaction.NON_TRANSACTED_ACK_TYPE:
+            result = NonTransactedMsgAckEvent.create(subtype);
+            break;
+        case BaseTransaction.MSG_REMOVAL_TYPE:
+            result = MsgRemovalEvent.create(subtype);
+            break;
 
-		default:
-			throw new UnsupportedOperationException();
-		}
-		return result;
-	}
+        default:
+            throw new UnsupportedOperationException();
+        }
+        return result;
+    }
 
-	abstract int getType();
+    abstract int getType();
 
-	abstract void readFromBytes(byte[] data) throws IOException,
-			BrokerException;
+    abstract void readFromBytes(byte[] data) throws IOException, BrokerException;
 
-	abstract byte[] writeToBytes() throws IOException, BrokerException;
+    abstract byte[] writeToBytes() throws IOException, BrokerException;
 
 }

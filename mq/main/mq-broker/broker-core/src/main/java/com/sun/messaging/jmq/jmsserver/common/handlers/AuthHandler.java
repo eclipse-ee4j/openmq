@@ -16,7 +16,7 @@
 
 /*
  * @(#)AuthHandler.java	1.45 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -47,24 +47,20 @@ import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 /**
  * Handler class which deals with handling authentication messages
  */
-public class AuthHandler extends PacketHandler 
-{
+public class AuthHandler extends PacketHandler {
 
-    //private ConnectionManager connectionList;
+    // private ConnectionManager connectionList;
 
     private Logger logger = Globals.getLogger();
 
-    public AuthHandler(ConnectionManager list)
-    { 
-        //connectionList = list;
+    public AuthHandler(ConnectionManager list) {
+        // connectionList = list;
     }
 
     /**
      * Method to handle Authentication messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         byte[] resp = null;
 
         ByteBuffer bbuf = msg.getMessageBodyByteBuffer();
@@ -83,9 +79,7 @@ public class AuthHandler extends PacketHandler
         if (con.isAuthenticated()) {
             if (!isIndemp) { // already authenticated
                 reason = "already authenticated";
-                logger.log(Logger.WARNING,"Received unexpected authentication "
-                     + con.getRemoteConnectionString() + ":" +  
-                       con.getConnectionUID());
+                logger.log(Logger.WARNING, "Received unexpected authentication " + con.getRemoteConnectionString() + ":" + con.getConnectionUID());
                 status = Status.ERROR;
             } else {
                 status = Status.OK;
@@ -98,43 +92,42 @@ public class AuthHandler extends PacketHandler
         }
         if (resp != null) {
             try {
-            req = ac.handleResponse(resp, msg.getSequence());
-            status = Status.OK;
+                req = ac.handleResponse(resp, msg.getSequence());
+                status = Status.OK;
 
-            // audit logging for successful authentication
-            Globals.getAuditSession().authentication(con.getUserName(),	con.remoteHostString(),	true);
+                // audit logging for successful authentication
+                Globals.getAuditSession().authentication(con.getUserName(), con.remoteHostString(), true);
 
-            if (req == null) {
-                IMQService s = (IMQService)con.getService();
-                String stype = ServiceType.getServiceTypeString(s.getServiceType());
-                try {
-                    AuthCacheData acd = s.getAuthCacheData();
-                    acd.setCacheData(ac.getCacheData());
-                    ac.checkConnectionPermission(s.getName(), stype);
+                if (req == null) {
+                    IMQService s = (IMQService) con.getService();
+                    String stype = ServiceType.getServiceTypeString(s.getServiceType());
+                    try {
+                        AuthCacheData acd = s.getAuthCacheData();
+                        acd.setCacheData(ac.getCacheData());
+                        ac.checkConnectionPermission(s.getName(), stype);
 
-                    // audit logging for connection authorization
-                    Globals.getAuditSession().connectionAuth(con.getUserName(),	con.remoteHostString(),	stype, s.getName(), true);
+                        // audit logging for connection authorization
+                        Globals.getAuditSession().connectionAuth(con.getUserName(), con.remoteHostString(), stype, s.getName(), true);
 
-                } catch (AccessControlException e) {
-                    reason = "Forbidden";
-                    status = Status.FORBIDDEN;
-                    ac.logout();
-                    logger.log(Logger.WARNING, 
-                    		Globals.getBrokerResources().getKString(
-                    				BrokerResources.W_SERVICE_ACCESS_DENIED,
-                    				s.getName(), stype)+ " - " + e.getMessage(), e);
+                    } catch (AccessControlException e) {
+                        reason = "Forbidden";
+                        status = Status.FORBIDDEN;
+                        ac.logout();
+                        logger.log(Logger.WARNING,
+                                Globals.getBrokerResources().getKString(BrokerResources.W_SERVICE_ACCESS_DENIED, s.getName(), stype) + " - " + e.getMessage(),
+                                e);
 
-                    // audit logging for authentication failure
-                    Globals.getAuditSession().connectionAuth(con.getUserName(), con.remoteHostString(),	stype, s.getName(), false);
+                        // audit logging for authentication failure
+                        Globals.getAuditSession().connectionAuth(con.getUserName(), con.remoteHostString(), stype, s.getName(), false);
 
-                    username = con.getUserName();
+                        username = con.getUserName();
+                    }
                 }
-            }
 
             } catch (FailedLoginException e) {
-                //IMQService s = (IMQService)con.getService();
+                // IMQService s = (IMQService)con.getService();
 
-                Globals.getAuditSession().authentication(e.getUser(),con.remoteHostString(), false);
+                Globals.getAuditSession().authentication(e.getUser(), con.remoteHostString(), false);
 
                 username = e.getUser();
 
@@ -147,9 +140,9 @@ public class AuthHandler extends PacketHandler
                 // re-processed
                 throw err;
             } catch (Throwable w) {
-            status = Status.FORBIDDEN;
-            reason = w.getMessage();
-            logger.log(Logger.ERROR, w.getMessage(), w);
+                status = Status.FORBIDDEN;
+                reason = w.getMessage();
+                logger.log(Logger.ERROR, w.getMessage(), w);
             }
         }
 
@@ -168,64 +161,56 @@ public class AuthHandler extends PacketHandler
 
         } else {
 
-          if (req != null) {
-              if (!con.setConnectionState(Connection.STATE_AUTH_REQUESTED)) {
-                  status = Status.UNAVAILABLE; 
-                  req = null;
-              }
-          }
-
-          if (req == null) {
-
-            if (status == Status.OK) {
-                if (!con.setConnectionState(Connection.STATE_AUTHENTICATED)) {
-                status = Status.UNAVAILABLE;               
+            if (req != null) {
+                if (!con.setConnectionState(Connection.STATE_AUTH_REQUESTED)) {
+                    status = Status.UNAVAILABLE;
+                    req = null;
                 }
             }
-            pkt.setPacketType(PacketType.AUTHENTICATE_REPLY);
-            hash.put("JMQStatus", Integer.valueOf(status));
-            if (((IMQBasicConnection)con).getDumpPacket() ||
-                ((IMQBasicConnection)con).getDumpOutPacket()) 
-                hash.put("JMQReqID", msg.getSysMessageID().toString());
-            pkt.setProperties(hash);
 
-          } else {
+            if (req == null) {
 
-            pkt.setPacketType(PacketType.AUTHENTICATE_REQUEST);
-            hash.put("JMQAuthType", ac.getAuthType());
-            hash.put("JMQChallenge", Boolean.valueOf(false));
-            if (((IMQBasicConnection)con).getDumpPacket() ||
-                ((IMQBasicConnection)con).getDumpOutPacket()) 
-                hash.put("JMQReqID", msg.getSysMessageID().toString());
-            pkt.setProperties(hash);
-            pkt.setMessageBody(req);
-          }
+                if (status == Status.OK) {
+                    if (!con.setConnectionState(Connection.STATE_AUTHENTICATED)) {
+                        status = Status.UNAVAILABLE;
+                    }
+                }
+                pkt.setPacketType(PacketType.AUTHENTICATE_REPLY);
+                hash.put("JMQStatus", Integer.valueOf(status));
+                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+                    hash.put("JMQReqID", msg.getSysMessageID().toString());
+                pkt.setProperties(hash);
+
+            } else {
+
+                pkt.setPacketType(PacketType.AUTHENTICATE_REQUEST);
+                hash.put("JMQAuthType", ac.getAuthType());
+                hash.put("JMQChallenge", Boolean.valueOf(false));
+                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+                    hash.put("JMQReqID", msg.getSysMessageID().toString());
+                pkt.setProperties(hash);
+                pkt.setMessageBody(req);
+            }
 
         }
-
 
         con.sendControlMessage(pkt);
 
         if (status != Status.OK) {
-            IMQService s = (IMQService)con.getService();
-	    Agent agent = Globals.getAgent();
-	    if (agent != null)  {
-	        agent.notifyConnectionReject(s.getName(), 
-	                username,
-	                con.remoteHostString());
-	    }
-
-            con.closeConnection(true,
-                   GoodbyeReason.CON_FATAL_ERROR,
-                  Globals.getBrokerResources().getKString(
-                  BrokerResources.M_AUTH_FAIL_CLOSE));
-        } else  {
+            IMQService s = (IMQService) con.getService();
             Agent agent = Globals.getAgent();
-            if (agent != null)  {
+            if (agent != null) {
+                agent.notifyConnectionReject(s.getName(), username, con.remoteHostString());
+            }
+
+            con.closeConnection(true, GoodbyeReason.CON_FATAL_ERROR, Globals.getBrokerResources().getKString(BrokerResources.M_AUTH_FAIL_CLOSE));
+        } else {
+            Agent agent = Globals.getAgent();
+            if (agent != null) {
                 agent.registerConnection(con.getConnectionUID().longValue());
                 agent.notifyConnectionOpen(con.getConnectionUID().longValue());
             }
-	}
+        }
 
         return true;
     }

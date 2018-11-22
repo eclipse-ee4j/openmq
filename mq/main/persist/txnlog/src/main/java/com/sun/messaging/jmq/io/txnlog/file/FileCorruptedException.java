@@ -16,7 +16,7 @@
 
 /*
  * @(#)FileCorruptedException.java	1.2 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.txnlog.file;
 
@@ -25,18 +25,18 @@ import java.io.IOException;
 /**
  * Signals that the transaction log file is corrupted.
  *
- * This exception is thrown if the FileTransactionLogWriter detects
- * that there is a file corruption in the transaction log.
+ * This exception is thrown if the FileTransactionLogWriter detects that there is a file corruption in the transaction
+ * log.
  */
-public class FileCorruptedException  extends IOException {
-    
+public class FileCorruptedException extends IOException {
+
     /** Creates a new instance of FileCorruptedException */
     public FileCorruptedException() {
         super();
     }
-    
+
     public FileCorruptedException(String s) {
-        super (s);
+        super(s);
     }
-    
+
 }

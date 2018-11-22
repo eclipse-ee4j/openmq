@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerCmdPrinter.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.broker;
 
@@ -26,23 +26,23 @@ import com.sun.messaging.jmq.admin.util.Globals;
 public class BrokerCmdPrinter extends MultiColumnPrinter {
 
     public BrokerCmdPrinter(int numCol, int gap, String border, int align, boolean sort) {
-	super(numCol, gap, border, align, sort);
+        super(numCol, gap, border, align, sort);
     }
 
     public BrokerCmdPrinter(int numCol, int gap, String border, int align) {
-	super(numCol, gap, border, align);
+        super(numCol, gap, border, align);
     }
 
     public BrokerCmdPrinter(int numCol, int gap, String border) {
-	super(numCol, gap, border);
+        super(numCol, gap, border);
     }
 
     public BrokerCmdPrinter(int numCol, int gap) {
-	super(numCol, gap);
+        super(numCol, gap);
     }
 
     public BrokerCmdPrinter() {
-	super();
+        super();
     }
 
     public void doPrint(String str) {

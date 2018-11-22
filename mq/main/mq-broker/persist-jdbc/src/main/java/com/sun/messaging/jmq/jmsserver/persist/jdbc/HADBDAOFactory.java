@@ -16,7 +16,7 @@
 
 /*
  * @(#)HADBDAOFactory.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -30,7 +30,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public MessageDAO getMessageDAO() throws BrokerException {
 
-        if ( messageDAO == null ) {
+        if (messageDAO == null) {
             messageDAO = new HADBMessageDAOImpl();
         }
         return messageDAO;
@@ -38,7 +38,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public DestinationDAO getDestinationDAO() throws BrokerException {
 
-        if ( destinationDAO == null ) {
+        if (destinationDAO == null) {
             destinationDAO = new HADBDestinationDAOImpl();
         }
         return destinationDAO;
@@ -46,7 +46,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public ConsumerDAO getConsumerDAO() throws BrokerException {
 
-        if ( consumerDAO == null ) {
+        if (consumerDAO == null) {
             consumerDAO = new HADBConsumerDAOImpl();
         }
         return consumerDAO;
@@ -54,7 +54,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public ConsumerStateDAO getConsumerStateDAO() throws BrokerException {
 
-        if ( consumerStateDAO == null ) {
+        if (consumerStateDAO == null) {
             consumerStateDAO = new HADBConsumerStateDAOImpl();
         }
         return consumerStateDAO;
@@ -62,7 +62,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public ConfigRecordDAO getConfigRecordDAO() throws BrokerException {
 
-        if ( configRecordDAO == null ) {
+        if (configRecordDAO == null) {
             configRecordDAO = new HADBConfigRecordDAOImpl();
         }
         return configRecordDAO;
@@ -70,7 +70,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
 
     public TransactionDAO getTransactionDAO() throws BrokerException {
 
-        if ( transactionDAO == null ) {
+        if (transactionDAO == null) {
             transactionDAO = new HADBTransactionDAOImpl();
         }
         return transactionDAO;

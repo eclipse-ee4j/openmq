@@ -16,7 +16,7 @@
 
 /*
  * @(#)HeartbeatInfo.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
@@ -26,7 +26,7 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 
 /**
  */
-public class HeartbeatInfo { 
+public class HeartbeatInfo {
 
     public static final short HEARTBEAT_ALIVE = 1;
     public static final int HEARTBEAT_PROTOCOL_VERSION = 400;
@@ -55,9 +55,9 @@ public class HeartbeatInfo {
         ByteArrayInputStream bis = new ByteArrayInputStream(data);
         GPacket pkt = GPacket.getInstance();
         pkt.read(bis);
-        int ver = ((Integer)pkt.getProp("protocolVersion")).intValue();
+        int ver = ((Integer) pkt.getProp("protocolVersion")).intValue();
         if (ver < HEARTBEAT_PROTOCOL_VERSION) {
-            throw new IOException("Protocol version not supported:"+ver);
+            throw new IOException("Protocol version not supported:" + ver);
         }
         return new HeartbeatInfo(pkt);
     }
@@ -81,7 +81,8 @@ public class HeartbeatInfo {
         try {
             pkt.write(bos);
             bos.flush();
-        }catch (Exception e) {}
+        } catch (Exception e) {
+        }
 
         return bos.toByteArray();
     }
@@ -111,37 +112,35 @@ public class HeartbeatInfo {
     }
 
     public String getBrokerID() {
-        assert ( pkt != null ); 
-        return (String)pkt.getProp("brokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("brokerID");
     }
 
     public long getBrokerSession() {
-        assert ( pkt != null ); 
-        return ((Long)pkt.getProp("brokerSession")).longValue();
+        assert (pkt != null);
+        return ((Long) pkt.getProp("brokerSession")).longValue();
     }
 
     public String getToBrokerID() {
-        assert ( pkt != null ); 
-        return (String)pkt.getProp("toBrokerID");
+        assert (pkt != null);
+        return (String) pkt.getProp("toBrokerID");
     }
 
     public long getToBrokerSession() {
-        assert ( pkt != null ); 
-        return ((Long)pkt.getProp("toBrokerSession")).longValue();
+        assert (pkt != null);
+        return ((Long) pkt.getProp("toBrokerSession")).longValue();
     }
 
     public long getSequence() {
-        assert ( pkt != null ); 
+        assert (pkt != null);
         return pkt.getSequence();
     }
 
     public String toString() {
         if (pkt != null) {
-            return "#"+getSequence()+" ["+getBrokerID()+","+getBrokerSession()+"] to " +
-                   "["+getToBrokerID()+","+getToBrokerSession()+"]";
+            return "#" + getSequence() + " [" + getBrokerID() + "," + getBrokerSession() + "] to " + "[" + getToBrokerID() + "," + getToBrokerSession() + "]";
         } else {
-            return "["+brokerID+","+brokerSession+"] to " +
-                   "["+toBrokerID+","+toBrokerSession+"]";
+            return "[" + brokerID + "," + brokerSession + "] to " + "[" + toBrokerID + "," + toBrokerSession + "]";
         }
     }
 

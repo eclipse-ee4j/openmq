@@ -16,7 +16,7 @@
 
 /*
  * @(#)SelectorFilter.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -32,27 +32,23 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.io.IOException;
 
-public class SelectorFilter implements Filter
-{
+public class SelectorFilter implements Filter {
     private static boolean DEBUG = false;
     Selector selector = null;
     String selectorstr = null;
 
-    public SelectorFilter(String selectorstr) 
-         throws SelectorFormatException
-    {
+    public SelectorFilter(String selectorstr) throws SelectorFormatException {
         this.selectorstr = selectorstr;
-        selector =  Selector.compile(selectorstr);
-     
+        selector = Selector.compile(selectorstr);
+
     }
-    public SelectorFilter(String selectorstr, Selector sel) 
-    {
+
+    public SelectorFilter(String selectorstr, Selector sel) {
         this.selectorstr = selectorstr;
         this.selector = sel;
     }
 
-    public synchronized boolean matches(Object o) 
-    {
+    public synchronized boolean matches(Object o) {
         if (selector == null) {
             return false;
         }
@@ -64,7 +60,7 @@ public class SelectorFilter implements Filter
                 // As an optimization, only extract these if the
                 // selector needs them.
                 if (selector.usesProperties()) {
-                   props = ref.getProperties();
+                    props = ref.getProperties();
                 }
                 if (selector.usesFields()) {
                     headers = ref.getHeaders();
@@ -72,20 +68,16 @@ public class SelectorFilter implements Filter
             } catch (ClassNotFoundException ex) {
                 // this is not a valid error
                 assert false : ref;
-                throw new RuntimeException("error with properties",
-                     ex);
+                throw new RuntimeException("error with properties", ex);
             }
             try {
-                boolean match =  selector.match(props, headers);
+                boolean match = selector.match(props, headers);
                 if (DEBUG && match)
-                    Globals.getLogger().log(Logger.DEBUG,"Match " 
-                            + o + "against " + selector + " got " + match);
+                    Globals.getLogger().log(Logger.DEBUG, "Match " + o + "against " + selector + " got " + match);
                 return match;
             } catch (SelectorFormatException ex) {
-                Globals.getLogger().logStack(Logger.ERROR, 
-                    Globals.getBrokerResources().getKString(
-                    Globals.getBrokerResources().X_BAD_SELECTOR, 
-                    selector, ex.getMessage()), ex);
+                Globals.getLogger().logStack(Logger.ERROR,
+                        Globals.getBrokerResources().getKString(Globals.getBrokerResources().X_BAD_SELECTOR, selector, ex.getMessage()), ex);
                 return false;
             }
         }
@@ -94,8 +86,7 @@ public class SelectorFilter implements Filter
     }
 
     public String toString() {
-        return "SelectorFilter["+selector+"]"+hashCode();
+        return "SelectorFilter[" + selector + "]" + hashCode();
     }
-
 
 }

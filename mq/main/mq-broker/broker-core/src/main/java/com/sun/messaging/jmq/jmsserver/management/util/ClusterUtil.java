@@ -16,7 +16,7 @@
 
 /*
  * @(#)ClusterUtil.java	1.6 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -39,154 +39,142 @@ import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetClusterHandler;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 
-public class ClusterUtil  {
+public class ClusterUtil {
     /*
      * Broker Cluster Info item names for Config MBeans
      */
-    private static final String[] configBrokerInfoItemNames = {
-                            BrokerClusterInfo.ADDRESS,
-                            BrokerClusterInfo.ID
-                    };
+    private static final String[] configBrokerInfoItemNames = { BrokerClusterInfo.ADDRESS, BrokerClusterInfo.ID };
 
     /*
-     * Broker Cluster Info item descriptions for Config MBeans
-     * TBD: use real descriptions
+     * Broker Cluster Info item descriptions for Config MBeans TBD: use real descriptions
      */
     private static final String[] configBrokerInfoItemDesc = configBrokerInfoItemNames;
 
     /*
      * Broker Cluster Info item types for Config MBeans
      */
-    private static final OpenType[] configItemTypes = {
-			    SimpleType.STRING,		// address
-			    SimpleType.STRING		// id
-                    };
+    private static final OpenType[] configItemTypes = { SimpleType.STRING, // address
+            SimpleType.STRING // id
+    };
 
     /*
      * Broker Cluster Info composite type for Config MBeans
      */
     private static volatile CompositeType configCompType = null;
 
-    public static String getBrokerAddress(String brokerID)  {
+    public static String getBrokerAddress(String brokerID) {
         ClusterManager cmgr;
         ClusteredBroker bkr;
-	MQAddress	addr;
+        MQAddress addr;
 
-	if (brokerID == null)  {
-	    return (null);
-	}
+        if (brokerID == null) {
+            return (null);
+        }
 
         cmgr = Globals.getClusterManager();
-	if (cmgr == null)  {
-	    return (null);
-	}
+        if (cmgr == null) {
+            return (null);
+        }
 
         bkr = cmgr.getBroker(brokerID);
-	if (bkr == null)  {
-	    return (null);
-	}
+        if (bkr == null) {
+            return (null);
+        }
 
         addr = bkr.getBrokerURL();
-	if (addr == null) {
-	    return (null);
-	}
+        if (addr == null) {
+            return (null);
+        }
 
         return (addr.toString());
     }
 
-    public static String getShortBrokerAddress(String brokerID)  {
-	BrokerMQAddress ba = null;
-	String longAddr = getBrokerAddress(brokerID);
-	Logger logger = Globals.getLogger();
+    public static String getShortBrokerAddress(String brokerID) {
+        BrokerMQAddress ba = null;
+        String longAddr = getBrokerAddress(brokerID);
+        Logger logger = Globals.getLogger();
 
-	if (longAddr == null)  {
-	    return (null);
-	}
+        if (longAddr == null) {
+            return (null);
+        }
 
-	try  {
-	    ba = BrokerMQAddress.createAddress(longAddr);
-	} catch (Exception e)  {
-            BrokerResources	rb = Globals.getBrokerResources();
+        try {
+            ba = BrokerMQAddress.createAddress(longAddr);
+        } catch (Exception e) {
+            BrokerResources rb = Globals.getBrokerResources();
 
-            logger.log(Logger.WARNING, 
-		rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_BKR_ADDRESS_FROM_ID, brokerID),
-		e);
+            logger.log(Logger.WARNING, rb.getString(rb.W_JMX_FAILED_TO_OBTAIN_BKR_ADDRESS_FROM_ID, brokerID), e);
 
-	    return (null);
-	}
+            return (null);
+        }
 
-	if (ba == null)  {
-	    return (null);
-	}
+        if (ba == null) {
+            return (null);
+        }
 
         return (ba.getHost().getHostName() + ":" + ba.getPort());
     }
 
-    public static boolean isMasterBroker(String brokerAddress)  {
-	ClusterManager cm = Globals.getClusterManager();
-	ClusteredBroker cb = null, master;
-	String id = null;
-	boolean isMaster = false;
+    public static boolean isMasterBroker(String brokerAddress) {
+        ClusterManager cm = Globals.getClusterManager();
+        ClusteredBroker cb = null, master;
+        String id = null;
+        boolean isMaster = false;
 
-	if (cm == null)  {
-	    return (false);
-	}
+        if (cm == null) {
+            return (false);
+        }
 
-	try  {
+        try {
             id = cm.lookupBrokerID(BrokerMQAddress.createAddress(brokerAddress));
-        } catch (Exception e)  {
-	    return (false);
-        }
-
-	if ((id == null) || (id.equals("")))  {
+        } catch (Exception e) {
             return (false);
         }
 
-	try  {
-	    cb = cm.getBroker(id);
+        if ((id == null) || (id.equals(""))) {
+            return (false);
+        }
 
-	    if (cb == null)  {
+        try {
+            cb = cm.getBroker(id);
+
+            if (cb == null) {
                 return (false);
-	    }
-	} catch(Exception e)  {
+            }
+        } catch (Exception e) {
             return (false);
-	}
+        }
 
-	master = cm.getMasterBroker();
+        master = cm.getMasterBroker();
 
-	if (master == null)  {
-	    return (false);
-	}
+        if (master == null) {
+            return (false);
+        }
 
-	return (master.equals(cb));
+        return (master.equals(cb));
     }
 
-    public static CompositeData getConfigCompositeData(ClusteredBroker cb) 
-					throws OpenDataException  {
-	Logger logger = Globals.getLogger();
-	CompositeData cds = null;
+    public static CompositeData getConfigCompositeData(ClusteredBroker cb) throws OpenDataException {
+        Logger logger = Globals.getLogger();
+        CompositeData cds = null;
 
-	Hashtable bkrInfo = GetClusterHandler.getBrokerClusterInfo(cb, logger);
+        Hashtable bkrInfo = GetClusterHandler.getBrokerClusterInfo(cb, logger);
 
-	String id = null;
+        String id = null;
 
-	if (Globals.getHAEnabled())  {
-	    id = (String)bkrInfo.get(BrokerClusterInfo.ID);
-	}
-
-	Object[] brokerInfoItemValues = {
-			    bkrInfo.get(BrokerClusterInfo.ADDRESS),
-			    id
-			};
-
-        if (configCompType == null)  {
-            configCompType = new CompositeType("BrokerClusterInfoConfig", "BrokerClusterInfoConfig", 
-                        configBrokerInfoItemNames, configBrokerInfoItemDesc, configItemTypes);
+        if (Globals.getHAEnabled()) {
+            id = (String) bkrInfo.get(BrokerClusterInfo.ID);
         }
 
-	cds = new CompositeDataSupport(configCompType, 
-			configBrokerInfoItemNames, brokerInfoItemValues);
-	
-	return (cds);
+        Object[] brokerInfoItemValues = { bkrInfo.get(BrokerClusterInfo.ADDRESS), id };
+
+        if (configCompType == null) {
+            configCompType = new CompositeType("BrokerClusterInfoConfig", "BrokerClusterInfoConfig", configBrokerInfoItemNames, configBrokerInfoItemDesc,
+                    configItemTypes);
+        }
+
+        cds = new CompositeDataSupport(configCompType, configBrokerInfoItemNames, brokerInfoItemValues);
+
+        return (cds);
     }
 }

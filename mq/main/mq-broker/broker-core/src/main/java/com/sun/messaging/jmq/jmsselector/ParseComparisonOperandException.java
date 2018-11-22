@@ -16,13 +16,12 @@
 
 /*
  * @(#)ParseComparisonOperandException.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
 /**
- * Exception thrown when an invalid operand is used with
- * the comparison operators =, >, >=, <, <=, <>
+ * Exception thrown when an invalid operand is used with the comparison operators =, >, >=, <, <=, <>
  */
 public class ParseComparisonOperandException extends ParseException {
 
@@ -34,4 +33,3 @@ public class ParseComparisonOperandException extends ParseException {
     }
 
 }
-

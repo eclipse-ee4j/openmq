@@ -22,15 +22,13 @@ import javax.jms.*;
  *
  * @author amyk
  */
-public class SharedXAConnectionImpl extends SharedConnectionImpl
-                                       implements XAConnection {
-    
+public class SharedXAConnectionImpl extends SharedConnectionImpl implements XAConnection {
+
     public SharedXAConnectionImpl(XAConnection conn) {
         super(conn);
     }
 
-    public XASession
-    createXASession() throws JMSException {
-    return ((XAConnection)_conn).createXASession();
+    public XASession createXASession() throws JMSException {
+        return ((XAConnection) _conn).createXASession();
     }
 }

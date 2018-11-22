@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionInfoHandler.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -38,19 +38,14 @@ public class TransactionInfoHandler extends GPacketHandler {
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_TRANSACTION_INFO) {
             if (DEBUG) {
-                logger.log(logger.DEBUG,
-                    "TransactionInfoHandler. G_TRANSACTION_INFO from : ", sender);
+                logger.log(logger.DEBUG, "TransactionInfoHandler. G_TRANSACTION_INFO from : ", sender);
             }
             p.receivedTransactionInfo(pkt, sender, cb);
-        }
-        else {
-            logger.log(logger.WARNING, "TransactionInfoHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "TransactionInfoHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

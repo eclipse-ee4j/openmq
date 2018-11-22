@@ -29,21 +29,18 @@ import org.glassfish.hk2.api.PerLookup;
  */
 @Service(name = "com.sun.messaging.jmq.jmsserver.core.RRConnToPartitionStrategy")
 @PerLookup
-public class RRConnToPartitionStrategy implements ConnToPartitionStrategy
-{
+public class RRConnToPartitionStrategy implements ConnToPartitionStrategy {
     private long lastid = 0L;
 
-    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> pscs)
-    throws BrokerException {
+    public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> pscs) throws BrokerException {
 
         if (pscs == null || pscs.size() == 0) {
             return null;
         }
-        Collections.sort(pscs, 
+        Collections.sort(pscs,
 
-                 new Comparator<ConnToPartitionStrategyContext>() {
-                 public int compare(ConnToPartitionStrategyContext o1,
-                                    ConnToPartitionStrategyContext o2) {
+                new Comparator<ConnToPartitionStrategyContext>() {
+                    public int compare(ConnToPartitionStrategyContext o1, ConnToPartitionStrategyContext o2) {
 
                         long v1 = o1.getPartitionedStore().getPartitionID().longValue();
                         long v2 = o2.getPartitionedStore().getPartitionID().longValue();
@@ -57,12 +54,12 @@ public class RRConnToPartitionStrategy implements ConnToPartitionStrategy
                         return 0;
                     }
 
-		 });
+                });
 
         PartitionedStore ps = null;
-        synchronized(this) {
+        synchronized (this) {
             if (lastid == 0L) {
-                ps = pscs.get(0).getPartitionedStore(); 
+                ps = pscs.get(0).getPartitionedStore();
                 lastid = ps.getPartitionID().longValue();
                 return ps;
             }
@@ -70,12 +67,12 @@ public class RRConnToPartitionStrategy implements ConnToPartitionStrategy
             while (itr.hasNext()) {
                 ps = itr.next().getPartitionedStore();
                 long id = ps.getPartitionID().longValue();
-                if (id > lastid) { 
+                if (id > lastid) {
                     lastid = id;
                     return ps;
                 }
             }
-            ps = pscs.get(0).getPartitionedStore(); 
+            ps = pscs.get(0).getPartitionedStore();
             lastid = ps.getPartitionID().longValue();
             return ps;
         }

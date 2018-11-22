@@ -21,10 +21,10 @@ import java.util.logging.Logger;
 import com.sun.messaging.jmq.util.LoggerWrapper;
 
 /**
- * @author amyk 
+ * @author amyk
  */
 public class LoggerWrapperImpl implements LoggerWrapper {
-    private final Logger logger; 
+    private final Logger logger;
 
     public LoggerWrapperImpl(Logger logger) {
         this.logger = logger;
@@ -58,4 +58,3 @@ public class LoggerWrapperImpl implements LoggerWrapper {
         return logger.isLoggable(Level.FINE);
     }
 }
-

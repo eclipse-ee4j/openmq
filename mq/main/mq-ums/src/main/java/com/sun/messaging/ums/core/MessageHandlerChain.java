@@ -18,18 +18,18 @@ package com.sun.messaging.ums.core;
 
 import java.util.Vector;
 
-
 /**
  * The MessageHandlerChain is part of the MQ SOAP Messaging Service framework.
  *
- * <p>A MessageHandlerChain is a list of MessageHandlers that process each
- * SOAPMessage in sequence.  A SOAP message *flow* through each MessageHandler
- * registered in the MessageHandlerChain.
+ * <p>
+ * A MessageHandlerChain is a list of MessageHandlers that process each SOAPMessage in sequence. A SOAP message *flow*
+ * through each MessageHandler registered in the MessageHandlerChain.
  *
- * <p>MessageHandlerChian is used in the SOAPService.  A SOAPService defines
- * two message handler chains - ReqHandlerChain and RespHandlerChain.
+ * <p>
+ * MessageHandlerChian is used in the SOAPService. A SOAPService defines two message handler chains - ReqHandlerChain
+ * and RespHandlerChain.
  *
- * @author  chiaming yang
+ * @author chiaming yang
  * @see MessageHandler
  * @see SOAPService
  */
@@ -40,23 +40,22 @@ public class MessageHandlerChain {
     /**
      * Add a MessageHandler to the message handler chain.
      */
-    public void addMessageHandler (MessageHandler handler) {
-            handlerChain.add(handler);
+    public void addMessageHandler(MessageHandler handler) {
+        handlerChain.add(handler);
     }
 
     /**
-     * Add a MessageHandler to the message handler chain at the specified
-     * index.
+     * Add a MessageHandler to the message handler chain at the specified index.
      */
-    public void addMessageHandlerAt (int index, MessageHandler handler) {
-            handlerChain.add(index, handler);
+    public void addMessageHandlerAt(int index, MessageHandler handler) {
+        handlerChain.add(index, handler);
     }
 
     /**
      * Get MessageHandler from the handler chain at the specified index.
      */
-    public MessageHandler getMessageHandlerAt (int index) {
-        return (MessageHandler) handlerChain.get( index );
+    public MessageHandler getMessageHandlerAt(int index) {
+        return (MessageHandler) handlerChain.get(index);
     }
 
     /**
@@ -64,15 +63,15 @@ public class MessageHandlerChain {
      *
      * @return an array of MessageHandlers in the handler chain.
      */
-    public Object[] getMessageHandlers () {
+    public Object[] getMessageHandlers() {
         return handlerChain.toArray();
     }
 
     /**
      * Remove the message handler from the hendler chain.
      */
-    public boolean removeMessageHandler (MessageHandler handler) {
-        return handlerChain.remove( handler );
+    public boolean removeMessageHandler(MessageHandler handler) {
+        return handlerChain.remove(handler);
     }
 
     /**
@@ -80,8 +79,8 @@ public class MessageHandlerChain {
      *
      * @throws ArrayIndexOutOfBoundsException - if the index was invalid
      */
-    public void removeMessageHandlerAt (int index) {
-        handlerChain.remove( index );
+    public void removeMessageHandlerAt(int index) {
+        handlerChain.remove(index);
     }
 
     /**

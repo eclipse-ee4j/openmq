@@ -20,58 +20,57 @@ import javax.xml.soap.SOAPMessage;
 import javax.xml.soap.SOAPException;
 
 /**
- * MessageHandler exception class.  Message handler throws this exception if
- * unable to process SOAP message headers properly.
+ * MessageHandler exception class. Message handler throws this exception if unable to process SOAP message headers
+ * properly.
  *
  * @author Chiaming Yang
  */
 public class MessageHandlerException extends SOAPException {
 
     /**
-     * The SOAP fault message. Message handler construct and set fault values in
-     * the message before throwing the exception.
+     * The SOAP fault message. Message handler construct and set fault values in the message before throwing the exception.
      */
     protected SOAPMessage faultMessage = null;
 
     /**
      * Deafult constructor.
      */
-    public MessageHandlerException () {
+    public MessageHandlerException() {
         super();
     }
 
     /**
      * Constructor with a reason for the exception.
      */
-    public MessageHandlerException (String reason) {
-        super (reason);
+    public MessageHandlerException(String reason) {
+        super(reason);
     }
 
     /**
      * Constructor with a reason and a cause throwable.
      */
-    public MessageHandlerException (String reason, Throwable throwable) {
-        super (reason, throwable);
+    public MessageHandlerException(String reason, Throwable throwable) {
+        super(reason, throwable);
     }
 
     /**
      * Constructor with a cause throwable.
      */
-    public MessageHandlerException (Throwable throwable) {
-        super (throwable);
+    public MessageHandlerException(Throwable throwable) {
+        super(throwable);
     }
 
     /**
      * Set SOAP fault message to this exception.
      */
-    public void setSOAPFaultMessage (SOAPMessage fault) {
+    public void setSOAPFaultMessage(SOAPMessage fault) {
         this.faultMessage = fault;
     }
 
     /**
      * Get SOAP fault message from this exception.
      */
-    public SOAPMessage getSOAPFaultMessage () {
+    public SOAPMessage getSOAPFaultMessage() {
         return faultMessage;
     }
 }

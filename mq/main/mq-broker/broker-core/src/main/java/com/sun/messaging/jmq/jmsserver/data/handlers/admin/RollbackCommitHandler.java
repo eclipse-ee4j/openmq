@@ -16,7 +16,7 @@
 
 /*
  * @(#)RollbackCommitHandler.java	1.13 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -44,57 +44,52 @@ import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
-public class RollbackCommitHandler extends AdminCmdHandler
-{
+public class RollbackCommitHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public RollbackCommitHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                            "Rollback/Commit transaction " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Rollback/Commit transaction " + cmd_props);
         }
 
         // Get the admin request message type
-        int requestType =
-            ((Integer)cmd_props.get(MessageType.JMQ_MESSAGE_TYPE)).intValue();
+        int requestType = ((Integer) cmd_props.get(MessageType.JMQ_MESSAGE_TYPE)).intValue();
         int status = Status.OK;
-	String errMsg = null;
+        String errMsg = null;
         TransactionUID tid = null;
         TransactionState ts = null;
         TransactionHandler thandler = null;
 
         // Get the packet handler that handles transaction packets
         if (parent.adminPktRtr != null) {
-            thandler = (TransactionHandler)
-            parent.adminPktRtr.getHandler(PacketType.ROLLBACK_TRANSACTION);
+            thandler = (TransactionHandler) parent.adminPktRtr.getHandler(PacketType.ROLLBACK_TRANSACTION);
         }
 
-	Long id = (Long)cmd_props.get(MessageType.JMQ_TRANSACTION_ID);
+        Long id = (Long) cmd_props.get(MessageType.JMQ_TRANSACTION_ID);
 
-        //only applies to rollback request
-	Boolean v = (Boolean)cmd_props.get(MessageType.JMQ_PROCESS_ACTIVE_CONSUMERS);
-        boolean processActiveConsumers = (v == null ? false: v.booleanValue());
+        // only applies to rollback request
+        Boolean v = (Boolean) cmd_props.get(MessageType.JMQ_PROCESS_ACTIVE_CONSUMERS);
+        boolean processActiveConsumers = (v == null ? false : v.booleanValue());
 
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + errMsg);
-	}
+        }
 
         if (id != null) {
             tid = new TransactionUID(id.longValue());
@@ -116,90 +111,66 @@ public class RollbackCommitHandler extends AdminCmdHandler
             if (ts == null) {
                 // Specified transaction did not exist
                 status = Status.NOT_FOUND;
-	        errMsg = rb.getString(rb.E_NO_SUCH_TRANSACTION, tid);
-            } else if (requestType == MessageType.COMMIT_TRANSACTION &&
-                        ts.getState() != TransactionState.PREPARED) { 
+                errMsg = rb.getString(rb.E_NO_SUCH_TRANSACTION, tid);
+            } else if (requestType == MessageType.COMMIT_TRANSACTION && ts.getState() != TransactionState.PREPARED) {
                 status = Status.PRECONDITION_FAILED;
-	        errMsg = rb.getString(rb.E_TRANSACTION_NOT_PREPARED, tid);
-            } else if (requestType == MessageType.ROLLBACK_TRANSACTION &&
-                        (ts.getState() < TransactionState.STARTED || 
-                         ts.getState() > TransactionState.PREPARED)) { 
+                errMsg = rb.getString(rb.E_TRANSACTION_NOT_PREPARED, tid);
+            } else if (requestType == MessageType.ROLLBACK_TRANSACTION
+                    && (ts.getState() < TransactionState.STARTED || ts.getState() > TransactionState.PREPARED)) {
                 status = Status.PRECONDITION_FAILED;
-	        errMsg = rb.getString(rb.E_INVALID_TXN_STATE_FOR_ROLLBACK, tid);
+                errMsg = rb.getString(rb.E_INVALID_TXN_STATE_FOR_ROLLBACK, tid);
             } else {
                 JMQXid xid = tl.UIDToXid(tid);
 
-                if (xid == null && 
-                    (!(Globals.getHAEnabled() && 
-                       ts.getState() == TransactionState.PREPARED))) {
-		    /*
-		     * Need to pick the right error message:
-		     * If (action is ROLLBACK and state is one of {STARTED, FAILED, 
-		     *			INCOMPLETE, COMPLETE})
-		     *  "Rollback of non-XA transaction 123456789 in non-PREPARED state 
-		     *   is not supported."
-		     * else
-                     *  "Could not find Xid for 123456789"
-		     */
-                    if (requestType == MessageType.ROLLBACK_TRANSACTION &&
-                        (ts.getState() >= TransactionState.STARTED && 
-                         ts.getState() < TransactionState.PREPARED)) {
-                        errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR,
-                            "Rollback of non-XA transaction " 
-				+ tid
-				+ " in non-PREPARED state is not supported.") ;
-		            } else {
-                        errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR,
-                            "Could not find Xid for " + tid) ;
-		            }
+                if (xid == null && (!(Globals.getHAEnabled() && ts.getState() == TransactionState.PREPARED))) {
+                    /*
+                     * Need to pick the right error message: If (action is ROLLBACK and state is one of {STARTED, FAILED, INCOMPLETE,
+                     * COMPLETE}) "Rollback of non-XA transaction 123456789 in non-PREPARED state is not supported." else
+                     * "Could not find Xid for 123456789"
+                     */
+                    if (requestType == MessageType.ROLLBACK_TRANSACTION
+                            && (ts.getState() >= TransactionState.STARTED && ts.getState() < TransactionState.PREPARED)) {
+                        errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR, "Rollback of non-XA transaction " + tid + " in non-PREPARED state is not supported.");
+                    } else {
+                        errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR, "Could not find Xid for " + tid);
+                    }
 
                     status = Status.ERROR;
                 } else if (thandler == null) {
-                    errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR,
-                        "Could not locate TransactionHandler") ;
+                    errMsg = rb.getString(rb.E_INTERNAL_BROKER_ERROR, "Could not locate TransactionHandler");
                     status = Status.ERROR;
                 } else {
                     if (requestType == MessageType.ROLLBACK_TRANSACTION) {
-	                if ( DEBUG ) {
-                            logger.log(Logger.DEBUG, 
-                                "Rolling back " + tid + " in state " + ts);
+                        if (DEBUG) {
+                            logger.log(Logger.DEBUG, "Rolling back " + tid + " in state " + ts);
                         }
                         try {
                             if (processActiveConsumers) {
-                                logger.log(logger.INFO, rb.getKString(
-                                    rb.I_ADMIN_REDELIVER_MSGS_ON_TXN_ROLLBACK, tid));
+                                logger.log(logger.INFO, rb.getKString(rb.I_ADMIN_REDELIVER_MSGS_ON_TXN_ROLLBACK, tid));
                                 try {
-                                    thandler.redeliverUnacked(tl, tid, 
-                                        true, true, true, -1, false);
+                                    thandler.redeliverUnacked(tl, tid, true, true, true, -1, false);
                                 } catch (Exception e) {
-                                    logger.logStack(logger.WARNING, 
-                                        rb.getKString(
-                                        rb.X_ADMIN_REDELIVER_MSG_ON_TXN_ROLLBACK,
-                                        tid, e.getMessage()), e);
+                                    logger.logStack(logger.WARNING, rb.getKString(rb.X_ADMIN_REDELIVER_MSG_ON_TXN_ROLLBACK, tid, e.getMessage()), e);
                                 }
                             }
-                            thandler.doRollback(tl, tid, xid,
-                                                null, ts, null, con, RollbackReason.ADMIN);
+                            thandler.doRollback(tl, tid, xid, null, ts, null, con, RollbackReason.ADMIN);
                         } catch (BrokerException e) {
                             status = Status.ERROR;
                             errMsg = e.getMessage();
                         }
                     } else if (requestType == MessageType.COMMIT_TRANSACTION) {
-	                if ( DEBUG ) {
-                            logger.log(Logger.DEBUG, 
-                                "Committing " + tid + " in state " + ts);
+                        if (DEBUG) {
+                            logger.log(Logger.DEBUG, "Committing " + tid + " in state " + ts);
                         }
                         try {
-                            thandler.doCommit(tl, tid, xid,
-                                Integer.valueOf(XAResource.TMNOFLAGS), ts, null,
-                            false, con, null);
+                            thandler.doCommit(tl, tid, xid, Integer.valueOf(XAResource.TMNOFLAGS), ts, null, false, con, null);
                         } catch (BrokerException e) {
                             status = Status.ERROR;
                             errMsg = e.getMessage();
                         }
                     } else {
-                       // Should never happen.
-                       return super.handle(con, cmd_msg, cmd_props);
+                        // Should never happen.
+                        return super.handle(con, cmd_msg, cmd_props);
                     }
                 }
             }
@@ -210,16 +181,15 @@ public class RollbackCommitHandler extends AdminCmdHandler
         return true;
     }
 
-    private void sendReply(IMQConnection con, Packet cmd_msg,
-        int replyType, int status, String errMsg) {
+    private void sendReply(IMQConnection con, Packet cmd_msg, int replyType, int status, String errMsg) {
 
         // Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, replyType, status, errMsg);
+        setProperties(reply, replyType, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
+        parent.sendReply(con, cmd_msg, reply);
 
     }
 

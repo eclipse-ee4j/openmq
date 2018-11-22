@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConnectionConsumerReader.java	1.3 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient;
 
@@ -25,9 +25,8 @@ import com.sun.messaging.jmq.io.*;
 import java.io.*;
 
 /**
- * A ConnectionConsumerReader reads off messages from the connection
- * consumer's Read Queue and delivers the messages to the connection
- * consumer which will load the messages to ServerSessions
+ * A ConnectionConsumerReader reads off messages from the connection consumer's Read Queue and delivers the messages to
+ * the connection consumer which will load the messages to ServerSessions
  */
 
 //XXX REVISIT
@@ -37,15 +36,14 @@ public class ConnectionConsumerReader extends ConsumerReader {
     private int maxMessages;
 
     public ConnectionConsumerReader(ConnectionConsumerImpl connectionConsumer) {
-        super(connectionConsumer.getConnection(), 
-              connectionConsumer.getReadQueue());
+        super(connectionConsumer.getConnection(), connectionConsumer.getReadQueue());
 
-       this.connectionConsumer = connectionConsumer;
-       maxMessages = connectionConsumer.getMaxMessages();
-       if (maxMessages < 1) { //should not happen
-           maxMessages = 1;
-       }
-       load = 0;
+        this.connectionConsumer = connectionConsumer;
+        maxMessages = connectionConsumer.getMaxMessages();
+        if (maxMessages < 1) { // should not happen
+            maxMessages = 1;
+        }
+        load = 0;
     }
 
     protected void deliver(ReadOnlyPacket packet) throws IOException, JMSException {
@@ -53,10 +51,9 @@ public class ConnectionConsumerReader extends ConsumerReader {
         if (maxMessages == 1) {
             connectionConsumer.onMessage(message);
             connectionConsumer.startServerSession();
-        }
-		else {
+        } else {
             if (load == 0) {
-                //'sessionQueue' really should named as 'readQueue'
+                // 'sessionQueue' really should named as 'readQueue'
                 load = sessionQueue.size() + 1;
                 if (load > maxMessages) {
                     load = maxMessages;
@@ -68,18 +65,17 @@ public class ConnectionConsumerReader extends ConsumerReader {
                 connectionConsumer.startServerSession();
             }
         }
-	}
+    }
 
     protected void deliver() throws IOException, JMSException {
         connectionConsumer.onNullMessage();
     }
 
-    public void dump (PrintStream ps) {
-        ps.println ("------ ConnectionConsumerReader dump ------");
-        ps.println ("maxMessages: " + maxMessages);
-        ps.println ("current load: " + load);
+    public void dump(PrintStream ps) {
+        ps.println("------ ConnectionConsumerReader dump ------");
+        ps.println("maxMessages: " + maxMessages);
+        ps.println("current load: " + load);
         super.dump(ps);
     }
 
 }
-

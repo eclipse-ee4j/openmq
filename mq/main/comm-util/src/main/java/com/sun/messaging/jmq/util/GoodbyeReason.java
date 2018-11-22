@@ -16,13 +16,11 @@
 
 /*
  * @(#)GoodbyeReason.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
-
-public class GoodbyeReason
-{
+public class GoodbyeReason {
     public static final int SHUTDOWN_BKR = 1;
     public static final int RESTART_BKR = 2;
     public static final int ADMIN_KILLED_CON = 3;
@@ -35,18 +33,29 @@ public class GoodbyeReason
     public static final int MIGRATE_PARTITION = 10;
 
     public static final String toString(int reason) {
-        switch(reason) {
-            case SHUTDOWN_BKR: return "SHUTDOWN_BKR";
-            case RESTART_BKR: return "RESTART_BKR";
-            case ADMIN_KILLED_CON: return "ADMIN_KILLED_CON";
-            case CON_FATAL_ERROR: return "CON_FATAL_ERROR";
-            case CLIENT_CLOSED: return "CLIENT_CLOSED";
-            case OTHER: return "OTHER";
-            case BKR_IN_TAKEOVER: return "BKR_IN_TAKEOVER";
-            case REMOTE_BKR_RESTART: return "REMOTE_BKR_RESTART";
-            case MSG_HOME_CHANGE: return "MSG_HOME_CHANGE";
-            case MIGRATE_PARTITION: return "MIGRATE_PARTITION";
-            default: return "UNKNOWN";
+        switch (reason) {
+        case SHUTDOWN_BKR:
+            return "SHUTDOWN_BKR";
+        case RESTART_BKR:
+            return "RESTART_BKR";
+        case ADMIN_KILLED_CON:
+            return "ADMIN_KILLED_CON";
+        case CON_FATAL_ERROR:
+            return "CON_FATAL_ERROR";
+        case CLIENT_CLOSED:
+            return "CLIENT_CLOSED";
+        case OTHER:
+            return "OTHER";
+        case BKR_IN_TAKEOVER:
+            return "BKR_IN_TAKEOVER";
+        case REMOTE_BKR_RESTART:
+            return "REMOTE_BKR_RESTART";
+        case MSG_HOME_CHANGE:
+            return "MSG_HOME_CHANGE";
+        case MIGRATE_PARTITION:
+            return "MIGRATE_PARTITION";
+        default:
+            return "UNKNOWN";
         }
     }
 }

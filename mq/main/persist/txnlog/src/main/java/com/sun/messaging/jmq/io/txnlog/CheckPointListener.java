@@ -16,36 +16,28 @@
 
 /*
  * @(#)CheckPointListener.java	1.2 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.txnlog;
 
 /**
- * A broker instance sets itself as a <code>CheckPointListener</code> to the
- * TransactionLogWriter. When the log writer detects that a sync
- * operation is required, it calls the listener's checkpoint()
- * method.
- * <p>                 
- * When the check point listener is called, the broker SHOULD
- * sync its message store ASAP and then call
- * TransactionLogWriter.checkpoint() to instruct the log writer
- * to perform a check point sync operation.
+ * A broker instance sets itself as a <code>CheckPointListener</code> to the TransactionLogWriter. When the log writer
+ * detects that a sync operation is required, it calls the listener's checkpoint() method.
  * <p>
- * In general, the log writer's performance will decrease if the
- * broker fails to call TransactionLogWriter.checkpoint() after
- * the check point listener is notified.
+ * When the check point listener is called, the broker SHOULD sync its message store ASAP and then call
+ * TransactionLogWriter.checkpoint() to instruct the log writer to perform a check point sync operation.
+ * <p>
+ * In general, the log writer's performance will decrease if the broker fails to call TransactionLogWriter.checkpoint()
+ * after the check point listener is notified.
  *
  */
 public interface CheckPointListener {
-    
+
     /**
-     * Notify broker to perform a check point sync with the 
-     * <code>TransactionLogWriter</code>.
+     * Notify broker to perform a check point sync with the <code>TransactionLogWriter</code>.
      * <p>
-     * When received the notification, broker should sync its
-     * message store and calls TransactionLogWriter.checkpoint()
-     * to inform the TransactionLogWriter that the message store
-     * is synced.
+     * When received the notification, broker should sync its message store and calls TransactionLogWriter.checkpoint() to
+     * inform the TransactionLogWriter that the message store is synced.
      * 
      * @see TransactionLogWriter#setCheckPointListener(CheckPointListener)
      * @see TransactionLogWriter#checkpoint

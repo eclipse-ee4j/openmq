@@ -22,29 +22,24 @@ import javax.jms.JMSException;
 import javax.transaction.xa.XAResource;
 
 /**
- *  The base class for JMS ConnectionFactory implementation classes to make
- *  the interface to ManagedConnectionFactory consistent.<p>
- *  The ManagedConnection will get an object of this type from the
- *  ManagedConnectionFactory, with which the ManagedConnection will create
- *  the actual connection.
+ * The base class for JMS ConnectionFactory implementation classes to make the interface to ManagedConnectionFactory
+ * consistent.
+ * <p>
+ * The ManagedConnection will get an object of this type from the ManagedConnectionFactory, with which the
+ * ManagedConnection will create the actual connection.
  */
 public abstract class ConnectionCreator {
-    
+
     /** Creates a new instance of ConnectionCreator */
     protected ConnectionCreator() {
     }
 
-    protected abstract Connection _createConnection(String un, String pw)
-    throws JMSException;
-    
-    protected abstract Connection _createQueueConnection(String un, String pw)
-    throws JMSException;
-    
-    protected abstract Connection _createTopicConnection(String un, String pw)
-    throws JMSException;
+    protected abstract Connection _createConnection(String un, String pw) throws JMSException;
 
-    protected abstract XAResource _createXAResource(ManagedConnection mc,
-            Object connection)
-    throws JMSException;
+    protected abstract Connection _createQueueConnection(String un, String pw) throws JMSException;
+
+    protected abstract Connection _createTopicConnection(String un, String pw) throws JMSException;
+
+    protected abstract XAResource _createXAResource(ManagedConnection mc, Object connection) throws JMSException;
 
 }

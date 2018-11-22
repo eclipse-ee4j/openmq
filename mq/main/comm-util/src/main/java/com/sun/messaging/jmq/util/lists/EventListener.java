@@ -16,28 +16,25 @@
 
 /*
  * @(#)EventListener.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
 
 /**
- * Callback interface called when an event has occurred on
- * a list which implements EventBroadcaster
+ * Callback interface called when an event has occurred on a list which implements EventBroadcaster
  *
  * @see EventBroadcaster
  */
 
-public interface EventListener extends java.util.EventListener
-{
+public interface EventListener extends java.util.EventListener {
     /**
      * Called when a specific event occurs
+     * 
      * @param e the event that occured
      */
 
-    public void eventOccured(EventType type,  Reason reason,
-            Object source, Object OrigValue, Object NewValue, 
-            Object userdata);
+    public void eventOccured(EventType type, Reason reason, Object source, Object OrigValue, Object NewValue, Object userdata);
 
 }

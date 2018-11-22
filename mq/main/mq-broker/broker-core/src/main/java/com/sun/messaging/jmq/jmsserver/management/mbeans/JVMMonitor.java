@@ -16,7 +16,7 @@
 
 /*
  * @(#)JVMMonitor.java	1.8 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -27,74 +27,53 @@ import javax.management.MBeanNotificationInfo;
 
 import com.sun.messaging.jms.management.server.*;
 
-public class JVMMonitor extends MQMBeanReadOnly  {
+public class JVMMonitor extends MQMBeanReadOnly {
     private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(JVMAttributes.FREE_MEMORY,
-					Long.class.getName(),
-					mbr.getString(mbr.I_JVM_ATTR_FREE_MEMORY),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(JVMAttributes.FREE_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_FREE_MEMORY), true, false, false),
 
-	    new MBeanAttributeInfo(JVMAttributes.INIT_MEMORY,
-					Long.class.getName(),
-					mbr.getString(mbr.I_JVM_ATTR_INIT_MEMORY),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(JVMAttributes.INIT_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_INIT_MEMORY), true, false, false),
 
-	    new MBeanAttributeInfo(JVMAttributes.MAX_MEMORY,
-					Long.class.getName(),
-					mbr.getString(mbr.I_JVM_ATTR_MAX_MEMORY),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(JVMAttributes.MAX_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_MAX_MEMORY), true, false, false),
 
-	    new MBeanAttributeInfo(JVMAttributes.TOTAL_MEMORY,
-					Long.class.getName(),
-					mbr.getString(mbr.I_JVM_ATTR_TOTAL_MEMORY),
-					true,
-					false,
-					false)
-			};
+            new MBeanAttributeInfo(JVMAttributes.TOTAL_MEMORY, Long.class.getName(), mbr.getString(mbr.I_JVM_ATTR_TOTAL_MEMORY), true, false, false) };
 
-    public JVMMonitor()  {
+    public JVMMonitor() {
         super();
     }
 
-    public Long getFreeMemory()  {
-	return (Long.valueOf(Runtime.getRuntime().freeMemory()));
+    public Long getFreeMemory() {
+        return (Long.valueOf(Runtime.getRuntime().freeMemory()));
     }
 
-    public Long getInitMemory()  {
-	return (Long.valueOf(0));
+    public Long getInitMemory() {
+        return (Long.valueOf(0));
     }
 
-    public Long getMaxMemory()  {
-	return (Long.valueOf(Runtime.getRuntime().maxMemory()));
+    public Long getMaxMemory() {
+        return (Long.valueOf(Runtime.getRuntime().maxMemory()));
     }
 
-    public Long getTotalMemory()  {
-	return (Long.valueOf(Runtime.getRuntime().totalMemory()));
+    public Long getTotalMemory() {
+        return (Long.valueOf(Runtime.getRuntime().totalMemory()));
     }
 
-    public String getMBeanName()  {
-	return ("JVMMonitor");
+    public String getMBeanName() {
+        return ("JVMMonitor");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_JVM_MON_DESC));
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_JVM_MON_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (null);
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (null);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (null);
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (null);
     }
 }

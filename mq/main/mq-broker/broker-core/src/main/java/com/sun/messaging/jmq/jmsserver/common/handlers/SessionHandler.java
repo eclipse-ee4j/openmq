@@ -16,7 +16,7 @@
 
 /*
  * @(#)SessionHandler.java	1.19 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -38,53 +38,39 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 
-
-
-public class SessionHandler extends PacketHandler 
-{
+public class SessionHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
-  
 
     public SessionHandler() {
     }
 
-
-    public Session createSession(int stype, String creator, IMQConnection con,
-            boolean isIndemp)
-        throws BrokerException
-    {
+    public Session createSession(int stype, String creator, IMQConnection con, boolean isIndemp) throws BrokerException {
         Session session = null;
         if (isIndemp) {
             session = Session.getSession(creator);
         }
         if (session == null) {
-            session = Session.createSession(con.getConnectionUID(),
-                                            creator, coreLifecycle);
+            session = Session.createSession(con.getConnectionUID(), creator, coreLifecycle);
             session.setAckType(stype);
             con.attachSession(session);
         }
         return session;
-     }
+    }
 
-     public void closeSession(SessionUID sessionID, IMQConnection con, boolean isIndemp)
-        throws BrokerException
-     {
-         if (!isIndemp || Session.getSession(sessionID) != null) {
-             assert con.getSession(sessionID) != null;
+    public void closeSession(SessionUID sessionID, IMQConnection con, boolean isIndemp) throws BrokerException {
+        if (!isIndemp || Session.getSession(sessionID) != null) {
+            assert con.getSession(sessionID) != null;
 
-             Session.closeSession(sessionID);
-             con.closeSession(sessionID);
-         }
-     }
-
+            Session.closeSession(sessionID);
+            con.closeSession(sessionID);
+        }
+    }
 
     /**
      * Method to handle Session(add or delete) messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         int status = Status.OK;
         String reason = null;
         Hashtable hash = new Hashtable(); // return props
@@ -95,28 +81,20 @@ public class SessionHandler extends PacketHandler
 
             Session session = null;
             if (msg.getPacketType() == PacketType.CREATE_SESSION) {
-               Integer  ack = (props == null ? null : 
-                    (Integer)props.get("JMQAckMode"));
-               // if we dont know, treat like client ack
-               int stype = (ack == null ? Session.NONE
-                      : ack.intValue());
+                Integer ack = (props == null ? null : (Integer) props.get("JMQAckMode"));
+                // if we dont know, treat like client ack
+                int stype = (ack == null ? Session.NONE : ack.intValue());
 
-               session = createSession(stype, msg.getSysMessageID().toString(),
-                    con, isIndemp);
-               hash.put("JMQSessionID", Long.valueOf(
-                    session.getSessionUID().longValue()));
+                session = createSession(stype, msg.getSysMessageID().toString(), con, isIndemp);
+                hash.put("JMQSessionID", Long.valueOf(session.getSessionUID().longValue()));
 
             } else {
                 assert msg.getPacketType() == PacketType.DESTROY_SESSION;
-                Long lsessionid = (Long)props.get("JMQSessionID");
+                Long lsessionid = (Long) props.get("JMQSessionID");
                 if (lsessionid == null) {
-                    throw new BrokerException(
-                        Globals.getBrokerResources().getString(
-                             BrokerResources.X_INTERNAL_EXCEPTION,
-                             "protocol error, no session"));
+                    throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "protocol error, no session"));
                 }
-                SessionUID sessionID = new SessionUID(
-                       lsessionid.longValue());
+                SessionUID sessionID = new SessionUID(lsessionid.longValue());
 
                 closeSession(sessionID, con, isIndemp);
 
@@ -125,7 +103,7 @@ public class SessionHandler extends PacketHandler
             boolean log = false;
             reason = ex.getMessage();
             if (ex instanceof BrokerException) {
-                status = ((BrokerException)ex).getStatusCode();
+                status = ((BrokerException) ex).getStatusCode();
                 log = false;
             } else {
                 status = Status.ERROR;
@@ -133,15 +111,12 @@ public class SessionHandler extends PacketHandler
             }
 
             if (log) {
-                logger.logStack(Logger.INFO,
-                   Globals.getBrokerResources().getString(
-                      BrokerResources.X_INTERNAL_EXCEPTION,
-                        " session "),ex);
+                logger.logStack(Logger.INFO, Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, " session "), ex);
             } else {
                 logger.log(Logger.INFO, ex.getMessage());
             }
         }
-            
+
         hash.put("JMQStatus", Integer.valueOf(status));
         if (reason != null)
             hash.put("JMQReason", reason);
@@ -149,15 +124,13 @@ public class SessionHandler extends PacketHandler
         if (msg.getSendAcknowledge()) {
             Packet pkt = new Packet(con.useDirectBuffers());
             pkt.setConsumerID(msg.getConsumerID()); // correlation ID
-            pkt.setPacketType(msg.getPacketType()+1);
+            pkt.setPacketType(msg.getPacketType() + 1);
             pkt.setProperties(hash);
             con.sendControlMessage(pkt);
         }
 
         return true;
 
-
     }
-
 
 }

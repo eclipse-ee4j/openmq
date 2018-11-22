@@ -16,7 +16,7 @@
 
 /*
  * @(#)PortMapperMQAddress.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
@@ -24,23 +24,21 @@ import com.sun.messaging.jmq.io.MQAddress;
 import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
-public class PortMapperMQAddress extends MQAddress  {
-    protected PortMapperMQAddress() {} 
+public class PortMapperMQAddress extends MQAddress {
+    protected PortMapperMQAddress() {
+    }
 
-    public String getDefaultServiceName()  {
+    public String getDefaultServiceName() {
         return ("");
     }
 
     /**
-     * Parses the given MQ Message Service Address and creates an
-     * MQAddress object.
+     * Parses the given MQ Message Service Address and creates an MQAddress object.
      */
-    public static PortMapperMQAddress createAddress(String addr)
-        throws MalformedURLException, UnknownHostException {
+    public static PortMapperMQAddress createAddress(String addr) throws MalformedURLException, UnknownHostException {
         PortMapperMQAddress ret = new PortMapperMQAddress();
         ret.initialize(addr);
         return ret;
     }
-
 
 }

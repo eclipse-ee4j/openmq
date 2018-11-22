@@ -16,8 +16,8 @@
 
 /*
  * @(#)PermissionFactoryImpl.java	1.5 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.jmsserver.auth.acl;
 
 import java.util.Map;
@@ -28,28 +28,22 @@ import com.sun.messaging.jmq.auth.jaas.*;
 
 public class PermissionFactoryImpl implements PermissionFactory {
 
-    //private static boolean DEBUG = false;
+    // private static boolean DEBUG = false;
 
     /**
      *
      */
-    public java.security.Permission newPermission (String privateString, //can be null
-                                                   String resourceName, 
-                                                   String actions,
-                                                   Map conditions) {
-         
+    public java.security.Permission newPermission(String privateString, // can be null
+            String resourceName, String actions, Map conditions) {
+
         if (resourceName.startsWith(PermissionFactory.CONN_RESOURCE_PREFIX)) {
-            return new MQConnectionPermission(
-                   resourceName.substring(PermissionFactory.CONN_RESOURCE_PREFIX.length()));
+            return new MQConnectionPermission(resourceName.substring(PermissionFactory.CONN_RESOURCE_PREFIX.length()));
         }
         if (resourceName.startsWith(PermissionFactory.DEST_RESOURCE_PREFIX)) {
-            return new MQDestinationPermission(
-                   resourceName.substring(PermissionFactory.DEST_RESOURCE_PREFIX.length()),
-                   actions);
+            return new MQDestinationPermission(resourceName.substring(PermissionFactory.DEST_RESOURCE_PREFIX.length()), actions);
         }
         if (resourceName.startsWith(PermissionFactory.AUTO_RESOURCE_PREFIX)) {
-            return new MQAutoCreateDestPermission(
-                   resourceName.substring(PermissionFactory.AUTO_RESOURCE_PREFIX.length()));
+            return new MQAutoCreateDestPermission(resourceName.substring(PermissionFactory.AUTO_RESOURCE_PREFIX.length()));
         }
         throw new IllegalArgumentException("invalid resource name " + resourceName);
     }

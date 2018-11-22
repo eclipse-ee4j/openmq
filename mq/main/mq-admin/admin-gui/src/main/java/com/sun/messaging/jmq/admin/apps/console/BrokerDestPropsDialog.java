@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerDestPropsDialog.java	1.34 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -64,300 +64,274 @@ import com.sun.messaging.jmq.admin.apps.console.util.SpecialValueField;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-
-/** 
- * This dialog is used to display the properties of a physical destination 
- * on the broker.
+/**
+ * This dialog is used to display the properties of a physical destination on the broker.
  */
-public class BrokerDestPropsDialog extends AdminDialog 
-	implements ListSelectionListener,
-	BrokerConstants {
+public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionListener, BrokerConstants {
 
     private final static int UNLIMITED_VALUE_0 = 0;
-    private final static int UNLIMITED_VALUE_NEG1 = -1;  // for active/failover consumers
+    private final static int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
 
     private static AdminResources ar = Globals.getAdminResources();
-    private static AdminConsoleResources acr = 
-			Globals.getAdminConsoleResources();
-    private static String close[] = {acr.getString(acr.I_DIALOG_CLOSE)};
+    private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
+    private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
-    private static String[] columnNames = 
-		{ar.getString(ar.I_JMQCMD_SUB_NAME),
-    	    	 ar.getString(ar.I_JMQCMD_CLIENT_ID),
-    		 ar.getString(ar.I_JMQCMD_DURABLE),
-    		 ar.getString(ar.I_JMQCMD_SUB_NUM_MSG),
-    		 ar.getString(ar.I_JMQCMD_SUB_STATE)};
+    private static String[] columnNames = { ar.getString(ar.I_JMQCMD_SUB_NAME), ar.getString(ar.I_JMQCMD_CLIENT_ID), ar.getString(ar.I_JMQCMD_DURABLE),
+            ar.getString(ar.I_JMQCMD_SUB_NUM_MSG), ar.getString(ar.I_JMQCMD_SUB_STATE) };
 
     /*
      * The tabbed pane and the individual tabs.
      */
-    private JTabbedPane         tabbedPane;
-    private JPanel              basicPanel;
-    private JPanel              durPanel;
+    private JTabbedPane tabbedPane;
+    private JPanel basicPanel;
+    private JPanel durPanel;
 
     /*
-     * Applicable to Queues and Topics.
-     * Basic destination info.
+     * Applicable to Queues and Topics. Basic destination info.
      */
-    private JLabel 		destNameValue;
-    private JLabel 		destTypeValue;
-    private JLabel 		destStateValue;
+    private JLabel destNameValue;
+    private JLabel destTypeValue;
+    private JLabel destStateValue;
     /*
-     * Applicable to Queues and Topics.
-     * Current destination info.
+     * Applicable to Queues and Topics. Current destination info.
      */
-    private JLabel 		curNumProducers;
-    private LabelledComponent   curNumProducersLabelC;
-    private JLabel 		curNumActive;
-    private LabelledComponent   curNumActiveLabelC;
-    private JLabel 		curNumFailover;
-    private LabelledComponent   curNumFailoverLabelC;
-    private JLabel 		curNumMesgsValue;
-    private JLabel 		curNumMesgBytesValue;
+    private JLabel curNumProducers;
+    private LabelledComponent curNumProducersLabelC;
+    private JLabel curNumActive;
+    private LabelledComponent curNumActiveLabelC;
+    private JLabel curNumFailover;
+    private LabelledComponent curNumFailoverLabelC;
+    private JLabel curNumMesgsValue;
+    private JLabel curNumMesgBytesValue;
 
     /*
-     * Applicable to Queues only.
-     * Active Consumer Count
+     * Applicable to Queues only. Active Consumer Count
      */
-    private IntegerField        activeConsumerIF;
-    private LabelledComponent	activeConsumerLabelC;
-    private SpecialValueField	activeConsumerSF;
+    private IntegerField activeConsumerIF;
+    private LabelledComponent activeConsumerLabelC;
+    private SpecialValueField activeConsumerSF;
 
     /*
-     * Applicable to Queues only.
-     * Failover Consumer Count
+     * Applicable to Queues only. Failover Consumer Count
      */
-    private IntegerField        failoverConsumerIF;
-    private LabelledComponent	failoverConsumerLabelC;
-    private SpecialValueField	failoverConsumerSF;
+    private IntegerField failoverConsumerIF;
+    private LabelledComponent failoverConsumerLabelC;
+    private SpecialValueField failoverConsumerSF;
 
     /*
-     * Applicable to Queues and Topics.
-     * Max Producer Count
+     * Applicable to Queues and Topics. Max Producer Count
      */
-    private IntegerField        maxProducerIF;
-    private LabelledComponent	maxProducerLabelC;
-    private SpecialValueField	maxProducerSF;
+    private IntegerField maxProducerIF;
+    private LabelledComponent maxProducerLabelC;
+    private SpecialValueField maxProducerSF;
 
     /*
-     * Applicable to Queues and Topics.
-     * Components for supporting Queue Size Limit.
+     * Applicable to Queues and Topics. Components for supporting Queue Size Limit.
      */
-    private BytesField         	mesgSizeLimitBF;
-    private LabelledComponent	mesgSizeLimitLabelC;
-    private SpecialValueField	mesgSizeLimitSF;
+    private BytesField mesgSizeLimitBF;
+    private LabelledComponent mesgSizeLimitLabelC;
+    private SpecialValueField mesgSizeLimitSF;
 
     /*
-     * Applicable to Queues and Topics.
-     * Components for supporting Queue Message Limit.
+     * Applicable to Queues and Topics. Components for supporting Queue Message Limit.
      */
-    IntegerField        	mesgLimitIF;
-    SpecialValueField        	mesgLimitSF;
-    private LabelledComponent	mesgLimitLabelC;
+    IntegerField mesgLimitIF;
+    SpecialValueField mesgLimitSF;
+    private LabelledComponent mesgLimitLabelC;
 
     /*
-     * Applicable to Queues and Topics.
-     * Components for supporting Destination Maximum Size per Message.
+     * Applicable to Queues and Topics. Components for supporting Destination Maximum Size per Message.
      */
-    BytesField          	maxSizePerMsgBF;
-    SpecialValueField          	maxSizePerMsgSF;
+    BytesField maxSizePerMsgBF;
+    SpecialValueField maxSizePerMsgSF;
 
     /*
-     * Applicable to Topics only.
-     * Durable Subscriptions related components.
+     * Applicable to Topics only. Durable Subscriptions related components.
      */
-    private PropsTableModel     model;
-    private JTable              table;
-    private JScrollPane         scrollPane;
-    private JButton 		deleteButton, purgeButton;
+    private PropsTableModel model;
+    private JTable table;
+    private JScrollPane scrollPane;
+    private JButton deleteButton, purgeButton;
 
     /*
-     * Applicable to Queus and Topics.
-     * Limit behavior and use DMQ.
+     * Applicable to Queus and Topics. Limit behavior and use DMQ.
      */
-    private JComboBox		limitBehaviorCb;
-    private JCheckBox		useDMQCkb;
+    private JComboBox limitBehaviorCb;
+    private JCheckBox useDMQCkb;
 
     /*
-     * These should always contain the latest info sent from the broker
-     * before show().
+     * These should always contain the latest info sent from the broker before show().
      */
-    private DestinationInfo destInfo; 
+    private DestinationInfo destInfo;
     private Vector durables;
 
     /*
-     * These are used to indicate which durable subscription is currently 
-     * selected.
+     * These are used to indicate which durable subscription is currently selected.
      */
-    private int selectedRow = -1; 
+    private int selectedRow = -1;
     private String selectedDurName = null;
     private String selectedClientID = null;
 
-    private boolean	resetScrollbarPolicy = true;
+    private boolean resetScrollbarPolicy = true;
 
-
-    public BrokerDestPropsDialog(Frame parent)  {
-	super(parent, 
-	      acr.getString(acr.I_BROKER_DEST_PROPS),
-	      (OK | CANCEL | HELP));
-	setHelpId(ConsoleHelpID.BROKER_DEST_PROPS);
+    public BrokerDestPropsDialog(Frame parent) {
+        super(parent, acr.getString(acr.I_BROKER_DEST_PROPS), (OK | CANCEL | HELP));
+        setHelpId(ConsoleHelpID.BROKER_DEST_PROPS);
     }
 
     public void doClose() {
-	hide();
-	reset();
+        hide();
+        reset();
     }
 
     // not used
-    public void doApply() {}
-    public void doReset() {}
-    public void doClear() {}
+    public void doApply() {
+    }
 
-    public void doCancel() { 
-	hide(); 
+    public void doReset() {
+    }
+
+    public void doClear() {
+    }
+
+    public void doCancel() {
+        hide();
     }
 
     public void doOK() {
-	BrokerAdminEvent bae =
-		    new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_DEST);
-	DestinationInfo destInfo = getUpdateDestinationInfo();
+        BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_DEST);
+        DestinationInfo destInfo = getUpdateDestinationInfo();
 
-	bae.setDestinationInfo(destInfo);
+        bae.setDestinationInfo(destInfo);
 
         bae.setOKAction(true);
         fireAdminEventDispatched(bae);
     }
 
-    private DestinationInfo getUpdateDestinationInfo()  {
-	int  activeConsumers = -1;
-	int  failoverConsumers = -1;
-	int  maxProducers = -1;
+    private DestinationInfo getUpdateDestinationInfo() {
+        int activeConsumers = -1;
+        int failoverConsumers = -1;
+        int maxProducers = -1;
         long mesgSizeLimitValue = -1;
-        int  mesgLimitValue = -1;
+        int mesgLimitValue = -1;
         long maxSizePerMsgValue = -1;
-	boolean useDMQ;
-	int limitBehavior;
-	DestinationInfo	updateDestInfo = new DestinationInfo();
+        boolean useDMQ;
+        int limitBehavior;
+        DestinationInfo updateDestInfo = new DestinationInfo();
 
-	/*
-	 * We check if the value set in the GUI differs from the
-	 * original value. It is set (and set to the broker) only
-	 * if it is different. We do this to prevent sending
-	 * across values for properties that did not change. In some
-	 * cases, this is harmless. But for some (e.g. for the DMQ),
-	 * updates to certain properties is not allowed and the old
-	 * behavior will cause an error.
-	 */
+        /*
+         * We check if the value set in the GUI differs from the original value. It is set (and set to the broker) only if it is
+         * different. We do this to prevent sending across values for properties that did not change. In some cases, this is
+         * harmless. But for some (e.g. for the DMQ), updates to certain properties is not allowed and the old behavior will
+         * cause an error.
+         */
 
-	if (DestType.isQueue(destInfo.type)) { 
-	    /*
-	     * Max Active Consumers
-	     */
-	    if (activeConsumerSF.isSpecialValueSet())  {
-	        activeConsumers = UNLIMITED_VALUE_NEG1;
-	    } else  {
-	        activeConsumers 
-			= Integer.parseInt(activeConsumerIF.getText());
-	    }
+        if (DestType.isQueue(destInfo.type)) {
+            /*
+             * Max Active Consumers
+             */
+            if (activeConsumerSF.isSpecialValueSet()) {
+                activeConsumers = UNLIMITED_VALUE_NEG1;
+            } else {
+                activeConsumers = Integer.parseInt(activeConsumerIF.getText());
+            }
 
-	    if (activeConsumers != destInfo.maxActiveConsumers)  {
-		updateDestInfo.setMaxActiveConsumers(activeConsumers);
-	    }
+            if (activeConsumers != destInfo.maxActiveConsumers) {
+                updateDestInfo.setMaxActiveConsumers(activeConsumers);
+            }
 
-	    /*
-	     * Max Backup Consumers
-	     */
-	    if (failoverConsumerSF.isSpecialValueSet())  {
-	        failoverConsumers = UNLIMITED_VALUE_NEG1;
-	    } else  {
-	        failoverConsumers 
-			= Integer.parseInt(failoverConsumerIF.getText());
-	    }
+            /*
+             * Max Backup Consumers
+             */
+            if (failoverConsumerSF.isSpecialValueSet()) {
+                failoverConsumers = UNLIMITED_VALUE_NEG1;
+            } else {
+                failoverConsumers = Integer.parseInt(failoverConsumerIF.getText());
+            }
 
-	    if (failoverConsumers != destInfo.maxFailoverConsumers)  {
-		updateDestInfo.setMaxFailoverConsumers(failoverConsumers);
-	    }
-	}
+            if (failoverConsumers != destInfo.maxFailoverConsumers) {
+                updateDestInfo.setMaxFailoverConsumers(failoverConsumers);
+            }
+        }
 
-	/*
-	 * Max Producers
-	 */
-	if (maxProducerSF.isSpecialValueSet())  {
-	    maxProducers = UNLIMITED_VALUE_NEG1;
-	} else  {
-	    maxProducers = Integer.parseInt(maxProducerIF.getText());
-	}
+        /*
+         * Max Producers
+         */
+        if (maxProducerSF.isSpecialValueSet()) {
+            maxProducers = UNLIMITED_VALUE_NEG1;
+        } else {
+            maxProducers = Integer.parseInt(maxProducerIF.getText());
+        }
 
-	if (maxProducers != destInfo.maxProducers)  {
-	    updateDestInfo.setMaxProducers(maxProducers);
-	}
+        if (maxProducers != destInfo.maxProducers) {
+            updateDestInfo.setMaxProducers(maxProducers);
+        }
 
-	/*
-	 * Max Total Message Bytes
-	 */
-	if (mesgSizeLimitSF.isSpecialValueSet())  {
-	    mesgSizeLimitValue = UNLIMITED_VALUE_NEG1;
-	} else  {
-	    mesgSizeLimitValue = mesgSizeLimitBF.getValue();
-	}
+        /*
+         * Max Total Message Bytes
+         */
+        if (mesgSizeLimitSF.isSpecialValueSet()) {
+            mesgSizeLimitValue = UNLIMITED_VALUE_NEG1;
+        } else {
+            mesgSizeLimitValue = mesgSizeLimitBF.getValue();
+        }
 
-	if (mesgSizeLimitValue != destInfo.maxMessageBytes)  {
-	    updateDestInfo.setMaxMessageBytes(mesgSizeLimitValue);
-	}
+        if (mesgSizeLimitValue != destInfo.maxMessageBytes) {
+            updateDestInfo.setMaxMessageBytes(mesgSizeLimitValue);
+        }
 
-	/*
-	 * Max Number of Messages
-	 */
-	if (mesgLimitSF.isSpecialValueSet())  {
-	    mesgLimitValue = (int)UNLIMITED_VALUE_NEG1;
-	} else  {
-	    mesgLimitValue = Integer.parseInt(mesgLimitIF.getText());
-	}
+        /*
+         * Max Number of Messages
+         */
+        if (mesgLimitSF.isSpecialValueSet()) {
+            mesgLimitValue = (int) UNLIMITED_VALUE_NEG1;
+        } else {
+            mesgLimitValue = Integer.parseInt(mesgLimitIF.getText());
+        }
 
-	if (mesgLimitValue != destInfo.maxMessages)  {
-	    updateDestInfo.setMaxMessages(mesgLimitValue);
-	}
+        if (mesgLimitValue != destInfo.maxMessages) {
+            updateDestInfo.setMaxMessages(mesgLimitValue);
+        }
 
-	/*
-	 * Max Bytes per Messages
-	 */
-	if (maxSizePerMsgSF.isSpecialValueSet())  {
-	    maxSizePerMsgValue = UNLIMITED_VALUE_NEG1;
-	} else  {
+        /*
+         * Max Bytes per Messages
+         */
+        if (maxSizePerMsgSF.isSpecialValueSet()) {
+            maxSizePerMsgValue = UNLIMITED_VALUE_NEG1;
+        } else {
             maxSizePerMsgValue = maxSizePerMsgBF.getValue();
-	}
+        }
 
-	if (maxSizePerMsgValue != destInfo.maxMessageSize)  {
-	    updateDestInfo.setMaxMessageSize(maxSizePerMsgValue);
-	}
+        if (maxSizePerMsgValue != destInfo.maxMessageSize) {
+            updateDestInfo.setMaxMessageSize(maxSizePerMsgValue);
+        }
 
-	/*
-	 * Limit behavior
-	 */
-	limitBehavior = getLimitBehavValue(
-			(String)limitBehaviorCb.getSelectedItem());
-	if (limitBehavior != destInfo.destLimitBehavior)  {
-	    updateDestInfo.setLimitBehavior(limitBehavior);
-	}
+        /*
+         * Limit behavior
+         */
+        limitBehavior = getLimitBehavValue((String) limitBehaviorCb.getSelectedItem());
+        if (limitBehavior != destInfo.destLimitBehavior) {
+            updateDestInfo.setLimitBehavior(limitBehavior);
+        }
 
-	/*
-	 * Use DMQ
-	 */
-	useDMQ = useDMQCkb.isSelected();
-	if (useDMQ != destInfo.useDMQ())  {
-	    updateDestInfo.setUseDMQ(useDMQ);
-	}
+        /*
+         * Use DMQ
+         */
+        useDMQ = useDMQCkb.isSelected();
+        if (useDMQ != destInfo.useDMQ()) {
+            updateDestInfo.setUseDMQ(useDMQ);
+        }
 
-	return (updateDestInfo);
+        return (updateDestInfo);
     }
 
-    public JPanel createWorkPanel()  {
-        JPanel 			workPanel;
-        GridBagLayout		workGridbag;
-        GridBagConstraints	workConstraints;
-	LabelledComponent	tmpLabelC;
-	LabelledComponent	lvpItems[];
-	LabelValuePanel		lvp;
+    public JPanel createWorkPanel() {
+        JPanel workPanel;
+        GridBagLayout workGridbag;
+        GridBagConstraints workConstraints;
+        LabelledComponent tmpLabelC;
+        LabelledComponent lvpItems[];
+        LabelValuePanel lvp;
 
         workPanel = new JPanel();
 
@@ -367,49 +341,46 @@ public class BrokerDestPropsDialog extends AdminDialog
 
         workPanel.add(tabbedPane);
 
-	return (workPanel);
+        return (workPanel);
     }
 
     private JPanel makeBasicTab() {
-        JPanel                  basicPanel;
-        GridBagLayout           basicGridbag;
-        GridBagConstraints      basicConstraints;
-        LabelledComponent       tmpLabelC;
-        LabelledComponent       lvpItems[];
-        LabelValuePanel         lvp;
-	int			i = 0;
+        JPanel basicPanel;
+        GridBagLayout basicGridbag;
+        GridBagConstraints basicConstraints;
+        LabelledComponent tmpLabelC;
+        LabelledComponent lvpItems[];
+        LabelValuePanel lvp;
+        int i = 0;
 
         basicPanel = new JPanel();
         basicGridbag = new GridBagLayout();
         basicConstraints = new GridBagConstraints();
         basicPanel.setLayout(basicGridbag);
 
-	basicConstraints.gridx = 0;
-	basicConstraints.anchor = GridBagConstraints.WEST;
-	basicConstraints.fill = GridBagConstraints.NONE;
-	basicConstraints.insets = new Insets(10, 0, 10, 0);
-	basicConstraints.ipadx = 0;
-	basicConstraints.ipady = 0;
-	basicConstraints.weightx = 1.0;
+        basicConstraints.gridx = 0;
+        basicConstraints.anchor = GridBagConstraints.WEST;
+        basicConstraints.fill = GridBagConstraints.NONE;
+        basicConstraints.insets = new Insets(10, 0, 10, 0);
+        basicConstraints.ipadx = 0;
+        basicConstraints.ipady = 0;
+        basicConstraints.weightx = 1.0;
 
-	/*
+        /*
          * Basic destination info: name, type, state
          */
         lvpItems = new LabelledComponent[3];
 
         destNameValue = new JLabel();
-        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NAME),
-                                        destNameValue);
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NAME), destNameValue);
         lvpItems[0] = tmpLabelC;
 
         destTypeValue = new JLabel();
-        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_TYPE),
-                                        destTypeValue);
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_TYPE), destTypeValue);
         lvpItems[1] = tmpLabelC;
 
         destStateValue = new JLabel();
-        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_STATE) + ":",
-                                        destStateValue);
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_STATE) + ":", destStateValue);
         lvpItems[2] = tmpLabelC;
 
         basicConstraints.gridx = 0;
@@ -424,47 +395,37 @@ public class BrokerDestPropsDialog extends AdminDialog
         basicConstraints.fill = GridBagConstraints.HORIZONTAL;
         JSeparator separator = new JSeparator();
         basicGridbag.setConstraints(separator, basicConstraints);
-	basicPanel.add(separator);
+        basicPanel.add(separator);
 
         /*
          * Reset
          */
         basicConstraints.gridwidth = 1;
-	basicConstraints.fill = GridBagConstraints.NONE;
+        basicConstraints.fill = GridBagConstraints.NONE;
 
-	/*
+        /*
          * Current number or message size / bytes info
          */
         lvpItems = new LabelledComponent[5];
 
         curNumMesgsValue = new JLabel();
-        tmpLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_DEST_NUM_MSGS),
-                         curNumMesgsValue);
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NUM_MSGS), curNumMesgsValue);
         lvpItems[i++] = tmpLabelC;
 
         curNumMesgBytesValue = new JLabel();
-        tmpLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_DEST_TTL_SIZE_MSGS),
-                         curNumMesgBytesValue, acr.getString(acr.I_BYTES));
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_TTL_SIZE_MSGS), curNumMesgBytesValue, acr.getString(acr.I_BYTES));
         lvpItems[i++] = tmpLabelC;
 
-	curNumProducers = new JLabel();
-        curNumProducersLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_DEST_NUM_PRODUCERS),
-                         curNumProducers);
+        curNumProducers = new JLabel();
+        curNumProducersLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_DEST_NUM_PRODUCERS), curNumProducers);
         lvpItems[i++] = curNumProducersLabelC;
 
-	curNumActive = new JLabel();
-        curNumActiveLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_CUR_NUM_ACTIVE),
-                         curNumActive);
+        curNumActive = new JLabel();
+        curNumActiveLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_CUR_NUM_ACTIVE), curNumActive);
         lvpItems[i++] = curNumActiveLabelC;
 
-	curNumFailover = new JLabel();
-        curNumFailoverLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_CUR_NUM_FAILOVER),
-                         curNumFailover);
+        curNumFailover = new JLabel();
+        curNumFailoverLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_CUR_NUM_FAILOVER), curNumFailover);
         lvpItems[i++] = curNumFailoverLabelC;
 
         basicConstraints.gridx = 0;
@@ -486,76 +447,58 @@ public class BrokerDestPropsDialog extends AdminDialog
          * Reset
          */
         basicConstraints.gridwidth = 1;
-	basicConstraints.fill = GridBagConstraints.NONE;
-	i = 0;
+        basicConstraints.fill = GridBagConstraints.NONE;
+        i = 0;
 
-	lvpItems = new LabelledComponent[6];
+        lvpItems = new LabelledComponent[6];
 
-	/*
-	 * Queue message limit
-	 */
+        /*
+         * Queue message limit
+         */
         mesgLimitIF = new IntegerField(0, Integer.MAX_VALUE, 11);
-        mesgLimitSF = new SpecialValueField(mesgLimitIF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	mesgLimitLabelC = new LabelledComponent
-				(acr.getString(acr.I_BROKER_MAX_NUM_MSGS),
-				 mesgLimitSF, LabelledComponent.NORTH);
-	lvpItems[i++] = mesgLimitLabelC;
+        mesgLimitSF = new SpecialValueField(mesgLimitIF, acr.getString(acr.I_BROKER_UNLIMITED));
+        mesgLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_NUM_MSGS), mesgLimitSF, LabelledComponent.NORTH);
+        lvpItems[i++] = mesgLimitLabelC;
 
-	/*
-	 * Queue size limit
-	 */
+        /*
+         * Queue size limit
+         */
         mesgSizeLimitBF = new BytesField(0, Long.MAX_VALUE, 11);
-        mesgSizeLimitSF = new SpecialValueField(mesgSizeLimitBF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	mesgSizeLimitLabelC = new LabelledComponent
-				(acr.getString(acr.I_BROKER_MAX_TTL_SIZE_MSGS),
-				 mesgSizeLimitSF, LabelledComponent.NORTH);
-	lvpItems[i++] = mesgSizeLimitLabelC;
+        mesgSizeLimitSF = new SpecialValueField(mesgSizeLimitBF, acr.getString(acr.I_BROKER_UNLIMITED));
+        mesgSizeLimitLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_TTL_SIZE_MSGS), mesgSizeLimitSF, LabelledComponent.NORTH);
+        lvpItems[i++] = mesgSizeLimitLabelC;
 
         /*
          * Destination Maximum Size per Message
          */
         maxSizePerMsgBF = new BytesField(0, Long.MAX_VALUE, 11);
-        maxSizePerMsgSF = new SpecialValueField(maxSizePerMsgBF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	tmpLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_MAX_SIZE_PER_MSG),
-			 maxSizePerMsgSF, LabelledComponent.NORTH);
-	lvpItems[i++] = tmpLabelC;
+        maxSizePerMsgSF = new SpecialValueField(maxSizePerMsgBF, acr.getString(acr.I_BROKER_UNLIMITED));
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_SIZE_PER_MSG), maxSizePerMsgSF, LabelledComponent.NORTH);
+        lvpItems[i++] = tmpLabelC;
 
-	/*
-	 * Max Producers
-	 */
+        /*
+         * Max Producers
+         */
         maxProducerIF = new IntegerField(0, Integer.MAX_VALUE, 11);
-        maxProducerSF = new SpecialValueField(maxProducerIF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	maxProducerLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_MAX_PRODUCERS),
-			 maxProducerSF, LabelledComponent.NORTH);
-	lvpItems[i++] = maxProducerLabelC;
+        maxProducerSF = new SpecialValueField(maxProducerIF, acr.getString(acr.I_BROKER_UNLIMITED));
+        maxProducerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_MAX_PRODUCERS), maxProducerSF, LabelledComponent.NORTH);
+        lvpItems[i++] = maxProducerLabelC;
 
-	/*
-	 * Active Consumers
-	 */
+        /*
+         * Active Consumers
+         */
         activeConsumerIF = new IntegerField(0, Integer.MAX_VALUE, 11);
-        activeConsumerSF = new SpecialValueField(activeConsumerIF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	activeConsumerLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_ACTIVE_CONSUMER),
-			 activeConsumerSF, LabelledComponent.NORTH);
-	lvpItems[i++] = activeConsumerLabelC;
+        activeConsumerSF = new SpecialValueField(activeConsumerIF, acr.getString(acr.I_BROKER_UNLIMITED));
+        activeConsumerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_ACTIVE_CONSUMER), activeConsumerSF, LabelledComponent.NORTH);
+        lvpItems[i++] = activeConsumerLabelC;
 
-	/*
-	 * Failover Consumers
-	 */
+        /*
+         * Failover Consumers
+         */
         failoverConsumerIF = new IntegerField(0, Integer.MAX_VALUE, 11);
-        failoverConsumerSF = new SpecialValueField(failoverConsumerIF,
-				acr.getString(acr.I_BROKER_UNLIMITED));
-	failoverConsumerLabelC = new LabelledComponent
-			(acr.getString(acr.I_BROKER_FAILOVER_CONSUMER),
-			 failoverConsumerSF, LabelledComponent.NORTH);
-	lvpItems[i++] = failoverConsumerLabelC;
+        failoverConsumerSF = new SpecialValueField(failoverConsumerIF, acr.getString(acr.I_BROKER_UNLIMITED));
+        failoverConsumerLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_FAILOVER_CONSUMER), failoverConsumerSF, LabelledComponent.NORTH);
+        lvpItems[i++] = failoverConsumerLabelC;
 
         lvp = new LabelValuePanel(lvpItems, 4, 5);
 
@@ -577,24 +520,20 @@ public class BrokerDestPropsDialog extends AdminDialog
          * Reset
          */
         basicConstraints.gridwidth = 1;
-	basicConstraints.fill = GridBagConstraints.NONE;
-	i = 0;
+        basicConstraints.fill = GridBagConstraints.NONE;
+        i = 0;
 
-	/*
-	 * Limit Behavior, Use Dead Message Queue
-	 */
+        /*
+         * Limit Behavior, Use Dead Message Queue
+         */
         lvpItems = new LabelledComponent[2];
 
-        limitBehaviorCb = new JComboBox(BKR_LIMIT_BEHAV_VALID_VALUES.toArray(
-                                        new String[BKR_LIMIT_BEHAV_VALID_VALUES.size()]));
-	tmpLabelC = new LabelledComponent(
-			acr.getString(acr.I_BROKER_LIMIT_BEHAVIOR),
-			limitBehaviorCb);
+        limitBehaviorCb = new JComboBox(BKR_LIMIT_BEHAV_VALID_VALUES.toArray(new String[BKR_LIMIT_BEHAV_VALID_VALUES.size()]));
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_LIMIT_BEHAVIOR), limitBehaviorCb);
         lvpItems[i++] = tmpLabelC;
 
         useDMQCkb = new JCheckBox();
-	tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_USE_DMQ),
-			useDMQCkb);
+        tmpLabelC = new LabelledComponent(acr.getString(acr.I_BROKER_USE_DMQ), useDMQCkb);
         lvpItems[i++] = tmpLabelC;
 
         basicConstraints.gridx = 0;
@@ -604,280 +543,259 @@ public class BrokerDestPropsDialog extends AdminDialog
         basicGridbag.setConstraints(lvp, basicConstraints);
         basicPanel.add(lvp);
 
-
-	return (basicPanel);
+        return (basicPanel);
     }
 
     private JPanel makeDurTab() {
-        JPanel                  durPanel;
-	JLabel			tmpLabel;
-        GridBagLayout           durGridbag;
-        GridBagConstraints      durConstraints;
+        JPanel durPanel;
+        JLabel tmpLabel;
+        GridBagLayout durGridbag;
+        GridBagConstraints durConstraints;
 
         durPanel = new JPanel();
         durGridbag = new GridBagLayout();
         durConstraints = new GridBagConstraints();
         durPanel.setLayout(durGridbag);
 
-	/*
-	 * Calculations to determine the
-	 * preferred width for the table.
-	 *
-	 * We use the length of the longest column header
-	 * (as displayed in a JLabel) multiplied by the number 
-	 * of columns.
-	 */
-	int colWidth = 0, tmpWidth = 0, maxWidth = 0;
-	for (int i = 0; i < columnNames.length; ++i)  {
-	    tmpLabel = new JLabel(columnNames[i]);
-	    tmpWidth = tmpLabel.getPreferredSize().width;
+        /*
+         * Calculations to determine the preferred width for the table.
+         *
+         * We use the length of the longest column header (as displayed in a JLabel) multiplied by the number of columns.
+         */
+        int colWidth = 0, tmpWidth = 0, maxWidth = 0;
+        for (int i = 0; i < columnNames.length; ++i) {
+            tmpLabel = new JLabel(columnNames[i]);
+            tmpWidth = tmpLabel.getPreferredSize().width;
 
-	    if (tmpWidth > maxWidth)  {
-		maxWidth = tmpWidth;
-	    }
-	}
+            if (tmpWidth > maxWidth) {
+                maxWidth = tmpWidth;
+            }
+        }
 
-	colWidth = maxWidth * columnNames.length;
+        colWidth = maxWidth * columnNames.length;
 
         model = new PropsTableModel();
         table = new JTable(model);
-	//int w2 = table.getColumnModel().getTotalColumnWidth();
+        // int w2 = table.getColumnModel().getTotalColumnWidth();
         table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         ListSelectionModel lsm = table.getSelectionModel();
         lsm.addListSelectionListener(this);
 
-	/*
-	 * Set vertical scrollbar policy to VERTICAL_SCROLLBAR_ALWAYS
-	 * initially to workaround a layout problem which occurs when
-	 * a scrollbar is actually needed.
-	 *
-	 * The policy is reset back to VERTICAL_SCROLLBAR_AS_NEEDED
-	 * in show().
-	 */
-        scrollPane = new JScrollPane(table, 
-				JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-				JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        /*
+         * Set vertical scrollbar policy to VERTICAL_SCROLLBAR_ALWAYS initially to workaround a layout problem which occurs when
+         * a scrollbar is actually needed.
+         *
+         * The policy is reset back to VERTICAL_SCROLLBAR_AS_NEEDED in show().
+         */
+        scrollPane = new JScrollPane(table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 
-        table.setPreferredScrollableViewportSize(new Dimension(colWidth,
-                                                 21 * table.getRowHeight()));
+        table.setPreferredScrollableViewportSize(new Dimension(colWidth, 21 * table.getRowHeight()));
 
         durConstraints.gridx = 0;
         durConstraints.gridy = 0;
         durGridbag.setConstraints(scrollPane, durConstraints);
         durPanel.add(scrollPane);
 
-	JPanel buttonPanel = new JPanel();
-	buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-	deleteButton = new JButton(acr.getString(acr.I_DELETE));
-	deleteButton.setEnabled(false);
+        deleteButton = new JButton(acr.getString(acr.I_DELETE));
+        deleteButton.setEnabled(false);
         deleteButton.addActionListener(this);
-	buttonPanel.add(deleteButton);
+        buttonPanel.add(deleteButton);
 
-	purgeButton = new JButton(acr.getString(acr.I_PURGE));
-	purgeButton.setEnabled(false);
+        purgeButton = new JButton(acr.getString(acr.I_PURGE));
+        purgeButton.setEnabled(false);
         purgeButton.addActionListener(this);
         buttonPanel.add(purgeButton);
 
         durConstraints.gridx = 0;
         durConstraints.gridy = 1;
-	durConstraints.anchor = GridBagConstraints.EAST;
+        durConstraints.anchor = GridBagConstraints.EAST;
         durConstraints.insets = new Insets(0, 5, 0, 0);
         durGridbag.setConstraints(buttonPanel, durConstraints);
         durPanel.add(buttonPanel);
 
-	return (durPanel);
+        return (durPanel);
     }
 
     public void show(DestinationInfo destInfo, Vector durables) {
-	int 		value;
-	long 		lvalue;
-	String 		svalue;
-	Dimension	d;
-	int		prefWidth, totalWidth;
+        int value;
+        long lvalue;
+        String svalue;
+        Dimension d;
+        int prefWidth, totalWidth;
 
-	this.destInfo = destInfo;
-	this.durables = durables;
+        this.destInfo = destInfo;
+        this.durables = durables;
 
-	reset();
+        reset();
 
-	/*
-	 * Enable/disable appropriate components.
-	 */
-	if (DestType.isQueue(destInfo.type)) { 
-	    /*
-	     * Durable tab
-	     */
-	    tabbedPane.setEnabledAt(1, false);
+        /*
+         * Enable/disable appropriate components.
+         */
+        if (DestType.isQueue(destInfo.type)) {
+            /*
+             * Durable tab
+             */
+            tabbedPane.setEnabledAt(1, false);
 
-	    /* 
-	     * Enable Active/Failover Consumers for Queue
-	     */
-	    setActiveConsumersEnabled(true);
-	    setFailoverConsumersEnabled(true);
+            /*
+             * Enable Active/Failover Consumers for Queue
+             */
+            setActiveConsumersEnabled(true);
+            setFailoverConsumersEnabled(true);
 
-	    /*
-	     * Enable Cur Number of Actve/Failover Consumers.
-	     */
-	    curNumFailoverLabelC.setEnabled(true);	
-	    curNumFailover.setEnabled(true);	
+            /*
+             * Enable Cur Number of Actve/Failover Consumers.
+             */
+            curNumFailoverLabelC.setEnabled(true);
+            curNumFailover.setEnabled(true);
 
-	    /* 
-	     * Populate the data into the Active/Failover fields.
-	     */
-	    value = destInfo.maxActiveConsumers;
-	    if (value != UNLIMITED_VALUE_NEG1)
-	        activeConsumerIF.setText(String.valueOf(value));
-	    checkUnlimitedNeg1(activeConsumerSF, value);
+            /*
+             * Populate the data into the Active/Failover fields.
+             */
+            value = destInfo.maxActiveConsumers;
+            if (value != UNLIMITED_VALUE_NEG1)
+                activeConsumerIF.setText(String.valueOf(value));
+            checkUnlimitedNeg1(activeConsumerSF, value);
 
-	    value = destInfo.maxFailoverConsumers;
-	    if (value != UNLIMITED_VALUE_NEG1)
-	        failoverConsumerIF.setText(String.valueOf(value));
-	    checkUnlimitedNeg1(failoverConsumerSF, value);
+            value = destInfo.maxFailoverConsumers;
+            if (value != UNLIMITED_VALUE_NEG1)
+                failoverConsumerIF.setText(String.valueOf(value));
+            checkUnlimitedNeg1(failoverConsumerSF, value);
 
-	    curNumActiveLabelC.setLabelText(acr.getString(acr.I_BROKER_CUR_NUM_ACTIVE));
+            curNumActiveLabelC.setLabelText(acr.getString(acr.I_BROKER_CUR_NUM_ACTIVE));
             curNumActive.setText(String.valueOf(destInfo.naConsumers));
 
-	} else if (DestType.isTopic(destInfo.type)) { 
-	    /*
-	     * Durable tab
-	     */
-	    tabbedPane.setEnabledAt(1, true);
+        } else if (DestType.isTopic(destInfo.type)) {
+            /*
+             * Durable tab
+             */
+            tabbedPane.setEnabledAt(1, true);
 
-	    /* 
-	     * Disable Active/Failover Consumers for Topic
-	     */
-	    setActiveConsumersEnabled(false);
-	    setFailoverConsumersEnabled(false);
+            /*
+             * Disable Active/Failover Consumers for Topic
+             */
+            setActiveConsumersEnabled(false);
+            setFailoverConsumersEnabled(false);
 
-	    /*
-	     * Disable Cur Number of Active/Failover Consumers.
-	     */
-	    curNumFailoverLabelC.setEnabled(false);	
-	    curNumFailover.setEnabled(false);	
+            /*
+             * Disable Cur Number of Active/Failover Consumers.
+             */
+            curNumFailoverLabelC.setEnabled(false);
+            curNumFailover.setEnabled(false);
 
-	    curNumActiveLabelC.setLabelText(
-			acr.getString(acr.I_BROKER_CUR_NUM_CONSUMERS));
+            curNumActiveLabelC.setLabelText(acr.getString(acr.I_BROKER_CUR_NUM_CONSUMERS));
             curNumActive.setText(String.valueOf(destInfo.nConsumers));
-	}
+        }
 
-	/*
-	 * Populate fields with more information
-	 */
+        /*
+         * Populate fields with more information
+         */
 
-	/*
-	 * Basic destination info (dest name, dest type, dest state)
-	 */
-	destNameValue.setText(destInfo.name);
-	destTypeValue.setText
-		(BrokerAdminUtil.getDestinationType(destInfo.type));
-       // destStateValue.setText(DestState.toString(destInfo.destState));
-	    destStateValue.setText
-	    (BrokerAdminUtil.getDestinationState(destInfo.destState));
-	/*
-	 * Current destination info.
-	 */ 
+        /*
+         * Basic destination info (dest name, dest type, dest state)
+         */
+        destNameValue.setText(destInfo.name);
+        destTypeValue.setText(BrokerAdminUtil.getDestinationType(destInfo.type));
+        // destStateValue.setText(DestState.toString(destInfo.destState));
+        destStateValue.setText(BrokerAdminUtil.getDestinationState(destInfo.destState));
+        /*
+         * Current destination info.
+         */
         curNumProducers.setText(String.valueOf(destInfo.nProducers));
         curNumFailover.setText(String.valueOf(destInfo.nfConsumers));
         curNumMesgsValue.setText(String.valueOf(destInfo.nMessages));
         curNumMesgBytesValue.setText(String.valueOf(destInfo.nMessageBytes));
 
-	/*
-	 * Max info.
-	 */
-	value = destInfo.maxProducers;
-	if (value != UNLIMITED_VALUE_NEG1)
-	    maxProducerIF.setText(String.valueOf(value));
-	checkUnlimitedNeg1(maxProducerSF, value);
+        /*
+         * Max info.
+         */
+        value = destInfo.maxProducers;
+        if (value != UNLIMITED_VALUE_NEG1)
+            maxProducerIF.setText(String.valueOf(value));
+        checkUnlimitedNeg1(maxProducerSF, value);
 
-	lvalue = destInfo.maxMessageBytes;
-	if (lvalue != UNLIMITED_VALUE_NEG1)
-	    mesgSizeLimitBF.setText(String.valueOf(lvalue));
-	checkBothUnlimited(mesgSizeLimitSF, lvalue);
+        lvalue = destInfo.maxMessageBytes;
+        if (lvalue != UNLIMITED_VALUE_NEG1)
+            mesgSizeLimitBF.setText(String.valueOf(lvalue));
+        checkBothUnlimited(mesgSizeLimitSF, lvalue);
 
-	value = destInfo.maxMessages;
-	if (value != UNLIMITED_VALUE_NEG1)
-	    mesgLimitIF.setText(String.valueOf(value));
-	checkBothUnlimited(mesgLimitSF, value);
+        value = destInfo.maxMessages;
+        if (value != UNLIMITED_VALUE_NEG1)
+            mesgLimitIF.setText(String.valueOf(value));
+        checkBothUnlimited(mesgLimitSF, value);
 
-	/*
-	 * Max size per msg - applicable to both queues and topics.
-	 */
-	lvalue = destInfo.maxMessageSize;
-	if (lvalue != UNLIMITED_VALUE_NEG1)
-	    maxSizePerMsgBF.setText(String.valueOf(lvalue));
-	checkBothUnlimited(maxSizePerMsgSF, lvalue);
+        /*
+         * Max size per msg - applicable to both queues and topics.
+         */
+        lvalue = destInfo.maxMessageSize;
+        if (lvalue != UNLIMITED_VALUE_NEG1)
+            maxSizePerMsgBF.setText(String.valueOf(lvalue));
+        checkBothUnlimited(maxSizePerMsgSF, lvalue);
 
-	/*
-	 * Limit behavior
-	 */
-	svalue = DestLimitBehavior.getString(destInfo.destLimitBehavior);
-	limitBehaviorCb.setSelectedItem(svalue);
+        /*
+         * Limit behavior
+         */
+        svalue = DestLimitBehavior.getString(destInfo.destLimitBehavior);
+        limitBehaviorCb.setSelectedItem(svalue);
 
-	/*
-	 * Use DMQ
-	 */
-	if (destInfo.useDMQ())  {
+        /*
+         * Use DMQ
+         */
+        if (destInfo.useDMQ()) {
             useDMQCkb.setSelected(true);
-	} else  {
+        } else {
             useDMQCkb.setSelected(false);
-	}
+        }
 
-	/*
-	 * Durable subscriptions info.
-	 */
+        /*
+         * Durable subscriptions info.
+         */
         if (DestType.isTopic(destInfo.type)) {
-	    // Columns of the table are intact
+            // Columns of the table are intact
             model.fireTableDataChanged();
-	    clearSelection();
-	}
+            clearSelection();
+        }
 
-	/*
-	 * Reset the vertical scrollbar policy back to 
-	 * VERTICAL_SCROLLBAR_AS_NEEDED.
-	 * This is to workaround the bug where if it was initially 
-	 * VERTICAL_SCROLLBAR_AS_NEEDED and later a scrollbar 
-	 * was* needed. The extra width needed would cause some layout 
-	 * problems.
-	 *
-	 * By forcing the scrollbar to be on always initially, we 
-	 * 'claim' the space needed later for when a scrollbar is needed. 
-	 * At least it appears to work that way.
-	 */
-	if (resetScrollbarPolicy)  {
-	    scrollPane.setVerticalScrollBarPolicy
-		(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-	    resetScrollbarPolicy = false;
-	}
+        /*
+         * Reset the vertical scrollbar policy back to VERTICAL_SCROLLBAR_AS_NEEDED. This is to workaround the bug where if it
+         * was initially VERTICAL_SCROLLBAR_AS_NEEDED and later a scrollbar was* needed. The extra width needed would cause some
+         * layout problems.
+         *
+         * By forcing the scrollbar to be on always initially, we 'claim' the space needed later for when a scrollbar is needed.
+         * At least it appears to work that way.
+         */
+        if (resetScrollbarPolicy) {
+            scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
+            resetScrollbarPolicy = false;
+        }
 
-	/*
-	 * Resize the viewable area of table in the scrollpane.
-	 * This is to workaround the case where the collumn headers
-	 * are really narrow e.g. one letter names.
-	 *
-	 * If such names are used, the calculations done in makeDurTab()
-	 * produce widths that don't appear to be wide enough. Also,
-	 * table.getColumnModel().getTotalColumnWidth() will return
-	 * a 'satisfactory' width only after the table/scrollpane has
-	 * been fully inserted into the instance hierarchy - not the
-	 * case in makeDurTab().
-	 */
-	d = table.getPreferredScrollableViewportSize();
-	prefWidth = d.width;
+        /*
+         * Resize the viewable area of table in the scrollpane. This is to workaround the case where the collumn headers are
+         * really narrow e.g. one letter names.
+         *
+         * If such names are used, the calculations done in makeDurTab() produce widths that don't appear to be wide enough.
+         * Also, table.getColumnModel().getTotalColumnWidth() will return a 'satisfactory' width only after the table/scrollpane
+         * has been fully inserted into the instance hierarchy - not the case in makeDurTab().
+         */
+        d = table.getPreferredScrollableViewportSize();
+        prefWidth = d.width;
         totalWidth = table.getColumnModel().getTotalColumnWidth();
-	if (prefWidth < totalWidth)  {
-	    d.width = totalWidth;
-	    table.setPreferredScrollableViewportSize(d);
-	}
+        if (prefWidth < totalWidth) {
+            d.width = totalWidth;
+            table.setPreferredScrollableViewportSize(d);
+        }
 
-	super.show();
+        super.show();
     }
 
     public void refresh(Vector durables) {
 
-	this.durables = durables;
+        this.durables = durables;
 
-        model.fireTableChanged(new TableModelEvent(model)); 
+        model.fireTableChanged(new TableModelEvent(model));
         clearSelection();
     }
 
@@ -892,13 +810,14 @@ public class BrokerDestPropsDialog extends AdminDialog
         failoverConsumerSF.setSpecialValueSet(enable);
         failoverConsumerIF.setEnabled(enable);
     }
+
     private void reset() {
         destNameValue.setText("");
         destTypeValue.setText("");
-	destStateValue.setText("");
+        destStateValue.setText("");
 
-	curNumActive.setText("");
-	curNumFailover.setText("");
+        curNumActive.setText("");
+        curNumFailover.setText("");
         curNumMesgsValue.setText("");
         curNumMesgBytesValue.setText("");
 
@@ -927,74 +846,70 @@ public class BrokerDestPropsDialog extends AdminDialog
         limitBehaviorCb.setSelectedItem(BKR_LIMIT_BEHAV_VALID_VALUES.get(0));
         useDMQCkb.setSelected(true);
 
-	clearSelection();
-	deleteButton.setEnabled(false);
-	purgeButton.setEnabled(false);
+        clearSelection();
+        deleteButton.setEnabled(false);
+        purgeButton.setEnabled(false);
 
-	tabbedPane.setSelectedIndex(0);
+        tabbedPane.setSelectedIndex(0);
     }
 
     private void clearSelection() {
         if (table != null)
             table.clearSelection();
 
-	/*
-	 * Disable delete, purge button.
-	 */
-	deleteButton.setEnabled(false);
-	purgeButton.setEnabled(false);
+        /*
+         * Disable delete, purge button.
+         */
+        deleteButton.setEnabled(false);
+        purgeButton.setEnabled(false);
 
-	/*
-	 * Reset selected row.
-	 */
-	selectedRow = -1;
-	selectedDurName = null;
-	selectedClientID = null;
+        /*
+         * Reset selected row.
+         */
+        selectedRow = -1;
+        selectedDurName = null;
+        selectedClientID = null;
     }
 
-    private void doDelete()  {
-	if ((selectedRow > -1) && 
-	    (selectedDurName != null) && (selectedClientID != null)) {
+    private void doDelete() {
+        if ((selectedRow > -1) && (selectedDurName != null) && (selectedClientID != null)) {
 
-	    /*
- 	     * Dispatch the admin event.
-	     */
-            BrokerAdminEvent bae = 
-		new BrokerAdminEvent(this, BrokerAdminEvent.DELETE_DUR);
-       	    bae.setDurableName(selectedDurName);
-       	    bae.setClientID(selectedClientID);
+            /*
+             * Dispatch the admin event.
+             */
+            BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.DELETE_DUR);
+            bae.setDurableName(selectedDurName);
+            bae.setClientID(selectedClientID);
             bae.setOKAction(false);
             fireAdminEventDispatched(bae);
-  	}
+        }
     }
 
-    private void doPurge()  {
-	if ((selectedRow > -1) && 
-	    (selectedDurName != null) && (selectedClientID != null)) {
+    private void doPurge() {
+        if ((selectedRow > -1) && (selectedDurName != null) && (selectedClientID != null)) {
 
-	    /*
- 	     * Dispatch the admin event.
-	     */
-            BrokerAdminEvent bae = 
-		new BrokerAdminEvent(this, BrokerAdminEvent.PURGE_DUR);
-       	    bae.setDurableName(selectedDurName);
-       	    bae.setClientID(selectedClientID);
+            /*
+             * Dispatch the admin event.
+             */
+            BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.PURGE_DUR);
+            bae.setDurableName(selectedDurName);
+            bae.setClientID(selectedClientID);
             bae.setOKAction(false);
             fireAdminEventDispatched(bae);
-  	}
+        }
     }
 
     /*
      * BEGIN INTERFACE ActionListener
      */
-    public void actionPerformed(ActionEvent e)  {
+    public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
-        if (source == deleteButton)  {
-	    doDelete();
+        if (source == deleteButton) {
+            doDelete();
         } else if (source == purgeButton) {
-	    doPurge();
-	} else {
+            doPurge();
+        } else {
             super.actionPerformed(e);
         }
     }
@@ -1003,69 +918,63 @@ public class BrokerDestPropsDialog extends AdminDialog
      */
 
     /*
-    private void checkUnlimited0(SpecialValueField sf, long val)  {
-	if (valueIsUnlimited0(val))  {
-            sf.setSpecialValueSet(true);
-	} else  {
-            sf.setSpecialValueSet(false);
-	}
-    }
-    */
-
-    private void checkUnlimitedNeg1(SpecialValueField sf, long val)  {
-	if (valueIsUnlimitedNeg1(val))  {
-            sf.setSpecialValueSet(true);
-	} else  {
-            sf.setSpecialValueSet(false);
-	}
-    }
-
-    /* 
-     * Checks  for both 0 and -1 values if unlimited.
+     * private void checkUnlimited0(SpecialValueField sf, long val) { if (valueIsUnlimited0(val)) {
+     * sf.setSpecialValueSet(true); } else { sf.setSpecialValueSet(false); } }
      */
-    private void checkBothUnlimited(SpecialValueField sf, long val)  {
-	if (valueIsUnlimited0(val) || valueIsUnlimitedNeg1(val))  {
+
+    private void checkUnlimitedNeg1(SpecialValueField sf, long val) {
+        if (valueIsUnlimitedNeg1(val)) {
             sf.setSpecialValueSet(true);
-	} else  {
+        } else {
             sf.setSpecialValueSet(false);
-	}
+        }
     }
 
-    private boolean valueIsUnlimited0(long val)  {
-	if (val == UNLIMITED_VALUE_0)  {
-	    return (true);
-	}
-
-	return (false);
+    /*
+     * Checks for both 0 and -1 values if unlimited.
+     */
+    private void checkBothUnlimited(SpecialValueField sf, long val) {
+        if (valueIsUnlimited0(val) || valueIsUnlimitedNeg1(val)) {
+            sf.setSpecialValueSet(true);
+        } else {
+            sf.setSpecialValueSet(false);
+        }
     }
 
-    private boolean valueIsUnlimitedNeg1(long val)  {
-	if (val == UNLIMITED_VALUE_NEG1)  {
-	    return (true);
-	}
+    private boolean valueIsUnlimited0(long val) {
+        if (val == UNLIMITED_VALUE_0) {
+            return (true);
+        }
 
-	return (false);
+        return (false);
     }
 
+    private boolean valueIsUnlimitedNeg1(long val) {
+        if (val == UNLIMITED_VALUE_NEG1) {
+            return (true);
+        }
+
+        return (false);
+    }
 
     /*
      * BEGIN INTERFACE ListSelectionListener
      */
-    public void valueChanged(ListSelectionEvent e)  {
-        ListSelectionModel lsm = (ListSelectionModel)e.getSource();
+    public void valueChanged(ListSelectionEvent e) {
+        ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         boolean isAdjusting = e.getValueIsAdjusting();
 
-	if (isAdjusting) {
+        if (isAdjusting) {
             if (lsm.isSelectionEmpty()) {
                 deleteButton.setEnabled(false);
                 purgeButton.setEnabled(false);
-	    } else {
+            } else {
                 selectedRow = lsm.getMinSelectionIndex();
-                selectedDurName = (String)model.getValueAt(selectedRow, 0);
-                selectedClientID = (String)model.getValueAt(selectedRow, 1);
-	    }
-	}
-        String durable = (String)model.getValueAt(selectedRow, 2);
+                selectedDurName = (String) model.getValueAt(selectedRow, 0);
+                selectedClientID = (String) model.getValueAt(selectedRow, 1);
+            }
+        }
+        String durable = (String) model.getValueAt(selectedRow, 2);
         if (durable != null && durable.trim().toLowerCase().equals("true")) {
             deleteButton.setEnabled(true);
             purgeButton.setEnabled(true);
@@ -1111,63 +1020,60 @@ public class BrokerDestPropsDialog extends AdminDialog
         }
 
         /**
-         * Return value at a particular table cell location.
-         * Calls the TabledInspector.getValueAtColumn()
-         * method.
+         * Return value at a particular table cell location. Calls the TabledInspector.getValueAtColumn() method.
          */
         public Object getValueAt(int row, int col) {
             if (durables == null)
                 return "";
 
-	    int i = 0;
+            int i = 0;
             Enumeration e = durables.elements();
             while (e.hasMoreElements()) {
-                DurableInfo durInfo = (DurableInfo)e.nextElement();
+                DurableInfo durInfo = (DurableInfo) e.nextElement();
 
                 if (col == 0 && i == row)
-		    return ((durInfo.name == null) ? "" : durInfo.name);	
+                    return ((durInfo.name == null) ? "" : durInfo.name);
                 else if (col == 1 && i == row)
-		    return ((durInfo.clientID == null) ? "" : durInfo.clientID);	
+                    return ((durInfo.clientID == null) ? "" : durInfo.clientID);
                 else if (col == 2 && i == row)
                     return String.valueOf(durInfo.isDurable);
                 else if (col == 3 && i == row)
-		    return Integer.toString(durInfo.nMessages);
+                    return Integer.toString(durInfo.nMessages);
                 else if (col == 4 && i == row) {
                     if (durInfo.isActive)
-			return ar.getString(ar.I_ACTIVE);
+                        return ar.getString(ar.I_ACTIVE);
                     else
-			return ar.getString(ar.I_INACTIVE);
-		}
-		i++;
+                        return ar.getString(ar.I_INACTIVE);
+                }
+                i++;
             }
             return "";
         }
 
         /**
-         * Don't need to implement this method unless your table's
-         * data can change.
+         * Don't need to implement this method unless your table's data can change.
          */
         public void setValueAt(Object value, int row, int col) {
         }
     }
 
-    private int getLimitBehavValue(String limitBehavStr)  {
-	int ret = DestLimitBehavior.UNKNOWN;
+    private int getLimitBehavValue(String limitBehavStr) {
+        int ret = DestLimitBehavior.UNKNOWN;
 
-	if (limitBehavStr == null)
-	    return (ret);
+        if (limitBehavStr == null)
+            return (ret);
 
-	if (limitBehavStr.equals(LIMIT_BEHAV_FLOW_CONTROL))  {
-	    ret = DestLimitBehavior.FLOW_CONTROL;
-	} else if (limitBehavStr.equals(LIMIT_BEHAV_RM_OLDEST))  {
-	    ret = DestLimitBehavior.REMOVE_OLDEST;
-	} else if (limitBehavStr.equals(LIMIT_BEHAV_REJECT_NEWEST))  {
-	    ret = DestLimitBehavior.REJECT_NEWEST;
-	} else if (limitBehavStr.equals(LIMIT_BEHAV_RM_LOW_PRIORITY))  {
-	    ret = DestLimitBehavior.REMOVE_LOW_PRIORITY;
-	}
-	
-	return (ret);
+        if (limitBehavStr.equals(LIMIT_BEHAV_FLOW_CONTROL)) {
+            ret = DestLimitBehavior.FLOW_CONTROL;
+        } else if (limitBehavStr.equals(LIMIT_BEHAV_RM_OLDEST)) {
+            ret = DestLimitBehavior.REMOVE_OLDEST;
+        } else if (limitBehavStr.equals(LIMIT_BEHAV_REJECT_NEWEST)) {
+            ret = DestLimitBehavior.REJECT_NEWEST;
+        } else if (limitBehavStr.equals(LIMIT_BEHAV_RM_LOW_PRIORITY)) {
+            ret = DestLimitBehavior.REMOVE_LOW_PRIORITY;
+        }
+
+        return (ret);
     }
 
 }

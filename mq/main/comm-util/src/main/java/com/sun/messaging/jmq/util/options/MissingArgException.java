@@ -16,17 +16,16 @@
 
 /*
  * @(#)MissingArgException.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
 /**
- * This exception is for reporting cases where
- * an argument for an option is missing.
+ * This exception is for reporting cases where an argument for an option is missing.
  **/
 
 public class MissingArgException extends OptionException {
-    public String toString()  {
-	return(super.toString() + " (" + getOption() + ")");
+    public String toString() {
+        return (super.toString() + " (" + getOption() + ")");
     }
 }

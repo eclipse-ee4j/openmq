@@ -16,7 +16,7 @@
 
 /*
  * @(#)LogAttributes.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,35 +24,35 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on log attributes.
  */
 public class LogAttributes {
-    /** 
+    /**
      * Log level
      */
-    public static final String		LEVEL = "Level";
+    public static final String LEVEL = "Level";
 
-    /** 
+    /**
      * Log directory
      */
-    public static final String		LOG_DIRECTORY = "LogDirectory";
-    
-    /** 
+    public static final String LOG_DIRECTORY = "LogDirectory";
+
+    /**
      * Log file Name
      */
-    public static final String		LOG_FILE_NAME = "LogFileName";
-    
-    /** 
+    public static final String LOG_FILE_NAME = "LogFileName";
+
+    /**
      * Roll over bytes
      */
-    public static final String		ROLL_OVER_BYTES = "RolloverBytes";
+    public static final String ROLL_OVER_BYTES = "RolloverBytes";
 
-    /** 
+    /**
      * Roll over seconds
      */
-    public static final String		ROLL_OVER_SECS = "RolloverSecs";
+    public static final String ROLL_OVER_SECS = "RolloverSecs";
 
     /*
      * Class cannot be instantiated
      */
     private LogAttributes() {
     }
-    
+
 }

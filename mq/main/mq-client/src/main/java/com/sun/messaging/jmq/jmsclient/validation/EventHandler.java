@@ -22,22 +22,20 @@ import org.xml.sax.helpers.DefaultHandler;
 
 /**
  * Used by DTD validation.
+ * 
  * @author chiaming
  */
 public class EventHandler extends DefaultHandler {
-    
-    public void error(SAXParseException e)
-           throws SAXException {
+
+    public void error(SAXParseException e) throws SAXException {
         throw e;
     }
-    
-    public void fatalError(SAXParseException exception)
-                throws SAXException {
+
+    public void fatalError(SAXParseException exception) throws SAXException {
         throw exception;
     }
-    
-    public void warning (SAXParseException exception)
-               throws SAXException {
-        //do nothing -- we allow warning conditions.
+
+    public void warning(SAXParseException exception) throws SAXException {
+        // do nothing -- we allow warning conditions.
     }
 }

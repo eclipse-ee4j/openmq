@@ -17,21 +17,19 @@
 package com.sun.messaging.jmq.jmsclient;
 
 /**
- * All Connection objects which are able to be wrapped in a JMSContextImpl need
- * to implement this interface, which defines some private methods needed by
- * JMSContextImpl
+ * All Connection objects which are able to be wrapped in a JMSContextImpl need to implement this interface, which
+ * defines some private methods needed by JMSContextImpl
  * 
  */
 public interface ContextableConnection {
 
-	/**
-	 * Set clientID to the specified value, bypassing any checks as to whether
-	 * calling setClientID is allowed at this time. (This method is permitted to
-	 * check whether the connection is closed and whether it is being called in
-	 * a Java EE web or EJB container, but it doesn't need to)
-	 * 
-	 * @param clientID
-	 */
-	public void _setClientIDForContext(String clientID);
+    /**
+     * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed at this time.
+     * (This method is permitted to check whether the connection is closed and whether it is being called in a Java EE web
+     * or EJB container, but it doesn't need to)
+     * 
+     * @param clientID
+     */
+    public void _setClientIDForContext(String clientID);
 
 }

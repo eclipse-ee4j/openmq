@@ -16,15 +16,14 @@
 
 /*
  * @(#)ServiceEntry.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
 import java.util.StringTokenizer;
 
 /**
- * Encapsulates information about a service. For use with the cluster
- * discovery protocol.
+ * Encapsulates information about a service. For use with the cluster discovery protocol.
  */
 public class ServiceEntry {
     private String address = null;
@@ -41,6 +40,7 @@ public class ServiceEntry {
      * Set the transport address for this service.
      *
      * Service address syntax examples :
+     * 
      * <pre>
      *     jms@host:port
      *     ssljms@host:port
@@ -101,8 +101,7 @@ public class ServiceEntry {
     }
 
     public String toString() {
-        return name + SPACE + protocol + SPACE +
-            type + SPACE + address;
+        return name + SPACE + protocol + SPACE + type + SPACE + address;
     }
 }
 

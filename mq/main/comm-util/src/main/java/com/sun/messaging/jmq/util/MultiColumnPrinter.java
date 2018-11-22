@@ -16,7 +16,7 @@
 
 /*
  * @(#)MultiColumnPrinter.java	1.16 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
 
@@ -29,17 +29,14 @@ import java.util.TreeMap;
 import java.util.Iterator;
 
 /**
- * Utility class for printing aligned collumns of text. How/where
- * the text is printed is determined by the abstract methods
- * doPrint(String) and doPrintln(String). The typical case is to 
- * create a subclass and make these methods print the string to standard 
- * out or error.
+ * Utility class for printing aligned collumns of text. How/where the text is printed is determined by the abstract
+ * methods doPrint(String) and doPrintln(String). The typical case is to create a subclass and make these methods print
+ * the string to standard out or error.
  * <P>
  * This class allows you to specify:
  * <UL>
- * <LI>The number of collumns in the output. This will determine
- * the dimension of the string arrays passed to add(Object[])
- * or addTitle(String[]).
+ * <LI>The number of collumns in the output. This will determine the dimension of the string arrays passed to
+ * add(Object[]) or addTitle(String[]).
  * <LI>spacing/gap between columns
  * <LI>character to use for title border (null means no border)
  * <LI>column alignment. Only LEFT/CENTER is supported for now.
@@ -47,29 +44,31 @@ import java.util.Iterator;
  *
  * <P>
  * Example usage:
+ * 
  * <PRE>
- *	MyPrinter	mp = new MyPrinter(3, 2, "-");
- *	String		oneRow[] = new String [ 3 ];
- *	oneRow[0] = "User Name";
- *	oneRow[1] = "Email Address";
- *	oneRow[2] = "Phone Number";
- *	mp.addTitle(oneRow);
+ * MyPrinter mp = new MyPrinter(3, 2, "-");
+ * String oneRow[] = new String[3];
+ * oneRow[0] = "User Name";
+ * oneRow[1] = "Email Address";
+ * oneRow[2] = "Phone Number";
+ * mp.addTitle(oneRow);
  *
- *	oneRow[0] = "Bob";
- *	oneRow[1] = "bob@foo.com";
- *	oneRow[2] = "123-4567";
- *	mp.add(oneRow);
+ * oneRow[0] = "Bob";
+ * oneRow[1] = "bob@foo.com";
+ * oneRow[2] = "123-4567";
+ * mp.add(oneRow);
  *
- *	oneRow[0] = "John";
- *	oneRow[1] = "john@foo.com";
- *	oneRow[2] = "456-7890";
- *	mp.add(oneRow);
- *	mp.print();
+ * oneRow[0] = "John";
+ * oneRow[1] = "john@foo.com";
+ * oneRow[2] = "456-7890";
+ * mp.add(oneRow);
+ * mp.print();
  * </PRE>
  *
  * <P>
  * The above would print:
  * <P>
+ * 
  * <PRE>
  *	--------------------------------------
  *	User Name  Email Address  Phone Number
@@ -78,50 +77,51 @@ import java.util.Iterator;
  *	John       john@foo.com   456-7890
  * </PRE>
  *
- *<P>
- * This class also supports multi-row titles and having title
- * strings spanning multiple collumns. Example usage:
+ * <P>
+ * This class also supports multi-row titles and having title strings spanning multiple collumns. Example usage:
+ * 
  * <PRE>
- *     TestPrinter	tp = new TestPrinter(4, 2, "-");
- *     String		oneRow[] = new String [ 4 ];
- *     int[]		span = new int[ 4 ];
+ * TestPrinter tp = new TestPrinter(4, 2, "-");
+ * String oneRow[] = new String[4];
+ * int[] span = new int[4];
  *
- *     span[0] = 2; // spans 2 collumns
- *     span[1] = 0; // spans 0 collumns
- *     span[2] = 2; // spans 2 collumns
- *     span[3] = 0; // spans 0 collumns
+ * span[0] = 2; // spans 2 collumns
+ * span[1] = 0; // spans 0 collumns
+ * span[2] = 2; // spans 2 collumns
+ * span[3] = 0; // spans 0 collumns
  *
- *     tp.setTitleAlign(CENTER);
- *     oneRow[0] = "Name";
- *     oneRow[1] = "";
- *     oneRow[2] = "Contact";
- *     oneRow[3] = "";
- *     tp.addTitle(oneRow, span);
+ * tp.setTitleAlign(CENTER);
+ * oneRow[0] = "Name";
+ * oneRow[1] = "";
+ * oneRow[2] = "Contact";
+ * oneRow[3] = "";
+ * tp.addTitle(oneRow, span);
  * 
- *     oneRow[0] = "First";
- *     oneRow[1] = "Last";
- *     oneRow[2] = "Email";
- *     oneRow[3] = "Phone";
- *     tp.addTitle(oneRow);
+ * oneRow[0] = "First";
+ * oneRow[1] = "Last";
+ * oneRow[2] = "Email";
+ * oneRow[3] = "Phone";
+ * tp.addTitle(oneRow);
  * 
- *     oneRow[0] = "Bob";
- *     oneRow[1] = "Jones";
- *     oneRow[2] = "bob@foo.com";
- *     oneRow[3] = "123-4567";
- *     tp.add(oneRow);
+ * oneRow[0] = "Bob";
+ * oneRow[1] = "Jones";
+ * oneRow[2] = "bob@foo.com";
+ * oneRow[3] = "123-4567";
+ * tp.add(oneRow);
  * 
- *     oneRow[0] = "John";
- *     oneRow[1] = "Doe";
- *     oneRow[2] = "john@foo.com";
- *     oneRow[3] = "456-7890";
- *     tp.add(oneRow);
+ * oneRow[0] = "John";
+ * oneRow[1] = "Doe";
+ * oneRow[2] = "john@foo.com";
+ * oneRow[3] = "456-7890";
+ * tp.add(oneRow);
  * 
- *     tp.println();
+ * tp.println();
  * </PRE>
  *
  * <P>
  * The above would print:
  * <P>
+ * 
  * <PRE>
  *      ------------------------------------
  *          Name             Contact          
@@ -134,15 +134,14 @@ import java.util.Iterator;
  */
 public abstract class MultiColumnPrinter implements Serializable {
 
-    final public static int	LEFT	= 0;
-    final public static int	CENTER	= 1;
+    final public static int LEFT = 0;
+    final public static int CENTER = 1;
 
     /*
-     * Sets the default sorting behavior.
-     * When set to true, the table entries are sorted unless otherwise
-     * specified in a constructor.
+     * Sets the default sorting behavior. When set to true, the table entries are sorted unless otherwise specified in a
+     * constructor.
      */
-    final private static boolean	DEFAULT_SORT = true;
+    final private static boolean DEFAULT_SORT = true;
 
     final private static int DEFAULT_NUMCOL = 2;
     final private static int DEFAULT_GAP = 4;
@@ -163,7 +162,7 @@ public abstract class MultiColumnPrinter implements Serializable {
     private int[] keyCriteria = null;
 
     public MultiColumnPrinter() {
-       this(DEFAULT_NUMCOL, DEFAULT_GAP);
+        this(DEFAULT_NUMCOL, DEFAULT_GAP);
     }
 
     /**
@@ -175,11 +174,9 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param align type of alignment within columns
      * @param sort true if the output is sorted; false otherwise
      *
-     * REVISIT: Possibly adding another argument that specifies which ones can
-     * be truncated (xxx...)
+     * REVISIT: Possibly adding another argument that specifies which ones can be truncated (xxx...)
      */
-    public MultiColumnPrinter(int numCol, int gap, String border, 
-			      int align, boolean sort) {
+    public MultiColumnPrinter(int numCol, int gap, String border, int align, boolean sort) {
         table = new Vector();
         titleTable = new Vector();
         titleSpanTable = new Vector();
@@ -190,7 +187,7 @@ public abstract class MultiColumnPrinter implements Serializable {
         this.border = border;
         this.align = align;
         this.titleAlign = LEFT;
-	this.sortNeeded = sort;
+        this.sortNeeded = sort;
     }
 
     /**
@@ -202,7 +199,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param align type of alignment within columns
      */
     public MultiColumnPrinter(int numCol, int gap, String border, int align) {
-	this(numCol, gap, border, align, DEFAULT_SORT);
+        this(numCol, gap, border, align, DEFAULT_SORT);
     }
 
     /**
@@ -213,61 +210,60 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param border character used to frame the titles
      */
     public MultiColumnPrinter(int numCol, int gap, String border) {
-	this(numCol, gap, border, LEFT);
+        this(numCol, gap, border, LEFT);
     }
 
     /**
-     * Creates a sorted new MultiColumnPrinter class using LEFT alignment
-     * and with no title border.
+     * Creates a sorted new MultiColumnPrinter class using LEFT alignment and with no title border.
      *
      * @param numCol number of columns
      * @param gap gap between each column
      */
     public MultiColumnPrinter(int numCol, int gap) {
-	this(numCol, gap, null, LEFT);
+        this(numCol, gap, null, LEFT);
     }
 
     /**
-     * These 3 methods can be called right after using of default constructor 
+     * These 3 methods can be called right after using of default constructor
      */
     public void setNumCol(int n) {
         numCol = n;
     }
+
     public void setGap(int n) {
         gap = n;
     }
+
     public void setBorder(String b) {
-        border = b; 
+        border = b;
     }
 
     public void copy(MultiColumnPrinter mcp) {
-         numCol = mcp.numCol;
-         gap = mcp.gap;
-         align = mcp.align;
-         titleAlign = mcp.titleAlign;
-         border = mcp.border;
-         indent = mcp.indent;
-         table = mcp.table;
-         titleTable = mcp.titleTable;
-         titleSpanTable = mcp.titleSpanTable;
-         curLength = mcp.curLength;
-         sortNeeded = mcp.sortNeeded;
-         keyCriteria = mcp.keyCriteria;
+        numCol = mcp.numCol;
+        gap = mcp.gap;
+        align = mcp.align;
+        titleAlign = mcp.titleAlign;
+        border = mcp.border;
+        indent = mcp.indent;
+        table = mcp.table;
+        titleTable = mcp.titleTable;
+        titleSpanTable = mcp.titleSpanTable;
+        curLength = mcp.curLength;
+        sortNeeded = mcp.sortNeeded;
+        keyCriteria = mcp.keyCriteria;
     }
 
-    public void setIndent(int indent)  {
-	this.indent = indent;
+    public void setIndent(int indent) {
+        this.indent = indent;
     }
-
 
     /**
      * Set whether sorting is needed
      *
-     * @param sortNeeded If true, table will be sorted. If false,
-     *                sorting will not be done.
+     * @param sortNeeded If true, table will be sorted. If false, sorting will not be done.
      */
-    public void setSortNeeded(boolean sortNeeded)  {
-       this.sortNeeded = sortNeeded;
+    public void setSortNeeded(boolean sortNeeded) {
+        this.sortNeeded = sortNeeded;
     }
 
     /**
@@ -276,26 +272,25 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param row Array of strings to print in one row of title.
      */
     public void addTitle(String[] row) {
-	if (row == null)
-	    return;
+        if (row == null)
+            return;
 
-	int[] span = new int [ row.length ];
-	for (int i = 0; i < row.length; i++) {
-	    span[i] = 1;
-	}
-	
-	addTitle(row, span);
+        int[] span = new int[row.length];
+        for (int i = 0; i < row.length; i++) {
+            span[i] = 1;
+        }
+
+        addTitle(row, span);
     }
 
     /**
-     * Adds to the row of strings to be used as the title for the table.
-     * Also allows for certain title strings to span multiple collumns
-     * The span parameter is an array of integers which indicate how
-     * many collumns the corresponding title string will occupy.
-     * For a row that is 4 collumns wide, it is possible to have some 
-     * title strings in a row to 'span' multiple collumns:
+     * Adds to the row of strings to be used as the title for the table. Also allows for certain title strings to span
+     * multiple collumns The span parameter is an array of integers which indicate how many collumns the corresponding title
+     * string will occupy. For a row that is 4 collumns wide, it is possible to have some title strings in a row to 'span'
+     * multiple collumns:
      *
      * <P>
+     * 
      * <PRE>
      * ------------------------------------
      *     Name             Contact          
@@ -305,44 +300,40 @@ public abstract class MultiColumnPrinter implements Serializable {
      * John   Doe    john@foo.com  456-7890
      * </PRE>
      *
-     * In the example above, the title row has a string 'Name' that
-     * spans 2 collumns. The string 'Contact' also spans 2 collumns.
-     * The above is done by passing in to addTitle() an array that
-     * contains:
+     * In the example above, the title row has a string 'Name' that spans 2 collumns. The string 'Contact' also spans 2
+     * collumns. The above is done by passing in to addTitle() an array that contains:
      *
      * <PRE>
-     *    span[0] = 2; // spans 2 collumns
-     *    span[1] = 0; // spans 0 collumns, ignore
-     *    span[2] = 2; // spans 2 collumns
-     *    span[3] = 0; // spans 0 collumns, ignore
+     * span[0] = 2; // spans 2 collumns
+     * span[1] = 0; // spans 0 collumns, ignore
+     * span[2] = 2; // spans 2 collumns
+     * span[3] = 0; // spans 0 collumns, ignore
      * </PRE>
      * <P>
-     * A span value of 1 is the default.
-     * The method addTitle(String[] row) basically does:
+     * A span value of 1 is the default. The method addTitle(String[] row) basically does:
      *
      * <PRE>
-     *   int[] span = new int [ row.length ];
-     *   for (int i = 0; i < row.length; i++) {
-     *       span[i] = 1;
-     *   }
-     *   addTitle(row, span);
+     * int[] span = new int[row.length];
+     * for (int i = 0; i < row.length; i++) {
+     *     span[i] = 1;
+     * }
+     * addTitle(row, span);
      * </PRE>
      *
      * @param row Array of strings to print in one row of title.
-     * @param span Array of integers that reflect the number of collumns
-     * the corresponding title string will occupy.
+     * @param span Array of integers that reflect the number of collumns the corresponding title string will occupy.
      */
     public void addTitle(String[] row, int span[]) {
-	// Need to create a new instance of it, otherwise the new values will
-	// always overwrite the old values.
+        // Need to create a new instance of it, otherwise the new values will
+        // always overwrite the old values.
 
-	String[] rowInstance = new String[(row.length)];
-	for (int i = 0; i < row.length; i++) {
-	    rowInstance[i] = row[i];
-	}
-	titleTable.addElement(rowInstance);
+        String[] rowInstance = new String[(row.length)];
+        for (int i = 0; i < row.length; i++) {
+            rowInstance[i] = row[i];
+        }
+        titleTable.addElement(rowInstance);
 
-	titleSpanTable.addElement(span);
+        titleSpanTable.addElement(span);
     }
 
     /**
@@ -350,8 +341,8 @@ public abstract class MultiColumnPrinter implements Serializable {
      *
      * @param titleAlign
      */
-    public void setTitleAlign(int titleAlign)  {
-	this.titleAlign = titleAlign;
+    public void setTitleAlign(int titleAlign) {
+        this.titleAlign = titleAlign;
     }
 
     /**
@@ -360,31 +351,31 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param row Array of objects to print in one row.
      */
     public void add(Object[] row) {
-	// Need to create a new instance of it, otherwise the new values will
-	// always overwrite the old values.
-	Object[] rowInstance = new Object[(row.length)];
-	for (int i = 0; i < row.length; i++) {
-	    rowInstance[i] = row[i];
-	}
-	table.addElement(rowInstance);
+        // Need to create a new instance of it, otherwise the new values will
+        // always overwrite the old values.
+        Object[] rowInstance = new Object[(row.length)];
+        for (int i = 0; i < row.length; i++) {
+            rowInstance[i] = row[i];
+        }
+        table.addElement(rowInstance);
     }
 
     /**
      * Clears title strings.
      */
-    public void clearTitle()  {
-	titleTable.clear();
-	titleSpanTable.clear();
+    public void clearTitle() {
+        titleTable.clear();
+        titleSpanTable.clear();
     }
 
     /**
      * Clears strings.
      */
-    public void clear()  {
-	table.clear();
+    public void clear() {
+        table.clear();
 
-	if (curLength != null)  {
-            for (int i = 0; i < curLength.length; ++i)  {
+        if (curLength != null) {
+            for (int i = 0; i < curLength.length; ++i) {
                 curLength[i] = 0;
             }
         }
@@ -394,7 +385,7 @@ public abstract class MultiColumnPrinter implements Serializable {
      * Prints the multi-column table, including the title.
      */
     public void print() {
-	print(true);
+        print(true);
     }
 
     /**
@@ -404,210 +395,200 @@ public abstract class MultiColumnPrinter implements Serializable {
      */
     public void print(boolean printTitle) {
 
-    // REVISIT:
-    // Make sure you take care of curLength and row being null value cases.
+        // REVISIT:
+        // Make sure you take care of curLength and row being null value cases.
 
+        // Get the longest string for each column and store in curLength[]
 
-	// Get the longest string for each column and store in curLength[]
+        // Scan through title rows
+        Enumeration e = titleTable.elements();
+        Enumeration spanEnum = titleSpanTable.elements();
+        int rowNum = 0;
+        while (e.hasMoreElements()) {
+            String[] row = (String[]) e.nextElement();
+            int[] curSpan = (int[]) spanEnum.nextElement();
 
-	// Scan through title rows
-	Enumeration e = titleTable.elements();
-	Enumeration spanEnum = titleSpanTable.elements();
-	int rowNum = 0;
-	while (e.hasMoreElements()) {
-	    String[] row = (String[])e.nextElement();
-	    int[] curSpan = (int[])spanEnum.nextElement();
-
-	    for (int i = 0; i < numCol; i++) {
-		// Fix for 4627901: NullPtrException seen when 
-		// execute 'jmqcmd list dur'
-		// This happens when a field to be listed is null.
-		// None of the fields should be null, but if it
-		// happens to be so, replace it with "-".
-                if (row[i] == null) 
-                    row[i] = "-";
-
-		int len = getItemLength(row[i]);
-
-		/*
-		 * If a title string spans multiple collumns, then
-		 * the space it occupies in each collumn is at most
-		 * len/span (since we have gap to take into account
-		 * as well).
-		 */
-		int span = curSpan[i], rem = 0;
-		if (span > 1)  {
-		    rem = len % span;
-		    len = len/span;
-		}
-
-		if (curLength[i] < len)  {
-		    curLength[i] = len;
-
-		    if ((span > 1) && ((i+span) <= numCol))  {
-		    	for (int j=i+1; j<(i+span); ++j)  {
-			    curLength[j] = len;
-			}
-
-			/*
-			 * Add remainder to last collumn in span
-			 * to avoid round-off errors.
-			 */
-			curLength[(i+span)-1] += rem;
-		    }
-		}
-	    }
-	    ++rowNum;
-	}
-
-	// Scan through rest of rows
-	e = table.elements();
-	while (e.hasMoreElements()) {
-	    Object[] row = (Object[])e.nextElement();
-	    for (int i = 0; i < numCol; i++) {
-                // Fix for 4627901: NullPtrException seen when 
+            for (int i = 0; i < numCol; i++) {
+                // Fix for 4627901: NullPtrException seen when
                 // execute 'jmqcmd list dur'
                 // This happens when a field to be listed is null.
                 // None of the fields should be null, but if it
                 // happens to be so, replace it with "-".
-                if (row[i] == null) 
+                if (row[i] == null)
                     row[i] = "-";
 
-		int itemLen = getItemLength(row[i]);
+                int len = getItemLength(row[i]);
 
-		if (curLength[i] < itemLen)
-		    curLength[i] = itemLen;
-	    }
-	}
+                /*
+                 * If a title string spans multiple collumns, then the space it occupies in each collumn is at most len/span (since we
+                 * have gap to take into account as well).
+                 */
+                int span = curSpan[i], rem = 0;
+                if (span > 1) {
+                    rem = len % span;
+                    len = len / span;
+                }
 
-	/*
-	 * Print title
-	 */
-	if (printTitle)  {
-	    printBorder();
-	    e = titleTable.elements();
-	    spanEnum = titleSpanTable.elements();
+                if (curLength[i] < len) {
+                    curLength[i] = len;
 
-	    /*
-	     * Print indentation if any
-	     */
-	    printSpaces(indent);
+                    if ((span > 1) && ((i + span) <= numCol)) {
+                        for (int j = i + 1; j < (i + span); ++j) {
+                            curLength[j] = len;
+                        }
 
-	    while (e.hasMoreElements()) {
-	        Object[] row = (Object[])e.nextElement();
-	        int[] curSpan = (int[])spanEnum.nextElement();
+                        /*
+                         * Add remainder to last collumn in span to avoid round-off errors.
+                         */
+                        curLength[(i + span) - 1] += rem;
+                    }
+                }
+            }
+            ++rowNum;
+        }
 
-	        for (int i = 0; i < numCol; i++) {
-		    int availableSpace = 0, span = curSpan[i],
-			itemLen = getItemLength(row[i]);
+        // Scan through rest of rows
+        e = table.elements();
+        while (e.hasMoreElements()) {
+            Object[] row = (Object[]) e.nextElement();
+            for (int i = 0; i < numCol; i++) {
+                // Fix for 4627901: NullPtrException seen when
+                // execute 'jmqcmd list dur'
+                // This happens when a field to be listed is null.
+                // None of the fields should be null, but if it
+                // happens to be so, replace it with "-".
+                if (row[i] == null)
+                    row[i] = "-";
 
-		    if (span == 0)
-			continue;
+                int itemLen = getItemLength(row[i]);
 
-		    availableSpace = curLength[i];
+                if (curLength[i] < itemLen)
+                    curLength[i] = itemLen;
+            }
+        }
 
-		    if ((span > 1) && ((i+span) <= numCol))  {
-		    	for (int j=i+1; j<(i+span); ++j)  {
-		    	    availableSpace += gap;
-		    	    availableSpace += curLength[j];
-		    	}
-		    }
+        /*
+         * Print title
+         */
+        if (printTitle) {
+            printBorder();
+            e = titleTable.elements();
+            spanEnum = titleSpanTable.elements();
 
-		    if (titleAlign == CENTER)  {
-		        int space_before, space_after;
-		        space_before = (availableSpace - itemLen)/2;
-		        space_after = availableSpace - itemLen - space_before;
+            /*
+             * Print indentation if any
+             */
+            printSpaces(indent);
 
-		        printSpaces(space_before);
-	                doPrint(getItemString(row[i]));
-		        printSpaces(space_after);
-		        if (i < numCol-1) printSpaces(gap);
-		    } else  {
-	                doPrint(getItemString(row[i]));
-		        if (i < numCol-1) printSpaces(availableSpace - itemLen + gap);
-		    }
+            while (e.hasMoreElements()) {
+                Object[] row = (Object[]) e.nextElement();
+                int[] curSpan = (int[]) spanEnum.nextElement();
 
-	        }
-	        doPrintln("");
-	    }
-	    printBorder();
-	}
+                for (int i = 0; i < numCol; i++) {
+                    int availableSpace = 0, span = curSpan[i], itemLen = getItemLength(row[i]);
 
-	if (sortNeeded)
-	    printSortedTable();
-	else
-	    printUnsortedTable();
+                    if (span == 0)
+                        continue;
+
+                    availableSpace = curLength[i];
+
+                    if ((span > 1) && ((i + span) <= numCol)) {
+                        for (int j = i + 1; j < (i + span); ++j) {
+                            availableSpace += gap;
+                            availableSpace += curLength[j];
+                        }
+                    }
+
+                    if (titleAlign == CENTER) {
+                        int space_before, space_after;
+                        space_before = (availableSpace - itemLen) / 2;
+                        space_after = availableSpace - itemLen - space_before;
+
+                        printSpaces(space_before);
+                        doPrint(getItemString(row[i]));
+                        printSpaces(space_after);
+                        if (i < numCol - 1)
+                            printSpaces(gap);
+                    } else {
+                        doPrint(getItemString(row[i]));
+                        if (i < numCol - 1)
+                            printSpaces(availableSpace - itemLen + gap);
+                    }
+
+                }
+                doPrintln("");
+            }
+            printBorder();
+        }
+
+        if (sortNeeded)
+            printSortedTable();
+        else
+            printUnsortedTable();
     }
 
     /*
      * Prints the table entries in the sorted order.
      */
     private void printSortedTable() {
-	// Sort the table entries
+        // Sort the table entries
         TreeMap sortedTable = new TreeMap();
         Enumeration e = table.elements();
         while (e.hasMoreElements()) {
-            Object[] row = (Object[])e.nextElement();
+            Object[] row = (Object[]) e.nextElement();
 
-	    // If keyCriteria contains valid info use that
-	    // to create the key; otherwise, use the default row[0]
-	    // for the key.
-	    if (keyCriteria != null && keyCriteria.length > 0) {
-		String key = getKey(row);
-		if (key != null)
-                   sortedTable.put(key, row);
-		else
-                   sortedTable.put(row[0], row);
-	    } else {	
+            // If keyCriteria contains valid info use that
+            // to create the key; otherwise, use the default row[0]
+            // for the key.
+            if (keyCriteria != null && keyCriteria.length > 0) {
+                String key = getKey(row);
+                if (key != null)
+                    sortedTable.put(key, row);
+                else
+                    sortedTable.put(row[0], row);
+            } else {
                 sortedTable.put(row[0], row);
-	    }
+            }
         }
 
-	// Iterate through the table entries
+        // Iterate through the table entries
         Iterator iterator = sortedTable.entrySet().iterator();
         while (iterator.hasNext()) {
-            Map.Entry entry = (Map.Entry)iterator.next();
-            Object[] row = ((Object[])entry.getValue());
+            Map.Entry entry = (Map.Entry) iterator.next();
+            Object[] row = ((Object[]) entry.getValue());
 
-	    printRow(row);
-	}
+            printRow(row);
+        }
     }
 
     /*
-     * Creates the key for the current row based on the
-     * criteria specified by setKeyCriteria().
-     * If key cannot be created by the criteria, it simply returns
-     * null.
+     * Creates the key for the current row based on the criteria specified by setKeyCriteria(). If key cannot be created by
+     * the criteria, it simply returns null.
      *
-     * Examples:
-     * String[] row = {"foo", "bar", "hello");
+     * Examples: String[] row = {"foo", "bar", "hello");
      *
-     * int[] keyCriteria = {0};
-     * key = "foo";
+     * int[] keyCriteria = {0}; key = "foo";
      *
-     * int[] keyCriteria = {0, 1};
-     * key = "foobar";
+     * int[] keyCriteria = {0, 1}; key = "foobar";
      *
-     * int[] keyCriteria = {2, 1};
-     * key = "hellobar";
+     * int[] keyCriteria = {2, 1}; key = "hellobar";
      *
-     * int[] keyCriteria = {4};
-     * key = null;
+     * int[] keyCriteria = {4}; key = null;
      */
     private String getKey(Object[] row) {
-	StringBuffer key = new StringBuffer();
-	
-	for (int i = 0; i < keyCriteria.length; i++) {
-	    int content = keyCriteria[i];
-	    try {
-	        key.append(getItemString(row[content]));
-	    } catch (ArrayIndexOutOfBoundsException ae) {
-		// Happens when keyCriteria[] contains an index that
-	 	// does not exist in 'row'.
-		return null;
-	    }
-	}
-	return key.toString();
+        StringBuffer key = new StringBuffer();
+
+        for (int i = 0; i < keyCriteria.length; i++) {
+            int content = keyCriteria[i];
+            try {
+                key.append(getItemString(row[content]));
+            } catch (ArrayIndexOutOfBoundsException ae) {
+                // Happens when keyCriteria[] contains an index that
+                // does not exist in 'row'.
+                return null;
+            }
+        }
+        return key.toString();
     }
 
     /*
@@ -616,67 +597,67 @@ public abstract class MultiColumnPrinter implements Serializable {
     private void printUnsortedTable() {
         Enumeration e = table.elements();
         while (e.hasMoreElements()) {
-            Object[] row = (Object[])e.nextElement();
+            Object[] row = (Object[]) e.nextElement();
 
-	    printRow(row);
+            printRow(row);
         }
     }
 
     private void printRow(Object[] row) {
-	    int itemOffset = 0;
+        int itemOffset = 0;
 
-	    /*
-             * Print indentation, if any
-             */
-            printSpaces(indent);
-	    itemOffset += indent;
+        /*
+         * Print indentation, if any
+         */
+        printSpaces(indent);
+        itemOffset += indent;
 
-	    boolean needLineFeed = true;
+        boolean needLineFeed = true;
 
-            for (int i = 0; i < numCol; i++) {
-		    int itemLen = getItemLength(row[i]);
+        for (int i = 0; i < numCol; i++) {
+            int itemLen = getItemLength(row[i]);
 
-                    if (align == CENTER)  {
-                        int space1, space2;
-                        space1 = (curLength[i]-itemLen)/2;
-                        space2 = curLength[i]-itemLen - space1;
+            if (align == CENTER) {
+                int space1, space2;
+                space1 = (curLength[i] - itemLen) / 2;
+                space2 = curLength[i] - itemLen - space1;
 
-                        printSpaces(space1);
-			itemOffset += space1;
+                printSpaces(space1);
+                itemOffset += space1;
 
-			needLineFeed = printObject(row[i], itemOffset);
-			itemOffset += itemLen;
-                        printSpaces(space2);
-			itemOffset += space2;
+                needLineFeed = printObject(row[i], itemOffset);
+                itemOffset += itemLen;
+                printSpaces(space2);
+                itemOffset += space2;
 
-                        if (i < numCol-1)  {
-			    printSpaces(gap);
-			    itemOffset += gap;
-			}
-                    } else  {
-			needLineFeed = printObject(row[i], itemOffset);
-			itemOffset += itemLen;
-                        if (i < numCol-1)  {
-			    printSpaces(curLength[i]-itemLen+gap);
-			    itemOffset += (curLength[i]-itemLen+gap);
-                        }
-                    }
+                if (i < numCol - 1) {
+                    printSpaces(gap);
+                    itemOffset += gap;
+                }
+            } else {
+                needLineFeed = printObject(row[i], itemOffset);
+                itemOffset += itemLen;
+                if (i < numCol - 1) {
+                    printSpaces(curLength[i] - itemLen + gap);
+                    itemOffset += (curLength[i] - itemLen + gap);
+                }
             }
-	    if (needLineFeed)
-                doPrintln("");
+        }
+        if (needLineFeed)
+            doPrintln("");
     }
 
     /**
      * Prints the multi-column table, with a carriage return.
      */
     public void println() {
-	print();
-	doPrintln("");
+        print();
+        doPrintln("");
     }
 
-    private void printSpaces(int count)  {
+    private void printSpaces(int count) {
         StringBuffer sb = new StringBuffer();
-        for (int i = 0; i < count; ++i)  {
+        for (int i = 0; i < count; ++i) {
             sb.append(" ");
         }
         doPrint(sb.toString());
@@ -684,95 +665,93 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     private void printBorder() {
 
-	int colNum = 1;
-	if (border == null) return;
+        int colNum = 1;
+        if (border == null)
+            return;
 
-	/*
-	 * Print indentation if any
-	 */
-	printSpaces(indent);
+        /*
+         * Print indentation if any
+         */
+        printSpaces(indent);
 
-	// For the value in each column
-	StringBuffer sb = new StringBuffer();
-	for (int i = 0; i < numCol; i++) {
-	    for (int j = 0; j < curLength[i]; j++) {
+        // For the value in each column
+        StringBuffer sb = new StringBuffer();
+        for (int i = 0; i < numCol; i++) {
+            for (int j = 0; j < curLength[i]; j++) {
                 sb.append(border);
-	    }	
-	}
-	doPrint(sb.toString());
+            }
+        }
+        doPrint(sb.toString());
 
-	// For the gap between each column
-	sb.setLength(0);
-	for (int i = 0; i < numCol-1; i++) {
-	    for (int j = 0; j < gap; j++) {
+        // For the gap between each column
+        sb.setLength(0);
+        for (int i = 0; i < numCol - 1; i++) {
+            for (int j = 0; j < gap; j++) {
                 sb.append(border);
-	    }	
-	}
-	doPrintln(sb.toString());
+            }
+        }
+        doPrintln(sb.toString());
     }
 
-    private String getItemString(Object obj)  {
-	if (obj instanceof String)  {
-	    return ((String)obj);
-	} else  {
-	    String tmp = obj.getClass().getName();
-	    return (tmp);
-	}
+    private String getItemString(Object obj) {
+        if (obj instanceof String) {
+            return ((String) obj);
+        } else {
+            String tmp = obj.getClass().getName();
+            return (tmp);
+        }
     }
 
-    private int getItemLength(Object obj)  {
-	int len = 0;
-	
-	if (obj instanceof String)  {
-	    len = ((String)obj).length();
-	} else  {
-	    String tmp = obj.getClass().getName();
-	    len = tmp.length();
-	}
+    private int getItemLength(Object obj) {
+        int len = 0;
 
-	return len;
+        if (obj instanceof String) {
+            len = ((String) obj).length();
+        } else {
+            String tmp = obj.getClass().getName();
+            len = tmp.length();
+        }
+
+        return len;
     }
 
     /**
      * @param obj Object to print.
      * @param indent indentation of object to be printed.
-     * @return Returns true if a linefeed is needed after
-     *		printing this object, false otherwise.
+     * @return Returns true if a linefeed is needed after printing this object, false otherwise.
      */
-    public boolean printObject(Object obj, int indent)  {
-	if (obj instanceof String)  {
-	    doPrint((String)obj);
-	} else  {
-	    String className = obj.getClass().getName();
-	    doPrintln(className);
+    public boolean printObject(Object obj, int indent) {
+        if (obj instanceof String) {
+            doPrint((String) obj);
+        } else {
+            String className = obj.getClass().getName();
+            doPrintln(className);
 
-	    printSpaces(indent);
-	    doPrint(obj.toString());
-	}
+            printSpaces(indent);
+            doPrint(obj.toString());
+        }
 
-	return (true);
+        return (true);
     }
 
     /*
-     * Sets the criteria for the key.
-     * new int[] {0, 1} means use the first and the second
-     * elements of the array.
+     * Sets the criteria for the key. new int[] {0, 1} means use the first and the second elements of the array.
      */
     public void setKeyCriteria(int[] criteria) {
-	this.keyCriteria = criteria;
+        this.keyCriteria = criteria;
     }
 
     /**
-     * Method that does the actual printing. Override this method to
-     * print to your destination of choice (stdout, stream, etc).
+     * Method that does the actual printing. Override this method to print to your destination of choice (stdout, stream,
+     * etc).
      *
      * @param str String to print.
      */
     public abstract void doPrint(String str);
 
     /**
-     * Method that does the actual printing. Override this method to
-     * print to your destination of choice (stdout, stream, etc).
+     * Method that does the actual printing. Override this method to print to your destination of choice (stdout, stream,
+     * etc).
      *
      * This method also prints a newline at the end of the string.
      *
@@ -781,4 +760,3 @@ public abstract class MultiColumnPrinter implements Serializable {
     public abstract void doPrintln(String str);
 
 }
-

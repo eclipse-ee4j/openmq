@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceTable.java	1.5 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
 
@@ -27,14 +27,14 @@ import java.util.*;
  * A table of ServiceEntries.
  */
 public class ServiceTable {
-    //private static boolean DEBUG = false;
+    // private static boolean DEBUG = false;
 
     private String brokerInstanceName = "???";
     private String brokerVersion = "???";
 
     private Hashtable remoteServices = null;
     private String activeBroker = null;
-    private Hashtable  table = null;
+    private Hashtable table = null;
 
     public ServiceTable() {
         remoteServices = new Hashtable();
@@ -57,8 +57,7 @@ public class ServiceTable {
     }
 
     /**
-     * Get a hashtable containing the service name / ServiceEntry
-     * pairs.
+     * Get a hashtable containing the service name / ServiceEntry pairs.
      */
     public Hashtable getServices() {
         return table;
@@ -67,12 +66,11 @@ public class ServiceTable {
     /**
      * Get the address string for a particular service.
      *
-     * @param service   Name of service to get port number for
-     * @return         address string, or null if the port for
-     * service is not known.
+     * @param service Name of service to get port number for
+     * @return address string, or null if the port for service is not known.
      */
     public String getServiceAddress(String service) {
-        ServiceEntry se = (ServiceEntry)table.get(service);
+        ServiceEntry se = (ServiceEntry) table.get(service);
         if (se == null) {
             return null;
         } else {
@@ -84,17 +82,15 @@ public class ServiceTable {
      * Get the address string for a particular service.
      *
      * @param type Service type.
-     * @param protocol   Service protocol.
-     * @return         address string, or null if the port for
-     * service is not known.
+     * @param protocol Service protocol.
+     * @return address string, or null if the port for service is not known.
      */
     public String getServiceAddress(String type, String protocol) {
         String addr = null;
         Enumeration e = table.elements();
         while (e.hasMoreElements()) {
             ServiceEntry se = (ServiceEntry) e.nextElement();
-            if (se.getProtocol().equals(protocol) &&
-                se.getType().equals(type)) {
+            if (se.getProtocol().equals(protocol) && se.getType().equals(type)) {
                 addr = se.getAddress();
                 break;
             }
@@ -110,7 +106,7 @@ public class ServiceTable {
     }
 
     /**
-     * Remove a service. 
+     * Remove a service.
      *
      * @param e ServiceEntry to remove.
      */
@@ -195,8 +191,7 @@ public class ServiceTable {
         System.out.println("Local Services :");
         e = table.elements();
         while (e.hasMoreElements())
-            System.out.println("\t" +
-                ((ServiceEntry) e.nextElement()).toString());
+            System.out.println("\t" + ((ServiceEntry) e.nextElement()).toString());
     }
 }
 

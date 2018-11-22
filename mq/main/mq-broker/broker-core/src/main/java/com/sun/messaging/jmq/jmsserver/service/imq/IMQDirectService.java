@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQDirectService.java	1.57 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -65,25 +65,23 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
-public class IMQDirectService extends IMQService
-{
+public class IMQDirectService extends IMQService {
 
     /**
-     * the list of connections which this service knows about
-     * XXX make this accessible from IMQService ??
+     * the list of connections which this service knows about XXX make this accessible from IMQService ??
      */
     private ConnectionManager connectionList = Globals.getConnectionManager();
 
     private AuthCacheData authCacheData = new AuthCacheData();
     private JMSServiceImpl jmsservice = null;
-    
+
     public IMQDirectService(String name, int type, int min, int max, boolean acc) {
         super(name, type);
         jmsservice = new JMSServiceImpl(this, Globals.getProtocol(), acc);
     }
 
     public JMSService getJMSService() {
-        return jmsservice;    
+        return jmsservice;
     }
 
     public Hashtable getDebugState() {
@@ -94,53 +92,41 @@ public class IMQDirectService extends IMQService
 
     // XXX - this implemenetation assumes that we have 1 distinct
     // listen thread per/service
-    // revisit  (may not always be true)
+    // revisit (may not always be true)
 
     @Override
-    public synchronized  void startService(boolean startPaused) {
+    public synchronized void startService(boolean startPaused) {
         if (isServiceRunning()) {
             /*
-             * this error should never happen in normal operation
-             * if its does, we will need to add an error message 
-             * to the resource bundle
+             * this error should never happen in normal operation if its does, we will need to add an error message to the resource
+             * bundle
              */
-            logger.log(Logger.DEBUG, 
-                       BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "unable to start service, already started.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to start service, already started.");
             return;
         }
         setState(ServiceState.STARTED);
         {
-            String args[] = { getName(), 
-                              "",
-                              String.valueOf(getMinThreadpool()),
-                              String.valueOf(getMaxThreadpool()) };
+            String args[] = { getName(), "", String.valueOf(getMinThreadpool()), String.valueOf(getMaxThreadpool()) };
             logger.log(Logger.INFO, BrokerResources.I_SERVICE_START, args);
             try {
-            logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
-                       AccessController.getInstance(
-                       getName(), getServiceType()).getUserRepository(),
-                       getName());
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
+                        AccessController.getInstance(getName(), getServiceType()).getUserRepository(), getName());
             } catch (BrokerException e) {
-            logger.log(Logger.WARNING, 
-                       BrokerResources.W_SERVICE_USER_REPOSITORY,
-                       getName(), e.getMessage());
+                logger.log(Logger.WARNING, BrokerResources.W_SERVICE_USER_REPOSITORY, getName(), e.getMessage());
             }
         }
-     
+
         if (startPaused) {
             setServiceRunning(false);
             setState(ServiceState.PAUSED);
-	    /*
-	     * CHECK: This used to be if'd by WORKAROUND_HTTP
-	     */
-                try {
-                    Globals.getPortMapper().updateServicePort(name, 0);
-                } catch (Exception ex) {
-                    logger.logStack(Logger.WARNING, 
-                          BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                          "starting paused service " + this, ex);
-                }
+            /*
+             * CHECK: This used to be if'd by WORKAROUND_HTTP
+             */
+            try {
+                Globals.getPortMapper().updateServicePort(name, 0);
+            } catch (Exception ex) {
+                logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "starting paused service " + this, ex);
+            }
         } else {
             setServiceRunning(true);
             setState(ServiceState.RUNNING);
@@ -149,7 +135,7 @@ public class IMQDirectService extends IMQService
     }
 
     @Override
-    public void stopService(boolean all) { 
+    public void stopService(boolean all) {
         synchronized (this) {
 
             if (isShuttingDown()) {
@@ -159,23 +145,19 @@ public class IMQDirectService extends IMQService
 
             String strings[] = { getName(), "" };
             if (all) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_STOP, 
-                           strings);
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_STOP, strings);
             } else if (!isShuttingDown()) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_SHUTTINGDOWN, 
-                           strings);
-            } 
-           
-	    setShuttingDown(true);
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_SHUTTINGDOWN, strings);
+            }
+
+            setShuttingDown(true);
         }
 
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
                 con.stopConnection();
             }
         }
@@ -193,11 +175,9 @@ public class IMQDirectService extends IMQService
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
-                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, 
-                    Globals.getBrokerResources().getKString(
-                        BrokerResources.M_SERVICE_SHUTDOWN));
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
+                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
             }
         }
 
@@ -207,8 +187,7 @@ public class IMQDirectService extends IMQService
         }
 
         if (DEBUG) {
-            logger.log(Logger.DEBUG, 
-                "Destroying Service {0}", getName());
+            logger.log(Logger.DEBUG, "Destroying Service {0}", getName());
         }
     }
 
@@ -216,12 +195,9 @@ public class IMQDirectService extends IMQService
     public void pauseService(boolean all) {
 
         if (!isServiceRunning()) {
-            logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to pause service " 
-                    + name + ", already paused.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to pause service " + name + ", already paused.");
             return;
-        }  
+        }
 
         String strings[] = { getName(), "" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_PAUSE, strings);
@@ -229,9 +205,7 @@ public class IMQDirectService extends IMQService
         try {
             stopNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         setState(ServiceState.PAUSED);
 
@@ -241,20 +215,15 @@ public class IMQDirectService extends IMQService
     @Override
     public void resumeService() {
         if (isServiceRunning()) {
-             logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to resume service " 
-                    + name + ", already running.");
-           return;
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");
+            return;
         }
         String strings[] = { getName(), "" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_RESUME, strings);
         try {
             startNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         setServiceRunning(true);
 
@@ -262,26 +231,21 @@ public class IMQDirectService extends IMQService
             setState(ServiceState.RUNNING);
             this.notifyAll();
         }
-        
+
     }
 
     @Override
-    public void updateService(int port, int min, int max) 
-        throws IOException, PropertyUpdateException, BrokerException
-    {
+    public void updateService(int port, int min, int max) throws IOException, PropertyUpdateException, BrokerException {
         Globals.getPortMapper().updateServicePort(name, 0);
         Globals.getPortMapper().removeService(name);
-        Globals.getPortMapper().addService(name, "none", 
-        	Globals.getConfig().getProperty(
-        	IMQDirectServiceFactory.SERVICE_PREFIX + 
-        	name + ".servicetype"),
-        	0, getServiceProperties());
+        Globals.getPortMapper().addService(name, "none", Globals.getConfig().getProperty(IMQDirectServiceFactory.SERVICE_PREFIX + name + ".servicetype"), 0,
+                getServiceProperties());
     }
 
     @Override
     public AuthCacheData getAuthCacheData() {
-        return authCacheData;     
-    }  
+        return authCacheData;
+    }
 
     @Override
     public void removeConnection(ConnectionUID uid, int reason, String str) {

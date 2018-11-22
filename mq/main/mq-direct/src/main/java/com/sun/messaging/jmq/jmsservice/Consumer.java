@@ -16,35 +16,31 @@
 
 /*
  * @(#)Consumer.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
 import com.sun.messaging.jmq.io.JMSPacket;
+
 /**
  *
  */
 public interface Consumer {
 
     /**
-     *  Deliver a message to the consumer to be processed.<p>
-     *  Except in the special case of consumer in closing and the message is
-     *  neither delivered nor acked to throw a ConsumerClosedNoDeliveryException,
-     *  the implementation of this method must not throw any exceptions, and 
-     *  it must catch any exceptions, and either redeliver the message
-     *  according to the redelivery configuration or it must acknowledge this
-     *  message. It can acknowledge this message to the dead message queue if
-     *  the redelivery attempts are unsuccessful.
+     * Deliver a message to the consumer to be processed.
+     * <p>
+     * Except in the special case of consumer in closing and the message is neither delivered nor acked to throw a
+     * ConsumerClosedNoDeliveryException, the implementation of this method must not throw any exceptions, and it must catch
+     * any exceptions, and either redeliver the message according to the redelivery configuration or it must acknowledge
+     * this message. It can acknowledge this message to the dead message queue if the redelivery attempts are unsuccessful.
      *
-     *  @param  msgPkt The JMSPacket to be processed
+     * @param msgPkt The JMSPacket to be processed
      *
-     *  @return The JMSAck if the delivered message is to be acknowledged
-     *          upon returning from this method.<br>
-     *          If this is {@code null} then the message will be acknowledged
-     *          separately.
+     * @return The JMSAck if the delivered message is to be acknowledged upon returning from this method.<br>
+     * If this is {@code null} then the message will be acknowledged separately.
      * @throw ConsumerClosedRuntimeException
      */
-    public JMSAck deliver(JMSPacket msgPkt) 
-    throws ConsumerClosedNoDeliveryException;
+    public JMSAck deliver(JMSPacket msgPkt) throws ConsumerClosedNoDeliveryException;
 
 }

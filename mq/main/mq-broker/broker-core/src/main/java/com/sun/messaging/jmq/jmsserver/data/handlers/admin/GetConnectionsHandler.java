@@ -16,7 +16,7 @@
 
 /*
  * @(#)GetConnectionsHandler.java	1.21 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -43,65 +43,54 @@ import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 
-public class GetConnectionsHandler extends AdminCmdHandler
-{
+public class GetConnectionsHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
-
     public GetConnectionsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "GetConnections: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "GetConnections: " + cmd_props);
         }
 
         ConnectionManager cm = Globals.getConnectionManager();
 
-	String serviceName = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
-	Long cxnId = (Long)cmd_props.get(MessageType.JMQ_CONNECTION_ID);
+        String serviceName = (String) cmd_props.get(MessageType.JMQ_SERVICE_NAME);
+        Long cxnId = (Long) cmd_props.get(MessageType.JMQ_CONNECTION_ID);
 
         int status = Status.OK;
         String errMsg = null;
 
-	Vector v = new Vector();
+        Vector v = new Vector();
 
         Service s = null;
 
-
-	/*
-	 * Only one of {JMQServiceName,JMQConnectionID} will be set.
-	 *
-	 * If JMQServiceName is set, send back only connections on the 
-	 * specified service. If JMQServiceName is not set, send back connections
-	 * on all services.
-	 *
-	 * If JMQConnectionID is set, send back only the specified connection;
-	 * send back an error if the id specified cannot be found.
-	 *
-	 * Scenarios:
-	 *   JMQServiceName unset, JMQConnectionID unset
-	 *   -> send back all connections
-	 *   JMQServiceName=jms, JMQConnectionID unset
-	 *   -> send back all connections on service 'jms'
-	 *   JMQServiceName unset, JMQConnectionID=1234
-	 *   -> send back connection with ID=1234
-	 *
-	 * This won't happen but in case it comes across we can do:
-	 *   JMQServiceName=jms, JMQConnectionID=1234
-	 *   -> send back connection with ID=1234 on service 'jms'
-	 */
+        /*
+         * Only one of {JMQServiceName,JMQConnectionID} will be set.
+         *
+         * If JMQServiceName is set, send back only connections on the specified service. If JMQServiceName is not set, send
+         * back connections on all services.
+         *
+         * If JMQConnectionID is set, send back only the specified connection; send back an error if the id specified cannot be
+         * found.
+         *
+         * Scenarios: JMQServiceName unset, JMQConnectionID unset -> send back all connections JMQServiceName=jms,
+         * JMQConnectionID unset -> send back all connections on service 'jms' JMQServiceName unset, JMQConnectionID=1234 ->
+         * send back connection with ID=1234
+         *
+         * This won't happen but in case it comes across we can do: JMQServiceName=jms, JMQConnectionID=1234 -> send back
+         * connection with ID=1234 on service 'jms'
+         */
 
         if (serviceName != null) {
             s = Globals.getServiceManager().getService(serviceName);
@@ -114,53 +103,48 @@ public class GetConnectionsHandler extends AdminCmdHandler
         if (status == Status.OK) {
 
             ConnectionInfo cxnInfo = null;
-            IMQConnection  cxn = null;
+            IMQConnection cxn = null;
             if (cxnId != null) {
                 // Get info for one connection
-                cxn = (IMQConnection)cm.getConnection(
-                                new ConnectionUID(cxnId.longValue()));
+                cxn = (IMQConnection) cm.getConnection(new ConnectionUID(cxnId.longValue()));
                 if (cxn != null) {
                     if (DEBUG) {
                         cxn.dump();
                     }
                     cxnInfo = cxn.getConnectionInfo();
-	            v.add(getConnectionInfoHashtable(cxnInfo));
+                    v.add(getConnectionInfoHashtable(cxnInfo));
                 } else {
                     status = Status.NOT_FOUND;
-                    errMsg = rb.getString(rb.E_NO_SUCH_CONNECTION,
-                        String.valueOf(cxnId.longValue()));
+                    errMsg = rb.getString(rb.E_NO_SUCH_CONNECTION, String.valueOf(cxnId.longValue()));
                 }
             } else {
                 // Get info for all connections on a service
                 List connections = cm.getConnectionList(s);
                 Iterator itr = connections.iterator();
                 while (itr.hasNext()) {
-                    cxn     = (IMQConnection)itr.next();
-	            cxnInfo = cxn.getConnectionInfo();
-	            v.add(getConnectionInfoHashtable(cxnInfo));
+                    cxn = (IMQConnection) itr.next();
+                    cxnInfo = cxn.getConnectionInfo();
+                    v.add(getConnectionInfoHashtable(cxnInfo));
                 }
             }
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.GET_CONNECTIONS_REPLY,
-		status, errMsg);
+        setProperties(reply, MessageType.GET_CONNECTIONS_REPLY, status, errMsg);
 
-	setBodyObject(reply, v);
-	parent.sendReply(con, cmd_msg, reply);
+        setBodyObject(reply, v);
+        parent.sendReply(con, cmd_msg, reply);
         return true;
     }
 
     /*
-     * Convenience routine used to convert/return hashtable from
-     * ConnectionInfo class. This hashtable is returned in the 
+     * Convenience routine used to convert/return hashtable from ConnectionInfo class. This hashtable is returned in the
      * GET_CONNECTIONS_REPLY message.
      *
-     * REVISIT: Currently returns dyummy values - actual implementation
-     * needs to be done.
+     * REVISIT: Currently returns dyummy values - actual implementation needs to be done.
      */
     public static Hashtable getConnectionInfoHashtable(ConnectionInfo cxnInfo) {
         Hashtable table = new Hashtable();
@@ -173,8 +157,7 @@ public class GetConnectionsHandler extends AdminCmdHandler
         table.put("clientid", cxnInfo.clientID);
 
         if (cxnInfo.remoteIP != null) {
-            table.put("host", String.valueOf(
-                IPAddress.rawIPToString(cxnInfo.remoteIP, true, true)));
+            table.put("host", String.valueOf(IPAddress.rawIPToString(cxnInfo.remoteIP, true, true)));
         }
         table.put("port", Integer.valueOf(cxnInfo.remPort));
         table.put("user", cxnInfo.user);

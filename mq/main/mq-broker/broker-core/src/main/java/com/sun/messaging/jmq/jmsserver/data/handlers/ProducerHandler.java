@@ -16,7 +16,7 @@
 
 /*
  * %W% %G%
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
@@ -42,13 +42,10 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.memory.MemoryGlobals;
 import com.sun.messaging.jmq.util.log.*;
 
-
-
 /**
  * Handles the create Message
  */
-public class ProducerHandler extends PacketHandler 
-{
+public class ProducerHandler extends PacketHandler {
     private DestinationList DL = Globals.getDestinationList();
 
     public ProducerHandler() {
@@ -57,9 +54,7 @@ public class ProducerHandler extends PacketHandler
     /**
      * Method to handle Producers
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException 
-    {
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         Packet reply = new Packet(con.useDirectBuffers());
         reply.setPacketType(msg.getPacketType() + 1);
@@ -84,36 +79,32 @@ public class ProducerHandler extends PacketHandler
         try {
 
             if (msg.getPacketType() == PacketType.ADD_PRODUCER) {
-    
-                String dest = (String)props.get("JMQDestination");
-                Integer type = (Integer)props.get("JMQDestType");
-    
+
+                String dest = (String) props.get("JMQDestination");
+                Integer type = (Integer) props.get("JMQDestType");
+
                 if (!con.isAdminConnection() && MemoryGlobals.getMEM_DISALLOW_PRODUCERS()) {
                     status = Status.ERROR;
                     reason = "Low memory";
-                    logger.log(Logger.WARNING,BrokerResources.W_LOW_MEM_REJECT_PRODUCER);
+                    logger.log(Logger.WARNING, BrokerResources.W_LOW_MEM_REJECT_PRODUCER);
                     throw new BrokerException(reason, status);
                 }
-                Long lsessionid = (Long)props.get("JMQSessionID");
+                Long lsessionid = (Long) props.get("JMQSessionID");
                 if (lsessionid != null) { // 3.5 protocol
-                    SessionUID sessionID = new SessionUID(
-                               lsessionid.longValue());
+                    SessionUID sessionID = new SessionUID(lsessionid.longValue());
                     // single threaded .. we dont have to worry about
                     // someone else creating it
                     Session session = con.getSession(sessionID);
                     if (session == null) {
-                        throw new BrokerException("Internal Error: client sent "
-                              + "invalid sessionUID w/ ADD_PRODUCER " 
-                               + sessionID + " session does not exist");
+                        throw new BrokerException(
+                                "Internal Error: client sent " + "invalid sessionUID w/ ADD_PRODUCER " + sessionID + " session does not exist");
                     }
                 }
-                Destination[] ds= null;
+                Destination[] ds = null;
                 DestinationUID duid = null;
                 if (dest != null && !DestinationUID.isWildcard(dest) && type != null) {
                     while (true) {
-                        ds = DL.getDestination(con.getPartitionedStore(), dest, 
-                            type.intValue(), true, 
-                            !con.isAdminConnection());
+                        ds = DL.getDestination(con.getPartitionedStore(), dest, type.intValue(), true, !con.isAdminConnection());
                         d = ds[0];
                         if (d != null) {
                             try {
@@ -123,29 +114,22 @@ public class ProducerHandler extends PacketHandler
                                 // try again
                                 continue;
                             } catch (IllegalStateException ex) {
-                                throw new BrokerException(
-                                    Globals.getBrokerResources().getKString(
-                                    BrokerResources.X_SHUTTING_DOWN_BROKER),
-                                    BrokerResources.X_SHUTTING_DOWN_BROKER,
-                                    ex,
-                                    Status.ERROR);
-                            } 
-                         }
-                         break; // got a lock on the dest
+                                throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_SHUTTING_DOWN_BROKER),
+                                        BrokerResources.X_SHUTTING_DOWN_BROKER, ex, Status.ERROR);
+                            }
+                        }
+                        break; // got a lock on the dest
                     }
                     if (d == null) {
-                        logger.log(Logger.DEBUG, "Unable to add "
-                            + "producer to "  + dest 
-                            + " :" + DestType.toString(type.intValue())
-                            + " destination can not be autocreated ");
+                        logger.log(Logger.DEBUG,
+                                "Unable to add " + "producer to " + dest + " :" + DestType.toString(type.intValue()) + " destination can not be autocreated ");
                         reason = "can not create destination";
                         status = Status.NOT_FOUND;
                         throw new BrokerException(reason, status);
                     }
                     duid = d.getDestinationUID();
                 } else if (dest == null || type == null) {
-                    reason = "no destination passed [dest,type] = [" +
-                           dest + "," + type + "]";
+                    reason = "no destination passed [dest,type] = [" + dest + "," + type + "]";
                     status = Status.ERROR;
                     throw new BrokerException(reason, status);
                 } else {
@@ -154,14 +138,14 @@ public class ProducerHandler extends PacketHandler
 
                 String info = msg.getSysMessageID().toString();
                 Producer p = addProducer(duid, con, info, isIndemp);
-   
+
                 ProducerUID pid = p.getProducerUID();
-    
+
                 assert pid != null;
-   
-                // LKS - XXX - REVISIT - WHAT ABOUT FLOW CONTROL 
+
+                // LKS - XXX - REVISIT - WHAT ABOUT FLOW CONTROL
                 boolean active = (d == null ? true : d.isProducerActive(pid));
-             
+
                 returnprop.put("JMQProducerID", Long.valueOf(pid.longValue()));
                 returnprop.put("JMQDestinationID", duid.toString());
                 if (d == null) {
@@ -174,19 +158,16 @@ public class ProducerHandler extends PacketHandler
                     returnprop.put("JMQBytes", Long.valueOf(0));
                     returnprop.put("JMQSize", Integer.valueOf(0));
                 }
-    
+
             } else {
                 assert msg.getPacketType() == PacketType.DELETE_PRODUCER;
-    
-                Long pid_l = (Long)props.get("JMQProducerID");
-    
-                ProducerUID pid = new ProducerUID( pid_l == null ? 0
-                                   : pid_l.longValue());
-    
-                removeProducer(pid, isIndemp, con,
-                    "Producer closed requested:\n\tconnection: "
-                    + con.getConnectionUID() + "\n\tproducerID: " + pid +
-                    "\n\trequest sysmsgid message: " + msg.getSysMessageID());
+
+                Long pid_l = (Long) props.get("JMQProducerID");
+
+                ProducerUID pid = new ProducerUID(pid_l == null ? 0 : pid_l.longValue());
+
+                removeProducer(pid, isIndemp, con, "Producer closed requested:\n\tconnection: " + con.getConnectionUID() + "\n\tproducerID: " + pid
+                        + "\n\trequest sysmsgid message: " + msg.getSysMessageID());
             }
 
         } catch (BrokerException ex) {
@@ -194,9 +175,7 @@ public class ProducerHandler extends PacketHandler
             reason = ex.getMessage();
             logger.log(Logger.INFO, reason);
         } catch (Exception ex) {
-            logger.logStack(Logger.INFO,
-                 BrokerResources.E_INTERNAL_BROKER_ERROR,
-                 "producer message ", ex);
+            logger.logStack(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR, "producer message ", ex);
             reason = ex.getMessage();
             status = Status.ERROR;
         } finally {
@@ -204,68 +183,56 @@ public class ProducerHandler extends PacketHandler
                 d.decrementRefCount();
         }
 
-
         returnprop.put("JMQStatus", Integer.valueOf(status));
         if (reason != null)
             returnprop.put("JMQReason", reason);
-        if (((IMQBasicConnection)con).getDumpPacket() ||
-                ((IMQBasicConnection)con).getDumpOutPacket()) 
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
             returnprop.put("JMQReqID", msg.getSysMessageID().toString());
-
 
         reply.setProperties(returnprop);
         con.sendControlMessage(reply);
         return true;
     }
 
-    public Producer addProducer(DestinationUID duid, IMQConnection con, String id, boolean isIndemp)
-        throws BrokerException
-    {
-    
+    public Producer addProducer(DestinationUID duid, IMQConnection con, String id, boolean isIndemp) throws BrokerException {
 
         Producer p = null;
         boolean processed = false;
         if (isIndemp) {
-             p =  (Producer)Producer.getProducer(id);
+            p = (Producer) Producer.getProducer(id);
 
         }
         if (p == null) {
-            p = Producer.createProducer(duid,
-                 con.getConnectionUID(), id, con.getPartitionedStore());
+            p = Producer.createProducer(duid, con.getConnectionUID(), id, con.getPartitionedStore());
             assert p != null;
-    
-  
- 
+
             con.addProducer(p);
-   
+
             // Add to all destinations
-            List[] ll = DL.findMatchingIDs(con.getPartitionedStore(),duid);
+            List[] ll = DL.findMatchingIDs(con.getPartitionedStore(), duid);
             List l = ll[0];
             Iterator itr = l.iterator();
             DestinationUID realuid = null;
             Destination[] ds = null;
             Destination d = null;
             while (itr.hasNext()) {
-                realuid = (DestinationUID)itr.next();
-                ds = DL.getDestination(con.getPartitionedStore(),realuid);
+                realuid = (DestinationUID) itr.next();
+                ds = DL.getDestination(con.getPartitionedStore(), realuid);
                 d = ds[0];
                 if (duid.isWildcard() && d.isTemporary()) {
-                      logger.log(Logger.DEBUG,"L10N-XXX: Wildcard production with destination name of "
-                          + duid +  " to temporary destination " +
-                          d.getUniqueName() + " is not supported, ignoring");
-                      continue;
+                    logger.log(Logger.DEBUG, "L10N-XXX: Wildcard production with destination name of " + duid + " to temporary destination " + d.getUniqueName()
+                            + " is not supported, ignoring");
+                    continue;
                 }
                 if (duid.isWildcard() && d.isInternal()) {
-                     logger.log(Logger.DEBUG,"L10N-XXX: Wildcard production with destination name of "
-                        + duid +  " to internal destination " +
-                        d.getUniqueName() + " is not supported, ignoring");
-                     continue;
+                    logger.log(Logger.DEBUG, "L10N-XXX: Wildcard production with destination name of " + duid + " to internal destination " + d.getUniqueName()
+                            + " is not supported, ignoring");
+                    continue;
                 }
 
-                if (duid.isWildcard() && d.isDMQ() ) {
-                    logger.log(Logger.DEBUG,"L10N-XXX: Wildcard production with destination name of "
-                        + duid +  " to the DeadMessageQueue" +
-                        d.getUniqueName() + " is not supported, ignoring");
+                if (duid.isWildcard() && d.isDMQ()) {
+                    logger.log(Logger.DEBUG, "L10N-XXX: Wildcard production with destination name of " + duid + " to the DeadMessageQueue" + d.getUniqueName()
+                            + " is not supported, ignoring");
                     continue;
                 }
 
@@ -276,35 +243,23 @@ public class ProducerHandler extends PacketHandler
         return p;
     }
 
-    public void removeProducer( ProducerUID pid, boolean isIndemp, 
-            IMQConnection con, String msg)
-        throws BrokerException
-    {
-        String reason = null; 
-        int status= Status.OK;
-        Producer p = (Producer)Producer.getProducer(pid);
+    public void removeProducer(ProducerUID pid, boolean isIndemp, IMQConnection con, String msg) throws BrokerException {
+        String reason = null;
+        int status = Status.OK;
+        Producer p = (Producer) Producer.getProducer(pid);
 
         if (p == null && isIndemp) {
             // dont flag error, we already processed it
         } else if (p == null) {
-            logger.log(Logger.INFO,
-               BrokerResources.E_INTERNAL_BROKER_ERROR,
-               "Internal error Unable to find producer "
-                 + pid + "\n\t checking if producer was removed recently " +
-                  Producer.checkProducer(pid));
+            logger.log(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,
+                    "Internal error Unable to find producer " + pid + "\n\t checking if producer was removed recently " + Producer.checkProducer(pid));
             reason = "unknown producer";
             status = Status.ERROR;
             throw new BrokerException(reason, status);
         } else if (p.getConnectionUID() != con.getConnectionUID()) {
-            logger.log(Logger.INFO,
-               BrokerResources.E_INTERNAL_BROKER_ERROR,
-                " error connection "
-                 + "removing producer it doesnt own" 
-                 + "\n\tPID=" + pid 
-                 + "\n\tconnectionUID of request " + con.getConnectionUID()
-                 + "\n\tconnectionUID of creator " + p.getConnectionUID()
-                 + "\n\tchecking producer state: " +
-                  Producer.checkProducer(pid));
+            logger.log(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR,
+                    " error connection " + "removing producer it doesnt own" + "\n\tPID=" + pid + "\n\tconnectionUID of request " + con.getConnectionUID()
+                            + "\n\tconnectionUID of creator " + p.getConnectionUID() + "\n\tchecking producer state: " + Producer.checkProducer(pid));
             reason = "unknown producer";
             status = Status.ERROR;
             throw new BrokerException(reason, status);

@@ -16,16 +16,15 @@
 
 /*
  * @(#)EnumConverter.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsservice;
 
 /**
  *
  */
-public interface EnumConverter <E extends Enum<E> & EnumConverter<E>> {
+public interface EnumConverter<E extends Enum<E> & EnumConverter<E>> {
 
-    
     /**
      * converts an enum into its value
      *
@@ -41,5 +40,5 @@ public interface EnumConverter <E extends Enum<E> & EnumConverter<E>> {
      * @return The converted enum of the integer val
      */
     E convert(int val);
-    
+
 }

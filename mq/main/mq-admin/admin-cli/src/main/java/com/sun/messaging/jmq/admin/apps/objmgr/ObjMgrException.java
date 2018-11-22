@@ -16,36 +16,32 @@
 
 /*
  * @(#)ObjMgrException.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.objmgr;
 
 /**
- * This exception is thrown when problems are
- * encountered when validating the information
- * that is provided to execute commands. Examples
- * of errors include:
+ * This exception is thrown when problems are encountered when validating the information that is provided to execute
+ * commands. Examples of errors include:
  * <UL>
  * <LI>bad command type
  * <LI>missing mandatory values
  * </UL>
  *
  * <P>
- * The information that is provided by the user is encapsulated
- * in a ObjMgrProperties object. This exception will
- * contain a ObjMgrProperties object to encapsulate
- * the erroneous information.
+ * The information that is provided by the user is encapsulated in a ObjMgrProperties object. This exception will
+ * contain a ObjMgrProperties object to encapsulate the erroneous information.
  **/
 
-public class ObjMgrException extends Exception  {
+public class ObjMgrException extends Exception {
 
-    public static final int		NO_CMD_SPEC		= 0;
-    public static final int		BAD_CMD_SPEC		= 1;
-    public static final int		NO_OBJ_TYPE_SPEC	= 2;
-    public static final int		INVALID_OBJ_TYPE	= 3;
-    public static final int		NO_LOOKUP_NAME_SPEC	= 4;
-    public static final int		NO_DEST_NAME_SPEC	= 5;
-    public static final int		INVALID_READONLY_VALUE  = 6;
+    public static final int NO_CMD_SPEC = 0;
+    public static final int BAD_CMD_SPEC = 1;
+    public static final int NO_OBJ_TYPE_SPEC = 2;
+    public static final int INVALID_OBJ_TYPE = 3;
+    public static final int NO_LOOKUP_NAME_SPEC = 4;
+    public static final int NO_DEST_NAME_SPEC = 5;
+    public static final int INVALID_READONLY_VALUE = 6;
 
     /**
      * Props object encapsulating the user specified options/commands.
@@ -55,27 +51,27 @@ public class ObjMgrException extends Exception  {
 
     /**
      * Constructs an ObjMgrException
-     */ 
+     */
     public ObjMgrException() {
         super();
         objMgrProps = null;
     }
 
-    /** 
+    /**
      * Constructs an ObjMgrException with type
      *
-     * @param  type       type of exception 
+     * @param type type of exception
      **/
     public ObjMgrException(int type) {
         super();
         objMgrProps = null;
-	this.type = type;
+        this.type = type;
     }
 
-    /** 
+    /**
      * Constructs an ObjMgrException with reason
      *
-     * @param  reason        a description of the exception
+     * @param reason a description of the exception
      **/
     public ObjMgrException(String reason) {
         super(reason);
@@ -83,22 +79,18 @@ public class ObjMgrException extends Exception  {
     }
 
     /**
-     * Gets the properties object that encapsulates the user specified
-     * options/commands.
+     * Gets the properties object that encapsulates the user specified options/commands.
      *
-     * @return the properties object that encapsulates the user 
-     *		specified options/commands.
+     * @return the properties object that encapsulates the user specified options/commands.
      **/
     public ObjMgrProperties getProperties() {
         return (objMgrProps);
     }
 
     /**
-     * Sets the properties object that encapsulates the user specified
-     * options/commands.
+     * Sets the properties object that encapsulates the user specified options/commands.
      *
-     * @param p		the properties object that encapsulates the user 
-     *			specified options/commands.
+     * @param p the properties object that encapsulates the user specified options/commands.
      **/
     public synchronized void setProperties(ObjMgrProperties p) {
         objMgrProps = p;
@@ -110,6 +102,6 @@ public class ObjMgrException extends Exception  {
      * @return the exception type.
      **/
     public synchronized int getType() {
-	return (type);
+        return (type);
     }
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)TestClient3.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 

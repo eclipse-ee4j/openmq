@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionOperations.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,35 +24,35 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on transaction operations.
  */
 public class TransactionOperations {
-    /** 
+    /**
      * Get list of transaction IDs
      */
-    public static final String		GET_TRANSACTION_IDS = "getTransactionIDs";
+    public static final String GET_TRANSACTION_IDS = "getTransactionIDs";
 
-    /** 
+    /**
      * Get info on all transactions
      */
-    public static final String		GET_TRANSACTION_INFO = "getTransactionInfo";
+    public static final String GET_TRANSACTION_INFO = "getTransactionInfo";
 
-    /** 
+    /**
      * Get info on specified transaction (via ID)
      */
-    public static final String		GET_TRANSACTION_INFO_BY_ID = "getTransactionInfoByID";
+    public static final String GET_TRANSACTION_INFO_BY_ID = "getTransactionInfoByID";
 
-    /** 
+    /**
      * Commit a transaction.
      */
-    public static final String		COMMIT = "commit";
+    public static final String COMMIT = "commit";
 
-    /** 
+    /**
      * Rollback a transaction.
      */
-    public static final String		ROLLBACK = "rollback";
+    public static final String ROLLBACK = "rollback";
 
     /*
      * Class cannot be instantiated
      */
     private TransactionOperations() {
     }
-    
+
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceManagerConfig.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
@@ -40,123 +40,101 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.management.util.ServiceUtil;
 
-public class ServiceManagerConfig extends MQMBeanReadWrite  {
+public class ServiceManagerConfig extends MQMBeanReadWrite {
     private static MBeanAttributeInfo[] attrs = {
-	    new MBeanAttributeInfo(ServiceAttributes.MAX_THREADS,
-					Integer.class.getName(),
-	                                mbr.getString(mbr.I_SVC_MGR_ATTR_MAX_THREADS),
-					true,
-					false,
-					false),
+            new MBeanAttributeInfo(ServiceAttributes.MAX_THREADS, Integer.class.getName(), mbr.getString(mbr.I_SVC_MGR_ATTR_MAX_THREADS), true, false, false),
 
-	    new MBeanAttributeInfo(ServiceAttributes.MIN_THREADS,
-					Integer.class.getName(),
-	                                mbr.getString(mbr.I_SVC_MGR_ATTR_MIN_THREADS),
-					true,
-					false,
-					false),
-			};
+            new MBeanAttributeInfo(ServiceAttributes.MIN_THREADS, Integer.class.getName(), mbr.getString(mbr.I_SVC_MGR_ATTR_MIN_THREADS), true, false,
+                    false), };
 
     private static MBeanOperationInfo[] ops = {
-	    new MBeanOperationInfo(ServiceOperations.GET_SERVICES,
-	        mbr.getString(mbr.I_SVC_MGR_CFG_OP_GET_SERVICES),
-		    null, 
-		    ObjectName[].class.getName(),
-		    MBeanOperationInfo.INFO),
+            new MBeanOperationInfo(ServiceOperations.GET_SERVICES, mbr.getString(mbr.I_SVC_MGR_CFG_OP_GET_SERVICES), null, ObjectName[].class.getName(),
+                    MBeanOperationInfo.INFO),
 
-	    new MBeanOperationInfo(ServiceOperations.PAUSE,
-	        mbr.getString(mbr.I_SVC_MGR_OP_PAUSE),
-		    null, 
-		    Void.TYPE.getName(),
-		    MBeanOperationInfo.ACTION),
+            new MBeanOperationInfo(ServiceOperations.PAUSE, mbr.getString(mbr.I_SVC_MGR_OP_PAUSE), null, Void.TYPE.getName(), MBeanOperationInfo.ACTION),
 
-	    new MBeanOperationInfo(ServiceOperations.RESUME,
-	        mbr.getString(mbr.I_SVC_MGR_OP_RESUME),
-		    null, 
-		    Void.TYPE.getName(),
-		    MBeanOperationInfo.ACTION)
-		};
+            new MBeanOperationInfo(ServiceOperations.RESUME, mbr.getString(mbr.I_SVC_MGR_OP_RESUME), null, Void.TYPE.getName(), MBeanOperationInfo.ACTION) };
 
-    public ServiceManagerConfig()  {
-	super();
+    public ServiceManagerConfig() {
+        super();
     }
 
-    public Integer getMaxThreads()  {
-	MetricManager mm = Globals.getMetricManager();
-	MetricCounters mc = mm.getMetricCounters(null);
+    public Integer getMaxThreads() {
+        MetricManager mm = Globals.getMetricManager();
+        MetricCounters mc = mm.getMetricCounters(null);
 
-	return (Integer.valueOf(mc.threadsHighWater));
+        return (Integer.valueOf(mc.threadsHighWater));
     }
 
-    public Integer getMinThreads()  {
-	MetricManager mm = Globals.getMetricManager();
-	MetricCounters mc = mm.getMetricCounters(null);
+    public Integer getMinThreads() {
+        MetricManager mm = Globals.getMetricManager();
+        MetricCounters mc = mm.getMetricCounters(null);
 
-	return (Integer.valueOf(mc.threadsLowWater));
+        return (Integer.valueOf(mc.threadsLowWater));
     }
 
-    public ObjectName[] getServices() throws MBeanException  {
-	List l = ServiceUtil.getVisibleServiceNames();
+    public ObjectName[] getServices() throws MBeanException {
+        List l = ServiceUtil.getVisibleServiceNames();
 
-	if (l.size() == 0)  {
-	    return (null);
-	}
+        if (l.size() == 0) {
+            return (null);
+        }
 
-	ObjectName oNames[] = new ObjectName [ l.size() ];
+        ObjectName oNames[] = new ObjectName[l.size()];
 
         Iterator iter = l.iterator();
 
-	int i = 0;
+        int i = 0;
         while (iter.hasNext()) {
-            String service = (String)iter.next();
+            String service = (String) iter.next();
 
-	    try  {
-	        ObjectName o = MQObjectName.createServiceConfig(service);
+            try {
+                ObjectName o = MQObjectName.createServiceConfig(service);
 
-	        oNames[i++] = o;
-	    } catch (Exception e)  {
-		handleOperationException(ServiceOperations.GET_SERVICES, e);
-	    }
+                oNames[i++] = o;
+            } catch (Exception e) {
+                handleOperationException(ServiceOperations.GET_SERVICES, e);
+            }
         }
 
-	return (oNames);
+        return (oNames);
     }
 
-    public void pause() throws MBeanException  {
-	try  {
-	    logger.log(Logger.INFO, "Pausing all services");
-	    ServiceUtil.pauseService(null);
-	} catch(BrokerException e)  {
-	    handleOperationException(ServiceOperations.PAUSE, e);
-	}
+    public void pause() throws MBeanException {
+        try {
+            logger.log(Logger.INFO, "Pausing all services");
+            ServiceUtil.pauseService(null);
+        } catch (BrokerException e) {
+            handleOperationException(ServiceOperations.PAUSE, e);
+        }
     }
 
-    public void resume() throws MBeanException  {
-	try  {
-	    logger.log(Logger.INFO, "Resuming all services");
-	    ServiceUtil.resumeService(null);
-	} catch(BrokerException e)  {
-	    handleOperationException(ServiceOperations.RESUME, e);
-	}
+    public void resume() throws MBeanException {
+        try {
+            logger.log(Logger.INFO, "Resuming all services");
+            ServiceUtil.resumeService(null);
+        } catch (BrokerException e) {
+            handleOperationException(ServiceOperations.RESUME, e);
+        }
     }
 
-    public String getMBeanName()  {
-	return ("ServiceManagerConfig");
+    public String getMBeanName() {
+        return ("ServiceManagerConfig");
     }
 
-    public String getMBeanDescription()  {
-	return (mbr.getString(mbr.I_SVC_MGR_CFG_DESC));
+    public String getMBeanDescription() {
+        return (mbr.getString(mbr.I_SVC_MGR_CFG_DESC));
     }
 
-    public MBeanAttributeInfo[] getMBeanAttributeInfo()  {
-	return (attrs);
+    public MBeanAttributeInfo[] getMBeanAttributeInfo() {
+        return (attrs);
     }
 
-    public MBeanOperationInfo[] getMBeanOperationInfo()  {
-	return (ops);
+    public MBeanOperationInfo[] getMBeanOperationInfo() {
+        return (ops);
     }
 
-    public MBeanNotificationInfo[] getMBeanNotificationInfo()  {
-	return (null);
+    public MBeanNotificationInfo[] getMBeanNotificationInfo() {
+        return (null);
     }
 }

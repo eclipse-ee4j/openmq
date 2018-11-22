@@ -16,24 +16,21 @@
 
 /*
  * @(#)QCFObjectFactory.java	1.5 07/02/07
- */ 
+ */
 
 package com.sun.messaging.naming;
 
 /**
- * <code>QCFObjectFactory</code> is the class named in
- * <code>javax.naming.Reference</code> objects created from JMQ1.1
+ * <code>QCFObjectFactory</code> is the class named in <code>javax.naming.Reference</code> objects created from JMQ1.1
  * <code>com.sun.messaging.QueueConnectionFactory</code> objects.
  * <p>
- * The parent class, <code>com.sun.messaging.naming.CFObjectFactory</code>
- * handles the generation of the current version of
- * <code>com.sun.messaging.QueueConnectionFactory</code> objects along
- * with any conversions required.
+ * The parent class, <code>com.sun.messaging.naming.CFObjectFactory</code> handles the generation of the current version
+ * of <code>com.sun.messaging.QueueConnectionFactory</code> objects along with any conversions required.
  * <p>
+ * 
  * @since JMQ1.1
  */
- 
+
 public final class QCFObjectFactory extends CFObjectFactory {
 
 }
-

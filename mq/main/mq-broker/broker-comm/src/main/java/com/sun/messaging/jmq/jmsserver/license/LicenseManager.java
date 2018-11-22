@@ -16,7 +16,7 @@
 
 /*
  * @(#)LicenseManager.java	1.22 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.license;
 
@@ -41,7 +41,8 @@ public class LicenseManager {
     private LicenseBase currentLicense = null;
     private LicenseBase base = null;
 
-    public LicenseManager() {}
+    public LicenseManager() {
+    }
 
     /**
      * This method loads the appropriate license.
@@ -49,14 +50,12 @@ public class LicenseManager {
     public LicenseBase getLicense(String filestr) throws BrokerException {
         if (currentLicense != null)
             return currentLicense;
-    // Step 1 : Choose the best LicenseBase implementation class.
-    base = getLicenseBase();
-    if (base == null) {
+        // Step 1 : Choose the best LicenseBase implementation class.
+        base = getLicenseBase();
+        if (base == null) {
             // No license base class in the package!
             // This should never happen. No I18N necessary.
-            throw new BrokerException(
-                "Could not find license base class." +
-                "This is a broker packaging error.");
+            throw new BrokerException("Could not find license base class." + "This is a broker packaging error.");
         }
 
         // Step 2 : Load the specified license file. If no license
@@ -65,10 +64,9 @@ public class LicenseManager {
         FileLicense fl = null;
         try {
             fl = loadLicenseFile(filestr);
-       }
-        catch (BrokerException e) {
-           //BUG FIX 5025985
-           throw e;
+        } catch (BrokerException e) {
+            // BUG FIX 5025985
+            throw e;
         }
 
         // Step 3 : If a license file was loaded from the disk
@@ -78,28 +76,23 @@ public class LicenseManager {
             try {
                 fl.rewriteLicense();
             } catch (IOException e) {
-                throw new BrokerException(
-                    br.getString(br.E_BAD_LICENSE_DATA), e);
+                throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA), e);
             }
         }
 
         // Step 4 : Superimpose the license file contents on the
         // base class chosen in step 1.
         if (fl != null) {
-            if (filestr != null ||
-                fl.getPrecedence() > base.getPrecedence()) {
+            if (filestr != null || fl.getPrecedence() > base.getPrecedence()) {
                 base.superimpose(fl.getProperties());
 
                 // log where the license comes from
-                logger.log(Logger.DEBUG, br.getString(br.I_LICENSE_FILE,
-                        fl.getLicenseFile()));
+                logger.log(Logger.DEBUG, br.getString(br.I_LICENSE_FILE, fl.getLicenseFile()));
             }
-        }
-        else if (base.isLicenseFileRequired()) {
+        } else if (base.isLicenseFileRequired()) {
             // If there is no license file, and the base class
             // requires a license file, throw an exception.
-            throw new BrokerException(
-                br.getString(br.E_NO_VALID_LICENSE));
+            throw new BrokerException(br.getString(br.E_NO_VALID_LICENSE));
         }
 
         currentLicense = base;
@@ -109,10 +102,8 @@ public class LicenseManager {
     //
     // Following constants are used by getLicenseBase() method.
     //
-    private static final String LICENSE_BASE_PKG_PREFIX =
-        "com.sun.messaging.jmq.jmsserver.license.";
-    private static final String STANDALONE_LICENSE_BASE =
-        "StandaloneLicense";
+    private static final String LICENSE_BASE_PKG_PREFIX = "com.sun.messaging.jmq.jmsserver.license.";
+    private static final String STANDALONE_LICENSE_BASE = "StandaloneLicense";
     private static final String LICENSE_BASE_CLASS_PREFIX = "L";
     private static final int MAX_LICENSE_BASE_CLASSES = 16;
 
@@ -121,32 +112,29 @@ public class LicenseManager {
      */
     private LicenseBase getLicenseBase() throws BrokerException {
         Class cl = null;
-        
+
         // First try to load the StandaloneLicense class.
         String cname = LICENSE_BASE_PKG_PREFIX + STANDALONE_LICENSE_BASE;
         try {
             cl = Class.forName(cname);
             return newInstance(cl);
-        }
-        catch (Exception e) { /* Ignore */ }
+        } catch (Exception e) {
+            /* Ignore */ }
 
         // If StandaloneLicense is not found, search for other
         // license classes.
         ArrayList list = new ArrayList();
         for (int i = 0; i < MAX_LICENSE_BASE_CLASSES; i++) {
-            cname = LICENSE_BASE_PKG_PREFIX +
-                LICENSE_BASE_CLASS_PREFIX +
-                i;
+            cname = LICENSE_BASE_PKG_PREFIX + LICENSE_BASE_CLASS_PREFIX + i;
 
             try {
-               cl = Class.forName(cname);
-               list.add(newInstance(cl));
-           }
-           catch (Exception e) {
-           /* Ignore */ }
+                cl = Class.forName(cname);
+                list.add(newInstance(cl));
+            } catch (Exception e) {
+                /* Ignore */ }
         }
 
-        LicenseBase[] licenses = (LicenseBase[])list.toArray(new LicenseBase[list.size()]);
+        LicenseBase[] licenses = (LicenseBase[]) list.toArray(new LicenseBase[list.size()]);
         return selectBestLicense(licenses);
     }
 
@@ -158,22 +146,20 @@ public class LicenseManager {
     /**
      * Select the most generous license.
      */
-    private LicenseBase selectBestLicense(LicenseBase[] licenses)
-        throws BrokerException {
+    private LicenseBase selectBestLicense(LicenseBase[] licenses) throws BrokerException {
         if (licenses == null || licenses.length == 0) {
-            throw new BrokerException(
-                br.getString(br.E_NO_VALID_LICENSE));
+            throw new BrokerException(br.getString(br.E_NO_VALID_LICENSE));
         }
 
         // pick a license to use:
         // - pick the one with the highest precedence value.
         // - a non-expiring license has higher priority, i.e., a
-        //   license with no expiration date but lower precedence
-        //   will be picked instead of a license with an
-        //   expiration date but higher precedence.
+        // license with no expiration date but lower precedence
+        // will be picked instead of a license with an
+        // expiration date but higher precedence.
 
         LicenseBase lb = licenses[0];
-        
+
         for (int i = 1; i < licenses.length; i++) {
             boolean current = lb.willExpire();
             boolean next = licenses[i].willExpire();
@@ -186,9 +172,7 @@ public class LicenseManager {
             // If the current and next license have same
             // expiration condition, then use the one with higher
             // precedence.
-            if (current == next &&
-                lb.getPrecedence() <
-                    licenses[i].getPrecedence()) {
+            if (current == next && lb.getPrecedence() < licenses[i].getPrecedence()) {
                 lb = licenses[i];
             }
         }
@@ -199,10 +183,8 @@ public class LicenseManager {
     //
     // Following constants are used by the loadLicenseFile() method.
     //
-    private static final String LICENSE_DIR =
-            CommGlobals.getJMQ_ETC_HOME()
-                + File.separator + "lic" + File.separator;
-    private static final String TRIAL_LICENSE_DIR = CommGlobals.getJMQ_VAR_HOME() + File.separator + "lic" + File.separator; 
+    private static final String LICENSE_DIR = CommGlobals.getJMQ_ETC_HOME() + File.separator + "lic" + File.separator;
+    private static final String TRIAL_LICENSE_DIR = CommGlobals.getJMQ_VAR_HOME() + File.separator + "lic" + File.separator;
 
     private static final String LICENSE_FILE_PREFIX = "imqbroker";
     private static final String LICENSE_FILE_SUBFIX = ".lic";
@@ -210,59 +192,55 @@ public class LicenseManager {
     // file name filter for licence files (imqbroker*.lic)
     private static FilenameFilter licFilter = new FilenameFilter() {
         public boolean accept(File dir, String name) {
-            return (name.startsWith(LICENSE_FILE_PREFIX)
-                && name.endsWith(LICENSE_FILE_SUBFIX));
+            return (name.startsWith(LICENSE_FILE_PREFIX) && name.endsWith(LICENSE_FILE_SUBFIX));
         }
     };
 
-    private FileLicense loadLicenseFile(String filestr)
-        throws BrokerException {
-        
+    private FileLicense loadLicenseFile(String filestr) throws BrokerException {
+
         File dir = new File(LICENSE_DIR);
         File trialdir = new File(TRIAL_LICENSE_DIR);
         FileLicense fl = null;
         LicenseBase lbase = null;
         if (filestr != null) {
-            //Bug 6157397
+            // Bug 6157397
             String strname = base.getProperty(LicenseBase.PROP_LICENSE_TYPE);
-            if(filestr.equalsIgnoreCase(strname))
-             return null;
-                     
+            if (filestr.equalsIgnoreCase(strname))
+                return null;
+
             // try to load the specified file
             String licenseFile = LICENSE_FILE_PREFIX + filestr + LICENSE_FILE_SUBFIX;
             File file = null;
-            //For bug fix 4995767
-            if(filestr.equalsIgnoreCase("try"))
-               file = new File(trialdir, licenseFile);
-            else 
-               file = new File(dir,licenseFile); 
-            
-            //BUG FIX 5025985
-            if(!file.exists())
-              throw new BrokerException(br.getString(br.E_LOAD_LICENSE,filestr));  
-            //BUG FIX 5057293
-            else if(!file.canRead())
-              throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE,licenseFile));  
-            
+            // For bug fix 4995767
+            if (filestr.equalsIgnoreCase("try"))
+                file = new File(trialdir, licenseFile);
+            else
+                file = new File(dir, licenseFile);
+
+            // BUG FIX 5025985
+            if (!file.exists())
+                throw new BrokerException(br.getString(br.E_LOAD_LICENSE, filestr));
+            // BUG FIX 5057293
+            else if (!file.canRead())
+                throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE, licenseFile));
+
             fl = new FileLicense(file);
-        }
-        else {
+        } else {
             FileLicense[] licenses = loadFileLicenses();
-            if(loadFileLicenses().length !=0)
-            {    
-              fl = (FileLicense) selectBestLicense(licenses);
-              File f = fl.getLicenseFile();
-              if(!f.canRead())
-                throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE,f.toString())); 
-              
-              //BUG FIX 4996564
-              LicenseBase lb = (LicenseBase)fl;
-              Properties prop = lb.props;
-              String datestring = prop.getProperty(lb.PROP_DATE_STRING);
-              if(datestring.startsWith(lb.TRY_STRING)){
-               //BUG FIX 5054057
-               return null;
-              }
+            if (loadFileLicenses().length != 0) {
+                fl = (FileLicense) selectBestLicense(licenses);
+                File f = fl.getLicenseFile();
+                if (!f.canRead())
+                    throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE, f.toString()));
+
+                // BUG FIX 4996564
+                LicenseBase lb = (LicenseBase) fl;
+                Properties prop = lb.props;
+                String datestring = prop.getProperty(lb.PROP_DATE_STRING);
+                if (datestring.startsWith(lb.TRY_STRING)) {
+                    // BUG FIX 5054057
+                    return null;
+                }
             }
         }
 
@@ -271,6 +249,7 @@ public class LicenseManager {
 
     /**
      * Load all valid licenses from from the license directory.
+     * 
      * @return an array of License objects
      */
     public static FileLicense[] loadFileLicenses() {
@@ -290,27 +269,24 @@ public class LicenseManager {
                 // are expired log it and continue don't print out any
                 // info in production code
                 /*
-                logger.log(logger.DEBUG, "loading " + names[i] + ", got: "
-                    + e.toString());
-                */
+                 * logger.log(logger.DEBUG, "loading " + names[i] + ", got: " + e.toString());
+                 */
             }
         }
-        /** For Bug Fix 4995767 
-            The trial license is present in a new location now
-            var_home/lic
-        */
+        /**
+         * For Bug Fix 4995767 The trial license is present in a new location now var_home/lic
+         */
         String[] trialnames = trialdir.list(licFilter);
-        for(int j=0;trialnames!=null && j < trialnames.length; j++)
-        {
-          try{
-             File file = new File(trialdir, trialnames[j]);
-             FileLicense lic = new FileLicense(file);
-             list.add(lic);
-             } catch(BrokerException e) {
-             }
-        } 
+        for (int j = 0; trialnames != null && j < trialnames.length; j++) {
+            try {
+                File file = new File(trialdir, trialnames[j]);
+                FileLicense lic = new FileLicense(file);
+                list.add(lic);
+            } catch (BrokerException e) {
+            }
+        }
 
-        return (FileLicense[])list.toArray(new FileLicense[list.size()]);
+        return (FileLicense[]) list.toArray(new FileLicense[list.size()]);
     }
 
     public static LicenseBase[] loadLicenses() {
@@ -322,14 +298,14 @@ public class LicenseManager {
         } catch (Exception ex) {
 // log some error here
         }
-        LicenseBase fl[] =  loadFileLicenses();
+        LicenseBase fl[] = loadFileLicenses();
 
-        //int length = fl.length + (lb == null? 0 : 1);
+        // int length = fl.length + (lb == null? 0 : 1);
         LicenseBase rl[] = new LicenseBase[fl.length + 1];
-        for (int i= 0; i < fl.length ; i ++)
-           rl[i]=fl[i];
+        for (int i = 0; i < fl.length; i++)
+            rl[i] = fl[i];
         if (lb != null)
-           rl[fl.length] = lb;
+            rl[fl.length] = lb;
         return rl;
     }
 }

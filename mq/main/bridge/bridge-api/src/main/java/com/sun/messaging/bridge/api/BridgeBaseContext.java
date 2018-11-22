@@ -25,8 +25,7 @@ import com.sun.messaging.bridge.api.Bridge;
 
 @Contract
 @Singleton
-public interface BridgeBaseContext 
-{
+public interface BridgeBaseContext {
 
     public static final String PROP_BRIDGE = "bridge";
     public static final String PROP_PREFIX = "PROP_PREFIX";
@@ -47,7 +46,6 @@ public interface BridgeBaseContext
     public static final String KEYSTORE_ALGORITHM = "ssl.KeyManagerFactory.algorithm";
     public static final String TRUSTSTORE_ALGORITHM = "ssl.TrustManagerFactory.algorithm";
     public static final String SECURESOCKET_PROTOCOL = "securesocket.protocol";
-
 
     /**
      *
@@ -84,7 +82,7 @@ public interface BridgeBaseContext
      *
      * @return the runtime configuration for bridge service manager
      */
-    public Properties getBridgeConfig(); 
+    public Properties getBridgeConfig();
 
     /**
      * @return true if JDBC store type
@@ -100,13 +98,13 @@ public interface BridgeBaseContext
 
     /**
      *
-     * @return true if the broker has HA enabled 
+     * @return true if the broker has HA enabled
      */
     public boolean isHAEnabled();
 
     /**
      *
-     * @param props Bridge properties to update 
+     * @param props Bridge properties to update
      */
     public void updateBridgeConfig(Properties props) throws Exception;
 
@@ -115,12 +113,12 @@ public interface BridgeBaseContext
      * @param protocol The MQ Connection Service protocol string, like "tcp", "ssl"
      * @param serviceType The MQ Connection Service type "NORMAL" or "ADMIN"
      */
-    public String getBrokerServiceAddress(String protocol, String serviceType) throws Exception; 
+    public String getBrokerServiceAddress(String protocol, String serviceType) throws Exception;
 
     /**
      *
      */
-    public String getBrokerHostName(); 
+    public String getBrokerHostName();
 
     /**
      * Logging method for Bridge Service Manager
@@ -142,39 +140,34 @@ public interface BridgeBaseContext
      */
     public void logDebug(String message, Throwable t);
 
-
     /**
      * Handle global errors like OOM
      *
      * @return true if the method actually did something with the error
      */
-	public boolean handleGlobalError(Throwable ex, String reason); 
-
+    public boolean handleGlobalError(Throwable ex, String reason);
 
     /**
-     * Register (optional) a service with host  
+     * Register (optional) a service with host
      */
-	public void registerService(String name, String protocol, 
-                                String type, int port, HashMap props); 
-
+    public void registerService(String name, String protocol, String type, int port, HashMap props);
 
     /**
-     * Get default configuration properties for SSLContext   
+     * Get default configuration properties for SSLContext
      *
-     * @return the default configuration properties for SSLContext 
+     * @return the default configuration properties for SSLContext
      */
     public Properties getDefaultSSLContextConfig(String caller) throws Exception;
 
     /**
-     * Get unique identifier for this instance 
+     * Get unique identifier for this instance
      *
      * @return an unique identifier for this instance
      */
     public String getIdentityName() throws Exception;
-    
 
     /**
-     * Whether start with reset 
+     * Whether start with reset
      *
      * @return true if start with reset
      */
@@ -183,10 +176,9 @@ public interface BridgeBaseContext
     /**
      * @return true if ok to allocate size bytes of mem
      */
-    public boolean allocateMemCheck(long size); 
+    public boolean allocateMemCheck(long size);
 
     public boolean getPoodleFixEnabled();
 
     public String[] getKnownSSLEnabledProtocols();
 }
-

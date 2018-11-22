@@ -34,22 +34,23 @@ import org.w3c.dom.Element;
  * @author chiaming
  */
 public class getConfiguration implements ReadOnlyService {
-    
+
     private Properties initParams = null;
-    
+
     /**
      * initialize with the servlet init params.
+     * 
      * @param props
      */
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
-    
+
     public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
 
         try {
-        	
-        	// authenticate by trying to create a JMX connection to the broker 
+
+            // authenticate by trying to create a JMX connection to the broker
             ProviderDestinationService pds = DestinationService.getProviderDestinationService(null);
             String user = request.getMessageProperty(Constants.USER);
             String pass = request.getMessageProperty(Constants.PASSWORD);
@@ -57,67 +58,67 @@ public class getConfiguration implements ReadOnlyService {
 
             String respMsg = null;
 
-            //create a new instance of ums xml document.
+            // create a new instance of ums xml document.
             Document doc = XMLDataBuilder.newUMSDocument();
 
-            //get the root element
+            // get the root element
             Element root = XMLDataBuilder.getRootElement(doc);
 
-            //create the first child element
+            // create the first child element
             Element baddr = XMLDataBuilder.createUMSElement(doc, "BrokerAddress");
 
-            //set text value to the first child
+            // set text value to the first child
             XMLDataBuilder.setElementValue(doc, baddr, this.initParams.getProperty(Constants.IMQ_BROKER_ADDRESS, "localhost:7676"));
 
-            //add the first child to the root element
+            // add the first child to the root element
             XMLDataBuilder.addChildElement(root, baddr);
-            
-            //create the auth child element
+
+            // create the auth child element
             Element auth = XMLDataBuilder.createUMSElement(doc, "JMSAuthenticate");
 
-            //set text value to the auth child
+            // set text value to the auth child
             XMLDataBuilder.setElementValue(doc, auth, this.initParams.getProperty(Constants.JMS_AUTHENTICATE));
 
-            //add to the root element
+            // add to the root element
             XMLDataBuilder.addChildElement(root, auth);
-            
-            //create the auth child element
+
+            // create the auth child element
             Element cacheTime = XMLDataBuilder.createUMSElement(doc, "CacheDuration");
 
-            //set text value
-            XMLDataBuilder.setElementValue(doc, cacheTime, this.initParams.getProperty(Constants.CACHE_DURATION,"420000"));
+            // set text value
+            XMLDataBuilder.setElementValue(doc, cacheTime, this.initParams.getProperty(Constants.CACHE_DURATION, "420000"));
 
-            //add  to the root element
+            // add to the root element
             XMLDataBuilder.addChildElement(root, cacheTime);
-            
-            //create the sweep child element
+
+            // create the sweep child element
             Element sweepTime = XMLDataBuilder.createUMSElement(doc, "SweepInterval");
 
-            //set text value
-            XMLDataBuilder.setElementValue(doc, sweepTime, this.initParams.getProperty(Constants.SWEEP_INTERVAL,"120000"));
+            // set text value
+            XMLDataBuilder.setElementValue(doc, sweepTime, this.initParams.getProperty(Constants.SWEEP_INTERVAL, "120000"));
 
-            //add  to the root element
+            // add to the root element
             XMLDataBuilder.addChildElement(root, sweepTime);
-            
-            //create the sweep child element
+
+            // create the sweep child element
             Element receiveTimeout = XMLDataBuilder.createUMSElement(doc, "ReceiveTimeout");
 
-            //set text value
-            XMLDataBuilder.setElementValue(doc, receiveTimeout, this.initParams.getProperty(Constants.RECEIVE_TIMEOUT,"7000"));
+            // set text value
+            XMLDataBuilder.setElementValue(doc, receiveTimeout, this.initParams.getProperty(Constants.RECEIVE_TIMEOUT, "7000"));
 
-            //add  to the root element
+            // add to the root element
             XMLDataBuilder.addChildElement(root, receiveTimeout);
-            
-            //create the sweep child element
+
+            // create the sweep child element
             Element maxClient = XMLDataBuilder.createUMSElement(doc, "MaxClientsPerConnection");
 
-            //set text value
-            XMLDataBuilder.setElementValue(doc, maxClient, this.initParams.getProperty(Constants.MAX_CLIENT_PER_CONNECTION,"100"));
+            // set text value
+            XMLDataBuilder.setElementValue(doc, maxClient, this.initParams.getProperty(Constants.MAX_CLIENT_PER_CONNECTION, "100"));
 
-            //add  to the root element
+            // add to the root element
             XMLDataBuilder.addChildElement(root, maxClient);
 
-            //transform xml document to a string
+            // transform xml document to a string
             respMsg = XMLDataBuilder.domToString(doc);
 
             ReadOnlyResponseMessage response = ReadOnlyMessageFactory.createResponseMessage();
@@ -133,6 +134,5 @@ public class getConfiguration implements ReadOnlyService {
             throw umse;
         }
     }
-   
 
 }

@@ -16,7 +16,7 @@
 
 /*
  * @(#)Writer.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
@@ -28,24 +28,19 @@ class Writer extends Thread {
     private HttpTunnelSocket s = null;
     private OutputStream os = null;
 
-    private static int SLEEP =
-        Integer.getInteger("test.sleep", 0).intValue();
-    private static int DATASIZE =
-        Integer.getInteger("test.datasize", 32768).intValue();
-    private static int VERBOSITY =
-        Integer.getInteger("test.verbosity", 0).intValue();
-    private static int MAX =
-        Integer.getInteger("test.max", -1).intValue();
-    private static int PULLPERIOD =
-        Integer.getInteger("test.pullperiod", -1).intValue();
+    private static int SLEEP = Integer.getInteger("test.sleep", 0).intValue();
+    private static int DATASIZE = Integer.getInteger("test.datasize", 32768).intValue();
+    private static int VERBOSITY = Integer.getInteger("test.verbosity", 0).intValue();
+    private static int MAX = Integer.getInteger("test.max", -1).intValue();
+    private static int PULLPERIOD = Integer.getInteger("test.pullperiod", -1).intValue();
 
     public Writer(HttpTunnelSocket s) {
         this.s = s;
         try {
             s.setPullPeriod(PULLPERIOD);
-            this.os = s.getOutputStream();;
-        }
-        catch (Exception e) {
+            this.os = s.getOutputStream();
+            ;
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -65,21 +60,19 @@ class Writer extends Thread {
                 dos.flush();
                 dos.reset();
                 if (SLEEP > 0)
-    //                Thread.sleep(r.nextInt(SLEEP) * 1000);
-                    Thread.sleep((int)(r.nextFloat() * 1000));
+                    // Thread.sleep(r.nextInt(SLEEP) * 1000);
+                    Thread.sleep((int) (r.nextFloat() * 1000));
 
                 n++;
                 if (VERBOSITY > 0)
                     System.out.println("#### Sent packet #" + n);
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         try {
             s.close();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         System.out.println("#### Writer exiting...");

@@ -16,57 +16,46 @@
 
 /*
  * @(#)JMSXAQueueConnectionFactory.java	1.5 06/28/07
- */ 
+ */
 
 package com.sun.jms.spi.xa;
 
 import javax.jms.*;
 
-/** An JMSXAQueueConnectionFactory creates JMSXAQueueConnection and provides the 
-  * associated QueueConnectionFactory.
-  *
-  * @see         javax.jms.QueueConnectionFactory
-  * @see         com.sun.jms.spi.xa.JMSXAConnectionFactory
-  */
+/**
+ * An JMSXAQueueConnectionFactory creates JMSXAQueueConnection and provides the associated QueueConnectionFactory.
+ *
+ * @see javax.jms.QueueConnectionFactory
+ * @see com.sun.jms.spi.xa.JMSXAConnectionFactory
+ */
 
-public interface JMSXAQueueConnectionFactory 
-       extends JMSXAConnectionFactory {
+public interface JMSXAQueueConnectionFactory extends JMSXAConnectionFactory {
 
-    /** Create an XA queue connection with default user identity.
-      * The connection is created in stopped mode. No messages 
-      * will be delivered until <code>Connection.start</code> method
-      * is explicitly called.
-      *
-      * @return a newly created XA queue connection.
-      *
-      * @exception JMSException if JMS Provider fails to create XA queue Connection
-      *                         due to some internal error.
-      * @exception JMSSecurityException  if client authentication fails due to 
-      *                         invalid user name or password.
-       */ 
+    /**
+     * Create an XA queue connection with default user identity. The connection is created in stopped mode. No messages will
+     * be delivered until <code>Connection.start</code> method is explicitly called.
+     *
+     * @return a newly created XA queue connection.
+     *
+     * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
+     * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
+     */
 
-    JMSXAQueueConnection
-    createXAQueueConnection() throws JMSException;
+    JMSXAQueueConnection createXAQueueConnection() throws JMSException;
 
+    /**
+     * Create an XA queue connection with specific user identity. The connection is created in stopped mode. No messages
+     * will be delivered until <code>Connection.start</code> method is explicitly called.
+     * 
+     * @param userName the caller's user name
+     * @param password the caller's password
+     * 
+     * @return a newly created XA queue connection.
+     *
+     * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
+     * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
+     */
 
-    /** Create an XA queue connection with specific user identity.
-      * The connection is created in stopped mode. No messages 
-      * will be delivered until <code>Connection.start</code> method
-      * is explicitly called.
-      *  
-      * @param userName the caller's user name
-      * @param password the caller's password
-      *  
-      * @return a newly created XA queue connection.
-      *
-      * @exception JMSException if JMS Provider fails to create XA queue Connection
-      *                         due to some internal error.
-      * @exception JMSSecurityException  if client authentication fails due to 
-      *                         invalid user name or password.
-      */ 
+    JMSXAQueueConnection createXAQueueConnection(String userName, String password) throws JMSException;
 
-    JMSXAQueueConnection
-    createXAQueueConnection(String userName, String password) 
-					     throws JMSException;
-				
 }

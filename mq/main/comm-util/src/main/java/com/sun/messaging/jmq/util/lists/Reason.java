@@ -16,17 +16,15 @@
 
 /*
  * @(#)Reason.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.lists;
 
 /**
- * Generic "reason" class which contains an id and a string. Different
- * events will have different reason classes.
+ * Generic "reason" class which contains an id and a string. Different events will have different reason classes.
  */
 
-public class Reason
-{
+public class Reason {
     int reason;
     String reasonStr;
 
@@ -45,7 +43,7 @@ public class Reason
 
     public boolean equals(Object o) {
         if (o instanceof Reason) {
-             return reason == ((Reason)o).reason;
+            return reason == ((Reason) o).reason;
         }
         return false;
     }

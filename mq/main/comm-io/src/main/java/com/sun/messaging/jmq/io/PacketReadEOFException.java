@@ -15,10 +15,9 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
-
 
 import java.io.EOFException;
 
@@ -44,7 +43,7 @@ public class PacketReadEOFException extends EOFException {
 
     @Override
     public String getMessage() {
-        return super.getMessage()+getString();
+        return super.getMessage() + getString();
     }
 
     public void setBytesRead(int n) {
@@ -65,12 +64,10 @@ public class PacketReadEOFException extends EOFException {
 
     @Override
     public String toString() {
-        return super.toString()+getString();
+        return super.toString() + getString();
     }
 
     private String getString() {
-        return "[bytesRead="+bytesRead+", packetSize="+
-                 (packetSize == -1 ? "":packetSize)+"]"+
-               (appendMessage == null ? "":appendMessage);
+        return "[bytesRead=" + bytesRead + ", packetSize=" + (packetSize == -1 ? "" : packetSize) + "]" + (appendMessage == null ? "" : appendMessage);
     }
 }

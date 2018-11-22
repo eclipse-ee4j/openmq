@@ -29,25 +29,24 @@ import com.sun.messaging.bridge.api.Bridge;
  */
 @Contract
 @Singleton
-public abstract class BridgeServiceManager 
-{
+public abstract class BridgeServiceManager {
 
     /**
      * Initialize Bridge Service Manager
      */
-    public abstract void init(BridgeBaseContext ctx) throws Exception; 
+    public abstract void init(BridgeBaseContext ctx) throws Exception;
 
     /**
      * Start Bridge Service Manager
      */
-    public abstract void start() throws Exception; 
+    public abstract void start() throws Exception;
 
     /**
-     * Stop Bridge Service Manager 
+     * Stop Bridge Service Manager
      */
     public abstract void stop() throws Exception;
 
-   /**
+    /**
     */
     public abstract BridgeBaseContext getBridgeBaseContext();
 
@@ -60,23 +59,26 @@ public abstract class BridgeServiceManager
      *
      */
     public abstract String getAdminDestinationName() throws Exception;
+
     public abstract String getAdminDestinationClassName() throws Exception;
 
     public static Object getExportedService(Class c, String bridgeType, Properties props) throws Exception {
-        if (c == null) throw new IllegalArgumentException("null class");
-        if (bridgeType == null) throw new IllegalArgumentException("null bridge type");
+        if (c == null)
+            throw new IllegalArgumentException("null class");
+        if (bridgeType == null)
+            throw new IllegalArgumentException("null bridge type");
 
         Bridge b = null;
         Locale loc = Locale.getDefault();
         if (bridgeType.equalsIgnoreCase(Bridge.JMS_TYPE)) {
-            b = (Bridge)Class.forName("com.sun.messaging.bridge.service.jms.BridgeImpl").newInstance();
+            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.jms.BridgeImpl").newInstance();
         } else if (bridgeType.toUpperCase(loc).equals(Bridge.STOMP_TYPE)) {
-            b = (Bridge)Class.forName("com.sun.messaging.bridge.service.stomp.StompBridge").newInstance();
+            b = (Bridge) Class.forName("com.sun.messaging.bridge.service.stomp.StompBridge").newInstance();
         } else {
-            throw new IllegalArgumentException("Invalid bridge type: "+bridgeType);
+            throw new IllegalArgumentException("Invalid bridge type: " + bridgeType);
         }
 
-        return  b.getExportedService(c, props);
+        return b.getExportedService(c, props);
     }
 
 }

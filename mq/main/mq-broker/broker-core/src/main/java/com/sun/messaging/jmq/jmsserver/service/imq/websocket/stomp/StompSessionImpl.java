@@ -40,9 +40,9 @@ import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
 
 /**
- * @author amyk 
+ * @author amyk
  */
-public abstract class StompSessionImpl implements StompSession  {
+public abstract class StompSessionImpl implements StompSession {
 
     protected static final String QUEUE_CLASS_NAME = "com.sun.messaging.BasicQueue";
     protected static final String TOPIC_CLASS_NAME = "com.sun.messaging.BasicTopic";
@@ -64,10 +64,7 @@ public abstract class StompSessionImpl implements StompSession  {
     protected Object closeLock = new Object();
     protected boolean closing = false, closed = false;
 
-    public StompSessionImpl(StompConnectionImpl stompc, 
-                            StompAckMode ackmode, 
-                            boolean transacted) 
-                            throws Exception {
+    public StompSessionImpl(StompConnectionImpl stompc, StompAckMode ackmode, boolean transacted) throws Exception {
         stompconn = stompc;
         jmsservice = stompc.getJMSService();
         Long cid = stompc.getConnectionID();
@@ -78,7 +75,7 @@ public abstract class StompSessionImpl implements StompSession  {
         isTransacted = transacted;
         if (transacted) {
             this.ackMode = SessionAckMode.TRANSACTED;
-        } else { 
+        } else {
             if (ackmode == StompAckMode.AUTO_ACK) {
                 this.ackMode = SessionAckMode.AUTO_ACKNOWLEDGE;
             } else if (ackmode == StompAckMode.CLIENT_ACK) {
@@ -87,7 +84,7 @@ public abstract class StompSessionImpl implements StompSession  {
                 this.ackMode = SessionAckMode.CLIENT_ACKNOWLEDGE;
                 clientackThisMessage = true;
             } else {
-                throw new IllegalArgumentException("Unsupported ack mode:"+ackmode);
+                throw new IllegalArgumentException("Unsupported ack mode:" + ackmode);
             }
         }
         JMSServiceReply reply = jmsservice.createSession(connectionId, this.ackMode);
@@ -95,15 +92,14 @@ public abstract class StompSessionImpl implements StompSession  {
     }
 
     protected final boolean getDEBUG() {
-        return (logger.isFineLoggable() ||
-                stompconn.getProtocolHandler().getDEBUG()); 
+        return (logger.isFineLoggable() || stompconn.getProtocolHandler().getDEBUG());
     }
 
     protected final boolean isTransacted() {
         return isTransacted;
     }
 
-    //subclass override
+    // subclass override
     protected long getTransactionId() {
         return 0L;
     }
@@ -111,7 +107,7 @@ public abstract class StompSessionImpl implements StompSession  {
     /**
      */
     public void close() throws Exception {
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             if (closing) {
                 return;
             }
@@ -126,13 +122,13 @@ public abstract class StompSessionImpl implements StompSession  {
         } finally {
             jmsservice.destroySession(connectionId, sessionId);
         }
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             closed = true;
         }
     }
 
     protected boolean isClosing() {
-        synchronized(closeLock) {
+        synchronized (closeLock) {
             return (closed || closing);
         }
     }
@@ -143,103 +139,66 @@ public abstract class StompSessionImpl implements StompSession  {
     protected void closeSubscribers() {
     }
 
-    protected void unsubscribeDurable(String duraname)
-    throws Exception {
+    protected void unsubscribeDurable(String duraname) throws Exception {
         if (duraname == null) {
             return;
         }
-        jmsservice.deleteConsumer(connectionId, sessionId,
-            0L, null, false, duraname, stompconn.getClientID());
+        jmsservice.deleteConsumer(connectionId, sessionId, 0L, null, false, duraname, stompconn.getClientID());
     }
 
-    protected void checkSession() throws Exception { 
-        synchronized(closeLock) {
+    protected void checkSession() throws Exception {
+        synchronized (closeLock) {
             if (closing || closed) {
-                throw new StompProtocolException(
-                "Session "+this+" is closed");
+                throw new StompProtocolException("Session " + this + " is closed");
             }
         }
     }
 
     @Override
-    public StompDestination createStompDestination(String name, boolean isQueue)
-    throws Exception {
+    public StompDestination createStompDestination(String name, boolean isQueue) throws Exception {
         if (isQueue) {
             return new StompDestinationImpl(
-                new Destination(name,
-                com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-                com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
+                    new Destination(name, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE, com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
         }
         return new StompDestinationImpl(
-           new Destination(name,
-           com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC,
-           com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
+                new Destination(name, com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC, com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
     }
 
     @Override
-    public StompDestination createTempStompDestination(boolean isQueue)
-    throws Exception {
+    public StompDestination createTempStompDestination(boolean isQueue) throws Exception {
         String name = null;
         if (isQueue) {
-            name = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-                   ClientConstants.TEMPORARY_QUEUE_URI_NAME+
-                   stompconn.getIdForTemporaryDestination();
-            return new StompDestinationImpl(
-                new Destination(name,
-                com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-                com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
+            name = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_QUEUE_URI_NAME + stompconn.getIdForTemporaryDestination();
+            return new StompDestinationImpl(new Destination(name, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
+                    com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
 
         }
-        name = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-               ClientConstants.TEMPORARY_TOPIC_URI_NAME+
-               stompconn.getIdForTemporaryDestination();
+        name = ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_TOPIC_URI_NAME + stompconn.getIdForTemporaryDestination();
         return new StompDestinationImpl(
-            new Destination(name,
-            com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC,
-            com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
+                new Destination(name, com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC, com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
     }
 
-    protected StompDestination constructStompDestination(String destName, Packet pkt) 
-    throws Exception {
+    protected StompDestination constructStompDestination(String destName, Packet pkt) throws Exception {
 
-        if (destName.startsWith(
-                ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-                ClientConstants.TEMPORARY_QUEUE_URI_NAME) ||
-            destName.startsWith(
-                ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-                Destination.Type.QUEUE)) {
-            return new StompDestinationImpl(
-                new Destination(destName,
-                com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-                com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
+        if (destName.startsWith(ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_QUEUE_URI_NAME)
+                || destName.startsWith(ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + Destination.Type.QUEUE)) {
+            return new StompDestinationImpl(new Destination(destName, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
+                    com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
         }
-        if (destName.startsWith(
-                ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-                ClientConstants.TEMPORARY_TOPIC_URI_NAME) ||
-            destName.startsWith(
-                ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX+
-                Destination.Type.TOPIC)) {
-            return new StompDestinationImpl(
-                new Destination(destName,
-                com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC,
-                com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
+        if (destName.startsWith(ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_TOPIC_URI_NAME)
+                || destName.startsWith(ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + Destination.Type.TOPIC)) {
+            return new StompDestinationImpl(new Destination(destName, com.sun.messaging.jmq.jmsservice.Destination.Type.TOPIC,
+                    com.sun.messaging.jmq.jmsservice.Destination.Life.TEMPORARY));
         }
         if (pkt.getIsQueue()) {
-            return new StompDestinationImpl(
-                new Destination(destName,
-                com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-                com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
-        } 
+            return new StompDestinationImpl(new Destination(destName, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
+                    com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
+        }
         return new StompDestinationImpl(
-            new Destination(destName,
-            com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE,
-            com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
+                new Destination(destName, com.sun.messaging.jmq.jmsservice.Destination.Type.QUEUE, com.sun.messaging.jmq.jmsservice.Destination.Life.STANDARD));
     }
 
-    protected StompFrameMessage toStompFrameMessage(
-        final String subid, final String stompdest, 
-        final Packet pkt, final boolean needAck)
-        throws Exception {
+    protected StompFrameMessage toStompFrameMessage(final String subid, final String stompdest, final Packet pkt, final boolean needAck) throws Exception {
 
         final StompProtocolHandler mysph = stompconn.getProtocolHandler();
 
@@ -248,9 +207,11 @@ public abstract class StompSessionImpl implements StompSession  {
             public String getSubscriptionID() throws Exception {
                 return subid;
             }
+
             public String getDestination() throws Exception {
                 return stompdest;
             }
+
             public String getReplyTo() throws Exception {
                 String replyto = pkt.getReplyTo();
                 if (replyto == null) {
@@ -259,27 +220,35 @@ public abstract class StompSessionImpl implements StompSession  {
                 StompDestination d = constructStompDestination(replyto, pkt);
                 return mysph.toStompFrameDestination(d, true);
             }
+
             public String getJMSMessageID() throws Exception {
-                return SysMessageID.ID_PREFIX+pkt.getSysMessageID().toString();
+                return SysMessageID.ID_PREFIX + pkt.getSysMessageID().toString();
             }
+
             public String getJMSCorrelationID() throws Exception {
                 return pkt.getCorrelationID();
             }
+
             public String getJMSExpiration() throws Exception {
                 return String.valueOf(pkt.getExpiration());
             }
+
             public String getJMSRedelivered() throws Exception {
                 return String.valueOf(pkt.getRedelivered());
             }
+
             public String getJMSPriority() throws Exception {
                 return String.valueOf(pkt.getPriority());
             }
+
             public String getJMSTimestamp() throws Exception {
                 return String.valueOf(pkt.getTimestamp());
             }
+
             public String getJMSType() throws Exception {
-                return pkt.getMessageType(); 
+                return pkt.getMessageType();
             }
+
             public Enumeration getPropertyNames() throws Exception {
                 Hashtable props = pkt.getProperties();
                 if (props == null) {
@@ -287,6 +256,7 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
                 return props.keys();
             }
+
             public String getProperty(String name) throws Exception {
                 Hashtable props = pkt.getProperties();
                 if (props == null) {
@@ -298,12 +268,15 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
                 return v.toString();
             }
+
             public boolean isTextMessage() throws Exception {
                 return (pkt.getPacketType() == PacketType.TEXT_MESSAGE);
             }
+
             public boolean isBytesMessage() throws Exception {
                 return (pkt.getPacketType() == PacketType.BYTES_MESSAGE);
             }
+
             public String getText() throws Exception {
                 byte[] body = pkt.getMessageBodyByteArray();
                 if (body == null) {
@@ -311,6 +284,7 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
                 return new String(body, "UTF-8");
             }
+
             public byte[] getBytes() throws Exception {
                 return pkt.getMessageBodyByteArray();
             }
@@ -318,50 +292,56 @@ public abstract class StompSessionImpl implements StompSession  {
             public void setText(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setText()");
             }
+
             public void setBytes(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setBytes()");
             }
+
             public void setDestination(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setDestination()");
             }
+
             public void setPersistent(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setPersistent()");
             }
+
             public void setReplyTo(String replyto) throws Exception {
                 throw new RuntimeException("Unexpected call: setReplyTo()");
             }
+
             public void setJMSCorrelationID(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSCorrelationID()");
             }
+
             public void setJMSExpiration(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSExpiration()");
             }
+
             public void setJMSPriority(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSPriority()");
             }
+
             public void setJMSType(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSType()");
             }
+
             public void setProperty(String name, String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setProperty()");
             }
- 
-            }, needAck);
+
+        }, needAck);
     }
 
-    protected StompDestinationImpl fromStompFrameMessage(
-        StompFrameMessage message, Packet pkt)
-        throws Exception {
+    protected StompDestinationImpl fromStompFrameMessage(StompFrameMessage message, Packet pkt) throws Exception {
 
         StompMessageImpl msg = new StompMessageImpl(pkt);
-        stompconn.getProtocolHandler().
-            fromStompFrameMessage(message, msg);
+        stompconn.getProtocolHandler().fromStompFrameMessage(message, msg);
         msg.setProperties();
         return msg.d;
     }
 
     class StompMessageImpl implements StompMessage {
-        private Packet pkt =  null;
+        private Packet pkt = null;
         StompDestinationImpl d = null;
         private Hashtable properties = null;
 
@@ -370,17 +350,18 @@ public abstract class StompSessionImpl implements StompSession  {
         }
 
         public void setText(StompFrameMessage message) throws Exception {
-            pkt.setPacketType(PacketType.TEXT_MESSAGE); 
+            pkt.setPacketType(PacketType.TEXT_MESSAGE);
             pkt.setMessageBody(message.getBody());
         }
+
         public void setBytes(StompFrameMessage message) throws Exception {
             pkt.setPacketType(PacketType.BYTES_MESSAGE);
             pkt.setMessageBody(message.getBody());
         }
+
         public void setDestination(String stompdest) throws Exception {
-            this.d = (StompDestinationImpl)stompconn.getProtocolHandler().
-                toStompDestination(stompdest, StompSessionImpl.this, false/*from sub*/);
-            this.d.setStompDestinationString(stompdest); 
+            this.d = (StompDestinationImpl) stompconn.getProtocolHandler().toStompDestination(stompdest, StompSessionImpl.this, false/* from sub */);
+            this.d.setStompDestinationString(stompdest);
             pkt.setDestination(d.getName());
             if (d.isQueue()) {
                 pkt.setIsQueue(true);
@@ -398,12 +379,12 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
             }
         }
+
         public void setReplyTo(String replyto) throws Exception {
             if (replyto == null) {
                 return;
             }
-            StompDestination d = stompconn.getProtocolHandler().
-                toStompDestination(replyto, StompSessionImpl.this, false/*from sub*/);
+            StompDestination d = stompconn.getProtocolHandler().toStompDestination(replyto, StompSessionImpl.this, false/* from sub */);
             pkt.setReplyTo(d.getName());
             if (d.isQueue()) {
                 if (d.isTemporary()) {
@@ -419,11 +400,13 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
             }
         }
+
         public void setPersistent(String v) throws Exception {
             if (v != null && Boolean.valueOf(v)) {
                 pkt.setPersistent(true);
             }
         }
+
         public void setJMSExpiration(String v) throws Exception {
             if (v == null) {
                 return;
@@ -434,6 +417,7 @@ public abstract class StompSessionImpl implements StompSession  {
                 pkt.setExpiration(expiration);
             }
         }
+
         public void setJMSPriority(String v) throws Exception {
             if (v == null) {
                 return;
@@ -447,26 +431,30 @@ public abstract class StompSessionImpl implements StompSession  {
                 }
             }
             if (!valid) {
-                throw new StompProtocolException("Invalid priority header value: "+pri);
+                throw new StompProtocolException("Invalid priority header value: " + pri);
             }
             pkt.setPriority(pri);
         }
+
         public void setJMSCorrelationID(String v) throws Exception {
             if (v != null) {
                 pkt.setCorrelationID(v);
             }
         }
+
         public void setJMSType(String v) throws Exception {
             if (v != null) {
                 pkt.setMessageType(v);
             }
         }
+
         public void setProperty(String name, String value) throws Exception {
             if (properties == null) {
                 properties = new Hashtable();
             }
             properties.put(name, value);
         }
+
         public void setProperties() throws Exception {
             pkt.setProperties(properties);
         }
@@ -474,48 +462,63 @@ public abstract class StompSessionImpl implements StompSession  {
         public String getSubscriptionID() throws Exception {
             throw new RuntimeException("Unexpected call: getSubscriptionID()");
         }
+
         public String getDestination() throws Exception {
             throw new RuntimeException("Unexpected call: getDestination()");
         }
+
         public String getReplyTo() throws Exception {
             throw new RuntimeException("Unexpected call: getReplyTo()");
         }
+
         public String getJMSMessageID() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSMessageID()");
         }
+
         public String getJMSCorrelationID() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSCorrelationID()");
         }
+
         public String getJMSExpiration() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSExpiration()");
         }
+
         public String getJMSRedelivered() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSRedelivered()");
         }
+
         public String getJMSPriority() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSPriority()");
         }
+
         public String getJMSTimestamp() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSTimestamp()");
         }
+
         public String getJMSType() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSType()");
         }
+
         public Enumeration getPropertyNames() throws Exception {
             throw new RuntimeException("Unexpected call: getPropertyNames()");
         }
+
         public String getProperty(String name) throws Exception {
             throw new RuntimeException("Unexpected call: getProperty()");
         }
+
         public boolean isTextMessage() throws Exception {
             throw new RuntimeException("Unexpected call: isTextMessage()");
         }
+
         public boolean isBytesMessage() throws Exception {
             throw new RuntimeException("Unexpected call: isBytesMessage()");
         }
+
         public String getText() throws Exception {
             throw new RuntimeException("Unexpected call: getText()");
         }
+
         public byte[] getBytes() throws Exception {
             throw new RuntimeException("Unexpected call: getBytes()");
         }

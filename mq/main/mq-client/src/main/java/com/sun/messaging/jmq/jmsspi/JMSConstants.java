@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSConstants.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsspi;
 
@@ -24,12 +24,10 @@ public interface JMSConstants {
     final static int UNKNOWN = -1;
     final static int QUEUE = 0;
     final static int TOPIC = 1;
-    
+
     /**
      * Return both QUEUE and TOPIC destinations.
      */
-    final static int ALL   = 2; 
+    final static int ALL = 2;
 
 }
-
-

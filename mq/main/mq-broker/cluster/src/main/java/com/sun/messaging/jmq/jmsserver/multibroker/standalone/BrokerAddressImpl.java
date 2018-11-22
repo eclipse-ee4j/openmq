@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerAddressImpl.java	1.10 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.standalone;
 
@@ -26,8 +26,7 @@ import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 
 /**
- * This class implements the <code>BrokerAddress</code> for
- * a standalone broker.
+ * This class implements the <code>BrokerAddress</code> for a standalone broker.
  */
 class BrokerAddressImpl extends BrokerAddress {
     public BrokerAddressImpl() {
@@ -36,8 +35,7 @@ class BrokerAddressImpl extends BrokerAddress {
     public Object clone() {
         try {
             return super.getObjectClone();
-        }
-        catch (CloneNotSupportedException e) {
+        } catch (CloneNotSupportedException e) {
             return null;
         }
     }
@@ -56,17 +54,22 @@ class BrokerAddressImpl extends BrokerAddress {
     public boolean getHAEnabled() {
         return false;
     }
+
     public String getBrokerID() {
         return null;
     }
+
     public UID getBrokerSessionUID() {
         return null;
     }
+
     public UID getStoreSessionUID() {
         return null;
     }
+
     public void setStoreSessionUID(UID uid) {
     }
+
     public String getInstanceName() {
         return null;
     }
@@ -76,7 +79,7 @@ class BrokerAddressImpl extends BrokerAddress {
     }
 
     public BrokerAddress fromProtocolString(String s) throws Exception {
-        throw new UnsupportedOperationException(this.getClass().getName()+".fromProtocolString");
+        throw new UnsupportedOperationException(this.getClass().getName() + ".fromProtocolString");
     }
 
     public void writeBrokerAddress(DataOutputStream dos) {

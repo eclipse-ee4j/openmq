@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
@@ -27,10 +27,10 @@ public class ChangeRecordInfo {
 
     public static final int TYPE_RESET_PERSISTENCE = ClusterBroadcast.TYPE_RESET_PERSISTENCE;
 
-    public static final int FLAG_LOCK = 1; 
+    public static final int FLAG_LOCK = 1;
 
-    //bits in flag for new interest (durable sub)
-    public static final int SHARED    = 0x00000001;
+    // bits in flag for new interest (durable sub)
+    public static final int SHARED = 0x00000001;
     public static final int JMSSHARED = 0x00000002;
 
     private Long seq = null;
@@ -42,15 +42,15 @@ public class ChangeRecordInfo {
     private boolean isduraAdd = false;
     private long timestamp = 0;
     private boolean isSelectAll = false;
-    private int flag = 0; 
+    private int flag = 0;
 
-    public ChangeRecordInfo() {}
-    
+    public ChangeRecordInfo() {
+    }
+
     /*
      * @param ukey must not be null if this object is going to persist store
      */
-    public ChangeRecordInfo(Long seq, String uuid, byte[] record,
-                            int type, String ukey, long timestamp) {
+    public ChangeRecordInfo(Long seq, String uuid, byte[] record, int type, String ukey, long timestamp) {
         this.seq = seq;
         this.uuid = uuid;
         this.record = record;
@@ -87,7 +87,6 @@ public class ChangeRecordInfo {
     public void setSeq(Long seq) {
         this.seq = seq;
     }
-
 
     public String getUUID() {
         return uuid;
@@ -136,15 +135,16 @@ public class ChangeRecordInfo {
     public int getFlag() {
         return flag;
     }
+
     public static String getFlagString(int f) {
         if ((f & SHARED) == SHARED) {
             if ((f & JMSSHARED) == JMSSHARED) {
                 return "jms";
-            } 
+            }
             return "mq";
         }
         return "";
-    }   
+    }
 
     public void setIsSelectAll(boolean b) {
         isSelectAll = b;
@@ -152,10 +152,9 @@ public class ChangeRecordInfo {
 
     public boolean isSelectAll() {
         return isSelectAll;
-    } 
+    }
 
     public String toString() {
-        return "seq="+seq+", uuid="+uuid+", type="+type+
-            ", timestamp="+timestamp+", resetUUId="+resetUUID;
+        return "seq=" + seq + ", uuid=" + uuid + ", type=" + type + ", timestamp=" + timestamp + ", resetUUId=" + resetUUID;
     }
 }

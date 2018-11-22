@@ -21,23 +21,23 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
     public BridgeMgrPrinter(int numCol, int gap, String border, int align, boolean sort) {
-	super(numCol, gap, border, align, sort);
+        super(numCol, gap, border, align, sort);
     }
 
     public BridgeMgrPrinter(int numCol, int gap, String border, int align) {
-	super(numCol, gap, border, align);
+        super(numCol, gap, border, align);
     }
 
     public BridgeMgrPrinter(int numCol, int gap, String border) {
-	super(numCol, gap, border);
+        super(numCol, gap, border);
     }
 
     public BridgeMgrPrinter(int numCol, int gap) {
-	super(numCol, gap);
+        super(numCol, gap);
     }
 
     public BridgeMgrPrinter() {
-	super();
+        super();
     }
 
     public void doPrint(String str) {

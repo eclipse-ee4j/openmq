@@ -16,7 +16,7 @@
 
 /*
  * @(#)HTTPConnectionHandler.java	1.15 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.protocol.http;
 
@@ -32,21 +32,20 @@ import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 
 /**
- * This class implements the HTTP protocol connection handler
- * for iMQ clients.
+ * This class implements the HTTP protocol connection handler for iMQ clients.
  */
 public class HTTPConnectionHandler extends SocketConnectionHandler {
 
-    private static final String socketClass =
-        "com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelSocketImpl"; 
+    private static final String socketClass = "com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelSocketImpl";
 
     private HttpTunnelSocket socket = null;
 
     private String URLString = null;
+
     /**
      * Create a connection with broker.
      */
-    public HTTPConnectionHandler (Object conn) throws JMSException {
+    public HTTPConnectionHandler(Object conn) throws JMSException {
         ConnectionImpl connection = (ConnectionImpl) conn;
         URLString = connection.getProperty(ConnectionConfiguration.imqConnectionURL);
 
@@ -55,18 +54,16 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
         }
 
         try {
-            socket = (HttpTunnelSocket)Class.forName(socketClass).newInstance();
+            socket = (HttpTunnelSocket) Class.forName(socketClass).newInstance();
             socket.init(URLString);
-        } catch ( Exception e ) {
-            connection.getExceptionHandler().handleConnectException (
-                e, URLString);
+        } catch (Exception e) {
+            connection.getExceptionHandler().handleConnectException(e, URLString);
         } finally {
             connection.setLastContactedBrokerAddress(URLString);
         }
     }
 
-    public HTTPConnectionHandler (MQAddress addr, ConnectionImpl conn)
-        throws JMSException {
+    public HTTPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
         ConnectionImpl connection = (ConnectionImpl) conn;
         URLString = addr.getURL();
 
@@ -75,11 +72,10 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
         }
 
         try {
-            socket = (HttpTunnelSocket)Class.forName(socketClass).newInstance();
+            socket = (HttpTunnelSocket) Class.forName(socketClass).newInstance();
             socket.init(URLString);
-        } catch ( Exception e ) {
-            connection.getExceptionHandler().handleConnectException (
-            e, URLString );
+        } catch (Exception e) {
+            connection.getExceptionHandler().handleConnectException(e, URLString);
         } finally {
             conn.setLastContactedBrokerAddress(URLString);
         }
@@ -102,14 +98,13 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     /**
      * Get socket local port for the current connection.
      */
-    public int
-    getLocalPort() throws IOException {
+    public int getLocalPort() throws IOException {
         return socket.getConnId();
     }
-    
-	protected void closeSocket() throws IOException {
+
+    protected void closeSocket() throws IOException {
         socket.close();
-	}
+    }
 
     public String getBrokerHostName() {
         return this.URLString;

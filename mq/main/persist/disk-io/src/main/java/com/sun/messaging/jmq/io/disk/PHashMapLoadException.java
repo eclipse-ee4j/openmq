@@ -16,24 +16,18 @@
 
 /*
  * @(#)PHashMapLoadException.java	1.3 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.io.disk;
 
 /**
- * This class provides information about problems and/or data corruptions
- * encountered when loading the a VRecord from the backing file.
- * If the key and/or the value of the hash map entry is loaded successfully,
- * it can be retrieved by calling <code>getKey()</code> and/or
- * <code>getValue</code> respectively. The throwable caught while
- * deserializing the key can be retrieved by calling
- * <code>getKeyCause()</code>. Similarly, the throwable caught while
- * deserializing the value can be retrieved by calling
- * <code>getValueCause()</code>. Other exception caught while parsing
- * the record, if any, can be retrieved by <code>getCause</code>.
- * <code>getNextException()</code> returns
- * the next chained exception for other loading problems or
- * <code>null</code> if there's no more chained exception.
+ * This class provides information about problems and/or data corruptions encountered when loading the a VRecord from
+ * the backing file. If the key and/or the value of the hash map entry is loaded successfully, it can be retrieved by
+ * calling <code>getKey()</code> and/or <code>getValue</code> respectively. The throwable caught while deserializing the
+ * key can be retrieved by calling <code>getKeyCause()</code>. Similarly, the throwable caught while deserializing the
+ * value can be retrieved by calling <code>getValueCause()</code>. Other exception caught while parsing the record, if
+ * any, can be retrieved by <code>getCause</code>. <code>getNextException()</code> returns the next chained exception
+ * for other loading problems or <code>null</code> if there's no more chained exception.
  */
 
 public class PHashMapLoadException extends Exception {
@@ -46,68 +40,67 @@ public class PHashMapLoadException extends Exception {
 
     /**
      * Constructs a PHashMapLoadException
-     */ 
+     */
     public PHashMapLoadException(String msg) {
         super(msg);
     }
 
     public void setKey(Object k) {
-	this.key = k;
+        this.key = k;
     }
 
     /**
      * Return the key of the HashMap entry loaded from file.
      */
     public Object getKey() {
-	return key;
+        return key;
     }
 
     public void setValue(Object v) {
-	this.value = v;
+        this.value = v;
     }
 
     /**
      * Return the value of the HashMap entry loaded from file.
      */
     public Object getValue() {
-	return value;
+        return value;
     }
 
     public void setKeyCause(Throwable t) {
-	this.keyCause = t;
+        this.keyCause = t;
     }
 
     /**
      * Return the Throwable caught while deserializing the key.
      */
     public Throwable getKeyCause() {
-	return this.keyCause;
+        return this.keyCause;
     }
 
     public void setValueCause(Throwable t) {
-	this.valueCause = t;
+        this.valueCause = t;
     }
 
     /**
      * Return the Throwable caught while deserializing the value.
      */
     public Throwable getValueCause() {
-	return this.valueCause;
+        return this.valueCause;
     }
 
     public void setNextException(PHashMapLoadException e) {
-	this.next = e;
+        this.next = e;
     }
 
     /**
      * Return the exception chained to this object.
      */
     public PHashMapLoadException getNextException() {
-	return next;
+        return next;
     }
 
     public String toString() {
-	return getMessage() + "\nkey="+key+";cause="+keyCause+";value="+value
-			+";cause="+valueCause;
+        return getMessage() + "\nkey=" + key + ";cause=" + keyCause + ";value=" + value + ";cause=" + valueCause;
     }
 }

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
@@ -37,14 +37,15 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 
-public abstract class CoreLifecycleSpi { 
+public abstract class CoreLifecycleSpi {
 
-    public static final String GFMQ = "GLASSFISH_MQ"; 
+    public static final String GFMQ = "GLASSFISH_MQ";
     public static final String CHMP = "COHERENCE_MESSAGE_PATTERN";
 
-    protected PacketRouter pktr = null; 
+    protected PacketRouter pktr = null;
 
-    public CoreLifecycleSpi() {}
+    public CoreLifecycleSpi() {
+    }
 
     public abstract String getType();
 
@@ -56,11 +57,9 @@ public abstract class CoreLifecycleSpi {
 
     public abstract void initSubscriptions() throws BrokerException;
 
-    public abstract void initHandlers(PacketRouter prt, ConnectionManager cm,
-        PacketRouter adminprt, AdminDataHandler adminh)
-        throws BrokerException;
+    public abstract void initHandlers(PacketRouter prt, ConnectionManager cm, PacketRouter adminprt, AdminDataHandler adminh) throws BrokerException;
 
-    public abstract void cleanup(); 
+    public abstract void cleanup();
 
     public DestinationList getDestinationList() {
         return null;
@@ -74,13 +73,13 @@ public abstract class CoreLifecycleSpi {
      * SessionOp static method
      **********************************************/
 
-    public abstract SessionOpSpi newSessionOp(Session ss); 
+    public abstract SessionOpSpi newSessionOp(Session ss);
 
     /********************************************
      * Producer static methods
      **********************************************/
 
-    public abstract Hashtable getProducerAllDebugState(); 
+    public abstract Hashtable getProducerAllDebugState();
 
     public abstract void clearProducers();
 
@@ -108,30 +107,23 @@ public abstract class CoreLifecycleSpi {
 
     public abstract DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID uid);
 
-    public abstract DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue)
-    throws IOException, BrokerException; 
+    public abstract DestinationSpi[] getDestination(PartitionedStore ps, String name, boolean isQueue) throws IOException, BrokerException;
 
-    public abstract DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type,
-                                                  boolean autocreate, boolean store)
-                                                  throws IOException, BrokerException;
+    public abstract DestinationSpi[] getDestination(PartitionedStore ps, DestinationUID duid, int type, boolean autocreate, boolean store)
+            throws IOException, BrokerException;
 
-    public abstract DestinationSpi[] getDestination(PartitionedStore ps, String name, int type,
-                                                boolean autocreate, boolean store)
-                                                throws IOException, BrokerException ;
-    public abstract DestinationSpi[] createTempDestination(PartitionedStore ps, String name,
-        int type, ConnectionUID uid, boolean store, long time)
-        throws IOException, BrokerException;
+    public abstract DestinationSpi[] getDestination(PartitionedStore ps, String name, int type, boolean autocreate, boolean store)
+            throws IOException, BrokerException;
 
-    public abstract List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid) 
-    throws PartitionNotFoundException;
-    
-    public abstract DestinationSpi[] removeDestination(PartitionedStore ps,
-        String name, boolean isQueue, String reason)
-        throws IOException, BrokerException;
+    public abstract DestinationSpi[] createTempDestination(PartitionedStore ps, String name, int type, ConnectionUID uid, boolean store, long time)
+            throws IOException, BrokerException;
 
-    public abstract DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid,
-        boolean notify, String reason)
-        throws IOException, BrokerException; 
+    public abstract List[] findMatchingIDs(PartitionedStore ps, DestinationUID wildcarduid) throws PartitionNotFoundException;
+
+    public abstract DestinationSpi[] removeDestination(PartitionedStore ps, String name, boolean isQueue, String reason) throws IOException, BrokerException;
+
+    public abstract DestinationSpi[] removeDestination(PartitionedStore ps, DestinationUID uid, boolean notify, String reason)
+            throws IOException, BrokerException;
 
     public abstract boolean canAutoCreate(boolean queue);
 
@@ -141,5 +133,5 @@ public abstract class CoreLifecycleSpi {
 
     public abstract ConsumerSpi getConsumer(ConsumerUID uid);
 
-    public abstract int calcPrefetch(ConsumerSpi consumer,  int cprefetch);
+    public abstract int calcPrefetch(ConsumerSpi consumer, int cprefetch);
 }

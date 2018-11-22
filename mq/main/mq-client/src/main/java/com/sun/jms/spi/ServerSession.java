@@ -16,30 +16,29 @@
 
 /*
  * @(#)ServerSession.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.jms.spi;
 
 public interface ServerSession extends javax.jms.ServerSession {
 
     /**
-     * Indicate that resources associated with ServerSession
-     * are no longer needed.
+     * Indicate that resources associated with ServerSession are no longer needed.
      */
     void close();
 
     /**
-     * Hook to enable container processing just prior to msg delivery.
-     * For example, allow a transaction to be started just prior to msg
-     * being delivered to the Session MessageListener.
+     * Hook to enable container processing just prior to msg delivery. For example, allow a transaction to be started just
+     * prior to msg being delivered to the Session MessageListener.
+     * 
      * @param msg Message that is about to be delivered.
      */
     void beforeMessageDelivery(javax.jms.Message msg);
 
     /**
      * Hook to enable container processing after msg delivery.
+     * 
      * @param msg Message that was delivered.
      */
     void afterMessageDelivery(javax.jms.Message msg);
 }
-

@@ -16,7 +16,7 @@
 
 /*
  * @(#)DestroyConnectionsHandler.java	1.10 07/12/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -46,85 +46,74 @@ import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 
-public class DestroyConnectionsHandler extends AdminCmdHandler
-{
+public class DestroyConnectionsHandler extends AdminCmdHandler {
 
     private static boolean DEBUG = getDEBUG();
 
     public DestroyConnectionsHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "DestroyConnections: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "DestroyConnections: " + cmd_props);
         }
 
         ConnectionManager cm = Globals.getConnectionManager();
 
-	//String serviceName = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
-	Long cxnId = (Long)cmd_props.get(MessageType.JMQ_CONNECTION_ID);
+        // String serviceName = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
+        Long cxnId = (Long) cmd_props.get(MessageType.JMQ_CONNECTION_ID);
 
         int status = Status.OK;
         String errMsg = null;
 
         Service s = null;
 
-
-        HAMonitorService hamonitor = Globals.getHAMonitorService(); 
+        HAMonitorService hamonitor = Globals.getHAMonitorService();
         if (hamonitor != null && hamonitor.inTakeover()) {
             status = Status.ERROR;
-            errMsg =  rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
+            errMsg = rb.getString(rb.E_CANNOT_PROCEED_TAKEOVER_IN_PROCESS);
 
             logger.log(Logger.ERROR, this.getClass().getName() + ": " + errMsg);
-	}
+        }
 
         if (status == Status.OK) {
 
             ConnectionInfo cxnInfo = null;
-            IMQConnection  cxn = null;
+            IMQConnection cxn = null;
             if (cxnId != null) {
 
-                logger.log(Logger.INFO, BrokerResources.I_DESTROY_CXN,
-                       String.valueOf(cxnId.longValue()));
+                logger.log(Logger.INFO, BrokerResources.I_DESTROY_CXN, String.valueOf(cxnId.longValue()));
                 // Get info for one connection
-                cxn = (IMQConnection)cm.getConnection(
-                                new ConnectionUID(cxnId.longValue()));
+                cxn = (IMQConnection) cm.getConnection(new ConnectionUID(cxnId.longValue()));
                 if (cxn != null) {
                     if (DEBUG) {
                         cxn.dump();
                     }
-                    cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON, 
-                       Globals.getBrokerResources().getKString(
-                       BrokerResources.M_ADMIN_REQ_CLOSE));
+                    cxn.destroyConnection(true, GoodbyeReason.ADMIN_KILLED_CON, Globals.getBrokerResources().getKString(BrokerResources.M_ADMIN_REQ_CLOSE));
                 } else {
                     status = Status.NOT_FOUND;
-                    errMsg = rb.getString(rb.E_NO_SUCH_CONNECTION,
-                        String.valueOf(cxnId.longValue()));
+                    errMsg = rb.getString(rb.E_NO_SUCH_CONNECTION, String.valueOf(cxnId.longValue()));
                 }
             }
         }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.DESTROY_CONNECTION_REPLY,
-		status, errMsg);
+        setProperties(reply, MessageType.DESTROY_CONNECTION_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
+        parent.sendReply(con, cmd_msg, reply);
         return true;
     }
-
 
 }

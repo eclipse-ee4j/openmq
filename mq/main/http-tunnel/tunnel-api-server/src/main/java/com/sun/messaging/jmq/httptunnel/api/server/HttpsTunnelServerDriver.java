@@ -15,23 +15,17 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.api.server;
 
 import java.io.IOException;
 
 /**
  */
-public interface HttpsTunnelServerDriver extends HttpTunnelServerDriver 
-{
+public interface HttpsTunnelServerDriver extends HttpTunnelServerDriver {
 
-    public void init(String serviceName, boolean trust, 
-                     boolean applyPoodleFix) 
-                     throws IOException;
+    public void init(String serviceName, boolean trust, boolean applyPoodleFix) throws IOException;
 
-    public void init(String serviceName,
-        String webServerHostName, int webServerPort, 
-        boolean trust, boolean applyPoodleFix)
-        throws IOException; 
+    public void init(String serviceName, String webServerHostName, int webServerPort, boolean trust, boolean applyPoodleFix) throws IOException;
 }

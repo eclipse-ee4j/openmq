@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConfigStore.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.config;
 
@@ -25,55 +25,40 @@ import java.net.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 
-
 /**
- * this interface handles how personal and cluster
- * properties are stored and retrieved.
+ * this interface handles how personal and cluster properties are stored and retrieved.
  *
- * A ConfigStore class should have only have a default
- * constructor.
+ * A ConfigStore class should have only have a default constructor.
  */
 
-public interface ConfigStore
-{
+public interface ConfigStore {
 
     /**
      * loads the instance properties
      *
-     * @param currentprops already loaded properties (including
-     *             system, default and install properties)
+     * @param currentprops already loaded properties (including system, default and install properties)
      * @param instancename the name used by the broker, passed in at startup
      *
      * @return a properties object with the correct instance properties
      *
-     * @throws BrokerException if a fatal error occurs loading the 
-     *         config store
+     * @throws BrokerException if a fatal error occurs loading the config store
      */
 
-    public Properties loadStoredProps(Properties currentprops,
-                   String instancename) 
-           throws BrokerException;
+    public Properties loadStoredProps(Properties currentprops, String instancename) throws BrokerException;
 
     /**
      * loads the cluster properties
      *
-     * @param currentprops already loaded properties (including
-     *             system, default and install properties)
+     * @param currentprops already loaded properties (including system, default and install properties)
      * @param parameters properties passed in on the command line
-     * @param instanceprops properties returned from the 
-     *             loadStoredProps method
+     * @param instanceprops properties returned from the loadStoredProps method
      *
-     * @return a properties object with the correct cluster properties
-     *            (or null if there aren't any)
+     * @return a properties object with the correct cluster properties (or null if there aren't any)
      *
-     * @throws BrokerException if a fatal error occurs loading the 
-     *         config store
+     * @throws BrokerException if a fatal error occurs loading the config store
      */
 
-    public Properties loadClusterProps(Properties currentprops,
-                     Properties parameters,
-                     Properties instanceprops) 
-           throws BrokerException;
+    public Properties loadClusterProps(Properties currentprops, Properties parameters, Properties instanceprops) throws BrokerException;
 
     /**
      * stores the modified properties
@@ -83,22 +68,18 @@ public interface ConfigStore
      * @throws IOException if the property can not be stored
      */
 
-    public void storeProperties(Properties props)
-              throws IOException;
+    public void storeProperties(Properties props) throws IOException;
 
     /**
      * Reload the specified properties from the store.
      *
      * @param instancename the name used by the broker, passed in at startup
      *
-     * @param propnames Array containing names of the properties
-     * to be reloaded.
+     * @param propnames Array containing names of the properties to be reloaded.
      *
-     * @throws BrokerException if a fatal error occurs loading the 
-     *         config store
+     * @throws BrokerException if a fatal error occurs loading the config store
      */
-    public Properties reloadProps(String instancename, String[] propnames)
-        throws BrokerException;
+    public Properties reloadProps(String instancename, String[] propnames) throws BrokerException;
 
     /**
      * Clear out any local property file
@@ -108,4 +89,3 @@ public interface ConfigStore
      */
     public void clearProps(String instancename);
 }
-    

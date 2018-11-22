@@ -16,7 +16,7 @@
 
 /*
  * @(#)SplashScreenInspector.java	1.13 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -24,26 +24,31 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 
-/** 
+/**
  * Splash screen for JMQ Administration console.
  *
  * @see InspectorPanel
  * @see AInspector
  * @see ConsoleObj
  */
-public class SplashScreenInspector extends InspectorPanel  {
-    
-    public JPanel createWorkPanel()  {
-	JPanel panel = new JPanel();
-	JLabel l = new JLabel(AGraphics.adminImages[AGraphics.SPLASH_SCREEN], JLabel.CENTER);
+public class SplashScreenInspector extends InspectorPanel {
 
-	panel.setLayout(new BorderLayout());
-	panel.add(l, "Center");
-	
-	return (panel);
+    public JPanel createWorkPanel() {
+        JPanel panel = new JPanel();
+        JLabel l = new JLabel(AGraphics.adminImages[AGraphics.SPLASH_SCREEN], JLabel.CENTER);
+
+        panel.setLayout(new BorderLayout());
+        panel.add(l, "Center");
+
+        return (panel);
     }
 
-    public void inspectorInit() {}
-    public void clearSelection() {}
-    public void selectedObjectUpdated() {}
+    public void inspectorInit() {
+    }
+
+    public void clearSelection() {
+    }
+
+    public void selectedObjectUpdated() {
+    }
 }

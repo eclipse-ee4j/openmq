@@ -22,7 +22,7 @@ import java.util.concurrent.*;
 public class IMQBlockingQueue<E> extends LinkedBlockingQueue<E> implements HandOffQueue<E> {
 
     public void close() {
-       //LKS-XXX
+        // LKS-XXX
     }
 
 }

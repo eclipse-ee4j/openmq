@@ -16,15 +16,14 @@
 
 /*
  * @(#)CorruptedConfigurationPropertiesException.java	1.5 07/02/07
- */ 
-  
+ */
+
 package com.sun.messaging.naming;
 
 /**
- * A <code>CorruptedConfigurationPropertiesException</code> is thrown when the
- * <code>getInstance()</code> method of <code>AdministeredObjectFactory</code> cannot
- * find the minimum information in the Reference object required to recreate
- * a valid instance of a <code>com.sun.messaging.AdministeredObject</code> object.
+ * A <code>CorruptedConfigurationPropertiesException</code> is thrown when the <code>getInstance()</code> method of
+ * <code>AdministeredObjectFactory</code> cannot find the minimum information in the Reference object required to
+ * recreate a valid instance of a <code>com.sun.messaging.AdministeredObject</code> object.
  *
  * @see com.sun.messaging.naming.AdministeredObjectFactory com.sun.messaging.naming.AdministeredObjectFactory
  */
@@ -32,4 +31,3 @@ package com.sun.messaging.naming;
 public class CorruptedConfigurationPropertiesException extends javax.naming.NamingException {
 
 }
-

@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core;
 
@@ -24,8 +24,7 @@ import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 /**
  * to be extended
  */
-public interface ConnToPartitionStrategyContext
-{
+public interface ConnToPartitionStrategyContext {
     /**
      * @return the PartitionedStore associated with this context
      */

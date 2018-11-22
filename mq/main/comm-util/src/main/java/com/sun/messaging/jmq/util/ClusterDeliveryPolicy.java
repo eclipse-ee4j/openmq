@@ -16,10 +16,9 @@
 
 /*
  * @(#)ClusterDeliveryPolicy.java	1.5 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util;
-
 
 /**
  * Defines how messages are distributed on destinations.
@@ -27,35 +26,32 @@ package com.sun.messaging.jmq.util;
  * <B>XXX</B> How should serialization be handled.
  */
 
-public class ClusterDeliveryPolicy 
-{
+public class ClusterDeliveryPolicy {
     public static final int UNKNOWN = -1;
     public static final int NA = 0;
     public static final int LOCAL_PREFERRED = 1;
     public static final int DISTRIBUTED = 2;
 
     public static int getStateFromString(String str) {
-        if (str.equals("NA") || str.equals("N/A")) 
+        if (str.equals("NA") || str.equals("N/A"))
             return NA;
-        if (str.equals("LOCAL_PREFERRED")) 
+        if (str.equals("LOCAL_PREFERRED"))
             return LOCAL_PREFERRED;
-        if (str.equals("DISTRIBUTED") )
+        if (str.equals("DISTRIBUTED"))
             return DISTRIBUTED;
         return UNKNOWN;
     }
 
-
-    public static String getString(int state)
-    {
+    public static String getString(int state) {
         switch (state) {
-            case NA:
-                return "N/A";
+        case NA:
+            return "N/A";
 
-            case LOCAL_PREFERRED:
-                return "LOCAL_PREFERRED";
+        case LOCAL_PREFERRED:
+            return "LOCAL_PREFERRED";
 
-            case DISTRIBUTED:
-                return "DISTRIBUTED";
+        case DISTRIBUTED:
+            return "DISTRIBUTED";
 
         }
         return "UNKNOWN";

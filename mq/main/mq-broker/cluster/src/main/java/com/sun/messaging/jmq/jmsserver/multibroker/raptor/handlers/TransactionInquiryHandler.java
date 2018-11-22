@@ -16,7 +16,7 @@
 
 /*
  * @(#)TransactionInquiryHandler.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,18 +39,13 @@ public class TransactionInquiryHandler extends GPacketHandler {
         if (pkt.getType() == ProtocolGlobals.G_TRANSACTION_INQUIRY) {
             p.receivedTransactionInquiry(pkt, sender);
             if (DEBUG) {
-                logger.log(logger.DEBUG,
-                    "TransactionInquiryHandler. G_TRANSACTION_INQUIRY from : ", sender);
+                logger.log(logger.DEBUG, "TransactionInquiryHandler. G_TRANSACTION_INQUIRY from : ", sender);
             }
-        }
-        else {
-            logger.log(logger.WARNING, "TransactionInquiryHandler " +
-                "Internal error : Cannot handle this packet :" +
-                pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, "TransactionInquiryHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }
     }
 }
-
 
 /*
  * EOF

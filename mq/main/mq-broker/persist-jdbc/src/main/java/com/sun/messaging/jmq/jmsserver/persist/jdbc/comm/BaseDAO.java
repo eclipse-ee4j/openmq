@@ -16,7 +16,7 @@
 
 /*
  * @(#)BaseDAO.java	1.6 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
@@ -33,55 +33,60 @@ public interface BaseDAO {
 
     /**
      * Get the prefix name of the table.
+     * 
      * @return table name
      */
     public String getTableNamePrefix();
 
     /**
      * Get the name of the table.
+     * 
      * @return table name
      */
     public String getTableName();
 
     /**
      * Create the table.
+     * 
      * @param conn database connection
      * @throws BrokerException
      */
-    public void createTable( Connection conn ) throws BrokerException;
+    public void createTable(Connection conn) throws BrokerException;
 
-    public void createStoredProc( Connection conn ) throws BrokerException;
+    public void createStoredProc(Connection conn) throws BrokerException;
 
-    public void dropStoredProc( Connection conn ) throws BrokerException;
-
+    public void dropStoredProc(Connection conn) throws BrokerException;
 
     /**
      * Drop the table.
+     * 
      * @param conn database connection
      * @throws BrokerException
      */
-    public void dropTable( Connection conn ) throws BrokerException;
+    public void dropTable(Connection conn) throws BrokerException;
 
     /**
      * Delete all entries.
+     * 
      * @param conn database connection
      * @throws BrokerException
      */
-    public void deleteAll( Connection conn ) throws BrokerException;
+    public void deleteAll(Connection conn) throws BrokerException;
 
     /**
      * Get row count.
+     * 
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
      * @return the number of rows in a query
      */
-    public int getRowCount( Connection conn, String whereClause )
-        throws BrokerException;
+    public int getRowCount(Connection conn, String whereClause) throws BrokerException;
 
     /**
      * Get debug information about the store.
+     * 
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
-    public HashMap getDebugInfo( Connection conn );
+    public HashMap getDebugInfo(Connection conn);
 }

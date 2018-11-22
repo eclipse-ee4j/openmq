@@ -16,7 +16,7 @@
 
 /*
  * @(#)MQUser.java	1.7 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.jaas;
 
@@ -27,28 +27,31 @@ public class MQUser implements Principal, java.io.Serializable {
     private String name;
 
     public MQUser(String name) {
-	    this.name = name;
+        this.name = name;
     }
 
     public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (!(obj instanceof MQUser)) return false;
-        if (this == obj) return true;
+        if (obj == null)
+            return false;
+        if (!(obj instanceof MQUser))
+            return false;
+        if (this == obj)
+            return true;
 
-        MQUser that = (MQUser)obj;
+        MQUser that = (MQUser) obj;
         return this.getName().equals(that.getName());
     }
-    
+
     public String toString() {
-	    return name;
+        return name;
     }
 
     public int hashCode() {
-	    return name.hashCode();
+        return name.hashCode();
     }
 
     public String getName() {
-	    return name;
+        return name;
     }
 
 }

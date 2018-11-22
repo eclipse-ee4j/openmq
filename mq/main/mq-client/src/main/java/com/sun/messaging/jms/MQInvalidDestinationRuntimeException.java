@@ -21,79 +21,68 @@ import javax.jms.InvalidDestinationException;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
- * This class is the MQ-specific implementation of
- * javax.jms.InvalidDestinationRuntimeException and adds the methods setLogState
- * and getlogState
+ * This class is the MQ-specific implementation of javax.jms.InvalidDestinationRuntimeException and adds the methods
+ * setLogState and getlogState
  **/
-public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDestinationRuntimeException
-             implements Loggable {
+public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDestinationRuntimeException implements Loggable {
 
-	private boolean isLogged = false;
+    private boolean isLogged = false;
 
-	/**
-	 * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 **/
-	public MQInvalidDestinationRuntimeException(String detailMessage) {
-		super(detailMessage);
-	}
-	
-	/**
-	 * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message
-	 * and error code.
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 **/
-	public MQInvalidDestinationRuntimeException(String detailMessage, String errorCode) {
-		super(detailMessage,errorCode);
-	}
+    /**
+     * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message
+     * 
+     * @param detailMessage a description of the exception
+     **/
+    public MQInvalidDestinationRuntimeException(String detailMessage) {
+        super(detailMessage);
+    }
 
-	/**
-	 * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message,
-	 * error code and cause
-	 * 
-	 * @param detailMessage
-	 *            a description of the exception
-	 * @param errorCode
-	 *            a provider-specific error code
-	 * @param cause
-	 *            the underlying cause of this exception
-	 */
-	public MQInvalidDestinationRuntimeException(String detailMessage, String errorCode, Throwable cause) {
-		super(detailMessage, errorCode, cause);
-	}
-	
-	/**
-	 * Construct a <code>MQInvalidDestinationRuntimeException</code> to wrap the
-	 * specified InvalidDestinationException
-	 * 
-	 * @param cause the underlying cause of this exception
-	 */
-	public MQInvalidDestinationRuntimeException(InvalidDestinationException cause) {
-		super(cause.getMessage(), cause.getErrorCode(), cause);
-	}
+    /**
+     * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message and error code.
+     * 
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     **/
+    public MQInvalidDestinationRuntimeException(String detailMessage, String errorCode) {
+        super(detailMessage, errorCode);
+    }
 
+    /**
+     * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message, error code and
+     * cause
+     * 
+     * @param detailMessage a description of the exception
+     * @param errorCode a provider-specific error code
+     * @param cause the underlying cause of this exception
+     */
+    public MQInvalidDestinationRuntimeException(String detailMessage, String errorCode, Throwable cause) {
+        super(detailMessage, errorCode, cause);
+    }
 
-	/**
-	 * Specify whether this object is logged.
-	 * 
-	 * @param whether this object is logged
-	 */
-	public void setLogState(boolean state) {
-		this.isLogged = state;
-	}
+    /**
+     * Construct a <code>MQInvalidDestinationRuntimeException</code> to wrap the specified InvalidDestinationException
+     * 
+     * @param cause the underlying cause of this exception
+     */
+    public MQInvalidDestinationRuntimeException(InvalidDestinationException cause) {
+        super(cause.getMessage(), cause.getErrorCode(), cause);
+    }
 
-	/**
-	 * return whether this object is logged
-	 * 
-	 * @return whether this object is logged
-	 */
-	public boolean getLogState() {
-		return this.isLogged;
-	}
+    /**
+     * Specify whether this object is logged.
+     * 
+     * @param whether this object is logged
+     */
+    public void setLogState(boolean state) {
+        this.isLogged = state;
+    }
+
+    /**
+     * return whether this object is logged
+     * 
+     * @return whether this object is logged
+     */
+    public boolean getLogState() {
+        return this.isLogged;
+    }
 }

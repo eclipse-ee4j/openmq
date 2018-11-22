@@ -16,7 +16,7 @@
 
 /*
  * @(#)GoodbyeHandler.java	1.9 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -39,18 +39,15 @@ public class GoodbyeHandler extends GPacketHandler {
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_GOODBYE) {
             handleGoodbye(sender, pkt);
-        }
-        else if (pkt.getType() == ProtocolGlobals.G_GOODBYE_REPLY) {
+        } else if (pkt.getType() == ProtocolGlobals.G_GOODBYE_REPLY) {
             handleGoodbyeReply(sender, pkt);
-        }
-        else {
-            logger.log(logger.WARNING, br.E_INTERNAL_BROKER_ERROR,
-                       "Cannot handle this packet :" + pkt.toLongString());
+        } else {
+            logger.log(logger.WARNING, br.E_INTERNAL_BROKER_ERROR, "Cannot handle this packet :" + pkt.toLongString());
         }
     }
 
     public void handleGoodbye(BrokerAddress sender, GPacket pkt) {
-         
+
         try {
             ClusterGoodbyeInfo cgi = ClusterGoodbyeInfo.newInstance(pkt, c);
             p.goodbyeReceived(sender, cgi);
@@ -59,19 +56,15 @@ public class GoodbyeHandler extends GPacketHandler {
             if (cgi.needReply()) {
                 GPacket gp = cgi.getReplyGPacket(ProtocolGlobals.G_SUCCESS);
                 try {
-                c.unicastAndClose(sender, gp);
-                p.goodbyeReplySent(sender);
+                    c.unicastAndClose(sender, gp);
+                    p.goodbyeReplySent(sender);
                 } catch (IOException e) {
-                  logger.logStack(logger.DEBUG, 
-                    Globals.getBrokerResources().getKString(
-                    BrokerResources.W_CLUSTER_UNICAST_FAILED, 
-                    ProtocolGlobals.getPacketTypeDisplayString(gp.getType()), sender),e);
+                    logger.logStack(logger.DEBUG, Globals.getBrokerResources().getKString(BrokerResources.W_CLUSTER_UNICAST_FAILED,
+                            ProtocolGlobals.getPacketTypeDisplayString(gp.getType()), sender), e);
                 }
             }
-        }
-        catch (Exception e) {
-            logger.logStack(logger.INFO, br.E_INTERNAL_BROKER_ERROR,
-                            "Unable to process packet: " + pkt, e);
+        } catch (Exception e) {
+            logger.logStack(logger.INFO, br.E_INTERNAL_BROKER_ERROR, "Unable to process packet: " + pkt, e);
             return;
         }
     }

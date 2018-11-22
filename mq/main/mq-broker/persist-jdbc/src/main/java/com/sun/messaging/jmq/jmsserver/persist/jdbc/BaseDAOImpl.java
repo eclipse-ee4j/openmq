@@ -16,7 +16,7 @@
 
 /*
  * @(#)BaseDAOImpl.java	1.12 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
@@ -42,10 +42,7 @@ public abstract class BaseDAOImpl extends CommBaseDAOImpl implements DBConstants
         return DBManager.getDBManager();
     }
 
-    protected void closeSQLObjects( ResultSet rs, Statement stmt,
-                                    Connection conn, Throwable ex )
-                                    throws BrokerException {
-        Util.close( rs, stmt, conn, ex );
+    protected void closeSQLObjects(ResultSet rs, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
+        Util.close(rs, stmt, conn, ex);
     }
 }
-

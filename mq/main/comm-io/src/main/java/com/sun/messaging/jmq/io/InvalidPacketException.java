@@ -15,10 +15,9 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.io;
-
 
 import java.io.IOException;
 
@@ -30,15 +29,15 @@ public class InvalidPacketException extends IOException {
 
     private String appendMessage = null;
 
-    public InvalidPacketException () {
+    public InvalidPacketException() {
         super();
     }
 
-    public InvalidPacketException (String s) {
+    public InvalidPacketException(String s) {
         this(s, null);
     }
 
-    public InvalidPacketException (String s, Throwable e) {
+    public InvalidPacketException(String s, Throwable e) {
         super(s, e);
     }
 
@@ -48,8 +47,7 @@ public class InvalidPacketException extends IOException {
 
     @Override
     public String getMessage() {
-        return super.getMessage()+
-            (appendMessage == null ? "":appendMessage);
+        return super.getMessage() + (appendMessage == null ? "" : appendMessage);
     }
 
     public void setBytes(byte[] data) {
@@ -62,7 +60,6 @@ public class InvalidPacketException extends IOException {
 
     @Override
     public String toString() {
-        return super.toString()+
-            (appendMessage == null ? "":appendMessage);
+        return super.toString() + (appendMessage == null ? "" : appendMessage);
     }
 }

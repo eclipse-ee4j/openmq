@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
@@ -44,57 +44,44 @@ public class NotifyPartitionArrivalHandler extends GPacketHandler {
             handleNotifyPartitionArrivalReply(sender, pkt);
 
         } else {
-            logger.log(logger.WARNING, 
-                "NotifyPartitionArrivalHandler: unexpected packet type " +
-                 pkt.toLongString());
+            logger.log(logger.WARNING, "NotifyPartitionArrivalHandler: unexpected packet type " + pkt.toLongString());
         }
     }
 
     private void handleNotifyPartitionArrival(BrokerAddress sender, GPacket pkt) {
-        ClusterNotifyPartitionArrivalInfo npa = 
-            ClusterNotifyPartitionArrivalInfo.newInstance(pkt, c);
+        ClusterNotifyPartitionArrivalInfo npa = ClusterNotifyPartitionArrivalInfo.newInstance(pkt, c);
         int status = Status.OK;
         String reason = null;
         try {
             p.receivedNotifyPartitionArrival(sender, pkt, npa);
         } catch (Exception e) {
             status = Status.ERROR;
-            String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-            reason = br.getKString(
-                     br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+            String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+            reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
             logger.logStack(logger.ERROR, reason, e);
         }
         sendReply(sender, npa, status, reason);
     }
 
     private void handleNotifyPartitionArrivalReply(BrokerAddress sender, GPacket pkt) {
-        ClusterNotifyPartitionArrivalInfo npa = 
-            ClusterNotifyPartitionArrivalInfo.newInstance(pkt, c);
+        ClusterNotifyPartitionArrivalInfo npa = ClusterNotifyPartitionArrivalInfo.newInstance(pkt, c);
         try {
             p.receivedNotifyPartitionArrivalReply(sender, pkt, npa);
         } catch (Exception e) {
-            String[] args = new String[] {
-                    ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()),
-                    sender.toString(), e.toString() };
-            String reason = br.getKString(
-                    br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
+            String[] args = new String[] { ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()), sender.toString(), e.toString() };
+            String reason = br.getKString(br.E_CLUSTER_PROCESS_PACKET_FROM_BROKER_FAIL, args);
             logger.logStack(logger.WARNING, reason, e);
         }
     }
 
-    private void sendReply(BrokerAddress sender, ClusterNotifyPartitionArrivalInfo npa,
-                           int status, String reason) {
+    private void sendReply(BrokerAddress sender, ClusterNotifyPartitionArrivalInfo npa, int status, String reason) {
         if (npa.needReply()) {
             try {
                 c.unicast(sender, npa.getReplyGPacket(status, reason));
             } catch (IOException e) {
-                Object args = new Object[] { ProtocolGlobals.getPacketTypeDisplayString(
-                                             ProtocolGlobals.G_NOTIFY_PARTITION_ARRIVAL_REPLY),
-                                             sender, npa.toString() };
-                logger.logStack(logger.ERROR, br.getKString(
-                    br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
+                Object args = new Object[] { ProtocolGlobals.getPacketTypeDisplayString(ProtocolGlobals.G_NOTIFY_PARTITION_ARRIVAL_REPLY), sender,
+                        npa.toString() };
+                logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_SEND_PACKET_FAILED, args), e);
             }
 
         }

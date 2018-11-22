@@ -41,9 +41,7 @@ import com.sun.messaging.jmq.util.io.ClassFilter;
 /**
  *
  */
-public class DirectObjectPacket
-        extends DirectPacket
-        implements javax.jms.ObjectMessage {
+public class DirectObjectPacket extends DirectPacket implements javax.jms.ObjectMessage {
 
     /** The messageBody of this JMS ObjectMessage */
     private byte[] messageBody = null;
@@ -57,21 +55,19 @@ public class DirectObjectPacket
     private ObjectInputStream objectInputStream = null;
 
     /**
-     *  Logging
+     * Logging
      */
-    private static transient final String _className =
-            "com.sun.messaging.jms.ra.DirectObjectPacket";
+    private static transient final String _className = "com.sun.messaging.jms.ra.DirectObjectPacket";
 
-    /** 
-     *  Create a new instance of DirectObjectPacket.<p>
+    /**
+     * Create a new instance of DirectObjectPacket.
+     * <p>
      *
-     *  Used by the createObjectMessage API
+     * Used by the createObjectMessage API
      */
-    public DirectObjectPacket(DirectSession ds,
-            Serializable obj)
-    throws JMSException {
+    public DirectObjectPacket(DirectSession ds, Serializable obj) throws JMSException {
         super(ds);
-        if (_logFINE){
+        if (_logFINE) {
             Object params[] = new Object[3];
             params[0] = ds;
             params[2] = obj;
@@ -83,64 +79,51 @@ public class DirectObjectPacket
     }
 
     /**
-     *  Create a new instance of DirectObjectPacket.
-     *  Used by Consumer.deliver.
+     * Create a new instance of DirectObjectPacket. Used by Consumer.deliver.
      */
-    public DirectObjectPacket(JMSPacket jmsPacket, long consumerId,
-            DirectSession ds, JMSService jmsservice)
-    throws JMSException {
+    public DirectObjectPacket(JMSPacket jmsPacket, long consumerId, DirectSession ds, JMSService jmsservice) throws JMSException {
         super(jmsPacket, consumerId, ds, jmsservice);
         this._getMessageBodyFromPacket();
     }
+
     /////////////////////////////////////////////////////////////////////////
-    //  methods that implement javax.jms.ObjectMessage
+    // methods that implement javax.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /**
-     *  Clear out the message body .
+     * Clear out the message body .
      */
-    public void clearBody()
-    throws JMSException {
+    public void clearBody() throws JMSException {
         super.clearBody();
         this.messageBody = null;
     }
 
     /**
-     *  Get the serializable object containing this message's data. The 
-     *  default value is null.
+     * Get the serializable object containing this message's data. The default value is null.
      *
-     *  @return The serializable object containing this message's data
-     *  
-     *  @throws JMSException if the JMS provider fails to get the object
-     *          due to some internal error.
-     *  @throws MessageFormatException if object deserialization fails.
+     * @return The serializable object containing this message's data
+     * 
+     * @throws JMSException if the JMS provider fails to get the object due to some internal error.
+     * @throws MessageFormatException if object deserialization fails.
      */
-    public Serializable getObject()
-    throws JMSException {
+    public Serializable getObject() throws JMSException {
         String methodName = "getObject()";
-        if (_logFINE){
-            _loggerJM.fine(_lgrMID_INF+/*"messageId="+messageId+":"+*/
+        if (_logFINE) {
+            _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     methodName);
         }
         Serializable object = null;
-        if (this.messageBody != null){
+        if (this.messageBody != null) {
             try {
                 byteArrayInputStream = new ByteArrayInputStream(messageBody);
-                objectInputStream = new 
-                        ObjectInputStreamWithContextLoader(byteArrayInputStream);
+                objectInputStream = new ObjectInputStreamWithContextLoader(byteArrayInputStream);
                 object = (Serializable) objectInputStream.readObject();
                 return object;
             } catch (Exception e) {
                 JMSException jmse = null;
-                String eMsg = _lgrMID_EXC +
-                        ":Exception:ObjectMessage." + methodName + 
-                        "DeSerializing object:" + 
-                        ":message="+ e.getMessage();
+                String eMsg = _lgrMID_EXC + ":Exception:ObjectMessage." + methodName + "DeSerializing object:" + ":message=" + e.getMessage();
                 _loggerJM.severe(eMsg);
-                if ((e instanceof InvalidClassException) ||
-                        (e instanceof OptionalDataException) ||
-                        (e instanceof ClassNotFoundException)){
-            
-            
+                if ((e instanceof InvalidClassException) || (e instanceof OptionalDataException) || (e instanceof ClassNotFoundException)) {
+
                     jmse = new MessageFormatException(eMsg);
                 } else {
                     jmse = new JMSException(eMsg);
@@ -153,25 +136,20 @@ public class DirectObjectPacket
     }
 
     /**
-     *  Set the serializable object containing this message's data.
-     *  It is important to note that an <CODE>ObjectMessage</CODE>
-     *  contains a snapshot of the object at the time <CODE>setObject()</CODE>
-     *  is called; subsequent modifications of the object will have no 
-     *  effect on the <CODE>ObjectMessage</CODE> body.
+     * Set the serializable object containing this message's data. It is important to note that an
+     * <CODE>ObjectMessage</CODE> contains a snapshot of the object at the time <CODE>setObject()</CODE> is called;
+     * subsequent modifications of the object will have no effect on the <CODE>ObjectMessage</CODE> body.
      *
-     *  @param  object The message's data
-     *  
-     *  @throws JMSException if the JMS provider fails to set the object
-     *          due to some internal error.
-     *  @throws MessageFormatException if object serialization fails.
-     *  @throws MessageNotWriteableException if the message is in read-only
-     *          mode.
+     * @param object The message's data
+     * 
+     * @throws JMSException if the JMS provider fails to set the object due to some internal error.
+     * @throws MessageFormatException if object serialization fails.
+     * @throws MessageNotWriteableException if the message is in read-only mode.
      */
-    public void setObject(Serializable object)
-    throws JMSException {
+    public void setObject(Serializable object) throws JMSException {
         String methodName = "setObject()";
-        if (_logFINE){
-            _loggerJM.fine(_lgrMID_INF+/*"messageId="+messageId+":"+*/
+        if (_logFINE) {
+            _loggerJM.fine(_lgrMID_INF + /* "messageId="+messageId+":"+ */
                     methodName);
         }
         this.checkForReadOnlyMessageBody(methodName);
@@ -187,42 +165,37 @@ public class DirectObjectPacket
             objectOutputStream.close();
             byteArrayOutputStream.close();
         } catch (Exception ex) {
-            String errMsg = _lgrMID_EXC +
-                    ":Exception:ObjectMessage."+methodName+"object="+object+
-                    ":message="+ ex.getMessage();
+            String errMsg = _lgrMID_EXC + ":Exception:ObjectMessage." + methodName + "object=" + object + ":message=" + ex.getMessage();
             _loggerJM.severe(errMsg);
             JMSException jmse = new JMSException(errMsg);
             jmse.initCause(ex);
             throw jmse;
         }
     }
+
     /////////////////////////////////////////////////////////////////////////
-    //  end javax.jms.ObjectMessage
+    // end javax.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////
-    //  MQ methods DirectMapPacket / javax.jms.ObjectMessage
+    // MQ methods DirectMapPacket / javax.jms.ObjectMessage
     /////////////////////////////////////////////////////////////////////////
     /**
-     *  Set the JMS default values on this JMS ObjectMessage
+     * Set the JMS default values on this JMS ObjectMessage
      */
-    protected void _setDefaultValues()
-    throws JMSException {
+    protected void _setDefaultValues() throws JMSException {
         super._setDefaultValues();
         this.pkt.setPacketType(PacketType.OBJECT_MESSAGE);
     }
 
     /**
-     *  Set the JMS Message body into the packet
+     * Set the JMS Message body into the packet
      */
-    protected void _setBodyToPacket()
-    throws JMSException {
+    protected void _setBodyToPacket() throws JMSException {
         if (this.messageBody != null) {
             try {
                 super._setMessageBodyOfPacket(this.messageBody);
             } catch (Exception ex) {
-                String errMsg = _lgrMID_EXC +
-                        ":ERROR setting ObjectMessage body"+
-                        ":Exception="+ ex.getMessage();
+                String errMsg = _lgrMID_EXC + ":ERROR setting ObjectMessage body" + ":Exception=" + ex.getMessage();
                 _loggerJM.severe(errMsg);
                 JMSException jmse = new javax.jms.JMSException(errMsg);
                 jmse.initCause(ex);
@@ -232,51 +205,45 @@ public class DirectObjectPacket
     }
 
     /**
-     *  Get the message body from the packet
+     * Get the message body from the packet
      */
-    protected void _getMessageBodyFromPacket()
-    throws JMSException {
+    protected void _getMessageBodyFromPacket() throws JMSException {
         this.messageBody = super._getMessageBodyByteArray();
     }
 
     /**
-     *  This class handles class loading, if a ContextClassLoader
-     *  is set on the current Thread.<p>
-     *  This strategy is only attempted if the ObjectInputStream
-     *  class loading mechanism fails.
+     * This class handles class loading, if a ContextClassLoader is set on the current Thread.
+     * <p>
+     * This strategy is only attempted if the ObjectInputStream class loading mechanism fails.
      */
-    static class ObjectInputStreamWithContextLoader
-            extends ObjectInputStream {
+    static class ObjectInputStreamWithContextLoader extends ObjectInputStream {
 
         /** Contructs an ObjectInputStreamWithContextLoaded */
-        public ObjectInputStreamWithContextLoader(InputStream in)
-        throws IOException, StreamCorruptedException {
+        public ObjectInputStreamWithContextLoader(InputStream in) throws IOException, StreamCorruptedException {
             super(in);
         }
 
         /**
-         *  Override the default
+         * Override the default
          */
-        protected Class resolveClass(ObjectStreamClass classDesc)
-        throws IOException, ClassNotFoundException {
-          
+        protected Class resolveClass(ObjectStreamClass classDesc) throws IOException, ClassNotFoundException {
+
             String className = classDesc.getName();
             if (className != null && !className.isEmpty() && ClassFilter.isBlackListed(className)) {
-              throw new InvalidClassException("Unauthorized deserialization attempt", classDesc.getName());
+                throw new InvalidClassException("Unauthorized deserialization attempt", classDesc.getName());
             }
-          
+
             try {
                 return super.resolveClass(classDesc);
             } catch (ClassNotFoundException e) {
-                //try Thread.ContextClassLoader
+                // try Thread.ContextClassLoader
                 ClassLoader ctxcl = null;
                 try {
                     ctxcl = Thread.currentThread().getContextClassLoader();
                 } catch (SecurityException se) {
-                    throw new ClassNotFoundException(e.getMessage() +
-                            "; " + se.getMessage());
+                    throw new ClassNotFoundException(e.getMessage() + "; " + se.getMessage());
                 }
-                if (ctxcl == null)  {
+                if (ctxcl == null) {
                     throw e;
                 }
                 return Class.forName(classDesc.getName(), false, ctxcl);

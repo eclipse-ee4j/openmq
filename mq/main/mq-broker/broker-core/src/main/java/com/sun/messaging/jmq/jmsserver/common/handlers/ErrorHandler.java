@@ -16,7 +16,7 @@
 
 /*
  * @(#)ErrorHandler.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
@@ -30,26 +30,19 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 
-
-
 /**
  * Handler class which deals with handling error messages
  */
-public class ErrorHandler extends PacketHandler 
-{
+public class ErrorHandler extends PacketHandler {
 
     /**
      * Method to handle error messages
      */
-    public boolean handle(IMQConnection con, Packet msg) 
-        throws BrokerException
-    {
-         Exception ex = new Exception();
-         ex.fillInStackTrace();
-         Globals.getLogger().logStack(Logger.ERROR,
-             BrokerResources.E_INTERNAL_BROKER_ERROR, 
-             "received unexpected error in handler ", ex);
-         return true;
+    public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
+        Exception ex = new Exception();
+        ex.fillInStackTrace();
+        Globals.getLogger().logStack(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "received unexpected error in handler ", ex);
+        return true;
     }
 
 }

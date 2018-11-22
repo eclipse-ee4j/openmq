@@ -16,7 +16,7 @@
 
 /*
  * @(#)ResumeHandler.java	1.23 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
@@ -39,103 +39,92 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 
-public class ResumeHandler extends AdminCmdHandler
-{
+public class ResumeHandler extends AdminCmdHandler {
     private static boolean DEBUG = getDEBUG();
 
     public ResumeHandler(AdminDataHandler parent) {
-	super(parent);
+        super(parent);
     }
 
     /**
      * Handle the incomming administration message.
      *
-     * @param con	The Connection the message came in on.
-     * @param cmd_msg	The administration message
+     * @param con The Connection the message came in on.
+     * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
-    public boolean handle(IMQConnection con, Packet cmd_msg,
-				       Hashtable cmd_props) {
+    public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-	if ( DEBUG ) {
-            logger.log(Logger.DEBUG, this.getClass().getName() + ": " +
-                "Resuming: " + cmd_props);
+        if (DEBUG) {
+            logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Resuming: " + cmd_props);
         }
 
-        String pauseTarget = (String)cmd_props.get(MessageType.JMQ_PAUSE_TARGET);
-        String service = (String)cmd_props.get(MessageType.JMQ_SERVICE_NAME);
-        String destination = (String)cmd_props.get(MessageType.JMQ_DESTINATION);
-        Integer type = (Integer)cmd_props.get(MessageType.JMQ_DEST_TYPE);
+        String pauseTarget = (String) cmd_props.get(MessageType.JMQ_PAUSE_TARGET);
+        String service = (String) cmd_props.get(MessageType.JMQ_SERVICE_NAME);
+        String destination = (String) cmd_props.get(MessageType.JMQ_DESTINATION);
+        Integer type = (Integer) cmd_props.get(MessageType.JMQ_DEST_TYPE);
 
         int status = Status.OK;
         String errMsg = null;
 
         assert service == null || destination == null;
 
-	/*
-	 * Compatibility with MQ 3.0.1
-	 * If pause target not set, assume that the service is being
-	 * paused/resumed.
-	 */
-	if (pauseTarget == null)  {
-	    pauseTarget = MessageType.JMQ_SERVICE_NAME;
-	}
+        /*
+         * Compatibility with MQ 3.0.1 If pause target not set, assume that the service is being paused/resumed.
+         */
+        if (pauseTarget == null) {
+            pauseTarget = MessageType.JMQ_SERVICE_NAME;
+        }
 
         try {
-	        if (MessageType.JMQ_SERVICE_NAME.equals(pauseTarget))  {
-		    if (service == null)  {
-                        logger.log(Logger.INFO, BrokerResources.I_RESUMING_ALL_SVCS);
-		    } else  {
-                        logger.log(Logger.INFO, BrokerResources.I_RESUMING_SVC,
-                            service);
-		    }
-                    PauseHandler.pauseService(false, service);
-	        } else if (MessageType.JMQ_DESTINATION.equals(pauseTarget))  {
-                    logger.log(Logger.INFO, BrokerResources.I_RESUMING_DST,
-                            destination);
-                    PauseHandler.pauseService(false, service);
-                    if (destination == null)  {
+            if (MessageType.JMQ_SERVICE_NAME.equals(pauseTarget)) {
+                if (service == null) {
+                    logger.log(Logger.INFO, BrokerResources.I_RESUMING_ALL_SVCS);
+                } else {
+                    logger.log(Logger.INFO, BrokerResources.I_RESUMING_SVC, service);
+                }
+                PauseHandler.pauseService(false, service);
+            } else if (MessageType.JMQ_DESTINATION.equals(pauseTarget)) {
+                logger.log(Logger.INFO, BrokerResources.I_RESUMING_DST, destination);
+                PauseHandler.pauseService(false, service);
+                if (destination == null) {
                     Iterator[] itrs = DL.getAllDestinations(null);
                     Iterator itr = itrs[0];
                     while (itr.hasNext()) {
-                        Destination d =(Destination)itr.next();
+                        Destination d = (Destination) itr.next();
                         if (d.isPaused()) {
                             d.resumeDestination();
                         }
                     }
-                    } else  {
-                    Destination[] ds = DL.getDestination(null, destination,
-                                       DestType.isQueue(type.intValue()));
-                    Destination d = ds[0]; //PART
+                } else {
+                    Destination[] ds = DL.getDestination(null, destination, DestType.isQueue(type.intValue()));
+                    Destination d = ds[0]; // PART
                     if (d != null) {
                         d.resumeDestination();
                     } else {
-                        String msg = Globals.getBrokerResources().getString(
-                             BrokerResources.I_RESUMED_DST_NOT_EXIST,
-                       (DestType.isQueue(type.intValue()) ? " queue:" :
-                           " topic:") +destination );
+                        String msg = Globals.getBrokerResources().getString(BrokerResources.I_RESUMED_DST_NOT_EXIST,
+                                (DestType.isQueue(type.intValue()) ? " queue:" : " topic:") + destination);
 
                         errMsg = msg;
                         status = Status.NOT_FOUND;
-                        logger.log(Logger.ERROR,msg);
-		    }
+                        logger.log(Logger.ERROR, msg);
+                    }
                 }
             }
         } catch (Exception e) {
             status = Status.ERROR;
-            errMsg = rb.getString( rb.X_RESUME_SERVICE_EXCEPTION, 
-                            service, e.toString());
+            errMsg = rb.getString(rb.X_RESUME_SERVICE_EXCEPTION, service, e.toString());
             logger.log(Logger.ERROR, errMsg, e);
-         }
+        }
 
-	// Send reply
-	Packet reply = new Packet(con.useDirectBuffers());
-	reply.setPacketType(PacketType.OBJECT_MESSAGE);
+        // Send reply
+        Packet reply = new Packet(con.useDirectBuffers());
+        reply.setPacketType(PacketType.OBJECT_MESSAGE);
 
-	setProperties(reply, MessageType.RESUME_REPLY, status, errMsg);
+        setProperties(reply, MessageType.RESUME_REPLY, status, errMsg);
 
-	parent.sendReply(con, cmd_msg, reply);
-    return true;
+        parent.sendReply(con, cmd_msg, reply);
+        return true;
 
     }
 }

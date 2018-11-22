@@ -16,20 +16,18 @@
 
 /*
  * @(#)GlobalErrorHandler.java	1.4 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver;
 
 /**
- * this interface is for exception handlers used by the thread
- * pool
+ * this interface is for exception handlers used by the thread pool
  */
 
-public interface GlobalErrorHandler
-{
-   /** 
-    * returns true if the method actually did something with the error
-    */
+public interface GlobalErrorHandler {
+    /**
+     * returns true if the method actually did something with the error
+     */
     public boolean handleGlobalError(Throwable ex, String reason);
 
     /**

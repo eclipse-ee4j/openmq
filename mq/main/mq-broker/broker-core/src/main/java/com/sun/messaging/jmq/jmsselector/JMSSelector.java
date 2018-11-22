@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMSSelector.java	1.13 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsselector;
 
@@ -26,33 +26,30 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 
-
 /**
  * Provides JMS selector capability
  * 
  * Uses SQL parser in SQLParser.jj
  */
 public class JMSSelector implements java.io.Serializable {
-    transient SQLParser   parser;
-    String    selectorPattern;
-    transient Hashtable  msgHeader;
-    transient int    jmsDeliveryMode;
-    transient int    jmsPriority;
+    transient SQLParser parser;
+    String selectorPattern;
+    transient Hashtable msgHeader;
+    transient int jmsDeliveryMode;
+    transient int jmsPriority;
     transient String jmsMessageID;
-    transient long   jmsTimestamp;
+    transient long jmsTimestamp;
     transient String jmsCorrelationID;
     transient String jmsType;
 
     /**
      * Null Constructor.
-     */ 
+     */
     public JMSSelector() {
         this(null, null);
     }
 
-    private void readObject(java.io.ObjectInputStream ois)
-        throws IOException, ClassNotFoundException
-    {
+    private void readObject(java.io.ObjectInputStream ois) throws IOException, ClassNotFoundException {
         ois.defaultReadObject();
         msgHeader = new Hashtable();
         jmsDeliveryMode = 2;
@@ -61,7 +58,7 @@ public class JMSSelector implements java.io.Serializable {
         jmsTimestamp = 0L;
         jmsCorrelationID = "";
         jmsType = "";
-    }    
+    }
 
     /**
      * Constructor.
@@ -81,7 +78,7 @@ public class JMSSelector implements java.io.Serializable {
         msgHeader = header;
         selectorPattern = pattern;
 
-        //Initialze Header fields to their defaults
+        // Initialze Header fields to their defaults
         jmsDeliveryMode = 2;
         jmsPriority = 4;
         jmsMessageID = "";
@@ -89,7 +86,7 @@ public class JMSSelector implements java.io.Serializable {
         jmsCorrelationID = "";
         jmsType = "";
 
-        //InputStream stream = new ByteArrayInputStream(selectorPattern.getBytes());
+        // InputStream stream = new ByteArrayInputStream(selectorPattern.getBytes());
         StringReader stream = new StringReader(selectorPattern);
 
         parser = new SQLParser(this, stream);
@@ -213,12 +210,7 @@ public class JMSSelector implements java.io.Serializable {
      * @param correlationID The JMS Header property JMSCorrelationID used by this JMSSelector
      * @param type The JMS Header property JMSType used by this JMSSelector
      */
-    public void setJMSHeaderFields(int deliveryMode,
-                                   int priority,
-                                   String messageID,
-                                   long timestamp,
-                                   String correlationID,
-                                   String type) {
+    public void setJMSHeaderFields(int deliveryMode, int priority, String messageID, long timestamp, String correlationID, String type) {
         jmsDeliveryMode = deliveryMode;
         jmsPriority = priority;
         jmsMessageID = messageID;
@@ -237,11 +229,11 @@ public class JMSSelector implements java.io.Serializable {
     }
 
     /**
-     * Validates the selector pattern that will be used by this JMSSelector to perform matches.
-     * This selector pattern must conform to the SQL-92 specification for an SQL pattern.
+     * Validates the selector pattern that will be used by this JMSSelector to perform matches. This selector pattern must
+     * conform to the SQL-92 specification for an SQL pattern.
      *
-     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to
-     *            the SQL-92 specification for an SQL pattern.
+     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
+     * pattern.
      *
      */
     public void setSelectorPattern(String pattern) {
@@ -253,11 +245,11 @@ public class JMSSelector implements java.io.Serializable {
     }
 
     /**
-     * Validates the selector pattern that will be used by this JMSSelector to perform matches.
-     * This selector pattern must conform to the SQL-92 specification for an SQL pattern.
+     * Validates the selector pattern that will be used by this JMSSelector to perform matches. This selector pattern must
+     * conform to the SQL-92 specification for an SQL pattern.
      *
-     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to
-     *            the SQL-92 specification for an SQL pattern.
+     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
+     * pattern.
      *
      */
     public void validateSelectorPattern(String pattern) throws InvalidJMSSelectorException, NullMessageHeaderException {
@@ -271,10 +263,10 @@ public class JMSSelector implements java.io.Serializable {
         try {
             match(msgHeader);
         } catch (NullMessageHeaderException e) {
-            //System.out.println("sSP:NulMsgHdrExc" + e.getMessage()); e.printStackTrace();
+            // System.out.println("sSP:NulMsgHdrExc" + e.getMessage()); e.printStackTrace();
             throw e;
         } catch (Throwable t) {
-            //System.out.println("sSP:Throwable" + t.getMessage()); t.printStackTrace();
+            // System.out.println("sSP:Throwable" + t.getMessage()); t.printStackTrace();
             throw new InvalidJMSSelectorException(selectorPattern);
         }
     }
@@ -286,281 +278,261 @@ public class JMSSelector implements java.io.Serializable {
      * 
      * @return <code>true</code> if a match was made; <code>false</code> otherwise.
      * 
-     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to
-     *            the SQL-92 specification for an SQL pattern.
+     * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
+     * pattern.
      */
     public boolean match(Hashtable header) throws InvalidJMSSelectorException, NullMessageHeaderException {
         boolean matched = false;
         if (selectorPattern.equals("")) {
-            matched = true;     // No selector
+            matched = true; // No selector
         } else {
             try {
-                //InputStream stream = new ByteArrayInputStream(selectorPattern.getBytes());
+                // InputStream stream = new ByteArrayInputStream(selectorPattern.getBytes());
                 StringReader stream = new StringReader(selectorPattern);
                 parser.reInit(stream);
-                //If null properties passed, then use the default (empty, non-null) properties
+                // If null properties passed, then use the default (empty, non-null) properties
                 matched = parser.match(header == null ? msgHeader : header);
             } catch (NullMessageHeaderException e) {
                 throw e;
             } catch (Throwable t) {
-                //note that the message of this exception is simply the invalid pattern
-                //and should not be translated. 
-                //System.out.println("throwing exc-"+t.getMessage()); t.printStackTrace();
+                // note that the message of this exception is simply the invalid pattern
+                // and should not be translated.
+                // System.out.println("throwing exc-"+t.getMessage()); t.printStackTrace();
                 throw new InvalidJMSSelectorException(selectorPattern);
             }
         }
         return matched;
     }
-    
-
 
     /**
-     * Used to determine selector match in a SQL LIKE experssion as in
-     * <\p>
-     * str LIKE patternStr [ESCAPE escapeChar] 
-     * <\p>
+     * Used to determine selector match in a SQL LIKE experssion as in <\p> str LIKE patternStr [ESCAPE escapeChar] <\p>
      *
      * @param patternStr The pattern used in SQL LIKE statement
      * @param str The string being compared with patternStr in SQL LIKE statement
-     * @param escapeChar The escape character used to treat wildcards '_' and '%' as normal 
+     * @param escapeChar The escape character used to treat wildcards '_' and '%' as normal
      *
      * @return
      * 
      * @see
      */
     boolean matchPattern(String patternStr, String str, char escapeChar) {
-        //System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'" 
-                           //+ str + "\'" + "\' escapeChar = \'" + escapeChar + "\'");
+        // System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'"
+        // + str + "\'" + "\' escapeChar = \'" + escapeChar + "\'");
         boolean matched = false;
         String escapeCharStr = String.valueOf(escapeChar);
         String wildCards = "_%";
         String delims = wildCards + escapeCharStr;
         boolean escaped = false;
-        int     index = 0;
-        String  tok = null;
+        int index = 0;
+        String tok = null;
 
         try {
-        if (str != null) {
-            //int             index = 0;
-            StringTokenizer st = new StringTokenizer(patternStr, delims, true);
-            
-            //Parse string into a Collection of tokens since we will need to peek forward as we
-            //scan tokens
-            //XX:JAVA2 Use ArrayList
-            //ArrayList tokens = new ArrayList();
-            Vector tokens = new Vector();
-            while (st.hasMoreTokens()) {
-                tok = st.nextToken();
-                //XX:JAVA2
-                //tokens.add(tok);
-                tokens.addElement(tok);
-            } 
+            if (str != null) {
+                // int index = 0;
+                StringTokenizer st = new StringTokenizer(patternStr, delims, true);
 
-            matched = true;
-            
-            //Iterate over tokens list and match each token with str
-            int numTokens = tokens.size();
-            for (int i=0; i<numTokens; i++) {
-                //XX:JAVA2
-                //tok = (String)tokens.get(i);
-                tok = (String)tokens.elementAt(i);
-
-                // Token can be a delimeter or actual token
-                if (tok.equals(escapeCharStr) && (!escaped)) {
-                    //Remember that the next character in patterStr must be treated literally
-                    escaped = true;
+                // Parse string into a Collection of tokens since we will need to peek forward as we
+                // scan tokens
+                // XX:JAVA2 Use ArrayList
+                // ArrayList tokens = new ArrayList();
+                Vector tokens = new Vector();
+                while (st.hasMoreTokens()) {
+                    tok = st.nextToken();
+                    // XX:JAVA2
+                    // tokens.add(tok);
+                    tokens.addElement(tok);
                 }
-                else if (tok.equals("%") && (! escaped)) {
-                    if (i == (numTokens - 1) ) {
- 
-                        // wildcard is last character in pattern,
-                        // match entire string.
-                        index = str.length();
-                    } else if (i != numTokens-1) {    //There are more tokens. If not then we have a match
-                    
-                        /*
-                        //Peek forward and get the next non delimter token if any
-                        String nextNonDelimToken = null;
-                        for (int j=i+1; j<numTokens; j++) {
-                            String newTok = (String)tokens.get(j);
-                            if ((!newTok.equals(escapeCharStr)) && (!newTok.equals("_")) && (!newTok.equals("%"))) {
-                                nextNonDelimToken = newTok;
-                                break;
-                            }
-                        }
-                        */
-                        
-                        //Now scan forward
-                        int _cnt = 0; //count of '_' delimeters encountered
-                        ++i;
-                        for (; i<numTokens; i++) {
-                            //XX:JAVA2
-                            //tok = (String)tokens.get(i);
-                            tok = (String)tokens.elementAt(i);
-                            
-                            if (tok.equals(escapeCharStr) && (!escaped)) {
-                                //Remember that the next character in patterStr must be treated literally
-                                escaped = true;
-                            }
-                            else if (tok.equals("%") && (! escaped)) {
-                                //% followed by % is same as %                      
-                            }
-                            else if (tok.equals("_") && (! escaped)) {
-                                ++_cnt;
-                            }
-                            else {
-                                //This is the nextNonDelimTok
-                                int oldIndex = index;
- 
-                                if (i == (numTokens -1)) {
- 
-                                    // Not a general purpose fix for
-                                    // wildcard matching bug.
-                                    // At least handle case when
-                                    // only one wildcard in pattern
-                                    // that has a group of characters
-                                    // trailing it.
-                                    if (str.endsWith(tok)) {
-                                        index = str.length() - tok.length();
+
+                matched = true;
+
+                // Iterate over tokens list and match each token with str
+                int numTokens = tokens.size();
+                for (int i = 0; i < numTokens; i++) {
+                    // XX:JAVA2
+                    // tok = (String)tokens.get(i);
+                    tok = (String) tokens.elementAt(i);
+
+                    // Token can be a delimeter or actual token
+                    if (tok.equals(escapeCharStr) && (!escaped)) {
+                        // Remember that the next character in patterStr must be treated literally
+                        escaped = true;
+                    } else if (tok.equals("%") && (!escaped)) {
+                        if (i == (numTokens - 1)) {
+
+                            // wildcard is last character in pattern,
+                            // match entire string.
+                            index = str.length();
+                        } else if (i != numTokens - 1) { // There are more tokens. If not then we have a match
+
+                            /*
+                             * //Peek forward and get the next non delimter token if any String nextNonDelimToken = null; for (int j=i+1;
+                             * j<numTokens; j++) { String newTok = (String)tokens.get(j); if ((!newTok.equals(escapeCharStr)) &&
+                             * (!newTok.equals("_")) && (!newTok.equals("%"))) { nextNonDelimToken = newTok; break; } }
+                             */
+
+                            // Now scan forward
+                            int _cnt = 0; // count of '_' delimeters encountered
+                            ++i;
+                            for (; i < numTokens; i++) {
+                                // XX:JAVA2
+                                // tok = (String)tokens.get(i);
+                                tok = (String) tokens.elementAt(i);
+
+                                if (tok.equals(escapeCharStr) && (!escaped)) {
+                                    // Remember that the next character in patterStr must be treated literally
+                                    escaped = true;
+                                } else if (tok.equals("%") && (!escaped)) {
+                                    // % followed by % is same as %
+                                } else if (tok.equals("_") && (!escaped)) {
+                                    ++_cnt;
+                                } else {
+                                    // This is the nextNonDelimTok
+                                    int oldIndex = index;
+
+                                    if (i == (numTokens - 1)) {
+
+                                        // Not a general purpose fix for
+                                        // wildcard matching bug.
+                                        // At least handle case when
+                                        // only one wildcard in pattern
+                                        // that has a group of characters
+                                        // trailing it.
+                                        if (str.endsWith(tok)) {
+                                            index = str.length() - tok.length();
+                                        } else {
+                                            matched = false;
+                                            // if (debug) {
+                                            // System.err.println("no matched5 for token: '" + tok + "'");
+
+                                            // }
+                                        }
                                     } else {
-                                        matched = false;
-                                        //if (debug) {
-                                            //System.err.println("no matched5 for token: '" + tok + "'");
-
-                                        //}
+                                        index = str.indexOf(tok, index);
                                     }
-                                } else {
-                                    index = str.indexOf(tok, index);
+
+                                    if (index < 0) {
+                                        matched = false;
+                                        // System.err.println("no matched1 for token: '" + tok + "'");
+                                    } else {
+                                        // Make sure that we have _cnt charecters between old index and new index
+                                        if (index - oldIndex >= _cnt) {
+                                            index += tok.length();
+                                            // System.err.println("matched1: " + str.substring(0, index));
+                                        } else {
+                                            matched = false;
+                                            // System.err.println("no matched 2 for token: '" + tok + "'");
+
+                                        }
+                                    }
+
+                                    escaped = false;
+                                    break;
                                 }
+                            }
+                        }
+                    } else if (tok.equals("_") && (!escaped)) {
+                        index++;
+                        // System.err.println("matched2: " + str.substring(0, index));
+                    } else {
+                        // Compare token read with corresponding string
+                        int tokLen = tok.length();
 
-                                if (index < 0) {
-                                    matched = false;
-                                    //System.err.println("no matched1 for token: '" + tok + "'");                              
-                                } else {
-                                    //Make sure that we have _cnt charecters between old index and new index
-                                    if (index - oldIndex >= _cnt) {
-                                        index += tok.length();
-                                        //System.err.println("matched1: " + str.substring(0, index));                                        
-                                    }
-                                    else {
-                                        matched = false;
-                                        //System.err.println("no matched 2 for token: '" + tok + "'");                              
-               
-                                    }
-                                }                                
-                                
-                                escaped = false;
+                        // System.err.println("At index ="+ index + ", Token="+tok+ ",TokenLength=" + tokLen);
+                        if (index + tokLen <= str.length()) {
+                            String subStr = null;
+
+                            try {
+                                subStr = str.substring(index, index + tokLen);
+                            } catch (StringIndexOutOfBoundsException e) {
+                                matched = false;
                                 break;
                             }
-                        }                                               
-                    }
-                } else if (tok.equals("_") && (!escaped)) {
-                    index++;
-                    //System.err.println("matched2: " + str.substring(0, index));
-                } else {
-                    //Compare token read with corresponding string
-                    int tokLen = tok.length();
 
-                    //System.err.println("At index ="+ index + ", Token="+tok+ ",TokenLength=" + tokLen);
-                    if (index + tokLen <= str.length()) {
-                        String  subStr = null;
+                            if (!subStr.equalsIgnoreCase(tok)) {
+                                matched = false;
+                                // System.err.println("no matched3 for token: '" + tok + "'");
 
-                        try {
-                            subStr = str.substring(index, index + tokLen);
-                        } catch (StringIndexOutOfBoundsException e) {
-                            matched = false;
-                            break;
-                        }
-
-                        if (!subStr.equalsIgnoreCase(tok)) {
-                            matched = false;
-                            //System.err.println("no matched3 for token: '" + tok + "'");                              
-
-                            break;
+                                break;
+                            } else {
+                                index = index + tok.length();
+                                // System.err.println("matched3: " + str.substring(0, index));
+                            }
                         } else {
-                            index = index + tok.length();
-                            //System.err.println("matched3: " + str.substring(0, index));
+                            matched = false;
+                            // System.err.println("no matched4 for token: '" + tok + "'");
+
+                            break;
                         }
-                    } else {
-                        matched = false;
-                        //System.err.println("no matched4 for token: '" + tok + "'");                              
-                        
-                        break;
+                        escaped = false;
                     }
-                    escaped = false;
                 }
             }
-        }
-        if (matched && index != str.length()) {
-            //if (debug) {
-                //System.err.println("no match5(remainder): " + str.substring(index, str.length()));
-            //}
-            matched = false;
-        }
-        //if (debug) {
-            //System.err.println("JMSSelector:matchPattern patternStr = \'" +
-                               //patternStr + "\' str = \'" +
-                               //str + "\' matched = " + matched);
-        //}
+            if (matched && index != str.length()) {
+                // if (debug) {
+                // System.err.println("no match5(remainder): " + str.substring(index, str.length()));
+                // }
+                matched = false;
+            }
+            // if (debug) {
+            // System.err.println("JMSSelector:matchPattern patternStr = \'" +
+            // patternStr + "\' str = \'" +
+            // str + "\' matched = " + matched);
+            // }
         } catch (StringIndexOutOfBoundsException e) {
             matched = false;
-            //if (debug) {   
-                //e.printStackTrace();
-                //System.err.println("HANDLED OUTOFBOUNDS JMSSelector:matchPattern patternStr = \'" +
-                               //patternStr + "\' str = \'" +
-                               //str + "\' matched = " + matched);
- 
-           //} 
+            // if (debug) {
+            // e.printStackTrace();
+            // System.err.println("HANDLED OUTOFBOUNDS JMSSelector:matchPattern patternStr = \'" +
+            // patternStr + "\' str = \'" +
+            // str + "\' matched = " + matched);
+
+            // }
         } finally {
-            //System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'" 
-                               //+ str + "\' matched = " + matched);
+            // System.err.println("JMSSelector:matchPattern patternStr = \'" + patternStr + "\' str = \'"
+            // + str + "\' matched = " + matched);
             return matched;
         }
     }
 
     /**
-     * Strip leading and trailing quotes from a String Literal.
-     * Also, the nested quote character is represented as 2
-     * consecutive quotes, so replace all occurrances of double
-     * quotes with single quotes.
-     */  
+     * Strip leading and trailing quotes from a String Literal. Also, the nested quote character is represented as 2
+     * consecutive quotes, so replace all occurrances of double quotes with single quotes.
+     */
     String processStringLiteral(String strLiteral) {
 
-        //System.out.println("JMSSel:pSL:strLiteral len="+strLiteral.length() + " str="+strLiteral);
-        //for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; } System.out.println("");
-        //Strip leading and trailing quotes
-        strLiteral = strLiteral.substring(1, strLiteral.length()-1);
+        // System.out.println("JMSSel:pSL:strLiteral len="+strLiteral.length() + " str="+strLiteral);
+        // for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; }
+        // System.out.println("");
+        // Strip leading and trailing quotes
+        strLiteral = strLiteral.substring(1, strLiteral.length() - 1);
 
         // Replace all occurances of consecutive quotes as single quote.
         int index = strLiteral.indexOf("''");
-        //System.out.println("JMSSel:pSL:strLiteral_stripped len="+strLiteral.length()+" idx''="+index+" str="+strLiteral);
+        // System.out.println("JMSSel:pSL:strLiteral_stripped len="+strLiteral.length()+" idx''="+index+" str="+strLiteral);
         if (index > -1) {
-            //XX:JAVA2 can use deleteCharAt(index);
-            //StringBuffer sb = new StringBuffer(strLiteral);
+            // XX:JAVA2 can use deleteCharAt(index);
+            // StringBuffer sb = new StringBuffer(strLiteral);
             while (index != -1) {
-                //XX:JAVA2
-                //sb.deleteCharAt(index);
-                strLiteral = (strLiteral.substring(0, index)).concat(strLiteral.substring(index+1));
-                //XX:JAVA2
-                //index = sb.toString().indexOf("''");
+                // XX:JAVA2
+                // sb.deleteCharAt(index);
+                strLiteral = (strLiteral.substring(0, index)).concat(strLiteral.substring(index + 1));
+                // XX:JAVA2
+                // index = sb.toString().indexOf("''");
                 index = strLiteral.indexOf("''");
             }
-            //XX:JAVA2
-            //strLiteral = sb.toString();
+            // XX:JAVA2
+            // strLiteral = sb.toString();
         }
-        //System.out.println("JMSSel:pSL:processed_str len="+strLiteral.length()+" str="+strLiteral);
-        //for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; } System.out.println("");
+        // System.out.println("JMSSel:pSL:processed_str len="+strLiteral.length()+" str="+strLiteral);
+        // for (int k = 0; k < strLiteral.length(); k++ ) { System.out.print("["+k+"]="+ (int)(strLiteral.charAt(k)) + " ") ; }
+        // System.out.println("");
         return strLiteral;
     }
 
     public String toString() {
 
-        return ("JMSSelector:\tPattern=\t`" + selectorPattern + "'" +
-                "\n    Headers:\tDeliveryMode\t" + jmsDeliveryMode +
-                "\n\t\tPriority\t" + jmsPriority +
-                "\n\t\tMessageID\t`" + jmsMessageID + "'" +
-                "\n\t\tTimestamp\t" + jmsTimestamp +
-                "\n\t\tCorrelationID\t`" + jmsCorrelationID + "'" +
-                "\n\t\tType\t\t`" + jmsType + "'" + "\n");
+        return ("JMSSelector:\tPattern=\t`" + selectorPattern + "'" + "\n    Headers:\tDeliveryMode\t" + jmsDeliveryMode + "\n\t\tPriority\t" + jmsPriority
+                + "\n\t\tMessageID\t`" + jmsMessageID + "'" + "\n\t\tTimestamp\t" + jmsTimestamp + "\n\t\tCorrelationID\t`" + jmsCorrelationID + "'"
+                + "\n\t\tType\t\t`" + jmsType + "'" + "\n");
     }
 }

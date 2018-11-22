@@ -16,7 +16,7 @@
 
 /*
  * @(#)ProducerOperations.java	1.7 07/02/07
- */ 
+ */
 
 package com.sun.messaging.jms.management.server;
 
@@ -24,35 +24,35 @@ package com.sun.messaging.jms.management.server;
  * Class containing information on producer operations.
  */
 public class ProducerOperations {
-    /** 
+    /**
      * Get list of producer IDs.
      */
-    public static final String		GET_PRODUCER_IDS = "getProducerIDs";
+    public static final String GET_PRODUCER_IDS = "getProducerIDs";
 
-    /** 
+    /**
      * Get info on all producers
      */
-    public static final String		GET_PRODUCER_INFO = "getProducerInfo";
+    public static final String GET_PRODUCER_INFO = "getProducerInfo";
 
-    /** 
+    /**
      * Get info on specified producer (via ID)
      */
-    public static final String		GET_PRODUCER_INFO_BY_ID = "getProducerInfoByID";
+    public static final String GET_PRODUCER_INFO_BY_ID = "getProducerInfoByID";
 
-    /** 
+    /**
      * Get producer wildcards
      */
-    public static final String		GET_PRODUCER_WILDCARDS = "getProducerWildcards";
+    public static final String GET_PRODUCER_WILDCARDS = "getProducerWildcards";
 
-    /** 
+    /**
      * Get number of producers that use a specific wildcard
      */
-    public static final String		GET_NUM_WILDCARD_PRODUCERS = "getNumWildcardProducers";
+    public static final String GET_NUM_WILDCARD_PRODUCERS = "getNumWildcardProducers";
 
     /*
      * Class cannot be instantiated
      */
     private ProducerOperations() {
     }
-    
+
 }

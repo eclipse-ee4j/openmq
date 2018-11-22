@@ -16,8 +16,8 @@
 
 /*
  * @(#)AccessControlContext.java	1.7 06/28/07
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.auth.api.server;
 
 import java.util.Properties;
@@ -25,14 +25,13 @@ import java.security.Principal;
 import java.security.AccessControlException;
 
 /**
- * An AccessControlContext encapsulates a context for the current authenticated
- * user (the subject) and permissions.  It has 2 check permission methods,
+ * An AccessControlContext encapsulates a context for the current authenticated user (the subject) and permissions. It
+ * has 2 check permission methods,
  *
- * checkConnectionPermission
- * checkDestinationPermission
+ * checkConnectionPermission checkDestinationPermission
  *
- * It makes these access decisions based on the context it encapsulates.
- * An object of AccessControlContext is returned from
+ * It makes these access decisions based on the context it encapsulates. An object of AccessControlContext is returned
+ * from
  *
  * AuthenticationProtocolHandler.getAccessControlContext()
  *
@@ -43,8 +42,7 @@ public interface AccessControlContext {
 
     /**
      *
-     * @return The Principal that represents the client user 
-     *         that associated with the subject. 
+     * @return The Principal that represents the client user that associated with the subject.
      */
     public Principal getClientUser();
 
@@ -53,31 +51,24 @@ public interface AccessControlContext {
      *
      * @param serviceName The name of the service instance the connection belongs
      * @param serviceType The service type as in broker configuration <BR>
-     *                    ("NORMAL" or "ADMIN") <BR>
+     * ("NORMAL" or "ADMIN") <BR>
      *
      * @exception AccessControlException
      */
-    public void checkConnectionPermission(String serviceName,
-                                          String serviceType)
-                                          throws AccessControlException;
+    public void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException;
 
     /**
-     * Check permission for an operation on a destination based on the 
-     * access control context. 
+     * Check permission for an operation on a destination based on the access control context.
      * 
      * @param serviceName The name of the service instance the connection belongs
      * @param serviceType The service type as in broker configuration <BR>
-     *                    ("NORMAL" or "ADMIN") <BR>
+     * ("NORMAL" or "ADMIN") <BR>
      * @param operation "send" "receive" "publish" "subscribe" "browse"
      * @param destination The destination name
      * @param destinationType "queue" or "topic"
      *
      * @exception AccessControlException
      */
-    public void checkDestinationPermission(String serviceName,
-                                           String serviceType,
-                                           String operation,
-                                           String destination,
-                                           String destinationType)
-                                           throws AccessControlException; 
+    public void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
+            throws AccessControlException;
 }

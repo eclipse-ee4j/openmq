@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
@@ -39,8 +39,7 @@ import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 /**
  */
 
-public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
-{
+public class ClusterReplicationGroupInfo implements ClusterProtocolHelper {
     protected Logger logger = Globals.getLogger();
 
     private String groupName = null;
@@ -50,8 +49,7 @@ public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
 
     private GPacket pkt = null;
 
-    private ClusterReplicationGroupInfo(String groupName, String nodeName,
-                                        String masterHostPort, Cluster c) {
+    private ClusterReplicationGroupInfo(String groupName, String nodeName, String masterHostPort, Cluster c) {
         this.groupName = groupName;
         this.nodeName = nodeName;
         this.masterHostPort = masterHostPort;
@@ -63,9 +61,7 @@ public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
         this.c = c;
     }
 
-    public static ClusterReplicationGroupInfo newInstance(
-                      String groupName, String nodeName, 
-                      String masterHostPort, Cluster c) {
+    public static ClusterReplicationGroupInfo newInstance(String groupName, String nodeName, String masterHostPort, Cluster c) {
         return new ClusterReplicationGroupInfo(groupName, nodeName, masterHostPort, c);
     }
 
@@ -77,7 +73,7 @@ public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
         return new ClusterReplicationGroupInfo(pkt, c);
     }
 
-    public GPacket getGPacket() throws IOException { 
+    public GPacket getGPacket() throws IOException {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_REPLICATION_GROUP_INFO);
@@ -86,44 +82,43 @@ public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
         gp.putProp("masterHostPort", masterHostPort);
         gp.putProp("clusterid", Globals.getClusterID());
         gp.putProp("TS", Long.valueOf(System.currentTimeMillis()));
-        c.marshalBrokerAddress(c.getSelfAddress(), gp); 
+        c.marshalBrokerAddress(c.getSelfAddress(), gp);
         gp.setBit(gp.A_BIT, false);
 
         return gp;
     }
 
     public String getGroupName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("groupName");
+        assert (pkt != null);
+        return (String) pkt.getProp("groupName");
     }
 
     public String getNodeName() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("nodeName");
+        assert (pkt != null);
+        return (String) pkt.getProp("nodeName");
     }
 
     public String getMasterHostPort() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("masterHostPort");
+        assert (pkt != null);
+        return (String) pkt.getProp("masterHostPort");
     }
 
     public String getClusterId() {
-        assert ( pkt != null );
-        return (String)pkt.getProp("clusterid");
+        assert (pkt != null);
+        return (String) pkt.getProp("clusterid");
     }
 
     public Long getTimestamp() {
-        assert ( pkt != null );
-        return (Long)pkt.getProp("TS");
+        assert (pkt != null);
+        return (Long) pkt.getProp("TS");
     }
 
     public BrokerAddress getOwnerAddress() throws Exception {
-        assert ( pkt != null );
+        assert (pkt != null);
         return c.unmarshalBrokerAddress(pkt);
     }
 
-    public void sendReply(BrokerAddress recipient, int status,
-                          String reason, Object extraInfo) {
+    public void sendReply(BrokerAddress recipient, int status, String reason, Object extraInfo) {
         return;
     }
 
@@ -133,8 +128,8 @@ public class ClusterReplicationGroupInfo implements ClusterProtocolHelper
     public String toString() {
 
         if (pkt == null) {
-            return "["+groupName+"["+nodeName+", "+masterHostPort+"]";
-        } 
-        return "["+getGroupName()+"["+getNodeName()+", "+getMasterHostPort()+"]"+getTimestamp()+"]";
+            return "[" + groupName + "[" + nodeName + ", " + masterHostPort + "]";
+        }
+        return "[" + getGroupName() + "[" + getNodeName() + ", " + getMasterHostPort() + "]" + getTimestamp() + "]";
     }
 }

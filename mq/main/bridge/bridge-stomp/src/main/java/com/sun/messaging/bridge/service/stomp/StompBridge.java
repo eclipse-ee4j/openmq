@@ -38,21 +38,22 @@ import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 @Service(name = Bridge.STOMP_TYPE)
 @PerLookup
 public class StompBridge implements Bridge {
-    
+
     private final String _type = Bridge.STOMP_TYPE;
-    private String _name = null ;
+    private String _name = null;
 
     private State _state = State.STOPPED;
 
     private StompServer _stompServer = null;
 
-    public StompBridge() {};
+    public StompBridge() {
+    };
 
     /**
      * Start the bridge
      *
      * @param bc the bridge context
-     * @param args start parameters 
+     * @param args start parameters
      *
      * @return true if successfully started; false if started asynchronously
      *
@@ -61,9 +62,8 @@ public class StompBridge implements Bridge {
     public synchronized boolean start(BridgeContext bc, String[] args) throws Exception {
 
         if (args != null) {
-            String[] params = {BridgeUtil.toString(args), getType()};
-            bc.logInfo(StompServer.getStompBridgeResources().getString(
-                       StompBridgeResources.W_IGNORE_START_OPTION, params), null);
+            String[] params = { BridgeUtil.toString(args), getType() };
+            bc.logInfo(StompServer.getStompBridgeResources().getString(StompBridgeResources.W_IGNORE_START_OPTION, params), null);
         }
 
         if (_state == State.STARTED) {
@@ -81,10 +81,12 @@ public class StompBridge implements Bridge {
         } catch (Exception e) {
             bc.logError(e.getMessage(), e);
             try {
-            if (inited) stop(bc, null);
-            } catch (Throwable t) {}
+                if (inited)
+                    stop(bc, null);
+            } catch (Throwable t) {
+            }
 
-            if (!inited) { 
+            if (!inited) {
                 _stompServer = null;
                 throw e;
             }
@@ -96,52 +98,49 @@ public class StompBridge implements Bridge {
      * Pause the bridge
      *
      * @param bc the bridge context
-     * @param args pause parameters 
+     * @param args pause parameters
      *
      * @throws Exception if unable to pause the bridge
      */
     public void pause(BridgeContext bc, String[] args) throws Exception {
-        throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(
-              StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("pause"), getType()));
+        throw new UnsupportedOperationException(
+                StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("pause"), getType()));
     }
 
     /**
      * Resume the bridge
      *
      * @param bc the bridge context
-     * @param args resume parameters 
+     * @param args resume parameters
      *
      * @throws Exception if unable to resume the bridge
      */
     public void resume(BridgeContext bc, String[] args) throws Exception {
-        throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(
-              StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("resume"), getType()));
+        throw new UnsupportedOperationException(
+                StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("resume"), getType()));
     }
 
     /**
      * Stop the bridge
      *
      * @param bc the bridge context
-     * @param args stop parameters 
+     * @param args stop parameters
      *
      * @throws Exception if unable to stop the bridge
      */
     public synchronized void stop(BridgeContext bc, String[] args) throws Exception {
         if (args != null) {
-            throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(
-            StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf(
-            "stop(.., "+BridgeUtil.toString(args)+")"), getType())); 
+            throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT,
+                    String.valueOf("stop(.., " + BridgeUtil.toString(args) + ")"), getType()));
         }
         if (_stompServer == null) {
             _state = State.STOPPED;
-            throw new IllegalStateException(StompServer.getStompBridgeResources().getKString(
-                  StompBridgeResources.X_BRIDGE_NOT_INITED, getType(), getName()));
+            throw new IllegalStateException(StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_BRIDGE_NOT_INITED, getType(), getName()));
         }
         _state = State.STOPPING;
         _stompServer.stop();
         _state = State.STOPPED;
     }
-
 
     /**
      * List the bridge
@@ -152,13 +151,10 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to list the bridge
      */
-    public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, 
-                                                    String[] args,
-                                                    ResourceBundle rb)
-                                                    throws Exception {
+    public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception {
 
-        throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(
-            StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("list"), getType()));
+        throw new UnsupportedOperationException(
+                StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("list"), getType()));
 
     }
 
@@ -177,7 +173,6 @@ public class StompBridge implements Bridge {
     public boolean isMultipliable() {
         return false;
     }
-
 
     /**
      *
@@ -208,8 +203,8 @@ public class StompBridge implements Bridge {
      * @return an object of exported service corresponding to the className
      */
     public Object getExportedService(Class c, Properties props) throws Exception {
-        throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(
-            StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("getExportedService"), getType()));
+        throw new UnsupportedOperationException(
+                StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("getExportedService"), getType()));
     }
 
 }

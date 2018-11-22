@@ -16,26 +16,31 @@
 
 /*
  * @(#)BlankInspector.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JPanel;
 
-/** 
+/**
  * Splash screen for JMQ Administration console.
  *
  * @see InspectorPanel
  * @see AInspector
  * @see ConsoleObj
  */
-public class BlankInspector extends InspectorPanel  {
-    
-    public JPanel createWorkPanel()  {
-	return (null);
+public class BlankInspector extends InspectorPanel {
+
+    public JPanel createWorkPanel() {
+        return (null);
     }
 
-    public void inspectorInit() {}
-    public void clearSelection() {}
-    public void selectedObjectUpdated() {}
+    public void inspectorInit() {
+    }
+
+    public void clearSelection() {
+    }
+
+    public void selectedObjectUpdated() {
+    }
 }

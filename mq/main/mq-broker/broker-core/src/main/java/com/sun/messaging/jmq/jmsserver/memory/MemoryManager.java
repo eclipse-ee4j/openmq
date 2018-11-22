@@ -16,7 +16,7 @@
 
 /*
  * @(#)MemoryManager.java	1.29 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.memory;
 
@@ -33,46 +33,39 @@ import com.sun.messaging.jmq.util.timer.*;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
-
 /**
  * class which handles the broker memory management
  */
 
-public class MemoryManager implements DiagManager.Data
-{
+public class MemoryManager implements DiagManager.Data {
     private static boolean NO_GC_DEFAULT = false;
 
-    private static final String GC_JAVA_VERSION="1.4.2";
+    private static final String GC_JAVA_VERSION = "1.4.2";
 
-    private static final String PACKAGE =
-         "com.sun.messaging.jmq.jmsserver.memory.levels.";
-
-
+    private static final String PACKAGE = "com.sun.messaging.jmq.jmsserver.memory.levels.";
 
     protected static final Logger logger = Globals.getLogger();
 
     static {
-        NO_GC_DEFAULT=getNoGCDefault();
+        NO_GC_DEFAULT = getNoGCDefault();
     }
 
     private static boolean getNoGCDefault() {
         boolean NoGCDefault = false;
         Version v = Globals.getVersion();
-        int cmp = v.compareVersions((String)System.getProperties()
-                  .get("java.version"), GC_JAVA_VERSION, true) ;
+        int cmp = v.compareVersions((String) System.getProperties().get("java.version"), GC_JAVA_VERSION, true);
         if (cmp < 0) {
             // version is before 1.4.2
             NoGCDefault = false;
-        } else {  // 1.4.2 or later
+        } else { // 1.4.2 or later
             NoGCDefault = true;
         }
 
-        logger.log(Logger.DEBUGHIGH,"NoGC commuted from JDK:  " + NoGCDefault);
+        logger.log(Logger.DEBUGHIGH, "NoGC commuted from JDK:  " + NoGCDefault);
         return NoGCDefault;
     }
 
-    public boolean NO_GC=Globals.getConfig().getBooleanProperty(
-              "imq.memory_management.nogc", NO_GC_DEFAULT);
+    public boolean NO_GC = Globals.getConfig().getBooleanProperty("imq.memory_management.nogc", NO_GC_DEFAULT);
 
     private static boolean DEBUG = false;
 
@@ -93,30 +86,23 @@ public class MemoryManager implements DiagManager.Data
      */
     protected int currentLevel = 0;
 
-
     /**
      * memory state string [Displayed in diag]
      */
     protected String currentLevelString = "";
 
     /**
-     * minimum amount of memory needed for the broker
-     * runtime [Displayed in diag]
+     * minimum amount of memory needed for the broker runtime [Displayed in diag]
      */
     protected long baseMemory;
 
-
     /**
-     * maximum size of a message allowed on the system
-     * (-1 indicates no limit)
-     * [displayed in diag]
+     * maximum size of a message allowed on the system (-1 indicates no limit) [displayed in diag]
      */
     protected long maxMessageSize;
 
-
     /**
-     * variable which stores the value of Max memory on the
-     * broker [ displayed in diag]
+     * variable which stores the value of Max memory on the broker [ displayed in diag]
      */
     protected long maxAvailableMemory;
 
@@ -126,37 +112,29 @@ public class MemoryManager implements DiagManager.Data
     protected long maxSizeOfVM;
 
     /**
-     * variable which stores the current Heap Size of the
-     * broker [ displayed in diag]
+     * variable which stores the current Heap Size of the broker [ displayed in diag]
      */
     protected long totalMemory;
 
     /**
-     * variable which contains the currently available free
-     * memory (based on total Memory .. not max memory)
+     * variable which contains the currently available free memory (based on total Memory .. not max memory)
      */
     protected long freeMemory;
 
     /**
-     * variable which contains the currently used
-     * memory (totalMemory - freeMemory)
+     * variable which contains the currently used memory (totalMemory - freeMemory)
      */
     protected long allocatedMemory;
 
-
     /**
-     * variable which contains the true available memory
-     * (maxAvailableMemory - (usedMemory)
+     * variable which contains the true available memory (maxAvailableMemory - (usedMemory)
      */
     protected long availMemory;
-
-
 
     /**
      * producer count
      */
     protected int producerCount = 0;
-
 
     /**
      * JMQSize value
@@ -173,12 +151,10 @@ public class MemoryManager implements DiagManager.Data
      */
     protected long JMQMaxMessageSize = 0;
 
-
     /*
      * Average Memory Usage
      */
     protected long averageMemUsage = 0;
-
 
     /**
      * High Memory Usage
@@ -188,8 +164,8 @@ public class MemoryManager implements DiagManager.Data
     /**
      * number of memory checks
      */
-    protected long memoryCheckCount = 0; 
-    
+    protected long memoryCheckCount = 0;
+
     /**
      * time in level
      */
@@ -199,48 +175,32 @@ public class MemoryManager implements DiagManager.Data
      * cumulative time in level
      */
     protected long cumulativeTimeInLevel = 0;
-    
 
     /**
      * time Memory mgt was started
      */
     protected long startTime = 0;
 
-
     /**
-     * amount of memory which must be freed in
-     * a gc() to preform another iteration
+     * amount of memory which must be freed in a gc() to preform another iteration
      */
     private static final int GC_DELTA_DEFAULT = 1024; // 1K
-    private static int GC_DELTA = Globals.getConfig().getIntProperty(
-         Globals.IMQ + ".memory.gcdelta", GC_DELTA_DEFAULT);
+    private static int GC_DELTA = Globals.getConfig().getIntProperty(Globals.IMQ + ".memory.gcdelta", GC_DELTA_DEFAULT);
 
     /**
-     * amount of buffer memory in the system
-     * (used when calculating memory limits to
-     * add in a little extra room
+     * amount of buffer memory in the system (used when calculating memory limits to add in a little extra room
      */
-    private static long OVERHEAD_MEMORY_DEFAULT = 1024*10;
+    private static long OVERHEAD_MEMORY_DEFAULT = 1024 * 10;
 
-    private static long OVERHEAD_MEMORY = Globals.getConfig().getLongProperty(
-                    Globals.IMQ+".memory.overhead", OVERHEAD_MEMORY_DEFAULT);
+    private static long OVERHEAD_MEMORY = Globals.getConfig().getLongProperty(Globals.IMQ + ".memory.overhead", OVERHEAD_MEMORY_DEFAULT);
 
-
-    private boolean turnOffMemory=
-         !Globals.getConfig().getBooleanProperty(
-         Globals.IMQ + ".memory_management.enabled", true);
+    private boolean turnOffMemory = !Globals.getConfig().getBooleanProperty(Globals.IMQ + ".memory_management.enabled", true);
 
     /**
-     * the amount the system must be BELOW the
-     * threshold of a level to re-enter that
-     * level
+     * the amount the system must be BELOW the threshold of a level to re-enter that level
      */
     private static int THRESHOLD_DELTA_DEFAULT = 1024;
-    private static int THRESHOLD_DELTA = 
-                 Globals.getConfig().getIntProperty(
-                 Globals.IMQ+".memory.hysteresis", 
-                 THRESHOLD_DELTA_DEFAULT);
-
+    private static int THRESHOLD_DELTA = Globals.getConfig().getIntProperty(Globals.IMQ + ".memory.hysteresis", THRESHOLD_DELTA_DEFAULT);
 
     private HashMap callbacklist = new HashMap();
     private List pausedList = new ArrayList();
@@ -251,11 +211,10 @@ public class MemoryManager implements DiagManager.Data
      * thread which wakes up and periodically checks memory
      */
 
-    private class MyTimerTask extends TimerTask 
-    {
-           public void run() {
-              checkMemoryState();
-           }
+    private class MyTimerTask extends TimerTask {
+        public void run() {
+            checkMemoryState();
+        }
     }
 
     public Hashtable getDebugState() {
@@ -290,7 +249,7 @@ public class MemoryManager implements DiagManager.Data
         if (byteLevels != null) {
             ht.put("byteLevels#", Integer.valueOf(byteLevels.length));
             Vector v = new Vector();
-            for (int i=0; i < byteLevels.length; i ++) {
+            for (int i = 0; i < byteLevels.length; i++) {
                 v.add(Long.valueOf(byteLevels[i]));
             }
             ht.put("byteLevels", v);
@@ -298,7 +257,7 @@ public class MemoryManager implements DiagManager.Data
         if (levelHandlers != null) {
             Vector v = new Vector();
             ht.put("levelHandlers#", Integer.valueOf(levelHandlers.length));
-            for (int i=0; i < levelHandlers.length; i ++) {
+            for (int i = 0; i < levelHandlers.length; i++) {
                 v.add(levelHandlers[i].getDebugState());
             }
             ht.put("levelHandlers", v);
@@ -307,20 +266,20 @@ public class MemoryManager implements DiagManager.Data
         ht.put("callbacklist#", Integer.valueOf(callbacklist.size()));
         if (pausedList.size() > 0) {
             Vector v = new Vector();
-            for (int i=0; i < pausedList.size(); i ++) {
+            for (int i = 0; i < pausedList.size(); i++) {
                 v.add(pausedList.get(i).toString());
             }
             ht.put("pausedList", v);
-         }
-         if (callbacklist.size() > 0) {
+        }
+        if (callbacklist.size() > 0) {
             Vector v = new Vector();
             Iterator itr = callbacklist.values().iterator();
             while (itr.hasNext()) {
                 v.add(itr.next().toString());
             }
             ht.put("callbacklist", v);
-         }
-           
+        }
+
         return ht;
     }
 
@@ -338,48 +297,38 @@ public class MemoryManager implements DiagManager.Data
             return;
         }
 
-        maxSizeOfVM = Runtime.getRuntime().maxMemory()
-               - (64*1024*1024*1024);
-        maxAvailableMemory = maxSizeOfVM
-                          - OVERHEAD_MEMORY_DEFAULT;
-        String[] levels = Globals.getConfig().getArray(
-                Globals.IMQ + ".memory.levels");
+        maxSizeOfVM = Runtime.getRuntime().maxMemory() - (64 * 1024 * 1024 * 1024);
+        maxAvailableMemory = maxSizeOfVM - OVERHEAD_MEMORY_DEFAULT;
+        String[] levels = Globals.getConfig().getArray(Globals.IMQ + ".memory.levels");
         if (levels == null) {
             levels = new String[0];
         }
-            
+
         try {
             levelHandlers = new MemoryLevelHandler[levels.length];
             byteLevels = new long[levels.length];
-            for (int i = 0; i < levels.length; i ++) {
-                 String fullclassname = Globals.getConfig().getProperty(
-                     Globals.IMQ + "." + levels[i] + ".classname");
-                 if (fullclassname == null) {
-                     StringBuffer classname = new StringBuffer(levels[i]);
-                     // capitalize first letter
-                     char first = classname.charAt(0);
-                     char upper = Character.toUpperCase(first);
-                     classname.setCharAt(0, upper);
-    
-                     fullclassname = PACKAGE + classname;
-                  }
-                  if (DEBUG)
-                      logger.log(Logger.DEBUG,
-                          "Loading level " + levels[i] 
-                          + " as " + fullclassname);
-                  Class myclass = Class.forName(fullclassname);
-                  Class cons_args[] = {String.class};
-                  Constructor constructor = myclass.getConstructor(cons_args);
-                  Object args[] = { levels[i]};
-                  levelHandlers[i] = (MemoryLevelHandler)
-                                constructor.newInstance(args);
-                  byteLevels[i] = levelHandlers[i].getThresholdPercent() 
-                                 * maxAvailableMemory / 100;
+            for (int i = 0; i < levels.length; i++) {
+                String fullclassname = Globals.getConfig().getProperty(Globals.IMQ + "." + levels[i] + ".classname");
+                if (fullclassname == null) {
+                    StringBuffer classname = new StringBuffer(levels[i]);
+                    // capitalize first letter
+                    char first = classname.charAt(0);
+                    char upper = Character.toUpperCase(first);
+                    classname.setCharAt(0, upper);
+
+                    fullclassname = PACKAGE + classname;
+                }
+                if (DEBUG)
+                    logger.log(Logger.DEBUG, "Loading level " + levels[i] + " as " + fullclassname);
+                Class myclass = Class.forName(fullclassname);
+                Class cons_args[] = { String.class };
+                Constructor constructor = myclass.getConstructor(cons_args);
+                Object args[] = { levels[i] };
+                levelHandlers[i] = (MemoryLevelHandler) constructor.newInstance(args);
+                byteLevels[i] = levelHandlers[i].getThresholdPercent() * maxAvailableMemory / 100;
             }
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING,
-                  BrokerResources.E_INTERNAL_BROKER_ERROR,
-                  "loading memory manager", ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "loading memory manager", ex);
         }
     }
 
@@ -395,36 +344,26 @@ public class MemoryManager implements DiagManager.Data
 
     public void startManagement() {
         if (turnOffMemory) {
-              logger.log(Logger.DEBUG,
-                 "Memory Management turned off");
-              return;
+            logger.log(Logger.DEBUG, "Memory Management turned off");
+            return;
         }
         if (active) {
-              logger.log(Logger.DEBUG, "Memory Management already active");
-              return;
+            logger.log(Logger.DEBUG, "Memory Management already active");
+            return;
         }
         active = true;
 
         // always display some basic startup information in DEBUG
         // (even if DEBUG flag is false)
-        logger.log(Logger.DEBUG,
-                "Starting Memory Management: adjusted available"
-                + " memory is " + (maxAvailableMemory/1024) + "K");
-        logger.log(Logger.DEBUG,"Explicitly GC : " + (!NO_GC));
-        for (int i = 0; i < levelHandlers.length; i ++) 
-            logger.log(Logger.DEBUG, "LEVEL:" + levelHandlers[i].levelName()
-                    + "[percent = " 
-                    + levelHandlers[i].getThresholdPercent() 
-                    + "%"
-                    + ", bytes = " 
-                    + (byteLevels[i]/(long)1024) 
-                    + "K]");
- 
-        
+        logger.log(Logger.DEBUG, "Starting Memory Management: adjusted available" + " memory is " + (maxAvailableMemory / 1024) + "K");
+        logger.log(Logger.DEBUG, "Explicitly GC : " + (!NO_GC));
+        for (int i = 0; i < levelHandlers.length; i++)
+            logger.log(Logger.DEBUG, "LEVEL:" + levelHandlers[i].levelName() + "[percent = " + levelHandlers[i].getThresholdPercent() + "%" + ", bytes = "
+                    + (byteLevels[i] / (long) 1024) + "K]");
+
         DiagManager.register(this);
         startTime = System.currentTimeMillis();
-        baseMemory = Runtime.getRuntime().totalMemory() - 
-                     Runtime.getRuntime().freeMemory();
+        baseMemory = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         // update state and memory variables
         currentLevel = calculateState();
         MemoryLevelHandler currentHandler = levelHandlers[currentLevel];
@@ -432,11 +371,9 @@ public class MemoryManager implements DiagManager.Data
 
         currentHandler.enter(false);
         // get initial Size/Bytes values
-        JMQSizeValue = currentHandler.getMessageCount(
-                      availMemory, producerCount);
-        JMQBytesValue = currentHandler.getMemory(
-                            availMemory, producerCount);
-        JMQMaxMessageSize = maxAvailableMemory/2;
+        JMQSizeValue = currentHandler.getMessageCount(availMemory, producerCount);
+        JMQBytesValue = currentHandler.getMemory(availMemory, producerCount);
+        JMQMaxMessageSize = maxAvailableMemory / 2;
         updateMaxMessageSize(-2);
 
         mytimer = new MyTimerTask();
@@ -445,11 +382,10 @@ public class MemoryManager implements DiagManager.Data
         try {
             Globals.getTimer().schedule(mytimer, time, time);
         } catch (IllegalStateException ex) {
-            logger.log(Logger.DEBUG,"Timer canceled " , ex);
+            logger.log(Logger.DEBUG, "Timer canceled ", ex);
         }
 
     }
-
 
     public int getJMQSize() {
         synchronized (valuesObjectLock) {
@@ -469,40 +405,32 @@ public class MemoryManager implements DiagManager.Data
         }
     }
 
-
     /**
-     * request notification when the caller can resume.
-     * specifying an optional # of bytes which may be available
+     * request notification when the caller can resume. specifying an optional # of bytes which may be available
      *
      * @param cb class requesting notification
-     * @param bytes bytes of memory which must be available
-     *              before the client can resume (or 0
-     *              if free memory is not important)
+     * @param bytes bytes of memory which must be available before the client can resume (or 0 if free memory is not
+     * important)
      */
 
-
-
-    public synchronized void notifyWhenAvailable(MemoryCallback cb, long bytes)
-    {
+    public synchronized void notifyWhenAvailable(MemoryCallback cb, long bytes) {
         if (DEBUG) {
-            logger.log(Logger.DEBUG,
-                "Registering notifyWhenAvailable at " 
-                + bytes + " for " + cb);
+            logger.log(Logger.DEBUG, "Registering notifyWhenAvailable at " + bytes + " for " + cb);
         }
-        if (turnOffMemory|| !active) {
-             cb.resumeMemory(JMQSizeValue, JMQBytesValue, JMQMaxMessageSize);
-             return;
+        if (turnOffMemory || !active) {
+            cb.resumeMemory(JMQSizeValue, JMQBytesValue, JMQMaxMessageSize);
+            return;
         }
         checkMemoryState();
         synchronized (valuesObjectLock) {
-              // force slowing using callback in orange
-             if ((bytes == 0 || bytes < JMQBytesValue) && JMQSizeValue > 1) {
-               cb.resumeMemory(JMQSizeValue, JMQBytesValue, JMQMaxMessageSize);
-               return;
-             }
-         }
+            // force slowing using callback in orange
+            if ((bytes == 0 || bytes < JMQBytesValue) && JMQSizeValue > 1) {
+                cb.resumeMemory(JMQSizeValue, JMQBytesValue, JMQMaxMessageSize);
+                return;
+            }
+        }
         // wait for notification
-        MemoryCallbackEntry mce = (MemoryCallbackEntry)callbacklist.get(cb);
+        MemoryCallbackEntry mce = (MemoryCallbackEntry) callbacklist.get(cb);
         if (mce == null) {
             mce = new MemoryCallbackEntry();
             callbacklist.put(cb, mce);
@@ -517,21 +445,15 @@ public class MemoryManager implements DiagManager.Data
         return;
     }
 
-
-
     /**
-     * request notification when memory levels have changed
-     * because the system has changed memory levels
+     * request notification when memory levels have changed because the system has changed memory levels
      *
      * @param cb class requesting notification
      */
 
-
-    public  void registerMemoryCallback(MemoryCallback cb)
-    {
+    public void registerMemoryCallback(MemoryCallback cb) {
         if (DEBUG) {
-            logger.log(Logger.DEBUG,
-                "Registering registerMemoryCallback  for " + cb);
+            logger.log(Logger.DEBUG, "Registering registerMemoryCallback  for " + cb);
         }
         MemoryCallbackEntry mce = new MemoryCallbackEntry();
         mce.cb = cb;
@@ -543,37 +465,35 @@ public class MemoryManager implements DiagManager.Data
         }
     }
 
-    public  void removeMemoryCallback(MemoryCallback cb) {
+    public void removeMemoryCallback(MemoryCallback cb) {
         synchronized (callbacklist) {
             callbacklist.remove(cb);
         }
     }
 
-
     public int getCurrentLevel() {
         synchronized (stateChangeLock) {
             return currentLevel;
-         }
+        }
     }
 
     public String getCurrentLevelName() {
         synchronized (stateChangeLock) {
-	    return (levelHandlers[currentLevel].localizedLevelName());
-         }
+            return (levelHandlers[currentLevel].localizedLevelName());
+        }
     }
 
     /**
-     * notifies all MemoryCallbackEntry objects that the bytes, count, etc
-     * have changed.
-     * If override is false, it will only notify non-paused clients
+     * notifies all MemoryCallbackEntry objects that the bytes, count, etc have changed. If override is false, it will only
+     * notify non-paused clients
      *
      * @param override if true, notify even if paused
      */
 
-    public  void notifyAllOfStateChange(boolean override) {
+    public void notifyAllOfStateChange(boolean override) {
 
-        if (turnOffMemory|| !active) {
-             return;
+        if (turnOffMemory || !active) {
+            return;
         }
 
 // GENERAL notes:
@@ -597,55 +517,44 @@ public class MemoryManager implements DiagManager.Data
         }
 
         if (DEBUG) {
-            logger.log(Logger.DEBUGMED,
-                    "notifyAllOfStateChange [size,bytes,max] = ["
-                    +JMQSizeValue +","+ JMQBytesValue+","
-                    + JMQMaxMessageSize + "]");
+            logger.log(Logger.DEBUGMED, "notifyAllOfStateChange [size,bytes,max] = [" + JMQSizeValue + "," + JMQBytesValue + "," + JMQMaxMessageSize + "]");
         }
         Iterator waiting = l.iterator();
         while (waiting.hasNext()) {
-            MemoryCallbackEntry mce = (MemoryCallbackEntry)waiting.next();
+            MemoryCallbackEntry mce = (MemoryCallbackEntry) waiting.next();
             if (!override && mce.paused) {
                 continue; // ignore it, will be cause when pause is handled
             } else if (mce.paused) { // we are paused but getting a notification
                                      // decide if we should be removed from
                                      // the pausedList
                 if (mce.bytes == 0 && mce.bytes < BytesValue) {
-                     // heck .. send a resume
-                     mce.paused = false;
-                     synchronized (pausedList) {
-                         pausedList.remove(mce);
-                     }
-                     mce.cb.resumeMemory(SizeValue, BytesValue, MaxMessageSize);
-                     if (DEBUG) {
-                         logger.log(Logger.DEBUGMED, 
-                             "\tresumeMemory for  "  +mce.bytes 
-                             +" bytes on "+ mce.cb);
-                     }
+                    // heck .. send a resume
+                    mce.paused = false;
+                    synchronized (pausedList) {
+                        pausedList.remove(mce);
+                    }
+                    mce.cb.resumeMemory(SizeValue, BytesValue, MaxMessageSize);
+                    if (DEBUG) {
+                        logger.log(Logger.DEBUGMED, "\tresumeMemory for  " + mce.bytes + " bytes on " + mce.cb);
+                    }
                 } else { // not resuming, just notifying
-                     if (DEBUG) {
-                         logger.log(Logger.DEBUGMED,
-                             "\tupdateMemory for  " + mce.cb);
-                     }
-                     mce.cb.updateMemory(SizeValue, BytesValue, MaxMessageSize);
+                    if (DEBUG) {
+                        logger.log(Logger.DEBUGMED, "\tupdateMemory for  " + mce.cb);
+                    }
+                    mce.cb.updateMemory(SizeValue, BytesValue, MaxMessageSize);
                 }
-            } else { 
+            } else {
                 if (DEBUG) {
-                    logger.log(Logger.DEBUGMED, 
-                        "\tupdateMemory for  " + mce.cb);
+                    logger.log(Logger.DEBUGMED, "\tupdateMemory for  " + mce.cb);
                 }
                 mce.cb.updateMemory(SizeValue, BytesValue, MaxMessageSize);
             }
         }
     }
 
-    public  void checkAndNotifyPaused()
-    {
+    public void checkAndNotifyPaused() {
         if (DEBUG) {
-            logger.log(Logger.DEBUGMED,
-                    "checkAndNotifyPaused [size,bytes,max] = ["
-                    +JMQSizeValue +","+ JMQBytesValue
-                    +","+ JMQMaxMessageSize + "]");
+            logger.log(Logger.DEBUGMED, "checkAndNotifyPaused [size,bytes,max] = [" + JMQSizeValue + "," + JMQBytesValue + "," + JMQMaxMessageSize + "]");
         }
         List l = null;
         synchronized (pausedList) {
@@ -666,34 +575,31 @@ public class MemoryManager implements DiagManager.Data
 
         Iterator waiting = l.iterator();
         while (waiting.hasNext()) {
-            MemoryCallbackEntry mce = (MemoryCallbackEntry)waiting.next();
+            MemoryCallbackEntry mce = (MemoryCallbackEntry) waiting.next();
             if (mce.bytes == 0 && mce.bytes < BytesValue) {
-                     // heck .. send a resume
-                 mce.paused = false;
-                 waiting.remove();
-                 synchronized (pausedList) {
-                     pausedList.remove(mce);
-                 }
-                 if (DEBUG) {
-                     logger.log(Logger.DEBUGMED, "\tresumeMemory for  " +
-                         mce.bytes +" bytes on " + mce.cb);
-                 }
-                 mce.cb.resumeMemory(SizeValue, BytesValue, MaxMessageSize);
+                // heck .. send a resume
+                mce.paused = false;
+                waiting.remove();
+                synchronized (pausedList) {
+                    pausedList.remove(mce);
+                }
+                if (DEBUG) {
+                    logger.log(Logger.DEBUGMED, "\tresumeMemory for  " + mce.bytes + " bytes on " + mce.cb);
+                }
+                mce.cb.resumeMemory(SizeValue, BytesValue, MaxMessageSize);
             }
-         
+
         }
     }
-
 
     public String toString() {
         return "MemoryManager";
     }
 
-
     public synchronized void addProducer() {
         producerCount++;
         if (DEBUG) {
-            logger.log(Logger.DEBUG, "addProducer " +producerCount);
+            logger.log(Logger.DEBUG, "addProducer " + producerCount);
         }
     }
 
@@ -707,20 +613,18 @@ public class MemoryManager implements DiagManager.Data
     public synchronized void removeProducer(int cnt) {
         producerCount -= cnt;
         if (DEBUG) {
-            logger.log(Logger.DEBUG,
-                "removeProducer(" + cnt + ") " + producerCount);
+            logger.log(Logger.DEBUG, "removeProducer(" + cnt + ") " + producerCount);
         }
     }
 
     private boolean quickState(int state) {
-        if (turnOffMemory|| !active) {
-             return false;
+        if (turnOffMemory || !active) {
+            return false;
         }
         freeMemory = Runtime.getRuntime().freeMemory();
         totalMemory = Runtime.getRuntime().totalMemory();
         allocatedMemory = totalMemory - freeMemory;
-        if (state < (byteLevels.length -1) && 
-            allocatedMemory > byteLevels[state +1]) {
+        if (state < (byteLevels.length - 1) && allocatedMemory > byteLevels[state + 1]) {
             // increased
             return true;
         }
@@ -729,37 +633,35 @@ public class MemoryManager implements DiagManager.Data
 
     /**
      * @param size bytes addition to check
-     * @return false if allocate size of mem causes level change
-     *               or currentLevel not in lowest level
+     * @return false if allocate size of mem causes level change or currentLevel not in lowest level
      */
-    public boolean allocateMemCheck(long size) { 
+    public boolean allocateMemCheck(long size) {
         if (DEBUG) {
             int level = currentLevel;
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < byteLevels.length; i++) {
-                sb.append("byteLevel["+i+"]="+byteLevels[i]+", ");
+                sb.append("byteLevel[" + i + "]=" + byteLevels[i] + ", ");
             }
             long freem = Runtime.getRuntime().freeMemory();
             long totalm = Runtime.getRuntime().totalMemory();
             long allocatedm = totalm - freem;
-           
-            logger.log(logger.INFO, 
-            "MemoryManager: turnOffMemory="+turnOffMemory+", active="+active+
-            ", check size="+size+", currentLevel="+level+"("+byteLevels.length+"), "+sb.toString()+
-            ", freemem="+freem+", totalmem="+totalm+", allocatedmem="+allocatedm);
+
+            logger.log(logger.INFO, "MemoryManager: turnOffMemory=" + turnOffMemory + ", active=" + active + ", check size=" + size + ", currentLevel=" + level
+                    + "(" + byteLevels.length + "), " + sb.toString() + ", freemem=" + freem + ", totalmem=" + totalm + ", allocatedmem=" + allocatedm);
         }
 
-        if (turnOffMemory|| !active) {
-             return true;
+        if (turnOffMemory || !active) {
+            return true;
         }
 
         int currentl = currentLevel;
-        if (currentl >= (byteLevels.length -1)) return false; 
+        if (currentl >= (byteLevels.length - 1))
+            return false;
 
         long freem = Runtime.getRuntime().freeMemory();
         long totalm = Runtime.getRuntime().totalMemory();
         long allocatedm = totalm - freem + size;
-        if (allocatedm > byteLevels[byteLevels.length-1]) {
+        if (allocatedm > byteLevels[byteLevels.length - 1]) {
             return false;
         }
         return true;
@@ -768,14 +670,14 @@ public class MemoryManager implements DiagManager.Data
     private int calculateState() {
         // update all of the various memory values which
         // are required for determining the level
-        if (turnOffMemory|| !active) {
-             return 0;
+        if (turnOffMemory || !active) {
+            return 0;
         }
 
         freeMemory = Runtime.getRuntime().freeMemory();
         totalMemory = Runtime.getRuntime().totalMemory();
         allocatedMemory = totalMemory - freeMemory;
-        //long foo = Runtime.getRuntime().maxMemory();
+        // long foo = Runtime.getRuntime().maxMemory();
 
         if (allocatedMemory > maxAvailableMemory)
             recalcMemory();
@@ -783,7 +685,7 @@ public class MemoryManager implements DiagManager.Data
         availMemory = maxAvailableMemory - allocatedMemory;
 
         int targetstate = 0;
-        for (int i = byteLevels.length-1; i >= 0; i --) {
+        for (int i = byteLevels.length - 1; i >= 0; i--) {
             if (allocatedMemory > byteLevels[i]) {
                 targetstate = i;
                 break;
@@ -791,88 +693,63 @@ public class MemoryManager implements DiagManager.Data
         }
 
         int returnstate = targetstate;
-        if (targetstate < (byteLevels.length -1)
-           && allocatedMemory > byteLevels[targetstate+1]- THRESHOLD_DELTA) {
+        if (targetstate < (byteLevels.length - 1) && allocatedMemory > byteLevels[targetstate + 1] - THRESHOLD_DELTA) {
             if (DEBUG) {
-                logger.log(Logger.DEBUGMED,
-                    "calculateState:didnt meet delta requirements");
+                logger.log(Logger.DEBUGMED, "calculateState:didnt meet delta requirements");
             }
             returnstate = targetstate + 1;
         }
 
         if (DEBUG) {
-            logger.log(Logger.DEBUGMED,
-                "calculateState [oldstate, calcstate, returnstate] = [" 
-                + currentLevel + "," + targetstate + "," + returnstate + "]");
+            logger.log(Logger.DEBUGMED, "calculateState [oldstate, calcstate, returnstate] = [" + currentLevel + "," + targetstate + "," + returnstate + "]");
         }
 
         return returnstate;
 
     }
 
-
     /**
      * Update the MaxMessageSize:
-     * @param size value of MAX_MESSAGE_SIZE property (or -2 if
-     *        being called because maxAvailableMemory was updated)
+     * 
+     * @param size value of MAX_MESSAGE_SIZE property (or -2 if being called because maxAvailableMemory was updated)
      */
     public void updateMaxMessageSize(long size) {
         synchronized (valuesObjectLock) {
             if (size != -2)
                 maxMessageSize = size;
 
-            JMQMaxMessageSize = maxAvailableMemory/2;
+            JMQMaxMessageSize = maxAvailableMemory / 2;
             if (maxMessageSize > -1 && maxMessageSize < JMQMaxMessageSize) {
-                 JMQMaxMessageSize = maxMessageSize;
+                JMQMaxMessageSize = maxMessageSize;
             }
             if (DEBUG) {
-                logger.log(Logger.DEBUG, 
-                    "updateMaxMessageSize [size, JMQMaxMessageSize] = [" 
-                    + size + "," + JMQMaxMessageSize + "]");
+                logger.log(Logger.DEBUG, "updateMaxMessageSize [size, JMQMaxMessageSize] = [" + size + "," + JMQMaxMessageSize + "]");
             }
         }
     }
-
 
     /*
      * main processing for the memory manager:
      *
      * Logic:
      *
-     * First the new state (based on free memory) is
-     * calculated.
+     * First the new state (based on free memory) is calculated.
      *
-     * Next the system tries to determine if we have
-     * entered a new "higher" (tighter) memory state
-     *     - system performs gc and cleanup tasks
-     *          until all tasks are done OR we have
-     *          moved back to our old memory state
-     *     - if its still in the same (new) state, 
-     *          the system enters the new state
+     * Next the system tries to determine if we have entered a new "higher" (tighter) memory state - system performs gc and
+     * cleanup tasks until all tasks are done OR we have moved back to our old memory state - if its still in the same (new)
+     * state, the system enters the new state
      *
-     * If we haven't entered a higher memory state, 
-     * the system tries to determine if we have entered
-     * a "lower" memory state.
-     *     - if we are in a lower memory state the system
-     *       calls leave() on the last state
-     *     -  sets boolean to update waiting clients (if necessary)
+     * If we haven't entered a higher memory state, the system tries to determine if we have entered a "lower" memory state.
+     * - if we are in a lower memory state the system calls leave() on the last state - sets boolean to update waiting
+     * clients (if necessary)
      *
-     * If we are still in the same state as last iteration
-     * the system:
-     *     may try to gc (if we periodically gc in the
-     *     existing level) -> determined by gcIterations
+     * If we are still in the same state as last iteration the system: may try to gc (if we periodically gc in the existing
+     * level) -> determined by gcIterations
      *
      *
-     *     - calculate the current state
-     *     - is the new state > the old state
-     *         yes - entering lower memory state
-     *            - garbage collect -> still in state
-     *                  yes -> try and clean up memory
-     *                     after cleanup-> still in state
-     *                          yes -> Move to new state
-     * Finally, the memory count and memory size values for
-     * clients are updated AND any resume messages are
-     * sent
+     * - calculate the current state - is the new state > the old state yes - entering lower memory state - garbage collect
+     * -> still in state yes -> try and clean up memory after cleanup-> still in state yes -> Move to new state Finally, the
+     * memory count and memory size values for clients are updated AND any resume messages are sent
      */
     public void quickMemoryCheck() {
         if (quickState(currentLevel)) {
@@ -884,9 +761,9 @@ public class MemoryManager implements DiagManager.Data
     boolean completedRunningCleanup = true;
     int cleanupCnt = 0;
 
-    public  void checkMemoryState() {
-        if (turnOffMemory|| !active) {
-             return;
+    public void checkMemoryState() {
+        if (turnOffMemory || !active) {
+            return;
         }
         // OK -> first check memory
         // calculate new state
@@ -895,7 +772,6 @@ public class MemoryManager implements DiagManager.Data
             logger.log(Logger.DEBUG, "checkMemoryState  " + memoryCheckCount);
         }
 
-
         boolean notify = false;
 
         int oldLevel = 0;
@@ -903,7 +779,7 @@ public class MemoryManager implements DiagManager.Data
         synchronized (stateChangeLock) {
             newState = calculateState();
             oldLevel = currentLevel;
-            currentLevel = newState;    
+            currentLevel = newState;
         }
         MemoryLevelHandler currentHandler = levelHandlers[oldLevel];
 
@@ -915,22 +791,20 @@ public class MemoryManager implements DiagManager.Data
                 gc(newHandler.gcCount());
                 newState = calculateState();
             }
-            for (int i = oldLevel; i < newState; i ++) { // higher
-                notify = levelHandlers[i+1].enter(false);
+            for (int i = oldLevel; i < newState; i++) { // higher
+                notify = levelHandlers[i + 1].enter(false);
                 notify |= levelHandlers[i].leave(true);
             }
-            for (int i = oldLevel; i > newState; i --) { // lower
-                notify |= levelHandlers[i-1].enter(true);
+            for (int i = oldLevel; i > newState; i--) { // lower
+                notify |= levelHandlers[i - 1].enter(true);
                 notify |= levelHandlers[i].leave(false);
             }
             newHandler = levelHandlers[newState];
 
-            // update variables 
+            // update variables
             synchronized (valuesObjectLock) {
-                JMQSizeValue = newHandler.getMessageCount(
-                        availMemory, producerCount);
-                JMQBytesValue = newHandler.getMemory(
-                        availMemory, producerCount);
+                JMQSizeValue = newHandler.getMessageCount(availMemory, producerCount);
+                JMQBytesValue = newHandler.getMemory(availMemory, producerCount);
             }
 
             if (notify) {
@@ -940,32 +814,24 @@ public class MemoryManager implements DiagManager.Data
             if (newState > oldLevel) { // cleanup
                 completedRunningCleanup = false;
                 cleanupCnt = 0;
-                completedRunningCleanup = 
-                    levelHandlers[newState].cleanup(cleanupCnt++);
+                completedRunningCleanup = levelHandlers[newState].cleanup(cleanupCnt++);
             } else if (newState < oldLevel) {
                 completedRunningCleanup = true;
                 cleanupCnt = 0;
             }
             if (newState != oldLevel) {
-                String args[] = {levelHandlers[newState].localizedLevelName(), 
-                        levelHandlers[oldLevel].localizedLevelName(), 
-                        String.valueOf((allocatedMemory/1024)), 
-                        String.valueOf((
-                          allocatedMemory*100/maxAvailableMemory))};
+                String args[] = { levelHandlers[newState].localizedLevelName(), levelHandlers[oldLevel].localizedLevelName(),
+                        String.valueOf((allocatedMemory / 1024)), String.valueOf((allocatedMemory * 100 / maxAvailableMemory)) };
 
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_CHANGE_OF_MEMORY_STATE,
-                           args);
+                logger.log(Logger.INFO, BrokerResources.I_CHANGE_OF_MEMORY_STATE, args);
 
                 Agent agent = Globals.getAgent();
-                if (agent != null)  {
-                    agent.notifyResourceStateChange(levelHandlers[oldLevel].localizedLevelName(),
-					levelHandlers[newState].localizedLevelName(),
-					null);
+                if (agent != null) {
+                    agent.notifyResourceStateChange(levelHandlers[oldLevel].localizedLevelName(), levelHandlers[newState].localizedLevelName(), null);
                 }
 
                 currentLevel = newState;
-                currentHandler = newHandler;    
+                currentHandler = newHandler;
                 currentLevelString = currentHandler.levelName(); // diags
 
                 synchronized (timerObjectLock) {
@@ -980,54 +846,43 @@ public class MemoryManager implements DiagManager.Data
                     try {
                         Globals.getTimer(true).schedule(mytimer, time, time);
                     } catch (IllegalStateException ex) {
-                        logger.log(Logger.DEBUG,"Timer canceled " , ex);
+                        logger.log(Logger.DEBUG, "Timer canceled ", ex);
                     }
                 }
             }
 
         } else {
             if (!completedRunningCleanup) {
-                completedRunningCleanup = levelHandlers[oldLevel].cleanup(
-                         cleanupCnt++);
+                completedRunningCleanup = levelHandlers[oldLevel].cleanup(cleanupCnt++);
             }
             // periodically perform gcs on some iterations
-            if (currentHandler.gcIteration() != 0 &&
-                memoryCheckCount % currentHandler.gcIteration() == 0) {
-                 gc(); 
+            if (currentHandler.gcIteration() != 0 && memoryCheckCount % currentHandler.gcIteration() == 0) {
+                gc();
             }
-            // update variables 
+            // update variables
             synchronized (valuesObjectLock) {
-                JMQSizeValue = currentHandler.getMessageCount(
-                        availMemory, producerCount);
-                JMQBytesValue = currentHandler.getMemory(
-                        availMemory, producerCount);
+                JMQSizeValue = currentHandler.getMessageCount(availMemory, producerCount);
+                JMQBytesValue = currentHandler.getMemory(availMemory, producerCount);
             }
-
 
             if (JMQSizeValue > 0)
                 checkAndNotifyPaused();
         }
 
         if (allocatedMemory > highestMemUsage)
-             highestMemUsage = allocatedMemory;
+            highestMemUsage = allocatedMemory;
 
         // XXX racer revisit
         // we may not want to calculate this on each call
-        averageMemUsage = ((averageMemUsage*memoryCheckCount) 
-            + allocatedMemory)/ (memoryCheckCount + 1);
+        averageMemUsage = ((averageMemUsage * memoryCheckCount) + allocatedMemory) / (memoryCheckCount + 1);
 
         memoryCheckCount++;
-
-
 
     }
 
     public void forceRedState() {
-        long size =   Runtime.getRuntime().maxMemory() -
-                      Runtime.getRuntime().freeMemory();
-        logger.log(Logger.WARNING, BrokerResources.W_EARLY_OUT_OF_MEMORY,
-                String.valueOf(size), 
-                String.valueOf(Runtime.getRuntime().maxMemory()));
+        long size = Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory();
+        logger.log(Logger.WARNING, BrokerResources.W_EARLY_OUT_OF_MEMORY, String.valueOf(size), String.valueOf(Runtime.getRuntime().maxMemory()));
         recalcMemory();
         checkMemoryState();
     }
@@ -1037,92 +892,67 @@ public class MemoryManager implements DiagManager.Data
         maxAvailableMemory = Runtime.getRuntime().totalMemory();
         updateMaxMessageSize(-2);
 
-        for (int i = 0; i < byteLevels.length; i ++) {
-            byteLevels[i] = levelHandlers[i].getThresholdPercent() 
-                           * maxAvailableMemory / 100;
+        for (int i = 0; i < byteLevels.length; i++) {
+            byteLevels[i] = levelHandlers[i].getThresholdPercent() * maxAvailableMemory / 100;
         }
     }
-
 
     protected void gc() {
         gc(1, GC_DELTA);
     }
+
     protected void gc(int count) {
         gc(count, GC_DELTA);
     }
 
     protected void gc(int count, long delta) {
         if (!NO_GC) {
-        	 logger.log(Logger.DEBUG,"calling Runtime.freeMemory()");
-            long free = Runtime.getRuntime().freeMemory(); 
+            logger.log(Logger.DEBUG, "calling Runtime.freeMemory()");
+            long free = Runtime.getRuntime().freeMemory();
             int i = 0;
-            for (i = 0; i < count; i ++) {
+            for (i = 0; i < count; i++) {
                 Runtime.getRuntime().gc();
                 long newfree = Runtime.getRuntime().freeMemory();
                 if (free - newfree > delta) {
-                     // we freed enough memory
-                     break;
+                    // we freed enough memory
+                    break;
                 }
 
             }
-        }
-        else{
-        	// do nothing
-        	
+        } else {
+            // do nothing
+
         }
     }
 
-
-
-    /* 
-     * ---------------------------------------------------
-     *             DIAG SUPPORT
-     * ---------------------------------------------------
+    /*
+     * --------------------------------------------------- DIAG SUPPORT ---------------------------------------------------
      */
     public synchronized List getDictionary() {
         if (diagDictionary == null) {
             diagDictionary = new ArrayList();
-            diagDictionary.add(new DiagDictionaryEntry("currentLevelString", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("allocatedMemory", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("timeInLevel", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("cumulativeTimeInLevel", 
-                                 DiagManager.COUNTER));
-            diagDictionary.add(new DiagDictionaryEntry("JMQSizeValue", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("JMQBytesValue", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("JMQMaxMessageSize", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("totalMemory", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("freeMemory", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("availMemory", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("maxAvailableMemory", 
-                                 DiagManager.CONSTANT));
-            diagDictionary.add(new DiagDictionaryEntry("producerCount", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("averageMemUsage", 
-                                 DiagManager.VARIABLE));
-            diagDictionary.add(new DiagDictionaryEntry("memoryCheckCount", 
-                                 DiagManager.COUNTER));
-            diagDictionary.add(new DiagDictionaryEntry("highestMemUsage", 
-                                 DiagManager.COUNTER));
-            diagDictionary.add(new DiagDictionaryEntry("maxSizeOfVM", 
-                                 DiagManager.CONSTANT));
+            diagDictionary.add(new DiagDictionaryEntry("currentLevelString", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("allocatedMemory", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("timeInLevel", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("cumulativeTimeInLevel", DiagManager.COUNTER));
+            diagDictionary.add(new DiagDictionaryEntry("JMQSizeValue", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("JMQBytesValue", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("JMQMaxMessageSize", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("totalMemory", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("freeMemory", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("availMemory", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("maxAvailableMemory", DiagManager.CONSTANT));
+            diagDictionary.add(new DiagDictionaryEntry("producerCount", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("averageMemUsage", DiagManager.VARIABLE));
+            diagDictionary.add(new DiagDictionaryEntry("memoryCheckCount", DiagManager.COUNTER));
+            diagDictionary.add(new DiagDictionaryEntry("highestMemUsage", DiagManager.COUNTER));
+            diagDictionary.add(new DiagDictionaryEntry("maxSizeOfVM", DiagManager.CONSTANT));
 
         }
         return diagDictionary;
     }
 
-
-
-
-    public  void update() {
+    public void update() {
         calculateState(); // update memory, ignore new state
         MemoryLevelHandler currentHandler = null;
         synchronized (stateChangeLock) {
@@ -1140,37 +970,29 @@ public class MemoryManager implements DiagManager.Data
         return "MemoryManager";
     }
 
-
     public String toDebugString() {
         StringBuffer retstr = new StringBuffer();
-        retstr.append("MemoryManager: [" + currentLevel + "]"+"\n");
-        for (int i = 0; i < levelHandlers.length; i ++) {
-            retstr.append("\t" + i + "\t" + levelHandlers[i].levelName()
-                      +"\t" + levelHandlers[i].getThresholdPercent()
-                      + "\t" + byteLevels[i] + "\n");
+        retstr.append("MemoryManager: [" + currentLevel + "]" + "\n");
+        for (int i = 0; i < levelHandlers.length; i++) {
+            retstr.append("\t" + i + "\t" + levelHandlers[i].levelName() + "\t" + levelHandlers[i].getThresholdPercent() + "\t" + byteLevels[i] + "\n");
         }
-        for (int i = 0; i < levelHandlers.length; i ++) {
-               retstr.append("-------------------------------\n");
-               retstr.append(levelHandlers[i].toDebugString()+" \n\n");
+        for (int i = 0; i < levelHandlers.length; i++) {
+            retstr.append("-------------------------------\n");
+            retstr.append(levelHandlers[i].toDebugString() + " \n\n");
         }
         return retstr.toString();
-        
+
     }
-
-
 
 }
 
-class MemoryCallbackEntry
-{
+class MemoryCallbackEntry {
     MemoryCallback cb = null;
     long bytes = 0;
     boolean paused = false;
     boolean keepAfterNotify = false;
 
     public String toString() {
-        return "MCE[ bytes=" + bytes +", paused=" + paused
-            + ", keepAfterNotify="+keepAfterNotify
-            + ", object = " + cb.toString() + "]";
+        return "MCE[ bytes=" + bytes + ", paused=" + paused + ", keepAfterNotify=" + keepAfterNotify + ", object = " + cb.toString() + "]";
     }
 }

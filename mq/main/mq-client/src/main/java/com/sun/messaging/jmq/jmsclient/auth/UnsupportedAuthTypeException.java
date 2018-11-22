@@ -16,7 +16,7 @@
 
 /*
  * @(#)UnsupportedAuthTypeException.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsclient.auth;
 
@@ -25,6 +25,7 @@ public class UnsupportedAuthTypeException extends Exception {
     public UnsupportedAuthTypeException() {
         super();
     }
+
     public UnsupportedAuthTypeException(String msg) {
         super(msg);
     }

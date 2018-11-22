@@ -16,7 +16,7 @@
 
 /*
  * @(#)BrokerServiceListCObj.java	1.10 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.admin.apps.console;
 
@@ -28,16 +28,14 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
-/** 
- * This class is used in the JMQ Administration console
- * to store information related to a broker's service
- * list.
+/**
+ * This class is used in the JMQ Administration console to store information related to a broker's service list.
  *
  * @see ConsoleObj
  * @see BrokerAdminCObj
  *
  */
-public class BrokerServiceListCObj extends BrokerAdminCObj  {
+public class BrokerServiceListCObj extends BrokerAdminCObj {
 
     private BrokerCObj bCObj;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
@@ -54,24 +52,23 @@ public class BrokerServiceListCObj extends BrokerAdminCObj  {
         return (bCObj.getBrokerAdmin());
     }
 
-    public String getExplorerLabel()  {
-	return (acr.getString(acr.I_BROKER_SVC_LIST));
+    public String getExplorerLabel() {
+        return (acr.getString(acr.I_BROKER_SVC_LIST));
     }
 
-    public String getExplorerToolTip()  {
-	return (null);
+    public String getExplorerToolTip() {
+        return (null);
     }
 
-    public ImageIcon getExplorerIcon()  {
-	return (AGraphics.adminImages[AGraphics.BROKER_SERVICE_LIST]);
+    public ImageIcon getExplorerIcon() {
+        return (AGraphics.adminImages[AGraphics.BROKER_SERVICE_LIST]);
     }
 
-    public int getExplorerPopupMenuItemMask()  {
-	return (getActiveActions());
+    public int getExplorerPopupMenuItemMask() {
+        return (getActiveActions());
     }
 
-
-    public int getActiveActions()  {
+    public int getActiveActions() {
         BrokerAdmin ba = getBrokerAdmin();
         int mask;
         if (ba.isConnected())
@@ -82,16 +79,15 @@ public class BrokerServiceListCObj extends BrokerAdminCObj  {
         return (mask);
     }
 
-
-    public String getInspectorPanelClassName()  {
-	return (ConsoleUtils.getPackageName(this) + ".BrokerServiceListInspector");
+    public String getInspectorPanelClassName() {
+        return (ConsoleUtils.getPackageName(this) + ".BrokerServiceListInspector");
     }
 
-    public String getInspectorPanelId()  {
-	return ("Services");
+    public String getInspectorPanelId() {
+        return ("Services");
     }
 
-    public String getInspectorPanelHeader()  {
-	return (getInspectorPanelId());
+    public String getInspectorPanelHeader() {
+        return (getInspectorPanelId());
     }
 }

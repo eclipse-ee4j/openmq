@@ -19,23 +19,26 @@ package com.sun.messaging.bridge.service.jms;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+
 /**
  * 
  * @author amyk
  *
  */
 public class EventListener {
-    
-    public enum EventType { BRIDGE_STOP, LINK_STOP, DMQ_STOP, CONN_CLOSE };
 
-    private List<EventType> _occurredEvents = Collections.synchronizedList(
-                                                 new ArrayList<EventType>());
+    public enum EventType {
+        BRIDGE_STOP, LINK_STOP, DMQ_STOP, CONN_CLOSE
+    };
+
+    private List<EventType> _occurredEvents = Collections.synchronizedList(new ArrayList<EventType>());
     private Object src = null;
     private boolean eventOccurred = false;
 
     public EventListener(Object source) {
         this.src = source;
     }
+
     public void onEvent(EventType evt, Object source) {
         if (src == source || evt == EventType.BRIDGE_STOP) {
             eventOccurred = true;
@@ -46,13 +49,13 @@ public class EventListener {
     public boolean hasEventOccurred() {
         return eventOccurred;
     }
-    
+
     public EventType occurredEvent() {
-        return _occurredEvents.get(0); 
+        return _occurredEvents.get(0);
     }
 
     public List<EventType> getOccurredEvents() {
-        synchronized(_occurredEvents) {
+        synchronized (_occurredEvents) {
             ArrayList<EventType> list = new ArrayList<EventType>(_occurredEvents);
             return list;
         }

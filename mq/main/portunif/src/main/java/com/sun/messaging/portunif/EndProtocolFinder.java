@@ -26,8 +26,6 @@ import org.glassfish.grizzly.portunif.ProtocolFinder;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.nio.transport.TCPNIOConnection;
 
-
-
 public class EndProtocolFinder implements ProtocolFinder {
 
     PUServiceCallback cb = null;
@@ -35,11 +33,12 @@ public class EndProtocolFinder implements ProtocolFinder {
     public EndProtocolFinder(PUServiceCallback cb) {
         this.cb = cb;
     }
+
     /**
      */
     @Override
     public Result find(final PUContext puContext, final FilterChainContext ctx) {
-        String emsg = "Reject connection "+ctx.getConnection();
+        String emsg = "Reject connection " + ctx.getConnection();
         if (cb != null) {
             cb.logWarn(emsg, null);
         } else {
@@ -49,4 +48,3 @@ public class EndProtocolFinder implements ProtocolFinder {
         return Result.NOT_FOUND;
     }
 }
-

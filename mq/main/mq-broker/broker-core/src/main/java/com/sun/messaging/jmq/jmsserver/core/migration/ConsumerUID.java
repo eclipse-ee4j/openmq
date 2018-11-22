@@ -16,7 +16,7 @@
 
 /*
  * @(#)ConsumerUID.java	1.3 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.core.migration;
 
@@ -30,13 +30,14 @@ import com.sun.messaging.jmq.jmsserver.core.Session;
 
 /**
  * Object format prior to 370 filestore, use for migration purpose only.
+ * 
  * @see com.sun.messaging.jmq.jmsserver.core.ConsumerUID
  */
 public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
 
     static final long serialVersionUID = 5231476734057401743L;
 
-    protected transient int ackType=Session.NONE;
+    protected transient int ackType = Session.NONE;
 
     protected transient ConnectionUID conuid = null;
     protected transient BrokerAddress brokeraddr = Globals.getMyAddress();
@@ -54,25 +55,23 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     }
 
     public ConsumerUID(boolean empty) {
-         super(0);
-         if (!empty)
-             initializeID();
+        super(0);
+        if (!empty)
+            initializeID();
     }
 
     /**
-     * @deprecated since 3.5
-     * for compatibility
+     * @deprecated since 3.5 for compatibility
      */
     public ConsumerUID(int oldnum) {
-         super(oldnum);
+        super(oldnum);
     }
 
     public boolean shouldStore() {
         return shouldStore;
     }
 
-    public void setShouldStore(boolean store) 
-    {
+    public void setShouldStore(boolean store) {
         shouldStore = store;
     }
 
@@ -86,10 +85,10 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     }
 
     public void clear() {
-        id =0;
+        id = 0;
         conuid = null;
         brokeraddr = null;
-        ackType =Session.NONE;
+        ackType = Session.NONE;
     }
 
     public void updateUID(ConsumerUID uid) {
@@ -103,23 +102,22 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
         ackType = uid.ackType;
     }
 
-
     public boolean isAutoAck() {
         return (ackType == Session.AUTO_ACKNOWLEDGE);
     }
 
     public String getAckMode(int mode) {
-        switch(ackType) {
-            case Session.AUTO_ACKNOWLEDGE:
-                return "AUTO_ACKNOWLEDGE";
-            case Session.DUPS_OK_ACKNOWLEDGE:
-                return "DUPS_OK_ACKNOWLEDGE";
-            case Session.CLIENT_ACKNOWLEDGE:
-                return "CLIENT_ACKNOWLEDGE";
-            case Session.NO_ACK_ACKNOWLEDGE :
-                return "NO_ACK_ACKNOWLEDGE";
-            default:
-                return "NONE";
+        switch (ackType) {
+        case Session.AUTO_ACKNOWLEDGE:
+            return "AUTO_ACKNOWLEDGE";
+        case Session.DUPS_OK_ACKNOWLEDGE:
+            return "DUPS_OK_ACKNOWLEDGE";
+        case Session.CLIENT_ACKNOWLEDGE:
+            return "CLIENT_ACKNOWLEDGE";
+        case Session.NO_ACK_ACKNOWLEDGE:
+            return "NO_ACK_ACKNOWLEDGE";
+        default:
+            return "NONE";
         }
     }
 
@@ -142,12 +140,15 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     public void setConnectionUID(ConnectionUID cid) {
         this.conuid = cid;
     }
+
     public ConnectionUID getConnectionUID() {
         return conuid;
     }
+
     public void setBrokerAddress(BrokerAddress bkraddr) {
         this.brokeraddr = bkraddr;
     }
+
     public BrokerAddress getBrokerAddress() {
         if (brokeraddr == null)
             brokeraddr = Globals.getMyAddress();
@@ -155,8 +156,7 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     }
 
     public String toString() {
-        return "[consumer:" + super.toString() + ", type="
-                 + getAckMode(ackType) +"]";
+        return "[consumer:" + super.toString() + ", type=" + getAckMode(ackType) + "]";
     }
 
     public Object readResolve() throws ObjectStreamException {

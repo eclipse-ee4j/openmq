@@ -16,7 +16,7 @@
 
 /*
  * @(#)JMQAccessControlContext.java	1.20 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.auth;
 
@@ -33,67 +33,53 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
 /**
- * JMQ AccessControlContext uses AccessControlModel interface
- * for permission checks agaist a access control model 
+ * JMQ AccessControlContext uses AccessControlModel interface for permission checks agaist a access control model
  */
-public class JMQAccessControlContext implements AccessControlContext
-{
+public class JMQAccessControlContext implements AccessControlContext {
     private MQUser mquser;
     private Subject subject;
     private Properties authProps;
     private AccessControlModel acs = null;
 
-
-    public JMQAccessControlContext(MQUser mquser, Subject subject,
-                                   Properties authProperties)
-                                   throws LoginException {
+    public JMQAccessControlContext(MQUser mquser, Subject subject, Properties authProperties) throws LoginException {
         this.mquser = mquser;
         this.subject = subject;
         authProps = authProperties;
-        String acEnabled = authProps.getProperty(
-                AccessController.PROP_ACCESSCONTROL_ENABLED);
+        String acEnabled = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_ENABLED);
         if (acEnabled != null && acEnabled.equals("false")) {
-            return; 
+            return;
         }
         try {
-        loadAccessControlModel();
+            loadAccessControlModel();
         } catch (AccessControlException e) {
-        throw new LoginException(e.getMessage());
+            throw new LoginException(e.getMessage());
         }
     }
 
     private void loadAccessControlModel() throws AccessControlException {
-        String type = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX+"type");
+        String type = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + "type");
         if (type == null || type.trim().equals("")) {
-        throw new AccessControlException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_ACCESSCONTROL_TYPE_NOT_DEFINED));
+            throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_TYPE_NOT_DEFINED));
         }
-        String cn = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX+type+".class");
+        String cn = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + type + ".class");
         if (cn == null) {
-        throw new AccessControlException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_ACCESSCONTROL_CLASS_NOT_DEFINED, type));
+            throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_ACCESSCONTROL_CLASS_NOT_DEFINED, type));
         }
         try {
-        acs = (AccessControlModel)Class.forName(cn).newInstance();
-        acs.initialize(type, authProps);
-        }
-        catch (ClassNotFoundException e) {
-            throw new AccessControlException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"ClassNotFoundException: "+e.getMessage()));
-        }
-        catch (InstantiationException e) {
-            throw new AccessControlException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"InstantiationExcetpion: "+e.getMessage()));
-        }
-        catch (IllegalAccessException e) {
-            throw new AccessControlException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"IllegalAccessException: "+e.getMessage()));
-        }
-        catch (ClassCastException e) {
-            throw new AccessControlException(Globals.getBrokerResources().getString(
-               BrokerResources.X_INTERNAL_EXCEPTION,"ClassCastException: "+e.getMessage()));
+            acs = (AccessControlModel) Class.forName(cn).newInstance();
+            acs.initialize(type, authProps);
+        } catch (ClassNotFoundException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassNotFoundException: " + e.getMessage()));
+        } catch (InstantiationException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "InstantiationExcetpion: " + e.getMessage()));
+        } catch (IllegalAccessException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "IllegalAccessException: " + e.getMessage()));
+        } catch (ClassCastException e) {
+            throw new AccessControlException(
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassCastException: " + e.getMessage()));
         }
     }
 
@@ -108,47 +94,37 @@ public class JMQAccessControlContext implements AccessControlContext
     /**
      * This method is always called for ADMIN service regardless jmq.accesscontrol
      */
-    public void checkConnectionPermission(String serviceName,
-                                          String serviceType)
-                                          throws AccessControlException {
-    if (serviceType.equals("ADMIN")) {
-        String acEnabled = authProps.getProperty(
-                               AccessController.PROP_ACCESSCONTROL_ENABLED);
-        if (acEnabled != null && acEnabled.equals("false")) {
-            Class mqadminc = null;
-            try {
-            mqadminc = Class.forName("com.sun.messaging.jmq.auth.jaas.MQAdminGroup"); 
-            } catch (ClassNotFoundException e) {
-            throw new AccessControlException(Globals.getBrokerResources().getKString(
-            BrokerResources.X_INTERNAL_EXCEPTION, "ClassNotFoundException: "+e.getMessage()));
-            }
-            Set s = subject.getPrincipals(mqadminc);
+    public void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException {
+        if (serviceType.equals("ADMIN")) {
+            String acEnabled = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_ENABLED);
+            if (acEnabled != null && acEnabled.equals("false")) {
+                Class mqadminc = null;
+                try {
+                    mqadminc = Class.forName("com.sun.messaging.jmq.auth.jaas.MQAdminGroup");
+                } catch (ClassNotFoundException e) {
+                    throw new AccessControlException(
+                            Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "ClassNotFoundException: " + e.getMessage()));
+                }
+                Set s = subject.getPrincipals(mqadminc);
 
-            if (s == null || s.size() == 0) {
-                throw new AccessControlException(
-                    Globals.getBrokerResources().getKString(
-				    BrokerResources.X_NOT_ADMINISTRATOR, mquser.getName()));
+                if (s == null || s.size() == 0) {
+                    throw new AccessControlException(Globals.getBrokerResources().getKString(BrokerResources.X_NOT_ADMINISTRATOR, mquser.getName()));
+                }
+                return;
             }
-            return;
         }
-    }
-    if (acs == null) {
-        loadAccessControlModel();
-    }
-    acs.checkConnectionPermission(mquser, serviceName, serviceType, subject);
+        if (acs == null) {
+            loadAccessControlModel();
+        }
+        acs.checkConnectionPermission(mquser, serviceName, serviceType, subject);
     }
 
-    public void checkDestinationPermission(String serviceName,
-                                           String serviceType,
-                                           String operation,
-                                           String destination,
-                                           String destinationType)
-                                           throws AccessControlException {
-    if (acs == null) {
-        loadAccessControlModel();
-    }
-    acs.checkDestinationPermission(mquser, serviceName, serviceType, subject,
-                                   operation, destination, destinationType);
+    public void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
+            throws AccessControlException {
+        if (acs == null) {
+            loadAccessControlModel();
+        }
+        acs.checkDestinationPermission(mquser, serviceName, serviceType, subject, operation, destination, destinationType);
     }
 
 }

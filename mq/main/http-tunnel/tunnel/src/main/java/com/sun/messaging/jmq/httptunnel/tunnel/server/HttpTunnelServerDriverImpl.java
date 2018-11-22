@@ -15,8 +15,8 @@
  */
 
 /*
- */ 
- 
+ */
+
 package com.sun.messaging.jmq.httptunnel.tunnel.server;
 
 import com.sun.messaging.jmq.httptunnel.tunnel.HttpTunnelConnection;
@@ -43,22 +43,18 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
- * This class provides unreliable packet delivery mechanism on
- * the server side. It also uses a dedicated thread to continuously
- * read incoming packets from the servlet over the TCP connection.
+ * This class provides unreliable packet delivery mechanism on the server side. It also uses a dedicated thread to
+ * continuously read incoming packets from the servlet over the TCP connection.
  */
-public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaults,
-    HttpTunnelDriver, HttpTunnelServerDriver {
+public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaults, HttpTunnelDriver, HttpTunnelServerDriver {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
 
     public static boolean getDEBUG() {
         return DEBUG;
     }
 
-    protected static final boolean DEBUGLINK = Boolean.getBoolean(
-            "httptunnel.link.debug");
+    protected static final boolean DEBUGLINK = Boolean.getBoolean("httptunnel.link.debug");
 
     protected Socket serverConn = null;
     protected Hashtable connTable = null;
@@ -71,21 +67,20 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     private boolean listenState = false;
     protected int rxBufSize = 0;
 
-    public HttpTunnelServerDriverImpl() {}
-
-    /**
-     * Creates an HTTP tunnel interface.
-     */
-    public void init(String serviceName) throws IOException {
-        init(serviceName, InetAddress.getLocalHost().getHostAddress(),
-            DEFAULT_HTTP_TUNNEL_PORT);
+    public HttpTunnelServerDriverImpl() {
     }
 
     /**
      * Creates an HTTP tunnel interface.
      */
-    public void init(String serviceName, String webServerHostName,
-        int webServerPort) throws IOException {
+    public void init(String serviceName) throws IOException {
+        init(serviceName, InetAddress.getLocalHost().getHostAddress(), DEFAULT_HTTP_TUNNEL_PORT);
+    }
+
+    /**
+     * Creates an HTTP tunnel interface.
+     */
+    public void init(String serviceName, String webServerHostName, int webServerPort) throws IOException {
         this.serviceName = serviceName;
 
         this.webServerHost = InetAddress.getByName(webServerHostName);
@@ -124,10 +119,8 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     }
 
     /**
-     * Waits for a TCP connection from the servlet. When
-     * <code>accept</code> returns successfully, this method sends
-     * the current state of the connection table to the servlet
-     * and resumes normal operation.
+     * Waits for a TCP connection from the servlet. When <code>accept</code> returns successfully, this method sends the
+     * current state of the connection table to the servlet and resumes normal operation.
      */
     protected void createLink() {
         totalRetryWaited = 0;
@@ -139,34 +132,30 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         while (true) {
             try {
                 /*
-                 * The Socket.setReceiveBufferSize() method must be
-                 * called before the connection is established.
+                 * The Socket.setReceiveBufferSize() method must be called before the connection is established.
                  */
                 serverConn = new Socket();
 
                 if (rxBufSize > 0) {
                     try {
-                    serverConn.setReceiveBufferSize(rxBufSize);
+                        serverConn.setReceiveBufferSize(rxBufSize);
                     } catch (SocketException e) {
-                    log(Level.WARNING, "HTTP socket["+webServerHost+":"+webServerPort+
-                              "]setReceiveBufferSize("+rxBufSize+"): "+e.toString(), e);
+                        log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setReceiveBufferSize(" + rxBufSize + "): " + e.toString(),
+                                e);
                     }
                 }
 
-                InetSocketAddress addr = new InetSocketAddress(webServerHost,
-                        webServerPort);
+                InetSocketAddress addr = new InetSocketAddress(webServerHost, webServerPort);
                 serverConn.connect(addr);
 
                 try {
-                serverConn.setTcpNoDelay(true);
+                    serverConn.setTcpNoDelay(true);
                 } catch (SocketException e) {
-                log(Level.WARNING, "HTTP socket["+webServerHost+":"+webServerPort+
-                                   "]setTcpNoDelay: "+e.toString(), e);
+                    log(Level.WARNING, "HTTP socket[" + webServerHost + ":" + webServerPort + "]setTcpNoDelay: " + e.toString(), e);
                 }
 
                 if (DEBUG) {
-                    log("######## rcvbuf = " +
-                        serverConn.getReceiveBufferSize());
+                    log("######## rcvbuf = " + serverConn.getReceiveBufferSize());
                 }
 
                 is = serverConn.getInputStream();
@@ -188,9 +177,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
 
                 if (totalRetryWaited >= (inactiveConnAbortInterval * 1000)) {
                     if (DEBUG || DEBUGLINK) {
-                        log("Retry connect to servlet timeout " +
-                            "- cleanup all (" + connTable.size() +
-                            ") connections ...");
+                        log("Retry connect to servlet timeout " + "- cleanup all (" + connTable.size() + ") connections ...");
                     }
 
                     cleanupAllConns();
@@ -222,8 +209,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
             bos.flush();
         } catch (Exception e) {
             if (DEBUG || DEBUGLINK) {
-                log("Got exception while sending LISTEN_STATE_PACKET " +
-                    "packet: " + e.getMessage());
+                log("Got exception while sending LISTEN_STATE_PACKET " + "packet: " + e.getMessage());
             }
         }
 
@@ -259,8 +245,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
             bos.flush();
         } catch (Exception e) {
             if (DEBUG || DEBUGLINK) {
-                log("Got exception while sending LINK_INIT_PACKET " +
-                    "packet: " + e.getMessage());
+                log("Got exception while sending LINK_INIT_PACKET " + "packet: " + e.getMessage());
             }
         }
 
@@ -270,7 +255,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         sendPacket(p);
     }
 
-    //to be called only from createLink()
+    // to be called only from createLink()
     protected void cleanupAllConns() {
         Vector connids = new Vector();
 
@@ -368,9 +353,8 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     }
 
     /**
-     * Handles new connection requests.
-     * The new connection is added to the listen queue resulting in
-     * waking up a thread blocked in accept() if any.
+     * Handles new connection requests. The new connection is added to the listen queue resulting in waking up a thread
+     * blocked in accept() if any.
      */
     private void handleNewConn(HttpTunnelPacket p) {
         int connId = p.getConnId();
@@ -380,7 +364,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
             ByteArrayInputStream bis = new ByteArrayInputStream(payload);
             DataInputStream dis = new DataInputStream(bis);
             try {
-                //String sname = dis.readUTF();
+                // String sname = dis.readUTF();
                 dis.readUTF();
                 remoteip = dis.readUTF();
             } catch (Exception e) {
@@ -388,7 +372,8 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
             }
             try {
                 dis.close();
-            } catch (Exception e) {}
+            } catch (Exception e) {
+            }
         }
         HttpTunnelConnection conn = new HttpTunnelConnection(connId, this);
         conn.setRemoteAddr(remoteip);

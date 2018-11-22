@@ -15,7 +15,7 @@
  */
 
 /*
- */ 
+ */
 
 package com.sun.messaging.bridge.admin.handlers;
 
@@ -32,8 +32,7 @@ import com.sun.messaging.bridge.admin.resources.BridgeManagerResources;
 /**
  * handler for DEBUG message.
  */
-public class DebugHandler extends AdminCmdHandler
-{
+public class DebugHandler extends AdminCmdHandler {
     public DebugHandler(AdminMessageHandler parent, BridgeServiceManagerImpl bsm) {
         super(parent, bsm);
     }
@@ -43,47 +42,43 @@ public class DebugHandler extends AdminCmdHandler
      *
      * throw exception if let parent handle sendReply
      */
-    public void handle(Session session,
-                       ObjectMessage msg, ObjectMessage reply,
-                       BridgeManagerResources bmr)
-                       throws BridgeException, Exception {
+    public void handle(Session session, ObjectMessage msg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, Exception {
         int msgtype = msg.getIntProperty(AdminMessageType.PropName.MESSAGE_TYPE);
         if (msgtype != AdminMessageType.Type.DEBUG) {
-           throw new BridgeException("Unexpected bridge admin message type "+
-                                      AdminMessageType.getString(msgtype));
-       }
+            throw new BridgeException("Unexpected bridge admin message type " + AdminMessageType.getString(msgtype));
+        }
 
-       String debugArg = msg.getStringProperty(AdminMessageType.PropName.CMD_ARG);
-       String target = msg.getStringProperty(AdminMessageType.PropName.TARGET);
-       if (debugArg == null) {
-           throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_NO_ARG));
-       }
-       if (!debugArg.trim().equals("fault")) {
-           throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_UNSUPPORTED_ARG, debugArg));
-       }
-       if (target == null || target.trim().length() == 0) {
-           throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_NO_NAME, debugArg));
-       }
-       Properties props = (Properties)msg.getObject();
+        String debugArg = msg.getStringProperty(AdminMessageType.PropName.CMD_ARG);
+        String target = msg.getStringProperty(AdminMessageType.PropName.TARGET);
+        if (debugArg == null) {
+            throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_NO_ARG));
+        }
+        if (!debugArg.trim().equals("fault")) {
+            throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_UNSUPPORTED_ARG, debugArg));
+        }
+        if (target == null || target.trim().length() == 0) {
+            throw new BridgeException(_bmr.getKString(_bmr.X_ADMIN_DEBUG_NO_NAME, debugArg));
+        }
+        Properties props = (Properties) msg.getObject();
 
-       String faultName = target;
-       String faultSelector = (String)props.getProperty("selector");
-       FaultInjection fi = FaultInjection.getInjection();
-       boolean faultOn = true;
+        String faultName = target;
+        String faultSelector = (String) props.getProperty("selector");
+        FaultInjection fi = FaultInjection.getInjection();
+        boolean faultOn = true;
 
-       String enabledStr = props.getProperty("enabled");
-       if (enabledStr != null && enabledStr.equalsIgnoreCase("false")) {
-           fi.unsetFault(faultName);
-       } else {
-           fi.setFaultInjection(true);
-           try {
-               fi.setFault(faultName, faultSelector, props);
-           } catch (Exception e) {
-               _bc.logError(_bmr.getKString(_bmr.E_ADMIN_SET_FAULT_FAILED, faultName), e);
-               throw e;
-           }
-       }
-       parent.sendReply(session, msg, reply, Status.OK, (String)null, bmr);
-   }
+        String enabledStr = props.getProperty("enabled");
+        if (enabledStr != null && enabledStr.equalsIgnoreCase("false")) {
+            fi.unsetFault(faultName);
+        } else {
+            fi.setFaultInjection(true);
+            try {
+                fi.setFault(faultName, faultSelector, props);
+            } catch (Exception e) {
+                _bc.logError(_bmr.getKString(_bmr.E_ADMIN_SET_FAULT_FAILED, faultName), e);
+                throw e;
+            }
+        }
+        parent.sendReply(session, msg, reply, Status.OK, (String) null, bmr);
+    }
 
 }

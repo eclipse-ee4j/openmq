@@ -16,7 +16,7 @@
 
 /*
  * @(#)ServiceRestrictionException.java	1.2 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.util;
 

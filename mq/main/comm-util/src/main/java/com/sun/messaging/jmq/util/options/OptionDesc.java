@@ -16,7 +16,7 @@
 
 /*
  * @(#)OptionDesc.java	1.9 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.util.options;
 
@@ -30,76 +30,66 @@ package com.sun.messaging.jmq.util.options;
  * <LI>it's value (if type is OptionType.OPTION_VALUE_HARDCODED)
  * </UL>
  *
- * @see		OptionType
+ * @see OptionType
  */
 public class OptionDesc {
     /**
-     * The type of the option, as defined by the interface OptionType.
-     * The valid values are:
+     * The type of the option, as defined by the interface OptionType. The valid values are:
      * <UL>
      * <LI>OPTION_VALUE_HARDCODED
      * <LI>OPTION_VALUE_NEXT_ARG
      * <LI>OPTION_VALUE_NEXT_ARG_RES
      * </UL>
      *
-     * @see	OptionType
+     * @see OptionType
      */
-    public int		type;
+    public int type;
 
     /**
      * The actual option, for example <EM>-a</EM>
      */
-    public String	option;
+    public String option;
 
     /**
-     * The property name that will be associated with this
-     * option. This property name may be a basename for
-     * the actual property used.
+     * The property name that will be associated with this option. This property name may be a basename for the actual
+     * property used.
      *
-     * @see  
-     * com.sun.messaging.jmq.admin.util.OptionType#OPTION_VALUE_NEXT_ARG_RES
+     * @see com.sun.messaging.jmq.admin.util.OptionType#OPTION_VALUE_NEXT_ARG_RES
      */
-    public String	baseProperty;
+    public String baseProperty;
 
-    public String	nameValuePair = null;
+    public String nameValuePair = null;
 
     /**
-     * Flag indicating whether this option should be parsed, but
-     * not processed (i.e. stored in properties database).
+     * Flag indicating whether this option should be parsed, but not processed (i.e. stored in properties database).
      */
-    public boolean	ignore = false;
+    public boolean ignore = false;
 
     /**
-     * Value of the property for this option. See
-     * OptionType.OPTION_VALUE_HARDCODED.
+     * Value of the property for this option. See OptionType.OPTION_VALUE_HARDCODED.
      *
-     * @see	OptionType
+     * @see OptionType
      */
-    public String	value;
-    
-    public OptionDesc(String option, int type, String baseProp, String value)  {
-	this(option, type, baseProp, value, null, false);
+    public String value;
+
+    public OptionDesc(String option, int type, String baseProp, String value) {
+        this(option, type, baseProp, value, null, false);
     }
 
-    public OptionDesc(String option, int type, String baseProp, String value,
-				String nameValuePair)  {
-	this(option, type, baseProp, value, nameValuePair, false);
+    public OptionDesc(String option, int type, String baseProp, String value, String nameValuePair) {
+        this(option, type, baseProp, value, nameValuePair, false);
     }
 
-
-    public OptionDesc(String option, int type, String baseProp,
-				String value, boolean ignore)  {
-	this(option, type, baseProp, value, null, ignore);
+    public OptionDesc(String option, int type, String baseProp, String value, boolean ignore) {
+        this(option, type, baseProp, value, null, ignore);
     }
 
-    public OptionDesc(String option, int type, String baseProp,
-				String value, String nameValuePair,
-				boolean ignore)  {
-	this.type = type;
-	this.option = option;
-	this.baseProperty = baseProp;
-	this.value = value;
-	this.nameValuePair = nameValuePair;
-	this.ignore = ignore;
+    public OptionDesc(String option, int type, String baseProp, String value, String nameValuePair, boolean ignore) {
+        this.type = type;
+        this.option = option;
+        this.baseProperty = baseProp;
+        this.value = value;
+        this.nameValuePair = nameValuePair;
+        this.ignore = ignore;
     }
 }

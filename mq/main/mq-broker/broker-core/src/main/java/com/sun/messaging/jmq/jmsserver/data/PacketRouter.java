@@ -16,10 +16,9 @@
 
 /*
  * @(#)PacketRouter.java	1.33 06/28/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.data;
-
 
 import com.sun.messaging.jmq.io.*;
 import java.security.AccessControlException;
@@ -38,17 +37,15 @@ import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
- * Class which handles passing messages read in from
- * a protocol to the correct Message Handler
+ * Class which handles passing messages read in from a protocol to the correct Message Handler
  */
 
-public class PacketRouter
-{
+public class PacketRouter {
 
     /**
      * dump all packets comming on
      */
-    private static  boolean DEBUG = false;
+    private static boolean DEBUG = false;
 
     public static boolean getDEBUG() {
         return DEBUG;
@@ -57,13 +54,12 @@ public class PacketRouter
     private final Logger logger = Globals.getLogger();
 
     /**
-     * list of message handlers for specific message types 
+     * list of message handlers for specific message types
      */
     private PacketHandler list[] = new PacketHandler[PacketType.LAST];
 
     /**
-     * default handler which handles errors and messages which do not
-     * have handlers registered 
+     * default handler which handles errors and messages which do not have handlers registered
      */
     private ErrHandler defaultHandler = null;
 
@@ -73,7 +69,7 @@ public class PacketRouter
      * Constructor for PacketRouter class.
      */
     public PacketRouter() {
-	defaultHandler = new DefaultHandler();
+        defaultHandler = new DefaultHandler();
         fi = FaultInjection.getInjection();
     }
 
@@ -84,12 +80,10 @@ public class PacketRouter
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int id, PacketHandler handler) 
-        throws ArrayIndexOutOfBoundsException 
-    {
+    public void addHandler(int id, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
         if (id > PacketType.LAST) {
-            throw new ArrayIndexOutOfBoundsException(Globals.getBrokerResources().getString(
-           BrokerResources.X_INTERNAL_EXCEPTION, "Trying to add handler which has no corresponding packet type [ " + id + "]"));
+            throw new ArrayIndexOutOfBoundsException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
+                    "Trying to add handler which has no corresponding packet type [ " + id + "]"));
         }
         list[id] = handler;
     }
@@ -102,12 +96,10 @@ public class PacketRouter
      * @param handler the handler to add
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public void addHandler(int sid, int eid, PacketHandler handler) 
-        throws ArrayIndexOutOfBoundsException 
-    {
+    public void addHandler(int sid, int eid, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
         // NOTE: this is not that efficient, but it should ONLY happen at initialization
         // so I'm not worrying about it
-        for (int i = sid; i < eid; i ++ )
+        for (int i = sid; i < eid; i++)
             addHandler(i, handler);
 
     }
@@ -118,9 +110,7 @@ public class PacketRouter
      * @param id the packet type
      * @throws ArrayIndexOutOfBoundsException if the id is too high
      */
-    public PacketHandler getHandler(int id)
-        throws ArrayIndexOutOfBoundsException 
-    {
+    public PacketHandler getHandler(int id) throws ArrayIndexOutOfBoundsException {
         if (id > PacketType.LAST) {
             throw new ArrayIndexOutOfBoundsException(id);
         }
@@ -128,11 +118,9 @@ public class PacketRouter
     }
 
     /**
-     * This routine handles passing messages off to the correct handler.
-     * Messages should be first checked for authorization (if any)
-     * and then sent to the correct handler.
-     * If there is no handler, it should be sent to the default
-     * handler (aka error handler).
+     * This routine handles passing messages off to the correct handler. Messages should be first checked for authorization
+     * (if any) and then sent to the correct handler. If there is no handler, it should be sent to the default handler (aka
+     * error handler).
      *
      * @param con the connection the message was received from
      * @param msg the message received
@@ -142,10 +130,9 @@ public class PacketRouter
         int id = msg.getPacketType();
 
         if (id < 0) {
-            logger.log(Logger.ERROR, Globals.getBrokerResources().getString(
-           BrokerResources.X_INTERNAL_EXCEPTION, "invalid packet type {0}",
-                    String.valueOf(id)));
-            defaultHandler.sendError(con, msg, "invalid packet type " + id,Status.ERROR);
+            logger.log(Logger.ERROR,
+                    Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "invalid packet type {0}", String.valueOf(id)));
+            defaultHandler.sendError(con, msg, "invalid packet type " + id, Status.ERROR);
             return;
         }
 
@@ -161,15 +148,14 @@ public class PacketRouter
             handler = defaultHandler;
         }
         try {
-            if (handler != defaultHandler) { 
+            if (handler != defaultHandler) {
                 checkServiceRestriction(msg, con, handler, id, defaultHandler);
                 if (!checkAccessControl(msg, con, handler, id)) {
                     return;
                 }
             }
-            if (fi.FAULT_INJECTION && 
-                ((IMQService)con.getService()).getServiceType() != ServiceType.ADMIN &&
-                fi.checkFaultAndSleep(FaultInjection.FAULT_PACKET_ROUTER_1_SLEEP, null, true)) {
+            if (fi.FAULT_INJECTION && ((IMQService) con.getService()).getServiceType() != ServiceType.ADMIN
+                    && fi.checkFaultAndSleep(FaultInjection.FAULT_PACKET_ROUTER_1_SLEEP, null, true)) {
                 fi.unsetFault(FaultInjection.FAULT_PACKET_ROUTER_1_SLEEP);
             }
             boolean freepkt = handler.handle(con, msg);
@@ -177,8 +163,7 @@ public class PacketRouter
                 msg.destroy();
             }
         } catch (ServiceRestrictionException ex) {
-            defaultHandler.sendError(con, msg,
-                ex.getMessage(), Status.UNAVAILABLE);
+            defaultHandler.sendError(con, msg, ex.getMessage(), Status.UNAVAILABLE);
         } catch (ServiceRestrictionWaitException ex) {
             msg.destroy();
             return;
@@ -187,8 +172,7 @@ public class PacketRouter
 
             if (defaultHandler != null) {
                 if (ex.getStatusCode() == Status.UNAVAILABLE) {
-                    defaultHandler.sendError(con, msg,
-                            ex.getMessage(), Status.UNAVAILABLE);
+                    defaultHandler.sendError(con, msg, ex.getMessage(), Status.UNAVAILABLE);
                 } else {
                     defaultHandler.sendError(con, ex, msg);
                 }
@@ -196,66 +180,51 @@ public class PacketRouter
         } catch (Exception ex) {
             logger.logStack(logger.ERROR, ex.getMessage(), ex);
             defaultHandler.sendError(con, new BrokerException(
-                    Globals.getBrokerResources().getKString(
-                    BrokerResources.X_INTERNAL_EXCEPTION,
-                    "Unexpected Error processing message"), ex), msg);
+                    Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Unexpected Error processing message"), ex), msg);
         }
     }
 
-    private boolean checkAccessControl(Packet msg, IMQConnection con,
-                                          PacketHandler handler, int pktype) {
-        AccessController ac = con.getAccessController(); 
-        if (pktype != PacketType.HELLO && pktype != PacketType.PING &&
-                pktype != PacketType.AUTHENTICATE &&
-                       pktype != PacketType.GOODBYE) {
+    private boolean checkAccessControl(Packet msg, IMQConnection con, PacketHandler handler, int pktype) {
+        AccessController ac = con.getAccessController();
+        if (pktype != PacketType.HELLO && pktype != PacketType.PING && pktype != PacketType.AUTHENTICATE && pktype != PacketType.GOODBYE) {
 
             if (!ac.isAuthenticated()) {
-                String emsg = Globals.getBrokerResources().getKString(
-                        BrokerResources.E_UNEXPECTED_PACKET_NOT_AUTHENTICATED,
-                                                 PacketType.getString(pktype));
-                defaultHandler.sendError(con, msg, emsg, Status.ERROR); 
+                String emsg = Globals.getBrokerResources().getKString(BrokerResources.E_UNEXPECTED_PACKET_NOT_AUTHENTICATED, PacketType.getString(pktype));
+                defaultHandler.sendError(con, msg, emsg, Status.ERROR);
                 return false;
             }
             try {
                 handler.checkPermission(msg, con);
                 return true;
             } catch (AccessControlException e) {
-                try {                 
-                    handler.handleForbidden(con, msg, pktype+1);
+                try {
+                    handler.handleForbidden(con, msg, pktype + 1);
                 } catch (BrokerException ex) {
                     defaultHandler.sendError(con, ex, msg);
                 } catch (Exception ex) {
-                    defaultHandler.sendError(con, 
-			new BrokerException(
-                            Globals.getBrokerResources().getKString(
-                            BrokerResources.X_INTERNAL_EXCEPTION,
-                           "Unexpected Error processing message"), ex), msg);
+                    defaultHandler.sendError(con,
+                            new BrokerException(
+                                    Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Unexpected Error processing message"), ex),
+                            msg);
                 }
             } catch (BrokerException ex) {
                 defaultHandler.sendError(con, msg, ex.getMessage(), ex.getStatusCode());
             } catch (Exception ex) {
-                defaultHandler.sendError(con,
-                    new BrokerException(
-                       Globals.getBrokerResources().getKString(
-                       BrokerResources.X_INTERNAL_EXCEPTION,
-                       "Unexpected Error processing message"), ex), msg);
+                defaultHandler.sendError(con, new BrokerException(
+                        Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Unexpected Error processing message"), ex), msg);
             }
             return false;
-        }    
-        else {
+        } else {
             return true;
         }
     }
 
-    private void checkServiceRestriction(Packet msg, IMQConnection con,
-                                         PacketHandler handler, int pktype,
-                                         ErrHandler defHandler) 
-                                         throws BrokerException, Exception {
+    private void checkServiceRestriction(Packet msg, IMQConnection con, PacketHandler handler, int pktype, ErrHandler defHandler)
+            throws BrokerException, Exception {
 
-         if (pktype != PacketType.HELLO && pktype != PacketType.PING &&
-             pktype != PacketType.AUTHENTICATE && pktype != PacketType.GOODBYE) {
-             handler.checkServiceRestriction(msg, con, defHandler);
-         }
+        if (pktype != PacketType.HELLO && pktype != PacketType.PING && pktype != PacketType.AUTHENTICATE && pktype != PacketType.GOODBYE) {
+            handler.checkServiceRestriction(msg, con, defHandler);
+        }
     }
 
 }

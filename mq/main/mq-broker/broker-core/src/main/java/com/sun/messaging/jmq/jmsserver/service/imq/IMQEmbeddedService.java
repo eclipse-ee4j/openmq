@@ -16,7 +16,7 @@
 
 /*
  * @(#)IMQIPService.java	1.4 06/29/07
- */ 
+ */
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
@@ -43,57 +43,45 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 import java.nio.channels.SelectionKey;
 
-
-
-
-public class IMQEmbeddedService extends IMQService 
-{
+public class IMQEmbeddedService extends IMQService {
 
     private static boolean DEBUG = false;
 
-
-    //Properties cfg = System.getProperties();
-    //BrokerConfig cprops = Globals.getConfig();
+    // Properties cfg = System.getProperties();
+    // BrokerConfig cprops = Globals.getConfig();
 
     /**
      * the list of connections which this service knows about
      */
 
     protected PacketRouter router = null;
-    //private AuthCacheData authCacheData = new AuthCacheData();
+    // private AuthCacheData authCacheData = new AuthCacheData();
     protected ThreadPool pool = null;
     protected RunnableFactory runfac = null;
 
-    public IMQEmbeddedService(String name,
-            int type, PacketRouter router, int min, int max) 
-    {
-	    super(name, type);
+    public IMQEmbeddedService(String name, int type, PacketRouter router, int min, int max) {
+        super(name, type);
         this.router = router;
         runfac = getRunnableFactory();
 
         if (max == 0) {
-            throw new RuntimeException(
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.X_MAX_THREAD_ILLEGAL_VALUE, 
-                    name, String.valueOf(max)));
+            throw new RuntimeException(Globals.getBrokerResources().getKString(BrokerResources.X_MAX_THREAD_ILLEGAL_VALUE, name, String.valueOf(max)));
         }
 
         pool = new ThreadPool(name, min, max, runfac);
 //        pool.setPriority(priority);
-         
+
     }
 
     public Hashtable getPoolDebugState() {
         return pool.getDebugState();
     }
 
-
-    public void dumpPool()  {
+    public void dumpPool() {
         pool.debug();
     }
 
-    protected RunnableFactory getRunnableFactory()
-    {
+    protected RunnableFactory getRunnableFactory() {
         return new OperationRunnableFactory(true);
     }
 
@@ -118,8 +106,7 @@ public class IMQEmbeddedService extends IMQService
         return pool.getThreadNum();
     }
 
-    public void setPriority(int priority)
-    {
+    public void setPriority(int priority) {
         pool.setPriority(priority);
     }
 
@@ -131,8 +118,7 @@ public class IMQEmbeddedService extends IMQService
         return pool.setMinMax(min, max);
     }
 
-
-    public synchronized  void startService(boolean startPaused) {
+    public synchronized void startService(boolean startPaused) {
         // we really don't do much on starting/stopping a service
         //
         // we will have to do something with concurrent queues when paused
@@ -140,34 +126,24 @@ public class IMQEmbeddedService extends IMQService
         //
         if (isServiceRunning()) {
             /*
-             * this error should never happen in normal operation
-             * if its does, we will need to add an error message 
-             * to the resource bundle
+             * this error should never happen in normal operation if its does, we will need to add an error message to the resource
+             * bundle
              */
-            logger.log(Logger.DEBUG, 
-                       BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                       "unable to start service, already started.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to start service, already started.");
             return;
         }
         setState(ServiceState.STARTED);
         {
-            String args[] = { getName(), 
-                              "in-process connections", 
-                              String.valueOf(getMinThreadpool()),
-                              String.valueOf(getMaxThreadpool()) };
+            String args[] = { getName(), "in-process connections", String.valueOf(getMinThreadpool()), String.valueOf(getMaxThreadpool()) };
             logger.log(Logger.INFO, BrokerResources.I_SERVICE_START, args);
             try {
-            logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
-                       AccessController.getInstance(
-                       getName(), getServiceType()).getUserRepository(),
-                       getName());
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_USER_REPOSITORY,
+                        AccessController.getInstance(getName(), getServiceType()).getUserRepository(), getName());
             } catch (BrokerException e) {
-            logger.log(Logger.WARNING, 
-                       BrokerResources.W_SERVICE_USER_REPOSITORY,
-                       getName(), e.getMessage());
+                logger.log(Logger.WARNING, BrokerResources.W_SERVICE_USER_REPOSITORY, getName(), e.getMessage());
             }
         }
-    
+
         // start the thread pool
         pool.start();
         if (startPaused) {
@@ -180,7 +156,7 @@ public class IMQEmbeddedService extends IMQService
         notifyAll();
     }
 
-    public void stopService(boolean all) { 
+    public void stopService(boolean all) {
         synchronized (this) {
 
             if (isShuttingDown()) {
@@ -190,23 +166,19 @@ public class IMQEmbeddedService extends IMQService
 
             String strings[] = { getName(), "none" };
             if (all) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_STOP, 
-                           strings);
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_STOP, strings);
             } else if (!isShuttingDown()) {
-                logger.log(Logger.INFO, 
-                           BrokerResources.I_SERVICE_SHUTTINGDOWN, 
-                           strings);
-            } 
-           
+                logger.log(Logger.INFO, BrokerResources.I_SERVICE_SHUTTINGDOWN, strings);
+            }
+
             setShuttingDown(true);
         }
 
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
                 con.stopConnection();
             }
         }
@@ -224,11 +196,9 @@ public class IMQEmbeddedService extends IMQService
         if (this.getServiceType() == ServiceType.NORMAL) {
             List cons = connectionList.getConnectionList(this);
             Connection con = null;
-            for (int i = cons.size()-1; i >= 0; i--) {
-                con = (Connection)cons.get(i);
-                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, 
-                    Globals.getBrokerResources().getKString(
-                        BrokerResources.M_SERVICE_SHUTDOWN));
+            for (int i = cons.size() - 1; i >= 0; i--) {
+                con = (Connection) cons.get(i);
+                con.destroyConnection(true, GoodbyeReason.SHUTDOWN_BKR, Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
             }
         }
 
@@ -241,30 +211,20 @@ public class IMQEmbeddedService extends IMQService
             pool.waitOnDestroy(getDestroyWaitTime());
 
         if (DEBUG) {
-            logger.log(Logger.DEBUG, 
-                "Destroying Service {0} with protocol {1} ", 
-                getName(), "none");
+            logger.log(Logger.DEBUG, "Destroying Service {0} with protocol {1} ", getName(), "none");
         }
     }
 
-    public void stopNewConnections() 
-        throws IOException, IllegalStateException
-    {
+    public void stopNewConnections() throws IOException, IllegalStateException {
         if (getState() != ServiceState.RUNNING) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_STOP_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }
         setState(ServiceState.QUIESCED);
     }
 
-    public void startNewConnections() 
-        throws IOException
-    {
+    public void startNewConnections() throws IOException {
         if (getState() != ServiceState.QUIESCED && getState() != ServiceState.PAUSED) {
-            throw new IllegalStateException(
-               Globals.getBrokerResources().getKString(
-                   BrokerResources.X_CANT_START_SERVICE));
+            throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
         }
 
         synchronized (this) {
@@ -276,22 +236,17 @@ public class IMQEmbeddedService extends IMQService
     public void pauseService(boolean all) {
 
         if (!isServiceRunning()) {
-            logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to pause service " 
-                    + name + ", already paused.");
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to pause service " + name + ", already paused.");
             return;
-        }  
+        }
 
-        String strings[] = { getName(), "none"};
+        String strings[] = { getName(), "none" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_PAUSE, strings);
 
         try {
             stopNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         setState(ServiceState.PAUSED);
 
@@ -303,20 +258,15 @@ public class IMQEmbeddedService extends IMQService
 
     public void resumeService() {
         if (isServiceRunning()) {
-             logger.log(Logger.DEBUG, 
-                    BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                    "unable to resume service " 
-                    + name + ", already running.");
-           return;
+            logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");
+            return;
         }
         String strings[] = { getName(), "none" };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_RESUME, strings);
         try {
             startNewConnections();
         } catch (Exception ex) {
-            logger.logStack(Logger.WARNING, 
-                      BrokerResources.E_INTERNAL_BROKER_ERROR, 
-                      "pausing service " + this, ex);
+            logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "pausing service " + this, ex);
         }
         pool.resume();
         setServiceRunning(true);
@@ -325,18 +275,15 @@ public class IMQEmbeddedService extends IMQService
             setState(ServiceState.RUNNING);
             this.notifyAll();
         }
-        
+
     }
 
-
-    public IMQEmbeddedConnection createConnection()
-        throws IOException, BrokerException
-    {
+    public IMQEmbeddedConnection createConnection() throws IOException, BrokerException {
         IMQEmbeddedConnection con = new IMQEmbeddedConnection(this, router);
 
         // ok, get threads
-        OperationRunnable read = (OperationRunnable)pool.getAvailRunnable(false);
-        OperationRunnable write = (OperationRunnable)pool.getAvailRunnable(false);
+        OperationRunnable read = (OperationRunnable) pool.getAvailRunnable(false);
+        OperationRunnable write = (OperationRunnable) pool.getAvailRunnable(false);
 
         // make sure we could get them
         if (read == null || write == null) {
@@ -347,24 +294,13 @@ public class IMQEmbeddedService extends IMQService
                 write.release();
             }
 
-            String args[] = {this.toString(),
-                       String.valueOf(pool.getAssignedCnt()),
-                       String.valueOf(pool.getMaximum())};
-            logger.log(Logger.WARNING, 
-                BrokerResources.E_NOT_ENOUGH_THREADS,
-                args);
+            String args[] = { this.toString(), String.valueOf(pool.getAssignedCnt()), String.valueOf(pool.getMaximum()) };
+            logger.log(Logger.WARNING, BrokerResources.E_NOT_ENOUGH_THREADS, args);
 
             pool.debug();
-            con.destroyConnection(true, GoodbyeReason.CON_FATAL_ERROR, 
-                 Globals.getBrokerResources().getKString(
-                 BrokerResources.E_NOT_ENOUGH_THREADS, args));
-            throw new BrokerException( 
-                Globals.getBrokerResources().getKString(
-                    BrokerResources.E_NOT_ENOUGH_THREADS,
-                    args),
-                BrokerResources.E_NOT_ENOUGH_THREADS,
-                (Throwable) null,
-                Status.NOT_ALLOWED);
+            con.destroyConnection(true, GoodbyeReason.CON_FATAL_ERROR, Globals.getBrokerResources().getKString(BrokerResources.E_NOT_ENOUGH_THREADS, args));
+            throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_NOT_ENOUGH_THREADS, args), BrokerResources.E_NOT_ENOUGH_THREADS,
+                    (Throwable) null, Status.NOT_ALLOWED);
 
         }
 
@@ -374,8 +310,8 @@ public class IMQEmbeddedService extends IMQService
         // now assign them threads
         try {
             read.assignOperation(con, SelectionKey.OP_READ, OperationRunnable.FOREVER);
-        } catch (IllegalAccessException ex) { //should not happen
-            String emsg = "Unable to assign op to reader thread for connection: "+con;
+        } catch (IllegalAccessException ex) { // should not happen
+            String emsg = "Unable to assign op to reader thread for connection: " + con;
             Globals.getLogger().logStack(Logger.ERROR, emsg, ex);
             write.release();
             con.destroyConnection(true, GoodbyeReason.CON_FATAL_ERROR, emsg);
@@ -383,8 +319,8 @@ public class IMQEmbeddedService extends IMQService
         }
         try {
             write.assignOperation(con, SelectionKey.OP_WRITE, OperationRunnable.FOREVER);
-        } catch (IllegalAccessException ex) { //should not happen
-            String emsg = "Unable to assign op to writer thread for connection: "+con;
+        } catch (IllegalAccessException ex) { // should not happen
+            String emsg = "Unable to assign op to writer thread for connection: " + con;
             Globals.getLogger().logStack(Logger.ERROR, emsg, ex);
             read.destroy();
             con.destroyConnection(true, GoodbyeReason.CON_FATAL_ERROR, emsg);
@@ -396,4 +332,3 @@ public class IMQEmbeddedService extends IMQService
     }
 
 }
-

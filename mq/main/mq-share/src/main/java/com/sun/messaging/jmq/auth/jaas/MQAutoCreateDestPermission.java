@@ -16,20 +16,18 @@
 
 /*
  * @(#)MQAutoCreateDestPermission.java	1.4 06/27/07
- */ 
+ */
 
 package com.sun.messaging.jmq.auth.jaas;
 
 /**
- * This class is for MQ auto-create destination permissions.  It contains
- * a name (also referred to as a "target name") but no actions list; you 
- * either have the named permission or you don't.
+ * This class is for MQ auto-create destination permissions. It contains a name (also referred to as a "target name")
+ * but no actions list; you either have the named permission or you don't.
  */
 
-public final class MQAutoCreateDestPermission extends MQBasicPermission 
-{ 
+public final class MQAutoCreateDestPermission extends MQBasicPermission {
 
-	private static final long serialVersionUID = -8834137571861608842L;
+    private static final long serialVersionUID = -8834137571861608842L;
 
     /**
      *
@@ -39,9 +37,8 @@ public final class MQAutoCreateDestPermission extends MQBasicPermission
     }
 
     public void validateName(String name) throws IllegalArgumentException {
-        if (!name.equals(PermissionFactory.DEST_QUEUE) && 
-            !name.equals(PermissionFactory.DEST_TOPIC)) {
-            throw new IllegalArgumentException("invalidate name "+name);
+        if (!name.equals(PermissionFactory.DEST_QUEUE) && !name.equals(PermissionFactory.DEST_TOPIC)) {
+            throw new IllegalArgumentException("invalidate name " + name);
         }
     }
 }

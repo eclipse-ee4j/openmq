@@ -22,8 +22,8 @@ import com.sun.messaging.jmq.jmsclient.XAConnectionImpl;
 
 public class TopicConnectionAdapter extends ConnectionAdapter {
 
-	public TopicConnectionAdapter(ManagedConnection mc, XAConnectionImpl xac, ResourceAdapter ra) throws ResourceException {
-		super(mc, xac, ra);
-	}
+    public TopicConnectionAdapter(ManagedConnection mc, XAConnectionImpl xac, ResourceAdapter ra) throws ResourceException {
+        super(mc, xac, ra);
+    }
 
 }

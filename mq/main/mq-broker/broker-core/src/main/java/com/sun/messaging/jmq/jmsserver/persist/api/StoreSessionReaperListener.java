@@ -16,12 +16,10 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
-
 /**
  */
-public interface StoreSessionReaperListener  
-{
-    
+public interface StoreSessionReaperListener {
+
     /**
      */
     public void runStoreSessionTask();

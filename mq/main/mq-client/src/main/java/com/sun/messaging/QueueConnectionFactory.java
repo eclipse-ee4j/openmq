@@ -16,15 +16,15 @@
 
 /*
  * @(#)QueueConnectionFactory.java	1.14 06/28/07
- */ 
+ */
 
 package com.sun.messaging;
 
 /**
- * A <code>QueueConnectionFactory</code> is used to create QueueConnections with
- * the Sun MQ Java Message Service (JMS) Point-to-Point (PTP) provider.
+ * A <code>QueueConnectionFactory</code> is used to create QueueConnections with the Sun MQ Java Message Service (JMS)
+ * Point-to-Point (PTP) provider.
  *
- * @see         javax.jms.QueueConnectionFactory javax.jms.QueueConnectionFactory
+ * @see javax.jms.QueueConnectionFactory javax.jms.QueueConnectionFactory
  */
 public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.QueueConnectionFactory {
 
@@ -35,7 +35,7 @@ public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory 
     public QueueConnectionFactory() {
         super();
     }
- 
+
     /**
      * Constructs a QueueConnectionFactory with the specified configuration.
      * 
@@ -43,5 +43,5 @@ public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory 
     protected QueueConnectionFactory(String defaultsBase) {
         super(defaultsBase);
     }
- 
+
 }
