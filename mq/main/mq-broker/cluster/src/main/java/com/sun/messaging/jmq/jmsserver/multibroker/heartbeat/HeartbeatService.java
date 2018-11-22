@@ -145,7 +145,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         clsmgr.removeEventListener(this);
     }
 
-    class TimeoutTimer extends Thread {
+    private class TimeoutTimer extends Thread {
 
         private Object lock = new Object();
         private boolean stopped = false;
