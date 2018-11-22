@@ -30,7 +30,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.Broker;
@@ -81,28 +80,34 @@ public class HTTPProtocol implements Protocol {
         serverSocketClass = "com.sun.messaging.jmq.httptunnel.tunnel.server.HttpTunnelServerSocketImpl";
     }
 
+    @Override
     public void registerProtocolCallback(ProtocolCallback cb, Object callback_data) {
         this.cb = cb;
         this.callback_data = callback_data;
     }
 
     protected void notifyProtocolCallback() {
-        if (cb != null)
+        if (cb != null) {
             cb.socketUpdated(callback_data, getLocalPort(), null);
+        }
     }
 
+    @Override
     public String getHostName() {
         return null;
     }
 
+    @Override
     public boolean canPause() {
         return true;
     }
 
+    @Override
     public AbstractSelectableChannel getChannel() throws IOException {
         return null;
     }
 
+    @Override
     public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
         throw new UnsupportedOperationException("HttpProtocol is not a channel, can not change blocking state");
     }
@@ -112,12 +117,14 @@ public class HTTPProtocol implements Protocol {
 
         if (servletHost != null || servletPort != -1) {
             String host = servletHost;
-            if (host == null)
+            if (host == null) {
                 host = InetAddress.getLocalHost().getHostAddress();
+            }
 
             int port = servletPort;
-            if (port == -1)
+            if (port == -1) {
                 port = HttpTunnelDefaults.DEFAULT_HTTP_TUNNEL_PORT;
+            }
 
             InetAddress paddr = InetAddress.getLocalHost();
             InetAddress saddr = InetAddress.getByName(host);
@@ -167,9 +174,11 @@ public class HTTPProtocol implements Protocol {
         return new HTTPStreams(socket, inputBufferSize, outputBufferSize);
     }
 
+    @Override
     public ProtocolStreams accept() throws IOException {
-        if (serversocket == null)
+        if (serversocket == null) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Unable to accept on un-opened protocol"));
+        }
 
         HttpTunnelSocket s = serversocket.accept();
         s.setPullPeriod(pullPeriod);
@@ -179,24 +188,29 @@ public class HTTPProtocol implements Protocol {
         return streams;
     }
 
+    @Override
     public void open() throws IOException, IllegalStateException {
-        if (serversocket != null)
+        if (serversocket != null) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "can not open already opened protocol"));
+        }
 
         if (serversocket == null) {
             synchronized (this) {
-                if (serversocket == null)
+                if (serversocket == null) {
                     serversocket = createSocket();
+                }
             }
         }
 
         notifyProtocolCallback(); // ok-> socket is creates, callback
     }
 
+    @Override
     public boolean isOpen() {
         return serversocket != null;
     }
 
+    @Override
     public void close() throws IOException, IllegalStateException {
         synchronized (this) {
             if (serversocket != null) {
@@ -208,13 +222,16 @@ public class HTTPProtocol implements Protocol {
         }
     }
 
+    @Override
     public int getLocalPort() {
         return 0;
     }
 
+    @Override
     public void checkParameters(Map params) throws IllegalArgumentException {
     }
 
+    @Override
     public Map setParameters(Map params) {
         boolean active = serversocket != null;
 
@@ -227,9 +244,9 @@ public class HTTPProtocol implements Protocol {
         if ((servletHost != null && !servletHost.equalsIgnoreCase(newServletHost)) || servletPort != newServletPort) {
             /*
              * Because of a bug in HttpTunnelServerSocket in JMQ 2.0 we cannot close and reopen the listening socket.
-             * 
+             *
              * Uncomment this code when the HttpTunnelServerSocket bug is fixed.
-             * 
+             *
              * if (active) { try { close(); } catch (Exception ex) { } }
              */
 
@@ -245,8 +262,9 @@ public class HTTPProtocol implements Protocol {
 
     private int getIntValue(String propname, Map params, int defval) {
         String propvalstr = (String) params.get(propname);
-        if (propvalstr == null)
+        if (propvalstr == null) {
             return defval;
+        }
         try {
             int val = Integer.parseInt(propvalstr);
             return val;
@@ -257,15 +275,18 @@ public class HTTPProtocol implements Protocol {
 
     private String getStringValue(String propname, Map params, String defval) {
         String propvalstr = (String) params.get(propname);
-        if (propvalstr == null)
+        if (propvalstr == null) {
             return defval;
+        }
         return propvalstr;
     }
 
+    @Override
     public String toString() {
         return "http [ " + serversocket + "]";
     }
 
+    @Override
     public void setNoDelay(boolean set) {
         // nodelay = set;
 
@@ -275,6 +296,7 @@ public class HTTPProtocol implements Protocol {
         // broker and servlet in the future
     }
 
+    @Override
     public void setTimeout(int val) {
         // LKS - XXX - 10/24/00
         // currently the no delay flag has no affect
@@ -282,22 +304,27 @@ public class HTTPProtocol implements Protocol {
         // broker and servlet in the future
     }
 
+    @Override
     public void setInputBufferSize(int val) {
         inputBufferSize = val;
     }
 
+    @Override
     public void setOutputBufferSize(int val) {
         outputBufferSize = val;
     }
 
+    @Override
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
+    @Override
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
 
+    @Override
     public boolean getBlocking() {
         return true;
     }

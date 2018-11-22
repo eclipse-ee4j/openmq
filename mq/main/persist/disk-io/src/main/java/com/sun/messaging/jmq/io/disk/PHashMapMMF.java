@@ -57,6 +57,10 @@ import java.nio.*;
  */
 public class PHashMapMMF extends PHashMap {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6780012333511111718L;
     // Client data info for partial entry udpate optimization
     static final byte[] CLIENT_DATA_MARKER = { '%', 'C', 'D' }; // CD's marker
     static final byte[] EMPTY_CLIENT_DATA_MARKER = { 0, 0, 0 }; // Empty marker
@@ -65,7 +69,7 @@ public class PHashMapMMF extends PHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
      * @param reset If true, all data in the file will be cleared.
@@ -78,7 +82,7 @@ public class PHashMapMMF extends PHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param size Initialize size of backing file.
      * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
@@ -92,7 +96,7 @@ public class PHashMapMMF extends PHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param size Initialize size of backing file.
      * @param mapCapacity Initialize map capacity.
@@ -105,6 +109,7 @@ public class PHashMapMMF extends PHashMap {
         super(filename, size, mapCapacity, safe, reset, isMinimumWrites, interruptSafe);
     }
 
+    @Override
     protected void initBackingFile(File filename, long size, boolean isMinimumWrites, boolean interruptSafe) {
         backingFile = new VRFileMap(filename, size, isMinimumWrites, interruptSafe);
     }
@@ -118,6 +123,7 @@ public class PHashMapMMF extends PHashMap {
         maxClientDataSize = size;
     }
 
+    @Override
     public void load(ObjectInputStreamCallback ocb) throws IOException, ClassNotFoundException, PHashMapLoadException {
 
         PHashMapLoadException loadException = null;
@@ -222,6 +228,7 @@ public class PHashMapMMF extends PHashMap {
     /**
      * Maps the specified key to the specified value in this HashMap. The entry will be persisted in the backing file.
      */
+    @Override
     Object doPut(Object key, Object value, boolean putIfAbsent) {
         checkLoaded();
 

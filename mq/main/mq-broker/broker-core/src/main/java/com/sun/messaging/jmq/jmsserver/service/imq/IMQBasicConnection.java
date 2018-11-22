@@ -22,29 +22,20 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.util.IMQBlockingQueue;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
-import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.io.ReadOnlyPacket;
-import com.sun.messaging.jmq.io.ReadWritePacket;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.security.Principal;
-import com.sun.messaging.jmq.jmsservice.HandOffQueue;
 import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.service.MetricManager;
-import com.sun.messaging.jmq.util.lists.*;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 public abstract class IMQBasicConnection extends IMQConnection {
     String remoteConString = null;
@@ -124,6 +115,7 @@ public abstract class IMQBasicConnection extends IMQConnection {
         router = r;
     }
 
+    @Override
     public boolean setConnectionState(int state) {
         this.state = state;
         return true; // default impl
@@ -133,8 +125,9 @@ public abstract class IMQBasicConnection extends IMQConnection {
      * Count an incoming packet
      */
     public void countInPacket(Packet pkt) {
-        if (pkt == null)
+        if (pkt == null) {
             return;
+        }
         if (pkt.getPacketType() <= PacketType.MESSAGE && pkt.getPacketType() >= PacketType.TEXT_MESSAGE) {
 
             // It's a JMS message, update both packet and message counters
@@ -149,8 +142,9 @@ public abstract class IMQBasicConnection extends IMQConnection {
      * Count outgoing packet
      */
     public void countOutPacket(Packet pkt) {
-        if (pkt == null)
+        if (pkt == null) {
             return;
+        }
         if (pkt.getPacketType() <= PacketType.MESSAGE && pkt.getPacketType() >= PacketType.TEXT_MESSAGE) {
 
             // It's a JMS message, update both packet and message counters
@@ -173,6 +167,7 @@ public abstract class IMQBasicConnection extends IMQConnection {
         return;
     }
 
+    @Override
     protected void sayGoodbye(int reason, String reasonstr) {
         sayGoodbye(false, reason, reasonstr);
     }
@@ -188,9 +183,11 @@ public abstract class IMQBasicConnection extends IMQConnection {
         sendControlMessage(goodbye_pkt);
     }
 
+    @Override
     protected void sendConsumerInfo(int requestType, String destName, int destType, int infoType) {
-        if (state >= STATE_CLOSED)
+        if (state >= STATE_CLOSED) {
             return;
+        }
 
         Packet info_pkt = new Packet(useDirectBuffers());
         info_pkt.setPacketType(PacketType.INFO);
@@ -225,6 +222,7 @@ public abstract class IMQBasicConnection extends IMQConnection {
     /**
      * default toString method, sub-classes should override
      */
+    @Override
     public String toString() {
         return "IMQConn[" + getConnectionUID() + ", " + getConnectionStateString(state) + ", " + getRemoteConnectionString() + ", " + localsvcstring + "]";
     }
@@ -232,10 +230,12 @@ public abstract class IMQBasicConnection extends IMQConnection {
     /**
      * methods used by debugging, subclasses should override
      */
+    @Override
     public String toDebugString() {
         return super.toString() + " state: " + state;
     }
 
+    @Override
     public String remoteHostString() {
         if (remoteHostString == null) {
             try {
@@ -248,9 +248,11 @@ public abstract class IMQBasicConnection extends IMQConnection {
         return remoteHostString;
     }
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -264,23 +266,27 @@ public abstract class IMQBasicConnection extends IMQConnection {
                     userset = true;
                 }
             } catch (BrokerException e) {
-                if (DEBUG)
+                if (DEBUG) {
                     logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
 
             }
         }
 
         String retstr = userString + "@" + "Direct2" + ":" + getConnectionUID();
-        if (userset)
+        if (userset) {
             remoteConString = retstr;
+        }
         return retstr;
     }
 
     String localsvcstring = null;
 
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         localsvcstring = service.getName();
         return localsvcstring;
     }

@@ -23,7 +23,7 @@ import javax.jms.JMSException;
 /**
  *
  * @author chiaming
- * 
+ *
  * XXX chiaming: multivendor support
  */
 public class DestinationService {

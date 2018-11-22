@@ -17,7 +17,7 @@
 package com.sun.messaging.bridge.service.jms;
 
 /**
- * 
+ *
  * @author amyk
  *
  */

@@ -58,8 +58,9 @@ public class ConvertPacket {
 
         // If we are VERSION2 ... dont do anything
         // EXCEPT convert the properties
-        if (oldversion == Packet.VERSION2)
+        if (oldversion == Packet.VERSION2) {
             return;
+        }
 
         msg.setVersion(targetVersion);
 
@@ -139,8 +140,9 @@ public class ConvertPacket {
         try {
             for (int i = 0; i < ackcount; i++) {
                 Long newid = (Long) interest_to_consumer.get(Integer.valueOf(clientids[i]));
-                if (newid == null)
+                if (newid == null) {
                     continue;
+                }
 
                 dos.writeLong(newid.longValue());
                 sysids[i].writeID(dos);
@@ -167,14 +169,15 @@ public class ConvertPacket {
         Integer oldid = (Integer) consumer_to_interest.get(newid);
         if (oldid == null) { // try deliver
             oldid = (Integer) consumer_to_deliver.get(newid);
-            if (oldid != null && msg.getIsLast())
+            if (oldid != null && msg.getIsLast()) {
                 consumer_to_deliver.remove(newid);
+            }
         }
         if (oldid == null) { // consumer no longer exists
             Globals.getLogger().log(Logger.DEBUG, "Throwing out packet, could not find " + "old consumer id for new id " + newid);
             return; // throw out packet
         }
-        msg.setConsumerID((long) oldid.intValue());
+        msg.setConsumerID(oldid.intValue());
     }
 
     /* map old id -> new ID */

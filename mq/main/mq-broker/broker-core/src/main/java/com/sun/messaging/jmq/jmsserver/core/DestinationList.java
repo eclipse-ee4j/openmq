@@ -29,11 +29,9 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.SupportUtil;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.selector.*;
-import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.util.DestLimitBehavior;
 import com.sun.messaging.jmq.util.DestScope;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.timer.*;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
@@ -44,7 +42,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
@@ -344,6 +341,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         return REMOTEP;
     }
 
+    @Override
     public PartitionedStore getPartitionedStore() {
         return pstore;
     }
@@ -503,8 +501,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     static int calcProducerBatchCnt(int destSize, int producers) {
 
-        if (destSize == -1)
+        if (destSize == -1) {
             return MAX_PRODUCER_BATCH;
+        }
 
         int p = producers;
         if (p <= 0) {
@@ -513,19 +512,22 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         int val = destSize / p;
 
-        if (val <= 0)
+        if (val <= 0) {
             val = 1;
+        }
 
-        if (val > MAX_PRODUCER_BATCH)
+        if (val > MAX_PRODUCER_BATCH) {
             return MAX_PRODUCER_BATCH;
+        }
 
         return val;
     }
 
     static long calcProducerBatchBytes(long destSize, int producers) {
 
-        if (destSize == -1)
+        if (destSize == -1) {
             return -1;
+        }
 
         int p = producers;
         if (p <= 0) {
@@ -534,11 +536,13 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         long val = destSize / p;
 
-        if (val <= 0)
+        if (val <= 0) {
             val = 1;
+        }
 
-        if (MAX_PRODUCER_BYTES_BATCH != -1 && val > MAX_PRODUCER_BYTES_BATCH)
+        if (MAX_PRODUCER_BYTES_BATCH != -1 && val > MAX_PRODUCER_BYTES_BATCH) {
             return MAX_PRODUCER_BYTES_BATCH;
+        }
 
         return val;
     }
@@ -567,6 +571,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
+    @Override
     public String toString() {
         return (partitionMode ? "[" + pstore + "]" : super.toString());
     }
@@ -652,8 +657,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             me = (Map.Entry) citr.next();
             cuid = (ConsumerUID) me.getKey();
             consumer = Consumer.getConsumer(cuid);
-            if (consumer == null)
+            if (consumer == null) {
                 continue;
+            }
             if (consumer.tobeRecreated()) {
                 destroyConns.add(me.getValue());
             }
@@ -717,9 +723,10 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     throw e;
                 }
             }
-            PacketReference ref = (PacketReference) get(null, sysid);
-            if (ref == null)
+            PacketReference ref = get(null, sysid);
+            if (ref == null) {
                 continue;
+            }
             Iterator cnitr = ref.getRemoteConsumerUIDs().values().iterator();
             while (cnitr.hasNext()) {
                 destroyConns.add(cnitr.next());
@@ -801,11 +808,13 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         Iterator cnitr = destroyConns.iterator();
         while (cnitr.hasNext()) {
             IMQBasicConnection conn = (IMQBasicConnection) cm.getConnection((ConnectionUID) cnitr.next());
-            if (conn == null)
+            if (conn == null) {
                 continue;
+            }
             Globals.getLogger().log(Logger.INFO, "Destroying connection " + conn + " because " + reasonstr);
-            if (DEBUG)
+            if (DEBUG) {
                 conn.dump();
+            }
             conn.destroyConnection(true, reason, reasonstr);
             conn.waitForRelease(Globals.getConfig().getLongProperty(Globals.IMQ + "." + conn.getService().getName() + ".destroy_timeout", 30) * 1000);
         }
@@ -1071,8 +1080,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                                     pr.getSysMessageID(), ex.getMessage()), ex);
                         }
                         states = new int[consumers.length];
-                        for (int i = 0; i < states.length; i++)
+                        for (int i = 0; i < states.length; i++) {
                             states[i] = PartitionedStore.INTEREST_STATE_ROUTED;
+                        }
                         try {
                             storep.storeInterestStates(d.getDestinationUID(), pr.getSysMessageID(), consumers, states, true, null);
                             pr.setStoredWithInterest(true);
@@ -1080,8 +1090,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                             // message already routed
                             StringBuffer debuf = new StringBuffer();
                             for (int i = 0; i < consumers.length; i++) {
-                                if (i > 0)
+                                if (i > 0) {
                                     debuf.append(", ");
+                                }
                                 debuf.append(consumers[i]);
                             }
                             logger.log(logger.WARNING, BrokerResources.W_TAKEOVER_MSG_ALREADY_ROUTED, pr.getSysMessageID(), debuf.toString(), ex);
@@ -1167,7 +1178,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                         StringBuffer buf = new StringBuffer();
                         ConsumerUID cid = null;
                         for (int j = 0; j < consumerList.size(); j++) {
-                            cid = (ConsumerUID) consumerList.get(j);
+                            cid = consumerList.get(j);
                             buf.append(cid);
                             buf.append(" ");
                         }
@@ -1207,6 +1218,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     /**
      * @deprecated remove
      */
+    @Deprecated
     public static String getUniqueName(boolean isQueue, String name) {
         return DestinationUID.getUniqueString(name, isQueue);
     }
@@ -1448,8 +1460,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     private void addDestination(Destination d, boolean throwRT) {
         synchronized (destinationList) {
             if (destinationList.get(d.getDestinationUID()) != null) {
-                if (throwRT)
+                if (throwRT) {
                     throw new RuntimeException("Destination " + d + " is also being" + " created by another broker");
+                }
                 return;
             }
 
@@ -1491,8 +1504,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         while (itr.hasNext()) {
             Destination d = (Destination) itr.next();
             boolean loaded = d.loaded;
-            if (loaded)
+            if (loaded) {
                 d.unload(true);
+            }
             LinkedHashMap m = d.load(false, inprocessAcks, openTrans, committingTrans, null, false);
             if (m != null) {
                 prepared.putAll(m);
@@ -1888,8 +1902,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
         Destination d = createDestination(name, type, true, false, null, true, false);
 
-        if (d != null && !d.isDestInited())
+        if (d != null && !d.isDestInited()) {
             d.initialize();
+        }
 
         return d;
     }
@@ -2246,8 +2261,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                     logger.log(Logger.WARNING, br.getKString(br.W_REMOVING_DST_WITH_MSG, String.valueOf(d.size()), d.toString()) + logsuffix);
                 }
                 d.destroy(reason, noerrnotfound);
-                if (notify && d.sendClusterUpdate())
+                if (notify && d.sendClusterUpdate()) {
                     Globals.getClusterBroadcast().destroyDestination(d);
+                }
 
                 Agent agent = Globals.getAgent();
                 if (agent != null) {
@@ -2360,10 +2376,12 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
     }
 
     private static ConfigListener cl = new ConfigListener() {
+        @Override
         public void validate(String name, String value) throws PropertyUpdateException {
 
         }
 
+        @Override
         public boolean update(String name, String value) {
             BrokerConfig cfg = Globals.getConfig();
             if (name.equals(SYSTEM_MAX_SIZE)) {
@@ -2558,7 +2576,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         while (itr.hasNext()) {
             dl = itr.next();
             dl.loadDestinations();
-            addPartitionListener((PartitionListener) dl.getTransactionList());
+            addPartitionListener(dl.getTransactionList());
             notifyPartitionAdded(dl.getPartitionedStore(), dl);
         }
     }
@@ -2645,7 +2663,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
                 Consumer.attachConsumers(dl);
                 destinationListList.put(ps, dl);
                 tl.postProcess();
-                addPartitionListener((PartitionListener) tl);
+                addPartitionListener(tl);
                 notifyPartitionAdded(ps, dl);
             }
         } finally {
@@ -2867,12 +2885,14 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         }
     }
 
+    @Override
     public int getConnectionCount() {
         synchronized (connections) {
             return connections.size();
         }
     }
 
+    @Override
     public long getPersistMessageCount() {
         // XXX to be implemented
         return 0L;
@@ -2885,8 +2905,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
      */
     public static void setIndividualMessageMax(SizeString size) {
 
-        if (size == null)
+        if (size == null) {
             size = new SizeString();
+        }
 
         individual_max_size = size;
         long bytesize = size.getBytes();
@@ -2906,8 +2927,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
         Packet.setMaxPacketSize(bytesize);
 
         // update memory
-        if (Globals.getMemManager() != null)
+        if (Globals.getMemManager() != null) {
             Globals.getMemManager().updateMaxMessageSize(bytesize);
+        }
 
     }
 
@@ -2933,8 +2955,9 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
      */
     public static void setMaxSize(SizeString size) {
 
-        if (size == null)
+        if (size == null) {
             size = new SizeString();
+        }
         max_size = size;
     }
 
@@ -2959,7 +2982,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             Iterator<DestinationList> itr = destinationListList.values().iterator();
             while (itr.hasNext()) {
                 dl = itr.next();
-                DestinationUID uid = (DestinationUID) dl.getPacketListFirst(id);
+                DestinationUID uid = dl.getPacketListFirst(id);
                 if (uid == null) {
                     continue;
                 }
@@ -2982,15 +3005,18 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     PacketReference get(SysMessageID id, boolean wait) {
 
-        DestinationUID uid = (DestinationUID) getPacketListFirst(id);
-        if (uid == null)
+        DestinationUID uid = getPacketListFirst(id);
+        if (uid == null) {
             return null;
+        }
         Destination d = (Destination) destinationList.get(uid);
-        if (d == null)
+        if (d == null) {
             return null;
+        }
         PacketReference ref = (PacketReference) d.destMessages.get(id);
-        if (ref == null)
+        if (ref == null) {
             return null;
+        }
         return ref.checkLock(wait);
     }
 
@@ -3007,22 +3033,25 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
 
     private boolean isLocked(SysMessageID id) {
 
-        DestinationUID uid = (DestinationUID) getPacketListFirst(id);
-        if (uid == null)
+        DestinationUID uid = getPacketListFirst(id);
+        if (uid == null) {
             return false;
+        }
         Destination d = (Destination) destinationList.get(uid);
-        if (d == null)
+        if (d == null) {
             return false;
+        }
         PacketReference ref = (PacketReference) d.destMessages.get(id);
-        if (ref == null)
+        if (ref == null) {
             return false;
+        }
         return (ref.checkLock(false) == null);
     }
 
     /**
      * adds information on the new message to the globals tables. It may or may not change the size (since the size may
      * already have been taken into account
-     * 
+     *
      * @param checkLimits true if message is new, false if it is just being loaded into memory
      * @param ref the reference to use
      * @return true if the message was added, false it if wasnet because it had expired
@@ -3211,6 +3240,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             this.brokerID = brokerID;
         }
 
+        @Override
         public void run() {
             if (shutdown) {
                 return;
@@ -3272,6 +3302,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             }
         }
 
+        @Override
         public String toString() {
             StringBuffer buf = new StringBuffer();
             switch (type) {
@@ -3303,6 +3334,7 @@ public final class DestinationList implements ConnToPartitionStrategyContext {
             this.task = task;
         }
 
+        @Override
         public void run() {
             if (shutdown) {
                 cancel();

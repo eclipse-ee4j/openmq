@@ -25,10 +25,8 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 
 /**
  * Handler class which deals with handling error messages
@@ -38,6 +36,7 @@ public class ErrorHandler extends PacketHandler {
     /**
      * Method to handle error messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         Exception ex = new Exception();
         ex.fillInStackTrace();

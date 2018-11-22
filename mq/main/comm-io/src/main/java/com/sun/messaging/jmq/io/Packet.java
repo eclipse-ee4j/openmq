@@ -23,12 +23,10 @@ package com.sun.messaging.jmq.io;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 import java.io.*;
 import java.nio.ByteBuffer;
 import java.nio.channels.*;
 import com.sun.messaging.jmq.io.JMSPacket;
-import com.sun.messaging.jmq.util.JMQXid;
 
 /**
  *
@@ -353,7 +351,7 @@ public class Packet implements JMSPacket {
         priority = buf.get();
         encryption = buf.get();
 
-        bitFlags = (int) (buf.getShort());
+        bitFlags = (buf.getShort());
 
         // In VERSION2 the consumerID is a long
         if (version == VERSION1) {
@@ -390,11 +388,11 @@ public class Packet implements JMSPacket {
 
     /**
      * Return whether this is a reply packet
-     * 
+     *
      * By convention, a reply packet has a packetType which is odd and is >=9
-     * 
+     *
      * In addition, a AUTHENTICATE_REQUEST is considered a reply despite having an odd packetType
-     * 
+     *
      * @return whether this is a reply packet
      */
     public boolean isReply() {
@@ -408,7 +406,6 @@ public class Packet implements JMSPacket {
             updateBuffers();
         } catch (IOException e) {
         }
-        ;
         return packetSize;
     }
 
@@ -463,7 +460,6 @@ public class Packet implements JMSPacket {
             updateBuffers();
         } catch (IOException e) {
         }
-        ;
         return propertyOffset;
     }
 
@@ -472,7 +468,6 @@ public class Packet implements JMSPacket {
             updateBuffers();
         } catch (IOException e) {
         }
-        ;
         return propertySize;
     }
 
@@ -558,7 +553,7 @@ public class Packet implements JMSPacket {
      * unique message ID generated from the timestamp, sequence number, port number and IP address of the packet.
      * <P>
      * WARNING! This returns a references to the Packet's SysMessageID not a copy.
-     * 
+     *
      * @return The packet's system MessageID
      *
      */
@@ -1629,6 +1624,7 @@ public class Packet implements JMSPacket {
     /**
      * Return a unique string that identifies the packet
      */
+    @Override
     public synchronized String toString() {
         return PacketType.getString(packetType) + ":" + sysMessageID.toString();
     }
@@ -1683,8 +1679,9 @@ public class Packet implements JMSPacket {
      */
     public synchronized void dump(PrintStream os, String prefix) {
 
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "********";
+        }
 
         try {
             updateBuffers();
@@ -1706,20 +1703,27 @@ public class Packet implements JMSPacket {
         if (getDeliveryCount() != 0) {
             os.println("      DeliveryCount: " + getDeliveryCount());
         }
-        if (getDestination() != null)
+        if (getDestination() != null) {
             os.println("     Destination: " + getDestination());
-        if (getDestinationClass() != null)
+        }
+        if (getDestinationClass() != null) {
             os.println("DestinationClass: " + getDestinationClass());
-        if (getMessageID() != null)
+        }
+        if (getMessageID() != null) {
             os.println("       MessageID: " + getMessageID());
-        if (getCorrelationID() != null)
+        }
+        if (getCorrelationID() != null) {
             os.println("   CorrelationID: " + getCorrelationID());
-        if (getReplyTo() != null)
+        }
+        if (getReplyTo() != null) {
             os.println("         ReplyTo: " + getReplyTo());
-        if (getReplyToClass() != null)
+        }
+        if (getReplyToClass() != null) {
             os.println("    ReplyToClass: " + getReplyToClass());
-        if (getMessageType() != null)
+        }
+        if (getMessageType() != null) {
             os.println("     MessageType: " + getMessageType());
+        }
 
         os.flush();
 
@@ -1874,8 +1878,9 @@ public class Packet implements JMSPacket {
      */
     private void readFully(InputStream in, byte b[], int off, int len, boolean retry) throws IOException, EOFException, InterruptedIOException {
 
-        if (len < 0)
+        if (len < 0) {
             throw new IndexOutOfBoundsException();
+        }
 
         int n = 0;
         int count;
@@ -2100,7 +2105,7 @@ public class Packet implements JMSPacket {
                     i++;
                 } else {
                     // More left in the buffer. Try same bufer again
-                    ;
+                    
                 }
             } else {
                 // Buffer has nothing left. Go to next buffer
@@ -2132,7 +2137,7 @@ public class Packet implements JMSPacket {
                     i++;
                 } else {
                     // More space in the buffer. Try same buffer again
-                    ;
+                    
                 }
             } else {
                 // Buffer has no more space. Go to next buffer
@@ -2147,6 +2152,7 @@ public class Packet implements JMSPacket {
         return null;
     }
 
+    @Override
     public com.sun.messaging.jmq.io.Packet getPacket() {
         return this;
     }

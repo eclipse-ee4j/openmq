@@ -81,7 +81,7 @@ public class Client {
 
     /**
      * set to true if no cache
-     * 
+     *
      * @param flag
      */
     public void setNoCache(boolean flag) {
@@ -90,7 +90,7 @@ public class Client {
 
     /**
      * get if no cache mode is true
-     * 
+     *
      * @return
      */
     public boolean getNoCache() {
@@ -230,6 +230,7 @@ public class Client {
         }
     }
 
+    @Override
     public String toString() {
         return "Name=" + this.getClass().getName() + ", ClientId=" + this.sid + ", inuse=" + this.inuse + ", timestamp=" + this.timestamp;
     }

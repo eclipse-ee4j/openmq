@@ -149,10 +149,11 @@ public interface UserMgrOptions {
             this.name = n;
         }
 
+        @Override
         public String toString() {
             return name;
         }
-    };
+    }
 
     /*
      * List of characters that cannot be used in usernames
@@ -169,7 +170,7 @@ public interface UserMgrOptions {
         public char getChar() {
             return name;
         }
-    };
+    }
 
     public static final String DEFAULT_ENCODE_PREFIX = ".encode";
     public static final String DEFAULT_DECODE_PREFIX = ".decode";

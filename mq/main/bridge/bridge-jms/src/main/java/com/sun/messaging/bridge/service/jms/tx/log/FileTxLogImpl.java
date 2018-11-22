@@ -19,24 +19,15 @@ package com.sun.messaging.bridge.service.jms.tx.log;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.Properties;
 import java.util.Enumeration;
-import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.ObjectInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.FileOutputStream;
-import java.io.FileInputStream;
-import java.io.BufferedWriter;
-import java.io.BufferedReader;
-import java.io.OutputStreamWriter;
-import java.io.InputStreamReader;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 import com.sun.messaging.jmq.io.disk.PHashMap;
@@ -87,6 +78,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     public FileTxLogImpl() {
     }
 
+    @Override
     public String getType() {
         return _type;
     }
@@ -97,8 +89,9 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * needed if use memory mapped file
      */
     public void setMaxBranches(int v) throws Exception {
-        if (v < 0)
+        if (v < 0) {
             throw new IllegalArgumentException("Invalid maximum branches " + v);
+        }
         _clientDataSize = v;
     }
 
@@ -158,6 +151,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         _txlogdirParent = dir;
     }
 
+    @Override
     public void logGlobalDecision(LogRecord lr) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "txlog: log global decision  " + lr);
@@ -174,14 +168,16 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
                 _logger.log(Level.SEVERE, emsg);
                 throw new IllegalStateException(emsg);
             }
-            if (_sync)
+            if (_sync) {
                 _gxidMap.force(key);
+            }
 
         } finally {
             super.setInProgress(false);
         }
     }
 
+    @Override
     public LogRecord getLogRecord(GlobalXid gxid) throws Exception {
         return getLogRecord(gxid.toString());
     }
@@ -205,6 +201,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
     /**
      * branch heuristic decision should be already set in lr
      */
+    @Override
     public void logHeuristicBranch(BranchXid bxid, LogRecord lr) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "txlog: log branch heuristic decision  " + lr);
@@ -217,8 +214,9 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             LogRecord oldlr = (LogRecord) _gxidMap.get(key);
             if (oldlr == null) {
                 logGlobalDecision(lr);
-                if (_sync)
+                if (_sync) {
                     _gxidMap.force(key);
+                }
                 return;
             }
             if (oldlr.getBranchDecision(bxid) == lr.getBranchDecision(bxid)) {
@@ -235,14 +233,16 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             } else {
                 _gxidMap.put(key, oldlr);
             }
-            if (_sync)
+            if (_sync) {
                 _gxidMap.force(key);
+            }
 
         } finally {
             super.setInProgress(false);
         }
     }
 
+    @Override
     public void reap(String gxid) throws Exception {
         String key = gxid;
 
@@ -259,14 +259,16 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
                 _logger.log(Level.SEVERE, emsg);
                 throw new IllegalArgumentException(emsg);
             }
-            if (_sync)
+            if (_sync) {
                 _gxidMap.force(key);
+            }
 
         } finally {
             super.setInProgress(false);
         }
     }
 
+    @Override
     public List<LogRecord> getAllLogRecords() throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "txlog: get all log records");
@@ -308,10 +310,12 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         }
     }
 
+    @Override
     public ObjectInputStream getObjectInputStream(ByteArrayInputStream bis) throws IOException {
         return new FilteringObjectInputStream(bis);
     }
 
+    @Override
     public void init(Properties props, boolean reset) throws Exception {
         if (_logger == null) {
             throw new IllegalStateException("No logger set");
@@ -416,8 +420,9 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
 
     private void loadClientData() throws PHashMapLoadException {
 
-        if (!_useMmappedFile)
+        if (!_useMmappedFile) {
             return;
+        }
 
         PHashMapLoadException loadException = null;
 
@@ -428,8 +433,9 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             Object key = entry.getKey();
             LogRecord value = (LogRecord) entry.getValue();
             int cnt = value.getBranchCount();
-            if (cnt <= 0)
+            if (cnt <= 0) {
                 continue;
+            }
             byte[] cdata = null;
             try {
                 cdata = ((PHashMapMMF) _gxidMap).getClientData(key);
@@ -455,13 +461,15 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
         }
     }
 
+    @Override
     public void close() throws Exception {
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_FILETXNLOG_CLOSE, _backFile, String.valueOf(_gxidMap.size())));
 
         super.setClosedAndWait();
         super.close();
-        if (_gxidMap != null)
+        if (_gxidMap != null) {
             _gxidMap.close();
+        }
     }
 
     /***************************************************************
@@ -480,9 +488,10 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void storeTMLogRecord(String xid, byte[] logRecord, String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
-        ObjectInputStream ois = new FilteringObjectInputStream(new ByteArrayInputStream((byte[]) logRecord));
+        ObjectInputStream ois = new FilteringObjectInputStream(new ByteArrayInputStream(logRecord));
         LogRecord lr = (LogRecord) ois.readObject();
 
         logGlobalDecision(lr);
@@ -500,6 +509,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void updateTMLogRecord(String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist, boolean sync,
             java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         throw new UnsupportedOperationException("updateTMLogRecord");
@@ -514,6 +524,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void removeTMLogRecord(String xid, String name, boolean sync, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         throw new UnsupportedOperationException("removeTMLogRecord");
     }
@@ -527,10 +538,12 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return null if not found
      * @exception Exception if error
      */
+    @Override
     public byte[] getTMLogRecord(String xid, String name, java.util.logging.Logger logger_) throws Exception {
         LogRecord lr = getLogRecord(xid);
-        if (lr != null)
+        if (lr != null) {
             return lr.toBytes();
+        }
         return null;
     }
 
@@ -542,6 +555,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordUpdatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         throw new UnsupportedOperationException("getTMLogRecordUpdatedTime");
     }
@@ -554,9 +568,11 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordCreatedTime(String xid, String name, java.util.logging.Logger logger_) throws Exception {
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
+        }
         throw new UnsupportedOperationException("getTMLogRecordCreatedTime");
     }
 
@@ -568,6 +584,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return a list of log records
      * @exception Exception if error
      */
+    @Override
     public List getTMLogRecordsByName(String name, java.util.logging.Logger logger_) throws Exception {
         throw new UnsupportedOperationException("getTMLogRecordsByName");
     }
@@ -580,6 +597,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return a list of keys
      * @exception Exception if error
      */
+    @Override
     public List<String> getTMLogRecordKeysByName(String name, java.util.logging.Logger logger_) throws Exception {
         if (!_jmsbridge.equals(name)) {
             throw new IllegalArgumentException("Unexpected jmsbridge name " + name + " expected " + _jmsbridge);
@@ -599,6 +617,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void addJMSBridge(String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
         throw new UnsupportedOperationException("addJMSBridge");
     }
@@ -612,6 +631,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return a list of names
      * @exception Exception if error
      */
+    @Override
     public List getJMSBridges(java.util.logging.Logger logger_) throws Exception {
         if (_txlogdirParent == null) {
             throw new UnsupportedOperationException("getJMSBridges: txlogDirParent property not available");
@@ -625,8 +645,9 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
             throw new IOException("Can't list files in " + _txlogdirParent);
         }
 
-        if (files.length == 0)
+        if (files.length == 0) {
             return null;
+        }
 
         List bridges = new ArrayList();
         for (int i = 0; i < files.length; i++) {
@@ -643,6 +664,7 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return updated time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeUpdatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         throw new UnsupportedOperationException("addJMSBridge");
     }
@@ -653,10 +675,12 @@ public class FileTxLogImpl extends TxLog implements JMSBridgeStore, ObjectInputS
      * @return created time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeCreatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         throw new UnsupportedOperationException("addJMSBridge");
     }
 
+    @Override
     public void closeJMSBridgeStore() throws Exception {
         close();
     }

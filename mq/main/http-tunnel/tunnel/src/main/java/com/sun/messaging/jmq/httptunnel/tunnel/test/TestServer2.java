@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
-import java.io.*;
-import com.sun.messaging.jmq.httptunnel.tunnel.*;
 import com.sun.messaging.jmq.httptunnel.tunnel.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.HttpTunnelSocket;
 

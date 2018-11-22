@@ -157,7 +157,7 @@ public class Version {
     /**
      * Returns the properties object that holds the various version properties and their values. This is a private method ,
      * not for general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return Properties object holding the name value pair of the version property name and it's corresponding values
      */
     public Properties getProps() {
@@ -168,7 +168,7 @@ public class Version {
      * Returns the product version as a string The returned string has the information about the major release, minor
      * release and service packs if any example 3.6 SP1 This is a private method , not for general use.This method may be
      * removed in the future release without further warning
-     * 
+     *
      * @return String representing the product version
      */
     public String getProductVersion() {
@@ -178,7 +178,7 @@ public class Version {
     /**
      * Returns the Major release of the Product version for example if the release value is 3.6.1 then the major version
      * value will be 3.
-     * 
+     *
      * @return an integer representing the major release version value if there is an exception returns -1
      */
     public int getMajorVersion() {
@@ -193,7 +193,7 @@ public class Version {
     /**
      * Returns the Minor release of the Product version for example if the release value is 3.6.1 then the returned value of
      * minor version will be 6
-     * 
+     *
      * @return an integer representing the minor release version value if there is an exception returns -1
      */
     public int getMinorVersion() {
@@ -208,7 +208,7 @@ public class Version {
      * Returns the value of the particular version property for example if the requested property is 'imq.product.version'
      * the returned value will be 3.6 This is a private method , not for general use.This method may be removed in the
      * future release without further warning
-     * 
+     *
      * @param name String representing the name of the property whose value is desired
      * @return String representing the value of the desired property
      */
@@ -219,7 +219,7 @@ public class Version {
     /**
      * Returns the Build Mile Stone value of the product being used for example 'Beta' This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the Milestone Build value of the product
      */
     public String getBuildMilestone() {
@@ -235,7 +235,7 @@ public class Version {
      * Returns the Build date value of the product in the following format 'Day Month Date Time Year' example Mon June 1
      * 09:03:29 IST 2007 This is a private method , not for general use.This method may be removed in the future release
      * without further warning
-     * 
+     *
      * @return String representing the date of the build of the product being used
      */
     public String getBuildDate() {
@@ -246,7 +246,7 @@ public class Version {
      * Returns the Build version value of the product The returned string is the concatnated value of the product
      * version,build number and promoted build. This is a private method , not for general use.This method may be removed in
      * the future release without further warning
-     * 
+     *
      * @return String representing the Build Version of the product being used
      */
     public String getBuildVersion() {
@@ -256,18 +256,19 @@ public class Version {
 
     /**
      * Returns the product name example Oracle GlassFish(tm) Server Message Queue
-     * 
+     *
      * @return String representing the name of the product
      */
     public String getProductName() {
-        if (isJar)
+        if (isJar) {
             return props.getProperty("imq.product.jarname");
+        }
         return props.getProperty("imq.product.name");
     }
 
     /**
      * Returns the product release qtr ID example 2004Q4
-     * 
+     *
      * @return String representing the release quarter ID
      */
     public String getReleaseQID() {
@@ -277,7 +278,7 @@ public class Version {
     /**
      * Returns the abbreviated name of the product, for example "MQ". This is a private method , not for general use.This
      * method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the abbreviated name of the product
      */
     public String getAbbreviatedProductName() {
@@ -287,7 +288,7 @@ public class Version {
     /**
      * Returns the lower case of the abbreviated name of the product, for example "mq". This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the abbreviated name of the product
      */
     public String getLowerCaseAbbreviatedProductName() {
@@ -297,7 +298,7 @@ public class Version {
     /**
      * Returns the short name of the product, for example "Message Queue". This is a private method , not for general
      * use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the short name of the product
      */
     public String getShortProductName() {
@@ -307,7 +308,7 @@ public class Version {
     /**
      * Returns the copyright date of the product example copyright 2007 This is a private method , not for general use.This
      * method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the copyright date of the product
      */
     public String getProductCopyrightDate() {
@@ -317,7 +318,7 @@ public class Version {
     /**
      * Returns the product company's name example Sun Microsystems Inc This is a private method , not for general use.This
      * method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the Product Company's name
      */
     public String getProductCompanyName() {
@@ -327,7 +328,7 @@ public class Version {
     /**
      * Returns the implementation package name of the product example (com.sun.messaging) This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the pacakge name
      */
     public String getVersionPackageName() {
@@ -336,7 +337,7 @@ public class Version {
 
     /**
      * Returns the implementation version of the product example 3.6
-     * 
+     *
      * @return String representing the implementation version of the product
      */
     public String getImplementationVersion() {
@@ -348,7 +349,7 @@ public class Version {
      * amongst the brokers.This value will tell which version is currently being used. If there are no change's then the
      * previous value will be carried forward and retuned. example 3.6 This is a private method , not for general use.This
      * method may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the protocol version of the product
      */
     public String getProtocolVersion() {
@@ -357,7 +358,7 @@ public class Version {
 
     /**
      * Returns the JMS API version the product implements example 1.1
-     * 
+     *
      * @return String representing the JMS API version which the product is compliant to
      */
     public String getTargetJMSVersion() {
@@ -366,7 +367,7 @@ public class Version {
 
     /**
      * Returns whether this is the commercial version of the product
-     * 
+     *
      * @return boolean True if this is the commercial product (ie SJSMQ), false if this is not the commercial version (ie
      * OpenMQ).
      */
@@ -383,8 +384,9 @@ public class Version {
      *
      */
     public boolean isProductValid() {
-        if (!isCommercialProduct())
+        if (!isCommercialProduct()) {
             return true;
+        }
         // ok, retrieve the major,micro,minor versions
         int major = getMajorVersion();
         int minor = getMinorVersion();
@@ -406,9 +408,9 @@ public class Version {
      * Operating System on which the product runs, the version of the operating system and the operating system architecture
      * example : SJSMQ/3.6 (JMS; SunOS 5.9 sun4u) This is a private method , not for general use.This method may be removed
      * in the future release without further warning
-     * 
+     *
      * @return the String representing the value of the UserAgent
-     * 
+     *
      */
     public String getUserAgent() {
         return getShortProductName() + "/" + getProductVersion() + " " + "(JMS; " + System.getProperty("os.name") + " " + System.getProperty("os.version") + " "
@@ -419,27 +421,28 @@ public class Version {
      * Returns the banner for the product. The banner comprises of the Product name,Company name Product version, Build
      * value, Build Date, Copyright value in a formatted manner This is a private method , not for general use.This method
      * may be removed in the future release without further warning
-     * 
+     *
      * @return String representing the banner
      */
+    @Override
     public String toString() {
         return getBanner(false);
     }
 
     /*
      * banner:
-     * 
+     *
      * ================================================================== Oracle GlassFish(tm) Server Message Queue Sun
      * Microsystems, Inc. Version: 3.6 [Alpha] (Build 143-a) Compile: Thu Feb 27 11:48:41 PST 2007
-     * 
+     *
      * <Short copyright notic> ==================================================================
-     * 
+     *
      */
     /**
      * Returns the header value for the banner being used for the product This header value will be for the SHORT_COPYRIGHT
      * value by default. This is a private method , not for general use.This method may be removed in the future release
      * without further warning
-     * 
+     *
      * @return a string reperesenting the header details
      */
     public String getHeader() {
@@ -449,7 +452,7 @@ public class Version {
     /**
      * Returns the header for the given copyright This is a private method , not for general use.This method may be removed
      * in the future release without further warning
-     * 
+     *
      * @param copyrightType an integer value of the valid copyright type MINI_COPYRIGHT, SHORT_COPYRIGHT, LONG_COPYRIGHT
      * @return String value of the header
      */
@@ -468,7 +471,7 @@ public class Version {
     /**
      * Return a version string suitable for use by the JMSRA resource adapter This is something like "GlassFish MQ JMS
      * Resource Adapter: Version: 4.5 (Build 23-k)Compile: 15/12/2012"
-     * 
+     *
      * @return
      */
     public String getRAVersion() {
@@ -478,7 +481,7 @@ public class Version {
     /**
      * Returns the copyright value for the desired copyright type passed as an argument This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @param copyrightType an integer value of the copyright type valid values are MINI_COPYRIGHT, SHORT_COPYRIGHT,
      * LONG_COPYRIGHT
      * @return String value of the copyright
@@ -501,7 +504,7 @@ public class Version {
      * Each entry will be in the following format 'Major version.Minor Version_patchid number' Can be used to format the
      * patchids in your own app. This is a private method , not for general use.This method may be removed in the future
      * release without further warning
-     * 
+     *
      * @return array of String comprising the patchid's
      */
     public String[] getPatchIds() {
@@ -532,12 +535,12 @@ public class Version {
         String propName = getMajorVersion() + "." + getMinorVersion();
         /*
          * String propValue = patchProps.getProperty(propName);
-         * 
+         *
          * if (propValue == null) { return null; }
-         * 
+         *
          * // Parse out the patch ids and stuff then into array. // They can be in the format NNNNNN:DATE. StringTokenizer toks
          * = new StringTokenizer(propValue, ","); String[] patchids = new String[toks.countTokens()]; int i = 0;
-         * 
+         *
          * while (toks.hasMoreTokens()) { String fullString = toks.nextToken().trim(); int endIndex = fullString.indexOf(":");
          * if (endIndex == -1 && !fullString.equals("")) // no :date 111111-01 patchids[i++] = fullString; else if (endIndex ==
          * 0) { // Nothing in front of :date continue; } else if (endIndex != -1) { patchids[i++] = fullString.substring(0,
@@ -551,8 +554,9 @@ public class Version {
         int num = 0;
         for (int i = 1; i < patchids.length; i++) {
             String propValue = patchProps.getProperty(propName + "_" + i);
-            if (propValue == null)
+            if (propValue == null) {
                 break;
+            }
             patchids[num++] = propValue;
         }
 
@@ -570,7 +574,7 @@ public class Version {
     /**
      * Returns the patch string in the format: Installed Patch ID(s): 111111-01 222222-01 NNNNNN-NN This is a private method
      * , not for general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return a string representing all the patches for the product.
      */
     public String getPatchString() {
@@ -580,11 +584,11 @@ public class Version {
 
         if (patchids != null && patchids.length >= 1) {
             for (int j = 0; j < patchids.length; j++) {
-                if (patchids[j] == null)
+                if (patchids[j] == null) {
                     break;
-                else if (ret.toString().equals("")) // first line, so prepend description.
+                } else if (ret.toString().equals("")) {
                     ret.append(rb.getString(rb.I_PATCHES) + patchids[j] + rb.NL);
-                else if (patchids[j] != null) { // prepend indent
+                } else if (patchids[j] != null) { // prepend indent
                     ret.append(rb.getString(rb.I_PATCH_INDENT) + patchids[j] + rb.NL);
                 }
             }
@@ -597,7 +601,7 @@ public class Version {
      * Returns the JMSAdmin SPI version value of the product. This is the Admin SPI implementation value. The value is not
      * the same as the Product API implementation or the JMS API version. example 2.0 This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @return String value of the JMSAdmin SPI version
      */
     public String getJMSAdminSpiVersion() {
@@ -607,7 +611,7 @@ public class Version {
     /**
      * Returns the Version info of the product, this string is the concatanated value of pacakage name, API version,
      * Protocol version, JMS API version, and the patch information.
-     * 
+     *
      * @return the String value of the product version info
      */
     public String getVersion() {
@@ -619,7 +623,7 @@ public class Version {
     /**
      * Returns the banner details for the default copyright type: SHORT_COPYRIGHT This is a private method , not for general
      * use.This method may be removed in the future release without further warning
-     * 
+     *
      * @param alldata a boolean value indicating that is it desired to get a detailed info
      * @return a String representing the banner
      */
@@ -630,7 +634,7 @@ public class Version {
     /**
      * Returns the banner details for a given copyright type. This is a private method , not for general use.This method may
      * be removed in the future release without further warning
-     * 
+     *
      * @param alldata a boolean value indicating whether you want a detailed info(true) or not(false)
      * @param copyrightType an integer representing the copyright for which the banner detail is required valid values are
      * SHORT_COPYRIGHT, MINI_COPYRIGHT, LONG_COPYRIGHT
@@ -640,8 +644,9 @@ public class Version {
         if (props == null) {
             return rb.getString(rb.E_VERSION_INFO) + thisPackage;
         }
-        if (alldata)
+        if (alldata) {
             return getHeader(copyrightType) + getVersion();
+        }
         return getHeader(copyrightType);
 
     }
@@ -662,7 +667,7 @@ public class Version {
      * Note that this implementation has not been optimized for speed!
      *
      * @param str String representing the product version
-     * 
+     *
      * @return array of integers where int[0] = major Version int[1] = minor version int[3] = micro version int[4] = patch
      * level
      *
@@ -750,7 +755,7 @@ public class Version {
     /**
      * Strip any trailing non-digit characters from a string. So 1.4.2_02a becomes 1.4.2_02 3.5 beta becomes 3.5 01b becomes
      * 01 3.5 beta1 stays 3.5 beta1
-     * 
+     *
      */
     private static String stripTrailingLetters(String s) {
 
@@ -775,7 +780,7 @@ public class Version {
      * Returns the comparison result of the two versions of the product passed as argument assuming service packs have no
      * incompatibilities This is a private method , not for general use.This method may be removed in the future release
      * without further warning
-     * 
+     *
      * @param stra representing the version which need to be compared
      * @param strb representing the second version string that needs to be compared.
      * @return -1 If stra is less than strB 0 If stra is equal to strb 1 If stra is greater than strbB
@@ -788,7 +793,7 @@ public class Version {
     /**
      * Returns the Comparison results of the two product versions. This is a private method , not for general use.This
      * method may be removed in the future release without further warning
-     * 
+     *
      * @param verA First version string
      * @param verB Second version string
      * @param ignoreServicePack true to ignore the service pack or patch level
@@ -809,7 +814,7 @@ public class Version {
      * Compares the two versions which are in the form of array,s. The array encapsulate's the major,minor,micro and service
      * pack details of each version string. This is a private method , not for general use.This method may be removed in the
      * future release without further warning
-     * 
+     *
      * @param s1 the first array of integer representing the versin info
      * @param s2 the second array of interger representing the version info that has to be compared
      * @return -1 If s1 is less than s2 0 If s1 is equal to s2 1 If s1 is greater than s2
@@ -825,10 +830,12 @@ public class Version {
         while (indx < comparelen) {
             int val1 = (s1.length > indx ? s1[indx] : 0);
             int val2 = (s2.length > indx ? s2[indx] : 0);
-            if (val1 > val2)
+            if (val1 > val2) {
                 return 1;
-            if (val1 < val2)
+            }
+            if (val1 < val2) {
                 return -1;
+            }
             indx++;
         }
 
@@ -838,7 +845,7 @@ public class Version {
     /**
      * Returns the Version String value of the version info passed as an array of integer This is a private method , not for
      * general use.This method may be removed in the future release without further warning
-     * 
+     *
      * @param ver an array of integer reperesenting the version info int[0]=major int[1]=minor int[2]=micro int[3]=service
      * pack
      * @return a String value of the data passed in the integer array
@@ -848,8 +855,9 @@ public class Version {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < ver.length; i++) {
             s.append(ver[i]);
-            if (i + 1 < ver.length)
+            if (i + 1 < ver.length) {
                 s.append(".");
+            }
         }
         return s.toString();
     }

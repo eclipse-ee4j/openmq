@@ -34,14 +34,18 @@ public class DestLimitBehavior {
     public static final int REMOVE_LOW_PRIORITY = 3;
 
     public static int getStateFromString(String str) {
-        if (str.equals("FLOW_CONTROL"))
+        if (str.equals("FLOW_CONTROL")) {
             return FLOW_CONTROL;
-        if (str.equals("REMOVE_OLDEST"))
+        }
+        if (str.equals("REMOVE_OLDEST")) {
             return REMOVE_OLDEST;
-        if (str.equals("REJECT_NEWEST"))
+        }
+        if (str.equals("REJECT_NEWEST")) {
             return REJECT_NEWEST;
-        if (str.equals("REMOVE_LOW_PRIORITY"))
+        }
+        if (str.equals("REMOVE_LOW_PRIORITY")) {
             return REMOVE_LOW_PRIORITY;
+        }
         return UNKNOWN;
     }
 

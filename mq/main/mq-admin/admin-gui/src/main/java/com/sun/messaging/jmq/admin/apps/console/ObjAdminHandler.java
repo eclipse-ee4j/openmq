@@ -23,11 +23,9 @@ package com.sun.messaging.jmq.admin.apps.console;
 import com.sun.messaging.InvalidPropertyException;
 import com.sun.messaging.InvalidPropertyValueException;
 
-import java.io.*;
 import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
-import javax.naming.Context;
 import javax.naming.NameClassPair;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -86,6 +84,7 @@ public class ObjAdminHandler implements AdminEventListener {
     /*
      * BEGIN INTERFACE AdminEventListener
      */
+    @Override
     public void adminEventDispatched(AdminEvent e) {
         int id;
         ConsoleObj selObj;
@@ -350,7 +349,7 @@ public class ObjAdminHandler implements AdminEventListener {
         destListCObj.setObjStore(os);
         cfListCObj.setObjStore(os);
 
-        app.getExplorer().nodeChanged((DefaultMutableTreeNode) selObj);
+        app.getExplorer().nodeChanged(selObj);
         app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_UPDATE, selObj.toString()));
         app.getInspector().selectedObjectUpdated();
 
@@ -423,7 +422,7 @@ public class ObjAdminHandler implements AdminEventListener {
          */
         for (int i = 0; i < v.size(); i++) {
             NameClassPair obj = (NameClassPair) v.get(i);
-            String lookupName = ((NameClassPair) obj).getName();
+            String lookupName = obj.getName();
             Object object = null;
             try {
                 object = os.retrieve(lookupName);
@@ -507,8 +506,9 @@ public class ObjAdminHandler implements AdminEventListener {
         if (attemptToConnect) {
 
             try {
-                if (os != null)
+                if (os != null) {
                     os.open();
+                }
             } catch (Exception e) {
                 JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_INSUFFICIENT_INFO, e.toString()),
                         acr.getString(acr.I_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_INSUFFICIENT_INFO),
@@ -597,12 +597,14 @@ public class ObjAdminHandler implements AdminEventListener {
         //
         if (os != null && created) {
             try {
-                if (prevOs.isOpen())
+                if (prevOs.isOpen()) {
                     prevOs.close();
+                }
                 osMgr.destroyStore(prevOs.getID());
 
-                if (!attemptToConnect && os.isOpen())
+                if (!attemptToConnect && os.isOpen()) {
                     os.close();
+                }
 
             } catch (Exception ex) {
             }
@@ -646,8 +648,9 @@ public class ObjAdminHandler implements AdminEventListener {
                 objStorePasswdDialog.addAdminEventListener(this);
                 objStorePasswdDialog.setLocationRelativeTo(app.getFrame());
             }
-            if (missingAuthInfoSize > 0)
+            if (missingAuthInfoSize > 0) {
                 objStorePasswdDialog.show(os, missingAuthInfo);
+            }
         } else {
             boolean success = finishDoConnectObjStore(selObj, os);
             if (success) {
@@ -679,7 +682,7 @@ public class ObjAdminHandler implements AdminEventListener {
         ObjStoreManager osMgr = app.getObjStoreListCObj().getObjStoreManager();
         boolean success = readObjStore(selObj, osMgr, os);
         if (success) {
-            app.getExplorer().nodeChanged((DefaultMutableTreeNode) selObj);
+            app.getExplorer().nodeChanged(selObj);
             app.getInspector().selectedObjectUpdated();
             // XXX This causes selection to go away if selected in inspector
             app.getInspector().refresh();
@@ -703,8 +706,9 @@ public class ObjAdminHandler implements AdminEventListener {
         }
 
         try {
-            if (os != null)
+            if (os != null) {
                 os.close();
+            }
         } catch (Exception e) {
             JOptionPane.showOptionDialog(app.getFrame(), acr.getString(acr.E_OS_UNABLE_DISCONNECT, selObj.toString()),
                     acr.getString(acr.I_DISCONNECT_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_OS_UNABLE_DISCONNECT),
@@ -717,7 +721,7 @@ public class ObjAdminHandler implements AdminEventListener {
          */
         clearStore(selObj);
 
-        app.getExplorer().nodeChanged((DefaultMutableTreeNode) selObj);
+        app.getExplorer().nodeChanged(selObj);
         app.getStatusArea().appendText(acr.getString(acr.S_OBJSTORE_DISCONNECT, selObj.toString()));
         // XXX This causes selection to go away if selected in inspector
         app.getInspector().refresh();
@@ -732,8 +736,9 @@ public class ObjAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_OBJSTORE_DELETE, selObj.toString()),
                 acr.getString(acr.I_DELETE_OBJSTORE), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         /*
          * Disconnect and delete the object store.
@@ -774,8 +779,9 @@ public class ObjAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_DEST_OBJ_DELETE, selObj.toString(), os.getID()),
                 acr.getString(acr.I_DELETE_OBJSTORE_DEST), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         /*
          * Disconnect and delete the object store.
@@ -794,7 +800,7 @@ public class ObjAdminHandler implements AdminEventListener {
         ObjStoreDestListCObj destList = (ObjStoreDestListCObj) selObj.getParent();
         app.getExplorer().removeFromParent(selObj);
         // Force selection of ObjStoreDestListCObj
-        app.getExplorer().select(((ConsoleObj) destList));
+        app.getExplorer().select((destList));
         app.getInspector().refresh();
 
     }
@@ -805,8 +811,9 @@ public class ObjAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_CF_OBJ_DELETE, selObj.toString(), os.getID()),
                 acr.getString(acr.I_DELETE_OBJSTORE_CF), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         /*
          * Disconnect and delete the object store.
@@ -825,7 +832,7 @@ public class ObjAdminHandler implements AdminEventListener {
         ObjStoreConFactoryListCObj cfList = (ObjStoreConFactoryListCObj) selObj.getParent();
         app.getExplorer().removeFromParent(selObj);
         // Force selection of ObjStoreDestListCObj
-        app.getExplorer().select(((ConsoleObj) cfList));
+        app.getExplorer().select((cfList));
         app.getInspector().refresh();
 
     }
@@ -838,8 +845,9 @@ public class ObjAdminHandler implements AdminEventListener {
 
         Object currentObj = ((ObjStoreDestCObj) selObj).getObject();
         Object updatedObject = updateObject(currentObj, oae.getDestinationType(), oae.getObjProperties(), readOnly);
-        if (updatedObject == null)
+        if (updatedObject == null) {
             return;
+        }
 
         try {
             os.add(lookupName, updatedObject, true);
@@ -877,10 +885,11 @@ public class ObjAdminHandler implements AdminEventListener {
         String titleId = acr.I_OBJSTORE;
         String readOnlyValue = null;
 
-        if (readOnly)
+        if (readOnly) {
             readOnlyValue = "true";
-        else
+        } else {
             readOnlyValue = "false";
+        }
 
         try {
 
@@ -957,8 +966,9 @@ public class ObjAdminHandler implements AdminEventListener {
 
         Object currentObj = ((ObjStoreConFactoryCObj) selObj).getObject();
         Object updatedObject = updateObject(currentObj, oae.getFactoryType(), oae.getObjProperties(), readOnly);
-        if (updatedObject == null)
+        if (updatedObject == null) {
             return;
+        }
 
         try {
             os.add(lookupName, updatedObject, true);
@@ -1018,10 +1028,11 @@ public class ObjAdminHandler implements AdminEventListener {
             /*
              * Set this newly created obj to read-only if specified.
              */
-            if (readOnly)
+            if (readOnly) {
                 JMSObjFactory.doReadOnlyForAdd(newObj, "true");
-            else
+            } else {
                 JMSObjFactory.doReadOnlyForAdd(newObj, "false");
+            }
 
             //
             // Check if it already exists so we can confirm with user to
@@ -1031,7 +1042,7 @@ public class ObjAdminHandler implements AdminEventListener {
                 object = os.retrieve(lookupName);
             } catch (NameNotFoundException nnfe) {
                 // Make sure that this exception is NOT treated as an error for add
-                ;
+                
             } catch (Exception ex) {
                 JOptionPane.showOptionDialog(app.getFrame(), ex.toString(), acr.getString(acr.I_ADD_OBJSTORE_DEST), JOptionPane.YES_NO_OPTION,
                         JOptionPane.ERROR_MESSAGE, null, close, close[0]);
@@ -1042,10 +1053,11 @@ public class ObjAdminHandler implements AdminEventListener {
             if (object != null) {
                 int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_LOOKUP_NAME_EXISTS, lookupName),
                         acr.getString(acr.I_ADD_OBJSTORE_DEST), JOptionPane.YES_NO_OPTION);
-                if (result == JOptionPane.NO_OPTION)
+                if (result == JOptionPane.NO_OPTION) {
                     return;
-                else
+                } else {
                     overwrite = true;
+                }
             }
 
             try {
@@ -1111,10 +1123,11 @@ public class ObjAdminHandler implements AdminEventListener {
             /*
              * Set this newly created obj to read-only if specified.
              */
-            if (readOnly)
+            if (readOnly) {
                 JMSObjFactory.doReadOnlyForAdd(newObj, "true");
-            else
+            } else {
                 JMSObjFactory.doReadOnlyForAdd(newObj, "false");
+            }
 
             //
             // Check if it already exists so we can confirm with user to
@@ -1124,7 +1137,7 @@ public class ObjAdminHandler implements AdminEventListener {
                 object = os.retrieve(lookupName);
             } catch (NameNotFoundException nnfe) {
                 // Make sure that this exception is NOT treated as an error for add
-                ;
+                
             } catch (Exception ex) {
                 JOptionPane.showOptionDialog(app.getFrame(), ex.toString(), acr.getString(acr.I_ADD_OBJSTORE_CF), JOptionPane.YES_NO_OPTION,
                         JOptionPane.ERROR_MESSAGE, null, close, close[0]);
@@ -1135,10 +1148,11 @@ public class ObjAdminHandler implements AdminEventListener {
             if (object != null) {
                 int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_LOOKUP_NAME_EXISTS, lookupName),
                         acr.getString(acr.I_ADD_OBJSTORE_CF), JOptionPane.YES_NO_OPTION);
-                if (result == JOptionPane.NO_OPTION)
+                if (result == JOptionPane.NO_OPTION) {
                     return;
-                else
+                } else {
                     overwrite = true;
+                }
             }
 
             try {
@@ -1269,50 +1283,50 @@ public class ObjAdminHandler implements AdminEventListener {
             // doRefreshDestination(selObj);
             ObjStoreDestCObj destCObj = (ObjStoreDestCObj) selObj;
             ObjStoreCObj osCObj = destCObj.getObjStoreCObj();
-            doRefreshObjStore(((ObjStoreCObj) osCObj).getObjStoreDestListCObj());
+            doRefreshObjStore(osCObj.getObjStoreDestListCObj());
         } else if (selObj instanceof ObjStoreConFactoryListCObj) {
             doRefreshObjStore(selObj);
         } else if (selObj instanceof ObjStoreConFactoryCObj) {
             // doRefreshConnFactory(selObj);
             ObjStoreConFactoryCObj cfCObj = (ObjStoreConFactoryCObj) selObj;
             ObjStoreCObj osCObj = cfCObj.getObjStoreCObj();
-            doRefreshObjStore(((ObjStoreCObj) osCObj).getObjStoreConFactoryListCObj());
+            doRefreshObjStore(osCObj.getObjStoreConFactoryListCObj());
         }
     }
 
     /*
      * private void doRefreshConnFactory(ConsoleObj selObj) {
-     * 
+     *
      * ObjStore os = ((ObjStoreConFactoryCObj)selObj).getObjStore(); String lookupName =
      * ((ObjStoreConFactoryCObj)selObj).getLookupName(); Object object = null;
-     * 
+     *
      * try { object = os.retrieve(lookupName); } catch (Exception e) { JOptionPane.showOptionDialog(app.getFrame(),
      * e.toString(), acr.getString(acr.I_OBJSTORE_REFRESH_CF), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null,
      * close, close[0]); return; }
-     * 
+     *
      * // Now replace this updated object in the tree. ((ObjStoreConFactoryCObj)selObj).setObject(object);
-     * 
+     *
      * app.getStatusArea().appendText(acr.getString(acr.S_OS_CF_REFRESH, selObj.toString(), os.getID()));
      * app.getInspector().selectedObjectUpdated();
-     * 
+     *
      * }
      */
 
     /*
      * private void doRefreshDestination(ConsoleObj selObj) {
-     * 
+     *
      * ObjStore os = ((ObjStoreDestCObj)selObj).getObjStore(); String lookupName =
      * ((ObjStoreDestCObj)selObj).getLookupName(); Object object = null;
-     * 
+     *
      * try { object = os.retrieve(lookupName); } catch (Exception e) { JOptionPane.showOptionDialog(app.getFrame(),
      * e.toString(), acr.getString(acr.I_OBJSTORE_REFRESH_DEST), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null,
      * close, close[0]); return; }
-     * 
+     *
      * // Now replace this updated object in the tree. ((ObjStoreDestCObj)selObj).setObject(object);
-     * 
+     *
      * app.getStatusArea().appendText(acr.getString(acr.S_OS_DEST_REFRESH, selObj.toString(), os.getID()));
      * app.getInspector().selectedObjectUpdated();
-     * 
+     *
      * }
      */
 
@@ -1378,8 +1392,9 @@ public class ObjAdminHandler implements AdminEventListener {
 
     private void closeObjStore(ObjStore os, ConsoleObj selObj) {
 
-        if (os == null)
+        if (os == null) {
             return;
+        }
 
         try {
             // Close the obj store
@@ -1389,14 +1404,14 @@ public class ObjAdminHandler implements AdminEventListener {
                 os.close();
                 if (selObj instanceof ObjStoreCObj) {
                     clearStore(selObj);
-                    app.getExplorer().nodeChanged((DefaultMutableTreeNode) selObj);
+                    app.getExplorer().nodeChanged(selObj);
                     app.getInspector().refresh();
                     // Update menu items, buttons.
                     controller.setActions(selObj);
                 }
             }
         } catch (Exception e) {
-            ;
+            
         }
     }
 }

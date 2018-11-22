@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.service;
 import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -102,8 +101,9 @@ public class ServiceManager {
     private int getServiceStateProp(String service) {
 
         String servicetypestr = config.getProperty(Globals.IMQ + "." + service + ".state");
-        if (servicetypestr == null)
+        if (servicetypestr == null) {
             return ServiceState.UNKNOWN;
+        }
 
         return ServiceState.getStateFromString(servicetypestr);
     }
@@ -171,10 +171,11 @@ public class ServiceManager {
                 additionalSvcNames = Globals.getConfig().getList(Globals.IMQ + ".service.runtimeAdd");
 
         if (additionalSvcNames != null) {
-            if (allSvcNames != null)
+            if (allSvcNames != null) {
                 allSvcNames.addAll(additionalSvcNames);
-            else
+            } else {
                 allSvcNames = additionalSvcNames;
+            }
         }
 
         if (activateList != null) {
@@ -196,10 +197,11 @@ public class ServiceManager {
                 additionalSvcNames = Globals.getConfig().getList(Globals.IMQ + ".service.runtimeAdd");
 
         if (additionalSvcNames != null) {
-            if (allActiveSvcNames != null)
+            if (allActiveSvcNames != null) {
                 allActiveSvcNames.addAll(additionalSvcNames);
-            else
+            } else {
                 allActiveSvcNames = additionalSvcNames;
+            }
         }
 
         if (activateList != null) {
@@ -225,15 +227,17 @@ public class ServiceManager {
 
     public int getServiceState(String name) {
         ServiceInfo info = (ServiceInfo) services.get(name);
-        if (info == null)
+        if (info == null) {
             return ServiceState.UNKNOWN;
+        }
         return info.getState();
     }
 
     public int getServiceType(String name) {
         ServiceInfo info = (ServiceInfo) services.get(name);
-        if (info == null)
+        if (info == null) {
             return ServiceType.UNKNOWN;
+        }
         return info.getServiceType();
     }
 
@@ -242,8 +246,9 @@ public class ServiceManager {
      */
     public Service getService(String name) {
         ServiceInfo info = (ServiceInfo) services.get(name);
-        if (info == null)
+        if (info == null) {
             return null;
+        }
         return info.getService();
     }
 
@@ -476,8 +481,9 @@ public class ServiceManager {
 
             while (itr.hasNext()) {
                 String service = (String) itr.next();
-                if (service_type != ServiceType.ALL && getServiceType(service) != service_type)
+                if (service_type != ServiceType.ALL && getServiceType(service) != service_type) {
                     continue;
+                }
 
                 if (!updatedsvcs.contains(service)) {
                     if (DEBUG) {
@@ -523,8 +529,9 @@ public class ServiceManager {
                     if (service_type == ServiceType.ALL || getServiceType(service) == service_type) {
 
                         int curstate = (info == null ? ServiceState.UNKNOWN : info.getState());
-                        if (curstate < ServiceState.RUNNING || curstate > ServiceState.PAUSED)
+                        if (curstate < ServiceState.RUNNING || curstate > ServiceState.PAUSED) {
                             startService(service, pauseIfStarting);
+                        }
                         if (state == ServiceState.PAUSED && curstate != ServiceState.PAUSED) {
                             logger.log(Logger.INFO, BrokerResources.I_PAUSING_SVC, service);
                             pauseService(service, true);
@@ -562,11 +569,13 @@ public class ServiceManager {
         Service service = null;
         while (itr.hasNext()) {
             String name = (String) itr.next();
-            if (getServiceType(name) != service_type)
+            if (getServiceType(name) != service_type) {
                 continue;
+            }
             service = getService(name);
-            if (service == null)
+            if (service == null) {
                 continue;
+            }
             service.addServiceRestriction(svcres);
         }
     }
@@ -577,11 +586,13 @@ public class ServiceManager {
         Service service = null;
         while (itr.hasNext()) {
             String name = (String) itr.next();
-            if (getServiceType(name) != service_type)
+            if (getServiceType(name) != service_type) {
                 continue;
+            }
             service = getService(name);
-            if (service == null)
+            if (service == null) {
                 continue;
+            }
             service.removeServiceRestriction(svcres);
         }
     }

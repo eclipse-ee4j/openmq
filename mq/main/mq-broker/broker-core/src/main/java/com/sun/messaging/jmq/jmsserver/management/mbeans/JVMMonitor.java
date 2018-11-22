@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
@@ -57,22 +56,27 @@ public class JVMMonitor extends MQMBeanReadOnly {
         return (Long.valueOf(Runtime.getRuntime().totalMemory()));
     }
 
+    @Override
     public String getMBeanName() {
         return ("JVMMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_JVM_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (null);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

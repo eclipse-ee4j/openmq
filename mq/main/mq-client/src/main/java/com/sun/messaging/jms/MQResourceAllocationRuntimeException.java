@@ -16,8 +16,6 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.ResourceAllocationRuntimeException;
-
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -26,11 +24,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQResourceAllocationRuntimeException extends javax.jms.MessageFormatRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5334330426639148254L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQResourceAllocationRuntimeException(String detailMessage) {
@@ -39,7 +41,7 @@ public class MQResourceAllocationRuntimeException extends javax.jms.MessageForma
 
     /**
      * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -50,7 +52,7 @@ public class MQResourceAllocationRuntimeException extends javax.jms.MessageForma
     /**
      * Constructs a <code>MQResourceAllocationRuntimeException</code> with the specified detail message, error code and
      * cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -61,7 +63,7 @@ public class MQResourceAllocationRuntimeException extends javax.jms.MessageForma
 
     /**
      * Construct a <code>MQResourceAllocationRuntimeException</code> to wrap the specified ResourceAllocationException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQResourceAllocationRuntimeException(ResourceAllocationException cause) {
@@ -70,18 +72,20 @@ public class MQResourceAllocationRuntimeException extends javax.jms.MessageForma
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

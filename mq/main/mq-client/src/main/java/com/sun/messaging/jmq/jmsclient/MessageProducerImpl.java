@@ -22,10 +22,6 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
 import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.Iterator;
 import javax.jms.*;
 
 import com.sun.messaging.AdministeredObject;
@@ -272,6 +268,7 @@ public class MessageProducerImpl implements MessageProducer {
      * some internal error.
      * @since 1.1
      */
+    @Override
     public Destination getDestination() throws JMSException {
         checkState();
         return destination;
@@ -294,6 +291,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to set disabled message Id due to some internal error.
      */
+    @Override
     public void setDisableMessageID(boolean value) throws JMSException {
 
         checkState();
@@ -308,6 +306,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to get disabled message Id due to some internal error.
      */
+    @Override
     public boolean getDisableMessageID() throws JMSException {
         checkState();
         return disableMessageId;
@@ -330,6 +329,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to set disabled message timestamp due to some internal error.
      */
+    @Override
     public void setDisableMessageTimestamp(boolean value) throws JMSException {
         checkState();
 
@@ -343,6 +343,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @exception JMSException if JMS fails to get disabled message timestamp due to some internal error.
      */
+    @Override
     public boolean getDisableMessageTimestamp() throws JMSException {
         checkState();
         return disableMessageTimestamp;
@@ -364,6 +365,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.DeliveryMode#PERSISTENT
      * @see javax.jms.Message#DEFAULT_DELIVERY_MODE
      */
+    @Override
     public void setDeliveryMode(int deliveryMode) throws JMSException {
 
         checkState();
@@ -387,6 +389,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @see javax.jms.MessageProducer#setDeliveryMode
      */
+    @Override
     public int getDeliveryMode() throws JMSException {
         checkState();
         return deliveryMode;
@@ -407,6 +410,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.MessageProducer#getPriority
      * @see javax.jms.Message#DEFAULT_PRIORITY
      */
+    @Override
     public void setPriority(int defaultPriority) throws JMSException {
 
         checkState();
@@ -429,6 +433,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @see javax.jms.MessageProducer#setPriority
      */
+    @Override
     public int getPriority() throws JMSException {
         checkState();
         return priority;
@@ -448,6 +453,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.MessageProducer#getTimeToLive
      * @see javax.jms.Message#DEFAULT_TIME_TO_LIVE
      */
+    @Override
     public void setTimeToLive(long timeToLive) throws JMSException {
 
         checkState();
@@ -470,6 +476,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @see javax.jms.MessageProducer#setTimeToLive
      */
+    @Override
     public long getTimeToLive() throws JMSException {
         checkState();
         return timeToLive;
@@ -492,6 +499,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @since 2.0
      */
+    @Override
     public void setDeliveryDelay(long deliveryDelay) throws JMSException {
         checkState();
 
@@ -516,6 +524,7 @@ public class MessageProducerImpl implements MessageProducer {
      *
      * @since 2.0
      */
+    @Override
     public long getDeliveryDelay() throws JMSException {
         checkState();
         return deliveryDelay;
@@ -530,6 +539,7 @@ public class MessageProducerImpl implements MessageProducer {
      */
     // XXX note currently producers are not cleaned up on session close
     // need to address this for 2.1
+    @Override
     public void close() throws JMSException {
         session.checkPermissionForAsyncSend();
         // XXX PROTOCOL3.5 --
@@ -592,6 +602,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.MessageProducer#getPriority
      * @since 1.1
      */
+    @Override
     public void send(Message message) throws JMSException {
         _send(message, null);
     }
@@ -650,6 +661,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.Session#createProducer
      * @since 1.1
      */
+    @Override
     public void send(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         _send(message, deliveryMode, priority, timeToLive, null);
     }
@@ -713,6 +725,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.MessageProducer#getPriority
      * @since 1.1
      */
+    @Override
     public void send(Destination destination, Message message) throws JMSException {
         _send(destination, message, null);
     }
@@ -783,6 +796,7 @@ public class MessageProducerImpl implements MessageProducer {
      * @see javax.jms.Session#createProducer
      * @since 1.1
      */
+    @Override
     public void send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
         _send(destination, message, deliveryMode, priority, timeToLive, null);
     }
@@ -879,14 +893,16 @@ public class MessageProducerImpl implements MessageProducer {
     private void checkFlowControl(Destination dest, Message message, boolean block) throws JMSException {
         String dn = ((com.sun.messaging.Destination) dest).getName();
         ProducerState ps = (ProducerState) destinations.get(dn);
-        if (ps != null)
+        if (ps != null) {
             ps.checkFlowControl(message, block);
+        }
     }
 
     protected SessionImpl getSession() {
         return session;
     }
 
+    @Override
     public String toString() {
         // return "MessageProducer: " + session.getConnection().toString();
         String destName = null;
@@ -950,15 +966,15 @@ public class MessageProducerImpl implements MessageProducer {
 
     /*
      * private String getDestInfo (Destination destination) { long pid = -1; String info = null;
-     * 
+     *
      * try { if (destination != null) { String destName = ((com.sun.messaging.Destination) destination). getName();
-     * 
+     *
      * ProducerState ps = (ProducerState) destinations.get(destName); pid = ps.getProducerID();
-     * 
+     *
      * info = ", destName=" + destName + ", producerID=" + pid; }
-     * 
+     *
      * } catch (Exception e) { //if we catch exception, pid would be -1 if (debug) { Debug.printStackTrace(e); } }
-     * 
+     *
      * return info; }
      */
 
@@ -990,15 +1006,18 @@ public class MessageProducerImpl implements MessageProducer {
         protected synchronized void setFlowLimit(int flowLimit) {
             this.flowLimit = flowLimit;
 
-            if (flowLimit < TEST_minResume)
+            if (flowLimit < TEST_minResume) {
                 TEST_minResume = flowLimit;
-            if (flowLimit > TEST_maxResume)
+            }
+            if (flowLimit > TEST_maxResume) {
                 TEST_maxResume = flowLimit;
+            }
 
-            if (flowLimit != 0)
+            if (flowLimit != 0) {
                 TEST_resumeCount++;
-            else
+            } else {
                 TEST_forcePauseCount++;
+            }
 
             notifyAll();
         }
@@ -1035,8 +1054,9 @@ public class MessageProducerImpl implements MessageProducer {
                 ExceptionHandler.throwJMSException(jmse);
             }
 
-            if (flowLimit > 0)
+            if (flowLimit > 0) {
                 flowLimit--;
+            }
 
             if (flowLimit == 0) {
                 TEST_pauseCount++;

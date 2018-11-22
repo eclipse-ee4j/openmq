@@ -27,7 +27,7 @@ package com.sun.messaging.naming;
  * The parent class, <code>com.sun.messaging.naming.DObjectFactory</code> handles the generation of the current version
  * of <code>com.sun.messaging.Queue</code> objects along with any conversions required.
  * <p>
- * 
+ *
  * @since JMQ1.1
  */
 

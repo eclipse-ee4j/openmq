@@ -51,10 +51,12 @@ public class HttpsTunnelServerDriverImpl extends HttpTunnelServerDriverImpl impl
     public HttpsTunnelServerDriverImpl() {
     }
 
+    @Override
     public void init(String serviceName, boolean trust, boolean poodleFixEnabled) throws IOException {
         init(serviceName, InetAddress.getLocalHost().getHostAddress(), DEFAULT_HTTPS_TUNNEL_PORT, trust, poodleFixEnabled);
     }
 
+    @Override
     public void init(String serviceName, String webServerHostName, int webServerPort, boolean trust, boolean poodleFixEnabled) throws IOException {
         super.init(serviceName, webServerHostName, webServerPort);
 

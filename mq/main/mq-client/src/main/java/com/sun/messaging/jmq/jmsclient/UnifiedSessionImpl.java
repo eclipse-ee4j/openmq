@@ -76,6 +76,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception JMSException if a session fails to create a queue due to some JMS error.
      */
 
+    @Override
     public Queue createQueue(String queueName) throws JMSException {
 
         checkSessionState();
@@ -143,6 +144,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception InvalidDestinationException if invalid Queue specified.
      */
 
+    @Override
     public QueueBrowser createBrowser(Queue queue) throws JMSException {
 
         checkSessionState();
@@ -161,6 +163,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception InvalidSelectorException if the message selector is invalid.
      */
 
+    @Override
     public QueueBrowser createBrowser(Queue queue, String messageSelector) throws JMSException {
 
         checkSessionState();
@@ -176,6 +179,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception JMSException if a session fails to create a Temporary Queue due to some JMS error.
      */
 
+    @Override
     public TemporaryQueue createTemporaryQueue() throws JMSException {
 
         checkSessionState();
@@ -201,6 +205,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception JMSException if a session fails to create a topic due to some JMS error.
      */
 
+    @Override
     public Topic createTopic(String topicName) throws JMSException {
 
         checkSessionState();
@@ -271,6 +276,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
     /**
      * Creates an unshared durable subscription
      */
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name) throws JMSException {
 
         return createDurableSubscriber(topic, name, null, false);
@@ -341,6 +347,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * <li>if a shared durable subscription already exists with the same name and client identifier
      * </ul>
      */
+    @Override
     public TopicSubscriber createDurableSubscriber(Topic topic, String name, String messageSelector, boolean noLocal) throws JMSException {
 
         checkSessionState();
@@ -378,6 +385,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @exception JMSException if a session fails to create a temporary topic due to some JMS error.
      */
 
+    @Override
     public TemporaryTopic createTemporaryTopic() throws JMSException {
 
         checkSessionState();
@@ -406,6 +414,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      *
      * @since 2.0
      */
+    @Override
     public void unsubscribe(String name) throws JMSException {
         MessageConsumerImpl consumer = null;
         boolean deregistered = false;
@@ -449,6 +458,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      *
      */
 
+    @Override
     public MessageProducer createProducer(Destination destination) throws JMSException {
         if (destination == null) {
             return new MessageProducerImpl(this, destination);
@@ -478,6 +488,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @since 1.1
      */
 
+    @Override
     public MessageConsumer createConsumer(Destination destination) throws JMSException {
         return createConsumer(destination, null, false);
     }
@@ -498,11 +509,12 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      *
      * @exception JMSException if the session fails to create a MessageConsumer due to some internal error.
      * @exception InvalidDestinationException if an invalid destination is specified.
-     * 
+     *
      * @exception InvalidSelectorException if the message selector is invalid.
      *
      * @since 1.1
      */
+    @Override
     public MessageConsumer createConsumer(Destination destination, java.lang.String messageSelector) throws JMSException {
         return createConsumer(destination, messageSelector, false);
     }
@@ -535,6 +547,7 @@ public class UnifiedSessionImpl extends SessionImpl implements com.sun.messaging
      * @since 1.1
      *
      */
+    @Override
     public MessageConsumer createConsumer(Destination destination, java.lang.String messageSelector, boolean NoLocal) throws JMSException {
         if (destination == null) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_DESTINATION_NOTFOUND, "null");

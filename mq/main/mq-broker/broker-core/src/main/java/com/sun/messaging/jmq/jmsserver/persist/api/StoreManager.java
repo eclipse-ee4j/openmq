@@ -98,7 +98,7 @@ public class StoreManager {
      * is defined, and no class is defined, the default jdbc based store will be instantiated and returned.
      * <p>
      * If the type property is defined but we fail to instantiate the correspoinding class, a BrokerException will be thrown
-     * 
+     *
      * @return a Store
      * @exception BrokerException if it fails to instantiate a Store instance
      */
@@ -218,8 +218,9 @@ public class StoreManager {
 
     public static boolean isConfiguredFileStore() {
         Boolean isfs = isConfiguredFileStore;
-        if (isfs != null)
+        if (isfs != null) {
             return isfs.booleanValue();
+        }
 
         String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
         return ((type.equals(Store.FILE_STORE_TYPE)));
@@ -227,8 +228,9 @@ public class StoreManager {
 
     public static boolean isConfiguredJDBCStore() {
         Boolean isjdbc = isConfiguredJDBCStore;
-        if (isjdbc != null)
+        if (isjdbc != null) {
             return isjdbc.booleanValue();
+        }
 
         String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
         return ((type.equals(Store.JDBC_STORE_TYPE)));
@@ -236,8 +238,9 @@ public class StoreManager {
 
     public static boolean isConfiguredBDBStore() {
         Boolean isbdb = isConfiguredBDBStore;
-        if (isbdb != null)
+        if (isbdb != null) {
             return isbdb.booleanValue();
+        }
 
         String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
         return ((type.equals(Store.BDB_STORE_TYPE)));
@@ -245,8 +248,9 @@ public class StoreManager {
 
     public static boolean isConfiguredCoherenceStore() {
         Boolean isch = isConfiguredCoherenceStore;
-        if (isch != null)
+        if (isch != null) {
             return isch.booleanValue();
+        }
 
         String type = Globals.getConfig().getProperty(STORE_TYPE_PROP, DEFAULT_STORE_TYPE);
         return ((type.equals(Store.COHERENCE_STORE_TYPE)));
@@ -269,23 +273,27 @@ public class StoreManager {
     }
 
     public static boolean txnLogEnabled() {
-        if (!isConfiguredFileStore())
+        if (!isConfiguredFileStore()) {
             return false;
+        }
 
         Boolean tloge = txnLogEnabled;
-        if (tloge != null)
+        if (tloge != null) {
             return tloge.booleanValue();
+        }
 
         return Globals.getConfig().getBooleanProperty(TXNLOG_ENABLED_PROP, false);
     }
 
     public static boolean newTxnLogEnabled() {
-        if (!isConfiguredFileStore())
+        if (!isConfiguredFileStore()) {
             return false;
+        }
 
         Boolean ntloge = newTxnLogEnabled;
-        if (ntloge != null)
+        if (ntloge != null) {
             return ntloge.booleanValue();
+        }
 
         return Globals.getConfig().getBooleanProperty(NEW_TXNLOG_ENABLED_PROP, NEW_TXNLOG_ENABLED_PROP_DEFAULT);
     }
@@ -305,7 +313,7 @@ public class StoreManager {
      * Release the singleton instance of a Store object. The store will be closed and any resources used by it released.
      * <p>
      * The next time <code>getStore()</code> is called, a new instance will be instantiaed.
-     * 
+     *
      * @param cleanup if true, the store will be cleaned up, i.e. redundant data removed.
      */
     public static synchronized void releaseStore(boolean cleanup) {

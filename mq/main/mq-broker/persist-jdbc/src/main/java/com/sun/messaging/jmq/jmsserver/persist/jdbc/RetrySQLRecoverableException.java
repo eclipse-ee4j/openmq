@@ -26,6 +26,11 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class RetrySQLRecoverableException extends BrokerException {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -143172667823914555L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

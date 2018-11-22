@@ -27,11 +27,11 @@ import com.sun.messaging.AdministeredObject;
 
 /**
  * A QueueSession provides methods for creating QueueReceiver's, QueueSender's, QueueBrowser's and TemporaryQueues.
- * 
+ *
  * <P>
  * If there are messages that have been received but not acknowledged when a QueueSession terminates, these messages
  * will be retained and redelivered when a consumer next accesses the queue.
- * 
+ *
  * @see javax.jms.Session
  * @see javax.jms.QueueConnection#createQueueSession(boolean, int)
  * @see javax.jms.XAQueueSession#getQueueSession()

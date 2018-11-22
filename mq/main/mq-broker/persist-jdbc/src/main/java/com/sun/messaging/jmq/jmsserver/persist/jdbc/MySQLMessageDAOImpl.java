@@ -21,9 +21,7 @@ package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import java.sql.*;
 import java.util.HashMap;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -43,7 +41,7 @@ class MySQLMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     MySQLMessageDAOImpl() throws BrokerException {

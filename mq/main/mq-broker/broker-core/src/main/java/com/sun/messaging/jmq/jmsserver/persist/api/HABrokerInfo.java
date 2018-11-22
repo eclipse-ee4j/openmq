@@ -60,7 +60,7 @@ public final class HABrokerInfo implements Externalizable {
 
     /**
      * Constructor
-     * 
+     *
      * @param id Broker ID
      * @param takeoverBrokerID Broker ID taken over the store
      * @param url the broker's URL
@@ -130,6 +130,7 @@ public final class HABrokerInfo implements Externalizable {
         return takeoverTimestamp;
     }
 
+    @Override
     public String toString() {
 
         StringBuffer strBuf = new StringBuffer(128).append("(").append("brokerID=").append(id).append(", URL=").append(url).append(", version=").append(version)
@@ -140,6 +141,7 @@ public final class HABrokerInfo implements Externalizable {
         return strBuf.toString();
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         id = (String) in.readObject();
@@ -152,6 +154,7 @@ public final class HABrokerInfo implements Externalizable {
         sessionList = (List) in.readObject();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeObject(id);
@@ -209,6 +212,7 @@ public final class HABrokerInfo implements Externalizable {
             return createdTS;
         }
 
+        @Override
         public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
             id = in.readLong();
@@ -218,6 +222,7 @@ public final class HABrokerInfo implements Externalizable {
             createdTS = in.readLong();
         }
 
+        @Override
         public void writeExternal(ObjectOutput out) throws IOException {
 
             out.writeLong(id);

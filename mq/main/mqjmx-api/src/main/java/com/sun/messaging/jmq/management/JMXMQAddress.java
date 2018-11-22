@@ -25,11 +25,16 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class JMXMQAddress extends MQAddress {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6590934214685025000L;
     public static final String DEFAULT_CONNECTOR_NAME = "jmxrmi";
 
     protected JMXMQAddress() {
     }
 
+    @Override
     public String getDefaultServiceName() {
         return (DEFAULT_CONNECTOR_NAME);
     }

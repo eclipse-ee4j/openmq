@@ -17,9 +17,7 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.JMSException;
-import javax.jms.JMSRuntimeException;
 import javax.jms.MessageConsumer;
-import javax.jms.MessageFormatRuntimeException;
 
 /**
  * This interface must be implemented by all MQ MesageCOnsumer implementations It adds some additional methods which are
@@ -60,7 +58,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * failed message redelivered, it must call {@code recover} on the {@code JMSContext}. The redelivered message's
      * {@code JMSRedelivered} message header field will be set and its {@code JMSXDeliveryCount} message property will be
      * incremented.</li>
-     * 
+     *
      * <li>Transacted session: The JMS provider will behave as if the call to {@code receiveBody} had been successful and
      * will not deliver the message again.
      * <p>
@@ -69,7 +67,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * redelivered, it must roll back the transaction. The redelivered message's {@code JMSRedelivered} message header field
      * will be set and its {@code JMSXDeliveryCount} message property will be incremented.</li>
      * </ul>
-     * 
+     *
      * @param c The type to which the body of the next message should be assigned.<br/>
      * If the next message is expected to be a {@code TextMessage} then this should be set to {@code String.class} or
      * another class to which a {@code String} is assignable.<br/>
@@ -79,10 +77,10 @@ public interface MQMessageConsumer extends MessageConsumer {
      * {@code java.lang.Object.class}).<br/>
      * If the next message is expected to be a {@code BytesMessage} then this should be set to {@code byte[].class} (or
      * {@code java.lang.Object.class}).<br/>
-     * 
+     *
      * @return the body of the next message produced for this {@code MQMessageConsumer}, or null if this
      * {@code MQMessageConsumer} is concurrently closed
-     * 
+     *
      * @throws MessageFormatException
      * <ul>
      * <li>if the message is not one of the supported types listed above
@@ -128,7 +126,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * failed message redelivered, it must call {@code recover} on the {@code JMSContext}. The redelivered message's
      * {@code JMSRedelivered} message header field will be set and its {@code JMSXDeliveryCount} message property will be
      * incremented.</li>
-     * 
+     *
      * <li>Transacted session: The JMS provider will behave as if the call to {@code receiveBody} had been successful and
      * will not deliver the message again.
      * <p>
@@ -137,7 +135,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * redelivered, it must roll back the transaction. The redelivered message's {@code JMSRedelivered} message header field
      * will be set and its {@code JMSXDeliveryCount} message property will be incremented.</li>
      * </ul>
-     * 
+     *
      * @param c The type to which the body of the next message should be assigned.<br/>
      * If the next message is expected to be a {@code TextMessage} then this should be set to {@code String.class} or
      * another class to which a {@code String} is assignable.<br/>
@@ -147,11 +145,11 @@ public interface MQMessageConsumer extends MessageConsumer {
      * {@code java.lang.Object.class}).<br/>
      * If the next message is expected to be a {@code BytesMessage} then this should be set to {@code byte[].class} (or
      * {@code java.lang.Object.class}).<br/>
-     * 
+     *
      * @return the body of the next message produced for this {@code MQMessageConsumer}, or null if the timeout expires or
      * this {@code MQMessageConsumer} is concurrently closed
      * @throws JMSException
-     * 
+     *
      * @throws MessageFormatException
      * <ul>
      * <li>if the message is not one of the supported types listed above
@@ -195,7 +193,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * failed message redelivered, it must call {@code recover} on the {@code JMSContext}. The redelivered message's
      * {@code JMSRedelivered} message header field will be set and its {@code JMSXDeliveryCount} message property will be
      * incremented.</li>
-     * 
+     *
      * <li>Transacted session: The JMS provider will behave as if the call to {@code receiveBodyNoWait} had been successful
      * and will not deliver the message again.
      * <p>
@@ -204,7 +202,7 @@ public interface MQMessageConsumer extends MessageConsumer {
      * redelivered, it must roll back the transaction. The redelivered message's {@code JMSRedelivered} message header field
      * will be set and its {@code JMSXDeliveryCount} message property will be incremented.</li>
      * </ul>
-     * 
+     *
      * @param c The type to which the body of the next message should be assigned.<br/>
      * If the next message is expected to be a {@code TextMessage} then this should be set to {@code String.class} or
      * another class to which a {@code String} is assignable.<br/>
@@ -214,10 +212,10 @@ public interface MQMessageConsumer extends MessageConsumer {
      * {@code java.lang.Object.class}).<br/>
      * If the next message is expected to be a {@code BytesMessage} then this should be set to {@code byte[].class} (or
      * {@code java.lang.Object.class}).<br/>
-     * 
+     *
      * @return the body of the next message produced for this {@code MQMessageConsumer}, or null if one is not immediately
      * available or this {@code MQMessageConsumer} is concurrently closed
-     * 
+     *
      * @throws MessageFormatException
      * <ul>
      * <li>if the message is not one of the supported types listed above
@@ -225,9 +223,9 @@ public interface MQMessageConsumer extends MessageConsumer {
      * <li>if the message has no body
      * <li>if the message is an {@code ObjectMessage} and object deserialization fails.
      * </ul>
-     * 
+     *
      * @throws JMSException if the JMS provider fails to receive the next message due to some internal error
-     * 
+     *
      */
     <T> T receiveBodyNoWait(Class<T> c) throws JMSException;
 

@@ -19,7 +19,6 @@
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.util.List;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterProtocolHelper;

@@ -115,8 +115,9 @@ class ServerSessionRunner {
                     session.acknowledgeExpired(message);
                 } else {
 
-                    if (ssm.serversession instanceof com.sun.messaging.jmq.jmsspi.ServerSession)
+                    if (ssm.serversession instanceof com.sun.messaging.jmq.jmsspi.ServerSession) {
                         ((com.sun.messaging.jmq.jmsspi.ServerSession) ssm.serversession).beforeMessageDelivery(message);
+                    }
                     try {
 
                         boolean delivered = onMessage(message);
@@ -133,8 +134,9 @@ class ServerSessionRunner {
 
                         throw new RuntimeException(e.getMessage());
                     } finally {
-                        if (ssm.serversession instanceof com.sun.messaging.jmq.jmsspi.ServerSession)
+                        if (ssm.serversession instanceof com.sun.messaging.jmq.jmsspi.ServerSession) {
                             ((com.sun.messaging.jmq.jmsspi.ServerSession) ssm.serversession).afterMessageDelivery(message);
+                        }
                     }
 
                 } // !_isExpired
@@ -146,10 +148,12 @@ class ServerSessionRunner {
                 this.session.rollbackCause = e;
 
                 serverSessionProcess(i - size);
-                if (e instanceof Error)
+                if (e instanceof Error) {
                     throw (Error) e;
-                if (e instanceof RuntimeException)
+                }
+                if (e instanceof RuntimeException) {
                     throw (RuntimeException) e;
+                }
                 throw new RuntimeException(e.getMessage());
             }
 
@@ -344,9 +348,9 @@ class ServerSessionRunner {
 
     /**
      * Clear the messages in the queue. This muse be called after a fail-over occurred.
-     * 
+     *
      * This is now called from ?
-     * 
+     *
      * HACC -- work for HA connection consumer
      */
     protected void clear() {
@@ -381,8 +385,9 @@ class ServerSessionRunner {
                 return;
             }
 
-            if (serverSessionState == SERVERSESSION_CLOSE)
+            if (serverSessionState == SERVERSESSION_CLOSE) {
                 return;
+            }
 
             reset = true;
             if (serverSessionState == SERVERSESSION_RESET || serverSessionState == SERVERSESSION_STOP) {
@@ -393,8 +398,9 @@ class ServerSessionRunner {
                 serverSessionStop();
             } catch (Throwable t) {
             }
-            if (serverSessionState == SERVERSESSION_CLOSE)
+            if (serverSessionState == SERVERSESSION_CLOSE) {
                 return;
+            }
 
             serverSessionRun();
         }
@@ -403,14 +409,15 @@ class ServerSessionRunner {
 
     /**
      * The serverSessionState is set to SERVERSESSION_RESET when SessionImpl.reset() is called.
-     * 
+     *
      */
     private void checkState() throws Exception {
 
         if (isReset()) {
 
-            if (reset)
+            if (reset) {
                 return;
+            }
 
             // this will be caught eventually by Session.run()
             // and the states of the server session will be cleared.

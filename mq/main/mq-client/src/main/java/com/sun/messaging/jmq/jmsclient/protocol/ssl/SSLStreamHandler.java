@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
-import java.io.*;
 import javax.jms.*;
 
 import com.sun.messaging.PropertyOwner;
@@ -40,6 +39,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
     public SSLStreamHandler() {
     }
 
+    @Override
     public String[] getPropertyNames() {
         String[] propnames = new String[6];
         propnames[0] = ConnectionConfiguration.imqBrokerHostName;
@@ -51,6 +51,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
         return propnames;
     }
 
+    @Override
     public String getPropertyType(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || ConnectionConfiguration.imqBrokerServiceName.equals(propname)
                 || ConnectionConfiguration.imqSSLProviderClassname.equals(propname)) {
@@ -67,6 +68,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyLabel(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return (AdministeredObject.cr.L_JMQBROKER_HOST_NAME);
@@ -94,6 +96,7 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyDefault(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return "localhost";
@@ -128,10 +131,12 @@ public class SSLStreamHandler implements StreamHandler, PropertyOwner {
      * @return a new instance of SSLConnectionHandler.
      * @exception throws IOException if socket creation failed.
      */
+    @Override
     public ConnectionHandler openConnection(Object connection) throws JMSException {
         return new SSLConnectionHandler(connection);
     }
 
+    @Override
     public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl connection) throws JMSException {
         return new SSLConnectionHandler(addr, connection);
     }

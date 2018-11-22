@@ -71,7 +71,7 @@ public interface Cluster {
 
     /**
      * Shutdown the cluster topology driver.
-     * 
+     *
      * @param excludedBroker if not null, do not shutdown
      */
     public void shutdown(boolean force, com.sun.messaging.jmq.jmsserver.core.BrokerAddress excludedBroker);
@@ -120,7 +120,7 @@ public interface Cluster {
 
     /**
      * Send a packet to the specified broker.
-     * 
+     *
      * @param addr Destination broker address
      * @param gp Packet.
      * @param flowControl Is this packet subject to flow control check.
@@ -131,7 +131,7 @@ public interface Cluster {
 
     /**
      * Send a packet to the specified broker.
-     * 
+     *
      * @param addr Destination broker address
      * @param gp Packet.
      */
@@ -139,7 +139,7 @@ public interface Cluster {
 
     /**
      * Send a packet to the specified broker and close output to the link
-     * 
+     *
      * @param addr Destination broker address
      * @param gp Packet.
      */
@@ -148,7 +148,7 @@ public interface Cluster {
     /**
      * Broadcast a packet to all the known brokers in the cluster. This method is used mainly by the interest manager to
      * broadcast interest updates.
-     * 
+     *
      * @param gp Packet.
      */
     public Map<BrokerAddress, Object> broadcast(GPacket gp) throws IOException;
@@ -162,7 +162,7 @@ public interface Cluster {
 
     /**
      * Send a packet to the specified broker.
-     * 
+     *
      * @param addr Destination broker address
      * @param destId Tells the destination broker how this message shoule be handled
      * @param pkt Packet data.
@@ -172,7 +172,7 @@ public interface Cluster {
 
     /**
      * Send a packet to the specified broker.
-     * 
+     *
      * @param addr Destination broker address
      * @param destId Tells the destination broker how this message shoule be handled
      * @param pkt Packet data.
@@ -182,7 +182,7 @@ public interface Cluster {
     /**
      * Broadcast a packet to all the known brokers in the cluster. This method is used mainly by the interest manager to
      * broadcast interest updates.
-     * 
+     *
      * @param destId Tells the destination broker how this message shoule be handled
      * @param pkt Packet data.
      */

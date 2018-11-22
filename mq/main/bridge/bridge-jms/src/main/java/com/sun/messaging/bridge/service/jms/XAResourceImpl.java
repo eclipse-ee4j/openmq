@@ -18,7 +18,7 @@ package com.sun.messaging.bridge.service.jms;
 
 import javax.transaction.xa.*;
 
-/* 
+/*
  * A XAResource wrapper - used in case of external transaction manager
  *
  * @author amyk
@@ -49,6 +49,7 @@ public class XAResourceImpl implements XAResource {
      * and has released all held resources.
      */
 
+    @Override
     public void commit(Xid xid, boolean onePhase) throws XAException {
         _xar.commit(xid, onePhase);
     }
@@ -81,6 +82,7 @@ public class XAResourceImpl implements XAResource {
      * XAER_INVAL, XAER_PROTO, or XA_RB*.
      */
 
+    @Override
     public void end(Xid xid, int flags) throws XAException {
         _xar.end(xid, flags);
     }
@@ -94,6 +96,7 @@ public class XAResourceImpl implements XAResource {
      * XAER_INVAL, or XAER_PROTO.
      */
 
+    @Override
     public void forget(Xid xid) throws XAException {
         _xar.forget(xid);
     }
@@ -108,6 +111,7 @@ public class XAResourceImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      */
+    @Override
     public int getTransactionTimeout() throws XAException {
         return _xar.getTransactionTimeout();
     }
@@ -124,6 +128,7 @@ public class XAResourceImpl implements XAResource {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      *
      */
+    @Override
     public boolean isSameRM(XAResource xares) throws XAException {
         if (xares instanceof XAResourceImpl) {
             return _xar.isSameRM(((XAResourceImpl) xares)._xar);
@@ -145,6 +150,7 @@ public class XAResourceImpl implements XAResource {
      * appropriate XAException in the prepare method.
      */
 
+    @Override
     public int prepare(Xid xid) throws XAException {
         return _xar.prepare(xid);
     }
@@ -166,6 +172,7 @@ public class XAResourceImpl implements XAResource {
      *
      */
 
+    @Override
     public Xid[] recover(int flag) throws XAException {
         return _xar.recover(flag);
     }
@@ -183,6 +190,7 @@ public class XAResourceImpl implements XAResource {
      * exceptions. Upon return, the resource manager has rolled back the branch's work and has released all held resources.
      */
 
+    @Override
     public void rollback(Xid xid) throws XAException {
         _xar.rollback(xid);
     }
@@ -202,6 +210,7 @@ public class XAResourceImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, or XAER_INVAL.
      */
+    @Override
     public boolean setTransactionTimeout(int seconds) throws XAException {
         return _xar.setTransactionTimeout(seconds);
     }
@@ -224,6 +233,7 @@ public class XAResourceImpl implements XAResource {
      * XAER_OUTSIDE, XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      *
      */
+    @Override
     public void start(Xid xid, int flags) throws XAException {
         _xar.start(xid, flags);
     }

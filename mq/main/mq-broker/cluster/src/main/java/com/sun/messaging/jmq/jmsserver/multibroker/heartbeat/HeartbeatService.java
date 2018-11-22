@@ -156,6 +156,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             setDaemon(true);
         }
 
+        @Override
         public void run() {
 
             HeartbeatEntry[] hbes = null;
@@ -166,17 +167,19 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
                 try {
 
                     synchronized (lock) {
-                        if (stopped)
+                        if (stopped) {
                             break;
+                        }
                         try {
                             lock.wait(1000);
                         } catch (InterruptedException e) {
                             /* Ignored */ }
-                        if (stopped)
+                        if (stopped) {
                             break;
+                        }
                         synchronized (brokers) {
                             Set<HeartbeatEntry> ks = brokers.keySet();
-                            hbes = (HeartbeatEntry[]) ks.toArray(new HeartbeatEntry[ks.size()]);
+                            hbes = ks.toArray(new HeartbeatEntry[ks.size()]);
                         }
                     }
                     if (DEBUG) {
@@ -213,6 +216,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             }
         }
 
+        @Override
         public void destroy() {
             synchronized (lock) {
                 stopped = true;
@@ -233,6 +237,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         long indoubtTimestamp = 0;
         GPacket gp = null;
 
+        @Override
         public boolean equals(Object obj) {
             if (obj == null || !(obj instanceof HeartbeatEntry)) {
                 return false;
@@ -241,10 +246,12 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             return brokerID.equals(hbe.brokerID) && sessionUID == hbe.sessionUID;
         }
 
+        @Override
         public int hashCode() {
             return brokerID.hashCode() + String.valueOf(sessionUID).hashCode();
         }
 
+        @Override
         public String toString() {
             return ((endpoint == null) ? "" : endpoint.toString()) + " [brokerID=" + brokerID + ", brokerSession=" + String.valueOf(sessionUID) + "] (seq#="
                     + lastSequence + ", ts=" + lastTimestamp + ", interval=" + heartbeatInterval + ", len=" + dataLength + ")"
@@ -409,6 +416,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      *
      * @throws IOException if the data should be discarded
      */
+    @Override
     public void heartbeatReceived(InetSocketAddress sender, byte[] data) throws IOException {
 
         if (data == null) {
@@ -426,8 +434,9 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
             if (DEBUG) {
                 logger.logStack(logger.INFO, "HEARTBEAT: Ignore data from " + sender + " because " + e.getMessage(), e);
             }
-            if (e instanceof IOException)
+            if (e instanceof IOException) {
                 throw (IOException) e;
+            }
             throw new IOException(e.getMessage());
         }
         hbe.brokerID = hbi.getBrokerID();
@@ -492,6 +501,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      *
      * @throws IOException
      */
+    @Override
     public byte[] getBytesToSend(Object key, InetSocketAddress endpoint) throws IOException {
 
         HeartbeatEntry hbe = (HeartbeatEntry) key;
@@ -511,12 +521,14 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         return HeartbeatInfo.toByteArray(hbe.gp);
     }
 
+    @Override
     public void heartbeatIOException(Object key, InetSocketAddress endpoint, IOException reason) {
         heartbeatTimeout(key, endpoint, reason);
     }
 
     /**
      */
+    @Override
     public void heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason) {
         HeartbeatEntry hbe = (HeartbeatEntry) key;
 
@@ -573,32 +585,36 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      * @param name the name of the changed property
      * @param value the new value of the changed property
      */
+    @Override
     public void clusterPropertyChanged(String name, String value) {
         // do nothing
     }
 
     /**
      * Called when a new broker has been added.
-     * 
+     *
      * @param broker the new broker added.
      */
+    @Override
     public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
     }
 
     /**
      * Called when a broker has been removed.
-     * 
+     *
      * @param broker the broker removed.
      */
+    @Override
     public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
     }
 
     /**
      * Called when the broker who is the master broker changes (because of a reload properties).
-     * 
+     *
      * @param oldMaster the previous master broker.
      * @param newMaster the new master broker.
      */
+    @Override
     public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
         // do nothing
     }
@@ -606,7 +622,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
-     * 
+     *
      * @param userData optional data associated with the change
      * @param brokerid the name of the broker updated.
      * @param brokerSession uid associated with the changed broker
@@ -614,10 +630,12 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      * @param oldStatus the previous status.
      * @param newStatus the new status.
      */
+    @Override
     public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
         HAClusteredBroker cb = (HAClusteredBroker) clsmgr.getBroker(brokerid);
-        if (cb.isLocalBroker())
+        if (cb.isLocalBroker()) {
             return;
+        }
 
         if (BrokerStatus.getBrokerIsDown(oldStatus) || BrokerStatus.getBrokerLinkIsDown(oldStatus)) {
             if (BrokerStatus.getBrokerIsUp(newStatus) && BrokerStatus.getBrokerLinkIsUp(newStatus)) {
@@ -640,11 +658,12 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
     /**
      * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
      * for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldState the previous state.
      * @param newState the new state.
      */
+    @Override
     public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
         ClusteredBroker cb = clsmgr.getBroker(brokerid);
         if (cb.isLocalBroker() && (newState == BrokerState.SHUTDOWN_COMPLETE || newState == BrokerState.SHUTDOWN_FAILOVER)) {
@@ -657,11 +676,12 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
     /**
      * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
      * version for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldVersion the previous version.
      * @param newVersion the new version.
      */
+    @Override
     public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
         // do nothing
     }
@@ -669,11 +689,12 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
     /**
      * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
      * the address for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param newAddress the previous address.
      * @param oldAddress the new address.
      */
+    @Override
     public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
         // do nothing
     }
@@ -682,6 +703,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
      ***************** Implement ConfigListener Interface *********************
      ***************************************************************************/
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         if (name.equals(HEARTBEAT_HOST_PROP) || name.equals(HEARTBEAT_PORT_PROP)) {
             throw new PropertyUpdateException(br.getKString(br.X_DYNAMIC_UPDATE_PROPERTY_NOT_SUPPORT, name));
@@ -696,6 +718,7 @@ public class HeartbeatService implements HeartbeatCallback, ClusterListener, Con
         }
     }
 
+    @Override
     public boolean update(String name, String value) {
         return true;
     }

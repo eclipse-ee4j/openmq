@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.auth;
 
 import java.util.List;
 import java.util.Properties;
-import java.util.List;
 import java.util.Iterator;
 import java.security.Principal;
 import java.security.Policy;
@@ -30,7 +29,6 @@ import java.security.AccessControlException;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
-import com.sun.messaging.jmq.auth.api.FailedLoginException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -313,8 +311,9 @@ public class AccessController {
         // eg. jmq.accesscontrol.file.properties=class,filename
         List propnames = getPropNames(prefix, type);
 
-        if (propnames == null)
+        if (propnames == null) {
             return;
+        }
 
         String pname, pvalue;
         int size = propnames.size();
@@ -332,8 +331,9 @@ public class AccessController {
     }
 
     public synchronized byte[] getChallenge(int seq, Properties props, Refreshable cacheData, String overrideType) throws BrokerException, LoginException {
-        if (aph == null)
+        if (aph == null) {
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_LOGGEDOUT));
+        }
 
         acc = null; // set to unauthenticated
 
@@ -362,8 +362,9 @@ public class AccessController {
 
         Properties p = (Properties) getAuthProperties().clone();
         p.putAll(props);
-        if (getClientIP() != null)
+        if (getClientIP() != null) {
             p.setProperty(PROP_CLIENTIP, getClientIP());
+        }
         return aph.init(seq, p, cacheData);
     }
 
@@ -371,8 +372,9 @@ public class AccessController {
      * handle client authentication response
      */
     public byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
-        if (aph == null)
+        if (aph == null) {
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_LOGGEDOUT));
+        }
         byte[] request = aph.handleResponse(authResponse, sequence);
         if (request == null) {
             acc = aph.getAccessControlContext();
@@ -468,8 +470,9 @@ public class AccessController {
             }
 
             ac = AccessController.getInstance(svcname, ServiceType.getServiceType(svctype));
-            if (!ac.isAccessControlEnabled())
+            if (!ac.isAccessControlEnabled()) {
                 continue;
+            }
             if (ac.getAccessControlType().equals(JAASAccessControlModel.TYPE)) {
                 need = true;
                 svcpp = ac.getAuthProperties().getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + JAASAccessControlModel.PROP_POLICY_PROVIDER);
@@ -477,15 +480,17 @@ public class AccessController {
                     pp = svcpp;
                     continue;
                 }
-                if (svcpp == null)
+                if (svcpp == null) {
                     continue;
+                }
                 if (!pp.equals(svcpp)) {
                     throw new BrokerException("XI18N - Multiple Java policy providers is not allowed:" + pp + ", " + svcpp);
                 }
             }
         }
-        if (!need)
+        if (!need) {
             return;
+        }
 
         Policy ppc = null;
         if (pp != null) {

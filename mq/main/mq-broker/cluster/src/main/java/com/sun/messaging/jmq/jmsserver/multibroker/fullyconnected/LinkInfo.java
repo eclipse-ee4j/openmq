@@ -26,6 +26,11 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class LinkInfo implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6527444841289073830L;
+
     public static final int SERVICE_LINK = 0;
 
     /**
@@ -76,6 +81,7 @@ public class LinkInfo implements Serializable {
         return serviceRequestType == SERVICE_FILE_TRANSFER;
     }
 
+    @Override
     public String toString() {
         return "Address = " + address + " configServer = " + configServer;
     }

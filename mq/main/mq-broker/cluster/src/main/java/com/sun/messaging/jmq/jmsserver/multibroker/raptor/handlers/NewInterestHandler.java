@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
 import java.util.Iterator;
-import java.util.List;
 import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
@@ -40,9 +39,11 @@ public class NewInterestHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "NewInterestHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_NEW_INTEREST) {
             handleNewInterest(cb, sender, pkt);
@@ -148,7 +149,7 @@ public class NewInterestHandler extends GPacketHandler {
     }
 
     private void handleNewInterestAck(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG, "MessageBus: Received G_NEW_INTEREST_REPLY from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_NEW_INTEREST_REPLY from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 
     public void handleAttachDurable(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
@@ -244,7 +245,7 @@ public class NewInterestHandler extends GPacketHandler {
     }
 
     private void handleAttachDurableReply(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG, "MessageBus: Received G_DURABLE_ATTACH_REPLY from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_DURABLE_ATTACH_REPLY from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
 

@@ -27,7 +27,6 @@ import com.sun.messaging.jmq.jmsserver.util.PartitionNotFoundException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
-import com.sun.messaging.jmq.util.log.Logger;
 
 /**
  *
@@ -60,6 +59,7 @@ public class Producer extends ProducerSpi {
         return producer;
     }
 
+    @Override
     public void destroyProducer() {
         if (getDestinationUID().isWildcard()) {
             wildcardProducers.remove(getProducerUID());
@@ -93,15 +93,18 @@ public class Producer extends ProducerSpi {
         destroy();
     }
 
+    @Override
     public synchronized void destroy() {
         super.destroy();
         lastResumeFlowSizes.clear();
     }
 
+    @Override
     public boolean isWildcard() {
         return destination_uid.isWildcard();
     }
 
+    @Override
     public Set getDestinations() {
         if (this.destinations == null) {
             destinations = new HashSet();

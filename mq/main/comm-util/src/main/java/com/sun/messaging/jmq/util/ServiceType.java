@@ -65,11 +65,13 @@ public class ServiceType {
             return NORMAL;
         }
 
-        if (string.equalsIgnoreCase("NORMAL"))
+        if (string.equalsIgnoreCase("NORMAL")) {
             return NORMAL;
+        }
 
-        if (string.equalsIgnoreCase("ADMIN"))
+        if (string.equalsIgnoreCase("ADMIN")) {
             return ADMIN;
+        }
 
         // unknown type
 

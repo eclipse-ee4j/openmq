@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on service notifications.
  *
@@ -29,6 +27,11 @@ import javax.management.Notification;
  * The MQ specific fields in this notification is TBD.
  */
 public class ServiceNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2684773764629684593L;
+
     /**
      * A service was paused.
      */

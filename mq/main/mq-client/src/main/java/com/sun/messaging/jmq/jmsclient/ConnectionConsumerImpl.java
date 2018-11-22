@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.io.*;
 import java.util.List;
-import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Collections;
@@ -31,7 +30,6 @@ import java.util.logging.Level;
 import javax.jms.*;
 
 import com.sun.messaging.AdministeredObject;
-import com.sun.messaging.jmq.io.*;
 
 /**
  * For application servers, Connections provide a special facility for creating a ConnectionConsumer. The messages it is
@@ -144,6 +142,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
      *
      * @return the reader Id
      */
+    @Override
     protected Long getReadQueueId() {
         return readQueueId;
     }
@@ -158,10 +157,12 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
     }
 
     protected boolean canRecreate() {
-        if (destination instanceof Queue)
+        if (destination instanceof Queue) {
             return true;
-        if (getDurableName() != null)
+        }
+        if (getDurableName() != null) {
             return true;
+        }
         return false;
     }
 
@@ -172,8 +173,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
         if (SessionImpl.matchConsumerIDs(rex, ht, connection.connectionLogger)) {
             synchronized (recreationLock) {
                 if (interestIdToBeRecreated == null || !interestIdToBeRecreated.equals(cid)) {
-                    if (!getInterestId().equals(cid))
+                    if (!getInterestId().equals(cid)) {
                         return;
+                    }
                     interestIdToBeRecreated = cid;
                     connection.connectionLogger.log(Level.FINE, "Notified ConnectionConsumer[" + cid + "] to be recreated");
                     if (readQueue.isEmpty()) {
@@ -188,8 +190,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
      * @return true if recreated
      */
     private boolean recreateIfNecessary() throws JMSException {
-        if (!canRecreate())
+        if (!canRecreate()) {
             return false;
+        }
 
         Long recid = null;
         boolean recreated = false;
@@ -223,8 +226,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                 } catch (Throwable t) {
                     String emsg = "Exception in stopping ConnectionConsumer[" + cid + "]'s session";
                     logger.log(Level.SEVERE, emsg, t);
-                    if (t instanceof JMSException)
+                    if (t instanceof JMSException) {
                         throw (JMSException) t;
+                    }
                     JMSException jmse = new JMSException(emsg + ": " + t.getMessage());
                     jmse.initCause(t);
                     throw jmse;
@@ -248,7 +252,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                 }
                 SessionImpl ss = null;
                 for (int i = 0; i < sss.length; i++) {
-                    ss = (SessionImpl) sss[i];
+                    ss = sss[i];
                     logger.log(Level.FINE, "Reseting ConnectionConsumer[" + cid + "]'s ServerSession's session " + ss);
 
                     ss.resetServerSessionRunner(false);
@@ -298,7 +302,6 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                             deregisterInterest();
                         } catch (Throwable t1) {
                         }
-                        ;
                         readQueue.clear();
 
                         synchronized (closeLock) {
@@ -307,7 +310,6 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                                 closeLock.wait(5000);
                             } catch (InterruptedException e) {
                             }
-                            ;
                         }
                     }
                 } while (!isClosed && !failoverInProgress);
@@ -321,8 +323,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                 setRecreationInProgress2(false);
             }
             synchronized (recreationLock) {
-                if (interestIdToBeRecreated == null)
+                if (interestIdToBeRecreated == null) {
                     return recreated;
+                }
 
                 if (interestIdToBeRecreated.equals(recid)) {
                     interestIdToBeRecreated = null;
@@ -354,7 +357,6 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                                 closeLock.wait(5000);
                             } catch (InterruptedException e) {
                             }
-                            ;
                         }
                     }
 
@@ -392,8 +394,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
     }
 
     protected void onNullMessage() throws JMSException {
-        if (isClosed)
+        if (isClosed) {
             return;
+        }
         recreateIfNecessary();
     }
 
@@ -405,10 +408,12 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
      *
      * @exception JMSException if fails to obtain a valid session from app server
      */
+    @Override
     protected void onMessage(MessageImpl message) throws JMSException {
 
-        if (recreateIfNecessary())
+        if (recreateIfNecessary()) {
             return;
+        }
 
         if (session == null) {
             serverSession = serverSessionPool.getServerSession(); // may block
@@ -426,8 +431,9 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
                 }
 
             } catch (JMSException e) {
-                if (session != null && serverSession instanceof com.sun.messaging.jmq.jmsspi.ServerSession)
+                if (session != null && serverSession instanceof com.sun.messaging.jmq.jmsspi.ServerSession) {
                     ((com.sun.messaging.jmq.jmsspi.ServerSession) serverSession).destroy();
+                }
                 session = null;
                 serverSession = null;
                 throw e;
@@ -470,6 +476,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
      *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public ServerSessionPool getServerSessionPool() throws JMSException {
         return serverSessionPool;
     }
@@ -481,6 +488,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
      *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public void close() throws JMSException {
         synchronized (closeLock) {
             isClosed = true;
@@ -543,6 +551,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
         readQueue.start();
     }
 
+    @Override
     public void dump(PrintStream ps) {
 
         ps.println("------ ConnectionConsumerImpl dump ------");
@@ -562,6 +571,7 @@ public class ConnectionConsumerImpl extends Consumer implements ConnectionConsum
 
     }
 
+    @Override
     protected java.util.Hashtable getDebugState(boolean verbose) {
         java.util.Hashtable ht = super.getDebugState(verbose);
 

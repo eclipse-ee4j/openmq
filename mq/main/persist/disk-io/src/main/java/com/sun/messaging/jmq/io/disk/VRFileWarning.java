@@ -28,6 +28,10 @@ import java.util.ArrayList;
 
 public class VRFileWarning extends Throwable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7444277158574257905L;
     private ArrayList warnings = new ArrayList(1);
 
     /**
@@ -57,13 +61,14 @@ public class VRFileWarning extends Throwable {
 
     /**
      * Add a warning.
-     * 
+     *
      * @param w a warning
      **/
     public synchronized void addWarning(String w) {
         warnings.add(w);
     }
 
+    @Override
     public String toString() {
         return super.toString() + ":" + warnings;
     }

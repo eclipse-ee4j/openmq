@@ -140,6 +140,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
 
     // serialize message body
     // This is called when producing messages.
+    @Override
     protected void setMessageBodyToPacket() throws JMSException {
         reset();
         setMessageBody(messageBody);
@@ -147,6 +148,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
 
     // deserialize message body
     // This is called after message is received in Session Reader.
+    @Override
     protected void getMessageBodyFromPacket() throws JMSException {
         messageBody = getMessageBody();
         reset();
@@ -215,6 +217,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
         return bufferIsDirty;
     }
 
+    @Override
     public void clearBody() throws JMSException {
 
         messageBody = null;
@@ -236,6 +239,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public boolean readBoolean() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toBoolean(obj);
@@ -252,6 +256,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public byte readByte() throws JMSException {
 
         Object obj = readPrimitiveObject();
@@ -277,6 +282,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public short readShort() throws JMSException {
 
         Object obj = readPrimitiveObject();
@@ -294,6 +300,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public char readChar() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toChar(obj);
@@ -310,6 +317,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public int readInt() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toInt(obj);
@@ -326,6 +334,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public long readLong() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toLong(obj);
@@ -342,6 +351,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public float readFloat() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toFloat(obj);
@@ -358,6 +368,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public double readDouble() throws JMSException {
         Object obj = readPrimitiveObject();
         return ValueConvert.toDouble(obj);
@@ -374,6 +385,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public String readString() throws JMSException {
 
         Object obj = readPrimitiveObject();
@@ -418,6 +430,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @see #readObject()
      */
 
+    @Override
     public int readBytes(byte[] value) throws JMSException {
 
         int bytesRead = -1;
@@ -498,6 +511,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotReadableException if message in write-only mode.
      */
 
+    @Override
     public Object readObject() throws JMSException {
         Object obj = readPrimitiveObject();
         return obj;
@@ -513,6 +527,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeBoolean(boolean value) throws JMSException {
         writePrimitiveObject(Boolean.valueOf(value));
     }
@@ -525,6 +540,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeByte(byte value) throws JMSException {
         writePrimitiveObject(Byte.valueOf(value));
     }
@@ -538,6 +554,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeShort(short value) throws JMSException {
         writePrimitiveObject(Short.valueOf(value));
     }
@@ -551,6 +568,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeChar(char value) throws JMSException {
         writePrimitiveObject(Character.valueOf(value));
     }
@@ -564,6 +582,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeInt(int value) throws JMSException {
         writePrimitiveObject(Integer.valueOf(value));
     }
@@ -577,6 +596,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeLong(long value) throws JMSException {
         writePrimitiveObject(Long.valueOf(value));
     }
@@ -590,6 +610,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeFloat(float value) throws JMSException {
         writePrimitiveObject(Float.valueOf(value));
     }
@@ -603,6 +624,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeDouble(double value) throws JMSException {
         writePrimitiveObject(Double.valueOf(value));
     }
@@ -616,6 +638,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeString(String value) throws JMSException {
         writePrimitiveObject(value);
     }
@@ -633,6 +656,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeBytes(byte[] value) throws JMSException {
         writePrimitiveObject(value);
     }
@@ -652,6 +676,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void writeBytes(byte[] value, int offset, int length) throws JMSException {
 
         byte[] out = new byte[length];
@@ -674,6 +699,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageFormatException if the object is invalid
      */
 
+    @Override
     public void writeObject(Object value) throws JMSException {
         checkValidObjectType(value);
         writePrimitiveObject(value);
@@ -702,6 +728,7 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
      * @exception MessageFormatException if message has an invalid format
      */
 
+    @Override
     public void reset() throws JMSException {
 
         try {
@@ -731,11 +758,13 @@ public class StreamMessageImpl extends MessageImpl implements StreamMessage {
         notYetProcessedPrimitiveObject = null;
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ StreamMessageImpl dump ------");
         super.dump(ps);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

@@ -106,6 +106,7 @@ public class DestinationElement {
         return !_type.equals(JMSBridgeXMLConstant.Destination.TOPIC);
     }
 
+    @Override
     public String toString() {
         return JMSBridgeXMLConstant.Element.DESTINATION + "[" + getRefName() + "]";
     }

@@ -33,6 +33,11 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
 public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.Referenceable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -4468834629614174628L;
+
+    /**
      * Constructs an identity of a Publish/Subscribe Topic with the default name
      */
     public Topic() {
@@ -54,6 +59,7 @@ public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.
      * @return The Reference Object that can be used to reconstruct this object
      *
      */
+    @Override
     public javax.naming.Reference getReference() {
         return (ReferenceGenerator.getReference(this, AdministeredObjectFactory.class.getName()));
     }
@@ -61,7 +67,7 @@ public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.
     /**
      * Sets the name of this Topic. This method performs name validatation This is used by an Application Server via the Sun
      * MQ J2EE Resource Adapter
-     * 
+     *
      * @param name The name of the Topic
      * @throws IllegalArgumentException if name is invalid
      */
@@ -75,7 +81,7 @@ public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.
 
     /**
      * Sets a description for this Topic. The description can be any String
-     * 
+     *
      * @param description The description for this Topic
      */
     public void setDescription(String description) {
@@ -84,7 +90,7 @@ public class Topic extends com.sun.messaging.BasicTopic implements javax.naming.
 
     /**
      * Returns the description for this Topic.
-     * 
+     *
      * @return The description for this Topic
      */
     public String getDescription() {

@@ -33,7 +33,6 @@ import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterManagerImpl;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterBrokerInfoReply;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterFirstInfoInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.HandshakeInProgressException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -153,14 +152,16 @@ public class BrokerLink extends Thread {
 
     protected static String getRemoteString(Socket s, BrokerAddressImpl remoteBroker) {
         String rs = getRealRemoteString(s);
-        if (rs == null)
+        if (rs == null) {
             return remoteBroker.toString();
+        }
         return remoteBroker.toString() + "[" + rs + "]";
     }
 
     private static String getRealRemoteString(Socket s) {
-        if (s == null || s.isClosed())
+        if (s == null || s.isClosed()) {
             return null;
+        }
         return s.getRemoteSocketAddress().toString();
     }
 
@@ -186,8 +187,9 @@ public class BrokerLink extends Thread {
                 } catch (Exception e) {
                 }
 
-                if (linkInitDone)
+                if (linkInitDone) {
                     break;
+                }
                 long curtime = System.currentTimeMillis();
                 if (curtime >= endtime) {
                     logger.log(Logger.WARNING, br.getKString(br.W_CLUSTER_WAIT_LINKINIT_TIMEOUT, String.valueOf(initWaitTimeSeconds), getRemoteString()));
@@ -209,8 +211,9 @@ public class BrokerLink extends Thread {
      * Set the flow control for an outgoing packet stream.
      */
     public synchronized void setFlowControl(boolean enabled) {
-        if (writer == null)
+        if (writer == null) {
             return;
+        }
 
         writer.setFlowControl(enabled);
     }
@@ -517,11 +520,13 @@ public class BrokerLink extends Thread {
             BrokerAddressImpl ba = null;
             synchronized (this) {
 
-                if (autoConnect == false)
+                if (autoConnect == false) {
                     return;
+                }
 
-                if (connected == true)
+                if (connected == true) {
                     return;
+                }
 
                 // We have to initiate the connection.
                 try {
@@ -548,8 +553,9 @@ public class BrokerLink extends Thread {
                     }
                     if (createLinkFailures % 40 == 0) {
                         String msg = e.getMessage();
-                        if (msg == null)
+                        if (msg == null) {
                             msg = e.getClass().getName();
+                        }
                         logger.log(Logger.WARNING, BrokerResources.W_CLUSTER_LINKINIT_EXCEPTION, getRemoteString(), msg);
                         logger.logStack(Logger.DEBUG, "BrokerLink.createLink() failed", e);
                     }
@@ -596,7 +602,7 @@ public class BrokerLink extends Thread {
 
     /**
      * Process the LINK_INIT packet for connections initiated by this BrokerLink thread..
-     * 
+     *
      * @param returns BrokerAddressImpl for link request else LinkInfo if allowNonLinkRequest true
      */
     protected static Object consumeLinkInit(Socket s, BrokerLink l, ClusterImpl cl, boolean allowNonLinkRequest) throws IOException {
@@ -638,10 +644,11 @@ public class BrokerLink extends Thread {
             }
         } catch (BrokerException e) {
             logger.log(Logger.ERROR, br.getKString(br.E_CLUSTER_BAD_LINK_INIT, s.getInetAddress().toString()), e);
-            if (l == null)
+            if (l == null) {
                 s.close();
-            else
+            } else {
                 l.shutdown();
+            }
             return null;
         } catch (Exception e) {
             if (DEBUG) {
@@ -659,17 +666,19 @@ public class BrokerLink extends Thread {
             if (!allowNonLinkRequest) {
                 logger.log(Logger.ERROR, br.getKString(br.E_CLUSTER_UNEXPECTED_PACKET_FROM, "LINK_INIT[" + li.getAddress().getClusterVersion() + "]",
                         s.getInetAddress().toString()));
-                if (l == null)
+                if (l == null) {
                     s.close();
-                else
+                } else {
                     l.shutdown();
+                }
                 return null;
             }
             return li;
         }
 
-        if (l != null)
+        if (l != null) {
             l.setRemote(b);
+        }
 
         if (cl.checkConfigServer(b) == false) {
             BrokerAddressImpl master = (BrokerAddressImpl) cl.getConfiguredConfigServer();
@@ -683,10 +692,11 @@ public class BrokerLink extends Thread {
                 }
                 synchronized (waitingMasterLogs) {
                     Integer num = (Integer) waitingMasterLogs.get(b.getMQAddress());
-                    if (num == null)
+                    if (num == null) {
                         waitingMasterLogs.put(b.getMQAddress(), Integer.valueOf(1));
-                    else
+                    } else {
                         waitingMasterLogs.put(b.getMQAddress(), Integer.valueOf(num.intValue() + 1));
+                    }
                 }
 
             } else { // should never happen
@@ -713,18 +723,20 @@ public class BrokerLink extends Thread {
                         (remotemaster == null ? "null" : remotemaster.getMQAddress().toString()) };
                 logger.log(Logger.ERROR, br.getKString(BrokerResources.E_MBUS_CONFIG_MISMATCH1, args));
 
-                if (l == null)
+                if (l == null) {
                     s.close();
-                else
+                } else {
                     l.shutdown();
+                }
                 return null;
             }
         } catch (Exception e) {
             logger.logStack(Logger.DEBUG, e.getMessage() + ((l == null) ? ("Socket " + s.getInetAddress()) : ("Link " + l)), e);
-            if (l == null)
+            if (l == null) {
                 s.close();
-            else
+            } else {
                 l.linkDown();
+            }
             return null;
         }
 
@@ -739,10 +751,11 @@ public class BrokerLink extends Thread {
         if (diff != null) {
             logger.log(Logger.ERROR, br.E_MBUS_CONFIG_MISMATCH2, b, diff);
 
-            if (l == null)
+            if (l == null) {
                 s.close();
-            else
+            } else {
                 l.shutdown();
+            }
             return null;
         }
 
@@ -774,8 +787,9 @@ public class BrokerLink extends Thread {
                 setRemote(remote);
 
                 if (connected) {
-                    if (DEBUG)
+                    if (DEBUG) {
                         logger.log(Logger.DEBUG, "Already connected!");
+                    }
 
                     try {
                         remoteConn.close();
@@ -902,8 +916,9 @@ public class BrokerLink extends Thread {
     }
 
     protected boolean isOutputShutdown() {
-        if (conn == null)
+        if (conn == null) {
             return false;
+        }
         return conn.isOutputShutdown();
     }
 
@@ -924,8 +939,9 @@ public class BrokerLink extends Thread {
             String v1 = p1.getProperty(name);
             String v2 = p2.getProperty(name);
 
-            if (v1 == null && v2 == null)
+            if (v1 == null && v2 == null) {
                 continue;
+            }
 
             if ((v1 == null && v2 != null) || (v2 == null && v1 != null)) {
                 ret.append("\t" + name + "=" + v1 + "," + v2 + "\n");
@@ -955,8 +971,9 @@ public class BrokerLink extends Thread {
             p.readPacket(is);
             readActive = true;
         } catch (OutOfMemoryError oom) {
-            if (handleOom == false)
+            if (handleOom == false) {
                 throw oom;
+            }
 
             // First, try to free some space.
             Globals.handleGlobalError(oom, br.getKString(br.M_LOW_MEMORY_CLUSTER));
@@ -1018,8 +1035,9 @@ public class BrokerLink extends Thread {
             boolean shutdownOutput = cbi.sendAndClose();
             sendPacket(gp, shutdownOutput, false);
             expectBrokerInfoReplyPkt = true;
-            if (shutdownOutput)
+            if (shutdownOutput) {
                 return;
+            }
 
         }
         synchronized (handshakeLock) {
@@ -1129,8 +1147,9 @@ public class BrokerLink extends Thread {
     private boolean isWriteActive() {
         boolean writeActive = false;
         try {
-            if (writer != null)
+            if (writer != null) {
                 writeActive = writer.isWriteActive();
+            }
         } catch (Exception e) {/* Ignore */
             logger.log(Logger.DEBUGHIGH, "Ignoring exception on isIOActive", e);
         }
@@ -1152,18 +1171,21 @@ public class BrokerLink extends Thread {
     protected void clearIOActiveFlag() {
         readActive = false;
         try {
-            if (writer != null)
+            if (writer != null) {
                 writer.clearWriteActiveFlag();
+            }
         } catch (Exception e) {/* Ignore */
             logger.log(Logger.DEBUGHIGH, "Ignoring exception on clearIOActiveFlag", e);
         }
     }
 
+    @Override
     public void run() {
         while (true) {
             if (connected == false) {
-                if (autoConnect == false)
+                if (autoConnect == false) {
                     break;
+                }
 
                 createLink();
                 if (!connected) {
@@ -1183,8 +1205,9 @@ public class BrokerLink extends Thread {
 
                     consumeBrokerInfoPkt();
 
-                    if (expectBrokerInfoReplyPkt)
+                    if (expectBrokerInfoReplyPkt) {
                         consumeBrokerInfoReplyPkt();
+                    }
 
                     if (DEBUG) {
                         logger.log(logger.DEBUG, "Received BROKER_INFO...");
@@ -1220,6 +1243,7 @@ public class BrokerLink extends Thread {
         parent.handleBrokerLinkShutdown(remote);
     }
 
+    @Override
     public String toString() {
         String clistener = parent.getServerSocketString();
         if (clistener == null) {
@@ -1235,7 +1259,7 @@ class BrokerListLock {
     private boolean locked = false;
 
     public BrokerListLock() {
-    };
+    }
 
     public synchronized void lock() {
         Thread me = Thread.currentThread();

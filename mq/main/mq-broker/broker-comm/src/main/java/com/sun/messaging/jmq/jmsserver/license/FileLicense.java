@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.license;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.Logger;
-
 import java.io.*;
 import java.util.*;
 import java.security.*;
@@ -66,7 +63,7 @@ public class FileLicense extends LicenseBase {
 
     /**
      * Write the encrypted license to the specified file.
-     * 
+     *
      * @param file the file to write the license
      * @exception IOException if it fails to write the license
      */
@@ -124,14 +121,15 @@ public class FileLicense extends LicenseBase {
     /**
      * Rewrite the license to the file it is loaded from if the dateString contains the "TRY[n]" pattern. Calculate the
      * expiration date and rewrite the license file.
-     * 
+     *
      * @exception IOException if it fails to write the license
      * @exception IllegalStateException if the License object was not instantiated by loading data from a file
      */
     public void rewriteLicense() throws IOException, BrokerException {
         String dateString = props.getProperty(PROP_DATE_STRING);
-        if (dateString == null)
+        if (dateString == null) {
             return;
+        }
 
         if (dateString.startsWith(TRY_STRING)) {
             // calculate and set date range
@@ -183,8 +181,9 @@ public class FileLicense extends LicenseBase {
 
             // Check the magic number.
             long magic = dis.readLong();
-            if (magic != LICENSE_MAGIC_NUMBER)
+            if (magic != LICENSE_MAGIC_NUMBER) {
                 throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+            }
 
             // Checksum
             byte[] checksum = new byte[CHECKSUM_LEN];
@@ -228,15 +227,18 @@ public class FileLicense extends LicenseBase {
      * Check whether the checksum are the same.
      */
     private boolean goodChecksum(byte[] b1, byte[] b2) {
-        if (b1 == null || b2 == null)
+        if (b1 == null || b2 == null) {
             return false;
+        }
 
-        if (b1.length != b2.length)
+        if (b1.length != b2.length) {
             return false;
+        }
 
         for (int i = 0; i < b1.length; i++) {
-            if (b1[i] != b2[i])
+            if (b1[i] != b2[i]) {
                 return false;
+            }
         }
 
         return true;
@@ -291,11 +293,13 @@ public class FileLicense extends LicenseBase {
             temp = t1[k];
             t1[k] = t1[ic];
             t1[ic] = temp;
-            if (t3[k] != 0)
+            if (t3[k] != 0) {
                 continue;
+            }
             ic = (random & MASK) % k;
-            while (t3[ic] != 0)
+            while (t3[ic] != 0) {
                 ic = (ic + 1) % k;
+            }
             t3[k] = ic;
             t3[ic] = k;
         }

@@ -20,14 +20,9 @@
 
 package com.sun.messaging.jmq.jmsserver.data.protocol;
 
-import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
-import com.sun.messaging.jmq.jmsserver.data.handlers.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import java.util.*;
@@ -35,10 +30,9 @@ import java.io.*;
 import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 
 /**
- * 
+ *
  * Api used for direct access to the broker. This code is not integrated into the handler classes because the
  * interaction (e.g. when callbacks happen) is different for the jms protocol and other protocols.
  */
@@ -229,7 +223,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>CREATE_SESSION</b>
      * </p>
-     * 
+     *
      * @param ackType acknowledge type to use
      * @param con connection to attach the session to
      */
@@ -240,7 +234,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>DESTROY_SESSION</b>
      * </p>
-     * 
+     *
      * @param uid sessionUID to destroy
      * @param con connection to deattach the session from
      */
@@ -251,7 +245,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>STOP</b>
      * </p>
-     * 
+     *
      * @param uid session to pause
      */
     public void pauseSession(SessionUID uid) throws BrokerException;
@@ -261,7 +255,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>START</b>
      * </p>
-     * 
+     *
      * @param uid session to resume
      */
     public void resumeSession(SessionUID uid) throws BrokerException;
@@ -271,7 +265,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>STOP</b>
      * </p>
-     * 
+     *
      * @param con connection to pause
      */
     public void pauseConnection(IMQConnection con);
@@ -281,7 +275,7 @@ public interface Protocol {
      * <P>
      * Packet:<B>START</b>
      * </p>
-     * 
+     *
      * @param con connection to start
      */
     public void resumeConnection(IMQConnection con);
@@ -291,7 +285,7 @@ public interface Protocol {
      * <P>
      * Packet:<b>BROWSE</b>
      * </p>
-     * 
+     *
      * @param d destination to browse
      * @param sstr selector string to use (or null if none)
      * @param acc check access_control
@@ -304,7 +298,7 @@ public interface Protocol {
      * <P>
      * Packet:<b>ADD_CONSUMER</b>
      * </p>
-     * 
+     *
      * @param d Destination to create the consumer on
      * @param con Connection associated with the consumer
      * @param session session associated with the consumer
@@ -331,7 +325,7 @@ public interface Protocol {
      * <P>
      * Packet:<b>DELETE_CONSUMER</b>
      * </P>
-     * 
+     *
      * @param durableName durable name associated with the subscription
      * @param clientID clientID associated with the subscription
      */
@@ -342,7 +336,7 @@ public interface Protocol {
      * <P>
      * Packet:<b>DELETE_CONSUMER</b>
      * </P>
-     * 
+     *
      * @param uid ConsumerUID to close.
      * @param session session associated with the consumer.
      * @param con Connection associated with the consumer (used for retrieving protocol version).
@@ -353,7 +347,7 @@ public interface Protocol {
 
     /**
      * End a transaction.
-     * 
+     *
      * @param id The TransactionUID to end
      * @param xid The Xid of the transaction to end. Required if transaction is an XA transaction. Must be null if it is not
      * an XA transaction.
@@ -363,7 +357,7 @@ public interface Protocol {
 
     /**
      * Start a transaction.
-     * 
+     *
      * @param xid The Xid of the transaction to start. Required if transaction is an XA transaction. Must be null if it is
      * not an XA transaction.
      * @param xaFlags xaFlags passed on START operation. Used only if an XA transaction.
@@ -376,7 +370,7 @@ public interface Protocol {
 
     /**
      * Commit a transaction.
-     * 
+     *
      * @param id The TransactionUID to commit
      * @param xid The Xid of the transaction to commit. Required if transaction is an XA transaction. Must be null if it is
      * not an XA transaction.
@@ -387,14 +381,14 @@ public interface Protocol {
 
     /**
      * prepare a transaction.
-     * 
+     *
      * @param id The TransactionUID to prepare
      */
     public void prepareTransaction(TransactionUID id, IMQConnection con) throws BrokerException;
 
     /**
      * Rollback a transaction
-     * 
+     *
      * @param id The TransactionUID to rollback
      * @param xid The Xid of the transaction to rollback. Required if transaction is an XA transaction. Must be null if it
      * is not an XA transaction.
@@ -407,14 +401,14 @@ public interface Protocol {
 
     /**
      * Recover a transaction.
-     * 
+     *
      * @param id id to recover or null if all
      */
     public JMQXid[] recoverTransaction(TransactionUID id);
 
     /**
      * Verify a destination exists.
-     * 
+     *
      * @param destination destination name
      * @param type DestType of the destination
      * @param selectorstr selector string to verify or null if none
@@ -430,7 +424,7 @@ public interface Protocol {
 
     /**
      * Verify a transaction is PREPARED
-     * 
+     *
      * @param tuid transaction id to verify
      */
     public Map verifyTransaction(TransactionUID tuid) throws BrokerException;
@@ -449,7 +443,7 @@ public interface Protocol {
 
     /**
      * create a destination Implemented CREATE_DESTINATION
-     * 
+     *
      * @param acc check access_control
      */
 

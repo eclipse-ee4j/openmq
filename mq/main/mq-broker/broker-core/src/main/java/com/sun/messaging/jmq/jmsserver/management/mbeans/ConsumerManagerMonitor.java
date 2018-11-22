@@ -21,10 +21,8 @@
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Iterator;
-import java.util.HashSet;
 import java.util.ArrayList;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
@@ -33,9 +31,7 @@ import javax.management.MBeanException;
 import javax.management.openmbean.CompositeData;
 
 import com.sun.messaging.jms.management.server.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.util.ConsumerUtil;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
@@ -147,7 +143,7 @@ public class ConsumerManagerMonitor extends MQMBeanReadOnly {
 
         if (al.size() > 0) {
             list = new String[al.size()];
-            list = (String[]) al.toArray(list);
+            list = al.toArray(list);
         }
 
         return (list);
@@ -181,22 +177,27 @@ public class ConsumerManagerMonitor extends MQMBeanReadOnly {
         return (cd);
     }
 
+    @Override
     public String getMBeanName() {
         return ("ConsumerManagerMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_CON_MGR_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

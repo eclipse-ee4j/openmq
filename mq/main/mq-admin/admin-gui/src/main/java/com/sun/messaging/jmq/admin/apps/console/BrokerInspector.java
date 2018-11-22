@@ -32,13 +32,18 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4728588573379958724L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_CONTENTS), acr.getString(acr.I_COUNT) };
         return (columnNames);
@@ -50,6 +55,7 @@ public class BrokerInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
         if (col == 0) {
             return (conObj);

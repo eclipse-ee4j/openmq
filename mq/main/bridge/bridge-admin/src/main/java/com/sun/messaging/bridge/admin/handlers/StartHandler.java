@@ -36,6 +36,7 @@ public class StartHandler extends AdminCmdHandler {
      *
      * throw exception if let parent handle sendReply
      */
+    @Override
     public void handle(Session session, ObjectMessage msg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, JMSException, Exception {
 
         int msgtype = msg.getIntProperty(AdminMessageType.PropName.MESSAGE_TYPE);

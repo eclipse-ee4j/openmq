@@ -67,6 +67,7 @@ public class LinkElement {
         _target = t;
     }
 
+    @Override
     public String toString() {
         return JMSBridgeXMLConstant.Element.LINK + "[" + getName() + "]";
     }

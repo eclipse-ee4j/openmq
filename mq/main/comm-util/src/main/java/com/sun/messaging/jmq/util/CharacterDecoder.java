@@ -29,7 +29,7 @@ import java.io.IOException;
 /**
  * This class defines the decoding half of character encoders. A character decoder is an algorithim for transforming 8
  * bit binary data that has been encoded into text by a character encoder, back into original binary form.
- * 
+ *
  * The character encoders, in general, have been structured around a central theme that binary data can be encoded into
  * text that has the form:
  *
@@ -105,8 +105,9 @@ public abstract class CharacterDecoder {
     protected int readFully(InputStream in, byte buffer[], int offset, int len) throws java.io.IOException {
         for (int i = 0; i < len; i++) {
             int q = in.read();
-            if (q == -1)
+            if (q == -1) {
                 return ((i == 0) ? -1 : i);
+            }
             buffer[i + offset] = (byte) q;
         }
         return len;
@@ -115,7 +116,7 @@ public abstract class CharacterDecoder {
     /**
      * Decode the text from the InputStream and write the decoded octets to the OutputStream. This method runs until the
      * stream is exhausted.
-     * 
+     *
      * @exception CEStreamExhausted The input stream is unexpectedly out of data
      */
     public void decodeBuffer(InputStream aStream, OutputStream bStream) throws IOException {
@@ -150,7 +151,7 @@ public abstract class CharacterDecoder {
     /**
      * Alternate decode interface that takes a String containing the encoded buffer and returns a byte array containing the
      * data.
-     * 
+     *
      * @exception IOException An error has occurred while decoding
      */
     public byte decodeBuffer(String inputString)[] throws IOException {

@@ -21,9 +21,13 @@
 package com.sun.messaging.jmq.util.lists;
 
 import java.util.*;
-import java.lang.ref.*;
 
 public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limitable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4929344460826666399L;
+
     EventBroadcastHelper ebh = new EventBroadcastHelper();
 
     private boolean enforceLimits = true;
@@ -88,8 +92,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         while (itr.hasNext()) {
             Object mine = itr.next();
             Object o = remove(mine, r);
-            if (o != null)
+            if (o != null) {
                 s.add(o);
+            }
         }
         return s;
     }
@@ -97,6 +102,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
     /**
      * Removes all mappings from this map.
      */
+    @Override
     public void clear() {
         Set m = null;
         synchronized (this) {
@@ -110,7 +116,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * original map (and changes in the original set will reflect in the map).
      * <P>
      * For example, if you remove an object from the original map it will also be removed from the new map.
-     * 
+     *
      * @param f filter to use when matching
      * @returns a map of matching objects
      * @see #getAll(Filter)
@@ -131,8 +137,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
                     s.put(me.getKey(), me.getValue());
                 }
             }
-            if (filterMaps == null)
+            if (filterMaps == null) {
                 filterMaps = Collections.synchronizedMap(new WeakValueHashMap("filter"));
+            }
             filterMaps.put(f, s);
         }
         return s;
@@ -143,7 +150,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * the subset).
      * <P>
      * For example, if you remove an object from the original map it will also be removed from the subset.
-     * 
+     *
      * @param c comparator to use when sorting the objects
      * @returns a set ordered by the comparator
      */
@@ -151,8 +158,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
         Set s = new TreeSet(f);
         synchronized (this) {
             s.addAll(values());
-            if (comparatorSets == null)
+            if (comparatorSets == null) {
                 comparatorSets = Collections.synchronizedMap(new WeakValueHashMap("Comparator"));
+            }
             comparatorSets.put(f, s);
         }
         return s;
@@ -167,6 +175,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @throws NullPointerException if the specified map is null.
      * @see #putAll(Map, Reason)
      */
+    @Override
     public void putAll(Map m) {
         putAll(m, null);
     }
@@ -197,6 +206,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * <tt>null</tt> return can also indicate that the HashMap previously associated <tt>null</tt> with the specified key.
      * @see #put(Object, Object, Reason)
      */
+    @Override
     public Object put(Object key, Object value) {
         return this.put(key, value, null);
     }
@@ -210,6 +220,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key.
      * @see #remove(Object, Reason)
      */
+    @Override
     public Object remove(Object key) {
         return this.remove(key, null);
     }
@@ -246,8 +257,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
         boolean myenforceLimits = enforceLimits && checklimit;
 
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
             notifyChange(EventType.SET_CHANGED_REQUEST, null, value, reason);
+        }
 
         if (key == null && value == null) {
             throw new NullPointerException("Unable to support null " + "keys or values");
@@ -318,9 +330,9 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
             if (bytes > highWaterBytes) {
                 highWaterBytes = bytes;
             }
-            averageCount = (((float) numberSamples * averageCount + (float) newSize) / ((float) numberSamples + 1.0F));
-            averageBytes = ((double) numberSamples * averageBytes + (double) newBytes) / ((double) numberSamples + 1.0D);
-            messageAverage = ((double) numberSamples * messageAverage + (double) objsize) / ((double) numberSamples + 1.0F);
+            averageCount = ((numberSamples * averageCount + newSize) / (numberSamples + 1.0F));
+            averageBytes = (numberSamples * averageBytes + newBytes) / (numberSamples + 1.0D);
+            messageAverage = (numberSamples * messageAverage + objsize) / ((double) numberSamples + 1.0F);
             numberSamples++;
         }
         // OK -> deal w/ comparator sets
@@ -329,12 +341,13 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
                 Iterator itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
                     Set s = (Set) itr.next();
-                    if (s != null)
+                    if (s != null) {
                         synchronized (s) {
                             s.add(value);
                         }
-                    else
+                    } else {
                         itr.remove();
+                    }
                 }
             }
 
@@ -345,10 +358,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
                 Iterator itr = filterMaps.values().iterator();
                 while (itr.hasNext()) {
                     FilterMap s = (FilterMap) itr.next();
-                    if (s != null && (s.getFilter() == null || s.getFilter().matches(value)))
+                    if (s != null && (s.getFilter() == null || s.getFilter().matches(value))) {
                         s.put(key, value);
-                    else if (s == null)
+                    } else if (s == null) {
                         itr.remove();
+                    }
                 }
             }
 
@@ -386,7 +400,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     /**
      * determines if the map should throw an exeption if the size is exceeded, or just call the FULL event listeners
-     * 
+     *
      * @param b if true, exceptions are thrown when limits are exceeded.
      */
     public void enforceLimits(boolean b) {
@@ -395,7 +409,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     /**
      * returns the current value of enforceLimits
-     * 
+     *
      * @returns true if limits are enforces, false otherwise
      */
     public boolean getEnforceLimits() {
@@ -413,6 +427,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * key.
      * @see #put(Object, Object)
      */
+    @Override
     public Object get(Object key) {
         synchronized (this) {
             return super.get(key);
@@ -476,14 +491,15 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
             bytes = newBytes;
         }
 
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
             notifyChange(EventType.SET_CHANGED_REQUEST, value, null, reason);
+        }
 
         synchronized (limitLock) {
 
-            averageCount = (((float) numberSamples * averageCount + (float) newSize) / ((float) numberSamples + 1.0F));
-            averageBytes = ((double) numberSamples * averageBytes + (double) newBytes) / ((double) numberSamples + 1.0D);
-            messageAverage = ((double) numberSamples * messageAverage + (double) objsize) / ((double) numberSamples + 1.0F);
+            averageCount = ((numberSamples * averageCount + newSize) / (numberSamples + 1.0F));
+            averageBytes = (numberSamples * averageBytes + newBytes) / (numberSamples + 1.0D);
+            messageAverage = (numberSamples * messageAverage + objsize) / ((double) numberSamples + 1.0F);
             numberSamples++;
         }
 
@@ -493,12 +509,13 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
                 Iterator itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
                     Set s = (Set) itr.next();
-                    if (s != null)
+                    if (s != null) {
                         synchronized (s) {
                             s.remove(value);
                         }
-                    else
+                    } else {
                         itr.remove();
+                    }
                 }
             }
         }
@@ -508,10 +525,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
                 Iterator itr = filterMaps.values().iterator();
                 while (itr.hasNext()) {
                     Set s = (Set) itr.next();
-                    if (s != null)
+                    if (s != null) {
                         s.remove(key);
-                    else
+                    } else {
                         itr.remove();
+                    }
                 }
             }
         }
@@ -546,7 +564,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
     /**
      * returns a new map that contains all objects matching the filter. This new map will not be updated to reflect changes
      * in the original set.
-     * 
+     *
      * @param f filter to use when matching
      * @returns a new map of matching objects
      * @see #subMap(Filter)
@@ -597,34 +615,37 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     /**
      * Request notification when the specific event occurs.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
      * @return an id associated with this notification
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Object user_data) {
         return ebh.addEventListener(listener, type, user_data);
     }
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
      * @param reason reason which must be associated with the event (or null for all events)
      * @return an id associated with this notification
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         return ebh.addEventListener(listener, type, reason, userData);
     }
 
     /**
      * remove the listener registered with the passed in id.
-     * 
+     *
      * @return the listener which was removed
      */
+    @Override
     public Object removeEventListener(Object id) {
         return ebh.removeEventListener(id);
     }
@@ -639,10 +660,11 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     /**
      * sets the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @param bytes maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
 
+    @Override
     public void setMaxByteSize(long bytes) {
         if (bytes < UNLIMITED_BYTES) {
             bytes = UNLIMITED_BYTES;
@@ -652,9 +674,10 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 
     /**
      * returns the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @return maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
+    @Override
     public long maxByteSize() {
         return maxBytePerObject;
     }
@@ -664,6 +687,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @param cnt the capacity for this set (or UNLIMITED_CAPACITY if unlimited).
      */
+    @Override
     public void setCapacity(int cnt) {
         if (cnt < UNLIMITED_CAPACITY) {
             cnt = UNLIMITED_CAPACITY;
@@ -693,6 +717,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @param size the byte capacity for this set (or UNLIMITED_BYTES if unlimited).
      */
+    @Override
     public void setByteCapacity(long size) {
         if (size < UNLIMITED_BYTES) {
             size = UNLIMITED_BYTES;
@@ -720,6 +745,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the capacity of the list
      */
+    @Override
     public int capacity() {
         return maxCapacity;
     }
@@ -729,6 +755,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the byte capacity for this set.
      */
+    @Override
     public long byteCapacity() {
         return maxByteCapacity;
     }
@@ -738,6 +765,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return <tt>true</tt> if the count limit is set and has been reached or exceeded.
      */
+    @Override
     public boolean isFull() {
         return (maxCapacity > 0 && size() >= maxCapacity) || (maxByteCapacity > 0 && bytes >= maxByteCapacity);
     }
@@ -748,13 +776,16 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the amount of free space
      */
+    @Override
     public int freeSpace() {
-        if (maxCapacity == UNLIMITED_CAPACITY)
+        if (maxCapacity == UNLIMITED_CAPACITY) {
             return UNLIMITED_CAPACITY;
+        }
 
         int val = maxCapacity - size();
-        if (val < 0)
+        if (val < 0) {
             return 0;
+        }
         return val;
 
     }
@@ -765,13 +796,16 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the amount of free space
      */
+    @Override
     public long freeBytes() {
-        if (maxByteCapacity == UNLIMITED_CAPACITY)
+        if (maxByteCapacity == UNLIMITED_CAPACITY) {
             return UNLIMITED_CAPACITY;
+        }
         synchronized (this) {
             long val = maxByteCapacity - bytes;
-            if (val < 0)
+            if (val < 0) {
                 return 0L;
+            }
             return val;
         }
     }
@@ -784,6 +818,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @see Sized
      * @see #size
      */
+    @Override
     public long byteSize() {
         return bytes;
     }
@@ -796,6 +831,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @see Sized
      * @see #size
      */
+    @Override
     public int size() {
         synchronized (this) {
             return super.size();
@@ -808,6 +844,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      * @return the highest number of messages this set has held since it was created.
      */
 
+    @Override
     public int highWaterCount() {
         return highWaterCnt;
     }
@@ -817,6 +854,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public long highWaterBytes() {
         return highWaterBytes;
     }
@@ -826,6 +864,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the number of bytes of the largest message ever stored on this list.
      */
+    @Override
     public long highWaterLargestMessageBytes() {
         return largestMessageHighWater;
     }
@@ -835,6 +874,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the average number of messages this set has held since it was created.
      */
+    @Override
     public float averageCount() {
         return averageCount;
     }
@@ -844,6 +884,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public double averageBytes() {
         return averageBytes;
     }
@@ -853,6 +894,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
      *
      * @return the number of bytes of the average message stored on this list.
      */
+    @Override
     public double averageMessageBytes() {
         return messageAverage;
     }
@@ -871,6 +913,7 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
             this.value = v;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (o instanceof Map.Entry) {
                 Map.Entry me = (Map.Entry) o;
@@ -880,18 +923,22 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
             return false;
         }
 
+        @Override
         public Object getKey() {
             return key;
         }
 
+        @Override
         public Object getValue() {
             return value;
         }
 
+        @Override
         public int hashCode() {
             return key.hashCode();
         }
 
+        @Override
         public Object setValue(Object o) {
             throw new UnsupportedOperationException("Can not set values on the entry");
         }
@@ -901,6 +948,10 @@ public class SimpleNFLHashMap extends HashMap implements EventBroadcaster, Limit
 }
 
 class FilterMap extends HashMap {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5287488524104212543L;
     Filter f = null;
 
     public FilterMap(Filter f) {

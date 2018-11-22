@@ -55,6 +55,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
 
     // serialize message body
     // This is called when producing messages.
+    @Override
     protected void setMessageBodyToPacket() throws JMSException {
 
         // ObjectOutputStream oos;
@@ -71,6 +72,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
 
     // deserialize message body
     // This is called after message is received
+    @Override
     protected void getMessageBodyFromPacket() throws JMSException {
 
         // InputStream is = getMessageBodyStream();
@@ -98,6 +100,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
     /**
      * clear body
      */
+    @Override
     public void clearBody() throws JMSException {
         text = null;
         setMessageReadMode(false);
@@ -112,6 +115,7 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setText(String string) throws JMSException {
         checkMessageAccess();
         text = string;
@@ -125,14 +129,17 @@ public class TextMessageImpl extends MessageImpl implements TextMessage {
      * @exception JMSException if JMS fails to get text due to some internal JMS error.
      */
 
+    @Override
     public String getText() throws JMSException {
         return text;
     }
 
+    @Override
     public String toString() {
         return new StringBuffer().append("\nText:\t").append(text).append(super.toString()).toString();
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ TextMessageImpl dump ------");
         super.dump(ps);

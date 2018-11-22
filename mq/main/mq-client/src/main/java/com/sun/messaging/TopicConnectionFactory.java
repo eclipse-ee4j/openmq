@@ -29,8 +29,13 @@ package com.sun.messaging;
 public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.TopicConnectionFactory {
 
     /**
-     * Constructs a TopicConnectionFactory with the default configuration.
      * 
+     */
+    private static final long serialVersionUID = 4324661349900568487L;
+
+    /**
+     * Constructs a TopicConnectionFactory with the default configuration.
+     *
      */
     public TopicConnectionFactory() {
         super();
@@ -38,7 +43,7 @@ public class TopicConnectionFactory extends com.sun.messaging.ConnectionFactory 
 
     /**
      * Constructs a TopicConnectionFactory with the specified configuration.
-     * 
+     *
      */
     protected TopicConnectionFactory(String defaultsBase) {
         super(defaultsBase);

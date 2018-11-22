@@ -77,6 +77,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
     /**
      * set messageBody to null. set message read mode = false.
      */
+    @Override
     public void clearBody() throws JMSException {
         messageBody = null;
         setMessageReadMode(false);
@@ -84,6 +85,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
 
     // serialize message body
     // This is called when producing messages.
+    @Override
     protected void setMessageBodyToPacket() throws JMSException {
 
         if (messageBody == null) {
@@ -98,6 +100,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
 
     // deserialize message body
     // This is called after message is received in Session Reader.
+    @Override
     protected void getMessageBodyFromPacket() throws JMSException {
 
         try {
@@ -119,6 +122,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setObject(Serializable object) throws JMSException {
 
         checkMessageAccess();
@@ -159,6 +163,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
      * @exception MessageFormatException if object deserialization fails
      */
 
+    @Override
     public Serializable getObject() throws JMSException {
 
         Serializable object = null;
@@ -192,11 +197,13 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
         return object;
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ ObjectMessageImpl dump ------");
         super.dump(ps);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }
@@ -213,6 +220,7 @@ public class ObjectMessageImpl extends MessageImpl implements ObjectMessage {
             super(in);
         }
 
+        @Override
         protected Class resolveClass(ObjectStreamClass classDesc) throws IOException, ClassNotFoundException {
 
             String className = classDesc.getName();

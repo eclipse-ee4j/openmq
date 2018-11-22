@@ -21,10 +21,7 @@
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.*;
-import java.net.InetAddress;
-
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.util.UID;
 
 /**
  * This class encapsulates general information about a broker. Each broker maintains a list of <code> BrokerInfo </code>
@@ -116,6 +113,7 @@ public class BrokerInfo implements Serializable {
         return heartbeatInterval;
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer("\n\tAddress = " + brokerAddr + "\n\tStartTime = " + startTime
                 + ((DEBUG == true) ? ("\n\tDescription = " + description + "\n\tStoreDirty = " + storeDirtyFlag) : "") + "\n\tProtocolVersion = "

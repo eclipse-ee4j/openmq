@@ -16,8 +16,6 @@
 
 package javax.xml.messaging;
 
-import javax.xml.soap.*;
-
 /**
  * A factory for creating connections to a particular messaging provider. A <code>ProviderConnectionFactory</code>
  * object can be obtained in two different ways.
@@ -26,7 +24,7 @@ import javax.xml.soap.*;
  * <code>ProviderConnectionFactory</code> object.<br>
  * This instance can be used to create a <code>ProviderConnection</code> object that connects to the default provider
  * implementation.
- * 
+ *
  * <PRE>
  * ProviderConnectionFactory pcf = ProviderConnectionFactory.newInstance();
  * ProviderConnection con = pcf.createConnection();
@@ -46,7 +44,7 @@ import javax.xml.soap.*;
  * provider. The first two lines of the following code fragment use JNDI methods to retrieve a
  * <code>ProviderConnectionFactory</code> object. The third line uses the returned object to create a connection to the
  * JAXM provider that was registered with "ProviderXYZ" as its logical name.
- * 
+ *
  * <PRE>
  * Context ctx = new InitialContext();
  * ProviderConnectionFactory pcf = (ProviderConnectionFactory) ctx.lookup("ProviderXYZ");

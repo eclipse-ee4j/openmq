@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.cluster.router;
 
 import java.util.*;
 import java.io.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;

@@ -32,6 +32,10 @@ import javax.transaction.xa.Xid;
  */
 public class XidImpl implements Xid, java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8490751945727661234L;
     // -----------------------------------------------------------------------//
     // Data
     // -----------------------------------------------------------------------//
@@ -124,6 +128,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return Returns true of the supplied xid represents the same global transaction as this, otherwise returns false.
      */
+    @Override
     public boolean equals(Object obj) {
         return this.equals((Xid) obj);
     }
@@ -132,8 +137,9 @@ public class XidImpl implements Xid, java.io.Serializable {
         // If the the other xid is null or this one is uninitialized than the Xid's
         // are not equal. Since the other Xid may be a different implementation we
         // can't assume that the formatId has a special value of -1 if not initialized.
-        if ((xid == null) || (formatId == NULL_XID))
+        if ((xid == null) || (formatId == NULL_XID)) {
             return false;
+        }
 
         return ((formatId == xid.getFormatId()) && this.isEqualGlobalTxnId(xid.getGlobalTransactionId())
                 && this.isEqualBranchQualifier(xid.getBranchQualifier())) ? true : false;
@@ -146,6 +152,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return the computed hashcode
      */
+    @Override
     public int hashCode() {
         int hash = 0;
 
@@ -153,22 +160,26 @@ public class XidImpl implements Xid, java.io.Serializable {
         // qualifier to make up a 4 byte hash code. . This creates a decent
         // hash.
 
-        if (bqLength >= 2)
+        if (bqLength >= 2) {
             hash += branchQualifier[bqLength - 1] << 8;
-        if (bqLength >= 1)
+        }
+        if (bqLength >= 1) {
             hash += branchQualifier[0];
+        }
 
-        if (gtLength >= 2)
+        if (gtLength >= 2) {
             hash += globalTxnId[gtLength - 1] << 24;
-        if (gtLength >= 1)
+        }
+        if (gtLength >= 1) {
             hash += globalTxnId[0] << 16;
+        }
 
         return hash;
     }
 
     /**
      * Return a string representing this XID.
-     * 
+     *
      * @return the string representation of this XID
      */
     static private final String hextab = "0123456789ABCDEF";
@@ -184,8 +195,9 @@ public class XidImpl implements Xid, java.io.Serializable {
         for (i = 0; i < bqLength; i++) {
             value = branchQualifier[i] & 0xff;
             data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
-            if (i != (bqLength - 1))
+            if (i != (bqLength - 1)) {
                 data.append(",");
+            }
         }
         data.append(")gt(");
 
@@ -193,8 +205,9 @@ public class XidImpl implements Xid, java.io.Serializable {
         for (i = 0; i < gtLength; i++) {
             value = globalTxnId[i] & 0xff;
             data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
-            if (i != (gtLength - 1))
+            if (i != (gtLength - 1)) {
                 data.append(",");
+            }
         }
         data.append(")}");
 
@@ -203,17 +216,19 @@ public class XidImpl implements Xid, java.io.Serializable {
 
     /**
      * Return a short string representing this XID. Used for lookup and database key.
-     * 
+     *
      * @return the string representation of this XID
      */
 
+    @Override
     public String toString() {
         StringBuffer data = new StringBuffer(256);
         int i;
         int value;
 
-        if (formatId == NULL_XID)
+        if (formatId == NULL_XID) {
             return "NULL_XID";
+        }
 
         // Add branch qualifier. Convert data string to hex
         for (i = 0; i < bqLength; i++) {
@@ -236,6 +251,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return the branch qualifier
      */
+    @Override
     public byte[] getBranchQualifier() {
         byte[] bq = new byte[bqLength];
         System.arraycopy(branchQualifier, 0, bq, 0, bqLength);
@@ -258,6 +274,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return Format identifier.
      */
+    @Override
     public int getFormatId() {
         return formatId;
     }
@@ -279,11 +296,13 @@ public class XidImpl implements Xid, java.io.Serializable {
      */
     public boolean isEqualBranchQualifier(byte[] bq) {
 
-        if (bq == null)
+        if (bq == null) {
             return ((bqLength == 0) ? true : false);
+        }
 
-        if (bq.length != bqLength)
+        if (bq.length != bqLength) {
             return false;
+        }
 
         for (int i = 0; i < bqLength; i++) {
             if (bq[i] != branchQualifier[i]) {
@@ -300,11 +319,13 @@ public class XidImpl implements Xid, java.io.Serializable {
      */
     public boolean isEqualGlobalTxnId(byte[] gt) {
 
-        if (gt == null)
+        if (gt == null) {
             return ((gtLength == 0) ? true : false);
+        }
 
-        if (gt.length != gtLength)
+        if (gt.length != gtLength) {
             return false;
+        }
 
         for (int i = 0; i < gtLength; i++) {
             if (gt[i] != globalTxnId[i]) {
@@ -319,6 +340,7 @@ public class XidImpl implements Xid, java.io.Serializable {
      *
      * @return the global transaction identifier
      */
+    @Override
     public byte[] getGlobalTransactionId() {
         byte[] gt = new byte[gtLength];
         System.arraycopy(globalTxnId, 0, gt, 0, gtLength);

@@ -50,6 +50,7 @@ public class GenerateUIDHandler extends PacketHandler {
     /**
      * Method to handle GenerateUID packet. We generate one or more unique ID's and return them in the body of the reply.
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {
@@ -91,8 +92,9 @@ public class GenerateUIDHandler extends PacketHandler {
         props = new Hashtable();
         props.put("JMQStatus", Integer.valueOf(status));
         props.put("JMQQuantity", Integer.valueOf(quantity));
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             props.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         // Send reply
         Packet pkt = new Packet(con.useDirectBuffers());

@@ -36,43 +36,50 @@ public interface Bridge {
 
     public enum State {
         STOPPING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPING);
             }
         },
         STOPPED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPED);
             }
         },
         STARTING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STARTING);
             }
         },
         STARTED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STARTED);
             }
         },
         PAUSING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSING);
             }
         },
         PAUSED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSED);
             }
         },
         RESUMING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_RESUMING);
             }
         };
 
         public abstract String toString(ResourceBundle rb);
-    };
+    }
 
     /**
      * Start the bridge
@@ -157,7 +164,7 @@ public interface Bridge {
     public State getState();
 
     /**
-     * 
+     *
      * @return an object of exported service corresponding to the className
      */
     public Object getExportedService(Class c, Properties props) throws Exception;

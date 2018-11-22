@@ -22,12 +22,10 @@ package com.sun.messaging.jmq.jmsserver.multibroker.heartbeat;
 
 import java.io.*;
 import java.util.*;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.SocketException;
-import java.net.PortUnreachableException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.MQThreadGroup;
@@ -61,12 +59,14 @@ public class HeartbeatImpl implements Heartbeat {
     private Map endpoints = Collections.synchronizedMap(new LinkedHashMap());
 
     public HeartbeatImpl() {
-    };
+    }
 
+    @Override
     public String getName() {
         return null;
     }
 
+    @Override
     public String getProtocol() {
         return "udp";
     }
@@ -78,6 +78,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @throws IOException if failed to initialize
      */
+    @Override
     public void init(InetSocketAddress endpoint, HeartbeatCallback cb) throws IOException {
         this.threadGroup = new MQThreadGroup("Heartbeat", logger, br.getKString(br.W_UNCAUGHT_EXCEPTION_IN_THREAD));
         this.bindEndpoint = endpoint;
@@ -92,6 +93,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @throws IOException if failed to stop
      */
+    @Override
     public synchronized void stop() throws IOException {
         sender.close();
         receiver.close();
@@ -106,6 +108,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @throws IOException
      */
+    @Override
     public synchronized void addEndpoint(Object key, InetSocketAddress endpoint, int dataLength) throws IOException {
         endpoints.put(key, endpoint);
         try {
@@ -124,6 +127,7 @@ public class HeartbeatImpl implements Heartbeat {
 
     /**
      */
+    @Override
     public synchronized boolean removeEndpoint(Object key, InetSocketAddress endpoint) throws IOException {
         endpoints.remove(key);
         if (!endpoints.containsValue(endpoint)) {
@@ -137,6 +141,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @param
      */
+    @Override
     public InetSocketAddress getBindEndpoint() {
         return bindEndpoint;
     }
@@ -145,6 +150,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @param interval The inteval between each heartbeat in seconds
      */
+    @Override
     public void setHeartbeatInterval(int interval) {
         heartbeatInterval = interval;
     }
@@ -153,6 +159,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @return The heartbeat interval
      */
+    @Override
     public int getHeartbeatInterval() {
         return heartbeatInterval;
     }
@@ -162,6 +169,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @param threshold in terms of number of times of heartbeat interval
      */
+    @Override
     public void setTimeoutThreshold(int threshold) {
         timeoutThreshold = threshold;
     }
@@ -170,6 +178,7 @@ public class HeartbeatImpl implements Heartbeat {
      *
      * @return The heartbeat timeout threshold
      */
+    @Override
     public int getTimeoutThreshold() {
         return timeoutThreshold;
     }
@@ -200,6 +209,7 @@ public class HeartbeatImpl implements Heartbeat {
             senderAddrs.add(endpoint.getAddress());
         }
 
+        @Override
         public void run() {
 
             String exitmsg = br.getKString(br.M_THREAD_EXITING, super.getName());
@@ -218,8 +228,9 @@ public class HeartbeatImpl implements Heartbeat {
 
                         if (dp == null || refreshSize) {
                             byte[] buf = new byte[bufSize];
-                            if (dp == null)
+                            if (dp == null) {
                                 dp = new DatagramPacket(buf, buf.length);
+                            }
                             dp.setData(buf);
                         }
                         logger.log(logger.DEBUGHIGH, "Heartbeat receiving ..");
@@ -249,8 +260,9 @@ public class HeartbeatImpl implements Heartbeat {
 
             } finally {
 
-                if (ds != null)
+                if (ds != null) {
                     ds.close();
+                }
                 if (!closed) {
                     logger.log(logger.WARNING, exitmsg);
                 }
@@ -261,8 +273,9 @@ public class HeartbeatImpl implements Heartbeat {
         void close() {
             closed = true;
             interrupt();
-            if (ds != null)
+            if (ds != null) {
                 ds.close();
+            }
         }
 
     }
@@ -301,6 +314,7 @@ public class HeartbeatImpl implements Heartbeat {
             }
         }
 
+        @Override
         public void run() {
             String exitmsg = br.getKString(br.M_THREAD_EXITING, super.getName());
             try {
@@ -311,7 +325,7 @@ public class HeartbeatImpl implements Heartbeat {
                         Object[] keys = null;
                         synchronized (endpoints) {
                             Set ks = endpoints.keySet();
-                            keys = (Object[]) ks.toArray(new Object[ks.size()]);
+                            keys = ks.toArray(new Object[ks.size()]);
                         }
                         for (int i = 0; (i < keys.length) && !closed; i++) {
 
@@ -338,8 +352,9 @@ public class HeartbeatImpl implements Heartbeat {
                                 if (!ds.isConnected() && !closed) {
                                     ds.connect(endpoint); // XXX reconnect exception ??
                                 }
-                                if (closed)
+                                if (closed) {
                                     continue;
+                                }
                                 try {
                                     ds.send(dp);
                                 } catch (IOException e) {
@@ -350,8 +365,9 @@ public class HeartbeatImpl implements Heartbeat {
                                 logger.logStack(Logger.WARNING, e.getMessage(), e);
                             }
                         }
-                        if (closed)
+                        if (closed) {
                             continue;
+                        }
                         try {
                             Thread.sleep(heartbeatInterval * 1000L);
                         } catch (InterruptedException e) {

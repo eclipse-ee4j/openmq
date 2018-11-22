@@ -26,7 +26,6 @@ import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.io.PacketProperties;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
@@ -120,8 +119,9 @@ public class ClusterDestInfo {
             }
 
             HashMap props = d.getDestinationProperties();
-            if (props == null)
+            if (props == null) {
                 props = new HashMap();
+            }
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
             try {
                 PacketProperties.write(props, bos);
@@ -134,8 +134,9 @@ public class ClusterDestInfo {
             break;
 
         }
-        if (changeRecord)
+        if (changeRecord) {
             gp.putProp("M", Boolean.valueOf(true));
+        }
 
         return gp;
     }

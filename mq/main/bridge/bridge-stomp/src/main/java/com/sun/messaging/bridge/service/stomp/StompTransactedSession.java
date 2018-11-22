@@ -23,14 +23,12 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.jms.*;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.StompDestination;
 import com.sun.messaging.bridge.api.StompSubscriber;
 import com.sun.messaging.bridge.api.StompOutputHandler;
 import com.sun.messaging.bridge.api.StompProtocolException;
-import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 
 /**
  * @author amyk
@@ -62,10 +60,12 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         logger.log(Level.INFO, sbr.getString(sbr.I_CREATED_TXN_SESSION, this.toString()));
     }
 
+    @Override
     protected Session createSession() throws JMSException {
         return connection.createSession(true, 0);
     }
 
+    @Override
     public String toString() {
         return "[" + connection + ", " + session + ", " + _tid + "]";
     }
@@ -121,8 +121,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
     public synchronized String closeSubscriber(String subid, String duraname) throws Exception {
         if (duraname == null) {
             TransactedSubscriber sub = _subscribers.get(subid);
-            if (sub == null)
+            if (sub == null) {
                 return null;
+            }
             preCloseSubscriber(subid);
             sub.close();
             _subscribers.remove(subid);
@@ -137,8 +138,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
             for (String id : _subscribers.keySet()) {
                 sub = _subscribers.get(id);
                 dn = sub.getDuraName();
-                if (dn == null)
+                if (dn == null) {
                     continue;
+                }
                 if (dn.equals(duraname)) {
                     preCloseSubscriber(id);
                     sub.close();
@@ -200,8 +202,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
                         + (_lastRolledbackTID == null ? "" : ", last rolledback transaction ID was " + _lastRolledbackTID));
             }
             _ackedqueue.clear();
-            if (tid != null)
+            if (tid != null) {
                 _lastRolledbackTID = null;
+            }
 
             synchronized (_lock) {
                 _tid = tid;
@@ -253,8 +256,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         } finally {
             setStompTransactionId(null);
             _ackedqueue.clear();
-            if (stopped)
+            if (stopped) {
                 connection.start();
+            }
         }
     }
 
@@ -462,11 +466,14 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
             this.msgid = msg.getJMSMessageID();
         }
 
+        @Override
         public boolean equals(Object obj) {
-            if (obj == null)
+            if (obj == null) {
                 return false;
-            if (!(obj instanceof SubscribedMessage))
+            }
+            if (!(obj instanceof SubscribedMessage)) {
                 return false;
+            }
 
             SubscribedMessage that = (SubscribedMessage) obj;
             if (that.subid.equals(this.subid) && that.msgid.equals(this.msgid)) {
@@ -475,6 +482,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
             return false;
         }
 
+        @Override
         public int hashCode() {
             return subid.hashCode() + msgid.hashCode();
         }
@@ -500,11 +508,14 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
             this.msg = msg;
         }
 
+        @Override
         public boolean equals(Object obj) {
-            if (obj == null)
+            if (obj == null) {
                 return false;
-            if (!(obj instanceof TransactedAck))
+            }
+            if (!(obj instanceof TransactedAck)) {
                 return false;
+            }
 
             TransactedAck that = (TransactedAck) obj;
             if (that.subid.equals(this.subid) && that.msgid.equals(this.msgid) && that.tid.equals(this.tid)) {
@@ -513,10 +524,12 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
             return false;
         }
 
+        @Override
         public int hashCode() {
             return tid.hashCode() + subid.hashCode() + msgid.hashCode();
         }
 
+        @Override
         public String toString() {
             return "tid=" + tid + ", subid=" + subid + ", msgid=" + msgid;
         }
@@ -547,6 +560,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
 
     /**
      */
+    @Override
     public synchronized void close() throws Exception {
         String id = null;
         TransactedSubscriber sub = null;
@@ -573,6 +587,7 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
         _msgqueue.clear();
     }
 
+    @Override
     public void run() {
         while (true) {
 
@@ -598,8 +613,9 @@ public class StompTransactedSession extends StompSenderSession implements Runnab
                 try {
 
                     sm = dequeue();
-                    if (sm == null)
+                    if (sm == null) {
                         continue;
+                    }
 
                     if (_subscribers.get(sm.subid) == null) {
                         logger.log(Level.FINE, "Skip delivering message " + sm.msg.getJMSMessageID() + " for transaction " + _tid + " for its subscriber "
@@ -673,6 +689,7 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
 
     }
 
+    @Override
     public void startDelivery() throws Exception {
         _subscriber.setMessageListener(this);
     }
@@ -688,6 +705,7 @@ class TransactedSubscriber implements StompSubscriber, MessageListener {
     /**
      *
      */
+    @Override
     public void onMessage(Message msg) {
 
         try {

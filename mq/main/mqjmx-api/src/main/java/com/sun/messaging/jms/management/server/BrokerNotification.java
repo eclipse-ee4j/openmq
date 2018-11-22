@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
 import java.lang.management.MemoryUsage;
 
 /**
@@ -31,11 +30,16 @@ import java.lang.management.MemoryUsage;
  * <LI>in the process of shutting down
  * <LI>in the process of taking over another broker's persistence store
  * </UL>
- * 
+ *
  * With regards to the takeover related notifications, this notification is broadcasted by the broker that is performing
  * the takeover operation, not the broker that is being taken over.
  */
 public class BrokerNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 369199942794379731L;
+
     /**
      * A broker's memory level/state has changed
      */

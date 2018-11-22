@@ -20,10 +20,7 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
 import java.util.Iterator;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -36,9 +33,11 @@ public class InterestUpdateHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "InterestUpdateHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_INTEREST_UPDATE) {
             handleInterestUpdate(cb, sender, pkt);
@@ -68,8 +67,9 @@ public class InterestUpdateHandler extends GPacketHandler {
                     intid = (ConsumerUID) itr.next();
 
                     Consumer cons = Consumer.getConsumer(intid);
-                    if (cons == null && cci.isCleanup())
+                    if (cons == null && cci.isCleanup()) {
                         cons = Consumer.newInstance(intid);
+                    }
                     if (cons != null) {
                         if (DEBUG) {
                             logger.log(logger.INFO,
@@ -98,7 +98,7 @@ public class InterestUpdateHandler extends GPacketHandler {
     }
 
     private void handleInterestUpdateReply(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG, "MessageBus: Received G_INTEREST_UPDATE_REPLY " + "from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_INTEREST_UPDATE_REPLY " + "from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
 

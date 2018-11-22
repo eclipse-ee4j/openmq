@@ -111,6 +111,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         return delaySessionCloseForRAR_;
     }
 
+    @Override
     public void beforeTransactionStart() throws JMSException {
         lock_.acquireLock();
         if (closed_) {
@@ -121,16 +122,20 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         }
     }
 
+    @Override
     public void afterTransactionStart(Xid foreignXid, boolean started) {
-        if (started)
+        if (started) {
             transactions_.put(foreignXid, "");
+        }
         lock_.releaseLock();
     }
 
+    @Override
     public void beforeTransactionComplete() {
         lock_.acquireLock();
     }
 
+    @Override
     public void afterTransactionComplete(Xid foreignXid, boolean completed) {
         try {
 
@@ -162,6 +167,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         }
     }
 
+    @Override
     public void close() throws JMSException {
 
         if (delaySessionCloseForRAR_) {
@@ -183,8 +189,9 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
                     lock_.releaseLock();
                 }
 
-                if (closed_)
+                if (closed_) {
                     hardClose();
+                }
                 return;
 
             }
@@ -209,10 +216,12 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
             xaresource_.close();
         }
         closed_ = true;
-        if (delaySessionCloseForRAR_)
+        if (delaySessionCloseForRAR_) {
             wconn_.removeSession(this);
+        }
     }
 
+    @Override
     public Session getSession() throws JMSException {
         if (closed_) {
             throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
@@ -223,6 +232,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         return session_;
     }
 
+    @Override
     public XAResource getXAResource() {
         if (session_ instanceof XASession) {
             return xaresource_;
@@ -233,6 +243,7 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
         }
     }
 
+    @Override
     public QueueSession getQueueSession() throws JMSException {
         if (closed_) {
             throw new javax.jms.IllegalStateException("JMSXWrapped Session has been closed");
@@ -249,8 +260,9 @@ public class JMSXAWrappedQueueSessionImpl implements JMSXAQueueSession, JMSXAWra
     }
 
     private final static void dlog(String msg) {
-        if (debug)
+        if (debug) {
             log("Info:", msg);
+        }
     }
 
     private final static void log(String level, Exception e) {

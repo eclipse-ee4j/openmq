@@ -29,6 +29,10 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class TakeoverLockException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2265850014529582182L;
     private HABrokerInfo bkrInfo = null; // Broker info before takeover started
 
     /**
@@ -44,7 +48,7 @@ public class TakeoverLockException extends BrokerException {
 
     /**
      * Set the broker info before takeover started.
-     * 
+     *
      * @param bkrInfo the broker info before takeover started
      */
     public void setBrokerInfo(HABrokerInfo bkrInfo) {
@@ -53,7 +57,7 @@ public class TakeoverLockException extends BrokerException {
 
     /**
      * Get the broker info before takeover started.
-     * 
+     *
      * @return HABrokerInfo broker info before takeover started
      */
     public HABrokerInfo getBrokerInfo() {

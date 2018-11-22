@@ -43,19 +43,24 @@ import com.sun.messaging.jmq.jmsclient.XATopicConnectionImpl;
  */
 public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.XAConnectionFactory {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5439435099986481737L;
     /* The type of container in which this class is operating. See the ContainerType enum for possible values */
     private static ContainerType containerType;
 
     /**
      * Create an XA connection with default user identity. The connection is created in stopped mode. No messages will be
      * delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public XAConnection createXAConnection() throws JMSException {
         return createXAConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
@@ -63,16 +68,17 @@ public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory imp
     /**
      * Create an XA connection with specified user identity. The connection is created in stopped mode. No messages will be
      * delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created XA connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public XAConnection createXAConnection(String username, String password) throws JMSException {
         return new XAConnectionImpl(getCurrentConfiguration(), username, password, getConnectionType());
     }
@@ -80,9 +86,9 @@ public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory imp
     /**
      * Create an XA queue connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA queue connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
@@ -94,7 +100,7 @@ public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory imp
     /**
      * Create an XA queue connection with specific user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -111,9 +117,9 @@ public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory imp
     /**
      * Create an XA topic connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA topic connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA topic Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
@@ -125,12 +131,12 @@ public class XAConnectionFactory extends com.sun.messaging.ConnectionFactory imp
     /**
      * Create an XA topic connection with specified user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created XA topic connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA topi connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */

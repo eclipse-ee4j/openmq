@@ -20,13 +20,9 @@
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
-import java.util.Properties;
 import java.util.logging.Handler;
 import java.util.logging.LogRecord;
-import java.io.IOException;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
-import com.sun.messaging.jmq.util.log.Logger;
 import org.jvnet.hk2.annotations.Service;
 import org.glassfish.hk2.api.PerLookup;
 
@@ -43,12 +39,14 @@ public class JMXLogHandler extends Handler {
     /**
      * Close handler
      */
+    @Override
     public void close() {
     }
 
     /**
      * Return a string description of this handler.
      */
+    @Override
     public String toString() {
         return this.getClass().getName();
     }

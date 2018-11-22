@@ -52,7 +52,7 @@ public interface MessageHandler {
 
     /**
      * Process the message context passed in the parameter.
-     * 
+     *
      * @param context the message context to be processed.
      *
      * @throw SOAPException if any internal error when processing the message.

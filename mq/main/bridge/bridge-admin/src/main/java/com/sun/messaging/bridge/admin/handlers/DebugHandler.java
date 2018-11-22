@@ -42,6 +42,7 @@ public class DebugHandler extends AdminCmdHandler {
      *
      * throw exception if let parent handle sendReply
      */
+    @Override
     public void handle(Session session, ObjectMessage msg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, Exception {
         int msgtype = msg.getIntProperty(AdminMessageType.PropName.MESSAGE_TYPE);
         if (msgtype != AdminMessageType.Type.DEBUG) {
@@ -62,7 +63,7 @@ public class DebugHandler extends AdminCmdHandler {
         Properties props = (Properties) msg.getObject();
 
         String faultName = target;
-        String faultSelector = (String) props.getProperty("selector");
+        String faultSelector = props.getProperty("selector");
         FaultInjection fi = FaultInjection.getInjection();
         boolean faultOn = true;
 

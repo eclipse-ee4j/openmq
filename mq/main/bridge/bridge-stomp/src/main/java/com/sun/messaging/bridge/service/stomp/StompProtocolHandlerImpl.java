@@ -17,17 +17,10 @@
 package com.sun.messaging.bridge.service.stomp;
 
 import java.util.*;
-import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.jms.Destination;
-import javax.jms.JMSException;
-import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.ClientConstants;
-import com.sun.messaging.jmq.util.LoggerWrapper;
-import com.sun.messaging.bridge.api.StompSession;
-import com.sun.messaging.bridge.api.StompDestination;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.MessageTransformer;
 import com.sun.messaging.bridge.api.StompProtocolHandler;

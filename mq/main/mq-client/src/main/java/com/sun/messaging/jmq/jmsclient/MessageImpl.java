@@ -30,7 +30,6 @@ import com.sun.messaging.DestinationConfiguration;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.Hashtable;
 import java.io.*;
 
@@ -558,7 +557,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     /**
      * compress message body. This is called from ProtocolHandler.writeJMSMessage() method.
-     * 
+     *
      * NOTE: This code is duplicated from DirectPakcet.compress(). Any changes to either method should be made to both in
      * order to keep them in sync.
      *
@@ -628,7 +627,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * NOTE: This code is duplicated from DirectPakcet.decompress(). Any changes to either method should be made to both in
      * order to keep them in sync.
-     * 
+     *
      * @throws JMSException if unable to decompress the message body.
      */
     protected void decompress() throws JMSException {
@@ -660,7 +659,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     /**
      * Verify that the specified property name is allowed
-     * 
+     *
      * @param name
      * @throws JMSException
      */
@@ -727,7 +726,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     /**
      * Verify that the specified property name is not null and is not an empty String
-     * 
+     *
      * @param name
      */
     protected static void checkPropertyNameSet(String name) {
@@ -739,7 +738,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     /**
      * Verify that the specified value is a valid message property value
-     * 
+     *
      * @param name
      * @param value
      * @throws JMSException
@@ -758,7 +757,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     /**
      * set message property.
-     * 
+     *
      * @param name
      * @param value
      */
@@ -926,6 +925,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSMessageID(String)
      */
 
+    @Override
     public String getJMSMessageID() throws JMSException {
         if (jmsMessageIDSet) {
             return jmsMessageID;
@@ -949,6 +949,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSMessageID()
      */
 
+    @Override
     public void setJMSMessageID(String id) throws JMSException {
         jmsMessageID = id;
         jmsMessageIDSet = true;
@@ -990,6 +991,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSTimestamp(long)
      */
 
+    @Override
     public long getJMSTimestamp() throws JMSException {
         return pkt.getTimestamp();
     }
@@ -1008,6 +1010,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSTimestamp()
      */
 
+    @Override
     public void setJMSTimestamp(long timestamp) throws JMSException {
         pkt.setTimestamp(timestamp);
     }
@@ -1027,6 +1030,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
+    @Override
     public byte[] getJMSCorrelationIDAsBytes() throws JMSException {
 
         byte[] ret = null;
@@ -1064,6 +1068,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSCorrelationIDAsBytes()
      */
 
+    @Override
     public void setJMSCorrelationIDAsBytes(byte[] correlationID) throws JMSException {
         try {
             String id = new String(correlationID, UTF8);
@@ -1113,6 +1118,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
+    @Override
     public void setJMSCorrelationID(String correlationID) throws JMSException {
         pkt.setCorrelationID(correlationID);
     }
@@ -1133,6 +1139,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSCorrelationIDAsBytes(byte[])
      */
 
+    @Override
     public String getJMSCorrelationID() throws JMSException {
         return pkt.getCorrelationID();
     }
@@ -1146,6 +1153,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @see javax.jms.Message#setJMSReplyTo(Destination)
      */
+    @Override
     public Destination getJMSReplyTo() throws JMSException {
 
         String destName = null;
@@ -1201,6 +1209,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSReplyTo()
      */
 
+    @Override
     public void setJMSReplyTo(Destination replyTo) throws JMSException {
         this.replyTo = replyTo;
 
@@ -1230,6 +1239,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSDestination(Destination)
      */
 
+    @Override
     public Destination getJMSDestination() throws JMSException {
         String destName = null;
         String className = null;
@@ -1272,6 +1282,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSDestination()
      */
 
+    @Override
     public void setJMSDestination(Destination destination) throws JMSException {
         this.destination = destination;
     }
@@ -1287,6 +1298,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.DeliveryMode
      */
 
+    @Override
     public int getJMSDeliveryMode() throws JMSException {
         if (pkt.getPersistent()) {
             return DeliveryMode.PERSISTENT;
@@ -1310,6 +1322,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.DeliveryMode
      */
 
+    @Override
     public void setJMSDeliveryMode(int deliveryMode) throws JMSException {
 
         if (deliveryMode != DeliveryMode.NON_PERSISTENT && deliveryMode != DeliveryMode.PERSISTENT) {
@@ -1342,6 +1355,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSRedelivered(boolean)
      */
 
+    @Override
     public boolean getJMSRedelivered() throws JMSException {
         return pkt.getRedelivered();
     }
@@ -1360,6 +1374,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSRedelivered()
      */
 
+    @Override
     public void setJMSRedelivered(boolean redelivered) throws JMSException {
         pkt.setRedelivered(redelivered);
     }
@@ -1374,6 +1389,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSType(String)
      */
 
+    @Override
     public String getJMSType() throws JMSException {
         return pkt.getMessageType();
     }
@@ -1401,6 +1417,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSType()
      */
 
+    @Override
     public void setJMSType(String type) throws JMSException {
         pkt.setMessageType(type);
     }
@@ -1431,6 +1448,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSExpiration(long)
      */
 
+    @Override
     public long getJMSExpiration() throws JMSException {
         return pkt.getExpiration();
     }
@@ -1449,13 +1467,14 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSExpiration()
      */
 
+    @Override
     public void setJMSExpiration(long expiration) throws JMSException {
         pkt.setExpiration(expiration);
     }
 
     /**
      * Gets the message's delivery time value.
-     * 
+     *
      * <P>
      * When a message is sent, the <CODE>JMSDeliveryTime</CODE> header field is left unassigned. After completion of the
      * <CODE>send</CODE> or <CODE>publish</CODE> method, it holds the delivery time of the message. This is the sum of the
@@ -1467,16 +1486,17 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * <P>
      * Clients must not receive messages before the delivery time has been reached.
-     * 
+     *
      * @return the message's delivery time, which is the sum of the deliveryDelay value specified by the client and the GMT
      * at the time of the <CODE>send</CODE> or <CODE>publish</CODE>.
-     * 
+     *
      * @exception JMSException if the JMS provider fails to get the message expiration due to some internal error.
      *
      * @see javax.jms.Message#setJMSDeliveryTime(long)
-     * 
+     *
      * @since 2.0
      */
+    @Override
     public long getJMSDeliveryTime() throws JMSException {
         return pkt.getDeliveryTime();
     }
@@ -1488,15 +1508,16 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * This method is for use by JMS providers only to set this field when a message is sent. This message cannot be used by
      * clients to configure the delivery time of the message. This method is public to allow one JMS provider to set this
      * field when sending a message whose implementation is not its own.
-     * 
+     *
      * @param expiration the message's delivery time value
-     * 
+     *
      * @exception JMSException if the JMS provider fails to set the delivery time due to some internal error.
      *
      * @see javax.jms.Message#getJMSDeliveryTime()
-     * 
+     *
      * @since 2.0
      */
+    @Override
     public void setJMSDeliveryTime(long deliveryTime) throws JMSException {
         pkt.setDeliveryTime(deliveryTime);
     }
@@ -1520,6 +1541,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#setJMSPriority(int)
      */
 
+    @Override
     public int getJMSPriority() throws JMSException {
         return pkt.getPriority();
     }
@@ -1538,6 +1560,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @see javax.jms.Message#getJMSPriority()
      */
 
+    @Override
     public void setJMSPriority(int priority) throws JMSException {
         if (priority < 0 || priority > 9) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_INVALID_DELIVERY_PARAM, "DeliveryPriority", String.valueOf(priority));
@@ -1555,6 +1578,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception JMSException if JMS fails to clear JMS message properties due to some internal JMS error.
      */
 
+    @Override
     public void clearProperties() throws JMSException {
 
         if (properties != null) {
@@ -1578,6 +1602,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception JMSException if JMS fails to check if property exists due to some internal JMS error.
      */
 
+    @Override
     public boolean propertyExists(String name) throws JMSException {
 
         if (properties == null) {
@@ -1608,6 +1633,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public boolean getBooleanProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1627,6 +1653,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public byte getByteProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1646,6 +1673,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public short getShortProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1665,6 +1693,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public int getIntProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1684,6 +1713,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public long getLongProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1703,6 +1733,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public float getFloatProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1722,6 +1753,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public double getDoubleProperty(String name) throws JMSException {
         Object obj = null;
         if (properties != null) {
@@ -1742,6 +1774,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public String getStringProperty(String name) throws JMSException {
         // only String and Object properties returns null if value doesn't exist
         Object obj;
@@ -1766,6 +1799,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception JMSException if JMS fails to get Property due to some internal JMS error.
      */
 
+    @Override
     public Object getObjectProperty(String name) throws JMSException {
         // only String and Object properties returns null if value doesn't exist
         if (properties == null) {
@@ -1786,6 +1820,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception JMSException if JMS fails to get Property names due to some internal JMS error.
      */
 
+    @Override
     public Enumeration getPropertyNames() throws JMSException {
         /**
          * We should return an empty enumeration instead of throwing NULLPointerException if no properties exists.
@@ -1807,6 +1842,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setBooleanProperty(String name, boolean value) throws JMSException {
 
         checkAndSetProperty(name, Boolean.valueOf(value));
@@ -1827,6 +1863,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setByteProperty(String name, byte value) throws JMSException {
         checkAndSetProperty(name, Byte.valueOf(value));
     }
@@ -1841,6 +1878,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setShortProperty(String name, short value) throws JMSException {
         checkAndSetProperty(name, Short.valueOf(value));
     }
@@ -1855,6 +1893,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setIntProperty(String name, int value) throws JMSException {
         checkAndSetProperty(name, Integer.valueOf(value));
     }
@@ -1869,6 +1908,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setLongProperty(String name, long value) throws JMSException {
         checkAndSetProperty(name, Long.valueOf(value));
     }
@@ -1883,6 +1923,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setFloatProperty(String name, float value) throws JMSException {
         checkAndSetProperty(name, Float.valueOf(value));
     }
@@ -1897,6 +1938,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setDoubleProperty(String name, double value) throws JMSException {
         checkAndSetProperty(name, Double.valueOf(value));
     }
@@ -1911,6 +1953,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setStringProperty(String name, String value) throws JMSException {
         checkAndSetProperty(name, value);
     }
@@ -1929,6 +1972,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception MessageNotWriteableException if properties are read-only
      */
 
+    @Override
     public void setObjectProperty(String name, Object value) throws JMSException {
         checkAndSetProperty(name, value);
     }
@@ -1955,6 +1999,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception IllegalStateException if this method is called on a closed session.
      */
 
+    @Override
     public void acknowledge() throws JMSException {
 
         if (session != null) {
@@ -1978,6 +2023,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception IllegalStateException if this method is called on a closed session.
      */
+    @Override
     public void acknowledgeThisMessage() throws JMSException {
         if (session != null && session.acknowledgeMode == Session.CLIENT_ACKNOWLEDGE) {
             if (isQBrowserMsg == false) {
@@ -1997,6 +2043,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      *
      * @exception IllegalStateException if this method is called on a closed session.
      */
+    @Override
     public void acknowledgeUpThroughThisMessage() throws JMSException {
         if (session != null && session.acknowledgeMode == Session.CLIENT_ACKNOWLEDGE) {
             if (isQBrowserMsg == false) {
@@ -2015,6 +2062,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * @exception JMSException if JMS fails to due to some internal JMS error.
      */
 
+    @Override
     public void clearBody() throws JMSException {
         // do nothing, this is designed to be over-written by sub-classes.
     }
@@ -2054,11 +2102,13 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
 
     protected boolean _isExpired() {
         long exptime = pkt.getExpiration();
-        if (exptime <= 0L)
+        if (exptime <= 0L) {
             return false;
+        }
         return (System.currentTimeMillis() > exptime);
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ MessageImpl dump ------");
 
@@ -2074,6 +2124,7 @@ public class MessageImpl implements javax.jms.Message, com.sun.messaging.jms.Mes
      * listing of its configuration.
      *
      */
+    @Override
     public String toString() {
         String temp = null;
         try {

@@ -23,8 +23,6 @@ package com.sun.messaging.jmq.io;
 import java.util.Hashtable;
 import java.io.*;
 
-import com.sun.messaging.jmq.util.net.IPAddress;
-
 /**
  * This class is a mostly immutable encapsulation of a JMQ packet. It is only "mostly" immutable because it can be
  * modified by calling the readPacket() method which modifies the state of the object to reflect the packet just read.
@@ -68,15 +66,18 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      *
      * @param is the InputStream to read the packet from
      */
+    @Override
     public void readPacket(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
         super.readPacket(is);
         return;
     }
 
+    @Override
     public boolean getFlag(int flag) {
         return super.getFlag(flag);
     }
 
+    @Override
     public void setIndempotent(boolean set) {
     }
 
@@ -86,6 +87,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      * @param os The OutputStream to write the packet to
      *
      */
+    @Override
     public void writePacket(OutputStream os) throws IOException {
         super.writePacket(os);
     }
@@ -108,66 +110,82 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
         return super.getVersion();
     }
 
+    @Override
     public int getMagic() {
         return super.getMagic();
     }
 
+    @Override
     public int getPacketType() {
         return super.getPacketType();
     }
 
+    @Override
     public int getPacketSize() {
         return super.getPacketSize();
     }
 
+    @Override
     public long getTimestamp() {
         return super.getTimestamp();
     }
 
+    @Override
     public long getExpiration() {
         return super.getExpiration();
     }
 
+    @Override
     public int getPort() {
         return super.getPort();
     }
 
+    @Override
     public String getIPString() {
         return super.getIPString();
     }
 
+    @Override
     public byte[] getIP() {
         return super.getIP();
     }
 
+    @Override
     public int getSequence() {
         return super.getSequence();
     }
 
+    @Override
     public int getPropertyOffset() {
         return super.getPropertyOffset();
     }
 
+    @Override
     public int getPropertySize() {
         return super.getPropertySize();
     }
 
+    @Override
     public int getEncryption() {
         return super.getEncryption();
     }
 
+    @Override
     public int getPriority() {
         return super.getPriority();
     }
 
+    @Override
     public long getTransactionID() {
         return super.getTransactionID();
     }
 
+    @Override
     public long getProducerID() {
         return super.getProducerID();
     }
 
+    @Override
     public long getConsumerID() {
         return super.getConsumerID();
     }
@@ -177,50 +195,62 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
         return (int) super.getConsumerID();
     }
 
+    @Override
     public boolean getPersistent() {
         return super.getPersistent();
     }
 
+    @Override
     public boolean getRedelivered() {
         return super.getRedelivered();
     }
 
+    @Override
     public boolean getIsQueue() {
         return super.getIsQueue();
     }
 
+    @Override
     public boolean getSelectorsProcessed() {
         return super.getSelectorsProcessed();
     }
 
+    @Override
     public boolean getSendAcknowledge() {
         return super.getSendAcknowledge();
     }
 
+    @Override
     public boolean getIsLast() {
         return super.getIsLast();
     }
 
+    @Override
     public boolean getFlowPaused() {
         return super.getFlowPaused();
     }
 
+    @Override
     public boolean getIsTransacted() {
         return super.getIsTransacted();
     }
 
+    @Override
     public boolean getConsumerFlow() {
         return super.getConsumerFlow();
     }
 
+    @Override
     public boolean getIndempotent() {
         return super.getIndempotent();
     }
 
+    @Override
     public String getDestination() {
         return super.getDestination();
     }
 
+    @Override
     public String getDestinationClass() {
         return super.getDestinationClass();
     }
@@ -231,22 +261,27 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      *
      * @return The packet's MessageID
      */
+    @Override
     public String getMessageID() {
         return super.getMessageID();
     }
 
+    @Override
     public String getCorrelationID() {
         return super.getCorrelationID();
     }
 
+    @Override
     public String getReplyTo() {
         return super.getReplyTo();
     }
 
+    @Override
     public String getReplyToClass() {
         return super.getReplyToClass();
     }
 
+    @Override
     public String getMessageType() {
         return super.getMessageType();
     }
@@ -256,10 +291,11 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      * unique message ID generated from the timestamp, sequence number, port number and IP address of the packet.
      * <P>
      * WARNING! This returns a references to the Packet's SysMessageID not a copy.
-     * 
+     *
      * @return The packet's system MessageID
      *
      */
+    @Override
     public SysMessageID getSysMessageID() {
 
         return super.getSysMessageID();
@@ -270,6 +306,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      *
      * @return Size of message body in bytes
      */
+    @Override
     public int getMessageBodySize() {
         return super.getMessageBodySize();
     }
@@ -279,6 +316,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      *
      * @return An InputStream from which the message body can be read from. Or null if no message body.
      */
+    @Override
     public InputStream getMessageBodyStream() {
         return super.getMessageBodyStream();
     }
@@ -290,6 +328,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      * HashTable object in the object -- it is NOT a copy. Modifying the contents of the HashTable will have
      * non-deterministic results so don't do it!
      */
+    @Override
     public Hashtable getProperties() throws IOException, ClassNotFoundException {
         return super.getProperties();
     }
@@ -307,6 +346,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
     /**
      * Make a deep copy of this packet. This will be slow.
      */
+    @Override
     public Object clone() {
         try {
             ReadOnlyPacket rp = new ReadOnlyPacket();
@@ -320,6 +360,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
     /**
      * Return a unique string that identifies the packet
      */
+    @Override
     public String toString() {
         return super.toString();
     }
@@ -340,6 +381,7 @@ public class ReadOnlyPacket extends Packet implements Cloneable {
      *
      * @param os OutputStream to write packet contents to
      */
+    @Override
     public void dump(PrintStream os) {
         super.dump(os);
     }

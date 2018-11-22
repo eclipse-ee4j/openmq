@@ -29,7 +29,6 @@ import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.Util;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 
@@ -109,6 +108,7 @@ public class DBConnectionPool {
     private Long invalidateAllTimestamp = null;
 
     private ConfigListener cfgListener = new ConfigListener() {
+        @Override
         public void validate(String name, String value) throws PropertyUpdateException {
             if (name.equals(dbmgr.getJDBCPropPrefix() + MIN_CONN_PROP_SUFFIX)) {
                 int min = 0;
@@ -158,6 +158,7 @@ public class DBConnectionPool {
             }
         }
 
+        @Override
         public boolean update(String name, String value) {
             BrokerConfig cfg = Globals.getConfig();
 
@@ -387,13 +388,14 @@ public class DBConnectionPool {
         }
     }
 
+    @Override
     public String toString() {
         return "(" + name + ")[" + activeConnections.size() + "," + idleConnections.size() + "]";
     }
 
     /**
      * Recreates all the connections.
-     * 
+     *
      * Should be used to remove stale connections after the DB is restarted.
      */
     public void reset() throws BrokerException {
@@ -451,7 +453,7 @@ public class DBConnectionPool {
 
     /**
      * Checks out a connection from the pool.
-     * 
+     *
      * @throws BrokerException
      */
     public Connection getConnection() throws BrokerException {
@@ -470,7 +472,7 @@ public class DBConnectionPool {
         Connection conn = null;
 
         boolean createdNew = false, pollWait = false;
-        ConnectionInfo cinfo = (ConnectionInfo) idleConnections.poll();
+        ConnectionInfo cinfo = idleConnections.poll();
         if (cinfo == null && (activeConnections.size() < maxConnections)) {
             cinfo = createConnection();
             try {
@@ -487,8 +489,9 @@ public class DBConnectionPool {
             while (cinfo == null) {
                 try {
                     if (DEBUG) {
-                        if (!pollWait)
+                        if (!pollWait) {
                             pollWait = true;
+                        }
                     }
 
                     int pollto = pollTimeout;
@@ -504,14 +507,14 @@ public class DBConnectionPool {
                         if (slept != 0 && (slept % 15 == 0)) {
                             logger.log(logger.INFO, br.getKString(br.I_DB_POOL_POLL_WAIT, Thread.currentThread()) + toString());
                         }
-                        cinfo = (ConnectionInfo) idleConnections.poll(1, TimeUnit.SECONDS);
+                        cinfo = idleConnections.poll(1, TimeUnit.SECONDS);
                         if (cinfo != null) {
                             break;
                         }
                         if (BrokerStateHandler.isStoreShutdownStage1()) {
                             throw new BrokerException(br.getKString(br.W_DB_POOL_CLOSING, name));
                         }
-                        cinfo = (ConnectionInfo) idleConnections.poll();
+                        cinfo = idleConnections.poll();
                         if (cinfo != null) {
                             break;
                         }
@@ -731,7 +734,7 @@ public class DBConnectionPool {
 
         } else if (validationQuery == null && dbmgr.isStoreInited()) {
             try {
-                validationQuery = "SELECT 1 FROM " + ((BaseDAO) dbmgr.getFirstDAO()).getTableName();
+                validationQuery = "SELECT 1 FROM " + dbmgr.getFirstDAO().getTableName();
             } catch (Exception e) {
             }
         }
@@ -869,10 +872,12 @@ public class DBConnectionPool {
                     }
                 }
             } finally {
-                if (rs != null)
+                if (rs != null) {
                     rs.close();
-                if (stmt != null)
+                }
+                if (stmt != null) {
                     stmt.close();
+                }
                 if (o instanceof PooledConnection) {
                     try {
                         conn.close();
@@ -906,11 +911,11 @@ public class DBConnectionPool {
         int idleCnt = idleConnections.size();
 
         int cnt = 0;
-        ConnectionInfo cinfo = (ConnectionInfo) idleConnections.poll();
+        ConnectionInfo cinfo = idleConnections.poll();
         while (cinfo != null && cnt < idleCnt) {
             destroyConnection(cinfo);
             cnt++;
-            cinfo = (ConnectionInfo) idleConnections.poll();
+            cinfo = idleConnections.poll();
         }
         Object[] args = { Integer.valueOf(cnt) };
         logger.log(Logger.INFO, br.getKTString(br.I_DESTROYED_IDLE_DB_CONNECTIONS, args) + toString());
@@ -930,7 +935,7 @@ public class DBConnectionPool {
         ConnectionInfo cinfo = null;
 
         while (idleCnt > 0 && (activeCnt + idleCnt) > minConnections) {
-            cinfo = (ConnectionInfo) idleConnections.poll();
+            cinfo = idleConnections.poll();
             if (cinfo == null) {
                 break;
             }
@@ -1005,7 +1010,7 @@ public class DBConnectionPool {
             return;
         }
 
-        ConnectionInfo cinfo = (ConnectionInfo) idleConnections.peek();
+        ConnectionInfo cinfo = idleConnections.peek();
         if (cinfo == null) {
             return;
         }
@@ -1017,7 +1022,7 @@ public class DBConnectionPool {
             if (DEBUG) {
                 logger.log(logger.INFO, "DBConnectionPool.reapExcessConnection idleTimeoutCnt=" + idleTimeoutCnt + ", cnt=" + cnt + ", i=" + i);
             }
-            cinfo = (ConnectionInfo) idleConnections.peek();
+            cinfo = idleConnections.peek();
             if (cinfo == null || !list.contains(cinfo) || seen.contains(cinfo)) {
                 break;
             }
@@ -1045,11 +1050,13 @@ public class DBConnectionPool {
     private class ConnectionReaperTask extends TimerTask {
         private volatile boolean canceled = false;
 
+        @Override
         public boolean cancel() {
             canceled = true;
             return super.cancel();
         }
 
+        @Override
         public void run() {
             if (canceled) {
                 return;
@@ -1074,6 +1081,7 @@ public class DBConnectionPool {
          *
          * @param event an event object describing the source of the event
          */
+        @Override
         public void connectionClosed(ConnectionEvent event) {
             PooledConnection pconn = (PooledConnection) event.getSource();
             ConnectionInfo cinfo = connMap.get(pconn);
@@ -1112,6 +1120,7 @@ public class DBConnectionPool {
          * @param event an event object describing the source of the event and containing the <code>SQLException</code> that the
          * driver is about to throw
          */
+        @Override
         public void connectionErrorOccurred(ConnectionEvent event) {
             PooledConnection pconn = (PooledConnection) event.getSource();
             pconn.removeConnectionEventListener(this);
@@ -1203,6 +1212,7 @@ class ConnectionInfo {
         }
     }
 
+    @Override
     public String toString() {
         return (conn instanceof Connection ? "[Connection" : "[PooledConnection") + ":0x" + conn.hashCode() + ", lastIdleTime=" + idleStartTime
                 + (thr == null ? "" : ", " + thr.toString()) + "]";

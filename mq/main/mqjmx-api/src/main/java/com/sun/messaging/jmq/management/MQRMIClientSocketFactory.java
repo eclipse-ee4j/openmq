@@ -32,6 +32,10 @@ import javax.net.ssl.TrustManager;
 import javax.rmi.ssl.SslRMIClientSocketFactory;
 
 public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7435476670149669326L;
     boolean debug = false;
     boolean isBrokerHostTrusted = true;
     boolean useSSL = false;
@@ -43,6 +47,7 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
         this.useSSL = useSSL;
     }
 
+    @Override
     public Socket createSocket(String host, int port) throws IOException {
         Socket s = null;
         String socketHost = hostname;
@@ -60,7 +65,7 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
 
         try {
             if (useSSL) {
-                s = (Socket) makeSSLSocket(socketHost, port);
+                s = makeSSLSocket(socketHost, port);
             } else {
                 s = RMISocketFactory.getDefaultSocketFactory().createSocket(socketHost, port);
             }
@@ -71,10 +76,12 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
         return (s);
     }
 
+    @Override
     public String toString() {
         return ("hostname=" + hostname + ",isBrokerHostTrusted=" + isBrokerHostTrusted + ",useSSL=" + useSSL);
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof MQRMIClientSocketFactory)) {
             return (false);
@@ -103,6 +110,7 @@ public class MQRMIClientSocketFactory extends SslRMIClientSocketFactory {
         return (true);
     }
 
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }

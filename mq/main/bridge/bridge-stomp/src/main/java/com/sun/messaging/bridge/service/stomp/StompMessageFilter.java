@@ -18,15 +18,10 @@ package com.sun.messaging.bridge.service.stomp;
 
 import java.io.IOException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.nio.charset.Charset;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.Buffer;
 import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.attributes.NullaryFunction;
-import org.glassfish.grizzly.utils.BufferInputStream;
-import org.glassfish.grizzly.utils.BufferOutputStream;
 import org.glassfish.grizzly.memory.MemoryManager;
 import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
@@ -233,7 +228,7 @@ public class StompMessageFilter extends BaseFilter {
         final StompFrameMessageImpl message = ctx.getMessage();
 
         final MemoryManager mm = ctx.getConnection().getTransport().getMemoryManager();
-        ctx.setMessage(((Buffer) message.marshall(mm).getWrapped()));
+        ctx.setMessage((message.marshall(mm).getWrapped()));
 
         return ctx.getInvokeAction();
     }

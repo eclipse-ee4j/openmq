@@ -33,8 +33,6 @@ import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.NoSuchAlgorithmException;
 
-import java.rmi.server.RMISocketFactory;
-
 import javax.net.ServerSocketFactory;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLServerSocket;
@@ -44,12 +42,8 @@ import javax.net.ssl.TrustManager;
 
 import javax.rmi.ssl.SslRMIServerSocketFactory;
 
-import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.StringUtil;
-import com.sun.messaging.jmq.util.Password;
 import com.sun.messaging.jmq.util.log.Logger;
 
 import com.sun.messaging.jmq.jmsserver.net.tls.DefaultTrustManager;
@@ -72,6 +66,7 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
         this.useSSL = useSSL;
     }
 
+    @Override
     public ServerSocket createServerSocket(int port) throws IOException {
         ServerSocket serversocket = null;
 
@@ -85,7 +80,7 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
                  */
                 InetAddress bindAddr = Globals.getJMXInetAddress();
                 endpoint = new InetSocketAddress(bindAddr, port);
-                serversocket = (SSLServerSocket) ssf.createServerSocket();
+                serversocket = ssf.createServerSocket();
 
                 serversocket.setReuseAddress(true);
 
@@ -94,7 +89,7 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
                  * Scenario: SSL
                  */
                 endpoint = new InetSocketAddress(port);
-                serversocket = (SSLServerSocket) ssf.createServerSocket();
+                serversocket = ssf.createServerSocket();
 
                 serversocket.setReuseAddress(true);
             }
@@ -132,10 +127,12 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
         return (serversocket);
     }
 
+    @Override
     public String toString() {
         return ("jmxHostname=" + jmxHostname + ",backlog=" + backlog + ",useSSL=" + useSSL);
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof MQRMIServerSocketFactory)) {
             return (false);
@@ -164,6 +161,7 @@ public class MQRMIServerSocketFactory extends SslRMIServerSocketFactory {
         return (true);
     }
 
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }

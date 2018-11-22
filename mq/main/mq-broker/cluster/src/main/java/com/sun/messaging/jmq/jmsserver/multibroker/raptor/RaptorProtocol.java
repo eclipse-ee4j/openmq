@@ -29,12 +29,10 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.util.selector.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.core.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
@@ -49,22 +47,17 @@ import com.sun.messaging.jmq.jmsserver.persist.api.StoreSessionReaperListener;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterManagerImpl;
-import com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAClusterManagerImpl;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.ExclusiveRequest;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.ServiceRestriction;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
-import com.sun.messaging.jmq.jmsserver.cluster.manager.ha.HAMonitorServiceImpl;
 import com.sun.messaging.jmq.jmsserver.multibroker.MessageBusCallback;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterBrokerInfoReply;
 import com.sun.messaging.jmq.jmsserver.multibroker.HandshakeInProgressException;
 import com.sun.messaging.jmq.jmsserver.multibroker.Protocol;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.cluster.api.FileTransferCallback;
-import com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl;
 import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord;
-import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecordCallback;
 import com.sun.messaging.jmq.jmsserver.multibroker.DestinationUpdateChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.InterestUpdateChangeRecord;
 import com.sun.messaging.jmq.jmsserver.multibroker.CallbackDispatcher;
@@ -326,6 +319,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         unknownPacketHandler = new UnknownPacketHandler(this);
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ArrayList l = null;
@@ -356,6 +350,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         return ht;
     }
 
+    @Override
     public int getHighestSupportedVersion() {
         return ProtocolGlobals.getCurrentVersion();
     }
@@ -363,6 +358,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Get the message bus (cluster) protocol version used by this broker.
      */
+    @Override
     public int getClusterVersion() {
         return version;
     }
@@ -370,6 +366,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Receive a unicast packet (raptor protocol).
      */
+    @Override
     public void receiveUnicast(BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {
             logger.log(logger.DEBUGMED, "RaptorProtocol.receiveUnicast(GPacket) from : " + sender + " Packet :\n" + pkt.toLongString());
@@ -422,6 +419,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Receive a broadcast packet (raptor protocol).
      */
+    @Override
     public void receiveBroadcast(BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {
             logger.log(logger.DEBUGMED, "RaptorProtocol.receiveBroadcast(GPacket) from : " + sender + " Packet :\n" + pkt.toLongString());
@@ -465,6 +463,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         handlers[pktType].handle(sender, pkt);
     }
 
+    @Override
     public void handleGPacket(MessageBusCallback mbcb, BrokerAddress sender, GPacket pkt) {
         handlers[pkt.getType()].handle(mbcb, sender, pkt);
     }
@@ -472,6 +471,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Obsolete.
      */
+    @Override
     public void receiveUnicast(BrokerAddress sender, int destId, byte[] pkt) {
         // This should never happen.
         logger.log(Logger.WARNING, "Protocol Mismatch. sender = " + sender);
@@ -481,6 +481,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Obsolete.
      */
+    @Override
     public void receiveBroadcast(BrokerAddress sender, int destId, byte[] pkt) {
         // This should never happen.
         logger.log(Logger.WARNING, "Protocol Mismatch. sender = " + sender);
@@ -496,10 +497,12 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         Thread.dumpStack();
     }
 
+    @Override
     public void syncChangeRecordOnJoin(BrokerAddress broker, ChangeRecordInfo cri) throws BrokerException {
         cb.syncChangeRecordOnJoin(broker, cri);
     }
 
+    @Override
     public ChangeRecordInfo getLastStoredChangeRecord() {
         return cb.getLastStoredChangeRecord();
     }
@@ -507,14 +510,16 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Construct a BrokerInfo object that describes this broker. This object is exchanged during initial handshake between
      * brokers.
-     * 
+     *
      * @return BrokerInfo object describing the current state of the broker.
      */
+    @Override
     public BrokerInfo getBrokerInfo() {
         logger.logStack(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unexpected call", new Exception());
         return null;
     }
 
+    @Override
     public ClusterBrokerInfoReply getBrokerInfoReply(BrokerInfo remoteInfo) throws Exception {
         checkUIDPrefixClash(remoteInfo);
 
@@ -531,8 +536,8 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 .getPrefix(selfInfo.getBrokerAddr().getBrokerSessionUID().longValue()))) {
             final BrokerAddress remote = info.getBrokerAddr();
             if (selfInfo.getStartTime() > info.getStartTime()
-                    || (selfInfo.getStartTime() == info.getStartTime() && ((BrokerMQAddress) selfInfo.getBrokerAddr().getMQAddress()).toString()
-                            .compareTo(((BrokerMQAddress) remote.getMQAddress()).toString()) > 0)) {
+                    || (selfInfo.getStartTime() == info.getStartTime() && selfInfo.getBrokerAddr().getMQAddress().toString()
+                            .compareTo(remote.getMQAddress().toString()) > 0)) {
                 String msg = br.getKString(BrokerResources.E_CLUSTER_UID_PREFIX_CLASH_RESTART, remote);
                 BrokerException ex = new BrokerException(msg);
                 logger.logStack(logger.ERROR, msg, ex);
@@ -545,6 +550,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Set the matchProps for the cluster.
      */
+    @Override
     public void setMatchProps(Properties matchProps) {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.setMatchProps :\n" + matchProps);
@@ -555,6 +561,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Start the I/O operations on the cluster, now that the upper layers are ready to receive notifications.
      */
+    @Override
     public void startClusterIO() {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.startClusterIO");
@@ -587,9 +594,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             // There is a master broker, but we don't yet know who.
             // Ignore this exception...
         }
-        Globals.getDestinationList().addPartitionListener((PartitionListener) this);
+        Globals.getDestinationList().addPartitionListener(this);
         try {
-            store.addPartitionListener((PartitionListener) this);
+            store.addPartitionListener(this);
             if (Globals.getHAEnabled()) {
                 store.addStoreSessionReaperListener(this);
             }
@@ -609,6 +616,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionAdded(UID partitionID, Object source) {
         if (!(source instanceof DestinationList)) {
             return;
@@ -635,6 +643,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionRemoved(UID partitionID, Object source, Object destinedTo) {
         if (destinedTo != null) {
             return;
@@ -658,6 +667,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void runStoreSessionTask() {
         List<TakingoverEntry> entries = null;
         synchronized (takingoverBrokers) {
@@ -758,6 +768,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void stopClusterIO(boolean requestTakeover, boolean force, BrokerAddress excludedBroker) {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.shutdown");
@@ -858,8 +869,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             synchronized (brokerList) {
                 BrokerInfoEx be = (BrokerInfoEx) brokerList.get(remote);
                 if (be != null) {
-                    if (be.sentGoodbye())
+                    if (be.sentGoodbye()) {
                         return;
+                    }
                     be.goodbyeSent();
                 }
             }
@@ -876,6 +888,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         return getBrokerList(null, null);
     }
 
+    @Override
     public BrokerAddress lookupBrokerAddress(String brokerid) {
         if (!Globals.getHAEnabled() && !Globals.isBDBStore()) {
             return null;
@@ -894,6 +907,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public BrokerAddress lookupBrokerAddress(BrokerMQAddress url) {
 
         synchronized (brokerList) {
@@ -909,6 +923,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public String lookupStoreSessionOwner(UID uid) {
         if (!Globals.isBDBStore()) {
             logger.log(logger.ERROR, "Internal Error: unexpected call:\n", SupportUtil.getStackTrace("lookupStoreSessionOwner"));
@@ -1045,8 +1060,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public boolean isTakeoverTarget(BrokerAddress ba) {
-        if (!Globals.getHAEnabled())
+        if (!Globals.getHAEnabled()) {
             return false;
+        }
         TakingoverEntry toe = takingoverBrokers.get(new TakingoverEntry(ba.getBrokerID(), ba.getStoreSessionUID()));
         if (toe == null) {
             return false;
@@ -1054,6 +1070,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         return toe.isTakeoverTarget(ba);
     }
 
+    @Override
     public void preTakeover(String brokerID, UID storeSession, String brokerHost, UID brokerSession) throws BrokerException {
         logger.log(logger.INFO, br.getKString(BrokerResources.I_CLUSTER_PRETAKEOVER, "[brokerID=" + brokerID + ", storeSession=" + storeSession + "]"));
 
@@ -1067,8 +1084,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     public void takeoverPendingConvergecast(BrokerAddress sender, ClusterTakeoverInfo cti) {
-        if (!cti.isFromTaker())
+        if (!cti.isFromTaker()) {
             return;
+        }
         BrokerAddress[] brokers = null;
         synchronized (brokerList) {
             brokers = getBrokerList(sender, null);
@@ -1177,6 +1195,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {
         if (aborted) {
             logger.log(logger.INFO, br.getKString(br.I_CLUSTER_PRETAKEOVER_ABORT, "[brokerID=" + brokerID + ", storeSession=" + storeSession + "]"));
@@ -1255,7 +1274,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
         Long xid = ClusterTakeoverInfo.getReplyXid(reply);
         if (xid == null) {
-            ;
+            
             logger.log(logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
                     "Received takeover reply without correlation ID from " + sender + " : " + ClusterTakeoverInfo.toString(reply));
             return;
@@ -1278,8 +1297,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     private void forwardTakeoverBrokers(BrokerAddress ba, boolean all) {
-        if (!Globals.getHAEnabled())
+        if (!Globals.getHAEnabled()) {
             return;
+        }
         if (all) {
             Set<TakingoverEntry> toes = null;
             synchronized (takingoverBrokers) {
@@ -1308,12 +1328,14 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             }
             return;
         }
-        TakingoverEntry toe = (TakingoverEntry) takingoverBrokers.get(new TakingoverEntry(ba.getBrokerID(), ba.getStoreSessionUID()));
-        if (toe == null)
+        TakingoverEntry toe = takingoverBrokers.get(new TakingoverEntry(ba.getBrokerID(), ba.getStoreSessionUID()));
+        if (toe == null) {
             return;
+        }
         GPacket gp = toe.getNotificationGPacket(ba);
-        if (gp == null)
+        if (gp == null) {
             return;
+        }
         try {
             c.unicastAndClose(ba, gp);
         } catch (IOException e) {
@@ -1325,9 +1347,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
         boolean masteripChanged = false;
         BrokerAddress lastConfigServer = getLastConfigServer();
-        BrokerMQAddress nowMQAddr = (BrokerMQAddress) selfAddress.getMQAddress();
+        BrokerMQAddress nowMQAddr = selfAddress.getMQAddress();
         if (lastConfigServer != null) {
-            BrokerMQAddress preMQAddr = (BrokerMQAddress) lastConfigServer.getMQAddress();
+            BrokerMQAddress preMQAddr = lastConfigServer.getMQAddress();
             if (!selfAddress.equals(lastConfigServer) && (nowMQAddr.getHost().getCanonicalHostName().equals(preMQAddr.getHost().getCanonicalHostName())
                     && selfAddress.getInstanceName().equals(lastConfigServer.getInstanceName()))) {
                 logger.log(logger.INFO, br.getKString(br.I_CLUSTER_MASTER_BROKER_IP_CHANGED, lastConfigServer, selfAddress));
@@ -1373,6 +1395,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Handle jmq administration command to reload and update the cluster configuration.
      */
+    @Override
     public void reloadCluster() {
         logger.log(Logger.INFO, br.I_MBUS_RELOAD_CLS);
 
@@ -1392,6 +1415,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Stop the cluster message inflow.
      */
+    @Override
     public void stopMessageFlow() {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "RaptorProtocol.stopMessageFlow()");
@@ -1404,6 +1428,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Resume the cluster message inflow.
      */
+    @Override
     public void resumeMessageFlow() {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "RaptorProtocol.stopMessageFlow()");
@@ -1415,16 +1440,18 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     private void sendFlowControlUpdate(BrokerAddress baddr) {
         GPacket gp = GPacket.getInstance();
-        if (flowStopped)
+        if (flowStopped) {
             gp.setType(ProtocolGlobals.G_STOP_MESSAGE_FLOW);
-        else
+        } else {
             gp.setType(ProtocolGlobals.G_RESUME_MESSAGE_FLOW);
+        }
 
         try {
-            if (baddr == null)
+            if (baddr == null) {
                 c.broadcast(gp);
-            else
+            } else {
                 c.unicast(baddr, gp);
+            }
         } catch (IOException e) {
             /* Ignore */ }
     }
@@ -1432,6 +1459,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      *
      */
+    @Override
     public boolean waitForConfigSync() {
         BrokerAddress configServer = null;
         try {
@@ -1441,10 +1469,14 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
 
         if (configServer == null)
+         {
             return false; // There is no config server.
+        }
 
         if (configServer.equals(selfAddress))
+         {
             return false; // I am the config server.
+        }
 
         return (!configSyncComplete); // Waiting for sync complete..
     }
@@ -1529,6 +1561,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * Please see comments in method com.sun.messaging.jmq.jmsserver.core.ClusterBroadcast.changeMasterBroker before make
      * any changes
      */
+    @Override
     public void changeMasterBroker(BrokerMQAddress newmaster, BrokerMQAddress oldmaster) throws BrokerException {
         if (newmaster == null) {
             String emsg = "null new master broker on change master broker request";
@@ -1711,6 +1744,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 rgi.getOwnerAddress(), rgi);
     }
 
+    @Override
     public void transferFiles(String[] fileNames, String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID, String module,
             FileTransferCallback callback) throws BrokerException {
 
@@ -1728,6 +1762,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         c.transferFiles(fileNames, addr, syncTimeout, uuid, myBrokerID, module, callback);
     }
 
+    @Override
     public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID) throws BrokerException {
 
         BrokerAddress addr = lookupBrokerAddress(targetBrokerID);
@@ -1804,6 +1839,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public String sendTakeoverMEPrepare(String brokerID, byte[] commitToken, Long syncTimeout, String uuid) throws BrokerException {
 
         BrokerAddress addr = lookupBrokerAddress(brokerID);
@@ -1886,6 +1922,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public String sendTakeoverME(String brokerID, String uuid) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.sendTakeoverME, to " + brokerID);
@@ -2335,6 +2372,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void notifyPartitionArrival(UID partitionID, String brokerID) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.notifyPartitionArrival(" + partitionID + ", " + brokerID + ")");
@@ -2410,6 +2448,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      *
      * Constructs and sends ProtocolGlobals.G_MESSAGE_DATA packets.
      */
+    @Override
     public void sendMessage(PacketReference pkt, Collection<Consumer> targets, boolean sendMsgDeliveredAck) {
         HashMap<BrokerAddress, ArrayList[]> m = new HashMap<BrokerAddress, ArrayList[]>();
         if (DEBUG) {
@@ -2504,6 +2543,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void sendMessageAck(BrokerAddress msgHome, SysMessageID sysid, ConsumerUID cuid, int ackType, Map optionalProps, boolean ackack)
             throws BrokerException {
         SysMessageID[] sysids = { sysid };
@@ -2544,6 +2584,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      *
      * Constructs and sends ProtocolGlobals.G_MESSAGE_ACK packets.
      */
+    @Override
     public void sendMessageAck2P(BrokerAddress msgHome, SysMessageID[] sysids, ConsumerUID[] cuids, int ackType, Map optionalProps, Long txnID,
             UID txnStoreSession, boolean ackack, boolean async) throws BrokerException {
 
@@ -2632,8 +2673,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 if (reply.getStatus() != Status.OK) {
                     logger.log(logger.WARNING, br.getKString(br.W_CLUSTER_MSG_ACK_FAILED_FROM_HOME, msgHome, ClusterMessageAckInfo.toString(reply.getReply())));
                     AckEntryNotFoundException aee = ClusterMessageAckInfo.getAckEntryNotFoundException(reply.getReply());
-                    if (aee != null)
+                    if (aee != null) {
                         throw aee;
+                    }
                     throw new BrokerException(reply.getReason(), reply.getStatus());
                 }
                 if (fi.FAULT_INJECTION) {
@@ -2653,8 +2695,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                 }
             }
         } catch (Exception e) {
-            if (e instanceof BrokerDownException)
+            if (e instanceof BrokerDownException) {
                 throw (BrokerException) e;
+            }
             synchronized (brokerList) {
                 BrokerInfoEx be = (BrokerInfoEx) brokerList.get(msgHome);
                 if (be == null && msgHome != Globals.getMyAddress()) {
@@ -2676,12 +2719,14 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                     throw e1;
                 }
             }
-            if (e instanceof BrokerException)
+            if (e instanceof BrokerException) {
                 throw (BrokerException) e;
+            }
             throw new BrokerException(e.getMessage(), e, Status.ERROR);
         } finally {
-            if (ackack)
+            if (ackack) {
                 ackackTracker.removeWaiter(xid);
+            }
         }
     }
 
@@ -2871,10 +2916,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * <LI>A notification should be sent to all the brokers so that they can clean up any temporary destinations owned by
      * the client.</LI>
      * </OL>
-     * 
+     *
      * @param conid The ConnectionUID representing the client.
      * @param notify If <code> true, </code> all the brokers in the cluster (including 'this' broker) are notified.
      */
+    @Override
     public void clientClosed(ConnectionUID conid, boolean notify) {
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
             logger.log(logger.INFO, "RaptorProtocol.clientClosed(" + conid + ")");
@@ -2928,6 +2974,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * @return ProtocolGlobals.G_LOCK_SUCCESS if the resource was locked successfully. ProtocolGlobals.G_LOCK_FAILURE if the
      * resource could not be locked. ProtocolGlobals.G_LOCK_TIMEOUT
      */
+    @Override
     public int lockSharedResource(String resId, Object owner) {
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
             logger.log(logger.INFO, "RaptorProtocol.lockSharedResource(" + resId + ", owner=" + owner + ")");
@@ -2968,6 +3015,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
      * resource could not be locked. ProtocolGlobals.G_LOCK_TIMEOUT if the resource could not be locked because of timed out
      * in waiting for lock request response(s)
      */
+    @Override
     public int lockResource(String resId, long timestamp, Object owner) {
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
             logger.log(logger.INFO, "RaptorProtocol.lockResource(" + resId + ", timestamp=" + timestamp + ", owner=" + owner + ")");
@@ -2990,8 +3038,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             }
 
             i++;
-            if (i == ProtocolGlobals.G_LOCK_MAX_ATTEMPTS)
+            if (i == ProtocolGlobals.G_LOCK_MAX_ATTEMPTS) {
                 break;
+            }
 
             // ret == ProtocolGlobals.G_LOCK_BACKOFF - Try to lock again after
             // binary exponential backoff.
@@ -3014,7 +3063,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     /**
      * Attempts to lock a resource using election protocol.
-     * 
+     *
      * @return G_LOCK_SUCCESS, G_LOCK_FAILURE, G_LOCK_BACKOFF, G_LOCK_TIMEOUT
      */
     private int tryLockResource(String resId, long timestamp, Object owner, boolean shared, boolean failOntimeout) {
@@ -3043,17 +3092,19 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         synchronized (resTable) {
             res = (Resource) resTable.get(resId);
             if (res != null) {
-                if (shared && res.getShared())
+                if (shared && res.getShared()) {
                     return ProtocolGlobals.G_LOCK_SUCCESS;
-                else
+                } else {
                     return ProtocolGlobals.G_LOCK_FAILURE;
+                }
             }
 
             res = new Resource(resId, c);
             res.setShared(shared);
             res.setOwner(owner);
-            if (timestamp != 0)
+            if (timestamp != 0) {
                 res.setTimestamp(timestamp);
+            }
             resTable.put(resId, res);
         }
 
@@ -3112,14 +3163,16 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Unlocks a resource.
      */
+    @Override
     public void unlockResource(String resId) {
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
             logger.log(Logger.INFO, "RaptorProtocol.unlockResource(" + resId + ")");
         }
         synchronized (resTable) {
             Resource res = (Resource) resTable.remove(resId);
-            if (res != null)
+            if (res != null) {
                 res.impliedFailure();
+            }
         }
     }
 
@@ -3182,18 +3235,19 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             res = (Resource) resTable.get(resId);
         }
 
-        if (res == null || (shared && res.getShared()))
+        if (res == null || (shared && res.getShared())) {
             response = ProtocolGlobals.G_LOCK_SUCCESS;
-        else if (res.getLockState() == ProtocolGlobals.G_RESOURCE_LOCKED)
+        } else if (res.getLockState() == ProtocolGlobals.G_RESOURCE_LOCKED) {
             response = ProtocolGlobals.G_LOCK_FAILURE;
-        else {
+        } else {
             if (timestamp < res.getTimestamp()) {
                 res.impliedFailure();
                 response = ProtocolGlobals.G_LOCK_SUCCESS;
-            } else if (timestamp > res.getTimestamp())
+            } else if (timestamp > res.getTimestamp()) {
                 response = ProtocolGlobals.G_LOCK_FAILURE;
-            else
+            } else {
                 response = ProtocolGlobals.G_LOCK_BACKOFF;
+            }
         }
 
         sendLockResponse(sender, resId, xid, response);
@@ -3235,8 +3289,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             res = (Resource) resTable.get(resId);
         }
 
-        if (res == null)
+        if (res == null) {
             return;
+        }
 
         if (DEBUG || ClusterManagerImpl.isDEBUG_CLUSTER_LOCK()) {
             if (res.getXid() == xid) {
@@ -3247,6 +3302,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         res.consumeResponse(xid, sender, response);
     }
 
+    @Override
     public void recordUpdateDestination(Destination d) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.recordUpdateDestination: " + d);
@@ -3260,6 +3316,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void recordRemoveDestination(Destination d) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.recordRemoveDestination");
@@ -3729,8 +3786,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
                     }
                 }
 
-                if (resetFlag)
+                if (resetFlag) {
                     applyPersistentStateChanges(sender, l);
+                }
 
                 if (configSyncComplete == false) {
                     configSyncComplete = true;
@@ -3816,8 +3874,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         itr = itrs[0];
         while (itr.hasNext()) {
             Destination d = (Destination) itr.next();
-            if (d.isAutoCreated() || d.isInternal() || d.isTemporary() || d.isDMQ())
+            if (d.isAutoCreated() || d.isInternal() || d.isTemporary() || d.isDMQ()) {
                 continue;
+            }
 
             oldDests.put(d.getDestinationUID(), d);
         }
@@ -3911,13 +3970,16 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void sendNewDestination(Destination d) throws BrokerException {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "Sending New Destination " + d);
+        }
 
         sendUpdateDestination(null, d);
     }
 
+    @Override
     public void sendUpdateDestination(Destination d) throws BrokerException {
         sendUpdateDestination(null, d);
     }
@@ -3938,9 +4000,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             /* Ignore */ }
     }
 
+    @Override
     public void sendRemovedDestination(Destination d) throws BrokerException {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "Sending New Destination " + d);
+        }
 
         ClusterDestInfo cdi = ClusterDestInfo.newInstance(d);
         try {
@@ -3950,6 +4014,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
     }
 
+    @Override
     public void recordCreateSubscription(Subscription sub) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.recordCreateSubscription");
@@ -3963,6 +4028,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void recordUnsubscribe(Subscription sub) throws BrokerException {
         if (DEBUG) {
             logger.log(logger.INFO, "RaptorProtocol.recordUnsubscribe");
@@ -3976,9 +4042,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void sendNewSubscription(Subscription sub, Consumer cons, boolean active) throws BrokerException {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.INFO, "RaptorProtocol.sendNewSubscription");
+        }
 
         sendNewInterestUpdate(sub);
         sendAttachDurable(null, sub, cons);
@@ -3989,9 +4057,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void sendNewConsumer(Consumer c, boolean active) throws BrokerException {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "RaptorProtocol.sendNewConsumer");
+        }
 
         sendNewInterestUpdate(c);
 
@@ -4000,6 +4070,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public void sendRemovedConsumer(Consumer c, Map pendingMsgs, boolean cleanup) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "RaptorProtocol.sendRemovedConsumer(" + c + ", pending=" + pendingMsgs + ", cleanup=" + cleanup + ")");
@@ -4016,8 +4087,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     }
 
     private void sendGetInterestUpdate(BrokerAddress broker) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "RaptorProtocol.sendGetInterestUpdate");
+        }
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_GET_INTEREST_UPDATE);
@@ -4039,6 +4111,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Add a new broker to the list of known brokers in this cluster.
      */
+    @Override
     public synchronized int addBrokerInfo(BrokerInfo brokerInfo) {
         if (DEBUG) {
             logger.log(Logger.INFO, "RaptorProtocol.addBrokerInfo(" + brokerInfo + ")");
@@ -4269,16 +4342,11 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
 
                         // forward subscription info for non-durables
                         // see bug 6208621
-                        if (!c.getSubscription().isDurable())
+                        if (!c.getSubscription().isDurable()) {
                             subscriptions.add(s);
-
-                        // if we are durable but shared, we also need
-                        // to forward the information to correctly set
-                        // the shared property
-                        // it doesnt hurt in the non-shared case so
-                        // we do it anyway
-                        else
+                        } else {
                             subscriptions.add(s);
+                        }
 
                     } else {
                         localActiveInterests.add(c);
@@ -4349,6 +4417,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         }
     }
 
+    @Override
     public int getClusterAckWaitTimeout() {
         return ProtocolGlobals.getAckTimeout();
     }
@@ -4356,6 +4425,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Caller must ensure broker is the transaction home broker
      */
+    @Override
     public void sendTransactionInquiry(TransactionUID tid, BrokerAddress broker) {
         TransactionBroker tb = new TransactionBroker(broker);
         BrokerAddress to = tb.getCurrentBrokerAddress();
@@ -4374,6 +4444,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         sendPreparedTransactionInquiries(null, broker, partitionID);
     }
 
+    @Override
     public void sendPreparedTransactionInquiries(List<TransactionUID> tidsonly, BrokerAddress broker) {
         sendPreparedTransactionInquiries(tidsonly, broker, null);
     }
@@ -4527,6 +4598,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
         } // for
     }
 
+    @Override
     public void sendClusterTransactionInfo(long tid, BrokerAddress to) {
         sendClusterTransactionInfo(new TransactionUID(tid), to, null);
     }
@@ -4686,8 +4758,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             if (s == TransactionState.COMMITTED && ii.isOwner()) {
                 BrokerAddress[] brokers = ii.getBrokers();
                 List waitfor = ii.getWaitfor();
-                if (brokers == null && waitfor == null)
+                if (brokers == null && waitfor == null) {
                     return;
+                }
                 if (waitfor != null) {
                     sendRemoteTransactionInfo(tuid, from, null, true);
                 }
@@ -4704,6 +4777,7 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
     /**
      * Remove a broker since it is no longer attached to this cluster.
      */
+    @Override
     public synchronized void removeBrokerInfo(BrokerAddress broker, boolean broken) {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "RaptorProtocol.removeBrokerInfo. broker : " + broker);
@@ -4782,8 +4856,9 @@ public class RaptorProtocol implements Protocol, PartitionListener, StoreSession
             }
         }
 
-        if (brokerInfoEx == null)
+        if (brokerInfoEx == null) {
             return;
+        }
         BrokerInfo brokerInfo = brokerInfoEx.getBrokerInfo();
 
         try {
@@ -5017,6 +5092,7 @@ class Resource {
         recipients = new HashMap<BrokerAddress, Object>();
     }
 
+    @Override
     public String toString() {
         return "[" + resId + ", owner=" + owner + ", " + getLockStateString(lockState) + ", timestamp=" + timestamp + ", shared=" + shared + ", xid=" + getXid()
                 + "]";
@@ -5075,7 +5151,7 @@ class Resource {
     public String showRecipients(PingHandler pingHandler, Cluster c) {
         ClusterManager cm = Globals.getClusterManager();
         StringBuffer ret = new StringBuffer();
-        ;
+        
         String brokerid;
         Iterator itr = recipients.keySet().iterator();
         while (itr.hasNext()) {
@@ -5102,8 +5178,9 @@ class Resource {
      */
     public synchronized void prepareLockRequest(BrokerAddress[] brokerList, long xid) {
         recipients.clear();
-        for (int i = 0; i < brokerList.length; i++)
+        for (int i = 0; i < brokerList.length; i++) {
             recipients.put(brokerList[i], null);
+        }
         this.xid = xid;
         status = ProtocolGlobals.G_LOCK_SUCCESS;
     }
@@ -5209,11 +5286,13 @@ class Resource {
      * Process an election protocol 'vote' from a broker.
      */
     public synchronized void consumeResponse(long xid, BrokerAddress sender, int response) {
-        if (xid != this.xid)
+        if (xid != this.xid) {
             return;
+        }
 
-        if (status != ProtocolGlobals.G_LOCK_SUCCESS)
+        if (status != ProtocolGlobals.G_LOCK_SUCCESS) {
             return;
+        }
 
         switch (response) {
         case ProtocolGlobals.G_LOCK_SUCCESS:
@@ -5226,8 +5305,9 @@ class Resource {
             break;
         }
 
-        if (status != ProtocolGlobals.G_LOCK_SUCCESS || recipients.size() == 0)
+        if (status != ProtocolGlobals.G_LOCK_SUCCESS || recipients.size() == 0) {
             notifyAll();
+        }
     }
 
     /**
@@ -5244,12 +5324,14 @@ class Resource {
     }
 
     public synchronized void brokerRemoved(BrokerAddress broker) {
-        if (status != ProtocolGlobals.G_LOCK_SUCCESS)
+        if (status != ProtocolGlobals.G_LOCK_SUCCESS) {
             return;
+        }
 
         recipients.remove(broker);
-        if (recipients.size() == 0)
+        if (recipients.size() == 0) {
             notifyAll();
+        }
     }
 }
 
@@ -5325,16 +5407,18 @@ class ReplyTracker {
      */
     public boolean notifyReply(Long xid, BrokerAddress from, GPacket reply) {
         ReplyWaiter waiter = (ReplyWaiter) waiters.get(xid);
-        if (waiter == null)
+        if (waiter == null) {
             return false;
+        }
         waiter.notifyReply(from, reply);
         return true;
     }
 
     public void abortWaiter(Long xid) {
         ReplyWaiter waiter = (ReplyWaiter) waiters.get(xid);
-        if (waiter == null)
+        if (waiter == null) {
             return;
+        }
         waiter.abort();
     }
 
@@ -5407,7 +5491,7 @@ abstract class ReplyWaiter {
     }
 
     /**
-     * 
+     *
      * @return ReplyStatus if not aborted and Status is OK else null if aborted
      * @throws BrokerException if Status is not OK
      *
@@ -5416,8 +5500,9 @@ abstract class ReplyWaiter {
         long endtime = System.currentTimeMillis() + timeout * 1000L;
 
         long waittime = timeout * 1000L;
-        if (waittime > DEFAULT_WAIT_INTERVAL)
+        if (waittime > DEFAULT_WAIT_INTERVAL) {
             waittime = DEFAULT_WAIT_INTERVAL;
+        }
         int loglevel = Logger.DEBUGHIGH;
 
         int i = 0;
@@ -5438,8 +5523,9 @@ abstract class ReplyWaiter {
             }
 
             waittime = endtime - curtime;
-            if (waittime > DEFAULT_WAIT_INTERVAL)
+            if (waittime > DEFAULT_WAIT_INTERVAL) {
                 waittime = DEFAULT_WAIT_INTERVAL;
+            }
             loglevel = Logger.INFO;
         }
 
@@ -5451,8 +5537,9 @@ abstract class ReplyWaiter {
     }
 
     public synchronized void abort() {
-        if (waitStatus != WAITING)
+        if (waitStatus != WAITING) {
             return;
+        }
 
         waitStatus = Status.OK;
         notifyAll();
@@ -5470,8 +5557,9 @@ abstract class ReplyWaiter {
     }
 
     public synchronized void removeParticipant(BrokerAddress remote, boolean goodbyed, boolean shutdown) {
-        if (waitStatus != WAITING)
+        if (waitStatus != WAITING) {
             return;
+        }
 
         onRemoveParticipant(remote, goodbyed, shutdown);
     }
@@ -5501,15 +5589,18 @@ class MessageAckReplyWaiter extends ReplyWaiter {
         this.home = home;
     }
 
+    @Override
     public void onReply(BrokerAddress remote, GPacket reply) {
         waitStatus = Status.OK;
         notifyAll();
     }
 
+    @Override
     public void onAddParticipant(BrokerAddress remote) {
         // do nothing
     }
 
+    @Override
     public void onRemoveParticipant(BrokerAddress remote, boolean goodbyed, boolean shutdown) {
         if (waitStatus != WAITING) {
             return;
@@ -5527,6 +5618,7 @@ class MessageAckReplyWaiter extends ReplyWaiter {
         notifyAll();
     }
 
+    @Override
     public ReplyStatus getReply() {
         return (ReplyStatus) replies.get(home);
     }
@@ -5541,15 +5633,18 @@ class UnicastReplyWaiter extends ReplyWaiter {
         this.toBroker = to;
     }
 
+    @Override
     public void onReply(BrokerAddress remote, GPacket reply) {
         waitStatus = Status.OK;
         notifyAll();
     }
 
+    @Override
     public void onAddParticipant(BrokerAddress remote) {
         // do nothing
     }
 
+    @Override
     public void onRemoveParticipant(BrokerAddress remote, boolean goodbyed, boolean shutdown) {
         if (waitStatus != WAITING) {
             return;
@@ -5566,6 +5661,7 @@ class UnicastReplyWaiter extends ReplyWaiter {
         notifyAll();
     }
 
+    @Override
     public ReplyStatus getReply() {
         return (ReplyStatus) replies.get(toBroker);
     }
@@ -5583,6 +5679,7 @@ class BroadcastAnyOKReplyWaiter extends ReplyWaiter {
         super(tos, replyType);
     }
 
+    @Override
     public void onReply(BrokerAddress remote, GPacket reply) {
         if (((Integer) reply.getProp("S")).intValue() == Status.OK) {
             this.okBroker = remote;
@@ -5595,10 +5692,12 @@ class BroadcastAnyOKReplyWaiter extends ReplyWaiter {
         }
     }
 
+    @Override
     public void onAddParticipant(BrokerAddress remote) {
         // do nothing
     }
 
+    @Override
     public void onRemoveParticipant(BrokerAddress remote, boolean goodbyed, boolean shutdown) {
         if (waitStatus != WAITING) {
             return;
@@ -5612,6 +5711,7 @@ class BroadcastAnyOKReplyWaiter extends ReplyWaiter {
         }
     }
 
+    @Override
     public ReplyStatus getReply() {
         if (okBroker == null) {
             return null;
@@ -5626,6 +5726,7 @@ class TakeoverPendingReplyWaiter extends ReplyWaiter {
         super(brokerList, ProtocolGlobals.G_TAKEOVER_PENDING_REPLY);
     }
 
+    @Override
     public void onReply(BrokerAddress remote, GPacket reply) {
         if (participants.size() == 0) {
             waitStatus = Status.OK;
@@ -5634,13 +5735,16 @@ class TakeoverPendingReplyWaiter extends ReplyWaiter {
         }
     }
 
+    @Override
     public void onAddParticipant(BrokerAddress remote) {
         // do nothing
     }
 
+    @Override
     public void onRemoveParticipant(BrokerAddress remote, boolean goodbyed, boolean shutdown) {
-        if (waitStatus != WAITING)
+        if (waitStatus != WAITING) {
             return;
+        }
 
         if (shutdown) {
             waitStatus = Status.GONE;
@@ -5657,6 +5761,7 @@ class TakeoverPendingReplyWaiter extends ReplyWaiter {
         }
     }
 
+    @Override
     public ReplyStatus getReply() {
         return null;
     }
@@ -5679,8 +5784,9 @@ class TakeoverCleanupThread extends Thread {
     public TakeoverCleanupThread(ThreadGroup tg, RaptorProtocol p, BrokerAddress sender, ClusterTakeoverInfo cti, TakingoverEntry toe, short protocol,
             boolean doconverge) {
         super(tg, "TakeoverCleanup");
-        if (Thread.MAX_PRIORITY - 1 > 0)
+        if (Thread.MAX_PRIORITY - 1 > 0) {
             setPriority(Thread.MAX_PRIORITY - 1);
+        }
         setDaemon(true);
         this.p = p;
         this.sender = sender;
@@ -5690,6 +5796,7 @@ class TakeoverCleanupThread extends Thread {
         this.doconverge = doconverge;
     }
 
+    @Override
     public void run() {
         logger.log(Logger.DEBUG, "Processing " + ProtocolGlobals.getPacketTypeString(protocol));
         p.takeoverCleanup(toe, protocol == ProtocolGlobals.G_TAKEOVER_COMPLETE);

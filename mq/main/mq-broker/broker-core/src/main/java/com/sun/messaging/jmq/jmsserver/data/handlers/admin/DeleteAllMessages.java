@@ -23,6 +23,7 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import com.sun.messaging.jmq.util.lists.Filter;
 
 class DeleteAllMessages implements Filter {
+    @Override
     public boolean matches(Object ref) {
         return true;
     }

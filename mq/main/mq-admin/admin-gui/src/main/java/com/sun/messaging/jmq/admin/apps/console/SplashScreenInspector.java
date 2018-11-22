@@ -33,6 +33,12 @@ import javax.swing.JLabel;
  */
 public class SplashScreenInspector extends InspectorPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5529198493272951928L;
+
+    @Override
     public JPanel createWorkPanel() {
         JPanel panel = new JPanel();
         JLabel l = new JLabel(AGraphics.adminImages[AGraphics.SPLASH_SCREEN], JLabel.CENTER);
@@ -43,12 +49,15 @@ public class SplashScreenInspector extends InspectorPanel {
         return (panel);
     }
 
+    @Override
     public void inspectorInit() {
     }
 
+    @Override
     public void clearSelection() {
     }
 
+    @Override
     public void selectedObjectUpdated() {
     }
 }

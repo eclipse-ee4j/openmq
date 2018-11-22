@@ -20,11 +20,9 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.ldap;
 
-import java.io.*;
 import java.util.*;
 import java.security.PrivilegedAction;
 import javax.naming.Context;
-import javax.naming.AuthenticationException;
 import javax.naming.NamingException;
 import javax.naming.NamingEnumeration;
 import javax.naming.directory.InitialDirContext;
@@ -45,7 +43,6 @@ import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.auth.jaas.MQUser;
 import com.sun.messaging.jmq.auth.jaas.MQGroup;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.net.tls.TLSProtocol;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 import com.sun.messaging.jmq.util.Password;
 
@@ -105,10 +102,12 @@ public class LdapUserRepository implements UserRepository {
     public LdapUserRepository() {
     }
 
+    @Override
     public String getType() {
         return TYPE;
     }
 
+    @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authType = authType;
         this.authProps = authProperties;
@@ -169,8 +168,9 @@ public class LdapUserRepository implements UserRepository {
             }
         }
         base = authProps.getProperty(prefix + PROP_BASE_SUFFIX);
-        if (base != null && base.trim().equals(""))
+        if (base != null && base.trim().equals("")) {
             base = null;
+        }
         if (base == null && (usrformat == null || !usrformat.equals(DN_USRFORMAT))) {
             String[] args = { authType, rep, PROP_BASE_SUFFIX };
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_LDAP_REPOSITORY_PROPERTY_NOT_DEFINED, args));
@@ -249,12 +249,13 @@ public class LdapUserRepository implements UserRepository {
      * @param credential password (String type) for "basic" is the password
      * @param extra null for basic, nonce if digest
      * @param matchType must be "basic"
-     * 
+     *
      * @return the authenticated subject <BR>
      * null if no match found <BR>
      *
      * @exception LoginException
      */
+    @Override
     public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException {
         if (matchType != null && matchType.equals(AccessController.AUTHTYPE_BASIC)) {
             return jmqbasicFindMatch(user, (String) credential);
@@ -289,8 +290,9 @@ public class LdapUserRepository implements UserRepository {
         env.put(Context.REFERRAL, "follow"); // see JNDI doc
         if (sslprotocol) {
             env.put(Context.SECURITY_PROTOCOL, "ssl");
-            if (sslfactory != null)
+            if (sslfactory != null) {
                 env.put("java.naming.ldap.factory.socket", sslfactory);
+            }
         }
 
         String dnName = null;
@@ -335,10 +337,12 @@ public class LdapUserRepository implements UserRepository {
             }
 
         } catch (Exception e) {
-            if (e instanceof FailedLoginException)
+            if (e instanceof FailedLoginException) {
                 throw (FailedLoginException) e;
-            if (e instanceof LoginException)
+            }
+            if (e instanceof LoginException) {
                 throw (LoginException) e;
+            }
             String emsg = null;
             if (e instanceof NamingException) {
                 emsg = ((NamingException) e).toString(true);
@@ -349,8 +353,9 @@ public class LdapUserRepository implements UserRepository {
             throw new LoginException(emsg);
         } finally {
             try {
-                if (ctx != null)
+                if (ctx != null) {
                     ctx.close();
+                }
             } catch (NamingException ne) {
                 /* ignore */
             }
@@ -421,8 +426,9 @@ public class LdapUserRepository implements UserRepository {
             return dnName;
 
         } catch (Exception e) {
-            if (e instanceof FailedLoginException)
+            if (e instanceof FailedLoginException) {
                 throw (FailedLoginException) e;
+            }
             String emsg = null;
             if (e instanceof NamingException) {
                 emsg = ((NamingException) e).toString(true);
@@ -433,8 +439,9 @@ public class LdapUserRepository implements UserRepository {
             throw new LoginException(emsg);
         } finally {
             try {
-                if (ctx != null)
+                if (ctx != null) {
                     ctx.close();
+                }
             } catch (NamingException ne) {
                 /* ignore */
             }
@@ -453,13 +460,15 @@ public class LdapUserRepository implements UserRepository {
             Attribute attr = null;
             Object attrv = null;
             while (itr.hasNext()) {
-                attrs = (Attributes) ((Rdn) itr.next()).toAttributes();
+                attrs = ((Rdn) itr.next()).toAttributes();
                 attr = attrs.get(uidattr);
-                if (attr == null)
+                if (attr == null) {
                     continue;
+                }
                 attrv = attr.get(0);
-                if (attrv == null)
+                if (attrv == null) {
                     break;
+                }
                 if (!(attrv instanceof String)) {
                     throw new LoginException(
                             br.getKString(BrokerResources.X_ATTRIBUTE_NOT_STRING_TYPE, uidattr + "[" + dnuser + "]", attrv.getClass().getName()));
@@ -471,8 +480,9 @@ public class LdapUserRepository implements UserRepository {
             }
             throw new LoginException(br.getKString(BrokerResources.X_ATTRIBUTE_NOT_FOUND_IN, uidattr, dnuser));
         } catch (Exception e) {
-            if (e instanceof LoginException)
+            if (e instanceof LoginException) {
                 throw (LoginException) e;
+            }
             String emsg = null;
             if (e instanceof NamingException) {
                 emsg = ((NamingException) e).toString(true);
@@ -488,8 +498,9 @@ public class LdapUserRepository implements UserRepository {
      * @return list of groups the dn is a member
      */
     private void findGroups(String dn, Subject subject) throws NamingException {
-        if (!grpsearch)
+        if (!grpsearch) {
             return;
+        }
 
         Hashtable env = new Hashtable(11);
         env.put(Context.INITIAL_CONTEXT_FACTORY, INITIAL_CONTEXT_FACTORY);
@@ -502,8 +513,9 @@ public class LdapUserRepository implements UserRepository {
         }
         if (sslprotocol) {
             env.put(Context.SECURITY_PROTOCOL, "ssl");
-            if (sslfactory != null)
+            if (sslfactory != null) {
                 env.put("java.naming.ldap.factory.socket", sslfactory);
+            }
         }
 
         DirContext ctx = null;
@@ -548,6 +560,7 @@ public class LdapUserRepository implements UserRepository {
                             final Subject tempSubject = subject;
                             final String tempGroup = group;
                             java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                                @Override
                                 public Object run() {
                                     tempSubject.getPrincipals().add(new MQGroup(tempGroup));
                                     return null;
@@ -561,21 +574,25 @@ public class LdapUserRepository implements UserRepository {
             }
 
         } catch (Exception e) {
-            if (e instanceof NamingException)
+            if (e instanceof NamingException) {
                 throw (NamingException) e;
+            }
             NamingException ne = new NamingException(e.toString());
             ne.initCause(e);
             throw ne;
         } finally {
-            if (ctx != null)
+            if (ctx != null) {
                 ctx.close();
+            }
         }
     }
 
+    @Override
     public Refreshable getCacheData() {
         return null; // not cache
     }
 
+    @Override
     public void close() throws LoginException {
     }
 }

@@ -27,6 +27,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class ConsumerAlreadyAddedException extends BrokerException {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -3567840230880108845L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

@@ -601,7 +601,7 @@ class TidList {
 
     /**
      * Return transaction state object for the specified transaction.
-     * 
+     *
      * @param id id of the transaction
      * @exception BrokerException if the transaction id is not in the store
      */
@@ -619,7 +619,7 @@ class TidList {
 
     /**
      * Return transaction state for the specified transaction.
-     * 
+     *
      * @param id id of the transaction
      */
     int getTransactionStateValue(TransactionUID id) throws BrokerException {
@@ -637,7 +637,7 @@ class TidList {
 
     /**
      * Return transaction info object for the specified transaction.
-     * 
+     *
      * @param id id of the transaction
      * @exception BrokerException if the transaction id is not in the store
      */
@@ -655,7 +655,7 @@ class TidList {
 
     /**
      * Return transaction home broker for the specified transaction.
-     * 
+     *
      * @param id id of the transaction
      * @exception BrokerException if the transaction id is not in the store
      */
@@ -673,7 +673,7 @@ class TidList {
 
     /**
      * Return transaction's participant brokers for the specified transaction.
-     * 
+     *
      * @param id id of the transaction whose participant brokers are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
@@ -689,7 +689,7 @@ class TidList {
         TransactionBroker[] txnBrokers = txnInfo.getTransactionBrokers();
         if (txnBrokers != null) {
             // Make a copy
-            txnBrokers = (TransactionBroker[]) txnBrokers.clone();
+            txnBrokers = txnBrokers.clone();
         }
 
         return txnBrokers;
@@ -891,7 +891,7 @@ class TidList {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {
@@ -917,7 +917,7 @@ class TidList {
      * the whole record (key and value) to improve I/O performance. So when the broker start up and the persisted
      * transaction states are loaded from file, we need to update the TransactionState object with the modified value that
      * is stored in the client data section of the record.
-     * 
+     *
      * @throws PHashMapLoadException if an error occurs while loading data
      */
     private void loadClientData() throws PHashMapLoadException {
@@ -938,7 +938,7 @@ class TidList {
             try {
                 cData = ((PHashMapMMF) tidMap).getClientData(key);
                 if (cData != null && cData.length > 0) {
-                    int state = (int) cData[0]; // 1st byte is the modified state
+                    int state = cData[0]; // 1st byte is the modified state
                     value.getTransactionState().setState(state); // update txn state
 
                     // Now read in modified txn broker states
@@ -948,7 +948,7 @@ class TidList {
                             TransactionBroker bkr = bkrs[i];
 
                             // update bkr's state
-                            boolean isComplete = ((int) cData[i + 1] == 1); // 1 == true
+                            boolean isComplete = (cData[i + 1] == 1); // 1 == true
                             bkr.setCompleted(isComplete);
                         }
                     }
@@ -990,7 +990,7 @@ class TidList {
             try {
                 cData = ((PHashMapMMF) tidMap).getClientData(key);
                 if (cData != null && cData.length > 0) {
-                    int state = (int) cData[0]; // 1st byte is the modified state
+                    int state = cData[0]; // 1st byte is the modified state
                     value.setState(state); // update txn state
                 }
             } catch (Throwable e) {

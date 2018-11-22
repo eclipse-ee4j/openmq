@@ -20,26 +20,20 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.awt.Dimension;
-import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JSeparator;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.ServiceState;
-import com.sun.messaging.jmq.util.ServiceType;
-
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
@@ -54,6 +48,10 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
  */
 public class BrokerServicePropsDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 692779940571027259L;
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
@@ -78,6 +76,7 @@ public class BrokerServicePropsDialog extends AdminDialog {
         setHelpId(ConsoleHelpID.SERVICE_PROPS);
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         JPanel workPanel;
@@ -247,6 +246,7 @@ public class BrokerServicePropsDialog extends AdminDialog {
         return workPanel;
     }
 
+    @Override
     public void doOK() {
         int portValue = -1;
         int minThreadsValue = -1;
@@ -268,11 +268,12 @@ public class BrokerServicePropsDialog extends AdminDialog {
             // New protocol.
             // If the port number is not used for this service it
             // is set to -1. If the port number was -1 do not change it.
-            if (svcInfo.port == -1)
+            if (svcInfo.port == -1) {
                 portValue = -1;
             // Set it to 0 for dynamic otherwise
-            else
+            } else {
                 portValue = 0;
+            }
         }
 
         minThreadsValue = Integer.parseInt(minThreads.getText());
@@ -287,10 +288,10 @@ public class BrokerServicePropsDialog extends AdminDialog {
          * 0) { if (ServiceType.ADMIN == svcInfo.type) { JOptionPane.showOptionDialog(this,
          * acr.getString(acr.E_ADMIN_MAX_THREAD), acr.getString(acr.I_BROKER_SVC_PROPS) + ": " + acr.getString(acr.I_ERROR_CODE,
          * acr.E_ADMIN_MAX_THREAD), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]); return;
-         * 
+         *
          * } else { int result = JOptionPane.showConfirmDialog(this, acr.getString(acr.Q_SET_MAX_THREAD_ZERO, svcInfo.name),
          * acr.getString(acr.I_BROKER_SVC_PROPS), JOptionPane.YES_NO_OPTION);
-         * 
+         *
          * if (result == JOptionPane.NO_OPTION) return; } }
          */
 
@@ -304,21 +305,26 @@ public class BrokerServicePropsDialog extends AdminDialog {
         fireAdminEventDispatched(bae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
         doClear();
     }
 
+    @Override
     public void doClear() {
         svcName.setText(" ");
         dynamicPortButton.setSelected(true);
@@ -345,9 +351,9 @@ public class BrokerServicePropsDialog extends AdminDialog {
         svcName.setText(svcInfo.name);
 
         // The port number is not applicable to this service
-        if (svcInfo.port == -1)
+        if (svcInfo.port == -1) {
             enableServicePort(false);
-        else {
+        } else {
             enableServicePort(true);
 
             if (svcInfo.dynamicPort) {
@@ -380,6 +386,7 @@ public class BrokerServicePropsDialog extends AdminDialog {
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 

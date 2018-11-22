@@ -27,8 +27,6 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.RandomAccessFile;
-import java.util.Date;
-
 import com.sun.messaging.jmq.resources.SharedResources;
 
 /**
@@ -157,7 +155,6 @@ public class RollingFileOutputStream extends OutputStream {
         if (raf.skipBytes(2) != 2) {
             throw new IOException("Could not skip bytes");
         }
-        ;
 
         byte[] timeBytes = new byte[128];
         long time = 0;
@@ -198,7 +195,7 @@ public class RollingFileOutputStream extends OutputStream {
 
     /**
      * Creates a new output stream with defaults
-     * 
+     *
      * @param outfile the output file
      */
     public RollingFileOutputStream(File outfile) throws IOException {
@@ -216,10 +213,11 @@ public class RollingFileOutputStream extends OutputStream {
     /**
      * Writes a byte of data to the output stream. If the rollover point is exceeded, the existing file will be rolled over
      * to a new file.
-     * 
+     *
      * @param b the byte to be written
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public synchronized void write(int b) throws IOException {
         file_size++;
         out.write(b);
@@ -228,10 +226,11 @@ public class RollingFileOutputStream extends OutputStream {
     /**
      * Writes an array of bytes to the output stream. If the rollover point is exceeded, the existing file will be rolled
      * over to a new file.
-     * 
+     *
      * @param b the bytes to be written.
      * @exception IOException If an I/O error has occurred.
      */
+    @Override
     public void write(byte[] b) throws IOException {
         write(b, 0, b.length);
     }
@@ -239,12 +238,13 @@ public class RollingFileOutputStream extends OutputStream {
     /**
      * Writes an array of bytes to the output stream. This method will block until all the bytes have been written. If the
      * rollover point is exceeded, the existing file will be rolled over to a new file.
-     * 
+     *
      * @param b the bytes to be written
      * @param off the start offset of the bytes
      * @param len the number of bytes to write
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public synchronized void write(byte[] b, int off, int len) throws IOException {
         if (doRollover()) {
             rolloverFile();
@@ -256,20 +256,23 @@ public class RollingFileOutputStream extends OutputStream {
 
     /**
      * Closes the output stream.
-     * 
+     *
      * @exception IOException if an I/O error has occurred
      */
+    @Override
     public void close() throws IOException {
-        if (raf != null)
+        if (raf != null) {
             raf.close();
+        }
         out.close();
     }
 
     /**
      * Flushes the output stream.
-     * 
+     *
      * @throws IOException if an I/O error has occurred
      */
+    @Override
     public void flush() throws IOException {
         out.flush();
     }
@@ -290,8 +293,9 @@ public class RollingFileOutputStream extends OutputStream {
         s = outfile.getAbsolutePath();
 
         testfile = new File(generateFilename(s, num_files));
-        if (testfile.exists())
+        if (testfile.exists()) {
             testfile.delete();
+        }
 
         for (int i = num_files - 1; i > 0; i--) {
             testfile = new File(generateFilename(s, i));

@@ -28,18 +28,18 @@ import com.sun.messaging.jmq.util.XidImpl;
 
 /**
  * This class keeps track of all the XAResourceImpl objects which are party to a given transaction branch
- * 
+ *
  * This class maintains a static Map whose key is the transaction branch XID (a XidImpl) and whose corresponding value
  * is a Set of all the XAResourceImpl objects which are being used in this transaction branch
- * 
+ *
  * A resource should be registered with this class by calling register(), whenever XAResource.start(xid,TMNOFLAGS) or
  * XAResource.start(xid,TMJOIN) is called and removed from this class when the xid is committed or rolled back.
- * 
+ *
  * register() should never be called for XAResource.start(xid,TMRESUME) - this will cause an XAException
- * 
+ *
  * Note that the XA spec requires that when a second resource is added to an existing xid, XAStart(xid,flags) is called
  * with the join flag set
- * 
+ *
  */
 
 public class XAResourceMap {
@@ -71,7 +71,7 @@ public class XAResourceMap {
     private static ArrayList<ConnectionConsumerImpl> unregisterListenerCC = new ArrayList<ConnectionConsumerImpl>();
 
     /**
-     * 
+     *
      * @param xid
      * @param xar
      * @param isJoin
@@ -101,9 +101,9 @@ public class XAResourceMap {
 
     /**
      * Unregister the specified transaction branch and all its resources
-     * 
+     *
      * This should be called when the transaction is committed or rolled back
-     * 
+     *
      * @param xid Transaction branch XID
      */
     public synchronized static void unregister(XidImpl xid) {
@@ -125,9 +125,9 @@ public class XAResourceMap {
 
     /**
      * Unregister the specified resource from the specified transaction branch
-     * 
+     *
      * This should be called when an individual session is closed but a transaction is still pending
-     * 
+     *
      * @param xid Transaction branch XID
      * @param xar Resource
      */
@@ -152,7 +152,7 @@ public class XAResourceMap {
 
     /**
      * Returns a Set of resources associated with the specified transaction branch
-     * 
+     *
      * @param xid Transaction branch XID
      * @param throwExceptionIfNotFound Whether to throw an exception if XID not found (typically set to true on a commit,
      * false on a rollback, since a commit legitimately be followed by a rollback)
@@ -175,9 +175,9 @@ public class XAResourceMap {
 
     /**
      * Return whether the resources map is empty
-     * 
+     *
      * This is for use by tests
-     * 
+     *
      * @return
      */
     public static boolean isEmpty() {
@@ -207,20 +207,21 @@ public class XAResourceMap {
     public static int hasXAResourceForCC(ConnectionConsumerImpl cc, boolean listen) {
         XidImpl[] keys = null;
         synchronized (XAResourceMap.class) {
-            keys = (XidImpl[]) resourceMap.keySet().toArray(new XidImpl[resourceMap.size()]);
+            keys = resourceMap.keySet().toArray(new XidImpl[resourceMap.size()]);
         }
         ArrayList<XAResourceImpl> allxars = new ArrayList<XAResourceImpl>();
         Set<XAResourceImpl> xarss = null;
         for (int i = 0; i < keys.length; i++) {
             synchronized (XAResourceMap.class) {
                 xarss = resourceMap.get(keys[i]);
-                if (xarss == null)
+                if (xarss == null) {
                     continue;
+                }
                 allxars.addAll(xarss);
             }
         }
 
-        XAResourceImpl[] xars = (XAResourceImpl[]) allxars.toArray(new XAResourceImpl[0]);
+        XAResourceImpl[] xars = allxars.toArray(new XAResourceImpl[0]);
         int cnt = 0;
         XAResourceImpl xar = null;
         ConnectionConsumerImpl xcc = null;

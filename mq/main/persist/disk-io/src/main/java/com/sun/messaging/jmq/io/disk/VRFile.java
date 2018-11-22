@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.io.disk;
 
 import java.io.*;
 import java.nio.*;
-import java.nio.channels.*;
 import java.util.*;
 
 import com.sun.messaging.jmq.resources.*;
@@ -77,7 +76,7 @@ import com.sun.messaging.jmq.resources.*;
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
  * | state | reserved for later use |<br>
  * +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+<br>
- * 
+ *
  * </blockquote>
  * <p>
  * magic #: Helps identify the start of an allocation. It is only used as a sanity check to help ensure we don't read
@@ -86,7 +85,7 @@ import com.sun.messaging.jmq.resources.*;
  *
  * <blockquote> state: State of the allocation. One of: 1 = Free 2 = Allocated 3 = Last 4 = Properties Record 5 =
  * Pending (operation is pending).
- * 
+ *
  * </blockquote>
  *
  * When an allocator is first created the backing file is created of size initialCapacity and the entire file is mapped.
@@ -386,10 +385,11 @@ public abstract class VRFile {
      * value of 0.5 means we are reusing records half of the time
      */
     public float getHitRatio() {
-        if ((hits + misses) == 0)
+        if ((hits + misses) == 0) {
             return 0;
-        else
+        } else {
             return (((float) (hits * 1.00)) / (hits + misses));
+        }
     }
 
     /**
@@ -841,7 +841,7 @@ public abstract class VRFile {
         /*
          * we don't check the application cookie if (filecookie != cookie) { Object[] args = { backingFile,
          * Long.toString(filecookie), Long.toString(cookie) };
-         * 
+         *
          * throw new IOException( SharedResources.getResources().getString( SharedResources.E_BAD_APPLICATION_COOKIE, args)); }
          */
 
@@ -889,7 +889,7 @@ public abstract class VRFile {
     /**
      * Starting from pos, scan for a good record. First find the record magic number and get the capacity. A good record
      * will be one with a record magic number after the end of it (indicating another record); or it's the LAST record
-     * 
+     *
      * @return the position of the good record or end point of the file if none is found
      */
     protected long findGoodRecord(RandomAccessFile file, long pos, long filelen) {
@@ -905,9 +905,9 @@ public abstract class VRFile {
                     long nextpos = pos + capacity;
 
                     if (state == STATE_BAD_STATE) {
-                        ; // continue
+                         // continue
                     } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {
-                        ; // continue
+                         // continue
                     } else if (state == _STATE_LAST) {
                         if (capacity == 0) {
                             return pos;
@@ -1047,9 +1047,9 @@ public abstract class VRFile {
 
     /*
      * public static void main(String args[]) throws Exception { if (args.length == 0) { return; }
-     * 
+     *
      * VRFile vrfile = new VRFile(args[0]);
-     * 
+     *
      * vrfile.open(); Set records = vrfile.getRecords(); System.out.println("loaded "+records.size()+" records from "+
      * args[0]); }
      */

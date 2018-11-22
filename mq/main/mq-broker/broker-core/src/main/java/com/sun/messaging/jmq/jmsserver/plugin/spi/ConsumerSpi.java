@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.plugin.spi;
 
-import java.util.*;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.util.lists.EventType;
 import com.sun.messaging.jmq.util.lists.EventListener;

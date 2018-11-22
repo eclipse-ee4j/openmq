@@ -39,15 +39,15 @@ import javax.xml.transform.stream.StreamResult;
 
 /**
  * This class is used to validate if an XML document is valid.
- * 
- * 
+ *
+ *
  * @author chiaming
  */
 public class XMLValidator {
     /**
      * System property to turn on/off xml schema validation. If set to true, XML content is validated against the schema
      * provided or from the content declaration.
-     * 
+     *
      */
     static public final String IS_Validate = "imq.xml.schema.validate";
 
@@ -81,7 +81,7 @@ public class XMLValidator {
     /**
      * This constructor is used to construct an instance to validate XML DTD. When no external schema uri is configured,
      * this is used.
-     * 
+     *
      * @throws javax.jms.JMSException
      */
     protected XMLValidator() throws JMSException {
@@ -113,7 +113,7 @@ public class XMLValidator {
     }
 
     /**
-     * 
+     *
      * @param xsdURIList
      */
     protected XMLValidator(String schemaLang, String xsdURIList) throws JMSException {
@@ -192,7 +192,7 @@ public class XMLValidator {
 
     /**
      * validate an XML document.
-     * 
+     *
      * @param xml
      * @throws javax.jms.JMSException
      */
@@ -258,7 +258,7 @@ public class XMLValidator {
 
     /**
      * validate xml with validator.
-     * 
+     *
      * @param xml
      * @throws Exception
      */

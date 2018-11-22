@@ -21,21 +21,13 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.util.net.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.auth.AccessController;
-import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 
@@ -50,6 +42,7 @@ public class FlowHandler extends PacketHandler {
     /**
      * Method to handle flow messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {
@@ -82,8 +75,9 @@ public class FlowHandler extends PacketHandler {
             }
         }
 
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "Setting JMQRBufferSize -" + bufsize);
+        }
 
         if (consumer != null) {
             // consumer flow control

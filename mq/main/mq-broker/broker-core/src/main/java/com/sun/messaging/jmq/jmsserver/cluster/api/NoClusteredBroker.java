@@ -20,7 +20,6 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
@@ -83,6 +82,7 @@ public class NoClusteredBroker implements ClusteredBroker {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof ClusteredBroker)) {
             return false;
@@ -90,6 +90,7 @@ public class NoClusteredBroker implements ClusteredBroker {
         return this.getBrokerName().equals(((ClusteredBroker) o).getBrokerName());
     }
 
+    @Override
     public int hashCode() {
         return this.getBrokerName().hashCode();
     }
@@ -97,6 +98,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * String representation of this broker.
      */
+    @Override
     public String toString() {
         return brokerName + "* (" + address + ")";
     }
@@ -110,15 +112,17 @@ public class NoClusteredBroker implements ClusteredBroker {
      *
      * @return the name of the broker
      */
+    @Override
     public String getBrokerName() {
         return brokerName;
     }
 
     /**
      * the URL to the portmapper of this broker.
-     * 
+     *
      * @return the URL of this broker
      */
+    @Override
     public MQAddress getBrokerURL() {
         return address;
     }
@@ -126,6 +130,7 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * @return the instance name of this broker, null if not available
      */
+    @Override
     public String getInstanceName() {
         return instanceName;
     }
@@ -133,22 +138,25 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * @param Set the instance name of this broker, can be null
      */
+    @Override
     public void setInstanceName(String instName) {
         instanceName = instName;
     }
 
     /**
      * sets the URL to the portmapper of this broker.
-     * 
+     *
      * @param address the URL of this broker
      * @throws UnsupportedOperationException if this change can not be made on this broker
      */
+    @Override
     public void setBrokerURL(MQAddress address) throws Exception {
         this.address = address;
     }
 
     /**
      */
+    @Override
     public boolean isLocalBroker() {
         return true;
     }
@@ -159,21 +167,24 @@ public class NoClusteredBroker implements ClusteredBroker {
      * @see BrokerStatus
      * @return the status of the broker
      */
+    @Override
     public synchronized int getStatus() {
         return status.intValue();
     }
 
     /**
      * gets the protocol version of the broker .
-     * 
+     *
      * @return the current cluster protocol version (if known) or 0 if not known
      */
+    @Override
     public synchronized int getVersion() {
         return 0;
     }
 
     /**
      */
+    @Override
     public void setVersion(int version) throws Exception {
     }
 
@@ -184,26 +195,30 @@ public class NoClusteredBroker implements ClusteredBroker {
      * @param userData optional user data associated with the status change
      * @see ConfigListener
      */
+    @Override
     public void setStatus(int newstatus, Object userData) {
 
         // ok - for standalone case, adjust so that LINK_DOWN=DOWN
-        if (BrokerStatus.getBrokerIsDown(newstatus))
+        if (BrokerStatus.getBrokerIsDown(newstatus)) {
             newstatus = BrokerStatus.setBrokerLinkIsDown(newstatus);
-        else if (BrokerStatus.getBrokerLinkIsDown(newstatus))
+        } else if (BrokerStatus.getBrokerLinkIsDown(newstatus)) {
             newstatus = BrokerStatus.setBrokerIsDown(newstatus);
-        else if (BrokerStatus.getBrokerLinkIsUp(newstatus))
+        } else if (BrokerStatus.getBrokerLinkIsUp(newstatus)) {
             newstatus = BrokerStatus.setBrokerIsUp(newstatus);
-        else if (BrokerStatus.getBrokerIsUp(newstatus))
+        } else if (BrokerStatus.getBrokerIsUp(newstatus)) {
             newstatus = BrokerStatus.setBrokerLinkIsUp(newstatus);
+        }
 
         synchronized (this) {
             this.status = Integer.valueOf(newstatus);
         }
         try {
-            if (BrokerStatus.getBrokerIsUp(newstatus))
+            if (BrokerStatus.getBrokerIsUp(newstatus)) {
                 setState(BrokerState.OPERATING);
-            if (BrokerStatus.getBrokerIsDown(newstatus))
+            }
+            if (BrokerStatus.getBrokerIsDown(newstatus)) {
                 setState(BrokerState.SHUTDOWN_COMPLETE);
+            }
         } catch (Exception ex) {
             logger.logStack(Logger.DEBUG, "Error setting state ", ex);
         }
@@ -212,10 +227,11 @@ public class NoClusteredBroker implements ClusteredBroker {
 
     /**
      * Updates the BROKER_UP bit flag on status.
-     * 
+     *
      * @param userData optional user data associated with the status change
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerIsUp(boolean up, UID brokerSession, Object userData) {
         synchronized (this) {
             if (up) {
@@ -239,10 +255,11 @@ public class NoClusteredBroker implements ClusteredBroker {
 
     /**
      * Updates the BROKER_LINK_UP bit flag on status.
-     * 
+     *
      * @param userData optional user data associated with the status change
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerLinkUp(boolean up, Object userData) {
         synchronized (this) {
             int newStatus = 0;
@@ -254,10 +271,11 @@ public class NoClusteredBroker implements ClusteredBroker {
             this.status = Integer.valueOf(newStatus);
         }
         try {
-            if (up)
+            if (up) {
                 setState(BrokerState.OPERATING);
-            else
+            } else {
                 setState(BrokerState.SHUTDOWN_COMPLETE);
+            }
         } catch (Exception ex) {
             logger.logStack(Logger.DEBUG, "Error setting state ", ex);
         }
@@ -266,10 +284,11 @@ public class NoClusteredBroker implements ClusteredBroker {
 
     /**
      * Updates the BROKER_INDOUBT bit flag on status.
-     * 
+     *
      * @param userData optional user data associated with the status change
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerInDoubt(boolean up, Object userData) {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".setBrokerInDoubt()");
     }
@@ -279,6 +298,7 @@ public class NoClusteredBroker implements ClusteredBroker {
      *
      * @see BrokerStatus#DOWN
      */
+    @Override
     public void destroy() {
         synchronized (this) {
             status = Integer.valueOf(BrokerStatus.setBrokerIsDown(status.intValue()));
@@ -291,13 +311,14 @@ public class NoClusteredBroker implements ClusteredBroker {
      * @throws BrokerException if the state can not be retrieve
      * @return the current state
      */
+    @Override
     public BrokerState getState() {
         return state;
     }
 
     /**
      * sets the state of the broker (and notifies any listeners).
-     * 
+     *
      * @throws IllegalAccessException if the broker does not have permission to change the broker (e.g. one broker is
      * updating anothers state).
      * @throws IllegalStateException if the broker state changed unexpectedly.
@@ -305,6 +326,7 @@ public class NoClusteredBroker implements ClusteredBroker {
      * @param state the state to set for this broker
      * @see ConfigListener
      */
+    @Override
     public void setState(BrokerState state) throws IllegalAccessException, IllegalStateException, IllegalArgumentException {
         this.state = state;
     }
@@ -312,22 +334,27 @@ public class NoClusteredBroker implements ClusteredBroker {
     /**
      * Is the broker static or dynmically configured
      */
+    @Override
     public boolean isConfigBroker() {
         return true;
     }
 
+    @Override
     public synchronized UID getBrokerSessionUID() {
         return brokerSessionUID;
     }
 
+    @Override
     public synchronized void setBrokerSessionUID(UID session) {
         brokerSessionUID = session;
     }
 
+    @Override
     public boolean isBrokerIDGenerated() {
         return isgen;
     }
 
+    @Override
     public String getNodeName() throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getNodeName()");
     }

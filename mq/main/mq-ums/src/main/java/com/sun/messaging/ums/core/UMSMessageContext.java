@@ -73,6 +73,7 @@ public class UMSMessageContext implements MessageContext {
      * @param key an object specifying the key of the attribute
      * @param value an Object representing the attribute to be bound
      */
+    @Override
     public void setAttribute(Object key, Object value) {
         this.attributes.put(key, value);
     }
@@ -90,6 +91,7 @@ public class UMSMessageContext implements MessageContext {
      *
      * @see getAttributeKeys
      */
+    @Override
     public Object getAttribute(Object key) {
         return this.attributes.get(key);
     }
@@ -100,6 +102,7 @@ public class UMSMessageContext implements MessageContext {
      *
      * @param key an Object specifying the name of the attribute to be removed
      */
+    @Override
     public Object removeAttribute(Object key) {
         return this.attributes.remove(key);
     }
@@ -110,22 +113,27 @@ public class UMSMessageContext implements MessageContext {
      *
      * @return an Iterator of attribute key
      */
+    @Override
     public java.util.Iterator getAttributeKeys() {
         return this.attributes.keySet().iterator();
     }
 
+    @Override
     public SOAPMessage getRequestMessage() {
         return this.requestMessage;
     }
 
+    @Override
     public void setRequestMessage(SOAPMessage message) {
         this.requestMessage = message;
     }
 
+    @Override
     public SOAPMessage getResponseMessage() {
         return this.responseMessage;
     }
 
+    @Override
     public void setResponseMessage(SOAPMessage message) {
         this.responseMessage = message;
     }

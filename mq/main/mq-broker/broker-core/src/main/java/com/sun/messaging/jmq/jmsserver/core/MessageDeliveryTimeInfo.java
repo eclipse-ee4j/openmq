@@ -27,6 +27,12 @@ public class MessageDeliveryTimeInfo {
     static Comparator deliveryTimeCompare = new DeliveryTimeComparator();
 
     static class DeliveryTimeComparator implements Comparator, Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1128049803707369773L;
+
+        @Override
         public int compare(Object o1, Object o2) {
 
             if (!(o1 instanceof MessageDeliveryTimeInfo && o2 instanceof MessageDeliveryTimeInfo)) {
@@ -50,10 +56,12 @@ public class MessageDeliveryTimeInfo {
             return (diff < 0L ? 1 : -1);
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
@@ -68,6 +76,7 @@ public class MessageDeliveryTimeInfo {
 
     private MessageDeliveryTimeTimer readyListener = null;
 
+    @Override
     public String toString() {
         return "DeliveryTimeInfo[" + id + ", " + deliveryTime + "]" + deliveryDue;
     }
@@ -157,10 +166,12 @@ public class MessageDeliveryTimeInfo {
         return id;
     }
 
+    @Override
     public int hashCode() {
         return id.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof MessageDeliveryTimeInfo)) {
             return false;

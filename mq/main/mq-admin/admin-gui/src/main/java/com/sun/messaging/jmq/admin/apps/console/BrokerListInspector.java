@@ -32,13 +32,18 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6852007447090671949L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_BROKER_NAME2), acr.getString(acr.I_BROKER_HOST2), acr.getString(acr.I_PRIMARY_PORT),
                 acr.getString(acr.I_CONN_STATUS) };
@@ -51,6 +56,7 @@ public class BrokerListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
 
         BrokerCObj bCObj;
@@ -68,10 +74,11 @@ public class BrokerListInspector extends TabledInspector {
         } else if (col == 2) {
             return (bCObj.getBrokerAdmin().getBrokerPort());
         } else if (col == 3) {
-            if (bCObj.getBrokerAdmin().isConnected())
+            if (bCObj.getBrokerAdmin().isConnected()) {
                 return acr.getString(acr.I_CONNECTED);
-            else
+            } else {
                 return acr.getString(acr.I_DISCONNECTED);
+            }
         }
 
         return (null);

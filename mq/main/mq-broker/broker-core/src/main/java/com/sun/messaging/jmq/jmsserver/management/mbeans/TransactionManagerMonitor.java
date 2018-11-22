@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Vector;
-import java.util.Enumeration;
-
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
@@ -34,9 +31,6 @@ import javax.management.openmbean.CompositeData;
 import com.sun.messaging.jms.management.server.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-
 import com.sun.messaging.jmq.jmsserver.management.util.TransactionUtil;
 
 public class TransactionManagerMonitor extends MQMBeanReadOnly {
@@ -125,22 +119,27 @@ public class TransactionManagerMonitor extends MQMBeanReadOnly {
         return (cd);
     }
 
+    @Override
     public String getMBeanName() {
         return ("TransactionManagerMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_TXN_MGR_MON_DESC));
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }

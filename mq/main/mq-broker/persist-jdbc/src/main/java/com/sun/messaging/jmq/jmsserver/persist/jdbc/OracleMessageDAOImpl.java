@@ -33,8 +33,6 @@ import com.sun.messaging.jmq.io.Status;
 import java.sql.*;
 import java.util.*;
 import java.io.IOException;
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.OutputStream;
 
 /**
@@ -44,7 +42,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     OracleMessageDAOImpl() throws BrokerException {
@@ -63,7 +61,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param message the message to be persisted
      * @param dstID the destination
@@ -76,6 +74,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
      * @exception com.sun.messaging.jmq.jmsserver.util.BrokerException if a message with the same id exists in the store
      * already
      */
+    @Override
     public void insert(Connection conn, String dstID, Packet message, ConsumerUID[] conUIDs, int[] states, long storeSessionID, long createdTime,
             boolean checkMsgExist, boolean replaycheck) throws BrokerException {
 
@@ -99,7 +98,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
                 myConn = true;
             }
 
-            SysMessageID sysMsgID = (SysMessageID) message.getSysMessageID();
+            SysMessageID sysMsgID = message.getSysMessageID();
             String id = sysMsgID.getUniqueName();
             int size = message.getPacketSize();
             long txnID = message.getTransactionID();
@@ -250,7 +249,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Move a message to another destination.
-     * 
+     *
      * @param conn database connection
      * @param message the message
      * @param fromDst the destination
@@ -260,6 +259,7 @@ class OracleMessageDAOImpl extends MessageDAOImpl {
      * @throws IOException
      * @throws BrokerException
      */
+    @Override
     public void moveMessage(Connection conn, Packet message, DestinationUID fromDst, DestinationUID toDst, ConsumerUID[] conUIDs, int[] states)
             throws IOException, BrokerException {
 

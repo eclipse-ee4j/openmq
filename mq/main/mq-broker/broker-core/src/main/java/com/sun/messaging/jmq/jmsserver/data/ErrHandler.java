@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data;
 
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 

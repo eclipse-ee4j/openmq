@@ -23,14 +23,12 @@ import java.util.*;
 import java.io.*;
 import java.net.*;
 import java.util.concurrent.atomic.AtomicInteger;
-import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.io.PortMapperTable;
 import com.sun.messaging.jmq.io.PortMapperEntry;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
@@ -44,12 +42,10 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
-import com.sun.messaging.jmq.jmsserver.cluster.manager.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.data.handlers.TransactionHandler;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
@@ -61,7 +57,6 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverLockException;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import org.jvnet.hk2.annotations.Service;
@@ -162,6 +157,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
             valid = false;
         }
 
+        @Override
         public void run() {
             if (!valid) {
                 return;
@@ -190,6 +186,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
             thr.start();
         }
 
+        @Override
         public void run() {
             while (true) {
                 long time = System.currentTimeMillis();
@@ -204,8 +201,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                         child.run();
                     }
                 }
-                if (repeatItr == 0)
+                if (repeatItr == 0) {
                     break;
+                }
                 time = System.currentTimeMillis();
                 long tmpnext = nexttime + repeatItr;
                 if (time >= tmpnext) {
@@ -235,10 +233,12 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
             logger.log(logger.DEBUG, "monitoring " + txns.size() + " transactions");
         }
 
+        @Override
         public void run() {
             boolean done = processTxns();
-            if (done)
+            if (done) {
                 cancel();
+            }
         }
 
         public boolean processTxns() {
@@ -305,6 +305,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      * @return null if unable to or IOException
      *
      */
+    @Override
     public String getRemoteBrokerIDFromPortMapper(String host, int port, String brokerID) {
         try {
             String version = String.valueOf(PortMapperTable.PORTMAPPER_VERSION) + "\n";
@@ -345,7 +346,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
     /**
      * Start the monitoring service.
-     * 
+     *
      * @param clusterid the id of this cluster
      * @param brokerURL the address to use for the broker (which may be different than the one currently associated with
      * this broker in the persistent store.
@@ -359,6 +360,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         this.init(clusterid, brokerURL, resetTakeoverThenExitB.booleanValue());
     }
 
+    @Override
     public void init(String clusterid, MQAddress brokerURL, boolean resetTakeoverThenExit) throws Exception {
 
         DEBUG = (DEBUG || (logger.getLevel() <= Logger.DEBUG));
@@ -466,8 +468,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                 state = cb.getState();
 
                 waittime = (maxwait < 0 ? waitinterval : (maxwait - totalwaited));
-                if (waittime > waitinterval)
+                if (waittime > waitinterval) {
                     waittime = waitinterval;
+                }
 
             } while ((state == BrokerState.FAILOVER_STARTED || state == BrokerState.FAILOVER_PENDING) && waittime > 0);
 
@@ -521,13 +524,14 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * @return the monitor interval in seconds
      */
+    @Override
     public int getMonitorInterval() {
         return MONITOR_TIMEOUT / 1000;
     }
 
     /**
      * Retrieves the current Session for this broker.
-     * 
+     *
      * @return the session uid
      */
     public UID getStoreSession() {
@@ -537,6 +541,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * a string representation of the object
      */
+    @Override
     public String toString() {
         return "HAMonitorServiceImpl[" + clusterconfig.getLocalBroker() + "]";
     }
@@ -644,8 +649,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                                 }
                             }
                             // we are dead -> takeover
-                            if (takeover == null)
+                            if (takeover == null) {
                                 takeover = new ArrayList();
+                            }
                             DownBroker dbroker = new DownBroker();
                             dbroker.cb = idbcb;
                             dbroker.lastts = wbd.lastts;
@@ -664,8 +670,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                 }
             }
 
-            if (takeover == null)
+            if (takeover == null) {
                 return;
+            }
             if (takeoverRunnable != null) {
                 logger.log(Logger.ERROR, BrokerResources.E_INTERNAL_BROKER_ERROR,
                         Globals.getBrokerResources().getString(BrokerResources.I_NO_TAKEOVER_BUSY, takeover));
@@ -690,39 +697,40 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         /*
          * logger.log(Logger.DEBUG,"Processing brokerDown for " + addr); List l =
          * Globals.getTransactionList().getRemoteBrokers(addr);
-         * 
+         *
          * if (l == null) { logger.log(Logger.DEBUG,"XXX - No txns to process " + addr); return; }
-         * 
+         *
          * // ok, when we crash (brokers are down) everything needs // to be cleaned up // // those transactions are no longer
          * viable
-         * 
+         *
          * // what we want to do here is: // - see if any transactions need to finish rolling back // - see if any transactions
          * need to finish committing //
-         * 
+         *
          * // what we are handling is messages CONSUMED by the remote // broker which are handled here
-         * 
+         *
          * Iterator itr = l.iterator(); while (itr.hasNext()) { TransactionUID tuid = (TransactionUID) itr.next();
          * logger.log(Logger.DEBUG,"Processing tuid " + tuid + " from " + addr);
-         * 
+         *
          * // ok we need to retrieve the PERSISTENT state
-         * 
+         *
          * TransactionState ts = Globals.getStore().getTransactionState(tuid);
-         * 
+         *
          * // ok, look @ each transaction switch (ts.getState()) { case TransactionState.CREATED: case TransactionState.STARTED:
          * case TransactionState.FAILED: case TransactionState.INCOMPLETE: case TransactionState.COMPLETE: case
          * TransactionState.ROLLEDBACK: // ok in all these cases, we rollback // get CONSUMED messages
          * Globals.getTransactionList().rollbackRemoteTxn(tuid); break; case TransactionState.PREPARED: // ok in this case we do
          * NOTHING break; case TransactionState.COMMITTED: // ok in this case we commit
          * Globals.getTransactionList().commitRemoteTxn(tuid); break; }
-         * 
+         *
          * }
-         * 
-         * 
-         * 
+         *
+         *
+         *
          * // ok now we've processed all transactions ... get rid of it
          */
     }
 
+    @Override
     public boolean inTakeover() {
         synchronized (takeoverRunnableLock) {
             return (takeoverRunnable != null || takeoverMEInprogress);
@@ -734,6 +742,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
      *
      * Status code of exception thrown is important
      */
+    @Override
     public String takeoverME(HAClusteredBroker cb, String brokerID, Long syncTimeout) throws BrokerException {
         synchronized (takeoverRunnableLock) {
             takeoverMEInprogress = true;
@@ -748,6 +757,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         }
     }
 
+    @Override
     public void takeoverBroker(HAClusteredBroker cb, Object extraInfo1, Object extraInfo2, boolean force) throws BrokerException {
         DownBroker dbroker = new DownBroker();
         dbroker.cb = cb;
@@ -790,22 +800,26 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
     /**
      */
+    @Override
     public boolean checkTakingoverDestination(Destination d) {
-        if (takingoverTargets.size() == 0)
+        if (takingoverTargets.size() == 0) {
             return false;
+        }
         TakingoverTracker target = null;
         Iterator itr = null;
         synchronized (takingoverTargets) {
             itr = takingoverTargets.iterator();
             while (itr.hasNext()) {
                 target = (TakingoverTracker) itr.next();
-                if (target.containDestination(d))
+                if (target.containDestination(d)) {
                     return true;
+                }
             }
         }
         return false;
     }
 
+    @Override
     public boolean checkTakingoverMessage(Packet p) {
         TakingoverTracker target = null;
         Iterator itr = null;
@@ -813,13 +827,15 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
             itr = takingoverTargets.iterator();
             while (itr.hasNext()) {
                 target = (TakingoverTracker) itr.next();
-                if (target.containMessage(p))
+                if (target.containMessage(p)) {
                     return true;
+                }
             }
         }
         return false;
     }
 
+    @Override
     public boolean isTakingoverTarget(String brokerID, UID storeSession) {
         TakingoverTracker target = null;
         Iterator itr = null;
@@ -853,7 +869,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
         /**
          * create an instance of TakeoverThread.
-         * 
+         *
          * @param downBkrs the list of brokers to takeover
          */
         public TakeoverThread(ArrayList downBkrs, boolean force, boolean throwex) {
@@ -865,6 +881,7 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
         /**
          * Processes each of the brokers which need to be taken over.
          */
+        @Override
         public void run() {
             try {
                 doTakeover();
@@ -891,7 +908,6 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                         Thread.sleep(500);
                     } catch (InterruptedException e) {
                     }
-                    ;
                     mbus = Globals.getClusterBroadcast();
                 }
                 Iterator itr = downBkrs.iterator();
@@ -1028,16 +1044,18 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                                     logger.log(logger.WARNING, "Unable to get transaction state " + tid + " for takenover broker " + tracker.getTargetName());
                                     continue;
                                 }
-                                if (ts == null)
+                                if (ts == null) {
                                     continue;
+                                }
                                 try {
                                     if (ts.getState() < TransactionState.PREPARED && translist.retrieveState(tid) != null) { // auto-rollback type
                                         if (!translist.isClusterTransactionBroker(tid, tracker.getStoreSessionUID())) {
                                             continue;
                                         }
                                         myts = translist.retrieveState(tid);
-                                        if (myts == null)
+                                        if (myts == null) {
                                             continue;
+                                        }
                                         myts = new TransactionState(myts);
                                         translist.updateState(tid, myts.nextState(PacketType.ROLLBACK_TRANSACTION, null), myts.getState(), true);
                                         logger.log(logger.INFO, "Remote transaction " + tid + "(" + TransactionState.toString(ts.getState())
@@ -1065,8 +1083,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
                             MQTimer timer = Globals.getTimer();
                             try {
-                                if (!done)
+                                if (!done) {
                                     timer.schedule(reaper, reaperTimeout, reaperTimeout);
+                                }
 
                             } catch (IllegalStateException ex) {
                                 logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "Unable to start takeover-transaction reaper", ex);
@@ -1133,8 +1152,9 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
                             }
                         }
                         cb.setBrokerIsUp(false, dbroker.brokerSession, null);
-                        if (throwex)
+                        if (throwex) {
                             throw ex;
+                        }
                     } finally {
                         try {
                             mbus.postTakeover(tracker.getTargetName(), (takeoverComplete ? tracker.getStoreSessionUID() : tracker.getDownStoreSessionUID()),
@@ -1195,39 +1215,43 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
 
     /**
      * Notification that the cluster configuration has changed. The monitoring service ignores any configuration changes.
-     * 
+     *
      * @see ClusterListener
      * @param name property changed
      * @param value new setting for the property
      */
+    @Override
     public void clusterPropertyChanged(String name, String value) {
         // do nothing, we dont care
     }
 
     /**
      * Called when a new broker has been added.
-     * 
+     *
      * @param broker the new broker added.
      */
+    @Override
     public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
         // do nothing, we dont care
     }
 
     /**
      * Called when a broker has been removed.
-     * 
+     *
      * @param broker the broker removed.
      */
+    @Override
     public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
         // do nothing, we dont care
     }
 
     /**
      * Called when the broker who is the master broker changes (because of a reload properties).
-     * 
+     *
      * @param oldMaster the previous master broker.
      * @param newMaster the new master broker.
      */
+    @Override
     public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
         // do nothing, we dont care
     }
@@ -1235,20 +1259,22 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param userData optional userData
      * @param oldStatus the previous status.
      * @param newStatus the new status.
      */
+    @Override
     public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
         logger.log(Logger.DEBUG, "brokerStatusChanged " + brokerid + ":" + "\n\t" + BrokerStatus.toString(oldStatus) + "\n\t" + BrokerStatus.toString(newStatus)
                 + "\n\t" + userData);
         // do nothing, we dont care
         if (BrokerStatus.getBrokerInDoubt(newStatus) && BrokerStatus.getBrokerIsUp(newStatus)) {
             ClusteredBroker cb = clusterconfig.getBroker(brokerid);
-            if (cb.isLocalBroker())
+            if (cb.isLocalBroker()) {
                 return;
+            }
             try {
                 BrokerState state = cb.getState();
                 if (state == BrokerState.SHUTDOWN_COMPLETE || state == BrokerState.FAILOVER_COMPLETE) {
@@ -1270,11 +1296,12 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
      * for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldState the previous state.
      * @param newState the new state.
      */
+    @Override
     public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
         // do nothing, we dont care
         ClusteredBroker cb = clusterconfig.getBroker(brokerid);
@@ -1289,11 +1316,12 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
      * version for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldVersion the previous version.
      * @param newVersion the new version.
      */
+    @Override
     public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
         // do nothing, we dont care
     }
@@ -1301,11 +1329,12 @@ public class HAMonitorServiceImpl implements HAMonitorService, ClusterListener {
     /**
      * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
      * the address for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param newAddress the previous address.
      * @param oldAddress the new address.
      */
+    @Override
     public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
         // do nothing, we dont care
     }

@@ -27,10 +27,7 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -106,8 +103,9 @@ public class QBrowseHandler extends PacketHandler {
         itr = sorted.iterator();
         while (itr.hasNext()) {
             PacketReference p = (PacketReference) itr.next();
-            if (p == null)
+            if (p == null) {
                 continue;
+            }
             returnmsgs.add(p.getSysMessageID());
         }
         return returnmsgs;
@@ -117,6 +115,7 @@ public class QBrowseHandler extends PacketHandler {
     /**
      * Method to handle Destination (create or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
@@ -230,16 +229,18 @@ public class QBrowseHandler extends PacketHandler {
         if (reason != null) {
             hash.put("JMQReason", reason);
         }
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         if (status == Status.NOT_FOUND) {
             hash.put("JMQCanCreate", Boolean.valueOf(DL.canAutoCreate(DestType.isQueue(type))));
         }
 
         pkt.setProperties(hash);
-        if (body != null)
+        if (body != null) {
             pkt.setMessageBody(body);
+        }
         con.sendControlMessage(pkt);
         return true;
     }

@@ -28,28 +28,28 @@ import com.sun.messaging.jmq.util.XidImpl;
 /**
  * This class keeps track of all the XAResourceForMC and XAResourceForRA objects which are party to a given transaction
  * branch
- * 
+ *
  * This class maintains a static Map whose key is the transaction branch XID (a XidImpl) and whose corresponding value
  * is a Set of all the XAResourceForMC and XAResourceForRA objects which are being used in this transaction branch
- * 
+ *
  * A resource should be registered with this class by calling register(), whenever XAResource.start(xid,TMNOFLAGS) or
  * XAResource.start(xid,TMJOIN) is called and removed from this class when the xid is committed or rolled back.
- * 
+ *
  * register() should never be called for XAResource.start(xid,TMRESUME) - this will cause an XAException
- * 
+ *
  * Note that the XA spec requires that when a second resource is added to an existing xid, XAStart(xid,flags) is called
  * with the join flag set
- * 
+ *
  * Note that although this class uses the interface XAResourceForJMQ to refer to instances of XAResourceForMC and
  * XAResourceForRA, it is not intended to be used by XAResourceImpl objects, even though that class implements
  * XAResourceForJMQ
- * 
+ *
  */
 public class XAResourceMapForRAMC {
     private static HashMap<XidImpl, Set<XAResourceForJMQ>> resourceMap = new HashMap<XidImpl, Set<XAResourceForJMQ>>();
 
     /**
-     * 
+     *
      * @param xid
      * @param xar
      * @param isJoin
@@ -79,9 +79,9 @@ public class XAResourceMapForRAMC {
 
     /**
      * Unregister the specified transaction branch and all its resources
-     * 
+     *
      * This should be called when the transaction is committed or rolled back
-     * 
+     *
      * @param xid Transaction branch XID
      */
     public synchronized static void unregister(XidImpl xid) {
@@ -94,9 +94,9 @@ public class XAResourceMapForRAMC {
 
     /**
      * Unregister the specified resource from the specified transaction branch
-     * 
+     *
      * This should be called when an individual session is closed but a transaction is still pending
-     * 
+     *
      * @param xid Transaction branch XID
      * @param xar Resource
      */
@@ -113,7 +113,7 @@ public class XAResourceMapForRAMC {
 
     /**
      * Returns a Set of resources associated with the specified transaction branch
-     * 
+     *
      * @param xid Transaction branch XID
      * @param throwExceptionIfNotFound Whether to throw an exception if XID not found (typically set to true on a commit,
      * false on a rollback, since a commit legitimately be followed by a rollback)
@@ -136,9 +136,9 @@ public class XAResourceMapForRAMC {
 
     /**
      * Return whether the resources map is empty
-     * 
+     *
      * This is for use by tests
-     * 
+     *
      * @return
      */
     public static boolean isEmpty() {

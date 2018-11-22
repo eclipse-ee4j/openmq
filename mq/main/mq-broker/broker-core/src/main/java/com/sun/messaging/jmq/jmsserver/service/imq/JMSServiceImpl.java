@@ -27,23 +27,17 @@ import javax.transaction.xa.Xid;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.util.ServiceState;
-import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.UniqueID;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
-import com.sun.messaging.jmq.jmsserver.auth.AccessController;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.AutoRollbackType;
@@ -53,14 +47,11 @@ import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
-import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.JMSPacket;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsservice.*;
@@ -179,6 +170,7 @@ public class JMSServiceImpl implements JMSService {
      *
      * @return The JMSServiceID string that identifies the broker address and servicename that is being used.
      */
+    @Override
     public String getJMSServiceID() {
         return (service.getName());
     }
@@ -201,6 +193,7 @@ public class JMSServiceImpl implements JMSService {
      * @throws JMSServiceException If the Status returned for the createConnection method is not
      * {@link JMSServiceReply.Status#OK}
      */
+    @Override
     public JMSServiceReply createConnection(String username, String password, JMSServiceBootStrapContext ctx) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -240,6 +233,7 @@ public class JMSServiceImpl implements JMSService {
      * @throws JMSServiceException If the Status returned for the destroyConnection method is not
      * {@link JMSServiceReply.Status#OK}
      */
+    @Override
     public JMSServiceReply destroyConnection(long connectionId) throws JMSServiceException {
         if (service.getDEBUG() || protocol.getDEBUG()) {
             logger.log(logger.INFO, "IMQDirectService.destroyConnection(" + connectionId + ")");
@@ -278,6 +272,7 @@ public class JMSServiceImpl implements JMSService {
      *
      * @return An array of size 'quantity' of long Unique IDs
      */
+    @Override
     public long[] generateUID(long connectionId, int quantity) throws JMSServiceException {
         // IMQConnection cxn = null;
         HashMap props = new HashMap();
@@ -321,6 +316,7 @@ public class JMSServiceImpl implements JMSService {
      *
      * @return The Unique ID
      */
+    @Override
     public long generateUID(long connectionId) throws JMSServiceException {
         long oneId[] = generateUID(connectionId, 1);
 
@@ -347,6 +343,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#CONFLICT
      * @see JMSServiceReply.Status#ERROR
      */
+    @Override
     public JMSServiceReply setClientId(long connectionId, String clientId, boolean shareable, String nameSpace) throws JMSServiceException {
         IMQConnection cxn = null;
         JMSServiceReply reply;
@@ -386,6 +383,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply unsetClientId(long connectionId) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -428,6 +426,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply startConnection(long connectionId) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props;
@@ -469,6 +468,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply stopConnection(long connectionId) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props;
@@ -513,6 +513,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply#getJMQSessionID
      */
 
+    @Override
     public JMSServiceReply createSession(long connectionId, SessionAckMode ackMode) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -556,6 +557,7 @@ public class JMSServiceImpl implements JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
+    @Override
     public JMSServiceReply destroySession(long connectionId, long sessionId) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -600,6 +602,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply startSession(long connectionId, long sessionId) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -631,6 +634,7 @@ public class JMSServiceImpl implements JMSService {
         return (reply);
     }
 
+    @Override
     public JMSServiceReply stopSession(long connectionId, long sessionId) throws JMSServiceException {
         return stopSession(connectionId, sessionId, false);
     }
@@ -650,6 +654,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply stopSession(long connectionId, long sessionId, boolean dowait) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -684,7 +689,7 @@ public class JMSServiceImpl implements JMSService {
      * JMQCanCreate property is set to true.<br>
      * If the destination does not exist and cannot be auto-created the Status returned is NOT_FOUND along with JMQCanCreate
      * property set to false.
-     * 
+     *
      * @param connectionId The Id of the connection
      * @param dest The Destination object that defines the physical destination
      *
@@ -701,6 +706,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#BAD_REQUEST
      * @see JMSServiceReply.Status#ERROR
      */
+    @Override
     public JMSServiceReply verifyDestination(long connectionId, Destination dest) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -753,7 +759,7 @@ public class JMSServiceImpl implements JMSService {
      * @param dest The Destination object that defines the physical destination to be created.
      * <p>
      * If the physical destination does not exist, it will be automatically created if the configuration allows. [DEFAULT]
-     * 
+     *
      * @return The JMSServiceReply of the request to create the destination
      *
      * @throws JMSServiceException if the Status returned for the createDestination method is not
@@ -762,6 +768,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply#getJMQDestType
      * @see JMSServiceReply.Status#ERROR
      */
+    @Override
     public JMSServiceReply createDestination(long connectionId, Destination dest) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -844,6 +851,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply destroyDestination(long connectionId, Destination dest) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -898,6 +906,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply addProducer(long connectionId, long sessionId, Destination dest) throws JMSServiceException {
 
         JMSServiceReply reply;
@@ -956,6 +965,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply deleteProducer(long connectionId, long sessionId, long producerId) throws JMSServiceException {
 
         JMSServiceReply reply;
@@ -1020,6 +1030,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply addConsumer(long connectionId, long sessionId, Destination dest, String selector, String subscriptionName, boolean durable,
             boolean share, boolean jmsshare, String clientId, boolean noLocal) throws JMSServiceException {
 
@@ -1100,6 +1111,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply deleteConsumer(long connectionId, long sessionId, long consumerId, SysMessageID lastMessageSeen,
             boolean lastMessageSeenInTransaction, String durableName, String clientId) throws JMSServiceException {
 
@@ -1164,6 +1176,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply setConsumerAsync(long connectionId, long sessionId, long consumerId, Consumer consumer) throws JMSServiceException {
         JMSServiceReply reply;
         // IMQConnection cxn;
@@ -1224,6 +1237,7 @@ public class JMSServiceImpl implements JMSService {
      *
      *
      */
+    @Override
     public JMSServiceReply startTransaction(long connectionId, long sessionId, Xid xid, int flags, JMSService.TransactionAutoRollback rollback, long timeout)
             throws JMSServiceException {
         JMSServiceReply reply;
@@ -1272,7 +1286,7 @@ public class JMSServiceImpl implements JMSService {
      * <LI>XAResource.TMFAIL: If failing a transaction</LI>
      * <LI>XAResource.TMSUCCESS: If ending a transaction</LI>
      * </UL>
-     * 
+     *
      * @return The JMSServiceReply of the request to end a transaction
      *
      * @throws JMSServiceException if the Status returned for the endTransaction method is not
@@ -1287,6 +1301,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply endTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -1328,7 +1343,7 @@ public class JMSServiceImpl implements JMSService {
      * @param connectionId The Id of the connection
      * @param transactionId If non-zero, the transaction being prepared is identified by this broker-generated id
      * @param xid If transactionId is zero, then xid contains the Xid of the XA transaction being prepared
-     * 
+     *
      * @return The JMSServiceReply of the request to prepare a transaction
      *
      * @throws JMSServiceException if the Status returned for the prepareTransaction method is not
@@ -1343,6 +1358,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply prepareTransaction(long connectionId, long transactionId, Xid xid) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -1398,7 +1414,7 @@ public class JMSServiceImpl implements JMSService {
      * <LI>XAResource.TMONEPHASE:One phase commit. The transaction need not be in the PREPARED state</LI>
      * <LI>XAResource.TMNOFLAGS: Two phase commit. The transaction must be in the PREPARED state</LI>
      * </UL>
-     * 
+     *
      * @return The JMSServiceReply of the request to commit a transaction
      *
      * @throws JMSServiceException if the Status returned for the commitTransaction method is not
@@ -1413,6 +1429,7 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply commitTransaction(long connectionId, long transactionId, Xid xid, int flags) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -1425,8 +1442,9 @@ public class JMSServiceImpl implements JMSService {
         cxn = checkConnectionId(connectionId, "commitTransaction");
 
         txnUID = new TransactionUID(transactionId);
-        if (xid != null)
+        if (xid != null) {
             jmqXid = new JMQXid(xid);
+        }
 
         xaFlags = Integer.valueOf(flags);
 
@@ -1457,7 +1475,7 @@ public class JMSServiceImpl implements JMSService {
      * operation.
      * @param setRedelivered If true <b><u>and</u></b> <code>redeliver</code> is <code>true</code> then the broker must set
      * the REDELIVERED flag on messages it redelivers.
-     * 
+     *
      * @return The JMSServiceReply of the request to rollback a transaction
      *
      * @throws JMSServiceException if the Status returned for the rollbackTransaction method is not
@@ -1472,12 +1490,14 @@ public class JMSServiceImpl implements JMSService {
      * @see JMSServiceReply.Status#ERROR
      *
      */
+    @Override
     public JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered)
             throws JMSServiceException {
 
         return rollbackTransaction(connectionId, transactionId, xid, redeliver, setRedelivered, -1, false);
     }
 
+    @Override
     public JMSServiceReply rollbackTransaction(long connectionId, long transactionId, Xid xid, boolean redeliver, boolean setRedelivered, int maxRollbacks,
             boolean dmqOnMaxRollbacks) throws JMSServiceException {
         JMSServiceReply reply;
@@ -1530,6 +1550,7 @@ public class JMSServiceImpl implements JMSService {
      *
      * @see javax.transaction.xa.XAResource#recover javax.transaction.xa.XAResource.recover()
      */
+    @Override
     public Xid[] recoverXATransactions(long connectionId, int flags) throws JMSServiceException {
         // IMQConnection cxn;
         JMQXid jmqXids[] = null;
@@ -1560,6 +1581,7 @@ public class JMSServiceImpl implements JMSService {
      * @return The transactionId is returned if the transaction is in the PREPARED state. If the transaction is not found or
      * not in the PREPARED state a zero (0L) is returned.
      */
+    @Override
     public long recoverTransaction(long connectionId, long transactionId) throws JMSServiceException {
         // IMQConnection cxn;
         TransactionUID txnUID = null;
@@ -1586,7 +1608,7 @@ public class JMSServiceImpl implements JMSService {
             throw new JMSServiceException(errStr, e, props);
         }
 
-        return ((long) 0);
+        return (0);
     }
 
     /**
@@ -1599,6 +1621,7 @@ public class JMSServiceImpl implements JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
+    @Override
     public JMSServiceReply sendMessage(long connectionId, JMSPacket message) throws JMSServiceException {
         JMSServiceReply reply;
         HashMap props = new HashMap();
@@ -1659,6 +1682,7 @@ public class JMSServiceImpl implements JMSService {
      * @throws JMSServiceException if broker encounters an error. {@link JMSServiceReply.Status} contains the reason for the
      * error.
      */
+    @Override
     public JMSPacket fetchMessage(long connectionId, long sessionId, long consumerId, long timeout, boolean acknowledge, long transactionId)
             throws JMSServiceException {
         JMSPacket msg = null;
@@ -1699,11 +1723,13 @@ public class JMSServiceImpl implements JMSService {
         return (msg);
     }
 
+    @Override
     public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType) throws JMSServiceException {
         return acknowledgeMessage(connectionId, sessionId, consumerId, sysMessageID, transactionId, ackType, -1, null, null);
     }
 
+    @Override
     public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt) throws JMSServiceException {
         return acknowledgeMessage(connectionId, sessionId, consumerId, sysMessageID, transactionId, ackType, retryCnt, null, null);
@@ -1735,6 +1761,7 @@ public class JMSServiceImpl implements JMSService {
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      *
      */
+    @Override
     public JMSServiceReply acknowledgeMessage(long connectionId, long sessionId, long consumerId, SysMessageID sysMessageID, long transactionId,
             MessageAckType ackType, int retryCnt, String deadComment, Throwable deadThr) throws JMSServiceException {
 
@@ -1795,6 +1822,7 @@ public class JMSServiceImpl implements JMSService {
      * {@link JMSServiceReply.Status#OK}
      *
      */
+    @Override
     public JMSServiceReply sendAcknowledgement(long connectionId, MessageAckType ackType, JMSPacket acks) throws JMSServiceException {
 
         boolean validate = false;
@@ -1841,6 +1869,7 @@ public class JMSServiceImpl implements JMSService {
         return (reply);
     }
 
+    @Override
     public JMSServiceReply addBrowser(long connectionId, long sessionId, Destination dest, String selector) throws JMSServiceException {
         JMSServiceReply reply;
         // IMQConnection cxn;
@@ -1874,6 +1903,7 @@ public class JMSServiceImpl implements JMSService {
         return (reply);
     }
 
+    @Override
     public JMSServiceReply deleteBrowser(long connectionId, long sessionId, long consumerId) throws JMSServiceException {
         JMSServiceReply reply;
         // IMQConnection cxn;
@@ -1907,6 +1937,7 @@ public class JMSServiceImpl implements JMSService {
         return (reply);
     }
 
+    @Override
     public JMSPacket[] browseMessages(long connectionId, long sessionId, long consumerId) throws JMSServiceException {
         JMSServiceReply reply;
         IMQConnection cxn;
@@ -2009,6 +2040,7 @@ public class JMSServiceImpl implements JMSService {
      * {@link JMSServiceException#getJMSServiceReply} should be used to obtain the broker reply in case of an exception.<br>
      * The reason for the exception can be obtained from {@link JMSServiceReply.Status}
      */
+    @Override
     public JMSServiceReply redeliverMessages(long connectionId, long sessionId, SysMessageID[] messageIDs, Long[] consumerIds, long transactionId,
             boolean setRedelivered) throws JMSServiceException {
         JMSServiceReply reply;
@@ -2260,13 +2292,14 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
         // we are either async or sync
         // if this is called from something that registered a message
         // listener, something went wrong. Throw an exception
-        if (!sync)
+        if (!sync) {
             throw new RuntimeException("Cannot invoke SessionListener.getNextConsumerPacket() when in asynchronous receiving mode");
+        }
 
         // see if we are busy
         // if we aren't wait
 
-        com.sun.messaging.jmq.jmsserver.core.Consumer c = (com.sun.messaging.jmq.jmsserver.core.Consumer) com.sun.messaging.jmq.jmsserver.core.Consumer
+        com.sun.messaging.jmq.jmsserver.core.Consumer c = com.sun.messaging.jmq.jmsserver.core.Consumer
                 .getConsumer(cuid);
 
         sync = true;
@@ -2299,8 +2332,9 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                                     // adjust the timeout by the wait time
                                     long now = System.currentTimeMillis();
                                     timeout -= now - locktime;
-                                    if (timeout <= 0)
+                                    if (timeout <= 0) {
                                         return null;
+                                    }
                                 } else if (timeout == 0) {
                                     try {
                                         sessionLock.wait(timeout);
@@ -2309,8 +2343,9 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                                 }
 
                                 // Is this needed ?
-                                if (stopped)
+                                if (stopped) {
                                     return null;
+                                }
 
                             }
                         }
@@ -2318,8 +2353,9 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                         // we cant check isBusy in the lock because
                         // we can deadlock
                         // instead look in the cuidNotify table
-                        if (cuidNotify.remove(c.getConsumerUID()))
+                        if (cuidNotify.remove(c.getConsumerUID())) {
                             continue;
+                        }
                         /*
                          * Just in case between the (timeout < 0) check above and the while loop, the consumer became not busy, we want to
                          * return if it is a noWait case.
@@ -2330,8 +2366,9 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
                         }
                         c.getConsumerUID().wait(timeout);
                     }
-                    if (stopped)
+                    if (stopped) {
                         return null;
+                    }
 
                     /*
                      * wait() returned but this could be due to a timeout and not from notify()
@@ -2360,8 +2397,9 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
 
         // now get the packet
         Packet p = new Packet();
-        if (session.fillNextPacket(p, cuid))
+        if (session.fillNextPacket(p, cuid)) {
             return p;
+        }
 
         // this should only happen if something went strange like we
         // have two threads processing @ the same time
@@ -2379,7 +2417,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
         /*
          * Target passed in may be null This is to indicate that the consumer has unregistered itself as an async consumer - may
          * go into sync mode.
-         * 
+         *
          */
         if (target == null) {
             // XXX Need to stop delivery of msgs - TBD
@@ -2421,6 +2459,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
     /**
      * Thread run method
      */
+    @Override
     public void run() {
         process();
     }
@@ -2541,6 +2580,7 @@ class SessionListener implements com.sun.messaging.jmq.util.lists.EventListener,
      * This method is called when a thread puts a message on a consumer or session. Its used to wake up the waiting thread
      * which might be in the process() [asynchronous] method or in the getNextConsumerPacket()[synchronous].
      */
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
 
         if (type != EventType.BUSY_STATE_CHANGED) {

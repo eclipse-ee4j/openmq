@@ -56,7 +56,7 @@ public class Authenticator {
 
     /**
      * The constructor is used to validate with the specified JMS provider.
-     * 
+     *
      * @param umsConnectionFactory
      */
     public Authenticator(UMSConnectionFactory umsConnectionFactory, Properties props) throws JMSException {
@@ -76,13 +76,13 @@ public class Authenticator {
 
     /**
      * Authenticate the provided user/password.
-     * 
+     *
      * It is intentional to NOT have password cache in the implementation.
-     * 
+     *
      * Applications MUST use the returned sid after authenticated.
-     * 
+     *
      * Each invokation of this generates a new sid -- as a new client has been created.
-     * 
+     *
      * @param user
      * @param password
      * @return
@@ -130,7 +130,7 @@ public class Authenticator {
 
     /**
      * This is called each time a service request (send/receive) is received.
-     * 
+     *
      * @param uuid
      * @throws javax.jms.JMSException
      */
@@ -145,7 +145,7 @@ public class Authenticator {
 
     /**
      * called when a client is sweeped or closed.
-     * 
+     *
      * @param uuid
      * @return
      */
@@ -155,7 +155,7 @@ public class Authenticator {
 
     /**
      * Check with JMS server if the provided user/password is valid.
-     * 
+     *
      * @param user
      * @param passwrod
      * @throws javax.jms.JMSException

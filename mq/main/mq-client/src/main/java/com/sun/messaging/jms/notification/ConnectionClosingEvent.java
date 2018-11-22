@@ -30,6 +30,11 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 public class ConnectionClosingEvent extends ConnectionEvent {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1604689240729093585L;
+
+    /**
      * Connection closing event code - admin requested shutdown.
      */
     public static final String CONNECTION_CLOSING_ADMIN = ClientResources.E_CONNECTION_CLOSING_ADMIN;
@@ -38,7 +43,7 @@ public class ConnectionClosingEvent extends ConnectionEvent {
 
     /**
      * Construct a ConnectionClosingEvent object associated with the connection specified.
-     * 
+     *
      * @param conn the connection associated with the closing event.
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.

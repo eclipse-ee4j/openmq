@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Vector;
 import java.util.Iterator;
 import java.util.Set;
@@ -39,7 +37,6 @@ import com.sun.messaging.jmq.util.admin.DurableInfo;
 import com.sun.messaging.jmq.util.admin.ConsumerInfo;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
@@ -60,6 +57,7 @@ public class GetDurablesHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {
@@ -76,8 +74,9 @@ public class GetDurablesHandler extends AdminCmdHandler {
         String err = null;
         try {
             DestinationUID duid = null;
-            if (destination != null)
+            if (destination != null) {
                 duid = DestinationUID.getUID(destination, false);
+            }
 
             Set s = Subscription.getAllSubscriptions(duid);
 

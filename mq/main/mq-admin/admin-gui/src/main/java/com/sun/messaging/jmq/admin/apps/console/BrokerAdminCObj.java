@@ -25,4 +25,9 @@ package com.sun.messaging.jmq.admin.apps.console;
  * related to broker administration.
  */
 public abstract class BrokerAdminCObj extends ConsoleObj {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4587943959728278571L;
 }

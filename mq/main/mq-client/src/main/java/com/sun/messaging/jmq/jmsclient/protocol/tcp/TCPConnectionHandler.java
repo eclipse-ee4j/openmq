@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsclient.protocol.tcp;
 
 import javax.jms.*;
 
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
@@ -121,14 +120,15 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
      * Constructor. Called by TCPStreamHandler. This creates a socket connection to the broker.
      */
     TCPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        ConnectionImpl connection = (ConnectionImpl) conn;
+        ConnectionImpl connection = conn;
         port = 0;
 
         // First, gather the configuration attributes.
         host = addr.getHostName();
         directport = 0;
-        if (addr.isServicePortFinal())
+        if (addr.isServicePortFinal()) {
             directport = addr.getPort();
+        }
         String namedservice = addr.getServiceName();
         socketConnectTimeout = connection.getSocketConnectTimeout();
 
@@ -185,7 +185,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
 
     /**
      * Check if a host is reachable.
-     * 
+     *
      * @param host
      * @param port
      * @throws IOException
@@ -246,6 +246,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
     /*
      * Get socket input stream.
      */
+    @Override
     public InputStream getInputStream() throws IOException {
         return socket.getInputStream();
     }
@@ -253,6 +254,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
     /*
      * Get socket output stream.
      */
+    @Override
     public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
@@ -260,18 +262,22 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
     /*
      * Get socket local port for the current connection.
      */
+    @Override
     public int getLocalPort() throws IOException {
         return socket.getLocalPort();
     }
 
+    @Override
     protected void closeSocket() throws IOException {
         socket.close();
     }
 
+    @Override
     public String getBrokerHostName() {
         return this.host;
     }
 
+    @Override
     public String getBrokerAddress() {
 
         if (directport == 0) {
@@ -286,6 +292,7 @@ public class TCPConnectionHandler extends SocketConnectionHandler {
         return socketConnectTimeout;
     }
 
+    @Override
     public String toString() {
         String info = null;
         try {

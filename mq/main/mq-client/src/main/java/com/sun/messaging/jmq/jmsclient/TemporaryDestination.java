@@ -20,9 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import java.util.Enumeration;
-import java.util.Iterator;
-
 import javax.jms.*;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
@@ -37,6 +34,10 @@ import com.sun.messaging.jmq.ClientConstants;
 
 public abstract class TemporaryDestination extends com.sun.messaging.Destination {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8017758293759810045L;
     protected ConnectionImpl connection = null;
     private boolean isDeleted = false;
 
@@ -73,6 +74,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * All Temporary Destinations are TEMPORARY
      */
+    @Override
     public boolean isTemporary() {
         return true;
     }
@@ -119,7 +121,7 @@ public abstract class TemporaryDestination extends com.sun.messaging.Destination
     /**
      * Check that the specified connection created the specified temporary destination and is therefore allowed to create a
      * consumer on it
-     * 
+     *
      * @param connection
      * @param dest
      * @throws JMSException

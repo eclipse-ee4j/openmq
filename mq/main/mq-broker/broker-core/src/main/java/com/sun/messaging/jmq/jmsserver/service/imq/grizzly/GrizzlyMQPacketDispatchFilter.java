@@ -17,8 +17,6 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.Grizzly;
 import org.glassfish.grizzly.attributes.Attribute;

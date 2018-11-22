@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on cluster operations.
  *
@@ -29,6 +27,11 @@ import javax.management.Notification;
  * The MQ specific fields in this notification is TBD.
  */
 public class ConnectionNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -189741809769726998L;
+
     /**
      * A connection was created.
      */

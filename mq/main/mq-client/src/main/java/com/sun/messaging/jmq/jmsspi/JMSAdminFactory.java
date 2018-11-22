@@ -30,7 +30,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
      */
@@ -38,7 +38,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param secure Use secure transport
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
@@ -47,7 +47,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
      * @param userName Administrator username
@@ -62,7 +62,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @param brokerPropertiesHolder holder of Properties to be passed to managed broker
      * @param userName Administrator username
@@ -75,7 +75,7 @@ public interface JMSAdminFactory {
     JMSAdmin getJMSAdmin(String jmsAdminURL, PropertiesHolder brokerPropertiesHolder, String userName, String password, boolean secure) throws JMSException;
 
     /**
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @param userName Administrator username
      * @param password Administrator password (needed for client connections and when starting broker if not specified in
@@ -88,7 +88,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.
@@ -97,7 +97,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @param secure Use secure transport.
      * @return Implementation of JMSAdmin.

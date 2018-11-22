@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.io.*;
 import java.util.Vector;
 import java.util.List;
 import java.util.Iterator;
@@ -74,8 +72,9 @@ public class GetServicesHandler extends AdminCmdHandler {
         // if protocol is tcp or tls, it defaults to 0
         int default_value = -1;
         if (si.protocol != null) {
-            if (si.protocol.equals("tcp") || si.protocol.equals("tls"))
+            if (si.protocol.equals("tcp") || si.protocol.equals("tls")) {
                 default_value = 0;
+            }
         }
 
         si.port = props.getIntProperty(SERVICE_PREFIX + name + "." + proto + ".port", default_value);
@@ -128,6 +127,7 @@ public class GetServicesHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

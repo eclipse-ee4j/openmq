@@ -38,7 +38,6 @@ import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 
 import com.sun.messaging.jms.management.server.*;
@@ -332,15 +331,15 @@ public class DestinationMonitor extends MQMBeanReadOnly {
     public Integer getNumWildcardConsumers() throws MBeanException {
         /*
          * int numConsumers = getNumConsumers().intValue(); Iterator consumers;
-         * 
+         *
          * if (numConsumers <= 0) { return (new Integer(0)); }
-         * 
+         *
          * consumers = d.getConsumers();
-         * 
+         *
          * int count = 0; while (consumers.hasNext()) { Consumer oneCon = (Consumer)consumers.next();
-         * 
+         *
          * if (oneCon.isWildcard()) { ++count; } }
-         * 
+         *
          * return (new Integer(count));
          */
 
@@ -385,15 +384,15 @@ public class DestinationMonitor extends MQMBeanReadOnly {
     public Integer getNumWildcardProducers() throws MBeanException {
         /*
          * int numProducers = getNumProducers().intValue(); Iterator producers;
-         * 
+         *
          * if (numProducers <= 0) { return (new Integer(0)); }
-         * 
+         *
          * producers = d.getProducers();
-         * 
+         *
          * int count = 0; while (producers.hasNext()) { Producer oneProd = (Producer)producers.next();
-         * 
+         *
          * if (oneProd.isWildcard()) { ++count; } }
-         * 
+         *
          * return (new Integer(count));
          */
 
@@ -468,7 +467,7 @@ public class DestinationMonitor extends MQMBeanReadOnly {
 
         if (al.size() > 0) {
             list = new String[al.size()];
-            list = (String[]) al.toArray(list);
+            list = al.toArray(list);
         }
 
         return (list);
@@ -497,7 +496,7 @@ public class DestinationMonitor extends MQMBeanReadOnly {
 
         if (al.size() > 0) {
             list = new String[al.size()];
-            list = (String[]) al.toArray(list);
+            list = al.toArray(list);
         }
 
         return (list);
@@ -526,7 +525,7 @@ public class DestinationMonitor extends MQMBeanReadOnly {
 
         if (al.size() > 0) {
             list = new String[al.size()];
-            list = (String[]) al.toArray(list);
+            list = al.toArray(list);
         }
 
         return (list);
@@ -837,22 +836,27 @@ public class DestinationMonitor extends MQMBeanReadOnly {
         return (ids);
     }
 
+    @Override
     public String getMBeanName() {
         return ("DestinationMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_DST_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }

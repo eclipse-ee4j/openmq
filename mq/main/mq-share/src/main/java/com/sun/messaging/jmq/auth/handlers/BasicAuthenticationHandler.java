@@ -35,15 +35,18 @@ public class BasicAuthenticationHandler implements AuthenticationProtocolHandler
     private String username = null;
     private String password = null;
 
+    @Override
     public String getType() {
         return "basic";
     }
 
+    @Override
     public void init(String username, String password, Hashtable authProperties) throws LoginException {
         this.username = username;
         this.password = password;
     }
 
+    @Override
     public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException {
         if (username == null || password == null) {
             throw new LoginException("null");

@@ -41,13 +41,16 @@ public class LocalTransaction extends BaseTransaction {
         transactionDetails.setXid(xid);
     }
 
+    @Override
     public void readData(DataInputStream dis) throws IOException, BrokerException {
         transactionDetails.readContent(dis);
-        if (transactionWork == null)
+        if (transactionWork == null) {
             transactionWork = new TransactionWork();
+        }
         transactionWork.readWork(dis);
     }
 
+    @Override
     public void readObjects(ObjectInputStream ois) throws IOException, ClassNotFoundException {
 
         transactionState = (TransactionState) ois.readObject();
@@ -62,15 +65,18 @@ public class LocalTransaction extends BaseTransaction {
 
     }
 
+    @Override
     public void writeData(DataOutputStream dos) throws IOException {
         transactionDetails.writeContent(dos);
         transactionWork.writeWork(dos);
     }
 
+    @Override
     public void writeObjects(ObjectOutputStream oos) throws IOException {
         oos.writeObject(transactionState);
     }
 
+    @Override
     String getPrefix() {
         return "LocalTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
     }

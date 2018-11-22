@@ -29,6 +29,7 @@ public class MySQLDAOFactory extends GenericDAOFactory {
 
     private static final boolean enableStoredProc = Globals.getConfig().getBooleanProperty("imq.persist.jdbc.mysql.enableStoredProc", false);
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
         if (!enableStoredProc) {
             return super.getMessageDAO();
@@ -40,6 +41,7 @@ public class MySQLDAOFactory extends GenericDAOFactory {
         return messageDAO;
     }
 
+    @Override
     public BrokerDAO getBrokerDAO() throws BrokerException {
         if (!enableStoredProc) {
             return super.getBrokerDAO();

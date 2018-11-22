@@ -180,7 +180,7 @@ public class ClientPool implements Sweepable {
 
     /**
      * Get a client instance based on its clientId.
-     * 
+     *
      * @param clientId
      * @return
      * @throws JMSException
@@ -247,14 +247,15 @@ public class ClientPool implements Sweepable {
 
     /**
      * The is called when finished using the client instance.
-     * 
+     *
      * @param client
      */
     public void returnClient(Client client) {
 
         // client may be null if an exception was thrown previously
-        if (client == null)
+        if (client == null) {
             return;
+        }
 
         Object lock = client.getLock();
 
@@ -355,7 +356,7 @@ public class ClientPool implements Sweepable {
             if (isTopic) {
                 // jmsDest = (Destination) this.topicTable.get(name);
 
-                umsDestination = (UMSDestination) this.topicTable.get(name);
+                umsDestination = this.topicTable.get(name);
 
                 if (umsDestination != null) {
                     jmsDest = umsDestination.getJMSDestination();
@@ -364,7 +365,7 @@ public class ClientPool implements Sweepable {
             } else {
                 // jmsDest = (Destination) this.queueTable.get(name);
 
-                umsDestination = (UMSDestination) this.queueTable.get(name);
+                umsDestination = this.queueTable.get(name);
 
                 if (umsDestination != null) {
                     jmsDest = umsDestination.getJMSDestination();
@@ -400,6 +401,7 @@ public class ClientPool implements Sweepable {
         return jmsDest;
     }
 
+    @Override
     public void sweep(long duration) {
 
         this.sweepClient(duration);
@@ -433,7 +435,7 @@ public class ClientPool implements Sweepable {
 
             String id = (String) enum2.nextElement();
 
-            Client client = (Client) clients.get(id);
+            Client client = clients.get(id);
 
             if (UMSServiceImpl.debug) {
                 logger.info("Got client: " + client);
@@ -469,7 +471,7 @@ public class ClientPool implements Sweepable {
 
     /**
      * XXX - sync
-     * 
+     *
      * @param list
      */
     private void removeFromClientTable(List list) {
@@ -566,6 +568,7 @@ public class ClientPool implements Sweepable {
         }
     }
 
+    @Override
     public String toString() {
         return this.getClass().getName() + ", provider=" + this.provider + ", service=" + this.serviceName + ", #clients=" + this.clients.size();
     }

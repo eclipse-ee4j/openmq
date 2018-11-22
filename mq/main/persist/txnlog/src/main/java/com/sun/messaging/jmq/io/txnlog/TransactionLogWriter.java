@@ -36,18 +36,18 @@ import java.util.Iterator;
  * <p>
  * After play back, broker MUST call the reset() method to clear the log state before it can write any new log entry to
  * the transaction log.
- * 
+ *
  * @see com.sun.messaging.jmq.io.txnlog.file.FileTransactionLogWriter
  * @see CheckPointListener
  * @see TransactionLogRecord
- * 
+ *
  */
 public interface TransactionLogWriter {
 
     /**
      * sets the point where a check point automatically occurs. When reached the size of the specified position, the
      * <code>CheckPointListener</code>will be called.
-     * 
+     *
      * @see CheckPointListener
      * @see #setCheckPointListener(CheckPointListener)
      */
@@ -73,7 +73,7 @@ public interface TransactionLogWriter {
      * <p>
      * If the log file exists, setting a size larger than the current size may affect the transaction performance until a
      * checkpoint is triggerred.
-     * 
+     *
      * @see #setCheckpointSize
      * @see #setCheckPointOffset
      */
@@ -90,7 +90,7 @@ public interface TransactionLogWriter {
 
     /**
      * Write a transaction log record to the log file. Each transaction is logged and synced to the disk.
-     * 
+     *
      * @param entry theTransaction Log Record to be written and synced to the file.
      * @throws IOException if encountered any I/O errors when writing to the disk.
      */
@@ -114,7 +114,7 @@ public interface TransactionLogWriter {
      * After play back, broker MUST call the reset() method to clear the log state before it can write any new log entry to
      * the transaction log.
      * <p>
-     * 
+     *
      * @see #playBackRequired()
      * @see #reset
      * @return an iterator of log entries from the last check point.
@@ -145,7 +145,7 @@ public interface TransactionLogWriter {
      * <code>playBackRequired</code> to check if a playback is required.
      * <p>
      * Broker MUST NOT use this API to get the last entry at the starts up time.
-     * 
+     *
      * @see #playBackRequired
      * @see #iterator
      */
@@ -153,7 +153,7 @@ public interface TransactionLogWriter {
 
     /**
      * Get a new instance of TransactionLogRecord object.
-     * 
+     *
      * @return a new instance of TransactionLogRecord object. This can be used to set values of a transaction and write to
      * the log file.
      */
@@ -162,7 +162,7 @@ public interface TransactionLogWriter {
     /**
      * Close the transaction log file. If normal=true, this function is the same as close(). Otherwise file is closed
      * without being marked as synced.
-     * 
+     *
      * @see #checkpoint
      * @throws IOException if encountered any I/O errors.
      */
@@ -173,7 +173,7 @@ public interface TransactionLogWriter {
      * method.
      * <p>
      * The transaction log file is marked as synced (check point) when this method is returned.
-     * 
+     *
      * @see #checkpoint
      * @throws IOException if encountered any I/O errors.
      */

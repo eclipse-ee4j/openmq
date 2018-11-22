@@ -22,9 +22,7 @@ package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.util.log.*;
 
 public class Yellow extends Green {
@@ -38,28 +36,35 @@ public class Yellow extends Green {
         gcIterationCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gcitr", DEFAULT_GC_ITR);
     }
 
+    @Override
     public int getMessageCount(long freeMemory, int producers) {
         // never divide by 0
-        if (producers >= 0)
+        if (producers >= 0) {
             producers = 1;
+        }
         return super.getMessageCount(freeMemory, producers) / producers;
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
         // never divide by 0
-        if (producers >= 0)
+        if (producers >= 0) {
             producers = 1;
+        }
         return super.getMemory(freeMemory, producers) / producers / 2;
     }
 
+    @Override
     public int gcCount() {
         return 1;
     }
 
+    @Override
     public int gcIteration() {
         return gcIterationCount;
     }
 
+    @Override
     public boolean cleanup(int cnt) {
         super.cleanup(cnt);
         logger.log(Logger.INFO, BrokerResources.I_LOW_MEMORY_FREE);
@@ -69,17 +74,20 @@ public class Yellow extends Green {
         return true;
     }
 
+    @Override
     public boolean enter(boolean fromHigher) {
         super.enter(fromHigher);
 
-        if (fromHigher)
+        if (fromHigher) {
             return false;
+        }
 
         MemoryGlobals.setMEM_FREE_P_ACKED(true);
 
         return true; // change cnt/etc
     }
 
+    @Override
     public boolean leave(boolean toHigher) {
         super.leave(toHigher);
 

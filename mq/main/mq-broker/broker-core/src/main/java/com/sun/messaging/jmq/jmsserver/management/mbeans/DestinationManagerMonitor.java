@@ -114,22 +114,27 @@ public class DestinationManagerMonitor extends MQMBeanReadOnly {
         return (destONames);
     }
 
+    @Override
     public String getMBeanName() {
         return ("DestinationManagerMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_DST_MGR_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }

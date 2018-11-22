@@ -27,11 +27,6 @@ import java.io.*;
 
 import java.net.*;
 
-import java.util.*;
-
-import javax.servlet.*;
-import javax.servlet.http.*;
-
 /**
  * This class implements the servlet end of the link between the servlet and the server application (JMQ broker).
  */
@@ -61,9 +56,11 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
         start();
     }
 
+    @Override
     protected void createLink() {
     }
 
+    @Override
     protected void handleLinkDown() {
         try {
             serverConn.close();
@@ -73,6 +70,7 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
         parent.serverDown(this);
     }
 
+    @Override
     protected void linkDown() {
         super.linkDown();
     }
@@ -92,6 +90,7 @@ public class ServerLink extends Link implements HttpTunnelDefaults {
     /**
      * Enqueue the packet to the appropriate connection queue. This should wakeup the appropriate pull thread.
      */
+    @Override
     protected void receivePacket(HttpTunnelPacket p) {
         if (serverReady) {
             if (p.getPacketType() == LISTEN_STATE_PACKET) {

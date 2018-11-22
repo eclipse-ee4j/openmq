@@ -137,6 +137,7 @@ public class CacheSweeper extends Thread {
     /**
      * wake up every 30 secs and close/remove unused sessions/producers/consumers
      */
+    @Override
     public void run() {
 
         while (isRunning = true) {
@@ -166,6 +167,7 @@ public class CacheSweeper extends Thread {
         }
     }
 
+    @Override
     public String toString() {
         return this.getClass().getName() + ", sweep interval=" + this.sweepInterval + ", cacheDuration=" + this.cacheDuration + ", is running="
                 + this.isRunning;

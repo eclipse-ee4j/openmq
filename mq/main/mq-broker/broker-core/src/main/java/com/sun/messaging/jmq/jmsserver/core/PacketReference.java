@@ -27,7 +27,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.DMQ;
-import com.sun.messaging.jmq.jmsserver.GlobalProperties;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
@@ -37,15 +36,12 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.ServiceType;
-import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.util.lists.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -254,10 +250,12 @@ public class PacketReference implements Sized, Ordered {
 
     Object order = null;
 
+    @Override
     public Object getOrder() {
         return order;
     }
 
+    @Override
     public void setOrder(Object o) {
         this.order = o;
     }
@@ -383,6 +381,7 @@ public class PacketReference implements Sized, Ordered {
             return deadBroker;
         }
 
+        @Override
         public String toString() {
             return ": CMPair[" + uid.longValue() + ":" + stateToString(state) + ":" + stored + "] - " + timestamp;
         }
@@ -467,8 +466,9 @@ public class PacketReference implements Sized, Ordered {
      */
     private static ReturnInfo calculateConsumerInfo(Collection consumers, boolean checkStored) {
 
-        if (consumers.isEmpty())
+        if (consumers.isEmpty()) {
             return null;
+        }
 
         ReturnInfo ri = new ReturnInfo();
         ri.ackInfo = Collections.synchronizedMap(new HashMap());
@@ -607,7 +607,7 @@ public class PacketReference implements Sized, Ordered {
 
     /*
      * -------------------------------------------------------------------
-     * 
+     *
      * ACCESS METHODS
      *
      * --------------------------------------------------------------------
@@ -647,6 +647,7 @@ public class PacketReference implements Sized, Ordered {
         return addr == null || addr == Globals.getMyAddress();
     }
 
+    @Override
     public String toString() {
         return "PacketReference[" + msgid + "]";
     }
@@ -865,11 +866,13 @@ public class PacketReference implements Sized, Ordered {
     }
 
     public PacketReference checkLock(boolean wait) {
-        if (!canLock)
+        if (!canLock) {
             return this;
+        }
         synchronized (lockObject) {
-            if (locked && (lockOwner != null && Thread.currentThread() == lockOwner))
+            if (locked && (lockOwner != null && Thread.currentThread() == lockOwner)) {
                 return this;
+            }
             while (wait && locked) {
                 Globals.getLogger().log(Logger.INFO, "Wait for reference : " + this);
                 try {
@@ -877,8 +880,9 @@ public class PacketReference implements Sized, Ordered {
                 } catch (InterruptedException e) {
                 }
             }
-            if (locked)
+            if (locked) {
                 return null;
+            }
         }
         return this;
     }
@@ -892,8 +896,9 @@ public class PacketReference implements Sized, Ordered {
         assert (pktPtr == null || pktPtr instanceof SoftReference || pktPtr instanceof Packet) : pktPtr;
 
         Object ptr = pktPtr;
-        if (ptr == null)
+        if (ptr == null) {
             return null;
+        }
         if (ptr instanceof SoftReference) {
             return (Packet) ((SoftReference) pktPtr).get();
         }
@@ -926,6 +931,7 @@ public class PacketReference implements Sized, Ordered {
         return neverStore;
     }
 
+    @Override
     public long byteSize() {
         return size;
     }
@@ -1009,8 +1015,9 @@ public class PacketReference implements Sized, Ordered {
                 vt.add((cmp == null ? key + ":null" : cmp.toString()));
             }
         }
-        if (!vt.isEmpty())
+        if (!vt.isEmpty()) {
             ht.put("Acks", vt);
+        }
         return ht;
     }
 
@@ -1193,7 +1200,7 @@ public class PacketReference implements Sized, Ordered {
      * If the following changes, change caller side accordingly
      *
      * @return false either inReplacing true or inDelivery true;
-     * 
+     *
      */
     public synchronized boolean checkDeliveryAndSetInRemoval() {
         if (destroyed || invalid || ackInfo == null /* not routed yet */) {
@@ -1277,6 +1284,7 @@ public class PacketReference implements Sized, Ordered {
         deliveryTimeInfo = null;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (msgid == null) {
             return msgid == obj;
@@ -1287,6 +1295,7 @@ public class PacketReference implements Sized, Ordered {
         return false;
     }
 
+    @Override
     public int hashCode() {
         return msgid == null ? 0 : msgid.hashCode();
     }
@@ -1297,7 +1306,7 @@ public class PacketReference implements Sized, Ordered {
 
     /*
      * -------------------------------------------------------------------
-     * 
+     *
      * Acknowledgement handling methods
      *
      * --------------------------------------------------------------------
@@ -1334,7 +1343,7 @@ public class PacketReference implements Sized, Ordered {
             // state on the message
             assert pktPtr instanceof Packet;
             try {
-                pstore.storeMessage(destination, (Packet) getPacket(), Destination.PERSIST_SYNC);
+                pstore.storeMessage(destination, getPacket(), Destination.PERSIST_SYNC);
                 makePacketSoftRef();
             } catch (IOException ex) {
                 throw new BrokerException(ex.toString(), ex);
@@ -1406,11 +1415,13 @@ public class PacketReference implements Sized, Ordered {
         }
 
         boolean botherToStore = !neverStore && persist;
-        if (!botherToStore)
+        if (!botherToStore) {
             return null;
+        }
 
-        if (consumers.isEmpty())
+        if (consumers.isEmpty()) {
             return null;
+        }
 
         List<ConsumerUID> storedConsumers = null;
         Iterator itr = consumers.iterator();
@@ -1431,8 +1442,9 @@ public class PacketReference implements Sized, Ordered {
                 storedConsumers.add(cuid);
             }
         }
-        if (storedConsumers == null)
+        if (storedConsumers == null) {
             return null;
+        }
 
         return storedConsumers.toArray(new ConsumerUID[storedConsumers.size()]);
 
@@ -1527,8 +1539,9 @@ public class PacketReference implements Sized, Ordered {
                 continue;
             }
 
-            if (ackInfo == null)
+            if (ackInfo == null) {
                 ackInfo = Collections.synchronizedMap(new HashMap());
+            }
 
             ConsumerMessagePair cmp = new ConsumerMessagePair(cuid, true);
 
@@ -1549,8 +1562,9 @@ public class PacketReference implements Sized, Ordered {
     }
 
     public void debug(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
+        }
         Globals.getLogger().log(Logger.INFO, prefix + "Message " + msgid);
         Globals.getLogger().log(Logger.INFO, prefix + "size " + ackInfo.size());
         Iterator itr = ackInfo.values().iterator();
@@ -1602,11 +1616,13 @@ public class PacketReference implements Sized, Ordered {
     public SysMessageID replacePacket(Hashtable props, byte[] bytes) throws BrokerException, IOException {
         // no messages can be delivered
 
-        if (deliveredCnt > 0)
+        if (deliveredCnt > 0) {
             throw new BrokerException("Unable to replace already delivered message");
+        }
 
-        if (ackCnt > 0)
+        if (ackCnt > 0) {
             throw new BrokerException("Unable to replace partially acknowledged message");
+        }
 
         Packet oldp = getPacket();
         Packet newp = new Packet();
@@ -1619,8 +1635,9 @@ public class PacketReference implements Sized, Ordered {
         Hashtable oldprops = null;
         try {
             oldprops = getProperties();
-            if (oldprops == null)
+            if (oldprops == null) {
                 oldprops = new Hashtable();
+            }
             if (props != null) {
                 Globals.getLogger().log(Logger.DEBUG, "Warning although properties " + "have been changed on the message it will " + "not be rerouted");
                 oldprops.putAll(props);
@@ -1635,8 +1652,9 @@ public class PacketReference implements Sized, Ordered {
                     me = (Map.Entry) itr.next();
                     String key = (String) me.getKey();
                     Object value = me.getValue();
-                    if (value != null)
+                    if (value != null) {
                         ht.put(key, value);
+                    }
                 }
 
             }
@@ -1657,8 +1675,9 @@ public class PacketReference implements Sized, Ordered {
                     Iterator itr = ackInfo.values().iterator();
                     while (itr.hasNext()) {
                         ConsumerMessagePair ae = (ConsumerMessagePair) itr.next();
-                        if (ae.stored)
+                        if (ae.stored) {
                             cnt++;
+                        }
                     }
                     uids = new ConsumerUID[cnt];
                     states = new int[cnt];
@@ -1674,12 +1693,12 @@ public class PacketReference implements Sized, Ordered {
                         i++;
                     }
                 }
-                pstore.storeMessage(destination, (Packet) newp, uids, states, Destination.PERSIST_SYNC);
+                pstore.storeMessage(destination, newp, uids, states, Destination.PERSIST_SYNC);
             } else {
-                pstore.storeMessage(destination, (Packet) newp, Destination.PERSIST_SYNC);
+                pstore.storeMessage(destination, newp, Destination.PERSIST_SYNC);
             }
         } else if (isStored) {
-            pstore.storeMessage(destination, (Packet) newp, Destination.PERSIST_SYNC);
+            pstore.storeMessage(destination, newp, Destination.PERSIST_SYNC);
         } else /* not stored */ {
         }
         setPacketObject(persist, newp);
@@ -1851,15 +1870,17 @@ public class PacketReference implements Sized, Ordered {
 
     public boolean isAcknowledged(ConsumerUID id) {
         ConsumerMessagePair cmp = getAck(id);
-        if (cmp == null)
+        if (cmp == null) {
             return true;
+        }
         return cmp.compareState(ACKED);
     }
 
     public boolean isDelivered(ConsumerUID id) {
         ConsumerMessagePair cmp = getAck(id);
-        if (cmp == null)
+        if (cmp == null) {
             return true;
+        }
         return cmp.compareState(DELIVERED) || cmp.compareState(CONSUMED);
     }
 
@@ -1877,8 +1898,9 @@ public class PacketReference implements Sized, Ordered {
             return false;
         }
 
-        if (decrementCounter)
+        if (decrementCounter) {
             cmp.decrementRedeliver();
+        }
 
         cmp.compareAndSetState(ROUTED, DELIVERED);
 
@@ -2114,8 +2136,9 @@ public class PacketReference implements Sized, Ordered {
             } else {
                 Globals.getLogger().logStack(Logger.ERROR, "Error in processing ack" + " on " + msgid + " for " + intid, thr);
             }
-            if (thr instanceof BrokerException)
+            if (thr instanceof BrokerException) {
                 throw (BrokerException) thr;
+            }
             throw new BrokerException("Unable to process ack", thr);
         }
     }
@@ -2148,16 +2171,18 @@ public class PacketReference implements Sized, Ordered {
 
         } catch (Throwable thr) {
             Globals.getLogger().logStack(Logger.ERROR, "Error in processing ack" + " on " + msgid + " for " + intid, thr);
-            if (thr instanceof BrokerException)
+            if (thr instanceof BrokerException) {
                 throw (BrokerException) thr;
+            }
             throw new BrokerException("Unable to process ack", thr);
         }
 
     }
 
     public void overrideRedeliver() {
-        if (!overrideRedeliver)
+        if (!overrideRedeliver) {
             overrideRedeliver = true;
+        }
     }
 
     public boolean getRedeliverFlag(ConsumerUID intid) {
@@ -2173,8 +2198,9 @@ public class PacketReference implements Sized, Ordered {
             return false;
         }
 
-        if (overrideRedeliver)
+        if (overrideRedeliver) {
             return true;
+        }
 
         // return true if our state is greater or equal to
         // DELIVERED
@@ -2408,36 +2434,41 @@ public class PacketReference implements Sized, Ordered {
 //------------------------------------------------------------------
 
     public String getDeadComment() {
-        if (lastDead == null)
+        if (lastDead == null) {
             return null;
+        }
         ConsumerMessagePair cmp = getAck(lastDead);
         return cmp == null ? null : cmp.getDeadComment();
     }
 
     public int getDeadDeliverCnt() {
-        if (lastDead == null)
+        if (lastDead == null) {
             return getDeliverCnt();
+        }
         ConsumerMessagePair cmp = getAck(lastDead);
         return cmp == null ? getDeliverCnt() : cmp.getRedeliverCount();
     }
 
     public Reason getDeadReason() {
-        if (lastDead == null)
+        if (lastDead == null) {
             return null;
+        }
         ConsumerMessagePair cmp = getAck(lastDead);
         return cmp == null ? null : cmp.getDeadReason();
     }
 
     public String getDeadBroker() {
-        if (lastDead == null)
+        if (lastDead == null) {
             return null;
+        }
         ConsumerMessagePair cmp = getAck(lastDead);
         return cmp == null ? null : cmp.getDeadBroker();
     }
 
     public Throwable getDeadException() {
-        if (lastDead == null)
+        if (lastDead == null) {
             return null;
+        }
         ConsumerMessagePair cmp = getAck(lastDead);
         return cmp == null ? null : cmp.getDeadException();
     }
@@ -2467,16 +2498,21 @@ public class PacketReference implements Sized, Ordered {
 
         if (!isLocal()) { // send remotely and ack
             Hashtable props = new Hashtable();
-            if (comment != null)
+            if (comment != null) {
                 props.put(DMQ.UNDELIVERED_COMMENT, comment);
-            if (redeliverCnt != -1)
+            }
+            if (redeliverCnt != -1) {
                 props.put(Destination.TEMP_CNT, Integer.valueOf(redeliverCnt));
-            if (ex != null)
+            }
+            if (ex != null) {
                 props.put(DMQ.UNDELIVERED_EXCEPTION, ex);
-            if (reason != null)
+            }
+            if (reason != null) {
                 props.put("REASON", Integer.valueOf(reason.intValue()));
-            if (broker != null)
+            }
+            if (broker != null) {
                 props.put(DMQ.DEAD_BROKER, broker);
+            }
 
             if (remoteDeliveredAck) {
                 props.put(ClusterBroadcast.MSG_DELIVERED_ACK, Boolean.TRUE);
@@ -2492,8 +2528,9 @@ public class PacketReference implements Sized, Ordered {
             cmp.setDeadReason(reason);
             cmp.setDeadException(ex);
             cmp.setDeadBroker(broker);
-            if (redeliverCnt > -1)
+            if (redeliverCnt > -1) {
                 cmp.setRedeliverCount(redeliverCnt);
+            }
         }
         boolean rm = false;
         synchronized (this) {
@@ -2560,7 +2597,6 @@ public class PacketReference implements Sized, Ordered {
                 Globals.getDestinationList().createDestination(ps, "test", DestType.DEST_TYPE_TOPIC);
             } catch (Exception ex) {
             }
-            ;
 
             Packet p1 = new Packet();
             Hashtable props = new Hashtable();

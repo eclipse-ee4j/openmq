@@ -25,7 +25,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.concurrent.TimeUnit;
-import javax.jms.ConnectionFactory;
 import javax.jms.XAConnectionFactory;
 import javax.jms.Connection;
 import javax.jms.XAConnection;
@@ -74,19 +73,21 @@ public class SharedConnectionFactory implements Runnable {
             _password = attrs.getProperty(JMSBridgeXMLConstant.CF.PASSWORD);
         }
         _idleTimeout = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.IDLETIMEOUT, JMSBridgeXMLConstant.CF.IDLETIMEOUT_DEFAULT));
-        if (_idleTimeout < 0)
+        if (_idleTimeout < 0) {
             _idleTimeout = 0;
+        }
         _maxRetries = Integer.parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
         _retryInterval = Integer
                 .parseInt(attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT));
-        if (_retryInterval < 0)
+        if (_retryInterval < 0) {
             _retryInterval = 0;
+        }
 
         _scheduler = Executors.newSingleThreadScheduledExecutor();
 
     }
 
-    /** 
+    /**
      */
     public Connection obtainConnection(Connection c, String logstr, Object caller, boolean doReconnect) throws Exception {
         _lock.lockInterruptibly();
@@ -159,7 +160,7 @@ public class SharedConnectionFactory implements Runnable {
         return (Connection) _conn;
     }
 
-    /** 
+    /**
      */
     public void returnConnection(Connection conn) throws Exception {
         _lock.lock();
@@ -170,13 +171,15 @@ public class SharedConnectionFactory implements Runnable {
             _refcnt--;
             assert _refcnt >= 0;
             if (_refcnt == 0 && _idleTimeout > 0) {
-                if (_future != null)
+                if (_future != null) {
                     _future.cancel(true);
+                }
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_SCHEDULE_TIMEOUT_FOR_SHAREDCF, _idleTimeout, this.toString()));
                 _future = _scheduler.schedule(this, _idleTimeout, TimeUnit.SECONDS);
             }
-            if (_refcnt == 0)
+            if (_refcnt == 0) {
                 _refcnt0.signalAll();
+            }
         } finally {
             _lock.unlock();
         }
@@ -184,6 +187,7 @@ public class SharedConnectionFactory implements Runnable {
 
     /**
      */
+    @Override
     public void run() {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "Check idle timeout in shared connection factory " + this);
@@ -195,8 +199,9 @@ public class SharedConnectionFactory implements Runnable {
             return;
         }
         try {
-            if (_refcnt > 0)
+            if (_refcnt > 0) {
                 return;
+            }
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_CLOSE_TIMEOUT_CONN_IN_SHAREDCF, _conn.toString(), this.toString()));
             try {
                 ((Connection) _conn).close();
@@ -224,8 +229,9 @@ public class SharedConnectionFactory implements Runnable {
             _lock.lockInterruptibly();
             try {
 
-                if (_conn == null)
+                if (_conn == null) {
                     return;
+                }
 
                 if (_refcnt > 0) {
                     /**
@@ -246,8 +252,9 @@ public class SharedConnectionFactory implements Runnable {
         } finally {
             Connection c = (Connection) _conn;
             try {
-                if (c != null && !done)
+                if (c != null && !done) {
                     c.close();
+                }
             } catch (Exception e) {
                 _logger.log(Level.FINE, "Exception in closing shared connection " + c + ": " + e.getMessage());
             }
@@ -274,6 +281,7 @@ public class SharedConnectionFactory implements Runnable {
         return _refcnt;
     }
 
+    @Override
     public String toString() {
         return _cf + "[" + _refcnt + "]";
     }

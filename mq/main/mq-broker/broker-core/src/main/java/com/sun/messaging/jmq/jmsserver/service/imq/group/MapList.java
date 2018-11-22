@@ -21,21 +21,9 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
-import java.lang.reflect.*;
-import java.io.*;
-import java.nio.channels.spi.*;
-import java.nio.channels.*;
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-
-import com.sun.messaging.jmq.jmsserver.net.Protocol;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 
 class MapList {
     HashMap map = new HashMap();
@@ -69,8 +57,9 @@ class MapList {
                 map.remove(svc.getName());
             }
         }
-        if (entry != null)
+        if (entry != null) {
             entry.destroy(Globals.getBrokerResources().getKString(BrokerResources.M_SERVICE_SHUTDOWN));
+        }
     }
 
     public SelectThread findThread(GroupService svc) {

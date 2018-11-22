@@ -27,6 +27,7 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
  */
 public class OracleDAOFactory extends GenericDAOFactory {
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
 
         if (messageDAO == null) {

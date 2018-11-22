@@ -212,7 +212,7 @@ public class ActionManager {
 
     /**
      * Add an admin event listener to this admin UI component.
-     * 
+     *
      * @param l admin event listener to add.
      */
     public void addAdminEventListener(AdminEventListener l) {
@@ -221,7 +221,7 @@ public class ActionManager {
 
     /**
      * Remove an admin event listener for this admin UI component.
-     * 
+     *
      * @param l admin event listener to remove.
      */
     public void removeAdminEventListener(AdminEventListener l) {
@@ -251,6 +251,7 @@ public class ActionManager {
         final EventListenerList ell = manager.aListeners;
 
         tmpAction = new AbstractAction(acr.getString(acr.I_ADD), AGraphics.adminImages[AGraphics.ADD]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.ADD_DIALOG);
@@ -260,6 +261,7 @@ public class ActionManager {
         activeFlags |= addAction(ADD, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_DELETE), AGraphics.adminImages[AGraphics.DELETE]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.DELETE_DIALOG);
@@ -269,6 +271,7 @@ public class ActionManager {
         activeFlags |= addAction(DELETE, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_PREFERENCES), AGraphics.adminImages[AGraphics.PREFERENCES]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 System.err.println("Preferences");
             }
@@ -276,6 +279,7 @@ public class ActionManager {
         activeFlags |= addAction(PREFERENCES, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_EXIT)) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ConsoleActionEvent cae = new ConsoleActionEvent(this, ConsoleActionEvent.EXIT);
                 fireAdminEventDispatched(cae, ell);
@@ -284,6 +288,7 @@ public class ActionManager {
         activeFlags |= addAction(EXIT, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_ABOUT)) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ConsoleActionEvent cae = new ConsoleActionEvent(this, ConsoleActionEvent.ABOUT);
                 fireAdminEventDispatched(cae, ell);
@@ -292,6 +297,7 @@ public class ActionManager {
         activeFlags |= addAction(ABOUT, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_PROPERTIES), AGraphics.adminImages[AGraphics.PROPERTIES]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.PROPS_DIALOG);
@@ -301,6 +307,7 @@ public class ActionManager {
         activeFlags |= addAction(PROPERTIES, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_SHUTDOWN_BROKER), AGraphics.adminImages[AGraphics.SHUTDOWN]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.SHUTDOWN_DIALOG);
@@ -310,6 +317,7 @@ public class ActionManager {
         activeFlags |= addAction(SHUTDOWN, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_RESTART_BROKER), AGraphics.adminImages[AGraphics.RESTART]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.RESTART_DIALOG);
@@ -319,6 +327,7 @@ public class ActionManager {
         activeFlags |= addAction(RESTART, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_PAUSE), AGraphics.adminImages[AGraphics.PAUSE]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.PAUSE_DIALOG);
@@ -328,6 +337,7 @@ public class ActionManager {
         activeFlags |= addAction(PAUSE, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_RESUME), AGraphics.adminImages[AGraphics.RESUME]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.RESUME_DIALOG);
@@ -337,6 +347,7 @@ public class ActionManager {
         activeFlags |= addAction(RESUME, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_CONNECT), AGraphics.adminImages[AGraphics.CONNECT_TO_OBJSTORE]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.CONNECT_DIALOG);
@@ -346,6 +357,7 @@ public class ActionManager {
         activeFlags |= addAction(CONNECT, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_DISCONNECT), AGraphics.adminImages[AGraphics.DISCONNECT_FROM_OBJSTORE]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.DISCONNECT_DIALOG);
@@ -355,6 +367,7 @@ public class ActionManager {
         activeFlags |= addAction(DISCONNECT, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_EXPAND_ALL), AGraphics.adminImages[AGraphics.EXPAND_ALL]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ConsoleActionEvent cae = new ConsoleActionEvent(this, ConsoleActionEvent.EXPAND_ALL);
                 fireAdminEventDispatched(cae, ell);
@@ -363,6 +376,7 @@ public class ActionManager {
         activeFlags |= addAction(EXPAND_ALL, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_COLLAPSE_ALL), AGraphics.adminImages[AGraphics.COLLAPSE_ALL]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ConsoleActionEvent cae = new ConsoleActionEvent(this, ConsoleActionEvent.COLLAPSE_ALL);
                 fireAdminEventDispatched(cae, ell);
@@ -371,6 +385,7 @@ public class ActionManager {
         activeFlags |= addAction(COLLAPSE_ALL, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_REFRESH), AGraphics.adminImages[AGraphics.REFRESH]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 ConsoleActionEvent cae = new ConsoleActionEvent(this, ConsoleActionEvent.REFRESH);
                 fireAdminEventDispatched(cae, ell);
@@ -379,6 +394,7 @@ public class ActionManager {
         activeFlags |= addAction(REFRESH, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_PURGE_BROKER_DEST), AGraphics.adminImages[AGraphics.PURGE]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 DialogEvent de = new DialogEvent(this);
                 de.setDialogType(DialogEvent.PURGE_DIALOG);
@@ -388,6 +404,7 @@ public class ActionManager {
         activeFlags |= addAction(PURGE, tmpAction, table);
 
         tmpAction = new AbstractAction(acr.getString(acr.I_QUERY_BROKER), AGraphics.adminImages[AGraphics.QUERY_BROKER]) {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.QUERY_BROKER);
                 fireAdminEventDispatched(bae, ell);

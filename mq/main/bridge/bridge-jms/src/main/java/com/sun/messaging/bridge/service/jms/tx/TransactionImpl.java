@@ -24,7 +24,6 @@ import java.util.logging.Level;
 import javax.transaction.*;
 import javax.transaction.xa.XAResource;
 import com.sun.messaging.bridge.service.jms.tx.log.GlobalXidDecision;
-import com.sun.messaging.bridge.service.jms.tx.log.BranchXidDecision;
 import com.sun.messaging.bridge.service.jms.tx.log.LogRecord;
 import com.sun.messaging.bridge.service.jms.tx.log.TxLog;
 
@@ -84,6 +83,7 @@ public class TransactionImpl implements Transaction {
      *
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      */
+    @Override
     public void commit()
             throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
@@ -115,8 +115,9 @@ public class TransactionImpl implements Transaction {
                     party.prepare();
                     preparedOne = true;
                 } catch (IllegalStateException e) {
-                    if (!preparedOne)
+                    if (!preparedOne) {
                         throw e;
+                    }
                     setRollbackOnly();
                     rollback();
                     RollbackException ex = new RollbackException(toString() + ": " + e.getMessage());
@@ -164,8 +165,9 @@ public class TransactionImpl implements Transaction {
                 party.commit(onePhase);
                 committedOne = true;
             } catch (IllegalStateException e) {
-                if (!committedOne)
+                if (!committedOne) {
                     throw e;
+                }
                 ex = e;
                 continue;
             } catch (RollbackException e) {
@@ -232,14 +234,18 @@ public class TransactionImpl implements Transaction {
             }
         }
         if (ex != null) {
-            if (ex instanceof SystemException)
+            if (ex instanceof SystemException) {
                 throw (SystemException) ex;
-            if (ex instanceof HeuristicMixedException)
+            }
+            if (ex instanceof HeuristicMixedException) {
                 throw (HeuristicMixedException) ex;
-            if (ex instanceof IllegalStateException)
+            }
+            if (ex instanceof IllegalStateException) {
                 throw (IllegalStateException) ex;
-            if (ex instanceof HeuristicRollbackException)
+            }
+            if (ex instanceof HeuristicRollbackException) {
                 throw (HeuristicRollbackException) ex;
+            }
             SystemException uex = new SystemException(ex.getMessage()); // should not hapen
             uex.initCause(ex);
             throw uex;
@@ -260,6 +266,7 @@ public class TransactionImpl implements Transaction {
      * @return <i>true</i> if the resource was delisted successfully; otherwise <i>false</i>.
      *
      */
+    @Override
     public boolean delistResource(XAResource xaRes, int flag) throws IllegalStateException, SystemException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -290,8 +297,9 @@ public class TransactionImpl implements Transaction {
             return true;
         } catch (Throwable t) {
             setRollbackOnly();
-            if (t instanceof SystemException)
+            if (t instanceof SystemException) {
                 throw (SystemException) t;
+            }
             _logger.log(Level.SEVERE, "Unexpected exception occurred on end from " + party, t);
             SystemException ex = new SystemException(t.getMessage());
             ex.initCause(t);
@@ -314,6 +322,7 @@ public class TransactionImpl implements Transaction {
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public boolean enlistResource(XAResource xaRes) throws RollbackException, IllegalStateException, SystemException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -362,10 +371,12 @@ public class TransactionImpl implements Transaction {
             throw e;
         } catch (Throwable t) {
             setRollbackOnly();
-            if (t instanceof RollbackException)
+            if (t instanceof RollbackException) {
                 throw (RollbackException) t;
-            if (t instanceof SystemException)
+            }
+            if (t instanceof SystemException) {
                 throw (SystemException) t;
+            }
             _logger.log(Level.SEVERE, "Unexpected exception occurred on start from " + party, t);
             SystemException ex = new SystemException(t.getMessage());
             ex.initCause(t);
@@ -390,6 +401,7 @@ public class TransactionImpl implements Transaction {
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public int getStatus() throws SystemException {
         return _status;
     }
@@ -409,6 +421,7 @@ public class TransactionImpl implements Transaction {
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void registerSynchronization(Synchronization sync) throws RollbackException, IllegalStateException, SystemException {
         throw new SystemException("operation not supported");
     }
@@ -422,6 +435,7 @@ public class TransactionImpl implements Transaction {
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void rollback() throws IllegalStateException, SystemException {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, _tm + " rollback " + this);
@@ -451,8 +465,9 @@ public class TransactionImpl implements Transaction {
                 party.rollback();
                 rolledbackOne = true;
             } catch (IllegalStateException e) {
-                if (!rolledbackOne)
+                if (!rolledbackOne) {
                     throw e;
+                }
                 ex = new SystemException(e.getMessage());
                 ex.initCause(e);
                 continue;
@@ -499,13 +514,16 @@ public class TransactionImpl implements Transaction {
             }
         }
         _status = Status.STATUS_ROLLEDBACK;
-        if (ex == null)
+        if (ex == null) {
             _status = Status.STATUS_NO_TRANSACTION;
+        }
         if (ex != null) {
-            if (ex instanceof SystemException)
+            if (ex instanceof SystemException) {
                 throw (SystemException) ex;
-            if (ex instanceof IllegalStateException)
+            }
+            if (ex instanceof IllegalStateException) {
                 throw (IllegalStateException) ex;
+            }
             SystemException uex = new SystemException(ex.getMessage());
             uex.initCause(ex);
             throw uex;
@@ -521,6 +539,7 @@ public class TransactionImpl implements Transaction {
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void setRollbackOnly() throws IllegalStateException, SystemException {
         _status = Status.STATUS_MARKED_ROLLBACK;
     }
@@ -554,19 +573,24 @@ public class TransactionImpl implements Transaction {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof TransactionImpl))
+        if (!(o instanceof TransactionImpl)) {
             return false;
+        }
         TransactionImpl that = (TransactionImpl) o;
-        if (this == that)
+        if (this == that) {
             return true;
+        }
         return _gxid.equals(that._gxid);
     }
 
+    @Override
     public int hashCode() {
         return _gxid.hashCode();
     }
 
+    @Override
     public String toString() {
         return _gxid + "[" + statusString(_status) + "]";
     }

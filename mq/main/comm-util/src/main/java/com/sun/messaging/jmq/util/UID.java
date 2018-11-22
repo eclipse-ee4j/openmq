@@ -89,6 +89,7 @@ public class UID implements Serializable {
     /**
      * Return the hash code for the indentifier
      */
+    @Override
     public int hashCode() {
         if (hashCode == 0) {
             hashCode = UniqueID.hashCode(id);
@@ -99,6 +100,7 @@ public class UID implements Serializable {
     /**
      * Equals
      */
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof UID)) {
             return false;
@@ -132,6 +134,7 @@ public class UID implements Serializable {
     /**
      * Return a short string representation of this identifier
      */
+    @Override
     public String toString() {
         return String.valueOf(id);
     }

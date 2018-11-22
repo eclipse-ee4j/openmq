@@ -45,6 +45,7 @@ public class IMQDirectServiceFactory extends ServiceFactory {
         }
     }
 
+    @Override
     public void updateService(Service s) throws BrokerException {
         IMQService ss = (IMQService) s;
         String name = s.getName();
@@ -54,21 +55,26 @@ public class IMQDirectServiceFactory extends ServiceFactory {
 
 // XXX - this is not optimized, but it should rarely happen
 
+    @Override
     public void startMonitoringService(Service s) throws BrokerException {
     }
 
+    @Override
     public void stopMonitoringService(Service s) throws BrokerException {
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         // for now, dont bother with validation
     }
 
+    @Override
     public boolean update(String name, String value) {
 
         return true;
     }
 
+    @Override
     public Service createService(String instancename, int type) throws BrokerException {
         try {
             Service svc = new IMQDirectService(instancename, type, getThreadMin(instancename), getThreadMax(instancename), getAccessControl(instancename));

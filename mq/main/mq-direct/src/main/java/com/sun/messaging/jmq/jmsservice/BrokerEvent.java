@@ -27,6 +27,11 @@ import java.util.EventObject;
  */
 public class BrokerEvent extends EventObject {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5225435507904630329L;
+
     public static enum Type {
         READY, // Broker *ready* after successful JMSBroker.start()
         PAUSED, // Broker 'paused'
@@ -125,10 +130,12 @@ public class BrokerEvent extends EventObject {
         return eventMessage;
     }
 
+    @Override
     public String toString() {
         String str = getName();
-        if (eventMessage != null)
+        if (eventMessage != null) {
             str += " : " + eventMessage;
+        }
         return str;
     }
 

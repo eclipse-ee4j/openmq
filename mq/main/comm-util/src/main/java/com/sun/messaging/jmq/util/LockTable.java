@@ -33,14 +33,15 @@ public class LockTable {
     /**
      * Request notification when notifiy is called on the same or equivalent instance of an object. This method should be
      * called before any notification could occur.
-     * 
+     *
      * @param object object to wait for notification on
      * @throws IllegalAccessException indicates the system is already waiting on that object
      */
     public void requestNotify(Object object) throws IllegalAccessException {
         synchronized (notifyTable) {
-            if (notifyTable.containsKey(object))
+            if (notifyTable.containsKey(object)) {
                 throw new IllegalAccessException("Already waiting for " + object);
+            }
             Object lock = new IDLock();
             notifyTable.put(object, lock);
         }
@@ -49,7 +50,7 @@ public class LockTable {
     /**
      * Cancel notification on an object. Cleans up any allocated resources. This call does NOT wake up any resources waiting
      * for notification.
-     * 
+     *
      * @param object equivalent object to the one passed into requestNotify
      */
     public void cancelNotify(Object object) {
@@ -84,7 +85,9 @@ public class LockTable {
             lock = (IDLock) notifyTable.get(object);
         }
         if (lock == null)
+         {
             return true; // done
+        }
         synchronized (lock) {
             if (lock.isValid()) {
                 try {
@@ -117,8 +120,9 @@ public class LockTable {
         synchronized (notifyTable) {
             lock = (IDLock) notifyTable.get(object);
         }
-        if (lock == null)
+        if (lock == null) {
             return;
+        }
         synchronized (lock) {
             lock.destroy();
             lock.notifyAll();

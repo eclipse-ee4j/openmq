@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.util.lists;
 
 /**
  * Class which represents a eventType on a list which may generate a notification.
- * 
+ *
  * @see Event
  */
 
@@ -37,7 +37,7 @@ public class EventType {
 
     /**
      * bytes of object has changed
-     * 
+     *
      * @see Sized
      */
     public static final EventType BYTES_CHANGED = new EventType(1, "BYTES_CHANGED");
@@ -76,7 +76,7 @@ public class EventType {
 
     /**
      * integer value associated with this event type
-     * 
+     *
      * @returns integer value of eventType
      */
     public final int getEvent() {
@@ -85,18 +85,20 @@ public class EventType {
 
     /**
      * EventType displayed as a string
-     * 
+     *
      * @returns string representing object
      */
+    @Override
     public String toString() {
         return name;
     }
 
     /**
      * compares this event type against another object.
-     * 
+     *
      * @returns true if the objects are the same
      */
+    @Override
     public boolean equals(Object o) {
         if (o instanceof EventType) {
             return event == ((EventType) o).event;
@@ -104,6 +106,7 @@ public class EventType {
         return false;
     }
 
+    @Override
     public int hashCode() {
         return event;
     }

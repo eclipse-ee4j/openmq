@@ -37,6 +37,11 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
  */
 public class UserPrinter extends MultiColumnPrinter {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3530525399010921616L;
+
     public UserPrinter(int numCol, int gap, String border) {
         super(numCol, gap, border);
     }
@@ -45,10 +50,12 @@ public class UserPrinter extends MultiColumnPrinter {
         super(numCol, gap);
     }
 
+    @Override
     public void doPrint(String str) {
         Output.stdOutPrint(str);
     }
 
+    @Override
     public void doPrintln(String str) {
         Output.stdOutPrintln(str);
     }

@@ -28,6 +28,12 @@ public class ExpirationInfo {
     static Comparator expireCompare = new ExpirationComparator();
 
     static class ExpirationComparator implements Comparator, Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 8859855693453685960L;
+
+        @Override
         public int compare(Object o1, Object o2) {
             if (o1 instanceof ExpirationInfo && o2 instanceof ExpirationInfo) {
                 ExpirationInfo ei1 = (ExpirationInfo) o1;
@@ -37,24 +43,29 @@ public class ExpirationInfo {
                     SysMessageID sys1 = ei1.id;
                     SysMessageID sys2 = ei2.id;
                     dif = sys2.getTimestamp() - sys1.getTimestamp();
-                    if (dif == 0)
+                    if (dif == 0) {
                         dif = sys2.getSequence() - sys1.getSequence();
+                    }
                 }
 
-                if (dif < 0)
+                if (dif < 0) {
                     return 1;
-                if (dif > 0)
+                }
+                if (dif > 0) {
                     return -1;
+                }
                 return 0;
             }
             assert false;
             return o1.hashCode() - o2.hashCode();
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
 
+        @Override
         public boolean equals(Object o1) {
             return super.equals(o1);
         }
@@ -65,6 +76,7 @@ public class ExpirationInfo {
     boolean expired = false;
     int reapCount = 0;
 
+    @Override
     public String toString() {
         return "ExpirationInfo[" + id + "," + expireTime + "]";
     }
@@ -105,10 +117,12 @@ public class ExpirationInfo {
         return id;
     }
 
+    @Override
     public int hashCode() {
         return id.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof ExpirationInfo)) {
             return false;

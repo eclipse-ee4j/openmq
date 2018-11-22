@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on transaction notifications.
  *
@@ -29,6 +27,11 @@ import javax.management.Notification;
  * The MQ specific fields in this notification is TBD.
  */
 public class TransactionNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1053479492195775559L;
+
     /**
      * A transaction was committed.
      */

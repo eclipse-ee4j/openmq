@@ -26,14 +26,12 @@ import java.util.*;
 import java.io.*;
 
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 
 import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.net.tcp.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -51,8 +49,9 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
     protected Map getProtocolParams(String protoname, String prefix) {
         List proto_props = getProtocolNames(protoname);
 
-        if (proto_props == null)
+        if (proto_props == null) {
             return null;
+        }
 
         HashMap map = new HashMap();
 
@@ -61,8 +60,9 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
 
             String value = Globals.getConfig().getProperty(prefix + "." + name);
 
-            if (value != null)
+            if (value != null) {
                 map.put(name, value);
+            }
         }
         return map;
     }
@@ -71,6 +71,7 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
         return Globals.getConfig().getList(PROTOCOL_PREFIX + protoname + ".propertylist");
     }
 
+    @Override
     public void updateService(Service s) throws BrokerException {
         IMQService ss = (IMQService) s;
         String name = s.getName();
@@ -110,6 +111,7 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
 
 // XXX - this is not optimized, but it should rarely happen
 
+    @Override
     public void startMonitoringService(Service s) throws BrokerException {
 
         String name = s.getName();
@@ -134,6 +136,7 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
         props.addListener(bstr, this);
     }
 
+    @Override
     public void stopMonitoringService(Service s) throws BrokerException {
         String name = s.getName();
         String protoname = SERVICE_PREFIX + name + ".protocoltype";
@@ -156,10 +159,12 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
         props.removeListener(bstr, this);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         // for now, dont bother with validation
     }
 
+    @Override
     public boolean update(String name, String value) {
 
         return true;
@@ -182,6 +187,7 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
         return props.getIntProperty(bstr);
     }
 
+    @Override
     public Service createService(String instancename, int type) throws BrokerException {
         String protocol_type_string = SERVICE_PREFIX + instancename + ".protocoltype";
 
@@ -247,8 +253,9 @@ public abstract class IMQIPServiceFactory extends ServiceFactory {
 
             // bug 4433282 -> support optional timeout for pool
             long timeout = getPoolTimeout(instancename);
-            if (timeout > 0)
+            if (timeout > 0) {
                 ((IMQService) svc).setDestroyWaitTime(timeout);
+            }
             return svc;
         } catch (IOException ex) {
             try {

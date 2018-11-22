@@ -28,7 +28,7 @@ import java.util.Vector;
 
 import com.sun.messaging.jmq.Version;
 
-/* 
+/*
  * ConnectionMetaData provides information describing the Connection.
  */
 
@@ -126,6 +126,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public String getJMSVersion() throws JMSException {
         return JMSVersion;
     }
@@ -138,6 +139,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public int getJMSMajorVersion() throws JMSException {
         return JMSMajorVersion;
     }
@@ -150,6 +152,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public int getJMSMinorVersion() throws JMSException {
         return JMSMinorVersion;
     }
@@ -162,6 +165,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public String getJMSProviderName() throws JMSException {
         return JMSProviderName;
     }
@@ -174,6 +178,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public String getProviderVersion() throws JMSException {
         return providerVersion;
     }
@@ -186,6 +191,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public int getProviderMajorVersion() throws JMSException {
         return providerMajorVersion;
     }
@@ -198,6 +204,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the meta-data retrieval.
      */
 
+    @Override
     public int getProviderMinorVersion() throws JMSException {
         return providerMinorVersion;
     }
@@ -210,6 +217,7 @@ public class ConnectionMetaDataImpl implements ConnectionMetaData {
      * @exception JMSException if some internal error occurs in JMS implementation during the property names retrieval.
      */
 
+    @Override
     public Enumeration getJMSXPropertyNames() throws JMSException {
         return supportedProperties.elements();
     }

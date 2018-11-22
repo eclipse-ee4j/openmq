@@ -37,6 +37,7 @@ public class PacketFormatter extends SimpleFormatter {
      * Format the log record. If this is a MQ packet record, it is formatted to the packet format. Otherwise, the simple
      * formatter format is used.
      */
+    @Override
     public synchronized String format(LogRecord record) {
 
         String str = doFormat(record);

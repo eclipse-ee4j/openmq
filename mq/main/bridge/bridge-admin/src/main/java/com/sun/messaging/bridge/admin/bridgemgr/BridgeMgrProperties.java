@@ -31,6 +31,11 @@ import java.util.Enumeration;
 
 public class BridgeMgrProperties extends Properties implements BridgeMgrOptions {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5182988341199360379L;
+
     public BridgeMgrProperties() {
         super();
     }
@@ -101,8 +106,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public boolean forceModeSet() {
         String s = getProperty(PropName.OPTION_FORCE);
 
-        if (s == null)
+        if (s == null) {
             return false;
+        }
 
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
@@ -121,8 +127,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
      */
     public boolean debugModeSet() {
         String s = getProperty(PropName.OPTION_DEBUG);
-        if (s == null)
+        if (s == null) {
             return false;
+        }
 
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
@@ -141,8 +148,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public boolean noCheckModeSet() {
         String s = getProperty(PropName.OPTION_NOCHECK);
 
-        if (s == null)
+        if (s == null) {
             return false;
+        }
 
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
@@ -162,8 +170,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public boolean adminDebugModeSet() {
         String s = getProperty(PropName.OPTION_ADMIN_DEBUG);
 
-        if (s == null)
+        if (s == null) {
             return false;
+        }
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
         } else if (s.equalsIgnoreCase(Boolean.FALSE.toString())) {
@@ -178,8 +187,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public boolean useSSLTransportSet() {
         String s = getProperty(PropName.OPTION_SSL);
 
-        if (s == null)
+        if (s == null) {
             return false;
+        }
 
         if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
             return true;
@@ -196,8 +206,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public int getReceiveTimeout() {
         String s = getProperty(PropName.OPTION_RECV_TIMEOUT);
 
-        if (s == null)
+        if (s == null) {
             return -1;
+        }
 
         int ret;
         try {
@@ -215,8 +226,9 @@ public class BridgeMgrProperties extends Properties implements BridgeMgrOptions 
     public int getNumRetries() {
         String s = getProperty(PropName.OPTION_NUM_RETRIES);
 
-        if (s == null)
+        if (s == null) {
             return -1;
+        }
 
         int ret;
         try {

@@ -28,6 +28,7 @@ public class PooledXAConnectionImpl extends PooledConnectionImpl implements XACo
         super(conn);
     }
 
+    @Override
     public XASession createXASession() throws JMSException {
         return ((XAConnection) _conn).createXASession();
     }

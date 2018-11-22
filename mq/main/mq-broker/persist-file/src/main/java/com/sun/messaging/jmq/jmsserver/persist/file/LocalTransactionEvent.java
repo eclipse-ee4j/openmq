@@ -26,7 +26,6 @@ import java.io.ObjectOutputStream;
 
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.data.LocalTransaction;
-import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionWork;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -40,6 +39,7 @@ public abstract class LocalTransactionEvent extends TransactionEvent {
 
     LocalTransaction localTransaction;
 
+    @Override
     int getType() {
         return BaseTransaction.LOCAL_TRANSACTION_TYPE;
     }
@@ -75,6 +75,7 @@ public abstract class LocalTransactionEvent extends TransactionEvent {
 
 class LocalTransaction1PCommitEvent extends LocalTransactionEvent {
 
+    @Override
     int getSubType() {
         return Type1PCommitEvent;
     }
@@ -84,6 +85,7 @@ class LocalTransaction1PCommitEvent extends LocalTransactionEvent {
     // write transaction details
     // write work
 
+    @Override
     byte[] writeToBytes() throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -99,6 +101,7 @@ class LocalTransaction1PCommitEvent extends LocalTransactionEvent {
         return data;
     }
 
+    @Override
     void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);
@@ -117,10 +120,12 @@ class LocalTransaction1PCommitEvent extends LocalTransactionEvent {
 
 class LocalTransaction2PPrepareEvent extends LocalTransactionEvent {
 
+    @Override
     int getSubType() {
         return Type2PPrepareEvent;
     }
 
+    @Override
     byte[] writeToBytes() throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -149,6 +154,7 @@ class LocalTransaction2PPrepareEvent extends LocalTransactionEvent {
         return data2;
     }
 
+    @Override
     void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);
@@ -188,10 +194,12 @@ class LocalTransaction2PPrepareEvent extends LocalTransactionEvent {
 
 class LocalTransaction2PCompleteEvent extends LocalTransactionEvent {
 
+    @Override
     int getSubType() {
         return Type2PCompleteEvent;
     }
 
+    @Override
     byte[] writeToBytes() throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -206,6 +214,7 @@ class LocalTransaction2PCompleteEvent extends LocalTransactionEvent {
         return data;
     }
 
+    @Override
     void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);

@@ -25,10 +25,15 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
  * MQ Consumer Event.
- * 
+ *
  * @since 4.5
  */
 public class ConsumerEvent extends Event {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7198348588684251467L;
 
     /**
      * Consumer ready event code
@@ -75,7 +80,7 @@ public class ConsumerEvent extends Event {
      * @param conn the connection on which the event was received
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
-     * 
+     *
      */
     public ConsumerEvent(Destination dest, Connection conn, String evCode, String evMessage) {
         super(dest, evCode, evMessage);
@@ -86,7 +91,7 @@ public class ConsumerEvent extends Event {
 
     /**
      * Get the connection on which the event was received.
-     * 
+     *
      * @return the connection on which the event was received.
      */
     public Connection getConnection() {
@@ -104,7 +109,7 @@ public class ConsumerEvent extends Event {
 
     /**
      * Get the registered destination on which the event was occurred.
-     * 
+     *
      * @return the registered destination on which the event was occurred.
      */
     public Destination getDestination() {

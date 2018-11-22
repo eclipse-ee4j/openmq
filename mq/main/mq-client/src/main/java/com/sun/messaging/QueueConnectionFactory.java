@@ -29,8 +29,13 @@ package com.sun.messaging;
 public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory implements javax.jms.QueueConnectionFactory {
 
     /**
-     * Constructs a QueueConnectionFactory with the default configuration.
      * 
+     */
+    private static final long serialVersionUID = -7857914973118338833L;
+
+    /**
+     * Constructs a QueueConnectionFactory with the default configuration.
+     *
      */
     public QueueConnectionFactory() {
         super();
@@ -38,7 +43,7 @@ public class QueueConnectionFactory extends com.sun.messaging.ConnectionFactory 
 
     /**
      * Constructs a QueueConnectionFactory with the specified configuration.
-     * 
+     *
      */
     protected QueueConnectionFactory(String defaultsBase) {
         super(defaultsBase);

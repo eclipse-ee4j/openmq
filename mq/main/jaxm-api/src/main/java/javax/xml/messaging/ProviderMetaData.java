@@ -23,7 +23,7 @@ package javax.xml.messaging;
  * following code fragment demonstrates how the <code>ProviderConnection</code> object <code>con</code> can be used to
  * retrieve its <code>ProviderMetaData</code> object and then to get the name and version number of the messaging
  * provider.
- * 
+ *
  * <PRE>
  * ProviderMetaData pmd = con.getMetaData();
  * String name = pmd.getName();
@@ -34,11 +34,11 @@ package javax.xml.messaging;
  * The <code>ProviderMetaData</code> interface also makes it possible to find out which profiles a JAXM provider
  * supports. The following line of code uses the method <code>getSupportedProfiles</code> to retrieve an array of
  * <code>String</code> objects naming the profile(s) that the JAXM provider supports.
- * 
+ *
  * <PRE>
  * String[] profiles = pmd.getSupportedProfiles();
  * </PRE>
- * 
+ *
  * When a JAXM implementation supports a profile, it supports the functionality supplied by a particular messaging
  * specification. A profile is built on top of the SOAP 1.1 and SOAP with Attachments specifications and adds more
  * capabilities. For example, a JAXM provider may support an ebXML profile, which means that it supports headers that

@@ -49,15 +49,18 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 public class IMQDualThreadConnection extends IMQBasicConnection implements DirectBrokerConnection {
     class DummyQueue<Packet> implements HandOffQueue<Packet> {
+        @Override
         public Packet take() throws InterruptedException {
             // does nothing
             return null;
         }
 
+        @Override
         public void put(Packet p) throws InterruptedException {
             processReadPacket((com.sun.messaging.jmq.io.Packet) p);
         }
 
+        @Override
         public void close() {
         }
     }
@@ -87,9 +90,10 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     /**
      * sets the connection state
-     * 
+     *
      * @return false if connection being destroyed
      */
+    @Override
     public boolean setConnectionState(int state) {
         this.state = state;
         if (this.state >= Connection.STATE_CLOSED) {
@@ -101,23 +105,25 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         return true;
     }
 
+    @Override
     public HandOffQueue getClientToBrokerQueue() {
         return inputQueue;
     }
 
+    @Override
     public HandOffQueue getBrokerToClientQueue() {
         return outputQueue;
     }
 
     /**
      * This method is used only if "sync replies" have been enabled
-     * 
+     *
      * Puts the specified reply packet onto the Queue for the current thread, which will be saved in a ThreadLocal so that
      * is can be obtained by the requester, which will be the same thread
-     * 
+     *
      * This method then calls into the client to process (dispatch) the reply packet. We need to do this now rather than
      * after this method returns to avoid packets being processed by the client out of order
-     * 
+     *
      * @param packet the reply packet for the current thread
      */
     public void putReply(Packet packet) {
@@ -140,7 +146,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     /**
      * Fetches the reply packet from the reply queue for the current thread, which is saved in a ThreadLocal
-     * 
+     *
      * @return the reply packet for the current thread
      */
     public Packet fetchReply() {
@@ -148,6 +154,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         return packets.poll();
     }
 
+    @Override
     public void checkState() {
         // do nothing
     }
@@ -155,6 +162,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
     /**
      * start sending JMS messages to the connection
      */
+    @Override
     public void startConnection() {
 
         super.startConnection();
@@ -180,6 +188,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     }
 
+    @Override
     public boolean isBlocking() {
         return true;
     }
@@ -189,31 +198,38 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         // do nothing
     }
 
+    @Override
     public void haltFlow() {
         // do nothing
     }
 
+    @Override
     public void resumeFlow(int cnt) {
         // do nothing
     }
 
+    @Override
     public void cleanupControlPackets(boolean shutdown) {
         // LKS-XXX
         // not sure, for now do nothing
     }
 
+    @Override
     public boolean useDirectBuffers() {
         return true;
     }
 
+    @Override
     protected void checkConnection() {
         // do nothing
     }
 
+    @Override
     protected void flushConnection(long timeout) {
         // do nothing
     }
 
+    @Override
     public void logConnectionInfo(boolean closing) {
         this.logConnectionInfo(closing, "Unknown");
     }
@@ -237,8 +253,9 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     public void processReadPacket(Packet p) {
         msgsIn++;
-        if (p.getPacketType() < PacketType.LAST)
+        if (p.getPacketType() < PacketType.LAST) {
             pktsIn[p.getPacketType()]++;
+        }
         if (DEBUG || DUMP_PACKET || IN_DUMP_PACKET) {
             int flag = (DUMP_PACKET || IN_DUMP_PACKET) ? Logger.INFO : Logger.DEBUGHIGH;
 
@@ -253,6 +270,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         return false;
     }
 
+    @Override
     public void sendControlMessage(Packet p) {
         if (p.getPacketType() > PacketType.MESSAGE) {
             p.setIP(ipAddress);
@@ -300,6 +318,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         }
     }
 
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
         // a session has something to do
         Session s = (Session) target;
@@ -321,6 +340,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
     /**
      * The debug state of this object
      */
+    @Override
     public synchronized Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         // LKS - XXX
@@ -330,9 +350,11 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
         return ht;
     }
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -346,23 +368,27 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
                     userset = true;
                 }
             } catch (BrokerException e) {
-                if (DEBUG)
+                if (DEBUG) {
                     logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
 
             }
         }
 
         String retstr = userString + "@" + "Direct2" + ":" + getConnectionUID();
-        if (userset)
+        if (userset) {
             remoteConString = retstr;
+        }
         return retstr;
     }
 
     String localsvcstring = null;
 
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         localsvcstring = service.getName();
         return localsvcstring;
     }
@@ -371,6 +397,7 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 //   Basic Connection Management
 // -------------------------------------------------------------------------
 
+    @Override
     public synchronized void closeConnection(boolean force, int reason, String reasonStr) {
         // LKS-XXX
         notifyConnectionClosed();
@@ -378,9 +405,9 @@ public class IMQDualThreadConnection extends IMQBasicConnection implements Direc
 
     /**
      * This method is used only if "sync replies" have been enabled
-     * 
+     *
      * Specify that the supplied ReplyDispatcher should be used to process reply packets
-     * 
+     *
      * @param rd The ReplyDispatcher to be used
      */
     public void setReplyDispatcher(PacketDispatcher rd) {

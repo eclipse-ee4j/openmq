@@ -25,12 +25,10 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterReason;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.AutoClusterBrokerMap;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /**
  * we need to verify the list of brokers in the following situations: - a broker is added - a broker is removed (does
@@ -39,17 +37,22 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * A subclass of Map which knows how to populate itself from the jdbc store.
  */
 public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5277142587633539056L;
     transient HAClusterManagerImpl parent = null;
 
     /**
      * Create an instance of HAMap.
-     * 
+     *
      * @throws BrokerException if something goes wrong loading the jdbc store.
      */
     public JDBCHABrokerInfoMap(HAClusterManagerImpl manager) throws BrokerException {
         init(manager, null);
     }
 
+    @Override
     public void init(ClusterManager mgr, MQAddress addr) throws BrokerException {
         this.parent = (HAClusterManagerImpl) mgr;
 
@@ -69,13 +72,15 @@ public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap
 
     /**
      * Method which reloads the contents of this map from the current information in the JDBC store.
-     * 
+     *
      * @throws BrokerException if something goes wrong loading the jdbc store.
      */
+    @Override
     public void updateMap() throws BrokerException {
         updateMap(false);
     }
 
+    @Override
     public void updateMap(boolean all) throws BrokerException {
         if (all) {
             updateHAMapForState(null);
@@ -129,10 +134,11 @@ public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap
     /**
      * Retrieves the HAClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
      * database will be checked.
-     * 
+     *
      * @param key the brokerid to lookup
      * @return the HAClusteredBroker object (or null if one can't be found)
      */
+    @Override
     public Object get(Object key) {
         return get(key, false);
     }
@@ -140,11 +146,12 @@ public class JDBCHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap
     /**
      * Retrieves the HAClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
      * database will be checked.
-     * 
+     *
      * @param key the brokerid to lookup
      * @param update update against store
      * @return the HAClusteredBroker object (or null if one can't be found)
      */
+    @Override
     public Object get(Object key, boolean update) {
         Object o = super.get(key);
         if (o == null || update) {

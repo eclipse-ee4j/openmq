@@ -38,7 +38,7 @@ public class XAParticipant {
     private enum XAState {
         NOT_STARTED, START_FAILED, STARTED, END_FAILED, ENDED, PREPARE_FAILED, PREPARED, COMMIT_FAILED, COMMITTED, ROLLBACK_FAILED, ROLLEDBACK,
         ROLLEDBACK_ONCOMMIT, ROLLEDBACK_ONCOMMIT_1PHASE, COMMITTED_ONROLLBACK
-    };
+    }
 
     private XAState _state = XAState.NOT_STARTED;
 
@@ -473,19 +473,24 @@ public class XAParticipant {
         return _rm;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof XAParticipant))
+        if (!(o instanceof XAParticipant)) {
             return false;
+        }
         XAParticipant that = (XAParticipant) o;
-        if (that == this)
+        if (that == this) {
             return true;
+        }
         return (_rm.equals(that._rm) && _bxid.equals(that._bxid) && _xar.equals(that._xar));
     }
 
+    @Override
     public int hashCode() {
         return _xar.hashCode();
     }
 
+    @Override
     public String toString() {
         return _bxid + "[" + _rm + ":" + _xar + "]" + toString(_state);
     }

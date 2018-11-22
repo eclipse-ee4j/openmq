@@ -20,9 +20,7 @@
 
 package com.sun.messaging.jmq.jmsserver.util;
 
-import java.util.*;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.config.*;
 
 /**
@@ -45,6 +43,7 @@ public class LoggerManager implements ConfigListener {
         }
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
 
         // Validate does the update as well. Yuck.
@@ -56,6 +55,7 @@ public class LoggerManager implements ConfigListener {
 
     }
 
+    @Override
     public boolean update(String name, String value) {
         return true;
     }

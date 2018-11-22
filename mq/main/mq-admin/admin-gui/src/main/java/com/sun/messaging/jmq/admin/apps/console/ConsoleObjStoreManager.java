@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Enumeration;
 
-import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
@@ -61,8 +60,9 @@ public class ConsoleObjStoreManager extends ObjStoreManager {
      */
     public static synchronized ConsoleObjStoreManager getConsoleObjStoreManager() {
 
-        if (mgr == null)
+        if (mgr == null) {
             mgr = new ConsoleObjStoreManager();
+        }
         return mgr;
     }
 

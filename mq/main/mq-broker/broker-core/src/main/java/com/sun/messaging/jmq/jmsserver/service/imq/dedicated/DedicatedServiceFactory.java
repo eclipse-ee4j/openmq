@@ -35,6 +35,7 @@ public class DedicatedServiceFactory extends IMQIPServiceFactory {
         }
     }
 
+    @Override
     protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
         /*
          * LKS proto.configureBlocking(true);

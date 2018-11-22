@@ -25,9 +25,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
 
-import java.io.*;
 import java.util.*;
-import java.security.*;
 
 /**
  * iMQ broker license base class.
@@ -163,8 +161,9 @@ public class LicenseBase {
      */
     public boolean willExpire() {
         String dateString = props.getProperty(PROP_DATE_STRING);
-        if (dateString == null || !dateString.equals(NONE_STRING))
+        if (dateString == null || !dateString.equals(NONE_STRING)) {
             return true;
+        }
 
         return false;
     }
@@ -218,7 +217,7 @@ public class LicenseBase {
         Enumeration names = newprops.propertyNames();
         while (names.hasMoreElements()) {
             String name = (String) names.nextElement();
-            String value = (String) newprops.getProperty(name);
+            String value = newprops.getProperty(name);
 
             props.setProperty(name, value);
         }
@@ -231,18 +230,21 @@ public class LicenseBase {
      * checks on the license attributes.
      */
     private void processLicenseInfo() throws BrokerException {
-        if (autoChecking == false)
+        if (autoChecking == false) {
             return;
+        }
 
         // Check the file version.
         String fileVersion = props.getProperty(PROP_FILE_VERSION);
-        if (fileVersion == null || !fileVersion.equals(CURRENT_FILE_VERSION))
+        if (fileVersion == null || !fileVersion.equals(CURRENT_FILE_VERSION)) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         String licenseVersion = props.getProperty(PROP_LICENSE_VERSION);
 
-        if (licenseVersion == null || !licenseVersion.equals(CURRENT_LICENSE_VERSION))
+        if (licenseVersion == null || !licenseVersion.equals(CURRENT_LICENSE_VERSION)) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         parseDateString();
         checkValidity();
@@ -253,8 +255,9 @@ public class LicenseBase {
      */
     private void parseDateString() throws BrokerException {
         String dateString = props.getProperty(PROP_DATE_STRING);
-        if (dateString == null)
+        if (dateString == null) {
             throw new BrokerException(br.getString(br.E_BAD_LICENSE_DATA));
+        }
 
         if (dateString.startsWith(NONE_STRING)) {
             // Do nothing.
@@ -291,8 +294,9 @@ public class LicenseBase {
      * Throws exception if the license has expired or not valid yet.
      */
     private void checkValidity() throws BrokerException {
-        if (!willExpire())
+        if (!willExpire()) {
             return;
+        }
 
         if (getExpirationDate() != null) {
             Calendar cal = Calendar.getInstance();

@@ -41,8 +41,9 @@ class SetEntry {
      * takes a linked list which starts with the first SetEntry and sorts it
      */
     public SetEntry sort(Comparator comp) {
-        if (this.next == null)
+        if (this.next == null) {
             return this;
+        }
 
         // OK, for now we are doing this the slow/easy way
         // the assumption is that this is an infrequent operation
@@ -80,6 +81,7 @@ class SetEntry {
             datacmp = c;
         }
 
+        @Override
         public int compare(Object o1, Object o2) {
             if (o1 instanceof SetEntry && o2 instanceof SetEntry) {
                 // compare
@@ -103,6 +105,7 @@ class SetEntry {
             }
         }
 
+        @Override
         public boolean equals(Object o1) {
             return super.equals(o1);
         }
@@ -117,6 +120,7 @@ class SetEntry {
         this.data = data;
     }
 
+    @Override
     public String toString() {
         return "SetEntry(" + debugid + ")[ before(" + (previous == null ? null : String.valueOf(previous.debugid)) + ") after("
                 + (next == null ? null : String.valueOf(next.debugid)) + ") ] " + data + "]valid=" + isValid();
@@ -163,7 +167,9 @@ class SetEntry {
             next.previous = previous;
         }
         if (next == null || previous == null)
+         {
             return true; // first or last
+        }
         assert previous.next == next && next.previous == previous;
         return false;
     }
@@ -173,16 +179,18 @@ class SetEntry {
         newEntry.previous = this;
         newEntry.next = this.next;
         this.next = newEntry;
-        if (newEntry.next != null)
+        if (newEntry.next != null) {
             newEntry.next.previous = newEntry;
+        }
 
         assert newEntry.previous == this && this.next == newEntry;
         return newEntry.next == null;
     }
 
     public boolean insertEntryBefore(SetEntry newEntry) {
-        if (this.previous != null)
+        if (this.previous != null) {
             this.previous.next = newEntry;
+        }
         newEntry.next = this;
         newEntry.previous = this.previous;
         this.previous = newEntry;

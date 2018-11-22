@@ -20,16 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
-import java.util.Set;
-import java.util.Iterator;
-import com.sun.messaging.jmq.io.MQAddress;
-import java.util.NoSuchElementException;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.util.UID;
-
-// for javadocs
-import com.sun.messaging.jmq.jmsserver.Globals;
-
 /**
  * Typesafe enum class which represents a Reason passed into broker changed
  */
@@ -50,6 +40,7 @@ public class ClusterReason {
     /**
      * a string representation of the object
      */
+    @Override
     public String toString() {
         return "ClusterReason[" + name + "]";
     }
@@ -66,14 +57,14 @@ public class ClusterReason {
 
     /**
      * The status of a broker has changed.
-     * 
+     *
      * @see BrokerStatus
      */
     public static final ClusterReason STATUS_CHANGED = new ClusterReason("STATUS_CHANGED");
 
     /**
      * The state of a broker has changed.
-     * 
+     *
      * @see BrokerState
      */
     public static final ClusterReason STATE_CHANGED = new ClusterReason("STATE_CHANGED");

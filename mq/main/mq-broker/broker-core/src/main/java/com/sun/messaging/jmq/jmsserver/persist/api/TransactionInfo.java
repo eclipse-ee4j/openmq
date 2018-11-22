@@ -133,10 +133,12 @@ public class TransactionInfo implements Cloneable, Externalizable {
                 TransactionBroker txnBkr = (TransactionBroker) bkrs[i].clone();
                 txnBkrs[i] = txnBkr;
                 if (DEBUG) {
-                    if (debugBuf == null)
+                    if (debugBuf == null) {
                         debugBuf = new StringBuffer();
-                    if (i > 0)
+                    }
+                    if (i > 0) {
                         debugBuf.append(",");
+                    }
                     debugBuf.append(txnBkr);
                 }
 
@@ -176,6 +178,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
         txnBkr.copyState(bkr);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         type = in.readInt();
@@ -204,6 +207,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
         bkrMap = new HashMap();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeInt(type);
@@ -212,6 +216,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
         out.writeObject(txnBkrs);
     }
 
+    @Override
     public Object clone() {
         try {
             // Make a shallow copy first
@@ -223,7 +228,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
             }
 
             if (txnBkrs != null) {
-                newTxnInfo.txnBkrs = (TransactionBroker[]) txnBkrs.clone();
+                newTxnInfo.txnBkrs = txnBkrs.clone();
             }
 
             return newTxnInfo;
@@ -232,6 +237,7 @@ public class TransactionInfo implements Cloneable, Externalizable {
         }
     }
 
+    @Override
     public String toString() {
         return (new StringBuffer(128).append("TransactionInfo[type=").append(toString(type)).append(", state=").append(state).append(", home broker=")
                 .append(txnHomeBroker).append(", brokers=").append(Arrays.toString(txnBkrs)).append("]").toString());

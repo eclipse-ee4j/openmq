@@ -171,7 +171,7 @@ public abstract class BaseTransactionManager {
     /*
      * this method is called by transactionHandler to notify that the committed transaction has been written to the message
      * store.
-     * 
+     *
      * Keeping track of committed transactions and when they have been written to the message store allows the
      * TransactionlogManager to know when it is safe to do a checkpoint.
      */
@@ -213,7 +213,7 @@ public abstract class BaseTransactionManager {
         while (iter.hasNext()) {
             tid = iter.next();
             if (!preparedTxnStore.containsTransaction(tid)) {
-                baseTxn = (BaseTransaction) incompleteUnstored.get(tid);
+                baseTxn = incompleteUnstored.get(tid);
                 if (baseTxn == null) {
                     continue;
                 }

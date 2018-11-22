@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.auth.api.server;
 
-import java.util.Properties;
 import java.security.Principal;
 import java.security.AccessControlException;
 
@@ -59,7 +58,7 @@ public interface AccessControlContext {
 
     /**
      * Check permission for an operation on a destination based on the access control context.
-     * 
+     *
      * @param serviceName The name of the service instance the connection belongs
      * @param serviceType The service type as in broker configuration <BR>
      * ("NORMAL" or "ADMIN") <BR>

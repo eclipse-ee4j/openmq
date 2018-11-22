@@ -50,8 +50,9 @@ public class RemoteTransactionAckEntry {
     }
 
     public synchronized boolean processed() {
-        if (processed)
+        if (processed) {
             return true;
+        }
         processed = true;
         return false;
     }

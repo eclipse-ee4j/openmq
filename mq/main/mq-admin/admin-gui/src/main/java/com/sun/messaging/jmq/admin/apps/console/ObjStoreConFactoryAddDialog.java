@@ -30,7 +30,6 @@ import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.apps.console.event.ObjAdminEvent;
-import com.sun.messaging.jmq.admin.apps.console.event.DialogEvent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelledComponent;
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 
@@ -59,6 +58,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -809456413551679953L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private ObjStoreConFactoryListCObj osCObj;
@@ -68,6 +71,7 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
         setHelpId(ConsoleHelpID.ADD_CF_OBJECT);
     }
 
+    @Override
     public void doOK() {
 
         /*
@@ -92,22 +96,22 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
         String factory = (String) factoryCombo.getSelectedItem();
         if (factory.equals(acr.getString(acr.I_QCF))) {
             type = ObjAdminEvent.QCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.QueueConnectionFactory();
+            tempObj = new com.sun.messaging.QueueConnectionFactory();
         } else if (factory.equals(acr.getString(acr.I_TCF))) {
             type = ObjAdminEvent.TCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.TopicConnectionFactory();
+            tempObj = new com.sun.messaging.TopicConnectionFactory();
         } else if (factory.equals(acr.getString(acr.I_CF))) {
             type = ObjAdminEvent.CF;
-            tempObj = (AdministeredObject) new com.sun.messaging.ConnectionFactory();
+            tempObj = new com.sun.messaging.ConnectionFactory();
         } else if (factory.equals(acr.getString(acr.I_XAQCF))) {
             type = ObjAdminEvent.XAQCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XAQueueConnectionFactory();
+            tempObj = new com.sun.messaging.XAQueueConnectionFactory();
         } else if (factory.equals(acr.getString(acr.I_XATCF))) {
             type = ObjAdminEvent.XATCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XATopicConnectionFactory();
+            tempObj = new com.sun.messaging.XATopicConnectionFactory();
         } else if (factory.equals(acr.getString(acr.I_XACF))) {
             type = ObjAdminEvent.XACF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XAConnectionFactory();
+            tempObj = new com.sun.messaging.XAConnectionFactory();
         }
 
         /*
@@ -120,8 +124,9 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
         for (int i = 0; i < cfProps.size(); i++) {
             LabelledComponent cfItem = (LabelledComponent) cfProps.elementAt(i);
             propName = (String) cfItem.getClientData();
-            if (propName == null)
+            if (propName == null) {
                 continue;
+            }
 
             if (!(cfItem.getComponent().isEnabled())) {
                 props.remove(propName);
@@ -139,15 +144,17 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
                 return;
             }
 
-            if (propType == null)
+            if (propType == null) {
                 continue;
+            }
 
             propValue = getValue(cfItem.getComponent(), propType).trim();
 
             // If blank, then use default set in Administered Object
             // so no need to set to "".
-            if (propValue.equals(""))
+            if (propValue.equals("")) {
                 continue;
+            }
 
             try {
                 // Calling setProperty() will verify if this value is valid.
@@ -176,17 +183,20 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
         oae.setObjStore(os);
         oae.setFactoryType(type);
         oae.setObjProperties(props);
-        if (checkBox.isSelected())
+        if (checkBox.isSelected()) {
             oae.setReadOnly(true);
-        else
+        } else {
             oae.setReadOnly(false);
+        }
         oae.setOKAction(true);
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
 
         // Reset the look up name and factory type.
@@ -242,17 +252,21 @@ public class ObjStoreConFactoryAddDialog extends ObjStoreConFactoryDialog {
 
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void show() {
     }
 

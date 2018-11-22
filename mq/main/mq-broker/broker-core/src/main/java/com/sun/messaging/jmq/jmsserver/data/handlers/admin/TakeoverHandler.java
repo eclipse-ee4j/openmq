@@ -21,21 +21,12 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Iterator;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
-import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.admin.MessageType;
@@ -55,6 +46,7 @@ public class TakeoverHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

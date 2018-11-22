@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.util;
 
 import java.io.OutputStream;
 import java.io.InputStream;
-import java.io.PrintStream;
 
 /**
  * This class implements a BASE64 Character decoder as specified in RFC1521.
@@ -31,14 +30,14 @@ import java.io.PrintStream;
  * some other encoding schemes there is nothing in this encoding that tells the decoder where a buffer starts or stops,
  * so to use it you will need to isolate your encoded data into a single chunk and then feed them this decoder. The
  * simplest way to do that is to read all of the encoded data into a string and then use:
- * 
+ *
  * <pre>
  * byte mydata[];
  * BASE64Decoder base64 = new BASE64Decoder();
  *
  * mydata = base64.decodeBuffer(bufferString);
  * </pre>
- * 
+ *
  * This will decode the String in <i>bufferString</i> and give you an array of bytes in the array <i>myData</i>.
  *
  * @see CharacterEncoder
@@ -48,11 +47,13 @@ import java.io.PrintStream;
 public class BASE64Decoder extends CharacterDecoder {
 
     /** This class has 4 bytes per atom */
+    @Override
     protected int bytesPerAtom() {
         return (4);
     }
 
     /** Any multiple of 4 will do, 72 might be common */
+    @Override
     protected int bytesPerLine() {
         return (72);
     }
@@ -88,12 +89,14 @@ public class BASE64Decoder extends CharacterDecoder {
     /**
      * Decode one BASE64 atom into 1, 2, or 3 bytes of data.
      */
+    @Override
     protected void decodeAtom(InputStream inStream, OutputStream outStream, int rem) throws java.io.IOException {
         int i;
         byte a = -1, b = -1, c = -1, d = -1;
 
-        if (rem < 2)
+        if (rem < 2) {
             throw new java.io.IOException();
+        }
 
         do {
             i = inStream.read();

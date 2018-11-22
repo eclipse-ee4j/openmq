@@ -40,6 +40,7 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     /**
      * Creates a server socket.
      */
+    @Override
     public void init(HttpTunnelServerDriver wire) throws IOException {
         listenQ = wire.getListenQ();
         closed = false;
@@ -51,12 +52,14 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     /**
      * Listens for a connection to be made to this socket and accepts it. The method blocks until a connection is made.
      */
+    @Override
     public HttpTunnelSocket accept() throws IOException {
         synchronized (listenQ) {
             while (listenQ.isEmpty()) {
 
-                if (closed)
+                if (closed) {
                     break;
+                }
 
                 try {
                     listenQ.wait(5000);
@@ -66,7 +69,9 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
 
             if (closed) {
                 if (!listenQ.isEmpty())
+                 {
                     listenQ.notifyAll(); // Wakeup the next thread
+                }
                 throw new IOException("Socket closed");
             }
 
@@ -79,6 +84,7 @@ public class HttpTunnelServerSocketImpl implements HttpTunnelServerSocket {
     /**
      * Closes this server socket.
      */
+    @Override
     public void close() throws IOException {
         wire.listen(false);
 

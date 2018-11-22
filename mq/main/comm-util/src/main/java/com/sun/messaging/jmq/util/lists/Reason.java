@@ -37,10 +37,12 @@ public class Reason {
         return reason;
     }
 
+    @Override
     public String toString() {
         return reasonStr;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Reason) {
             return reason == ((Reason) o).reason;
@@ -48,6 +50,7 @@ public class Reason {
         return false;
     }
 
+    @Override
     public int hashCode() {
         return reason;
     }

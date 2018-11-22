@@ -41,6 +41,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpUtils;
 
 public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4398262071227918600L;
     private int serviceCounter = 0;
     private Object serviceLock = new Object();
     private boolean servletShuttingDown = false;
@@ -51,6 +55,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
     protected ServerLinkTable linkTable = null;
     protected Throwable initException = null;
 
+    @Override
     public void init() throws ServletException {
         serviceCounter = 0;
         servletShuttingDown = false;
@@ -68,10 +73,12 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
+    @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         doGet(request, response);
     }
 
+    @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
         response.setContentType("application/octet-stream");
 
@@ -314,6 +321,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
+    @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         enteringServiceMethod();
 
@@ -346,6 +354,7 @@ public class HttpTunnelServlet extends HttpServlet implements HttpTunnelDefaults
         }
     }
 
+    @Override
     public void destroy() {
         try {
             Thread.sleep(1); // nextConnId benefit

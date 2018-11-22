@@ -25,10 +25,8 @@ import java.util.Properties;
 
 import java.io.IOException;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.AttributeChangeNotification;
 import javax.management.MBeanException;
@@ -231,29 +229,36 @@ public class ServiceConfig extends MQMBeanReadWrite implements ConfigListener {
         return (false);
     }
 
+    @Override
     public String getMBeanName() {
         return ("ServiceConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_SVC_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
     }
 
+    @Override
     public boolean update(String name, String value) {
         Object newVal = null;
         Object oldVal = null;

@@ -34,6 +34,10 @@ import java.util.Enumeration;
  * Output is sent to stdout but can also be redirected to a file.
  */
 public class DebugPrinter extends MultiColumnPrinter {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3312334387486018119L;
     private Hashtable hashtable = null;
     private Vector vector = null;
     private String filename = null;
@@ -91,6 +95,7 @@ public class DebugPrinter extends MultiColumnPrinter {
         initOutput();
     }
 
+    @Override
     public void doPrint(String str) {
         if (ps == System.out) {
             buffer.append(str);
@@ -99,6 +104,7 @@ public class DebugPrinter extends MultiColumnPrinter {
         ps.print(str);
     }
 
+    @Override
     public void doPrintln(String str) {
         if (ps == System.out) {
             buffer.append(str);
@@ -118,6 +124,7 @@ public class DebugPrinter extends MultiColumnPrinter {
      * specifies the number of spaces required to align the lines below the first.
      * @return Returns true if a linefeed is needed after printing this object, false otherwise.
      */
+    @Override
     public boolean printObject(Object obj, int indent) {
         if (obj instanceof String) {
             doPrint((String) obj);
@@ -126,7 +133,7 @@ public class DebugPrinter extends MultiColumnPrinter {
             Hashtable hashObj = (Hashtable) obj;
             DebugPrinter dbp;
             String tmp = obj.getClass().getName();
-            doPrintln((String) tmp);
+            doPrintln(tmp);
 
             dbp = new DebugPrinter(hashObj, 4, filename);
             dbp.setIndent(indent);
@@ -144,7 +151,7 @@ public class DebugPrinter extends MultiColumnPrinter {
             DebugPrinter dbp;
 
             String tmp = obj.getClass().getName();
-            doPrintln((String) tmp);
+            doPrintln(tmp);
 
             dbp = new DebugPrinter(vobj, 4, filename);
             dbp.setIndent(indent);
@@ -159,7 +166,7 @@ public class DebugPrinter extends MultiColumnPrinter {
             return (true);
         } else {
             String tmp = obj.getClass().getName();
-            doPrint((String) tmp);
+            doPrint(tmp);
             doPrintln("");
 
             printSpaces(indent);
@@ -206,8 +213,9 @@ public class DebugPrinter extends MultiColumnPrinter {
 
         if (hashtable == null) {
 
-            if (vector == null)
+            if (vector == null) {
                 return;
+            }
 
             setSortNeeded(false);
             row = new Object[2];

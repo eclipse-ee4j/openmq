@@ -21,10 +21,8 @@
 package com.sun.messaging.jmq.jmsserver.memory;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.util.log.*;
 import java.util.Hashtable;
-import java.util.Vector;
 
 /**
  * Parent of all level (green,red, etc) memory managers.
@@ -118,7 +116,7 @@ public abstract class MemoryLevelHandler {
     /**
      * Returns the current message count (JMQSize) per connection, at this time, for this level. The routine may (or may
      * not) use the passed in parameters.
-     * 
+     *
      * @param freeMem the current free memory available in the system
      * @param producers the current number of producers available in the system
      */
@@ -127,7 +125,7 @@ public abstract class MemoryLevelHandler {
     /**
      * Returns the current message bytes (JMQBytes) per connection, at this time, for this level. The routine may (or may
      * not) use the passed in parameters.
-     * 
+     *
      * @param freeMem the current free memory available in the system
      * @param producers the current number of producers available in the system
      */
@@ -171,7 +169,7 @@ public abstract class MemoryLevelHandler {
 
     /**
      * Client has left the state and moved to a different state (e.g. entered Green from Yellow)
-     * 
+     *
      * @param higherLevel true if we have moved to a higher level, false otherwise
      *
      * @returns if true, tells client to send out state change notification
@@ -204,6 +202,7 @@ public abstract class MemoryLevelHandler {
     /**
      * string representing the object
      */
+    @Override
     public String toString() {
         return "MemoryLevelHandler[" + levelName() + "]";
     }

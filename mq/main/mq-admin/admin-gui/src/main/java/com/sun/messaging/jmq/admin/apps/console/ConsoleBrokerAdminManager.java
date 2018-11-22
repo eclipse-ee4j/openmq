@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.util.Enumeration;
 import java.util.Vector;
 import com.sun.messaging.jmq.admin.util.UserPropertiesException;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;

@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.service;
 
 import java.util.*;
-import java.io.*;
-import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.lists.WeakValueHashMap;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.util.*;
@@ -30,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.Status;
 
@@ -137,8 +134,9 @@ public class ConnectionManager extends WeakValueHashMap {
         try {
             synchronized (this) {
                 Object o = this.remove(oldid);
-                if (o != null)
+                if (o != null) {
                     this.put(currentID, o);
+                }
             }
         } finally {
             synchronized (addLock) {
@@ -192,7 +190,7 @@ public class ConnectionManager extends WeakValueHashMap {
 
     /**
      * retrive a connection object from a connection ID
-     * 
+     *
      * @param con connection to remove
      */
     public synchronized Connection getConnection(ConnectionUID id) {
@@ -204,7 +202,9 @@ public class ConnectionManager extends WeakValueHashMap {
      */
     public void removeConnection(ConnectionUID id, boolean say_goodbye, int reason, String reasonStr) {
         if (!containsKey(id))
+         {
             return; // already gone
+        }
         /*
          * Unregister/Destroy connection MBeans in the JMX agent in the broker.
          */
@@ -248,8 +248,9 @@ public class ConnectionManager extends WeakValueHashMap {
      */
 
     private void destroyConnectionData(Connection con, boolean say_goodbye, int reason, String reasonStr) {
-        if (con == null)
+        if (con == null) {
             return;
+        }
 
         if (DEBUG) {
             logger.log(Logger.DEBUG, BrokerResources.I_REMOVE_CONNECTION, con.toString(), String.valueOf(size()));
@@ -261,8 +262,9 @@ public class ConnectionManager extends WeakValueHashMap {
             con.destroyConnection(say_goodbye, reason, reasonStr);
         }
 
-        if (DEBUG)
+        if (DEBUG) {
             logCM(Logger.DEBUGHIGH);
+        }
     }
 
     /**
@@ -287,10 +289,10 @@ public class ConnectionManager extends WeakValueHashMap {
     /*
      * FOO public void shutdownAllConnections(Service svc, String reason) { if (DEBUG) logger.log(Logger.DEBUGHIGH,
      * "Removing all connections for  {0} ", svc.toString());
-     * 
+     *
      * List cons = getConnectionList(svc); Connection con; for (int i = cons.size()-1; i >= 0; i--) { con =
      * (Connection)cons.get(i); destroyConnection(con.getConnectionUID(), true, GoodbyeReason.SHUTDOWN_BKR, reason); }
-     * 
+     *
      * }
      */
 
@@ -362,7 +364,7 @@ public class ConnectionManager extends WeakValueHashMap {
      * broadcast a message to all connections with flush no-wait
      *
      * should only be called when all services stoped accept new connections
-     * 
+     *
      * @param reason a reason from GoodbyeReason
      * @param msg why the goodbye is being broadcast (debugging)
      */
@@ -444,6 +446,7 @@ public class ConnectionManager extends WeakValueHashMap {
 
     class ConnectionWatcher extends TimerTask {
 
+        @Override
         public void run() {
             checkAllConnections();
         }
@@ -452,10 +455,11 @@ public class ConnectionManager extends WeakValueHashMap {
     public void cleanupMemory(boolean persistent) {
         // make sure we quit adding connections unti the
         // connections have been cleaned up
-        if (persistent)
+        if (persistent) {
             logger.log(Logger.DEBUG, "Swapping all unacknowldged messages from memory (messages will remain persisted )");
-        else
+        } else {
             logger.log(Logger.DEBUG, "Swapping all unacknowldged messages from memory (messages will be swapped to disk)");
+        }
 
     }
 

@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.auth.acl;
 
 import java.util.Map;
 import java.util.Properties;
-import java.lang.reflect.InvocationTargetException;
 import java.security.Principal;
 import java.security.Permission;
 import java.security.AccessControlException;
@@ -35,7 +34,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.auth.jaas.*;
-import com.sun.messaging.jmq.auth.api.server.*;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 
 /**
@@ -60,6 +58,7 @@ public class JAASAccessControlModel implements AccessControlModel {
     private String permFactoryPrivate = null;
     // private Policy policyProvider = null;
 
+    @Override
     public String getType() {
         return TYPE;
     }
@@ -71,6 +70,7 @@ public class JAASAccessControlModel implements AccessControlModel {
      * @param type the jmq.accesscontrol.type
      * @param authProperties broker auth properties
      */
+    @Override
     public void initialize(String type, Properties authProperties) throws AccessControlException {
         // this.type = type;
         if (!type.equals(TYPE)) {
@@ -96,11 +96,12 @@ public class JAASAccessControlModel implements AccessControlModel {
             throw new AccessControlException(e.getClass().getName() + ": " + e.getMessage());
         }
 
-        permFactoryPrivate = (String) authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_PERMISSION_FACTORY_PRIVATE);
+        permFactoryPrivate = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_PERMISSION_FACTORY_PRIVATE);
 
         load();
     }
 
+    @Override
     public void load() throws AccessControlException {
 
         try {
@@ -123,6 +124,7 @@ public class JAASAccessControlModel implements AccessControlModel {
      *
      * @exception AccessControlException
      */
+    @Override
     public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
 
         Permission perm;
@@ -155,6 +157,7 @@ public class JAASAccessControlModel implements AccessControlModel {
      *
      * @exception AccessControlException
      */
+    @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
             String destinationType) throws AccessControlException {
         Permission perm;
@@ -185,6 +188,7 @@ public class JAASAccessControlModel implements AccessControlModel {
 
         final Permission perm = p;
         Subject.doAsPrivileged(subject, new PrivilegedAction() {
+            @Override
             public Object run() {
                 java.security.AccessController.checkPermission(perm);
                 return null; // nothing to return

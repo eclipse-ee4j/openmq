@@ -30,7 +30,7 @@ class HADBConsumerDAOImpl extends ConsumerDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     HADBConsumerDAOImpl() throws BrokerException {
@@ -41,6 +41,7 @@ class HADBConsumerDAOImpl extends ConsumerDAOImpl {
     /**
      * Delete all entries.
      */
+    @Override
     protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
         super.deleteAll(conn, whereClause, CREATED_TS_COLUMN, HADB_CHUNK_SIZE);

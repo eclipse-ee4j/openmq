@@ -20,15 +20,11 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -71,8 +67,9 @@ public class ClusterTakeoverInfo {
         brokerID = (String) pkt.getProp("brokerID");
         storeSession = new UID(((Long) pkt.getProp("storeSession")).longValue());
         Long v = (Long) pkt.getProp("brokerSession");
-        if (v != null)
+        if (v != null) {
             brokerSession = new UID(v.longValue());
+        }
         brokerHost = (String) pkt.getProp("brokerHost");
         taker = (String) pkt.getProp("taker");
         fromTaker = (taker != null);
@@ -196,6 +193,7 @@ public class ClusterTakeoverInfo {
         return fromTaker;
     }
 
+    @Override
     public String toString() {
         if (pkt == null) {
             return getTaker() + ":[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
@@ -210,8 +208,9 @@ public class ClusterTakeoverInfo {
             String prefix = "";
 
             if (DEBUG) {
-                if (getTaker() != null)
+                if (getTaker() != null) {
                     prefix = getTaker() + "(" + ((timestamp == null) ? "" : "" + timestamp) + ":";
+                }
                 return prefix + "[brokerID=" + getBrokerID() + ", storeSession=" + getStoreSession() + "]"
                         + (getBrokerSession() == null ? "" : "brokerSession=" + getBrokerSession()) + ", " + getBrokerHost() + ", xid=" + xid;
             }
@@ -234,13 +233,14 @@ public class ClusterTakeoverInfo {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(protocol);
-        gp.putProp("X", (Long) pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("brokerID", pkt.getProp("brokerID"));
         gp.putProp("storeSession", pkt.getProp("storeSession"));
         gp.putProp("taker", pkt.getProp("taker"));
         gp.putProp("S", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             gp.putProp("reason", reason);
+        }
 
         return gp;
     }
@@ -264,8 +264,8 @@ public class ClusterTakeoverInfo {
             buf.append("\n\treason=").append(getReplyStatusReason(reply));
         }
         buf.append("[brokerID=").append((String) reply.getProp("brokerID"));
-        buf.append(", storeSession=").append((Long) reply.getProp("storeSession"));
-        buf.append("]xid=").append((Long) reply.getProp("X"));
+        buf.append(", storeSession=").append(reply.getProp("storeSession"));
+        buf.append("]xid=").append(reply.getProp("X"));
         buf.append(", taker=").append((String) reply.getProp("taker"));
         return buf.toString();
     }

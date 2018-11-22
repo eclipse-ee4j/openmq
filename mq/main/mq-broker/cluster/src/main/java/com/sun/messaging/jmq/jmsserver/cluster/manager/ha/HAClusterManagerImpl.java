@@ -23,26 +23,18 @@ package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 import java.util.*;
 import java.net.MalformedURLException;
 import com.sun.messaging.jmq.io.MQAddress;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
-import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
-import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
-import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import org.jvnet.hk2.annotations.Service;
 import javax.inject.Singleton;
-
-// XXX FOR TEST CLASS
-import java.io.*;
 
 /**
  * This class extends ClusterManagerImpl and is used to obtain and distribute cluster information in an HA cluster.
@@ -69,7 +61,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      * Creates an instance of HAClusterManagerImpl.
-     * 
+     *
      * @throws BrokerException if the cluster information could not be loaded because of a configuration issue.
      */
     public HAClusterManagerImpl() throws BrokerException {
@@ -83,9 +75,11 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @throws RuntimeException if called before the cluster has been initialized by calling ClusterManager.setMQAddress
      * @see ClusterManager#setMQAddress
      */
+    @Override
     public boolean isHA() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return true;
     }
@@ -94,9 +88,11 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * Reload the cluster properties from config
      *
      */
+    @Override
     public void reloadConfig() throws BrokerException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         String[] props = { CLUSTERURL_PROPERTY };
         config.reloadProps(Globals.getConfigName(), props, false);
@@ -105,10 +101,11 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     /**
      * Retrieves the Map used to store all objects. In the HA broker, the map automatically checks the database if a broker
      * can not be found in memory.
-     * 
+     *
      * @return the map used to store the brokers.
      * @throws BrokerException if something goes wrong loading brokers from the database
      */
+    @Override
     protected Map initAllBrokers(MQAddress myaddr) throws BrokerException {
         return newHABrokerInfoMap();
     }
@@ -121,6 +118,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManager#setMQAddress
      * @throws BrokerException if something goes wrong during intialzation
      */
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
         logger.log(Logger.DEBUG, "initializingCluster at " + address);
 
@@ -151,6 +149,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     /**
      * @return true if allow configured master broker
      */
+    @Override
     protected boolean allowMasterBroker() {
         return false;
     }
@@ -162,6 +161,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @return a set of MQAddress objects which contains all known brokers except the local broker
      * @throws MalformedURLException if the address of a broker stored in the database is invalid.
      */
+    @Override
     protected LinkedHashSet parseBrokerList() throws MalformedURLException {
         // ignore properties, we get the list from the
         // database
@@ -181,8 +181,9 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
             while (itr.hasNext()) {
                 Object obj = itr.next();
                 HAClusteredBroker hab = (HAClusteredBroker) obj;
-                if (!hab.isLocalBroker())
+                if (!hab.isLocalBroker()) {
                     brokers.add(hab.getBrokerURL());
+                }
             }
         }
         return brokers;
@@ -193,7 +194,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * <p>
      * <b>NOTE:</b> broker created is an HAClusteredBroker.
      * <p>
-     * 
+     *
      * @param URL the MQAddress of the new broker
      * @param isLocal indicates if this is the current broker in this vm.
      * @throws NoSuchElementException if the broker listed is not available in the shared store (since this indicates a
@@ -202,11 +203,13 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManagerImpl#setMQAddress
      * @return the uid associated with the new broker
      */
+    @Override
     protected String addBroker(MQAddress URL, boolean isLocal, boolean isConfig, UID brokerUID) throws NoSuchElementException, BrokerException {
         // NOTE we are always a config broker in the HA case, ignore this argument
 
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         String brokerid = null;
 
@@ -263,6 +266,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
         return new HAClusteredBrokerImpl(brokerid, url, version, state, session, this);
     }
 
+    @Override
     protected ClusteredBroker updateBrokerOnActivation(ClusteredBroker broker, Object userData) {
         return updateBroker(broker);
     }
@@ -283,14 +287,17 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         ClusteredBroker cb = getBroker(brokerid);
 
-        if (cb == null)
+        if (cb == null) {
             throw new NoSuchElementException("Unknown brokerid " + brokerid);
+        }
 
         cb.setInstanceName(null);
 
@@ -307,6 +314,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupStoreSessionOwner(UID uid) {
 
         try {
@@ -321,10 +329,11 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      * Retrieve the broker that creates the specified store session ID.
-     * 
+     *
      * @param uid store session ID
      * @return the broker ID
      */
+    @Override
     public String getStoreSessionCreator(UID uid) {
         try {
             return Globals.getStore().getStoreSessionCreator(uid.longValue());
@@ -343,6 +352,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManagerImpl#setMQAddress
      */
 
+    @Override
     public String lookupBrokerID(MQAddress address) {
         // for HA, check the database if necessary
         try {
@@ -358,11 +368,12 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     /**
      * Returns the current number of brokers in the configuration propperties. In a non-ha cluster, this includes all
      * brokers listed by -cluster or the cluster property.
-     * 
+     *
      * @return count of configured brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getConfigBrokerCount() {
         return super.getKnownBrokerCount();
     }
@@ -376,9 +387,11 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @throws RuntimeException if called before the cluster has been initialized by calling ClusterManager.setMQAddress
      * @see ClusterManager#setMQAddress
      */
+    @Override
     public Iterator getKnownBrokers(boolean refresh) {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         HashSet brokers = null;
         if (refresh) {
@@ -400,15 +413,17 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
     /**
      * Returns an iterator of ClusteredBroker objects for all brokers in the cluster. This is a copy of the current list and
      * is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getConfigBrokers() {
         return getKnownBrokers(true);
     }
 
+    @Override
     protected void addSupportedStoreSessionUID(UID uid) {
         super.addSupportedStoreSessionUID(uid);
     }
@@ -420,6 +435,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @throws UnsupportedOperationException if called since a master broker is not allowed with an HA cluster.
      */
 
+    @Override
     protected void masterBrokerChanged(String mbroker) {
         // no master broker allowed !!!
         throw new UnsupportedOperationException("Can not use/set/ change masterbroker");
@@ -427,13 +443,14 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      * Validates an updated property.
-     * 
+     *
      * @see ConfigListener
      * @param name the name of the property to be changed
      * @param value the new value of the property
      * @throws PropertyUpdateException if the value is invalid (e.g. format is wrong, property can not be changed)
      */
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         // no master broker allowed !!!
         if (name.equals(CONFIG_SERVER)) {
@@ -453,6 +470,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManagerImpl#setMQAddress
      * @see HAClusterManagerImpl#getBroker(String)
      */
+    @Override
     public ClusteredBroker getLocalBroker() {
         return super.getLocalBroker();
     }
@@ -466,6 +484,7 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
      *
      * @return the broker session uid (if known)
      */
+    @Override
     public UID getStoreSessionUID() {
         if (localSessionUID == null) {
             localSessionUID = ((HAClusteredBroker) getLocalBroker()).getStoreSessionUID();
@@ -475,16 +494,18 @@ public class HAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      * Returns a specific <i>HAClusteredBroker</i> object by name.
-     * 
+     *
      * @param brokerid the id associated with the broker
      * @return the broker associated with brokerid or null if the broker is not found
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public ClusteredBroker getBroker(String brokerid) {
         ClusteredBroker cb = super.getBroker(brokerid);
-        if (cb != null)
+        if (cb != null) {
             return cb;
+        }
 
         // for HA, check the database if necessary
         try {

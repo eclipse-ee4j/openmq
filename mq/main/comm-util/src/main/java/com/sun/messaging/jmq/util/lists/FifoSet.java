@@ -44,14 +44,17 @@ public class FifoSet extends AbstractSet implements SortedSet {
         this.lock = lock;
     }
 
+    @Override
     public String toString() {
         return this.getClass().toString() /* + " : " + this.hashCode() */;
     }
 
+    @Override
     public boolean isEmpty() {
         return lookup.isEmpty();
     }
 
+    @Override
     public int size() {
         // assert lock == null || Thread.holdsLock(lock) : "lock is " + lock.toString();
         if (parent == null) {
@@ -69,6 +72,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
         return cnt;
     }
 
+    @Override
     public boolean contains(Object o) {
         assert lock == null || Thread.holdsLock(lock);
         SetEntry se = (SetEntry) lookup.get(o);
@@ -109,6 +113,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             initialPass = true;
         }
 
+        @Override
         public boolean hasNext() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && !initialPass) {
@@ -126,6 +131,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             return nextEntry != null && nextEntry != last_entry && nextEntry.isValid();
         }
 
+        @Override
         public Object next() {
             assert lock == null || Thread.holdsLock(lock);
             if (current == null && initialPass) {
@@ -147,6 +153,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
             return current.getData();
         }
 
+        @Override
         public void remove() {
             if (current != null) {
                 cleanupEntry(current);
@@ -160,8 +167,9 @@ public class FifoSet extends AbstractSet implements SortedSet {
         assert lookup.size() != 0 || (head == null && tail == null);
         assert (head != null && tail != null) || (head == null && tail == null) : "values: " + head + "," + tail;
 
-        if (e == null)
+        if (e == null) {
             return false;
+        }
         boolean retval = e.isValid();
         lookup.remove(e.getData());
         e.remove();
@@ -181,6 +189,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
         return retval;
     }
 
+    @Override
     public Iterator iterator() {
         assert lock == null || Thread.holdsLock(lock) : " lock is " + lock + ":" + Thread.holdsLock(lock);
         SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
@@ -192,6 +201,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      *
      * @return the comparator associated with this sorted set, or <tt>null</tt> if it uses its elements' natural ordering.
      */
+    @Override
     public Comparator comparator() {
         return null;
     }
@@ -199,7 +209,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
     /**
      * Returns a view of the portion of this sorted set whose elements range from <tt>fromElement</tt>, inclusive, to
      * <tt>toElement</tt>, exclusive.
-     * 
+     *
      * @throws ClassCastException if <tt>fromElement</tt> and <tt>toElement</tt> cannot be compared to one another using
      * this set's comparator (or, if the set has no comparator, using natural ordering). Implementations may, but are not
      * required to, throw this exception if <tt>fromElement</tt> or <tt>toElement</tt> cannot be compared to elements
@@ -210,6 +220,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @throws NullPointerException if <tt>fromElement</tt> or <tt>toElement</tt> is <tt>null</tt> and this sorted set does
      * not tolerate <tt>null</tt> elements.
      */
+    @Override
     public SortedSet subSet(Object fromElement, Object toElement) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
@@ -259,7 +270,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * headSet bounded by <tt>successor(highEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings.
      * The following idiom obtains a view containing all of the strings in <tt>s</tt> that are less than or equal to
      * <tt>high</tt>:
-     * 
+     *
      * <pre>
      * SortedSet head = s.headSet(high + "\0");
      * </pre>
@@ -274,6 +285,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>toElement</tt> is not
      * within the specified range of the subSet, headSet, or tailSet.
      */
+    @Override
     public SortedSet headSet(Object toElement) {
         return subSet(null, toElement);
     }
@@ -293,7 +305,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * bounded by <tt>successor(lowEndpoint)</tt>. For example, suppose that <tt>s</tt> is a sorted set of strings. The
      * following idiom obtains a view containing all of the strings in <tt>s</tt> that are strictly greater than
      * <tt>low</tt>:
-     * 
+     *
      * <pre>
      * SortedSet tail = s.tailSet(low + "\0");
      * </pre>
@@ -308,10 +320,12 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @throws IllegalArgumentException if this set is itself a subSet, headSet, or tailSet, and <tt>fromElement</tt> is not
      * within the specified range of the subSet, headSet, or tailSet.
      */
+    @Override
     public SortedSet tailSet(Object fromElement) {
         return subSet(fromElement, null);
     }
 
+    @Override
     public void clear() {
         assert lock == null || Thread.holdsLock(lock);
 
@@ -337,6 +351,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @return the first (lowest) element currently in this sorted set.
      * @throws NoSuchElementException sorted set is empty.
      */
+    @Override
     public Object first() {
         assert lock == null || Thread.holdsLock(lock);
         SetEntry beginEntry = (parent != null ? (start == null ? parent.head : start) : head);
@@ -361,16 +376,19 @@ public class FifoSet extends AbstractSet implements SortedSet {
      * @return the last (highest) element currently in this sorted set.
      * @throws NoSuchElementException sorted set is empty.
      */
+    @Override
     public Object last() {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
-            if (end != null)
+            if (end != null) {
                 return end.getPrevious().getData();
+            }
             return parent.last();
         }
         return (tail == null ? null : tail.getData());
     }
 
+    @Override
     public boolean add(Object o) {
         assert lock == null || Thread.holdsLock(lock);
 
@@ -398,6 +416,7 @@ public class FifoSet extends AbstractSet implements SortedSet {
         return true;
     }
 
+    @Override
     public boolean remove(Object o) {
         assert lock == null || Thread.holdsLock(lock) : lock + " : " + this;
         if (parent != null) {
@@ -419,18 +438,22 @@ public class FifoSet extends AbstractSet implements SortedSet {
     }
 
     public void sort(Comparator c) {
-        if (head == null)
+        if (head == null) {
             return;
+        }
         head = head.sort(c);
-        if (start != null)
+        if (start != null) {
             start = head;
+        }
         // find tail
         SetEntry e = head;
-        while (e.next != null)
+        while (e.next != null) {
             e = e.next;
+        }
         tail = e;
-        if (end != null)
+        if (end != null) {
             end = tail;
+        }
     }
 
 }

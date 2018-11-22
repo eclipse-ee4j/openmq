@@ -27,18 +27,12 @@ import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
-import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.ServiceType;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.*;
 import java.nio.channels.SelectionKey;
@@ -73,6 +67,7 @@ public class IMQEmbeddedService extends IMQService {
 
     }
 
+    @Override
     public Hashtable getPoolDebugState() {
         return pool.getDebugState();
     }
@@ -85,6 +80,7 @@ public class IMQEmbeddedService extends IMQService {
         return new OperationRunnableFactory(true);
     }
 
+    @Override
     public synchronized int getMinThreadpool() {
         if (pool == null) {
             return 0;
@@ -92,6 +88,7 @@ public class IMQEmbeddedService extends IMQService {
         return pool.getMinimum();
     }
 
+    @Override
     public synchronized int getMaxThreadpool() {
         if (pool == null) {
             return 0;
@@ -99,6 +96,7 @@ public class IMQEmbeddedService extends IMQService {
         return pool.getMaximum();
     }
 
+    @Override
     public synchronized int getActiveThreadpool() {
         if (pool == null) {
             return 0;
@@ -106,6 +104,7 @@ public class IMQEmbeddedService extends IMQService {
         return pool.getThreadNum();
     }
 
+    @Override
     public void setPriority(int priority) {
         pool.setPriority(priority);
     }
@@ -118,6 +117,7 @@ public class IMQEmbeddedService extends IMQService {
         return pool.setMinMax(min, max);
     }
 
+    @Override
     public synchronized void startService(boolean startPaused) {
         // we really don't do much on starting/stopping a service
         //
@@ -156,6 +156,7 @@ public class IMQEmbeddedService extends IMQService {
         notifyAll();
     }
 
+    @Override
     public void stopService(boolean all) {
         synchronized (this) {
 
@@ -207,14 +208,16 @@ public class IMQEmbeddedService extends IMQService {
             this.notifyAll();
         }
 
-        if (pool.isValid())
+        if (pool.isValid()) {
             pool.waitOnDestroy(getDestroyWaitTime());
+        }
 
         if (DEBUG) {
             logger.log(Logger.DEBUG, "Destroying Service {0} with protocol {1} ", getName(), "none");
         }
     }
 
+    @Override
     public void stopNewConnections() throws IOException, IllegalStateException {
         if (getState() != ServiceState.RUNNING) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
@@ -222,6 +225,7 @@ public class IMQEmbeddedService extends IMQService {
         setState(ServiceState.QUIESCED);
     }
 
+    @Override
     public void startNewConnections() throws IOException {
         if (getState() != ServiceState.QUIESCED && getState() != ServiceState.PAUSED) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
@@ -233,6 +237,7 @@ public class IMQEmbeddedService extends IMQService {
         }
     }
 
+    @Override
     public void pauseService(boolean all) {
 
         if (!isServiceRunning()) {
@@ -256,6 +261,7 @@ public class IMQEmbeddedService extends IMQService {
         setServiceRunning(false);
     }
 
+    @Override
     public void resumeService() {
         if (isServiceRunning()) {
             logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");

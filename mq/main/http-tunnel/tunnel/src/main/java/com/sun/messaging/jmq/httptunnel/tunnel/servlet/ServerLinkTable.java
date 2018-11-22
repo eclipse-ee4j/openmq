@@ -211,7 +211,7 @@ public class ServerLinkTable implements HttpTunnelDefaults {
         try {
             this.helperThread.close();
         } catch (Exception e) {
-            ;
+            
         }
     }
 
@@ -897,10 +897,12 @@ class ConnKey {
         return connId;
     }
 
+    @Override
     public int hashCode() {
         return (serverName.hashCode() + connId);
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;
@@ -1056,10 +1058,10 @@ class HelperThread extends Thread {
         ServerSocket serverSocket = null;
 
         if (servletHost == null) {
-            serverSocket = (ServerSocket) ssf.createServerSocket(serverPort);
+            serverSocket = ssf.createServerSocket(serverPort);
         } else {
             InetAddress listenAddr = InetAddress.getByName(servletHost);
-            serverSocket = (ServerSocket) ssf.createServerSocket(serverPort, 50, listenAddr);
+            serverSocket = ssf.createServerSocket(serverPort, 50, listenAddr);
 
             // Why backlog = 50? According the JDK 1.4 javadoc,
             // that's the default value for ServerSocket().
@@ -1070,17 +1072,18 @@ class HelperThread extends Thread {
 
     /**
      * pause for the specified milli seconds.
-     * 
+     *
      * @param ptime
      */
     private void pause(long ptime) {
         try {
             Thread.sleep(ptime);
         } catch (Exception e) {
-            ;
+            
         }
     }
 
+    @Override
     public void run() {
         while (!closed) {
             try {

@@ -41,7 +41,7 @@ public class SequentialQueue implements MessageQueue {
 
     /**
      * constructor with init queue size.
-     * 
+     *
      * @param size the init size for the queue size.
      */
     public SequentialQueue(int size) {
@@ -50,7 +50,7 @@ public class SequentialQueue implements MessageQueue {
 
     /**
      * constructor with init queue size and increment number.
-     * 
+     *
      * @param size the init size for the queue size.
      * @param increment number to increase queue size the when reached the init size.
      */
@@ -61,15 +61,17 @@ public class SequentialQueue implements MessageQueue {
     /**
      * get queue size
      */
+    @Override
     public int size() {
         return queue.size();
     }
 
     /**
      * check if the queue size is empty.
-     * 
+     *
      * @return true if the queue size is empty.
      */
+    @Override
     public boolean isEmpty() {
         return queue.isEmpty();
     }
@@ -77,24 +79,27 @@ public class SequentialQueue implements MessageQueue {
     /**
      * Clears all elements from the queue
      **/
+    @Override
     public void clear() {
         queue.clear();
     }
 
     /**
      * Enqueues an object in the queue.
-     * 
+     *
      * @param nobj new object to be enqueued
      */
+    @Override
     public void enqueue(Object nobj) {
         queue.addElement(nobj);
     }
 
     /**
      * Dequeues an element from the queue.
-     * 
+     *
      * @return dequeued object, or null if empty queue
      */
+    @Override
     public Object dequeue() {
         // var to hold element to be returned.
         Object obj = null;
@@ -118,23 +123,25 @@ public class SequentialQueue implements MessageQueue {
      *
      * @return an array of objects in the queue.
      */
+    @Override
     public Object[] toArray() {
         return queue.toArray();
     }
 
     /**
      * remove obj from the queue.
-     * 
+     *
      * @param obj obj to be removed from the queue.
      * @return true if object is in the queue and removed. Otherwise, return false.
      */
+    @Override
     public boolean remove(Object obj) {
         return queue.remove(obj);
     }
 
     /**
      * Adds the specified object to the front of the queue.
-     * 
+     *
      * @param nobj new object to be added to the front of the queue
      */
     @Override

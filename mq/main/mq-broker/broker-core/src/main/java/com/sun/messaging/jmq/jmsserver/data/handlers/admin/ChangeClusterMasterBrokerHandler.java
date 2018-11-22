@@ -19,10 +19,7 @@
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
-import java.util.Set;
 import java.util.Hashtable;
-import java.util.Properties;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.io.PacketType;
@@ -35,7 +32,6 @@ import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 
@@ -53,6 +49,7 @@ public class ChangeClusterMasterBrokerHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;

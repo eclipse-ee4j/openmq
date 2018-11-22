@@ -28,7 +28,7 @@ import com.sun.messaging.jmq.io.MQAddress;
  *
  * The listener has a method for cluster configuration changes and a seperate method for cluster state changes.
  * <P>
- * 
+ *
  * @see ClusterManager
  */
 public interface ClusterListener extends java.util.EventListener {
@@ -49,7 +49,7 @@ public interface ClusterListener extends java.util.EventListener {
 
     /**
      * Called when a new broker has been added.
-     * 
+     *
      * @param brokerSession uid associated with the added broker
      * @param broker the new broker added.
      */
@@ -57,7 +57,7 @@ public interface ClusterListener extends java.util.EventListener {
 
     /**
      * Called when a broker has been removed.
-     * 
+     *
      * @param brokerSession uid associated with the removed broker
      * @param broker the broker removed.
      */
@@ -65,7 +65,7 @@ public interface ClusterListener extends java.util.EventListener {
 
     /**
      * Called when the broker who is the master broker changes (because of a reload properties).
-     * 
+     *
      * @param oldMaster the previous master broker.
      * @param newMaster the new master broker.
      */
@@ -74,7 +74,7 @@ public interface ClusterListener extends java.util.EventListener {
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldStatus the previous status.
      * @param newStatus the new status.
@@ -86,7 +86,7 @@ public interface ClusterListener extends java.util.EventListener {
     /**
      * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
      * for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldState the previous state.
      * @param newState the new state.
@@ -96,7 +96,7 @@ public interface ClusterListener extends java.util.EventListener {
     /**
      * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
      * version for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldVersion the previous version.
      * @param newVersion the new version.
@@ -106,7 +106,7 @@ public interface ClusterListener extends java.util.EventListener {
     /**
      * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
      * the address for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param newAddress the previous address.
      * @param oldAddress the new address.

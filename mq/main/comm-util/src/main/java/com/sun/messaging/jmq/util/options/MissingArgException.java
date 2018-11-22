@@ -25,6 +25,12 @@ package com.sun.messaging.jmq.util.options;
  **/
 
 public class MissingArgException extends OptionException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6286197714017929493L;
+
+    @Override
     public String toString() {
         return (super.toString() + " (" + getOption() + ")");
     }

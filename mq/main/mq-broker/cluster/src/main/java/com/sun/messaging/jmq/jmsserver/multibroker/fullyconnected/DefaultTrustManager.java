@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
-import java.io.*;
 import javax.net.ssl.*;
 import java.security.cert.*;
 
@@ -30,12 +29,15 @@ import java.security.cert.*;
  * certificates may be trusted.
  */
 public class DefaultTrustManager implements X509TrustManager {
+    @Override
     public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
+    @Override
     public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
     }
 
+    @Override
     public X509Certificate[] getAcceptedIssuers() {
         return new X509Certificate[0];
     }

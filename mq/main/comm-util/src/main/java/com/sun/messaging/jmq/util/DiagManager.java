@@ -191,17 +191,17 @@ public class DiagManager {
     /**
      * Enable diagnostics for classes specified by values in a a Properties object. The Properties object should contain a
      * series of properties of the format:
-     * 
+     *
      * <pre>
      * <prefix>.<classname>=true|false
      * </pre>
-     * 
+     *
      * This method will enable/disable diagnostics for <classname>. For example if "jmq.diag." is the prefix then
-     * 
+     *
      * <pre>
      * jmq.diag.com.sun.messaging.jmq.util.ByteBufferPool = true
      * </pre>
-     * 
+     *
      * Will enable instances of the com.sun.messaging.jmq.util.ByteBufferPool to register themselves to produce diagnostics.
      * <p>
      * If an error occurs when processing the properties further processing stops and the appropriate exception is thrown.
@@ -235,7 +235,7 @@ public class DiagManager {
                 // Get className and value and set debug
                 String className = key.substring(prefix.length());
                 if (className.length() != 0) {
-                    value = (String) props.getProperty(key);
+                    value = props.getProperty(key);
                     if (value.equalsIgnoreCase("true")) {
                         registerClass(className);
                     }

@@ -118,8 +118,9 @@ public class MQAddress implements Serializable {
 
             parseHostPort(tmp);
 
-            if (serviceName == null || serviceName.equals(""))
+            if (serviceName == null || serviceName.equals("")) {
                 serviceName = getDefaultServiceName();
+            }
         } else if (schemeName.equalsIgnoreCase("mqssl") || schemeName.equalsIgnoreCase("mqtcp") || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS)
                 || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
             if (schemeName.equalsIgnoreCase(SCHEME_NAME_MQWS) || schemeName.equalsIgnoreCase(SCHEME_NAME_MQWSS)) {
@@ -201,8 +202,9 @@ public class MQAddress implements Serializable {
             }
 
             int n = pair.indexOf('=');
-            if (n <= 0)
+            if (n <= 0) {
                 throw new MalformedURLException("Illegal address. Bad query string : " + addr);
+            }
 
             String name = pair.substring(0, n);
             String value = pair.substring(n + 1);
@@ -254,10 +256,12 @@ public class MQAddress implements Serializable {
         return addr;
     }
 
+    @Override
     public String toString() {
 
-        if (tostring != null)
+        if (tostring != null) {
             return tostring;
+        }
 
         if (isHTTP || isWebSocket) {
             tostring = addr;
@@ -268,10 +272,12 @@ public class MQAddress implements Serializable {
         return tostring;
     }
 
+    @Override
     public int hashCode() {
         return toString().hashCode();
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null) {
             return false;

@@ -16,8 +16,6 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-import java.util.Properties;
-
 /**
  *
  */

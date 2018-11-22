@@ -36,14 +36,19 @@ import com.sun.messaging.jmq.util.admin.ServiceInfo;
  */
 public class BrokerServiceListInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 202445774648961977L;
     private static AdminResources ar = Globals.getAdminResources();
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_SVC_NAME), acr.getString(acr.I_PORT_NUMBER), acr.getString(acr.I_SVC_STATE) };
         return (columnNames);
@@ -55,6 +60,7 @@ public class BrokerServiceListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
 
         BrokerServiceCObj bSvcCObj;

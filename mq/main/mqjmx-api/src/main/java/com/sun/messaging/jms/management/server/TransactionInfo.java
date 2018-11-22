@@ -27,6 +27,11 @@ package com.sun.messaging.jms.management.server;
 public class TransactionInfo implements java.io.Serializable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3213458321612954805L;
+
+    /**
      * Client ID
      */
     public static final String CLIENT_ID = "ClientID";

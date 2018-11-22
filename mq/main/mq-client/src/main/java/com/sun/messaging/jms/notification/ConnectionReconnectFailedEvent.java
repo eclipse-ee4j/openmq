@@ -32,6 +32,11 @@ import javax.jms.JMSException;
  */
 public class ConnectionReconnectFailedEvent extends ConnectionEvent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7743861667776371453L;
+
     // if there is any exception that caused the connection to be closed,
     // it is set to this event.
     private JMSException exception = null;
@@ -61,7 +66,7 @@ public class ConnectionReconnectFailedEvent extends ConnectionEvent {
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
      * @param jmse the JMSException that caused this event.
-     * 
+     *
      */
     public ConnectionReconnectFailedEvent(Connection conn, String evCode, String evMessage, JMSException jmse) {
 

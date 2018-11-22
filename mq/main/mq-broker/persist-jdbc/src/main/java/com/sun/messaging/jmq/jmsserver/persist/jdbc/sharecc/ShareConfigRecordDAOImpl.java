@@ -27,7 +27,6 @@ import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.Util;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 
-import java.util.UUID;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -64,7 +63,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     ShareConfigRecordDAOImpl() throws BrokerException {
@@ -128,18 +127,20 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
@@ -152,6 +153,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      * @return the record inserted
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public ChangeRecordInfo insert(Connection conn, ChangeRecordInfo rec) throws BrokerException {
 
         String sql = null;
@@ -286,6 +288,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      * @param canExist Exception if the reset record already exist
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public void insertResetRecord(Connection conn, ChangeRecordInfo rec, String lockID) throws BrokerException {
 
         String sql = null;
@@ -608,6 +611,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
      * @return an array of ShareConfigRecord
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public List<ChangeRecordInfo> getRecords(Connection conn, Long seq, String resetUUID, boolean canReset) throws BrokerException {
 
         ArrayList<ChangeRecordInfo> records = new ArrayList<ChangeRecordInfo>();
@@ -715,6 +719,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
         return records;
     }
 
+    @Override
     public ArrayList<ChangeRecordInfo> getAllRecords(Connection conn, String query) throws BrokerException {
 
         String sql = (query == null ? selectAllSQL : query);
@@ -974,6 +979,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
     /**
      * @return "" if no reset record entry
      */
+    @Override
     public String getLockID(Connection conn) throws BrokerException {
 
         boolean myConn = false;
@@ -1025,6 +1031,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
 
     /**
      */
+    @Override
     public void updateLockID(Connection conn, String newLockID, String oldLockID) throws BrokerException {
 
         boolean myConn = false;
@@ -1079,6 +1086,7 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
         }
     }
 
+    @Override
     public void insertAll(List<ChangeRecordInfo> recs, String oldTableName) throws BrokerException {
 
         Connection conn = null;
@@ -1117,10 +1125,11 @@ public class ShareConfigRecordDAOImpl extends ShareConfigRecordBaseDAOImpl imple
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new LinkedHashMap();

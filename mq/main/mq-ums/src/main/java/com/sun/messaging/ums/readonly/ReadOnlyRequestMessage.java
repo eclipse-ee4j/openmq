@@ -16,12 +16,11 @@
 
 package com.sun.messaging.ums.readonly;
 
-import com.sun.messaging.ums.simple.*;
 import java.util.Map;
 
 /**
  * The request message for ReadOnly request service.
- * 
+ *
  * @author chiaming
  */
 public class ReadOnlyRequestMessage {

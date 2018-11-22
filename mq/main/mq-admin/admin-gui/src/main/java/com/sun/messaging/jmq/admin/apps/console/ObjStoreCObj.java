@@ -36,6 +36,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreCObj extends ObjStoreAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2162555967144727101L;
     private transient ObjStore os = null;
     private ObjStoreDestListCObj objStoreDestList = null;
     private ObjStoreConFactoryListCObj objStoreConFactoryList = null;
@@ -62,6 +66,7 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         return (os);
     }
 
+    @Override
     public String getExplorerLabel() {
         if (os.getDescription() != null) {
             return (os.getDescription());
@@ -70,10 +75,12 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         }
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         if (os.isOpen()) {
             return (AGraphics.adminImages[AGraphics.OBJSTORE]);
@@ -90,6 +97,7 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         return this.objStoreConFactoryList;
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -124,6 +132,7 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         return (null);
     }
 
+    @Override
     public ImageIcon getActionIcon(int actionFlag) {
         switch (actionFlag) {
         case ActionManager.CONNECT:
@@ -135,6 +144,7 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         return (null);
     }
 
+    @Override
     public void insert(MutableTreeNode node, int newIndex) {
         if ((node instanceof ObjStoreDestListCObj) || (node instanceof ObjStoreConFactoryListCObj)) {
             super.insert(node, newIndex);
@@ -146,10 +156,12 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         }
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.DISCONNECT | ActionManager.CONNECT);
     }
 
+    @Override
     public int getActiveActions() {
         int mask;
 
@@ -162,14 +174,17 @@ public class ObjStoreCObj extends ObjStoreAdminCObj {
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".ObjStoreInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Object Store");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

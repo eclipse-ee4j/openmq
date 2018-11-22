@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.util.lists;
 
-import java.util.*;
-
 /**
  * Callback interface called when an event has occurred on a list which implements EventBroadcaster
  *
@@ -31,7 +29,7 @@ import java.util.*;
 public interface EventListener extends java.util.EventListener {
     /**
      * Called when a specific event occurs
-     * 
+     *
      * @param e the event that occured
      */
 

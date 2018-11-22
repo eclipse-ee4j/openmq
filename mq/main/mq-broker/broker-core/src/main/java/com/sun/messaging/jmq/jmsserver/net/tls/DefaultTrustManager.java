@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.net.tls;
 
-import java.security.cert.*;
-import javax.security.cert.X509Certificate;
 import javax.net.ssl.*;
 
 import com.sun.messaging.jmq.util.log.Logger;
@@ -34,7 +32,7 @@ import com.sun.messaging.jmq.jmsserver.Globals;
  * X509TrustManager is an interface to manage which X509 certificates which are used to authenticate the remote side of
  * a secure socket. Decisions may be based on trusted certificate authorities, certificate revocation lists, online
  * status checking or other means.
- * 
+ *
  * Currently contains some dummy methods. This should be sufficient for the 2.0 product.
  *
  * @see java.security.cert.X509TrustManager
@@ -50,6 +48,7 @@ public class DefaultTrustManager implements X509TrustManager {
         return;
     }
 
+    @Override
     public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
         return;
     }
@@ -62,6 +61,7 @@ public class DefaultTrustManager implements X509TrustManager {
         return;
     }
 
+    @Override
     public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
             logger.log(Logger.DEBUGHIGH, "DefaultTrustManager called to validate certs ..");
@@ -70,6 +70,7 @@ public class DefaultTrustManager implements X509TrustManager {
         return;
     }
 
+    @Override
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return new java.security.cert.X509Certificate[0];
     }

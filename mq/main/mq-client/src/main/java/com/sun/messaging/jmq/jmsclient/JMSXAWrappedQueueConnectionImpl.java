@@ -35,9 +35,9 @@ import com.sun.jms.spi.xa.*;
 public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     private static final boolean debug = JMSXAWrappedConnectionFactoryImpl.debug;
-    private Connection wrapped_connection;;
+    private Connection wrapped_connection;
 
-    private JMSXAWrappedConnectionFactoryImpl wcf_ = null;;
+    private JMSXAWrappedConnectionFactoryImpl wcf_ = null;
     private String username_ = null;
     private String password_ = null;
 
@@ -58,14 +58,15 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     /**
      * Create an XAQueueSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         synchronized (sessions_) {
 
@@ -77,11 +78,12 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
                 throw new javax.jms.IllegalStateException("JMSXAWrapped Connection is closed");
             }
 
-            JMSXAQueueSession s = (JMSXAQueueSession) (new JMSXAWrappedQueueSessionImpl((QueueConnection) wrapped_connection, transacted, acknowledgeMode,
+            JMSXAQueueSession s = (new JMSXAWrappedQueueSessionImpl((QueueConnection) wrapped_connection, transacted, acknowledgeMode,
                     this));
 
-            if (((JMSXAWrappedQueueSessionImpl) s).delaySessionClose())
+            if (((JMSXAWrappedQueueSessionImpl) s).delaySessionClose()) {
                 sessions_.add(s);
+            }
 
             return s;
         }
@@ -89,13 +91,15 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
 
     /**
      * get a QueueConnection associated with this XAQueueConnection object.
-     * 
+     *
      * @return a QueueConnection.
      */
+    @Override
     public QueueConnection getQueueConnection() {
         return (QueueConnection) wrapped_connection;
     }
 
+    @Override
     public void close() throws JMSException {
         dlog("closing " + wrapped_connection + " " + wrapped_connection.getClass().getName());
         synchronized (sessions_) {
@@ -147,8 +151,9 @@ public class JMSXAWrappedQueueConnectionImpl implements JMSXAQueueConnection {
     }
 
     private final static void dlog(String msg) {
-        if (debug)
+        if (debug) {
             log("Info:", msg);
+        }
     }
 
     private final static void log(String level, Exception e) {

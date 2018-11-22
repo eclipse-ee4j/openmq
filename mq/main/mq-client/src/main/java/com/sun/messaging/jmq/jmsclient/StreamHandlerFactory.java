@@ -28,7 +28,7 @@ public class StreamHandlerFactory {
 
     /**
      * Called by ProtocolHandler to get the specified StreamHandler.
-     * 
+     *
      * @return StreamHandler. If className is null, the default StreamHandler - TCPStreamHandler is returned.
      */
     public static StreamHandler getStreamHandler(String protocolName) throws ClassNotFoundException, IllegalAccessException, InstantiationException {

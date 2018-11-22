@@ -24,7 +24,6 @@ import java.util.Properties;
 import java.security.Principal;
 import java.security.AccessControlException;
 import javax.security.auth.Subject;
-import com.sun.messaging.jmq.auth.api.server.*;
 
 /**
  * An AccessControlModel contains access controls which guards access JMQ resources (connections, destinations)

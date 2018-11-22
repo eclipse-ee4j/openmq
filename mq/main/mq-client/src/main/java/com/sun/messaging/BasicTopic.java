@@ -31,6 +31,11 @@ import javax.jms.*;
 public class BasicTopic extends com.sun.messaging.Destination implements javax.jms.Topic {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 1003358501997421212L;
+
+    /**
      * Constructs an identity of a Publish/Subscribe Topic with the default name
      */
     public BasicTopic() {
@@ -54,6 +59,7 @@ public class BasicTopic extends com.sun.messaging.Destination implements javax.j
      * @return <code>true</code> if the object and this <code>Topic</code>are equal; <code>false</code> otherwise.
      *
      */
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;
@@ -75,31 +81,35 @@ public class BasicTopic extends com.sun.messaging.Destination implements javax.j
         }
     }
 
+    @Override
     public int hashCode() {
         String name = null;
         try {
             name = getTopicName();
         } catch (Exception ex) {
         }
-        if (name == null)
+        if (name == null) {
             return super.hashCode();
+        }
         return name.hashCode();
     }
 
     /**
      * Returns whether this is a Queueing type of Destination object
-     * 
+     *
      * @return whether this is a Queueing type of Destination object
      */
+    @Override
     public boolean isQueue() {
         return false;
     }
 
     /**
      * Returns whether this is a Temporary type of Destination object
-     * 
+     *
      * @return whether this is a Temporary type of Destination object
      */
+    @Override
     public boolean isTemporary() {
         return false;
     }

@@ -42,13 +42,13 @@ public interface BrokerInstance {
 
     /**
      * Initialize broker with properties specified in the properties.
-     * 
+     *
      * The props parameter is usually obtained from parseArgs() method.
-     * 
+     *
      * This must be called before start/stop/shutdown
-     * 
+     *
      * @param props the properties required to init broker. Obtain required info from broker/Linda.
-     * 
+     *
      * @param evlistener used to listen to broker life cycle events.
      */
     public void init(Properties props, BrokerEventListener evlistener);
@@ -70,35 +70,35 @@ public interface BrokerInstance {
 
     /**
      * Get broker init properties
-     * 
+     *
      * @return
      */
     public Properties getProperties();
 
     /**
      * Get the broker event listener.
-     * 
+     *
      * @return
      */
     public BrokerEventListener getBrokerEventListener();
 
     /**
      * check if broker is running
-     * 
+     *
      * @return
      */
     public boolean isBrokerRunning();
 
     /**
      * check if broker instance implements direct mode connection.
-     * 
+     *
      * @return
      */
     public boolean isDirectMode();
 
     /**
      * Return a JMSService that can be used to create legacy RADirect connections to this broker
-     * 
+     *
      * @return
      */
     public JMSService getJMSService();
@@ -108,9 +108,9 @@ public interface BrokerInstance {
      * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
      * arguments are logged. However this method can be used for other messages which need to be logged by an embedded
      * broker when it starts.
-     * 
+     *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     * 
+     *
      * @param embeddedBrokerStartupMessage
      */
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);

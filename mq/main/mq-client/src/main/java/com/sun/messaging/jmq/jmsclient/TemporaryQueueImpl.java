@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
 
 /**
@@ -31,6 +30,11 @@ import com.sun.messaging.jmq.ClientConstants;
  * @see QueueSession#createTemporaryQueue()
  */
 public class TemporaryQueueImpl extends TemporaryDestination implements TemporaryQueue {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1725147351523594977L;
 
     /**
      * Constructor used by createTemporaryQueue()
@@ -53,6 +57,7 @@ public class TemporaryQueueImpl extends TemporaryDestination implements Temporar
         super();
     }
 
+    @Override
     public boolean isQueue() {
         return true;
     }

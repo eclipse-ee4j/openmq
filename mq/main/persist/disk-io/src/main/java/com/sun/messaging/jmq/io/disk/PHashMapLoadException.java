@@ -32,6 +32,10 @@ package com.sun.messaging.jmq.io.disk;
 
 public class PHashMapLoadException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8497350378319307782L;
     private Object key = null;
     private Object value = null;
     private PHashMapLoadException next = null;
@@ -100,6 +104,7 @@ public class PHashMapLoadException extends Exception {
         return next;
     }
 
+    @Override
     public String toString() {
         return getMessage() + "\nkey=" + key + ";cause=" + keyCause + ";value=" + value + ";cause=" + valueCause;
     }

@@ -21,10 +21,8 @@
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.util.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.SysMessageID;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;

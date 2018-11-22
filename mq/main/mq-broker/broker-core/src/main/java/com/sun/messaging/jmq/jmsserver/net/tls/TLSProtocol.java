@@ -34,11 +34,7 @@ import com.sun.messaging.jmq.jmsserver.net.tcp.TcpProtocol;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.net.MQServerSocketFactory;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.tlsutil.KeystoreUtil;
 
 /**
@@ -79,6 +75,7 @@ public class TLSProtocol extends TcpProtocol {
         port = defaultPort;
     }
 
+    @Override
     public ProtocolStreams accept() throws IOException {
         if (serversocket == null) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Unable to accept on un-opened protocol"));
@@ -97,10 +94,12 @@ public class TLSProtocol extends TcpProtocol {
 
     }
 
+    @Override
     public String toString() {
         return "SSL/TLS [ " + port + "," + backlog + "]";
     }
 
+    @Override
     protected ServerSocket createSocket(String hostname, int port, int backlog, boolean blocking, boolean useChannel) throws IOException {
         // ignore blocking and useChannel (they wont work)
 
@@ -125,7 +124,7 @@ public class TLSProtocol extends TcpProtocol {
     }
 
     protected TLSStreams createConnection(SSLSocket socket) throws IOException {
-        return new TLSStreams((SSLSocket) socket, inputBufferSize, outputBufferSize);
+        return new TLSStreams(socket, inputBufferSize, outputBufferSize);
     }
 
     public static ServerSocketFactory getServerSocketFactory() throws IOException {

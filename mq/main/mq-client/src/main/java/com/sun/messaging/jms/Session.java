@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jms;
 
-import javax.jms.JMSException;
-
 /**
  * MQ JMS Session. This interface defines NO_ACKNOWLEDGE session mode.
  */

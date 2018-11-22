@@ -18,10 +18,8 @@ package com.sun.messaging.bridge.api;
 
 import java.util.Properties;
 import java.util.HashMap;
-import javax.net.ssl.SSLContext;
 import org.jvnet.hk2.annotations.Contract;
 import javax.inject.Singleton;
-import com.sun.messaging.bridge.api.Bridge;
 
 @Contract
 @Singleton

@@ -32,6 +32,10 @@ import java.util.Map;
  */
 public class JMSPacketProperties extends Hashtable<String, Object> {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2770279263000523841L;
     public static final String JMQStatus = "JMQStatus";
     public static final String JMQErrorCode = "JMQErrorCode";
 

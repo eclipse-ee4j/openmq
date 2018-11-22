@@ -47,7 +47,6 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -169,8 +168,9 @@ public class ConsumerUtil {
 
         if (con != null) {
             PacketReference r = con.peekNext();
-            if (r != null)
+            if (r != null) {
                 return r.getSysMessageID().toString();
+            }
         }
         return "";
     }
@@ -206,7 +206,7 @@ public class ConsumerUtil {
         /*
          * if (con instanceof Subscription) { List l = ((Subscription)con).getChildConsumers(); Consumer c = (Consumer)l.get(0);
          * System.err.println("Consumer from child list: " + c);
-         * 
+         *
          * cid = c.getConnectionUID(); } else { cid = con.getConnectionUID(); }
          */
 
@@ -372,8 +372,9 @@ public class ConsumerUtil {
 
         ArrayList<String> al = new ArrayList<String>();
         Set dests = con.getUniqueDestinations();
-        if (dests == null)
+        if (dests == null) {
             return null;
+        }
         Iterator itr = dests.iterator();
         while (itr.hasNext()) {
             Destination dest = (Destination) itr.next();
@@ -382,7 +383,7 @@ public class ConsumerUtil {
 
         if (al.size() > 0) {
             ret = new String[al.size()];
-            ret = (String[]) al.toArray(ret);
+            ret = al.toArray(ret);
         }
 
         return (ret);
@@ -392,9 +393,9 @@ public class ConsumerUtil {
     private static String getDestinationName(ConsumerUID cid) {
         /*
          * Destination d = ConsumerUtil.getDestination(cid);
-         * 
+         *
          * if (d == null) { return (null); }
-         * 
+         *
          * return(d.getDestinationName());
          */
         DestinationUID id = ConsumerUtil.getDestinationUID(cid);
@@ -522,8 +523,9 @@ public class ConsumerUtil {
 
     private static Long getNumPendingMsgs(ConsumerUID cid) {
         Consumer con = Consumer.getConsumer(cid);
-        if (con == null)
+        if (con == null) {
             return null;
+        }
         return (Long.valueOf(con.numInProcessMsgs()));
     }
 

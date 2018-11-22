@@ -40,27 +40,28 @@ public class XAConnectionImpl extends UnifiedConnectionImpl implements XAConnect
 
     /**
      * Create an XASession.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create an XA session due to some internal error. public XASession
      * createXASession() throws JMSException {
-     * 
+     *
      * checkConnectionState();
-     * 
+     *
      * //disallow to set client ID after this action. setClientIDFlag();
-     * 
+     *
      * return new XASessionImpl (this, false, 0); }
      */
 
     /**
      * Create an XASession
-     * 
+     *
      * @param transacted
      * @param acknowledgeMode
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create an XA session due to some internal error.
      */
+    @Override
     public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
@@ -83,14 +84,15 @@ public class XAConnectionImpl extends UnifiedConnectionImpl implements XAConnect
 
     /**
      * Create an XAQueueSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA queue session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA queue session due to some internal error.
      */
+    @Override
     public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
@@ -113,14 +115,15 @@ public class XAConnectionImpl extends UnifiedConnectionImpl implements XAConnect
 
     /**
      * Create an XATopicSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();

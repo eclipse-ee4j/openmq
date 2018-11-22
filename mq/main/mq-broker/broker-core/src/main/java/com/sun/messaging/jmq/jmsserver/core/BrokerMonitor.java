@@ -82,8 +82,9 @@ public class BrokerMonitor {
     boolean started = false;
 
     public static void shutdownMonitor() {
-        if (task != null)
+        if (task != null) {
             task.cancel();
+        }
         active.clear();
         BrokerConfig cfg = Globals.getConfig();
         cfg.removeListener(METRICS_TIME_PROP, cl);
@@ -97,9 +98,11 @@ public class BrokerMonitor {
     }
 
     private static ConfigListener cl = new ConfigListener() {
+        @Override
         public void validate(String name, String value) throws PropertyUpdateException {
         }
 
+        @Override
         public boolean update(String name, String value) {
             // BrokerConfig cfg = Globals.getConfig();
 
@@ -131,6 +134,7 @@ public class BrokerMonitor {
     };
 
     static class NotificationTask extends TimerTask {
+        @Override
         public void run() {
             Iterator itr = null;
             synchronized (active) {
@@ -189,8 +193,9 @@ public class BrokerMonitor {
 
     public void stop() {
         synchronized (this) {
-            if (!valid)
+            if (!valid) {
                 return;
+            }
             if (started) {
                 started = false;
             } else {
@@ -431,6 +436,7 @@ class JVMMonitor extends Monitor {
         super(d);
     }
 
+    @Override
     protected Hashtable getMonitorData() {
 
         Hashtable mapMessage = new Hashtable();
@@ -450,6 +456,7 @@ class DestListMonitor extends Monitor {
         super(d);
     }
 
+    @Override
     protected Hashtable getMonitorData() {
 
         Hashtable mapMessages = new Hashtable();
@@ -494,6 +501,7 @@ class DestMonitor extends Monitor {
         this.target = target;
     }
 
+    @Override
     protected Hashtable getMonitorData() {
 
         if (target == null) {
@@ -519,23 +527,24 @@ class BrokerMetricsMonitor extends Monitor {
         super(d);
     }
 
+    @Override
     protected Hashtable getMonitorData() {
 
         Hashtable mapMessage = new Hashtable();
 
         MetricManager mm = Globals.getMetricManager();
         MetricData md = mm.getMetrics();
-        mapMessage.put("numConnections", Long.valueOf((long) md.nConnections));
-        mapMessage.put("numMsgsIn", Long.valueOf((long) md.totals.messagesIn));
-        mapMessage.put("numMsgsOut", Long.valueOf((long) md.totals.messagesOut));
-        mapMessage.put("numMsgs", Long.valueOf((long) Globals.getDestinationList().totalCount()));
+        mapMessage.put("numConnections", Long.valueOf(md.nConnections));
+        mapMessage.put("numMsgsIn", Long.valueOf(md.totals.messagesIn));
+        mapMessage.put("numMsgsOut", Long.valueOf(md.totals.messagesOut));
+        mapMessage.put("numMsgs", Long.valueOf(Globals.getDestinationList().totalCount()));
 
-        mapMessage.put("msgBytesIn", Long.valueOf((long) md.totals.messageBytesIn));
-        mapMessage.put("msgBytesOut", Long.valueOf((long) md.totals.messageBytesOut));
-        mapMessage.put("numPktsIn", Long.valueOf((long) md.totals.packetsIn));
-        mapMessage.put("numPktsOut", Long.valueOf((long) md.totals.packetsOut));
-        mapMessage.put("pktBytesIn", Long.valueOf((long) md.totals.packetBytesIn));
-        mapMessage.put("pktBytesOut", Long.valueOf((long) md.totals.packetBytesOut));
+        mapMessage.put("msgBytesIn", Long.valueOf(md.totals.messageBytesIn));
+        mapMessage.put("msgBytesOut", Long.valueOf(md.totals.messageBytesOut));
+        mapMessage.put("numPktsIn", Long.valueOf(md.totals.packetsIn));
+        mapMessage.put("numPktsOut", Long.valueOf(md.totals.packetsOut));
+        mapMessage.put("pktBytesIn", Long.valueOf(md.totals.packetBytesIn));
+        mapMessage.put("pktBytesOut", Long.valueOf(md.totals.packetBytesOut));
 
         mapMessage.put("totalMsgBytes", Long.valueOf(Globals.getDestinationList().totalBytes()));
 

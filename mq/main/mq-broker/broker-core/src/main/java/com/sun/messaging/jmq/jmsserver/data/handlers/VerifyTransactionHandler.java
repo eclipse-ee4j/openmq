@@ -47,6 +47,7 @@ public class VerifyTransactionHandler extends PacketHandler {
     /**
      * Method to handle Destination (create or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
@@ -150,10 +151,12 @@ public class VerifyTransactionHandler extends PacketHandler {
         }
 
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);

@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
-import java.util.Hashtable;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.*;
@@ -36,6 +33,7 @@ public class GoodbyeHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_GOODBYE) {
             handleGoodbye(sender, pkt);

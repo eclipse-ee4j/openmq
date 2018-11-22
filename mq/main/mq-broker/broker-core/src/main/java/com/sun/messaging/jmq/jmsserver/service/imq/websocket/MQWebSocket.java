@@ -28,7 +28,6 @@ import org.glassfish.grizzly.websockets.DataFrame;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /**

@@ -124,14 +124,14 @@ public class SysLogHandler extends Handler {
      * will be affected, not just this instance. The handler's properties are prefixed with the specified prefix.
      * <P>
      * An example of valid properties are:
-     * 
+     *
      * <PRE>
      * imq.log.syslog.facility=LOG_DAEMON
      * imq.log.syslog.logpid=true
      * imq.log.syslog.logconsole=false
      * imq.log.syslog.identity=imqbrokerd_imqbroker
      * </PRE>
-     * 
+     *
      * In this case prefix would be "imq.log.syslog"
      *
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
@@ -219,6 +219,7 @@ public class SysLogHandler extends Handler {
      * Return a string description of this FileHandler. The descirption is the class name followed by the path of the file
      * we are logging to.
      */
+    @Override
     public String toString() {
         return this.getClass().getName() + ":" + ident;
     }
@@ -227,8 +228,9 @@ public class SysLogHandler extends Handler {
     public void publish(LogRecord record) {
         // If log handler is not configured due to non solaris platform or other reasons
         // simply return.
-        if (!open)
+        if (!open) {
             return;
+        }
 
         int priority = SysLog.LOG_INFO;
 

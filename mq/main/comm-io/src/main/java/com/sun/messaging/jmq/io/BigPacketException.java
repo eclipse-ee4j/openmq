@@ -27,6 +27,10 @@ import java.io.IOException;
  */
 public class BigPacketException extends IOException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7377128058001136305L;
     private int skipBytesRemaining = 0;
 
     public BigPacketException() {

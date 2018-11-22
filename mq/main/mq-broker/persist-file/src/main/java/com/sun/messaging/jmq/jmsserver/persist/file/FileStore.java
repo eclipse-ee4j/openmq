@@ -52,7 +52,6 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
@@ -375,23 +374,27 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public ObjectInputStream getObjectInputStream(ByteArrayInputStream bis) throws IOException {
         return new MQObjectInputStream(bis);
     }
 
     void closeTidList() {
-        if (tidList != null)
+        if (tidList != null) {
             tidList.close(true);
+        }
     }
 
     void closeTxnLogManager() {
         txnLogManager.close();
     }
 
+    @Override
     public void convertTxnFormats(TransactionList transactionList) throws BrokerException, IOException {
         TxnConversionUtil.convertTxnFormats(this, rootDir, transactionList);
     }
 
+    @Override
     public void init() throws BrokerException {
 
         // if we are in txn log mode or if we need to convert then txnLogManager should not be null
@@ -463,6 +466,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Return the LoadException for loading destinations; null if there's none.
      */
+    @Override
     public LoadException getLoadDestinationException() {
         return dstList.getLoadException();
     }
@@ -470,6 +474,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Return the LoadException for loading consumers; null if there's none.
      */
+    @Override
     public LoadException getLoadConsumerException() {
         return intStore.getLoadException();
     }
@@ -477,6 +482,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Return the LoadException for loading Properties; null if there's none.
      */
+    @Override
     public LoadException getLoadPropertyException() {
         return propFile.getLoadException();
     }
@@ -484,6 +490,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Return the LoadException for loading transactions; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionException() {
         return tidList.getLoadException();
     }
@@ -491,6 +498,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Return the LoadException for loading transaction acknowledgements; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionAckException() {
         return tidList.getLoadTransactionAckException();
     }
@@ -498,14 +506,16 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Close the store and releases any system resources associated with it.
      */
+    @Override
     public void close(boolean cleanup) {
 
         // make sure all operations are done before we proceed to close
         super.setClosedAndWait();
 
         dstList.close(cleanup);
-        if (tidList != null)
+        if (tidList != null) {
             tidList.close(cleanup);
+        }
         configStore.close(cleanup);
         propFile.close(cleanup);
         intStore.close(cleanup);
@@ -550,6 +560,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Clear the store. Remove all persistent data. Note that this method is not synchronized.
      */
+    @Override
     public void clearAll(boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -564,8 +575,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
             intStore.clearAll(sync);
             dstList.clearAll(sync, false);// don't worry about messages since
             // they are removed already
-            if (tidList != null)
+            if (tidList != null) {
                 tidList.clearAll(sync);
+            }
             configStore.clearAll(sync);
             propFile.clearAll(sync);
 
@@ -589,19 +601,21 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public List<BaseTransaction> getIncompleteTransactions(int type) {
         // return this.getPreparedTxnStore().txnEnumeration();
         BaseTransactionManager tm = txnLogManager.getTransactionManager(type);
         return tm.getAllIncompleteTransactions();
     }
 
+    @Override
     public void rollbackAllTransactions() {
         txnLogManager.rollbackAllTransactions();
     }
 
     /**
      * Store a message, which is uniquely identified by it's SysMessageID, and it's list of interests and their states.
-     * 
+     *
      * @param message the message to be persisted
      * @param iids an array of interest ids whose states are to be stored with the message
      * @param states an array of states
@@ -611,6 +625,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception NullPointerException if <code>dst</code>, <code>message</code>, <code>iids</code>, or <code>states</code>
      * is <code>null</code>
      */
+    @Override
     public void storeMessage(DestinationUID dst, Packet message, ConsumerUID[] iids, int[] states, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -640,9 +655,10 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     /**
      * Get the file store version.
-     * 
+     *
      * @return file store version
      */
+    @Override
     public final int getStoreVersion() {
         return STORE_VERSION;
     }
@@ -658,6 +674,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while persisting the message
      * @exception BrokerException if a message with the same id exists in the store already
      */
+    @Override
     public void storeMessage(DestinationUID dst, Packet message, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -687,6 +704,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
+    @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync) throws IOException, BrokerException {
         removeMessage(dID, mID, sync, false);
     }
@@ -700,6 +718,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while removing the message
      * @exception BrokerException if the message is not found in the store
      */
+    @Override
     public void removeMessage(DestinationUID dst, SysMessageID id, boolean sync, boolean onRollback) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -752,6 +771,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception NullPointerException if <code>message</code>, <code>from</code>, <code>to</code>, <code>iids</code>, or
      * <code>states</code> is <code>null</code>
      */
+    @Override
     public void moveMessage(Packet message, DestinationUID from, DestinationUID to, ConsumerUID[] ints, int[] states, boolean sync)
             throws IOException, BrokerException {
 
@@ -788,6 +808,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the destination is not found in the store
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public void removeAllMessages(Destination destination, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -816,6 +837,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * destionation
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public Enumeration messageEnumeration(Destination dst) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -840,6 +862,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dst, String id) throws BrokerException {
         return getMessage(dst, SysMessageID.get(id));
     }
@@ -851,6 +874,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dst, SysMessageID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -887,6 +911,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
+    @Override
     public void storeInterestStates(DestinationUID dst, SysMessageID mid, ConsumerUID[] iids, int[] states, boolean sync, Packet msg) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -913,7 +938,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
              * if (Globals.isNewTxnLogEnabled() && msg != null) { try { // we are really storing the message for the first time //
              * so need to add message data if (Store.getDEBUG()) { logger.log(Logger.DEBUG,
              * "FileStore.storeInterestStates() REALLY storing"); } msgStore.storeMessage(dst, msg, iids, states, false);
-             * 
+             *
              * } catch(IOException ex) { throw new BrokerException(ex.toString(), ex); } } else {
              */
             msgStore.storeInterestStates(dst, mid, iids, states, sync);
@@ -928,6 +953,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * @deprecated keep to support tests for old API Now use method with transaction parameter
      */
+    @Deprecated
     public void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync) throws BrokerException {
         updateInterestState(dID, mID, iID, state, sync, null, false);
     }
@@ -943,6 +969,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the message is not in the store; if the interest is not associated with the message; or
      * if an error occurs while persisting the data
      */
+    @Override
     public void updateInterestState(DestinationUID dst, SysMessageID mid, ConsumerUID cid, int state, boolean sync, TransactionUID txid, boolean isLastAck)
             throws BrokerException {
 
@@ -1017,13 +1044,14 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     /**
      * Get the state of the interest associated with the specified message.
-     * 
+     *
      * @param mid system message id of the message that the interest is associated with
      * @param id id of the interest whose state is to be returned
      * @return state of the interest
      * @exception BrokerException if the specified interest is not associated with the message; or if the message is not in
      * the store
      */
+    @Override
     public int getInterestState(DestinationUID dst, SysMessageID mid, ConsumerUID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1047,12 +1075,13 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     /**
      * Retrieve all interests and states associated with the specified message.
-     * 
+     *
      * @param did the destination the message is associated with
      * @param mid the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
      * @throws BrokerException
      */
+    @Override
     public HashMap getInterestStates(DestinationUID did, SysMessageID mid) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1085,6 +1114,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * interest is associated with the message
      * @exception BrokerException if the message is not in the store
      */
+    @Override
     public ConsumerUID[] getConsumerUIDs(DestinationUID dst, SysMessageID mid) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1115,6 +1145,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * all interests
      * @throws BrokerException
      */
+    @Override
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1140,6 +1171,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while persisting the interest
      * @exception BrokerException if an interest with the same id exists in the store already
      */
+    @Override
     public void storeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1165,6 +1197,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while removing the interest
      * @exception BrokerException if the interest is not found in the store
      */
+    @Override
     public void removeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1189,6 +1222,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return an array of Interest objects; a zero length array is returned if no interests exist in the store
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public Consumer[] getAllInterests() throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1215,6 +1249,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the same destination exists the store already
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public void storeDestination(Destination destination, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1244,6 +1279,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public void updateDestination(Destination destination, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1274,6 +1310,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while removing the destination
      * @exception BrokerException if the destination is not found in the store
      */
+    @Override
     public void removeDestination(Destination destination, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1302,6 +1339,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return a Destination object
      * @throws BrokerException if no destination exist in the store
      */
+    @Override
     public Destination getDestination(DestinationUID id) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1329,6 +1367,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public Destination[] getAllDestinations() throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1356,6 +1395,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>id</code> is <code>null</code>
      */
+    @Override
     public void storeTransaction(TransactionUID id, TransactionState ts, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1407,6 +1447,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception IOException if an error occurs while removing the transaction
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public void removeTransaction(TransactionUID id, boolean removeAcks, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1445,6 +1486,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the transaction id does NOT exists in the store already
      * @exception NullPointerException if <code>id</code> is <code>null</code>
      */
+    @Override
     public void updateTransactionState(TransactionUID id, TransactionState ts, boolean sync) throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1482,6 +1524,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return A HashMap. The key is a TransactionUID. The value is a TransactionState.
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public HashMap getAllTransactionStates() throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1512,6 +1555,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if the transaction id is not found in the store, if the acknowledgement already exists, or
      * if it failed to persist the data
      */
+    @Override
     public void storeTransactionAck(TransactionUID tid, TransactionAcknowledgement ack, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1540,6 +1584,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if error occurs while removing the acknowledgements
      */
+    @Override
     public void removeTransactionAck(TransactionUID id, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1554,8 +1599,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (id == null)
+            if (id == null) {
                 throw new NullPointerException();
+            }
 
             tidList.removeTransactionAck(id, sync);
         } finally {
@@ -1570,6 +1616,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param tid id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the operation fails for some reason
      */
+    @Override
     public TransactionAcknowledgement[] getTransactionAcks(TransactionUID tid) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1595,9 +1642,10 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
      * returned in the form a HashMap. Each entry in the HashMap has the transaction id as the key and an array of the
      * associated TransactionAcknowledgement objects as the value.
-     * 
+     *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
+    @Override
     public HashMap getAllTransactionAcks() throws BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "FileStore.getAllTransactionAcks() called");
@@ -1639,6 +1687,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public void storeClusterTransaction(TransactionUID id, TransactionState ts, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1660,6 +1709,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public void updateClusterTransaction(TransactionUID id, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1677,6 +1727,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public TransactionBroker[] getClusterTransactionBrokers(TransactionUID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1694,6 +1745,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public void updateClusterTransactionBrokerState(TransactionUID id, int expectedTxnState, TransactionBroker txnBroker, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1715,6 +1767,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public void storeRemoteTransaction(TransactionUID id, TransactionState ts, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
 
@@ -1737,6 +1790,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public BrokerAddress getRemoteTransactionHomeBroker(TransactionUID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1754,6 +1808,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public HashMap getAllRemoteTransactionStates() throws IOException, BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1771,6 +1826,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public TransactionState getTransactionState(TransactionUID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1788,6 +1844,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public TransactionInfo getTransactionInfo(TransactionUID id) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1833,6 +1890,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if an error occurs while persisting the data
      * @exception NullPointerException if <code>name</code> is <code>null</code>
      */
+    @Override
     public void updateProperty(String name, Object value, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1843,8 +1901,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (name == null)
+            if (name == null) {
                 throw new NullPointerException();
+            }
 
             propFile.updateProperty(name, value, sync);
         } finally {
@@ -1861,6 +1920,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @exception BrokerException if an error occurs while retrieving the data
      * @exception NullPointerException if <code>name</code> is <code>null</code>
      */
+    @Override
     public Object getProperty(String name) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1871,8 +1931,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         super.checkClosedAndSetInProgress();
 
         try {
-            if (name == null)
+            if (name == null) {
                 throw new NullPointerException();
+            }
 
             return propFile.getProperty(name);
         } finally {
@@ -1886,6 +1947,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      *
      * @return an array of property names; an empty array will be returned if no property exists in the store.
      */
+    @Override
     public String[] getPropertyNames() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1908,6 +1970,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      *
      * @return a properties object.
      */
+    @Override
     public Properties getAllProperties() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1936,6 +1999,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * 0
      * @exception NullPointerException if <code>recordData</code> is <code>null</code>
      */
+    @Override
     public void storeConfigChangeRecord(long timestamp, byte[] recordData, boolean sync) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1965,9 +2029,10 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * Get all the config change records since the given timestamp. Retrieves all the entries with recorded timestamp
      * greater than the specified timestamp.
-     * 
+     *
      * @return a list of ChangeRecordInfo, empty list if no record
      */
+    @Override
     public ArrayList<ChangeRecordInfo> getConfigChangeRecordsSince(long timestamp) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -1991,6 +2056,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return a list of ChangeRecordInfo
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public List<ChangeRecordInfo> getAllConfigRecords() throws BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "FileStore.getAllConfigRecords() called");
@@ -2013,6 +2079,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if an error occurs while clearing the data
      */
+    @Override
     public void clearAllConfigChangeRecords(boolean sync) throws BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "FileStore.clearAllConfigChangeRecords() called");
@@ -2036,6 +2103,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @return A HashMap of name value pair of information
      * @throws BrokerException if an error occurs while getting the data
      */
+    @Override
     public HashMap getMessageStorageInfo(Destination dst) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2057,19 +2125,22 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public String getStoreType() {
         return FILE_STORE_TYPE;
     }
 
+    @Override
     public boolean isJDBCStore() {
         return false;
     }
 
     /**
      * Get information about the underlying storage for the specified destination.
-     * 
+     *
      * @return A HashMap of name value pair of information
      */
+    @Override
     public HashMap getStorageInfo(Destination destination) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2089,9 +2160,10 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
+    @Override
     public Hashtable getDebugState() {
         Hashtable t = new Hashtable();
         t.put("File-based store", rootDir.getPath());
@@ -2099,8 +2171,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         t.putAll(dstList.getDebugState());
         t.putAll(msgStore.getDebugState());
         t.putAll(intStore.getDebugState());
-        if (tidList != null)
+        if (tidList != null) {
             t.putAll(tidList.getDebugState());
+        }
         t.putAll(propFile.getDebugState());
         t.putAll(configStore.getDebugState());
         return t;
@@ -2110,6 +2183,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * Compact the message file associated with the specified destination. If null is specified, message files assocated
      * with all persisted destinations will be compacted..
      */
+    @Override
     public void compactDestination(Destination destination) throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2162,6 +2236,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         }
     }
 
+    @Override
     public void logTxn(int type, byte[] data) throws IOException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "FileStore.logTxn(type=" + type + ") called");
@@ -2197,6 +2272,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * This is the new API to log transactional work It can be used to log a) a prepared 2-phase transaction or b) a 1-phase
      * transaction
      */
+    @Override
     public void logTxn(BaseTransaction baseTxn) throws BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "logTxn(" + baseTxn + ") called");
@@ -2206,8 +2282,9 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     /**
      * This is the new API to log completion of 2-phase transaction.
-     * 
+     *
      */
+    @Override
     public void logTxnCompletion(TransactionUID tid, int state, int type) throws BrokerException {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "logTxnCompletion(" + tid + ", " + state + ", " + type + ") called");
@@ -2215,6 +2292,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         txnLogManager.logTxnCompletion(tid, state, type);
     }
 
+    @Override
     public void loggedCommitWrittenToMessageStore(TransactionUID tid, int type) {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "loggedCommitWrittenToMessageStore " + tid);
@@ -2233,6 +2311,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     // a file filter that returns true if pathname is a directory
     // whose name starts with "fs"
     private static FilenameFilter storeFilter = new FilenameFilter() {
+        @Override
         public boolean accept(File dir, String name) {
             return ((new File(dir, name)).isDirectory() && name.startsWith(FILESTORE_BASENAME));
         }
@@ -2364,6 +2443,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     }
 
     // Initialize txn logging class
+    @Override
     public boolean initTxnLogger() throws BrokerException {
 
         boolean storeNeedsRestart = false;
@@ -2561,6 +2641,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * @param sync Flag to determine whther method block until checpoint is complete
      * @return status of checkpoint. Will return 0 if completed ok.
      */
+    @Override
     public int doCheckpoint(boolean sync) {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "doCheckpoint(" + sync + ") called");
@@ -2589,6 +2670,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         return status;
     }
 
+    @Override
     public final void checkpoint() {
         if (Store.getDEBUG()) {
             logger.log(Logger.INFO, "checkpoint() called");
@@ -2715,6 +2797,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     private class StoreSyncTask extends TimerTask {
 
+        @Override
         public void run() {
             try {
                 TransactionLogWriter[] lWriters = { msgLogWriter, ackLogWriter };
@@ -2739,7 +2822,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
             /*
              * dont lock store as it can cause deadlock Instead we will rely on txnLogExclusiveLock to stop other threads
-             * 
+             *
              * // Holds on to the closedLock so that no new operation will start synchronized (closedLock) { // wait until all
              * current store operations are done synchronized (inprogressLock) { while (inprogressCount > 0) { try {
              * inprogressLock.wait(); } catch (Exception e) { } } }
@@ -2762,6 +2845,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         return txnLogManager;
     }
 
+    @Override
     public boolean isTxnConversionRequired() {
         return TxnConversionUtil.isTxnConversionRequired();
     }
@@ -2770,6 +2854,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * Unsupported PartitionedStore Interface Methods
      ********************************************************/
 
+    @Override
     public int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
@@ -2782,11 +2867,13 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
 
+    @Override
     public void updateRemoteTransaction(TransactionUID txnUID, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
 
+    @Override
     public long getDestinationConnectedTime(Destination destination) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
@@ -2798,6 +2885,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
     /**
      * To close an enumeration retrieved from the store
      */
+    @Override
     public void closeEnumeration(Enumeration en) {
     }
 
@@ -2805,14 +2893,17 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
      * Partitioned Store Specific Methods
      **********************************************/
 
+    @Override
     public String toString() {
         return "[" + getStoreType() + "]";
     }
 
+    @Override
     public int hashCode() {
         return partitionid.hashCode();
     }
 
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;
@@ -2824,14 +2915,17 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
 
     }
 
+    @Override
     public void init(Store store, UID id, boolean isPrimary) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
 
+    @Override
     public UID getPartitionID() {
         return partitionid;
     }
 
+    @Override
     public boolean isPrimaryPartition() {
         return true;
     }
@@ -2843,6 +2937,7 @@ public class FileStore extends Store implements PartitionedStore, TxnLoggingStor
         return list;
     }
 
+    @Override
     public PartitionedStore getPrimaryPartition() throws BrokerException {
         return this;
     }

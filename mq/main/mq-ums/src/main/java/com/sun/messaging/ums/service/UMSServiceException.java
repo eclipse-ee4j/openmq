@@ -22,11 +22,16 @@ package com.sun.messaging.ums.service;
  */
 
 /**
- * 
+ *
  * MQService throws this exception when it encounters errors.
  *
  */
 public class UMSServiceException extends RuntimeException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8769067268978890428L;
 
     public UMSServiceException() {
         super();

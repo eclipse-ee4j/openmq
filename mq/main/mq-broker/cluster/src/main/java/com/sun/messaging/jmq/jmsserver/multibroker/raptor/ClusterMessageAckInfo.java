@@ -170,8 +170,9 @@ public class ClusterMessageAckInfo {
     public Map getOptionalProps() {
         assert (pkt != null);
         Set keys = pkt.propsKeySet();
-        if (keys == null || keys.size() == 0)
+        if (keys == null || keys.size() == 0) {
             return null;
+        }
         Map m = new HashMap();
         Object key = null;
         Iterator itr = keys.iterator();
@@ -194,8 +195,9 @@ public class ClusterMessageAckInfo {
     public UID getMessageBrokerSessionUID() {
         assert (pkt != null);
         Long bsid = (Long) pkt.getProp("messageBrokerSession");
-        if (bsid == null)
+        if (bsid == null) {
             return null;
+        }
         return new UID(bsid.longValue());
     }
 
@@ -220,7 +222,7 @@ public class ClusterMessageAckInfo {
 
     /**
      * must called in the following order:
-     * 
+     *
      * initPayloadRead() readPayloadSysMesssageID() readPayloadConsumerUID()
      *
      */
@@ -245,8 +247,9 @@ public class ClusterMessageAckInfo {
         ConsumerUID intid = ClusterConsumerInfo.readConsumerUID(dis);
         if (c != null) {
             BrokerAddress ba = c.unmarshalBrokerAddress(pkt);
-            if (ba != null)
+            if (ba != null) {
                 intid.setBrokerAddress(ba);
+            }
         }
         return intid;
     }
@@ -261,7 +264,7 @@ public class ClusterMessageAckInfo {
 
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_MESSAGE_ACK_REPLY);
-        gp.putProp("X", (Long) pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("T", Integer.valueOf(getAckType()));
         if (pkt.getProp("C") != null) {
             gp.putProp("C", pkt.getProp("C"));
@@ -279,8 +282,9 @@ public class ClusterMessageAckInfo {
             gp.putProp("ackackAsync", pkt.getProp("ackackAsync"));
         }
         gp.putProp("S", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             gp.putProp("reason", reason);
+        }
 
         if (aes == null) {
             if (pkt.getPayload() != null) {
@@ -311,8 +315,9 @@ public class ClusterMessageAckInfo {
 
     public static AckEntryNotFoundException getAckEntryNotFoundException(GPacket ackack) {
         Integer notfound = (Integer) ackack.getProp("notfound");
-        if (notfound == null)
+        if (notfound == null) {
             return null;
+        }
 
         int cnt = notfound.intValue();
 
@@ -342,6 +347,7 @@ public class ClusterMessageAckInfo {
     /**
      * To be used by ack sender
      */
+    @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append("\n\tAckType = ").append(ClusterGlobals.getAckTypeString(ackType));
@@ -427,8 +433,9 @@ public class ClusterMessageAckInfo {
 
     public static boolean isAckAckAsync(GPacket ackack) {
         Boolean b = (Boolean) ackack.getProp("ackackAsync");
-        if (b == null)
+        if (b == null) {
             return false;
+        }
         return b.booleanValue();
 
     }
@@ -483,7 +490,7 @@ public class ClusterMessageAckInfo {
         }
 
         if (ackack.getProp("notfound") != null) {
-            buf.append("\n\tnotfound = ").append(((Integer) ackack.getProp("notfound")));
+            buf.append("\n\tnotfound = ").append((ackack.getProp("notfound")));
         }
 
         if (ackack.getPayload() != null) {
@@ -491,8 +498,9 @@ public class ClusterMessageAckInfo {
             ClusterMessageAckInfo cai = new ClusterMessageAckInfo(ackack);
             try {
                 int cnt = (cai.getCount() == null) ? 1 : cai.getCount().intValue();
-                if (notfound != null)
+                if (notfound != null) {
                     cnt = notfound.intValue();
+                }
                 cai.initPayloadRead();
                 for (int i = 0; i < cnt; i++) {
                     buf.append("\n\t\tSysMessageID = ").append(cai.readPayloadSysMessageID());
@@ -513,8 +521,9 @@ public class ClusterMessageAckInfo {
         Integer ak = Integer.valueOf(ackType);
         synchronized (ackCounts) {
             Integer v = (Integer) ackCounts.get(ak);
-            if (v != null)
+            if (v != null) {
                 ackCount = v.intValue();
+            }
             if (fstage.equals(FaultInjection.STAGE_1)) {
                 ackCounts.put(ak, Integer.valueOf(++ackCount));
             }

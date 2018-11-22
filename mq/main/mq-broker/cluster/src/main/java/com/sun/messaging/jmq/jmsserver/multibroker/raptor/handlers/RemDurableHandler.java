@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
 import java.util.Iterator;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
@@ -37,9 +35,11 @@ public class RemDurableHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "RemDurableHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_REM_DURABLE_INTEREST) {
             handleRemDurableInterest(cb, sender, pkt);
@@ -99,7 +99,7 @@ public class RemDurableHandler extends GPacketHandler {
     }
 
     private void handleRemDurableInterestAck(BrokerAddress sender, GPacket pkt) {
-        logger.log(logger.DEBUG, "MessageBus: Received G_REM_DURABLE_INTEREST_REPLY " + "from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received G_REM_DURABLE_INTEREST_REPLY " + "from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
     }
 }
 

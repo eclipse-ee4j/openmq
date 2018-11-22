@@ -27,6 +27,10 @@ import com.sun.messaging.jmq.admin.apps.console.ConsoleObj;
  * Event for indicating something was either selected or deselected. Can also be used to clear selection.
  */
 public class SelectionEvent extends AdminEvent {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2290552086056307679L;
     /*
      * Type of select event.
      */
@@ -38,7 +42,7 @@ public class SelectionEvent extends AdminEvent {
 
     /**
      * Creates an instance of SelectionEvent
-     * 
+     *
      * @param source the object where the event originated
      */
     public SelectionEvent(Object source) {
@@ -47,7 +51,7 @@ public class SelectionEvent extends AdminEvent {
 
     /**
      * Creates an instance of SelectionEvent
-     * 
+     *
      * @param source the object where the event originated
      * @id the event type
      */
@@ -57,7 +61,7 @@ public class SelectionEvent extends AdminEvent {
 
     /**
      * Sets the selected object.
-     * 
+     *
      * @param selectedObject The selected object.
      */
     public void setSelectedObj(ConsoleObj selectedObject) {
@@ -66,7 +70,7 @@ public class SelectionEvent extends AdminEvent {
 
     /**
      * Returns the selected object.
-     * 
+     *
      * @return The selected object.
      */
     public ConsoleObj getSelectedObj() {

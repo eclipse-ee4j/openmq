@@ -115,11 +115,13 @@ public class PacketPool {
      * left for garbage collection).
      */
     public void put(Packet p) {
-        if (p == null)
+        if (p == null) {
             return;
+        }
 
-        if (resetPacket)
+        if (resetPacket) {
             p.reset();
+        }
 
         synchronized (this) {
 
@@ -145,6 +147,7 @@ public class PacketPool {
         pool = new ArrayList(INITIALSIZE);
     }
 
+    @Override
     public String toString() {
         return super.toString() + ": capacity=" + capacity + ", size=" + size;
     }

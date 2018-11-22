@@ -20,13 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
@@ -95,8 +90,9 @@ public class ClusterGoodbyeInfo {
     public boolean getRequestTakeover() {
         assert (pkt != null);
         Boolean b = (Boolean) pkt.getProp("requestTakeover");
-        if (b == null)
+        if (b == null) {
             return false;
+        }
         return b.booleanValue();
     }
 
@@ -105,6 +101,7 @@ public class ClusterGoodbyeInfo {
         return pkt.getBit(pkt.A_BIT);
     }
 
+    @Override
     public String toString() {
         if (pkt == null) {
             if (Globals.getHAEnabled()) {

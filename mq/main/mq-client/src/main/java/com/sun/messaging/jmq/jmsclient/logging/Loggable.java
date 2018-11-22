@@ -35,14 +35,14 @@ public interface Loggable {
 
     /**
      * set state to true if this object is logged.
-     * 
+     *
      * @param state boolean
      */
     public void setLogState(boolean state);
 
     /**
      * get logging state of this object.
-     * 
+     *
      * @return boolean true if this object is logged.
      */
     public boolean getLogState();

@@ -87,12 +87,14 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
     /**
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      */
+    @Override
     public String getTableName() {
         return tableName;
     }
@@ -105,6 +107,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param logger_ can be null
      * @throws DupKeyException if already exist else Exception on error
      */
+    @Override
     public void insert(Connection conn, String xid, byte[] logRecord, String name, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
         Connection myconn = null;
@@ -160,6 +163,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @throws KeyNotFoundException if not found and addIfNotExist false StoreBeingTakenOverException if being takeover else
      * Exception on error
      */
+    @Override
     public void updateLogRecord(Connection conn, String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist,
             java.util.logging.Logger logger_) throws KeyNotFoundException, StoreBeingTakenOverException, Exception {
         Connection myconn = null;
@@ -195,8 +199,9 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
                 Util.checkBeingTakenOver(conn, dbMgr, logger, logger_);
                 throw new BrokerException(br.getKString("TM Log record not found in store for " + xid), Status.NOT_FOUND);
             }
-            if (myconn != null)
+            if (myconn != null) {
                 conn.commit();
+            }
 
         } catch (Exception e) {
             myex = e;
@@ -223,6 +228,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void delete(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         Connection myconn = null;
@@ -268,6 +274,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void deleteAllByName(Connection conn, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         DBManager dbMgr = DBManager.getDBManager();
@@ -284,6 +291,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         DBManager dbMgr = DBManager.getDBManager();
@@ -301,6 +309,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @return null if not found
      * @throws Exception
      */
+    @Override
     public byte[] getLogRecord(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws Exception {
         byte[] logRecord = null;
 
@@ -348,6 +357,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getUpdatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         long updatedTime = -1;
@@ -395,6 +405,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getCreatedTime(Connection conn, String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         long createdTime = -1;
 
@@ -442,6 +453,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @return a list of log records
      * @throws Exception if error
      */
+    @Override
     public List getLogRecordsByNameByBroker(Connection conn, String name, String brokerID, java.util.logging.Logger logger_) throws Exception {
         List list = new ArrayList();
 
@@ -488,6 +500,7 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @return a list of names in all log records owned by the brokerID
      * @throws Exception
      */
+    @Override
     public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception {
         List list = new ArrayList();
 
@@ -528,10 +541,11 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
 
     /**
      * (same impl as in other DAO impls)
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
@@ -553,8 +567,9 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
      * @Exception DupKeyException if xid already exists
      */
     private void checkDupKeyOnException(Connection conn, String xid, java.util.logging.Logger logger_) throws DupKeyException {
-        if (conn == null)
+        if (conn == null) {
             return;
+        }
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -576,8 +591,9 @@ public class TMLogRecordDAOJMSBG extends BaseDAOImpl implements TMLogRecordDAO {
                 logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED + "[" + selectCreatedTimeSQL + "]", rbe);
             }
 
-            if (e instanceof DupKeyException)
+            if (e instanceof DupKeyException) {
                 throw (DupKeyException) e;
+            }
 
             String emsg = br.getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Exception on checkDupKey for xid " + xid);
             logger.log(Logger.WARNING, emsg, e);

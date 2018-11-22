@@ -164,10 +164,12 @@ public class SysMessageID implements Cloneable {
      *
      * @return true if the objects are equivalent, else false
      */
+    @Override
     public boolean equals(Object o) {
 
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
         if (!(o instanceof SysMessageID)) {
             return false;
@@ -183,6 +185,7 @@ public class SysMessageID implements Cloneable {
         return (this.sequence == id.sequence && this.timestamp == id.timestamp && this.port == id.port && ip.equals(id.ip));
     }
 
+    @Override
     public int hashCode() {
         // This should generate enough uniqueness without messing with
         // the IP address.
@@ -201,6 +204,7 @@ public class SysMessageID implements Cloneable {
      * @return String description of message id
      *
      */
+    @Override
     public String toString() {
 
         if (msgID == null || dirty) {
@@ -378,6 +382,7 @@ public class SysMessageID implements Cloneable {
     /**
      * Make a deep copy of this object
      */
+    @Override
     public Object clone() {
         try {
             SysMessageID newID = (SysMessageID) super.clone();

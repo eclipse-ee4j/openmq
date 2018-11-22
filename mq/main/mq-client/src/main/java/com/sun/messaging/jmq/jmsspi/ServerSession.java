@@ -24,7 +24,7 @@ package com.sun.messaging.jmq.jmsspi;
  * A ConnectionConsumer implemented by a JMS provider uses a ServerSession to process one or more messages that have
  * arrived. It does this by getting a ServerSession from the ConnectionConsumer's ServerSessionPool; getting the
  * ServerSession's JMS session; loading it with the messages; and then starting the ServerSession.
- * 
+ *
  * ServerSession is an abstraction of the association between a JMS Session, a thread and a message-bean instance. Each
  * ServerSession given to a ConnectionConsumer represents a single thread of message-delivery.
  *

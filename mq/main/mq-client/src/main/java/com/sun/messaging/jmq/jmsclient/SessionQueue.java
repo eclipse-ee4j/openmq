@@ -22,13 +22,9 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Vector;
 import java.util.Hashtable;
-import java.util.Enumeration;
-
 import java.io.PrintStream;
 
-import javax.jms.JMSException;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.AdministeredObject;
 
 /**
  * A synchronized queue interface to allow threads to wait on a dequeue and be notified when another thread enqueues
@@ -109,7 +105,7 @@ class SessionQueue implements Traceable {
 
     /**
      * Check if queue is empty.
-     * 
+     *
      * @return
      */
     protected boolean isEmpty() {
@@ -130,7 +126,7 @@ class SessionQueue implements Traceable {
 
     /**
      * Get an array of objects from the queue.
-     * 
+     *
      * @return an array of objects from the queue.
      */
     protected Object[] toArray() {
@@ -139,7 +135,7 @@ class SessionQueue implements Traceable {
 
     /**
      * remove the specified object from the queue.
-     * 
+     *
      * @param obj the object to be removed from the queue.
      * @return true if the object was in the queue and removed.
      */
@@ -149,7 +145,7 @@ class SessionQueue implements Traceable {
 
     /**
      * Enqueues an object in the queue with no special synchronization.
-     * 
+     *
      * @param nobj new object to be enqueued
      */
     protected void enqueue(Object nobj) {
@@ -163,7 +159,7 @@ class SessionQueue implements Traceable {
 
     /**
      * Adds an object to the front of the queue with no special synchronization.
-     * 
+     *
      * @param nobj new object to be added to the front of the queue
      */
     protected void enqueueFirst(Object nobj) {
@@ -177,7 +173,7 @@ class SessionQueue implements Traceable {
 
     /**
      * Dequeues an element from the queue without any special synchronization.
-     * 
+     *
      * @return dequeued object, or null if empty queue
      */
     protected Object dequeue() {
@@ -242,7 +238,7 @@ class SessionQueue implements Traceable {
 
     /**
      * default wait forever.
-     * 
+     *
      * @return
      *
      */
@@ -285,7 +281,7 @@ class SessionQueue implements Traceable {
                 wait();
             }
         } catch (InterruptedException e) {
-            ;
+            
         }
 
     }
@@ -350,6 +346,7 @@ class SessionQueue implements Traceable {
     /**
      * Prints the queue to the debug display in a human-readable format.
      */
+    @Override
     public String toString() {
         Object tmp;
         StringBuffer strbuf = null;
@@ -380,6 +377,7 @@ class SessionQueue implements Traceable {
     }
 
     // PRIORITYQ
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ SessionQueue dump ------");
         ps.println("queue size: " + size());

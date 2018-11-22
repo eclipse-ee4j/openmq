@@ -33,6 +33,11 @@ import com.sun.messaging.naming.AdministeredObjectFactory;
 public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.Referenceable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 9013249038353362671L;
+
+    /**
      * Constructs an identity of a Point-To-Point Queue with the default name
      */
     public Queue() {
@@ -54,6 +59,7 @@ public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.
      * @return The Reference Object that can be used to reconstruct this object
      *
      */
+    @Override
     public javax.naming.Reference getReference() {
         return (ReferenceGenerator.getReference(this, AdministeredObjectFactory.class.getName()));
     }
@@ -84,7 +90,7 @@ public class Queue extends com.sun.messaging.BasicQueue implements javax.naming.
 
     /**
      * Returns the description for this Queue.
-     * 
+     *
      * @return The description for this Queue
      */
     public String getDescription() {

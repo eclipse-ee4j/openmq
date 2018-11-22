@@ -39,20 +39,24 @@ public abstract class SocketConnectionHandler implements ConnectionHandler {
 
     protected abstract void closeSocket() throws IOException;
 
+    @Override
     public boolean isDirectMode() {
         return false;
     }
 
+    @Override
     public ReadWritePacket readPacket() throws IOException {
         ReadWritePacket pkt = new ReadWritePacket();
         pkt.readPacket(is);
         return pkt;
     }
 
+    @Override
     public void writePacket(ReadWritePacket pkt) throws IOException {
         pkt.writePacket(os);
     }
 
+    @Override
     public void configure(Properties configuration) throws IOException {
         // for output stream
         String prop = getProperty(configuration, "imqOutputBuffer", "true");
@@ -102,6 +106,7 @@ public abstract class SocketConnectionHandler implements ConnectionHandler {
         return (propval == null ? propdefault : propval);
     }
 
+    @Override
     public void close() throws IOException {
 
         getInputStream().close();

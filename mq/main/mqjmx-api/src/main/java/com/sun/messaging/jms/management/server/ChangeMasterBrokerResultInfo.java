@@ -27,6 +27,11 @@ package com.sun.messaging.jms.management.server;
 public class ChangeMasterBrokerResultInfo implements java.io.Serializable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -4128412373441613915L;
+
+    /**
      * Whether an BrokerException was thrown whilst performing this operation
      */
     public static final String SUCCESS = "Success";

@@ -104,9 +104,9 @@ public class SecuredSid {
 
     /**
      * sid = sequence + "-" + (signature of sequence)
-     * 
-     * 
-     * 
+     *
+     *
+     *
      * @return
      * @throws javax.jms.JMSException
      */

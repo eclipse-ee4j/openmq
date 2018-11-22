@@ -22,16 +22,13 @@ package com.sun.messaging.jmq.jmsserver.service.imq.websocket;
 import java.io.IOException;
 import java.io.StreamCorruptedException;
 import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.BigPacketException;
-import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.MQThread;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPConnection;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.service.imq.OperationRunnable;
@@ -75,7 +72,7 @@ public final class WebSocketMQIPConnection extends IMQIPConnection implements Ru
 
     @Override
     public int getLocalPort() {
-        return ((MQWebSocket) websocket).getLocalPort();
+        return websocket.getLocalPort();
     }
 
     @Override
@@ -180,6 +177,7 @@ public final class WebSocketMQIPConnection extends IMQIPConnection implements Ru
         }
     }
 
+    @Override
     public void run() {
         while (isValid()) {
             try {

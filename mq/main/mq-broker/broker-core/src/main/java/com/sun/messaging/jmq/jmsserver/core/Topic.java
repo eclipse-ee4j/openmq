@@ -65,6 +65,7 @@ public class Topic extends Destination {
 
     public static final int ADMIN_MAX_SHARED_FLOW_LIMIT = Globals.getConfig().getIntProperty(Globals.IMQ + ".admincreate.topic.sharedConsumerFlowLimit", 5);
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         Hashtable sel = new Hashtable();
@@ -110,12 +111,14 @@ public class Topic extends Destination {
         }
     }
 
+    @Override
     protected void initVar() {
         selectorToInterest = new HashMap();
         selectors = new ArrayList();
         remoteConsumers = new HashMap();
     }
 
+    @Override
     public void unload(boolean refs) {
         super.unload(refs);
         if (refs) {
@@ -128,10 +131,12 @@ public class Topic extends Destination {
         }
     }
 
+    @Override
     public int getUnackSize() {
         return getUnackSize(null);
     }
 
+    @Override
     public int getUnackSize(Set msgset) {
         Set s = msgset;
         if (s == null) {
@@ -150,10 +155,12 @@ public class Topic extends Destination {
         return counter;
     }
 
+    @Override
     public Set routeAndMoveMessage(PacketReference oldRef, PacketReference newRef) throws IOException, BrokerException {
         throw new RuntimeException("XXX not implemented");
     }
 
+    @Override
     public boolean queueMessage(PacketReference pkt, boolean trans) throws BrokerException {
 
         // if there are no consumers, throw it away
@@ -171,6 +178,7 @@ public class Topic extends Destination {
         ois.defaultReadObject();
     }
 
+    @Override
     public void eventOccured(EventType type, Reason reason, Object source, Object OrigValue, Object NewValue, Object userdata) {
         super.eventOccured(type, reason, source, OrigValue, NewValue, userdata);
     }
@@ -178,12 +186,14 @@ public class Topic extends Destination {
     /**
      * @deprecated
      */
+    @Deprecated
     public void routeNewMessage(SysMessageID id) throws BrokerException, SelectorFormatException {
         PacketReference ref = (PacketReference) destMessages.get(id);
         Set s = routeNewMessage(ref);
-        forwardMessage((Set<Consumer>) s, ref);
+        forwardMessage(s, ref);
     }
 
+    @Override
     public int getConsumerCount() {
         int count = super.getConsumerCount();
         // get 3.0 remote consumer count
@@ -199,14 +209,15 @@ public class Topic extends Destination {
 
     /*
      * private Set matchRemoteConsumers(PacketReference msg, Set s) throws BrokerException, SelectorFormatException {
-     * 
+     *
      * synchronized(remoteConsumers) { if (remoteConsumers.isEmpty()) { return s; } Set newset = new HashSet(s); Iterator
      * itr = remoteConsumers.values().iterator(); while (itr.hasNext()) { RemoteConsumer rc = (RemoteConsumer)itr.next(); if
      * (rc.match(msg, newset)) { s.add(rc); }
-     * 
+     *
      * } return newset; } }
      */
 
+    @Override
     protected ConsumerUID[] routeLoadedTransactionMessage(PacketReference msg) throws BrokerException, SelectorFormatException {
         Set matching = new HashSet();
 
@@ -238,8 +249,9 @@ public class Topic extends Destination {
                         logger.log(Logger.INFO, "Selector " + selector + " Matches " + msg.getSysMessageID());
                     }
                     Set s = (Set) selectorToInterest.get(selector);
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     synchronized (s) {
                         matching.addAll(s);
                     }
@@ -280,6 +292,7 @@ public class Topic extends Destination {
         return (ConsumerUID[]) hs.toArray(new ConsumerUID[hs.size()]);
     }
 
+    @Override
     public void unrouteLoadedTransactionAckMessage(PacketReference ref, ConsumerUID consumerId) throws BrokerException {
         logger.log(Logger.DEBUG, "unrouteLoadedTransactionAckMessage num consumers = " + consumers.size());
         // do nothing as consumers not attatched yet?
@@ -288,14 +301,17 @@ public class Topic extends Destination {
         Consumer consumer = getConsumer(consumerId);
         if (consumer == null) {
             logger.log(Logger.DEBUG, "could not find consumer for " + consumerId);
-        } else
+        } else {
             consumer.unrouteMessage(ref);
+        }
     }
 
+    @Override
     public void routeNewMessageWithDeliveryDelay(PacketReference msg) throws BrokerException, SelectorFormatException {
         routeNewMessage(msg);
     }
 
+    @Override
     public Set routeNewMessage(PacketReference msg) throws BrokerException, SelectorFormatException {
         Set matching = new HashSet();
 
@@ -312,8 +328,9 @@ public class Topic extends Destination {
             }
             if (selector == null) {
                 Set s = (Set) selectorToInterest.get(null);
-                if (s == null)
+                if (s == null) {
                     continue;
+                }
                 synchronized (s) {
                     matching.addAll(s);
                 }
@@ -394,8 +411,9 @@ public class Topic extends Destination {
             }
             if (selector == null) {
                 Set s = (Set) selectorToInterest.get(null);
-                if (s == null)
+                if (s == null) {
                     continue;
+                }
                 synchronized (s) {
                     matching.addAll(s);
                 }
@@ -413,8 +431,9 @@ public class Topic extends Destination {
                     headers = msg.getHeaders();
                 }
                 Set s = (Set) selectorToInterest.get(selector);
-                if (s == null)
+                if (s == null) {
                     continue;
+                }
 
                 if (forStoreOnly) {
                     // optimisation...
@@ -472,6 +491,7 @@ public class Topic extends Destination {
         return matching;
     }
 
+    @Override
     public ConsumerUID[] calculateStoredInterests(PacketReference ref) throws BrokerException, SelectorFormatException {
         // this will return null if message is not persistent
 
@@ -489,6 +509,7 @@ public class Topic extends Destination {
         return storedInterests;
     }
 
+    @Override
     public void forwardOrphanMessages(Collection refs, ConsumerUID consumer) throws BrokerException {
         BrokerException ex = new BrokerException("INTERNAL ERROR: Unexpected call");
         logger.logStack(Logger.ERROR, ex.getMessage(), ex);
@@ -496,6 +517,7 @@ public class Topic extends Destination {
     }
 
     /* called from transaction code */
+    @Override
     public void forwardOrphanMessage(PacketReference ref, ConsumerUID consumer) throws BrokerException {
         Consumer c = getConsumer(consumer);
         if (c == null) {
@@ -527,10 +549,12 @@ public class Topic extends Destination {
         forwardMessage(matches, ref, false, (ref.getOrder() != null));
     }
 
+    @Override
     public void forwardMessage(Set matching, PacketReference msg) throws BrokerException {
-        forwardMessage((Set<Consumer>) matching, msg, false, false);
+        forwardMessage(matching, msg, false, false);
     }
 
+    @Override
     public void forwardDeliveryDelayedMessage(Set<ConsumerUID> matching, PacketReference msg) throws BrokerException {
 
         Set<Consumer> targets = null;
@@ -613,10 +637,12 @@ public class Topic extends Destination {
         }
     }
 
+    @Override
     public Consumer addConsumer(Consumer c, boolean notify, Connection conn) throws BrokerException, SelectorFormatException {
         return addConsumer(c, notify, conn, true);
     }
 
+    @Override
     public Consumer addConsumer(Consumer c, boolean notify, Connection conn, boolean loadIfActive) throws BrokerException, SelectorFormatException {
 
         if (c instanceof Subscription) {
@@ -649,10 +675,12 @@ public class Topic extends Destination {
         return null;
     }
 
+    @Override
     public void removeConsumer(ConsumerUID interest, boolean notify) throws BrokerException {
         removeConsumer(interest, null, false, notify);
     }
 
+    @Override
     public void removeConsumer(ConsumerUID interest, Map remotePendings, boolean remoteCleanup, boolean notify) throws BrokerException {
         Consumer c = (Consumer) consumers.get(interest);
         if (c == null) {
@@ -679,9 +707,11 @@ public class Topic extends Destination {
         }
     }
 
+    @Override
     public void sort(Comparator c) {
     }
 
+    @Override
     protected void getDestinationProps(Map m) {
         super.getDestinationProps(m);
         m.put(MAX_SHARE_CONSUMERS, Integer.valueOf(maxSharedConsumers));
@@ -710,6 +740,7 @@ public class Topic extends Destination {
         }
     }
 
+    @Override
     public DestMetricsCounters getMetrics() {
         DestMetricsCounters dmc = super.getMetrics();
         return dmc;
@@ -722,6 +753,7 @@ public class Topic extends Destination {
         maxSharedConsumers = max;
     }
 
+    @Override
     public void setSharedFlowLimit(int prefetch) {
         sharedPrefetch = prefetch;
     }
@@ -731,6 +763,7 @@ public class Topic extends Destination {
         return maxSharedConsumers;
     }
 
+    @Override
     public int getSharedConsumerFlowLimit() {
         return sharedPrefetch;
     }

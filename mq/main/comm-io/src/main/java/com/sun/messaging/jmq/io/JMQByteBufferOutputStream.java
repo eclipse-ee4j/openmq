@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.io;
 
 import java.io.OutputStream;
 import java.io.IOException;
-import java.io.EOFException;
 import java.nio.ByteBuffer;
 import java.nio.BufferOverflowException;
 
@@ -67,6 +66,7 @@ public class JMQByteBufferOutputStream extends OutputStream {
      *
      * @param b the byte to be written.
      */
+    @Override
     public synchronized void write(int b) throws BufferOverflowException {
         ensureOpen();
 
@@ -82,6 +82,7 @@ public class JMQByteBufferOutputStream extends OutputStream {
      * @param off the start offset in the data.
      * @param len the number of bytes to write.
      */
+    @Override
     public synchronized void write(byte b[], int off, int len) throws BufferOverflowException {
         ensureOpen();
 
@@ -130,6 +131,7 @@ public class JMQByteBufferOutputStream extends OutputStream {
      * <p>
      *
      */
+    @Override
     public synchronized void close() throws IOException {
         // isClosed = true;
         buf = null;

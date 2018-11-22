@@ -30,7 +30,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @param userName
      * @param password
@@ -41,7 +41,7 @@ public interface JMSAdminFactory {
 
     /**
      * Create/return an instance implementing JMSAdmin.
-     * 
+     *
      * @param jmsAdminURL JMSAdmin URL
      * @return Implementation of JMSAdmin.
      * @exception JMSException thrown if JMSAdmin could not be created/returned.

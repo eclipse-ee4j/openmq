@@ -20,10 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq.dedicated;
 
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import java.nio.channels.*;
 import java.io.IOException;
 import com.sun.messaging.jmq.util.GoodbyeReason;
@@ -34,7 +32,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.net.Protocol;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.log.Logger;
 
@@ -44,15 +41,18 @@ public class DedicatedService extends IMQIPService {
         super(name, protocol, type, router, min, max);
     }
 
+    @Override
     public RunnableFactory getRunnableFactory() {
         return new OperationRunnableFactory(true /* blocking */);
     }
 
+    @Override
     public Hashtable getDebugState() {
 //XXX
         return super.getDebugState();
     }
 
+    @Override
     public void acceptConnection(IMQIPConnection con) throws IOException, BrokerException {
         // Get a thread for read
 

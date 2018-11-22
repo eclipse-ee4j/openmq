@@ -67,6 +67,7 @@ public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory
      * @throws CorruptedConfigurationPropertiesException if <code>obj</code> does not have the minimum information
      * neccessary to recreate an instance of a a valid <code>com.sun.messaging.AdministeredObject</code>.
      */
+    @Override
     public Object getObjectInstance(Object obj, Name name, Context ctx, Hashtable env) throws Exception {
 
         if (obj instanceof Reference) {
@@ -96,7 +97,7 @@ public class AdministeredObjectFactory implements javax.naming.spi.ObjectFactory
                     throw new CorruptedConfigurationPropertiesException();
                 }
                 RefAddr readOnlyAddr = ref.get(REF_READONLY);
-                if ("true".equals((String) readOnlyAddr.getContent())) {
+                if ("true".equals(readOnlyAddr.getContent())) {
                     // Reference has readOnly set
                     readOnly = true;
                 }

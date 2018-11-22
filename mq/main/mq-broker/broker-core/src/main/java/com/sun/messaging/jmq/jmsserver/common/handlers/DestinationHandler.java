@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
@@ -48,6 +47,7 @@ public class DestinationHandler extends PacketHandler {
     /**
      * Method to handle Destination (create or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
@@ -173,10 +173,12 @@ public class DestinationHandler extends PacketHandler {
 
         }
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
@@ -185,9 +187,9 @@ public class DestinationHandler extends PacketHandler {
 
     /*
      * private String getXMLValidationPropName(DestinationSpi d) { if (d == null) { return (null); }
-     * 
+     *
      * String name = d.getDestinationName(), propName;
-     * 
+     *
      * propName = Globals.IMQ + ".validation.destination." + (d.isQueue() ? "queue" : "topic") + "." + name; return
      * (propName); }
      */
@@ -199,7 +201,7 @@ public class DestinationHandler extends PacketHandler {
 
         /*
          * String propName = getXMLValidationPropName(d);
-         * 
+         *
          * return(Globals.getConfig().getBooleanProperty(propName));
          */
 
@@ -215,9 +217,9 @@ public class DestinationHandler extends PacketHandler {
 
         /*
          * String propName = getXMLValidationPropName(d) + ".uri";
-         * 
+         *
          * ret = Globals.getConfig().getProperty(propName);
-         * 
+         *
          * return (ret);
          */
 

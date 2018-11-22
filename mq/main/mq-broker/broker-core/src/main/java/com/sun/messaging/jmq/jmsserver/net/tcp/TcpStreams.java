@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.net.tcp;
 
 import java.net.*;
-import java.nio.*;
-import java.nio.channels.*;
 import java.nio.channels.spi.*;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -52,34 +50,41 @@ public class TcpStreams implements ProtocolStreams {
         this(soc, true, 0, 0);
     }
 
+    @Override
     public boolean getBlocking() {
         return blocking;
     }
 
+    @Override
     public AbstractSelectableChannel getChannel() {
-        if (socket == null)
+        if (socket == null) {
             return null;
+        }
         return socket.getChannel();
     }
 
     public TcpStreams(Socket soc, boolean blocking, int inBufSz, int outBufSz) throws IOException {
         this.blocking = blocking;
         socket = soc;
-        if (getChannel() != null)
+        if (getChannel() != null) {
             getChannel().configureBlocking(blocking);
+        }
 
         inputBufferSize = inBufSz;
         outputBufferSize = outBufSz;
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
-        if (socket == null)
+        if (socket == null) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not get an input stream without a socket"));
+        }
         if (is == null) {
             synchronized (this) {
                 if (is == null) {
-                    if (socket == null)
+                    if (socket == null) {
                         return null;
+                    }
                     is = socket.getInputStream();
                     if (inputBufferSize > 0) {
                         is = new BufferedInputStream(is, inputBufferSize);
@@ -92,15 +97,18 @@ public class TcpStreams implements ProtocolStreams {
 
     }
 
+    @Override
     public OutputStream getOutputStream() throws IOException {
-        if (socket == null)
+        if (socket == null) {
             throw new IOException(
                     Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not get an output stream without a socket"));
+        }
         if (os == null) {
             synchronized (this) {
                 if (os == null) {
-                    if (socket == null)
+                    if (socket == null) {
                         return null;
+                    }
                     os = socket.getOutputStream();
                     if (outputBufferSize > 0) {
                         os = new BufferedOutputStream(os, outputBufferSize);
@@ -112,6 +120,7 @@ public class TcpStreams implements ProtocolStreams {
         return os;
     }
 
+    @Override
     public synchronized void close() throws IOException {
         if (is != null) {
             try {
@@ -135,46 +144,59 @@ public class TcpStreams implements ProtocolStreams {
 
     }
 
+    @Override
     public int getLocalPort() {
-        if (socket == null)
+        if (socket == null) {
             return 0;
+        }
         return socket.getLocalPort();
     }
 
+    @Override
     public int getRemotePort() {
-        if (socket == null)
+        if (socket == null) {
             return 0;
+        }
         return socket.getPort();
     }
 
+    @Override
     public InetAddress getLocalAddress() {
-        if (socket == null)
+        if (socket == null) {
             return null;
+        }
         return socket.getLocalAddress();
     }
 
+    @Override
     public InetAddress getRemoteAddress() {
-        if (socket == null)
+        if (socket == null) {
             return null;
+        }
         return socket.getInetAddress();
     }
 
+    @Override
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
+    @Override
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
 
+    @Override
     public String toString() {
         return "tcp connection to " + socket;
     }
 
+    @Override
     public String toDebugString() {
         return toString() + socket + " inBufsz=" + inputBufferSize + ",outBufSz=" + outputBufferSize;
     }
 
+    @Override
     public java.util.Hashtable getDebugState() {
         return new java.util.Hashtable();
     }

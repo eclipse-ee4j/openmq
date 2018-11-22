@@ -20,9 +20,6 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
-import java.io.*;
-import java.util.*;
-
 public class SQLParserTokenManager implements SQLParserConstants {
     // public java.io.PrintStream debugStream = System.out;
     // public void setDebugStream(java.io.PrintStream ds) { debugStream = ds; }
@@ -41,12 +38,14 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 jjmatchedPos = 1;
                 return 37;
             }
-            if ((active0 & 0x2300L) != 0L)
+            if ((active0 & 0x2300L) != 0L) {
                 return 37;
+            }
             return -1;
         case 2:
-            if ((active0 & 0x840L) != 0L)
+            if ((active0 & 0x840L) != 0L) {
                 return 37;
+            }
             if ((active0 & 0x5480L) != 0L) {
                 jjmatchedKind = 20;
                 jjmatchedPos = 2;
@@ -54,8 +53,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
             }
             return -1;
         case 3:
-            if ((active0 & 0x1400L) != 0L)
+            if ((active0 & 0x1400L) != 0L) {
                 return 37;
+            }
             if ((active0 & 0x4080L) != 0L) {
                 jjmatchedKind = 20;
                 jjmatchedPos = 3;
@@ -70,8 +70,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
             }
             return -1;
         case 5:
-            if ((active0 & 0x4000L) != 0L)
+            if ((active0 & 0x4000L) != 0L) {
                 return 37;
+            }
             if ((active0 & 0x80L) != 0L) {
                 jjmatchedKind = 20;
                 jjmatchedPos = 5;
@@ -165,14 +166,16 @@ public class SQLParserTokenManager implements SQLParserConstants {
         }
         switch (curChar) {
         case 61:
-            if ((active0 & 0x1000000L) != 0L)
+            if ((active0 & 0x1000000L) != 0L) {
                 return jjStopAtPos(1, 24);
-            else if ((active0 & 0x4000000L) != 0L)
+            } else if ((active0 & 0x4000000L) != 0L) {
                 return jjStopAtPos(1, 26);
+            }
             break;
         case 62:
-            if ((active0 & 0x10000000L) != 0L)
+            if ((active0 & 0x10000000L) != 0L) {
                 return jjStopAtPos(1, 28);
+            }
             break;
         case 69:
         case 101:
@@ -182,21 +185,24 @@ public class SQLParserTokenManager implements SQLParserConstants {
             return jjMoveStringLiteralDfa2_0(active0, 0x400L);
         case 78:
         case 110:
-            if ((active0 & 0x100L) != 0L)
+            if ((active0 & 0x100L) != 0L) {
                 return jjStartNfaWithStates_0(1, 8, 37);
+            }
             return jjMoveStringLiteralDfa2_0(active0, 0x40L);
         case 79:
         case 111:
             return jjMoveStringLiteralDfa2_0(active0, 0x800L);
         case 82:
         case 114:
-            if ((active0 & 0x2000L) != 0L)
+            if ((active0 & 0x2000L) != 0L) {
                 return jjStartNfaWithStates_0(1, 13, 37);
+            }
             break;
         case 83:
         case 115:
-            if ((active0 & 0x200L) != 0L)
+            if ((active0 & 0x200L) != 0L) {
                 return jjStartNfaWithStates_0(1, 9, 37);
+            }
             return jjMoveStringLiteralDfa2_0(active0, 0x4000L);
         case 85:
         case 117:
@@ -208,8 +214,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     private final int jjMoveStringLiteralDfa2_0(long old0, long active0) {
-        if (((active0 &= old0)) == 0L)
+        if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(0, old0);
+        }
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -222,8 +229,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
             return jjMoveStringLiteralDfa3_0(active0, 0x4000L);
         case 68:
         case 100:
-            if ((active0 & 0x40L) != 0L)
+            if ((active0 & 0x40L) != 0L) {
                 return jjStartNfaWithStates_0(2, 6, 37);
+            }
             break;
         case 75:
         case 107:
@@ -233,8 +241,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
             return jjMoveStringLiteralDfa3_0(active0, 0x1000L);
         case 84:
         case 116:
-            if ((active0 & 0x800L) != 0L)
+            if ((active0 & 0x800L) != 0L) {
                 return jjStartNfaWithStates_0(2, 11, 37);
+            }
             return jjMoveStringLiteralDfa3_0(active0, 0x80L);
         default:
             break;
@@ -243,8 +252,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     private final int jjMoveStringLiteralDfa3_0(long old0, long active0) {
-        if (((active0 &= old0)) == 0L)
+        if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(1, old0);
+        }
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -257,13 +267,15 @@ public class SQLParserTokenManager implements SQLParserConstants {
             return jjMoveStringLiteralDfa4_0(active0, 0x4000L);
         case 69:
         case 101:
-            if ((active0 & 0x400L) != 0L)
+            if ((active0 & 0x400L) != 0L) {
                 return jjStartNfaWithStates_0(3, 10, 37);
+            }
             break;
         case 76:
         case 108:
-            if ((active0 & 0x1000L) != 0L)
+            if ((active0 & 0x1000L) != 0L) {
                 return jjStartNfaWithStates_0(3, 12, 37);
+            }
             break;
         case 87:
         case 119:
@@ -275,8 +287,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     private final int jjMoveStringLiteralDfa4_0(long old0, long active0) {
-        if (((active0 &= old0)) == 0L)
+        if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(2, old0);
+        }
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -297,8 +310,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     private final int jjMoveStringLiteralDfa5_0(long old0, long active0) {
-        if (((active0 &= old0)) == 0L)
+        if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(3, old0);
+        }
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -308,8 +322,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
         switch (curChar) {
         case 69:
         case 101:
-            if ((active0 & 0x4000L) != 0L)
+            if ((active0 & 0x4000L) != 0L) {
                 return jjStartNfaWithStates_0(5, 14, 37);
+            }
             return jjMoveStringLiteralDfa6_0(active0, 0x80L);
         default:
             break;
@@ -318,8 +333,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     private final int jjMoveStringLiteralDfa6_0(long old0, long active0) {
-        if (((active0 &= old0)) == 0L)
+        if (((active0 &= old0)) == 0L) {
             return jjStartNfa_0(4, old0);
+        }
         try {
             curChar = input_stream.readChar();
         } catch (java.io.IOException e) {
@@ -329,8 +345,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
         switch (curChar) {
         case 78:
         case 110:
-            if ((active0 & 0x80L) != 0L)
+            if ((active0 & 0x80L) != 0L) {
                 return jjStartNfaWithStates_0(6, 7, 37);
+            }
             break;
         default:
             break;
@@ -377,170 +394,213 @@ public class SQLParserTokenManager implements SQLParserConstants {
         jjstateSet[0] = startState;
         int j, kind = 0x7fffffff;
         for (;;) {
-            if (++jjround == 0x7fffffff)
+            if (++jjround == 0x7fffffff) {
                 reInitRounds();
+            }
             if (curChar < 64) {
                 long l = 1L << curChar;
                 MatchLoop: do {
                     switch (jjstateSet[--i]) {
                     case 37:
                         if ((0x3ff001800000000L & l) != 0L) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAdd(23);
                         }
                         if (curChar == 36) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAddTwoStates(22, 23);
                         }
                         break;
                     case 0:
                         if ((0x3ff000000000000L & l) != 0L) {
-                            if (kind > 15)
+                            if (kind > 15) {
                                 kind = 15;
+                            }
                             jjCheckNAddStates(0, 6);
                         } else if (curChar == 36) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAddTwoStates(22, 23);
-                        } else if (curChar == 39)
+                        } else if (curChar == 39) {
                             jjCheckNAddStates(7, 9);
-                        else if (curChar == 46)
+                        } else if (curChar == 46) {
                             jjCheckNAdd(4);
-                        if (curChar == 48)
+                        }
+                        if (curChar == 48) {
                             jjstateSet[jjnewStateCnt++] = 1;
+                        }
                         break;
                     case 2:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 15)
+                        }
+                        if (kind > 15) {
                             kind = 15;
+                        }
                         jjstateSet[jjnewStateCnt++] = 2;
                         break;
                     case 3:
-                        if (curChar == 46)
+                        if (curChar == 46) {
                             jjCheckNAdd(4);
+                        }
                         break;
                     case 4:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAddTwoStates(4, 5);
                         break;
                     case 6:
-                        if ((0x280000000000L & l) != 0L)
+                        if ((0x280000000000L & l) != 0L) {
                             jjCheckNAdd(7);
+                        }
                         break;
                     case 7:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAdd(7);
                         break;
                     case 8:
-                        if (curChar == 39)
+                        if (curChar == 39) {
                             jjCheckNAddStates(7, 9);
+                        }
                         break;
                     case 9:
-                        if ((0xffffff7fffffffffL & l) != 0L)
+                        if ((0xffffff7fffffffffL & l) != 0L) {
                             jjCheckNAddStates(7, 9);
+                        }
                         break;
                     case 10:
-                        if (curChar == 39)
+                        if (curChar == 39) {
                             jjCheckNAddStates(10, 12);
+                        }
                         break;
                     case 11:
-                        if (curChar == 39)
+                        if (curChar == 39) {
                             jjstateSet[jjnewStateCnt++] = 10;
+                        }
                         break;
                     case 12:
-                        if ((0xffffff7fffffffffL & l) != 0L)
+                        if ((0xffffff7fffffffffL & l) != 0L) {
                             jjCheckNAddStates(10, 12);
+                        }
                         break;
                     case 13:
-                        if (curChar == 39 && kind > 18)
+                        if (curChar == 39 && kind > 18) {
                             kind = 18;
+                        }
                         break;
                     case 22:
-                        if (curChar != 36)
+                        if (curChar != 36) {
                             break;
-                        if (kind > 20)
+                        }
+                        if (kind > 20) {
                             kind = 20;
+                        }
                         jjCheckNAddTwoStates(22, 23);
                         break;
                     case 23:
-                        if ((0x3ff001800000000L & l) == 0L)
+                        if ((0x3ff001800000000L & l) == 0L) {
                             break;
-                        if (kind > 20)
+                        }
+                        if (kind > 20) {
                             kind = 20;
+                        }
                         jjCheckNAdd(23);
                         break;
                     case 24:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 15)
+                        }
+                        if (kind > 15) {
                             kind = 15;
+                        }
                         jjCheckNAddStates(0, 6);
                         break;
                     case 25:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 15)
+                        }
+                        if (kind > 15) {
                             kind = 15;
+                        }
                         jjCheckNAdd(25);
                         break;
                     case 26:
-                        if ((0x3ff000000000000L & l) != 0L)
+                        if ((0x3ff000000000000L & l) != 0L) {
                             jjCheckNAddTwoStates(26, 3);
+                        }
                         break;
                     case 27:
-                        if ((0x3ff000000000000L & l) != 0L)
+                        if ((0x3ff000000000000L & l) != 0L) {
                             jjCheckNAddTwoStates(27, 28);
+                        }
                         break;
                     case 28:
-                        if (curChar != 46)
+                        if (curChar != 46) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAddTwoStates(29, 30);
                         break;
                     case 29:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAddTwoStates(29, 30);
                         break;
                     case 31:
-                        if ((0x280000000000L & l) != 0L)
+                        if ((0x280000000000L & l) != 0L) {
                             jjCheckNAdd(32);
+                        }
                         break;
                     case 32:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAdd(32);
                         break;
                     case 33:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAddTwoStates(33, 34);
                         break;
                     case 35:
-                        if ((0x280000000000L & l) != 0L)
+                        if ((0x280000000000L & l) != 0L) {
                             jjCheckNAdd(36);
+                        }
                         break;
                     case 36:
-                        if ((0x3ff000000000000L & l) == 0L)
+                        if ((0x3ff000000000000L & l) == 0L) {
                             break;
-                        if (kind > 16)
+                        }
+                        if (kind > 16) {
                             kind = 16;
+                        }
                         jjCheckNAdd(36);
                         break;
                     default:
@@ -553,41 +613,49 @@ public class SQLParserTokenManager implements SQLParserConstants {
                     switch (jjstateSet[--i]) {
                     case 37:
                         if ((0x7fffffe87fffffeL & l) != 0L) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAdd(23);
                         }
                         if ((0x7fffffe87fffffeL & l) != 0L) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAddTwoStates(22, 23);
                         }
                         break;
                     case 0:
                         if ((0x7fffffe87fffffeL & l) != 0L) {
-                            if (kind > 20)
+                            if (kind > 20) {
                                 kind = 20;
+                            }
                             jjCheckNAddTwoStates(22, 23);
                         }
-                        if ((0x4000000040L & l) != 0L)
+                        if ((0x4000000040L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 20;
-                        else if ((0x10000000100000L & l) != 0L)
+                        } else if ((0x10000000100000L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 16;
+                        }
                         break;
                     case 1:
-                        if ((0x100000001000000L & l) != 0L)
+                        if ((0x100000001000000L & l) != 0L) {
                             jjCheckNAdd(2);
+                        }
                         break;
                     case 2:
-                        if ((0x3e0000003eL & l) == 0L)
+                        if ((0x3e0000003eL & l) == 0L) {
                             break;
-                        if (kind > 15)
+                        }
+                        if (kind > 15) {
                             kind = 15;
+                        }
                         jjCheckNAdd(2);
                         break;
                     case 5:
-                        if ((0x2000000020L & l) != 0L)
+                        if ((0x2000000020L & l) != 0L) {
                             jjAddStates(13, 14);
+                        }
                         break;
                     case 9:
                         jjCheckNAddStates(7, 9);
@@ -596,65 +664,79 @@ public class SQLParserTokenManager implements SQLParserConstants {
                         jjCheckNAddStates(10, 12);
                         break;
                     case 14:
-                        if ((0x2000000020L & l) != 0L && kind > 19)
+                        if ((0x2000000020L & l) != 0L && kind > 19) {
                             kind = 19;
+                        }
                         break;
                     case 15:
-                        if ((0x20000000200000L & l) != 0L)
+                        if ((0x20000000200000L & l) != 0L) {
                             jjCheckNAdd(14);
+                        }
                         break;
                     case 16:
-                        if ((0x4000000040000L & l) != 0L)
+                        if ((0x4000000040000L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 15;
+                        }
                         break;
                     case 17:
-                        if ((0x10000000100000L & l) != 0L)
+                        if ((0x10000000100000L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 16;
+                        }
                         break;
                     case 18:
-                        if ((0x8000000080000L & l) != 0L)
+                        if ((0x8000000080000L & l) != 0L) {
                             jjCheckNAdd(14);
+                        }
                         break;
                     case 19:
-                        if ((0x100000001000L & l) != 0L)
+                        if ((0x100000001000L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 18;
+                        }
                         break;
                     case 20:
-                        if ((0x200000002L & l) != 0L)
+                        if ((0x200000002L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 19;
+                        }
                         break;
                     case 21:
-                        if ((0x4000000040L & l) != 0L)
+                        if ((0x4000000040L & l) != 0L) {
                             jjstateSet[jjnewStateCnt++] = 20;
+                        }
                         break;
                     case 22:
-                        if ((0x7fffffe87fffffeL & l) == 0L)
+                        if ((0x7fffffe87fffffeL & l) == 0L) {
                             break;
-                        if (kind > 20)
+                        }
+                        if (kind > 20) {
                             kind = 20;
+                        }
                         jjCheckNAddTwoStates(22, 23);
                         break;
                     case 23:
-                        if ((0x7fffffe87fffffeL & l) == 0L)
+                        if ((0x7fffffe87fffffeL & l) == 0L) {
                             break;
-                        if (kind > 20)
+                        }
+                        if (kind > 20) {
                             kind = 20;
+                        }
                         jjCheckNAdd(23);
                         break;
                     case 30:
-                        if ((0x2000000020L & l) != 0L)
+                        if ((0x2000000020L & l) != 0L) {
                             jjAddStates(15, 16);
+                        }
                         break;
                     case 34:
-                        if ((0x2000000020L & l) != 0L)
+                        if ((0x2000000020L & l) != 0L) {
                             jjAddStates(17, 18);
+                        }
                         break;
                     default:
                         break;
                     }
                 } while (i != startsAt);
             } else {
-                int hiByte = (int) (curChar >> 8);
+                int hiByte = curChar >> 8;
                 int i1 = hiByte >> 6;
                 long l1 = 1L << (hiByte & 077);
                 int i2 = (curChar & 0xff) >> 6;
@@ -662,12 +744,14 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 MatchLoop: do {
                     switch (jjstateSet[--i]) {
                     case 9:
-                        if (jjCanMove_0(hiByte, i1, i2, l1, l2))
+                        if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
                             jjCheckNAddStates(7, 9);
+                        }
                         break;
                     case 12:
-                        if (jjCanMove_0(hiByte, i1, i2, l1, l2))
+                        if (jjCanMove_0(hiByte, i1, i2, l1, l2)) {
                             jjCheckNAddStates(10, 12);
+                        }
                         break;
                     default:
                         break;
@@ -680,8 +764,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 kind = 0x7fffffff;
             }
             ++curPos;
-            if ((i = jjnewStateCnt) == (startsAt = 37 - (jjnewStateCnt = startsAt)))
+            if ((i = jjnewStateCnt) == (startsAt = 37 - (jjnewStateCnt = startsAt))) {
                 return curPos;
+            }
             try {
                 curChar = input_stream.readChar();
             } catch (java.io.IOException e) {
@@ -697,8 +782,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
         case 0:
             return ((jjbitVec2[i2] & l2) != 0L);
         default:
-            if ((jjbitVec0[i1] & l1) != 0L)
+            if ((jjbitVec0[i1] & l1) != 0L) {
                 return true;
+            }
             return false;
         }
     }
@@ -714,8 +800,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     protected char curChar;
 
     public SQLParserTokenManager(JavaCharStream stream) {
-        if (JavaCharStream.staticFlag)
+        if (JavaCharStream.staticFlag) {
             throw new Error("ERROR: Cannot use a static CharStream class with a non-static lexical analyzer.");
+        }
         input_stream = stream;
     }
 
@@ -734,8 +821,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
     private final void reInitRounds() {
         int i;
         jjround = 0x80000001;
-        for (i = 37; i-- > 0;)
+        for (i = 37; i-- > 0;) {
             jjrounds[i] = 0x80000000;
+        }
     }
 
     public void reInit(JavaCharStream stream, int lexState) {
@@ -744,10 +832,11 @@ public class SQLParserTokenManager implements SQLParserConstants {
     }
 
     public void switchTo(int lexState) {
-        if (lexState >= 1 || lexState < 0)
+        if (lexState >= 1 || lexState < 0) {
             throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
-        else
+        } else {
             curLexState = lexState;
+        }
     }
 
     private final Token jjFillToken() {
@@ -786,8 +875,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
 
             try {
                 input_stream.backup(0);
-                while (curChar <= 32 && (0x100003600L & (1L << curChar)) != 0L)
+                while (curChar <= 32 && (0x100003600L & (1L << curChar)) != 0L) {
                     curChar = input_stream.beginToken();
+                }
             } catch (java.io.IOException e1) {
                 continue EOFLoop;
             }
@@ -795,8 +885,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
             jjmatchedPos = 0;
             curPos = jjMoveStringLiteralDfa0_0();
             if (jjmatchedKind != 0x7fffffff) {
-                if (jjmatchedPos + 1 < curPos)
+                if (jjmatchedPos + 1 < curPos) {
                     input_stream.backup(curPos - jjmatchedPos - 1);
+                }
                 if ((jjtoToken[jjmatchedKind >> 6] & (1L << (jjmatchedKind & 077))) != 0L) {
                     matchedToken = jjFillToken();
                     return matchedToken;
@@ -817,8 +908,9 @@ public class SQLParserTokenManager implements SQLParserConstants {
                 if (curChar == '\n' || curChar == '\r') {
                     error_line++;
                     error_column = 0;
-                } else
+                } else {
                     error_column++;
+                }
             }
             if (!EOFSeen) {
                 input_stream.backup(1);

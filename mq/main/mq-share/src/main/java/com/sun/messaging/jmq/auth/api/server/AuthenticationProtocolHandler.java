@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.auth.api.server;
 import java.util.Properties;
 import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
-import com.sun.messaging.jmq.auth.api.FailedLoginException;
 
 /**
  * This is broker-side AuthenticationProtocolHandler
@@ -37,7 +36,7 @@ public interface AuthenticationProtocolHandler {
 
     /**
      * This method is called once before any handleResponse() calls for this authentication process
-     * 
+     *
      * @param sequence packet sequence number which can be used as a start sequence number for this authentication process
      * @param authProperties contains broker auth properties for this authType
      * @param cacheData The cacheData if any (see getCacheData()).
@@ -54,7 +53,7 @@ public interface AuthenticationProtocolHandler {
      *
      * @return next request data if any; null if no more request Request data will be sent as packet body in
      * AUTHENTICATE_REQUEST
-     * 
+     *
      * @exception LoginException if error occurs while handle the response
      * @exception com.sun.messaging.jmq.auth.FailedLoginException if invalid user or credential
      */

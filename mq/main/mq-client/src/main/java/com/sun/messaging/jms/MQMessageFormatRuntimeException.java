@@ -26,11 +26,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1656083112315033486L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQMessageFormatRuntimeException(String detailMessage) {
@@ -39,7 +43,7 @@ public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRunt
 
     /**
      * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -49,7 +53,7 @@ public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRunt
 
     /**
      * Constructs a <code>MQMessageFormatRuntimeException</code> with the specified detail message, error code and cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -60,7 +64,7 @@ public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRunt
 
     /**
      * Construct a <code>MQMessageFormatRuntimeException</code> to wrap the specified MessageFormatException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQMessageFormatRuntimeException(MessageFormatException cause) {
@@ -69,18 +73,20 @@ public class MQMessageFormatRuntimeException extends javax.jms.MessageFormatRunt
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

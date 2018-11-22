@@ -33,6 +33,7 @@ public class PermissionFactoryImpl implements PermissionFactory {
     /**
      *
      */
+    @Override
     public java.security.Permission newPermission(String privateString, // can be null
             String resourceName, String actions, Map conditions) {
 

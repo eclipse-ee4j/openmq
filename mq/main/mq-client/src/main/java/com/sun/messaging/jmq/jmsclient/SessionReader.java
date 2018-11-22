@@ -72,6 +72,7 @@ public class SessionReader extends ConsumerReader {
      * @exception IOException
      * @exception JMSException
      */
+    @Override
     protected void deliver(ReadOnlyPacket packet) throws IOException, JMSException {
 
         // XXX PROTOCOL2.1
@@ -107,6 +108,7 @@ public class SessionReader extends ConsumerReader {
      * @exception IOException
      * @exception JMSException
      */
+    @Override
     protected void deliver() throws IOException, JMSException {
 
         if (sessionQueue.getIsClosed() == false) {
@@ -161,6 +163,7 @@ public class SessionReader extends ConsumerReader {
         return msg;
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ SessionReader dump ------");
         ps.println("Session ID: " + session.getSessionId());

@@ -33,6 +33,10 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  * <P>
  */
 public class BrokerPropsDialog extends BrokerDialog {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3753850379230524087L;
     private BrokerCObj bCObj;
     private BrokerAdmin ba;
 
@@ -41,6 +45,7 @@ public class BrokerPropsDialog extends BrokerDialog {
         setHelpId(ConsoleHelpID.BROKER_PROPS);
     }
 
+    @Override
     public void doOK() {
         String brokerName = null;
 
@@ -74,26 +79,32 @@ public class BrokerPropsDialog extends BrokerDialog {
         fireAdminEventDispatched(bae);
     }
 
+    @Override
     public void doCancel() {
         hide();
         clearFields();
     }
 
     // not used
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void doClose() {
         hide();
         clearFields();
     }
 
+    @Override
     public void show() {
         if (ba.isConnected()) {
             setEditable(false);
@@ -132,6 +143,7 @@ public class BrokerPropsDialog extends BrokerDialog {
         this.bCObj = bCObj;
     }
 
+    @Override
     protected void setEditable(boolean editable) {
         if (editable) {
             okButton.setVisible(true);

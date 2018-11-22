@@ -22,12 +22,16 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.*;
 import java.net.*;
-import java.io.Serializable;
 
 /**
  * This class represents broker address URL.
  */
 public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2121983452146181751L;
 
     protected static final HashMap handlers = new HashMap();
 
@@ -75,12 +79,15 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
         if (isWebSocket) {
             return WEBSOCKET_HANDLER;
         }
-        if (schemeName.equalsIgnoreCase("mqtcp"))
+        if (schemeName.equalsIgnoreCase("mqtcp")) {
             return TCP_HANDLER;
-        if (schemeName.equalsIgnoreCase("mqssl"))
+        }
+        if (schemeName.equalsIgnoreCase("mqssl")) {
             return SSL_HANDLER;
-        if (schemeName.equalsIgnoreCase("direct"))
+        }
+        if (schemeName.equalsIgnoreCase("direct")) {
             return DIRECT_HANDLER;
+        }
 
         String ret = (String) handlers.get(serviceName);
         // assert (ret != null);
@@ -95,9 +102,9 @@ public class MQAddress extends com.sun.messaging.jmq.io.MQAddress {
     public static void main(String args[]) throws Exception {
         MQAddress addr = createMQAddress(args[0]);
         System.out.println("schemeName = " + addr.getSchemeName());
-        if (addr.getIsHTTP())
+        if (addr.getIsHTTP()) {
             System.out.println("URL = " + addr.getURL());
-        else {
+        } else {
             System.out.println("host = " + addr.getHostName());
             System.out.println("port = " + addr.getPort());
         }

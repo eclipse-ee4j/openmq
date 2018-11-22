@@ -24,7 +24,6 @@ import com.sun.messaging.jmq.jmsserver.net.Protocol;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.service.ServiceFactory;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQIPServiceFactory;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -112,6 +111,7 @@ public class WebSocketIPServiceFactory extends IMQIPServiceFactory {
         return s;
     }
 
+    @Override
     protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
         throw new UnsupportedOperationException("Unexpected call");
     }

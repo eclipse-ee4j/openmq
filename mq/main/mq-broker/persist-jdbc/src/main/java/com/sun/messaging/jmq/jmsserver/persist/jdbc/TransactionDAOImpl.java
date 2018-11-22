@@ -67,7 +67,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     TransactionDAOImpl() throws BrokerException {
@@ -174,31 +174,34 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param txnState the TransactionState
      * @param storeSessionID the store session ID
      * @throws BrokerException
      */
+    @Override
     public void insert(Connection conn, TransactionUID txnUID, TransactionState txnState, long storeSessionID) throws BrokerException {
 
         insert(conn, txnUID, txnState, null, null, TransactionInfo.TXN_LOCAL, storeSessionID);
@@ -206,7 +209,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param txnState the TransactionState
@@ -215,6 +218,7 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
      * @param storeSessionID the store session ID
      * @throws BrokerException
      */
+    @Override
     public void insert(Connection conn, TransactionUID txnUID, TransactionState txnState, BrokerAddress txnHomeBroker, TransactionBroker[] txnBrokers, int type,
             long storeSessionID) throws BrokerException {
 
@@ -303,12 +307,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Update the TransactionState for the specified transaction.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param txnState the new state
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateTransactionState(Connection conn, TransactionUID txnUID, TransactionState txnState, boolean replaycheck) throws BrokerException {
 
         boolean myConn = false;
@@ -407,12 +412,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Update the transaction home broker for the specified transaction.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateTransactionHomeBroker(Connection conn, TransactionUID txnUID, BrokerAddress txnHomeBroker) throws BrokerException {
 
         boolean myConn = false;
@@ -488,12 +494,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Update transaction's participant brokers for the specified transaction.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param txnBrokers the transaction's participant brokers
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateTransactionBrokers(Connection conn, TransactionUID txnUID, TransactionBroker[] txnBrokers) throws BrokerException {
 
         boolean myConn = false;
@@ -570,13 +577,14 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Update transaction's participant broker state if the txn's state matches the expected state.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param expectedTxnState the expected transaction state
      * @param txnBkr the participant broker to be updated
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateTransactionBrokerState(Connection conn, TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBkr) throws BrokerException {
 
         long id = txnUID.longValue();
@@ -663,12 +671,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Update the transaction accessed time.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @param accessedTime the new timestamp
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateAccessedTime(Connection conn, TransactionUID txnUID, long accessedTime) throws BrokerException {
 
         boolean myConn = false;
@@ -722,11 +731,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Delete an existing entry.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @throws BrokerException
      */
+    @Override
     public void delete(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         boolean myConn = false;
@@ -793,10 +803,11 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         String whereClause = null;
@@ -821,12 +832,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get the TransactionState object.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return TransactionState object
      * @throws BrokerException
      */
+    @Override
     public TransactionState getTransactionState(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         TransactionState txnState = null;
@@ -896,12 +908,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get the transaction home broker for the specified transaction.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return BrokerAddress object
      * @throws BrokerException
      */
+    @Override
     public BrokerAddress getTransactionHomeBroker(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         BrokerAddress txnHomeBroker = null;
@@ -962,12 +975,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get transaction's participant brokers for the specified transaction..
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return an array of TransactionBroker object
      * @throws BrokerException
      */
+    @Override
     public TransactionBroker[] getTransactionBrokers(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         TransactionBroker[] txnBrokers = null;
@@ -1028,12 +1042,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get the TransactionInfo object.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return TransactionInfo object
      * @throws BrokerException
      */
+    @Override
     public TransactionInfo getTransactionInfo(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         TransactionInfo txnInfo = null;
@@ -1106,12 +1121,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get the time when the transaction was last accessed.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return Timestamp when the transaction was last accessed
      * @throws BrokerException
      */
+    @Override
     public long getAccessedTime(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         long accessedTime = -1;
@@ -1171,11 +1187,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Retrieve all local and cluster transaction IDs owned by a broker.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of TransactionUID objects; an empty List is returned if the broker does not have any transactions
      */
+    @Override
     public List getTransactionsByBroker(Connection conn, String brokerID) throws BrokerException {
 
         List list = new ArrayList();
@@ -1234,11 +1251,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Retrieve all remote transaction IDs that this broker participates in.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of TransactionUID objects; an empty List is returned if the broker does not have any transactions
      */
+    @Override
     public List getRemoteTransactionsByBroker(Connection conn, String brokerID) throws BrokerException {
 
         List list = new ArrayList();
@@ -1331,12 +1349,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Retrieve all local and cluster transaction states.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a Map of transaction IDs and TransactionState objects; an empty Map is returned if no transactions exist in
      * the store
      */
+    @Override
     public HashMap getTransactionStatesByBroker(Connection conn, String brokerID, Long storeSession) throws BrokerException {
 
         HashMap map = new HashMap();
@@ -1421,12 +1440,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Retrieve all remote transaction states that this broker participates in.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a Map of transaction IDs and TransactionState objects; an empty Map is returned if no transactions exist in
      * the store
      */
+    @Override
     public HashMap getRemoteTransactionStatesByBroker(Connection conn, String brokerID, Long storeSession) throws BrokerException {
 
         HashMap map = new HashMap();
@@ -1538,12 +1558,13 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
     /**
      * Return the number of messages and the number of consumer states that that associate with the specified transaction
      * ID.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return an array of int whose first element contains the number of messages and the second element contains the
      * number of consumer states.
      */
+    @Override
     public int[] getTransactionUsageInfo(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         int[] data = { 0, 0 };
@@ -1604,11 +1625,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Check whether the specified transaction exists.
-     * 
+     *
      * @param conn database connection
      * @param id transaction ID
      * @return return true if the specified transaction exists
      */
+    @Override
     public boolean hasTransaction(Connection conn, long id) throws BrokerException {
 
         boolean found = false;
@@ -1664,11 +1686,12 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Check whether the specified transaction exists.
-     * 
+     *
      * @param conn database connection
      * @param id transaction ID
      * @throws BrokerException if the transaction does not exists in the store
      */
+    @Override
     public void checkTransaction(Connection conn, long id) throws BrokerException {
 
         if (!hasTransaction(conn, id)) {
@@ -1686,10 +1709,11 @@ class TransactionDAOImpl extends BaseDAOImpl implements TransactionDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();

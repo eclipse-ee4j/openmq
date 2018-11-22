@@ -129,20 +129,23 @@ public class BrokerStatus {
 
     private static String getStatusString(int status) {
         String str = "";
-        if (getBrokerLinkIsUp(status))
+        if (getBrokerLinkIsUp(status)) {
             str += "LINK_UP";
-        else
+        } else {
             str += "LINK_DOWN";
+        }
 
-        if (getBrokerInDoubt(status))
+        if (getBrokerInDoubt(status)) {
             str += ":IN_DOUBT";
-        else
+        } else {
             str += ":NOT_INDOUBT";
+        }
 
-        if (getBrokerIsUp(status))
+        if (getBrokerIsUp(status)) {
             str += ":UP";
-        else
+        } else {
             str += ":DOWN";
+        }
         return str;
     }
 

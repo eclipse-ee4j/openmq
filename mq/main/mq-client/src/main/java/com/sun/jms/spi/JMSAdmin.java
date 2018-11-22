@@ -32,7 +32,7 @@ public interface JMSAdmin extends JMSRIConstants {
     /**
      * Create a physical Destination within the JMS Provider using the provided properties to define provider specific
      * attributes. Destination is not automatically bound into JNDI namespace.
-     * 
+     *
      * @param destinationName
      * @param destinationType QUEUE or TOPIC
      * @param properties creation properties.
@@ -43,7 +43,7 @@ public interface JMSAdmin extends JMSRIConstants {
 
     /**
      * Get all Destinations.
-     * 
+     *
      * @param destinationType QUEUE or TOPIC or ALL
      * @return Set of Destinations of destination type.
      * @exception JMSException thrown if set could not be obtained.
@@ -52,7 +52,7 @@ public interface JMSAdmin extends JMSRIConstants {
 
     /**
      * Delete a physical destination within the JMS Provider.
-     * 
+     *
      * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
      */
@@ -60,7 +60,7 @@ public interface JMSAdmin extends JMSRIConstants {
 
     /**
      * Get all messages contained within a specified Queue.
-     * 
+     *
      * @param queue
      * @param messageSelector
      * @return QueueBrowser for queue
@@ -95,7 +95,7 @@ public interface JMSAdmin extends JMSRIConstants {
 
     /**
      * Validate selector string to be used with a JMS Message Consumer.
-     * 
+     *
      * @param selector Selector string to validate
      * @exception InvalidSelectorException if the selector is invalid.
      */

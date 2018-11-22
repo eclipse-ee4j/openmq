@@ -35,7 +35,7 @@ public interface ClusterCallback {
 
     /**
      * Receive a unicast packet.
-     * 
+     *
      * @param sender Address of the broker who sent this message.
      * @param pkt Packet.
      */
@@ -43,7 +43,7 @@ public interface ClusterCallback {
 
     /**
      * Receive a broadcast packet.
-     * 
+     *
      * @param sender Address of the broker who sent this message.
      * @param pkt Packet.
      */
@@ -51,7 +51,7 @@ public interface ClusterCallback {
 
     /**
      * Receive a unicast packet.
-     * 
+     *
      * @param sender Address of the broker who sent this message.
      * @param destId Tells the this broker how this message shoule be handled
      * @param pkt Packet data.
@@ -60,7 +60,7 @@ public interface ClusterCallback {
 
     /**
      * Receive a broadcast packet.
-     * 
+     *
      * @param sender Address of the broker who sent this message.
      * @param destId Tells the this broker how this message shoule be handled
      * @param pkt Packet data.
@@ -70,7 +70,7 @@ public interface ClusterCallback {
     /**
      * Construct a BrokerInfo object that describes this broker. This object is exchanged during initial handshake between
      * brokers.
-     * 
+     *
      * @return BrokerInfo object describing the current state of the broker.
      */
     public BrokerInfo getBrokerInfo();

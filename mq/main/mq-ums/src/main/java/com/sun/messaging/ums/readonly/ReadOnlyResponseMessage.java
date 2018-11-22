@@ -21,7 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * The response message for ReadOnly request service.
- * 
+ *
  * @author chiaming
  */
 public class ReadOnlyResponseMessage {

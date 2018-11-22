@@ -19,24 +19,12 @@ package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Properties;
-import java.util.LinkedHashMap;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.JMSPacket;
-import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsservice.JMSService;
-import com.sun.messaging.jmq.jmsservice.Destination;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
-import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 import com.sun.messaging.jmq.jmsservice.JMSService.MessageDeliveryMode;
-import com.sun.messaging.jmq.jmsservice.JMSService.MessagePriority;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.bridge.api.StompFrameMessage;
-import com.sun.messaging.bridge.api.StompDestination;
-import com.sun.messaging.bridge.api.StompProtocolException;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 
 /**
@@ -121,6 +109,7 @@ public class StompSenderSession extends StompSessionImpl {
             }
             final Packet p = pkt;
             jmsservice.sendMessage(connectionId, new JMSPacket() {
+                @Override
                 public Packet getPacket() {
                     return p;
                 }

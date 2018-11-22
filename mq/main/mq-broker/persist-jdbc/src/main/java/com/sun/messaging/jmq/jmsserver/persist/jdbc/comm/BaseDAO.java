@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.persist.jdbc.comm;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
-import java.sql.SQLException;
 import java.sql.Connection;
 import java.util.HashMap;
 
@@ -33,21 +32,21 @@ public interface BaseDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
     public String getTableNamePrefix();
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
     public String getTableName();
 
     /**
      * Create the table.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
@@ -59,7 +58,7 @@ public interface BaseDAO {
 
     /**
      * Drop the table.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
@@ -67,7 +66,7 @@ public interface BaseDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
@@ -75,7 +74,7 @@ public interface BaseDAO {
 
     /**
      * Get row count.
-     * 
+     *
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
      * @return the number of rows in a query
@@ -84,7 +83,7 @@ public interface BaseDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */

@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class InvalidJMSSelectorException extends java.lang.Exception {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -5176195902774519231L;
+
+    /**
      * Construct a InvalidJMSSelectorException
      */
     public InvalidJMSSelectorException() {

@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.util.net;
 
 import java.io.*;
 import java.util.Arrays;
-import java.util.regex.*;
 import java.net.InetAddress;
 
 import com.sun.messaging.jmq.util.Bits;
@@ -47,6 +46,11 @@ import com.sun.messaging.jmq.util.Bits;
  * multicast address we can use this prefix to indicate an IPv4+MAC address.
  */
 public class IPAddress implements Cloneable, Serializable {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3749627756354392982L;
 
     /**
      * Size of an IPv4 address in bytes
@@ -113,11 +117,12 @@ public class IPAddress implements Cloneable, Serializable {
     /**
      * Make a deep copy of the IP address
      */
+    @Override
     public Object clone() {
         IPAddress newIP = null;
         try {
             newIP = (IPAddress) super.clone();
-            newIP.ip = (byte[]) (this.ip.clone());
+            newIP.ip = (this.ip.clone());
         } catch (CloneNotSupportedException e) {
             // this should never happen since we are Cloneable and so
             // are arrays. We print a message just in case.
@@ -126,6 +131,7 @@ public class IPAddress implements Cloneable, Serializable {
         return newIP;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof IPAddress) {
             return isEqual(ip, ((IPAddress) obj).ip);
@@ -134,9 +140,11 @@ public class IPAddress implements Cloneable, Serializable {
         }
     }
 
+    @Override
     public int hashCode() {
-        if (ip == null)
+        if (ip == null) {
             return 0;
+        }
         return Arrays.hashCode(ip);
     }
 
@@ -147,10 +155,11 @@ public class IPAddress implements Cloneable, Serializable {
      */
     public static boolean isNull(byte[] addr) {
 
-        if (addr == null || isEqual(addr, nullAddr))
+        if (addr == null || isEqual(addr, nullAddr)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     /**
@@ -191,7 +200,7 @@ public class IPAddress implements Cloneable, Serializable {
      * @return The raw IP address. This will always be an IPv6 (128 bit) address. It is a copy
      */
     public byte[] getAddress() {
-        return (byte[]) ip.clone();
+        return ip.clone();
     }
 
     /**
@@ -337,7 +346,7 @@ public class IPAddress implements Cloneable, Serializable {
     }
 
     /**
-     * 
+     *
      * Check if the passed address is an IPv4-mapped IPv6 address. <BR>
      * IPv6 defines an address that holds an embedded IPv4 address. This is called an "IPv4-mapped IPv6 address". It is
      * specified by a prefix of 80 0 bits and 16 1 bits. The last 32 bits are the IPv4 address. This method checks if the
@@ -346,7 +355,7 @@ public class IPAddress implements Cloneable, Serializable {
      * @param addr Raw IPv6 address (128 bits)
      *
      * @return true If addr is an IPv4-mapped IPv6 address
-     * 
+     *
      */
     public static boolean isIPv4Mapped(byte[] addr) {
         if (addr.length == IPV6_SIZE) {
@@ -363,7 +372,7 @@ public class IPAddress implements Cloneable, Serializable {
     }
 
     /**
-     * 
+     *
      * Check if the passed address is an iMQ IPv4+MAC address. <BR>
      * iMQ defines an alternate format used to make the IPv4 address more unique. We basically bake a 40 bit MAC address (or
      * psuedo MAC address) into the upper portion of the 128 bits. The format is 8 1 bits followed by 24 0 bits followed by
@@ -372,7 +381,7 @@ public class IPAddress implements Cloneable, Serializable {
      * @param addr Raw IPv6 address (128 bits)
      *
      * @return true If addr is an iMQ IPv4+MAC address
-     * 
+     *
      */
     public static boolean isIPv4Mac(byte[] addr) {
         if (addr.length == IPV6_SIZE) {
@@ -388,6 +397,7 @@ public class IPAddress implements Cloneable, Serializable {
         }
     }
 
+    @Override
     public String toString() {
         return rawIPToString(ip, true, false);
     }
@@ -444,8 +454,9 @@ public class IPAddress implements Cloneable, Serializable {
 
                 addr = new byte[4];
 
-                for (int i = 0; i < 4; i++)
+                for (int i = 0; i < 4; i++) {
                     addr[i] = Integer.valueOf(ip4[i]).byteValue();
+                }
             }
         }
 
@@ -455,8 +466,9 @@ public class IPAddress implements Cloneable, Serializable {
         if (macAddr != null) {
             String macbyte[] = macAddr.split("\\:");
             byte[] mac = new byte[macbyte.length];
-            for (int i = 0; i < macbyte.length; i++)
+            for (int i = 0; i < macbyte.length; i++) {
                 mac[i] = Integer.valueOf(macbyte[i].toUpperCase(), 16).byteValue();
+            }
             ip.setMac(mac);
         }
         return ip;

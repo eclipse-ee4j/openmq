@@ -22,31 +22,22 @@ package com.sun.messaging.jmq.jmsserver.data.handlers;
 
 import java.util.*;
 import java.io.*;
-import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.MessageDeliveryTimeInfo;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
-import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
-import com.sun.messaging.jmq.jmsserver.memory.MemoryGlobals;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 import com.sun.messaging.jmq.util.log.Logger;
 
@@ -66,6 +57,7 @@ public class DataHandler extends PacketHandler {
     /**
      * Method to handle normal data messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         boolean sentReply = false;
 
@@ -344,8 +336,9 @@ public class DataHandler extends PacketHandler {
         // OK .. handle Fault Injection
         if (!con.isAdminConnection() && fi.FAULT_INJECTION) {
             Map m = new HashMap();
-            if (props != null)
+            if (props != null) {
                 m.putAll(props);
+            }
             m.put("mqMsgCount", Integer.valueOf(msgProcessCnt));
             m.put("mqIsTransacted", Boolean.valueOf(transacted));
             fi.checkFaultAndExit(FaultInjection.FAULT_SEND_MSG_2, m, 2, false);
@@ -356,17 +349,20 @@ public class DataHandler extends PacketHandler {
         pkt.setConsumerID(cid);
         Hashtable hash = new Hashtable();
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", refid);
+        }
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
         // OK .. handle Fault Injection
         if (!con.isAdminConnection() && fi.FAULT_INJECTION) {
             Map m = new HashMap();
-            if (props != null)
+            if (props != null) {
                 m.putAll(props);
+            }
             m.put("mqMsgCount", Integer.valueOf(msgProcessCnt));
             m.put("mqIsTransacted", Boolean.valueOf(transacted));
             fi.checkFaultAndExit(FaultInjection.FAULT_SEND_MSG_3, m, 2, false);
@@ -385,7 +381,9 @@ public class DataHandler extends PacketHandler {
         ProducerUID puid = new ProducerUID(pid);
         Producer p = (Producer) Producer.getProducer(puid);
         if (p != null)
+         {
             p.addMsg(); // increment counter
+        }
         // see if we need to resume flow
         if (msg.getConsumerFlow()) {
             pausedProducer = p;

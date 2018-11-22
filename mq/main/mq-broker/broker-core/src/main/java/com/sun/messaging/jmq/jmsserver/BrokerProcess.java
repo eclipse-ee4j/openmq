@@ -21,14 +21,8 @@
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
-import com.sun.messaging.jmq.jmsserver.service.Service;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQDirectService;
 import com.sun.messaging.jmq.jmsservice.JMSBroker;
-import com.sun.messaging.jmq.jmsservice.JMSService;
 import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 
 /**
  * Wrapper used to start the broker. It wraps a singleton class (only one broker can be running in any process).
@@ -39,7 +33,7 @@ import com.sun.messaging.jmq.jmsservice.BrokerEvent;
  * <code><PRE>
  *      BrokerProcess bp = BrokerProcess.getBrokerProcess();
  *      try {
- *      
+ *
  *          Properties ht = bp.convertArgs(args);
  *          int exitcode = bp.start(true, ht, null);
  *          System.out.println("Broker exited with " + exitcode);
@@ -93,6 +87,7 @@ public class BrokerProcess implements JMSBroker {
         return broker.convertArgs(args);
     }
 
+    @Override
     public Properties parseArgs(String[] args) throws IllegalArgumentException {
         return (convertArgs(args));
     }
@@ -110,7 +105,7 @@ public class BrokerProcess implements JMSBroker {
      * Start the broker (only one broker can be running in a given vm).
      * <p>
      * This call returns as soon as the broker sucessfully starts.
-     * 
+     *
      * @param inProcess - indicates that the broker is running inprocess and the shutdown hook and memory management code
      * should not be used.
      * @param properties - configuration setttings for the broker
@@ -124,6 +119,7 @@ public class BrokerProcess implements JMSBroker {
      * @throws IllegalStateException - the broker is already running.
      * @throws IllegalArgumentException - an invalid value for a property was passed on the command line
      */
+    @Override
     public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
             throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
 
@@ -133,15 +129,17 @@ public class BrokerProcess implements JMSBroker {
     /**
      * Stop the broker (only one broker can be running in a given vm).
      * <p>
-     * 
+     *
      * @param cleanup - if false, the code does not need to worry about freeing unused resources. (broker is about to exit)
      * @throws IllegalStateException - the broker is already stopped.
      */
+    @Override
     public void stop(boolean cleanup) throws IllegalStateException {
         broker.destroyBroker(cleanup);
         broker = null;
     }
 
+    @Override
     public boolean isShutdown() {
         return (broker == null || broker.broker == null);
     }
@@ -150,11 +148,12 @@ public class BrokerProcess implements JMSBroker {
      * Specify a message that will be written to the broker logfile when the broker starts as an INFO message. This is
      * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
      * arguments are logged.
-     * 
+     *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     * 
+     *
      * @param embeddedBrokerStartupMessage
      */
+    @Override
     public void addEmbeddedBrokerStartupMessage(String message) {
         broker.addEmbeddedBrokerStartupMessage(message);
     }

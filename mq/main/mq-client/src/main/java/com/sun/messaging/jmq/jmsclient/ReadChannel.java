@@ -27,13 +27,11 @@ import java.util.logging.*;
 
 import javax.jms.*;
 
-import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.DebugPrinter;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 import com.sun.messaging.jms.notification.*;
-import com.sun.messaging.jmq.jmsclient.notification.*;
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 /**
@@ -175,6 +173,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
     /**
      * Dispatch packets to the sessions based on the interest id in the packet.
      */
+    @Override
     public void dispatch(ReadWritePacket pkt) throws JMSException {
 
         // System.out.println ("pkt received: " + pkt.getPacketType());
@@ -297,7 +296,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
     /**
      * check protocol handler state. Bug6664280 - JMQ client unresponsive, loads CPU at 100% and generates log output at a
      * high rate.
-     * 
+     *
      * This is a side effect from bug 6664278. But we still want to handle here so that it is impossible to generate logs in
      * a loop.
      */
@@ -318,7 +317,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
         } catch (Exception e) {
             Debug.printStackTrace(e);
         } finally {
-            ;
+            
         }
     }
 
@@ -338,7 +337,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
 
     /**
      * process INFO packet sent from broker.
-     * 
+     *
      * @param pkt ReadWritePacket
      */
     private void processInfoPacket(ReadWritePacket pkt) {
@@ -835,7 +834,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             long producerID = newID.longValue();
 
             // Get current add producer destination object
-            Destination dest = (Destination) producer.addProducerDest;
+            Destination dest = producer.addProducerDest;
             // set producer ID
             producer.setProducerID(dest, producerID);
             // set flow limit
@@ -1076,7 +1075,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
         /**
          * Get session object associated with the consumer.
          */
-        SessionImpl session = ((BrowserConsumer) consumer).session;
+        SessionImpl session = consumer.session;
 
         /**
          * set session to the message object. Please see SessionReader.getJMSMessage().
@@ -1132,7 +1131,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
             ackQ.enqueueNotify(pkt);
         } else {
             if (connection.connectionIsBroken || connection.reconnecting || connection.isCloseCalled) {
-                ; // silent, do nothing -- may not be a valid connection.
+                 // silent, do nothing -- may not be a valid connection.
             } else {
                 String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.W_PACKET_NOT_PROCESSED);
                 String pktstr = errorString + "\n" + pkt.toVerboseString();
@@ -1163,6 +1162,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
      * This method runs until the Connection is closed. Packets are read and dispatch to the sessions based on the interest
      * id in the packet.
      */
+    @Override
     public void run() {
         // temp packet
         ReadWritePacket packet = null;
@@ -1529,7 +1529,7 @@ public class ReadChannel implements PacketDispatcher, Runnable {
 
     /**
      * We always redirect the connection to the take over broker.
-     * 
+     *
      * @param pkt ReadWritePacket
      */
     private void checkRedirectStatus(ReadWritePacket pkt) throws JMSException {

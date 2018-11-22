@@ -39,6 +39,7 @@ public class CheckpointManager implements Runnable {
         return "CheckpointManager: " + Thread.currentThread().getName();
     }
 
+    @Override
     public void run() {
         while (true) {
             try {

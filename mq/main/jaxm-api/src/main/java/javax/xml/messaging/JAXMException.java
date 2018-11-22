@@ -30,6 +30,10 @@ import javax.xml.soap.*;
  */
 public class JAXMException extends SOAPException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2558663345734421756L;
     private Throwable cause;
 
     /**

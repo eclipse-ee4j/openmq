@@ -21,14 +21,12 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.net.*;
 import com.sun.messaging.jmq.auth.api.FailedLoginException;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.util.net.*;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
@@ -42,12 +40,10 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
-import com.sun.messaging.jmq.jmsserver.memory.MemoryManager;
 import com.sun.messaging.jmq.jmsserver.license.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.GoodbyeReason;
 
 /**
  * Handler class which deals with the Hello message which is created when a client starts talking to the broker. Hello
@@ -102,6 +98,7 @@ public class HelloHandler extends PacketHandler {
     /**
      * Method to handle HELLO messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {
@@ -189,7 +186,7 @@ public class HelloHandler extends PacketHandler {
                 }
                 /*
                  * LKS DUMP();
-                 * 
+                 *
                  * logger.log(Logger.DEBUG,"Updating connection in id list " + "["+oldcid + "," + uid + "]"); // old code
                  * con.setConnectionUID(oldcid); Globals.getConnectionManager().updateConnectionUID( oldcid, uid);
                  * //Globals.getConnectionManager().updateConnectionUID( // uid, oldcid);
@@ -458,8 +455,9 @@ public class HelloHandler extends PacketHandler {
         hash.put("JMQConnectionID", Long.valueOf(con.getConnectionUID().longValue()));
         hash.put("JMQProtocolLevel", Integer.valueOf(supportedProtocol));
         hash.put("JMQVersion", Globals.getVersion().getProductVersion());
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         try {
             // Added licensing description properties
@@ -550,8 +548,9 @@ public class HelloHandler extends PacketHandler {
             logger.logStack(logger.ERROR, e.getMessage(), e);
         }
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         if (req != null) {

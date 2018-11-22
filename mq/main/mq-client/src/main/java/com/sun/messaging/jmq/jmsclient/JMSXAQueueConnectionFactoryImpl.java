@@ -35,8 +35,13 @@ import com.sun.messaging.ConnectionConfiguration;;
 public class JMSXAQueueConnectionFactoryImpl extends com.sun.messaging.QueueConnectionFactory implements JMSXAQueueConnectionFactory {
 
     /**
-     * Constructs a JMSXAQueueConnectionFactory with the default configuration.
      * 
+     */
+    private static final long serialVersionUID = 1038658674613828023L;
+
+    /**
+     * Constructs a JMSXAQueueConnectionFactory with the default configuration.
+     *
      */
     public JMSXAQueueConnectionFactoryImpl() {
         super("/com/sun/messaging/ConnectionFactory");
@@ -45,13 +50,14 @@ public class JMSXAQueueConnectionFactoryImpl extends com.sun.messaging.QueueConn
     /**
      * Create an XA queue connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA queue connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public JMSXAQueueConnection createXAQueueConnection() throws JMSException {
         return createXAQueueConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
@@ -59,7 +65,7 @@ public class JMSXAQueueConnectionFactoryImpl extends com.sun.messaging.QueueConn
     /**
      * Create an XA queue connection with specific user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -69,6 +75,7 @@ public class JMSXAQueueConnectionFactoryImpl extends com.sun.messaging.QueueConn
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public JMSXAQueueConnection createXAQueueConnection(String username, String password) throws JMSException {
         return new JMSXAQueueConnectionImpl(getCurrentConfiguration(), username, password, getConnectionType());
     }

@@ -62,10 +62,12 @@ public class ConnectionFactoryImpl implements ConnectionFactory, Refable {
         _isEmbeded = isEmbeded;
     }
 
+    @Override
     public Connection createConnection() throws JMSException {
         return getConnectionFactory().createConnection();
     }
 
+    @Override
     public Connection createConnection(String userName, String password) throws JMSException {
         return getConnectionFactory().createConnection(userName, password);
     }
@@ -125,22 +127,27 @@ public class ConnectionFactoryImpl implements ConnectionFactory, Refable {
         return _cf;
     }
 
+    @Override
     public String getRef() {
         return _ref;
     }
 
+    @Override
     public Object getRefed() {
         return _cf;
     }
 
+    @Override
     public boolean isEmbeded() {
         return _isEmbeded;
     }
 
+    @Override
     public boolean isMultiRM() {
         return false;
     }
 
+    @Override
     public String toString() {
         String refs = _ref + (_isEmbeded ? ", embeded" : "");
         String s = null;

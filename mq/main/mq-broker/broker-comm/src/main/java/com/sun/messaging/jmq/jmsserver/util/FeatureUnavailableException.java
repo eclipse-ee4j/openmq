@@ -28,6 +28,10 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  */
 
 public class FeatureUnavailableException extends BrokerException {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6137658715193569270L;
     String featurename = null;
 
     /**

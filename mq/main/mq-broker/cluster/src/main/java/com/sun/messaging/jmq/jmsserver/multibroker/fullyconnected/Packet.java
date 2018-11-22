@@ -93,8 +93,9 @@ class Packet {
         byte[] headerBuffer = bos.toByteArray();
 
         os.write(headerBuffer, 0, HEADER_SIZE);
-        if (packetBuffer != null)
+        if (packetBuffer != null) {
             os.write(packetBuffer, 0, packetSize - HEADER_SIZE);
+        }
         os.flush();
     }
 
@@ -129,29 +130,34 @@ class Packet {
     public void setPacketBody(byte[] data) {
         packetBuffer = data;
         packetSize = HEADER_SIZE;
-        if (packetBuffer != null)
+        if (packetBuffer != null) {
             packetSize += packetBuffer.length;
+        }
     }
 
     public void setFlag(int flag, boolean on) {
-        if (on)
+        if (on) {
             bitFlags = bitFlags | flag;
-        else
+        } else {
             bitFlags = bitFlags & ~flag;
+        }
     }
 
+    @Override
     public String toString() {
         return "PacketType = " + packetType + ", DestId = " + destId + ", DATA :\n" + hexdump(packetBuffer, 128);
     }
 
     public static String hexdump(byte[] buffer, int maxlen) {
-        if (buffer == null)
+        if (buffer == null) {
             return "";
+        }
 
         int addr = 0;
         int buflen = buffer.length;
-        if (buflen > maxlen)
+        if (buflen > maxlen) {
             buflen = maxlen;
+        }
 
         StringBuffer ret = new StringBuffer(buflen);
 
@@ -163,20 +169,23 @@ class Packet {
 
             int i;
             for (i = 0; i < count; i++) {
-                int b = (int) buffer[addr + i];
+                int b = buffer[addr + i];
 
-                if (i == 8)
+                if (i == 8) {
                     ret.append("-");
-                else
+                } else {
                     ret.append(" ");
+                }
                 ret.append(i2hex(b, 2, "0"));
-                if (b >= 32 && b < 128)
+                if (b >= 32 && b < 128) {
                     tmp.append(((char) b));
-                else
+                } else {
                     tmp.append(".");
+                }
             }
-            for (; i < 16; i++)
+            for (; i < 16; i++) {
                 ret.append("   ");
+            }
 
             ret.append("   " + tmp);
 
@@ -188,12 +197,15 @@ class Packet {
 
     public static String i2hex(int i, int len, String filler) {
         String str = Integer.toHexString(i);
-        if (str.length() == len)
+        if (str.length() == len) {
             return str;
-        if (str.length() > len)
+        }
+        if (str.length() > len) {
             return str.substring(str.length() - len);
-        while (str.length() < len)
+        }
+        while (str.length() < len) {
             str = filler + str;
+        }
         return str;
     }
 

@@ -21,19 +21,13 @@
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.util.Iterator;
-import java.util.HashSet;
-
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanException;
 
 import com.sun.messaging.jms.management.server.*;
 
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 
 public class ProducerManagerConfig extends MQMBeanReadWrite {
@@ -83,22 +77,27 @@ public class ProducerManagerConfig extends MQMBeanReadWrite {
         return (ids);
     }
 
+    @Override
     public String getMBeanName() {
         return ("ProducerManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_PRD_MGR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

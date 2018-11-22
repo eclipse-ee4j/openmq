@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
-import java.net.*;
 import java.io.*;
 
 import javax.jms.*;
@@ -32,7 +31,6 @@ import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 
 import java.security.*;
 import javax.net.ssl.*;
-import javax.security.cert.X509Certificate;
 
 /**
  * This class is the SSL protocol handler for the iMQ JMS client implementation. It uses SSL protocol to communicate
@@ -102,7 +100,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
      */
     SSLConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
 
-        ConnectionImpl connection = (ConnectionImpl) conn;
+        ConnectionImpl connection = conn;
         // int port = 0;
         // String host = null;
 
@@ -112,8 +110,9 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
             // First, gather the configuration attributes.
             host = addr.getHostName();
             directport = 0;
-            if (addr.isServicePortFinal())
+            if (addr.isServicePortFinal()) {
                 directport = addr.getPort();
+            }
             String namedservice = addr.getServiceName();
             /**
              * If 'isHostTrusted' is set in address list, it is used. Otherwise, 'imqSSLIsHostTrusted' prop is used.
@@ -172,6 +171,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
     /*
      * Get SSL socket input stream.
      */
+    @Override
     public InputStream getInputStream() throws IOException {
         return sslSocket.getInputStream();
     }
@@ -179,6 +179,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
     /*
      * Get SSL socket output stream.
      */
+    @Override
     public OutputStream getOutputStream() throws IOException {
         return sslSocket.getOutputStream();
     }
@@ -186,14 +187,17 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
     /*
      * Get SSL socket local port for the current connection.
      */
+    @Override
     public int getLocalPort() throws IOException {
         return sslSocket.getLocalPort();
     }
 
+    @Override
     protected void closeSocket() throws IOException {
         sslSocket.close();
     }
 
+    @Override
     public String getBrokerHostName() {
         return this.host;
     }
@@ -202,6 +206,7 @@ public class SSLConnectionHandler extends SocketConnectionHandler {
         return this.port;
     }
 
+    @Override
     public String getBrokerAddress() {
         if (directport == 0) {
             return host + ":" + baseport + "(" + port + ")";

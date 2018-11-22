@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.jmq.ClientConstants;
 
 /**
@@ -31,6 +30,11 @@ import com.sun.messaging.jmq.ClientConstants;
  * @see TopicSession#createTemporaryTopic()
  */
 public class TemporaryTopicImpl extends TemporaryDestination implements TemporaryTopic {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6899391550018361326L;
 
     /**
      * Constructor used by createTemporaryTopic()
@@ -53,6 +57,7 @@ public class TemporaryTopicImpl extends TemporaryDestination implements Temporar
         super();
     }
 
+    @Override
     public boolean isQueue() {
         return false;
     }

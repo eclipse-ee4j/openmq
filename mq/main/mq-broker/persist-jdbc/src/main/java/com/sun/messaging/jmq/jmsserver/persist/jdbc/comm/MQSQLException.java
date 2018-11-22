@@ -25,6 +25,11 @@ import java.sql.SQLException;
  */
 public class MQSQLException extends SQLException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7996562879224645645L;
+
     public MQSQLException(String reason, String sqlState, int vendorCode) {
         super(reason, sqlState, vendorCode);
     }

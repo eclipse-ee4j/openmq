@@ -20,41 +20,50 @@ package com.sun.messaging.jmq.jmsserver.audit.api;
  */
 public class NoAuditSession implements MQAuditSession {
 
+    @Override
     public boolean isAuditOn() {
         return false;
     }
 
+    @Override
     public void setInstance(String name, String host, int port) {
     }
 
     /**
      * Invoked post authentication.
-     * 
+     *
      * @param user user who is being authenticated
      * @param remoteHost host the user connects from
      * @param success status of authentication
      */
+    @Override
     public void authentication(String user, String host, boolean success) {
     }
 
     /**
      * Invoked for the following events: broker startup broker shutdown broker restart remove instance
      */
+    @Override
     public void brokerOperation(String user, String host, String op) {
     }
 
+    @Override
     public void connectionAuth(String user, String host, String type, String name, boolean success) {
     }
 
+    @Override
     public void destinationAuth(String user, String host, String type, String name, String op, boolean success) {
     }
 
+    @Override
     public void storeOperation(String user, String host, String op) {
     }
 
+    @Override
     public void destinationOperation(String user, String host, String op, String type, String name) {
     }
 
+    @Override
     public void durableSubscriberOperation(String user, String host, String op, String name, String clientID) {
     }
 }

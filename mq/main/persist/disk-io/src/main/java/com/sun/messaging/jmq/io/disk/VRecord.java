@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.io.disk;
 
 import java.io.*;
-import java.nio.*;
-import java.nio.channels.*;
-import java.util.*;
 
 /**
  * A VRecord encapsulates a variable sized record backed by a file.

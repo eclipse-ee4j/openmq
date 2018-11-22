@@ -66,12 +66,14 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return true if it's embeded in a broker process
      */
+    @Override
     public boolean isEmbeded() {
         return _bc.isEmbeded();
     }
 
     /**
      */
+    @Override
     public boolean doBind() {
         return _bc.doBind();
     }
@@ -80,6 +82,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return true if the broker does not have its own JVM
      */
+    @Override
     public boolean isEmbededBroker() {
         return _bc.isEmbededBroker();
     }
@@ -88,6 +91,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return true if running on nucleus
      */
+    @Override
     public boolean isRunningOnNucleus() {
         return _bc.isRunningOnNucleus();
     }
@@ -95,6 +99,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * @return true if should disable console logging
      */
+    @Override
     public boolean isSilentMode() {
         return _bc.isSilentMode();
     }
@@ -102,6 +107,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * @return null if PUService not enabled
      */
+    @Override
     public Object getPUService() {
         return _bc.getPUService();
     }
@@ -110,18 +116,22 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return the runtime configuration for a bridge service
      */
+    @Override
     public Properties getConfig() {
         return _config;
     }
 
+    @Override
     public String getRootDir() {
         return _config.getProperty(_config.getProperty(BRIDGE_PROP_PREFIX) + ".varhome");
     }
 
+    @Override
     public String getLibDir() {
         return _config.getProperty(_config.getProperty(BRIDGE_PROP_PREFIX) + ".libhome");
     }
 
+    @Override
     public String getProperty(String suffix) {
         return _config.getProperty(_config.getProperty(BRIDGE_PROP_PREFIX) + "." + suffix);
 
@@ -133,6 +143,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return a JMS connection factory for the bridge service
      */
+    @Override
     public javax.jms.ConnectionFactory getConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
@@ -143,7 +154,7 @@ public class BridgeContextImpl implements BridgeContext {
             while (en.hasMoreElements()) {
                 name = (String) en.nextElement();
                 if (!name.equals(com.sun.messaging.ConnectionConfiguration.imqAddressList)) {
-                    cf.setProperty(name, (String) props.getProperty(name));
+                    cf.setProperty(name, props.getProperty(name));
                 }
             }
         }
@@ -160,6 +171,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return a JMS XA connection factory for the bridge service
      */
+    @Override
     public javax.jms.XAConnectionFactory getXAConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.XAConnectionFactory cf = new com.sun.messaging.XAConnectionFactory();
@@ -170,7 +182,7 @@ public class BridgeContextImpl implements BridgeContext {
             while (en.hasMoreElements()) {
                 name = (String) en.nextElement();
                 if (!name.equals(com.sun.messaging.ConnectionConfiguration.imqAddressList)) {
-                    cf.setProperty(name, (String) props.getProperty(name));
+                    cf.setProperty(name, props.getProperty(name));
                 }
             }
         }
@@ -185,6 +197,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return a JMS connection factory for the bridge service
      */
+    @Override
     public javax.jms.ConnectionFactory getAdminConnectionFactory(Properties props) throws Exception {
 
         com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
@@ -195,7 +208,7 @@ public class BridgeContextImpl implements BridgeContext {
             while (en.hasMoreElements()) {
                 name = (String) en.nextElement();
                 if (!name.equals(com.sun.messaging.ConnectionConfiguration.imqAddressList)) {
-                    cf.setProperty(name, (String) props.getProperty(name));
+                    cf.setProperty(name, props.getProperty(name));
                 }
             }
         }
@@ -218,6 +231,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return true if the method actually did something with the error
      */
+    @Override
     public boolean handleGlobalError(Throwable ex, String reason) {
         return _bc.handleGlobalError(ex, reason);
     }
@@ -225,6 +239,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * Register (optional) a service with host
      */
+    @Override
     public void registerService(String protocol, String type, int port, HashMap props) {
 
         _bc.registerService(_name, protocol, type, port, props);
@@ -235,6 +250,7 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return the default configuration properties for SSLContext
      */
+    @Override
     public Properties getDefaultSSLContextConfig() throws Exception {
         return _bc.getDefaultSSLContextConfig(_name);
     }
@@ -244,21 +260,25 @@ public class BridgeContextImpl implements BridgeContext {
      *
      * @return an unique identifier for this instance
      */
+    @Override
     public String getIdentityName() throws Exception {
         return _bc.getIdentityName();
     }
 
+    @Override
     public String getBrokerHostName() {
         return _bc.getBrokerHostName();
     }
 
+    @Override
     public String getTransactionManagerClass() throws Exception {
         Properties props = _bc.getBridgeConfig();
 
         String key = props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + _name + ".tm.class";
         String value = props.getProperty(key);
-        if (value != null)
+        if (value != null) {
             return value;
+        }
 
         key = BridgeBaseContext.PROP_PREFIX + ".tm.class";
         return props.getProperty(key);
@@ -267,6 +287,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * return an empty Properties object if no property set
      */
+    @Override
     public Properties getTransactionManagerProps() throws Exception {
         Properties tmp = new Properties();
         Properties props = _bc.getBridgeConfig();
@@ -277,8 +298,9 @@ public class BridgeContextImpl implements BridgeContext {
         key = props.getProperty(BridgeBaseContext.PROP_PREFIX) + "." + _name + ".tm.props";
         List<String> plist1 = BridgeUtil.getListProperty(key, props);
 
-        if (plist0 == null && plist1 == null)
+        if (plist0 == null && plist1 == null) {
             return tmp;
+        }
 
         if (plist0 != null) {
             for (String value : plist0) {
@@ -301,13 +323,15 @@ public class BridgeContextImpl implements BridgeContext {
         return tmp;
     }
 
+    @Override
     public boolean isJDBCStoreType() throws Exception {
         return _bc.isJDBCStoreType();
     }
 
+    @Override
     public Object getJDBCStore(String type) throws Exception {
         if (type.toUpperCase(Locale.getDefault()).equals("JMS")) {
-            return (JMSBridgeStore) _bc.getJDBCStore();
+            return _bc.getJDBCStore();
         }
         return null;
     }
@@ -315,14 +339,17 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * @return true if ok to allocate size bytes of mem
      */
+    @Override
     public boolean allocateMemCheck(long size) {
         return _bc.allocateMemCheck(size);
     }
 
+    @Override
     public boolean getPoodleFixEnabled() {
         return _bc.getPoodleFixEnabled();
     }
 
+    @Override
     public String[] getKnownSSLEnabledProtocols() {
         return _bc.getKnownSSLEnabledProtocols();
     }
@@ -330,6 +357,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
+    @Override
     public void logError(String message, Throwable t) {
         _bc.logError(message, t);
     }
@@ -337,6 +365,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
+    @Override
     public void logWarn(String message, Throwable t) {
         _bc.logWarn(message, t);
     }
@@ -344,6 +373,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
+    @Override
     public void logInfo(String message, Throwable t) {
         _bc.logInfo(message, t);
     }
@@ -351,6 +381,7 @@ public class BridgeContextImpl implements BridgeContext {
     /**
      * Logging method for Bridge Service Manager
      */
+    @Override
     public void logDebug(String message, Throwable t) {
         _bc.logDebug(message, t);
     }

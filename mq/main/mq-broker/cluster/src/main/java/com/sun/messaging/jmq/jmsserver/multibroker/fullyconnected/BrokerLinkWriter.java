@@ -22,10 +22,6 @@ package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
 import java.util.*;
 import java.io.*;
-import java.net.*;
-import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.io.*;
 
@@ -70,8 +66,9 @@ class BrokerLinkWriter extends Thread {
 
     public void setFlowControl(boolean enabled) {
         synchronized (q) {
-            if (stopThread || this.shutdownOutput)
+            if (stopThread || this.shutdownOutput) {
                 return;
+            }
 
             flowControl = enabled;
             if (flowControl == false) {
@@ -88,19 +85,22 @@ class BrokerLinkWriter extends Thread {
      * Terminate the writer thread.
      */
     public void shutdown() {
-        if (q == null)
+        if (q == null) {
             return;
+        }
         synchronized (q) {
-            if (shutdownOutput)
+            if (shutdownOutput) {
                 return;
+            }
             stopThread = true;
             q.notifyAll();
         }
     }
 
     public boolean isOutputShutdown() {
-        if (q == null)
+        if (q == null) {
             return false;
+        }
         synchronized (q) {
             return shutdownOutput;
         }
@@ -166,15 +166,18 @@ class BrokerLinkWriter extends Thread {
      * Actually writes the packet to the wire.
      */
     private void sendPacketDirect(GPacket gp, boolean doFlush) throws IOException {
-        if (os == null)
+        if (os == null) {
             throw new IOException("os null");
+        }
 
         try {
             gp.write(os);
-            if (doFlush)
+            if (doFlush) {
                 os.flush();
-            if (gp.getType() != ProtocolGlobals.G_PING)
+            }
+            if (gp.getType() != ProtocolGlobals.G_PING) {
                 writeActive = true;
+            }
         } catch (IOException e) {
             os = null;
             throw e;
@@ -185,15 +188,18 @@ class BrokerLinkWriter extends Thread {
      * Actually writes the packet to the wire.
      */
     private void sendPacketDirect(Packet p, boolean doFlush) throws IOException {
-        if (os == null)
+        if (os == null) {
             throw new IOException("os null");
+        }
 
         try {
             p.writePacket(os);
-            if (doFlush)
+            if (doFlush) {
                 os.flush();
-            if (p.getPacketType() != Packet.PING)
+            }
+            if (p.getPacketType() != Packet.PING) {
                 writeActive = true;
+            }
         } catch (IOException e) {
             os = null;
             throw e;
@@ -208,6 +214,7 @@ class BrokerLinkWriter extends Thread {
         return writeActive;
     }
 
+    @Override
     public void run() {
         ArrayList l = new ArrayList();
 
@@ -224,8 +231,9 @@ class BrokerLinkWriter extends Thread {
                     }
                 }
 
-                if (stopThread)
+                if (stopThread) {
                     return;
+                }
 
                 int n = 0;
                 boolean bufferFull = false;
@@ -274,8 +282,9 @@ class BrokerLinkWriter extends Thread {
 
                 // If nothing was written because the first packet
                 // was too big...
-                if (l.size() == 0 && bufferFull && !q.isEmpty())
+                if (l.size() == 0 && bufferFull && !q.isEmpty()) {
                     l.add(q.removeFirst());
+                }
             }
 
             // The following operations do the actual socket I/O,
@@ -291,8 +300,9 @@ class BrokerLinkWriter extends Thread {
                     }
                 }
 
-                if (os != null)
+                if (os != null) {
                     os.flush();
+                }
             } catch (Exception e) {
                 os = null;
             }

@@ -274,7 +274,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     protected long asyncSendCompletionWaitTimeout = 180000L; // 3min
 
     /**
-     * 
+     *
      * Value of ConnectionFactory property imqSocketConnectTimeout This property defines the socket timeout, in
      * milliseconds, used when a TCP connection is made to the broker. A timeout of zero is interpreted as an infinite
      * timeout. The connection will then block until established or an error occurs. This property is used when connecting
@@ -365,10 +365,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * This flag is to over-ride imqReconnectEnabled flag.
-     * 
+     *
      * For HA, client runtime will always fail-over to HA broker if connection is broken. Th imqReconnectEnabled flag is
      * ignored.
-     * 
+     *
      * This flag (private) is used to over-ride this behavior. This flag is NOT static as it is chaged in individual
      * instances
      */
@@ -376,9 +376,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * called by protocol handler to check if JMQHAReconnect property should be set to true/false.
-     * 
+     *
      * Default is set to true.
-     * 
+     *
      * @return true if HA enabled, otherwise return false.
      */
     public boolean isHAEnabled() {
@@ -495,7 +495,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * check if the specified port number is valid.
-     * 
+     *
      * @param host the host to connect to.
      * @param port the port number to connect to.
      * @throws JMSException if port number is 0.
@@ -579,7 +579,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * This method blocks (if root cause is IOException) until reconnected to a take over broker.
-     * 
+     *
      * @param jmse
      * @return
      */
@@ -643,7 +643,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
                 try {
                     reconnectSyncObj.wait(WAIT_TIME_OUT); // wake up 30 secs
                 } catch (Exception e) {
-                    ;
+
                 }
 
                 // we want to exit if any of the following is true.
@@ -743,7 +743,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * called by ReadChannel before peform recover.
-     * 
+     *
      * @throws JMSException
      */
     protected void checkAndSetReconnecting() throws JMSException {
@@ -1562,7 +1562,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Get if this is a queue domain.
-     * 
+     *
      * @return true if this is a queue domain. bug 6172663
      */
     protected boolean getISQueueConnection() {
@@ -1571,7 +1571,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * set if this is a queue connection domain
-     * 
+     *
      * @param isQueue set to true if this is a queue domain. bug 6172663
      */
     protected void setIsQueueConnection(boolean isQueue) {
@@ -1778,6 +1778,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * error.
      *
      **/
+    @Override
     public String getClientID() throws JMSException {
         checkConnectionState();
 
@@ -1825,6 +1826,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * has been administratively configured.
      */
 
+    @Override
     public void setClientID(String clientID) throws JMSException {
         checkConnectionState();
 
@@ -1848,6 +1850,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @see javax.jms.ConnectionMetaData
      */
 
+    @Override
     public ConnectionMetaData getMetaData() throws JMSException {
         checkConnectionState();
         return connectionMetaData;
@@ -1862,6 +1865,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * Connection.
      */
 
+    @Override
     public ExceptionListener getExceptionListener() throws JMSException {
         checkConnectionState();
         return exceptionListener;
@@ -1891,6 +1895,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * Connection.
      */
 
+    @Override
     public void setExceptionListener(ExceptionListener listener) throws JMSException {
 
         checkConnectionState();
@@ -1908,6 +1913,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @see javax.jms.Connection#stop
      */
 
+    @Override
     public void start() throws JMSException {
 
         checkConnectionState();
@@ -1953,6 +1959,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @see javax.jms.Connection#start
      */
 
+    @Override
     public void stop() throws JMSException {
 
         checkConnectionState();
@@ -2016,6 +2023,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      *
      */
 
+    @Override
     public void close() throws JMSException {
 
         // this flag is used in checkReconnecting() method. The method checks
@@ -2127,7 +2135,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * check permission for setting client ID
-     * 
+     *
      * @see ConnectionImpl#setClientID
      */
 
@@ -2249,7 +2257,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * bug 6664278 - concurrent opening the connection caused corruption. this also could cause bug 6664280.
-     * 
+     *
      * @param mode
      * @throws javax.jms.JMSException
      */
@@ -2276,10 +2284,10 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * performed
      *
      * This can be called by the XAResource (from TM) long after the connection has been closed by the API user
-     * 
+     *
      * Bug 6664278 -- changed from protected to private so that this cannot be called outside of this class. RA must call a
      * different method (openConnectionFromRA).
-     * 
+     *
      * @param mode true if opening from an XAResource
      */
     private void openConnection(boolean mode) throws JMSException {
@@ -2437,7 +2445,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Set clientID to the specified value, bypassing any checks as to whether calling setClientID is allowed
-     * 
+     *
      * @param clientID
      */
     @Override
@@ -2519,7 +2527,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Get client ID or its IP Address.
-     * 
+     *
      * @return client ID if not null. Otherwise, return IP address.
      */
     protected String getClientIDOrIPAddress() {
@@ -2544,6 +2552,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * The debugging method for Traceable interface.
      */
+    @Override
     public void dump(PrintStream ps) {
         try {
             ps.println("------ ConnectionImpl dump ------");
@@ -2590,13 +2599,14 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Get ping interval for this connection.
-     * 
+     *
      * @return imqPingInterval.
      */
     protected long getPingInterval() {
         return imqPingInterval;
     }
 
+    @Override
     public String toString() {
         // if (protocolHandler != null)
         // return protocolHandler.toString();
@@ -2734,6 +2744,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @see Session#CLIENT_ACKNOWLEDGE
      * @see Session#DUPS_OK_ACKNOWLEDGE
      */
+    @Override
     public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
@@ -2746,7 +2757,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.sun.messaging.jms.Connection#createSession(int)
      */
     @Override
@@ -2767,7 +2778,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see javax.jms.Connection#createSession()
      */
     @Override
@@ -3006,6 +3017,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @param listener EventListener
      * @throws JMSException
      */
+    @Override
     public void setEventListener(EventListener eventListener) throws JMSException {
 
         this.checkConnectionState();
@@ -3035,6 +3047,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @param listener EventListener
      * @throws JMSException
      */
+    @Override
     public void setConsumerEventListener(com.sun.messaging.Destination dest, EventListener listener) throws JMSException {
         if (listener == null) {
             throw new JMSException("listener is null");
@@ -3070,6 +3083,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @param dest the destination on which consumer event was interested in
      * @throws JMSException
      */
+    @Override
     public void removeConsumerEventListener(com.sun.messaging.Destination dest) throws JMSException {
         this.checkConnectionState();
 
@@ -3094,6 +3108,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
      * @return the broker address that the current connection is associated with.
      * @throws JMSException if any internal error occurs.
      */
+    @Override
     public String getBrokerAddress() {
 
         String brokerAddr = null;
@@ -3113,9 +3128,9 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * check if the specified connection is connected to the same broker as the current connection.
-     * 
+     *
      * broker host/port must be the same.
-     * 
+     *
      * @param foreignConn
      * @return true if connected to same broker host and port. otherwise return false.
      */
@@ -3139,13 +3154,14 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Get the up to date broker AddressList.
-     * 
+     *
      * @return String the up to date broker address list.
      */
     public String getBrokerAddressList() {
         return this.JMQBrokerList;
     }
 
+    @Override
     public boolean isConnectedToHABroker() {
         return isConnectedToHABroker;
     }
@@ -3289,7 +3305,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
     /**
      * Enable share subscription for standalone client. bug 6396251 - AS SharedSubscriber functionality should be accessable
      * for internal customer.
-     * 
+     *
      * @param flag
      */
     public synchronized void setEnableSharedClientID(boolean flag) {
@@ -3310,7 +3326,7 @@ public class ConnectionImpl implements com.sun.messaging.jms.Connection, Traceab
 
     /**
      * Called by ReadChannel.updateBrokerVersionInfo().
-     * 
+     *
      * This reset if imqReconnect flag and imqReconnectEnabled property.
      */
     public void setConnectedToHABroker() {

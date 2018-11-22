@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
-import javax.naming.Context;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.admin.util.Globals;
@@ -29,7 +28,6 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.apps.console.event.ObjAdminEvent;
 import com.sun.messaging.jmq.admin.objstore.ObjStore;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
-import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 
 /**
  * The inspector component of the admin GUI displays attributes of the currently selected item. It does not know or care
@@ -56,6 +54,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
  */
 public class ObjStorePropsDialog extends ObjStoreDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8353001964928282780L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private ObjStoreCObj osCObj;
@@ -65,6 +67,7 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
         setHelpId(ConsoleHelpID.OBJECT_STORE_PROPS);
     }
 
+    @Override
     public void doOK() {
 
         String osName = null;
@@ -90,15 +93,16 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
          * acr.getString(acr.I_OBJSTORE_PROPS) + ": " + acr.getString(acr.I_ERROR_CODE,
          * AdminConsoleResources.E_NO_PROVIDER_URL), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close,
          * close[0]); comboBox.setSelectedItem(Context.PROVIDER_URL); valueText.requestFocus(); return; }
-         * 
+         *
          * }
          */
 
         ObjAdminEvent oae;
         ObjStoreAttrs osa = constructAttrs(osName);
 
-        if (osa == null)
+        if (osa == null) {
             return;
+        }
 
         oae = new ObjAdminEvent(this, ObjAdminEvent.UPDATE_OBJSTORE);
         oae.setObjStoreID(osName);
@@ -110,20 +114,25 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 
@@ -213,6 +222,7 @@ public class ObjStorePropsDialog extends ObjStoreDialog {
         return (osa);
     }
 
+    @Override
     protected void setEditable(boolean editable) {
 
         if (editable) {

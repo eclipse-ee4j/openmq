@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.persist.api.util;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import java.util.*;
 
 /**
  * This interface defines methods for DataEnumeration class to use.

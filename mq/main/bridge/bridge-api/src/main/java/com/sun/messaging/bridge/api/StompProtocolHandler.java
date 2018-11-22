@@ -73,6 +73,7 @@ public abstract class StompProtocolHandler {
             }
         }
         Thread thr = new Thread(new Runnable() {
+            @Override
             public void run() {
                 try {
                     logger.logInfo(getKStringI_CLOSE_STOMP_CONN(stompConnection.toString()), null);
@@ -232,7 +233,7 @@ public abstract class StompProtocolHandler {
     }
 
     /**
-     *   
+     *
      */
     public void onSUBSCRIBE(StompFrameMessage message, StompOutputHandler out, StompOutputHandler aout, Object ctx) throws Exception {
         StompFrameMessage reply = null;
@@ -322,7 +323,7 @@ public abstract class StompProtocolHandler {
     }
 
     /**
-     *  	
+     *
      */
     public void onUNSUBSCRIBE(StompFrameMessage message, StompOutputHandler out, Object ctx) throws Exception {
         StompFrameMessage reply = null;

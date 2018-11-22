@@ -23,7 +23,7 @@ import java.util.logging.Level;
 
 /**
  * A modified SimpleFormatter for java.util.logging
- * 
+ *
  * @author amyk
  *
  */

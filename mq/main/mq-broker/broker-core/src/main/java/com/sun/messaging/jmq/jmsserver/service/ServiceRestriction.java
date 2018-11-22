@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.service;
 
-import java.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
@@ -31,6 +30,7 @@ public class ServiceRestriction {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return toString(false);
     }
@@ -48,15 +48,19 @@ public class ServiceRestriction {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (o == null)
+        if (o == null) {
             return false;
-        if (!(o instanceof ServiceRestriction))
+        }
+        if (!(o instanceof ServiceRestriction)) {
             return false;
+        }
         ServiceRestriction that = (ServiceRestriction) o;
         return this.name.equals(that.name);
     }
 
+    @Override
     public int hashCode() {
         return name.hashCode();
     }

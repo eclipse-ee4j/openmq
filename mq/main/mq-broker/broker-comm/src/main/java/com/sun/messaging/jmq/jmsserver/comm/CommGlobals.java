@@ -23,7 +23,6 @@ import java.io.*;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Enumeration;
-import java.net.InetAddress;
 import com.sun.messaging.jmq.jmsserver.license.LicenseManager;
 import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
@@ -32,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.LoggerManager;
 import com.sun.messaging.jmq.jmsserver.util.LockFile;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.BrokerExitCode;
 import com.sun.messaging.jmq.jmsserver.audit.api.MQAuditService;
@@ -184,7 +182,7 @@ public class CommGlobals {
     }
 
     /**
-     * 
+     *
      * @param params Properties supplied on command line or read from standard input
      * @param clearprops
      * @param saveprops
@@ -192,8 +190,9 @@ public class CommGlobals {
     public static void init(Properties params, boolean clearprops, boolean saveprops) {
         pathinit(null);
         clearProps = clearprops;
-        if (params == null)
+        if (params == null) {
             return;
+        }
 
         if (saveprops) {
             saveProps = new Properties();
@@ -213,8 +212,9 @@ public class CommGlobals {
                     continue;
                 }
                 String val = params.getProperty(saveStrings[i]);
-                if (val != null)
+                if (val != null) {
                     saveProps.put(saveStrings[i], val);
+                }
             }
         }
 
@@ -336,7 +336,7 @@ public class CommGlobals {
 
     /**
      * Return whether the property imq.jmqra.managed was specified on the command line or read from standard input
-     * 
+     *
      * @return
      */
     public static boolean isJMSRAManagedSpecified() {
@@ -355,13 +355,14 @@ public class CommGlobals {
      * METHOD FOR UNIT TEST ONLY
      * <P>
      * method to re-initialize the config singleton config class (for testing)
-     * 
+     *
      * @param name the name used by the broker, passed in at startup
      */
     public static void reInitializeConfig(String name) {
         config = null;
-        if (name == null)
+        if (name == null) {
             name = DEFAULT_INSTANCE;
+        }
         configName = name;
     }
 
@@ -467,11 +468,13 @@ public class CommGlobals {
     private static boolean pathinited = false;
 
     public static void pathinit(Properties props) {
-        if (pathinited)
+        if (pathinited) {
             return;
+        }
         pathinited = true;
-        if (props == null)
+        if (props == null) {
             props = System.getProperties();
+        }
         String path = props.getProperty(JMQ_HOME_PROPERTY, JMQ_HOME_default);
         try {
             path = new File(path).getCanonicalPath();

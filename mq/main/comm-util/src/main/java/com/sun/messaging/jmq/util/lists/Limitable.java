@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.util.lists;
 
 /**
  * Interface for lists which can have limited capacities
- * 
+ *
  * @see NFLHashMap
  * @see AbstractNFLSet
  * @see Sized
@@ -33,14 +33,14 @@ public interface Limitable {
 
     /**
      * sets the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @param bytes maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
     public void setMaxByteSize(long bytes);
 
     /**
      * returns the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @return maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
     public long maxByteSize();

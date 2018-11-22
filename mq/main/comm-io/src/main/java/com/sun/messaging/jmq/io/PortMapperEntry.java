@@ -31,8 +31,8 @@ import java.util.Iterator;
 public class PortMapperEntry {
 
     private int port = 0;
-    private String protocol = null;;
-    private String type = null;;
+    private String protocol = null;
+    private String type = null;
     private String name = null;
     private HashMap properties = null;
 
@@ -48,8 +48,9 @@ public class PortMapperEntry {
 
     public void addProperty(String name, String value) {
         synchronized (this) {
-            if (properties == null)
+            if (properties == null) {
                 properties = new HashMap();
+            }
         }
         synchronized (properties) {
             properties.put(name, value);
@@ -58,8 +59,9 @@ public class PortMapperEntry {
 
     public void addProperties(HashMap props) {
         synchronized (this) {
-            if (properties == null)
+            if (properties == null) {
                 properties = new HashMap();
+            }
         }
         synchronized (properties) {
             properties.putAll(props);
@@ -74,8 +76,9 @@ public class PortMapperEntry {
      */
     public String getProperty(String name) {
         synchronized (this) {
-            if (properties == null)
+            if (properties == null) {
                 return (null);
+            }
         }
         synchronized (properties) {
             return ((String) properties.get(name));
@@ -130,6 +133,7 @@ public class PortMapperEntry {
      * Convert a PortMapperEntry into a string of the form that matches that expected by parse(). For example jms tcp NORMAL
      * 5951
      */
+    @Override
     public String toString() {
         StringBuffer strbuf = new StringBuffer();
         strbuf.append(name + SPACE + protocol + SPACE + type + SPACE + port);
@@ -142,8 +146,9 @@ public class PortMapperEntry {
                     String key = (String) itr.next();
                     String value = (String) properties.get(key);
                     strbuf.append(key + "=" + value);
-                    if (itr.hasNext())
+                    if (itr.hasNext()) {
                         strbuf.append(",");
+                    }
                 }
             }
             strbuf.append("]");

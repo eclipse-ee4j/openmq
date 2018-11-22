@@ -17,7 +17,6 @@
 package com.sun.messaging.jmq.jmsclient.runtime.impl;
 
 import javax.jms.JMSException;
-import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.runtime.BrokerInstance;
 import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
@@ -32,6 +31,7 @@ public class ClientRuntimeImpl extends ClientRuntime {
         return MyInstance.runtimeImpl;
     }
 
+    @Override
     public boolean isEmbeddedBrokerRunning() {
 
         if (BrokerInstanceImpl.getInstance() != null) {
@@ -54,6 +54,7 @@ public class ClientRuntimeImpl extends ClientRuntime {
         return dbc;
     }
 
+    @Override
     public synchronized BrokerInstance createBrokerInstance() throws IllegalAccessException {
         return BrokerInstanceImpl.createInstance();
     }

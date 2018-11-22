@@ -17,8 +17,6 @@
 package com.sun.messaging.jms;
 
 import javax.jms.TransactionInProgressException;
-import javax.jms.TransactionInProgressRuntimeException;
-
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -27,11 +25,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQTransactionInProgressRuntimeException extends javax.jms.TransactionInProgressRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2076716839992436363L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQTransactionInProgressRuntimeException(String detailMessage) {
@@ -40,7 +42,7 @@ public class MQTransactionInProgressRuntimeException extends javax.jms.Transacti
 
     /**
      * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -51,7 +53,7 @@ public class MQTransactionInProgressRuntimeException extends javax.jms.Transacti
     /**
      * Constructs a <code>MQMQTransactionInProgressRuntimeException</code> with the specified detail message, error code and
      * cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -63,7 +65,7 @@ public class MQTransactionInProgressRuntimeException extends javax.jms.Transacti
     /**
      * Construct a <code>MQMQTransactionInProgressRuntimeException</code> to wrap the specified
      * TransactionInProgressException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQTransactionInProgressRuntimeException(TransactionInProgressException cause) {
@@ -72,18 +74,20 @@ public class MQTransactionInProgressRuntimeException extends javax.jms.Transacti
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

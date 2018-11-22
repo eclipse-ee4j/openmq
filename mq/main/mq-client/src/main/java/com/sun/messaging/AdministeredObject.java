@@ -80,6 +80,11 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 
 public abstract class AdministeredObject implements java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7724163123027976185L;
+
     /** The Version string of this <code>AdministeredObject</code> is <code>3.0</code> */
     public static final String VERSION = "3.0";
 
@@ -277,7 +282,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
      * <p>
      * Use <code>getCurrentConfiguration()</code> to get the current configuration, which takes into account any overriding
      * System properties that have been set at runtime.
-     * 
+     *
      * @return the configuration of this <code>AdministeredObject</code>.
      *
      * @see com.sun.messaging.AdministeredObject#getCurrentConfiguration()
@@ -288,7 +293,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns an ordered property groups list.
-     * 
+     *
      * @return The String that represents an ordered property groups list. This list uses the ' <code><b>|</b></code> '
      * character as the separator.
      */
@@ -298,7 +303,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns an ordered property list for a given group.
-     * 
+     *
      * @param group The group for which the property list is desired.
      *
      * @return The String that represents an ordered property list for a given group. This list uses the '
@@ -310,7 +315,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns the label for a given group.
-     * 
+     *
      * @param group The group for which the label is desired.
      *
      * @return The label the given group.
@@ -327,7 +332,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns an ordered property list for Properties of Type List.
-     * 
+     *
      * @param propname The name of the configuration property that is of type List.
      *
      * @return The String that represents an ordered property list. This list uses the ' <code><b>|</b></code> ' character
@@ -339,7 +344,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns the property name for any selection on Properties of Type List.
-     * 
+     *
      * @param listpropname The name of the configuration property that is of type List.
      * @param listvalue The value of the configuration property that is of type List.
      *
@@ -351,7 +356,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns the property values set when a property of type List is set to a particular value.
-     * 
+     *
      * @param listpropname The name of the configuration property that is of type List.
      * @param listvalue The value of the configuration property that is of type List.
      * @param propname The name of the property for which the value is being sought.
@@ -365,7 +370,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
 
     /**
      * Returns the property name for the ... selection on Properties of Type List.
-     * 
+     *
      * @return The property to be exposed for editing when the <b><code>...</code></b> selection on Properties of Type List
      * is selected.
      */
@@ -594,11 +599,12 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * Returns the provider specific name for this <code>AdministeredObject</code> along with a listing of its
      * configuration.
-     * 
+     *
      * @return A formatted String containing the provider specific name for this <code>AdministeredObject</code> along with
      * a listing of its configuration.
-     * 
+     *
      */
+    @Override
     public String toString() {
         return "\nClass:\t\t\t" + getClass().getName() + "\ngetVERSION():\t\t" + VERSION + "\nisReadonly():\t\t" + readOnly + "\ngetProperties():\t"
                 + configuration.toString();
@@ -607,10 +613,10 @@ public abstract class AdministeredObject implements java.io.Serializable {
     /**
      * Returns the provider specific name for this <code>AdministeredObject</code> along with a complete listing of its
      * configuration, configuration attribute label keys and configuration attribute types.
-     * 
+     *
      * @return A formatted String containing the provider specific name for this <code>AdministeredObject</code> along with
      * a listing of its configuration.
-     * 
+     *
      */
     public String dump() {
         return (this.toString() + "\n\ngetLabels():\t" + configurationLabels.toString() + "\n\ngetTypes():\t" + configurationTypes.toString());
@@ -672,7 +678,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                         }
                     }
                     // If List property - Substitute full prop val for List abbrev.
-                    if (AO_PROPERTY_TYPE_LIST.equals((String) (configurationTypes.get(propkey)))) {
+                    if (AO_PROPERTY_TYPE_LIST.equals((configurationTypes.get(propkey)))) {
                         if (isListPropertyValid(propkey, syspropval, configurationTypes)) {
                             // System.out.println("gCC:validated; putting(key,val)="+propkey+"|"+syspropval);
                             currentConfiguration.put(propkey, syspropval);
@@ -699,7 +705,7 @@ public abstract class AdministeredObject implements java.io.Serializable {
                         currentConfiguration.put(propkey, syspropval);
 
                         // Update properties if propval is PropertyOwner
-                        if (AO_PROPERTY_TYPE_PROPERTYOWNER.equals((String) (configurationTypes.get(propkey)))) {
+                        if (AO_PROPERTY_TYPE_PROPERTYOWNER.equals((configurationTypes.get(propkey)))) {
                             try {
                                 PropertyOwner propowner = (PropertyOwner) Class.forName(syspropval).newInstance();
                                 String[] ownedprops = propowner.getPropertyNames();

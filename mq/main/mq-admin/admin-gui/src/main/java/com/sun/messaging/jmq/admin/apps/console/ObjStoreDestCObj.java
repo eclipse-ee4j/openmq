@@ -34,6 +34,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreDestCObj extends ObjStoreAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8796815336427112595L;
     private ObjStoreCObj osCObj = null;
     private transient ObjStore os = null;
     private String lookupName = null;
@@ -53,6 +57,7 @@ public class ObjStoreDestCObj extends ObjStoreAdminCObj {
         return (os);
     }
 
+    @Override
     public String getExplorerLabel() {
         return this.lookupName;
     }
@@ -77,30 +82,37 @@ public class ObjStoreDestCObj extends ObjStoreAdminCObj {
         this.object = object;
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (getActiveActions());
     }
 
+    @Override
     public int getActiveActions() {
         return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.REFRESH);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelId() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (null);
     }

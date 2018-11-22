@@ -27,7 +27,7 @@ public class ConsoleUtils {
 
     /*
      * Get the package name of the passed object.
-     * 
+     *
      * @return The package name of the passed object.
      */
     public static String getPackageName(Object obj) {

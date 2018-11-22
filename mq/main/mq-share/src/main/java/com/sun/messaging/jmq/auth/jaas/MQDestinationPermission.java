@@ -20,17 +20,11 @@
 
 package com.sun.messaging.jmq.auth.jaas;
 
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Enumeration;
-import java.util.Collections;
 import java.util.StringTokenizer;
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.ObjectInputStream;
 import java.security.Permission;
-import java.security.PermissionCollection;
 
 /**
  *
@@ -66,8 +60,9 @@ public class MQDestinationPermission extends Permission {
      *
      */
     private void init(String name, String actions) {
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException("name null");
+        }
 
         if (name.trim().startsWith(PermissionFactory.DEST_QUEUE_PREFIX)) {
             isQueue = true;
@@ -80,11 +75,13 @@ public class MQDestinationPermission extends Permission {
         }
 
         int len = destName.length();
-        if (len == 1 && destName.equals("*"))
+        if (len == 1 && destName.equals("*")) {
             wildcard = true;
+        }
 
-        if (actions == null)
+        if (actions == null) {
             throw new NullPointerException("actions null");
+        }
 
         mask = computeMask(actions);
 
@@ -105,20 +102,24 @@ public class MQDestinationPermission extends Permission {
 
             int i = 0;
             while (i < t.length()) {
-                if (!Character.isSpaceChar(t.charAt(i++)))
+                if (!Character.isSpaceChar(t.charAt(i++))) {
                     break;
+                }
             }
-            if (i > 0)
+            if (i > 0) {
                 t = t.substring(i - 1);
+            }
 
             i = t.length() - 1;
             while (i != -1) {
-                if (!Character.isSpaceChar(t.charAt(i)))
+                if (!Character.isSpaceChar(t.charAt(i))) {
                     break;
+                }
                 i--;
             }
-            if (i < t.length() - 1)
+            if (i < t.length() - 1) {
                 t = t.substring(0, i + 1);
+            }
 
             if (t.equals(PermissionFactory.ACTION_PRODUCE)) {
                 mask |= PRODUCE;
@@ -136,16 +137,19 @@ public class MQDestinationPermission extends Permission {
     }
 
     /**
-     * 
+     *
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof MQDestinationPermission))
+        if (!(p instanceof MQDestinationPermission)) {
             return false;
+        }
 
         MQDestinationPermission that = (MQDestinationPermission) p;
 
-        if (this.isQueue != that.isQueue)
+        if (this.isQueue != that.isQueue) {
             return false;
+        }
 
         return ((this.mask & that.mask) == that.mask) && impliesDestName(that);
 
@@ -153,10 +157,12 @@ public class MQDestinationPermission extends Permission {
 
     private boolean impliesDestName(MQDestinationPermission that) {
 
-        if (this.wildcard)
+        if (this.wildcard) {
             return true;
-        if (that.wildcard)
+        }
+        if (that.wildcard) {
             return false;
+        }
 
         return this.destName.equals(that.destName);
     }
@@ -164,15 +170,19 @@ public class MQDestinationPermission extends Permission {
     /**
      *
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (!(obj instanceof MQDestinationPermission))
+        if (!(obj instanceof MQDestinationPermission)) {
             return false;
+        }
 
-        if (obj.getClass() != getClass())
+        if (obj.getClass() != getClass()) {
             return false;
+        }
 
         MQDestinationPermission that = (MQDestinationPermission) obj;
 
@@ -182,6 +192,7 @@ public class MQDestinationPermission extends Permission {
     /**
      *
      */
+    @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
@@ -189,9 +200,11 @@ public class MQDestinationPermission extends Permission {
     /**
      *
      */
+    @Override
     public String getActions() {
-        if (actions != null)
+        if (actions != null) {
             return actions;
+        }
 
         StringBuffer s = new StringBuffer();
         boolean comma = false;
@@ -201,14 +214,16 @@ public class MQDestinationPermission extends Permission {
             s.append(PermissionFactory.ACTION_PRODUCE);
         }
         if ((mask & CONSUME) == CONSUME) {
-            if (comma)
+            if (comma) {
                 s.append(',');
+            }
             comma = true;
             s.append(PermissionFactory.ACTION_CONSUME);
         }
         if ((mask & BROWSE) == BROWSE) {
-            if (comma)
+            if (comma) {
                 s.append(',');
+            }
             comma = true;
             s.append(PermissionFactory.ACTION_BROWSE);
         }
@@ -220,8 +235,9 @@ public class MQDestinationPermission extends Permission {
      *
      */
     private void writeObject(ObjectOutputStream s) throws IOException {
-        if (actions == null)
+        if (actions == null) {
             getActions();
+        }
         s.defaultWriteObject();
     }
 

@@ -66,6 +66,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>iIDs</code>, or <code>states</code> is
      * <code>null</code>
      */
+    @Override
     public void storeMessage(DestinationUID dID, Packet message, ConsumerUID[] iIDs, int[] states, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -86,6 +87,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if a message with the same id exists in the store already
      * @exception NullPointerException if <code>message</code> is <code>null</code>
      */
+    @Override
     public void storeMessage(DestinationUID dID, Packet message, boolean sync) throws BrokerException {
         storeMessage(dID, message, null, null, sync);
     }
@@ -100,6 +102,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
+    @Override
     public void removeMessage(DestinationUID dID, String id, boolean sync) throws BrokerException {
         checkClosedAndSetInProgress();
         try {
@@ -120,10 +123,12 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
+    @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync) throws BrokerException {
         removeMessage(dID, mID, sync, false);
     }
 
+    @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync, boolean onRollback) throws BrokerException {
         String id = mID.getUniqueName();
 
@@ -150,6 +155,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>fromDID</code>, <code>toDID</code>, <code>iIDs</code>,
      * or <code>states</code> is <code>null</code>
      */
+    @Override
     public void moveMessage(Packet message, DestinationUID fromDID, DestinationUID toDID, ConsumerUID[] iIDs, int[] states, boolean sync)
             throws BrokerException {
 
@@ -184,6 +190,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * destionation
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public Enumeration messageEnumeration(Destination destination) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -202,6 +209,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
     /**
      * To close an enumeration retrieved from the store
      */
+    @Override
     public void closeEnumeration(Enumeration en) {
         if (!(en instanceof MessageEnumeration)) {
             return;
@@ -215,13 +223,14 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
 
     /**
      * Check if a a message has been acknowledged by all interests.
-     * 
+     *
      * @param dst the destination the message is associated with
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
      * @throws BrokerException
      */
+    @Override
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -241,6 +250,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return A HashMap of name value pair of information
      * @throws BrokerException if an error occurs while getting the data
      */
+    @Override
     public HashMap getMessageStorageInfo(Destination destination) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -259,6 +269,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dID, String mID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -277,6 +288,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         if (mID == null) {
@@ -297,6 +309,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
+    @Override
     public void storeInterestStates(DestinationUID dID, SysMessageID mID, ConsumerUID[] iIDs, int[] states, boolean sync, Packet msg) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -321,6 +334,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the message is not in the store; if the interest is not associated with the message; or
      * if an error occurs while persisting the data
      */
+    @Override
     public void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync, TransactionUID txid, boolean islastAck)
             throws BrokerException {
 
@@ -342,6 +356,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the specified interest is not associated with the message; or if the message is not in
      * the store
      */
+    @Override
     public int getInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -354,12 +369,13 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
 
     /**
      * Retrieve all interests and states associated with the specified message.
-     * 
+     *
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
      * @throws BrokerException
      */
+    @Override
     public HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -381,6 +397,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * interest is associated with the message
      * @exception BrokerException if the message is not in the store or if an error occurs while getting the data
      */
+    @Override
     public ConsumerUID[] getConsumerUIDs(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -399,6 +416,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the same destination exists in the store already
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public void storeDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -417,6 +435,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public void updateDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -435,6 +454,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the destination is not found in the store
      */
+    @Override
     public void removeDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -454,6 +474,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public long getDestinationConnectedTime(Destination destination) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -471,6 +492,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return a Destination object or null if not exist
      * @throws BrokerException
      */
+    @Override
     public Destination getDestination(DestinationUID dID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -485,6 +507,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public Destination[] getAllDestinations() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -504,6 +527,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
+    @Override
     public void storeTransaction(TransactionUID txnID, TransactionState txnState, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -524,6 +548,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
+    @Override
     public void storeClusterTransaction(TransactionUID txnID, TransactionState txnState, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -542,6 +567,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnAcks the transaction's participant brokers
      * @param txnHomeBroker the transaction's home broker
      */
+    @Override
     public void storeRemoteTransaction(TransactionUID id, TransactionState txnState, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker,
             boolean sync) throws BrokerException {
 
@@ -561,6 +587,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public void removeTransaction(TransactionUID txnID, boolean removeAcks, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -609,6 +636,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnBrokers the transaction's participant brokers
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public void updateClusterTransaction(TransactionUID txnUID, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -629,6 +657,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the transaction is not found in the store or the txn's state doesn't match the expected
      * state (Status.CONFLICT)
      */
+    @Override
     public void updateClusterTransactionBrokerState(TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
             throws BrokerException {
 
@@ -644,11 +673,12 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * Update the transaction home broker for the specified remote transaction (HA support).
      *
      * In HA mode, the txn is owned by another broker so we'll only update the txn home broker.
-     * 
+     *
      * @param txnUID the transaction ID
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateRemoteTransaction(TransactionUID txnUID, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
 
@@ -667,6 +697,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return the TransactionState
      * @exception BrokerException if the transaction id does NOT exists in the store already
      */
+    @Override
     public TransactionState getTransactionState(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -686,6 +717,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * number of consumer states.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -702,6 +734,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnID id of the transaction whose participant brokers are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public TransactionBroker[] getClusterTransactionBrokers(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -718,6 +751,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public BrokerAddress getRemoteTransactionHomeBroker(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -734,6 +768,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public TransactionInfo getTransactionInfo(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -750,6 +785,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public HashMap getAllTransactionStates() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -767,6 +803,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public HashMap getAllRemoteTransactionStates() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -786,6 +823,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @exception BrokerException if the transaction id is not found in the store, if the acknowledgement already exists, or
      * if it failed to persist the data
      */
+    @Override
     public void storeTransactionAck(TransactionUID txnID, TransactionAcknowledgement txnAck, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -803,6 +841,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if error occurs while removing the acknowledgements
      */
+    @Override
     public void removeTransactionAck(TransactionUID txnID, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -819,6 +858,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * @param txnID id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public TransactionAcknowledgement[] getTransactionAcks(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -833,9 +873,10 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
      * returned in the form a HashMap. Each entry in the HashMap has the transaction id as the key and an array of the
      * associated TransactionAcknowledgement objects as the value.
-     * 
+     *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
+    @Override
     public HashMap getAllTransactionAcks() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -848,13 +889,15 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
+    @Override
     public Hashtable getDebugState() throws BrokerException {
         return parent.getDebugState();
     }
 
+    @Override
     public LoadException getLoadDestinationException() {
         return null;
     }
@@ -862,6 +905,7 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
     /**
      * Return the LoadException for loading transactions; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionException() {
         return null;
     }
@@ -869,16 +913,18 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
     /**
      * Return the LoadException for loading transaction acknowledgements; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionAckException() {
         return null;
     }
 
     /**
      * Close the store and releases any system resources associated with it.
-     * 
+     *
      * @param cleanup if this is false, the store will not be cleaned up when it is closed. The default behavior is that the
      * store is cleaned up.
      */
+    @Override
     public void close(boolean cleanup) {
         logger.log(logger.INFO, "XXXClosing store partition: " + this);
         setClosedAndWait();
@@ -890,10 +936,12 @@ public class JDBCPartitionedStoreImpl extends AbstractPartitionedStore {
         return "[" + parent.getStoreType() + ":" + partitionid + "]";
     }
 
+    @Override
     public int hashCode() {
         return partitionid.hashCode();
     }
 
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;

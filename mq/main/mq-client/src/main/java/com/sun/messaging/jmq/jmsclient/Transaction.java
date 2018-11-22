@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import java.util.Hashtable;
 import java.util.logging.Level;
 
 import javax.jms.*;
@@ -160,7 +159,7 @@ public class Transaction {
 
     /**
      * This clears unacked message queue if rolled back or network error occurred.
-     * 
+     *
      * @param jmse
      * @throws JMSException
      */
@@ -313,7 +312,7 @@ public class Transaction {
 
     /**
      * XXX Hawk: error message.
-     * 
+     *
      * @throws JMSException
      */
     private void verifyTransaction(int tstate) throws JMSException {

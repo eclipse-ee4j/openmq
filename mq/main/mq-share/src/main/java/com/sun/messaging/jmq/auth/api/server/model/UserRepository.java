@@ -20,12 +20,10 @@
 
 package com.sun.messaging.jmq.auth.api.server.model;
 
-import java.io.*;
 import java.util.Properties;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
-import com.sun.messaging.jmq.auth.api.server.*;
 
 /**
  * Interface for plug-in different user repository for authentication. A class implements this interface for a
@@ -70,7 +68,7 @@ public interface UserRepository {
 
     /**
      * This method is called after findMatch() is successful
-     * 
+     *
      * The cacheData will be passed to open() call next time on a connection authentication
      *
      * @return A refreshed Refreshable object that need to be cached or null if no cache data or the cache data is not

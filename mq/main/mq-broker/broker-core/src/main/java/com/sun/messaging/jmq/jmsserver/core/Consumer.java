@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.Set;
@@ -51,9 +50,7 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.NoPersistPartitionedStoreImpl;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.DMQ;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
-import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 
@@ -142,6 +139,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     transient EventListener busylistener = null;
 
     class BusyListener implements EventListener {
+        @Override
         public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
 
             assert type == EventType.EMPTY;
@@ -153,10 +151,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     transient EventListener removeListener = null;
 
     class RemoveListener implements EventListener {
+        @Override
         public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
             assert type == EventType.SET_CHANGED_REQUEST;
-            if (!(r instanceof RemoveReason))
+            if (!(r instanceof RemoveReason)) {
                 return;
+            }
             // OK .. we are only registered to get the
             // following events:
             // RemoveReason.EXPIRED
@@ -267,6 +267,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         useConsumerFlowControl = C_FLOW_CONTROL_ALLOWED;
     }
 
+    @Override
     public void setPrefetch(int count, boolean useConsumerFlowControl) {
         prefetch = count;
         this.useConsumerFlowControl = useConsumerFlowControl;
@@ -297,10 +298,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public void setLastAckTime(long time) {
         lastAckTime = time;
-        if (parent != null) // deal with subscription
+        if (parent != null) {
             parent.setLastAckTime(time);
+        }
     }
 
+    @Override
     public int getPrefetch() {
         return prefetch;
     }
@@ -370,19 +373,22 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public String getClientID() {
         ConnectionUID cuid = getConnectionUID();
-        if (cuid == null)
+        if (cuid == null) {
             return "<unknown>";
+        }
 
-        Connection con = (Connection) Globals.getConnectionManager().getConnection(cuid);
+        Connection con = Globals.getConnectionManager().getConnection(cuid);
         return (String) con.getClientData(IMQConnection.CLIENT_ID);
 
     }
 
     public boolean isDurableSubscriber() {
-        if (parent != null)
+        if (parent != null) {
             return parent.isDurable();
-        if (this instanceof Subscription)
+        }
+        if (this instanceof Subscription) {
             return ((Subscription) this).isDurable();
+        }
         return false;
     }
 
@@ -400,8 +406,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public int numPendingAcks() {
         Session s = Session.getSession(sessionuid);
-        if (s == null)
+        if (s == null) {
             return 0;
+        }
         return s.getNumPendingAcks(getConsumerUID());
     }
 
@@ -502,8 +509,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 }
             }
         }
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, "Destroying consumer " + this + "[" + delivered.size() + ":" + msgs.size() + "]");
+        }
 
         // now clean up and/or requeue messages
         // any consumed messages will stay on the session
@@ -774,10 +782,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         initInterest();
     }
 
+    @Override
     public boolean isBusy() {
         return busy;
     }
 
+    @Override
     public DestinationUID getDestinationUID() {
         return dest;
     }
@@ -812,8 +822,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         dest = d;
         this.noLocal = noLocal;
         this.uid = uid;
-        if (uid == null)
+        if (uid == null) {
             this.uid = new ConsumerUID();
+        }
 
         this.selstr = selstr;
         selector = getSelector(selstr);
@@ -855,8 +866,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         synchronized (consumers) {
             consumers.put(uid, this);
         }
-        if (dest.isWildcard())
+        if (dest.isWildcard()) {
             wildcardConsumers.add(uid);
+        }
 
     }
 
@@ -905,7 +917,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     public PacketReference peekNext() {
         // ok first see if there is anything on msgs
         PacketReference ref = (PacketReference) msgs.peekNext();
-        if (ref == null && parentListMap.size() > 0)
+        if (ref == null && parentListMap.size() > 0) {
             synchronized (parentListMap) {
                 Iterator<SubSet> itr = parentListMap.values().iterator();
                 while (itr.hasNext()) {
@@ -915,6 +927,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                     }
                 }
             }
+        }
         return ref;
     }
 
@@ -922,6 +935,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         ackMsgsOnDestroy = ack;
     }
 
+    @Override
     public ConsumerUID getConsumerUID() {
         return uid;
     }
@@ -930,6 +944,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         stored_uid = uid;
     }
 
+    @Override
     public ConsumerUID getStoredConsumerUID() {
         if (stored_uid == null) {
             return uid;
@@ -971,8 +986,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     public boolean routeMessages(Collection c, boolean toFront) {
         if (toFront) {
-            if (!valid)
+            if (!valid) {
                 return false;
+            }
             msgs.addAllToFront(c, 0);
             synchronized (destroyLock) {
                 msgsToConsumer += c.size();
@@ -984,8 +1000,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
                 routeMessage((PacketReference) itr.next(), false);
             }
         }
-        if (!valid)
+        if (!valid) {
             return false;
+        }
         return true;
     }
 
@@ -1063,11 +1080,13 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         }
     }
 
+    @Override
     public void attachToConnection(ConnectionUID uid) {
         this.conuid = uid;
         this.uid.setConnectionUID(uid);
     }
 
+    @Override
     public void attachToSession(SessionUID uid) {
         this.sessionuid = uid;
     }
@@ -1119,6 +1138,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         return snapshot;
     }
 
+    @Override
     public Destination getFirstDestination() {
         Iterator itr = getDestinations().iterator();
         Destination d = (Destination) (itr.hasNext() ? itr.next() : null);
@@ -1129,10 +1149,12 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         return sessionuid;
     }
 
+    @Override
     public ConnectionUID getConnectionUID() {
         return conuid;
     }
 
+    @Override
     public Object getAndFillNextPacket(Packet p) {
         PacketReference ref = null;
 
@@ -1348,8 +1370,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     public void purgeConsumer() throws BrokerException {
         Reason cleanupReason = RemoveReason.ACKNOWLEDGED;
         Set set = new HashSet(msgs);
-        if (set.isEmpty())
+        if (set.isEmpty()) {
             return;
+        }
         msgs.removeAll(set, cleanupReason);
         Iterator itr = set.iterator();
         while (itr.hasNext()) {
@@ -1415,24 +1438,28 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         checkState(null);
     }
 
+    @Override
     public void pause(String reason) {
         synchronized (msgs) {
             paused = true;
             pauseCnt++;
-            if (DEBUG)
+            if (DEBUG) {
                 logger.log(logger.DEBUG, "Pausing consumer " + this + "[" + pauseCnt + "] " + reason);
+            }
         }
         checkState(null);
     }
 
+    @Override
     public void resume(String reason) {
         synchronized (msgs) {
             pauseCnt--;
             if (pauseCnt <= 0) {
                 paused = false;
             }
-            if (DEBUG)
+            if (DEBUG) {
                 logger.log(logger.DEBUG, "Pausing consumer " + this + "[" + pauseCnt + "] " + reason);
+            }
         }
         checkState(null);
     }
@@ -1462,7 +1489,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
             return 2;
         }
         float pc = Math.max(Globals.getDestinationList().totalCountPercent(), d.destMessagesSizePercent());
-        if (pc < (float) DestinationList.CHECK_MSGS_RATE_AT_DEST_CAPACITY_RATIO) {
+        if (pc < DestinationList.CHECK_MSGS_RATE_AT_DEST_CAPACITY_RATIO) {
             return 2;
         }
         synchronized (lastDestMetrics) {
@@ -1617,6 +1644,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         }
     }
 
+    @Override
     public void resumeFlow(int id) {
         resumeRemoteFlow(id);
         setPrefetch(id);
@@ -1650,13 +1678,14 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     /**
      * Request notification when the specific event occurs.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not publish the event type passed in
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
 
         if (type != EventType.BUSY_STATE_CHANGED) {
@@ -1667,7 +1696,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
@@ -1675,6 +1704,7 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
      * @return an id associated with this notification
      * @throws UnsupportedOperationException if the broadcaster does not support the event type or reason passed in
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) throws UnsupportedOperationException {
         if (type != EventType.BUSY_STATE_CHANGED) {
             throw new UnsupportedOperationException("Only " + "Busy State Changed notifications supported on this class");
@@ -1684,9 +1714,10 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     /**
      * remove the listener registered with the passed in id.
-     * 
+     *
      * @return the listener callback which was removed
      */
+    @Override
     public Object removeEventListener(Object id) {
         return evb.removeEventListener(id);
     }
@@ -1695,16 +1726,19 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         evb.notifyChange(type, r, target, oldval, newval);
     }
 
+    @Override
     public void dump(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
+        }
         logger.log(Logger.INFO, prefix + "Consumer: " + uid + " [paused, active," + "flowPaused, parentBusy, hasMessages, parentSize ] = [" + paused + ","
                 + active + "," + flowPaused + "," + getParentBusy() + "," + (msgs == null || !msgs.isEmpty()) + "," + parentListMap + "]");
         logger.log(Logger.INFO, prefix + "Busy state [" + uid + "] is " + busy);
-        if (msgs == null)
+        if (msgs == null) {
             logger.log(Logger.INFO, "msgs is null");
-        else
+        } else {
             logger.log(Logger.INFO, msgs.toDebugString());
+        }
     }
 
     public static Hashtable getAllDebugState() {
@@ -1733,8 +1767,9 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
         ht.put("noLocal", String.valueOf(noLocal));
         ht.put("destinationUID", dest.toString());
         ht.put("busy", String.valueOf(busy));
-        if (parent != null)
+        if (parent != null) {
             ht.put("Subscription", String.valueOf(parent.getConsumerUID().longValue()));
+        }
         ht.put("isSpecialRemote", String.valueOf(isSpecialRemote));
         ht.put("ackMsgsOnDestroy", String.valueOf(ackMsgsOnDestroy));
         ht.put("position", String.valueOf(position));
@@ -1824,17 +1859,20 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
 
     /**
      * Return a concises string representation of the object.
-     * 
+     *
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
         String str = "Consumer - " + dest + ":" + "[" + getConsumerUID() + ", " + getStoredConsumerUID() + "]";
         return str;
     }
 
+    @Override
     public void debug(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
+        }
         logger.log(Logger.INFO, prefix + toString());
         String follow = prefix + "\t";
         logger.log(Logger.INFO, follow + "Selector = " + selector);
@@ -1924,15 +1962,17 @@ public class Consumer implements ConsumerSpi, EventBroadcaster, Serializable {
     }
 
     public static Consumer getConsumer(String creator) {
-        if (creator == null)
+        if (creator == null) {
             return null;
+        }
 
         synchronized (consumers) {
             Iterator itr = consumers.values().iterator();
             while (itr.hasNext()) {
                 Consumer c = (Consumer) itr.next();
-                if (creator.equals(c.getCreator()))
+                if (creator.equals(c.getCreator())) {
                     return c;
+                }
             }
         }
         return null;

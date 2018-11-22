@@ -22,21 +22,18 @@ package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
 import java.util.Hashtable;
-import java.util.Date;
 import javax.transaction.xa.XAResource;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /*
  * XXX - LKS - 3/22/2005
- * 
+ *
  * transaction behavior w/ timeout is not implemented
  */
 
@@ -445,44 +442,51 @@ public class TransactionState implements Externalizable, Serializable {
             found = true;
         }
         if (isFlagSet(XAResource.TMFAIL, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMFAIL");
             found = true;
         }
         if (isFlagSet(XAResource.TMJOIN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMJOIN");
             found = true;
         }
         if (isFlagSet(XAResource.TMONEPHASE, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMONEPHASE");
             found = true;
         }
         if (isFlagSet(XAResource.TMRESUME, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMRESUME");
             found = true;
         }
         if (isFlagSet(XAResource.TMSTARTRSCAN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSTARTSCAN");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUCCESS, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUCCESS");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUSPEND, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUSPEND");
             found = true;
         }
@@ -495,6 +499,7 @@ public class TransactionState implements Externalizable, Serializable {
         return sb.toString();
     }
 
+    @Override
     public String toString() {
         if (xid == null) {
             return user + "@" + clientID + ":" + toString(state) + (onephasePrepare ? "[onephase=true]" : "");
@@ -519,6 +524,7 @@ public class TransactionState implements Externalizable, Serializable {
         detachedTime = 0;
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         xid = JMQXid.read(in);
@@ -552,6 +558,7 @@ public class TransactionState implements Externalizable, Serializable {
         detachedTime = 0;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         if (xid == null) {

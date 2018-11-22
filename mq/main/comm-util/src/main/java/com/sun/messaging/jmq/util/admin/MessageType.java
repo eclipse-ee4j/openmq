@@ -55,104 +55,104 @@ public class MessageType {
 
     /**
      * Pause type string (used when pausing a destination)
-     * 
+     *
      * @since 3.5
      */
     public static final String JMQ_DEST_STATE = "JMQDestState";
     /**
      * type of body for a metrics packet
-     * 
+     *
      * @since 3.5
      */
     public static final String JMQ_BODY_TYPE = "JMQBodyType";
 
     /**
      * pause target (JMQServiceName or JMQDestination)
-     * 
+     *
      * @since 3.5
      */
     public static final String JMQ_PAUSE_TARGET = "JMQPauseTarget";
 
     /**
      * Connection ID
-     * 
+     *
      * @since 3.5
      */
     public static final String JMQ_CONNECTION_ID = "JMQConnectionID";
 
     /**
      * Reset type
-     * 
+     *
      * @since 4.0
      */
     public static final String JMQ_RESET_TYPE = "JMQResetType";
 
     /**
      * Reset type - metrics
-     * 
+     *
      * @since 4.0
      */
     public static final String JMQ_METRICS = "JMQMetrics";
 
     /**
      * The index of the first message to retrieve for GET_MESSAGES/GET_MESSAGES_REPLY.
-     * 
+     *
      * @since 3.7ur1
      */
     public static final String JMQ_START_MESSAGE_INDEX = "JMQStartMessageIndex";
 
     /**
      * Max number of messages returned in GET_MESSAGES/GET_MESSAGES_REPLY.
-     * 
+     *
      * @since 3.7ur1
      */
     public static final String JMQ_MAX_NUM_MSGS_RETRIEVED = "JMQMaxNumMsgsRetrieved";
 
     /**
      * Message ID
-     * 
+     *
      * @since 3.7ur1
      */
     public static final String JMQ_MESSAGE_ID = "JMQMessageID";
 
     /**
      * Boolean to indicate if message body should be retrieved.
-     * 
+     *
      * @since 3.7ur1
      */
     public static final String JMQ_GET_MSG_BODY = "JMQGetMessageBody";
 
     /**
      * The new value for imq.cluster.brokerlist for UPDATE_CLUSTER_BROKERLIST
-     * 
+     *
      * @since 4.5
      */
     public static final String JMQ_CLUSTER_BROKERLIST = "JMQClusterBrokerList";
 
     /**
      * The new value of imq.cluster.masterbroker for CHANGE_CLUSTER_MASTER_BROKER
-     * 
+     *
      * @since 4.5
      */
     public static final String JMQ_CLUSTER_NEW_MASTER_BROKER = "JMQClusterNewMasterBroker";
 
     /**
      * The current value of imq.cluster.masterbroker for CHANGE_CLUSTER_MASTER_BROKER
-     * 
+     *
      * @since 4.5
      */
     public static final String JMQ_CLUSTER_OLD_MASTER_BROKER = "JMQClusterOldMasterBroker";
 
     /**
      * Set to true if sender is from JMSRA to its managed broker
-     * 
+     *
      * @since 4.5
      */
     public static final String JMQ_JMSRA_MANAGED_BROKER = "JMQJMSRAManagedBroker";
 
     /**
      * Set to true if it's a notification from JMSRA - to be used with protocol CHANGE_CLUSTER_MASTER_BROKER
-     * 
+     *
      * @since 4.5
      */
     public static final String JMQ_JMSRA_NOTIFICATION_ONLY = "JMQJMSRANotificationOnly";
@@ -333,7 +333,7 @@ public class MessageType {
      * message (101="1.0.1", 80="0.8.0", 218="2.1.8")
      * <P>
      * <I>Returns 350 (3.5.0) in raptor </I>
-     * 
+     *
      * @return int protocol version
      */
     public static int getProtocolVersion() {

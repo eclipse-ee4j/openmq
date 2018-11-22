@@ -39,6 +39,7 @@ public class MsgRemovalEvent extends TransactionEvent {
         return result;
     }
 
+    @Override
     int getType() {
         return BaseTransaction.MSG_REMOVAL_TYPE;
     }
@@ -56,6 +57,7 @@ public class MsgRemovalEvent extends TransactionEvent {
         this.sysMessageID = mid;
     }
 
+    @Override
     public byte[] writeToBytes() throws IOException {
         // Log all msgs and acks for producing and consuming txn
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -74,6 +76,7 @@ public class MsgRemovalEvent extends TransactionEvent {
 
     }
 
+    @Override
     public void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);

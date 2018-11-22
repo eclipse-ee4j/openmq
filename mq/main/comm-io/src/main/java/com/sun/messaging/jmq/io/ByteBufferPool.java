@@ -29,7 +29,6 @@ import java.util.Set;
 import java.nio.ByteBuffer;
 
 import com.sun.messaging.jmq.util.DiagManager;
-import com.sun.messaging.jmq.util.DiagManager.Data;
 import com.sun.messaging.jmq.util.DiagDictionaryEntry;
 
 /**
@@ -269,8 +268,9 @@ public class ByteBufferPool implements DiagManager.Data {
      * buffer is disgarded.
      */
     public synchronized void put(ByteBuffer b) {
-        if (b == null)
+        if (b == null) {
             return;
+        }
 
         // If it's a direct pool, only save direct buffers
         if (useDirect && !b.isDirect()) {
@@ -334,6 +334,7 @@ public class ByteBufferPool implements DiagManager.Data {
         nBufs = 0;
     }
 
+    @Override
     public String toString() {
         return super.toString() + ": capacity=" + poolCapacity + ", size=" + poolSize + ", nBufs=" + nBufs + ", bigBufSize=" + bigBufSize + ", bigPoolSize="
                 + bigPoolSize + ", bigRatio=" + bigRatio + ", utilization=" + getUtilization() + ", directBytes=" + directBytesAllocated + ", directBuffers="
@@ -372,6 +373,7 @@ public class ByteBufferPool implements DiagManager.Data {
     }
 
     // Methods to support diagnostics
+    @Override
     public synchronized List getDictionary() {
         if (diagDictionary == null) {
             diagDictionary = new ArrayList();
@@ -397,15 +399,18 @@ public class ByteBufferPool implements DiagManager.Data {
         return diagDictionary;
     }
 
+    @Override
     public void update() {
         poolContents = "[" + poolContents() + "]";
         utilization = getUtilization();
     }
 
+    @Override
     public String getPrefix() {
         return "bbpool";
     }
 
+    @Override
     public String getTitle() {
         return "ByteBufferPool";
     }

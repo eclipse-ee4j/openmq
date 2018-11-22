@@ -27,7 +27,6 @@ import java.awt.Insets;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 
 /**
  * This class implements a panel that contains a JLabel and a component horizontally separated by a colon. Label:
@@ -46,6 +45,10 @@ import javax.swing.JScrollPane;
  */
 public class LabelledComponent extends JPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5448387956016714457L;
     public static final int NORTH = 0;
     public static final int CENTER = 1;
     public static final int SOUTH = 2;
@@ -114,19 +117,22 @@ public class LabelledComponent extends JPanel {
     }
 
     public void setLabelText(String s) {
-        if ((label == null) || (s == null))
+        if ((label == null) || (s == null)) {
             return;
+        }
 
         label.setText(s);
     }
 
     public void setLabelFont(Font f) {
-        if ((label == null) || (f == null))
+        if ((label == null) || (f == null)) {
             return;
+        }
 
         label.setFont(f);
     }
 
+    @Override
     public void setEnabled(boolean b) {
         if (label != null) {
             label.setEnabled(b);
@@ -143,8 +149,9 @@ public class LabelledComponent extends JPanel {
      * Enable/disable all the components within the comp component.
      */
     private void enableComponents(JComponent comp, boolean b) {
-        for (int i = 0; i < comp.getComponentCount(); i++)
+        for (int i = 0; i < comp.getComponentCount(); i++) {
             comp.getComponent(i).setEnabled(b);
+        }
     }
 
     private void initPanel() {

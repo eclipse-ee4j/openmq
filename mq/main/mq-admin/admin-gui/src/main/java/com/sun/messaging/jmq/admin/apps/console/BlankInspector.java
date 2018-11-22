@@ -31,16 +31,25 @@ import javax.swing.JPanel;
  */
 public class BlankInspector extends InspectorPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5612234334124756881L;
+
+    @Override
     public JPanel createWorkPanel() {
         return (null);
     }
 
+    @Override
     public void inspectorInit() {
     }
 
+    @Override
     public void clearSelection() {
     }
 
+    @Override
     public void selectedObjectUpdated() {
     }
 }

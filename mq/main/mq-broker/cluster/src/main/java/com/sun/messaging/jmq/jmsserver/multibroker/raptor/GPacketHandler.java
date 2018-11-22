@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 import com.sun.messaging.jmq.jmsserver.resources.*;

@@ -35,19 +35,23 @@ public class StringUID implements java.io.Serializable {
         this.str = str;
     }
 
+    @Override
     public String toString() {
         return str;
     }
 
+    @Override
     public int hashCode() {
         if (str == null) {
             return 0;
         }
-        if (hashCode == 0)
+        if (hashCode == 0) {
             hashCode = str.hashCode();
+        }
         return hashCode;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (str == null) {
             return o == null;

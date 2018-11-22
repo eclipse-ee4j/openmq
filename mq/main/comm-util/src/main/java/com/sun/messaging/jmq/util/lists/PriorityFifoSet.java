@@ -39,10 +39,12 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         return levels;
     }
 
+    @Override
     public void clear() {
         super.clear();
-        for (int i = 0; i < levels; i++)
+        for (int i = 0; i < levels; i++) {
             priorities[i] = null;
+        }
     }
 
     public PriorityFifoSet(int levels) {
@@ -52,14 +54,17 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         defaultPriority = levels / 2;
     }
 
+    @Override
     public boolean add(Object o) {
         assert lock == null || Thread.holdsLock(lock);
         return add(defaultPriority, o);
     }
 
+    @Override
     public void addAllOrdered(Collection c) {
     }
 
+    @Override
     public void addAllToFront(Collection c, int priority) {
         assert lock == null || Thread.holdsLock(lock);
 
@@ -86,8 +91,9 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
                 SetEntry e = createSetEntry(o, priority);
                 lookup.put(o, e);
                 endEntry.insertEntryBefore(e);
-                if (startOfList == null)
+                if (startOfList == null) {
                     startOfList = e;
+                }
             }
             priorities[priority] = startOfList;
             if (head == endEntry) {
@@ -109,6 +115,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         return new PrioritySetEntry(o, p);
     }
 
+    @Override
     public boolean add(int pri, Object o) {
         assert lock == null || Thread.holdsLock(lock);
         if (parent != null) {
@@ -219,6 +226,7 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
 
     }
 
+    @Override
     protected boolean cleanupEntry(SetEntry e) {
         assert lock == null || Thread.holdsLock(lock);
         PrioritySetEntry pe = (PrioritySetEntry) e;
@@ -237,17 +245,20 @@ public class PriorityFifoSet extends FifoSet implements Prioritized {
         return super.cleanupEntry(e);
     }
 
+    @Override
     public boolean remove(Object o) {
         assert lock == null || Thread.holdsLock(lock) : lock + ":" + this;
         return super.remove(o);
     }
 
+    @Override
     public void sort(Comparator c) {
         super.sort(c);
 
         for (int i = 0; i < levels; i++) {
-            if (priorities[i] != null)
+            if (priorities[i] != null) {
                 priorities[i] = priorities[i].sort(c);
+            }
         }
     }
 

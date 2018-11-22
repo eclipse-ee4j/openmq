@@ -36,6 +36,7 @@ public class BridgeMgrHelpPrinter implements CommonHelpPrinter, BridgeMgrOptions
     /**
      * Prints usage, subcommands, options then exits.
      */
+    @Override
     public void printShortHelp(int exitStatus) {
         printUsage();
         printSubcommands();

@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 
 import com.sun.messaging.jmq.io.disk.VRFile;
@@ -80,7 +79,7 @@ class TransactionWorkInfo {
 
             // cache message info
             this.msg = txnWork;
-            tid = (TransactionUID) txnWork.getTid();
+            tid = txnWork.getTid();
 
         } catch (BrokerException be) {
             be.printStackTrace();
@@ -197,8 +196,9 @@ class TransactionWorkInfo {
         this.parent = p;
 
         tid = txnWork.getTid();
-        if (databuf != null)
+        if (databuf != null) {
             txnDataSize = databuf.length;
+        }
 
         parent.writeData(tid, databuf, null, sync);
 

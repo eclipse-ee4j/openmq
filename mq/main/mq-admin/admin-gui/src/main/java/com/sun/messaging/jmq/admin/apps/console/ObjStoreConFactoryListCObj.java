@@ -35,6 +35,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  *
  */
 public class ObjStoreConFactoryListCObj extends ObjStoreAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8278793232102478370L;
     private transient ObjStore os = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -53,18 +57,22 @@ public class ObjStoreConFactoryListCObj extends ObjStoreAdminCObj {
         return (os);
     }
 
+    @Override
     public String getExplorerLabel() {
         return (acr.getString(acr.I_OBJSTORE_CF_LIST));
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.OBJSTORE_CONN_FAC_LIST]);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -81,10 +89,12 @@ public class ObjStoreConFactoryListCObj extends ObjStoreAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.ADD);
     }
 
+    @Override
     public int getActiveActions() {
         int mask;
 
@@ -97,14 +107,17 @@ public class ObjStoreConFactoryListCObj extends ObjStoreAdminCObj {
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".ObjStoreConFactoryListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Connection Factories");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

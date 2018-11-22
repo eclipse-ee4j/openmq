@@ -195,8 +195,9 @@ public class GrizzlyMQPacketFilter extends BaseFilter {
             return ctx.getInvokeAction();
 
         } finally {
-            if (bos != null)
+            if (bos != null) {
                 bos.close();
+            }
         }
     }
 

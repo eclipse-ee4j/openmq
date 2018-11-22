@@ -30,6 +30,11 @@ import java.io.IOException;
  */
 public class FileCorruptedException extends IOException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 272929095176266560L;
+
     /** Creates a new instance of FileCorruptedException */
     public FileCorruptedException() {
         super();

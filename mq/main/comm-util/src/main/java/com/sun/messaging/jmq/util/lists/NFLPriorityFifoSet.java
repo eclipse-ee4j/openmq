@@ -84,12 +84,14 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         return enforceLimits;
     }
 
+    @Override
     protected boolean cleanupEntry(SetEntry e) {
         synchronized (lock) {
             return super.cleanupEntry(e);
         }
     }
 
+    @Override
     public boolean addAll(Collection c) {
         boolean ok = false;
         Iterator itr = c.iterator();
@@ -99,6 +101,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         return ok;
     }
 
+    @Override
     public void clear() {
         synchronized (lock) {
             Iterator itr = iterator();
@@ -112,21 +115,26 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         }
     }
 
+    @Override
     public boolean equals(Object obj) {
         // we are only equal if we are the same object
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
         return false;
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
+    @Override
     public boolean add(Object o) {
         return add(defaultPriority, o, null);
     }
 
+    @Override
     public int size() {
         synchronized (lock) {
             return super.size();
@@ -134,6 +142,11 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
     }
 
     static class ComparatorSet extends TreeSet implements SubSet {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -2212313455661614252L;
+
         transient EventBroadcastHelper ebh = new EventBroadcastHelper();
 
         Object uid;
@@ -145,10 +158,12 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             this.parent = p;
         }
 
+        @Override
         public String toDebugString() {
             return "ComparatorSet [" + comparator() + "]" + parent.toDebugString();
         }
 
+        @Override
         public void destroy() {
             parent.destroyComparatorSet(this.uid);
         }
@@ -161,26 +176,31 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             super.remove(o);
         }
 
+        @Override
         public boolean add(Object o) {
             return add(o, null);
         }
 
+        @Override
         public boolean add(Object o, Reason r) {
             boolean ok = super.add(o);
             parent.add(o, r);
             return ok;
         }
 
+        @Override
         public boolean remove(Object o) {
             return remove(o, null);
         }
 
+        @Override
         public boolean remove(Object o, Reason r) {
             boolean ok = super.remove(o);
             parent.remove(o, r);
             return ok;
         }
 
+        @Override
         public Object removeNext() {
             boolean ok = false;
             Object o = null;
@@ -194,6 +214,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return o;
         }
 
+        @Override
         public Object peekNext() {
             return first();
         }
@@ -202,6 +223,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return uid;
         }
 
+        @Override
         public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
@@ -209,6 +231,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return ebh.addEventListener(listener, type, userData);
         }
 
+        @Override
         public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
@@ -216,13 +239,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return ebh.addEventListener(listener, type, r, userData);
         }
 
+        @Override
         public Object removeEventListener(Object id) {
             return ebh.removeEventListener(id);
         }
 
         public void notifyEmptyChanged(boolean empty, Reason r) {
-            if (ebh.hasListeners(EventType.EMPTY))
+            if (ebh.hasListeners(EventType.EMPTY)) {
                 ebh.notifyChange(EventType.EMPTY, r, this, (empty ? Boolean.TRUE : Boolean.FALSE), (empty ? Boolean.FALSE : Boolean.TRUE));
+            }
         }
     }
 
@@ -238,6 +263,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         nSetEntry nextEntry = null;
         nSetEntry currentEntry = null;
 
+        @Override
         public String toString() {
             return "FilterSet[" + f + "]" + super.toString() + "(uid=" + uid + ")";
         }
@@ -249,6 +275,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public String toDebugString() {
             StringBuffer str = new StringBuffer();
             str.append("FilterSet[" + f + "]\n");
@@ -267,10 +294,12 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return str.toString();
         }
 
+        @Override
         public void addAllToFront(Collection c, int pri) {
             NFLPriorityFifoSet.this.addAllToFront(c, pri);
         }
 
+        @Override
         public void addAllOrdered(Collection c) {
             NFLPriorityFifoSet.this.addAllOrdered(c);
         }
@@ -299,12 +328,14 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 }
             }
 
+            @Override
             public boolean hasNext() {
                 synchronized (lock) {
                     return current != null;
                 }
             }
 
+            @Override
             public Object next() {
                 synchronized (lock) {
                     Object n = current.getData();
@@ -314,6 +345,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 }
             }
 
+            @Override
             public void remove() {
                 throw new UnsupportedOperationException("remove is not supported on this iterator");
             }
@@ -425,14 +457,17 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
         }
 
+        @Override
         public boolean add(Object o) {
             return add(o, null);
         }
 
+        @Override
         public boolean add(int p, Object o) {
             return add(p, o, null);
         }
 
+        @Override
         public boolean add(Object o, Reason r) {
             if (f != null && !f.matches(o)) {
                 throw new IllegalArgumentException("not part of set");
@@ -447,6 +482,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return NFLPriorityFifoSet.this.add(p, o, r);
         }
 
+        @Override
         public void clear() {
 
             // OK .. we only want matching items
@@ -461,11 +497,13 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             removeAll(s);
         }
 
+        @Override
         public boolean remove(Object o) {
             return remove(o, null);
 
         }
 
+        @Override
         public boolean remove(Object o, Reason r) {
             if (f != null && !f.matches(o)) {
                 return false;
@@ -473,20 +511,24 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return NFLPriorityFifoSet.this.remove(o, r);
         }
 
+        @Override
         public boolean contains(Object o) {
 
             synchronized (lock) {
                 nSetEntry pse = (nSetEntry) lookup.get(o);
-                if (pse == null)
+                if (pse == null) {
                     return false;
+                }
 
-                if (f == null)
+                if (f == null) {
                     return true;
+                }
 
                 return f.matches(o);
             }
         }
 
+        @Override
         public int size() {
             // this is SLOW (we have to check each item
             synchronized (lock) {
@@ -500,6 +542,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public boolean retainAll(Collection c) {
             Set s = new HashSet();
             synchronized (lock) {
@@ -514,6 +557,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return NFLPriorityFifoSet.this.removeAll(s);
         }
 
+        @Override
         public boolean isEmpty() {
             synchronized (lock) {
                 boolean state = !skipToNext();
@@ -521,18 +565,22 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public boolean removeAll(Collection c) {
             return NFLPriorityFifoSet.this.removeAll(c);
         }
 
+        @Override
         public void destroy() {
             NFLPriorityFifoSet.this.destroyFilterSet(this.uid);
         }
 
+        @Override
         public Iterator iterator() {
             return new filterIterator();
         }
 
+        @Override
         public Object removeNext() {
 
             Object o = null;
@@ -571,6 +619,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return o;
         }
 
+        @Override
         public Object peekNext() {
             synchronized (lock) {
                 if (!skipToNext()) {
@@ -583,6 +632,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public Object addEventListener(EventListener listener, EventType type, Object userData) throws UnsupportedOperationException {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
@@ -590,6 +640,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return ebh.addEventListener(listener, type, userData);
         }
 
+        @Override
         public Object addEventListener(EventListener listener, EventType type, Reason r, Object userData) throws UnsupportedOperationException {
             if (type != EventType.EMPTY) {
                 throw new UnsupportedOperationException("Event " + type + " not supported");
@@ -597,6 +648,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return ebh.addEventListener(listener, type, r, userData);
         }
 
+        @Override
         public Object removeEventListener(Object id) {
             return ebh.removeEventListener(id);
         }
@@ -610,18 +662,21 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     // XXX - only generate empty notification for now
 
+    @Override
     public void addAllToFront(Collection c, int pri) {
         addAllToFront(c, pri, null);
     }
 
+    @Override
     public void addAllOrdered(Collection c) {
         addAllOrdered(c, null);
     }
 
     public void addAllOrdered(Collection c, Reason reason) {
 
-        if (c.isEmpty())
+        if (c.isEmpty()) {
             return;
+        }
 
         Set notify = null;
         boolean notifyTop = false;
@@ -639,8 +694,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             Object o = null;
             synchronized (lock) {
                 o = itr.next();
-                if (!(o instanceof Ordered))
+                if (!(o instanceof Ordered)) {
                     throw new RuntimeException("Can not order unordered items");
+                }
 
                 Ordered oo = (Ordered) o;
 
@@ -770,13 +826,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 Iterator nitr = notify.iterator();
                 while (nitr.hasNext()) {
                     uid = nitr.next();
-                    if (uid == null)
+                    if (uid == null) {
                         continue;
+                    }
                     synchronized (filterSetLock) {
                         s = (SubSet) filterSets.get(uid);
                     }
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     if (s instanceof FilterSet) {
                         ((FilterSet) s).notifyEmptyChanged(!(((FilterSet) s).isEmpty()), reason);
                     } else { // when supported, add comparatorSetLock similar as filterSetLock
@@ -789,13 +847,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     }
 
+    @Override
     public boolean isEmpty() {
         return super.isEmpty();
     }
 
     public void addAllToFront(Collection c, int pri, Reason reason) {
-        if (c.isEmpty())
+        if (c.isEmpty()) {
             return;
+        }
 
         Set notify = null;
         boolean notifyTop = false;
@@ -825,16 +885,18 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                     SetEntry dup = null;
                     if ((dup = (SetEntry) lookup.get(o)) != null) {
                         remove(o);
-                        if (endEntry == dup)
+                        if (endEntry == dup) {
                             endEntry = null;
+                        }
                         if (dup == startOfList) {
                             startOfList = priorities[pri];
                         }
                     }
                     if (endEntry == null) {
                         super.add(pri, o);
-                        if (startOfList == null)
+                        if (startOfList == null) {
                             startOfList = (SetEntry) lookup.get(o);
+                        }
                         continue;
                     }
 
@@ -866,15 +928,17 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 Iterator fitr = filterSets.values().iterator();
                 while (fitr.hasNext()) {
                     FilterSet s = (FilterSet) fitr.next();
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     boolean wasFilterEmpty = s.isEmpty();
                     s.addItem(startOfList.getData(), true);
                     // if the filter is empy or the parent list was
                     // we have to notify
                     if (wasFilterEmpty || notifyTop) {
-                        if (notify == null)
+                        if (notify == null) {
                             notify = new HashSet();
+                        }
                         notify.add(s.getUID());
                     }
                 }
@@ -889,8 +953,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
         if (notify != null || notifyTop) {
 
-            if (notifyTop && hasListeners(EventType.EMPTY))
+            if (notifyTop && hasListeners(EventType.EMPTY)) {
                 notifyChange(EventType.EMPTY, Boolean.TRUE, Boolean.FALSE, reason);
+            }
 
             if (notify != null) {
                 Object uid = null;
@@ -898,13 +963,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 Iterator nitr = notify.iterator();
                 while (nitr.hasNext()) {
                     uid = nitr.next();
-                    if (uid == null)
+                    if (uid == null) {
                         continue;
+                    }
                     synchronized (filterSetLock) {
                         s = (SubSet) filterSets.get(uid);
                     }
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     if (s instanceof FilterSet) {
                         ((FilterSet) s).notifyEmptyChanged(!(((FilterSet) s).isEmpty()), reason);
                     } else { // when supported, add comparatorSetLock similar as filterSetLock
@@ -917,18 +984,21 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     }
 
+    @Override
     public boolean add(Object o, Reason r) {
         return add(defaultPriority, o, r);
     }
 
+    @Override
     public boolean add(int pri, Object o) {
         return add(pri, o, null);
     }
 
     private void preAdd(Object o, Reason reason) {
         // OK notify of changeRequest
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
             notifyChange(EventType.SET_CHANGED_REQUEST, null, o, reason);
+        }
 
         if (o == null) {
             throw new NullPointerException("Unable to support null " + " values");
@@ -985,9 +1055,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
         bytes += objsize;
 
-        averageCount = (((float) numberSamples * averageCount + (float) size()) / ((float) numberSamples + 1.0F));
-        averageBytes = ((double) numberSamples * averageBytes + (double) bytes) / ((double) numberSamples + 1.0D);
-        messageAverage = ((double) numberSamples * messageAverage + (double) objsize) / ((double) numberSamples + 1.0D);
+        averageCount = ((numberSamples * averageCount + size()) / (numberSamples + 1.0F));
+        averageBytes = (numberSamples * averageBytes + bytes) / (numberSamples + 1.0D);
+        messageAverage = (numberSamples * messageAverage + objsize) / (numberSamples + 1.0D);
         numberSamples++;
 
         if (added) {
@@ -1019,8 +1089,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                         Iterator itr = filterSets.values().iterator();
                         while (itr.hasNext()) {
                             FilterSet s = (FilterSet) itr.next();
-                            if (s == null)
+                            if (s == null) {
                                 continue;
+                            }
                             boolean wasEmpty = s.isEmpty();
                             s.addItem(o);
                             if (wasEmpty != s.isEmpty()) {
@@ -1037,8 +1108,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                         Iterator itr = comparatorSets.values().iterator();
                         while (itr.hasNext()) {
                             ComparatorSet s = (ComparatorSet) itr.next();
-                            if (s == null)
+                            if (s == null) {
                                 continue;
+                            }
                             boolean wasEmpty = s.isEmpty();
                             s.addItem(o);
                             if (wasEmpty != s.isEmpty()) {
@@ -1084,8 +1156,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             notifyChange(EventType.FULL, Boolean.FALSE, Boolean.TRUE, reason);
         }
         for (int i = 0; i < ni.filters.length; i++) {
-            if (ni.filters[i] == null || ni.filters[i].f == null)
+            if (ni.filters[i] == null || ni.filters[i].f == null) {
                 break;
+            }
             SubSet s = ni.filters[i].f;
             if (s instanceof FilterSet) {
                 ((FilterSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
@@ -1118,6 +1191,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         return removed;
     }
 
+    @Override
     public boolean remove(Object o) {
         return remove(o, (Reason) null);
     }
@@ -1136,6 +1210,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             filters = new EmptyChanged[0];
         }
 
+        @Override
         public String toString() {
             StringBuffer str = new StringBuffer();
             str.append("NotifyInfo:");
@@ -1150,6 +1225,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         SubSet f;
         boolean isEmpty = false;
 
+        @Override
         public String toString() {
             return "EmptyChanged:isEmpty=" + isEmpty + "f={" + (f == null ? "null" : f.toString()) + "}";
         }
@@ -1175,8 +1251,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
     }
 
     void putNI(NotifyInfo ni) {
-        if (ni == null)
+        if (ni == null) {
             return;
+        }
         synchronized (lock) {
             gni.add(ni);
         }
@@ -1222,8 +1299,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 Iterator itr = filterSets.values().iterator();
                 while (itr.hasNext()) {
                     FilterSet s = (FilterSet) itr.next();
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     boolean empty = s.isEmpty();
                     s.removeItem(o);
                     if (empty != s.isEmpty()) {
@@ -1240,8 +1318,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 Iterator itr = comparatorSets.values().iterator();
                 while (itr.hasNext()) {
                     ComparatorSet s = (ComparatorSet) itr.next();
-                    if (s == null)
+                    if (s == null) {
                         continue;
+                    }
                     boolean empty = s.isEmpty();
                     s.removeItem(o);
                     if (empty != s.isEmpty()) {
@@ -1257,19 +1336,22 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             if (cnt < ni.filters.length && ni.filters[cnt] != null) {
                 ni.filters[cnt].f = null;
             }
-            if (pitr == null)
+            if (pitr == null) {
                 nse.clear();
+            }
             return ni;
         }
     }
 
+    @Override
     public boolean remove(Object o, Reason r) {
         if (o == null) {
             return false;
         }
         synchronized (lock) {
-            if (!contains(o))
+            if (!contains(o)) {
                 return false;
+            }
         }
         preRemoveNotify(o, r);
         NotifyInfo ni = internalRemove(o, r, null, hasListeners());
@@ -1318,12 +1400,14 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public boolean hasNext() {
             synchronized (lock) {
                 return parentIterator.hasNext();
             }
         }
 
+        @Override
         public Object next() {
             synchronized (lock) {
                 next = parentIterator.next();
@@ -1331,6 +1415,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             }
         }
 
+        @Override
         public void remove() {
             preRemoveNotify(next, null);
             NotifyInfo ni = internalRemove(next, null, parentIterator, hasListeners());
@@ -1341,12 +1426,14 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         }
     }
 
+    @Override
     public Iterator iterator() {
         synchronized (lock) {
             return new wrapIterator(super.iterator());
         }
     }
 
+    @Override
     public SubSet subSet(Filter f) {
         synchronized (lock) {
             Object uid = new Object();
@@ -1361,6 +1448,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         }
     }
 
+    @Override
     public SubSet subSet(Comparator c) {
         synchronized (lock) {
             Object uid = new Object();
@@ -1373,6 +1461,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         }
     }
 
+    @Override
     public Set getAll(Filter f) {
         synchronized (lock) {
             Set s = new LinkedHashSet();
@@ -1425,6 +1514,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         }
     }
 
+    @Override
     protected SetEntry createSetEntry(Object o, int p) {
         return new nSetEntry(o, p);
     }
@@ -1445,6 +1535,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             return uid;
         }
 
+        @Override
         public boolean remove() {
             assert Thread.holdsLock(lock);
             // we are always locked (in lock mode)
@@ -1460,14 +1551,15 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
                 bytes -= removedBytes;
             }
             // update averages
-            averageCount = (((float) numberSamples * averageCount + (float) size()) / ((float) numberSamples + 1.0F));
-            averageBytes = ((double) numberSamples * averageBytes + (double) bytes) / ((double) numberSamples + 1.0D);
+            averageCount = ((numberSamples * averageCount + size()) / (numberSamples + 1.0F));
+            averageBytes = (numberSamples * averageBytes + bytes) / (numberSamples + 1.0D);
             numberSamples++;
 
             return ok;
         }
     }
 
+    @Override
     public synchronized String toDebugString() {
         StringBuffer str = new StringBuffer();
         str.append("NFLPriorityFifoSet: " + "\n");
@@ -1476,8 +1568,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             Iterator fitr = filterSets.values().iterator();
             while (fitr.hasNext()) {
                 FilterSet fs = (FilterSet) fitr.next();
-                if (fs == null)
+                if (fs == null) {
                     continue;
+                }
                 str.append("\t\tFilterSet " + fs.hashCode() + " filter[" + fs.f + "]\n");
             }
         }
@@ -1486,8 +1579,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             Iterator fitr = comparatorSets.values().iterator();
             while (fitr.hasNext()) {
                 ComparatorSet fs = (ComparatorSet) fitr.next();
-                if (fs == null)
+                if (fs == null) {
                     continue;
+                }
                 str.append("\t\tComparatorSet " + fs.hashCode() + " filter[" + fs.comparator() + "]\n");
             }
         }
@@ -1498,8 +1592,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
     }
 
     protected void preRemoveNotify(Object o, Reason reason) {
-        if (hasListeners(EventType.SET_CHANGED_REQUEST))
+        if (hasListeners(EventType.SET_CHANGED_REQUEST)) {
             notifyChange(EventType.SET_CHANGED_REQUEST, o, null, reason);
+        }
     }
 
     protected void postRemoveNotify(Object o, NotifyInfo ni, Reason reason) {
@@ -1514,8 +1609,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         if (ni.newbytes != ni.oldbytes && hasListeners(EventType.BYTES_CHANGED)) {
             notifyChange(EventType.BYTES_CHANGED, Long.valueOf(ni.oldbytes), Long.valueOf(ni.newbytes), reason);
         }
-        if (hasListeners(EventType.SET_CHANGED))
+        if (hasListeners(EventType.SET_CHANGED)) {
             notifyChange(EventType.SET_CHANGED, o, null, reason);
+        }
 
         if (ni.oldsize != 0 && ni.newsize == 0 && hasListeners(EventType.EMPTY)) {
             notifyChange(EventType.EMPTY, Boolean.FALSE, Boolean.TRUE, reason);
@@ -1527,8 +1623,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             notifyChange(EventType.FULL, Boolean.TRUE, Boolean.FALSE, reason);
         }
         for (int i = 0; i < ni.filters.length; i++) {
-            if (ni.filters[i] == null || ni.filters[i].f == null)
+            if (ni.filters[i] == null || ni.filters[i].f == null) {
                 break;
+            }
             SubSet s = ni.filters[i].f;
             if (s instanceof FilterSet) {
                 ((FilterSet) s).notifyEmptyChanged(ni.filters[i].isEmpty, reason);
@@ -1545,6 +1642,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the highest number of messages this set has held since it was created.
      */
+    @Override
     public int highWaterCount() {
         return highWaterCnt;
     }
@@ -1554,6 +1652,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public long highWaterBytes() {
         synchronized (lock) {
             return highWaterBytes;
@@ -1565,6 +1664,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the number of bytes of the largest message ever stored on this list.
      */
+    @Override
     public long highWaterLargestMessageBytes() {
         synchronized (lock) {
             return largestMessageHighWater;
@@ -1576,6 +1676,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the average number of messages this set has held since it was created.
      */
+    @Override
     public float averageCount() {
         return averageCount;
     }
@@ -1585,6 +1686,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the largest size (in bytes) of the objects in this list since it was created.
      */
+    @Override
     public double averageBytes() {
         synchronized (lock) {
             return averageBytes;
@@ -1596,6 +1698,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the number of bytes of the average message stored on this list.
      */
+    @Override
     public double averageMessageBytes() {
         synchronized (lock) {
             return messageAverage;
@@ -1604,9 +1707,10 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     /**
      * sets the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @param bytes maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
+    @Override
     public void setMaxByteSize(long bytes) {
         if (bytes < UNLIMITED_BYTES) {
             bytes = UNLIMITED_BYTES;
@@ -1618,9 +1722,10 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     /**
      * returns the maximum size of an entry allowed to be added to the collection
-     * 
+     *
      * @return maximum number of bytes for an object added to the list or UNLIMITED_BYTES if there is no limit
      */
+    @Override
     public long maxByteSize() {
         synchronized (lock) {
             return maxBytePerObject;
@@ -1632,6 +1737,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @param cnt the capacity for this set (or UNLIMITED_CAPACITY if unlimited).
      */
+    @Override
     public void setCapacity(int cnt) {
         if (cnt < UNLIMITED_CAPACITY) {
             cnt = UNLIMITED_CAPACITY;
@@ -1656,6 +1762,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @param size the byte capacity for this set (or UNLIMITED_BYTES if unlimited).
      */
+    @Override
     public void setByteCapacity(long size) {
         boolean nowFull = false;
         boolean nowNotFull = false;
@@ -1682,6 +1789,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the capacity of the list
      */
+    @Override
     public int capacity() {
         return maxCapacity;
     }
@@ -1691,6 +1799,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the capacity of the list
      */
+    @Override
     public long byteCapacity() {
         synchronized (lock) {
             return maxByteCapacity;
@@ -1704,6 +1813,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      * @see #freeSpace
      * @see #freeBytes
      */
+    @Override
     public boolean isFull() {
         synchronized (lock) {
             return freeSpace() == 0 || freeBytes() == 0;
@@ -1716,10 +1826,12 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the amount of free space
      */
+    @Override
     public int freeSpace() {
         synchronized (lock) {
-            if (maxCapacity == UNLIMITED_CAPACITY)
+            if (maxCapacity == UNLIMITED_CAPACITY) {
                 return UNLIMITED_CAPACITY;
+            }
 
             int sz = maxCapacity - size();
             if (sz < 0) {
@@ -1735,10 +1847,12 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      *
      * @return the amount of free space
      */
+    @Override
     public long freeBytes() {
         synchronized (lock) {
-            if (maxByteCapacity == UNLIMITED_BYTES)
+            if (maxByteCapacity == UNLIMITED_BYTES) {
                 return UNLIMITED_BYTES;
+            }
 
             long retval = maxByteCapacity - bytes;
             if (retval < 0) {
@@ -1756,6 +1870,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
      * @see Sized
      * @see #size
      */
+    @Override
     public long byteSize() {
         synchronized (lock) {
             return bytes;
@@ -1768,34 +1883,37 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
 
     /**
      * Request notification when the specific event occurs.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
      * @return an id associated with this notification
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Object user_data) {
         return ebh.addEventListener(listener, type, user_data);
     }
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data sent with any notifications
      * @param reason reason which must be associated with the event (or null for all events)
      * @return an id associated with this notification
      */
+    @Override
     public Object addEventListener(EventListener listener, EventType type, Reason reason, Object userData) {
         return ebh.addEventListener(listener, type, reason, userData);
     }
 
     /**
      * remove the listener registered with the passed in id.
-     * 
+     *
      * @return the listener which was removed
      */
+    @Override
     public Object removeEventListener(Object id) {
         return ebh.removeEventListener(id);
     }
@@ -1815,6 +1933,7 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
         ebh.notifyChange(e, r, this, oldval, newval);
     }
 
+    @Override
     public void sort(Comparator c) {
         super.sort(c);
         // reset subsets
@@ -1822,8 +1941,9 @@ public class NFLPriorityFifoSet extends PriorityFifoSet implements FilterableSet
             Iterator fitr = filterSets.values().iterator();
             while (fitr.hasNext()) {
                 FilterSet s = (FilterSet) fitr.next();
-                if (s == null)
+                if (s == null) {
                     continue;
+                }
                 s.resetFilterSet((nSetEntry) head);
             }
         }

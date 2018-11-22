@@ -22,7 +22,6 @@ import org.glassfish.grizzly.memory.Buffers;
 import org.glassfish.grizzly.http.HttpRequestPacket;
 import org.glassfish.grizzly.websockets.DataFrame;
 import org.glassfish.grizzly.websockets.WebSocket;
-import org.glassfish.grizzly.websockets.DefaultWebSocket;
 import org.glassfish.grizzly.websockets.ProtocolHandler;
 import org.glassfish.grizzly.websockets.WebSocketListener;
 import com.sun.messaging.jmq.io.Packet;
@@ -244,6 +243,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
      * Implements StompOutputHandler interface
      ********************************************************/
 
+    @Override
     public void sendToClient(final StompFrameMessage msg, StompProtocolHandler sph, Object ctx) throws Exception {
 
         if (DEBUG) {
@@ -288,6 +288,7 @@ public class STOMPWebSocket extends MQWebSocket implements StompOutputHandler {
         }
     }
 
+    @Override
     public void sendToClient(StompFrameMessage msg) throws Exception {
         sendToClient(msg, null, null);
     }

@@ -191,6 +191,7 @@ public class PassfileObfuscatorImpl implements PassfileObfuscator {
         return pipeis;
     }
 
+    @Override
     public boolean isObfuscated(String source, String prefix) throws IOException {
         return unobfuscatedKeys.isEmpty();
     }

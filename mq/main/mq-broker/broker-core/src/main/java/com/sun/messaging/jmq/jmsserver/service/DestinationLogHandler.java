@@ -25,7 +25,6 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
@@ -108,14 +107,14 @@ public class DestinationLogHandler extends Handler {
      * Configure DestinationLogHandler with the values contained in the passed Properties object.
      * <P>
      * An example of valid properties are:
-     * 
+     *
      * <PRE>
      * imq.log.destination.topic=mq.log.broker
      * imq.log.destination.output=ERROR|WARNING
      * imq.log.destination.timetolive=300
      * imq.log.destination.persist=false
      * </PRE>
-     * 
+     *
      * In this case prefix would be "imq.log.destination"
      *
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
@@ -178,6 +177,7 @@ public class DestinationLogHandler extends Handler {
      * @param message Message to write to log file
      *
      */
+    @Override
     public void publish(LogRecord record) {
 
         // ignore FORCE messages if we have explicitly been asked to ignore them
@@ -312,6 +312,7 @@ public class DestinationLogHandler extends Handler {
     /**
      * Close handler
      */
+    @Override
     public void close() {
         synchronized (DestinationLogHandler.class) {
             if (open) {
@@ -324,6 +325,7 @@ public class DestinationLogHandler extends Handler {
      * Return a string description of this Handler. The descirption is the class name followed by the destination we are
      * logging to
      */
+    @Override
     public String toString() {
         return this.getClass().getName() + ":" + topic;
     }

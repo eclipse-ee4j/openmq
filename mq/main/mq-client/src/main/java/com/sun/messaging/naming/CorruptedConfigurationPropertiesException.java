@@ -30,4 +30,9 @@ package com.sun.messaging.naming;
 
 public class CorruptedConfigurationPropertiesException extends javax.naming.NamingException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -20811211463744123L;
+
 }

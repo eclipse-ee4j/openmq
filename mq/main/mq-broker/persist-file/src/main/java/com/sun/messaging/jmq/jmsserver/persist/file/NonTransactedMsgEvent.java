@@ -37,6 +37,7 @@ public class NonTransactedMsgEvent extends TransactionEvent {
         return result;
     }
 
+    @Override
     int getType() {
         return BaseTransaction.NON_TRANSACTED_MSG_TYPE;
     }
@@ -53,6 +54,7 @@ public class NonTransactedMsgEvent extends TransactionEvent {
         this.message = message;
     }
 
+    @Override
     public byte[] writeToBytes() throws IOException {
         // Log all msgs and acks for producing and consuming txn
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -71,6 +73,7 @@ public class NonTransactedMsgEvent extends TransactionEvent {
 
     }
 
+    @Override
     public void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);

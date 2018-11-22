@@ -24,6 +24,11 @@ import com.sun.messaging.bridge.api.StompFrameParseException;
 
 public class StompProtocolException extends StompFrameParseException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2535117133850188393L;
+
     public StompProtocolException(String message) {
         super(message);
     }

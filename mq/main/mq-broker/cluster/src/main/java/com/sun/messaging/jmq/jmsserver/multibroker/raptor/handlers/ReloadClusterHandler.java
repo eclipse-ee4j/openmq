@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -34,6 +32,7 @@ public class ReloadClusterHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_RELOAD_CLUSTER) {
             if (DEBUG) {
@@ -53,7 +52,7 @@ public class ReloadClusterHandler extends GPacketHandler {
 
             c.reloadCluster();
         } else if (pkt.getType() == ProtocolGlobals.G_RELOAD_CLUSTER_REPLY) {
-            logger.log(logger.DEBUG, "MessageBus: Received reset cluster reply from {0} : STATUS = {1}", sender, ((Integer) pkt.getProp("S")));
+            logger.log(logger.DEBUG, "MessageBus: Received reset cluster reply from {0} : STATUS = {1}", sender, (pkt.getProp("S")));
         } else {
             logger.log(logger.WARNING, "ReloadClusterHandler " + "Internal error : Cannot handle this packet :" + pkt.toLongString());
         }

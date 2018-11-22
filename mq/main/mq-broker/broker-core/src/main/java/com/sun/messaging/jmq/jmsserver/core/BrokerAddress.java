@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 import java.io.*;
 import java.net.*;
 
-import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 
 /**
@@ -69,6 +68,7 @@ public abstract class BrokerAddress implements Cloneable, Serializable {
     /**
      * Must be provided by topology specific implementation.
      */
+    @Override
     public abstract Object clone();
 
     /**
@@ -81,11 +81,13 @@ public abstract class BrokerAddress implements Cloneable, Serializable {
     /**
      * Must be provided by topology specific implementation.
      */
+    @Override
     public abstract boolean equals(Object obj);
 
     /**
      * Must be provided by topology specific implementation.
      */
+    @Override
     public abstract int hashCode();
 
     /**

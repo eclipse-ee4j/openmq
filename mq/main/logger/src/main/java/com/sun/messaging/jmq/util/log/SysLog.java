@@ -106,13 +106,13 @@ public class SysLog {
      * LOG_NOWAIT. See syslog(3C) for details.
      * @param facility The default facility to be assigned to all messages that do not have an explicit facility already
      * assigned. The initial default facility is LOG_USER. See the list of facility codes for valid codes.
-     * 
-     * 
+     *
+     *
      */
     public static native void openlog(String ident, int logopt, int facility);
 
     /**
-     * 
+     *
      * Send a message to syslog.
      *
      * @param priority Priority of message to log. Values are formed by ORing together a 'severity' level value and an

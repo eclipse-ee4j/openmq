@@ -35,8 +35,13 @@ import com.sun.messaging.ConnectionConfiguration;
 public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConnectionFactory implements JMSXATopicConnectionFactory {
 
     /**
+     *
+     */
+    private static final long serialVersionUID = -3402473261579064863L;
+
+    /**
      * Constructs a JMSXATopicConnectionFactory with the default configuration.
-     * 
+     *
      */
     public JMSXATopicConnectionFactoryImpl() {
         super("/com/sun/messaging/ConnectionFactory");
@@ -45,13 +50,14 @@ public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConn
     /**
      * Create an XA topic connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA topic connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA topic Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public JMSXATopicConnection createXATopicConnection() throws JMSException {
         return createXATopicConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
@@ -59,16 +65,17 @@ public class JMSXATopicConnectionFactoryImpl extends com.sun.messaging.TopicConn
     /**
      * Create an XA topic connection with specified user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created XA topic connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA topi connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
 
+    @Override
     public JMSXATopicConnection createXATopicConnection(String username, String password) throws JMSException {
         return new JMSXATopicConnectionImpl(getCurrentConfiguration(), username, password, getConnectionType());
     }

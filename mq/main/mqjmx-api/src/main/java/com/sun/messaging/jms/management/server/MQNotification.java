@@ -30,6 +30,10 @@ import javax.management.Notification;
  */
 public class MQNotification extends Notification {
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3072936528462565055L;
+    /**
      * Prefix for all MQ notification type strings.
      */
     public static final String PREFIX = "mq.";

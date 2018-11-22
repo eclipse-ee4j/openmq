@@ -25,18 +25,23 @@ import java.util.Hashtable;
 import com.sun.messaging.jms.JMSException;
 
 /**
- * 
+ *
  * This exception is thrown when a remote broker is killed and one of the following activities occurred:
- * 
+ *
  * 1. Auto-ack/dups-ok ack a message originated from the killed remote broker.
- * 
+ *
  * 2. Client-ack message(s) and the messages are originated from the killed remote broker.
- * 
+ *
  * 3. Client runtime sending a PREPARE or COMMIT protocol packet to broker and the messages to be prepared/committed are
  * originated from the killed remote broker.
- * 
+ *
  */
 public class RemoteAcknowledgeException extends JMSException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4337712642052398211L;
 
     /**
      * property name in the props entry. The property vale is a space separated consumer UID String.
@@ -77,7 +82,7 @@ public class RemoteAcknowledgeException extends JMSException {
 
     /**
      * Get the property object associate with this remote exception.
-     * 
+     *
      * @return the property object associate with this remote exception.
      */
     public Hashtable getProperties() {
@@ -95,7 +100,7 @@ public class RemoteAcknowledgeException extends JMSException {
 
     /**
      * Set properties associate with this remote exception.
-     * 
+     *
      * @param p the property object associate with the remote exception.
      */
     public void setProperties(Hashtable p) {

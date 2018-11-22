@@ -34,16 +34,19 @@ public class DataEnumeration implements Enumeration {
     private Object next = null;
 
     public DataEnumeration(EnumerationStore store, Object[] ids) {
-        if (ids == null)
+        if (ids == null) {
             ids = new Object[0];
+        }
 
         this.store = store;
         this.ids = ids;
     }
 
+    @Override
     public boolean hasMoreElements() {
-        if (index >= ids.length)
+        if (index >= ids.length) {
             return false;
+        }
 
         for (; index < ids.length && next == null; index++) {
             try {
@@ -54,12 +57,14 @@ public class DataEnumeration implements Enumeration {
             }
         }
 
-        if (next != null)
+        if (next != null) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
+    @Override
     public Object nextElement() {
         Object data = next;
         if (data != null) {

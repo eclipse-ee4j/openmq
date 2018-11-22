@@ -33,14 +33,10 @@ import com.sun.messaging.ums.readonly.ReadOnlyRequestMessage;
 import com.sun.messaging.ums.dom.util.XMLDataBuilder;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.logging.Logger;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Map;
-import java.util.Iterator;
 import java.util.StringTokenizer;
 import java.text.DateFormat;
 
@@ -68,7 +64,7 @@ public class ProviderBrokerInfoService {
 
     /**
      * Called by UMS immediately after constructed.
-     * 
+     *
      * @param props properties used by the connection factory.
      * @throws javax.jms.JMSException
      */
@@ -105,7 +101,7 @@ public class ProviderBrokerInfoService {
 
     /**
      * Same as JMS ConnectionFactory.createConnection();
-     * 
+     *
      * @return
      * @throws javax.jms.JMSException
      */
@@ -115,7 +111,7 @@ public class ProviderBrokerInfoService {
 
     /**
      * Same as JMS ConnectionFactory.createConnection(String user, String password);
-     * 
+     *
      * @param user
      * @param password
      * @return
@@ -222,13 +218,13 @@ public class ProviderBrokerInfoService {
             /*
              * Map msgProps = request.getMessageProperties(); Iterator keyI = msgProps.keySet().iterator(); while (keyI.hasNext()) {
              * String oneKey = (String)keyI.next();
-             * 
+             *
              * if (oneKey.equals("cmd")) { }
-             * 
+             *
              * String vals[] = (String[])msgProps.get(oneKey);
-             * 
+             *
              * if (vals != null) {
-             * 
+             *
              * XMLDataBuilder.setElementAttribute(reqPropElement, oneKey.toString(), vals[0]); } }
              */
 
@@ -566,7 +562,7 @@ public class ProviderBrokerInfoService {
 
     /**
      * XXX: review
-     * 
+     *
      * @param user
      * @param pass
      * @throws javax.jms.JMSException
@@ -599,13 +595,13 @@ public class ProviderBrokerInfoService {
 
     /*
      * public static void main(String[] args) throws Exception { Properties props = new Properties();
-     * 
+     *
      * props.setProperty(Constants.IMQ_BROKER_ADDRESS, "niagra2:7676");
-     * 
+     *
      * ProviderDestinationService ds = new ProviderDestinationService(); ds.init(props);
-     * 
+     *
      * //ds.listDestinations(null, null);
-     * 
+     *
      * ds.queryDestination("simpleQ", "queue", null, null); }
      */
 

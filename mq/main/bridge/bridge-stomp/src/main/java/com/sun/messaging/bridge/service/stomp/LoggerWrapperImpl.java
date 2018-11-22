@@ -30,30 +30,37 @@ public class LoggerWrapperImpl implements LoggerWrapper {
         this.logger = logger;
     }
 
+    @Override
     public void logFinest(String msg, Throwable t) {
         logger.log(Level.FINEST, msg, t);
     }
 
+    @Override
     public void logFine(String msg, Throwable t) {
         logger.log(Level.FINE, msg, t);
     }
 
+    @Override
     public void logInfo(String msg, Throwable t) {
         logger.log(Level.INFO, msg, t);
     }
 
+    @Override
     public void logWarn(String msg, Throwable t) {
         logger.log(Level.WARNING, msg, t);
     }
 
+    @Override
     public void logSevere(String msg, Throwable t) {
         logger.log(Level.SEVERE, msg, t);
     }
 
+    @Override
     public boolean isFinestLoggable() {
         return logger.isLoggable(Level.FINEST);
     }
 
+    @Override
     public boolean isFineLoggable() {
         return logger.isLoggable(Level.FINE);
     }

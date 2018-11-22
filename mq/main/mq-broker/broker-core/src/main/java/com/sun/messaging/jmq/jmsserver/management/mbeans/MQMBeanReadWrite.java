@@ -20,24 +20,9 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.Enumeration;
-
 import javax.management.Attribute;
-import javax.management.AttributeList;
-import javax.management.ObjectName;
-import javax.management.DynamicMBean;
-import javax.management.MBeanInfo;
 import javax.management.MBeanAttributeInfo;
-import javax.management.MBeanConstructorInfo;
-import javax.management.MBeanParameterInfo;
-import javax.management.MBeanOperationInfo;
-import javax.management.MBeanNotificationInfo;
 import javax.management.AttributeChangeNotification;
 import javax.management.ReflectionException;
 import javax.management.RuntimeOperationsException;
@@ -46,7 +31,6 @@ import javax.management.MBeanException;
 import javax.management.InvalidAttributeValueException;
 
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.Globals;
 
 public abstract class MQMBeanReadWrite extends MQMBeanReadOnly {
     public MQMBeanReadWrite() {
@@ -56,6 +40,7 @@ public abstract class MQMBeanReadWrite extends MQMBeanReadOnly {
     /**
      * Sets the value of the specified attribute of the Dynamic MBean.
      */
+    @Override
     public void setAttribute(Attribute attribute) throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException {
 
         if (attribute == null) {

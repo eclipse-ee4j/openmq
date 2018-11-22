@@ -22,23 +22,18 @@ package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
-import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.Util;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.DBConnectionPool;
 import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.net.*;
-import javax.sql.*;
 
 /**
  */
@@ -60,13 +55,14 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
     private static final Object classLock = ShareConfigChangeDBManager.class;
     private static ShareConfigChangeDBManager dbMgr = null;
 
+    @Override
     protected boolean getDEBUG() {
         return ShareConfigChangeStore.getDEBUG();
     }
 
     /**
      * Get DBManager method for singleton pattern.
-     * 
+     *
      * @return DBManager
      * @throws BrokerException
      */
@@ -82,39 +78,48 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         return dbMgr;
     }
 
+    @Override
     protected String getJDBCPropPrefix() {
         return JDBC_PROP_PREFIX;
     }
 
+    @Override
     protected String getStoreTypeProp() {
         return ShareConfigChangeStore.STORE_TYPE_PROP;
     }
 
+    @Override
     protected String getCreateStoreProp() {
         return ShareConfigChangeStore.CREATE_STORE_PROP;
     }
 
+    @Override
     protected boolean getCreateStorePropDefault() {
         return ShareConfigChangeStore.CREATE_STORE_PROP_DEFAULT;
     }
 
+    @Override
     protected String getLogStringTag() {
         return "[" + JDBC_PROP_PREFIX + "]";
     }
 
+    @Override
     public String toString() {
         return "CCShareDBManger";
     }
 
+    @Override
     protected Connection getConnection() throws BrokerException {
         return dbpool.getConnection();
     }
 
+    @Override
     public void freeConnection(Connection c, Throwable thr) throws BrokerException {
 
         dbpool.freeConnection(c, thr);
     }
 
+    @Override
     protected void checkMaxTableNameLength(int maxTableNameLength) throws BrokerException {
         if (maxTableNameLength > 0) {
             // We do know the max number of chars allowed for a table
@@ -127,6 +132,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         }
     }
 
+    @Override
     protected boolean isStoreInited() {
         return storeInited;
     }
@@ -144,6 +150,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         initDBDriver();
     }
 
+    @Override
     protected void initTableSuffix() throws BrokerException {
         clusterID = Globals.getClusterID();
         if (clusterID == null || clusterID.length() == 0 || !Util.isAlphanumericString(clusterID)) {
@@ -154,6 +161,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         tableSuffix = "C" + clusterID;
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("clusterID", "" + clusterID);
@@ -170,10 +178,12 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         return daoFactory;
     }
 
+    @Override
     protected BaseDAO getFirstDAO() throws BrokerException {
-        return (BaseDAO) ((List) getDAOFactory().getAllDAOs()).get(0);
+        return (BaseDAO) getDAOFactory().getAllDAOs().get(0);
     }
 
+    @Override
     public Iterator allDAOIterator() throws BrokerException {
         return getDAOFactory().getAllDAOs().iterator();
     }
@@ -183,6 +193,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         return clusterID;
     }
 
+    @Override
     protected void close() {
         synchronized (classLock) {
             dbpool.close();
@@ -198,6 +209,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         return olds;
     }
 
+    @Override
     public String[] getTableNames(int version) {
         if (version == JDBCShareConfigChangeStore.VERSION) {
             return (String[]) tableSchemas.keySet().toArray(new String[tableSchemas.size()]);
@@ -210,10 +222,12 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         }
     }
 
+    @Override
     public int checkStoreExists(Connection conn) throws BrokerException {
         return super.checkStoreExists(conn, JDBCShareConfigChangeStore.SCHEMA_VERSION);
     }
 
+    @Override
     public boolean hasSupplementForCreateDrop(String tableName) {
         return true;
     }
@@ -252,11 +266,13 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         }
     }
 
+    @Override
     protected String getTableLockTableName() throws BrokerException {
         ShareConfigRecordDAO dao = getDAOFactory().getShareConfigRecordDAO();
         return dao.getTableName();
     }
 
+    @Override
     protected String getCurrentTableLock(Connection conn, boolean doLock) throws BrokerException {
 
         ShareConfigRecordDAO dao = getDAOFactory().getShareConfigRecordDAO();
@@ -271,6 +287,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
     /**
      * @param newLockID null if unlock
      */
+    @Override
     protected void updateTableLock(Connection conn, String newLockID, String oldLockID, Object extra) throws BrokerException {
 
         ShareConfigRecordDAO dao = getDAOFactory().getShareConfigRecordDAO();
@@ -285,10 +302,12 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         }
     }
 
+    @Override
     public void throwTableLockedException(String lockID) throws BrokerException {
         throwTableLockedException(new TableLock(lockID, getTableLockTableName()));
     }
 
+    @Override
     protected void throwTableLockedException(TableLock lock) throws BrokerException {
         BrokerResources br = Globals.getBrokerResources();
         String emsg = null;
@@ -300,6 +319,7 @@ public final class ShareConfigChangeDBManager extends CommDBManager {
         throw new BrokerException(emsg, br.E_SHARECC_TABLE_LOCKED_BY_DBMGR, null, Status.CONFLICT);
     }
 
+    @Override
     public void closeSQLObjects(ResultSet rset, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
         try {
             if (rset != null) {

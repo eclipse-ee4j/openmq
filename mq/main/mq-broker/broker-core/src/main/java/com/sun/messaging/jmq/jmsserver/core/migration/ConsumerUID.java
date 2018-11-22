@@ -23,14 +23,13 @@ package com.sun.messaging.jmq.jmsserver.core.migration;
 import com.sun.messaging.jmq.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 
 /**
  * Object format prior to 370 filestore, use for migration purpose only.
- * 
+ *
  * @see com.sun.messaging.jmq.jmsserver.core.ConsumerUID
  */
 public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
@@ -56,13 +55,15 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
 
     public ConsumerUID(boolean empty) {
         super(0);
-        if (!empty)
+        if (!empty) {
             initializeID();
+        }
     }
 
     /**
      * @deprecated since 3.5 for compatibility
      */
+    @Deprecated
     public ConsumerUID(int oldnum) {
         super(oldnum);
     }
@@ -80,8 +81,9 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     }
 
     public void initializeID() {
-        if (id == 0)
+        if (id == 0) {
             id = UniqueID.generateID(getPrefix());
+        }
     }
 
     public void clear() {
@@ -150,11 +152,13 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID {
     }
 
     public BrokerAddress getBrokerAddress() {
-        if (brokeraddr == null)
+        if (brokeraddr == null) {
             brokeraddr = Globals.getMyAddress();
+        }
         return this.brokeraddr;
     }
 
+    @Override
     public String toString() {
         return "[consumer:" + super.toString() + ", type=" + getAckMode(ackType) + "]";
     }

@@ -71,6 +71,7 @@ public class DebugHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;
@@ -184,8 +185,9 @@ public class DebugHandler extends AdminCmdHandler {
                     }
                     while (itr.hasNext()) {
                         Consumer c = (Consumer) itr.next();
-                        if (c == null)
+                        if (c == null) {
                             continue;
+                        }
                         IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(c.getConnectionUID());
                         ConsumerUID cuid = c.getConsumerUID();
                         ConnectionUID cxuid = c.getConnectionUID();
@@ -386,8 +388,9 @@ public class DebugHandler extends AdminCmdHandler {
 
                 // handle fault injection
                 String faultName = (String) p.get("name");
-                if (faultName == null)
+                if (faultName == null) {
                     faultName = target;
+                }
                 String faultSelector = (String) p.get("selector");
                 FaultInjection fi = FaultInjection.getInjection();
                 boolean faultOn = true;
@@ -418,8 +421,9 @@ public class DebugHandler extends AdminCmdHandler {
                 msg = "Used memory is " + (usedMem / 1024l) + "k, " + " this is " + (usedMem * 100 / Runtime.getRuntime().maxMemory()) + "% of "
                         + (Runtime.getRuntime().maxMemory() / 1024l) + "k";
                 logger.log(Logger.INFO, msg);
-                if (debugHash == null)
+                if (debugHash == null) {
                     debugHash = new Hashtable();
+                }
                 debugHash.put("Memory", msg);
                 debugHash.put("Used", (usedMem / 1024l) + "k");
                 debugHash.put("Total", ((Runtime.getRuntime().totalMemory() / 1024l) + "k"));
@@ -452,6 +456,7 @@ public class DebugHandler extends AdminCmdHandler {
                             logger.log(Logger.INFO, "Turn " + (debugOn ? "on" : "off") + " debug for class " + target);
                             final Field f = fields[i];
                             java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
+                                @Override
                                 public Object run() {
                                     f.setAccessible(true);
                                     return null;
@@ -462,8 +467,9 @@ public class DebugHandler extends AdminCmdHandler {
                             break;
                         }
                     }
-                    if (!found)
+                    if (!found) {
                         throw new NoSuchFieldException(Debug.debugFieldName);
+                    }
                 } catch (Exception ex) {
                     status = Status.ERROR;
                     msg = "Unable to set DEBUG on class " + target + " because " + ex.toString();
@@ -503,7 +509,7 @@ public class DebugHandler extends AdminCmdHandler {
             } else if (cmdarg.equals("con")) {
                 try {
                     ConsumerUID cid = new ConsumerUID(Long.parseLong(target));
-                    Consumer cxn = (Consumer) Consumer.getConsumer(cid);
+                    Consumer cxn = Consumer.getConsumer(cid);
                     cxn.resume("admin debug");
                 } catch (Exception ex) {
                     status = Status.ERROR;
@@ -513,7 +519,7 @@ public class DebugHandler extends AdminCmdHandler {
             } else if (cmdarg.equals("ses")) {
                 try {
                     SessionUID sid = new SessionUID(Long.parseLong(target));
-                    Session session = (Session) Session.getSession(sid);
+                    Session session = Session.getSession(sid);
                     session.resume("admin debug");
                 } catch (Exception ex) {
                     status = Status.ERROR;
@@ -606,15 +612,17 @@ public class DebugHandler extends AdminCmdHandler {
             dbp.setFile(fileStr);
             dbp.println();
             dbp.close();
-            if (status == Status.OK)
+            if (status == Status.OK) {
                 msg = "Data logged at file " + fileStr;
+            }
             if (logOnly) {
                 debugHash = new Hashtable();
                 debugHash.put("logfile", fileStr);
             }
         }
-        if (msg != null)
+        if (msg != null) {
             logger.log(Logger.INFO, msg);
+        }
 
         setProperties(reply, MessageType.DEBUG_REPLY, status, msg);
 
@@ -724,8 +732,9 @@ public class DebugHandler extends AdminCmdHandler {
         } else if (arg.equals("pkt")) {
             String full = p.getProperty("full");
             boolean fullDump = false;
-            if (full != null && full.equalsIgnoreCase("True"))
+            if (full != null && full.equalsIgnoreCase("True")) {
                 fullDump = true;
+            }
             return getPktInfo(target, targetType, fullDump);
         }
         logger.log(Logger.INFO, "Unknown dump arg " + arg);
@@ -781,8 +790,9 @@ public class DebugHandler extends AdminCmdHandler {
             }
             ConnectionUID uid = new ConnectionUID(Long.parseLong(target));
             IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(uid);
-            if (cxn == null)
+            if (cxn == null) {
                 throw new Exception("Can not find connection " + uid);
+            }
             ht.put(target, cxn.getDebugMessages(full));
         } else if (type.equals("ses")) {
             ht.put("Dump acks ", target);
@@ -791,8 +801,9 @@ public class DebugHandler extends AdminCmdHandler {
             }
             SessionUID uid = new SessionUID(Long.parseLong(target));
             Session sess = Session.getSession(uid);
-            if (sess == null)
+            if (sess == null) {
                 throw new Exception("Can not find session " + uid);
+            }
             ht.put(target, sess.getDebugMessages(full));
         } else {
             ht.put("Error", "Unknown pkt type " + type);
@@ -818,23 +829,26 @@ public class DebugHandler extends AdminCmdHandler {
 
     private Hashtable getCxnInfo(ConnectionUID uid) throws Exception {
         IMQConnection cxn = (IMQConnection) Globals.getConnectionManager().getConnection(uid);
-        if (cxn == null)
+        if (cxn == null) {
             throw new Exception("Can not find uid " + uid);
+        }
 
         return cxn.getDebugState();
     }
 
     private Hashtable getConInfo(ConsumerUID uid) throws Exception {
         Consumer c = Consumer.getConsumer(uid);
-        if (c == null)
+        if (c == null) {
             throw new Exception("Can not find consumer " + uid);
+        }
         return c.getDebugState();
     }
 
     private Hashtable getSession(SessionUID uid) throws Exception {
         Session c = Session.getSession(uid);
-        if (c == null)
+        if (c == null) {
             throw new Exception("Can not find session " + uid);
+        }
         return c.getDebugState();
     }
 
@@ -859,8 +873,9 @@ public class DebugHandler extends AdminCmdHandler {
 
     private Hashtable getProducerInfo(ProducerUID uid) throws Exception {
         Producer p = (Producer) Producer.getProducer(uid);
-        if (p == null)
+        if (p == null) {
             throw new Exception("Can not find producer " + uid);
+        }
         return p.getDebugState();
     }
 

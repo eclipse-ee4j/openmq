@@ -24,20 +24,16 @@ import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.service.*;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.OperationNotAllowedException;
 import com.sun.messaging.jmq.util.MQThread;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
@@ -134,11 +130,13 @@ public class BrokerStateHandler {
     }
 
     public long getShutdownRemaining() {
-        if (targetShutdownTime == 0)
+        if (targetShutdownTime == 0) {
             return -1;
+        }
         long remaining = targetShutdownTime - System.currentTimeMillis();
-        if (remaining < 0)
+        if (remaining < 0) {
             remaining = 0;
+        }
         return remaining;
     }
 
@@ -252,8 +250,10 @@ public class BrokerStateHandler {
                 qr = qrun;
             }
             if (qr != null)
+             {
                 qr.breakQuiesce(); // stop quiesce
             // now, unquiesce
+            }
 
             // stop accepting new jms threads
             ServiceManager sm = Globals.getServiceManager();
@@ -270,7 +270,7 @@ public class BrokerStateHandler {
 
     /**
      * shutdown down the broker at the specific time.
-     * 
+     *
      * @param time milliseconds delay before starting shutdown or 0 if no delay
      * @param requestedBy why is the broker shutting down
      * @param exitCode exitcode to use on shutdown
@@ -317,8 +317,9 @@ public class BrokerStateHandler {
             thr.start();
         } else {
             int shutdown = runner.shutdown(); // run in current thread
-            if (exit)
+            if (exit) {
                 System.exit(shutdown);
+            }
         }
     }
 
@@ -345,6 +346,7 @@ public class BrokerStateHandler {
             }
         }
 
+        @Override
         public void run() {
             try {
 
@@ -415,8 +417,9 @@ public class BrokerStateHandler {
             }
         }
 
-        if (Globals.getMemManager() != null)
+        if (Globals.getMemManager() != null) {
             Globals.getMemManager().stopManagement();
+        }
 
         // First stop creating new destinations
         if (excludedBroker == null) {
@@ -468,6 +471,7 @@ public class BrokerStateHandler {
             this.cleanupJMX = cleanupJMX;
         }
 
+        @Override
         public void run() {
             int exit = shutdown();
             Broker.getBroker().exit(exit, Globals.getBrokerResources().getKString(BrokerResources.I_SHUTDOWN_REQ, requestedBy),
@@ -622,36 +626,40 @@ public class BrokerStateHandler {
          * @param name the name of the changed property
          * @param value the new value of the changed property
          */
+        @Override
         public void clusterPropertyChanged(String name, String value) {
             // we dont care
         }
 
         /**
          * Called when a new broker has been added.
-         * 
+         *
          * @param brokerSession uid associated with the added broker
          * @param broker the new broker added.
          */
+        @Override
         public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
             notifyClients();
         }
 
         /**
          * Called when a broker has been removed.
-         * 
+         *
          * @param broker the broker removed.
          * @param brokerSession uid associated with the removed broker
          */
+        @Override
         public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
             notifyClients();
         }
 
         /**
          * Called when the broker who is the master broker changes (because of a reload properties).
-         * 
+         *
          * @param oldMaster the previous master broker.
          * @param newMaster the new master broker.
          */
+        @Override
         public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
             // we dont care
         }
@@ -659,13 +667,14 @@ public class BrokerStateHandler {
         /**
          * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
          * status for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldStatus the previous status.
          * @param brokerSession uid associated with the change
          * @param newStatus the new status.
          * @param userData data associated with the state change
          */
+        @Override
         public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
 
             if (!Globals.getDestinationList().isPartitionMigratable()) {
@@ -683,11 +692,12 @@ public class BrokerStateHandler {
         /**
          * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
          * for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldState the previous state.
          * @param newState the new state.
          */
+        @Override
         public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
             // we dont care
         }
@@ -695,11 +705,12 @@ public class BrokerStateHandler {
         /**
          * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
          * version for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldVersion the previous version.
          * @param newVersion the new version.
          */
+        @Override
         public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
             // we dont care
         }
@@ -707,11 +718,12 @@ public class BrokerStateHandler {
         /**
          * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
          * the address for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param newAddress the previous address.
          * @param oldAddress the new address.
          */
+        @Override
         public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
             notifyClients();
         }

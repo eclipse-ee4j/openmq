@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.service;
 
-import java.util.*;
-
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
@@ -122,8 +120,10 @@ public abstract class ServiceFactory implements ConfigListener {
 
     public abstract void stopMonitoringService(Service s) throws BrokerException;
 
+    @Override
     public abstract void validate(String name, String value) throws PropertyUpdateException;
 
+    @Override
     public abstract boolean update(String name, String value);
 
     public ConnectionManager getConnectionManager() {

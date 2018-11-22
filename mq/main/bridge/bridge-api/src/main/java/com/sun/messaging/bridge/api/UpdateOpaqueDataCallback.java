@@ -20,7 +20,7 @@
 package com.sun.messaging.bridge.api;
 
 /**
- * 
+ *
  * @author amyk
  */
 

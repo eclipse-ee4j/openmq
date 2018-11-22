@@ -76,6 +76,7 @@ public class CallbackHandlerImpl implements CallbackHandler {
      * @throws UnsupportedCallbackException If the implementation of this method does not support one or more of the
      * Callbacks specified in the callbacks parameter.
      */
+    @Override
     public synchronized void handle(Callback[] callbacks) throws IOException, UnsupportedCallbackException {
 
         for (int i = 0; i < callbacks.length; i++) {
@@ -126,15 +127,15 @@ public class CallbackHandlerImpl implements CallbackHandler {
                 TextInputCallback cb = (TextInputCallback) callbacks[i];
                 String text = null;
                 if (cb.getPrompt().equals(AccessController.PROP_AUTHENTICATION_TYPE)) {
-                    text = (String) authProps.getProperty(AccessController.PROP_AUTHENTICATION_TYPE);
+                    text = authProps.getProperty(AccessController.PROP_AUTHENTICATION_TYPE);
                 } else if (cb.getPrompt().equals(AccessController.PROP_ACCESSCONTROL_TYPE)) {
-                    text = (String) authProps.getProperty(AccessController.PROP_ACCESSCONTROL_TYPE);
+                    text = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_TYPE);
                 } else if (cb.getPrompt().equals(AccessController.PROP_CLIENTIP)) {
-                    text = (String) authProps.getProperty(AccessController.PROP_CLIENTIP);
+                    text = authProps.getProperty(AccessController.PROP_CLIENTIP);
                 } else if (cb.getPrompt().equals(AccessController.PROP_SERVICE_NAME)) {
-                    text = (String) authProps.getProperty(AccessController.PROP_SERVICE_NAME);
+                    text = authProps.getProperty(AccessController.PROP_SERVICE_NAME);
                 } else if (cb.getPrompt().equals(AccessController.PROP_SERVICE_TYPE)) {
-                    text = (String) authProps.getProperty(AccessController.PROP_SERVICE_TYPE);
+                    text = authProps.getProperty(AccessController.PROP_SERVICE_TYPE);
                 } else {
                     String emsg = Globals.getBrokerResources().getKString(BrokerResources.W_JAAS_UNSUPPORTED_TEXTINPUTCALLBACK, cb.getClass().getName(),
                             cb.getPrompt());

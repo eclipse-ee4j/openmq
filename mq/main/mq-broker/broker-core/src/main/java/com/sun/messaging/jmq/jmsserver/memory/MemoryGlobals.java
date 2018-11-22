@@ -60,13 +60,13 @@ public class MemoryGlobals {
     /*
      * //automatically free all persistent messages //that have no active consumers private static boolean MEM_FREE_P_NOCON
      * = false; public static void setMEM_FREE_P_NOCON(boolean ack) { MEM_FREE_P_NOCON=ack; }
-     * 
+     *
      * //automatically swap all non-persistent messages //that have no active consumers (not currently used) private static
      * boolean MEM_FREE_NP_NOCON = false; public static void setMEM_FREE_NP_NOCON(boolean ack) { MEM_FREE_NP_NOCON=ack; }
-     * 
+     *
      * //automatically free all persistent messages private static boolean MEM_FREE_P_ALL = false; public static void
      * setMEM_FREE_P_ALL(boolean ack) { MEM_FREE_P_ALL=ack; }
-     * 
+     *
      * //automatically swap all non-persistent messages public static boolean MEM_FREE_NP_ALL = false; public static void
      * setMEM_FREE_NP_ALL(boolean ack) { MEM_FREE_NP_ALL=ack; }
      */

@@ -52,11 +52,12 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      * Get row count.
-     * 
+     *
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
      * @return the number of rows in a query
      */
+    @Override
     public int getRowCount(Connection conn, String whereClause) throws BrokerException {
 
         int count = -1;
@@ -115,10 +116,11 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      * Create the table.
-     * 
+     *
      * @param conn database connection
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public void createTable(Connection conn) throws BrokerException {
 
         String tableName = getTableName();
@@ -227,18 +229,21 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
         }
     }
 
+    @Override
     public void createStoredProc(Connection conn) throws BrokerException {
     }
 
+    @Override
     public void dropStoredProc(Connection conn) throws BrokerException {
     }
 
     /**
      * Drop the table.
-     * 
+     *
      * @param conn database connection
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public void dropTable(Connection conn) throws BrokerException {
 
         String tableName = getTableName();
@@ -299,10 +304,11 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
         deleteAll(conn, null);
     }
@@ -312,7 +318,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
      * extended class to overide it and specified the timestamp column and chunk size which will be used to chunk the data
      * to be deleted. This is a work-around for HADB running out of lock sets when deleting large number of records. For all
      * other databases, timestampColumn parameter should be set to null and chunkSize should be set to 0.
-     * 
+     *
      * @param conn
      * @param whereClause the where clause for the SQL command
      * @param timestampColumn the timestamp column which will be used to chunk the data to be deleted
@@ -330,7 +336,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      * Delete all entries using the specified where clause.
-     * 
+     *
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
      * @throws BrokerException
@@ -383,7 +389,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      * Delete all entries in chunk to work-around HADB running out of lock sets when deleting large number of records.
-     * 
+     *
      * @param conn database connection
      * @param whereClause the where clause for the SQL command
      * @param timestampColumn the timestamp column which will be used to chunk the data to be deleted
@@ -492,6 +498,7 @@ public abstract class CommBaseDAOImpl implements BaseDAO {
 
     /**
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         LinkedHashMap map = new LinkedHashMap();

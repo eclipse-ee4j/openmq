@@ -24,6 +24,10 @@ import com.sun.messaging.jmq.util.LoggerWrapper;
 
 public class StompFrameParseException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1109649609925371061L;
     public static final StompFrameMessage OOMMSG = getOOMMSG();
 
     private static StompFrameMessage getOOMMSG() {

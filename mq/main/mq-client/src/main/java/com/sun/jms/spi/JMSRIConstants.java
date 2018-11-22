@@ -28,7 +28,7 @@ public interface JMSRIConstants {
 
     /**
      * Return both QUEUE and TOPIC destinations.
-     * 
+     *
      * @see JMSAdmin#getDestinations(int)
      */
     final static int ALL = 2;
@@ -38,7 +38,7 @@ public interface JMSRIConstants {
     /**
      * ConnectionFactory property representing jms service host. This property is optional and defaults to accessing the jms
      * service running on the localhost.
-     * 
+     *
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
@@ -48,7 +48,7 @@ public interface JMSRIConstants {
      * ConnectionFactory property representing transport to use to connect from JMS client to JMS Service.
      * <p>
      * Defaults to TRANSPORT_RMIIIOP.
-     * 
+     *
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      * @see #TRANSPORT_RMIIIOP
@@ -60,7 +60,7 @@ public interface JMSRIConstants {
      * ConnectionFactory propery representing ClientID to assign to a connection when created from connection factory
      * created with this property set. It is optional to set this value. JMS will generate a default one. ClientID's are
      * only used in scoping durable subscription's namespaces as of JMS 1.0.2.
-     * 
+     *
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
@@ -68,7 +68,7 @@ public interface JMSRIConstants {
 
     /**
      * List of properties for creating a ConnectionFactory.
-     * 
+     *
      * @see JMSAdmin#createConnectionFactory(int, Map)
      * @see JMSAdmin#createXAConnectionFactory(int, Map)
      */
@@ -76,7 +76,7 @@ public interface JMSRIConstants {
 
     /**
      * Values for CF_TRANSPORT.
-     * 
+     *
      * @see #CF_TRANSPORT
      */
     final static String TRANSPORT_RMIIIOP = "rmiiiop";
@@ -87,7 +87,7 @@ public interface JMSRIConstants {
     /**
      * Boolean Value. If true, create overwrites an exisiting destination with same name. If false, throw a JMSException if
      * destination already exists. Also used for durable subscriptions. Defaults to false if not provided in properties.
-     * 
+     *
      * @see JMSAdmin#createProviderDestination(String, int, Map)
      * @see JMSAdmin#createDurableSubscription(String, TopicConnectionFactory, Topic, String, Map)
      */

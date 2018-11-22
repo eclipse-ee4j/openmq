@@ -21,10 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.io.*;
-import java.util.Vector;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
@@ -55,6 +51,7 @@ public class CreateDestinationHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
         DestinationInfo info;
 
@@ -121,10 +118,11 @@ public class CreateDestinationHandler extends AdminCmdHandler {
                     } catch (Exception ex) {
                         status = Status.ERROR;
                         errMsg = rb.getKString(rb.X_CREATE_DEST_EXCEPTION, info.name, getMessageFromException(ex));
-                        if (ex instanceof ConflictException)
+                        if (ex instanceof ConflictException) {
                             logger.log(Logger.INFO, errMsg, ex);
-                        else
+                        } else {
                             logger.logStack(Logger.INFO, errMsg, ex);
+                        }
                     }
                 } else {
                     status = Status.ERROR;
@@ -235,8 +233,9 @@ public class CreateDestinationHandler extends AdminCmdHandler {
         }
         // Verify identifier start character and part
         char[] namechars = name.toCharArray();
-        if (namechars.length < 1)
+        if (namechars.length < 1) {
             return false;
+        }
         if (Character.isJavaIdentifierStart(namechars[0])) {
             for (int i = 1; i < namechars.length; i++) {
                 if (!Character.isJavaIdentifierPart(namechars[i]) && namechars[i] != '.') {

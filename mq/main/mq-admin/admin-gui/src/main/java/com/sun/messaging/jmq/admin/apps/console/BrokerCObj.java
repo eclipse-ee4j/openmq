@@ -20,13 +20,9 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.util.Vector;
 import java.util.Properties;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.ServiceType;
@@ -34,7 +30,6 @@ import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
-import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 
 /**
  * This class is used in the JMQ Administration console to store information related to a particular broker.
@@ -44,6 +39,10 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
  *
  */
 public class BrokerCObj extends BrokerAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4185955196463409915L;
     private BrokerServiceListCObj bSvcListCObj;
     private BrokerDestListCObj bDestListCObj;
     private BrokerLogListCObj bLogListCObj;
@@ -88,17 +87,21 @@ public class BrokerCObj extends BrokerAdminCObj {
         this.bkrProps = bkrProps;
     }
 
+    @Override
     public String getExplorerLabel() {
-        if (ba != null)
+        if (ba != null) {
             return (ba.getKey());
-        else
+        } else {
             return (acr.getString(acr.getString(acr.I_BROKER)));
+        }
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         if (ba.isConnected()) {
             return (AGraphics.adminImages[AGraphics.BROKER]);
@@ -108,6 +111,7 @@ public class BrokerCObj extends BrokerAdminCObj {
 
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -172,6 +176,7 @@ public class BrokerCObj extends BrokerAdminCObj {
         return (null);
     }
 
+    @Override
     public ImageIcon getActionIcon(int actionFlag) {
         switch (actionFlag) {
         case ActionManager.CONNECT:
@@ -183,11 +188,13 @@ public class BrokerCObj extends BrokerAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.CONNECT | ActionManager.DISCONNECT | ActionManager.PAUSE | ActionManager.RESUME
                 | ActionManager.SHUTDOWN | ActionManager.RESTART | ActionManager.QUERY_BROKER);
     }
 
+    @Override
     public int getActiveActions() {
         int mask = 0;
 
@@ -208,14 +215,17 @@ public class BrokerCObj extends BrokerAdminCObj {
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".BrokerInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Broker");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

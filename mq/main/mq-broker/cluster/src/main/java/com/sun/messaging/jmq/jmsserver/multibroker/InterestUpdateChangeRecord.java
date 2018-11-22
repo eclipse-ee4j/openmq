@@ -19,7 +19,6 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
-import java.io.IOException;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterSubscriptionInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;

@@ -33,6 +33,7 @@ class PacketListDMPair {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o == null) {
             return false;
@@ -44,6 +45,7 @@ class PacketListDMPair {
         return this.duid.equals(other.duid);
     }
 
+    @Override
     public int hashCode() {
         return duid.hashCode();
     }

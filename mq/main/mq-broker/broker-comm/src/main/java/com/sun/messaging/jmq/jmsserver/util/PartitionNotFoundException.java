@@ -23,6 +23,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class PartitionNotFoundException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3575044711339371219L;
+
     public PartitionNotFoundException(String msg) {
         super(msg, Status.NOT_FOUND);
     }

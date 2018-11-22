@@ -32,7 +32,7 @@ import org.w3c.dom.Node;
 /**
  *
  * This is a utility class to build XML document as a UMS response message.
- * 
+ *
  */
 public class XMLDataBuilder {
 
@@ -42,7 +42,7 @@ public class XMLDataBuilder {
 
     /**
      * Get a new instance of UMS xml document.
-     * 
+     *
      * @return a new instance of UMS document.
      */
     public static Document newUMSDocument() {
@@ -56,7 +56,7 @@ public class XMLDataBuilder {
 
     /**
      * Get the root element of the UMS XML document.
-     * 
+     *
      * @param doc The document in which to get the root element.
      * @return The root element of the document.
      */
@@ -68,7 +68,7 @@ public class XMLDataBuilder {
 
     /**
      * Add the specified child element to the parent element.
-     * 
+     *
      * @param parent The parent element.
      * @param child The child element.
      * @return The child element.
@@ -79,7 +79,7 @@ public class XMLDataBuilder {
 
     /**
      * Create a new ums xml element for the specified document.
-     * 
+     *
      * @param doc the doc from which the element is created.
      * @param elementName the name of the xml element.
      * @return the created element.
@@ -93,7 +93,7 @@ public class XMLDataBuilder {
 
     /**
      * Set the text value to the specified ums xml element.
-     * 
+     *
      * @param doc the document associated with the element.
      * @param element the element in which the text value is set to.
      * @param value the value to set to the xml element.
@@ -107,7 +107,7 @@ public class XMLDataBuilder {
 
     /**
      * Set the specified attribute name/value to the element.
-     * 
+     *
      * @param element
      * @param attrName
      * @param attrValue
@@ -119,7 +119,7 @@ public class XMLDataBuilder {
 
     /**
      * Transform the specified xml document to a string.
-     * 
+     *
      * @param doc
      * @return
      * @throws javax.xml.transform.TransformerConfigurationException
@@ -167,7 +167,7 @@ public class XMLDataBuilder {
 
     /**
      * Example API usage for this class.
-     * 
+     *
      * @param args
      * @throws java.lang.Exception
      */

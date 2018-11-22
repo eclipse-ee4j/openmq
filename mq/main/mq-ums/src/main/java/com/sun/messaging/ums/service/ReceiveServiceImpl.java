@@ -93,6 +93,7 @@ public class ReceiveServiceImpl implements ReceiveService {
         }
     }
 
+    @Override
     public SOAPMessage receive(SOAPMessage request) throws JMSException {
         SOAPMessage reply = null;
         Client client = null;
@@ -104,10 +105,10 @@ public class ReceiveServiceImpl implements ReceiveService {
 
             /**
              * String clientId = MessageUtil.getServiceClientId(request);
-             * 
+             *
              * if (clientId == null) { user = MessageUtil.getServiceAttribute(request, "user"); pass =
              * MessageUtil.getServiceAttribute(request, "password"); }
-             * 
+             *
              * client = cache.getClient(clientId, user, pass);
              **/
 
@@ -207,7 +208,7 @@ public class ReceiveServiceImpl implements ReceiveService {
 
     /**
      * receive a TextMessage from MQ.
-     * 
+     *
      * @param clientId
      * @param destName
      * @param isTopic
@@ -226,13 +227,13 @@ public class ReceiveServiceImpl implements ReceiveService {
 
             /**
              * if (clientId == null) {
-             * 
+             *
              * String[] ua = (String[]) map.get("user");
-             * 
+             *
              * if (ua != null && ua.length == 1) { user = ua[0]; }
-             * 
+             *
              * String[] pa = (String[]) map.get("password"); if (pa != null && pa.length == 1) { pass = pa[0]; } }
-             * 
+             *
              * client = cache.getClient(clientId, user, pass);
              **/
             client = cache.getClient(sid, map);
@@ -300,7 +301,7 @@ public class ReceiveServiceImpl implements ReceiveService {
 
     /**
      * Messages unable to process is sent to UMS_DMQ
-     * 
+     *
      * @param client
      * @param message
      */
@@ -317,6 +318,7 @@ public class ReceiveServiceImpl implements ReceiveService {
 
     }
 
+    @Override
     public void close() {
 
         try {

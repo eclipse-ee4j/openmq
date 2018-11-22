@@ -26,4 +26,9 @@ package com.sun.messaging.jmq.util.options;
  **/
 
 public class InvalidHardCodedValueException extends OptionException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6239398754153699471L;
 }

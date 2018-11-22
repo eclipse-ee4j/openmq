@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.SelectorFilter;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.ClusterDeliveryPolicy;
 import com.sun.messaging.jmq.util.lists.*;
@@ -110,10 +109,12 @@ public class Queue extends Destination {
             LicenseBase license = Globals.getCurrentLicense(null);
             MAX_LICENSED_ACTIVE = license.getIntProperty(license.PROP_MAX_ACTIVE_CONS, 5);
             MAX_LICENSED_BACKUP = license.getIntProperty(license.PROP_MAX_BACKUP_CONS, 0);
-            if (MAX_LICENSED_ACTIVE == Integer.MAX_VALUE)
+            if (MAX_LICENSED_ACTIVE == Integer.MAX_VALUE) {
                 MAX_LICENSED_ACTIVE = -1;
-            if (MAX_LICENSED_BACKUP == Integer.MAX_VALUE)
+            }
+            if (MAX_LICENSED_BACKUP == Integer.MAX_VALUE) {
                 MAX_LICENSED_BACKUP = -1;
+            }
         } catch (BrokerException ex) {
             MAX_LICENSED_ACTIVE = 5;
             MAX_LICENSED_BACKUP = 0;
@@ -139,6 +140,7 @@ public class Queue extends Destination {
 
     }
 
+    @Override
     public void unload(boolean refs) {
         super.unload(refs);
         if (refs) {
@@ -147,25 +149,30 @@ public class Queue extends Destination {
         }
     }
 
+    @Override
     public void sort(Comparator c) {
         // sort pending delivery list
         pending.sort(c);
 
     }
 
+    @Override
     public PacketReference peekNext() {
         try {
-            if (!loaded)
+            if (!loaded) {
                 load();
+            }
         } catch (Exception ex) {
         }
         return (PacketReference) pending.peekNext();
     }
 
+    @Override
     public int getUnackSize(Set msgset) {
         throw new UnsupportedOperationException("Unsupported operation: getUnackSize(Set)");
     }
 
+    @Override
     public int getUnackSize() {
         int size = destMessages.size() - pending.size();
         if (size < 0) {
@@ -184,6 +191,7 @@ public class Queue extends Destination {
         return ht;
     }
 
+    @Override
     public Hashtable getDebugMessages(boolean full) {
         Hashtable ht = super.getDebugMessages(full);
         Vector p = new Vector();
@@ -196,6 +204,7 @@ public class Queue extends Destination {
         return ht;
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         Vector v = null;
@@ -234,6 +243,7 @@ public class Queue extends Destination {
     }
 
     private static ConfigListener cl = new ConfigListener() {
+        @Override
         public void validate(String name, String value) throws PropertyUpdateException {
 
             if (name.equals(MAX_ACTIVE_CNT)) {
@@ -269,6 +279,7 @@ public class Queue extends Destination {
             }
         }
 
+        @Override
         public boolean update(String name, String value) {
             BrokerConfig cfg = Globals.getConfig();
             if (name.equals(MAX_ACTIVE_CNT)) {
@@ -316,6 +327,7 @@ public class Queue extends Destination {
         setDefaultCounts(type);
     }
 
+    @Override
     public DestMetricsCounters getMetrics() {
         DestMetricsCounters dmc = super.getMetrics();
 
@@ -342,6 +354,7 @@ public class Queue extends Destination {
         return dmc;
     }
 
+    @Override
     protected void getDestinationProps(Map m) {
         super.getDestinationProps(m);
         m.put(MAX_ACTIVE, Integer.valueOf(maxActiveCount));
@@ -428,6 +441,7 @@ public class Queue extends Destination {
         }
     }
 
+    @Override
     public Set routeAndMoveMessage(PacketReference oldRef, PacketReference newRef) throws IOException, BrokerException {
         // store w/ the new value
         try {
@@ -445,6 +459,7 @@ public class Queue extends Destination {
         return null; // not an explicit set
     }
 
+    @Override
     public Set routeNewMessage(PacketReference ref) throws BrokerException {
         // store w/ the new value
         try {
@@ -458,6 +473,7 @@ public class Queue extends Destination {
         return null; // not an explicit set
     }
 
+    @Override
     public void routeNewMessageWithDeliveryDelay(PacketReference ref) throws BrokerException {
         try {
             ref.store(queueConsumer);
@@ -468,6 +484,7 @@ public class Queue extends Destination {
         }
     }
 
+    @Override
     public ConsumerUID[] calculateStoredInterests(PacketReference ref) throws BrokerException, SelectorFormatException {
         // this will return null if message is not persistent
 
@@ -480,6 +497,7 @@ public class Queue extends Destination {
         return storedInterests;
     }
 
+    @Override
     public void unrouteLoadedTransactionAckMessage(PacketReference ref, ConsumerUID consumer) throws BrokerException {
         boolean removed = pending.remove(ref);
 
@@ -487,6 +505,7 @@ public class Queue extends Destination {
     }
 
     /* called from transaction code */
+    @Override
     public void forwardOrphanMessage(PacketReference ref, ConsumerUID consumer) throws BrokerException {
         if (ref.getOrder() == null) {
             pending.add(10 - ref.getPriority(), ref);
@@ -499,23 +518,28 @@ public class Queue extends Destination {
     }
 
     /* called from transaction code */
+    @Override
     public void forwardOrphanMessages(Collection refs, ConsumerUID consumer) throws BrokerException {
         pending.addAllOrdered(refs);
     }
 
+    @Override
     public void forwardMessage(Set consumers, PacketReference ref) {
         // does nothing
     }
 
+    @Override
     public void forwardDeliveryDelayedMessage(Set<ConsumerUID> consumers, PacketReference ref) throws BrokerException {
         pending.add(10 - ref.getPriority(), ref);
     }
 
+    @Override
     protected ConsumerUID[] routeLoadedTransactionMessage(PacketReference ref) throws BrokerException, SelectorFormatException {
         ConsumerUID[] id = { PacketReference.getQueueUID() };
         return id;
     }
 
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
 
         // route the message
@@ -533,6 +557,7 @@ public class Queue extends Destination {
         super.eventOccured(type, r, target, oldval, newval, userdata);
     }
 
+    @Override
     public int getClusterDeliveryPolicy() {
         return (localDeliveryPreferred ? ClusterDeliveryPolicy.LOCAL_PREFERRED : ClusterDeliveryPolicy.DISTRIBUTED);
     }
@@ -545,22 +570,27 @@ public class Queue extends Destination {
         return defaultMaxFailoverCount;
     }
 
+    @Override
     public int getMaxActiveConsumers() {
         return maxActiveCount;
     }
 
+    @Override
     public int getMaxFailoverConsumers() {
         return maxFailoverCount;
     }
 
+    @Override
     public int getActiveConsumerCount() {
         return activeConsumerCnt;
     }
 
+    @Override
     public int getFailoverConsumerCount() {
         return failoverConsumerCnt;
     }
 
+    @Override
     public Set getActiveConsumers() {
 
         Set set = new HashSet();
@@ -576,6 +606,7 @@ public class Queue extends Destination {
         return set;
     }
 
+    @Override
     public Set getFailoverConsumers() {
         Set set = new HashSet();
         synchronized (allConsumers) {
@@ -590,6 +621,7 @@ public class Queue extends Destination {
         return set;
     }
 
+    @Override
     public void setMaxActiveConsumers(int count) throws BrokerException {
 
         if (count == 0) {
@@ -614,6 +646,7 @@ public class Queue extends Destination {
 
     }
 
+    @Override
     public void setMaxFailoverConsumers(int count) throws BrokerException {
         if (MAX_LICENSED_BACKUP != -1 && (count > MAX_LICENSED_BACKUP || count < 0)) {
             throw new BrokerException(
@@ -632,6 +665,7 @@ public class Queue extends Destination {
         notifyAttrUpdated(DestinationInfo.MAX_FAILOVER_CONSUMERS, oldVal, Integer.valueOf(maxFailoverCount));
     }
 
+    @Override
     public void setClusterDeliveryPolicy(int policy) {
 
         boolean oldpolicy = localDeliveryPreferred;
@@ -673,7 +707,9 @@ public class Queue extends Destination {
                     }
                 }
                 if (position == -1)
+                 {
                     break; // no love here
+                }
 
                 if (activeOnly && position >= maxActiveCount) {
                     position = -1;
@@ -685,8 +721,9 @@ public class Queue extends Destination {
                 if (Globals.getClusterBroadcast().getConsumerLock(cuid, getDestinationUID(), position, maxSize, cuid.getConnectionUID())) {
                     // yeah got the lock
                     Object o = consumerPositions.set(position, cuid);
-                    if (o != NULL_OBJECT && o != null)
+                    if (o != NULL_OBJECT && o != null) {
                         logger.log(Logger.DEBUG, "after lock, object unexpectly changed " + " position " + o + " at position " + position);
+                    }
 
                     gotPosition = true;
                 } else { // lost the lock, try again
@@ -715,8 +752,9 @@ public class Queue extends Destination {
             } else { // no competition, got the lock
                 synchronized (consumerPositions) {
                     Object o = consumerPositions.set(position, cuid);
-                    if (o != NULL_OBJECT && o != null)
+                    if (o != NULL_OBJECT && o != null) {
                         logger.log(Logger.DEBUG, "during set: object unexpectly changed " + " in getPosition for " + o + " at position " + position);
+                    }
 
                 }
                 gotPosition = true;
@@ -725,10 +763,12 @@ public class Queue extends Destination {
         return position;
     }
 
+    @Override
     public Consumer addConsumer(Consumer consumer, boolean local, Connection conn) throws BrokerException, SelectorFormatException {
         return addConsumer(consumer, local, conn, true);
     }
 
+    @Override
     public Consumer addConsumer(Consumer consumer, boolean local, Connection conn, boolean loadIfActive) throws BrokerException, SelectorFormatException {
 
         consumer.setStoredConsumerUID(PacketReference.getQueueUID());
@@ -805,10 +845,12 @@ public class Queue extends Destination {
         return consumer;
     }
 
+    @Override
     public void removeConsumer(ConsumerUID cid, boolean local) throws BrokerException {
         removeConsumer(cid, null, false, local);
     }
 
+    @Override
     public void removeConsumer(ConsumerUID cid, Map remotePendings, boolean remoteCleanup, boolean local) throws BrokerException {
 
         super.removeConsumer(cid, remotePendings, remoteCleanup, local);
@@ -829,8 +871,9 @@ public class Queue extends Destination {
         }
         synchronized (this) {
             Object o = consumerPositions.set(c.position, NULL_OBJECT);
-            if (!cid.equals(o))
+            if (!cid.equals(o)) {
                 logger.log(Logger.DEBUG, "object changed during remove of " + o + " at position " + c.position);
+            }
             if (c.active) {
                 if (c.local) {
                     localActiveConsumerCnt--;
@@ -942,12 +985,14 @@ public class Queue extends Destination {
                         int pos = getPosition(qi.consumer.getConsumerUID(), qi.local, true);
                         if (pos != -1) {
                             // moved up the list
-                            if (!getIsLocal())
+                            if (!getIsLocal()) {
                                 Globals.getClusterBroadcast().unlockConsumer(qi.consumer.getConsumerUID(), getDestinationUID(), qi.position);
+                            }
                             Object o = consumerPositions.set(qi.position, NULL_OBJECT);
-                            if (!qi.consumer.getConsumerUID().equals(o))
+                            if (!qi.consumer.getConsumerUID().equals(o)) {
                                 logger.log(Logger.DEBUG,
                                         "failover update: object unexpected changed " + " position " + o + " at position " + qi.position + " new pos " + pos);
+                            }
                             qi.position = pos;
                             qi.consumingMsgs = qi.local || lookRemote;
                             qi.consumer.setIsActiveConsumer(qi.consumingMsgs);
@@ -956,8 +1001,9 @@ public class Queue extends Destination {
                             updateFailover(false);
                             logger.log(Logger.INFO, BrokerResources.I_FAILOVER_ACTIVE, String.valueOf(qi.consumer.getConsumerUID().longValue()),
                                     qi.consumer.getDestinationUID().getName());
-                            if (qi.consumingMsgs)
+                            if (qi.consumingMsgs) {
                                 makeActive(qi.consumer);
+                            }
                         } else {
                             // stay failover
                         }
@@ -978,7 +1024,7 @@ public class Queue extends Destination {
         if (activeConsumerCnt > hwActiveCount) {
             hwActiveCount = activeConsumerCnt;
         }
-        activeAverage = (((float) activeSampleCnt * activeAverage) + (float) activeConsumerCnt) / ((float) activeSampleCnt + 1.0f);
+        activeAverage = ((activeSampleCnt * activeAverage) + activeConsumerCnt) / (activeSampleCnt + 1.0f);
         activeSampleCnt++;
     }
 
@@ -991,19 +1037,22 @@ public class Queue extends Destination {
         if (failoverConsumerCnt > hwFailoverCount) {
             hwFailoverCount = failoverConsumerCnt;
         }
-        failoverAverage = (((float) failoverSampleCnt * failoverAverage) + (float) failoverConsumerCnt) / ((float) failoverSampleCnt + 1.0f);
+        failoverAverage = ((failoverSampleCnt * failoverAverage) + failoverConsumerCnt) / (failoverSampleCnt + 1.0f);
         failoverSampleCnt++;
     }
 
+    @Override
     public int getSharedConsumerFlowLimit() {
         return getMaxPrefetch();
     }
 
+    @Override
     public void purgeDestination(boolean noerrnotfound) throws BrokerException {
         super.purgeDestination(noerrnotfound);
         pending.clear();
     }
 
+    @Override
     public void purgeDestination(Filter criteria) throws BrokerException {
         super.purgeDestination(criteria);
         Set s = pending.getAll(criteria);
@@ -1022,6 +1071,7 @@ class QueueInfo {
     boolean local = false;
     boolean consumingMsgs = false;
 
+    @Override
     public String toString() {
         return consumer + ":" + position + ":" + active + ":" + local + ":" + consumingMsgs;
     }

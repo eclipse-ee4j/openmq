@@ -32,6 +32,10 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 public class ConnectionReconnectedEvent extends ConnectionEvent {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3320856650097934473L;
+    /**
      * Connection reconnected event code.
      */
     public static final String CONNECTION_RECONNECTED = ClientResources.E_CONNECTION_RECONNECTED;
@@ -53,7 +57,7 @@ public class ConnectionReconnectedEvent extends ConnectionEvent {
      * @param conn the connection associated with this event object.
      * @param evCode the event code that represents this event object.
      * @param evMessage the event message that describes this event object.
-     * 
+     *
      */
     public ConnectionReconnectedEvent(Connection conn, String evCode, String evMessage) {
 

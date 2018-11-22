@@ -24,10 +24,6 @@ import java.util.HashMap;
 import java.io.IOException;
 import java.nio.channels.spi.AbstractSelectableChannel;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
-import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.net.Protocol;
 import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
 import com.sun.messaging.jmq.jmsserver.net.ProtocolCallback;
@@ -71,6 +67,7 @@ public class GrizzlyProtocolImpl implements Protocol {
         return proto;
     }
 
+    @Override
     public void setNoDelay(boolean v) {
         tcpNoDelay = v;
     }
@@ -83,6 +80,7 @@ public class GrizzlyProtocolImpl implements Protocol {
         return lingerTimeout;
     }
 
+    @Override
     public void setTimeout(int time) {
         readTimeout = time;
     }
@@ -95,22 +93,27 @@ public class GrizzlyProtocolImpl implements Protocol {
         return backlog;
     }
 
+    @Override
     public void setInputBufferSize(int size) {
         inputBufferSize = size;
     }
 
+    @Override
     public void setOutputBufferSize(int size) {
         outputBufferSize = size;
     }
 
+    @Override
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
+    @Override
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
 
+    @Override
     public boolean getBlocking() {
         throw new UnsupportedOperationException("Unsupported call: " + getClass().getName() + ".getBlocking");
     }
@@ -119,6 +122,7 @@ public class GrizzlyProtocolImpl implements Protocol {
         return requireClientAuth;
     }
 
+    @Override
     public void registerProtocolCallback(ProtocolCallback cb, Object callback_data) {
         throw new RuntimeException("Unsupported call: " + getClass().getName() + ".registerProtocolCallback()");
     }
@@ -127,32 +131,40 @@ public class GrizzlyProtocolImpl implements Protocol {
         throw new RuntimeException("Unsupported call: " + getClass().getName() + ".notifyProtocolCallback()");
     }
 
+    @Override
     public boolean canPause() {
         throw new RuntimeException("Unsupported call: " + getClass().getName() + ".canPause()");
     }
 
+    @Override
     public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
         throw new UnsupportedOperationException("Unsupported call: " + getClass().getName() + ".configureBlocking");
     }
 
+    @Override
     public AbstractSelectableChannel getChannel() throws IOException {
         return null;
     }
 
+    @Override
     public ProtocolStreams accept() throws IOException {
         throw new UnsupportedOperationException("GrizzlyProtocolImpl:accept");
     }
 
+    @Override
     public void open() throws IOException, IllegalStateException {
     }
 
+    @Override
     public boolean isOpen() {
         return service.isOpen();
     }
 
+    @Override
     public void close() throws IOException, IllegalStateException {
     }
 
+    @Override
     public void checkParameters(Map params) throws IllegalArgumentException {
         TcpProtocol.checkTcpParameters(params);
     }
@@ -160,6 +172,7 @@ public class GrizzlyProtocolImpl implements Protocol {
     /**
      * @return old params if param change cause rebind
      */
+    @Override
     public Map setParameters(Map params) throws IOException {
         if (params.get("serviceFactoryHandlerName") != null) {
             this.modelName = (String) params.get("serviceFactoryHandlerName");
@@ -211,10 +224,12 @@ public class GrizzlyProtocolImpl implements Protocol {
         return false;
     }
 
+    @Override
     public int getLocalPort() {
         return service.getLocalPort();
     }
 
+    @Override
     public String getHostName() {
         if (hostname == null || hostname.equals("") || hostname.equals(Globals.HOSTNAME_ALL)) {
             return null;
@@ -274,6 +289,7 @@ public class GrizzlyProtocolImpl implements Protocol {
         return maxThreads;
     }
 
+    @Override
     public String toString() {
         return getType() + "(host = " + (hostname == null ? Globals.HOSTNAME_ALL : hostname) + ", port=" + port + ", mode=" + modelName + ")";
     }

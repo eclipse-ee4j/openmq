@@ -125,8 +125,9 @@ public class FaultInjection extends RuntimeFaultInjection {
     }
 
     public static synchronized FaultInjection getInjection() {
-        if (_fault == null)
+        if (_fault == null) {
             _fault = new FaultInjection();
+        }
 
         return _fault;
     }
@@ -136,14 +137,17 @@ public class FaultInjection extends RuntimeFaultInjection {
         setProcessName((_bc.isEmbeded() ? "BROKER" : "PROCESS"));
     }
 
+    @Override
     protected void exit(int exitCode) {
         logWarn("EXIST JVM from bridge is not supported", null);
     }
 
+    @Override
     protected String sleepIntervalPropertyName() {
         return SLEEP_INTERVAL_PROP;
     }
 
+    @Override
     protected int sleepIntervalDefault() {
         return SLEEP_INTERVAL_DEFAULT;
     }

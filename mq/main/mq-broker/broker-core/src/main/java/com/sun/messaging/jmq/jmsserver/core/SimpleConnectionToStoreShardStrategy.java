@@ -29,11 +29,13 @@ import org.glassfish.hk2.api.PerLookup;
 @Service(name = "com.sun.messaging.jmq.jmsserver.core.SimpleConnectionToStoreShardStrategy")
 @PerLookup
 public class SimpleConnectionToStoreShardStrategy implements ConnectionToStoreShardStrategy {
+    @Override
     public PartitionedStore chooseStorePartition(Collection<ShardStrategyContext> pscs) throws BrokerException {
 
         ShardStrategyContext psc = Collections.min(pscs,
 
                 new Comparator<ShardStrategyContext>() {
+                    @Override
                     public int compare(ShardStrategyContext o1, ShardStrategyContext o2) {
                         if (o1.getConnectionCount() < o2.getConnectionCount()) {
                             return -1;

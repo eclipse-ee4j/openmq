@@ -20,7 +20,7 @@ import javax.jms.JMSException;
 
 /**
  * This interface encapsulates the client-side processing of incoming packets from the broker
- * 
+ *
  * This behaviour had been encapsulated in this interface because in certain direct mode client implementations it needs
  * to be invoked from the broker rather than from the client, and it is cleaner to pass this interface over to the
  * broker rather than its client-side implementation
@@ -30,9 +30,9 @@ public interface PacketDispatcher {
 
     /**
      * Process a packet that has been received by the client.
-     * 
+     *
      * If this is a message, dispatch it to the appropriate session(s)
-     * 
+     *
      * @param pkt
      * @throws JMSException
      */

@@ -49,8 +49,9 @@ public class FromTxnLogConverter {
     Logger logger = Globals.getLogger();
     private static boolean DEBUG = false;
     static {
-        if (Globals.getLogger().getLevel() <= Logger.DEBUG)
+        if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
+        }
     }
 
     public FromTxnLogConverter(Store store) {
@@ -109,8 +110,9 @@ public class FromTxnLogConverter {
             fileStore.storeTransaction(id, ts, true);
 
             TransactionWork txnWork = baseTxn.getTransactionWork();
-            if (txnWork != null)
+            if (txnWork != null) {
                 convertWork(txnWork, ts, id);
+            }
 
             ts.setState(TransactionState.PREPARED);
             fileStore.updateTransactionState(id, ts, true);
@@ -183,6 +185,7 @@ public class FromTxnLogConverter {
 
     class ClusterTxnConverter extends TxnConverter {
 
+        @Override
         void convert(BaseTransaction baseTxn) throws BrokerException, IOException {
 
             ClusterTransaction clusterTxn = (ClusterTransaction) baseTxn;
@@ -198,8 +201,9 @@ public class FromTxnLogConverter {
             fileStore.storeTransaction(id, ts, true);
 
             TransactionWork txnWork = baseTxn.getTransactionWork();
-            if (txnWork != null)
+            if (txnWork != null) {
                 convertWork(txnWork, ts, id);
+            }
 
             ((PartitionedStore) store).updateClusterTransaction(id, clusterTxn.getTransactionBrokers(), Destination.PERSIST_SYNC);
 
@@ -211,6 +215,7 @@ public class FromTxnLogConverter {
     }
 
     class RemoteTxnConverter extends TxnConverter {
+        @Override
         void convert(BaseTransaction baseTxn) throws BrokerException, IOException {
 
             RemoteTransaction remoteTxn = (RemoteTransaction) baseTxn;

@@ -26,11 +26,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQRuntimeException extends javax.jms.JMSRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7108849176256483775L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -40,7 +44,7 @@ public class MQRuntimeException extends javax.jms.JMSRuntimeException implements
 
     /**
      * Constructs a <code>MQRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQRuntimeException(String detailMessage) {
@@ -49,7 +53,7 @@ public class MQRuntimeException extends javax.jms.JMSRuntimeException implements
 
     /**
      * Constructs a <code>MQRuntimeException</code> with the specified detail message, error code and cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -60,7 +64,7 @@ public class MQRuntimeException extends javax.jms.JMSRuntimeException implements
 
     /**
      * Construct a <code>MQRuntimeException</code> to wrap the specified JMSException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQRuntimeException(JMSException cause) {
@@ -69,18 +73,20 @@ public class MQRuntimeException extends javax.jms.JMSRuntimeException implements
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

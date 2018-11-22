@@ -28,6 +28,11 @@ import java.io.Serializable;
 public class Destination implements Serializable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1803882806911453313L;
+
+    /**
      * Enum values that specify the Type of the Destination
      *
      * @see javax.jms.Destination javax.jms.Destination

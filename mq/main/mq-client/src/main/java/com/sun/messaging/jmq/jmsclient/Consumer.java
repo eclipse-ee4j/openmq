@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
-import java.util.Vector;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.util.Hashtable;
@@ -370,12 +369,14 @@ abstract class Consumer {
         if (destination instanceof com.sun.messaging.Destination) {
             ht.put("Destination", ((com.sun.messaging.Destination) destination).getName());
         }
-        if (messageSelector != null)
+        if (messageSelector != null) {
             ht.put("selector", String.valueOf(messageSelector));
+        }
 
         ht.put("durable", String.valueOf(durable));
-        if (durable)
+        if (durable) {
             ht.put("durableName", String.valueOf(durableName));
+        }
         if (sharedSubscriptionName != null) {
             ht.put("sharedSubscriptionName", String.valueOf(sharedSubscriptionName));
         }
@@ -387,6 +388,7 @@ abstract class Consumer {
         return ht;
     }
 
+    @Override
     public String toString() {
         return "ConsumerID: " + interestId + ", ConnectionID=" + connection.getConnectionID();
     }

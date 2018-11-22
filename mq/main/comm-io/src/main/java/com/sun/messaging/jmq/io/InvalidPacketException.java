@@ -25,6 +25,11 @@ import java.io.IOException;
  */
 public class InvalidPacketException extends IOException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6651502674738891593L;
+
     private byte[] bytes = null;
 
     private String appendMessage = null;

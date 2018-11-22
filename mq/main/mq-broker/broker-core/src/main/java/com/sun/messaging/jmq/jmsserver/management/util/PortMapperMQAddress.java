@@ -25,9 +25,15 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 public class PortMapperMQAddress extends MQAddress {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9217668026006232968L;
+
     protected PortMapperMQAddress() {
     }
 
+    @Override
     public String getDefaultServiceName() {
         return ("");
     }

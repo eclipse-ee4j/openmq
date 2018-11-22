@@ -34,6 +34,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6070347195680456565L;
     private ObjStoreCObj osCObj = null;
     private transient ObjStore os = null;
     private String lookupName = null;
@@ -53,6 +57,7 @@ public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj {
         return this.os;
     }
 
+    @Override
     public String getExplorerLabel() {
         return this.lookupName;
     }
@@ -73,10 +78,12 @@ public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj {
         this.object = object;
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (null);
     }
@@ -85,22 +92,27 @@ public class ObjStoreConFactoryCObj extends ObjStoreAdminCObj {
         return this.osCObj;
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (getActiveActions());
     }
 
+    @Override
     public int getActiveActions() {
         return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.REFRESH);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".ObjStoreConFactoryListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (null);
     }

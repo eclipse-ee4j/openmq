@@ -17,7 +17,6 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 
 import java.util.List;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -32,13 +31,11 @@ import com.sun.messaging.jmq.jmsservice.JMSService.MessageAckType;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
-import com.sun.messaging.bridge.api.StompMessage;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.StompDestination;
 import com.sun.messaging.bridge.api.StompSubscriber;
 import com.sun.messaging.bridge.api.StompOutputHandler;
 import com.sun.messaging.bridge.api.StompProtocolException;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 
 /**
@@ -145,7 +142,7 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
             int index = unackedMessages.indexOf(sysid);
             if (index < 0) {
                 String emsg = cmd + br.getKString(br.X_STOMP_MSG_NOTFOUND_ON_ACK, msgid, this.toString());
-                ;
+                
                 throw new StompProtocolException(emsg);
             }
             if (clientackThisMessage || nack) {
@@ -216,26 +213,32 @@ public class StompSubscriberSession extends StompSessionImpl implements StompSub
             this.acktype = acktype;
         }
 
+        @Override
         public long getConnectionId() {
             return connectionId;
         }
 
+        @Override
         public long getSessionId() {
             return sessionId;
         }
 
+        @Override
         public long getConsumerId() {
             return consumerId;
         }
 
+        @Override
         public SysMessageID getSysMessageID() {
             return msg.getSysMessageID();
         }
 
+        @Override
         public long getTransactionId() {
             return 0L;
         }
 
+        @Override
         public MessageAckType getMessageAckType() {
             return acktype;
         }

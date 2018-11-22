@@ -21,8 +21,6 @@ package com.sun.messaging.jmq.jmsserver.persist.api.sharecc;
 
 import java.util.List;
 import java.util.Properties;
-import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.config.*;
@@ -112,7 +110,7 @@ public abstract class ShareConfigChangeStore {
      * Release the singleton instance
      * <p>
      * The next time <code>getStore()</code> is called, a new instance will be instantiated.
-     * 
+     *
      * @param cleanup if true, the store will be cleaned up, i.e. redundant data removed.
      */
     public static synchronized void releaseStore(boolean cleanup) {

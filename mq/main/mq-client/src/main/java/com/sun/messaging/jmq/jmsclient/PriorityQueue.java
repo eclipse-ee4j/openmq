@@ -74,15 +74,17 @@ class PriorityQueue implements MessageQueue {
     /**
      * Get the queue size.
      */
+    @Override
     public synchronized int size() {
         return qsize;
     }
 
     /**
      * Check if the queue size is empty.
-     * 
+     *
      * @return true if queue size is 0. Otherwise, return false.
      */
+    @Override
     public synchronized boolean isEmpty() {
         return (qsize == 0);
     }
@@ -90,6 +92,7 @@ class PriorityQueue implements MessageQueue {
     /**
      * Clears all elements from the queue.
      **/
+    @Override
     public synchronized void clear() {
         for (int i = 0; i < ARRAY_SIZE; i++) {
             qlist[i] = null;
@@ -101,11 +104,12 @@ class PriorityQueue implements MessageQueue {
     /**
      * Enqueues an object in the queue based on the priority of the obj. The priority of nobj is obtained from
      * ReadOnlyPacket or MessageImpl.
-     * 
+     *
      * @param nobj new object to be enqueued.
      *
      * @see getPriority
      */
+    @Override
     public synchronized void enqueue(Object nobj) {
 
         int priority = getPriority(nobj);
@@ -123,11 +127,12 @@ class PriorityQueue implements MessageQueue {
     /**
      * Add an object to the front of the queue based on the priority of the obj. The priority of nobj is obtained from
      * ReadOnlyPacket or MessageImpl.
-     * 
+     *
      * @param nobj new object to be added to the front of the queue.
      *
      * @see getPriority
      */
+    @Override
     public synchronized void enqueueFirst(Object nobj) {
 
         int priority = getPriority(nobj);
@@ -144,7 +149,7 @@ class PriorityQueue implements MessageQueue {
 
     /**
      * get JMS message priority.
-     * 
+     *
      * @param nobj get JMS message priority from this obj.
      * @return message priority.
      */
@@ -170,9 +175,10 @@ class PriorityQueue implements MessageQueue {
 
     /**
      * Dequeues an element from the queue.
-     * 
+     *
      * @return dequeued object, or null if empty queue
      */
+    @Override
     public synchronized Object dequeue() {
         // var to hold element to be returned.
         Object obj = null;
@@ -203,6 +209,7 @@ class PriorityQueue implements MessageQueue {
      *
      * @return an array of objects in the queue.
      */
+    @Override
     public synchronized Object[] toArray() {
 
         LinkedList list = new LinkedList();
@@ -233,10 +240,11 @@ class PriorityQueue implements MessageQueue {
 
     /**
      * remove obj from the queue.
-     * 
+     *
      * @param obj
      * @return
      */
+    @Override
     public synchronized boolean remove(Object obj) {
 
         // if obj contains obj and removed, found is set to true.

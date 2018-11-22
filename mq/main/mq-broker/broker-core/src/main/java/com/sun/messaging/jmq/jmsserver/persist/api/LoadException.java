@@ -34,6 +34,10 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 public class LoadException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5833065921829816905L;
     private Object key = null;
     private Object value = null;
     private LoadException next = null;
@@ -102,6 +106,7 @@ public class LoadException extends BrokerException {
         return next;
     }
 
+    @Override
     public String toString() {
         return getMessage() + "\nkey=" + key + ";cause=" + keyCause + ";value=" + value + ";cause=" + valueCause;
     }

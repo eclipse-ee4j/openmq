@@ -214,7 +214,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
 
     /**
      * Create a new JMSContextImpl using an existing Connection
-     * 
+     *
      * @param containerType
      * @param connection
      * @param sessionMode
@@ -343,14 +343,17 @@ public class JMSContextImpl implements JMSContext, Traceable {
         ps.println("containerType=" + containerType);
         ps.println("contextSet contains " + contextSet.size() + " JMSContexts");
         ps.println("Here is the Connection:");
-        if (connection instanceof Traceable)
+        if (connection instanceof Traceable) {
             ((Traceable) connection).dump(ps);
+        }
         ps.println("Here is the Session:");
-        if (session instanceof Traceable)
+        if (session instanceof Traceable) {
             ((Traceable) session).dump(ps);
+        }
         ps.println("Here is the MessageProducer:");
-        if (messageProducer instanceof Traceable)
+        if (messageProducer instanceof Traceable) {
             ((Traceable) messageProducer).dump(ps);
+        }
         ps.println("------ JMSContextImpl dump end ------");
     }
 
@@ -486,15 +489,18 @@ public class JMSContextImpl implements JMSContext, Traceable {
     @Override
     public void close() {
         contextLogger.log(Level.FINE, "JMSContext@" + this.hashCode() + ".close(): connection@" + (connection == null ? "null" : connection.hashCode()));
-        if (closed)
+        if (closed) {
             return;
+        }
         closed = true;
 
         // close all JMSConsumer objects associated with this JMSContext
-        for (JMSConsumer consumer : consumers)
+        for (JMSConsumer consumer : consumers) {
             consumer.close();
-        if (!consumers.isEmpty())
+        }
+        if (!consumers.isEmpty()) {
             throw new RuntimeException("Debug: consumers not empty");
+        }
 
         // close the anonymous MessageProducer associated with this JMSContext
         if (messageProducer != null) {
@@ -520,11 +526,13 @@ public class JMSContextImpl implements JMSContext, Traceable {
         // if this is the only JMSContext using the connection, close it
         synchronized (contextSet) {
             // debug
-            if (!contextSet.contains(this))
+            if (!contextSet.contains(this)) {
                 throw new RuntimeException("I am not in the context set");
+            }
             contextSet.remove(this);
-            if (contextSet.contains(this))
+            if (contextSet.contains(this)) {
                 throw new RuntimeException("I am not in the context set");
+            }
 
             if (contextSet.isEmpty()) {
                 try {
@@ -898,8 +906,9 @@ public class JMSContextImpl implements JMSContext, Traceable {
         // AUTO_ACKNOWLEDGE or DUPS_OK_ACKNOWLEDGE calling this method has no
         // effect.
         try {
-            if (session.getAcknowledgeMode() != Session.CLIENT_ACKNOWLEDGE)
+            if (session.getAcknowledgeMode() != Session.CLIENT_ACKNOWLEDGE) {
                 return;
+            }
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
@@ -973,7 +982,7 @@ public class JMSContextImpl implements JMSContext, Traceable {
 
     /**
      * return the anonymous MessageProducer associated with this JMSContext
-     * 
+     *
      * @return the anonymous MessageProducer associated with this JMSContext
      */
     protected MessageProducer getMessageProducer() {

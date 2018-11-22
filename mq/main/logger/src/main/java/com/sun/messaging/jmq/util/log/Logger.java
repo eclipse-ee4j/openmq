@@ -20,14 +20,11 @@
 
 package com.sun.messaging.jmq.util.log;
 
-import java.util.Date;
 import java.util.Properties;
 import java.util.MissingResourceException;
 import java.util.Vector;
 import java.util.Enumeration;
-import java.util.StringTokenizer;
 import java.util.TimeZone;
-import java.util.logging.ConsoleHandler;
 import java.util.logging.ErrorManager;
 import java.util.logging.FileHandler;
 import java.util.logging.Filter;
@@ -38,11 +35,8 @@ import java.util.logging.LogManager;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.InterruptedIOException;
 import java.io.PrintWriter;
 import java.io.IOException;
-import java.security.AccessController;
-import java.security.PrivilegedAction;
 import java.text.SimpleDateFormat;
 import java.text.MessageFormat;
 
@@ -233,9 +227,9 @@ public class Logger implements LoggerWrapper {
 
     /**
      * Find the handler with the specified name private synchronized LogHandler findHandler(String name) {
-     * 
+     *
      * if (handlers == null) { return null; }
-     * 
+     *
      * // Return the handler that matches the passed name for (int n = 0; n < handlers.length; n++) { if (handlers[n] !=
      * null && name.equals(handlers[n].getName())) { return handlers[n]; } } return null; }
      */
@@ -333,7 +327,7 @@ public class Logger implements LoggerWrapper {
             });
         }
 //	if(newLogger != null) return;
-//	
+//
 //	String property, value;
 //
 //	prefix = prefix + ".log.";
@@ -421,8 +415,8 @@ public class Logger implements LoggerWrapper {
 //		this.log(WARNING, myrb.getKString(myrb.W_LOGCHANNEL_DISABLED,
 //                                          handlerName, e.getMessage()));
 //                handlers[n] = null;
-//            
-//        
+//
+//
 //	    } catch (java.lang.NoClassDefFoundError err) {
 //	    	this.log(WARNING, myrb.getKString(myrb.W_LOGCHANNEL_DISABLED,
 //                    handlerName, err.getMessage()));
@@ -430,7 +424,7 @@ public class Logger implements LoggerWrapper {
 //	    }
 //	}
 //
-//	try {		
+//	try {
 //            setLogHandlers(handlers);
 //        } catch (IOException e) {
 //	    // Not I18N because this is a programming error
@@ -444,8 +438,9 @@ public class Logger implements LoggerWrapper {
      ***/
     private void loadPropsToNucleusLogging(Properties props, ServiceLocator habitat, boolean inProcess, boolean jmsraManaged) {
         // If we are running inside nucleus we will be using properties from nucleus logging.properties
-        if (habitat != null)
+        if (habitat != null) {
             return;
+        }
 
         // Following is a workaround to avoid system out message for "Bad level value for property: sun.os.patch.level"
         final String propToBeRemoved = "sun.os.patch.level";
@@ -526,7 +521,7 @@ public class Logger implements LoggerWrapper {
      * Instead of using LogManager to configure logging framework do it manually This is mainly due to embeded RA broker
      * case where we do not have luxary to overwrite application server logging properties that will be overwritten if
      * broker properties are loaded to LogManager
-     * 
+     *
      * @param props broker configuration properties
      */
     private void manuallyConfigureLogging(Properties props) {
@@ -710,7 +705,7 @@ public class Logger implements LoggerWrapper {
 
     /**
      * Convert an JUL int representation of a log level to its string value.
-     * 
+     *
      * @param level Log level int. One of:ALL,FORCE,SEVERE,WARNING,INFO,CONFIG,FINE,FINER,FINEST, OFF
      */
     public static String jullevelIntToStr(int level) throws IllegalArgumentException {
@@ -779,23 +774,23 @@ public class Logger implements LoggerWrapper {
      */
     public static int levelJULLevelToInt(Level level) throws IllegalArgumentException {
 
-        if (level.equals(EMERGENCY))
+        if (level.equals(EMERGENCY)) {
             return FORCE;// TODO: Need to wait for nucleus team to add custom log level
-        else if (level.equals(Level.SEVERE))
+        } else if (level.equals(Level.SEVERE)) {
             return ERROR;
-        else if (level.equals(Level.WARNING))
+        } else if (level.equals(Level.WARNING)) {
             return WARNING;
-        else if (level.equals(Level.INFO))
+        } else if (level.equals(Level.INFO)) {
             return INFO;
-        else if (level.equals(Level.FINE))
+        } else if (level.equals(Level.FINE)) {
             return DEBUG;
-        else if (level.equals(Level.FINER))
+        } else if (level.equals(Level.FINER)) {
             return DEBUGMED;
-        else if (level.equals(Level.FINEST))
+        } else if (level.equals(Level.FINEST)) {
             return DEBUGHIGH;
-        else if (level.equals(Level.OFF))
+        } else if (level.equals(Level.OFF)) {
             return OFF;
-        else {
+        } else {
             final String errmsg = "Conversion from " + level + " to int failed";
             newLogger.log(Level.SEVERE, errmsg);
             throw new IllegalArgumentException(errmsg);
@@ -818,10 +813,10 @@ public class Logger implements LoggerWrapper {
      * @param newhandlers Array of LogHandlers to use
      *
      * @throws IOException private synchronized void setLogHandlers(LogHandler[] newhandlers) throws IOException {
-     * 
+     *
      * if (!closed) { // This is a programming error and is therefore not I18N'd throw new IOException( "Logger must be
      * closed before setting handlers"); }
-     * 
+     *
      * handlers = newhandlers; // Set these handlers to standard java util logger for (LogHandler mqHandler : handlers) { if
      * (mqHandler == null) continue; } }
      */
@@ -850,7 +845,7 @@ public class Logger implements LoggerWrapper {
 //    We can not reopen JUL log handler once it is closed based on current knowledge
 //    /**
 //     * Open all LogHandlers. If a handler fails to open and message
-//     * is written to System.err and the handler is removed from the 
+//     * is written to System.err and the handler is removed from the
 //     * list of LogHandlers.
 //     *
 //     * If there are any messages in the defer buffer they are flushed
@@ -971,7 +966,7 @@ public class Logger implements LoggerWrapper {
 
         // Add message to buffer. We must preserve the level too.
         LogRecord dr = new LogRecord(level, message);
-        deferBuffer.addElement((Object) dr);
+        deferBuffer.addElement(dr);
     }
 
     /**
@@ -1035,8 +1030,9 @@ public class Logger implements LoggerWrapper {
         // Get message from resource bundle.
         String message = null;
 
-        if (key == null)
+        if (key == null) {
             key = "";
+        }
 
         if (rb != null) {
             try {
@@ -1428,6 +1424,7 @@ public class Logger implements LoggerWrapper {
      * implement LoggerWrapper interface
      *******************************************************************/
 
+    @Override
     public void logInfo(String msg, Throwable t) {
         if (t == null) {
             log(INFO, msg);
@@ -1436,6 +1433,7 @@ public class Logger implements LoggerWrapper {
         }
     }
 
+    @Override
     public void logWarn(String msg, Throwable t) {
         if (t == null) {
             log(WARNING, msg);
@@ -1444,6 +1442,7 @@ public class Logger implements LoggerWrapper {
         }
     }
 
+    @Override
     public void logSevere(String msg, Throwable t) {
         if (t == null) {
             log(ERROR, msg);
@@ -1452,6 +1451,7 @@ public class Logger implements LoggerWrapper {
         }
     }
 
+    @Override
     public void logFine(String msg, Throwable t) {
         if (t == null) {
             log(DEBUG, msg);
@@ -1460,6 +1460,7 @@ public class Logger implements LoggerWrapper {
         }
     }
 
+    @Override
     public void logFinest(String msg, Throwable t) {
         if (t == null) {
             log(DEBUGHIGH, msg);
@@ -1468,17 +1469,19 @@ public class Logger implements LoggerWrapper {
         }
     }
 
+    @Override
     public boolean isFineLoggable() {
         return (getLevel() <= Logger.DEBUG);
     }
 
+    @Override
     public boolean isFinestLoggable() {
         return (getLevel() <= Logger.DEBUGHIGH);
     }
 }
 
 class JMSLogManager extends LogManager {
-    private static JMSLogManager manager = new JMSLogManager();;
+    private static JMSLogManager manager = new JMSLogManager();
 
     protected JMSLogManager() {
         super();
@@ -1503,6 +1506,10 @@ class LogRecord {
 }
 
 final class ForceLogLevel extends Level {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4240388699161654518L;
     private static String defaultBundle = "sun.util.logging.resources.logging";
     public static final Level FORCE = new ForceLogLevel("FORCE", 1100, defaultBundle);
 

@@ -61,12 +61,14 @@ public class AdminCmdHandler {
             cause = t.getCause();
         }
 
-        if (cause == null)
+        if (cause == null) {
             return m;
+        }
 
         String cm = cause.getMessage();
-        if (cm == null)
+        if (cm == null) {
             return m;
+        }
 
         return (m + "\n" + cm);
     }

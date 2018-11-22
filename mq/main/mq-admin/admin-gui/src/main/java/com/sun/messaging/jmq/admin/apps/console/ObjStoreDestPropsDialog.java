@@ -56,6 +56,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5466205374729580034L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private static String okcancel[] = { "OK", "Cancel" };
@@ -66,6 +70,7 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
         setHelpId(ConsoleHelpID.DEST_OBJECT_PROPS);
     }
 
+    @Override
     public void doOK() {
         Object object = osDestCObj.getObject();
 
@@ -84,8 +89,9 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
                         acr.getString(acr.I_OBJSTORE_DEST_PROPS) + ": " + acr.getString(acr.I_WARNING_CODE, acr.W_INCOMPATIBLE_OBJ), JOptionPane.YES_NO_OPTION,
                         JOptionPane.WARNING_MESSAGE, null, okcancel, okcancel[1]);
 
-                if (response == JOptionPane.NO_OPTION)
+                if (response == JOptionPane.NO_OPTION) {
                     return;
+                }
             }
         }
 
@@ -110,10 +116,10 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
 
         if (destLabel.getText().equals(acr.getString(acr.I_QUEUE))) {
             type = ObjAdminEvent.QUEUE;
-            tempObj = (AdministeredObject) new com.sun.messaging.Queue();
+            tempObj = new com.sun.messaging.Queue();
         } else if (destLabel.getText().equals(acr.getString(acr.I_TOPIC))) {
             type = ObjAdminEvent.TOPIC;
-            tempObj = (AdministeredObject) new com.sun.messaging.Topic();
+            tempObj = new com.sun.messaging.Topic();
         }
 
         /*
@@ -143,31 +149,38 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
         oae.setObjStore(os);
         oae.setDestinationType(type);
         oae.setObjProperties(props);
-        if (checkBox.isSelected())
+        if (checkBox.isSelected()) {
             oae.setReadOnly(true);
-        else
+        } else {
             oae.setReadOnly(false);
+        }
         oae.setOKAction(true);
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void show() {
     }
 
@@ -181,10 +194,11 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
         lookupLabel.setText(osDestCObj.getLookupName());
 
         Object object = osDestCObj.getObject();
-        if (object instanceof com.sun.messaging.Queue)
+        if (object instanceof com.sun.messaging.Queue) {
             destLabel.setText(acr.getString(acr.I_QUEUE));
-        else
+        } else {
             destLabel.setText(acr.getString(acr.I_TOPIC));
+        }
 
         //
         // Create a temp object and set its default values in the
@@ -204,16 +218,18 @@ public class ObjStoreDestPropsDialog extends ObjStoreDestDialog {
         //
         // Set Read-only field.
         //
-        if (adminObj.isReadOnly())
+        if (adminObj.isReadOnly()) {
             checkBox.setSelected(true);
-        else
+        } else {
             checkBox.setSelected(false);
+        }
 
         /*
          * Set focus to first text item.
          */
-        if (props.size() > 0)
+        if (props.size() > 0) {
             textItems[0].requestFocus();
+        }
 
         super.show();
     }

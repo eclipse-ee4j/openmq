@@ -28,6 +28,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class ConflictException extends BrokerException {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -3128851948331097410L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

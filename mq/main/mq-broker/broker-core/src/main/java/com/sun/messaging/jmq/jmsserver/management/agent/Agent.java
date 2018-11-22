@@ -23,8 +23,6 @@ package com.sun.messaging.jmq.jmsserver.management.agent;
 import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Iterator;
-import java.util.Vector;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -36,21 +34,14 @@ import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import javax.management.*;
-import javax.management.remote.*;
 import javax.management.loading.MLet;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.management.mbeans.*;
 import com.sun.messaging.jmq.jmsserver.management.util.*;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.UID;
@@ -58,7 +49,6 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetClusterHandler;
 
 import com.sun.messaging.jms.management.server.*;
-import com.sun.messaging.jmq.jmsserver.management.mbeans.*;
 
 /**
  * The Main class for the broker JMX Agent.
@@ -998,80 +988,80 @@ public class Agent {
 
     /*
      * public void notifyConsumerCreate(ConsumerUID cid) { ObjectName o = null; long id;
-     * 
+     *
      * if (cid == null) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_PROBLEM,
      * ConsumerNotification.CONSUMER_CREATE)); logger.log(Logger.WARNING, rb.W_JMX_CONSUMER_ID_NULL); return; }
-     * 
+     *
      * id = cid.longValue();
-     * 
+     *
      * if (conMgrMon != null) { conMgrMon.notifyConsumerCreate(id); }
-     * 
+     *
      * ConnectionUID cxnId = ConsumerUtil.getConnectionUID(cid); if (cxnId != null) { try { o =
      * MQObjectName.createConnectionMonitor(Long.toString(cxnId.longValue())); ConnectionMonitor cm =
      * (ConnectionMonitor)getMBean(o); if (cm != null) { cm.notifyConsumerCreate(id); } } catch (Exception e) {
      * logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ConsumerNotification.CONSUMER_CREATE, o+"["+cxnId+"]"), e); } }
-     * 
+     *
      * Destination d = ConsumerUtil.getDestination(cid); if (d != null) { try { o = DestinationUtil.getMonitorObjectName(d);
      * DestinationMonitor dm = (DestinationMonitor)getMBean(o); if (dm != null) { dm.notifyConsumerCreate(id); } } catch
      * (Exception e) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ConsumerNotification.CONSUMER_CREATE, o+"["+d+"]"), e); } } }
-     * 
+     *
      * public void notifyConsumerDestroy(ConsumerUID cid) { ObjectName o = null; long id;
-     * 
+     *
      * if (cid == null) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_PROBLEM,
      * ConsumerNotification.CONSUMER_DESTROY)); logger.log(Logger.WARNING, rb.W_JMX_CONSUMER_ID_NULL); return; }
-     * 
+     *
      * id = cid.longValue();
-     * 
+     *
      * if (conMgrMon != null) { conMgrMon.notifyConsumerDestroy(id); }
-     * 
+     *
      * ConnectionUID cxnId = ConsumerUtil.getConnectionUID(cid); if (cxnId != null) { try { o =
      * MQObjectName.createConnectionMonitor(Long.toString(cxnId.longValue())); ConnectionMonitor cm =
      * (ConnectionMonitor)getMBean(o); if (cm != null) { cm.notifyConsumerDestroy(id); } } catch (Exception e) {
      * logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ConsumerNotification.CONSUMER_DESTROY, o+"["+cxnId+"]"), e); } }
-     * 
+     *
      * Destination d = ConsumerUtil.getDestination(cid); if (d != null) { try { o = DestinationUtil.getMonitorObjectName(d);
      * DestinationMonitor dm = (DestinationMonitor)getMBean(o); if (dm != null) { dm.notifyConsumerDestroy(id); } } catch
      * (Exception e) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ConsumerNotification.CONSUMER_DESTROY, o+"["+d+"]"), e); } } }
-     * 
+     *
      * public void notifyProducerCreate(ProducerUID pid) { ObjectName o = null; long id;
-     * 
+     *
      * if (pid == null) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_PROBLEM,
      * ProducerNotification.PRODUCER_CREATE)); logger.log(Logger.WARNING, rb.W_JMX_PRODUCER_ID_NULL); return; }
-     * 
+     *
      * id = pid.longValue();
-     * 
+     *
      * if (prdMgrMon != null) { prdMgrMon.notifyProducerCreate(id); }
-     * 
+     *
      * ConnectionUID cxnId = ProducerUtil.getConnectionUID(pid); if (cxnId != null) { try { o =
      * MQObjectName.createConnectionMonitor(Long.toString(cxnId.longValue())); ConnectionMonitor cm =
      * (ConnectionMonitor)getMBean(o); if (cm != null) { cm.notifyProducerCreate(id); } } catch (Exception e) {
      * logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ProducerNotification.PRODUCER_CREATE, o+"["+cxnId+"]"), e); } }
-     * 
+     *
      * Destination d = ProducerUtil.getDestination(pid); if (d != null) { try { o = DestinationUtil.getMonitorObjectName(d);
      * DestinationMonitor dm = (DestinationMonitor)getMBean(o); if (dm != null) { dm.notifyProducerCreate(id); } } catch
      * (Exception e) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ProducerNotification.PRODUCER_CREATE, o+"["+cxnId+"]"), e); } } }
-     * 
+     *
      * public void notifyProducerDestroy(ProducerUID pid) { ObjectName o = null; long id;
-     * 
+     *
      * if (pid == null) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_PROBLEM,
      * ProducerNotification.PRODUCER_DESTROY)); logger.log(Logger.WARNING, rb.W_JMX_PRODUCER_ID_NULL); return; }
-     * 
+     *
      * id = pid.longValue();
-     * 
+     *
      * if (prdMgrMon != null) { prdMgrMon.notifyProducerDestroy(id); }
-     * 
+     *
      * ConnectionUID cxnId = ProducerUtil.getConnectionUID(pid); if (cxnId != null) { try { o =
      * MQObjectName.createConnectionMonitor(Long.toString(cxnId.longValue())); ConnectionMonitor cm =
      * (ConnectionMonitor)getMBean(o); if (cm != null) { cm.notifyProducerDestroy(id); } } catch (Exception e) {
      * logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
      * ProducerNotification.PRODUCER_DESTROY, o+"["+cxnId+"]"), e); } }
-     * 
+     *
      * Destination d = ProducerUtil.getDestination(pid); if (d != null) { try { o = DestinationUtil.getMonitorObjectName(d);
      * DestinationMonitor dm = (DestinationMonitor)getMBean(o); if (dm != null) { dm.notifyProducerDestroy(id); } } catch
      * (Exception e) { logger.log(Logger.WARNING, rb.getString(rb.W_JMX_SEND_NOTIFICATION_FROM_MBEAN_EXCEPTION,
@@ -1452,36 +1442,40 @@ public class Agent {
          * @param name the name of the changed property
          * @param value the new value of the changed property
          */
+        @Override
         public void clusterPropertyChanged(String name, String value) {
             // we dont care
         }
 
         /**
          * Called when a new broker has been added.
-         * 
+         *
          * @param brokerSession uid associated with the added broker
          * @param broker the new broker added.
          */
+        @Override
         public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
             // we dont care
         }
 
         /**
          * Called when a broker has been removed.
-         * 
+         *
          * @param broker the broker removed.
          * @param brokerSession uid associated with the removed broker
          */
+        @Override
         public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
             // we dont care
         }
 
         /**
          * Called when the broker who is the master broker changes (because of a reload properties).
-         * 
+         *
          * @param oldMaster the previous master broker.
          * @param newMaster the new master broker.
          */
+        @Override
         public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
             // we dont care
         }
@@ -1489,13 +1483,14 @@ public class Agent {
         /**
          * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
          * status for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldStatus the previous status.
          * @param brokerSession uid associated with the change
          * @param newStatus the new status.
          * @param userData data associated with the state change
          */
+        @Override
         public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
             /*
              * System.err.println("### BrokerStatusChanged"); System.err.println("\tbrokerid: " + brokerid);
@@ -1520,11 +1515,12 @@ public class Agent {
         /**
          * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
          * for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldState the previous state.
          * @param newState the new state.
          */
+        @Override
         public void brokerStateChanged(String brokerid, com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState oldState,
                 com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState newState) {
             if (!Globals.getHAEnabled()) {
@@ -1595,11 +1591,12 @@ public class Agent {
         /**
          * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
          * version for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param oldVersion the previous version.
          * @param newVersion the new version.
          */
+        @Override
         public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
             // we dont care
         }
@@ -1607,11 +1604,12 @@ public class Agent {
         /**
          * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
          * the address for this specific broker.
-         * 
+         *
          * @param brokerid the name of the broker updated.
          * @param newAddress the previous address.
          * @param oldAddress the new address.
          */
+        @Override
         public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
             // we dont care
         }

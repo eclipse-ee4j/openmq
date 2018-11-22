@@ -27,7 +27,7 @@ package com.sun.messaging.jmq.util.lists;
 public interface EventBroadcaster {
     /**
      * Request notification when the specific event occurs.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
@@ -38,7 +38,7 @@ public interface EventBroadcaster {
 
     /**
      * Request notification when the specific event occurs AND the reason matched the passed in reason.
-     * 
+     *
      * @param listener object to notify when the event occurs
      * @param type event which must occur for notification
      * @param userData optional data queued with the notification
@@ -50,7 +50,7 @@ public interface EventBroadcaster {
 
     /**
      * remove the listener registered with the passed in id.
-     * 
+     *
      * @return the listener callback which was removed
      */
     public Object removeEventListener(Object id);

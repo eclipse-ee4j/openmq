@@ -30,10 +30,12 @@ public class FirstInfoHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         handle(sender, pkt);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         logger.log(logger.WARNING, "Unexpected " + ProtocolGlobals.getPacketTypeDisplayString(pkt.getType()) + " packet received");
     }

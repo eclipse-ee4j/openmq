@@ -22,24 +22,19 @@ package com.sun.messaging.jmq.jmsserver.service;
 
 import java.io.*;
 import java.net.*;
-import java.nio.charset.Charset;
 import java.nio.channels.SocketChannel;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.Enumeration;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.atomic.AtomicInteger;
-import javax.net.ServerSocketFactory;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.io.PortMapperTable;
@@ -205,8 +200,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     public void destroy() {
         running = false;
         try {
-            if (serverSocket != null)
+            if (serverSocket != null) {
                 serverSocket.close();
+            }
         } catch (IOException ex) {
             logger.logStack(Logger.INFO, "Error closing portmapper", ex);
         }
@@ -233,29 +229,29 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         doBind = params.getBooleanProperty(PortMapper.BIND_PROPERTY, true);
 
         // Hostname must be configured next
-        String value = (String) params.getProperty(HOSTNAME_PROPERTY);
+        String value = params.getProperty(HOSTNAME_PROPERTY);
         if (value == null || value.trim().length() == 0) {
             // If portmapper specific hostname is not set, check imq.hostname
-            value = (String) params.getProperty(IMQHOSTNAME_PROPERTY);
+            value = params.getProperty(IMQHOSTNAME_PROPERTY);
         }
         validate(HOSTNAME_PROPERTY, value);
         update(HOSTNAME_PROPERTY, value, true);
 
-        value = (String) params.getProperty(PORT_PROPERTY);
+        value = params.getProperty(PORT_PROPERTY);
         validate(PORT_PROPERTY, value);
         update(PORT_PROPERTY, value, true);
 
-        value = (String) params.getProperty(BACKLOG_PROPERTY);
+        value = params.getProperty(BACKLOG_PROPERTY);
         validate(BACKLOG_PROPERTY, value);
         update(BACKLOG_PROPERTY, value, true);
 
-        value = (String) params.getProperty(SOTIMEOUT_PROPERTY);
+        value = params.getProperty(SOTIMEOUT_PROPERTY);
         if (value != null) {
             validate(SOTIMEOUT_PROPERTY, value);
             update(SOTIMEOUT_PROPERTY, value, true);
         }
 
-        value = (String) params.getProperty(SOLINGER_PROPERTY);
+        value = params.getProperty(SOLINGER_PROPERTY);
         if (value != null) {
             validate(SOLINGER_PROPERTY, value);
             update(SOLINGER_PROPERTY, value, true);
@@ -350,8 +346,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         try {
             if (Globals.isConfigForCluster()) {
                 String hn = hostname;
-                if (hn.equals("localhost"))
+                if (hn.equals("localhost")) {
                     hn = null;
+                }
                 this.bindAddr = BrokerMQAddress.resolveBindAddress(hn, true);
                 mqaddr = MQAddress.getMQAddress(this.bindAddr.getHostAddress(), getPort());
             } else {
@@ -473,7 +470,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
     /**
      * update the port for a service
-     * 
+     *
      * @param name Name of service
      * @param port Port service is runningon
      */
@@ -487,7 +484,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
     /**
      * update the service properties
-     * 
+     *
      * @param name Name of service
      * @param props Properties for a service
      */
@@ -523,6 +520,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         return portMapTable.getServices();
     }
 
+    @Override
     public synchronized String toString() {
         return portMapTable.toString();
     }
@@ -614,6 +612,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         return serverSocket;
     }
 
+    @Override
     public void run() {
         int restartCode = BrokerStateHandler.getRestartCode();
         String restartOOMsg = rb.getKString(rb.M_LOW_MEMORY_PORTMAPPER_RESTART);
@@ -652,8 +651,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                         // prevents us from a tight loop.
                         sleep(1);
                     } else {
-                        if (!running)
+                        if (!running) {
                             break;
+                        }
                         // Serversocket was closed. Should be because something
                         // like the port number has changed. Try to recreate
                         // the server socket.
@@ -662,8 +662,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                             serverSocket.close();
                         } catch (IOException ioe) {
                         } catch (NullPointerException ioe) {
-                            if (!running)
+                            if (!running) {
                                 break;
+                            }
                         }
                         serverSocket = createPortMapperServerSocket(this.port, this.bindAddr);
                     }
@@ -673,8 +674,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                     sleep(1);
                     continue;
                 } catch (OutOfMemoryError e) {
-                    if (!running)
+                    if (!running) {
                         break;
+                    }
                     if (firstpass) {
                         firstpass = false;
                         Globals.handleGlobalError(e, acceptOOMsg);
@@ -692,6 +694,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
                 final Socket s = connection;
                 threadPool.execute(new Runnable() {
+                    @Override
                     public void run() {
                         handleSocket(s);
                     }
@@ -705,10 +708,12 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         } finally {
             try {
                 try {
-                    if (connection != null)
+                    if (connection != null) {
                         connection.close();
-                    if (serverSocket != null)
+                    }
+                    if (serverSocket != null) {
                         serverSocket.close();
+                    }
                 } catch (IOException e) {
                 }
 
@@ -716,8 +721,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                     logger.log(Logger.ERROR, restartOOMsg);
                     Broker.getBroker().exit(restartCode, restartOOMsg, BrokerEvent.Type.RESTART, null, false, false, true);
                 }
-                if (running)
+                if (running) {
                     logger.log(Logger.INFO, rb.M_PORTMAPPER_EXITING);
+                }
             } catch (OutOfMemoryError e) {
                 if (running) {
                     Broker.getBroker().exit(restartCode, restartOOMsg, BrokerEvent.Type.RESTART, null, false, false, true);
@@ -728,10 +734,10 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
     /**
      * Process a newly-connected PortMapper client and then close the socket
-     * 
+     *
      * This method takes a Socket and is intended to be called by this class's run() loop after the incoming connection has
      * been accepted and the new socket created
-     * 
+     *
      * @param socket the newly-connected PortMapper client
      */
     public void handleSocket(Socket socket) {
@@ -781,7 +787,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
                 int n = 0;
                 while (readLineWithLimit(br) != null) {
                     if (++n >= 5)
+                     {
                         break; // Don't read forever
+                    }
                 }
             } catch (SocketTimeoutException e) {
                 // Client did not close socket before sotimeout
@@ -792,8 +800,9 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
             InetAddress ia = socket.getInetAddress();
             logger.logStack(Logger.WARNING, rb.E_PORTMAPPER_EXCEPTION, ia.getHostAddress(), e);
         } catch (OutOfMemoryError e) {
-            if (!running)
+            if (!running) {
                 return;
+            }
             try {
                 socket.close();
             } catch (Throwable t) {
@@ -810,6 +819,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     }
 
     private static class MyThreadFactory implements ThreadFactory {
+        @Override
         public Thread newThread(Runnable r) {
             Thread t = new Thread(r);
             t.setName(SERVICE_NAME + "-" + threadCount.incrementAndGet());
@@ -845,19 +855,22 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
 
     /**
      * Process a newly-connected PortMapper client and then close the socket
-     * 
+     *
      * This method takes a SocketChannel and is intended to be called by an external proxy which has accepted the connection
      * for us and created the new socket
-     * 
+     *
      * @param clientSocketChannel the newly-connected PortMapper client
      */
+    @Override
     public void handleRequest(SocketChannel clientSocketChannel) {
-        if (doBind)
+        if (doBind) {
             throw new IllegalStateException("Should not call PortMapper.handleRequest() unless Broker has been started with the -noBind argument");
+        }
 
         handleSocket(clientSocketChannel.socket());
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
 
         if (!name.equals(PORT_PROPERTY) && !name.equals(BACKLOG_PROPERTY) && !name.equals(SOLINGER_PROPERTY) && !name.equals(HOSTNAME_PROPERTY)
@@ -906,6 +919,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         }
     }
 
+    @Override
     public boolean update(String name, String value) {
         return update(name, value, false);
     }
@@ -968,7 +982,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     /**
      * Return whether the portmapper should bind to the portmapper port, or whether some other component will do that on our
      * behalf
-     * 
+     *
      * @return
      */
     public boolean isDoBind() {
@@ -978,6 +992,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
     /*******************************************************
      * Implement PUServiceCallback interface
      ********************************************************************/
+    @Override
     public boolean allowConnection(InetSocketAddress sa, boolean ssl) {
         if (DEBUG) {
             logger.log(logger.INFO, "PortMapper.alllowConnection(" + sa + ", " + ssl + "), sslEnabled=" + sslEnabled + ",  allowedHosts=" + allowedHosts
@@ -1016,10 +1031,12 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         return false;
     }
 
+    @Override
     public void logInfo(String msg) {
         logger.log(Logger.INFO, msg);
     }
 
+    @Override
     public void logWarn(String msg, Throwable e) {
         if (e != null) {
             logger.logStack(Logger.WARNING, msg, e);
@@ -1028,6 +1045,7 @@ public class PortMapper implements Runnable, ConfigListener, PortMapperClientHan
         }
     }
 
+    @Override
     public void logError(String msg, Throwable e) {
         logger.logStack(Logger.ERROR, msg, e);
     }

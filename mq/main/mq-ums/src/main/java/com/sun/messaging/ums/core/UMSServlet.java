@@ -65,56 +65,61 @@ import javax.xml.soap.MimeHeader;
 import javax.xml.soap.SOAPConstants;
 
 /**
- * 
+ *
  * The entry class for UMS services.
- * 
+ *
  * The configurations are defined in web.xml for thi servlet.
- * 
+ *
  * <servlet> <servlet-name>UMS</servlet-name> <servlet-class> com.sun.messaging.ums.core.UMSServlet </servlet-class>
- * 
+ *
  * <!-- set openmq broker address --> <!-- <init-param> <param-name>imqAddressList</param-name>
  * <param-value>localhost</param-value> </init-param> -->
- * 
- * 
+ *
+ *
  * <!-- provider registeration --> <!-- mom.provider.num-->
- * 
+ *
  * <!-- <init-param> <param-name>mom.provider.1</param-name> <param-value>jmsgrid</param-value> </init-param> -->
- * 
+ *
  * <!-- <init-param> <param-name>mom.provider.0</param-name> <param-value>openmq</param-value> </init-param> -->
- * 
+ *
  * <!-- provider factory class registration, not used in first release --> <!-- <init-param>
  * <param-name>mom.jmsgrid.providerFactory</param-name>
  * <param-value>com.sun.messaging.ums.jmsgrid.ProviderFactory</param-value> </init-param>
- * 
+ *
  * <init-param> <param-name>mom.openmq.providerFactory</param-name>
  * <param-value>com.sun.messaging.ums.openmq.ProviderFactory</param-value> </init-param> -->
- * 
+ *
  * <!-- jms grid daemon host configuration, not used in first release <init-param> <param-name>grid.host</param-name>
  * <param-value>niagra2</param-value> </init-param> -->
- * 
+ *
  * <!-- authenticate with JMS server --> <!-- applications must provide user/pass for JMS server if set to true -->
  * <init-param> <param-name>ums.service.authenticate</param-name> <param-value>false</param-value> </init-param>
- * 
+ *
  * <!-- applications must encode password with base64 encoding if set to true --> <init-param>
  * <param-name>ums.service.authenticate.basic</param-name> <param-value>false</param-value> </init-param>
- * 
+ *
  * <!-- user name for UMS to authenticate with JMS Server --> <init-param> <param-name>ums.user.name</param-name>
  * <param-value>guest</param-value> </init-param>
- * 
+ *
  * <!-- password for ums to authenticate with JMS server --> <init-param> <param-name>ums.password</param-name>
  * <param-value>guest</param-value> </init-param>
- * 
+ *
  * </servlet>
- * 
+ *
  * <!-- simple messaging service url --> <servlet-mapping> <servlet-name>UMS</servlet-name>
  * <url-pattern>/simple</url-pattern> </servlet-mapping>
- * 
+ *
  * <!-- xml messaging service url --> <servlet-mapping> <servlet-name>UMS</servlet-name> <url-pattern>/xml</url-pattern>
  * </servlet-mapping>
- * 
+ *
  * @author chiaming
  */
 public class UMSServlet extends HttpServlet {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4081749530307386156L;
 
     /**
      * message factory to be used to construct soap message.
@@ -214,7 +219,7 @@ public class UMSServlet extends HttpServlet {
     private static final String CONTENT_TYPE = "Content-Type";
 
     /**
-     * 
+     *
      */
     private static final String TEXT_XML = "text/xml";
 
@@ -266,6 +271,7 @@ public class UMSServlet extends HttpServlet {
     /**
      * init message factory and soap intermediate object.
      */
+    @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
 
@@ -324,7 +330,7 @@ public class UMSServlet extends HttpServlet {
 
         while (enum2.hasMoreElements()) {
             String pname = (String) enum2.nextElement();
-            String pvalue = (String) servletConfig.getInitParameter(pname);
+            String pvalue = servletConfig.getInitParameter(pname);
 
             props.put(pname, pvalue);
         }
@@ -405,13 +411,13 @@ public class UMSServlet extends HttpServlet {
 
             /**
              * destination service
-             * 
+             *
              */
             DestinationService.init(props);
 
             /**
              * broker info service
-             * 
+             *
              */
             BrokerInfoService.init(props);
 
@@ -436,6 +442,7 @@ public class UMSServlet extends HttpServlet {
         serviceContext = new UMSServiceContext(props);
     }
 
+    @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         // this.doSimpleMessaging(req, resp);
         this.doReadOnlyService(req, resp);
@@ -443,7 +450,7 @@ public class UMSServlet extends HttpServlet {
 
     /**
      * The features are not yet ready for public use yet. XXX
-     * 
+     *
      * @param req
      * @param resp
      * @throws javax.servlet.ServletException
@@ -543,6 +550,7 @@ public class UMSServlet extends HttpServlet {
         }
     }
 
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         String uri = req.getServletPath();
@@ -568,12 +576,12 @@ public class UMSServlet extends HttpServlet {
     /**
      * Send/Receive a simple text message. Default domain is queue. To specify domain, add domain=queue/topic in the query
      * string.
-     * 
+     *
      * Example:
-     * 
+     *
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=receive&destination=testQ
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=send&destination=testQ&text=myMessage
-     * 
+     *
      * @param req
      * @param resp
      * @throws javax.servlet.ServletException
@@ -888,8 +896,9 @@ public class UMSServlet extends HttpServlet {
             String headerValue = req.getHeader(headerName);
 
             StringTokenizer values = new StringTokenizer(headerValue, ",");
-            while (values.hasMoreTokens())
+            while (values.hasMoreTokens()) {
                 headers.addHeader(headerName, values.nextToken().trim());
+            }
         }
 
         return headers;
@@ -1092,6 +1101,7 @@ public class UMSServlet extends HttpServlet {
     /**
      * destroy this servlet.
      */
+    @Override
     public void destroy() {
         mqService.close();
     }
@@ -1099,12 +1109,12 @@ public class UMSServlet extends HttpServlet {
     /**
      * Send/Receive a simple text message. Default domain is queue. To specify domain, add domain=queue/topic in the query
      * string.
-     * 
+     *
      * Example:
-     * 
+     *
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=receive&destination=testQ
      * http://host:port/xmlprotocol/service?clientId=chiaming&service=send&destination=testQ&text=myMessage
-     * 
+     *
      * @param req
      * @param resp
      * @throws javax.servlet.ServletException
@@ -1113,105 +1123,105 @@ public class UMSServlet extends HttpServlet {
 
     /**
      * public void doGetOld(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-     * 
+     *
      * String respMsg = null;
-     * 
+     *
      * int status = resp.SC_BAD_REQUEST;
-     * 
+     *
      * boolean isSend = false; boolean isReceive = false; boolean isAdmin = false; boolean isLogin = false; boolean isClose
      * = false;
-     * 
+     *
      * boolean isValidRequest = true;
-     * 
+     *
      * boolean isTopic = false;
-     * 
+     *
      * String separator = ",";
-     * 
+     *
      * //check the query string String clientId = req.getParameter(Constants.CLIENT_ID); String domain =
      * req.getParameter(Constants.DOMAIN); if (Constants.TOPIC_DOMAIN.equals(domain)) { isTopic = true; }
-     * 
+     *
      * String destName = req.getParameter(Constants.DESTINATION_NAME);
-     * 
+     *
      * String service = req.getParameter(Constants.SERVICE_NAME);
-     * 
+     *
      * if (Constants.SERVICE_VALUE_SEND_MESSAGE.equals(service)) { isSend = true; } else if
      * (Constants.SERVICE_VALUE_RECEIVE_MESSAGE.equals(service)) { isReceive = true; } else if
      * (Constants.SERVICE_VALUE_LOGIN.equals(service)) { isLogin = true; } else if
      * (Constants.SERVICE_VALUE_CLOSE.equals(service)) { isClose = true; } else if ("admin".equals(service)) { isAdmin =
      * true; } else { isValidRequest = false; }
-     * 
+     *
      * try {
-     * 
+     *
      * //logger.info("request servlet path=" + req.getServletPath());
-     * 
+     *
      * if (isValidRequest == false) {
-     * 
+     *
      * status = resp.SC_BAD_REQUEST; //throw exception respMsg = "Invalid query string., Usage:
      * http://hostport/service?clientId=ID&destination=destName";
-     * 
+     *
      * } else {
-     * 
+     *
      * Map map = req.getParameterMap();
-     * 
+     *
      * separator = req.getParameter(Constants.HTTP_GET_RESPONSE_SEPARATOR); if (separator ==null) { separator =
      * Constants.HTTP_GET_RESPONSE_SEPARATOR_DEFAULT_VALUE; }
-     * 
+     *
      * if (isSend) {
-     * 
+     *
      * String text = req.getParameter(Constants.HTTP_GET_SEND_TEXT);
-     * 
+     *
      * this.JMSService.sendText(clientId, isTopic, destName, text, map);
-     * 
+     *
      * respMsg = SERVICE + service + separator + DESTINATION + destName + separator + DOMAIN + getDomain (isTopic) +
      * separator + MESSAGE + text;
-     * 
+     *
      * } else if (isReceive) {
-     * 
+     *
      * long timeout = this.getServiceTimeout(req);
-     * 
+     *
      * //receive message String text = this.JMSService.receiveText(clientId, destName, isTopic, timeout, map);
-     * 
+     *
      * respMsg = SERVICE + service + separator + DESTINATION + destName + separator + DOMAIN + getDomain (isTopic) +
      * separator + MESSAGE + text;
-     * 
+     *
      * } else if (isLogin) {
-     * 
+     *
      * String uuid = this.JMSService.authenticate(map);
-     * 
+     *
      * respMsg = SERVICE + service + separator + UUID + uuid; } else if (isClose) {
-     * 
+     *
      * String sid = this.JMSService.closeClient2 (map);
-     * 
+     *
      * respMsg = SERVICE + service + separator + UUID + sid;
-     * 
+     *
      * } else if (isAdmin) {
-     * 
+     *
      * String flag = req.getParameter(ADMIN_DEBUG);
-     * 
+     *
      * boolean debug = Boolean.valueOf(flag).booleanValue();
-     * 
+     *
      * MQServiceImpl.debug = debug;
-     * 
+     *
      * respMsg = SERVICE + service + separator + ADMIN_DEBUG + "=" + debug; }
-     * 
+     *
      * status = resp.SC_OK; }
-     * 
+     *
      * } catch (Exception e) {
-     * 
+     *
      * throw new ServletException (e);
-     * 
+     *
      * }
-     * 
+     *
      * resp.setStatus(status);
-     * 
+     *
      * resp.setHeader ("Content-Type", "text/plain");
-     * 
+     *
      * OutputStream os = resp.getOutputStream();
-     * 
+     *
      * PrintWriter pw = new PrintWriter (os);
-     * 
+     *
      * pw.println(respMsg);
-     * 
+     *
      * pw.close(); }
      **/
 

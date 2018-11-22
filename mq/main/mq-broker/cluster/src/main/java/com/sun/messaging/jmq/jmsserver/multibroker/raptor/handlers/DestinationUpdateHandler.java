@@ -20,10 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
 import java.util.Hashtable;
 import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -38,6 +36,7 @@ public class DestinationUpdateHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_UPDATE_DESTINATION) {
             handleUpdateDestination(cb, sender, pkt);

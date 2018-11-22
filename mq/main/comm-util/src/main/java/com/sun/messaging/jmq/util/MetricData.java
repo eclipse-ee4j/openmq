@@ -29,6 +29,10 @@ import com.sun.messaging.jmq.util.MetricCounters;
 
 public class MetricData implements Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2945599923640322420L;
     public MetricCounters totals = null;
     public MetricCounters rates = null;
 
@@ -69,6 +73,7 @@ public class MetricData implements Serializable {
         rates.update(counters);
     }
 
+    @Override
     public String toString() {
         String s =
 

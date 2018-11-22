@@ -25,14 +25,11 @@ import java.net.MalformedURLException;
 import java.net.UnknownHostException;
 
 import com.sun.messaging.jmq.io.MQAddress;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
-import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.BrokerInfo;
@@ -40,9 +37,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import org.jvnet.hk2.annotations.Service;
 import javax.inject.Singleton;
-
-// XXX FOR TEST CLASS
-import java.io.*;
 
 /**
  * This class extends ClusterManagerImpl and is used to obtain and distribute cluster information in an HA cluster.
@@ -66,9 +60,11 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      * @throws RuntimeException if called before the cluster has been initialized by calling ClusterManager.setMQAddress
      * @see ClusterManager#setMQAddress
      */
+    @Override
     public boolean isHA() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return false;
     }
@@ -77,9 +73,11 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      * Reload the cluster properties from config
      *
      */
+    @Override
     public void reloadConfig() throws BrokerException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         String[] props = { CLUSTERURL_PROPERTY };
         config.reloadProps(Globals.getConfigName(), props, false);
@@ -93,6 +91,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      * @see ClusterManager#setMQAddress
      * @throws BrokerException if something goes wrong during intialzation
      */
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
         logger.log(Logger.DEBUG, "initializingCluster at " + address);
 
@@ -109,6 +108,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return url;
     }
 
+    @Override
     public ClusteredBroker newClusteredBroker(MQAddress URL, boolean isLocal, UID sid) throws BrokerException {
         ClusteredBroker b = new RepHAClusteredBrokerImpl(this, URL, isLocal, sid);
         if (allBrokers instanceof AutoClusterBrokerMap) {
@@ -119,23 +119,27 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      * Retrieve the broker that creates the specified store session ID.
-     * 
+     *
      * @param uid store session ID
      * @return the broker ID
      */
+    @Override
     public String getStoreSessionCreator(UID uid) {
         return null;
     }
 
+    @Override
     protected ClusteredBroker updateBrokerOnActivation(ClusteredBroker broker, Object userData) {
         ((RepHAClusteredBrokerImpl) broker).setStoreSessionUID(((BrokerInfo) userData).getBrokerAddr().getStoreSessionUID());
         return broker;
     }
 
+    @Override
     protected ClusteredBroker updateBrokerOnDeactivation(ClusteredBroker broker, Object userData) {
         return broker;
     }
 
+    @Override
     public ClusteredBroker getBrokerByNodeName(String nodeName) throws BrokerException {
 
         if (!initialized) {
@@ -164,6 +168,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      *
      * @return the broker session uid (if known)
      */
+    @Override
     public UID getStoreSessionUID() {
         if (localStoreSessionUID == null) {
             localStoreSessionUID = ((RepHAClusteredBrokerImpl) getLocalBroker()).getStoreSessionUID();
@@ -176,6 +181,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      *
      * @param uid the broker's store session UID that has been taken over
      */
+    @Override
     protected void addSupportedStoreSessionUID(UID uid) {
         super.addSupportedStoreSessionUID(uid);
     }
@@ -184,6 +190,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
      * override super class methods for auto-clustering
      ***************************************************/
 
+    @Override
     protected Map initAllBrokers(MQAddress myaddr) throws BrokerException {
 
         String cstr = Globals.getConfig().getProperty(Globals.AUTOCLUSTER_BROKERMAP_CLASS_PROP);
@@ -201,6 +208,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         }
     }
 
+    @Override
     protected LinkedHashSet parseBrokerList() throws MalformedURLException, UnknownHostException {
 
         if (!(allBrokers instanceof AutoClusterBrokerMap)) {
@@ -230,6 +238,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return brokers;
     }
 
+    @Override
     public String lookupBrokerID(MQAddress address) {
 
         if (!initialized) {
@@ -247,6 +256,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.lookupBrokerID(address);
     }
 
+    @Override
     public Iterator getConfigBrokers() {
         if (allBrokers instanceof AutoClusterBrokerMap) {
             return getKnownBrokers(true);
@@ -254,6 +264,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.getConfigBrokers();
     }
 
+    @Override
     public int getConfigBrokerCount() {
         if (allBrokers instanceof AutoClusterBrokerMap) {
             return super.getKnownBrokerCount();
@@ -261,6 +272,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.getConfigBrokerCount();
     }
 
+    @Override
     public Iterator getKnownBrokers(boolean refresh) {
 
         if (!initialized) {
@@ -279,6 +291,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return super.getKnownBrokers(refresh);
     }
 
+    @Override
     public ClusteredBroker getBroker(String brokerid) {
 
         if (allBrokers instanceof AutoClusterBrokerMap) {
@@ -299,6 +312,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      */
+    @Override
     protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws NoSuchElementException, BrokerException {
 
         if (!initialized) {
@@ -343,6 +357,7 @@ public class RepHAClusterManagerImpl extends ClusterManagerImpl {
         return name;
     }
 
+    @Override
     protected void setupListeners() {
         if (allBrokers instanceof AutoClusterBrokerMap) {
             config.addListener(TRANSPORT_PROPERTY, this);

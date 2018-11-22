@@ -30,14 +30,11 @@ import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanException;
 
 import com.sun.messaging.jms.management.server.*;
-import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.MetricCounters;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.management.util.ServiceUtil;
 import com.sun.messaging.jmq.jmsserver.management.util.ConnectionUtil;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 
@@ -349,22 +346,27 @@ public class ServiceMonitor extends MQMBeanReadOnly {
         numConnectionsRejected = 0;
     }
 
+    @Override
     public String getMBeanName() {
         return ("ServiceMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_SVC_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }

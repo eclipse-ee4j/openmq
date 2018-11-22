@@ -22,14 +22,11 @@ package com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected;
 
 import java.io.*;
 import java.net.*;
-import java.util.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.LoopbackAddressException;
 import com.sun.messaging.jmq.jmsserver.util.VerifyAddressException;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
@@ -67,8 +64,9 @@ public class BrokerAddressImpl extends BrokerAddress {
         this.port = ba.getPort();
         this.instName = (instName == null) ? "???" : instName;
         this.HAEnabled = ha;
-        if (ha)
+        if (ha) {
             this.brokerID = brokerID;
+        }
         this.brokerSessionUID = null;
         this.storeSessionUID = null;
         initialize(ba);
@@ -96,6 +94,7 @@ public class BrokerAddressImpl extends BrokerAddress {
                 Globals.getClusterManager().getBrokerSessionUID(), Globals.getClusterManager().getStoreSessionUID());
     }
 
+    @Override
     public int getClusterVersion() {
         return clusterVersion;
     }
@@ -127,6 +126,7 @@ public class BrokerAddressImpl extends BrokerAddress {
         return getMQAddress().getHost().getHostAddress();
     }
 
+    @Override
     public String getInstanceName() {
         return instName;
     }
@@ -139,10 +139,12 @@ public class BrokerAddressImpl extends BrokerAddress {
         return getMQAddress().getHost();
     }
 
+    @Override
     public boolean getHAEnabled() {
         return HAEnabled;
     }
 
+    @Override
     public String getBrokerID() {
         if (Globals.isBDBStore() && !Globals.getSFSHAEnabled()) {
             try {
@@ -154,19 +156,23 @@ public class BrokerAddressImpl extends BrokerAddress {
         return brokerID;
     }
 
+    @Override
     public UID getBrokerSessionUID() {
         return brokerSessionUID;
     }
 
+    @Override
     public UID getStoreSessionUID() {
         return storeSessionUID;
     }
 
+    @Override
     public void setStoreSessionUID(UID uid) {
         storeSessionUID = uid;
     }
 
     // only to be used with readBrokerAddress
+    @Override
     public final Object clone() {
         BrokerAddressImpl copy;
         try {
@@ -180,6 +186,7 @@ public class BrokerAddressImpl extends BrokerAddress {
         return copy;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (obj == null || !(obj instanceof BrokerAddressImpl)) {
             return false;
@@ -187,24 +194,29 @@ public class BrokerAddressImpl extends BrokerAddress {
 
         BrokerAddressImpl addr = (BrokerAddressImpl) obj;
 
-        if (getHAEnabled() != addr.getHAEnabled())
+        if (getHAEnabled() != addr.getHAEnabled()) {
             return false;
+        }
 
         if (getHAEnabled()) {
-            if (this.brokerID == null || addr.getBrokerID() == null)
+            if (this.brokerID == null || addr.getBrokerID() == null) {
                 return false;
+            }
             return this.brokerID.equals(addr.getBrokerID());
         }
 
-        if (!this.instName.equals(addr.instName))
+        if (!this.instName.equals(addr.instName)) {
             return false;
+        }
 
-        if (getMQAddress().getHost() == null || addr.getMQAddress().getHost() == null)
+        if (getMQAddress().getHost() == null || addr.getMQAddress().getHost() == null) {
             return false;
+        }
 
         return getMQAddress().getHost().equals(addr.getMQAddress().getHost());
     }
 
+    @Override
     public int hashCode() {
 
         return (31 * getMQAddress().getHost().hashCode()) + instName.hashCode();
@@ -236,6 +248,7 @@ public class BrokerAddressImpl extends BrokerAddress {
     /**
      * Returns a cluster protocol formated string XXX remaining work for HA!!!
      */
+    @Override
     public String toProtocolString() {
         StringBuffer buf = new StringBuffer();
         buf.append(getMQAddress().toString());
@@ -259,9 +272,10 @@ public class BrokerAddressImpl extends BrokerAddress {
         return buf.toString();
     }
 
+    @Override
     public BrokerAddress fromProtocolString(String s) throws Exception {
         BrokerMQAddress a = BrokerMQAddress.createAddress(s);
-        String ha = (String) a.getProperty("ha");
+        String ha = a.getProperty("ha");
         boolean isha = Boolean.valueOf(ha);
         return new BrokerAddressImpl(a.getHostName(), a.getProperty("instName"), a.getPort(), isha, a.getProperty("brokerID"),
                 new UID(Long.parseLong(a.getProperty("brokerSessionUID"))),
@@ -274,12 +288,15 @@ public class BrokerAddressImpl extends BrokerAddress {
      */
     public void writeBrokerAddress(GPacket gp) {
         gp.putProp("HA", Boolean.valueOf(getHAEnabled()));
-        if (brokerID != null)
+        if (brokerID != null) {
             gp.putProp("brokerID", getBrokerID());
-        if (brokerSessionUID != null)
+        }
+        if (brokerSessionUID != null) {
             gp.putProp("brokerSession", getBrokerSessionUID().longValue());
-        if (storeSessionUID != null)
+        }
+        if (storeSessionUID != null) {
             gp.putProp("storeSession", getStoreSessionUID().longValue());
+        }
         gp.putProp("instanceName", getInstanceName());
         gp.putProp("host", getHostName());
         gp.putProp("port", Integer.valueOf(getPort()));
@@ -287,7 +304,9 @@ public class BrokerAddressImpl extends BrokerAddress {
 
     public static BrokerAddressImpl readBrokerAddress(GPacket gp) throws Exception {
         if (gp.getProp("HA") == null)
+         {
             return null; // old protocol < 400
+        }
         boolean ha = ((Boolean) gp.getProp("HA")).booleanValue();
         String brokerID = (String) gp.getProp("brokerID");
         String instName = (String) gp.getProp("instanceName");
@@ -297,14 +316,17 @@ public class BrokerAddressImpl extends BrokerAddress {
         Long storeSession = (Long) gp.getProp("storeSession");
         UID buid = null;
         UID suid = null;
-        if (brokerSession != null)
+        if (brokerSession != null) {
             buid = new UID(brokerSession.longValue());
-        if (storeSession != null)
+        }
+        if (storeSession != null) {
             suid = new UID(storeSession.longValue());
+        }
         BrokerAddressImpl ba = new BrokerAddressImpl(host, instName, port, ha, brokerID, buid, suid);
         return ba;
     }
 
+    @Override
     public void writeBrokerAddress(DataOutputStream dos) throws IOException {
         dos.writeInt(VERSION);
         dos.writeUTF(hostName);
@@ -313,10 +335,12 @@ public class BrokerAddressImpl extends BrokerAddress {
         dos.flush();
     }
 
+    @Override
     public void readBrokerAddress(DataInputStream dis) throws IOException {
         int version = dis.readInt();
-        if (version > VERSION)
+        if (version > VERSION) {
             throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "BrokerAddress version mismatch."));
+        }
         hostName = dis.readUTF();
         instName = dis.readUTF();
         port = dis.readInt();
@@ -334,6 +358,7 @@ public class BrokerAddressImpl extends BrokerAddress {
 
     }
 
+    @Override
     public String toString() {
         // Force a reverse name lookup so that
         // host.toString() output looks better.

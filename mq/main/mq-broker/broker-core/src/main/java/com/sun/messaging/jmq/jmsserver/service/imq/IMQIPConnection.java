@@ -169,11 +169,13 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             this.con = con;
         }
 
+        @Override
         public boolean cancel() {
             con = null;
             return super.cancel();
         }
 
+        @Override
         public void run() {
             con.checkConnection(state);
         }
@@ -233,8 +235,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         setConnectionState(Connection.STATE_CONNECTED);
         waitingWritePkt = new Packet(OVERRIDE_FILL_PACKET ? O_FILL_USE_DIRECT : !STREAMS);
 
-        if (!isAdminConnection() && Globals.getMemManager() != null)
+        if (!isAdminConnection() && Globals.getMemManager() != null) {
             Globals.getMemManager().registerMemoryCallback(this);
+        }
     }
 
     protected InetAddress getRemoteAddress() {
@@ -247,31 +250,37 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 // -------------------------------------------------------------------------
 //   General connection information and metrics
 // -------------------------------------------------------------------------
+    @Override
     public void dumpState() {
         super.dumpState();
 
         logger.log(Logger.INFO, "\tcontrol = " + control.size());
         logger.log(Logger.INFO, "\tread_assigned = " + read_assigned);
         logger.log(Logger.INFO, "\twrite_assigned = " + write_assigned);
-        if (ninfo != null)
+        if (ninfo != null) {
             ninfo.dumpState();
+        }
     }
 
+    @Override
     public int getLocalPort() {
-        if (ps == null)
+        if (ps == null) {
             return 0;
+        }
         return ps.getLocalPort();
     }
 
     /**
      * The debug state of this object
      */
+    @Override
     public synchronized Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("pkts[TOTAL](in,out) ", "(" + msgsIn + "," + (ctrlPktsToConsumer + msgsToConsumer) + ")");
         for (int i = 0; i < pktsIn.length; i++) {
-            if (pktsIn[i] == 0 && pktsOut[i] == 0)
+            if (pktsIn[i] == 0 && pktsOut[i] == 0) {
                 continue;
+            }
             ht.put("pkts[" + PacketType.getString(i) + "] (in,out)", "(" + pktsIn[i] + "," + pktsOut[i] + ")");
         }
         ht.put("ctrlPktsToConsumer", String.valueOf(ctrlPktsToConsumer));
@@ -286,11 +295,13 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
             ht.put("control", v);
         }
-        if (ps != null)
+        if (ps != null) {
             ht.put("transport", ps.getDebugState());
+        }
         return ht;
     }
 
+    @Override
     public Vector getDebugMessages(boolean full) {
         Vector ht = new Vector();
         synchronized (control) {
@@ -304,12 +315,14 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     }
 
+    @Override
     public ConnectionInfo getConnectionInfo() {
         coninfo = super.getConnectionInfo();
         coninfo.remPort = getRemotePort();
         return coninfo;
     }
 
+    @Override
     public boolean useDirectBuffers() {
         return (OVERRIDE_CTRL_PACKET ? O_CTRL_USE_DIRECT : !STREAMS);
         // return !STREAMS;
@@ -322,19 +335,23 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     NotificationInfo ninfo = null;
 
     public synchronized AbstractSelectableChannel getChannel() {
-        if (ps == null)
+        if (ps == null) {
             return null;
+        }
         return ps.getChannel();
     }
 
+    @Override
     public boolean canKill() {
         return !critical;
     }
 
+    @Override
     public void setCritical(boolean critical) {
         this.critical = critical;
     }
 
+    @Override
     public boolean waitUntilDestroyed(long time) {
         long targettime = System.currentTimeMillis() + time;
         while (isValid() && System.currentTimeMillis() < targettime) {
@@ -349,6 +366,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
      * called when the thread is not longer processing the operation this mask used when a thread is assigned or released,
      * which is returned from the notificationInfo object (if any)
      */
+    @Override
     public synchronized void notifyRelease(OperationRunnable runner, int events) {
         /*
          * the thread is giving us UP ...
@@ -370,6 +388,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         return;
     }
 
+    @Override
     public synchronized void waitForRelease(long timeout) {
         long waitt = 5000;
         while (read_assigned != null || write_assigned != null) {
@@ -378,8 +397,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                 return;
             }
             Globals.getLogger().log(Logger.INFO, "Waiting for runnable threads release in " + this);
-            if (timeout < waitt)
+            if (timeout < waitt) {
                 waitt = timeout;
+            }
             try {
                 wait(waitt);
             } catch (InterruptedException e) {
@@ -403,6 +423,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         return write_assigned;
     }
 
+    @Override
     public synchronized void threadAssigned(OperationRunnable runner, int events) throws IllegalAccessException {
         int release_events = 0;
         if ((events & SelectionKey.OP_WRITE) != 0) {
@@ -421,16 +442,19 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         }
 
         if (ninfo != null) {
-            if (release_events != 0)
+            if (release_events != 0) {
                 ninfo.released(this, release_events);
+            }
             ninfo.assigned(this, events);
         }
     }
 
+    @Override
     public void attach(NotificationInfo obj) {
         ninfo = obj;
     }
 
+    @Override
     public NotificationInfo attachment() {
         return ninfo;
     }
@@ -440,6 +464,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
      * " WRITE "; } if ((events & SelectionKey.OP_READ) > 0) { str += " READ "; } return str; }
      */
 
+    @Override
     public boolean process(int events, boolean wait) throws IOException {
         boolean didSomething = false;
         boolean processedLastIteration = true;
@@ -485,9 +510,11 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         return !didSomething;
     }
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -502,8 +529,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                     userset = true;
                 }
             } catch (BrokerException e) {
-                if (IMQBasicConnection.DEBUG)
+                if (IMQBasicConnection.DEBUG) {
                     logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
 
             }
         }
@@ -511,8 +539,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         remotePortString = Integer.toString(getRemotePort());
 
         String retstr = userString + "@" + IPAddress.rawIPToString(getRemoteIP(), true, true) + ":" + remotePortString;
-        if (userset)
+        if (userset) {
             remoteConString = retstr;
+        }
         return retstr;
     }
 
@@ -522,9 +551,11 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     String localsvcstring = null;
 
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         String localPortString = "???";
         localPortString = Integer.toString(getLocalPort());
         localsvcstring = service.getName() + ":" + localPortString;
@@ -535,6 +566,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 //   Basic Connection Management
 // -------------------------------------------------------------------------
 
+    @Override
     public synchronized void closeConnection(boolean force, int reason, String reasonStr) {
 
         if (state >= Connection.STATE_CLOSED) {
@@ -543,8 +575,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         }
 
         stopConnection();
-        if (Globals.getMemManager() != null)
+        if (Globals.getMemManager() != null) {
             Globals.getMemManager().removeMemoryCallback(this);
+        }
         if (force) { // we are shutting it down, say goodbye
             sayGoodbye(false, reason, reasonStr);
             flushControl(1000);
@@ -559,8 +592,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         cleanup(reason == GoodbyeReason.SHUTDOWN_BKR);
         // OK - we are done with the flush, we dont need to be
         // notified anymore
-        if (ninfo != null)
+        if (ninfo != null) {
             ninfo.destroy(reasonStr);
+        }
 
         try {
             closeProtocolStream();
@@ -584,11 +618,13 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         ps = null;
     }
 
+    @Override
     protected void cleanupControlPackets(boolean shutdown) {
         while (!control.isEmpty()) {
             Packet p = (Packet) control.removeNext();
-            if (p == null)
+            if (p == null) {
                 continue;
+            }
             p.destroy();
         }
     }
@@ -598,6 +634,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     /**
      * destroy the connection to the client clearing out messages, etc
      */
+    @Override
     public void destroyConnection(boolean force, int reason, String reasonstr) {
         int oldstate = 0;
         boolean destroyOK = false;
@@ -605,8 +642,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
             synchronized (this) {
                 oldstate = state;
-                if (state >= Connection.STATE_DESTROYING)
+                if (state >= Connection.STATE_DESTROYING) {
                     return;
+                }
 
                 if (state < Connection.STATE_CLOSED) {
                     closeConnection(force, reason, reasonstr);
@@ -668,9 +706,10 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     /**
      * sets the connection state
-     * 
+     *
      * @return false if connection being destroyed
      */
+    @Override
     public boolean setConnectionState(int state) {
         synchronized (timerLock) {
             this.state = state;
@@ -736,6 +775,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         return true;
     }
 
+    @Override
     public void logConnectionInfo(boolean closing) {
         this.logConnectionInfo(closing, "Unknown");
     }
@@ -764,6 +804,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
      *
      * @param msg message to send back to the client
      */
+    @Override
     public void sendControlMessage(Packet msg) {
         if (!isValid() && msg.getPacketType() != PacketType.GOODBYE) {
             logger.log(Logger.INFO, "Internal Warning: message " + msg + "queued on destroyed connection " + this);
@@ -791,9 +832,10 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     /**
      * Flush all control messages on this connection to the client.
-     * 
+     *
      * @param timeout the lenght of time to try and flush the messages (0 indicates wait forever)
      */
+    @Override
     public void flushControl(long timeout) {
 
         if (read_assigned == write_assigned && read_assigned != null) {
@@ -809,8 +851,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             // window we should still be woken up w/ the ctrl
             // notify -> since that happens AFTER a message is
             // removed from the list
-            if (ctrlpkt == null && control.isEmpty() && !flushCritical)
+            if (ctrlpkt == null && control.isEmpty() && !flushCritical) {
                 return;
+            }
             if (!isValid()) {
                 return;
             }
@@ -829,8 +872,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                 } catch (InterruptedException ex) {
                     // no reason to do anything w/ it
                 }
-                if (flushCtrl && timeout > 0 && System.currentTimeMillis() >= time + timeout)
+                if (flushCtrl && timeout > 0 && System.currentTimeMillis() >= time + timeout) {
                     break;
+                }
             }
             flushCtrl = false;
             if (IMQBasicConnection.DEBUG) {
@@ -873,7 +917,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
     /**
      * Flush all control and JMS messages on this connection to the client.
-     * 
+     *
      * @param timeout the lenght of time to try and flush the messages (0 indicates wait forever)
      */
     public void flush(long timeout) {
@@ -889,8 +933,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             if (IMQBasicConnection.DEBUG) {
                 logger.log(Logger.DEBUG, "Flushing Messages with timeout of " + timeout);
             }
-            if (!isValid())
+            if (!isValid()) {
                 return;
+            }
             // dont worry about syncing here -> if we miss the
             // window we should still be woken up w/ the ctrl
             // notify -> since that happens AFTER a message is
@@ -911,8 +956,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                 } catch (InterruptedException ex) {
                     // valid, no reason to check
                 }
-                if (flush && timeout > 0 && System.currentTimeMillis() >= time + timeout)
+                if (flush && timeout > 0 && System.currentTimeMillis() >= time + timeout) {
                     break;
+                }
             }
             if (IMQBasicConnection.DEBUG) {
                 if (flush) {
@@ -1039,8 +1085,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 
                     OK = readInPacket(readpkt);
                     msgsIn++;
-                    if (readpkt.getPacketType() < PacketType.LAST)
+                    if (readpkt.getPacketType() < PacketType.LAST) {
                         pktsIn[readpkt.getPacketType()]++;
+                    }
 
                     if (!OK) { // we didnt finish reading
                         return Operation.PROCESS_WRITE_INCOMPLETE;
@@ -1053,12 +1100,14 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                         // XXX-LKS need to use protocol version
                         // not just packet version
 
-                        if (packetVersion < CURVERSION)
+                        if (packetVersion < CURVERSION) {
                             convertPkt = new ConvertPacket(this, packetVersion, CURVERSION);
+                        }
                     }
                     // convert to new packet type if necessary
-                    if (convertPkt != null)
+                    if (convertPkt != null) {
                         convertPkt.handleReadPacket(readpkt);
+                    }
 
                 } catch (IllegalArgumentException ex) {
                     handleIllegalArgumentExceptionPacket(readpkt, ex);
@@ -1122,8 +1171,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             try {
                 if (MemoryGlobals.getMEM_EXPLICITLY_CHECK()
                         || (MemoryGlobals.MEM_QUICK_CHECK && readpkt.getPacketSize() > MemoryGlobals.MEM_SIZE_TO_QUICK_CHECK)) {
-                    if (Globals.getMemManager() != null)
+                    if (Globals.getMemManager() != null) {
                         Globals.getMemManager().quickMemoryCheck();
+                    }
                 }
                 setCritical(true);
                 if (!isValid()) {
@@ -1182,8 +1232,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     }
 
     protected Packet clearWritePacket(Packet p) {
-        if (p != null)
+        if (p != null) {
             p.destroy();
+        }
         return null;
     }
 
@@ -1238,16 +1289,18 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                     ctrlpkt.setPort(getLocalPort());
                 }
                 // first convert it
-                if (convertPkt != null)
+                if (convertPkt != null) {
                     convertPkt.handleWritePacket(ctrlpkt);
+                }
                 if (IMQBasicConnection.DEBUG || DUMP_PACKET || OUT_DUMP_PACKET) {
                     dumpControlPacket(ctrlpkt);
                 }
                 inCtrlWrite = !writeOutPacket(ctrlpkt);
                 if (!inCtrlWrite) { // we are done
 
-                    if (ctrlpkt.getPacketType() < PacketType.LAST)
+                    if (ctrlpkt.getPacketType() < PacketType.LAST) {
                         pktsOut[ctrlpkt.getPacketType()]++;
+                    }
 
                     ctrlPktsToConsumer++;
                     if (IMQBasicConnection.DEBUG || DUMP_PACKET || OUT_DUMP_PACKET) {
@@ -1263,7 +1316,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                     assert ctrlpkt != null;
 
                     ctrlpkt = clearWritePacket(ctrlpkt);
-                    ;
+                    
                 }
 
                 // the broker is no longer in a critical state
@@ -1310,8 +1363,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                         return Operation.PROCESS_PACKETS_COMPLETE;
                     }
                 }
-                if (!validJMSPkt)
+                if (!validJMSPkt) {
                     return Operation.PROCESS_PACKETS_REMAINING;
+                }
                 inJMSWrite = true;
 
                 // convert to old packet type if necessary
@@ -1352,8 +1406,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
             msgsToConsumer++;
 
-            if (waitingWritePkt.getPacketType() < PacketType.LAST)
+            if (waitingWritePkt.getPacketType() < PacketType.LAST) {
                 pktsOut[waitingWritePkt.getPacketType()]++;
+            }
 
             if (Globals.getConnectionManager().PING_ENABLED) {
                 updateAccessTime(false);
@@ -1387,8 +1442,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                         }
                         flushCtrl = false;
                         flushCtrlLock.notifyAll();
-                        if (os != null)
+                        if (os != null) {
                             os.flush();
+                        }
                     }
                 }
             }
@@ -1426,6 +1482,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
                 + "\n------------------------------" + "\n" + pkt.dumpPacketString("<<<<****") + "\n------------------------------");
     }
 
+    @Override
     protected void checkState() {
         assert Thread.holdsLock(stateLock);
 
@@ -1541,14 +1598,17 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
 //     Abstract Connection methods
 // ---------------------------------------
 
+    @Override
     public void cleanupMemory(boolean persist) {
         // does nothing right now
     }
 
+    @Override
     protected void sayGoodbye(int reason, String reasonstr) {
         sayGoodbye(false, reason, reasonstr);
     }
 
+    @Override
     protected void sayGoodbye(boolean force, int reason, String reasonStr) {
         Packet goodbye_pkt = new Packet(useDirectBuffers());
         goodbye_pkt.setPacketType(PacketType.GOODBYE);
@@ -1560,6 +1620,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         sendControlMessage(goodbye_pkt);
     }
 
+    @Override
     protected void checkConnection() {
         boolean sendAck = false;
         if (enablePingReply && closeInterval > 0 && getClientProtocolVersion() >= PacketType.VERSION364) {
@@ -1591,26 +1652,33 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
         sendControlMessage(flush_pkt);
     }
 
+    @Override
     protected void flushConnection(long timeout) {
         flushControl(timeout);
     }
 
+    @Override
     public void flowPaused(long size) {
-        if (Globals.getMemManager() != null)
+        if (Globals.getMemManager() != null) {
             Globals.getMemManager().notifyWhenAvailable(this, size);
+        }
     }
 
+    @Override
     public void resumeMemory(int cnt, long memory, long max) {
         sendResume(cnt, memory, max, false);
     }
 
+    @Override
     public void updateMemory(int cnt, long memory, long max) {
         sendResume(cnt, memory, max, true);
     }
 
     protected void sendResume(int cnt, long memory, long max, boolean priority) {
         if (packetVersion < Packet.VERSION1)
+         {
             return; // older protocol cant handle resume
+        }
 
         Packet resume_pkt = new Packet(useDirectBuffers());
         resume_pkt.setPacketType(PacketType.RESUME_FLOW);
@@ -1628,6 +1696,7 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
     /**
      * called when either the session or the control message is busy
      */
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
 
         // LKS - at this point, we are in a write lock
@@ -1668,8 +1737,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             while (itr.hasNext()) {
                 s = (Session) itr.next();
                 itr.remove();
-                if (s == null)
+                if (s == null) {
                     continue;
+                }
                 synchronized (s.getBusyLock()) {
                     if (s.isBusy()) {
                         busySessions.add(s);
@@ -1680,8 +1750,9 @@ public class IMQIPConnection extends IMQBasicConnection implements Operation, Me
             }
         }
 
-        if (s == null)
+        if (s == null) {
             return false;
+        }
 
         return s.fillNextPacket(p) != null;
     }

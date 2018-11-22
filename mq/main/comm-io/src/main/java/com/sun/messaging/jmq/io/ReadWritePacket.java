@@ -38,6 +38,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param is the InputStream to read the packet from
      */
+    @Override
     public synchronized void readPacket(InputStream is) throws IOException, EOFException {
 
         // Read packet into internal buffers
@@ -47,6 +48,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Write the packet to the specified OutputStream
      */
+    @Override
     public synchronized void writePacket(OutputStream os) throws IOException {
         super.writePacket(os);
     }
@@ -55,6 +57,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      * Update the timestamp on the packet. If you do this you should call generateTimestamp(false) before writing the
      * packet, otherwise the timestamp will be overwritten when writePacket() is called.
      */
+    @Override
     public synchronized void updateTimestamp() {
         super.updateTimestamp();
     }
@@ -63,6 +66,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      * Update the sequence number on the packet. If you do this you should call generateSequenceNumber(false) before writing
      * the packet, otherwise the sequence number will be overwritten when writePacket() is called.
      */
+    @Override
     public synchronized void updateSequenceNumber() {
         super.updateSequenceNumber();
     }
@@ -72,83 +76,103 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param new_packetType The type of packet
      */
+    @Override
     public synchronized void setPacketType(int pType) {
         super.setPacketType(pType);
     }
 
+    @Override
     public synchronized void setTimestamp(long t) {
         super.setTimestamp(t);
     }
 
+    @Override
     public synchronized void setExpiration(long e) {
         super.setExpiration(e);
     }
 
+    @Override
     public synchronized void setPort(int p) {
         super.setPort(p);
     }
 
+    @Override
     public synchronized void setIP(byte[] ip) {
         super.setIP(ip);
     }
 
+    @Override
     public synchronized void setIP(byte[] ip, byte[] mac) {
         super.setIP(ip, mac);
     }
 
+    @Override
     public synchronized void setSequence(int n) {
         super.setSequence(n);
     }
 
     // Version should be VERSION1, VERSION2 or VERSION3. Default is VERSION3
+    @Override
     public synchronized void setVersion(int n) {
         super.setVersion(n);
     }
 
+    @Override
     public synchronized void setTransactionID(long n) {
         super.setTransactionID(n);
     }
 
+    @Override
     public synchronized void setEncryption(int e) {
         super.setEncryption(e);
     }
 
+    @Override
     public synchronized void setPriority(int p) {
         super.setPriority(p);
     }
 
+    @Override
     public synchronized void setFlag(int flag, boolean on) {
         super.setFlag(flag, on);
     }
 
+    @Override
     public synchronized void setProducerID(long l) {
         super.setProducerID(l);
     }
 
+    @Override
     public synchronized void setDestination(String d) {
         super.setDestination(d);
     }
 
+    @Override
     public synchronized void setDestinationClass(String d) {
         super.setDestinationClass(d);
     }
 
+    @Override
     public synchronized void setMessageID(String id) {
         super.setMessageID(id);
     }
 
+    @Override
     public synchronized void setCorrelationID(String id) {
         super.setCorrelationID(id);
     }
 
+    @Override
     public synchronized void setReplyTo(String r) {
         super.setReplyTo(r);
     }
 
+    @Override
     public synchronized void setReplyToClass(String r) {
         super.setReplyToClass(r);
     }
 
+    @Override
     public synchronized void setMessageType(String t) {
         super.setMessageType(t);
     }
@@ -158,6 +182,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param body The message body.
      */
+    @Override
     public synchronized void setProperties(Hashtable props) {
         super.setProperties(props);
     }
@@ -167,6 +192,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param body The message body.
      */
+    @Override
     public synchronized void setMessageBody(byte[] body) {
         super.setMessageBody(body);
     }
@@ -177,6 +203,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param body The message body.
      */
+    @Override
     public synchronized void setMessageBody(byte[] body, int off, int len) {
         super.setMessageBody(body, off, len);
     }
@@ -190,6 +217,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
         return getMessageBodySize();
     }
 
+    @Override
     public synchronized int getMessageBodySize() {
         return super.getMessageBodySize();
     }
@@ -219,6 +247,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Make a shallow copy of this packet
      */
+    @Override
     public Object cloneShallow() {
         try {
             ReadWritePacket rp = new ReadWritePacket();
@@ -232,6 +261,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Make a deep copy of this packet
      */
+    @Override
     public Object clone() {
         try {
             ReadWritePacket rp = new ReadWritePacket();
@@ -245,6 +275,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
     /**
      * Reset state of packet to initial values
      */
+    @Override
     public synchronized void reset() {
         super.reset();
     }
@@ -254,6 +285,7 @@ public class ReadWritePacket extends ReadOnlyPacket {
      *
      * @param os OutputStream to write packet contents to
      */
+    @Override
     public void dump(PrintStream os) {
         super.dump(os);
     }

@@ -20,8 +20,6 @@ import java.util.List;
 import java.sql.Connection;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.DBConstants;
-import com.sun.messaging.bridge.api.DupKeyException;
-import com.sun.messaging.bridge.api.KeyNotFoundException;
 
 /**
  * This class is an interface for JMS Bridges table

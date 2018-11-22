@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
-import javax.swing.JTree;
 import javax.swing.JOptionPane;
 
 import java.awt.Frame;
@@ -33,7 +32,6 @@ import java.awt.event.WindowEvent;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
-import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
@@ -44,12 +42,16 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * <LI>JMS Objects in object stores
  * <LI>JMQ Message brokers
  * </OL>
- * 
+ *
  * The user will execute this application by running a script.
  *
  */
 public class AdminConsole extends JFrame implements AdminApp {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7522190888587622654L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static AdminResources ar = Globals.getAdminResources();
 
@@ -93,53 +95,66 @@ public class AdminConsole extends JFrame implements AdminApp {
     /*
      * BEGIN INTERFACE AdminApp
      */
+    @Override
     public Frame getFrame() {
-        return ((Frame) this);
+        return (this);
     }
 
+    @Override
     public AMenuBar getMenubar() {
         return (menuBar);
     }
 
+    @Override
     public AToolBar getToolbar() {
         return (toolBar);
     }
 
+    @Override
     public AExplorer getExplorer() {
         return (explorer);
     }
 
+    @Override
     public AInspector getInspector() {
         return (inspector);
     }
 
+    @Override
     public AStatusArea getStatusArea() {
         return (statusArea);
     }
 
+    @Override
     public ActionManager getActionManager() {
         return (actionMgr);
     }
 
+    @Override
     public ObjStoreListCObj getObjStoreListCObj() {
         return (oslCObj);
     }
 
+    @Override
     public BrokerListCObj getBrokerListCObj() {
         return (blCObj);
     }
 
+    @Override
     public void setSelectedObj(ConsoleObj obj) {
         this.selObj = obj;
     }
 
+    @Override
     public ConsoleObj getSelectedObj() {
         return (this.selObj);
     }
 
+    @Override
     public void setSelectedObjs(ConsoleObj obj[]) {
     }
 
+    @Override
     public ConsoleObj[] getSelectedObjs() {
         return (null);
     }
@@ -321,6 +336,7 @@ public class AdminConsole extends JFrame implements AdminApp {
         frame = new AdminConsole();
 
         frame.addWindowListener(new WindowAdapter() {
+            @Override
             public void windowClosing(WindowEvent e) {
                 System.exit(0);
             }

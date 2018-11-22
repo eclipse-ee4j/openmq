@@ -22,10 +22,6 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import java.io.*;
 
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.util.log.Logger;
-
 /**
  */
 

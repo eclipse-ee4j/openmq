@@ -24,13 +24,16 @@ import java.awt.Frame;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
-import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
 
 /**
  * This dialog is used to add new brokers to the list of brokers displayed in the administration console.
  */
 public class BrokerAddDialog extends BrokerDialog {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8614247311016731996L;
     public static final String DEFAULT_BROKER_HOST = "localhost";
     public static final String DEFAULT_PRIMARY_PORT = "7676";
 
@@ -42,6 +45,7 @@ public class BrokerAddDialog extends BrokerDialog {
         this.blCObj = blCObj;
     }
 
+    @Override
     public void doOK() {
         String brokerName = null;
 
@@ -74,25 +78,31 @@ public class BrokerAddDialog extends BrokerDialog {
         fireAdminEventDispatched(bae);
     }
 
+    @Override
     public void doReset() {
         reset();
     }
 
+    @Override
     public void doCancel() {
         hide();
         reset();
     }
 
     // not used
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void doClose() {
     }
 
+    @Override
     public void show() {
         doReset();
         setEditable(true);

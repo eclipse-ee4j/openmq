@@ -32,6 +32,7 @@ public class DefaultTrustManager implements X509TrustManager {
     private static boolean DEBUG = Boolean.getBoolean("httptunnel.debug");
     private Logger logger = Logger.getLogger("Http Tunneling");
 
+    @Override
     public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
             log("DefaultTrustManager.checkClientTrusted() " + "returning 'true'");
@@ -40,6 +41,7 @@ public class DefaultTrustManager implements X509TrustManager {
         return;
     }
 
+    @Override
     public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
         if (DEBUG) {
             log("DefaultTrustManager.checkServerTrusted() " + "returning 'true'");
@@ -48,6 +50,7 @@ public class DefaultTrustManager implements X509TrustManager {
         return;
     }
 
+    @Override
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return new java.security.cert.X509Certificate[0];
     }

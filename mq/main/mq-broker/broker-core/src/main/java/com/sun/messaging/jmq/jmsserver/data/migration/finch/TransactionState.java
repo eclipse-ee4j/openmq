@@ -34,7 +34,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * The state of a transaction, plus additional information that may useful to know about the transaction.
  *
  * Object format prior to 370 filestore, use for migration purpose only.
- * 
+ *
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionState
  */
 public class TransactionState implements Serializable {
@@ -262,44 +262,51 @@ public class TransactionState implements Serializable {
             found = true;
         }
         if (isFlagSet(XAResource.TMFAIL, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMFAIL");
             found = true;
         }
         if (isFlagSet(XAResource.TMJOIN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMJOIN");
             found = true;
         }
         if (isFlagSet(XAResource.TMONEPHASE, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMONEPHASE");
             found = true;
         }
         if (isFlagSet(XAResource.TMRESUME, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMRESUME");
             found = true;
         }
         if (isFlagSet(XAResource.TMSTARTRSCAN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSTARTSCAN");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUCCESS, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUCCESS");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUSPEND, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUSPEND");
             found = true;
         }
@@ -312,6 +319,7 @@ public class TransactionState implements Serializable {
         return sb.toString();
     }
 
+    @Override
     public String toString() {
         if (xid == null) {
             return user + "@" + clientID + ":" + toString(state);

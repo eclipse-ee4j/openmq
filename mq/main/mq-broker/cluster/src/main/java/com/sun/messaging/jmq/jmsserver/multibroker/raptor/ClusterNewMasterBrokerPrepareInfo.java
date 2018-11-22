@@ -130,7 +130,7 @@ public class ClusterNewMasterBrokerPrepareInfo {
         assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE_REPLY);
-        gp.putProp("X", (Long) pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -138,6 +138,7 @@ public class ClusterNewMasterBrokerPrepareInfo {
         return gp;
     }
 
+    @Override
     public String toString() {
         if (pkt == null) {
             return "[newMasterBroker=" + newmaster + ", records=" + records.size() + ", xid=" + xid + ", uuid=" + uuid + "]";

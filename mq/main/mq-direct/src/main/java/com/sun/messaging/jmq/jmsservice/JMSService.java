@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsservice;
 
 import javax.transaction.xa.Xid;
-import javax.transaction.xa.XAResource;
-
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.JMSPacket;
 
@@ -356,7 +354,7 @@ public interface JMSService {
      * JMQCanCreate property is set to true.<br>
      * If the destination does not exist and cannot be auto-created the Status returned is NOT_FOUND along with JMQCanCreate
      * property set to false.
-     * 
+     *
      * @param connectionId The Id of the connection
      * @param dest The Destination object that defines the physical destination
      *
@@ -382,7 +380,7 @@ public interface JMSService {
      * @param dest The Destination object that defines the physical destination to be created.
      * <p>
      * If the physical destination does not exist, it will be automatically created if the configuration allows. [DEFAULT]
-     * 
+     *
      * @return The JMSServiceReply of the request to create the destination
      *
      * @throws JMSServiceException if the Status returned for the createDestination method is not
@@ -654,7 +652,7 @@ public interface JMSService {
      * <LI>XAResource.TMFAIL: If failing a transaction</LI>
      * <LI>XAResource.TMSUCCESS: If ending a transaction</LI>
      * </UL>
-     * 
+     *
      * @return The JMSServiceReply of the request to end a transaction
      *
      * @throws JMSServiceException if the Status returned for the endTransaction method is not
@@ -677,7 +675,7 @@ public interface JMSService {
      * @param connectionId The Id of the connection
      * @param transactionId If non-zero, the transaction being prepared is identified by this broker-generated id
      * @param xid If transactionId is zero, then xid contains the Xid of the XA transaction being prepared
-     * 
+     *
      * @return The JMSServiceReply of the request to prepare a transaction
      *
      * @throws JMSServiceException if the Status returned for the prepareTransaction method is not
@@ -705,7 +703,7 @@ public interface JMSService {
      * <LI>XAResource.TMONEPHASE:One phase commit. The transaction need not be in the PREPARED state</LI>
      * <LI>XAResource.TMNOFLAGS: Two phase commit. The transaction must be in the PREPARED state</LI>
      * </UL>
-     * 
+     *
      * @return The JMSServiceReply of the request to commit a transaction
      *
      * @throws JMSServiceException if the Status returned for the commitTransaction method is not
@@ -735,7 +733,7 @@ public interface JMSService {
      * @param maxRollbacks maximum consecutive rollbacks allowed for redelivery of consumed messages for active consumers
      * @param dmqOnMaxRollbacks if true place the message to DMQ if maxRollbacks reached for a consumed message to active
      * consumer
-     * 
+     *
      * @return The JMSServiceReply of the request to rollback a transaction
      *
      * @throws JMSServiceException if the Status returned for the rollbackTransaction method is not

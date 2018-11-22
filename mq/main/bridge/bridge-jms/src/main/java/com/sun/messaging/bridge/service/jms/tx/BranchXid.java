@@ -27,6 +27,11 @@ import com.sun.messaging.jmq.util.XidImpl;
 
 public class BranchXid extends XidImpl {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -972829087162065376L;
+
     public BranchXid() {
         super();
     }

@@ -84,6 +84,7 @@ public class AutoRollbackType implements Serializable {
     /**
      * a string representation of the object
      */
+    @Override
     public String toString() {
         return "AutoRollbackType[" + name + "]";
     }

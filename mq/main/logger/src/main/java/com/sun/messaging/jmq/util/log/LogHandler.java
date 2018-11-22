@@ -55,7 +55,7 @@ public abstract class LogHandler {
 
     /**
      * Return whether messages of the level Level.FORCE may be sent to this handler
-     * 
+     *
      * @return
      */
     public boolean isAllowForceMessage() {
@@ -64,7 +64,7 @@ public abstract class LogHandler {
 
     /**
      * Specify whether messages of the level Level.FORCE may be sent to this handler
-     * 
+     *
      * @param allowForceMessage
      */
     protected void setAllowForceMessage(boolean allowForceMessage) {
@@ -81,7 +81,7 @@ public abstract class LogHandler {
     /**
      * Set the log levels this handler will handle based on a String description. This is useful for setting the levels from
      * a property string.
-     * 
+     *
      * @param levelList A | seperated list of log levels this handler will accept. Valid values are "ALL", "NONE", "NOFORCE"
      * or a list of one or more of ERROR, WARNING, INFO, DEBUG, DEBUGMED, and DEBUGHIGH
      *

@@ -22,14 +22,11 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
 import java.util.Enumeration;
-import java.util.Properties;
-import javax.naming.Context;
 import javax.swing.JOptionPane;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.apps.console.event.ObjAdminEvent;
-import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 
 /**
@@ -57,6 +54,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  */
 public class ObjStoreAddDialog extends ObjStoreDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7709739086684528622L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
@@ -65,6 +66,7 @@ public class ObjStoreAddDialog extends ObjStoreDialog {
         setHelpId(ConsoleHelpID.ADD_OBJECT_STORE);
     }
 
+    @Override
     public void doOK() {
 
         String osName = null;
@@ -94,8 +96,9 @@ public class ObjStoreAddDialog extends ObjStoreDialog {
         ObjAdminEvent oae;
         ObjStoreAttrs osa = constructAttrs(osName);
 
-        if (osa == null)
+        if (osa == null) {
             return;
+        }
 
         oae = new ObjAdminEvent(this, ObjAdminEvent.ADD_OBJSTORE);
         oae.setObjStoreAttrs(osa);
@@ -105,21 +108,26 @@ public class ObjStoreAddDialog extends ObjStoreDialog {
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
         super.doClear();
     }
 
+    @Override
     public void show() {
         doClear();
         osText.setText(getDefaultStoreName(acr.getString(acr.I_OBJSTORE_LABEL)));

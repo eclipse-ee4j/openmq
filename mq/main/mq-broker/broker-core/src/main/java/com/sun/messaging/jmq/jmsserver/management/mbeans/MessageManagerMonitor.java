@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -29,24 +28,17 @@ import java.util.Hashtable;
 import java.util.HashMap;
 import java.nio.ByteBuffer;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanParameterInfo;
 import javax.management.MBeanException;
-import javax.management.openmbean.CompositeData;
-
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jms.management.server.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.management.util.ConsumerUtil;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
 
 public class MessageManagerMonitor extends MQMBeanReadOnly {
@@ -116,10 +108,12 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
         return (msgInfo);
     }
 
+    @Override
     public String getMBeanName() {
         return ("MessageManagerMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return ("Monitoring MBean for Message Manager");
         /*
@@ -127,14 +121,17 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
          */
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (null);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }
@@ -305,7 +302,7 @@ public class MessageManagerMonitor extends MQMBeanReadOnly {
                 try {
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(msgBody);
                     ObjectInputStream objectInputStream = new FilteringObjectInputStream(byteArrayInputStream);
-                    Object objMsg = (Serializable) objectInputStream.readObject();
+                    Object objMsg = objectInputStream.readObject();
 
                     h.put("MessageBody", objMsg);
                 } catch (Exception e) {

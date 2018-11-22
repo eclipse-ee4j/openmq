@@ -60,7 +60,7 @@ public class BrokerResources extends MQResourceBundle {
      * Strings instead of primitive integers because that is what ListResourceBundles support. We could write our own
      * ResourceBundle to support integer keys, but since we'd just be converting them back to strings (to display them) it's
      * unclear if that would be a big win. Also the performance of ListResourceBundles under Java 2 is pretty good.
-     * 
+     *
      *
      * Note To Translators: Do not copy these message key String constants into the locale specific resource bundles. They
      * are only required in this default resource bundle.

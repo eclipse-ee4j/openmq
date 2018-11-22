@@ -39,7 +39,7 @@ import com.sun.messaging.ConnectionConfiguration;
  * It specifically handles the format conversion from Reference objects created by JMQ1.1 <code>ConnectionFactory</code>
  * objects to iMQ3.0 <code>ConnectionFactory</code> objects.
  * <p>
- * 
+ *
  * @see javax.naming.Reference javax.naming.Reference
  * @see com.sun.messaging.ConnectionFactory com.sun.messaging.ConnectionFactory
  * @see com.sun.messaging.AdministeredObject com.sun.messaging.AdministeredObject
@@ -97,18 +97,19 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
 
     /**
      * Creates an instance of the object represented by a Reference object.
-     * 
+     *
      * @param obj The Reference object.
-     * 
+     *
      * @return an instance of the class named in the Reference object <code>obj</code>.
      * @return null if <code>obj</code> is not an instance of a Reference object.
-     * 
+     *
      * @throws MissingVersionNumberException if either <code>obj</code> references an object that is not an instance of a
      * <code>com.sun.messaging.Queue</code> object or the version number is missing from the Reference object.
      * @throws UnsupportedVersionNumberException if an unsupported version number is present in the Reference.
      * @throws CorruptedConfigurationPropertiesException if <code>obj</code> does not have the minimum information
      * neccessary to recreate an instance of a a valid <code>com.sun.messaging.AdministeredObject</code>.
      */
+    @Override
     public Object getObjectInstance(Object obj, Name name, Context ctx, Hashtable env) throws Exception {
 
         if (obj instanceof Reference) {
@@ -178,10 +179,10 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
         String ackTimeout = null;
 
         try {
-            parm = (String) (((RefAddr) ref.get(REF_PARM)).getContent());
-            host = (String) (((RefAddr) ref.get(REF_HOST)).getContent());
-            subnet = (String) (((RefAddr) ref.get(REF_SUBNET)).getContent());
-            ackTimeout = (String) (((RefAddr) ref.get(REF_ACKTIMEOUT)).getContent());
+            parm = (String) (ref.get(REF_PARM).getContent());
+            host = (String) (ref.get(REF_HOST).getContent());
+            subnet = (String) (ref.get(REF_SUBNET).getContent());
+            ackTimeout = (String) (ref.get(REF_ACKTIMEOUT).getContent());
 
         } catch (NullPointerException e) {
             // this should NOT happen under normal operations
@@ -196,12 +197,15 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
 
         int configSize = 1; // one for the parm
 
-        if (!DEFAULT.equals(host))
+        if (!DEFAULT.equals(host)) {
             configSize++;
-        if (!DEFAULT.equals(subnet))
+        }
+        if (!DEFAULT.equals(subnet)) {
             configSize++;
-        if (!DEFAULT.equals(ackTimeout))
+        }
+        if (!DEFAULT.equals(ackTimeout)) {
             configSize++;
+        }
 
         boolean hostSet = false;
         boolean subnetSet = false;
@@ -225,19 +229,24 @@ public abstract class CFObjectFactory extends AdministeredObjectFactory {
     /**
      * Retrieves the value for each JMSX propertry from the Reference. Enables the JMSX property in ConnectionFactory, if it
      * is true.
-     * 
+     *
      */
     private void setJMSXProperties(ConnectionFactory cf, Reference ref) throws Exception {
         RefAddr addr = null;
-        if (((addr = (ref.get(REF_JMSXUSERID))) != null) && ("true".equals((String) addr.getContent())))
+        if (((addr = (ref.get(REF_JMSXUSERID))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXUserID, "true");
-        if (((addr = (ref.get(REF_JMSXAPPID))) != null) && ("true".equals((String) addr.getContent())))
+        }
+        if (((addr = (ref.get(REF_JMSXAPPID))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXAppID, "true");
-        if (((addr = (ref.get(REF_JMSXPRODUCERTXID))) != null) && ("true".equals((String) addr.getContent())))
+        }
+        if (((addr = (ref.get(REF_JMSXPRODUCERTXID))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXProducerTXID, "true");
-        if (((addr = (ref.get(REF_JMSXCONSUMERTXID))) != null) && ("true".equals((String) addr.getContent())))
+        }
+        if (((addr = (ref.get(REF_JMSXCONSUMERTXID))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXConsumerTXID, "true");
-        if (((addr = (ref.get(REF_JMSXRCVTIMESTAMP))) != null) && ("true".equals((String) addr.getContent())))
+        }
+        if (((addr = (ref.get(REF_JMSXRCVTIMESTAMP))) != null) && ("true".equals(addr.getContent()))) {
             cf.setProperty(ConnectionConfiguration.imqSetJMSXRcvTimestamp, "true");
+        }
     }
 }

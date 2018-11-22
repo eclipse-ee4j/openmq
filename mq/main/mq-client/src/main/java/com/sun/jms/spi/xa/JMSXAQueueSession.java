@@ -34,9 +34,9 @@ public interface JMSXAQueueSession extends JMSXASession {
 
     /**
      * Get the queue session associated with this JMSXAQueueSession object.
-     * 
+     *
      * @return the queue session object.
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      */
 

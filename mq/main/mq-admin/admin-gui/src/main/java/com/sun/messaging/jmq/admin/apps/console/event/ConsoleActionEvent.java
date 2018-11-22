@@ -20,13 +20,16 @@
 
 package com.sun.messaging.jmq.admin.apps.console.event;
 
-import java.util.EventObject;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 
 /**
  * Events related to high level semantic console operations like exit, about, add, preferences, etc.
  */
 public class ConsoleActionEvent extends AdminEvent {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8033383835720372752L;
     /*
      * Event type
      */
@@ -39,7 +42,7 @@ public class ConsoleActionEvent extends AdminEvent {
 
     /**
      * Creates an instance of ConsoleActionEvent
-     * 
+     *
      * @param source the object where the event originated
      */
     public ConsoleActionEvent(Object source) {
@@ -48,7 +51,7 @@ public class ConsoleActionEvent extends AdminEvent {
 
     /**
      * Creates an instance of ConsoleActionEvent of the specified type.
-     * 
+     *
      * @param source the object where the event originated
      * @param type the type of event
      */

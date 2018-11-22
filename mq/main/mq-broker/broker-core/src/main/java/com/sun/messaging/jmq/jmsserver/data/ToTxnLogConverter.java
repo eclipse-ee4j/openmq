@@ -29,7 +29,6 @@ import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
@@ -203,6 +202,7 @@ class LocalTxnConverter extends TxnConverter {
         super(transactionList, store);
     }
 
+    @Override
     String getPrefix() {
         return Thread.currentThread() + " ToTxnLogConverter.LocalTxnConverter.";
     }
@@ -242,6 +242,7 @@ class ClusterTxnConverter extends TxnConverter {
         super(transactionList, store);
     }
 
+    @Override
     String getPrefix() {
         return Thread.currentThread() + " ToTxnLogConverter.ClusterTxnConverter.";
     }
@@ -280,6 +281,7 @@ class RemoteTxnConverter extends TxnConverter {
         super(transactionList, store);
     }
 
+    @Override
     String getPrefix() {
         return Thread.currentThread() + " ToTxnLogConverter.RemoteTxnConverter.";
     }
@@ -331,7 +333,7 @@ class RemoteTxnConverter extends TxnConverter {
 
             RemoteTransaction remoteTxn = new RemoteTransaction(txid, newState, txnAcks, destIds, txnHomeBroker);
 
-            ((TxnLoggingStore) store).logTxn(remoteTxn);
+            store.logTxn(remoteTxn);
         } else {
             logger.log(Logger.ERROR, "Could not find RemoteTransactionAckEntry for " + txid);
         }

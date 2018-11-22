@@ -26,12 +26,9 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.io.PacketUtil;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -56,6 +53,7 @@ public class DeliverHandler extends PacketHandler {
     /**
      * Method to handle DELIVER messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         String reason = null;
@@ -142,8 +140,9 @@ public class DeliverHandler extends PacketHandler {
             assert false;
             reason = ex.getMessage();
             status = Status.ERROR;
-            if (ex instanceof BrokerException)
+            if (ex instanceof BrokerException) {
                 status = ((BrokerException) ex).getStatusCode();
+            }
         }
 
         // do we need to create a reply packet each time ?
@@ -153,10 +152,12 @@ public class DeliverHandler extends PacketHandler {
         pkt.setPacketType(PacketType.DELIVER_REPLY);
         Hashtable hash = new Hashtable();
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
@@ -169,8 +170,9 @@ public class DeliverHandler extends PacketHandler {
 
         for (int j = 0; j < sentPackets; j++) {
             assert sentp[j] != null;
-            if (sentp[j] != null)
+            if (sentp[j] != null) {
                 con.sendControlMessage(sentp[j]);
+            }
         }
 
         return true;

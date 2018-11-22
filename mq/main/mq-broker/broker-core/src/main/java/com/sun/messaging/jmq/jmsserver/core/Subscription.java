@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.core;
 
 import java.util.*;
 import java.io.*;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.lists.*;
@@ -34,7 +33,6 @@ import com.sun.messaging.jmq.jmsserver.util.PartitionNotFoundException;
 import com.sun.messaging.jmq.jmsserver.util.ConsumerAlreadyAddedException;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.LoadException;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
@@ -43,7 +41,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.SubscriptionSpi;
 import com.sun.messaging.jmq.jmsserver.persist.api.NoPersistPartitionedStoreImpl;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import java.net.URLEncoder;
 import com.sun.messaging.jmq.util.CacheHashMap;
 
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
@@ -146,6 +143,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         return isDurable;
     }
 
+    @Override
     public int numInProcessMsgs() {
         // note: may be slightly off in a running system
         // but I don't want to lock
@@ -154,6 +152,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         return queued;
     }
 
+    @Override
     public int numPendingAcks() {
         // note: may be slightly off in a running system
         // but I dont want to lock
@@ -168,21 +167,24 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     }
 
     public List getChildConsumers() {
-        if (activeConsumers == null)
+        if (activeConsumers == null) {
             return new ArrayList();
+        }
         return new ArrayList(activeConsumers.values());
     }
 
     /**
      * method to retrieve debug state of the object
      */
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("type", "SUBSCRIPTION");
-        if (durableName != null)
+        if (durableName != null) {
             ht.put("durableName", durableName);
-        else
+        } else {
             ht.put("durableName", "<none - shared non-durable>");
+        }
 
         ht.put("isDurable", String.valueOf(isDurable));
         ht.put("clientID", (clientID == null ? "" : clientID));
@@ -211,13 +213,15 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     // only called when loading an old store
     /**
      * set the consumerUID on the object
-     * 
+     *
      * @deprecated
      */
+    @Deprecated
     public void setConsumerUID(ConsumerUID uid) {
         this.uid = uid;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Subscription) {
             Subscription sub = (Subscription) o;
@@ -241,6 +245,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     /**
      * returns hashcode
      */
+    @Override
     public int hashCode() {
         return hashcode;
     }
@@ -569,15 +574,17 @@ public class Subscription extends Consumer implements SubscriptionSpi {
     /**
      * returns the client ID (if any)
      */
+    @Override
     public String getClientID() {
         return clientID;
     }
 
     /**
      * Return a concises string representation of the object.
-     * 
+     *
      * @return a string representation of the object.
      */
+    @Override
     public String toString() {
         String str = "Subscription :" + uid + " - ";
         str += " dest=" + getDestinationUID();
@@ -588,6 +595,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         return str;
     }
 
+    @Override
     public void purge() throws BrokerException {
 
         super.purgeConsumer();
@@ -682,8 +690,9 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             Consumer[] cons = Globals.getStore().getAllInterests();
             for (int i = 0; i < cons.length; i++) {
                 Consumer c = cons[i];
-                if (c == null)
+                if (c == null) {
                     continue;
+                }
                 // at this point, we only store subscriptions
                 assert c instanceof Subscription;
                 Subscription s = (Subscription) c;
@@ -875,7 +884,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
             }
             itr = nonDurableList.values().iterator();
             while (itr.hasNext()) {
-                Subscription sub = (Subscription) itr.next();
+                Subscription sub = itr.next();
                 if (uid == null || uid.equals(sub.getDestinationUID())) {
                     s.add(sub);
                 }
@@ -993,7 +1002,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
 
         synchronized (Subscription.class) {
             assert durableName != null;
-            return (Subscription) durableList.get(getDSubKey(clientID, durableName));
+            return durableList.get(getDSubKey(clientID, durableName));
         }
     }
 
@@ -1001,7 +1010,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
 
         synchronized (Subscription.class) {
             assert key != null;
-            return (Subscription) durableList.get(key);
+            return durableList.get(key);
         }
     }
 
@@ -1106,7 +1115,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
 
     /**
      * create a non-durable shared subscription
-     * 
+     *
      * @return the new subscription (if just created)
      */
     public static Subscription createAttachNonDurableSub(Consumer c, Connection con, String subscriptionName, boolean share, boolean jmsshare)
@@ -1133,7 +1142,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
         if (DEBUG) {
             Globals.getLogger().log(Logger.INFO, "Subscription.findCreateNonDurableSubscription(" + clientID + ", " + selectorstr + ", " + subscriptionName
                     + ", " + share + ", " + jmsshare + ", " + duid + ", " + isNoLocal + ", " + optUID + ", " + sharecnt + ")");
-            ;
+            
         }
 
         synchronized (Subscription.class) {
@@ -1146,7 +1155,7 @@ public class Subscription extends Consumer implements SubscriptionSpi {
                                     + jmsshare + ", " + duid + ", " + isNoLocal + ", " + optUID + ", " + sharecnt + ")\nFound Subscription:\n("
                                     + sub.getClientID() + ", " + sub.getSelectorStr() + ", " + sub.getNDSubscriptionName() + ", " + sub.getDestinationUID()
                                     + ", " + sub.getNoLocal() + ")");
-                    ;
+                    
                 }
             }
             if (sub != null && subscriptionName != null

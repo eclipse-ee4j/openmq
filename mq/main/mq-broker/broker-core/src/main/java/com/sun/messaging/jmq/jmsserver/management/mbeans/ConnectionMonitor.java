@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import java.util.HashMap;
-import java.util.Properties;
 import java.util.List;
 import java.util.Iterator;
 
@@ -30,15 +28,9 @@ import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanException;
-import javax.management.ReflectionException;
-import javax.management.RuntimeOperationsException;
-
 import com.sun.messaging.jms.management.server.*;
 
-import com.sun.messaging.jmq.jmsserver.Globals;
-
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.net.IPAddress;
 
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
@@ -254,22 +246,27 @@ public class ConnectionMonitor extends MQMBeanReadOnly {
         return (destONames);
     }
 
+    @Override
     public String getMBeanName() {
         return ("ConnectionMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_CXN_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

@@ -58,7 +58,7 @@ public class JMQXid extends XidImpl {
      *
      * If the globalTransactionId or the branchQualifierId is less than MAX*SIZE bytes, then it will be padded with trailing
      * 0's.
-     * 
+     *
      * The format of the written data will be:
      *
      * <PRE>

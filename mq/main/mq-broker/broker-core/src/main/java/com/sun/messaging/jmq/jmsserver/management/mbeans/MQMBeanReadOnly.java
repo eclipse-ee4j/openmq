@@ -27,14 +27,8 @@ import java.security.AccessController;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Vector;
-import java.util.Enumeration;
-
 import javax.management.Attribute;
 import javax.management.AttributeList;
-import javax.management.ObjectName;
 import javax.management.DynamicMBean;
 import javax.management.NotificationBroadcasterSupport;
 import javax.management.MBeanInfo;
@@ -83,6 +77,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
     /**
      * Sets the value of the specified attribute of the Dynamic MBean.
      */
+    @Override
     public void setAttribute(Attribute attribute) throws AttributeNotFoundException, InvalidAttributeValueException, MBeanException, ReflectionException {
 
         String name = null;
@@ -100,6 +95,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
     /**
      * Sets the values of several attributes of the Dynamic MBean, and returns the list of attributes that have been set.
      */
+    @Override
     public AttributeList setAttributes(AttributeList attributes) {
         if (attributes == null) {
             throw new RuntimeOperationsException(new IllegalArgumentException("Null attribute list passed to setAttributes()"));
@@ -131,6 +127,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
     /**
      * Allows an operation to be invoked on the Dynamic MBean.
      */
+    @Override
     public Object invoke(String operationName, Object[] params, String[] signature) throws MBeanException, ReflectionException {
         if (operationName == null) {
             throw new RuntimeOperationsException(new IllegalArgumentException("Null Operation name passed to invoke()"));
@@ -161,6 +158,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
                 final MQMBeanReadOnly receiver = this;
                 try {
                     ret = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
+                        @Override
                         public Object run() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
                             return finalM.invoke(receiver, finalParams);
                         }
@@ -252,6 +250,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
     /**
      * Enables the to get the values of several attributes of the Dynamic MBean.
      */
+    @Override
     public AttributeList getAttributes(String[] attributeNames) {
         if (attributeNames == null) {
             throw new RuntimeOperationsException(new IllegalArgumentException("MBean " + getMBeanName() + ": Null attribute list passed to getAttributes()"));
@@ -259,8 +258,9 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
 
         AttributeList resultList = new AttributeList();
 
-        if (attributeNames.length == 0)
+        if (attributeNames.length == 0) {
             return resultList;
+        }
 
         for (int i = 0; i < attributeNames.length; i++) {
             try {
@@ -278,6 +278,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
     /**
      * Allows the value of the specified attribute of the Dynamic MBean to be obtained.
      */
+    @Override
     public Object getAttribute(String attributeName) throws AttributeNotFoundException, MBeanException, ReflectionException {
 
         if (attributeName == null) {
@@ -436,6 +437,7 @@ public abstract class MQMBeanReadOnly extends NotificationBroadcasterSupport imp
         return (true);
     }
 
+    @Override
     public MBeanInfo getMBeanInfo() {
 
         // return the information we want to expose for management:

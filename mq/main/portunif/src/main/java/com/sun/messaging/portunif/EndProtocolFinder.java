@@ -16,15 +16,9 @@
 
 package com.sun.messaging.portunif;
 
-import java.nio.charset.Charset;
-import java.net.SocketAddress;
-import java.net.InetSocketAddress;
-import org.glassfish.grizzly.Buffer;
-import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.portunif.PUContext;
 import org.glassfish.grizzly.portunif.ProtocolFinder;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
-import org.glassfish.grizzly.nio.transport.TCPNIOConnection;
 
 public class EndProtocolFinder implements ProtocolFinder {
 

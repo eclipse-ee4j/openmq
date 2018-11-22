@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.util.timer;
 
 import java.util.Date;
-import java.util.Timer;
 import java.util.TimerTask;
 import com.sun.messaging.jmq.resources.*;
 import com.sun.messaging.jmq.util.LoggerWrapper;
@@ -43,6 +42,7 @@ public class MQTimer extends java.util.Timer {
      * would be susceptible to a subclass's finalizer forgetting to call it.
      */
     private Object mqTimerObject = new Object() {
+        @Override
         protected void finalize() throws Throwable {
             if (DEBUG && logger != null) {
                 Exception ex = new RuntimeException("MQTimer.mqtimerObject: finalize");
@@ -62,6 +62,7 @@ public class MQTimer extends java.util.Timer {
 
     public void initUncaughtExceptionHandler() {
         TimerTask uehtask = new TimerTask() {
+            @Override
             public void run() {
                 Thread thr = Thread.currentThread();
                 Thread.UncaughtExceptionHandler ueh = thr.getUncaughtExceptionHandler();
@@ -93,6 +94,7 @@ public class MQTimer extends java.util.Timer {
             this.parent = parent;
         }
 
+        @Override
         public void uncaughtException(Thread t, Throwable e) {
             if (logger != null) {
                 logger.logSevere(myrb.getKString(myrb.E_UNCAUGHT_EX_IN_THREAD, e.getMessage(), t.getName()), e);
@@ -101,6 +103,7 @@ public class MQTimer extends java.util.Timer {
         }
     }
 
+    @Override
     public void cancel() {
         super.cancel();
         if (logger != null && DEBUG) {

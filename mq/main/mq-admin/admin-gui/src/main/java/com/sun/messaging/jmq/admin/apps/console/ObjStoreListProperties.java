@@ -24,17 +24,16 @@ import java.util.Enumeration;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.util.UserProperties;
 import com.sun.messaging.jmq.admin.util.UserPropertiesException;
-import com.sun.messaging.jmq.admin.objstore.ObjStore;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
 /**
  * This class encapsulates the information needed to save and restore the list of <EM>favourite</EM> object stores in
  * the JMQ Administration Console.
- * 
+ *
  * <P>
  * It represents the property object containing the list of object store attributes. The format of the property file is:
- * 
+ *
  * <PRE>
  * objstore.count=5
  * objstore0.id.<STRONG>objstore id</STRONG>
@@ -54,6 +53,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreListProperties extends UserProperties {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6065785186987890639L;
     public final static String FIRST_VERSION = "2.0";
     public final static String VERSION = "2.0";
 
@@ -129,7 +132,7 @@ public class ObjStoreListProperties extends UserProperties {
      * attributes are normalized e.g. the preceding <EM>objstore.attrs.</EM> is stripped.
      *
      * @param index Index for specifying the object store in question.
-     * 
+     *
      * @return A ObjStoreAttrs object containing attributes needed for creation of an object store.
      */
     public ObjStoreAttrs getObjStoreAttrs(int index) {
@@ -217,6 +220,7 @@ public class ObjStoreListProperties extends UserProperties {
          */
     }
 
+    @Override
     public void load() throws UserPropertiesException, SecurityException {
         super.load();
 

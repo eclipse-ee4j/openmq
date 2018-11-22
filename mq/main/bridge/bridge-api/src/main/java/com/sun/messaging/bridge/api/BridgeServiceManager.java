@@ -63,10 +63,12 @@ public abstract class BridgeServiceManager {
     public abstract String getAdminDestinationClassName() throws Exception;
 
     public static Object getExportedService(Class c, String bridgeType, Properties props) throws Exception {
-        if (c == null)
+        if (c == null) {
             throw new IllegalArgumentException("null class");
-        if (bridgeType == null)
+        }
+        if (bridgeType == null) {
             throw new IllegalArgumentException("null bridge type");
+        }
 
         Bridge b = null;
         Locale loc = Locale.getDefault();

@@ -27,7 +27,6 @@ import javax.management.JMException;
 import javax.management.remote.JMXConnector;
 import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
-import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.management.JMXMQAddress;
 import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
 
@@ -40,7 +39,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  * that is running on the default host and port (localhost and port 7676). The administrator username and password used
  * here is the default <CODE>admin</CODE> and <CODE>admin</CODE>.
  * <P>
- * 
+ *
  * <PRE>
  *     import javax.management.*;
  *     import javax.management.remote.*;
@@ -50,7 +49,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  *
  *     acf = new AdminConnectionFactory();
  *     System.out.println("JMXServiceURL used: " + acf.getJMXServiceURL().toString());
- * 
+ *
  *     JMXConnector jmxc = acf.createConnection();
  *
  *     // Proceed to manage/monitor the broker using the JMX Connector
@@ -62,7 +61,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  * running on the host <CODE>myhost</CODE> on port 7979. The administrator username and password used here is
  * <CODE>admin1</CODE> and <CODE>adminpasswd</CODE>.
  * <P>
- * 
+ *
  * <PRE>
  *     import javax.management.*;
  *     import javax.management.remote.*;
@@ -75,7 +74,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  *     acf.setProperty(AdminConnectionConfiguration.imqAddress,
  *			"myhost:7979");
  *     System.out.println("JMXServiceURL used: " + acf.getJMXServiceURL().toString());
- * 
+ *
  *     JMXConnector jmxc = acf.createConnection("admin1", "adminpasswd");
  *
  *     // Proceed to manage/monitor the broker using the JMX Connector
@@ -87,7 +86,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  * that is running on the localhost and on port 7676. This is the JMX connector that is configured to use SSL. The
  * administrator username and password used here is the default <CODE>admin</CODE> and <CODE>admin</CODE>.
  * <P>
- * 
+ *
  * <PRE>
  *     import javax.management.*;
  *     import javax.management.remote.*;
@@ -100,7 +99,7 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  *     acf.setProperty(AdminConnectionConfiguration.imqAddress,
  *			"localhost:7676/ssljmxrmi");
  *     System.out.println("JMXServiceURL used: " + acf.getJMXServiceURL().toString());
- * 
+ *
  *     JMXConnector jmxc = acf.createConnection();
  *
  *     // Proceed to manage/monitor the broker using the JMX Connector
@@ -111,6 +110,11 @@ import com.sun.messaging.jmq.jmsclient.GenericPortMapperClient;
  * @see com.sun.messaging.AdminConnectionConfiguration com.sun.messaging.AdminConnectionConfiguration
  */
 public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -756915337557759956L;
 
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "AdminConnectionFactory";
@@ -126,7 +130,7 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Constructs a AdminConnectionFactory with the default configuration.
-     * 
+     *
      */
     public AdminConnectionFactory() {
         super(defaultsBase);
@@ -134,7 +138,7 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Constructs a AdminConnectionFactory with the specified configuration.
-     * 
+     *
      */
     protected AdminConnectionFactory(String defaultsBase) {
         super(defaultsBase);
@@ -144,9 +148,9 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
      * Creates a Connection with the default user identity. The default user identity is defined by the
      * <code>AdminConnectionFactory</code> properties <code><b>imqDefaultAdminUsername</b></code> and
      * <code><b>imqDefaultAdminPassword</b></code>
-     * 
+     *
      * @return a newly created Connection.
-     * 
+     *
      * @exception JMException if a JMS error occurs.
      * @see AdminConnectionConfiguration#imqDefaultAdminUsername
      * @see AdminConnectionConfiguration#imqDefaultAdminPassword
@@ -164,12 +168,12 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Creates a Connection with a specified user identity.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created connection.
-     * 
+     *
      * @exception JMException if a JMX error occurs.
      */
     public JMXConnector createConnection(String username, String password) throws JMException {
@@ -202,6 +206,7 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
      *
      * @return the pretty printed string.
      */
+    @Override
     public String toString() {
         return ("Oracle GlassFish(tm) Server MQ AdminConnectionFactory" + super.toString());
     }
@@ -282,6 +287,7 @@ public class AdminConnectionFactory extends com.sun.messaging.AdministeredObject
      * Sets the minimum <code>AdminConnectionFactory</code> configuration defaults required to connect to the MQ
      * Administration Service.
      */
+    @Override
     public void setDefaultConfiguration() {
         configuration = new Properties();
         configurationTypes = new Properties();

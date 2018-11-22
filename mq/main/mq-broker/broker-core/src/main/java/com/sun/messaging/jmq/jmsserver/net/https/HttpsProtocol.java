@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.net.https;
 
 import java.net.*;
 import java.util.Map;
-import java.util.Hashtable;
 import java.io.IOException;
 import com.sun.messaging.jmq.httptunnel.api.server.*;
 import com.sun.messaging.jmq.httptunnel.api.share.*;
@@ -47,12 +46,14 @@ public class HttpsProtocol extends HTTPProtocol {
 
         if (servletHost != null || servletPort != -1) {
             String host = servletHost;
-            if (host == null)
+            if (host == null) {
                 host = InetAddress.getLocalHost().getHostAddress();
+            }
 
             int port = servletPort;
-            if (port == -1)
+            if (port == -1) {
                 port = HttpTunnelDefaults.DEFAULT_HTTPS_TUNNEL_PORT;
+            }
 
             InetAddress paddr = InetAddress.getLocalHost();
             InetAddress saddr = InetAddress.getByName(host);
@@ -83,6 +84,7 @@ public class HttpsProtocol extends HTTPProtocol {
         driver.setRxBufSize(rxBufSize);
     }
 
+    @Override
     public String toString() {
         return "https [ " + serversocket + "]";
     }

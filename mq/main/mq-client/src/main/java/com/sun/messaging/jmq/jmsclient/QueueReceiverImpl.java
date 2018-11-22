@@ -63,6 +63,7 @@ public class QueueReceiverImpl extends MessageConsumerImpl implements QueueRecei
      * @exception JMSException if JMS fails to get queue for this queue receiver due to some internal error.
      */
 
+    @Override
     public Queue getQueue() throws JMSException {
         checkState();
         return queue;

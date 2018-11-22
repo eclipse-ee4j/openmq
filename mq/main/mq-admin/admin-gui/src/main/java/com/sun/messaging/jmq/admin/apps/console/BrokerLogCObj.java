@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 
@@ -35,36 +32,48 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  *
  */
 public class BrokerLogCObj extends BrokerAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3169887391617770756L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
+    @Override
     public String getExplorerLabel() {
         return (acr.getString(acr.I_BROKER_LOG));
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (getActiveActions());
     }
 
+    @Override
     public int getActiveActions() {
         return (0);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelId() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (null);
     }

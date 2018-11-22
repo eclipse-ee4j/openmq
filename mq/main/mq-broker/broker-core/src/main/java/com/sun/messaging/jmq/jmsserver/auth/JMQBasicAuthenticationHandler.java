@@ -44,6 +44,7 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
     private UserRepository repository = null;
     private boolean logout = false;
 
+    @Override
     public String getType() {
         return AccessController.AUTHTYPE_BASIC;
     }
@@ -57,6 +58,7 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
      *
      * @return initial authentication request data if any
      */
+    @Override
     public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authProps = authProperties;
         this.cacheData = cacheData;
@@ -69,15 +71,17 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
      *
      * @return next request data if any; null if no more request. The request data will be sent as packet body in
      * AUTHENTICATE_REQUEST
-     * 
+     *
      * @exception LoginException
      */
+    @Override
     public synchronized byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
         if (repository == null && logout) {
             throw new LoginException(Globals.getBrokerResources().getKString(BrokerResources.X_CONNECTION_LOGGEDOUT));
         }
-        if (repository != null)
+        if (repository != null) {
             repository.close();
+        }
 
         Subject subject = null;
         acc = null;
@@ -127,18 +131,22 @@ public class JMQBasicAuthenticationHandler implements AuthenticationProtocolHand
         }
     }
 
+    @Override
     public AccessControlContext getAccessControlContext() {
         return acc;
     }
 
+    @Override
     public Refreshable getCacheData() {
         return cacheData;
     }
 
+    @Override
     public synchronized void logout() throws LoginException {
         logout = true;
-        if (repository != null)
+        if (repository != null) {
             repository.close();
+        }
     }
 
     public String getMatchType() {

@@ -27,7 +27,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.event.EventListenerList;
 
-import com.sun.messaging.jmq.admin.event.AdminEvent;
 import com.sun.messaging.jmq.admin.event.AdminEventListener;
 
 /**
@@ -56,6 +55,10 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  */
 public class AInspector extends JScrollPane {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2753311786926025370L;
     private static String SPLASH_SCREEN = "SplashScreen";
     private static String BLANK = "Blank";
 
@@ -74,7 +77,7 @@ public class AInspector extends JScrollPane {
 
     /**
      * Add an admin event listener to this admin UI component.
-     * 
+     *
      * @param l admin event listener to add.
      */
     public void addAdminEventListener(AdminEventListener l) {
@@ -83,7 +86,7 @@ public class AInspector extends JScrollPane {
 
     /**
      * Remove an admin event listener for this admin UI component.
-     * 
+     *
      * @param l admin event listener to remove.
      */
     public void removeAdminEventListener(AdminEventListener l) {
@@ -169,8 +172,9 @@ public class AInspector extends JScrollPane {
             System.err.println("Illegal Access Exception while trying to intantiate inspector panel : " + iae);
         }
 
-        if (ip == null)
+        if (ip == null) {
             return (null);
+        }
 
         cardPanel.add(ip, panelId);
         cardList.put(panelId, ip);
@@ -180,9 +184,9 @@ public class AInspector extends JScrollPane {
 
     /*
      * Fire off/dispatch an admin event to all the listeners.
-     * 
+     *
      * private void fireAdminEventDispatched(AdminEvent ae) { Object[] l = aListeners.getListenerList();
-     * 
+     *
      * for (int i = l.length-2; i>=0; i-=2) { if (l[i] == AdminEventListener.class) {
      * ((AdminEventListener)l[i+1]).adminEventDispatched(ae); } } }
      */

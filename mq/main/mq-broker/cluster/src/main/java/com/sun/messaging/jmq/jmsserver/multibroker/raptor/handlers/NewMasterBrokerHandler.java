@@ -19,8 +19,6 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
@@ -33,9 +31,11 @@ public class NewMasterBrokerHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "NewMasterBrokerHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_NEW_MASTER_BROKER_PREPARE) {
             handleNewMasterBrokerPrepare(sender, pkt);

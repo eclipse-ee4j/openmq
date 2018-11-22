@@ -252,7 +252,7 @@ abstract class RandomAccessStore {
 
         // write attachment after data
         seek(rfile, pos);
-        writeLong(rfile, (long) buf.length);
+        writeLong(rfile, buf.length);
         write(rfile, buf);
 
         // mark it good
@@ -479,7 +479,7 @@ abstract class RandomAccessStore {
         long endofdata;
 
         markWriting(rfile);
-        writeLong(rfile, (long) buf.length);
+        writeLong(rfile, buf.length);
         write(rfile, buf);
 
         endofdata = rfile.getFilePointer();
@@ -488,7 +488,7 @@ abstract class RandomAccessStore {
         if (attachment == null) {
             writeLong(rfile, 0);
         } else {
-            writeLong(rfile, (long) attachment.length);
+            writeLong(rfile, attachment.length);
             write(rfile, attachment);
         }
 
@@ -721,10 +721,12 @@ abstract class RandomAccessStore {
 
     // set high and low of numbers being used as file names
     private void addFileNum(int num) {
-        if (num >= high)
+        if (num >= high) {
             high = num + 1; // high is the next number to be used
-        else if (num < low)
+        } else if (num < low)
+         {
             low = num; // low is the lowest number being used
+        }
     }
 
     // cache object id
@@ -734,7 +736,7 @@ abstract class RandomAccessStore {
 
         /*
          * DONT PUT IN FD POOL YET; TO DO OTHERWISE, UNCOMMENT THIS AND THE LAST BLOCK
-         * 
+         *
          * if (raFilePool.addRAFile(rfile, file, false)) { // false=>not free // added to opened file pool idToRAFileOp(PUT, id,
          * new FileInfo(rfile, endofdata, endoffile)); } else {
          */
@@ -970,8 +972,9 @@ abstract class RandomAccessStore {
          * Tag the file free first. Then put it in the free file pool.
          */
         synchronized boolean putRAFile(RandomAccessFile rfile, boolean sync) {
-            if (rfile == null)
+            if (rfile == null) {
                 return false;
+            }
 
             try {
                 // mark it free
@@ -1044,8 +1047,9 @@ abstract class RandomAccessStore {
                 try {
                     if (cleanup) {
                         try {
-                            if (rfiles[i].length() != 0)
+                            if (rfiles[i].length() != 0) {
                                 rfiles[i].setLength(0);
+                            }
                         } catch (IOException e) {
                             if (Store.getDEBUG()) {
                                 logger.log(logger.DEBUG, "truncate file failed for " + (file != null ? file.toString() : ""));
@@ -1118,6 +1122,7 @@ abstract class RandomAccessStore {
             }
         }
 
+        @Override
         public boolean hasMoreElements() {
             obj = null;
 
@@ -1223,6 +1228,7 @@ abstract class RandomAccessStore {
             return (obj != null);
         }
 
+        @Override
         public Object nextElement() {
             if (obj != null) {
                 Object result = obj;

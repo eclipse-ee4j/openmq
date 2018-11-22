@@ -54,6 +54,7 @@ public abstract class RemoteTransactionEvent extends TransactionEvent {
         return result;
     }
 
+    @Override
     int getType() {
         return BaseTransaction.REMOTE_TRANSACTION_TYPE;
     }
@@ -62,10 +63,12 @@ public abstract class RemoteTransactionEvent extends TransactionEvent {
 }
 
 class RemoteTransaction2PPrepareEvent extends RemoteTransactionEvent {
+    @Override
     int getSubType() {
         return Type2PPrepareEvent;
     }
 
+    @Override
     public byte[] writeToBytes() throws IOException {
         // Log all msgs and acks for producing and consuming txn
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -100,6 +103,7 @@ class RemoteTransaction2PPrepareEvent extends RemoteTransactionEvent {
 
     }
 
+    @Override
     public void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);
@@ -135,10 +139,12 @@ class RemoteTransaction2PPrepareEvent extends RemoteTransactionEvent {
 }
 
 class RemoteTransaction2PCompleteEvent extends RemoteTransactionEvent {
+    @Override
     int getSubType() {
         return Type2PCompleteEvent;
     }
 
+    @Override
     byte[] writeToBytes() throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -153,6 +159,7 @@ class RemoteTransaction2PCompleteEvent extends RemoteTransactionEvent {
         return data;
     }
 
+    @Override
     void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);

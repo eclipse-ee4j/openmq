@@ -148,13 +148,13 @@ public class ExceptionHandler {
      */
     /**
      * public void connectionException(Exception source, String errorCode, boolean format) throws JMSException {
-     * 
+     *
      * JMSException target; if ((source instanceof JMSException) && ((JMSException)source).getErrorCode() != null) { target
      * = (JMSException)source; } else { target = getJMSException (source, errorCode, format);
      * target.setLinkedException(source); }
-     * 
+     *
      * //this makes readChannel exits! throw target;
-     * 
+     *
      * }
      **/
 
@@ -244,7 +244,7 @@ public class ExceptionHandler {
 
     /**
      * A general method to convert java exception to JMSException.
-     * 
+     *
      * @param source the source exception
      * @param errorCode the error code for the target exception
      * @param format if true, use X_CAUGHT_EXCEPTION format if false, no format
@@ -339,7 +339,7 @@ public class ExceptionHandler {
      * If the specified JMSRuntimeException has a wrapped exception then log the wrapped exception using the WARNING logger
      * level. Then log that we are about to throw the specified JMSRuntimeException using FINER logging. Finally throw the
      * specified JMSRuntimeException.
-     * 
+     *
      * @param jmsre
      * @throws JMSRuntimeException
      */
@@ -349,7 +349,7 @@ public class ExceptionHandler {
 
     /**
      * Log the specified JMSException using the specified logger level and then rethrow the JMSException
-     * 
+     *
      * @param level
      * @param jmse
      * @throws JMSException
@@ -383,7 +383,7 @@ public class ExceptionHandler {
 
     /**
      * Log the specified JMSRuntimeException as a WARNING message and then throw the JMSRuntimeException
-     * 
+     *
      * @param jmsre
      * @throws JMSRuntimeException
      */
@@ -395,7 +395,7 @@ public class ExceptionHandler {
      * If the specified JMSRuntimeException has a wrapped exception then log the wrapped exception using the specified
      * logger level. Then log that we are about to throw the specified JMSRuntimeException using FINER logging. Finally
      * throw the specified JMSRuntimeException.
-     * 
+     *
      * @param level
      * @param jmsre
      * @throws JMSRuntimeException
@@ -456,7 +456,7 @@ public class ExceptionHandler {
 
     /**
      * Log the specified exception which was caught by the MQ client runtime as a WARNING message
-     * 
+     *
      * @param source
      */
     public static void logCaughtException(Throwable source) {
@@ -465,7 +465,7 @@ public class ExceptionHandler {
 
     /**
      * Log the specified exception which was caught by the MQ client runtime at the specified Logger level
-     * 
+     *
      * @param level
      * @param throwable
      */

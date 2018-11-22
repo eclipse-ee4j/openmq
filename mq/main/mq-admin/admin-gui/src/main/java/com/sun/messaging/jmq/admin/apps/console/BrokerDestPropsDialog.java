@@ -30,7 +30,6 @@ import java.awt.Frame;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -47,12 +46,10 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.util.DestState;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.admin.DurableInfo;
 import com.sun.messaging.jmq.util.DestLimitBehavior;
 import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
 import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
@@ -69,6 +66,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionListener, BrokerConstants {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5565520883883363004L;
     private final static int UNLIMITED_VALUE_0 = 0;
     private final static int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
 
@@ -179,25 +180,31 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         setHelpId(ConsoleHelpID.BROKER_DEST_PROPS);
     }
 
+    @Override
     public void doClose() {
         hide();
         reset();
     }
 
     // not used
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doOK() {
         BrokerAdminEvent bae = new BrokerAdminEvent(this, BrokerAdminEvent.UPDATE_DEST);
         DestinationInfo destInfo = getUpdateDestinationInfo();
@@ -284,7 +291,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          * Max Number of Messages
          */
         if (mesgLimitSF.isSpecialValueSet()) {
-            mesgLimitValue = (int) UNLIMITED_VALUE_NEG1;
+            mesgLimitValue = UNLIMITED_VALUE_NEG1;
         } else {
             mesgLimitValue = Integer.parseInt(mesgLimitIF.getText());
         }
@@ -325,6 +332,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         return (updateDestInfo);
     }
 
+    @Override
     public JPanel createWorkPanel() {
         JPanel workPanel;
         GridBagLayout workGridbag;
@@ -656,13 +664,15 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
              * Populate the data into the Active/Failover fields.
              */
             value = destInfo.maxActiveConsumers;
-            if (value != UNLIMITED_VALUE_NEG1)
+            if (value != UNLIMITED_VALUE_NEG1) {
                 activeConsumerIF.setText(String.valueOf(value));
+            }
             checkUnlimitedNeg1(activeConsumerSF, value);
 
             value = destInfo.maxFailoverConsumers;
-            if (value != UNLIMITED_VALUE_NEG1)
+            if (value != UNLIMITED_VALUE_NEG1) {
                 failoverConsumerIF.setText(String.valueOf(value));
+            }
             checkUnlimitedNeg1(failoverConsumerSF, value);
 
             curNumActiveLabelC.setLabelText(acr.getString(acr.I_BROKER_CUR_NUM_ACTIVE));
@@ -713,26 +723,30 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          * Max info.
          */
         value = destInfo.maxProducers;
-        if (value != UNLIMITED_VALUE_NEG1)
+        if (value != UNLIMITED_VALUE_NEG1) {
             maxProducerIF.setText(String.valueOf(value));
+        }
         checkUnlimitedNeg1(maxProducerSF, value);
 
         lvalue = destInfo.maxMessageBytes;
-        if (lvalue != UNLIMITED_VALUE_NEG1)
+        if (lvalue != UNLIMITED_VALUE_NEG1) {
             mesgSizeLimitBF.setText(String.valueOf(lvalue));
+        }
         checkBothUnlimited(mesgSizeLimitSF, lvalue);
 
         value = destInfo.maxMessages;
-        if (value != UNLIMITED_VALUE_NEG1)
+        if (value != UNLIMITED_VALUE_NEG1) {
             mesgLimitIF.setText(String.valueOf(value));
+        }
         checkBothUnlimited(mesgLimitSF, value);
 
         /*
          * Max size per msg - applicable to both queues and topics.
          */
         lvalue = destInfo.maxMessageSize;
-        if (lvalue != UNLIMITED_VALUE_NEG1)
+        if (lvalue != UNLIMITED_VALUE_NEG1) {
             maxSizePerMsgBF.setText(String.valueOf(lvalue));
+        }
         checkBothUnlimited(maxSizePerMsgSF, lvalue);
 
         /*
@@ -854,8 +868,9 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     }
 
     private void clearSelection() {
-        if (table != null)
+        if (table != null) {
             table.clearSelection();
+        }
 
         /*
          * Disable delete, purge button.
@@ -902,6 +917,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
@@ -960,6 +976,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     /*
      * BEGIN INTERFACE ListSelectionListener
      */
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         boolean isAdjusting = e.getValueIsAdjusting();
@@ -989,10 +1006,16 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
 
     class PropsTableModel extends AbstractTableModel {
         /**
+         * 
+         */
+        private static final long serialVersionUID = 900570854004520103L;
+
+        /**
          * Returns the number of collumns in table.
          *
          * @return The number of collumns in table.
          */
+        @Override
         public int getColumnCount() {
 
             return columnNames.length;
@@ -1003,11 +1026,13 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          *
          * @return The number of rows in table.
          */
+        @Override
         public int getRowCount() {
-            if (durables == null)
+            if (durables == null) {
                 return 0;
-            else
+            } else {
                 return durables.size();
+            }
         }
 
         /**
@@ -1015,6 +1040,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
          *
          * @return the column name/label for a given column.
          */
+        @Override
         public String getColumnName(int col) {
             return columnNames[col];
         }
@@ -1022,28 +1048,31 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         /**
          * Return value at a particular table cell location. Calls the TabledInspector.getValueAtColumn() method.
          */
+        @Override
         public Object getValueAt(int row, int col) {
-            if (durables == null)
+            if (durables == null) {
                 return "";
+            }
 
             int i = 0;
             Enumeration e = durables.elements();
             while (e.hasMoreElements()) {
                 DurableInfo durInfo = (DurableInfo) e.nextElement();
 
-                if (col == 0 && i == row)
+                if (col == 0 && i == row) {
                     return ((durInfo.name == null) ? "" : durInfo.name);
-                else if (col == 1 && i == row)
+                } else if (col == 1 && i == row) {
                     return ((durInfo.clientID == null) ? "" : durInfo.clientID);
-                else if (col == 2 && i == row)
+                } else if (col == 2 && i == row) {
                     return String.valueOf(durInfo.isDurable);
-                else if (col == 3 && i == row)
+                } else if (col == 3 && i == row) {
                     return Integer.toString(durInfo.nMessages);
-                else if (col == 4 && i == row) {
-                    if (durInfo.isActive)
+                } else if (col == 4 && i == row) {
+                    if (durInfo.isActive) {
                         return ar.getString(ar.I_ACTIVE);
-                    else
+                    } else {
                         return ar.getString(ar.I_INACTIVE);
+                    }
                 }
                 i++;
             }
@@ -1053,6 +1082,7 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
         /**
          * Don't need to implement this method unless your table's data can change.
          */
+        @Override
         public void setValueAt(Object value, int row, int col) {
         }
     }
@@ -1060,8 +1090,9 @@ public class BrokerDestPropsDialog extends AdminDialog implements ListSelectionL
     private int getLimitBehavValue(String limitBehavStr) {
         int ret = DestLimitBehavior.UNKNOWN;
 
-        if (limitBehavStr == null)
+        if (limitBehavStr == null) {
             return (ret);
+        }
 
         if (limitBehavStr.equals(LIMIT_BEHAV_FLOW_CONTROL)) {
             ret = DestLimitBehavior.FLOW_CONTROL;

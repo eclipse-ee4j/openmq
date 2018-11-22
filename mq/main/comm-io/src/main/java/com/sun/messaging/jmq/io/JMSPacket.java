@@ -29,8 +29,8 @@ public interface JMSPacket {
      * Return the Sun MQ Packet.
      * <p>
      * The Packet is the fundamental unit of message data that is persisted to stable storage.
-     * 
-     * 
+     *
+     *
      * @return The Packet
      */
     public com.sun.messaging.jmq.io.Packet getPacket();

@@ -43,7 +43,7 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     ConfigRecordDAOImpl() throws BrokerException {
@@ -65,30 +65,33 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param recordData the record data
      * @param timeStamp
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public void insert(Connection conn, byte[] recordData, long timeStamp) throws BrokerException {
 
         boolean myConn = false;
@@ -138,12 +141,13 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
     /**
      * Get all records created since the specified timestamp.
-     * 
+     *
      * @param conn database connection
      * @param timestamp the timestamp
      * @return a List of records.
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public List<ChangeRecordInfo> getRecordsSince(Connection conn, long timestamp) throws BrokerException {
 
         ArrayList records = new ArrayList();
@@ -206,11 +210,12 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
     /**
      * Return all records together with their corresponding timestamps.
-     * 
+     *
      * @param conn database connection
      * @return a list of ChangeRecordInfo
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public List<ChangeRecordInfo> getAllRecords(Connection conn) throws BrokerException {
 
         ArrayList records = new ArrayList();
@@ -274,10 +279,11 @@ class ConfigRecordDAOImpl extends BaseDAOImpl implements ConfigRecordDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();

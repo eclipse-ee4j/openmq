@@ -46,6 +46,7 @@ public class MQObjectInputStream extends ObjectInputStream {
      * Overide the ObjectInputStream.resolveClass() to return the old class definition for serialized object prior to 3.7
      * release.
      */
+    @Override
     protected Class resolveClass(ObjectStreamClass osc) throws IOException, ClassNotFoundException {
 
         String className = osc.getName();

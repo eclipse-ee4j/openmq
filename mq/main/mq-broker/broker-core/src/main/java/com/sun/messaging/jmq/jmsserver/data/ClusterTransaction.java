@@ -45,26 +45,31 @@ public class ClusterTransaction extends BaseTransaction {
 
     }
 
+    @Override
     public void readData(DataInputStream dis) throws IOException, BrokerException {
         transactionDetails.readContent(dis);
-        if (transactionWork == null)
+        if (transactionWork == null) {
             transactionWork = new TransactionWork();
+        }
         transactionWork.readWork(dis);
 
     }
 
+    @Override
     public void readObjects(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         transactionState = (TransactionState) ois.readObject();
         transactionBrokers = (TransactionBroker[]) ois.readObject();
 
     }
 
+    @Override
     public void writeData(DataOutputStream dos) throws IOException {
         transactionDetails.writeContent(dos);
         transactionWork.writeWork(dos);
 
     }
 
+    @Override
     public void writeObjects(ObjectOutputStream oos) throws IOException {
         oos.writeObject(transactionState);
 
@@ -79,6 +84,7 @@ public class ClusterTransaction extends BaseTransaction {
         this.transactionBrokers = transactionBrokers;
     }
 
+    @Override
     String getPrefix() {
         return "ClusterTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
     }

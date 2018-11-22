@@ -41,7 +41,6 @@ import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * This class provides unreliable packet delivery mechanism on the server side. It also uses a dedicated thread to
@@ -73,6 +72,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     /**
      * Creates an HTTP tunnel interface.
      */
+    @Override
     public void init(String serviceName) throws IOException {
         init(serviceName, InetAddress.getLocalHost().getHostAddress(), DEFAULT_HTTP_TUNNEL_PORT);
     }
@@ -80,6 +80,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     /**
      * Creates an HTTP tunnel interface.
      */
+    @Override
     public void init(String serviceName, String webServerHostName, int webServerPort) throws IOException {
         this.serviceName = serviceName;
 
@@ -91,14 +92,17 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         setName("HttpTunnelServerDriver");
     }
 
+    @Override
     public void setRxBufSize(int rxBufSize) {
         this.rxBufSize = rxBufSize;
     }
 
+    @Override
     public Vector getListenQ() {
         return listenQ;
     }
 
+    @Override
     public void listen(boolean listenState) throws IOException {
         boolean oldListenState = this.listenState;
         this.listenState = listenState;
@@ -110,10 +114,12 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         }
     }
 
+    @Override
     public int getInactiveConnAbortInterval() {
         return inactiveConnAbortInterval;
     }
 
+    @Override
     public void setInactiveConnAbortInterval(int inactiveConnAbortInterval) {
         this.inactiveConnAbortInterval = inactiveConnAbortInterval;
     }
@@ -122,6 +128,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
      * Waits for a TCP connection from the servlet. When <code>accept</code> returns successfully, this method sends the
      * current state of the connection table to the servlet and resumes normal operation.
      */
+    @Override
     protected void createLink() {
         totalRetryWaited = 0;
 
@@ -261,7 +268,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
 
         synchronized (connTable) {
             for (Enumeration e = connTable.keys(); e.hasMoreElements();) {
-                connids.addElement((String) e.nextElement());
+                connids.addElement(e.nextElement());
             }
         }
 
@@ -286,6 +293,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     /**
      * Handle TCP connection failure.
      */
+    @Override
     protected void handleLinkDown() {
         if (DEBUG || DEBUGLINK) {
             if (serverConn != null) {
@@ -308,6 +316,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
     /**
      * Receive a packet from the network side. (i.e. from the servlet).
      */
+    @Override
     protected void receivePacket(HttpTunnelPacket p) {
         int packetType = p.getPacketType();
 
@@ -482,6 +491,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         }
     }
 
+    @Override
     public synchronized void shutdown(int connId) {
         synchronized (connTable) {
             connTable.remove(Integer.toString(connId));
@@ -513,6 +523,7 @@ public class HttpTunnelServerDriverImpl extends Link implements HttpTunnelDefaul
         return p;
     }
 
+    @Override
     public Hashtable getDebugState() {
         return new Hashtable();
     }

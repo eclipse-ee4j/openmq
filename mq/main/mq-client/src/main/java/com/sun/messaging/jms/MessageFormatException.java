@@ -21,7 +21,6 @@
 package com.sun.messaging.jms;
 
 import java.io.*;
-import javax.jms.*;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -35,6 +34,11 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 
 public class MessageFormatException extends javax.jms.MessageFormatException implements Loggable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 3690579937453753234L;
 
     private Throwable cause = null;
 
@@ -84,6 +88,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * printStackTrace} a backtrace of the cause will also get printed.
      *
      **/
+    @Override
     public synchronized void setLinkedException(Exception ex) {
         super.setLinkedException(ex);
         try {
@@ -100,6 +105,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace() {
         this.printStackTrace(System.err);
     }
@@ -111,6 +117,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace(PrintStream s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -134,6 +141,7 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
      * exception linked to this <CODE>MessageFormatException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException}
      **/
+    @Override
     public void printStackTrace(PrintWriter s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -152,18 +160,20 @@ public class MessageFormatException extends javax.jms.MessageFormatException imp
 
     /**
      * set state to true if this object is logged.
-     * 
+     *
      * @param state boolean
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * get logging state of this object.
-     * 
+     *
      * @return boolean true if this object is logged.
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

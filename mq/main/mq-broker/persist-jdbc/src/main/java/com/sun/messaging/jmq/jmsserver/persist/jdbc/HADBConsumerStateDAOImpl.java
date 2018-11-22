@@ -38,7 +38,7 @@ class HADBConsumerStateDAOImpl extends ConsumerStateDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     HADBConsumerStateDAOImpl() throws BrokerException {
@@ -49,6 +49,7 @@ class HADBConsumerStateDAOImpl extends ConsumerStateDAOImpl {
     /**
      * Delete all entries.
      */
+    @Override
     protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
         super.deleteAll(conn, whereClause, CREATED_TS_COLUMN, HADB_CHUNK_SIZE);
@@ -56,7 +57,7 @@ class HADBConsumerStateDAOImpl extends ConsumerStateDAOImpl {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param dstUID the destination ID
      * @param sysMsgID the system message ID

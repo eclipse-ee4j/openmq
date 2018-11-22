@@ -51,25 +51,30 @@ public class GlobalXidDecision implements Externalizable {
         return _decision;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         _xid.write(out);
         out.writeInt(_decision);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         _xid = GlobalXid.read(in);
         _decision = in.readInt();
     }
 
     private static String decisionString(int d) {
-        if (d == COMMIT)
+        if (d == COMMIT) {
             return "COMMIT";
-        if (d == ROLLBACK)
+        }
+        if (d == ROLLBACK) {
             return "ROLLBACK";
+        }
         return "UNKNOWN";
     }
 
+    @Override
     public String toString() {
         return _xid.toString() + "(" + decisionString(_decision) + ")";
     }

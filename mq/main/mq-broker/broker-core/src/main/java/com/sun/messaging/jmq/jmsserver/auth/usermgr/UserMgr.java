@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.io.*;
 import java.util.Properties;
-import java.util.Enumeration;
 import java.util.ArrayList;
 
 import com.sun.messaging.jmq.Version;
@@ -36,7 +35,6 @@ import com.sun.messaging.jmq.util.FileUtil;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.auth.file.JMQFileUserRepository;
-import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.Broker;
 
 /**
@@ -396,9 +394,9 @@ public class UserMgr implements UserMgrOptions {
     /*
      * private static void warnForPassword(UserMgrProperties userMgrProps) throws UserMgrException { String password =
      * userMgrProps.getPassword();
-     * 
+     *
      * if (password == null) { return; }
-     * 
+     *
      * Output.stdErrPrintln(br.getString(br.W_PASSWD_OPTION_DEPRECATED, OPTION_PASSWD)); Output.stdErrPrintln(""); }
      */
 

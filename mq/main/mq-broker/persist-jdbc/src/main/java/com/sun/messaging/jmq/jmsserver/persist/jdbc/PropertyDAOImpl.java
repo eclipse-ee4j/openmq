@@ -47,7 +47,7 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     PropertyDAOImpl() throws BrokerException {
@@ -76,18 +76,20 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
@@ -96,12 +98,13 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
      * Persist the specified property name/value pair. If the property identified by name exists in the store already, it's
      * value will be updated with the new value. If value is null, the property will be removed. The value object needs to
      * be serializable.
-     * 
+     *
      * @param conn the database connection
      * @param name the property name
      * @param value the property value
      * @throws BrokerException
      */
+    @Override
     public void update(Connection conn, String name, Object value) throws BrokerException {
 
         boolean myConn = false;
@@ -173,11 +176,12 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Delete an entry.
-     * 
+     *
      * @param conn
      * @param name name name of the property whose value is to be deleted
      * @throws BrokerException
      */
+    @Override
     public void delete(Connection conn, String name) throws BrokerException {
 
         boolean myConn = false;
@@ -225,10 +229,11 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         if (Globals.getHAEnabled()) {
@@ -243,13 +248,14 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Retrieve the value for the specified property.
-     * 
+     *
      * @param conn database connection
      * @param name name of the property whose value is to be retrieved
      * @return the property value; null is returned if the specified property does not exist in the store
      * @exception BrokerException if an error occurs while retrieving the data
      * @exception NullPointerException if <code>name</code> is <code>null</code>
      */
+    @Override
     public Object getProperty(Connection conn, String name) throws BrokerException {
 
         Object propObj = null;
@@ -311,10 +317,11 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Return the names of all persisted properties.
-     * 
+     *
      * @param conn database connection
      * @return a List of property names; an empty List will be returned if no property exists in the store
      */
+    @Override
     public List getPropertyNames(Connection conn) throws BrokerException {
 
         ArrayList list = new ArrayList();
@@ -371,11 +378,12 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Load all properties from DB.
-     * 
+     *
      * @param conn database connection
      * @return the Properties object
      * @throws BrokerException
      */
+    @Override
     public Properties getProperties(Connection conn) throws BrokerException {
 
         Properties props = new Properties();
@@ -442,11 +450,12 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Check whether the specified property exists.
-     * 
+     *
      * @param conn database connection
      * @param name name of the property
      * @return return true if the specified property exists
      */
+    @Override
     public boolean hasProperty(Connection conn, String name) throws BrokerException {
 
         boolean found = false;
@@ -501,10 +510,11 @@ class PropertyDAOImpl extends BaseDAOImpl implements PropertyDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();

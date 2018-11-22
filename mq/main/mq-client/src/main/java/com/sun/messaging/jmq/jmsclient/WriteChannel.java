@@ -152,7 +152,7 @@ public class WriteChannel {
             try {
                 wait();
             } catch (InterruptedException e) {
-                ;
+                
             }
         }
 

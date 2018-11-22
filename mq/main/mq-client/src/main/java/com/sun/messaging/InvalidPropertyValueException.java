@@ -20,8 +20,6 @@
 
 package com.sun.messaging;
 
-import javax.jms.JMSException;
-
 /**
  * An <code>InvalidPropertyValueException</code> is thrown when setProperty is called with an invalid property value
  * parameter.
@@ -34,12 +32,17 @@ import javax.jms.JMSException;
 public class InvalidPropertyValueException extends javax.jms.JMSException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -5598985795609666298L;
+
+    /**
      * Constructs an InvalidPropertyValueException.
      * <p>
      * The exception message is formatted as
      * <p>
      * <b><code>name=value</code><b>
-     * 
+     *
      * @param name The property name.
      * @param value The invalid property value.
      */

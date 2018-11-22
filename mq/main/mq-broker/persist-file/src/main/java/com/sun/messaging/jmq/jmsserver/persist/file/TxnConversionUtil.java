@@ -56,8 +56,9 @@ public class TxnConversionUtil {
 
         if (convertingToTxnFormatFile.exists()) {
             // sanity check
-            if (convertingFromTxnFormatFile.exists())
+            if (convertingFromTxnFormatFile.exists()) {
                 throw new BrokerException("Inconsistent state. Both " + convertingToTxnFormatFile + " and " + convertingFromTxnFormatFile + " exist.");
+            }
             resolveIncompleteConversionToTxnLog(rootDir, convertingToTxnFormatFile);
         }
 

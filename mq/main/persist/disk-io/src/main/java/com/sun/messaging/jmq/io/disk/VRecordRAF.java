@@ -97,11 +97,11 @@ public class VRecordRAF extends VRecord {
         bbuf.putInt(magic);
         bbuf.putInt(capacity);
 
-//		write the state and cookie plus the real data 
+//		write the state and cookie plus the real data
         bbuf.put(data);
         bbuf.position(c);
 
-//      write the last record data		
+//      write the last record data
         bbuf.put(lastRecord);
         bbuf.rewind();
 
@@ -114,6 +114,7 @@ public class VRecordRAF extends VRecord {
         }
     }
 
+    @Override
     public void setCookie(short c) throws IOException {
         this.cookie = c;
         try {
@@ -127,6 +128,7 @@ public class VRecordRAF extends VRecord {
         }
     }
 
+    @Override
     public short getCookie() {
         return cookie;
     }
@@ -134,6 +136,7 @@ public class VRecordRAF extends VRecord {
     /*
      * Force any modifications made to the buffer to be written to physical storage.
      */
+    @Override
     public void force() throws IOException {
         if (DEBUG) {
             System.out.println("will do force on " + parent);
@@ -142,11 +145,13 @@ public class VRecordRAF extends VRecord {
         parent.force();
     }
 
+    @Override
     public String toString() {
         return ("VRecordRAF: start=" + recordStartAt + "; cap=" + capacity + ";state=" + state + ";index=" + index);
     }
 
     // reset any state or data
+    @Override
     void free() {
         index = VRFile.RECORD_HEADER_SIZE;
         state = VRFile.STATE_FREE;
@@ -164,6 +169,7 @@ public class VRecordRAF extends VRecord {
         }
     }
 
+    @Override
     void allocate(short s) {
         state = s;
 

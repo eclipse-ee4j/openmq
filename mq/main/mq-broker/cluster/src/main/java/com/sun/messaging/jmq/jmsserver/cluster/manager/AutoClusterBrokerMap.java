@@ -16,8 +16,6 @@
 
 package com.sun.messaging.jmq.jmsserver.cluster.manager;
 
-import java.util.Map;
-import java.util.HashMap;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;

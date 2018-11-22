@@ -22,18 +22,14 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
 import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
@@ -102,8 +98,9 @@ public class ClusterTxnInfoInfo {
         if (brokers != null) {
             StringBuffer buf = new StringBuffer();
             for (int i = 0; i < brokers.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     buf.append(",");
+                }
                 buf.append(brokers[i].toProtocolString());
             }
             gp.putProp("brokers", buf.toString());
@@ -111,8 +108,9 @@ public class ClusterTxnInfoInfo {
         if (waitfor != null) {
             StringBuffer buf = new StringBuffer();
             for (int i = 0; i < waitfor.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     buf.append(",");
+                }
                 buf.append(waitfor[i].toProtocolString());
             }
             gp.putProp("waitfor", buf.toString());
@@ -120,8 +118,9 @@ public class ClusterTxnInfoInfo {
         if (txnHome != null) {
             gp.putProp("transactionHome", txnHome.toProtocolString());
         }
-        if (xid != null)
+        if (xid != null) {
             gp.putProp("X", xid);
+        }
         gp.setBit(gp.A_BIT, false);
 
         return gp;
@@ -130,15 +129,17 @@ public class ClusterTxnInfoInfo {
     public boolean isOwner() {
         assert (pkt != null);
         Boolean b = (Boolean) pkt.getProp("owner");
-        if (b == null)
+        if (b == null) {
             return false;
+        }
         return b.booleanValue();
     }
 
     public BrokerAddress getOwnerBrokerAddress() throws Exception {
         assert (pkt != null);
-        if (!isOwner())
+        if (!isOwner()) {
             return null;
+        }
         return c.unmarshalBrokerAddress(pkt);
     }
 
@@ -164,8 +165,9 @@ public class ClusterTxnInfoInfo {
     public List getWaitfor() throws Exception {
         assert (pkt != null);
         String w = (String) pkt.getProp("waitfor");
-        if (w == null)
+        if (w == null) {
             return null;
+        }
         StringTokenizer tokens = new StringTokenizer(w, ",", false);
         List bas = new ArrayList();
         String b = null;
@@ -178,8 +180,9 @@ public class ClusterTxnInfoInfo {
 
     public boolean isWaitedfor(BrokerAddress me) throws Exception {
         List waitfor = getWaitfor();
-        if (waitfor == null)
+        if (waitfor == null) {
             return false;
+        }
         BrokerAddress b = null;
         TransactionBroker tb = null;
         Iterator itr = waitfor.iterator();
@@ -195,8 +198,9 @@ public class ClusterTxnInfoInfo {
     public BrokerAddress[] getBrokers() throws Exception {
         assert (pkt != null);
         String p = (String) pkt.getProp("brokers");
-        if (p == null)
+        if (p == null) {
             return null;
+        }
         StringTokenizer tokens = new StringTokenizer(p, ",", false);
         List bas = new ArrayList();
         String b = null;
@@ -210,8 +214,9 @@ public class ClusterTxnInfoInfo {
     public BrokerAddress getTransactionHome() {
         assert (pkt != null);
         String b = (String) pkt.getProp("transactionHome");
-        if (b == null)
+        if (b == null) {
             return null;
+        }
         try {
             return Globals.getMyAddress().fromProtocolString(b);
         } catch (Exception e) {
@@ -225,6 +230,7 @@ public class ClusterTxnInfoInfo {
     /**
      * To be called by sender
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {
@@ -239,8 +245,9 @@ public class ClusterTxnInfoInfo {
             if (brokers != null) {
                 StringBuffer bf = new StringBuffer();
                 for (int i = 0; i < brokers.length; i++) {
-                    if (i > 0)
+                    if (i > 0) {
                         bf.append(",");
+                    }
                     bf.append(brokers[i].toProtocolString());
                 }
                 buf.append("\n\tBrokers = ").append(bf.toString());
@@ -248,8 +255,9 @@ public class ClusterTxnInfoInfo {
             if (waitfor != null) {
                 StringBuffer bf = new StringBuffer();
                 for (int i = 0; i < waitfor.length; i++) {
-                    if (i > 0)
+                    if (i > 0) {
                         bf.append(",");
+                    }
                     bf.append(waitfor[i].toProtocolString());
                 }
                 buf.append("\n\tWaitfor = ").append(bf.toString());
@@ -269,8 +277,9 @@ public class ClusterTxnInfoInfo {
 
         try {
             BrokerAddress b = getTransactionHome();
-            if (b != null)
+            if (b != null) {
                 buf.append("\n\tTransactionHome = ").append(b);
+            }
         } catch (Exception e) {
             buf.append("\n\tTransactionHome = ERROR:").append(e.toString());
         }
@@ -281,8 +290,9 @@ public class ClusterTxnInfoInfo {
             if (bas != null) {
                 StringBuffer bf = new StringBuffer();
                 for (int i = 0; i < bas.length; i++) {
-                    if (i > 0)
+                    if (i > 0) {
                         bf.append(",");
+                    }
                     bf.append(bas[i].toProtocolString());
                 }
                 buf.append("\n\tBrokers = ").append(bf.toString());
@@ -298,8 +308,9 @@ public class ClusterTxnInfoInfo {
                 StringBuffer bf = new StringBuffer();
                 int i = 0;
                 while (itr.hasNext()) {
-                    if (i > 0)
+                    if (i > 0) {
                         bf.append(",");
+                    }
                     bf.append(((BrokerAddress) itr.next()).toProtocolString());
                     i++;
                 }

@@ -24,8 +24,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.io.Status;
-
 import java.util.*;
 import java.sql.*;
 import java.io.IOException;
@@ -37,7 +35,7 @@ class HADBMessageDAOImpl extends MessageDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     HADBMessageDAOImpl() throws BrokerException {
@@ -48,6 +46,7 @@ class HADBMessageDAOImpl extends MessageDAOImpl {
     /**
      * Delete all entries.
      */
+    @Override
     protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
         super.deleteAll(conn, whereClause, CREATED_TS_COLUMN, HADB_CHUNK_SIZE);
@@ -56,12 +55,13 @@ class HADBMessageDAOImpl extends MessageDAOImpl {
     /**
      * Get all message IDs for a broker. Work-around for "HADB-E-12462: Only a single table may be refered when fetching LOB
      * columns".
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of all messages the specified broker owns
      * @throws BrokerException
      */
+    @Override
     public List getMessagesByBroker(Connection conn, String brokerID) throws BrokerException {
 
         List list = Collections.EMPTY_LIST;
@@ -136,7 +136,7 @@ class HADBMessageDAOImpl extends MessageDAOImpl {
     /**
      * Check if a msg can be inserted. A BrokerException is thrown if the specified broker is being taken over by another
      * broker (HA mode).
-     * 
+     *
      * @param conn database connection
      * @param msgID message ID
      * @param dstID destination ID

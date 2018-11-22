@@ -33,11 +33,11 @@ public class Debug {
 
     /**
      * Set the DEBUG flag on the specified class. The DEBUG field is assumed to be declared:
-     * 
+     *
      * <pre>
      * public static boolean DEBUG;
      * </pre>
-     * 
+     *
      * @param className Fully qualified classname to set DEBUG on
      * @param debug Value to set DEBUG to
      *
@@ -64,18 +64,18 @@ public class Debug {
     /**
      * Set the DEBUG flag on the classes specified by values in a a Properties object. The Properties object should contain
      * a series of properties of the format:
-     * 
+     *
      * <pre>
      * <prefix>.<classname>=true|false
      * </pre>
-     * 
+     *
      * This method will set the DEBUG flag on <classname> to the specified value. For example if "jmq.debug." is the prefix
      * then
-     * 
+     *
      * <pre>
      * jmq.debug.com.sun.messaging.jmq.jmsserver.data.AcknowledgeList = true
      * </pre>
-     * 
+     *
      * Will set com.sun.messaging.jmq.jmsserver.data.AcknowledgeList.DEBUG to true.
      * <p>
      * If an error occurs when processing the properties further processing stops and the appropriate exception is thrown.
@@ -99,7 +99,7 @@ public class Debug {
                 // Get className and value and set debug
                 String className = key.substring(prefix.length());
                 if (className.length() != 0) {
-                    String value = (String) props.getProperty(key);
+                    String value = props.getProperty(key);
                     if (value != null && value.length() != 0) {
                         try {
                             setDebug(className, (Boolean.valueOf(value)).booleanValue());

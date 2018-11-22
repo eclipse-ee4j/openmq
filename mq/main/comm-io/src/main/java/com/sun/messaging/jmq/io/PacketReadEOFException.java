@@ -25,6 +25,10 @@ import java.io.EOFException;
  */
 public class PacketReadEOFException extends EOFException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9111888823879134839L;
     private int bytesRead = 0;
     private int packetSize = -1;
     private String appendMessage = null;

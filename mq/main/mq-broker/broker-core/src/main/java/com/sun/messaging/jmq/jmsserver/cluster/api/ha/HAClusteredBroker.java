@@ -20,10 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.cluster.api.ha;
 
-import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.TakeoverStoreInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 
@@ -39,6 +37,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
      *
      * @return the name of the broker
      */
+    @Override
     public String getBrokerName();
 
     /**
@@ -65,7 +64,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
 
     /**
      * Update the timestamp associated with this broker.
-     * 
+     *
      * @return the updated heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be set or retrieve.
      */
@@ -82,7 +81,7 @@ public interface HAClusteredBroker extends ClusteredBroker {
 
     /**
      * Attempt to take over the persistent state of the broker.
-     * 
+     *
      * @param force force the takeover
      * @param tracker for tracking takingover stages
      * @throws IllegalStateException if this broker can not takeover.

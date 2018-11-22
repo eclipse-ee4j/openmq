@@ -33,7 +33,7 @@ public interface JMSXAQueueConnection extends JMSXAConnection {
 
     /**
      * Create an XAQueueSession.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA queue session due to some internal error.
      */
 
@@ -41,7 +41,7 @@ public interface JMSXAQueueConnection extends JMSXAConnection {
 
     /**
      * get an QueueConnection associated with this XAQueueConnection object.
-     * 
+     *
      * @return a QueueConnection.
      */
     QueueConnection getQueueConnection();

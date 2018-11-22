@@ -34,6 +34,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
         super(transactionLogManager);
     }
 
+    @Override
     void processStoredTxnOnStartup(BaseTransaction baseTxn) {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processStoredTxnOnStartup " + baseTxn;
@@ -49,6 +50,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     void replayTransactionEvent(TransactionEvent txnEvent, HashSet dstLoadedSet) throws BrokerException, IOException {
 
         if (Store.getDEBUG()) {
@@ -116,6 +118,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
 
     }
 
+    @Override
     TransactionEvent generateEvent(BaseTransaction baseTxn, boolean completion) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " generateEvent " + baseTxn;
@@ -136,6 +139,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
         return result;
     }
 
+    @Override
     void processTxn(BaseTransaction baseTxn) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processTxn " + baseTxn;
@@ -156,6 +160,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     BaseTransaction processTxnCompletion(TransactionUID tid, int state) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processTxnCompletion " + tid;
@@ -170,6 +175,7 @@ public class LocalTransactionManager extends BaseTransactionManager {
 
     }
 
+    @Override
     String getPrefix() {
         return "LocalTransactionManager: " + Thread.currentThread().getName();
     }

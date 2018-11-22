@@ -29,12 +29,9 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.GetServicesHandler;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.PauseHandler;
-import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-
-import com.sun.messaging.jms.management.server.MQObjectName;
 
 public class ServiceUtil {
     public static ServiceInfo getServiceInfo(String service) {

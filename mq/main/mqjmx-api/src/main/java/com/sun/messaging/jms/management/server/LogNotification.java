@@ -20,13 +20,16 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on log related notifications. Log Notifications are sent when an entry in the broker log
  * is made.
  */
 public class LogNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7401876633002582521L;
+
     public static final String LOG_LEVEL_PREFIX = MQNotification.PREFIX + "log.level.";
 
     public static final String LOG_LEVEL_WARNING = LOG_LEVEL_PREFIX + LogLevel.WARNING;
@@ -63,6 +66,7 @@ public class LogNotification extends MQNotification {
      *
      * @return The log message for this notification.
      */
+    @Override
     public String getMessage() {
         return (message);
     }

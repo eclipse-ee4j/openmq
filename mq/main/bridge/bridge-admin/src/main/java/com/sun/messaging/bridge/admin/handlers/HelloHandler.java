@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.admin.handlers;
 import javax.jms.Session;
 import javax.jms.JMSException;
 import javax.jms.ObjectMessage;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.bridge.api.BridgeException;
 import com.sun.messaging.bridge.admin.BridgeServiceManagerImpl;
 import com.sun.messaging.bridge.admin.util.AdminMessageType;
@@ -36,6 +35,7 @@ public class HelloHandler extends AdminCmdHandler {
      *
      * throw exception if let parent handle sendReply
      */
+    @Override
     public void handle(Session session, ObjectMessage msg, ObjectMessage reply, BridgeManagerResources bmr) throws BridgeException, JMSException, Exception {
 
         int msgtype = msg.getIntProperty(AdminMessageType.PropName.MESSAGE_TYPE);

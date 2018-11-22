@@ -33,13 +33,18 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreListInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3575840451699650933L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_OBJSTORE_NAME), acr.getString(acr.I_OBJSTORE_CONN_STATUS) };
         return (columnNames);
@@ -51,16 +56,18 @@ public class ObjStoreListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
         if (col == 0) {
             return (conObj);
         } else if (col == 1) {
             if (conObj instanceof ObjStoreCObj) {
                 ObjStore os = ((ObjStoreCObj) conObj).getObjStore();
-                if (os.isOpen())
+                if (os.isOpen()) {
                     return acr.getString(acr.I_CONNECTED);
-                else
+                } else {
                     return acr.getString(acr.I_DISCONNECTED);
+                }
             }
         }
 

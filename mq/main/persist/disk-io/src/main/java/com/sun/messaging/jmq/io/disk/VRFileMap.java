@@ -105,7 +105,7 @@ public class VRFileMap extends VRFile {
 
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      */
     public VRFileMap(File file) {
@@ -114,7 +114,7 @@ public class VRFileMap extends VRFile {
 
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      */
     public VRFileMap(String name) {
@@ -123,7 +123,7 @@ public class VRFileMap extends VRFile {
 
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      * @parameter size initial file size; when a new file is created, a file of this size is mapped
      */
@@ -133,7 +133,7 @@ public class VRFileMap extends VRFile {
 
     /**
      * Instantiate a VRFileMap object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      * @parameter size initial file size; when a new file is created, a file of this size is mapped
      */
@@ -148,14 +148,16 @@ public class VRFileMap extends VRFile {
      * Open and load the backing file. If the backing file does not exist, it will be created and it size set to the initial
      * file size. Otherwise, all records (allocated or free) will be loaded in memory.
      */
+    @Override
     public synchronized void open() throws IOException, VRFileWarning {
         open(true);
     }
 
     private synchronized void open(boolean create) throws IOException, VRFileWarning {
 
-        if (opened)
+        if (opened) {
             return;
+        }
 
         RandomAccessFile raf = null;
         FileChannel fc = null;
@@ -192,17 +194,21 @@ public class VRFileMap extends VRFile {
                 throw warning;
             }
         } finally {
-            if (fc != null)
+            if (fc != null) {
                 fc.close();
-            if (raf != null)
+            }
+            if (raf != null) {
                 raf.close();
+            }
         }
     }
 
     // Close the VRFileMap and free up any resources
+    @Override
     public synchronized void close() {
-        if (!opened)
+        if (!opened) {
             return;
+        }
 
         if (DEBUG) {
             System.out.println(backingFile + ": closing...");
@@ -226,6 +232,7 @@ public class VRFileMap extends VRFile {
      * represents the record's size (capacity). If the value is positive the record allocated, if the value is negative the
      * record is free. WARNING! This may be an expensive operation.
      */
+    @Override
     public synchronized int[] getMap() throws IOException {
 
         if (!opened) {
@@ -300,6 +307,7 @@ public class VRFileMap extends VRFile {
      * Allocate a record of at least size "size". The actual size allocated will be a multiple of the block size and may be
      * larger than requested. The actual size allocated can be determined by inspecting the returned records capacity().
      */
+    @Override
     public synchronized VRecord allocate(int size) throws IOException {
 
         checkOpenAndWrite();
@@ -351,6 +359,7 @@ public class VRFileMap extends VRFile {
      * Force all changes made to all records to be written to disk. Note that the VRFileMap implementation may at times
      * choose to force data to disk independent of this method.
      */
+    @Override
     public synchronized void force() {
         checkOpen();
 
@@ -364,6 +373,7 @@ public class VRFileMap extends VRFile {
     /**
      * Clear all records.
      */
+    @Override
     public synchronized void clear(boolean truncate) throws IOException {
 
         RandomAccessFile raf = null;
@@ -423,6 +433,7 @@ public class VRFileMap extends VRFile {
 
     }
 
+    @Override
     public String toString() {
         return ("VRFileMap:" + backingFile + ":# of buffers=" + allocated.size() + ":# of free buffers=" + numFree + ":# of MappedByteBuffer="
                 + mappedBuffers.size());
@@ -662,11 +673,13 @@ public class VRFileMap extends VRFile {
 
         short state = adjustRecordState(fileversion, statefromfile);
 
-        if (magic != RECORD_MAGIC_NUMBER)
+        if (magic != RECORD_MAGIC_NUMBER) {
             return STATE_BAD_MAGIC_NUMBER;
+        }
 
-        if (state == STATE_BAD_STATE)
+        if (state == STATE_BAD_STATE) {
             return state;
+        }
 
         // check the next magic number as well
         if (state == _STATE_LAST) {
@@ -680,7 +693,7 @@ public class VRFileMap extends VRFile {
         } else if (position + capacity == buf.limit()) {
             // we are the last record in this mapped buffer
             return state;
-        } else if (((long) position + (long) capacity) > (long) buf.limit()) {
+        } else if (((long) position + (long) capacity) > buf.limit()) {
             return STATE_CUTOFF; // real bad record or record cut off at the
             // end of the mapped buffer
         } else if ((buf.limit() - position - capacity) > 4) {
@@ -701,7 +714,7 @@ public class VRFileMap extends VRFile {
     /**
      * The bad section will be marked as a free record if a good record is found; or as a last record if no good record is
      * found and this is the last MappedByteBuffer.
-     * 
+     *
      * @return the position of the good record or limit of the buffer if none is found
      */
     private int handleBadRecord(short errcode, ByteBuffer h, MappedByteBuffer mbuf, boolean last) throws IOException {
@@ -892,10 +905,12 @@ public class VRFileMap extends VRFile {
             throw new IOException(e.getMessage());
 
         } finally {
-            if (fc != null)
+            if (fc != null) {
                 fc.close();
-            if (raf != null)
+            }
+            if (raf != null) {
                 raf.close();
+            }
         }
     }
 
@@ -903,7 +918,7 @@ public class VRFileMap extends VRFile {
      * Starting from buf.position, scan for a good record. First find the record magic number and get the capacity. A good
      * record will be one with a record magic number after the end of it (indicating another record); or it's the LAST
      * record
-     * 
+     *
      * @return the position of the good record or limit of the buffer if none is found
      */
     private int findGoodRecord(MappedByteBuffer buf) {
@@ -921,9 +936,9 @@ public class VRFileMap extends VRFile {
                     int nextpos = current + capacity;
 
                     if (state == STATE_BAD_STATE) {
-                        ; // continue
+                         // continue
                     } else if ((state != _STATE_LAST) && (capacity <= RECORD_HEADER_SIZE)) {
-                        ; // continue;
+                         // continue;
                     } else if (state == _STATE_LAST) {
                         if (capacity == 0) {
                             return current;
@@ -962,15 +977,15 @@ public class VRFileMap extends VRFile {
     private void printMappedBuffers() {
         System.out.println("mapped buffers:");
         for (int i = 0; i < mappedBuffers.size(); i++) {
-            System.out.println((MappedByteBuffer) mappedBuffers.get(i));
+            System.out.println(mappedBuffers.get(i));
         }
     }
 
     /*
      * public static void main(String args[]) throws Exception { if (args.length == 0) { return; }
-     * 
+     *
      * VRFileMap vrfile = new VRFileMap(args[0]);
-     * 
+     *
      * vrfile.open(); Set records = vrfile.getRecords(); System.out.println("loaded "+records.size()+" records from "+
      * args[0]); }
      */

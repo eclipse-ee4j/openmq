@@ -60,6 +60,11 @@ import com.sun.messaging.jms.Connection;
  */
 public class ConnectionEvent extends Event {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -119022299877854350L;
+
     private String brokerAddress = null;
 
     /**
@@ -73,7 +78,7 @@ public class ConnectionEvent extends Event {
      * @param conn the connection associated with this event object.
      * @param evCode the event code that represents the this event object.
      * @param evMessage the event message that describes this event object.
-     * 
+     *
      */
     public ConnectionEvent(Connection conn, String evCode, String evMessage) {
         super(conn, evCode, evMessage);
@@ -84,7 +89,7 @@ public class ConnectionEvent extends Event {
 
     /**
      * Get the current connection associated with this event.
-     * 
+     *
      * @return the current connection associated with this event.
      */
     public Connection getConnection() {
@@ -102,9 +107,10 @@ public class ConnectionEvent extends Event {
 
     /**
      * Return com.sun.messaging.jms.Connection object.
-     * 
+     *
      * @return the connection object associated with this event.
      */
+    @Override
     public Object getSource() {
         return this.getConnection();
     }

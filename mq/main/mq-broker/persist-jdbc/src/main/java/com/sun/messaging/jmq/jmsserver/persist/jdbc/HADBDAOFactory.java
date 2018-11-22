@@ -21,13 +21,13 @@
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.persist.jdbc.*;
 
 /**
  * Factory for HADB implementation of DAO object.
  */
 public class HADBDAOFactory extends GenericDAOFactory {
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
 
         if (messageDAO == null) {
@@ -36,6 +36,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
         return messageDAO;
     }
 
+    @Override
     public DestinationDAO getDestinationDAO() throws BrokerException {
 
         if (destinationDAO == null) {
@@ -44,6 +45,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
         return destinationDAO;
     }
 
+    @Override
     public ConsumerDAO getConsumerDAO() throws BrokerException {
 
         if (consumerDAO == null) {
@@ -52,6 +54,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
         return consumerDAO;
     }
 
+    @Override
     public ConsumerStateDAO getConsumerStateDAO() throws BrokerException {
 
         if (consumerStateDAO == null) {
@@ -60,6 +63,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
         return consumerStateDAO;
     }
 
+    @Override
     public ConfigRecordDAO getConfigRecordDAO() throws BrokerException {
 
         if (configRecordDAO == null) {
@@ -68,6 +72,7 @@ public class HADBDAOFactory extends GenericDAOFactory {
         return configRecordDAO;
     }
 
+    @Override
     public TransactionDAO getTransactionDAO() throws BrokerException {
 
         if (transactionDAO == null) {

@@ -30,12 +30,10 @@ import javax.jms.Session;
 import javax.jms.XASession;
 import javax.jms.Connection;
 import javax.jms.XAConnection;
-import javax.jms.ConnectionFactory;
 import javax.jms.XAConnectionFactory;
 import javax.jms.JMSException;
 import javax.jms.ExceptionListener;
 import javax.jms.ConnectionMetaData;
-import javax.jms.MessageListener;
 import javax.transaction.Status;
 import javax.transaction.Transaction;
 import javax.transaction.TransactionManager;
@@ -64,36 +62,43 @@ public class Link implements Runnable {
 
     public enum LinkState {
         UNINITIALIZED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_UNINITIALIZED);
             }
         },
         STARTING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STARTING);
             }
         },
         STARTED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STARTED);
             }
         },
         STOPPING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPING);
             }
         },
         STOPPED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_STOPPED);
             }
         },
         PAUSING {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSING);
             }
         },
         PAUSED {
+            @Override
             public String toString(ResourceBundle rb) {
                 return rb.getString(BridgeCmdSharedResources.I_STATE_PAUSED);
             }
@@ -101,10 +106,11 @@ public class Link implements Runnable {
 
         public abstract String toString(ResourceBundle rb);
 
+        @Override
         public String toString() {
             return toString(_jbr);
-        };
-    };
+        }
+    }
 
     private Logger _logger = null;
 
@@ -248,8 +254,9 @@ public class Link implements Runnable {
      */
     public void registerXAResources() throws Exception {
 
-        if (!(_sourceCF instanceof XAConnectionFactory))
+        if (!(_sourceCF instanceof XAConnectionFactory)) {
             return;
+        }
 
         XAResourceHandle srh = new XAResourceHandle(false);
         XAResourceHandle trh = new XAResourceHandle(true);
@@ -453,16 +460,18 @@ public class Link implements Runnable {
             }
 
             try {
-                if (_sourceConn != null)
+                if (_sourceConn != null) {
                     _sourceConn.close();
+                }
             } catch (Throwable t0) {
                 t = t0;
             }
             try {
                 closeTarget();
             } catch (Throwable t1) {
-                if (t == null)
+                if (t == null) {
                     t = t1;
+                }
             }
 
             if (t == null) {
@@ -533,6 +542,7 @@ public class Link implements Runnable {
 
         _sourceConn.setExceptionListener(new ExceptionListener() {
 
+            @Override
             public void onException(JMSException exception) {
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_CONN_EXCEPTION_OCCURRED, _jbr.getString(_jbr.M_SOURCE_1), this.toString()), exception);
                 if (_targetConn instanceof PooledConnection) {
@@ -650,6 +660,7 @@ public class Link implements Runnable {
 
         _targetConn.setExceptionListener(new ExceptionListener() {
 
+            @Override
             public void onException(JMSException exception) {
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_CONN_EXCEPTION_OCCURRED, _jbr.getString(_jbr.M_TARGET_1), this.toString()), exception);
                 if (_targetConn instanceof PooledConnection) {
@@ -808,6 +819,7 @@ public class Link implements Runnable {
         }
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("link(" + getName() + ")[");
@@ -819,14 +831,16 @@ public class Link implements Runnable {
     }
 
     public String getSourceString() {
-        if (_state == LinkState.UNINITIALIZED)
+        if (_state == LinkState.UNINITIALIZED) {
             return "";
+        }
         return (((Refable) _sourceCF).getRef() + ":" + (_sourceConnType == null ? "" : _sourceConnType) + ":" + getSourceDestinationName());
     }
 
     public String getTargetString() {
-        if (_state == LinkState.UNINITIALIZED)
+        if (_state == LinkState.UNINITIALIZED) {
             return "";
+        }
         return (((Refable) _targetCF).getRef() + ":" + (_targetConnType == null ? "" : _targetConnType) + ":" + getTargetDestinationName());
     }
 
@@ -840,23 +854,26 @@ public class Link implements Runnable {
 
     public String getSourceProviderName() {
         String pn = _sourceProviderName;
-        if (pn != null)
+        if (pn != null) {
             return pn;
+        }
 
         return ((Refable) _sourceCF).getRefed().getClass().getName();
     }
 
     public String getTargetProviderName() {
         String pn = _targetProviderName;
-        if (pn != null)
+        if (pn != null) {
             return pn;
+        }
 
         return ((Refable) _targetCF).getRefed().getClass().getName();
     }
 
     public String getSourceDestinationName() {
-        if (_sourceDestName != null)
+        if (_sourceDestName != null) {
             return _sourceDestName;
+        }
 
         Object dest = _sourceDest;
         try {
@@ -937,6 +954,7 @@ public class Link implements Runnable {
 
     private final Object _listenerLock = new Object();
 
+    @Override
     public void run() {
         try {
 
@@ -986,6 +1004,7 @@ public class Link implements Runnable {
             istarget = target;
         }
 
+        @Override
         public String toString() {
             return "[" + (istarget ? _jbr.getString(_jbr.M_TARGET) : _jbr.getString(_jbr.M_SOURCE)) + "]" + xar;
         }
@@ -998,7 +1017,7 @@ public class Link implements Runnable {
 
         long receiveTimeout = 0L;
         if (_parent.supportTransactionTimeout()) {
-            receiveTimeout = (((long) _parent.getTransactionTimeout()) / (long) 2) * (long) 1000;
+            receiveTimeout = (((long) _parent.getTransactionTimeout()) / (long) 2) * 1000;
         }
 
         int consecutiveThrowables = 0;
@@ -1117,8 +1136,9 @@ public class Link implements Runnable {
                     }
                     continue;
                 }
-                if (!isTransactionActive(transaction, _tm))
+                if (!isTransactionActive(transaction, _tm)) {
                     continue;
+                }
 
                 srcmhs = MessageHeaders.getMessageHeaders(m);
                 mid = srcmhs.mid;
@@ -1130,8 +1150,9 @@ public class Link implements Runnable {
                     handleExpiredMessage(m, mid, transaction, _tm, srh);
                     continue;
                 }
-                if (!isTransactionActive(transaction, _tm))
+                if (!isTransactionActive(transaction, _tm)) {
                     continue;
+                }
 
                 if (!_targetStayConnected) {
                     try {
@@ -1147,8 +1168,9 @@ public class Link implements Runnable {
                         throw e;
                     }
                 }
-                if (!isTransactionActive(transaction, _tm))
+                if (!isTransactionActive(transaction, _tm)) {
                     continue;
+                }
 
                 Message sm = null;
                 String midSent = null;
@@ -1161,8 +1183,9 @@ public class Link implements Runnable {
                 }
                 if (sm == null) {
                     _logger.log(Level.WARNING, _jbr.getString(_jbr.W_CONSUME_NO_TRANSFER, mid, this));
-                    if (!isTransactionActive(transaction, _tm))
+                    if (!isTransactionActive(transaction, _tm)) {
                         continue;
+                    }
 
                 } else {
 
@@ -1240,8 +1263,9 @@ public class Link implements Runnable {
                         continue;
                     }
 
-                    if (!isTransactionActive(transaction, _tm))
+                    if (!isTransactionActive(transaction, _tm)) {
                         continue;
+                    }
 
                     if (_logger.isLoggable(Level.FINE)) {
                         _logger.log(Level.FINE, "delist " + trh + " in transaction " + transaction + " in " + this);
@@ -1255,8 +1279,9 @@ public class Link implements Runnable {
 
                 } // sm != null
 
-                if (!isTransactionActive(transaction, _tm))
+                if (!isTransactionActive(transaction, _tm)) {
                     continue;
+                }
 
                 if (_logger.isLoggable(Level.FINE)) {
                     _logger.log(Level.FINE, "delist " + srh + " in transaction " + transaction + " in " + this);
@@ -1582,8 +1607,9 @@ public class Link implements Runnable {
                     currentThrowable = t;
                     logWarning("Exception in receiving message: " + t.getMessage() + " in " + this, t);
 
-                    if (_state == LinkState.STOPPING || _state == LinkState.STOPPED)
+                    if (_state == LinkState.STOPPING || _state == LinkState.STOPPED) {
                         return;
+                    }
 
                     closeSource();
                     _sourceConnException = true;
@@ -1749,7 +1775,7 @@ public class Link implements Runnable {
      * @return a Message object that is tranformed from 'm' or null to inform caller to consume 'm' from source and no
      * forward to target
      * @exception to inform caller that the link must be stopped
-     * 
+     *
      */
     private Message handleMessageTransformer(Message m, MessageHeaders srcmhs) throws Throwable {
         Message msgToSend = m;

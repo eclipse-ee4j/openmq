@@ -34,9 +34,9 @@ public interface JMSXATopicSession extends JMSXASession {
 
     /**
      * Get the topic session associated with this JMSXATopicSession object.
-     * 
+     *
      * @return the topic session object.
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      */
 

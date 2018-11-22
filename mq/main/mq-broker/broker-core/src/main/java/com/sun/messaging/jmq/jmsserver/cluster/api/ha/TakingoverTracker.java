@@ -105,7 +105,7 @@ public final class TakingoverTracker {
 
     /**
      * Return the brokerID that is being taken over.
-     * 
+     *
      * @return the brokerID that is being taken over
      */
     public final String getTargetName() {
@@ -117,8 +117,9 @@ public final class TakingoverTracker {
     }
 
     public final int getStage() {
-        if (substage != -1)
+        if (substage != -1) {
             return substage;
+        }
         return stage;
     }
 
@@ -136,14 +137,16 @@ public final class TakingoverTracker {
     }
 
     public final boolean containDestination(Destination d) {
-        if (msgMap == null)
+        if (msgMap == null) {
             return false;
+        }
         return msgMap.containsValue(d.getDestinationUID().toString());
     }
 
     public final boolean containMessage(Packet m) {
-        if (msgMap == null)
+        if (msgMap == null) {
             return false;
+        }
         return msgMap.containsKey(m.getSysMessageID().toString());
     }
 
@@ -186,6 +189,7 @@ public final class TakingoverTracker {
         stage = AFTER_PROCESSING;
     }
 
+    @Override
     public String toString() {
         return getTargetName() + "[StoreSession:" + (getStoreSessionUID() == null ? "" : getStoreSessionUID()) + "], "
                 + (getBrokerSessionUID() == null ? "" : getBrokerSessionUID()) + ", " + lastHeartbeat + ", (" + getStage() + ")";

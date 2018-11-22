@@ -136,6 +136,7 @@ public class HeartbeatInfo {
         return pkt.getSequence();
     }
 
+    @Override
     public String toString() {
         if (pkt != null) {
             return "#" + getSequence() + " [" + getBrokerID() + "," + getBrokerSession() + "] to " + "[" + getToBrokerID() + "," + getToBrokerSession() + "]";

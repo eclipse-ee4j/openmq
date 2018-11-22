@@ -20,22 +20,17 @@
 
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
-import java.io.IOException;
-
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.util.timer.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 
@@ -59,6 +54,7 @@ public class GoodbyeHandler extends PacketHandler {
     /**
      * Method to handle goodbye messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         Hashtable props = null;
         try {
@@ -89,8 +85,9 @@ public class GoodbyeHandler extends PacketHandler {
             pkt.setConsumerID(msg.getConsumerID());
             Hashtable hash = new Hashtable();
             hash.put("JMQStatus", Integer.valueOf(Status.OK));
-            if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+            if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                 hash.put("JMQReqID", msg.getSysMessageID().toString());
+            }
             pkt.setProperties(hash);
             con.sendControlMessage(pkt);
             // increase timeout
@@ -140,7 +137,9 @@ final class GoodbyeTask extends TimerTask {
 
     private GoodbyeTask() {
         if (timeout <= 0)
+         {
             timeout = 300 * 1000; // 5 minutes
+        }
         try {
             Globals.getTimer(true).schedule(this, timeout, timeout);
         } catch (IllegalStateException ex) {
@@ -150,8 +149,9 @@ final class GoodbyeTask extends TimerTask {
     }
 
     private synchronized void _addCon(ConnectionUID conuid, String reason) {
-        if (invalid)
+        if (invalid) {
             return;
+        }
         reasonSet.add(reason);
         nextSet.add(conuid);
     }
@@ -167,6 +167,7 @@ final class GoodbyeTask extends TimerTask {
         }
     }
 
+    @Override
     public void run() {
         LinkedList list = null;
         LinkedList reasonlist = null;
@@ -183,8 +184,9 @@ final class GoodbyeTask extends TimerTask {
                 }
             }
         }
-        if (list == null)
+        if (list == null) {
             return;
+        }
         Iterator itr = list.iterator();
         while (itr.hasNext()) {
             ConnectionUID uid = (ConnectionUID) itr.next();
@@ -195,8 +197,9 @@ final class GoodbyeTask extends TimerTask {
             } catch (Exception e) {
                 logger.log(Logger.DEBUG, "Can't get reason string for destroying connection " + uid);
             }
-            if (reason == null)
+            if (reason == null) {
                 reason = "REASON NOTFOUND";
+            }
             if (con != null && con.isValid()) {
                 try {
                     con.destroyConnection(false, GoodbyeReason.CLIENT_CLOSED, reason);

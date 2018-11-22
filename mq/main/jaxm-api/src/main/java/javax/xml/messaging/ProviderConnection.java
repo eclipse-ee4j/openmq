@@ -40,7 +40,7 @@ import javax.xml.soap.*;
  * which needs to be cast to a <code>ProviderConnectionFactory</code> object before it can be used to create a
  * connection. In the following code fragment, the resulting <code>ProviderConnection</code> object is a connection to
  * the messaging provider that is associated with the logical name "ProviderXYZ".
- * 
+ *
  * <PRE>
  * Context ctx = new InitialContext();
  * ProviderConnectionFactory pcf = (ProviderConnectionFactory) ctx.lookup("ProviderXYZ");
@@ -123,7 +123,7 @@ public interface ProviderConnection {
      * Sends the given <code>SOAPMessage</code> object and returns immediately after handing the message over to the
      * messaging provider. No assumptions can be made regarding the ultimate success or failure of message delivery at the
      * time this method returns.
-     * 
+     *
      * @param message the <code>SOAPMessage</code> object that is to be sent asynchronously over this
      * <code>ProviderConnection</code> object
      * @exception JAXMException if a JAXM transmission error occurs

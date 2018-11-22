@@ -16,13 +16,9 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.glassfish.grizzly.GrizzlyFuture;
-import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.WriteResult;
-import org.glassfish.grizzly.CompletionHandler;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.StompFrameMessage;
@@ -51,11 +47,13 @@ public class AsyncStompOutputHandler implements StompOutputHandler {
         _bc = bc;
     }
 
+    @Override
     public void sendToClient(StompFrameMessage msg, StompProtocolHandler sph, Object ctx) throws Exception {
 
         throw new UnsupportedOperationException("sendToClient(msg, ctx, sph)");
     }
 
+    @Override
     public void sendToClient(final StompFrameMessage msg) throws Exception {
         boolean closechannel = false;
         if (msg.getCommand() == StompFrameMessage.Command.ERROR) {

@@ -256,8 +256,9 @@ public class ProtocolGlobals {
             return "UNKNOWN";
         }
         String name = packetTypeNames[n];
-        if (name.startsWith("G_"))
+        if (name.startsWith("G_")) {
             return name.substring(2);
+        }
         return name;
     }
 
@@ -274,12 +275,15 @@ public class ProtocolGlobals {
     public static final int G_NEW_PRIMARY_INTEREST = 4;
 
     public static String getInterestUpdateSubTypeString(int n) {
-        if (n == G_REM_INTEREST)
+        if (n == G_REM_INTEREST) {
             return "REM_INTEREST";
-        if (n == G_DURABLE_DETACH)
+        }
+        if (n == G_DURABLE_DETACH) {
             return "DURABLE_DETACH";
-        if (n == G_NEW_PRIMARY_INTEREST)
+        }
+        if (n == G_NEW_PRIMARY_INTEREST) {
             return "NEW_PRIMARY_INTEREST";
+        }
         return "UNKNOWN";
     }
 
@@ -320,7 +324,7 @@ public class ProtocolGlobals {
         default:
             return "UNKNOWN(" + status + ")";
         }
-    };
+    }
 
     public static final int G_LOCK_MAX_ATTEMPTS = 10;
     public static final int G_RESOURCE_LOCKING = 0;

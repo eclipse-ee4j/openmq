@@ -66,6 +66,7 @@ public class FileConfigStore implements ConfigStore {
      * @throws BrokerException if a fatal error occurs loading the config store
      */
 
+    @Override
     public Properties loadStoredProps(Properties currentprops, String instancename) throws BrokerException {
         // now load the stored properties seperately (for storing later)
         //
@@ -93,8 +94,9 @@ public class FileConfigStore implements ConfigStore {
 
             // make the directory (if necessary)
             File dir = new File(vardirectory);
-            if (!dir.exists())
+            if (!dir.exists()) {
                 dir.mkdirs();
+            }
 
             if (!f.exists()) {
                 try {
@@ -130,6 +132,7 @@ public class FileConfigStore implements ConfigStore {
      * @throws BrokerException if a fatal error occurs loading the config store
      */
 
+    @Override
     public Properties loadClusterProps(Properties currentprops, Properties parameters, Properties instanceprops) throws BrokerException {
         String cluster_url_str = parameters.getProperty(cluster_prop, instanceprops.getProperty(cluster_prop, currentprops.getProperty(cluster_prop)));
 
@@ -137,8 +140,9 @@ public class FileConfigStore implements ConfigStore {
     }
 
     private Properties loadClusterProps(String cluster_url_str) {
-        if (cluster_url_str == null)
+        if (cluster_url_str == null) {
             return null;
+        }
         Properties storedprops = new Properties();
 
         try {
@@ -162,6 +166,7 @@ public class FileConfigStore implements ConfigStore {
      * @throws IOException if the property can not be stored
      */
 
+    @Override
     public void storeProperties(Properties props) throws IOException {
         try {
             FileOutputStream cfile = new FileOutputStream(storedprop_loc);
@@ -184,22 +189,25 @@ public class FileConfigStore implements ConfigStore {
      *
      * @param propnames Array containing names of the properties to be reloaded.
      */
+    @Override
     public Properties reloadProps(String instancename, String[] propnames) throws BrokerException {
         Properties props = loadStoredProps(null, instancename);
-        if (props == null)
+        if (props == null) {
             return null;
+        }
 
         Properties ret = new Properties();
         for (int i = 0; i < propnames.length; i++) {
             String value = props.getProperty(propnames[i]);
-            if (value != null)
+            if (value != null) {
                 ret.setProperty(propnames[i], value);
+            }
         }
 
         /*
          * String cluster_url_str = props.getProperty(cluster_prop, null); props = loadClusterProps(cluster_url_str); if (props
          * == null) return ret;
-         * 
+         *
          * for (int i = 0; i < propnames.length; i++) { String value = props.getProperty(propnames[i]); if (value != null)
          * ret.setProperty(propnames[i], value); }
          */
@@ -208,6 +216,7 @@ public class FileConfigStore implements ConfigStore {
         return ret;
     }
 
+    @Override
     public void clearProps(String instancename) {
         String vardirectory = CommGlobals.getJMQ_INSTANCES_HOME() + File.separator + instancename + File.separator + "props" + File.separator;
         storedprop_loc = vardirectory + "config.properties";

@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -61,7 +60,7 @@ public class JMSServiceReply {
     /////////////////////////////////////////////////////////////////////////
     /**
      * returns the status associated with a JMSService request
-     * 
+     *
      * @return The Status of the JMSService request
      */
     public Status getStatus() {
@@ -260,7 +259,7 @@ public class JMSServiceReply {
 
     /**
      * returns the type of the Destination that was created or verified.
-     * 
+     *
      *
      * @return The type of the Destination
      */
@@ -385,7 +384,7 @@ public class JMSServiceReply {
          * <p>
          * An {@code addConsumer()} call that results in this Status indicates that the selector description is invalid.
          * <p>
-         * 
+         *
          */
         BAD_REQUEST(400),
 
@@ -506,10 +505,12 @@ public class JMSServiceReply {
         }
 
         /* Methods implementing EnumConverter interface */
+        @Override
         public int convert() {
             return _statusCode;
         }
 
+        @Override
         public Status convert(int val) {
             return map.get(val);
         }

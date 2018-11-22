@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
 
@@ -48,6 +45,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class AMenuBar extends JMenuBar {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1685422450827149167L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static final int cmdKey = Toolkit.getDefaultToolkit().getMenuShortcutKeyMask();
 
@@ -128,13 +129,13 @@ public class AMenuBar extends JMenuBar {
         /*
          * Console Menu
          */
-        consoleMenu = (JMenu) this.add(new JMenu(acr.getString(acr.I_MENU_CONSOLE)));
+        consoleMenu = this.add(new JMenu(acr.getString(acr.I_MENU_CONSOLE)));
         consoleMenu.setMnemonic(acr.getChar(acr.I_CONSOLE_MNEMONIC));
 
         /*
          * prefsItem = addMenuItem(consoleMenu, ActionManager.PREFERENCES);
          * prefsItem.setMnemonic(acr.getChar(acr.I_PREFERENCES_MNEMONIC));
-         * 
+         *
          * consoleMenu.add(new JSeparator());
          */
 
@@ -146,7 +147,7 @@ public class AMenuBar extends JMenuBar {
         /*
          * Edit menu
          */
-        editMenu = (JMenu) this.add(new JMenu(acr.getString(acr.I_MENU_EDIT)));
+        editMenu = this.add(new JMenu(acr.getString(acr.I_MENU_EDIT)));
         editMenu.setMnemonic(acr.getChar(acr.I_EDIT_MNEMONIC));
 
         deleteItem = addMenuItem(editMenu, ActionManager.DELETE);
@@ -156,7 +157,7 @@ public class AMenuBar extends JMenuBar {
         /*
          * Actions menu
          */
-        actionsMenu = (JMenu) this.add(new JMenu(acr.getString(acr.I_MENU_ACTIONS)));
+        actionsMenu = this.add(new JMenu(acr.getString(acr.I_MENU_ACTIONS)));
         actionsMenu.setMnemonic(acr.getChar(acr.I_ACTIONS_MNEMONIC));
 
         addItem = addMenuItem(actionsMenu, ActionManager.ADD);
@@ -209,7 +210,7 @@ public class AMenuBar extends JMenuBar {
         /*
          * View menu
          */
-        viewMenu = (JMenu) this.add(new JMenu(acr.getString(acr.I_MENU_VIEW)));
+        viewMenu = this.add(new JMenu(acr.getString(acr.I_MENU_VIEW)));
         viewMenu.setMnemonic(acr.getChar(acr.I_VIEW_MNEMONIC));
 
         expandItem = addMenuItem(viewMenu, ActionManager.EXPAND_ALL);
@@ -234,7 +235,7 @@ public class AMenuBar extends JMenuBar {
         /*
          * Help menu
          */
-        helpMenu = (JMenu) this.add(new JMenu(acr.getString(acr.I_MENU_HELP)));
+        helpMenu = this.add(new JMenu(acr.getString(acr.I_MENU_HELP)));
         helpMenu.setMnemonic(acr.getChar(acr.I_HELP_MNEMONIC));
 
         overviewItem = new JMenuItem(acr.getString(acr.I_OVERVIEW));

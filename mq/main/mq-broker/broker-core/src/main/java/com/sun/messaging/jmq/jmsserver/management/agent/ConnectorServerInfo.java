@@ -20,13 +20,7 @@
 
 package com.sun.messaging.jmq.jmsserver.management.agent;
 
-import java.util.List;
-import java.util.Set;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.HashMap;
-import java.util.Collection;
-import java.util.Vector;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
@@ -34,13 +28,10 @@ import javax.management.*;
 import javax.management.remote.*;
 import javax.management.remote.rmi.RMIConnectorServer;
 
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.io.MQAddress;
-
 import com.sun.messaging.jmq.management.MQRMIClientSocketFactory;
 
 /**
@@ -242,7 +233,7 @@ public class ConnectorServerInfo {
      * The following properties can be used to further configure the connector server: imq.jmx.connector.<connector server
      * name>.useSSL imq.jmx.connector.<connector server name>.brokerHostTrusted imq.jmx.connector.<connector server
      * name>.backlog
-     * 
+     *
      */
     private void initConnectorServer() throws BrokerException {
         JMXConnectorServer cs;

@@ -70,7 +70,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
     private enum State {
         UNINITIALIZED, STOPPING, STOPPED, STARTING, STARTED
-    };
+    }
 
     private static boolean DEBUG = false;
 
@@ -94,6 +94,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     @Inject
     private ServiceLocator habitat;
 
+    @Override
     public void postConstruct() {
         logger.entering(className, LOGMSG_PREFIX + "postConstruct()", "");
         BridgeBaseContext bbc = habitat.getService(BridgeBaseContext.class, BROKER_BRIDGE_BASE_CONTEXT_CLASS_STR);
@@ -111,6 +112,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
+    @Override
     public void preDestroy() {
         logger.entering(className, LOGMSG_PREFIX + "preDestroy()", "");
         logger.info(LOGMSG_PREFIX + "Stopping bridge service manager ..");
@@ -123,7 +125,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     }
 
     /**
-     *  
+     *
      */
     public BridgeServiceManagerImpl() {
     }
@@ -131,6 +133,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     /**
      * Initialize the bridge service manager
      */
+    @Override
     public synchronized void init(BridgeBaseContext ctx) throws Exception {
         com.sun.messaging.jmq.jmsclient.Debug.setUseLogger(true);
         FaultInjection.setBridgeBaseContext(ctx);
@@ -149,8 +152,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
             try {
                 loadBridge(name);
             } catch (BridgeException e) {
-                if (e.getStatus() == Status.NOT_MODIFIED)
+                if (e.getStatus() == Status.NOT_MODIFIED) {
                     continue;
+                }
 
                 _bc.logError(_bmr.getKString(_bmr.E_LOAD_BRIDGE_FAILED, name, e.getMessage()), null);
                 throw e;
@@ -160,8 +164,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         if (_bc.isHAEnabled()) {
 
             JMSBridgeStore store = (JMSBridgeStore) _bc.getJDBCStore();
-            if (store == null)
+            if (store == null) {
                 throw new BridgeException("null JDBC store");
+            }
 
             List jmsbridges = store.getJMSBridges(null);
 
@@ -206,8 +211,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
                 int i = 0;
                 itr = alist.iterator();
                 while (itr.hasNext()) {
-                    if (i > 0)
+                    if (i > 0) {
                         sb.append(",");
+                    }
                     sb.append(itr.next());
                     i++;
                 }
@@ -235,10 +241,12 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         _state = State.STOPPED;
     }
 
+    @Override
     public synchronized boolean isRunning() {
         return (_state == State.STARTED);
     }
 
+    @Override
     public synchronized String getAdminDestinationName() throws Exception {
         if (_state != State.STARTED) {
             throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_SERVICE_MANAGER_NOT_RUNNING));
@@ -246,6 +254,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         return _adminQueue.getQueueName();
     }
 
+    @Override
     public String getAdminDestinationClassName() throws Exception {
         if (_state != State.STARTED) {
             throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_SERVICE_MANAGER_NOT_RUNNING));
@@ -256,6 +265,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     /**
      * Start the bridge service manager
      */
+    @Override
     public synchronized void start() throws Exception {
         if (_bc == null || _state == State.UNINITIALIZED) {
             throw new BridgeException(_bmr.getString(_bmr.X_BRIDGE_SERVICE_MANAGER_NOT_INITED));
@@ -276,8 +286,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
                 try {
                     if (doautostart) {
                         String[] args = null;
-                        if (_bc.isStartWithReset())
+                        if (_bc.isStartWithReset()) {
                             args = new String[] { "-reset" };
+                        }
                         startBridge(b, args);
                     }
                 } catch (BridgeException e) {
@@ -313,8 +324,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         } catch (Exception e) {
             try {
                 stopBridge(null, null, null);
-                if (_connection != null)
+                if (_connection != null) {
                     _connection.close();
+                }
             } catch (Throwable t) {
             }
 
@@ -338,10 +350,10 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
         /*
          * Properties props = _bc.getBridgeConfig();
-         * 
+         *
          * String activekey = props.getProperty( BridgeBaseContext.PROP_PREFIX)+".activelist"; List<String> alist =
          * BridgeUtil.getListProperty(activekey, props);
-         * 
+         *
          * String tmpn = null; boolean found = false; Iterator<String> itr = alist.iterator(); while (itr.hasNext()) { tmpn =
          * itr.next(); if (tmpn.equals(name)) { found = true; break; } } if (!found) { String oldactives =
          * props.getProperty(activekey); String newactives = oldactives+","+name; Properties p = new Properties();
@@ -420,8 +432,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         boolean async = false;
         for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
             b = pair.getValue();
-            if (type != null && !b.getType().equals(type))
+            if (type != null && !b.getType().equals(type)) {
                 continue;
+            }
 
             if (!startBridge(b, args)) {
                 async = true;
@@ -496,8 +509,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
         for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
             b = pair.getValue();
-            if (type != null && !b.getType().equals(type))
+            if (type != null && !b.getType().equals(type)) {
                 continue;
+            }
 
             stopBridge(b, args);
         }
@@ -530,8 +544,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
         for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
             b = pair.getValue();
-            if (type != null && !b.getType().equals(type))
+            if (type != null && !b.getType().equals(type)) {
                 continue;
+            }
 
             pauseBridge(b, args);
         }
@@ -565,8 +580,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
 
         for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
             b = pair.getValue();
-            if (type != null && !b.getType().equals(type))
+            if (type != null && !b.getType().equals(type)) {
                 continue;
+            }
 
             resumeBridge(b, args);
         }
@@ -677,8 +693,9 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
             Bridge b = null;
             for (Map.Entry<String, Bridge> pair : _bridges.entrySet()) {
                 b = pair.getValue();
-                if (type != null && !b.getType().equals(type))
+                if (type != null && !b.getType().equals(type)) {
                     continue;
+                }
                 oneRow[0] = b.getName();
                 oneRow[1] = b.getType();
                 oneRow[2] = b.getState().toString(bmr);
@@ -710,6 +727,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     /**
      * Stop the bridge service manager
      */
+    @Override
     public void stop() throws Exception {
         if (_state == State.STOPPING || _state == State.STOPPED) {
             return;
@@ -757,10 +775,12 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         return b;
     }
 
+    @Override
     public BridgeBaseContext getBridgeBaseContext() {
         return _bc;
     }
 
+    @Override
     public void onException(JMSException e) {
         if (_bc.isEmbeded()) {
             _bc.logError(_bmr.getKString(_bmr.E_EXCEPTION_OCCURRED_ADMIN_CONN, e.getMessage()), e);
@@ -770,6 +790,7 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
         }
     }
 
+    @Override
     public void onMessage(Message msg) {
 
         if (_state != State.STARTED) {
@@ -794,12 +815,14 @@ public class BridgeServiceManagerImpl extends BridgeServiceManager implements Ex
     }
 
     public static BridgeManagerResources getBridgeManagerResources(Locale l) {
-        if (l == null)
+        if (l == null) {
             return getBridgeManagerResources();
+        }
 
         BridgeManagerResources bmr = _bmrs.get(l);
-        if (bmr != null)
+        if (bmr != null) {
             return bmr;
+        }
 
         synchronized (_bmrs) {
             bmr = _bmrs.get(l);

@@ -45,6 +45,11 @@ import javax.swing.tree.DefaultMutableTreeNode;
 public abstract class ConsoleObj extends DefaultMutableTreeNode {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 7215559923880993314L;
+
+    /**
      * Create/initialize the admin explorer GUI component.
      */
     public ConsoleObj() {
@@ -56,6 +61,7 @@ public abstract class ConsoleObj extends DefaultMutableTreeNode {
      *
      * @return String representation of this object/node.
      */
+    @Override
     public String toString() {
         return (getExplorerLabel());
     }

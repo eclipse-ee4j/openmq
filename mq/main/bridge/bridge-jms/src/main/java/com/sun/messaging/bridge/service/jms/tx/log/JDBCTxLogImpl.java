@@ -20,7 +20,6 @@ import java.util.Properties;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.io.ObjectInputStream;
 import java.io.ByteArrayInputStream;
@@ -55,6 +54,7 @@ public class JDBCTxLogImpl extends TxLog {
         _store = store;
     }
 
+    @Override
     public String getType() {
         return _type;
     }
@@ -63,6 +63,7 @@ public class JDBCTxLogImpl extends TxLog {
      * @param props The properties is guaranteed to contain "txlogDir", "txlogSuffix", "txlogMaxBranches", "jmsbridge"
      * @param reset true to reset the txlog
      */
+    @Override
     public void init(Properties props, boolean reset) throws Exception {
         if (_store == null) {
             throw new IllegalStateException("JDBC store is null");
@@ -88,6 +89,7 @@ public class JDBCTxLogImpl extends TxLog {
     /**
      * @param lr the LogRecord to log
      */
+    @Override
     public void logGlobalDecision(LogRecord lr) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "jdbcTxLog: log global decision  " + lr);
@@ -106,6 +108,7 @@ public class JDBCTxLogImpl extends TxLog {
      * @param bxid the branch xid to update
      * @param lr the LogRecord to identify the record to update
      */
+    @Override
     public void logHeuristicBranch(BranchXid bxid, LogRecord lr) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "jdbcTxLog: log branch heuristic decision  " + lr);
@@ -120,6 +123,7 @@ public class JDBCTxLogImpl extends TxLog {
 
             UpdateOpaqueDataCallback callback = new UpdateOpaqueDataCallback() {
 
+                @Override
                 public Object update(Object currlr) throws Exception {
                     ObjectInputStream ois = new FilteringObjectInputStream(new ByteArrayInputStream((byte[]) currlr));
                     LogRecord oldlr = (LogRecord) ois.readObject();
@@ -147,6 +151,7 @@ public class JDBCTxLogImpl extends TxLog {
     /**
      * @param gxid the global xid record to remove
      */
+    @Override
     public void reap(String gxid) throws Exception {
         String key = gxid;
 
@@ -169,6 +174,7 @@ public class JDBCTxLogImpl extends TxLog {
      * @param gxid the GlobalXid
      * @return a copy of LogRecord corresponding gxid or null if not exist
      */
+    @Override
     public LogRecord getLogRecord(GlobalXid gxid) throws Exception {
         String key = gxid.toString();
 
@@ -181,8 +187,9 @@ public class JDBCTxLogImpl extends TxLog {
 
             byte[] data = _store.getTMLogRecord(key, _jmsbridge, _logger);
 
-            if (data == null)
+            if (data == null) {
                 return null;
+            }
 
             ObjectInputStream ois = new FilteringObjectInputStream(new ByteArrayInputStream(data));
             LogRecord lr = (LogRecord) ois.readObject();
@@ -195,6 +202,7 @@ public class JDBCTxLogImpl extends TxLog {
 
     }
 
+    @Override
     public List getAllLogRecords() throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "jdbcTxLog: get all log records");
@@ -206,8 +214,9 @@ public class JDBCTxLogImpl extends TxLog {
         try {
 
             List abytes = _store.getTMLogRecordsByName(_jmsbridge, _logger);
-            if (abytes == null)
+            if (abytes == null) {
                 return list;
+            }
 
             byte[] data = null;
             Iterator<byte[]> itr = abytes.iterator();
@@ -228,6 +237,7 @@ public class JDBCTxLogImpl extends TxLog {
 
     /**
      */
+    @Override
     public void close() throws Exception {
         _logger.log(Level.INFO, _jbr.getString(_jbr.I_JDBCTXNLOG_CLOSE));
 

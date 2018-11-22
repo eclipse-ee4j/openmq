@@ -23,13 +23,7 @@ package com.sun.messaging.jmq.admin.apps.console;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.util.Vector;
-
-import javax.naming.Context;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
@@ -46,6 +40,10 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  */
 public class BrokerPasswdDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1827338283083710831L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
@@ -75,6 +73,7 @@ public class BrokerPasswdDialog extends AdminDialog {
         setHelpId(ConsoleHelpID.CONNECT_BROKER);
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         JPanel workPanel = new JPanel();
@@ -101,6 +100,7 @@ public class BrokerPasswdDialog extends AdminDialog {
         return (workPanel);
     }
 
+    @Override
     public void doOK() {
 
         /*
@@ -129,24 +129,30 @@ public class BrokerPasswdDialog extends AdminDialog {
         fireAdminEventDispatched(bae);
 
         username.requestFocus();
-        if ((usernameValue.length() != 0) && (passwordValue.length() == 0))
+        if ((usernameValue.length() != 0) && (passwordValue.length() == 0)) {
             password.requestFocus();
+        }
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
         username.setText("");
         password.setText("");
@@ -187,6 +193,7 @@ public class BrokerPasswdDialog extends AdminDialog {
     /**********************************************************************
      * ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent ev) {
         if (ev.getSource() == username) {
             password.requestFocus();

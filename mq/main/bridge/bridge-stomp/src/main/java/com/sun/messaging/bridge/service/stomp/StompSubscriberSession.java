@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.logging.Level;
@@ -25,9 +24,7 @@ import javax.jms.*;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.StompMessage;
 import com.sun.messaging.bridge.api.StompFrameMessage;
-import com.sun.messaging.bridge.api.StompConnection;
 import com.sun.messaging.bridge.api.StompOutputHandler;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompSession;
@@ -101,6 +98,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
         return this;
     }
 
+    @Override
     public void startDelivery() throws Exception {
         _subscriber.setMessageListener(this);
     }
@@ -113,6 +111,7 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
         return _duraName;
     }
 
+    @Override
     public void onMessage(Message msg) {
         String msgid = "";
         try {
@@ -228,8 +227,9 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
     }
 
     protected void closeSubscriber() throws Exception {
-        if (_subscriber != null)
+        if (_subscriber != null) {
             _subscriber.close();
+        }
     }
 
     public void close() throws Exception {
@@ -263,15 +263,18 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
         final Message msg = jmsmsg;
         final boolean needAck = (ss.getAcknowledgeMode() != Session.AUTO_ACKNOWLEDGE);
         return sph.toStompFrameMessage(new StompMessage() {
+            @Override
             public String getSubscriptionID() throws Exception {
                 return subid;
             }
 
+            @Override
             public String getDestination() throws Exception {
                 Destination jmsdest = msg.getJMSDestination();
                 return sph.toStompFrameDestination(new StompDestinationImpl(jmsdest), false);
             }
 
+            @Override
             public String getReplyTo() throws Exception {
                 Destination jmsdest = msg.getJMSReplyTo();
                 if (jmsdest == null) {
@@ -280,54 +283,67 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
                 return sph.toStompFrameDestination(new StompDestinationImpl(jmsdest), true);
             }
 
+            @Override
             public String getJMSMessageID() throws Exception {
                 return msg.getJMSMessageID();
             }
 
+            @Override
             public String getJMSCorrelationID() throws Exception {
                 return msg.getJMSCorrelationID();
             }
 
+            @Override
             public String getJMSExpiration() throws Exception {
                 return String.valueOf(msg.getJMSExpiration());
             }
 
+            @Override
             public String getJMSRedelivered() throws Exception {
                 return String.valueOf(msg.getJMSRedelivered());
             }
 
+            @Override
             public String getJMSPriority() throws Exception {
                 return String.valueOf(msg.getJMSPriority());
             }
 
+            @Override
             public String getJMSTimestamp() throws Exception {
                 return String.valueOf(msg.getJMSTimestamp());
             }
 
+            @Override
             public String getJMSType() throws Exception {
                 return msg.getJMSType();
             }
 
+            @Override
             public Enumeration getPropertyNames() throws Exception {
                 return msg.getPropertyNames();
             }
 
+            @Override
             public String getProperty(String name) throws Exception {
                 return (msg.getObjectProperty(name)).toString();
             }
 
+            @Override
             public boolean isTextMessage() throws Exception {
                 return (msg instanceof TextMessage);
             }
 
+            @Override
             public boolean isBytesMessage() throws Exception {
                 return (msg instanceof BytesMessage);
             }
 
+            @Override
             public String getText() throws Exception {
                 return ((TextMessage) msg).getText();
             }
 
+            @Override
             public byte[] getBytes() throws Exception {
                 BytesMessage m = (BytesMessage) msg;
                 byte[] data = new byte[(int) m.getBodyLength()];
@@ -335,42 +351,52 @@ public class StompSubscriberSession implements StompSession, StompSubscriber, Me
                 return data;
             }
 
+            @Override
             public void setText(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setText()");
             }
 
+            @Override
             public void setBytes(StompFrameMessage message) throws Exception {
                 throw new RuntimeException("Unexpected call: setBytes()");
             }
 
+            @Override
             public void setDestination(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setDestination()");
             }
 
+            @Override
             public void setPersistent(String stompdest) throws Exception {
                 throw new RuntimeException("Unexpected call: setPersistent()");
             }
 
+            @Override
             public void setReplyTo(String replyto) throws Exception {
                 throw new RuntimeException("Unexpected call: setReplyTo()");
             }
 
+            @Override
             public void setJMSCorrelationID(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSCorrelationID()");
             }
 
+            @Override
             public void setJMSExpiration(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSExpiration()");
             }
 
+            @Override
             public void setJMSPriority(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSPriority()");
             }
 
+            @Override
             public void setJMSType(String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setJMSType()");
             }
 
+            @Override
             public void setProperty(String name, String value) throws Exception {
                 throw new RuntimeException("Unexpected call: setProperty()");
             }

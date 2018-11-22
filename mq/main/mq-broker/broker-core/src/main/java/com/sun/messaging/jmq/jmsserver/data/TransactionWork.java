@@ -37,14 +37,16 @@ public class TransactionWork {
     }
 
     public void addMessage(TransactionWorkMessage msg) {
-        if (sentMessages == null)
+        if (sentMessages == null) {
             sentMessages = new ArrayList<TransactionWorkMessage>();
+        }
         sentMessages.add(msg);
     }
 
     public void addMessageAcknowledgement(TransactionWorkMessageAck ack) {
-        if (messageAcknowledgments == null)
+        if (messageAcknowledgments == null) {
             messageAcknowledgments = new ArrayList<TransactionWorkMessageAck>();
+        }
         messageAcknowledgments.add(ack);
     }
 
@@ -65,14 +67,16 @@ public class TransactionWork {
     }
 
     public int numSentMessages() {
-        if (sentMessages == null)
+        if (sentMessages == null) {
             return 0;
+        }
         return sentMessages.size();
     }
 
     public int numMessageAcknowledgments() {
-        if (messageAcknowledgments == null)
+        if (messageAcknowledgments == null) {
             return 0;
+        }
         return messageAcknowledgments.size();
     }
 
@@ -133,6 +137,7 @@ public class TransactionWork {
         }
     }
 
+    @Override
     public String toString() {
         StringBuffer s = new StringBuffer();
         s.append(" num messages ").append(numSentMessages());

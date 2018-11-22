@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.jmsclient.runtime.impl;
 
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
@@ -60,15 +59,15 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     /**
      * If this is true, the producer thread is used by the broker.
-     * 
+     *
      * "imqAckOnAcknowledge" and "imqAckOnProduce" are turned off.
-     * 
+     *
      */
     public volatile static boolean isTwoThread = true;
 
     /**
      * If this is true then if twoThread mode is set as well then replies will be sent synchronously using a ThreadLocal
-     * 
+     *
      * Has no meaning unless isTwoThread is true
      */
     public volatile static boolean isTwoThreadSyncReplies = true;
@@ -111,14 +110,17 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         return soleInstance;
     }
 
+    @Override
     public BrokerEventListener getBrokerEventListener() {
         return this.evlistener;
     }
 
+    @Override
     public Properties getProperties() {
         return this.props;
     }
 
+    @Override
     public synchronized void init(Properties props, BrokerEventListener evlistener) {
         this.props = props;
         this.evlistener = evlistener;
@@ -141,6 +143,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     }
 
+    @Override
     public Properties parseArgs(String[] args) throws IllegalArgumentException {
         // System.out.println ("*** parsing args ...");
 
@@ -149,6 +152,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         return bkr.parseArgs(args);
     }
 
+    @Override
     public void shutdown() {
 
         this.bkr.stop(true);
@@ -164,6 +168,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         this.isShutdown = isShutdown;
     }
 
+    @Override
     public synchronized void start() {
 
         if (this.running) {
@@ -178,12 +183,13 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
         } catch (Exception e) {
             if (e == failStartEx) {
-                throw (RuntimeException) failStartEx;
+                throw failStartEx;
             }
             throw new RuntimeException(e);
         }
     }
 
+    @Override
     public synchronized void stop() {
         if (this.running == false) {
             return;
@@ -194,6 +200,7 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
         this.running = false;
     }
 
+    @Override
     public synchronized boolean isBrokerRunning() {
         return this.running;
     }
@@ -201,10 +208,12 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
     /**
      * XXX chiaming 10/27/2008 returns true if this is a direct connection
      */
+    @Override
     public boolean isDirectMode() {
         return isDirect;
     }
 
+    @Override
     public DirectBrokerConnection createDirectConnection() throws JMSException {
         DirectBrokerConnection dbc = null;
 
@@ -263,13 +272,13 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 //					} else {
 //						stringToLog += ", ";
 //					}
-//		
+//
 //					stringToLog += thisPropertyName + "=" + thisPropertyValue;
 //				}
 //			}
 //			if (!stringToLog.equals("")){
 //				// tell the broker to log this message when it starts
-//				bkr.addEmbeddedBrokerStartupMessage("Embedded broker properties: " + stringToLog);	
+//				bkr.addEmbeddedBrokerStartupMessage("Embedded broker properties: " + stringToLog);
 //			}
 //		}
 
@@ -288,9 +297,10 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
 
     /**
      * Return a JMSService that can be used to create legacy RADirect connections to this broker
-     * 
+     *
      * @return
      */
+    @Override
     public JMSService getJMSService() {
 
         // This string is also hardcoded in
@@ -363,11 +373,12 @@ public class BrokerInstanceImpl implements DirectBrokerInstance {
      * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
      * arguments are logged. However this method can be used for other messages which need to be logged by an embedded
      * broker when it starts.
-     * 
+     *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     * 
+     *
      * @param embeddedBrokerStartupMessage
      */
+    @Override
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage) {
         bkr.addEmbeddedBrokerStartupMessage(embeddedBrokerStartupMessage);
     }

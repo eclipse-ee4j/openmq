@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Container;
 
-import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
 import com.sun.messaging.jmq.admin.event.AdminEventListener;
@@ -77,6 +75,7 @@ public class AController implements AdminEventListener {
     /*
      * BEGIN INTERFACE AdminEventListener
      */
+    @Override
     public void adminEventDispatched(AdminEvent e) {
         int id;
         ConsoleObj selObj;
@@ -173,8 +172,9 @@ public class AController implements AdminEventListener {
      */
     public void setActions(ConsoleObj selObj) {
 
-        if (selObj == null)
+        if (selObj == null) {
             return;
+        }
 
         /*
          * Activate/deactivate actions based on selected object.

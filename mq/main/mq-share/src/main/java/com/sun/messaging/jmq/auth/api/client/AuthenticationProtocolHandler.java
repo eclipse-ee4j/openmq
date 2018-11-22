@@ -54,7 +54,7 @@ public interface AuthenticationProtocolHandler {
      * @param sequence this is the sequence number field in the AUTHENTICATE_REQUEST packet (canbe used for correlation in
      * multiple requests case)
      * @return the response data. This will be sent as packet body in the AUTHENTICATE packet.
-     * 
+     *
      * @exception LoginException any error while handle the request
      *
      */

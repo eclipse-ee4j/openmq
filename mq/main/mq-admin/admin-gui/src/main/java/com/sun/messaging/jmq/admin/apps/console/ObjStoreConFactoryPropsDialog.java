@@ -58,6 +58,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7008025092144341587L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private ObjStoreConFactoryCObj osConFactoryCObj;
@@ -68,6 +72,7 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         setHelpId(ConsoleHelpID.CF_OBJECT_PROPS);
     }
 
+    @Override
     public void doOK() {
 
         /*
@@ -91,22 +96,22 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
 
         if (cfLabel.getText().equals(acr.getString(acr.I_QCF))) {
             type = ObjAdminEvent.QCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.QueueConnectionFactory();
+            tempObj = new com.sun.messaging.QueueConnectionFactory();
         } else if (cfLabel.getText().equals(acr.getString(acr.I_TCF))) {
             type = ObjAdminEvent.TCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.TopicConnectionFactory();
+            tempObj = new com.sun.messaging.TopicConnectionFactory();
         } else if (cfLabel.getText().equals(acr.getString(acr.I_CF))) {
             type = ObjAdminEvent.CF;
-            tempObj = (AdministeredObject) new com.sun.messaging.ConnectionFactory();
+            tempObj = new com.sun.messaging.ConnectionFactory();
         } else if (cfLabel.getText().equals(acr.getString(acr.I_XAQCF))) {
             type = ObjAdminEvent.XAQCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XAQueueConnectionFactory();
+            tempObj = new com.sun.messaging.XAQueueConnectionFactory();
         } else if (cfLabel.getText().equals(acr.getString(acr.I_XATCF))) {
             type = ObjAdminEvent.XATCF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XATopicConnectionFactory();
+            tempObj = new com.sun.messaging.XATopicConnectionFactory();
         } else if (cfLabel.getText().equals(acr.getString(acr.I_XACF))) {
             type = ObjAdminEvent.XACF;
-            tempObj = (AdministeredObject) new com.sun.messaging.XAConnectionFactory();
+            tempObj = new com.sun.messaging.XAConnectionFactory();
         }
 
         /*
@@ -119,8 +124,9 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         for (int i = 0; i < cfProps.size(); i++) {
             LabelledComponent cfItem = (LabelledComponent) cfProps.elementAt(i);
             propName = (String) cfItem.getClientData();
-            if (propName == null)
+            if (propName == null) {
                 continue;
+            }
 
             // Remove this propName from the props, no longer applies.
             if (!(cfItem.getComponent().isEnabled())) {
@@ -137,15 +143,17 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
                 return;
             }
 
-            if (propType == null)
+            if (propType == null) {
                 continue;
+            }
 
             propValue = getValue(cfItem.getComponent(), propType).trim();
 
             // If blank, then use default set in Administered Object
             // so no need to set to "".
-            if (propValue.equals(""))
+            if (propValue.equals("")) {
                 continue;
+            }
 
             try {
                 // Calling setProperty() will verify if this value is valid.
@@ -174,31 +182,38 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         oae.setObjStore(os);
         oae.setFactoryType(type);
         oae.setObjProperties(props);
-        if (checkBox.isSelected())
+        if (checkBox.isSelected()) {
             oae.setReadOnly(true);
-        else
+        } else {
             oae.setReadOnly(false);
+        }
         oae.setOKAction(true);
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void show() {
     }
 
@@ -212,18 +227,19 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         lookupLabel.setText(osConFactoryCObj.getLookupName());
 
         Object object = osConFactoryCObj.getObject();
-        if (object instanceof com.sun.messaging.XAQueueConnectionFactory)
+        if (object instanceof com.sun.messaging.XAQueueConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_XAQCF));
-        else if (object instanceof com.sun.messaging.XATopicConnectionFactory)
+        } else if (object instanceof com.sun.messaging.XATopicConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_XATCF));
-        else if (object instanceof com.sun.messaging.XAConnectionFactory)
+        } else if (object instanceof com.sun.messaging.XAConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_XACF));
-        else if (object instanceof com.sun.messaging.QueueConnectionFactory)
+        } else if (object instanceof com.sun.messaging.QueueConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_QCF));
-        else if (object instanceof com.sun.messaging.TopicConnectionFactory)
+        } else if (object instanceof com.sun.messaging.TopicConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_TCF));
-        else if (object instanceof com.sun.messaging.ConnectionFactory)
+        } else if (object instanceof com.sun.messaging.ConnectionFactory) {
             cfLabel.setText(acr.getString(acr.I_CF));
+        }
 
         //
         // Go through each of the component items, get the clientData
@@ -241,8 +257,9 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
             LabelledComponent cfItem = (LabelledComponent) cfProps.elementAt(i);
             JComponent comp = cfItem.getComponent();
             propName = (String) cfItem.getClientData();
-            if (propName == null)
+            if (propName == null) {
                 continue;
+            }
 
             try {
                 if (comp.isEnabled()) {
@@ -269,10 +286,11 @@ public class ObjStoreConFactoryPropsDialog extends ObjStoreConFactoryDialog {
         setOtherValues(tempObj2, true);
 
         // Set read-only box
-        if (adminObj.isReadOnly())
+        if (adminObj.isReadOnly()) {
             checkBox.setSelected(true);
-        else
+        } else {
             checkBox.setSelected(false);
+        }
 
         /*
          * Set focus to first text item. if (props.size() > 0) textItems[0].requestFocus();
