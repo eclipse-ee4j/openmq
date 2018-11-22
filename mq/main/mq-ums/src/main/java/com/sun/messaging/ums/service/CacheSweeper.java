@@ -140,7 +140,7 @@ public class CacheSweeper extends Thread {
     @Override
     public void run() {
 
-        while (isRunning = true) {
+        while (isRunning) {
 
             try {
 
