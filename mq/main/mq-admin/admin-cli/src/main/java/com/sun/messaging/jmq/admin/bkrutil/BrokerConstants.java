@@ -20,7 +20,7 @@
 
 package com.sun.messaging.jmq.admin.bkrutil;
 
-import java.util.Arrays;;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
