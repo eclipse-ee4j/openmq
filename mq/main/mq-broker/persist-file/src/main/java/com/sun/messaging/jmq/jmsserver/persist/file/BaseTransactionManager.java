@@ -181,8 +181,8 @@ public abstract class BaseTransactionManager {
             logger.log(Logger.DEBUG, msg);
         }
         synchronized (playingToMessageStore) {
-            Object found = playingToMessageStore.remove(tid);
-            if (found == null) {
+            boolean found = playingToMessageStore.remove(tid);
+            if (!found) {
                 String msg = getPrefix() + " playingToMessageStoreComplete(): could not find " + tid;
                 logger.log(Logger.WARNING, msg);
             }
