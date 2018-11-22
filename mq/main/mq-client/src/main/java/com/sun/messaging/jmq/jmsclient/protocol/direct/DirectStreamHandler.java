@@ -97,7 +97,6 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
     
 	public ConnectionHandler openConnection(Object connection)
 			throws JMSException {
-		// TODO Auto-generated method stub
 		DirectConnectionHandler dsh = new DirectConnectionHandler(connection);
 		
 		return dsh;
@@ -105,7 +104,6 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
 
 	public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn)
 			throws JMSException {
-		// TODO Auto-generated method stub
 		DirectConnectionHandler dsh = new DirectConnectionHandler(conn);
 		
 		return dsh;

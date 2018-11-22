@@ -75,7 +75,6 @@ public class JMXLogHandler extends Handler {
 
 	@Override
 	public void flush() {
-		// TODO Auto-generated method stub
 		// Nothing to do
 	}
 }

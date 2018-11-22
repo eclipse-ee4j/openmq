@@ -95,8 +95,6 @@ public class ReceiveServiceImpl implements ReceiveService {
     }
 
     public SOAPMessage receive(SOAPMessage request) throws JMSException {
-        // TODO Auto-generated method stub
-
         SOAPMessage reply = null;
         Client client = null;
         
@@ -220,8 +218,6 @@ public class ReceiveServiceImpl implements ReceiveService {
      * @throws javax.jms.JMSException
      */
     public String receiveText(String sid, String destName, boolean isTopic, long timeout, Map map) throws JMSException {
-        // TODO Auto-generated method stub
-
         String reply = null;
 
         Client client = null;
