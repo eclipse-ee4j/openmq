@@ -25,6 +25,11 @@ package com.sun.messaging.bridge.api;
 
 public class KeyNotFoundException extends Exception {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -3523171086723084454L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

@@ -18,27 +18,14 @@ package com.sun.messaging.jmq.jmsserver.service.imq.websocket.stomp;
 
 import java.util.Map;
 import java.util.HashMap;
-import java.io.IOException;
 import java.util.Collections;
-import java.util.LinkedHashMap;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.io.JMSPacket;
-import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsservice.JMSAck;
-import com.sun.messaging.jmq.jmsservice.Consumer;
 import com.sun.messaging.jmq.jmsservice.JMSService;
-import com.sun.messaging.jmq.jmsservice.Destination;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
-import com.sun.messaging.jmq.jmsservice.JMSService.MessageAckType;
-import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
-import com.sun.messaging.jmq.jmsservice.JMSServiceException;
-import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionClosedListener;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.bridge.api.StompFrameMessage;
@@ -49,7 +36,6 @@ import com.sun.messaging.bridge.api.StompOutputHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
-import com.sun.messaging.bridge.api.StompFrameParseException;
 import com.sun.messaging.bridge.api.StompNotConnectedException;
 
 /**
@@ -201,6 +187,7 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
         return pubSession;
     }
 
+    @Override
     public void sendMessage(StompFrameMessage message, String tid) throws Exception {
 
         StompSenderSession ss = null;
@@ -305,7 +292,7 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
             StompTransactedSession ts = (StompTransactedSession) getTransactedSession(tid);
             ts.ack(subid, msgid, nack);
         } else {
-            StompSubscriberSession ss = (StompSubscriberSession) getSubscriberSession(subid);
+            StompSubscriberSession ss = getSubscriberSession(subid);
             if (ss != null) {
                 ss.ack(msgid, nack);
             } else {
@@ -357,10 +344,12 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
 
         if (txSession != null) {
             String sid = txSession.closeSubscriber(subid, duraname);
-            if (duraname != null)
+            if (duraname != null) {
                 return sid;
-            if (sid != null)
+            }
+            if (sid != null) {
                 return sid;
+            }
         } else if (duraname != null) {
             ((StompSessionImpl) getSenderSession()).unsubscribeDurable(duraname);
         }
@@ -436,6 +425,7 @@ public class StompConnectionImpl implements StompConnection, ConnectionClosedLis
         return clientID;
     }
 
+    @Override
     public String toString() {
         Long id = connectionID;
         return "[" + (id == null ? "" : id.toString()) + "]";

@@ -36,6 +36,7 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
     /**
      * XXX chiaming 10/22/2008: update with direct mode values
      */
+    @Override
     public String[] getPropertyNames() {
         String[] propnames = new String[4];
         propnames[0] = ConnectionConfiguration.imqBrokerHostName;
@@ -45,6 +46,7 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         return propnames;
     }
 
+    @Override
     public String getPropertyType(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname) || ConnectionConfiguration.imqBrokerServiceName.equals(propname)) {
             return AdministeredObject.AO_PROPERTY_TYPE_STRING;
@@ -56,6 +58,7 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyLabel(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return (AdministeredObject.cr.L_JMQBROKER_HOST_NAME);
@@ -75,6 +78,7 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyDefault(String propname) {
         if (ConnectionConfiguration.imqBrokerHostName.equals(propname)) {
             return "localhost";
@@ -94,12 +98,14 @@ public class DirectStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public ConnectionHandler openConnection(Object connection) throws JMSException {
         DirectConnectionHandler dsh = new DirectConnectionHandler(connection);
 
         return dsh;
     }
 
+    @Override
     public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl conn) throws JMSException {
         DirectConnectionHandler dsh = new DirectConnectionHandler(conn);
 

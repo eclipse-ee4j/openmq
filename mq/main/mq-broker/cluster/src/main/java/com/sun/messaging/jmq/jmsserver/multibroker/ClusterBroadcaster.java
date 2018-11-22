@@ -89,17 +89,19 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         this.init(connLimit, version);
     }
 
+    @Override
     public void init(int connLimit, int version) throws BrokerException {
 
         // Create the cluster topology
         this.connLimit = connLimit;
         driver = config.getProperty(ClusterGlobals.TOPOLOGY_PROPERTY);
-        if (driver == null)
+        if (driver == null) {
             driver = "fullyconnected";
+        }
 
         // TBD: JMQ2.1 : Load the topology driver class dynamically...
         if (driver.equals("fullyconnected")) {
-            c = (Cluster) new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl(this.connLimit);
+            c = new com.sun.messaging.jmq.jmsserver.multibroker.fullyconnected.ClusterImpl(this.connLimit);
 
             logger.log(Logger.INFO, br.I_CLUSTER_INITIALIZED);
         } else {
@@ -107,7 +109,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
 
         if (driver.equals("standalone")) {
-            c = (Cluster) new com.sun.messaging.jmq.jmsserver.multibroker.standalone.ClusterImpl();
+            c = new com.sun.messaging.jmq.jmsserver.multibroker.standalone.ClusterImpl();
 
             logger.log(Logger.INFO, br.I_STANDALONE_INITIALIZED);
         }
@@ -124,29 +126,36 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         clusterRouter = new MultibrokerRouter(this);
     }
 
+    @Override
     public Object getProtocol() {
         return protocol;
     }
 
+    @Override
     public int getClusterVersion() throws BrokerException {
         return protocol.getClusterVersion();
     }
 
+    @Override
     public void startClusterIO() {
         protocol.startClusterIO();
     }
 
+    @Override
     public void stopClusterIO(boolean requestTakeover, boolean force, BrokerAddress excludedBroker) {
         protocol.stopClusterIO(requestTakeover, force, excludedBroker);
         clusterRouter.shutdown();
     }
 
+    @Override
     public Hashtable getAllDebugState() {
         Hashtable ht = new Hashtable();
-        if (c != null)
+        if (c != null) {
             ht.put("CLUSTER", c.getDebugState());
-        if (protocol != null)
+        }
+        if (protocol != null) {
             ht.put("PROTOCOL", protocol.getDebugState());
+        }
         ht.put("CLUSTER_ROUTER", clusterRouter.getDebugState());
         return ht;
     }
@@ -158,14 +167,17 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Handle jmq administration command to reload and update the cluster configuration.
      */
+    @Override
     public void reloadCluster() {
         protocol.reloadCluster();
     }
 
+    @Override
     public void pauseMessageFlow() throws IOException {
         protocol.stopMessageFlow();
     }
 
+    @Override
     public void resumeMessageFlow() throws IOException {
         protocol.resumeMessageFlow();
     }
@@ -173,6 +185,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Set the matchProps for the cluster.
      */
+    @Override
     public void setMatchProps(Properties matchProps) {
         protocol.setMatchProps(matchProps);
     }
@@ -180,19 +193,22 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      *
      */
+    @Override
     public boolean waitForConfigSync() {
         return protocol.waitForConfigSync();
     }
 
     /**
      * Returns the address of this broker.
-     * 
+     *
      * @return <code> BrokerAddress </code> object representing this broker.
      */
+    @Override
     public com.sun.messaging.jmq.jmsserver.core.BrokerAddress getMyAddress() {
         return selfAddress;
     }
 
+    @Override
     public boolean lockSharedResource(String resource, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "lockSharedResource : " + resource);
@@ -200,6 +216,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return (protocol.lockSharedResource(resource, owner) == ProtocolGlobals.G_LOCK_SUCCESS);
     }
 
+    @Override
     public boolean lockExclusiveResource(String resource, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "lockExclusiveResource " + resource);
@@ -207,6 +224,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return (protocol.lockResource(resource, 0, owner) == ProtocolGlobals.G_LOCK_SUCCESS);
     }
 
+    @Override
     public void unlockExclusiveResource(String resource, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "unlockExclusiveResource " + resource);
@@ -214,6 +232,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.unlockResource(resource);
     }
 
+    @Override
     public boolean lockDestination(DestinationUID uid, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "lockDestination " + uid);
@@ -221,6 +240,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return (protocol.lockResource(ClusterBroadcast.DESTINATION_EXCLUSIVE_LOCK_PREFIX + uid.toString(), 0, owner) == ProtocolGlobals.G_LOCK_SUCCESS);
     }
 
+    @Override
     public void unlockDestination(DestinationUID uid, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "unlockDestination " + uid);
@@ -228,6 +248,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.unlockResource(ClusterBroadcast.DESTINATION_EXCLUSIVE_LOCK_PREFIX + uid.toString());
     }
 
+    @Override
     public int lockClientID(String clientid, Object owner, boolean shared) {
         if (DEBUG) {
             logger.log(Logger.INFO, "lockClientID " + clientid);
@@ -241,6 +262,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return convertToLocalLockRequestStatus(status);
     }
 
+    @Override
     public void unlockClientID(String clientid, Object owner) {
         if (DEBUG) {
             logger.log(Logger.INFO, "unlockClientID " + clientid);
@@ -248,6 +270,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.unlockResource(ClusterBroadcast.CLIENTID_EXCLUSIVE_LOCK_PREFIX + clientid);
     }
 
+    @Override
     public boolean getConsumerLock(com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, DestinationUID duid, int position, int maxActive, Object owner)
             throws BrokerException {
         if (DEBUG) {
@@ -261,6 +284,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
                 owner) == ProtocolGlobals.G_LOCK_SUCCESS);
     }
 
+    @Override
     public void unlockConsumer(com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid, DestinationUID duid, int position) {
         if (DEBUG) {
             logger.log(Logger.INFO, "unlockConsumer " + uid);
@@ -334,6 +358,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return -1;
     }
 
+    @Override
     public void acknowledgeMessage(BrokerAddress address, SysMessageID sysid, com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid, int ackType,
             Map optionalProps, boolean ackack) throws BrokerException {
         if (address == null || address == selfAddress) {
@@ -344,6 +369,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendMessageAck(address, sysid, cuid, convertToClusterAckType(ackType), optionalProps, ackack);
     }
 
+    @Override
     public void acknowledgeMessage2P(BrokerAddress address, SysMessageID[] sysids, com.sun.messaging.jmq.jmsserver.core.ConsumerUID[] cuids, int ackType,
             Map optionalProps, Long txnID, UID txnStoreSession, boolean ackack, boolean async) throws BrokerException {
 
@@ -363,6 +389,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendMessageAck2P(address, sysids, cuids, convertToClusterAckType(ackType), optionalProps, txnID, txnStoreSession, ackack, async);
     }
 
+    @Override
     public void recordUpdateDestination(Destination dest) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "recordUpdateDestination : " + dest);
@@ -376,6 +403,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.recordUpdateDestination(dest);
     }
 
+    @Override
     public void recordRemoveDestination(Destination dest) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "recordRemoveDestination : " + dest);
@@ -389,6 +417,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.recordRemoveDestination(dest);
     }
 
+    @Override
     public void createDestination(Destination dest) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "createDestination " + dest);
@@ -399,6 +428,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
 
     }
 
+    @Override
     public void recordCreateSubscription(Subscription sub) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "recordCreateSubscription " + sub);
@@ -410,6 +440,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.recordCreateSubscription(sub);
     }
 
+    @Override
     public void recordUnsubscribe(Subscription sub) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "recordUnsubscribe " + sub);
@@ -421,6 +452,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.recordUnsubscribe(sub);
     }
 
+    @Override
     public void createSubscription(Subscription sub, Consumer cons) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "createSubscription " + sub);
@@ -428,6 +460,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendNewSubscription(sub, cons, false);
     }
 
+    @Override
     public void createConsumer(Consumer con) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "createConsumer " + con);
@@ -435,6 +468,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendNewConsumer(con, true /* XXX */);
     }
 
+    @Override
     public void updateDestination(Destination dest) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "updateDestination " + dest);
@@ -442,12 +476,15 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendUpdateDestination(dest);
     }
 
+    @Override
     public void updateSubscription(Subscription sub) throws BrokerException {
     }
 
+    @Override
     public void updateConsumer(Consumer con) throws BrokerException {
     }
 
+    @Override
     public void destroyDestination(Destination dest) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "destroyDestination " + dest);
@@ -455,6 +492,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendRemovedDestination(dest);
     }
 
+    @Override
     public void destroyConsumer(Consumer con, Map pendingMsgs, boolean cleanup) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "destroyConsumer " + con + ", pendingMsgs=" + pendingMsgs + ", cleanup=" + cleanup);
@@ -462,14 +500,17 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendRemovedConsumer(con, pendingMsgs, cleanup);
     }
 
+    @Override
     public void connectionClosed(ConnectionUID uid, boolean admin) {
         if (DEBUG) {
             logger.log(Logger.INFO, "connectionClosed " + uid);
         }
-        if (!admin)
+        if (!admin) {
             protocol.clientClosed(uid, true);
+        }
     }
 
+    @Override
     public void messageDelivered(SysMessageID id, com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid,
             com.sun.messaging.jmq.jmsserver.core.BrokerAddress address) {
         if (DEBUG) {
@@ -477,10 +518,12 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
     }
 
+    @Override
     public void forwardMessage(PacketReference ref, Collection consumers) {
         clusterRouter.forwardMessage(ref, consumers);
     }
 
+    @Override
     public boolean lockUIDPrefix(short p) {
         if (DEBUG) {
             logger.log(Logger.INFO, "lockUIDPrefix " + p);
@@ -488,10 +531,12 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return (protocol.lockResource("uidprefix:" + Short.toString(p), 0, new ConnectionUID(0)) == ProtocolGlobals.G_LOCK_SUCCESS);
     }
 
+    @Override
     public void preTakeover(String brokerID, UID storeSession, String brokerHost, UID brokerSession) throws BrokerException {
         protocol.preTakeover(brokerID, storeSession, brokerHost, brokerSession);
     }
 
+    @Override
     public void postTakeover(String brokerID, UID storeSession, boolean aborted, boolean notify) {
         protocol.postTakeover(brokerID, storeSession, aborted, notify);
     }
@@ -500,6 +545,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     // - MessageBusCallback -
     // -----------------------------------------------
 
+    @Override
     public void configSyncComplete() {
         // Generate a unique short prefix for the UID. This must be
         // done after startClusterIO()..
@@ -535,6 +581,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Interest creation notification. This method is called when any remote interest is created.
      */
+    @Override
     public void interestCreated(Consumer intr) {
         try {
             clusterRouter.addConsumer(intr);
@@ -543,6 +590,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
     }
 
+    @Override
     public void unsubscribe(Subscription sub) {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "callback unsubscribe : " + sub);
@@ -574,6 +622,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Interest removal notification. This method is called when any remote interest is removed.
      */
+    @Override
     public void interestRemoved(Consumer cuid, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs, boolean cleanup) {
         if (DEBUG) {
             logger.log(Logger.INFO, "callback interestRemoved " + cuid + ", pendingMsgs=" + pendingMsgs + ", cleanup=" + cleanup);
@@ -589,6 +638,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
      * Primary interest change notification. This method is called when a new interest is chosen as primary interest for a
      * failover queue.
      */
+    @Override
     public void activeStateChanged(Consumer intr) {
         // does nothing
         if (DEBUG) {
@@ -599,6 +649,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Client down notification. This method is called when a local or remote client connection is closed.
      */
+    @Override
     public void clientDown(ConnectionUID conid) {
         if (DEBUG) {
             logger.log(Logger.INFO, "clientDown " + conid);
@@ -613,6 +664,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * Broker down notification. This method is called when any broker in this cluster goes down.
      */
+    @Override
     public void brokerDown(com.sun.messaging.jmq.jmsserver.core.BrokerAddress broker) {
         if (DEBUG) {
             logger.log(Logger.INFO, "brokerDown " + broker);
@@ -628,6 +680,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
      * A new destination was created by the administrator on a remote broker. This broker should also add the destination if
      * it is not already present.
      */
+    @Override
     public void notifyCreateDestination(Destination d) {
         try {
             DL.addDestination(null, d, true);
@@ -643,6 +696,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
      * A destination was removed by the administrator on a remote broker. This broker should also remove the destination, if
      * it is present.
      */
+    @Override
     public void notifyDestroyDestination(DestinationUID uid) {
         try {
             DL.removeDestination(null, uid, false, Globals.getBrokerResources().getString(BrokerResources.M_ADMIN_REMOTE));
@@ -654,6 +708,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
     /**
      * A destination was updated
      */
+    @Override
     public void notifyUpdateDestination(DestinationUID uid, Map changes) {
         Destination[] ds = DL.getDestination(null, uid);
         Destination d = ds[0]; // PART
@@ -666,11 +721,13 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
     }
 
+    @Override
     public void processRemoteMessage(Packet msg, Map<ConsumerUID, Integer> consumers, BrokerAddress home, boolean sendMsgRedeliver) throws BrokerException {
 
         clusterRouter.handleJMSMsg(msg, consumers, home, sendMsgRedeliver);
     }
 
+    @Override
     public void processRemoteAck(SysMessageID sysid, com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid, int ackType, Map optionalProps)
             throws BrokerException {
         if (DEBUG) {
@@ -680,6 +737,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         clusterRouter.handleAck(convertToLocalAckType(ackType), sysid, cuid, optionalProps);
     }
 
+    @Override
     public void processRemoteAck2P(SysMessageID[] sysids, com.sun.messaging.jmq.jmsserver.core.ConsumerUID[] cuids, int ackType, Map optionalProps, Long txnID,
             com.sun.messaging.jmq.jmsserver.core.BrokerAddress txnHomeBroker) throws BrokerException {
         if (DEBUG) {
@@ -690,27 +748,33 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         clusterRouter.handleAck2P(convertToLocalAckType(ackType), sysids, cuids, optionalProps, txnID, txnHomeBroker);
     }
 
+    @Override
     public void sendClusterTransactionInfo(long tid, com.sun.messaging.jmq.jmsserver.core.BrokerAddress to) {
         protocol.sendClusterTransactionInfo(tid, to);
     }
 
+    @Override
     public com.sun.messaging.jmq.jmsserver.core.BrokerAddress lookupBrokerAddress(String brokerid) {
         return protocol.lookupBrokerAddress(brokerid);
     }
 
+    @Override
     public com.sun.messaging.jmq.jmsserver.core.BrokerAddress lookupBrokerAddress(BrokerMQAddress mqaddr) {
         return protocol.lookupBrokerAddress(mqaddr);
     }
 
+    @Override
     public String lookupStoreSessionOwner(UID session) {
         return protocol.lookupStoreSessionOwner(session);
     }
 
+    @Override
     public void syncChangeRecordOnStartup() throws BrokerException {
         ChangeRecord.storeResetRecordIfNecessary(this);
         ChangeRecord.syncChangeRecord(this, this, ((CommonProtocol) protocol).getRealProtocol(), true);
     }
 
+    @Override
     public void syncChangeRecordOnJoin(BrokerAddress remote, ChangeRecordInfo cri) throws BrokerException {
 
         String resetUUID = null;
@@ -736,26 +800,32 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         }
     }
 
+    @Override
     public void setLastSyncedChangeRecord(ChangeRecordInfo rec) {
         lastSyncedChangeRecord = rec;
     }
 
+    @Override
     public ChangeRecordInfo getLastSyncedChangeRecord() {
         return lastSyncedChangeRecord;
     }
 
+    @Override
     public ChangeRecordInfo getLastStoredChangeRecord() {
         return lastStoredChangeRecord;
     }
 
+    @Override
     public void setLastStoredChangeRecord(ChangeRecordInfo rec) {
         lastStoredChangeRecord = rec;
     }
 
+    @Override
     public void setLastReceivedChangeRecord(BrokerAddress remote, ChangeRecordInfo rec) {
         lastReceivedChangeRecord.put(remote, rec);
     }
 
+    @Override
     public void changeMasterBroker(BrokerMQAddress newmaster, BrokerMQAddress oldmaster) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "changeMasterBroker from " + oldmaster + " to " + newmaster);
@@ -763,6 +833,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.changeMasterBroker(newmaster, oldmaster);
     }
 
+    @Override
     public String sendTakeoverMEPrepare(String brokerID, byte[] token, Long syncTimeout, String uuid) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "sendTakeoverMEPrepare to " + brokerID);
@@ -770,6 +841,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return protocol.sendTakeoverMEPrepare(brokerID, token, syncTimeout, uuid);
     }
 
+    @Override
     public String sendTakeoverME(String brokerID, String uuid) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "sendTakeoverME to " + brokerID);
@@ -777,6 +849,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         return protocol.sendTakeoverME(brokerID, uuid);
     }
 
+    @Override
     public void sendMigrateStoreRequest(String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "sendMigrateStoreRequest to " + targetBrokerID);
@@ -784,6 +857,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.sendMigrateStoreRequest(targetBrokerID, syncTimeout, uuid, myBrokerID);
     }
 
+    @Override
     public void transferFiles(String[] fileNames, String targetBrokerID, Long syncTimeout, String uuid, String myBrokerID, String module,
             FileTransferCallback callback) throws BrokerException {
         if (DEBUG) {
@@ -792,6 +866,7 @@ public class ClusterBroadcaster implements ClusterBroadcast, MessageBusCallback,
         protocol.transferFiles(fileNames, targetBrokerID, syncTimeout, uuid, myBrokerID, module, callback);
     }
 
+    @Override
     public void notifyPartitionArrival(UID partitionID, String brokerID) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "notifyPartitionArrival(" + partitionID + ", " + brokerID + ")");

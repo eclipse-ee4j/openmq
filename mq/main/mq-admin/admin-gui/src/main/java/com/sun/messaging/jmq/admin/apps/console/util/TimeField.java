@@ -44,6 +44,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * option of displaying the Milliseconds unit or not).
  */
 public class TimeField extends JPanel {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7137164379701741563L;
     /*
      * Unit types. These are not indices
      */
@@ -95,6 +99,7 @@ public class TimeField extends JPanel {
         return (intF.getText());
     }
 
+    @Override
     public void setEnabled(boolean b) {
         intF.setEnabled(b);
         unitCB.setEnabled(b);

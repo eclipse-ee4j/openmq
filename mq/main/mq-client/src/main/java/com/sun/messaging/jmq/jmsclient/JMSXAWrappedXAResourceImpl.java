@@ -104,14 +104,16 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * and has released all held resources.
      */
 
+    @Override
     public void commit(Xid foreignXid, boolean onePhase) throws XAException {
         if (!closed || xar instanceof com.sun.messaging.jmq.jmsclient.XAResourceImpl) {
             dlog("commit(Xid=" + foreignXid + " onePhase=" + onePhase + "), closed=" + closed);
 
             boolean completed = false;
             try {
-                if (listener != null)
+                if (listener != null) {
                     listener.beforeTransactionComplete();
+                }
 
                 xar.commit(foreignXid, onePhase);
                 completed = true;
@@ -148,8 +150,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 throw e;
 
             } finally {
-                if (listener != null)
+                if (listener != null) {
                     listener.afterTransactionComplete(foreignXid, completed);
+                }
             }
         } else {
             JMSXAConnection c = null;
@@ -201,11 +204,13 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * @exception XAException An error has occurred. Possible XAException values are XAER_RMERR, XAER_RMFAILED, XAER_NOTA,
      * XAER_INVAL, XAER_PROTO, or XA_RB*.
      */
+    @Override
     public void end(Xid foreignXid, int flags) throws XAException {
         boolean completed = false;
         try {
-            if (listener != null)
+            if (listener != null) {
                 listener.beforeTransactionComplete();
+            }
 
             xar.end(foreignXid, flags);
         } catch (XAException e) {
@@ -227,8 +232,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
             throw e;
 
         } finally {
-            if (listener != null)
+            if (listener != null) {
                 listener.afterTransactionComplete(foreignXid, completed);
+            }
         }
     }
 
@@ -240,20 +246,23 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, XAER_NOTA,
      * XAER_INVAL, or XAER_PROTO.
      */
+    @Override
     public void forget(Xid foreignXid) throws XAException {
         if (!closed || xar instanceof com.sun.messaging.jmq.jmsclient.XAResourceImpl) {
             dlog("forget(Xid=" + foreignXid + "), closed=" + closed);
             boolean completed = false;
             try {
-                if (listener != null)
+                if (listener != null) {
                     listener.beforeTransactionComplete();
+                }
 
                 xar.forget(foreignXid);
                 completed = true;
 
             } finally {
-                if (listener != null)
+                if (listener != null) {
                     listener.afterTransactionComplete(foreignXid, completed);
+                }
             }
         } else {
             JMSXAConnection c = null;
@@ -287,6 +296,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      */
+    @Override
     public int getTransactionTimeout() throws XAException {
         return xar.getTransactionTimeout();
     }
@@ -303,6 +313,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      *
      */
+    @Override
     public boolean isSameRM(XAResource foreignXaRes) throws XAException {
         dlog(xar.getClass().getName() + ".isSameRM(" + foreignXaRes.getClass().getName() + ")");
         return xar.isSameRM(foreignXaRes);
@@ -320,18 +331,21 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * XA_RDONLY or XA_OK. If the resource manager wants to roll back the transaction, it should do so by raising an
      * appropriate XAException in the prepare method.
      */
+    @Override
     public int prepare(Xid foreignXid) throws XAException {
         if (!closed || xar instanceof com.sun.messaging.jmq.jmsclient.XAResourceImpl) {
             dlog("prepare(Xid=" + foreignXid + "), closed=" + closed);
             boolean completed = false;
             int ret = XA_OK;
             try {
-                if (listener != null)
+                if (listener != null) {
                     listener.beforeTransactionComplete();
+                }
 
                 ret = xar.prepare(foreignXid);
-                if (ret == XA_RDONLY)
+                if (ret == XA_RDONLY) {
                     completed = true;
+                }
                 return ret;
 
             } catch (XAException e) {
@@ -353,8 +367,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 throw e;
 
             } finally {
-                if (listener != null)
+                if (listener != null) {
                     listener.afterTransactionComplete(foreignXid, completed);
+                }
             }
 
         } else {
@@ -395,6 +410,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * appropriate XAException.
      *
      */
+    @Override
     public Xid[] recover(int flags) throws XAException {
         return xar.recover(flags);
     }
@@ -406,13 +422,15 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      *
      * @exception XAException An error has occurred.
      */
+    @Override
     public void rollback(Xid foreignXid) throws XAException {
         if (!closed || xar instanceof com.sun.messaging.jmq.jmsclient.XAResourceImpl) {
             dlog("rollback(Xid=" + foreignXid + "), closed=" + closed);
             boolean completed = false;
             try {
-                if (listener != null)
+                if (listener != null) {
                     listener.beforeTransactionComplete();
+                }
 
                 xar.rollback(foreignXid);
                 completed = true;
@@ -442,8 +460,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
                 throw e;
 
             } finally {
-                if (listener != null)
+                if (listener != null) {
                     listener.afterTransactionComplete(foreignXid, completed);
+                }
             }
         } else {
             JMSXAConnection c = null;
@@ -483,6 +502,7 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, or XAER_INVAL.
      */
+    @Override
     public boolean setTransactionTimeout(int transactionTimeout) throws XAException {
         return xar.setTransactionTimeout(transactionTimeout);
     }
@@ -505,11 +525,13 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
      * XAER_OUTSIDE, XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      *
      */
+    @Override
     public void start(Xid foreignXid, int flags) throws XAException {
         boolean started = false;
         try {
-            if (listener != null)
+            if (listener != null) {
                 listener.beforeTransactionStart();
+            }
 
             xar.start(foreignXid, flags);
 
@@ -517,8 +539,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
              * assume TMJOIN/TMRESUME has a corresponding TMNOFLAGS start that is, they cause 1 transaction completion
              */
 
-            if (flags == TMNOFLAGS)
+            if (flags == TMNOFLAGS) {
                 started = true;
+            }
 
         } catch (JMSException e) {
             log("Error:", e);
@@ -542,8 +565,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
             throw e;
 
         } finally {
-            if (listener != null)
+            if (listener != null) {
                 listener.afterTransactionStart(foreignXid, started);
+            }
         }
     }
 
@@ -611,8 +635,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
         boolean isSet = false;
         String values = System.getProperty(propName);
 
-        if (values == null)
+        if (values == null) {
             return false;
+        }
 
         StringTokenizer token = new StringTokenizer(values, ",");
         try {
@@ -628,8 +653,9 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
     }
 
     private final static void dlog(String msg) {
-        if (debug)
+        if (debug) {
             log("Info:", msg);
+        }
     }
 
     private final static void log(String level, Exception e) {
@@ -644,176 +670,176 @@ public class JMSXAWrappedXAResourceImpl implements XAResource {
 }
 
 /****************
- * 
+ *
  * @(#)seebeyond.txt 1.9 04/10/17
- * 
- * 
+ *
+ *
  * SeeBeyond's Issue: Session close causing RollbackException on commit in MDB CMT
- * 
- * 
+ *
+ *
  * According to SeeBeyond, in its XASession implementation, session close will cause not only local transactions to
  * rollback but also global (XA) transactions to rollback.
- * 
+ *
  * SeeBeyond claimed that to change their implementation is too risky and is not something they want to consider. To
  * support Sun customer Syntegra, we are planning to provide a workaround in our wrapper classes for AS7 foreign JMS
  * provider to better work with SeeBeyond's JMS implementation.
- * 
+ *
  * The workaround is to delay session close until a started XA transaction completes.
- * 
+ *
  * There are possibly 3 approaches to address the problem:
- * 
- * 
+ *
+ *
  * 1. Code changes in MQ source in JMS wrapper classes for foreign JMS providers cons: no access to
  * Transaction/TransactionManager objects therefore can't get transaction completion notification using
  * javax.transaction.Synchronization.
- * 
+ *
  * pros: only need to patch MQ jar file affect only foreign JMS provider support in AS7
- * 
+ *
  * 2. Code changes in AS7 source in JMS wrapper classes cons: affects MQ integration source in AS7 would need patch AS7
- * 
+ *
  * 3. Code changes in AS7 source and MQ source pros: scope the change in AS7 source as small as possible
- * 
+ *
  * cons: would need patch both AS7 and MQ jar file
- * 
- * 
+ *
+ *
  * Since we are planning to provide the workaround for only one customer, we are planning to use #1 approach with some
  * limitations.
- * 
+ *
  * Notes on Modifications on MQ's JMS Wrapper Classes for Foreign JMS Providers
  * --------------------------------------------------------------------------- 1. Transaction completion detection . Use
  * XAResource.commit/rollback (including forget call) calls to detect transaction completion
- * 
+ *
  * . XAException error codes will also be checked for XAResource.commit/rollback calls to distinguish those XAExceptions
  * that indicates transaction completion and those indicates transaction not completed*
- * 
- * 
+ *
+ *
  * limitation: Since we can't use javax.transaction.Synchronization, our transaction completion detection through
  * XAResource object would not be bullet-proof. There can be edge cases where a transaction completion is not detected
  * which would cause Session leak or where a Session can be closed too early due to vagueness in the XA/JTA specs for
  * some edge cases. But it's our understanding that these edge cases should not be common. Understanding SeeBeyond's XA
  * resource manager implementation detail maybe able to help narrow down some of these edge cases.
- * 
+ *
  * This transaction completion detection also has the assumption that a transaction started on a XAResource object will
  * always be completed on the same XAResource object. We expect SeeBeyond's XAResource implementation meets this
  * requirement since its XAResource.isSameRM always returns false for two different XAResource objects.
- * 
+ *
  * Since Connection will not be hard-closed until all its Sessions have been hard-closed (see #3), session leak would
  * also lead to connection leak. Therefore applications should provide some connection monitoring/ cleanup mechanism to
  * periodically monitor/cleanup leaked connections if Connection leak does become an issue.
- * 
+ *
  * : see more details at XAResource XAException Checks below
- * 
- * 
+ *
+ *
  * 2. JMS Session close semantic . Session close is deferred until transaction completes
- * 
+ *
  * . Session.close is NOT deferred if there is a Session MessageListener
- * 
+ *
  * . Operations on 'soft-closed' Session will NOT be prevented
- * 
- * 
+ *
+ *
  * limitations: . no JMS Session close semantic of throwing IllegalStateException when using the closed Session or its
  * producers/consumers . no JMS Session close semantic of unblocking MessageConsumer.receive . no JMS Session close
  * semantic of waiting MessageConsumer.receive orderly returning the message . no JMS Session close semantic of waiting
  * for all MessageConsumer's MessageListeners return
- * 
- * 
+ *
+ *
  * 3. JMS Connection close semantic . Connection close is deferred until all sessions has been hard-closed
- * 
+ *
  * . Operations (except create XASession) on 'soft-closed' Connection will NOT be prevented
- * 
+ *
  * . See 'JMS Session close semantic'
- * 
+ *
  * limitation: . no JMS Connection close semantic of throwing IllegalStateException when using a closed Connection
  * (except create XASession) or its Sessions . no JMS Connection close semantic of only return until message processing
  * has been orderly shut down
- * 
- * 
+ *
+ *
  * 4. The Session.close()/Connection.close deferral is turned on by setting following jvm system property
- * 
+ *
  * delaySessionCloseForExternalJMSXAResource
- * 
+ *
  * which is a ',' separated list of fully-qualified class name strings that are XAResource implementation classes for an
  * external JMS provider.
- * 
- * 
+ *
+ *
  * XAResource XAException Checks ----------------------------- A XASession will only do soft-close if there is any
  * uncompleted XA transaction that has been started on its XAResource (and there is no Session MessageListener set for
  * the XASession). A soft-closed XASession will be hard-closed only when all XA transactions that have started on its
  * XAResource have been completed or if its Connection is closed.
- * 
+ *
  * 1. XAResource.commit
- * 
+ *
  * The transaction will not mark as completed for following XAExceptions: (expecting XAResource.forget to be called
  * later XA spec: A resource manager that heuristically completes work done on behalf of a transaction branch must keep
  * track of that branch along with the decision (that is, heuristically committed, rolled back, or mixed) XA_HEURHAZ
  * XA_HEURCOM XA_HEURRB XA_HEURMIX
- * 
+ *
  * XA_RETRY (XA spec: All resources held on behalf of *xid remain in a prepared state until commitment is possible.)
- * 
- * 
+ *
+ *
  * The transaction will be marked as completed for following XAExceptions: (XA spec: Upon return the resource manager
  * has rolled back the branch's work and has released all held resources. Only applicable to 1-phase commit)
  * XA_RBROLLBACK XA_RBCOMMFAIL XA_RBDEADLOCK XA_RBINTEGRITY XA_RBOTHER XA_RBPROTO XA_RBTIMEOUT XA_RBTRANSIENT
- * 
+ *
  * All other XAExceptions will mark the transaction completion (XA spec: not clear)
- * 
- * 
+ *
+ *
  * 2. XAResource.rollback
- * 
+ *
  * The transaction will not mark as completed for following XAExceptions: (expecting XAResource.forget to be called
  * later XA spec: A resource manager that heuristically completes work done on behalf of a transaction branch must keep
  * track of that branch along with the decision (that is, heuristically committed, rolled back, or mixed) XA_HEURHAZ
  * XA_HEURCOM XA_HEURRB XA_HEURMIX
- * 
- * 
+ *
+ *
  * The transaction will be marked as completed for following XAExceptions: (XA spec: The resource manager has rolled
  * back the transaction branch's work and has released all held resources. typically occurs when the branch was already
  * marked rollback-only)
- * 
+ *
  * XA_RBROLLBACK XA_RBCOMMFAIL XA_RBDEADLOCK XA_RBINTEGRITY XA_RBOTHER XA_RBPROTO XA_RBTIMEOUT XA_RBTRANSIENT
- * 
+ *
  * All other XAExceptions will mark the transaction completion (CA spec: not clear)
- * 
- * 
+ *
+ *
  * 3. XAResource.forget
- * 
+ *
  * The transaction is marked as completed for any XAExceptions (XA spec: not clear)
- * 
- * 
+ *
+ *
  * 4. XAResource.start A new transaction is not marked as started for XAExceptions: (XA spec: The resource manager has
  * not associated the transaction branch with the thread of control and has marked *xid rollback-only.)
- * 
+ *
  * XA_RBROLLBACK XA_RBCOMMFAIL XA_RBDEADLOCK XA_RBINTEGRITY XA_RBOTHER XA_RBPROTO XA_RBTIMEOUT XA_RBTRANSIENT
- * 
+ *
  * A transaction is not marked as started for any other XAExceptions
- * 
+ *
  * If TMJOIN or TMRESUME flag set, it will not mark a new transaction as started regardless it throws XAException or not
- * 
- * 
+ *
+ *
  * 5. XAResource.end
- * 
+ *
  * The transaction will not be marked as completed for following XAExceptions: (expecting rollback to be called XA spec:
  * The resource manager has dissociated the transaction branch from the thread of control and has marked rollback-only
  * the work performed on behalf of *xid.)
- * 
+ *
  * XA_RBROLLBACK XA_RBCOMMFAIL XA_RBDEADLOCK XA_RBINTEGRITY XA_RBOTHER XA_RBPROTO XA_RBTIMEOUT XA_RBTRANSIENT
- * 
+ *
  * The transaction will be marked as completed for any other XAExceptions (XA spec: not clear)
- * 
+ *
  * The transaction is not marked as completed when no XAException
- * 
+ *
  * 5. XAResource.prepare
- * 
+ *
  * The transaction will be marked as completed if returns XA_RDONLY (XA spec: XA_RDONLY - The resource manager may
  * release all resources and forget about the branch. committed)
- * 
+ *
  * The transaction will not be marked as completed if returns XA_OK (XA spec: A resource manager cannot erase its
  * knowledge of a branch until the transaction manager calls either commit or rollback)
- * 
+ *
  * The transaction will be marked as completed for following XAException: (XA spec: - Upon return, the resource manager
  * has rolled back the branch's work and has released all held resources.)
- * 
+ *
  * XA_RBROLLBACK XA_RBCOMMFAIL XA_RBDEADLOCK XA_RBINTEGRITY XA_RBOTHER XA_RBPROTO XA_RBTIMEOUT XA_RBTRANSIENT
- * 
+ *
  * The transaction will be marked as completed for any other XAException
  *****************/

@@ -16,15 +16,9 @@
 
 package com.sun.messaging.bridge.api;
 
-import java.io.File;
 import java.util.Properties;
-import java.util.List;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Enumeration;
-import javax.net.ssl.SSLContext;
 import com.sun.messaging.bridge.api.BridgeBaseContext;
-import com.sun.messaging.bridge.api.BridgeUtil;
 
 /**
  * The runtime context for a Bridge Service

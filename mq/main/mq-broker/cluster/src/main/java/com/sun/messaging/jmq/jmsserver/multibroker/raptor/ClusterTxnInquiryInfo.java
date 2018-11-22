@@ -21,17 +21,10 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
-import java.util.*;
-import java.nio.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
 /**
@@ -75,10 +68,12 @@ public class ClusterTxnInquiryInfo {
         gp.setType(ProtocolGlobals.G_TRANSACTION_INQUIRY);
         gp.putProp("transactionID", transactionID);
         gp.setBit(gp.A_BIT, true);
-        if (replyXid != null)
+        if (replyXid != null) {
             gp.putProp("X", replyXid);
-        if (txnhome != null)
+        }
+        if (txnhome != null) {
             gp.putProp("transactionHome", txnhome.toProtocolString());
+        }
 
         return gp;
     }
@@ -91,8 +86,9 @@ public class ClusterTxnInquiryInfo {
     public BrokerAddress getTransactionHome() {
         assert (pkt != null);
         String home = (String) pkt.getProp("transactionHome");
-        if (home == null)
+        if (home == null) {
             return null;
+        }
         try {
             return Globals.getMyAddress().fromProtocolString(home);
         } catch (Exception e) {
@@ -110,6 +106,7 @@ public class ClusterTxnInquiryInfo {
     /**
      * To be called by sender
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {

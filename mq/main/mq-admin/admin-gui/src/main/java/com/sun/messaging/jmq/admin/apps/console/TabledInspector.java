@@ -26,7 +26,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JPanel;
 import javax.swing.ListSelectionModel;
-import javax.swing.event.EventListenerList;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.TableModelEvent;
@@ -56,7 +55,7 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  * represents one ConsoleObj. This method returns the object/value for the ConsoleObj, for a particular collumn.
  *
  * </UL>
- * 
+ *
  *
  * @see InspectorPanel
  * @see AInspector
@@ -64,6 +63,10 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  */
 public abstract class TabledInspector extends InspectorPanel implements ListSelectionListener {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1955105658708757041L;
     private CObjTableModel model;
     private JTable table;
 
@@ -76,9 +79,10 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
 
     /**
      * Creates/Returns the panel that contains the InspectorPanel GUI.
-     * 
+     *
      * @return the panel that contains the InspectorPanel GUI.
      */
+    @Override
     public JPanel createWorkPanel() {
         JPanel listPanel = new JPanel();
         JScrollPane scrollPane;
@@ -100,6 +104,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     /**
      * Clears the selection in the InspectorPanel.
      */
+    @Override
     public void clearSelection() {
         if (table != null) {
             table.clearSelection();
@@ -109,6 +114,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     /**
      * Initializes the InspectorPanel for the currently inspected object.
      */
+    @Override
     public void inspectorInit() {
         model.fireTableChanged(new TableModelEvent(model));
         clearSelection();
@@ -117,6 +123,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     /**
      * This method is called when the selected object (row) has been updated. The appropriate TableModelEvent is dispatched.
      */
+    @Override
     public void selectedObjectUpdated() {
         if (table == null) {
             return;
@@ -134,6 +141,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
     /*
      * BEGIN INTERFACE ListSelectionListener
      */
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         boolean isAdjusting = e.getValueIsAdjusting();
@@ -179,10 +187,16 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
      */
     class CObjTableModel extends AbstractTableModel {
         /**
+         * 
+         */
+        private static final long serialVersionUID = -3527022764578800789L;
+
+        /**
          * Returns the number of collumns in table.
          *
          * @return The number of collumns in table.
          */
+        @Override
         public int getColumnCount() {
             String[] columnNames = getColumnHeaders();
 
@@ -198,6 +212,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
          *
          * @return The number of rows in table.
          */
+        @Override
         public int getRowCount() {
             ConsoleObj conObj = getConsoleObj();
             int rowcount = 0;
@@ -215,6 +230,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
          *
          * @return the collumn name/label for a given collumn.
          */
+        @Override
         public String getColumnName(int col) {
             String[] columnNames = getColumnHeaders();
 
@@ -232,6 +248,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         /**
          * Return value at a particular table cell location. Calls the TabledInspector.getValueAtCollumn() method.
          */
+        @Override
         public Object getValueAt(int row, int col) {
             ConsoleObj conObj = getConsoleObj(), childNode;
 
@@ -258,6 +275,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         /**
          * Don't need to implement this method unless your table's editable.
          */
+        @Override
         public boolean isCellEditable(int row, int col) {
             return false;
         }
@@ -265,6 +283,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
         /**
          * Don't need to implement this method unless your table's data can change.
          */
+        @Override
         public void setValueAt(Object value, int row, int col) {
         }
 
@@ -272,7 +291,7 @@ public abstract class TabledInspector extends InspectorPanel implements ListSele
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
     public abstract String[] getColumnHeaders();

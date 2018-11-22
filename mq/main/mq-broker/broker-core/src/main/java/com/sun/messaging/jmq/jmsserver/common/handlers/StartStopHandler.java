@@ -21,12 +21,10 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.io.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -49,6 +47,7 @@ public class StartStopHandler extends PacketHandler {
     /**
      * Method to handle Start and Stop messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         Hashtable props = null;
         try {
@@ -124,12 +123,14 @@ public class StartStopHandler extends PacketHandler {
             Packet pkt = new Packet(con.useDirectBuffers());
             pkt.setPacketType(PacketType.STOP_REPLY);
             pkt.setConsumerID(msg.getConsumerID());
-            if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+            if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                 hash.put("JMQReqID", msg.getSysMessageID().toString());
+            }
 
             hash.put("JMQStatus", Integer.valueOf(status));
-            if (reason != null)
+            if (reason != null) {
                 hash.put("JMQReason", reason);
+            }
 
             pkt.setProperties(hash);
             con.sendControlMessage(pkt);

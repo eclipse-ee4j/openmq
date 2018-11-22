@@ -23,9 +23,6 @@ package com.sun.messaging.jmq.jmsclient;
 import javax.jms.*;
 import java.util.Properties;
 
-import com.sun.messaging.AdministeredObject;
-import com.sun.messaging.ConnectionConfiguration;
-
 /**
  * A Connection is an active connection to a JMS provider. A client uses a Connection to create one or more Sessions for
  * producing and consuming messages.

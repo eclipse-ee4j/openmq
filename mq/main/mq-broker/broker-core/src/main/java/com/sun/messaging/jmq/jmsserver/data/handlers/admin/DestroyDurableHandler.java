@@ -21,10 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.io.*;
-import java.util.Vector;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
@@ -50,6 +46,7 @@ public class DestroyDurableHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

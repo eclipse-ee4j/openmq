@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import java.io.*;
-import java.util.*;
 import java.nio.*;
 
 import com.sun.messaging.jmq.io.GPacket;

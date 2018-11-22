@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
-import java.util.Properties;
-import javax.naming.*;
 import com.sun.messaging.jmq.util.options.OptionDesc;
 import com.sun.messaging.jmq.util.options.OptionParser;
 import com.sun.messaging.jmq.util.options.OptionException;

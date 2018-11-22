@@ -21,11 +21,8 @@ package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import java.util.*;
 import com.sun.messaging.jmq.io.MQAddress;
-import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.MigratableStoreUtil;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
@@ -36,9 +33,6 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import org.jvnet.hk2.annotations.Service;
 import javax.inject.Singleton;
-
-// XXX FOR TEST CLASS
-import java.io.*;
 
 /**
  * This class extends ClusterManagerImpl and is used to obtain and distribute cluster information in an HA cluster.
@@ -60,6 +54,7 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
         super();
     }
 
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
 
         Globals.getStore().updateBrokerInfo(Globals.getBrokerID(), HABrokerInfo.UPDATE_URL, null, address.toString());
@@ -70,22 +65,26 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
         return bid;
     }
 
+    @Override
     protected void checkStore() throws BrokerException {
         if (!StoreManager.isConfiguredBDBSharedFS()) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.E_HA_CLUSTER_INVALID_STORE_CONFIG));
         }
     }
 
+    @Override
     protected HAClusteredBroker newHAClusteredBroker(String brokerid, MQAddress url, int version, BrokerState state, UID session) throws BrokerException {
         return new SFSHAClusteredBrokerImpl(brokerid, url, version, state, session, this);
     }
 
+    @Override
     protected ClusteredBroker updateBrokerOnActivation(ClusteredBroker broker, Object userData) {
         ((SFSHAClusteredBrokerImpl) broker).setStoreSessionUID(((BrokerInfo) userData).getBrokerAddr().getStoreSessionUID());
         ((SFSHAClusteredBrokerImpl) broker).setRemoteBrokerStateOnActivation();
         return broker;
     }
 
+    @Override
     protected ClusteredBroker updateBrokerOnDeactivation(ClusteredBroker broker, Object userData) {
         ((SFSHAClusteredBrokerImpl) broker).setRemoteBrokerStateOnDeactivation();
         return broker;
@@ -97,6 +96,7 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupStoreSessionOwner(UID uid) {
 
         try {
@@ -113,10 +113,12 @@ public class SFSHAClusterManagerImpl extends HAClusterManagerImpl {
         return null;
     }
 
+    @Override
     protected Map newHABrokerInfoMap() throws BrokerException {
         return new SFSHABrokerInfoMap(this);
     }
 
+    @Override
     public ClusteredBroker getBrokerByNodeName(String nodeName) throws BrokerException {
 
         if (!initialized) {

@@ -49,8 +49,9 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
 
     public ConsumerUID(boolean empty) {
         super(0);
-        if (!empty)
+        if (!empty) {
             initializeID();
+        }
     }
 
     public boolean shouldStore() {
@@ -64,6 +65,7 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
     /**
      * @deprecated since 3.5 for compatibility
      */
+    @Deprecated
     public ConsumerUID(int oldnum) {
         super(oldnum);
     }
@@ -73,8 +75,9 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
     }
 
     public void initializeID() {
-        if (id == 0)
+        if (id == 0) {
             id = UniqueID.generateID(getPrefix());
+        }
     }
 
     public void clear() {
@@ -147,8 +150,9 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
     }
 
     public BrokerAddress getBrokerAddress() {
-        if (brokeraddr == null)
+        if (brokeraddr == null) {
             brokeraddr = Globals.getMyAddress();
+        }
         return this.brokeraddr;
     }
 
@@ -156,10 +160,12 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
         return brokeraddr == null || this.brokeraddr == Globals.getMyAddress();
     }
 
+    @Override
     public String toString() {
         return "[consumer:" + super.toString() + ", type=" + getAckMode() + "]";
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         id = in.readLong();
 
@@ -169,6 +175,7 @@ public class ConsumerUID extends com.sun.messaging.jmq.util.UID implements Exter
         shouldStore = false;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeLong(id);
     }

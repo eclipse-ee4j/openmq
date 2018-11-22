@@ -22,6 +22,11 @@ package com.sun.messaging.bridge.api;
 
 public class StompNotConnectedException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2021117295898212052L;
+
     public StompNotConnectedException(String message) {
         super(message);
     }

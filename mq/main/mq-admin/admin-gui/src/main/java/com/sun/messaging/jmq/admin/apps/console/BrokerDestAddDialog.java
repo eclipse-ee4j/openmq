@@ -21,18 +21,11 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Insets;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Frame;
-import java.awt.CardLayout;
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
-import javax.swing.BoxLayout;
-import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
@@ -53,6 +46,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestAddDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7248112689505565644L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private final static int UNLIMITED_VALUE_NEG1 = -1; // for active/failover consumers
@@ -115,11 +112,13 @@ public class BrokerDestAddDialog extends AdminDialog {
         setHelpId(ConsoleHelpID.ADD_BROKER_DEST);
     }
 
+    @Override
     public void show() {
         reset();
         super.show();
     }
 
+    @Override
     public void doOK() {
         String destName = nameTF.getText();
         destName = destName.trim();
@@ -133,8 +132,9 @@ public class BrokerDestAddDialog extends AdminDialog {
             JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_BROKER_DEST_NAME), acr.getString(acr.I_ADD_BROKER_DEST), JOptionPane.YES_NO_OPTION,
                     JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             return;
-        } else
+        } else {
             bae.setDestinationName(destName);
+        }
 
         /*
          * QUEUE-specifics.
@@ -176,16 +176,16 @@ public class BrokerDestAddDialog extends AdminDialog {
 
         // Set default value unlimited anyway in case if the broker
         // decides to change its default value...
-        if (queueSizeLimitUnlimitedRB.isSelected())
+        if (queueSizeLimitUnlimitedRB.isSelected()) {
             bae.setMaxMesgBytes(UNLIMITED_VALUE_NEG1);
-        else {
+        } else {
             longValue = queueSizeLimitBF.getValue();
             bae.setMaxMesgBytes(longValue);
         }
 
-        if (queueMessageLimitUnlimitedRB.isSelected())
+        if (queueMessageLimitUnlimitedRB.isSelected()) {
             bae.setMaxMesg(UNLIMITED_VALUE_NEG1);
-        else {
+        } else {
             String s = queueMessageLimitTF.getText();
             try {
                 intValue = Integer.parseInt(s);
@@ -201,9 +201,9 @@ public class BrokerDestAddDialog extends AdminDialog {
             }
         }
 
-        if (destMaxSizePerMsgUnlimitedRB.isSelected())
+        if (destMaxSizePerMsgUnlimitedRB.isSelected()) {
             bae.setMaxPerMesgSize(UNLIMITED_VALUE_NEG1);
-        else {
+        } else {
             longValue = destMaxSizePerMsgBF.getValue();
             bae.setMaxPerMesgSize(longValue);
         }
@@ -212,25 +212,31 @@ public class BrokerDestAddDialog extends AdminDialog {
         fireAdminEventDispatched(bae);
     }
 
+    @Override
     public void doReset() {
         reset();
     }
 
+    @Override
     public void doCancel() {
         hide();
         reset();
     }
 
     // not used
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void doClose() {
     }
 
+    @Override
     public JPanel createWorkPanel() {
         JPanel workPanel;
         GridBagLayout workGridbag;
@@ -769,10 +775,11 @@ public class BrokerDestAddDialog extends AdminDialog {
     }
 
     private boolean isValidString(String s) {
-        if ((s == null) || ("".equals(s)))
+        if ((s == null) || ("".equals(s))) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     private void doActiveConsumerUnlimited() {
@@ -844,10 +851,11 @@ public class BrokerDestAddDialog extends AdminDialog {
         activeConsumerUnlimitedLbl.setEnabled(true);
         activeConsumerLimitedRB.setEnabled(true);
 
-        if (activeConsumerUnlimitedRB.isSelected())
+        if (activeConsumerUnlimitedRB.isSelected()) {
             doActiveConsumerUnlimited();
-        else if (activeConsumerLimitedRB.isSelected())
+        } else if (activeConsumerLimitedRB.isSelected()) {
             doActiveConsumerLimited();
+        }
 
         /*
          * Enable Failover Consumer
@@ -857,10 +865,11 @@ public class BrokerDestAddDialog extends AdminDialog {
         failoverConsumerUnlimitedLbl.setEnabled(true);
         failoverConsumerLimitedRB.setEnabled(true);
 
-        if (failoverConsumerUnlimitedRB.isSelected())
+        if (failoverConsumerUnlimitedRB.isSelected()) {
             doFailoverConsumerUnlimited();
-        else if (failoverConsumerLimitedRB.isSelected())
+        } else if (failoverConsumerLimitedRB.isSelected()) {
             doFailoverConsumerLimited();
+        }
 
         /*
          * Enable Queue Size Limit
@@ -869,10 +878,11 @@ public class BrokerDestAddDialog extends AdminDialog {
         queueSizeLimitUnlimitedRB.setEnabled(true);
         queueSizeLimitLimitedRB.setEnabled(true);
 
-        if (queueSizeLimitUnlimitedRB.isSelected())
+        if (queueSizeLimitUnlimitedRB.isSelected()) {
             doQueueSizeLimitUnlimited();
-        else if (queueSizeLimitLimitedRB.isSelected())
+        } else if (queueSizeLimitLimitedRB.isSelected()) {
             doQueueSizeLimitLimited();
+        }
 
         /*
          * Enable Queue Message Limit
@@ -881,10 +891,11 @@ public class BrokerDestAddDialog extends AdminDialog {
         queueMessageLimitUnlimitedRB.setEnabled(true);
         queueMessageLimitLimitedRB.setEnabled(true);
 
-        if (queueMessageLimitUnlimitedRB.isSelected())
+        if (queueMessageLimitUnlimitedRB.isSelected()) {
             doQueueMessageLimitUnlimited();
-        else if (queueMessageLimitLimitedRB.isSelected())
+        } else if (queueMessageLimitLimitedRB.isSelected()) {
             doQueueMessageLimitLimited();
+        }
     }
 
     private void showTopicProperties() {
@@ -910,6 +921,7 @@ public class BrokerDestAddDialog extends AdminDialog {
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 

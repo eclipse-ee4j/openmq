@@ -26,7 +26,6 @@ import java.net.UnknownHostException;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.util.CacheHashMap;
 import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
@@ -130,7 +129,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * The set of listeners waiting state or configuration changed information.
-     * 
+     *
      * @see ClusterListener
      */
     protected Set listeners = null;
@@ -167,7 +166,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * The list of all brokers in the cluster. The list contains ClusteredBroker objects.
-     * 
+     *
      * @see ClusteredBroker
      */
     protected Map allBrokers = null;
@@ -213,6 +212,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         listeners = new LinkedHashSet();
     }
 
+    @Override
     public int getClusterPingInterval() {
         return clusterPingInterval;
     }
@@ -222,6 +222,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      *
      * @return the id or null if this is not an HA cluster
      */
+    @Override
     public String getClusterId() {
         return clusterid;
     }
@@ -236,10 +237,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Changes the host/port of the local broker.
-     * 
+     *
      * @param address MQAddress to the portmapper
      * @throws BrokerException if something goes wrong when the address is changed
      */
+    @Override
     public void setMQAddress(MQAddress address) throws Exception {
         if (!initialized) {
             initialize(address); // sets up cluster state
@@ -250,27 +252,30 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Retrieves the host/port of the local broker.
-     * 
+     *
      * @return the MQAddress to the portmapper
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public MQAddress getMQAddress() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return getLocalBroker().getBrokerURL();
     }
 
     /**
      * Sets a listener for notification when the state/status or configuration of the cluster changes.
-     * 
+     *
      * <p>
      * This api is used by the Monitor Service to determine when a broker should be monitored because it may be down.
      *
      * @see ClusterListener
      * @param listener the listener to add
      */
+    @Override
     public void addEventListener(ClusterListener listener) {
         synchronized (listeners) {
             listeners.add(listener);
@@ -279,7 +284,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Removes a listener for notification when the state changes.
-     * 
+     *
      * <p>
      * This api is used by the Monitor Service to determine when a broker should be monitored because it may be down.
      *
@@ -287,6 +292,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterListener
      * @param listener the listener to remove
      */
+    @Override
     public boolean removeEventListener(ClusterListener listener) {
         synchronized (listeners) {
             return listeners.remove(listener);
@@ -301,23 +307,27 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      * @see ClusterManagerImpl#getBroker(String)
      */
+    @Override
     public ClusteredBroker getLocalBroker() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
         return getBroker(localBroker);
     }
 
     /**
      * Returns the current number of brokers in the cluster. In a non-ha cluster, this includes all brokers which have a
      * BrokerLink to the local broker and the local broker.
-     * 
+     *
      * @return count of all brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getKnownBrokerCount() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         synchronized (allBrokers) {
             return allBrokers.size();
@@ -327,22 +337,25 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * Returns the current number of brokers in the configuration propperties. In a non-ha cluster, this includes all
      * brokers listed by -cluster or the cluster property.
-     * 
+     *
      * @return count of configured brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getConfigBrokerCount() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         int cnt = 0;
         synchronized (allBrokers) {
             Iterator itr = allBrokers.values().iterator();
             while (itr.hasNext()) {
                 ClusteredBroker cb = (ClusteredBroker) itr.next();
-                if (cb.isConfigBroker())
+                if (cb.isConfigBroker()) {
                     cnt++;
+                }
             }
         }
         return cnt;
@@ -351,22 +364,25 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * Returns the current number of brokers in the cluster. In a non-ha cluster, this includes all brokers which have an
      * active BrokerLink to the local broker and the local broker.
-     * 
+     *
      * @return count of all brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getActiveBrokerCount() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         int cnt = 0;
         synchronized (allBrokers) {
             Iterator itr = allBrokers.values().iterator();
             while (itr.hasNext()) {
                 ClusteredBroker cb = (ClusteredBroker) itr.next();
-                if (BrokerStatus.getBrokerLinkIsUp(cb.getStatus()))
+                if (BrokerStatus.getBrokerLinkIsUp(cb.getStatus())) {
                     cnt++;
+                }
             }
         }
         return cnt;
@@ -374,15 +390,17 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Returns an iterator of ClusteredBroker objects for all brokers in the cluster. This is a copy of the current list.
-     * 
+     *
      * @param refresh if true refresh current list then return it
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getKnownBrokers(boolean refresh) {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         HashSet brokers = null;
         synchronized (allBrokers) {
@@ -399,6 +417,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             parent = parentItr;
         }
 
+        @Override
         public boolean hasNext() {
             if (nextObj != null) {
                 return true;
@@ -407,8 +426,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
                 return false;
             }
             while (nextObj == null) {
-                if (!parent.hasNext())
+                if (!parent.hasNext()) {
                     break;
+                }
                 nextObj = parent.next();
                 ClusteredBroker cb = (ClusteredBroker) nextObj;
                 if (!cb.isConfigBroker()) {
@@ -419,15 +439,18 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             return nextObj != null;
         }
 
+        @Override
         public Object next() {
             // ok, skip to the right location
-            if (!hasNext())
+            if (!hasNext()) {
                 throw new NoSuchElementException("no more");
+            }
             Object ret = nextObj;
             nextObj = null;
             return ret;
         }
 
+        @Override
         public void remove() {
             parent.remove();
         }
@@ -436,14 +459,16 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * Returns an iterator of ClusteredBroker objects for all brokers in the cluster. This is a copy of the current list and
      * is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getConfigBrokers() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         HashSet brokers = null;
         synchronized (allBrokers) {
@@ -463,6 +488,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             parent = parentItr;
         }
 
+        @Override
         public boolean hasNext() {
             if (nextObj != null) {
                 return true;
@@ -471,8 +497,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
                 return false;
             }
             while (nextObj == null) {
-                if (!parent.hasNext())
+                if (!parent.hasNext()) {
                     break;
+                }
                 nextObj = parent.next();
                 ClusteredBroker cb = (ClusteredBroker) nextObj;
                 if (BrokerStatus.getBrokerLinkIsDown(cb.getStatus())) {
@@ -483,15 +510,18 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
             return nextObj != null;
         }
 
+        @Override
         public Object next() {
             // ok, skip to the right location
-            if (!hasNext())
+            if (!hasNext()) {
                 throw new NoSuchElementException("no more");
+            }
             Object ret = nextObj;
             nextObj = null;
             return ret;
         }
 
+        @Override
         public void remove() {
             parent.remove();
         }
@@ -500,14 +530,16 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * Returns an iterator of ClusteredBroker objects for all active brokers in the cluster. This is a copy of the current
      * list and is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getActiveBrokers() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         HashSet brokers = null;
         synchronized (allBrokers) {
@@ -518,15 +550,17 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Returns a specific ClusteredBroker object by name.
-     * 
+     *
      * @param brokerid the id associated with the broker
      * @return the broker associated with brokerid or null if the broker is not found
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public ClusteredBroker getBroker(String brokerid) {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         synchronized (allBrokers) {
             return (ClusteredBroker) allBrokers.get(brokerid);
@@ -546,9 +580,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      * @return the uid associated with the new broker
      */
+    @Override
     public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         // does it exist yet ?
         String brokerid = lookupBrokerID(URL);
@@ -571,14 +607,16 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
+    @Override
     public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
         ClusteredBroker cb = getBroker(brokerid);
         if (cb == null) {
             throw new BrokerException("Unknown broker " + brokerid);
         }
         cb.setInstanceName(instName);
-        if (uid != null)
+        if (uid != null) {
             cb.setBrokerSessionUID(uid);
+        }
         cb = updateBrokerOnActivation(cb, userData);
         cb.setStatus(BrokerStatus.ACTIVATE_BROKER, userData);
         return brokerid;
@@ -629,14 +667,17 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @param userData optional data associated with the status change
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
+    @Override
     public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         // does it exist yet ?
         String brokerid = lookupBrokerID(URL);
-        if (brokerid == null)
+        if (brokerid == null) {
             throw new NoSuchElementException("Unknown URL " + URL);
+        }
         deactivateBroker(brokerid, userData);
     }
 
@@ -649,9 +690,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         ClusteredBroker cb = null;
 
@@ -659,8 +702,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
         synchronized (allBrokers) {
             cb = (ClusteredBroker) allBrokers.get(brokerid);
-            if (cb == null)
+            if (cb == null) {
                 throw new NoSuchElementException("Unknown Broker" + brokerid);
+            }
             if (!cb.isConfigBroker()) { // remove it if its dynamic
                 allBrokers.remove(brokerid);
                 removed = true;
@@ -669,8 +713,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         }
         // OK, set the broker link down
         cb.setStatus(BrokerStatus.setBrokerLinkIsDown(cb.getStatus()), userData);
-        if (removed)
+        if (removed) {
             brokerChanged(ClusterReason.REMOVED, cb.getBrokerName(), cb, null, cb.getBrokerSessionUID(), null);
+        }
 
     }
 
@@ -682,9 +727,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String lookupBrokerID(MQAddress broker) {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         // the safe thing to do is to iterate
         synchronized (allBrokers) {
@@ -693,8 +740,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
                 ClusteredBroker cb = (ClusteredBroker) itr.next();
                 MQAddress addr = cb.getBrokerURL();
-                if (addr.equals(broker))
+                if (addr.equals(broker)) {
                     return cb.getBrokerName();
+                }
             }
         }
         return null;
@@ -706,10 +754,12 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupStoreSessionOwner(UID uid) {
         return null;
     }
 
+    @Override
     public String getStoreSessionCreator(UID uid) {
         return null;
     }
@@ -720,9 +770,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupBrokerSessionUID(UID uid) {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         // the safe thing to do is to iterate
         synchronized (allBrokers) {
@@ -731,8 +783,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
                 ClusteredBroker cb = (ClusteredBroker) itr.next();
                 UID buid = cb.getBrokerSessionUID();
-                if (buid.equals(uid))
+                if (buid.equals(uid)) {
                     return cb.getBrokerName();
+                }
             }
         }
         return null;
@@ -754,9 +807,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public ClusteredBroker getMasterBroker() {
-        if (masterBroker == null)
+        if (masterBroker == null) {
             return null;
+        }
 
         return getBroker(masterBroker);
     }
@@ -769,37 +824,43 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      */
 
+    @Override
     public String getTransport() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return transport;
     }
 
     /**
      * Returns the port configured for the cluster service.
-     * 
+     *
      * @return the port (or 0 if a dynamic port should be used)
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getClusterPort() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return clusterport;
     }
 
     /**
      * Returns the host that the cluster service should bind to .
-     * 
+     *
      * @return the hostname (or null if the service should bind to all)
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String getClusterHost() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return clusterhost;
     }
@@ -812,9 +873,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @see ClusterManagerImpl#setMQAddress
      * @see Globals#getHAEnabled()
      */
+    @Override
     public boolean isHA() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return false;
     }
@@ -823,9 +886,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * Reload cluster properties from config
      *
      */
+    @Override
     public void reloadConfig() throws BrokerException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         String[] props = { CLUSTERURL_PROPERTY, AUTOCONNECT_PROPERTY }; // XXX
         config.reloadProps(Globals.getConfigName(), props, false);
@@ -849,6 +914,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * @throws BrokerException if the cluster can not be initialized
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
         initialized = true;
 
@@ -906,8 +972,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
                 ClusteredBroker lcb = getLocalBroker();
 
                 if (addr.equals(getMQAddress())) {
-                    if (lcb instanceof ClusteredBrokerImpl)
+                    if (lcb instanceof ClusteredBrokerImpl) {
                         ((ClusteredBrokerImpl) lcb).setConfigBroker(true);
+                    }
                 } else {
                     addBroker(addr, false, true, null);
                 }
@@ -961,7 +1028,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * Method which determines the list of brokers in the cluster. For non-ha clusters, this is determined by the
      * configuration properties for this broker.
-     * 
+     *
      * @return a Set containing all MQAddress objects associated with the broker cluster (except the local broker)
      * @throws MalformedURLException if something is wrong with the properties and an MQAddress can not be created.
      */
@@ -989,6 +1056,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         return parseBrokerList(values);
     }
 
+    @Override
     public LinkedHashSet parseBrokerList(String values) throws MalformedURLException, UnknownHostException {
         // we want to pull out dups .. so we use a hashmap
         // with host:port as a key
@@ -1033,6 +1101,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         }
     }
 
+    @Override
     public MQAddress getBrokerNextToMe() {
         synchronized (brokerNextToMeLock) {
             return brokerNextToMe;
@@ -1041,16 +1110,18 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Returns a user-readable string representing this class.
-     * 
+     *
      * @return the user-readable represeation.
      */
+    @Override
     public String toString() {
         StringBuffer str = new StringBuffer();
         str.append("ClusterManager: [local=" + localBroker + ", master = " + masterBroker + "]\n");
         synchronized (allBrokers) {
             Iterator itr = allBrokers.values().iterator();
-            while (itr.hasNext())
+            while (itr.hasNext()) {
                 str.append("\t" + itr.next() + "\n");
+            }
         }
         return str.toString();
     }
@@ -1060,6 +1131,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      *
      * @return null (this cluster type does not support session)
      */
+    @Override
     public synchronized UID getStoreSessionUID() {
         return null;
     }
@@ -1069,6 +1141,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      *
      * @return null (this cluster type does not support session)
      */
+    @Override
     public synchronized UID getBrokerSessionUID() {
         return getLocalBroker().getBrokerSessionUID();
     }
@@ -1089,10 +1162,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * <p>
      * This list may not include all sessionUID's that have been supported by this running broker (ids may age out over
      * time).
-     * 
+     *
      *
      * @return the set of sessionUIDs
      */
+    @Override
     public Set getSupportedStoreSessionUIDs() {
         Set s = null;
         synchronized (supportedSessionMap) {
@@ -1197,7 +1271,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Method called when the MQAddress is changed on the system.
-     * 
+     *
      * @param address the new address of the local brokers portmapper
      */
     protected void mqAddressChanged(MQAddress address) throws Exception {
@@ -1209,12 +1283,13 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Validates an updated property.
-     * 
+     *
      * @see ConfigListener
      * @param name the name of the property to be changed
      * @param value the new value of the property
      * @throws PropertyUpdateException if the value is invalid (e.g. format is wrong, property can not be changed)
      */
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         if (name.equals(TRANSPORT_PROPERTY)) {
             // XXX - is there a valid value
@@ -1252,12 +1327,13 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     /**
      * Updates a new configuration property.
-     * 
+     *
      * @see ConfigListener
      * @param name the name of the property to be changed
      * @param value the new value of the property
      * @return true if the property took affect immediately, false if the broker needs to be restarted.
      */
+    @Override
     public boolean update(String name, String value) {
         if (name.equals(TRANSPORT_PROPERTY)) {
             transport = value;
@@ -1321,15 +1397,16 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
      * <LI>cluster service hostname</LI>
      * <LI>cluster service transport</LI>
      * </UL>
-     * 
+     *
      * @param name the name of the changed property
      * @param value the new value of the changed property
      * @see ClusterListener
      */
     public void clusterPropertyChanged(String name, String value) {
         synchronized (listeners) {
-            if (listeners.size() == 0)
+            if (listeners.size() == 0) {
                 return;
+            }
             Iterator itr = listeners.iterator();
             while (itr.hasNext()) {
                 ClusterListener listen = (ClusterListener) itr.next();
@@ -1416,8 +1493,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     public void brokerChanged(ClusterReason reason, String brokerid, Object oldvalue, Object newvalue, UID suid, Object userData) {
         synchronized (listeners) {
-            if (listeners.size() == 0)
+            if (listeners.size() == 0) {
                 return;
+            }
         }
 
         BrokerChangedEntry bce = new BrokerChangedEntry(reason, brokerid, oldvalue, newvalue, suid, userData);
@@ -1427,7 +1505,9 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
         synchronized (brokerChangedEntryList) {
             brokerChangedEntryList.add(bce);
             if (brokerChangedProcessing == true)
+             {
                 return; // let other guy handle it
+            }
             brokerChangedProcessing = true;
         }
 
@@ -1451,10 +1531,11 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
                 for (int i = 0; i < alisteners.length; i++) {
 
-                    ClusterListener listen = (ClusterListener) alisteners[i];
+                    ClusterListener listen = alisteners[i];
                     synchronized (listeners) {
-                        if (!listeners.contains(listen))
+                        if (!listeners.contains(listen)) {
                             continue;
+                        }
                     }
 
                     if (process.reason == ClusterReason.ADDED) {
@@ -1525,6 +1606,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
 
     int brokerindx = 0;
 
+    @Override
     public ClusteredBroker getBrokerByNodeName(String nodeName) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getbrokerByNodeName()");
     }
@@ -1532,6 +1614,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionAdded(UID partitionID, Object source) {
         synchronized (supportedSessionMap) {
             if (source instanceof DestinationList) {
@@ -1544,6 +1627,7 @@ public class ClusterManagerImpl implements ClusterManager, ConfigListener {
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionRemoved(UID partitionID, Object source, Object destinedTo) {
         synchronized (supportedSessionMap) {
             if (Globals.getDestinationList().isPartitionMode()) {

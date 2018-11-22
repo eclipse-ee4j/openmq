@@ -26,6 +26,10 @@ package com.sun.messaging.jmq.util.options;
 
 public class BadNameValueArgException extends OptionException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9101820453652635187L;
     String nvArg;
 
     /**
@@ -46,6 +50,7 @@ public class BadNameValueArgException extends OptionException {
         return (nvArg);
     }
 
+    @Override
     public String toString() {
         return (super.toString() + " (" + getArg() + ")");
     }

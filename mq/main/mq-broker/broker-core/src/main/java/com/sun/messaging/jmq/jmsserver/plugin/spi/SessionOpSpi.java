@@ -31,7 +31,6 @@ import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 
 public abstract class SessionOpSpi {
@@ -60,13 +59,14 @@ public abstract class SessionOpSpi {
 
     /**
      * Called right before put the message on the 'wire' to client
-     * 
+     *
      * @param con the consumer the message to be delivered to
      * @param msg the message
      * @return true to deliver the message
      */
     public abstract boolean onMessageDelivery(ConsumerSpi con, Object msg);
 
+    @Override
     public String toString() {
         return "SessionOp[" + session + "]";
     }
@@ -84,7 +84,7 @@ public abstract class SessionOpSpi {
 
     /**
      * Process transaction ack
-     * 
+     *
      * @param cuid the consumer the message was delivered
      * @param id the message id
      * @param tuid the transaction id
@@ -96,7 +96,7 @@ public abstract class SessionOpSpi {
 
     /**
      * Called on closing the session
-     * 
+     *
      * @param conn the connection this session belongs to
      */
     public abstract void close(Connection conn);

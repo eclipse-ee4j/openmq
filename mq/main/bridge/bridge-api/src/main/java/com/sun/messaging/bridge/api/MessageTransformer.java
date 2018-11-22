@@ -27,7 +27,7 @@ import javax.jms.Topic;
  * constructor.
  *
  * The following is an example usage of this class for MQ STOMP bridge
- * 
+ *
  * <pre>
  * import java.util.*;
  * import javax.jms.*;
@@ -35,10 +35,10 @@ import javax.jms.Topic;
  *
  * public class MessageTran extends MessageTransformer &lt;Message, Message&gt; {
  *
- * public Message transform(Message message, 
+ * public Message transform(Message message,
  *                          boolean readOnly,
  *                          String charsetName,
- *                          String source, 
+ *                          String source,
  *                          String target,
  *                          Properties properties)
  *                          throws Exception {
@@ -51,14 +51,14 @@ import javax.jms.Topic;
  *            //convert key to valid JMS message property name, then call m.setStringProperty()
  *            ......
  *        }
- *     
+ *
  *    } else if (source.equals(SUN_MQ)) { //from Java Message Queue to STOMP client
  *
  *        if (message instanceof ObjectMessage) {
  *
- *            //create a new BytesMessage for <i>message</i> to be transformed to 
+ *            //create a new BytesMessage for <i>message</i> to be transformed to
  *            BytesMessage bm = (BytesMessage)createJMSMessage(JMSMessageType.BYTESMESSAGE);
- *               
+ *
  *            //convert <i>message</i> to the BytesMessage
  *            ......
  *            m = bm;

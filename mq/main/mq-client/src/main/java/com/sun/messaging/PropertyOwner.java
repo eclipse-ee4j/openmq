@@ -38,7 +38,7 @@ public interface PropertyOwner {
 
     /**
      * Returns the type of a single owned property.
-     * 
+     *
      * @param propname The name of the owned property.
      *
      * @return The type of the owned property <code>propname</code>. <code>null</code> if the property <code>propname</code>
@@ -48,7 +48,7 @@ public interface PropertyOwner {
 
     /**
      * Returns the label of a single owned property.
-     * 
+     *
      * @param propname The name of the owned property.
      *
      * @return The label of the owned property <code>propname</code>. <code>null</code> if the property
@@ -58,9 +58,9 @@ public interface PropertyOwner {
 
     /**
      * Returns the default value of a single owned property.
-     * 
+     *
      * @param propname The name of the owned property.
-     * 
+     *
      * @return The default value of the owned property <code>propname</code>. <code>null</code> if the property
      * <code>propname</code> is invalid.
      */

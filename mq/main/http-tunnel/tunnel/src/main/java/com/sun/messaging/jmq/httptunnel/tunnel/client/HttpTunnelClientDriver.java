@@ -219,6 +219,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     /**
      * Sends a packet.
      */
+    @Override
     public void sendPacket(HttpTunnelPacket p) {
         pushWorker.sendPacket(p);
 
@@ -230,6 +231,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     /**
      * Shutdown the driver. Stops accepting packets from the peer.
      */
+    @Override
     public void shutdown(int connId) {
         pushWorker.shutdown();
         stopThread = true;
@@ -247,7 +249,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     /**
      * Send a HTTP pull request to fetch any packets sent by the server. The server-side driver can send multiple packets
      * with each HTTP pull response.
-     * 
+     *
      * @return A <code>Vector</code> containing received packets.
      */
     private Vector pullPackets() throws Exception {
@@ -350,6 +352,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
     private void handleHttpPullError() {
     }
 
+    @Override
     public void run() {
         while (!stopThread) {
             try {
@@ -429,6 +432,7 @@ public class HttpTunnelClientDriver extends Thread implements HttpTunnelDefaults
         }
     }
 
+    @Override
     public Hashtable getDebugState() {
         return new Hashtable();
     }

@@ -28,16 +28,12 @@ import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.util.MQThread;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.ServiceType;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -83,8 +79,9 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         } catch (Throwable thr) {
             Globals.getLogger().log(Logger.ERROR, thr.toString(), thr);
         } finally {
-            if (WORKAROUND_4244135)
+            if (WORKAROUND_4244135) {
                 Globals.getLogger().log(Logger.DEBUG, "Using workaround for bug 4244135");
+            }
         }
 
     }
@@ -117,12 +114,14 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
 
         pool = new ThreadPool(name, min, max, runfac);
 //        pool.setPriority(priority);
-        if (protocol.getHostName() != null && !protocol.getHostName().equals(Globals.HOSTNAME_ALL))
+        if (protocol.getHostName() != null && !protocol.getHostName().equals(Globals.HOSTNAME_ALL)) {
             addServiceProp("hostname", protocol.getHostName());
+        }
         protocol.registerProtocolCallback(this, null);
 
     }
 
+    @Override
     public Hashtable getPoolDebugState() {
         return pool.getDebugState();
     }
@@ -133,10 +132,12 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
 
     protected abstract RunnableFactory getRunnableFactory();
 
+    @Override
     public Protocol getProtocol() {
         return protocol;
     }
 
+    @Override
     public synchronized int getMinThreadpool() {
         if (pool == null) {
             return 0;
@@ -144,6 +145,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         return pool.getMinimum();
     }
 
+    @Override
     public synchronized int getMaxThreadpool() {
         if (pool == null) {
             return 0;
@@ -151,6 +153,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         return pool.getMaximum();
     }
 
+    @Override
     public synchronized int getActiveThreadpool() {
         if (pool == null) {
             return 0;
@@ -158,6 +161,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         return pool.getThreadNum();
     }
 
+    @Override
     public void setPriority(int priority) {
         pool.setPriority(priority);
     }
@@ -177,6 +181,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
     // listen thread per/service
     // revisit (may not always be true)
 
+    @Override
     public synchronized void startService(boolean startPaused) {
         if (isServiceRunning() || listenThread != null) {
             /*
@@ -219,6 +224,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         notifyAll();
     }
 
+    @Override
     public void stopService(boolean all) {
         synchronized (this) {
 
@@ -276,26 +282,30 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
             this.notifyAll();
         }
 
-        if (pool.isValid())
+        if (pool.isValid()) {
             pool.waitOnDestroy(getDestroyWaitTime());
+        }
 
         if (DEBUG) {
             logger.log(Logger.DEBUG, "Destroying Service {0} with protocol {1} ", getName(), protocol.toString());
         }
     }
 
+    @Override
     public void stopNewConnections() throws IOException, IllegalStateException {
         if (getState() != ServiceState.RUNNING) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
         }
         setState(ServiceState.QUIESCED);
         if (!WORKAROUND_4244135 && !WORKAROUND_HTTP) {
-            if (protocol != null && protocol.isOpen())
+            if (protocol != null && protocol.isOpen()) {
                 protocol.close();
+            }
             Globals.getPortMapper().updateServicePort(name, 0);
         }
     }
 
+    @Override
     public void startNewConnections() throws IOException {
         if (getState() != ServiceState.QUIESCED && getState() != ServiceState.PAUSED) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
@@ -316,6 +326,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         }
     }
 
+    @Override
     public void pauseService(boolean all) {
 
         if (!isServiceRunning()) {
@@ -339,6 +350,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         setServiceRunning(false);
     }
 
+    @Override
     public void resumeService() {
         if (isServiceRunning()) {
             logger.log(Logger.DEBUG, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to resume service " + name + ", already running.");
@@ -412,9 +424,11 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
         }
     }
 
+    @Override
     public synchronized void socketUpdated(Object data, int port, String hostname) {
-        if (port == -1)
+        if (port == -1) {
             port = protocol.getLocalPort();
+        }
 
         String args[] = { name, String.valueOf(port), (hostname == null) ? Globals.HOSTNAME_ALL : hostname };
         logger.log(Logger.DEBUG, BrokerResources.I_SERVICE_PROTOCOL_UPDATED, args);
@@ -428,6 +442,7 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
     // XXX - we dont need a seperate thread to look for connections
     // for all subclasses, but this is cleaner
 
+    @Override
     public void run() {
 
         if (DEBUG) {
@@ -569,14 +584,16 @@ public abstract class IMQIPService extends IMQService implements Runnable, Proto
                 }
 
             } catch (IOException ex) {
-                if (!isShuttingDown() && getState() != ServiceState.QUIESCED)
+                if (!isShuttingDown() && getState() != ServiceState.QUIESCED) {
                     logger.logStack(Logger.ERROR, BrokerResources.E_RUNNING_SERVICE, name, ex);
+                }
                 // valid during shutdown, only log at debug level
                 logger.log(Logger.DEBUG, "Exception closing " + protocol, ex);
                 break;
             } catch (Throwable ex) {
-                if (!isShuttingDown())
+                if (!isShuttingDown()) {
                     logger.logStack(Logger.ERROR, BrokerResources.E_RUNNING_SERVICE, name, ex);
+                }
                 // valid during shutdown, only log at debug level
                 logger.log(Logger.DEBUG, "Exception closing " + protocol, ex);
                 if (ps != null) {

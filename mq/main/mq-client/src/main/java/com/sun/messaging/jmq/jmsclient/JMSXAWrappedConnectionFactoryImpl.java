@@ -32,6 +32,10 @@ import java.io.Serializable;
  */
 public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFactory, JMSXATopicConnectionFactory, Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4251985946533038784L;
     private ConnectionFactory wrapped_connectionfactory;
     public static final boolean debug = Boolean.getBoolean("DEBUG_JMSXAWrappedForExternalJMS");
 
@@ -41,7 +45,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
 
     /**
      * Constructs a JMSXAWrappedConnectionFactoryImpl using an standard JMS XAQueueConnectionFactory.
-     * 
+     *
      */
     public JMSXAWrappedConnectionFactoryImpl(XAQueueConnectionFactory xaqcf) {
         wrapped_connectionfactory = xaqcf;
@@ -49,7 +53,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
 
     /**
      * Constructs a JMSXAWrappedConnectionFactoryImpl using an standard JMS XATopicConnectionFactory.
-     * 
+     *
      */
     public JMSXAWrappedConnectionFactoryImpl(XATopicConnectionFactory xatcf) {
         wrapped_connectionfactory = xatcf;
@@ -57,7 +61,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
 
     /**
      * Constructs a JMSXAWrappedConnectionFactoryImpl using an standard JMS QueueConnectionFactory.
-     * 
+     *
      */
     public JMSXAWrappedConnectionFactoryImpl(QueueConnectionFactory qcf) {
         wrapped_connectionfactory = qcf;
@@ -65,7 +69,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
 
     /**
      * Constructs a JMSXAWrappedConnectionFactoryImpl using an standard JMS TopicConnectionFactory.
-     * 
+     *
      */
     public JMSXAWrappedConnectionFactoryImpl(TopicConnectionFactory tcf) {
         wrapped_connectionfactory = tcf;
@@ -74,19 +78,20 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
     /**
      * Create an XA queue connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA queue connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
+    @Override
     public JMSXAQueueConnection createXAQueueConnection() throws JMSException {
         if (wrapped_connectionfactory instanceof XAConnectionFactory) {
-            return (JMSXAQueueConnection) (new JMSXAWrappedQueueConnectionImpl(((XAQueueConnectionFactory) wrapped_connectionfactory).createXAQueueConnection(),
+            return (new JMSXAWrappedQueueConnectionImpl(((XAQueueConnectionFactory) wrapped_connectionfactory).createXAQueueConnection(),
                     this, null, null));
         } else {
             // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
-            return (JMSXAQueueConnection) (new JMSXAWrappedQueueConnectionImpl(((QueueConnectionFactory) wrapped_connectionfactory).createQueueConnection(),
+            return (new JMSXAWrappedQueueConnectionImpl(((QueueConnectionFactory) wrapped_connectionfactory).createQueueConnection(),
                     this, null, null));
         }
     }
@@ -94,7 +99,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
     /**
      * Create an XA queue connection with specific user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -103,13 +108,14 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
      * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
+    @Override
     public JMSXAQueueConnection createXAQueueConnection(String username, String password) throws JMSException {
         if (wrapped_connectionfactory instanceof XAConnectionFactory) {
-            return (JMSXAQueueConnection) (new JMSXAWrappedQueueConnectionImpl(
+            return (new JMSXAWrappedQueueConnectionImpl(
                     ((XAQueueConnectionFactory) wrapped_connectionfactory).createXAQueueConnection(username, password), this, username, password));
         } else {
             // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
-            return (JMSXAQueueConnection) (new JMSXAWrappedQueueConnectionImpl(
+            return (new JMSXAWrappedQueueConnectionImpl(
                     ((QueueConnectionFactory) wrapped_connectionfactory).createQueueConnection(username, password), this, username, password));
         }
     }
@@ -117,19 +123,20 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
     /**
      * Create an XA topic connection with default user identity. The connection is created in stopped mode. No messages will
      * be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @return a newly created XA topic connection.
-     * 
+     *
      * @exception JMSException if JMS Provider fails to create XA topic Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
+    @Override
     public JMSXATopicConnection createXATopicConnection() throws JMSException {
         if (wrapped_connectionfactory instanceof XAConnectionFactory) {
-            return (JMSXATopicConnection) (new JMSXAWrappedTopicConnectionImpl(((XATopicConnectionFactory) wrapped_connectionfactory).createXATopicConnection(),
+            return (new JMSXAWrappedTopicConnectionImpl(((XATopicConnectionFactory) wrapped_connectionfactory).createXATopicConnection(),
                     this, null, null));
         } else {
             // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
-            return (JMSXATopicConnection) (new JMSXAWrappedTopicConnectionImpl(((TopicConnectionFactory) wrapped_connectionfactory).createTopicConnection(),
+            return (new JMSXAWrappedTopicConnectionImpl(((TopicConnectionFactory) wrapped_connectionfactory).createTopicConnection(),
                     this, null, null));
         }
     }
@@ -137,7 +144,7 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
     /**
      * Create an XA topic connection with specific user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
      *
@@ -146,13 +153,14 @@ public class JMSXAWrappedConnectionFactoryImpl implements JMSXAQueueConnectionFa
      * @exception JMSException if JMS Provider fails to create XA topic Connection due to some internal error.
      * @exception JMSSecurityException if client authentication fails due to invalid user name or password.
      */
+    @Override
     public JMSXATopicConnection createXATopicConnection(String username, String password) throws JMSException {
         if (wrapped_connectionfactory instanceof XAConnectionFactory) {
-            return (JMSXATopicConnection) (new JMSXAWrappedTopicConnectionImpl(
+            return (new JMSXAWrappedTopicConnectionImpl(
                     ((XATopicConnectionFactory) wrapped_connectionfactory).createXATopicConnection(username, password), this, username, password));
         } else {
             // wrapped_connectionfactory cannot be anything than a javax.jms.ConnectionFactory at this point
-            return (JMSXATopicConnection) (new JMSXAWrappedTopicConnectionImpl(
+            return (new JMSXAWrappedTopicConnectionImpl(
                     ((TopicConnectionFactory) wrapped_connectionfactory).createTopicConnection(username, password), this, username, password));
         }
     }

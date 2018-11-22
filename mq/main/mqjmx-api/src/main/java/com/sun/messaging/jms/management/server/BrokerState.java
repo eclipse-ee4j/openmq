@@ -25,6 +25,11 @@ package com.sun.messaging.jms.management.server;
  */
 public class BrokerState implements java.io.Serializable {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1773345500534561638L;
+
+    /**
      * Unknown broker state.
      */
     public static final int UNKNOWN = -1;
@@ -37,7 +42,7 @@ public class BrokerState implements java.io.Serializable {
     /**
      * The broker has started to takeover another broker's message store. This applies to brokers that are part of a HA
      * cluster.
-     * 
+     *
      */
     public static final int TAKEOVER_STARTED = 1;
 

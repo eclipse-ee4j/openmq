@@ -137,6 +137,7 @@ public class KeystoreUtil implements SSLPropertyMap {
     public static final String TRUSTSTORE_ALGORITHM = "ssl.TrustManagerFactory.algorithm";
     public static final String SECURESOCKET_PROTOCOL = "securesocket.protocol";
 
+    @Override
     public String mapSSLProperty(String prop) {
         return prop;
     }
@@ -145,8 +146,9 @@ public class KeystoreUtil implements SSLPropertyMap {
      * Get default SSLContext configuration properties
      */
     public static Properties getDefaultSSLContextConfig(String caller, SSLPropertyMap pm) throws Exception {
-        if (pm == null)
+        if (pm == null) {
             pm = new KeystoreUtil();
+        }
 
         Properties props = new Properties();
         String keystoreloc = getKeystoreLocation();

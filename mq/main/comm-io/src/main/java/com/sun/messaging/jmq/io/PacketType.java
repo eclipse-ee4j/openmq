@@ -44,9 +44,9 @@ public class PacketType {
      * Our loose convention is that the first 8 types are reserved for basic JMS message types (of which there are currently
      * 6). After that even types are requests and odd types are replies. That's why you'll see some holes in the sequence
      * for requests that don't have replies.
-     * 
+     *
      * Note that Packet.isReply() depends on this convention.
-     * 
+     *
      */
     public static final int NULL = 0;
 

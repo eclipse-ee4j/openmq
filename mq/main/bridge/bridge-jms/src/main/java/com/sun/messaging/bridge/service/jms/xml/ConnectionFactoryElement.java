@@ -81,8 +81,9 @@ public class ConnectionFactoryElement {
 
     public String getUsername() {
         String u = _attrs.getProperty(JMSBridgeXMLConstant.CF.USERNAME);
-        if (u == null)
+        if (u == null) {
             return null;
+        }
         return u.trim();
     }
 
@@ -95,6 +96,7 @@ public class ConnectionFactoryElement {
         return Boolean.valueOf(_attrs.getProperty(JMSBridgeXMLConstant.CF.MULTIRM, JMSBridgeXMLConstant.CF.MULTIRM_DEFAULT));
     }
 
+    @Override
     public String toString() {
         return JMSBridgeXMLConstant.Element.CF + "[" + getRefName() + "]";
     }

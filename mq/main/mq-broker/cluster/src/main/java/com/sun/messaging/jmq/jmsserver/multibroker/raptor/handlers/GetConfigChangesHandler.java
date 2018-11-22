@@ -20,9 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -34,9 +31,11 @@ public class GetConfigChangesHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "GetConfigChangesHandler");
+        }
 
         if (pkt.getType() == ProtocolGlobals.G_GET_CONFIG_CHANGES_REQUEST) {
             handleGetConfigChanges(sender, pkt);

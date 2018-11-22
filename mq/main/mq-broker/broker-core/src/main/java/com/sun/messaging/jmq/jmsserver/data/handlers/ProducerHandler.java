@@ -21,12 +21,9 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers;
 
 import java.util.*;
-import java.io.*;
-import java.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
@@ -54,6 +51,7 @@ public class ProducerHandler extends PacketHandler {
     /**
      * Method to handle Producers
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         Packet reply = new Packet(con.useDirectBuffers());
@@ -179,15 +177,18 @@ public class ProducerHandler extends PacketHandler {
             reason = ex.getMessage();
             status = Status.ERROR;
         } finally {
-            if (d != null)
+            if (d != null) {
                 d.decrementRefCount();
+            }
         }
 
         returnprop.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             returnprop.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             returnprop.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         reply.setProperties(returnprop);
         con.sendControlMessage(reply);

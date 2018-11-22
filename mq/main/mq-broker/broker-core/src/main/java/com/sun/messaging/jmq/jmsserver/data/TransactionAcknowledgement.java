@@ -66,7 +66,7 @@ public class TransactionAcknowledgement implements Externalizable {
 
     /**
      * Construct the acknowledgement with the specified sysid and iid.
-     * 
+     *
      * @param sysid message system id
      * @param iid interest id
      */
@@ -108,10 +108,12 @@ public class TransactionAcknowledgement implements Externalizable {
     /**
      * Returns a hash code value for this object. ?? just added the hashCode of sysid and iid together ??
      */
+    @Override
     public int hashCode() {
         return sysid.hashCode() + iid.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof TransactionAcknowledgement) {
             TransactionAcknowledgement that = (TransactionAcknowledgement) o;
@@ -122,11 +124,13 @@ public class TransactionAcknowledgement implements Externalizable {
         return false;
     }
 
+    @Override
     public String toString() {
         return "[" + sysid.toString() + "]" + iid.toString() + ":" + sid.toString();
     }
 
     // for serializing the object
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         sysid.writeID(out);
         out.writeObject(iid);
@@ -134,6 +138,7 @@ public class TransactionAcknowledgement implements Externalizable {
     }
 
     // for serializing the object
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         sysid = new SysMessageID();

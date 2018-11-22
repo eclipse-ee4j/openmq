@@ -23,8 +23,6 @@ package com.sun.messaging.jmq.io.disk;
 import java.io.*;
 import java.nio.*;
 import java.nio.channels.*;
-import java.util.*;
-
 import com.sun.messaging.jmq.resources.*;
 
 /**
@@ -42,7 +40,7 @@ public class VRFileRAF extends VRFile {
 
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      */
     public VRFileRAF(File file) {
@@ -51,7 +49,7 @@ public class VRFileRAF extends VRFile {
 
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      */
     public VRFileRAF(String name) {
@@ -60,7 +58,7 @@ public class VRFileRAF extends VRFile {
 
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      * @parameter size initial file size; when a new file is created, a file of this size is mapped
      */
@@ -70,7 +68,7 @@ public class VRFileRAF extends VRFile {
 
     /**
      * Instantiate a VRFileRAF object with the specified file as the backing file.
-     * 
+     *
      * @parameter file the backing file
      * @parameter size initial file size; when a new file is created, a file of this size is mapped
      */
@@ -82,14 +80,16 @@ public class VRFileRAF extends VRFile {
      * Open and load the backing file. If the backing file does not exist, it will be created and it size set to the initial
      * file size. Otherwise, all records (allocated or free) will be loaded in memory.
      */
+    @Override
     public synchronized void open() throws IOException, VRFileWarning {
         open(true);
     }
 
     private synchronized void open(boolean create) throws IOException, VRFileWarning {
 
-        if (opened)
+        if (opened) {
             return;
+        }
 
         myRAF = new RandomAccessFile(backingFile, "rw");
         myChannel = myRAF.getChannel();
@@ -125,9 +125,11 @@ public class VRFileRAF extends VRFile {
     }
 
     // Close the VRFile and free up any resources
+    @Override
     public synchronized void close() {
-        if (!opened)
+        if (!opened) {
             return;
+        }
 
         if (DEBUG) {
             System.out.println(backingFile + ": closing...");
@@ -153,6 +155,7 @@ public class VRFileRAF extends VRFile {
      * represents the record's size (capacity). If the value is positive the record allocated, if the value is negative the
      * record is free. WARNING! This may be an expensive operation.
      */
+    @Override
     public synchronized int[] getMap() throws IOException {
 
         if (!opened) {
@@ -210,7 +213,7 @@ public class VRFileRAF extends VRFile {
      * Allocate a record of at least size "size". The actual size allocated will be a multiple of the block size and may be
      * larger than requested. The actual size allocated can be determined by inspecting the returned records capacity().
      * Write the data into the allocated record
-     * 
+     *
      * data includes
      */
     public synchronized VRecord allocateAndWrite(int size, byte[] data) throws IOException {
@@ -278,6 +281,7 @@ public class VRFileRAF extends VRFile {
      * Allocate a record of at least size "size". The actual size allocated will be a multiple of the block size and may be
      * larger than requested. The actual size allocated can be determined by inspecting the returned records capacity().
      */
+    @Override
     public synchronized VRecord allocate(int size) throws IOException {
 
         checkOpenAndWrite();
@@ -341,6 +345,7 @@ public class VRFileRAF extends VRFile {
      * Force all changes made to all records to be written to disk. Note that the VRFile implementation may at times choose
      * to force data to disk independent of this method.
      */
+    @Override
     public synchronized void force() throws IOException {
         try {
             checkOpen();
@@ -371,6 +376,7 @@ public class VRFileRAF extends VRFile {
     /**
      * Clear all records.
      */
+    @Override
     public synchronized void clear(boolean truncate) throws IOException {
         // reset whole file
         if (opened) {
@@ -416,6 +422,7 @@ public class VRFileRAF extends VRFile {
         }
     }
 
+    @Override
     public String toString() {
         return ("VRFileRAF:" + backingFile + ":# of buffers=" + allocated.size() + ":# of free buffers=" + numFree + ":file pointer=" + filePointer);
     }
@@ -544,9 +551,9 @@ public class VRFileRAF extends VRFile {
      */
     private VRecord getNewSlice(int size) throws IOException {
         // bytes left after this allocation
-        long bytesLeft = remaining() - (long) size;
+        long bytesLeft = remaining() - size;
 
-        long newPosition = filePointer + (long) size;
+        long newPosition = filePointer + size;
 
         // slice it again
         VRecord record = new VRecordRAF(this, filePointer, size, STATE_ALLOCATED, true);
@@ -575,9 +582,9 @@ public class VRFileRAF extends VRFile {
      */
     private VRecord getNewSliceAndWrite(int size, byte[] data) throws IOException {
         // bytes left after this allocation
-        long bytesLeft = remaining() - (long) size;
+        long bytesLeft = remaining() - size;
 
-        long newPosition = filePointer + (long) size;
+        long newPosition = filePointer + size;
 
         // slice it again and write the last Record header
         VRecordRAF record = new VRecordRAF(this, filePointer, size, STATE_ALLOCATED, data, lastRecordHeader);
@@ -660,9 +667,9 @@ public class VRFileRAF extends VRFile {
 
     /*
      * public static void main(String args[]) throws Exception { if (args.length == 0) { return; }
-     * 
+     *
      * VRFile vrfile = new VRFile(args[0]);
-     * 
+     *
      * vrfile.open(); Set records = vrfile.getRecords(); System.out.println("loaded "+records.size()+" records from "+
      * args[0]); }
      */
@@ -985,17 +992,17 @@ public class VRFileRAF extends VRFile {
 
     /*
      * VRFileWarning addWarning(VRFileWarning w, short code, long from, ByteBuffer header, VRecord r) {
-     * 
+     *
      * StringBuffer wstr = new StringBuffer("\nbad record found:"); wstr.append("\n  at: "+ from);
      * wstr.append("\n  reason: "+ getReason(code)); if (code != STATE_BAD_TRUNCATED_HEADER) { // add loaded record header
-     * 
+     *
      * header.rewind(); wstr.append("\n  record header loaded:"); wstr.append("\n    magic number: " + header.getInt());
      * wstr.append("\n    capacity: " + header.getInt()); wstr.append("\n    state: " + header.getShort()); }
-     * 
+     *
      * if (r == null) { wstr.append("\n  repair: No more good record found," + "\n              last record marked at "+
      * from); } else { wstr.append("\n  repair: another good record found;" + "\n              free record formed - \n" +
      * r.toString()); }
-     * 
+     *
      * w.addWarning(wstr.toString()); return w; }
      */
 }

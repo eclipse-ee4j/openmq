@@ -21,20 +21,12 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.memory.MemoryManager;
 
 public class PingHandler extends PacketHandler {
     private Logger logger = Globals.getLogger();
@@ -47,6 +39,7 @@ public class PingHandler extends PacketHandler {
     /**
      * Method to handle Acknowledgement messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {

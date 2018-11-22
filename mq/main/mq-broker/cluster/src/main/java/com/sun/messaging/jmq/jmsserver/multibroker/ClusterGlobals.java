@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 
 public class ClusterGlobals {
     public static final String TOPOLOGY_PROPERTY = Globals.IMQ + ".topology";

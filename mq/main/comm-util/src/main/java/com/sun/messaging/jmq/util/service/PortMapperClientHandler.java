@@ -30,11 +30,11 @@ public interface PortMapperClientHandler {
      * <p>
      * Process a newly-connected PortMapper client and then close the socket.
      * </p>
-     * 
+     *
      * <p>
      * This method takes a <tt>SocketChannel</tt> and is intended to be called by an external proxy which has accepted the
      * connection for us and created the new socket</tt>
-     * 
+     *
      * @param clientSocketChannel the newly-connected PortMapper client
      */
     void handleRequest(SocketChannel clientSocketChannel);

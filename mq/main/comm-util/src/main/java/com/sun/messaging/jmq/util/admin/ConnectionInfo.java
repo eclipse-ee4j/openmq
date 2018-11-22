@@ -31,6 +31,11 @@ import com.sun.messaging.jmq.util.MetricCounters;
 public class ConnectionInfo extends AdminInfo {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -6255154649160893876L;
+
+    /**
      * Broker internal connection ID.
      */
     public byte[] id;
@@ -92,6 +97,7 @@ public class ConnectionInfo extends AdminInfo {
         reset();
     }
 
+    @Override
     public void reset() {
         id = null;
         remoteIP = null;
@@ -104,13 +110,14 @@ public class ConnectionInfo extends AdminInfo {
 
     /**
      * Return a string representation of the connection.
-     * 
+     *
      * <pre>
      * dipol@client1(129.144.252.154:0)
      * </pre>
      *
      * @return String representation of connection.
      */
+    @Override
     public String toString() {
 
         return user + "@" + clientID + "(" + com.sun.messaging.jmq.util.net.IPAddress.rawIPToString(remoteIP, true, true) + ")";

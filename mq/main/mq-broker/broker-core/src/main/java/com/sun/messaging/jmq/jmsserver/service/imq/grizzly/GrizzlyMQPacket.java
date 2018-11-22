@@ -20,15 +20,11 @@
 package com.sun.messaging.jmq.jmsserver.service.imq.grizzly;
 
 import java.io.IOException;
-import java.io.EOFException;
 import java.io.StreamCorruptedException;
 import org.glassfish.grizzly.Buffer;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.io.BigPacketException;
 import com.sun.messaging.jmq.io.PacketPayload;
-import com.sun.messaging.jmq.io.PacketVariableHeader;
 import java.nio.ByteBuffer;
-import java.util.Iterator;
 import org.glassfish.grizzly.memory.Buffers;
 
 public class GrizzlyMQPacket extends Packet {
@@ -52,27 +48,27 @@ public class GrizzlyMQPacket extends Packet {
 
     /**
      * public void readPacket(Buffer buf) throws IOException {
-     * 
+     *
      * if (writeInProgress) { // Should never happen throw new IOException("Can't read packet. Write in progress."); } if
      * (destroyed) { throw new IOException("Packet has been destroyed"); }
-     * 
+     *
      * reset();
-     * 
+     *
      * // buf.get(fixedBuf); // fixedBuf.rewind(); final ByteBuffer bb = buf.toByteBuffer(); final int pos = bb.position();
      * final int lim = bb.limit();
-     * 
+     *
      * try { bb.limit(pos + HEADER_SIZE); parseFixedBuffer(bb); } finally { Buffers.setPositionLimit(bb, pos, lim);
      * Buffers.setPositionLimit(buf, pos + HEADER_SIZE, lim); }
-     * 
+     *
      * if (packetSize > maxPacketSize) { //This packet is too large. Skip it. buf.position(packetSize-1); throw new
      * BigPacketException("Packet size (" + packetSize + ") is greater than the maximum allowed packet size (" +
      * maxPacketSize + "). Disgarding packet." ); }
-     * 
+     *
      * initializeReadBufs(buf); // for (int i = 0; i < nBufs; i++) { // buf.get(readBufs[i]); // }
-     * 
+     *
      * packetVariableHeader.setBytes(varBuf); packetPayload.setPropertiesBytes(propBuf, version);
      * packetPayload.setBody(bodyBuf);
-     * 
+     *
      * if (versionMismatch) { throw new IllegalArgumentException("Bad packet version number: " + version + ". Expecting: " +
      * VERSION1 + " or " + VERSION2 + " or " + VERSION3); } }
      **/

@@ -34,7 +34,7 @@ import com.sun.messaging.bridge.admin.bridgemgr.resources.BridgeAdminResources;
  * This class contains the logic to execute the user commands specified in the BridgeMgrProperties object. It has one
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
- * 
+ *
  * @see ObjMgr
  *
  */
@@ -103,8 +103,9 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 Globals.stdErrPrintln("Problem connecting to the broker");
                 return (1);
             }
-            if (!force)
+            if (!force) {
                 broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
             String target = bridgeMgrProps.getTargetName();
             Properties optionalProps = bridgeMgrProps.getTargetAttrs();
 
@@ -152,8 +153,9 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
 
             boolean single = false;
             boolean startRet = true;
@@ -284,8 +286,9 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
                 return (1);
             }
 
-            if (!force)
+            if (!force) {
                 broker = (BridgeAdmin) CommonCmdRunnerUtil.promptForAuthentication(broker);
+            }
 
             Globals.stdOutPrintln(ar.getString(ar.I_BGMGR_LINK_CMD, getLocalizedCmd(cmd)));
             printLinkInfo();
@@ -505,6 +508,7 @@ public class CmdRunner implements BridgeMgrOptions, AdminEventListener {
 
     }
 
+    @Override
     public void adminEventDispatched(AdminEvent e) {
         if (e instanceof BridgeMgrStatusEvent) {
             BridgeMgrStatusEvent be = (BridgeMgrStatusEvent) e;

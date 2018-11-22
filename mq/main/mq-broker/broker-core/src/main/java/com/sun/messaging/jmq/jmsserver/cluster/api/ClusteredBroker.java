@@ -41,7 +41,7 @@ public interface ClusteredBroker {
 
     /**
      * Returns the URL to the portmapper of this broker.
-     * 
+     *
      * @return the URL of this broker
      */
     public MQAddress getBrokerURL();
@@ -59,35 +59,35 @@ public interface ClusteredBroker {
 
     /**
      * Sets the URL to the portmapper of this broker
-     * 
+     *
      * @param addr the URL of this broker
      */
     public void setBrokerURL(MQAddress addr) throws Exception;
 
     /**
      * Returns if this is the address of the broker running in this VM.
-     * 
+     *
      * @return true if this is the broker running in the current vm
      */
     public boolean isLocalBroker();
 
     /**
      * Retrieves the status of the broker.
-     * 
+     *
      * @return the status of the broker
      */
     public int getStatus();
 
     /**
      * Gets the protocol version of the broker.
-     * 
+     *
      * @return the protocol version (if known) or 0 if not known.
      */
     public int getVersion();
 
     /**
      * Sets the protocol version of the broker.
-     * 
+     *
      * @param version the protocol version
      * @throws UnsupportedOperationException if the version can not be set for this broker
      */
@@ -103,7 +103,7 @@ public interface ClusteredBroker {
 
     /**
      * Updates the BROKER_UP bit flag on status.
-     * 
+     *
      * @param up setting for the bit flag (true/false)
      * @param brokerSession
      * @param userData optional data associated with the change
@@ -112,7 +112,7 @@ public interface ClusteredBroker {
 
     /**
      * Updates the BROKER_LINK_UP bit flag on status.
-     * 
+     *
      * @param up setting for the bit flag (true/false)
      * @param userData optional data associated with the change
      */
@@ -120,7 +120,7 @@ public interface ClusteredBroker {
 
     /**
      * Updates the BROKER_INDOUBT bit flag on status.
-     * 
+     *
      * @param up setting for the bit flag (true/false)
      * @param userData optional data associated with the change
      */
@@ -142,7 +142,7 @@ public interface ClusteredBroker {
     /**
      * Sets the state of the broker. * @throws IllegalAccessException if the broker does not have permission to change the
      * broker (e.g. one broker is updating anothers state).
-     * 
+     *
      * @throws IllegalStateException if the broker state changed unexpectedly.
      * @throws IllegalArgumentException if the state is not supported for this cluster type.
      * @param state the new broker state
@@ -157,11 +157,13 @@ public interface ClusteredBroker {
     /**
      * equals method
      */
+    @Override
     public boolean equals(Object o);
 
     /**
      * hashcode method
      */
+    @Override
     public int hashCode();
 
     /**
@@ -180,7 +182,7 @@ public interface ClusteredBroker {
 
     /**
      * returns if the brokerID was generated.
-     * 
+     *
      * @return true if the ID was generated
      */
     public boolean isBrokerIDGenerated();

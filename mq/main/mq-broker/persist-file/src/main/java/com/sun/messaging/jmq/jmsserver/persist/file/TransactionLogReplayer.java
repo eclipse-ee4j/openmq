@@ -175,8 +175,9 @@ public class TransactionLogReplayer {
     private boolean compareStoredConsumers(SysMessageID mid, ConsumerUID[] logged, HashMap storedmap) {
         boolean match = true;
         int loggedLength = 0;
-        if (logged != null)
+        if (logged != null) {
             loggedLength = logged.length;
+        }
         if (loggedLength < storedmap.size()) {
             match = false;
             logger.log(Logger.ERROR,

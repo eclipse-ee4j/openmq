@@ -20,8 +20,6 @@
 
 package com.sun.messaging;
 
-import javax.jms.JMSException;
-
 /**
  * A <code>ReadOnlyPropertyException</code> is thrown when an attempt is made to modify a JMQ
  * <code>AdministeredObject</code> that has been set to read only.
@@ -30,6 +28,11 @@ import javax.jms.JMSException;
  * @see com.sun.messaging.AdministeredObject#setReadOnly() com.sun.messaging.AdministeredObject.setReadOnly()
  */
 public class ReadOnlyPropertyException extends javax.jms.JMSException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6512498948619888946L;
 
     /**
      * Constructs a ReadOnlyPropertyException.

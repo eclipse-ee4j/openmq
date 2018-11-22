@@ -30,7 +30,7 @@ import java.util.Random;
  *
  * Because a UniqueID incorporates a timestamp it also has the property of having an age. So you can tell how old an ID
  * is, or if one ID is older than another.
- * 
+ *
  * The optional 16 bit prefix can be used to generate additional uniqueness. For example if you have two applications
  * running in two seperate VMs and you need to generate unique IDs accross those two applications, then those two
  * applications would need to be assigned unique 16bit values that could then be passed to generateID(short).

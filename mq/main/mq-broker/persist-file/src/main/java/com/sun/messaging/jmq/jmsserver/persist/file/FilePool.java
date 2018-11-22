@@ -21,9 +21,7 @@
 package com.sun.messaging.jmq.jmsserver.persist.file;
 
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 
 import java.io.*;
@@ -127,7 +125,7 @@ public class FilePool {
 
     /**
      * Assign a newly created entry to a pool. We attempt to assign it to L1 first, then L2 and then final L3.
-     * 
+     *
      */
     private void assignEntryToPool(FilePoolEntry fpe) {
         // Find a pool to put it in
@@ -185,8 +183,9 @@ public class FilePool {
             } catch (IOException e) {
                 // can't mark it FREE; delete it
                 file.delete();
-                if (Store.getDEBUG())
+                if (Store.getDEBUG()) {
                     logger.log(logger.DEBUG, "Failed to tag free file " + file, e);
+                }
             }
             break;
         case POOL_L2:
@@ -210,16 +209,18 @@ public class FilePool {
             } catch (IOException e) {
                 // can't mark it FREE; delete it
                 file.delete();
-                if (Store.getDEBUG())
+                if (Store.getDEBUG()) {
                     logger.log(logger.DEBUG, "Failed to truncate free file " + file, e);
+                }
             }
             break;
         case POOL_L3:
             L3pool.add(fpe);
             // Delete file
             if (!file.delete()) {
-                if (Store.getDEBUG())
+                if (Store.getDEBUG()) {
                     logger.log(logger.DEBUG, "Failed to delete file " + file);
+                }
             }
             break;
         default:
@@ -245,8 +246,9 @@ public class FilePool {
             logger.log(logger.DEBUG, "FilePool.close() called; cleanup = " + cleanup);
         }
 
-        if (!cleanup)
+        if (!cleanup) {
             return;
+        }
 
         Iterator iter = L1pool.iterator();
         FilePoolEntry fpe = null;
@@ -270,6 +272,7 @@ public class FilePool {
         }
     }
 
+    @Override
     public String toString() {
         return ("L1 capacity=" + L1capacity + "  allocated=" + L1allocated + "  free=" + L1pool.size() + "\n" + "L2 capacity=" + L2capacity + "  allocated="
                 + L2allocated + "  free=" + L2pool.size() + "\n" + "L3 capacity=unlimited" + "  allocated=" + L3allocated + "  free=" + L3pool.size());

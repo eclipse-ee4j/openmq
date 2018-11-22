@@ -17,32 +17,16 @@
 package com.sun.messaging.jmq.jmsclient;
 
 import java.io.PrintStream;
-import java.io.Serializable;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
-import javax.jms.BytesMessage;
 import javax.jms.Destination;
-import javax.jms.InvalidClientIDRuntimeException;
 import javax.jms.InvalidDestinationException;
-import javax.jms.InvalidDestinationRuntimeException;
 import javax.jms.InvalidSelectorException;
-import javax.jms.InvalidSelectorRuntimeException;
 import javax.jms.IllegalStateException;
 import javax.jms.JMSConsumer;
 import javax.jms.JMSException;
 import javax.jms.JMSRuntimeException;
-import javax.jms.MapMessage;
 import javax.jms.Message;
-import javax.jms.MessageConsumer;
 import javax.jms.MessageFormatException;
-import javax.jms.MessageFormatRuntimeException;
 import javax.jms.MessageListener;
-import javax.jms.ObjectMessage;
-import javax.jms.StreamMessage;
-import javax.jms.TextMessage;
 import javax.jms.Topic;
 
 import com.sun.messaging.jms.*;
@@ -65,8 +49,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseConsumer(JMSContextImpl context, Destination destination, String messageSelector) {
@@ -81,8 +66,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseConsumer(JMSContextImpl context, Destination destination, String messageSelector, boolean noLocal) {
@@ -97,8 +83,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseDurableConsumer(JMSContextImpl context, Topic topic, String name) {
@@ -113,8 +100,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseDurableConsumer(JMSContextImpl context, Topic topic, String name, String messageSelector, boolean noLocal) {
@@ -131,8 +119,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseSharedDurableConsumer(JMSContextImpl context, Topic topic, String name) {
@@ -145,8 +134,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseSharedDurableConsumer(JMSContextImpl context, Topic topic, String name, String messageSelector) {
@@ -163,8 +153,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseSharedConsumer(JMSContextImpl context, Topic topic, String sharedSubscriptionName) {
@@ -177,8 +168,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     protected void initialiseSharedConsumer(JMSContextImpl context, Topic topic, String sharedSubscriptionName, String messageSelector) {
@@ -193,8 +185,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         } catch (JMSException e) {
             throw new MQRuntimeException(e);
         }
-        if (context.getAutoStart())
+        if (context.getAutoStart()) {
             context.start();
+        }
     }
 
     @Override
@@ -202,8 +195,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
         ps.println("------ JMSConsumerImpl dump start ------");
         ps.println("closed=" + closed);
         ps.println("Here is the MessageConsumer:");
-        if (messageConsumer instanceof Traceable)
+        if (messageConsumer instanceof Traceable) {
             ((Traceable) messageConsumer).dump(ps);
+        }
         ps.println("------ JMSConsumerImpl dump end ------");
     }
 
@@ -330,8 +324,9 @@ public class JMSConsumerImpl implements JMSConsumer, Traceable {
 
     @Override
     public void close() {
-        if (closed)
+        if (closed) {
             return;
+        }
         closed = true;
         context.removeConsumer(this);
         try {

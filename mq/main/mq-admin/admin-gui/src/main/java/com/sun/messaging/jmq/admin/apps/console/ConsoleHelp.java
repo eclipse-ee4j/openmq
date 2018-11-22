@@ -20,14 +20,11 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.io.File;
 import java.net.URL;
 
 import javax.help.CSH;
 import javax.help.HelpBroker;
 import javax.help.HelpSet;
-
-import com.sun.messaging.jmq.admin.util.Globals;
 
 /**
  * This class initializes all the help objects used by the JMQ admin console.
@@ -66,8 +63,9 @@ public class ConsoleHelp {
     public static void loadHelp() {
         int hsTotal;
 
-        if (helpLoaded)
+        if (helpLoaded) {
             return;
+        }
 
         hsTotal = hsURLStrs.length;
 

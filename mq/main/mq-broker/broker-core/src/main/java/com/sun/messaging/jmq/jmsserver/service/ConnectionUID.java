@@ -46,6 +46,7 @@ public class ConnectionUID extends com.sun.messaging.jmq.util.UID {
         super(id);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

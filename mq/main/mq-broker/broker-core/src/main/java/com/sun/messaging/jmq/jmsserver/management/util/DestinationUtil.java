@@ -436,10 +436,11 @@ public class DestinationUtil {
                     } catch (Exception ex) {
                         status = Status.ERROR;
                         errMsg = rb.getString(rb.X_CREATE_DEST_EXCEPTION, info.name, getMessageFromException(ex));
-                        if (ex instanceof ConflictException)
+                        if (ex instanceof ConflictException) {
                             logger.log(Logger.INFO, errMsg, ex);
-                        else
+                        } else {
                             logger.logStack(Logger.INFO, errMsg, ex);
+                        }
                     }
                 } else {
                     status = Status.ERROR;
@@ -539,7 +540,9 @@ public class DestinationUtil {
         if (e instanceof BrokerException) {
             Throwable root_ex = ((BrokerException) e).getCause();
             if (root_ex == null)
+             {
                 return m; // no root cause
+            }
             String lm = root_ex.getMessage();
 
             if (lm != null) {

@@ -456,7 +456,7 @@ public class MessageUtil {
 
     /**
      * Create ack message from the specified soap message.
-     * 
+     *
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
@@ -488,7 +488,7 @@ public class MessageUtil {
 
     /**
      * Create ack message from the specified soap message.
-     * 
+     *
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
@@ -505,7 +505,7 @@ public class MessageUtil {
 
     /**
      * Create ack message from the specified soap message.
-     * 
+     *
      * @param soapm the message to be acknowledged.
      * @return the created acknowledge message.
      * @throws SOAPException
@@ -562,7 +562,7 @@ public class MessageUtil {
 
     /**
      * XXX chiaming 06/19/2008- OLD -- to be removed
-     * 
+     *
      * @param soapm
      * @param value
      * @throws javax.xml.soap.SOAPException
@@ -690,9 +690,9 @@ public class MessageUtil {
 
     /*
      * private static String getTimestamp(String mid) { int index = mid.lastIndexOf('-') + 1;
-     * 
+     *
      * String ts = mid.substring(index);
-     * 
+     *
      * return ts; }
      */
 }

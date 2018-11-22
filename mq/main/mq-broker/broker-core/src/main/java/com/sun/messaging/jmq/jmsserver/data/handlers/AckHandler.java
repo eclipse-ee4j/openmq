@@ -27,15 +27,12 @@ import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.io.PacketUtil;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -43,7 +40,6 @@ import com.sun.messaging.jmq.jmsserver.util.TransactionAckExistException;
 import com.sun.messaging.jmq.jmsserver.util.UnknownTransactionException;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -94,6 +90,7 @@ public class AckHandler extends PacketHandler {
     /**
      * Method to handle Acknowledgement messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int size = msg.getMessageBodySize();
@@ -194,8 +191,9 @@ public class AckHandler extends PacketHandler {
             // OK .. handle Fault Injection
             if (!con.isAdminConnection() && fi.FAULT_INJECTION) {
                 Map m = new HashMap();
-                if (props != null)
+                if (props != null) {
                     m.putAll(props);
+                }
                 m.put("mqAckCount", Integer.valueOf(ackProcessCnt));
                 m.put("mqIsTransacted", Boolean.valueOf(tid != null));
                 fi.checkFaultAndExit(FaultInjection.FAULT_ACK_MSG_1, m, 2, false);
@@ -256,8 +254,9 @@ public class AckHandler extends PacketHandler {
                         for (int i = 0; i < ids.length; i++) {
                             PacketReference ref = DL.get(pstore, ids[i]);
                             Consumer c = Consumer.getConsumer(cids[i]);
-                            if (c == null)
+                            if (c == null) {
                                 continue;
+                            }
                             ConsumerUID sid = c.getStoredConsumerUID();
                             if (sid == null || sid.equals(cids[i])) {
                                 continue;
@@ -288,8 +287,9 @@ public class AckHandler extends PacketHandler {
             // OK .. handle Fault Injection
             if (!con.isAdminConnection() && fi.FAULT_INJECTION) {
                 Map m = new HashMap();
-                if (props != null)
+                if (props != null) {
                     m.putAll(props);
+                }
                 m.put("mqAckCount", Integer.valueOf(ackProcessCnt));
                 m.put("mqIsTransacted", Boolean.valueOf(tid != null));
                 fi.checkFaultAndExit(FaultInjection.FAULT_ACK_MSG_2, m, 2, false);
@@ -303,16 +303,18 @@ public class AckHandler extends PacketHandler {
                 pkt.setConsumerID(msg.getConsumerID());
                 Hashtable hash = new Hashtable();
                 hash.put("JMQStatus", Integer.valueOf(status));
-                if (reason != null)
+                if (reason != null) {
                     hash.put("JMQReason", reason);
+                }
                 if (remoteStatus) {
                     hash.put("JMQRemote", Boolean.valueOf(true));
                     if (remoteConsumerUIDs != null) {
                         hash.put("JMQRemoteConsumerIDs", remoteConsumerUIDs.toString());
                     }
                 }
-                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                     hash.put("JMQReqID", msg.getSysMessageID().toString());
+                }
                 pkt.setProperties(hash);
                 con.sendControlMessage(pkt);
 
@@ -321,8 +323,9 @@ public class AckHandler extends PacketHandler {
             // OK .. handle Fault Injection
             if (!con.isAdminConnection() && fi.FAULT_INJECTION) {
                 Map m = new HashMap();
-                if (props != null)
+                if (props != null) {
                     m.putAll(props);
+                }
                 m.put("mqAckCount", Integer.valueOf(ackProcessCnt));
                 m.put("mqIsTransacted", Boolean.valueOf(tid != null));
                 fi.checkFaultAndExit(FaultInjection.FAULT_ACK_MSG_3, m, 2, false);
@@ -536,8 +539,9 @@ public class AckHandler extends PacketHandler {
                         consumer.recreationRequested();
                     }
                 }
-                if (ex instanceof BrokerException)
+                if (ex instanceof BrokerException) {
                     throw (BrokerException) ex;
+                }
 
                 throw new BrokerException("Internal Error: Unable to " + " complete processing acknowledgements in a tranaction: " + ex, ex);
             }

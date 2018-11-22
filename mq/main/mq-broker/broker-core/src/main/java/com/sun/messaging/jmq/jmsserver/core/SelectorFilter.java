@@ -21,16 +21,11 @@
 package com.sun.messaging.jmq.jmsserver.core;
 
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.lists.Filter;
 import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.io.Packet;
-import java.lang.ref.*;
 import com.sun.messaging.jmq.util.selector.*;
-import java.util.Hashtable;
 import java.util.Map;
-import java.io.IOException;
 
 public class SelectorFilter implements Filter {
     private static boolean DEBUG = false;
@@ -48,6 +43,7 @@ public class SelectorFilter implements Filter {
         this.selector = sel;
     }
 
+    @Override
     public synchronized boolean matches(Object o) {
         if (selector == null) {
             return false;
@@ -72,8 +68,9 @@ public class SelectorFilter implements Filter {
             }
             try {
                 boolean match = selector.match(props, headers);
-                if (DEBUG && match)
+                if (DEBUG && match) {
                     Globals.getLogger().log(Logger.DEBUG, "Match " + o + "against " + selector + " got " + match);
+                }
                 return match;
             } catch (SelectorFormatException ex) {
                 Globals.getLogger().logStack(Logger.ERROR,
@@ -85,6 +82,7 @@ public class SelectorFilter implements Filter {
         return false;
     }
 
+    @Override
     public String toString() {
         return "SelectorFilter[" + selector + "]" + hashCode();
     }

@@ -22,6 +22,10 @@ package com.sun.messaging.jmq.auth.api;
 
 public class FailedLoginException extends javax.security.auth.login.FailedLoginException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7410354841240855939L;
     private String user = null;
 
     public FailedLoginException() {

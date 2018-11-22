@@ -31,7 +31,7 @@ import java.io.IOException;
  * This class defines the encoding half of character encoders. A character encoder is an algorithim for transforming 8
  * bit binary data into text (generally 7 bit ASCII or 8 bit ISO-Latin-1 text) for transmition over text channels such
  * as e-mail and network news.
- * 
+ *
  * The character encoders have been structured around a central theme that, in general, the encoded text has the form:
  *
  * <pre>
@@ -103,8 +103,9 @@ public abstract class CharacterEncoder {
     protected int readFully(InputStream in, byte buffer[]) throws java.io.IOException {
         for (int i = 0; i < buffer.length; i++) {
             int q = in.read();
-            if (q == -1)
+            if (q == -1) {
                 return i;
+            }
             buffer[i] = (byte) q;
         }
         return buffer.length;

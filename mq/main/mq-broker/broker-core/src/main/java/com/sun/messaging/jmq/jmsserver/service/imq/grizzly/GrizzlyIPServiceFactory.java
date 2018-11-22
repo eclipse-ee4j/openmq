@@ -62,6 +62,7 @@ public class GrizzlyIPServiceFactory extends IMQIPServiceFactory {
         return s;
     }
 
+    @Override
     protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
         throw new UnsupportedOperationException("Unexpected call");
     }

@@ -24,14 +24,12 @@ import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.filterchain.NextAction;
 import org.glassfish.grizzly.filterchain.FilterChain;
-import org.glassfish.grizzly.portunif.PUFilter;
 import org.glassfish.grizzly.portunif.PUProtocol;
 import com.sun.messaging.portunif.PUService;
 import com.sun.messaging.portunif.PortMapperProtocolFinder;
 import com.sun.messaging.portunif.PUServiceCallback;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.PortMapper;
 
 public class PortMapperMessageFilter extends BaseFilter {
 

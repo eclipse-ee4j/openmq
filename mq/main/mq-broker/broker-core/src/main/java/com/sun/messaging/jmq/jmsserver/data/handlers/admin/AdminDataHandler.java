@@ -34,7 +34,6 @@ import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.handlers.DataHandler;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
@@ -81,6 +80,7 @@ public class AdminDataHandler extends DataHandler {
     /**
      * Method to handle administration messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.DEBUGMED, "AdminDataHandler: handle() [ Received JMS Admin Message] {0} ", msg.toString());
@@ -178,8 +178,9 @@ public class AdminDataHandler extends DataHandler {
         }
 
         // if we arent shutdown .. track our handler cnt
-        if (t != MessageType.SHUTDOWN && t != MessageType.MIGRATESTORE_BROKER)
+        if (t != MessageType.SHUTDOWN && t != MessageType.MIGRATESTORE_BROKER) {
             incrementActiveHandlers();
+        }
 
         try {
             if (BrokerStateHandler.isShuttingDown()) {
@@ -244,8 +245,9 @@ public class AdminDataHandler extends DataHandler {
                 }
             }
         } finally {
-            if (t != MessageType.SHUTDOWN && t != MessageType.MIGRATESTORE_BROKER)
+            if (t != MessageType.SHUTDOWN && t != MessageType.MIGRATESTORE_BROKER) {
                 decrementActiveHandlers();
+            }
         }
 
     }
@@ -305,7 +307,7 @@ public class AdminDataHandler extends DataHandler {
 
     /**
      * Send a reply to an administration command message.
-     * 
+     *
      * @param con Connection cmd_msg came in on
      * @param cmd_msg Administrative command message from client
      * @param reply_msg Broker's reply to cmd_msg.
@@ -392,8 +394,9 @@ public class AdminDataHandler extends DataHandler {
         // the seconds passed in
         synchronized (this) {
             try {
-                if (activeHandlers > 0)
+                if (activeHandlers > 0) {
                     wait(secs * 1000L);
+                }
             } catch (Exception ex) {
             }
         }

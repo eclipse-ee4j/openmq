@@ -45,8 +45,9 @@ public class StringUtil {
      */
     public static String expandVariables(String str, Properties props) {
 
-        if (str == null)
+        if (str == null) {
             return str;
+        }
 
         String vname, value = null;
 
@@ -144,10 +145,12 @@ public class StringUtil {
 
     public static Properties toProperties(String keyvalPairs, String separator, Properties p) {
         Properties props = p;
-        if (props == null)
+        if (props == null) {
             props = new Properties();
-        if (keyvalPairs == null)
+        }
+        if (keyvalPairs == null) {
             return props;
+        }
 
         List<String> pairs = breakToList(keyvalPairs, separator);
         for (String pair : pairs) {
@@ -168,14 +171,17 @@ public class StringUtil {
             newtoken = newtoken.trim();
             int start = 0;
             while (start < newtoken.length()) {
-                if (!Character.isSpaceChar(newtoken.charAt(start)))
+                if (!Character.isSpaceChar(newtoken.charAt(start))) {
                     break;
+                }
                 start++;
             }
-            if (start > 0)
+            if (start > 0) {
                 newtoken = newtoken.substring(start + 1);
-            if (newtoken.trim().length() > 0)
+            }
+            if (newtoken.trim().length() > 0) {
                 retv.add(newtoken.trim());
+            }
         }
         return retv;
     }

@@ -31,7 +31,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * The state of a transaction, plus additional information that may useful to know about the transaction.
  *
  * Object format from 3.7 ur2 filestore, use for migration purpose only.
- * 
+ *
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionState
  */
 public class TransactionState implements Externalizable {
@@ -292,44 +292,51 @@ public class TransactionState implements Externalizable {
             found = true;
         }
         if (isFlagSet(XAResource.TMFAIL, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMFAIL");
             found = true;
         }
         if (isFlagSet(XAResource.TMJOIN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMJOIN");
             found = true;
         }
         if (isFlagSet(XAResource.TMONEPHASE, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMONEPHASE");
             found = true;
         }
         if (isFlagSet(XAResource.TMRESUME, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMRESUME");
             found = true;
         }
         if (isFlagSet(XAResource.TMSTARTRSCAN, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSTARTSCAN");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUCCESS, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUCCESS");
             found = true;
         }
         if (isFlagSet(XAResource.TMSUSPEND, flags)) {
-            if (found)
+            if (found) {
                 sb.append("|");
+            }
             sb.append("TMSUSPEND");
             found = true;
         }
@@ -342,6 +349,7 @@ public class TransactionState implements Externalizable {
         return sb.toString();
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         xid = JMQXid.read(in);
@@ -352,6 +360,7 @@ public class TransactionState implements Externalizable {
         connectionUID = null;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         if (xid == null) {
@@ -366,6 +375,7 @@ public class TransactionState implements Externalizable {
         out.writeObject(connectionString);
     }
 
+    @Override
     public String toString() {
         if (xid == null) {
             return user + "@" + clientID + ":" + toString(state);

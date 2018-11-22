@@ -23,9 +23,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 import java.util.Vector;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 import com.sun.messaging.jmq.util.DestState;
 
@@ -42,6 +39,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4511250948977159425L;
     private BrokerCObj bCObj;
     private DestinationInfo destInfo = null;
     private Vector durables = null;
@@ -86,21 +87,26 @@ public class BrokerDestCObj extends BrokerAdminCObj {
         this.durables = durables;
     }
 
+    @Override
     public String getExplorerLabel() {
-        if (destInfo != null)
+        if (destInfo != null) {
             return destInfo.name;
-        else
+        } else {
             return (acr.getString(acr.I_BROKER_DEST));
+        }
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (null);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -123,10 +129,12 @@ public class BrokerDestCObj extends BrokerAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.PURGE | ActionManager.PAUSE | ActionManager.RESUME);
     }
 
+    @Override
     public int getActiveActions() {
         BrokerAdmin ba = getBrokerAdmin();
         int mask;
@@ -134,9 +142,9 @@ public class BrokerDestCObj extends BrokerAdminCObj {
         // REVISIT: for now, no operation is allowed if we are not connected.
         // This should be taken out, as we should disallow selecting a dest
         // when it is not connected.
-        if (!ba.isConnected())
+        if (!ba.isConnected()) {
             mask = 0;
-        else if (destInfo.destState == DestState.RUNNING) {
+        } else if (destInfo.destState == DestState.RUNNING) {
             mask = ActionManager.DELETE | ActionManager.PROPERTIES | ActionManager.PURGE | ActionManager.REFRESH | ActionManager.PAUSE;
         } else if ((destInfo.destState == DestState.CONSUMERS_PAUSED) || (destInfo.destState == DestState.PRODUCERS_PAUSED)
                 || (destInfo.destState == DestState.PAUSED)) {
@@ -148,14 +156,17 @@ public class BrokerDestCObj extends BrokerAdminCObj {
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelId() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (null);
     }

@@ -17,7 +17,6 @@
 package com.sun.messaging.bridge.api;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * Interface for JDBC persist service to JMS Bridge

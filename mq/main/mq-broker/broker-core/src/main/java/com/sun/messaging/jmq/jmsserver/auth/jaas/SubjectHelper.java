@@ -53,7 +53,7 @@ public interface SubjectHelper {
 
     /**
      * This method is called after each makeSubject() call
-     * 
+     *
      * @return data that need to be cached
      */
     public Refreshable getCacheData();

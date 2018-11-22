@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.admin.bridgemgr;
 
-import java.io.*;
 import java.util.Properties;
 import java.util.Enumeration;
 
@@ -339,8 +338,9 @@ public class BridgeMgr implements BridgeMgrOptions {
             throw (ex);
         }
 
-        if (validCmdArgs == null)
+        if (validCmdArgs == null) {
             return;
+        }
 
         for (int i = 0; i < validCmdArgs.length; ++i) {
             if (cmdArg.equals(validCmdArgs[i])) {

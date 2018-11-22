@@ -46,10 +46,10 @@ public interface JMSXAQueueConnectionFactory extends JMSXAConnectionFactory {
     /**
      * Create an XA queue connection with specific user identity. The connection is created in stopped mode. No messages
      * will be delivered until <code>Connection.start</code> method is explicitly called.
-     * 
+     *
      * @param userName the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created XA queue connection.
      *
      * @exception JMSException if JMS Provider fails to create XA queue Connection due to some internal error.

@@ -22,14 +22,11 @@ package com.sun.messaging.jmq.jmsserver.data;
 
 import java.util.Hashtable;
 
-import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.log.Logger;
 
 /**
@@ -38,6 +35,7 @@ import com.sun.messaging.jmq.util.log.Logger;
 public class DefaultHandler extends ErrHandler {
     private static boolean DEBUG = false;
 
+    @Override
     public void sendError(IMQConnection con, BrokerException ex, Packet pkt) {
         // XXX REVISIT 3/7/00 racer
         // add code to return ERROR message
@@ -53,10 +51,12 @@ public class DefaultHandler extends ErrHandler {
     // that the reply (if any) is sent back to the consumer
     // so it doesnt hang because of a broker error or because
     // the client sent bad protocol
+    @Override
     public void sendError(IMQConnection con, Packet msg, String emsg, int status) {
         sendError(con, msg.getSendAcknowledge(), msg.getPacketType(), msg.getConsumerID(), emsg, status);
     }
 
+    @Override
     public void sendError(IMQConnection con, boolean sendack, int pktype, long consumerID, String emsg, int status) {
         if (sendack) {
             Packet pkt = new Packet(con.useDirectBuffers());
@@ -76,6 +76,7 @@ public class DefaultHandler extends ErrHandler {
      * Method to handle messages we don't recognize. If the message has the 'A' bit set then the client is expecting a
      * reply. By convetion reply packet types are the request packet type + 1.
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         // Check if A bit is set
         if (msg.getSendAcknowledge()) {

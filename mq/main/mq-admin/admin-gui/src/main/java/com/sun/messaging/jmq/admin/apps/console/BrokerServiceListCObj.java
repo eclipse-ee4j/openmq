@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
@@ -37,6 +34,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerServiceListCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5639303577060625640L;
     private BrokerCObj bCObj;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -52,41 +53,50 @@ public class BrokerServiceListCObj extends BrokerAdminCObj {
         return (bCObj.getBrokerAdmin());
     }
 
+    @Override
     public String getExplorerLabel() {
         return (acr.getString(acr.I_BROKER_SVC_LIST));
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.BROKER_SERVICE_LIST]);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (getActiveActions());
     }
 
+    @Override
     public int getActiveActions() {
         BrokerAdmin ba = getBrokerAdmin();
         int mask;
-        if (ba.isConnected())
+        if (ba.isConnected()) {
             mask = ActionManager.REFRESH;
-        else
+        } else {
             mask = 0;
+        }
 
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".BrokerServiceListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Services");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

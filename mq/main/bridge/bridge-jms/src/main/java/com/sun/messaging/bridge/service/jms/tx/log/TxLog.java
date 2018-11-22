@@ -140,11 +140,13 @@ public abstract class TxLog {
      */
     public void close() throws Exception {
         synchronized (_closedLock) {
-            if (!isClosed())
+            if (!isClosed()) {
                 _closed = true;
+            }
         }
-        if (_reaper != null)
+        if (_reaper != null) {
             _reaper.destroy();
+        }
     }
 
     // The following methods are similar as in Store.java
@@ -251,27 +253,35 @@ class TransactionReaper implements TimerEventHandler {
     /***************************************************
      * Methods for TimerEventHandler for WakeupableTimer
      ***************************************************/
+    @Override
     public void handleOOMError(Throwable e) {
     }
 
+    @Override
     public void handleLogInfo(String msg) {
-        if (_logger == null)
+        if (_logger == null) {
             return;
+        }
         _logger.log(Level.INFO, msg);
     }
 
+    @Override
     public void handleLogWarn(String msg, Throwable e) {
-        if (_logger == null)
+        if (_logger == null) {
             return;
+        }
         _logger.log(Level.WARNING, msg, e);
     }
 
+    @Override
     public void handleLogError(String msg, Throwable e) {
-        if (_logger == null)
+        if (_logger == null) {
             return;
+        }
         _logger.log(Level.SEVERE, msg, e);
     }
 
+    @Override
     public void handleTimerExit(Throwable e) {
         synchronized (this) {
             if (reapTimer == null) {
@@ -297,6 +307,7 @@ class TransactionReaper implements TimerEventHandler {
         removes.clear();
     }
 
+    @Override
     public long runTask() {
 
         GlobalXid[] gxids = null;

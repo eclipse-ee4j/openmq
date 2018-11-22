@@ -20,15 +20,17 @@
 
 package com.sun.messaging.jms.management.server;
 
-import javax.management.Notification;
-
 /**
  * Class containing information on cluster related notifications.
- * 
+ *
  * <P>
  * The MQ specific fields in this notification is TBD.
  */
 public class ClusterNotification extends MQNotification {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8569120463426095123L;
     /**
      * A broker in the cluster has gone down
      */

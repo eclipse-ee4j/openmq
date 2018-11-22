@@ -84,8 +84,9 @@ public class PacketUtil {
 
         case PacketType.TEXT_MESSAGE:
             n = bodySize;
-            if (n > 40)
+            if (n > 40) {
                 n = 40;
+            }
             byte[] buf = new byte[40];
             try {
                 is.read(buf);

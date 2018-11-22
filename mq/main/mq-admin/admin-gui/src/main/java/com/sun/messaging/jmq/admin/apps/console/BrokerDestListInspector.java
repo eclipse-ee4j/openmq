@@ -25,7 +25,6 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminUtil;
 import com.sun.messaging.jmq.admin.resources.AdminResources;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.util.DestState;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
 
 /**
@@ -37,14 +36,19 @@ import com.sun.messaging.jmq.util.admin.DestinationInfo;
  */
 public class BrokerDestListInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4264518266308399858L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static AdminResources ar = Globals.getAdminResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_OBJSTORE_DEST_NAME), acr.getString(acr.I_OBJSTORE_DEST_TYPE), acr.getString(acr.I_BROKER_DEST_STATE) };
         return (columnNames);
@@ -56,6 +60,7 @@ public class BrokerDestListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
 
         BrokerDestCObj bDestCObj;

@@ -55,7 +55,6 @@ import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
-import com.sun.messaging.jmq.jmsserver.net.tcp.*;
 import com.sun.messaging.jmq.jmsserver.net.tls.*;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -185,6 +184,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         return runningInProcess;
     }
 
+    @Override
     public boolean isInProcessBroker() {
         return isInProcess();
     }
@@ -194,9 +194,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
      * arguments are logged. However this method can be used for other messages which need to be logged by an embedded
      * broker when it starts.
-     * 
+     *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     * 
+     *
      * @param embeddedBrokerStartupMessage
      */
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage) {
@@ -208,7 +208,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /**
      * Return whether this Broker is allowed to shutdown
-     * 
+     *
      * @param restartRequested whether a subsequent restart would be performed
      * @return whether this Broker is allowed to shutdown
      */
@@ -236,8 +236,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     public static Broker getBroker() {
         synchronized (Broker.class) {
-            if (broker == null)
+            if (broker == null) {
                 broker = new Broker();
+            }
         }
         return broker;
     }
@@ -252,17 +253,19 @@ public class Broker implements GlobalErrorHandler, CommBroker {
      *
      * @param cleanup Set to true if unused resources should be freed. Should be set to true if the JVM will be left
      * running. May be set to false if we intend to exit the JVM later
-     * 
+     *
      * @param triggerFailover
      */
     public static void destroyBroker(boolean cleanup, boolean triggerFailover) {
         // we want to cleanup all the statics
-        if (broker == null)
+        if (broker == null) {
             return;
+        }
         Object tmp = broker;
 
-        if (Globals.getBrokerStateHandler() != null)
+        if (Globals.getBrokerStateHandler() != null) {
             Globals.getBrokerStateHandler().initiateShutdown("BrokerProcess", 0, triggerFailover, 0, false, false, true);
+        }
 
         if (cleanup) {
             BrokerMonitor.shutdownMonitor();
@@ -1014,7 +1017,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             }
 
             try {
-                store.addPartitionListener((PartitionListener) Globals.getClusterManager());
+                store.addPartitionListener(Globals.getClusterManager());
                 store.partitionsReady();
             } catch (Exception e) {
                 logger.logStack(Logger.ERROR, e.getMessage(), e);
@@ -1144,7 +1147,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
             // get the persisted data
             try {
-                coreLifecycle.getDestinationList().addPartitionListener((PartitionListener) Globals.getClusterManager());
+                coreLifecycle.getDestinationList().addPartitionListener(Globals.getClusterManager());
                 coreLifecycle.initDestinations();
                 coreLifecycle.initSubscriptions();
                 BrokerMonitor.init();
@@ -1501,7 +1504,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /**
      * Parse command line arguments into a Properties object that can then be used during configuration initilization.
-     * 
+     *
      * @throw IllegalArgumentException argument was invalid
      * @throw EmptyStackException -h was passed in (help)
      */
@@ -1513,8 +1516,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
         for (int n = 0; n < args.length; n++) {
             if (args[n].equals("-loglevel")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing log argument");
+                }
                 try {
                     // This just verifies syntax
 
@@ -1539,55 +1543,64 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             } else if (args[n].equals("-shared")) {
                 props.put(Globals.IMQ + ".jms.threadpool_model", "shared");
             } else if (args[n].equals("-debug")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing debug argument");
+                }
                 if (!logLevelSet) {
                     props.put(".level", Level.FINEST.getName());
                 }
-                if (!enableDebug(args[n], props))
+                if (!enableDebug(args[n], props)) {
                     throw new IllegalArgumentException("bad debug argument");
+                }
             } else if (args[n].equals("-dbuser")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing dbuser argument");
+                }
                 props.put(Globals.IMQ + ".persist.jdbc.user", args[n]);
             } else if (args[n].equals("-dbpassword")) {
                 printPasswordError(args[n]);
                 throw new IllegalArgumentException("argument unsupported");
             } else if (args[n].equals("-dbpwd")) {
                 printPasswordWarning(args[n]);
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing dbpassword argument");
+                }
                 props.put(dbPWProp, args[n]);
                 dbPWOverride = true;
             } else if (args[n].equals("-diag")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing diag interval");
+                }
                 try {
                     diagInterval = Integer.parseInt(args[n]);
                 } catch (NumberFormatException e) {
                     throw new IllegalArgumentException("bad diag interval");
                 }
             } else if (args[n].equals("-name")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing broker instancename");
+                }
                 props.put(Globals.IMQ + ".instancename", args[n]);
             } else if (args[n].equals("-port")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing port");
+                }
                 props.put(Globals.IMQ + ".portmapper.port", args[n]);
             } else if (args[n].equals("-nobind")) {
                 props.put(Globals.IMQ + ".portmapper.bind", "false");
             } else if (args[n].equals("-metrics")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing metrics");
+                }
                 props.put(Globals.IMQ + ".metrics.interval", args[n]);
             } else if (args[n].equals("-password")) {
                 printPasswordError(args[n]);
                 throw new IllegalArgumentException("argument unsupported");
             } else if (args[n].equals("-pwd")) {
                 printPasswordWarning(args[n]);
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing password");
+                }
                 props.put(keystorePWProp, args[n]);
                 keystorePWOverride = true;
             } else if (args[n].equals("-ldappassword")) {
@@ -1595,16 +1608,18 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 throw new IllegalArgumentException("argument unsupported");
             } else if (args[n].equals("-ldappwd")) {
                 printPasswordWarning(args[n]);
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing ldab password");
+                }
                 props.put(ldapPWProp, args[n]);
                 ldapPWOverride = true;
 
             } else if (args[n].equals("-read-stdin")) {
                 props.put(Globals.READ_PROPERTIES_FROM_STDIN, "true");
             } else if (args[n].equals("-passfile")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing passfile name");
+                }
                 File passfile = null;
                 try {
                     passfile = (new File(args[n])).getCanonicalFile();
@@ -1615,16 +1630,19 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                 props.put(Globals.KEYSTORE_PASSDIR_PROP, passfile.getParent());
                 props.put(Globals.KEYSTORE_PASSFILE_PROP, passfile.getName());
             } else if (args[n].equals("-backup")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing backup argument");
+                }
                 props.put(Globals.IMQ + ".cluster.masterbroker.backup", args[n]);
             } else if (args[n].equals("-restore")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing restore argument");
+                }
                 props.put(Globals.IMQ + ".cluster.masterbroker.restore", args[n]);
             } else if (args[n].equals("-cluster")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing cluster list");
+                }
                 props.put(Globals.MANUAL_AUTOCONNECT_CLUSTER_PROPERTY, args[n]);
             } else if (args[n].equals("-force")) {
                 // Perform action without user confirmation
@@ -1712,8 +1730,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     printLicenseOptionObsoleteWarn(args[n]);
                 }
             } else if (args[n].equals("-remove")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing remove argument");
+                }
 
                 if (args[n].equals("instance")) {
                     removeInstance = true;
@@ -1726,8 +1745,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
                     throw new IllegalArgumentException("unknown remove argument");
                 }
             } else if (args[n].equals("-reset")) {
-                if (++n >= args.length)
+                if (++n >= args.length) {
                     throw new IllegalArgumentException("missing reset argument");
+                }
                 if (args[n].equals("store")) {
                     props.put(Store.RESET_STORE_PROP, "true");
                     resetStore = true;
@@ -1830,7 +1850,6 @@ public class Broker implements GlobalErrorHandler, CommBroker {
         if (!f.delete()) {
             logger.log(Logger.WARNING, BrokerResources.W_BAD_KEY_FILE_DEL, keyFile);
         }
-        ;
 
         return key;
     }
@@ -1901,12 +1920,12 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     /*
      * private void printLicenses() { LicenseBase[] licenses = Globals.getLicenseManager().loadLicenses(); //Bug Fix 4963961
      * if (licenses.length == 0) { println(""); println(rb.getString(rb.I_USING_DEFAULT_LICENSE)); println(""); } else {
-     * 
+     *
      * println(rb.getString(rb.M_LICENSE_MESSAGE_PREFIX)); // dont display the same license twice HashSet displayed = new
      * HashSet(); for (int i = 0; i < licenses.length; i++) { String pkg = licenses[i].getProperty(
      * LicenseBase.PROP_LICENSE_TYPE); if (displayed.contains(pkg)) continue; String description = licenses[i].getProperty(
      * LicenseBase.PROP_DESCRIPTION); displayed.add(pkg);
-     * 
+     *
      * println("\t" + pkg + "\t-  "+ description); } println(rb.getString(rb.M_LICENSE_MESSAGE_SUBFIX)); }
      * getBroker().exit(0, "Displayed Licenses", BrokerEvent.Type.SHUTDOWN); }
      */
@@ -2161,7 +2180,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /**
      * Read properties (including passwords) from standard input
-     * 
+     *
      * @return The properties that have been read from standard input. The caller is responsible for adding these to the
      * broker properties
      */
@@ -2180,13 +2199,14 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     /**
      * Log the supplied Properties, which have been read from standard input
-     * 
+     *
      * @param props
      */
     private void logProperties(String prefix, Properties props) {
 
-        if (props == null || props.isEmpty())
+        if (props == null || props.isEmpty()) {
             return;
+        }
 
         // log all properties except for passwords
         boolean first = true;
@@ -2211,8 +2231,9 @@ public class Broker implements GlobalErrorHandler, CommBroker {
             }
         }
 
-        if (stringToLog.toString().equals(""))
+        if (stringToLog.toString().equals("")) {
             return;
+        }
 
         logger.logToAll(Logger.INFO, prefix + ": " + stringToLog.toString());
     }
@@ -2236,6 +2257,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     /**
      * Properly exit the Broker
      */
+    @Override
     public void exit(int status, String reason, BrokerEvent.Type type) {
         exit(status, reason, type, null);
     }
@@ -2257,9 +2279,10 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
         if (threadoff) {
             Runnable r = new Runnable() {
+                @Override
                 public void run() {
                     exitBroker(status, reason, type, thr, triggerFailover, exitVM);
-                };
+                }
             };
             Thread t = new MQThread(r, "shutdown thread");
             t.start();
@@ -2332,10 +2355,12 @@ public class Broker implements GlobalErrorHandler, CommBroker {
 
     // HANDLE THINGS LIKE OUT OF MEMORY ERRORS
 
+    @Override
     public boolean handleGlobalError(Throwable ex, String reason) {
         return handleGlobalError(ex, reason, null);
     }
 
+    @Override
     public boolean handleGlobalError(Throwable ex, String reason, Integer exitCode) {
         logger.logStack(logger.ERROR, ex.toString() + "[" + reason + "]", ex);
         int exit = Globals.getBrokerStateHandler().getRestartCode();
@@ -2355,6 +2380,7 @@ public class Broker implements GlobalErrorHandler, CommBroker {
     }
 
     class BrokerDiagTask extends TimerTask {
+        @Override
         public void run() {
             String s = DiagManager.allToString();
             if (s != null) {
@@ -2392,6 +2418,7 @@ class BrokerShutdownHook extends Thread {
         triggerFailover = v;
     }
 
+    @Override
     public void run() {
 
         Globals.getBrokerStateHandler().initiateShutdown("BrokerShutdownHook", 0, triggerFailover, 0, false, false, true);
@@ -2412,6 +2439,7 @@ class VMDiagnostics implements DiagManager.Data {
     public VMDiagnostics() {
     }
 
+    @Override
     public synchronized void update() {
         Runtime rt = Runtime.getRuntime();
 
@@ -2421,6 +2449,7 @@ class VMDiagnostics implements DiagManager.Data {
         used = total - free;
     }
 
+    @Override
     public synchronized List getDictionary() {
         if (dictionary == null) {
             dictionary = new ArrayList();
@@ -2432,10 +2461,12 @@ class VMDiagnostics implements DiagManager.Data {
         return dictionary;
     }
 
+    @Override
     public String getPrefix() {
         return "java.vm.heap";
     }
 
+    @Override
     public String getTitle() {
         return "Java VM Heap";
     }

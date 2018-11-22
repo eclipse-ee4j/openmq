@@ -25,11 +25,9 @@ import java.io.File;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Color;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JSeparator;
 import javax.swing.JPanel;
@@ -50,6 +48,10 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  */
 public class AboutDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3654269274511563780L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
@@ -69,6 +71,7 @@ public class AboutDialog extends AdminDialog {
         setTitle(acr.getString(acr.I_ABOUT));
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         JPanel leftPanel, rightPanel;
@@ -182,10 +185,11 @@ public class AboutDialog extends AdminDialog {
         c.insets = new Insets(0, 0, 0, 0);
 
         String[] patchids = version.getPatchIds();
-        if (patchids == null || patchids.length < 1)
+        if (patchids == null || patchids.length < 1) {
             lvpItems = new LabelledComponent[3];
-        else
+        } else {
             lvpItems = new LabelledComponent[4];
+        }
 
         tmpLabelC = new LabelledComponent(acr.getString(acr.I_IMPLEMENTATION), new JLabel(version.getImplementationVersion()));
         lvpItems[0] = tmpLabelC;
@@ -302,27 +306,34 @@ public class AboutDialog extends AdminDialog {
         return rightPanel;
     }
 
+    @Override
     public void show() {
         setDefaultButton(CLOSE);
         super.show();
     }
 
+    @Override
     public void doOK() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 

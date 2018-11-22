@@ -16,9 +16,6 @@
 
 package com.sun.messaging.ums.service;
 
-import java.util.*;
-import javax.jms.*;
-
 import javax.xml.soap.*;
 
 import com.sun.messaging.ums.core.UMSService;
@@ -75,7 +72,7 @@ import java.util.logging.Logger;
  *
  *
  * @author chiaming yang
- * 
+ *
  * @see SOAPService
  * @see MessageHandler
  * @see MessageHandlerChain
@@ -110,6 +107,7 @@ public class SOAP2JMSService extends UMSService {
     /**
      * init this SOAPService with the specified Properties in the parameter.
      */
+    @Override
     public void init(ServiceContext context) throws SOAPException {
 
         super.init(context);
@@ -124,6 +122,7 @@ public class SOAP2JMSService extends UMSService {
     /**
      * To be over ridden by sub class.
      */
+    @Override
     public void service(MessageContext context) throws SOAPException {
 
         try {
@@ -290,6 +289,7 @@ public class SOAP2JMSService extends UMSService {
 
     }
 
+    @Override
     public void close() {
         try {
             this.MQService.destroy();

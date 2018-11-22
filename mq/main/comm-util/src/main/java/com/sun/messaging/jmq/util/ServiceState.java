@@ -33,24 +33,33 @@ public class ServiceState {
     public static final int QUIESCED = 8;
 
     public static int getStateFromString(String str) {
-        if (str.equals("UNINITIALIZED"))
+        if (str.equals("UNINITIALIZED")) {
             return UNINITIALIZED;
-        if (str.equals("INITIALIZED"))
+        }
+        if (str.equals("INITIALIZED")) {
             return INITIALIZED;
-        if (str.equals("STARTED"))
+        }
+        if (str.equals("STARTED")) {
             return STARTED;
-        if (str.equals("RUNNING"))
+        }
+        if (str.equals("RUNNING")) {
             return RUNNING;
-        if (str.equals("PAUSED"))
+        }
+        if (str.equals("PAUSED")) {
             return PAUSED;
-        if (str.equals("SHUTTINGDOWN"))
+        }
+        if (str.equals("SHUTTINGDOWN")) {
             return SHUTTINGDOWN;
-        if (str.equals("STOPPED"))
+        }
+        if (str.equals("STOPPED")) {
             return STOPPED;
-        if (str.equals("DESTROYED"))
+        }
+        if (str.equals("DESTROYED")) {
             return DESTROYED;
-        if (str.equals("QUIESCED"))
+        }
+        if (str.equals("QUIESCED")) {
             return QUIESCED;
+        }
         return UNKNOWN;
     }
 

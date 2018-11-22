@@ -40,11 +40,12 @@ public class ProviderFactory implements UMSConnectionFactory {
 
     /**
      * Called by UMS immediately after constructed.
-     * 
+     *
      * @param props properties used by the connection factory.
      * @throws javax.jms.JMSException
      */
 
+    @Override
     public void init(Properties props) throws JMSException {
         // get connection factory
         factory = new com.sun.messaging.ConnectionFactory();
@@ -72,10 +73,11 @@ public class ProviderFactory implements UMSConnectionFactory {
 
     /**
      * Same as JMS ConnectionFactory.createConnection();
-     * 
+     *
      * @return
      * @throws javax.jms.JMSException
      */
+    @Override
     public Connection createConnection() throws JMSException {
         // return factory.createConnection(user, password);
         return factory.createConnection();
@@ -83,12 +85,13 @@ public class ProviderFactory implements UMSConnectionFactory {
 
     /**
      * Same as JMS ConnectionFactory.createConnection(String user, String password);
-     * 
+     *
      * @param user
      * @param password
      * @return
      * @throws javax.jms.JMSException
      */
+    @Override
     public Connection createConnection(String user, String password) throws JMSException {
         return factory.createConnection(user, password);
     }

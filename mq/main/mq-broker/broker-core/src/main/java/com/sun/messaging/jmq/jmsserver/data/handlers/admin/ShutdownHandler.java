@@ -54,10 +54,12 @@ public class ShutdownHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(Logger.DEBUG, this.getClass().getName() + ": " + "Shutting down broker: " + cmd_props);
+        }
 
         boolean shouldRestart = true;
         Boolean noFailover;
@@ -113,8 +115,9 @@ public class ShutdownHandler extends AdminCmdHandler {
             // stop taking new requests
             Globals.getServiceManager().stopNewConnections(ServiceType.NORMAL);
 
-            if (time == null || time.intValue() == 0)
+            if (time == null || time.intValue() == 0) {
                 Globals.getServiceManager().stopNewConnections(ServiceType.ADMIN);
+            }
 
         } catch (Exception ex) {
             logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, "unable to shutdown", ex);

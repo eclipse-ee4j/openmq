@@ -21,7 +21,6 @@
 package com.sun.messaging.jms;
 
 import java.io.*;
-import javax.jms.*;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -30,6 +29,11 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 
 public class InvalidSelectorException extends javax.jms.InvalidSelectorException implements Loggable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 2231993487480146440L;
 
     private Throwable cause = null;
 
@@ -79,6 +83,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * printStackTrace} a backtrace of the cause will also get printed.
      *
      **/
+    @Override
     public synchronized void setLinkedException(Exception ex) {
         super.setLinkedException(ex);
         try {
@@ -95,6 +100,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace() {
         this.printStackTrace(System.err);
     }
@@ -106,6 +112,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace(PrintStream s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -129,6 +136,7 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
      * exception linked to this <CODE>InvalidSelectorException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException}
      **/
+    @Override
     public void printStackTrace(PrintWriter s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -147,18 +155,20 @@ public class InvalidSelectorException extends javax.jms.InvalidSelectorException
 
     /**
      * set state to true if this object is logged.
-     * 
+     *
      * @param state boolean
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * get logging state of this object.
-     * 
+     *
      * @return boolean true if this object is logged.
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

@@ -27,7 +27,13 @@ package com.sun.messaging.jmq.util.lists;
  * @see EventBroadcaster
  */
 
+@Deprecated
 public class Event extends java.util.EventObject {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1165764093671754979L;
 
     /**
      * type of this event
@@ -97,24 +103,27 @@ public class Event extends java.util.EventObject {
 
     /**
      * string representation of this event
-     * 
+     *
      * @returns the string of this object
      */
+    @Override
     public String toString() {
         return id.toString() + " target(" + getSource() + ") Reason(" + getReason() + ") [was,is]=[" + original_value + "," + new_value + "]";
     }
 
     /**
      * compares this object against another object
-     * 
+     *
      * @param o the object to compare
      * @returns true if the objects are the same, false otherwise
      */
+    @Override
     public boolean equals(Object o) {
         // compares reference to the item
         return super.equals(o);
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }

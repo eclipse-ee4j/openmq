@@ -113,6 +113,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
     /**
      * This is called when producing messages. XXX chiaming - optimize for all message types.
      */
+    @Override
     protected void setMessageBodyToPacket() throws JMSException {
         reset();
         pkt.setMessageBody(messageBody, 0, validCount);
@@ -120,6 +121,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
 
     // deserialize message body
     // This is called after message is received in Session Reader.
+    @Override
     protected void getMessageBodyFromPacket() throws JMSException {
         messageBody = getMessageBody();
 
@@ -140,6 +142,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         return bufferIsDirty;
     }
 
+    @Override
     public void clearBody() throws JMSException {
 
         messageBody = null;
@@ -159,6 +162,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception MessageNotReadableException if the message is in write-only mode.
      * @since 1.1
      */
+    @Override
     public long getBodyLength() throws JMSException {
         checkReadAccess();
         if (messageBody == null) {
@@ -178,6 +182,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      * @exception MessageEOFException if end of bytes stream
      */
+    @Override
     public boolean readBoolean() throws JMSException {
         boolean value = false;
         checkReadAccess();
@@ -208,6 +213,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public byte readByte() throws JMSException {
 
         byte value = (byte) 0;
@@ -239,6 +245,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public int readUnsignedByte() throws JMSException {
         int value = 0;
         checkReadAccess();
@@ -269,6 +276,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public short readShort() throws JMSException {
         short value = 0;
         checkReadAccess();
@@ -299,6 +307,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public int readUnsignedShort() throws JMSException {
         int value = 0;
         checkReadAccess();
@@ -329,6 +338,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public char readChar() throws JMSException {
         char value = 0;
         checkReadAccess();
@@ -359,6 +369,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public int readInt() throws JMSException {
         int value = 0;
         checkReadAccess();
@@ -389,6 +400,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public long readLong() throws JMSException {
         long value = 0;
         checkReadAccess();
@@ -419,6 +431,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public float readFloat() throws JMSException {
         float value = 0;
         checkReadAccess();
@@ -449,6 +462,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public double readDouble() throws JMSException {
         double value = 0;
         checkReadAccess();
@@ -484,6 +498,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public String readUTF() throws JMSException {
         String value = null;
         checkReadAccess();
@@ -525,6 +540,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public int readBytes(byte[] value) throws JMSException {
         int bytesRead = -1;
 
@@ -566,6 +582,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error
      */
 
+    @Override
     public int readBytes(byte[] value, int length) throws JMSException {
         int bytesRead = -1;
 
@@ -592,6 +609,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeBoolean(boolean value) throws JMSException {
 
         checkMessageAccess();
@@ -615,6 +633,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeByte(byte value) throws JMSException {
         checkMessageAccess();
 
@@ -636,6 +655,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeShort(short value) throws JMSException {
 
         checkMessageAccess();
@@ -658,6 +678,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeChar(char value) throws JMSException {
         checkMessageAccess();
 
@@ -679,6 +700,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeInt(int value) throws JMSException {
 
         checkMessageAccess();
@@ -701,6 +723,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeLong(long value) throws JMSException {
         checkMessageAccess();
 
@@ -724,6 +747,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeFloat(float value) throws JMSException {
 
         checkMessageAccess();
@@ -748,6 +772,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeDouble(double value) throws JMSException {
         checkMessageAccess();
 
@@ -774,6 +799,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeUTF(String value) throws JMSException {
         checkMessageAccess();
 
@@ -795,6 +821,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeBytes(byte[] value) throws JMSException {
         checkMessageAccess();
 
@@ -820,6 +847,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeBytes(byte[] value, int offset, int length) throws JMSException {
 
         checkMessageAccess();
@@ -848,6 +876,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception JMSException if JMS fails to write message due to some internal JMS error.
      */
 
+    @Override
     public void writeObject(Object value) throws JMSException {
 
         if (value == null) { // as java does
@@ -891,6 +920,7 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
      * @exception MessageFormatException if message has an invalid format
      */
 
+    @Override
     public void reset() throws JMSException {
         try {
 
@@ -923,11 +953,13 @@ public class BytesMessageImpl extends MessageImpl implements BytesMessage {
         setMessageReadMode(true);
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ ByteMessageImpl dump ------");
         super.dump(ps);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

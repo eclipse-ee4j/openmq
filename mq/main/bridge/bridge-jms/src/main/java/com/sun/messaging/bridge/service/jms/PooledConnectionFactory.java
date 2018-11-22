@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.service.jms;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import java.util.Properties;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.Executors;
@@ -76,8 +75,9 @@ public class PooledConnectionFactory implements Runnable {
         if (val != null) {
             _idleTimeout = Integer.parseInt(val);
         }
-        if (_idleTimeout < 0)
+        if (_idleTimeout < 0) {
             _idleTimeout = 0;
+        }
         val = attrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT);
         if (val != null) {
             _maxRetries = Integer.parseInt(val);
@@ -86,8 +86,9 @@ public class PooledConnectionFactory implements Runnable {
         if (val != null) {
             _retryInterval = Integer.parseInt(val);
         }
-        if (_retryInterval < 0)
+        if (_retryInterval < 0) {
             _retryInterval = 0;
+        }
 
         _idleConns = new ConcurrentLinkedQueue<PooledConnection>();
         _outConns = new ConcurrentLinkedQueue<PooledConnection>();
@@ -99,7 +100,7 @@ public class PooledConnectionFactory implements Runnable {
         }
     }
 
-    /** 
+    /**
      */
     public Connection obtainConnection(Connection c, String logstr, Object caller, boolean doReconnect) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
@@ -172,7 +173,7 @@ public class PooledConnectionFactory implements Runnable {
         } // while
     }
 
-    /** 
+    /**
      */
     public void returnConnection(Connection conn) throws Exception {
         if (_logger.isLoggable(Level.FINE)) {
@@ -185,7 +186,7 @@ public class PooledConnectionFactory implements Runnable {
             throw new IllegalStateException("Connection " + conn + " is not a in-use in pooled connection factory " + this);
         }
 
-        _outConns.remove((PooledConnection) conn);
+        _outConns.remove(conn);
         ((PooledConnection) conn).idleStart();
         _idleConns.offer((PooledConnection) conn);
 
@@ -213,6 +214,7 @@ public class PooledConnectionFactory implements Runnable {
 
     }
 
+    @Override
     public void run() {
         if (_logger.isLoggable(Level.FINE)) {
             _logger.log(Level.FINE, "Check idle timeout in pooled connection factory " + this);
@@ -223,12 +225,14 @@ public class PooledConnectionFactory implements Runnable {
         while (c != null) {
 
             long idlestime = c.getIdleStartTime();
-            if (idlestime <= 0 && c.isValid() && !_closed)
+            if (idlestime <= 0 && c.isValid() && !_closed) {
                 continue;
+            }
 
             c = _idleConns.poll();
-            if (c == null)
+            if (c == null) {
                 return;
+            }
 
             if (!c.isValid() || (System.currentTimeMillis() - idlestime > _idleTimeout) || _closed) {
 
@@ -247,8 +251,9 @@ public class PooledConnectionFactory implements Runnable {
                 _idleConns.offer(c);
             }
             c = _idleConns.peek();
-            if (list.contains(c))
+            if (list.contains(c)) {
                 break;
+            }
             list.add(c);
         }
     }
@@ -277,6 +282,7 @@ public class PooledConnectionFactory implements Runnable {
         return _outConns.size();
     }
 
+    @Override
     public String toString() {
         return _cf + "[" + _outConns.size() + ", " + _idleConns.size() + "]";
     }

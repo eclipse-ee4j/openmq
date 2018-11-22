@@ -20,13 +20,15 @@
 
 package com.sun.messaging.jmq.jmsserver.config;
 
-import com.sun.messaging.jmq.jmsserver.util.*;
-
 /**
  * Exception thrown when a property could not be updated because a ConfigListener rejected the change.
  */
 
 public class PropertyUpdateException extends Exception {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -924153868265758887L;
     public static final int Unknown = 0;
     public static final int OutOfBounds = 1;
     public static final int InvalidSetting = 2;

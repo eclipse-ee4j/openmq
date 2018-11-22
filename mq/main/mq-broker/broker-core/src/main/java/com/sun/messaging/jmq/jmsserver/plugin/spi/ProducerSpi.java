@@ -69,6 +69,7 @@ public abstract class ProducerSpi {
 
     protected transient String creator = null;
 
+    @Override
     public String toString() {
         return "Producer[" + uid + "," + destination_uid + "," + connection_uid + "]";
     }
@@ -131,14 +132,16 @@ public abstract class ProducerSpi {
         ht.put("valid", String.valueOf(valid));
         ht.put("pauseCnt", String.valueOf(pauseCnt));
         ht.put("resumeCnt", String.valueOf(resumeCnt));
-        if (connection_uid != null)
+        if (connection_uid != null) {
             ht.put("connectionUID", String.valueOf(connection_uid.longValue()));
-        if (destination_uid != null)
+        }
+        if (destination_uid != null) {
             ht.put("destination", destination_uid.toString());
+        }
         return ht;
     }
 
-    /** 
+    /**
      */
     protected ProducerSpi(ConnectionUID cuid, DestinationUID duid, String id) {
         uid = new ProducerUID();
@@ -205,10 +208,10 @@ public abstract class ProducerSpi {
     }
 
     public static ProducerSpi getProducer(ProducerUID uid) {
-        return (ProducerSpi) allProducers.get(uid);
+        return allProducers.get(uid);
     }
 
-    /** 
+    /**
      */
     public static ProducerSpi destroyProducer(ProducerUID uid, String info) {
         ProducerSpi p = allProducers.remove(uid);
@@ -231,15 +234,17 @@ public abstract class ProducerSpi {
     }
 
     public static ProducerSpi getProducer(String creator) {
-        if (creator == null)
+        if (creator == null) {
             return null;
+        }
 
         synchronized (allProducers) {
             Iterator<ProducerSpi> itr = allProducers.values().iterator();
             while (itr.hasNext()) {
                 ProducerSpi c = itr.next();
-                if (creator.equals(c.creator))
+                if (creator.equals(c.creator)) {
                     return c;
+                }
             }
         }
         return null;
@@ -287,8 +292,9 @@ public abstract class ProducerSpi {
 
         IMQConnection con = (IMQConnection) Globals.getConnectionManager().getConnection(cuid);
 
-        if (reason == null)
+        if (reason == null) {
             reason = "Resuming " + this;
+        }
 
         Hashtable hm = new Hashtable();
         hm.put("JMQSize", rfs.size);

@@ -36,6 +36,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
     private String username = null;
     private String password = null;
 
+    @Override
     public String getType() {
         return "jmqadminkey";
     }
@@ -44,11 +45,13 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
      * This method is called right before start a authentication process Currently for JMQ2.0, username/password always have
      * values (if not passed in createConnection() call, they are assigned default values).
      */
+    @Override
     public void init(String username, String password, Hashtable authProperties) throws LoginException {
         this.username = username;
         this.password = password;
     }
 
+    @Override
     public byte[] handleRequest(byte[] authRequest, int sequence) throws LoginException {
         if (username == null || password == null) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_NO_USERNAME_PASSWORD);

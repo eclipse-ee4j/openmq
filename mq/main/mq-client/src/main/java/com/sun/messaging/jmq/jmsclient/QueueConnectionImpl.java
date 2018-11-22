@@ -29,7 +29,7 @@ import com.sun.messaging.AdministeredObject;
 /**
  * A QueueConnection is an active connection to a JMS PTP provider. A client uses a QueueConnection to create one or
  * more QueueSessions for producing and consuming messages.
- * 
+ *
  * @see javax.jms.Connection
  * @see javax.jms.QueueConnectionFactory
  */
@@ -44,11 +44,13 @@ public class QueueConnectionImpl extends UnifiedConnectionImpl implements com.su
         super.setIsQueueConnection(true);
     }
 
+    @Override
     public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         return super.createQueueSession(transacted, acknowledgeMode);
     }
 
+    @Override
     public QueueSession createQueueSession(int acknowledgeMode) throws JMSException {
 
         checkConnectionState();

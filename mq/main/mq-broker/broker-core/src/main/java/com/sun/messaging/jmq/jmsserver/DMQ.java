@@ -227,7 +227,7 @@ public class DMQ {
      *
      * Usage:<BR>
      * <BLOCKQUOTE><I> String reason = msg.getStringProperty(DMQ.UNDELIVERED_REASON); </I></BLOCKQUOTE>
-     * 
+     *
      * @see #REASON_OLDEST
      * @see #REASON_LOW_PRIORITY
      * @see #REASON_EXPIRED
@@ -298,7 +298,7 @@ public class DMQ {
     /**
      * Message was removed because the destination has a behavior of REMOVE_OLDEST and this message fit that criteria. This
      * string is a possible value for the UNDELIVERED_REASON property.
-     * 
+     *
      * @see #UNDELIVERED_REASON
      */
     public static final String REASON_OLDEST = "OLDEST";
@@ -306,14 +306,14 @@ public class DMQ {
     /**
      * Message was removed because the destination has a behavior of REMOVE_LOW_PRIORITY and this message fit that criteria.
      * This string is a possible value for the UNDELIVERED_REASON property.
-     * 
+     *
      * @see #UNDELIVERED_REASON
      */
     public static final String REASON_LOW_PRIORITY = "LOW_PRIORITY";
 
     /**
      * Message was expired (because of a message TTL). This string is a possible value for the UNDELIVERED_REASON property.
-     * 
+     *
      * @see #UNDELIVERED_REASON
      */
     public static final String REASON_EXPIRED = "EXPIRED";
@@ -321,7 +321,7 @@ public class DMQ {
     /**
      * Message was removed because the it was re-sent to the consumer too many times or otherwise condisidered
      * "undeliverable". This string is a possible value for the UNDELIVERED_REASON property.
-     * 
+     *
      * @see #UNDELIVERED_REASON
      */
     public static final String REASON_UNDELIVERABLE = "UNDELIVERABLE";
@@ -329,7 +329,7 @@ public class DMQ {
     /**
      * Message was removed because the broker received an Error processing it. This string is a possible value for the
      * UNDELIVERED_REASON property.
-     * 
+     *
      * @see #UNDELIVERED_REASON
      */
     public static final String REASON_ERROR = "ERROR";

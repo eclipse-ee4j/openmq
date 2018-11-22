@@ -20,14 +20,16 @@
 
 package com.sun.messaging.jmq.util.selector;
 
-import java.util.*;
-
 /**
  * Exception thrown when an invlaid selector is encoutnered.
  *
  */
 public class SelectorFormatException extends java.lang.Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2447114466168361869L;
     String selector = null;
     int index = -1;
 
@@ -58,6 +60,7 @@ public class SelectorFormatException extends java.lang.Exception {
         return index;
     }
 
+    @Override
     public String getMessage() {
 
         if (selector != null) {

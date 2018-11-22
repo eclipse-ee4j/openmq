@@ -36,6 +36,11 @@ import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
  */
 public class BrokerAddressListChangedEvent extends ConnectionEvent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1287659921630449453L;
+
     private String addrList = null;
 
     /**

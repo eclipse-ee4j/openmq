@@ -21,8 +21,6 @@ import java.io.IOException;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 import org.glassfish.grizzly.Grizzly;
@@ -30,7 +28,6 @@ import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
-import org.glassfish.grizzly.attributes.AttributeHolder;
 import org.glassfish.grizzly.filterchain.NextAction;
 
 public class GrizzlyMQConnectionFilter extends BaseFilter {

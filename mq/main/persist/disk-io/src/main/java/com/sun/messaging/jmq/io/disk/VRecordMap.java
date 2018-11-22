@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.io.disk;
 
 import java.io.*;
 import java.nio.*;
-import java.nio.channels.*;
-import java.util.*;
 
 /**
  * A VRecordMap encapsulates a slice of mapped buffer allocated by VRFileMap.
@@ -87,6 +85,7 @@ public class VRecordMap extends VRecord {
     /*
      * Force any modifications made to the buffer to be written to physical storage.
      */
+    @Override
     public void force() throws IOException {
         if (DEBUG) {
             System.out.println("will do force on " + parent);
@@ -95,6 +94,7 @@ public class VRecordMap extends VRecord {
         parent.force();
     }
 
+    @Override
     public void setCookie(short c) throws IOException {
         this.cookie = c;
         bbuf.putShort(VRFile.RECORD_COOKIE_OFFSET, cookie);
@@ -104,10 +104,12 @@ public class VRecordMap extends VRecord {
         }
     }
 
+    @Override
     public short getCookie() {
         return cookie;
     }
 
+    @Override
     public String toString() {
         return "VRecordMap: " + bbuf.toString();
     }
@@ -116,6 +118,7 @@ public class VRecordMap extends VRecord {
         return parent;
     }
 
+    @Override
     void free() {
         state = VRFile.STATE_FREE;
         bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);
@@ -123,6 +126,7 @@ public class VRecordMap extends VRecord {
         databuf.rewind();
     }
 
+    @Override
     void allocate(short s) {
         state = s;
         bbuf.putShort(VRFile.RECORD_STATE_OFFSET, state);

@@ -59,7 +59,7 @@ public abstract class StompFrameMessage {
 
         /* responses */
         CONNECTED, MESSAGE, RECEIPT, ERROR
-    };
+    }
 
     public enum CommonHeader {
         ;
@@ -190,7 +190,7 @@ public abstract class StompFrameMessage {
 
     public static enum ParseStage {
         COMMAND, HEADER, BODY, NULL, DONE
-    };
+    }
 
     private Command _command = Command.UNKNOWN;
 
@@ -266,10 +266,12 @@ public abstract class StompFrameMessage {
     }
 
     public byte[] getBody() {
-        if (_body != null)
+        if (_body != null) {
             return _body;
-        if (_bao == null)
+        }
+        if (_bao == null) {
             return (new byte[] {});
+        }
         _body = _bao.toByteArray();
         return _body;
     }
@@ -285,8 +287,9 @@ public abstract class StompFrameMessage {
             }
         }
 
-        if (_bao == null)
+        if (_bao == null) {
             return text;
+        }
 
         _body = _bao.toByteArray();
 
@@ -325,8 +328,9 @@ public abstract class StompFrameMessage {
     }
 
     private int getBodySize() {
-        if (_bao == null)
+        if (_bao == null) {
             return 0;
+        }
         return _bao.size();
     }
 
@@ -344,8 +348,9 @@ public abstract class StompFrameMessage {
         }
         if (s == ParseStage.DONE) {
             try {
-                if (_bao != null)
+                if (_bao != null) {
                     _bao.close();
+                }
             } catch (Exception e) {
                 logger.logWarn("Exception in closing ByteArrayOutputStream:" + e.getMessage(), null);
             }
@@ -357,12 +362,14 @@ public abstract class StompFrameMessage {
     }
 
     public int getContentLength() {
-        if (_contentLength != null)
+        if (_contentLength != null) {
             return _contentLength.intValue();
+        }
 
         String val = _headers.get(CommonHeader.CONTENTLENGTH);
-        if (val == null)
+        if (val == null) {
             return -1;
+        }
         int len = -1;
         try {
             len = Integer.parseInt(val.trim());
@@ -405,10 +412,12 @@ public abstract class StompFrameMessage {
             return bb;
 
         } finally {
-            if (dos != null)
+            if (dos != null) {
                 dos.close();
-            if (bos != null)
+            }
+            if (bos != null) {
                 bos.close();
+            }
         }
     }
 
@@ -542,6 +551,7 @@ public abstract class StompFrameMessage {
         return;
     }
 
+    @Override
     public String toString() {
         return _command + "[" + _headers + "]";
     }
@@ -665,46 +675,57 @@ public abstract class StompFrameMessage {
 
     protected static StompFrameMessage newStompFrameMessageERROR() {
         return new StompFrameMessage(StompFrameMessage.Command.ERROR, null) {
+            @Override
             protected OutputStream newBufferOutputStream(Object obj) throws IOException {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected ByteBufferWrapper getBuffer(OutputStream os) throws IOException {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_CANNOT_PARSE_BODY_TO_TEXT(String command, String emsg) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_HEADER_NOT_SPECIFIED_FOR(String header, String command) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_INVALID_HEADER_VALUE(String headerValue, String command) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_INVALID_HEADER(String headerName) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_MAX_HEADERS_EXCEEDED(int maxHeaders) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_EXCEPTION_PARSE_HEADER(String headerName, String emsg) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_NO_NULL_TERMINATOR(String contentlen) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_UNKNOWN_STOMP_CMD(String cmd) {
                 throw new RuntimeException("Unexpected call");
             }
 
+            @Override
             protected String getKStringX_MAX_LINELEN_EXCEEDED(int maxbytes) {
                 throw new RuntimeException("Unexpected call");
             }

@@ -20,25 +20,17 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
-import java.util.concurrent.BlockingQueue;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import javax.jms.JMSException;
 
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.io.ReadOnlyPacket;
 import com.sun.messaging.jmq.io.ReadWritePacket;
 import com.sun.messaging.jmq.io.PacketDispatcher;
 import com.sun.messaging.jmq.jmsclient.ConnectionHandler;
 import com.sun.messaging.jmq.jmsclient.ConnectionImpl;
 import com.sun.messaging.jmq.jmsclient.MQAddress;
-import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
 import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
-import com.sun.messaging.jmq.jmsclient.runtime.impl.BrokerInstanceImpl;
 import com.sun.messaging.jmq.jmsclient.runtime.impl.ClientRuntimeImpl;
-import com.sun.messaging.jmq.jmsclient.runtime.impl.DirectBrokerInstance;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQDualThreadConnection;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 import com.sun.messaging.jmq.jmsservice.HandOffQueue;
@@ -55,6 +47,7 @@ public class DirectConnectionHandler implements ConnectionHandler {
 
     private static boolean directDebug = Boolean.getBoolean("imq.direct.debug");
 
+    @Override
     public boolean isDirectMode() {
         return true;
     }
@@ -116,15 +109,16 @@ public class DirectConnectionHandler implements ConnectionHandler {
 
     /**
      * This method is used only if "dual-thread" mode is being used and "sync replies" have been enabled
-     * 
+     *
      * Configure the IMQDualThreadConnection to use the specified ReplyDispatcher to process reply packets
-     * 
+     *
      * @param rd The ReplyDispatcher to be configured
      */
     public void setReplyDispatcher(PacketDispatcher rd) {
         ((IMQDualThreadConnection) directConnection).setReplyDispatcher(rd);
     }
 
+    @Override
     public void writePacket(ReadWritePacket pkt) throws IOException {
 
         try {
@@ -159,6 +153,7 @@ public class DirectConnectionHandler implements ConnectionHandler {
         // this.inBoundQ.put(newPkt);
     }
 
+    @Override
     public ReadWritePacket readPacket() throws IOException {
 
         ReadWritePacket pkt = null;
@@ -182,12 +177,13 @@ public class DirectConnectionHandler implements ConnectionHandler {
             }
 
         } catch (InterruptedException inte) {
-            ;
+            
         }
 
         return pkt;
     }
 
+    @Override
     public synchronized void close() throws IOException {
 
         if (isClosed) {
@@ -209,24 +205,29 @@ public class DirectConnectionHandler implements ConnectionHandler {
         }
     }
 
+    @Override
     public String getBrokerAddress() {
         return "localhost";
     }
 
+    @Override
     public String getBrokerHostName() {
         return "localhost";
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
         // TODO Auto-generated method stub
         return null;
     }
 
+    @Override
     public int getLocalPort() throws IOException {
         // TODO Auto-generated method stub
         return 0;
     }
 
+    @Override
     public OutputStream getOutputStream() throws IOException {
         // TODO Auto-generated method stub
         return null;
@@ -236,6 +237,7 @@ public class DirectConnectionHandler implements ConnectionHandler {
         return ((IMQDualThreadConnection) directConnection).fetchReply();
     }
 
+    @Override
     public void configure(Properties configuration) throws IOException {
 
     }

@@ -21,7 +21,6 @@
 package com.sun.messaging.jms;
 
 import java.io.*;
-import javax.jms.*;
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -32,6 +31,11 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 
 public class TransactionInProgressException extends javax.jms.TransactionInProgressException implements Loggable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5618033850034075669L;
 
     private Throwable cause = null;
 
@@ -82,6 +86,7 @@ public class TransactionInProgressException extends javax.jms.TransactionInProgr
      * {@link java.lang.Throwable#printStackTrace printStackTrace} a backtrace of the cause will also get printed.
      *
      **/
+    @Override
     public synchronized void setLinkedException(Exception ex) {
         super.setLinkedException(ex);
         try {
@@ -98,6 +103,7 @@ public class TransactionInProgressException extends javax.jms.TransactionInProgr
      * exception linked to this <CODE>TransactionInProgressException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace() {
         this.printStackTrace(System.err);
     }
@@ -109,6 +115,7 @@ public class TransactionInProgressException extends javax.jms.TransactionInProgr
      * exception linked to this <CODE>TransactionInProgressException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace(PrintStream s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -132,6 +139,7 @@ public class TransactionInProgressException extends javax.jms.TransactionInProgr
      * exception linked to this <CODE>TransactionInProgressException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException}
      **/
+    @Override
     public void printStackTrace(PrintWriter s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -150,18 +158,20 @@ public class TransactionInProgressException extends javax.jms.TransactionInProgr
 
     /**
      * set state to true if this object is logged.
-     * 
+     *
      * @param state boolean
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * get logging state of this object.
-     * 
+     *
      * @return boolean true if this object is logged.
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

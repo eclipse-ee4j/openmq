@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseLogicalOperandException extends ParseException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -4706186153206291287L;
+
+    /**
      * Construct a ParseLogicalOperandException
      */
     public ParseLogicalOperandException(String operator) {

@@ -78,6 +78,7 @@ public class ConsumerInfo extends AdminInfo {
         reset();
     }
 
+    @Override
     public void reset() {
         id = null;
         type = 0;
@@ -94,6 +95,7 @@ public class ConsumerInfo extends AdminInfo {
      *
      * @return String representation of the consumer.
      */
+    @Override
     public String toString() {
 
         return "Consumer: destination=" + destination + ":" + DestType.toString(type) + " connection="

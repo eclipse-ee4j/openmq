@@ -31,8 +31,9 @@ public class AuthCacheData {
     }
 
     public synchronized void setCacheData(Refreshable data) {
-        if (data == null)
+        if (data == null) {
             return;
+        }
 
         synchronized (data) {
             if (data.isCurrent()) {
@@ -46,8 +47,9 @@ public class AuthCacheData {
     }
 
     public synchronized void refresh() throws RefreshFailedException {
-        if (cacheData == null)
+        if (cacheData == null) {
             return;
+        }
 
         synchronized (cacheData) {
             cacheData.refresh();

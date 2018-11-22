@@ -34,13 +34,18 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class ObjStoreDestListInspector extends TabledInspector {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -2069467933967581752L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
     /**
      * Return the array of Strings containing the collumn labels/headers.
-     * 
+     *
      * @return the array of Strings containing the collumn labels/headers.
      */
+    @Override
     public String[] getColumnHeaders() {
         String[] columnNames = { acr.getString(acr.I_OBJSTORE_LOOKUP_NAME), acr.getString(acr.I_OBJSTORE_DEST_TYPE), acr.getString(acr.I_OBJSTORE_DEST_NAME) };
         return (columnNames);
@@ -52,6 +57,7 @@ public class ObjStoreDestListInspector extends TabledInspector {
      *
      * @return the Object at a particular cell collumn for a given ConsoleObj object.
      */
+    @Override
     public Object getValueAtCollumn(ConsoleObj conObj, int col) {
         if (col == 0) {
             return (conObj);

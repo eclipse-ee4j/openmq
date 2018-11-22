@@ -294,11 +294,13 @@ public class ClusterSubscriptionInfo {
         DataInputStream dis = new DataInputStream(bis);
         Consumer cs = ClusterConsumerInfo.readConsumer(dis);
         Integer prefetch = (Integer) pkt.getProp(String.valueOf(cs.getConsumerUID().longValue()) + ":" + Consumer.PREFETCH);
-        if (prefetch != null)
+        if (prefetch != null) {
             cs.setRemotePrefetch(prefetch.intValue());
+        }
         BrokerAddress from = c.unmarshalBrokerAddress(pkt);
-        if (from != null)
+        if (from != null) {
             cs.getConsumerUID().setBrokerAddress(from);
+        }
         return cs;
     }
 
@@ -336,15 +338,18 @@ class SubscriptionIterator implements Iterator {
         this.count_read = 0;
     }
 
+    @Override
     public boolean hasNext() {
-        if (count_read < 0)
+        if (count_read < 0) {
             throw new IllegalStateException("SubscriptionIterator");
+        }
         return count_read < count;
     }
 
     /**
      * Caller must catch RuntimeException and getCause
      */
+    @Override
     public Object next() throws RuntimeException {
         try {
             String dname = dis.readUTF();
@@ -361,6 +366,7 @@ class SubscriptionIterator implements Iterator {
         }
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("Not supported");
     }

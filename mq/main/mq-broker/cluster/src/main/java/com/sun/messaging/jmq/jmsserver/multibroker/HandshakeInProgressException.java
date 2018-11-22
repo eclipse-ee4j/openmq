@@ -27,6 +27,11 @@ import java.io.IOException;
 
 public class HandshakeInProgressException extends IOException {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -9152530842845791970L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

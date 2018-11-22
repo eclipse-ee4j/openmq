@@ -21,15 +21,10 @@
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.util.log.Logger;
-
 import java.util.List;
 import java.util.ArrayList;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.ext.JMSBGDAO;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.ext.TMLogRecordDAO;
-import com.sun.messaging.jmq.jmsserver.persist.jdbc.ext.TMLogRecordDAOJMSBG;
 
 /**
  * Factory for DAO object.

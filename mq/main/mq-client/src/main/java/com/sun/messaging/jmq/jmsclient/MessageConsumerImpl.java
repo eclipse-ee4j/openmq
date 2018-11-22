@@ -24,7 +24,6 @@ import javax.jms.*;
 
 import java.util.Vector;
 import java.util.logging.Level;
-import java.io.IOException;
 import java.io.PrintStream;
 
 import com.sun.messaging.AdministeredObject;
@@ -32,8 +31,6 @@ import com.sun.messaging.jmq.io.ReadOnlyPacket;
 import com.sun.messaging.jmq.io.SysMessageID;
 
 import com.sun.messaging.jmq.jmsclient.resources.ClientResources;
-import com.sun.messaging.jms.MQMessageFormatRuntimeException;
-import com.sun.messaging.jms.MQRuntimeException;
 
 /**
  * A client uses a message consumer to receive messages from a Destination. It is created by passing a Destination to a
@@ -148,6 +145,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         }
     }
 
+    @Override
     protected void setInterestId(Long id) {
         lastDeliveredID = null;
         lastDeliveredIDInTransaction = false;
@@ -232,6 +230,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         return session;
     }
 
+    @Override
     protected Long getReadQueueId() {
         return session.getSessionId();
     }
@@ -240,6 +239,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * This method is called by SessionReader. Messages are delivered to the receiveQueue by default. After MessageListener
      * is set, messages are delivered to the MessageListener.
      */
+    @Override
     protected void onMessage(MessageImpl message) throws JMSException {
         // System.out.println ("MessageConsumer on message ...");
 
@@ -292,7 +292,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                     /**
                      * Do not deliver if this is a null object. This could happen if app rollbacks a transaction while we are still in the
                      * loop.
-                     * 
+                     *
                      * bug 6466942 -- Null pointer exception showed in client log.
                      */
                     if (message != null) {
@@ -333,7 +333,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                 boolean doredeliver = false;
 
                 int redeliveryCount = message.getIntProperty(ConnectionMetaDataImpl.JMSXDeliveryCount);
-                ;
+                
                 // for non-transacted, auto-acknowledge session
                 if (session.getTransacted() == false && session.acknowledgeMode != Session.CLIENT_ACKNOWLEDGE) {
                     message.doAcknowledge = false;
@@ -433,6 +433,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * @see javax.jms.MessageConsumer#setMessageListener
      */
 
+    @Override
     public MessageListener getMessageListener() throws JMSException {
         checkState();
         return messageListener;
@@ -454,6 +455,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * @see javax.jms.MessageConsumer#getMessageListener
      */
 
+    @Override
     public void setMessageListener(MessageListener listener) throws JMSException {
 
         checkState();
@@ -487,6 +489,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      *
      */
 
+    @Override
     public Message receive() throws JMSException {
         return receive(0);
     }
@@ -503,6 +506,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * concurrently closed.
      */
 
+    @Override
     public Message receive(long timeout) throws JMSException {
         MessageImpl message = null;
 
@@ -637,18 +641,20 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                 receiveQueue.setReceiveInProcess(false);
             }
         }
-        if (e != null)
+        if (e != null) {
             throw e;
+        }
         return body;
     }
 
     /**
      * Receive the next message if one is immediately available.
-     * 
+     *
      * @exception JMSException if JMS fails to receive the next message due to some error.
      * @return the next message produced for this message consumer, or null if one is not available.
      */
 
+    @Override
     public Message receiveNoWait() throws JMSException {
 
         MessageImpl message = null;
@@ -703,6 +709,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         return message;
     }
 
+    @Override
     public <T> T receiveBodyNoWait(Class<T> c) throws JMSException {
         MessageImpl message = null;
         T body = null;
@@ -760,8 +767,9 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
                 receiveQueue.setReceiveInProcess(false);
             }
         }
-        if (e != null)
+        if (e != null) {
             throw e;
+        }
         return body;
     }
 
@@ -797,6 +805,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
      * @exception JMSException if JMS fails to close the consumer due to some error.
      */
 
+    @Override
     public void close() throws JMSException {
         close(false);
     }
@@ -965,6 +974,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         return lastDeliveredIDInTransaction;
     }
 
+    @Override
     public void dump(PrintStream ps) {
 
         ps.println("------ MessageConsumerImpl dump ------");
@@ -992,13 +1002,15 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         }
     }
 
+    @Override
     protected java.util.Hashtable getDebugState(boolean verbose) {
         java.util.Hashtable ht = super.getDebugState(verbose);
 
         ht.put("# pending", String.valueOf(receiveQueue.size()));
         ht.put("syncReadFlag", String.valueOf(syncReadFlag));
-        if (verbose)
+        if (verbose) {
             ht.put("receiveQueue", receiveQueue);
+        }
 
         return ht;
     }
@@ -1019,6 +1031,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
 
     }
 
+    @Override
     public String toString() {
 
         String destName = null;
@@ -1026,7 +1039,7 @@ public class MessageConsumerImpl extends Consumer implements MQMessageConsumer, 
         try {
             destName = ((com.sun.messaging.Destination) destination).getName();
         } catch (Exception e) {
-            ;
+            
         }
 
         return session.toString() + ", ConsumerID=" + getInterestId() + ", DestName=" + destName;

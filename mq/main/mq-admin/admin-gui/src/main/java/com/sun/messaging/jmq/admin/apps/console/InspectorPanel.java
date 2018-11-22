@@ -62,6 +62,10 @@ import com.sun.messaging.jmq.admin.event.AdminEventListener;
  */
 public abstract class InspectorPanel extends JPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4745130922013473276L;
     private EventListenerList aListeners = null;
     private ConsoleObj conObj = null;
 
@@ -167,7 +171,7 @@ public abstract class InspectorPanel extends JPanel {
      * Creates the InspectorPanel GUI.
      *
      * <P>
-     * 
+     *
      * @return the panel that contains the GUI.
      */
     public abstract JPanel createWorkPanel();

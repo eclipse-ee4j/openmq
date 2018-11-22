@@ -34,14 +34,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.sun.messaging.jmq.util.DestMetricsCounters;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.disk.VRFile;
 import com.sun.messaging.jmq.io.disk.VRFileRAF;
 import com.sun.messaging.jmq.io.disk.VRecordRAF;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
@@ -92,16 +90,19 @@ class PreparedTxnStore extends RandomAccessStore {
 
     // skip 'vrfile'
     private static FilenameFilter vrfileFilter = new FilenameFilter() {
+        @Override
         public boolean accept(File dir, String name) {
             return (!name.equals(VRFILE_NAME));
         }
     };
 
     private static Enumeration emptyEnum = new Enumeration() {
+        @Override
         public boolean hasMoreElements() {
             return false;
         }
 
+        @Override
         public Object nextElement() {
             return null;
         }
@@ -312,14 +313,14 @@ class PreparedTxnStore extends RandomAccessStore {
     /**
      * Remove the message from the persistent store. If the message has an interest list, the interest list will be removed
      * as well.
-     * 
+     *
      * @param id the system message id of the message to be removed
      * @exception IOException if an error occurs while removing the message
      * @exception BrokerException if the message is not found in the store
      */
     void removeTransaction(TransactionUID id, boolean sync) throws BrokerException {
 
-        TransactionWorkInfo oldmsg = (TransactionWorkInfo) transactionMap.remove(id);
+        TransactionWorkInfo oldmsg = transactionMap.remove(id);
 
         if (oldmsg == null) {
             String emsg = br.getKString(br.E_TRANSACTIONID_NOT_FOUND_IN_STORE, id) + ": " + storeName;
@@ -339,7 +340,7 @@ class PreparedTxnStore extends RandomAccessStore {
 
     /**
      * Remove all messages associated with this destination.
-     * 
+     *
      * @exception IOException if an error occurs while removing the message
      * @exception BrokerException if the message is not found in the store
      */
@@ -377,10 +378,10 @@ class PreparedTxnStore extends RandomAccessStore {
     /**
      * Return an enumeration of all persisted messages. Use the Enumeration methods on the returned object to fetch and load
      * each message sequentially.
-     * 
+     *
      * <p>
      * This method is to be used at broker startup to load persisted messages on demand.
-     * 
+     *
      * @return an enumeration of all persisted messages.
      */
     Enumeration<BaseTransaction> txnEnumeration() {
@@ -427,6 +428,7 @@ class PreparedTxnStore extends RandomAccessStore {
         return byteCount;
     }
 
+    @Override
     protected void close(boolean cleanup) {
 
         // vrfile
@@ -446,9 +448,9 @@ class PreparedTxnStore extends RandomAccessStore {
 
     /**
      * Load all messages in the backing file.
-     * 
+     *
      * returned if no messages exist in the store
-     * 
+     *
      * @exception BrokerException if an error occurs while getting the data
      */
     public void loadTransactions() throws BrokerException {
@@ -478,6 +480,7 @@ class PreparedTxnStore extends RandomAccessStore {
      * parse the message and it's associated interest list from the given buffers. This is loaded from individual message
      * files. Returns the sysMessageID.
      */
+    @Override
     Object parseData(byte[] data, byte[] attachment) throws IOException {
 
         TransactionWorkInfo minfo = new TransactionWorkInfo(this, data, attachment);
@@ -490,6 +493,7 @@ class PreparedTxnStore extends RandomAccessStore {
         return tid;
     }
 
+    @Override
     FilenameFilter getFilenameFilter() {
         return vrfileFilter;
     }
@@ -609,6 +613,7 @@ class PreparedTxnStore extends RandomAccessStore {
             msgEnum = e;
         }
 
+        @Override
         public boolean hasMoreElements() {
             Packet msg = null;
             if (itr != null) {
@@ -648,10 +653,11 @@ class PreparedTxnStore extends RandomAccessStore {
             }
         }
 
+        @Override
         public Object nextElement() {
             if (objToReturn != null) {
                 Object result = null;
-                ;
+                
                 if (objToReturn instanceof TransactionUID) {
                     try {
                         result = parent.getTransaction((TransactionUID) objToReturn);
@@ -679,7 +685,7 @@ class PreparedTxnStore extends RandomAccessStore {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {
@@ -700,7 +706,7 @@ class PreparedTxnStore extends RandomAccessStore {
     }
 
     BaseTransaction getTransaction(TransactionUID mid) throws IOException, BrokerException {
-        TransactionWorkInfo msginfo = (TransactionWorkInfo) transactionMap.get(mid);
+        TransactionWorkInfo msginfo = transactionMap.get(mid);
         if (msginfo == null) {
             String emsg = br.getKString(br.E_TRANSACTIONID_NOT_FOUND_IN_STORE, mid) + ": " + storeName;
             logger.log(logger.ERROR, emsg);

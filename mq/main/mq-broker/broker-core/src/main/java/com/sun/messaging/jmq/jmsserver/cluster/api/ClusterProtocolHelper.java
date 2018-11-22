@@ -19,7 +19,6 @@
 
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 
 /**
@@ -27,5 +26,6 @@ import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 public interface ClusterProtocolHelper {
     public void sendReply(BrokerAddress recipient, int status, String reason, Object extraInfo);
 
+    @Override
     public String toString();
 }

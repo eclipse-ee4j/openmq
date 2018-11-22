@@ -28,6 +28,7 @@ public class SharedXAConnectionImpl extends SharedConnectionImpl implements XACo
         super(conn);
     }
 
+    @Override
     public XASession createXASession() throws JMSException {
         return ((XAConnection) _conn).createXASession();
     }

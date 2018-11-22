@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantReadWriteLock;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Status;
@@ -78,16 +76,19 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
     public AbstractPartitionedStore() {
     }
 
+    @Override
     public void init(Store store, UID id, boolean isPrimary) throws BrokerException {
         this.parent = store;
         this.partitionid = id;
         this.isPrimary = isPrimary;
     }
 
+    @Override
     public UID getPartitionID() {
         return partitionid;
     }
 
+    @Override
     public boolean isPrimaryPartition() {
         return isPrimary;
     }
@@ -105,6 +106,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>iIDs</code>, or <code>states</code> is
      * <code>null</code>
      */
+    @Override
     public abstract void storeMessage(DestinationUID dID, Packet message, ConsumerUID[] iIDs, int[] states, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -117,6 +119,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if a message with the same id exists in the store already
      * @exception NullPointerException if <code>message</code> is <code>null</code>
      */
+    @Override
     public abstract void storeMessage(DestinationUID dID, Packet message, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -205,23 +208,26 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * destionation
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public abstract Enumeration messageEnumeration(Destination destination) throws BrokerException;
 
     /**
      * To close an enumeration retrieved from the store
      */
+    @Override
     public void closeEnumeration(Enumeration en) {
     }
 
     /**
      * Check if a a message has been acknowledged by all interests.
-     * 
+     *
      * @param dst the destination the message is associated with
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
      * all interests
      * @throws BrokerException
      */
+    @Override
     public abstract boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID id) throws BrokerException;
 
     /**
@@ -233,6 +239,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return A HashMap of name value pair of information
      * @throws BrokerException if an error occurs while getting the data
      */
+    @Override
     public abstract HashMap getMessageStorageInfo(Destination destination) throws BrokerException;
 
     /**
@@ -243,6 +250,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public abstract Packet getMessage(DestinationUID dID, String mID) throws BrokerException;
 
     /**
@@ -253,6 +261,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public abstract Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
@@ -267,6 +276,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
+    @Override
     public abstract void storeInterestStates(DestinationUID dID, SysMessageID mID, ConsumerUID[] iIDs, int[] states, boolean sync, Packet msg)
             throws BrokerException;
 
@@ -284,6 +294,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the message is not in the store; if the interest is not associated with the message; or
      * if an error occurs while persisting the data
      */
+    @Override
     public abstract void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync, TransactionUID txid,
             boolean islastAck) throws BrokerException;
 
@@ -297,16 +308,18 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the specified interest is not associated with the message; or if the message is not in
      * the store
      */
+    @Override
     public abstract int getInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID) throws BrokerException;
 
     /**
      * Retrieve all interests and states associated with the specified message.
-     * 
+     *
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
      * @throws BrokerException
      */
+    @Override
     public abstract HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
@@ -320,6 +333,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * interest is associated with the message
      * @exception BrokerException if the message is not in the store or if an error occurs while getting the data
      */
+    @Override
     public abstract ConsumerUID[] getConsumerUIDs(DestinationUID dID, SysMessageID mID) throws BrokerException;
 
     /**
@@ -331,6 +345,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the same destination exists in the store already
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public abstract void storeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -341,18 +356,20 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public abstract void updateDestination(Destination destination, boolean sync) throws BrokerException;
 
     /**
      * Remove the destination from the persistent store. All messages associated with the destination will be removed as
      * well.
      *
-     * 
+     *
      * @param destination the destination to be removed
      * @param sync if true, will synchronize data to disk
      * @exception IOException if an error occurs while removing the destination
      * @exception BrokerException if the destination is not found in the store
      */
+    @Override
     public abstract void removeDestination(Destination destination, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -364,6 +381,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public long getDestinationConnectedTime(Destination destination) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + parent.getStoreType() + " store");
     }
@@ -375,12 +393,14 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return a Destination object or null if not exist
      * @throws BrokerException
      */
+    @Override
     public abstract Destination getDestination(DestinationUID dID) throws IOException, BrokerException;
 
     /**
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public abstract Destination[] getAllDestinations() throws IOException, BrokerException;
 
     /**
@@ -393,6 +413,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
+    @Override
     public abstract void storeTransaction(TransactionUID txnID, TransactionState txnState, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -405,6 +426,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>txnID</code> is <code>null</code>
      */
+    @Override
     public abstract void storeClusterTransaction(TransactionUID txnID, TransactionState txnState, TransactionBroker[] txnBrokers, boolean sync)
             throws BrokerException;
 
@@ -416,6 +438,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnAcks the transaction's participant brokers
      * @param txnHomeBroker the transaction's home broker
      */
+    @Override
     public abstract void storeRemoteTransaction(TransactionUID id, TransactionState txnState, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker,
             boolean sync) throws BrokerException;
 
@@ -428,6 +451,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception IOException if an error occurs while removing the transaction
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public abstract void removeTransaction(TransactionUID txnID, boolean removeAcks, boolean sync) throws IOException, BrokerException;
 
     /**
@@ -454,6 +478,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnBrokers the transaction's participant brokers
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public abstract void updateClusterTransaction(TransactionUID txnUID, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException;
 
     /**
@@ -466,6 +491,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the transaction is not found in the store or the txn's state doesn't match the expected
      * state (Status.CONFLICT)
      */
+    @Override
     public abstract void updateClusterTransactionBrokerState(TransactionUID txnUID, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
             throws BrokerException;
 
@@ -473,11 +499,12 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * Update the transaction home broker for the specified remote transaction (HA support).
      *
      * In HA mode, the txn is owned by another broker so we'll only update the txn home broker.
-     * 
+     *
      * @param txnUID the transaction ID
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @throws BrokerException if transaction does not exists in the store
      */
+    @Override
     public void updateRemoteTransaction(TransactionUID txnUID, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + parent.getStoreType() + " store");
@@ -490,6 +517,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return the TransactionState
      * @exception BrokerException if the transaction id does NOT exists in the store already
      */
+    @Override
     public abstract TransactionState getTransactionState(TransactionUID txnID) throws BrokerException;
 
     /**
@@ -501,6 +529,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * number of consumer states.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by the " + parent.getStoreType() + " store");
     }
@@ -511,6 +540,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnID id of the transaction whose participant brokers are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public abstract TransactionBroker[] getClusterTransactionBrokers(TransactionUID txnID) throws BrokerException;
 
     /**
@@ -519,6 +549,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public abstract BrokerAddress getRemoteTransactionHomeBroker(TransactionUID txnID) throws BrokerException;
 
     /**
@@ -527,6 +558,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnID the transaction ID
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public abstract TransactionInfo getTransactionInfo(TransactionUID txnID) throws BrokerException;
 
     /**
@@ -535,6 +567,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public abstract HashMap getAllTransactionStates() throws IOException, BrokerException;
 
     /**
@@ -544,22 +577,25 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @return A HashMap. The key of is a TransactionUID. The value of each entry is a TransactionState.
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public abstract HashMap getAllRemoteTransactionStates() throws IOException, BrokerException;
 
     /**
      * Close the store partition and releases any system resources associated with it. The store partition will be cleaned
      * up. All data files trimed to the length of valid data.
      */
+    @Override
     public void close() {
         close(true);
     }
 
     /**
      * Close the store and releases any system resources associated with it.
-     * 
+     *
      * @param cleanup if this is false, the store will not be cleaned up when it is closed. The default behavior is that the
      * store is cleaned up.
      */
+    @Override
     public abstract void close(boolean cleanup);
 
     /**
@@ -571,6 +607,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @exception BrokerException if the transaction id is not found in the store, if the acknowledgement already exists, or
      * if it failed to persist the data
      */
+    @Override
     public abstract void storeTransactionAck(TransactionUID txnID, TransactionAcknowledgement txnAck, boolean sync) throws BrokerException;
 
     /**
@@ -580,6 +617,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if error occurs while removing the acknowledgements
      */
+    @Override
     public abstract void removeTransactionAck(TransactionUID txnID, boolean sync) throws BrokerException;
 
     /**
@@ -588,24 +626,28 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
      * @param txnID id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public abstract TransactionAcknowledgement[] getTransactionAcks(TransactionUID txnID) throws BrokerException;
 
     /**
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
      * returned in the form a HashMap. Each entry in the HashMap has the transaction id as the key and an array of the
      * associated TransactionAcknowledgement objects as the value.
-     * 
+     *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
+    @Override
     public abstract HashMap getAllTransactionAcks() throws BrokerException;
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
+    @Override
     public abstract Hashtable getDebugState() throws BrokerException;
 
+    @Override
     public LoadException getLoadDestinationException() {
         return null;
     }
@@ -613,6 +655,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
     /**
      * Return the LoadException for loading transactions; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionException() {
         return null;
     }
@@ -620,6 +663,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
     /**
      * Return the LoadException for loading transaction acknowledgements; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionAckException() {
         return null;
     }
@@ -651,7 +695,7 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
 
     /**
      * This method should be called by all store apis to make sure that the store is not closed before doing the operation.
-     * 
+     *
      * @throws BrokerException
      */
     protected void checkClosedAndSetInProgress() throws BrokerException {
@@ -691,20 +735,24 @@ public abstract class AbstractPartitionedStore implements PartitionedStore {
     }
 
     // used internally to check whether the store is closed
+    @Override
     public boolean isClosed() {
         synchronized (closedLock) {
             return closed;
         }
     }
 
+    @Override
     public String toString() {
         return "StorePartition[" + partitionid + "]closed=" + closed;
     }
 
+    @Override
     public int hashCode() {
         return partitionid.hashCode();
     }
 
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;

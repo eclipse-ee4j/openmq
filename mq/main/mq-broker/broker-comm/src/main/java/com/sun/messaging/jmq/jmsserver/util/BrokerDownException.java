@@ -22,6 +22,11 @@ package com.sun.messaging.jmq.jmsserver.util;
 
 public class BrokerDownException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2297286117774111666L;
+
     public BrokerDownException(String msg) {
         super(msg);
     }

@@ -35,6 +35,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  *
  */
 public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3052537884040673453L;
     private transient ObjStore os = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -53,18 +57,22 @@ public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
         return (os);
     }
 
+    @Override
     public String getExplorerLabel() {
         return (acr.getString(acr.I_OBJSTORE_DEST_LIST));
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.OBJSTORE_DEST_LIST]);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -81,10 +89,12 @@ public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.ADD);
     }
 
+    @Override
     public int getActiveActions() {
         int mask;
 
@@ -97,14 +107,17 @@ public class ObjStoreDestListCObj extends ObjStoreAdminCObj {
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".ObjStoreDestListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Destinations");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

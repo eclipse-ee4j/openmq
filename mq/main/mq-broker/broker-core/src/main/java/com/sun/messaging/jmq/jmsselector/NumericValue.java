@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.jmsselector;
 
 /**
  * Wrapper class for a NumericValue that provides math operations on numbers
- * 
+ *
  * This class is a necessary because Java does not support arithmetic operations in java.lang.Number
  */
 public class NumericValue {
@@ -385,6 +385,7 @@ public class NumericValue {
         return result;
     }
 
+    @Override
     public String toString() {
         String str = "null";
 

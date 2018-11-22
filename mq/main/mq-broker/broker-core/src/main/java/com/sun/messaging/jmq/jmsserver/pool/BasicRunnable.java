@@ -123,6 +123,7 @@ public abstract class BasicRunnable implements Runnable {
         setThreadBehavior(behavior);
     }
 
+    @Override
     public String toString() {
         String str = "BasicRunnable[" + id + " , " + behaviorToString(behavior) + " ," + stateToString(state) + "]";
         return str;
@@ -297,6 +298,7 @@ public abstract class BasicRunnable implements Runnable {
             this.hr = hr;
         }
 
+        @Override
         public void run() {
             hr.checkExpiration();
         }
@@ -401,15 +403,17 @@ public abstract class BasicRunnable implements Runnable {
      * This is the method which is called by the thread to process Operations
      * <P>
      *
-     * 
+     *
      */
+    @Override
     public void run() {
 
         int wt = 0;
 
         synchronized (this) {
-            if (state < RUN_READY)
+            if (state < RUN_READY) {
                 setState(RUN_READY);
+            }
         }
 
         while (state < RUN_DESTROYING) { // check
@@ -455,8 +459,9 @@ public abstract class BasicRunnable implements Runnable {
             }
         }
 
-        if (state < RUN_DESTROYING)
+        if (state < RUN_DESTROYING) {
             destroy();
+        }
         synchronized (this) {
             state = RUN_DESTROYED;
             tctrl.runnableExit(id);
@@ -469,13 +474,16 @@ public abstract class BasicRunnable implements Runnable {
         return id;
     }
 
+    @Override
     public int hashCode() {
         return id;
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof BasicRunnable))
+        if (!(o instanceof BasicRunnable)) {
             return false;
+        }
 
         return ((BasicRunnable) o).id == this.id;
     }

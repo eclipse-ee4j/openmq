@@ -35,7 +35,7 @@ import com.sun.messaging.jmq.jmsservice.JMSService;
  * <code><PRE>
  *      BrokerProcess bp = BrokerProcess.getBrokerProcess();
  *      try {
- *      
+ *
  *          Properties ht = BrokerProcess.convertArgs(args);
  *          int exitcode = bp.start(true, ht, null);
  *          System.out.println("Broker exited with " + exitcode);
@@ -57,8 +57,9 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      * Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS clients.
      *
      * @throws IllegalStateException if the broker is already stopped
-     * 
+     *
      */
+    @Override
     public JMSService getJMSService() throws IllegalStateException {
         ServiceManager sm = Globals.getServiceManager();
         JMSService jmsService = getJMSService(DEFAULT_DIRECTMODE_SERVICE_NAME);
@@ -91,6 +92,7 @@ public class JMSRA_BrokerProcess extends BrokerProcess implements JMSRABroker {
      *
      * @throws IllegalStateException if the broker is already stopped
      */
+    @Override
     public JMSService getJMSService(String serviceName) throws IllegalStateException {
         ServiceManager sm = Globals.getServiceManager();
         Service svc;

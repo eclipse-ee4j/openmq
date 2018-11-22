@@ -360,7 +360,7 @@ class TxnAckList {
 
     /**
      * Return acks for the specified transaction.
-     * 
+     *
      * @param tid id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
@@ -430,7 +430,7 @@ class TxnAckList {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {

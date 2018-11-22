@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.admin.apps.console.event;
 
-import java.util.EventObject;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 
 /**
@@ -34,6 +33,10 @@ import com.sun.messaging.jmq.admin.event.AdminEvent;
  * need to be introduced or a flag that indicates whether dialog needs to be shown/hidden.
  */
 public class DialogEvent extends AdminEvent {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -9209790170099361107L;
     /*
      * Dialog type
      */
@@ -53,7 +56,7 @@ public class DialogEvent extends AdminEvent {
 
     /**
      * Creates an instance of DialogEvent
-     * 
+     *
      * @param source the object where the event originated
      */
     public DialogEvent(Object source) {

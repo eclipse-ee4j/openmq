@@ -38,7 +38,7 @@ public class JMQByteArrayOutputStream extends ByteArrayOutputStream {
      * buffer may be replaced with another buffer if the implementation finds it necessary to do so (for example to increase
      * the buffer size). You should consider this constructor to be an optimization hint and always use getBuf() to retrieve
      * the backing buffer.
-     * 
+     *
      * @param size the buffer to use as the backing buffer.
      */
     public JMQByteArrayOutputStream(byte newBuf[]) {

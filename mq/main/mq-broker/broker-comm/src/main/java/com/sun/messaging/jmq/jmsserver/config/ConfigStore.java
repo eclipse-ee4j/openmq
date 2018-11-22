@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;
-import java.net.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
 

@@ -36,14 +36,14 @@ public interface TransactionManagerAdapter {
 
     /**
      * This will be the first method to be called after instantiation
-     * 
+     *
      * @param props the properties
      * @param reset if true, clear existing data
      */
     public void init(Properties props, boolean reset) throws Exception;
 
     /**
-     * 
+     *
      * @return true if RM pre-registration is required
      */
     public boolean registerRM();

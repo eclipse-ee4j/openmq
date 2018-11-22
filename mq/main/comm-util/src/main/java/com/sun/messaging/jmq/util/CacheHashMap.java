@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.util;
 
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,6 +29,10 @@ import java.util.Map;
  */
 public class CacheHashMap extends LinkedHashMap {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8739640834510094648L;
     private static int DEFAULT_CAPACITY = 16;
     private int capacity = DEFAULT_CAPACITY;
 
@@ -61,6 +64,7 @@ public class CacheHashMap extends LinkedHashMap {
         return capacity;
     }
 
+    @Override
     protected boolean removeEldestEntry(Map.Entry eldest) {
         return size() > capacity;
     }

@@ -20,16 +20,9 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.IOException;
 import java.nio.ByteBuffer;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import org.glassfish.grizzly.http.HttpRequestPacket;
-import org.glassfish.grizzly.websockets.DefaultWebSocket;
 import org.glassfish.grizzly.websockets.ProtocolHandler;
-import org.glassfish.grizzly.websockets.WebSocket;
-import org.glassfish.grizzly.websockets.WebSocketException;
 import org.glassfish.grizzly.websockets.WebSocketListener;
-import org.glassfish.grizzly.websockets.DataFrame;
-import org.glassfish.grizzly.memory.MemoryManager;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.ByteBufferOutput;
 import com.sun.messaging.jmq.io.BigPacketException;
@@ -37,7 +30,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.service.imq.grizzly.GrizzlyMQPacketList;
 
 /**
  * @author amyk
@@ -61,10 +53,12 @@ public class JMSWebSocket extends MQWebSocket {
         }
 
         pkt.writePacket(new ByteBufferOutput() {
+            @Override
             public void writeByteBuffer(ByteBuffer data) throws IOException {
                 throw new IOException("Unexpected call", new UnsupportedOperationException("writeByteBuffer(ByteBuffer)"));
             }
 
+            @Override
             public void writeBytes(byte[] data) throws IOException {
                 if (DEBUG) {
                     logger.log(logger.INFO, Thread.currentThread() + "JMSWebSocket@" + hashCode() + ": writeBytes(data.len=" + data.length + ")");

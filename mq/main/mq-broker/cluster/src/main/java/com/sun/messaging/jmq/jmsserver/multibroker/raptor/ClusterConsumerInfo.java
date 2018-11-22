@@ -32,7 +32,6 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
@@ -159,8 +158,9 @@ public class ClusterConsumerInfo {
         if (cleanup) {
             gp.putProp("cleanup", Boolean.valueOf(true));
         }
-        if (c != null)
+        if (c != null) {
             c.marshalBrokerAddress(c.getSelfAddress(), gp);
+        }
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         DataOutputStream dos = new DataOutputStream(bos);
@@ -351,7 +351,7 @@ public class ClusterConsumerInfo {
         LinkedHashMap<SysMessageID, Integer> pms = new LinkedHashMap<SysMessageID, Integer>();
         StringTokenizer st = new StringTokenizer(val, " ", false);
         while (st.hasMoreTokens()) {
-            String s = (String) st.nextToken();
+            String s = st.nextToken();
             if (s != null && !s.trim().equals("")) {
                 Integer deliverCnt = Integer.valueOf(0);
                 int ind = s.lastIndexOf(MID_DCT_SEPARATOR);
@@ -408,7 +408,7 @@ public class ClusterConsumerInfo {
         boolean isReady = true;
         boolean setMaxCnt = false;
         int position = consumer.getLockPosition();
-        ;
+        
         int maxcnt = 1;
         boolean jmsshare = false;
         String ndsubname = null;
@@ -449,8 +449,9 @@ public class ClusterConsumerInfo {
         dos.writeBoolean(noLocalDelivery);
         dos.writeBoolean(isReady);
         dos.writeBoolean(setMaxCnt);
-        if (setMaxCnt)
+        if (setMaxCnt) {
             dos.writeInt(maxcnt);
+        }
         dos.writeInt(position);
         dos.writeBoolean(jmsshare);
         dos.writeBoolean(ndsubname != null);
@@ -569,8 +570,9 @@ public class ClusterConsumerInfo {
         dos.writeLong(uid.longValue()); // UID write
         dos.writeLong((uid.getConnectionUID() == null ? 0 : uid.getConnectionUID().longValue()));
         BrokerAddress brokeraddr = uid.getBrokerAddress();
-        if (brokeraddr == null)
+        if (brokeraddr == null) {
             brokeraddr = Globals.getMyAddress();
+        }
 
         if (brokeraddr == null) {
             // XXX Revisit and cleanup : This method may be called
@@ -625,15 +627,18 @@ class ConsumerIterator implements Iterator {
         this.gp = gp;
     }
 
+    @Override
     public boolean hasNext() {
-        if (count_read < 0)
+        if (count_read < 0) {
             throw new IllegalStateException("ConsumerUID");
+        }
         return count_read < count;
     }
 
     /**
      * Caller must catch RuntimeException and getCause
      */
+    @Override
     public Object next() throws RuntimeException {
         try {
 
@@ -661,6 +666,7 @@ class ConsumerIterator implements Iterator {
         }
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("Not supported");
     }

@@ -62,8 +62,9 @@ public abstract class ThreadedListProcessor implements Runnable {
 
     protected synchronized final void add(ThreadedTask q) {
         if (thr == null && startThreading(q)) {
-            if (list == null)
+            if (list == null) {
                 list = new ArrayList();
+            }
             thr = new MQThread(this, name);
             thr.start();
         }
@@ -76,11 +77,13 @@ public abstract class ThreadedListProcessor implements Runnable {
     }
 
     public synchronized void clear() {
-        if (list != null)
+        if (list != null) {
             list.clear();
+        }
         thr = null;
     }
 
+    @Override
     public void run() {
         long time = getLifeTime();
         while (true) {

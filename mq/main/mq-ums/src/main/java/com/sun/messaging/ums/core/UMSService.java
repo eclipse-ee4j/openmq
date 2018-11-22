@@ -81,7 +81,7 @@ import com.sun.messaging.ums.common.MessageUtil;
  *
  *
  * @author chiaming yang
- * 
+ *
  * @see SOAPService
  * @see MessageHandler
  * @see MessageHandlerChain
@@ -141,6 +141,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * init this SOAPService with the specified Properties in the parameter.
      */
+    @Override
     public void init(ServiceContext context) throws SOAPException {
         this.serviceContext = context;
 
@@ -214,6 +215,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get req handler chain.
      */
+    @Override
     public MessageHandlerChain getReqHandlerChain() {
         return this.reqChain;
     }
@@ -221,6 +223,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get resp handler chain.
      */
+    @Override
     public MessageHandlerChain getRespHandlerChain() {
         return this.respChain;
     }
@@ -228,20 +231,23 @@ public abstract class UMSService implements SOAPService {
     /**
      * SOAP service life cycle - start this soap service. To be overriden by sub class.
      */
+    @Override
     public void start() {
-        ;
+        
     }
 
     /**
      * SOAP service life cycle - stop this soap service. To be overriden by sub class.
      */
+    @Override
     public void stop() {
-        ;
+        
     }
 
     /**
      * SOAP service life cycle - close this soap service. Close all message handlers and release resources.
      */
+    @Override
     public void close() {
         closeHandlers(this.reqChain);
         closeHandlers(this.respChain);
@@ -250,6 +256,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get the ServiceContext object associated with this SOAP service.
      */
+    @Override
     public ServiceContext getServiceContext() {
         return this.serviceContext;
     }
@@ -257,6 +264,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * Get this soap service URI.
      */
+    @Override
     public String getServiceName() {
         return "MQSOAPService";
     }
@@ -323,7 +331,7 @@ public abstract class UMSService implements SOAPService {
              */
             reply = createSOAPFaultMessage(throwe, "Server", "Server Error");
         } finally {
-            ;
+            
         }
 
         return reply;
@@ -333,6 +341,7 @@ public abstract class UMSService implements SOAPService {
     /**
      * To be over ridden by sub class.
      */
+    @Override
     public abstract void service(MessageContext context) throws SOAPException;
 
     /**
@@ -343,7 +352,7 @@ public abstract class UMSService implements SOAPService {
         int size = chain.size();
         for (int index = 0; index < size; index++) {
 
-            MessageHandler handler = (MessageHandler) chain.getMessageHandlerAt(index);
+            MessageHandler handler = chain.getMessageHandlerAt(index);
 
             logger.fine("Calling handler: " + handler.getClass().getName());
 
@@ -372,7 +381,7 @@ public abstract class UMSService implements SOAPService {
                 /**
                  * get the next message handler.
                  */
-                MessageHandler handler = (MessageHandler) chain.getMessageHandlerAt(index);
+                MessageHandler handler = chain.getMessageHandlerAt(index);
 
                 /**
                  * close the handler.

@@ -41,11 +41,9 @@ import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStor
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.ShareConfigChangeDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.JDBCShareConfigChangeStore;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.ShareConfigRecordDAO;
-import com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc.ShareConfigRecordDAOImpl;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.DBConnectionPool;
-import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.TableSchema;
 import com.sun.messaging.jmq.jmsserver.multibroker.ChangeRecord;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
@@ -206,10 +204,11 @@ public class DBTool implements DBConstants {
             }
         } catch (Throwable t) {
             String url;
-            if (createdb)
+            if (createdb) {
                 url = mgr.getCreateDBURL();
-            else
+            } else {
                 url = mgr.getOpenDBURL();
+            }
 
             throw new BrokerException(br.getKString(BrokerResources.E_CREATE_DATABASE_TABLE_FAILED, url), t);
         } finally {
@@ -386,7 +385,7 @@ public class DBTool implements DBConstants {
         }
     }
 
-    /** 
+    /**
      */
     private static void dropStoredProcs(Connection conn, ArrayList<BaseDAO> daos) throws BrokerException {
 
@@ -1008,8 +1007,9 @@ public class DBTool implements DBConstants {
 
     private boolean askConfirmation(String prompt) throws IOException {
         // Ask for confirmation only if force option is not specified
-        if (forceSpecified)
+        if (forceSpecified) {
             return true;
+        }
 
         System.out.println(prompt + "\nDo you wish to proceed? [y/n] ");
         System.out.flush();
@@ -1066,7 +1066,7 @@ public class DBTool implements DBConstants {
             // Configuration Change Record table
             List<ChangeRecordInfo> records = jdbcStore.getAllConfigRecords();
             for (int i = 0, len = records.size(); i < len; i++) {
-                fileStore.storeConfigChangeRecord(records.get(i).getTimestamp(), (byte[]) records.get(i).getRecord(), false);
+                fileStore.storeConfigChangeRecord(records.get(i).getTimestamp(), records.get(i).getRecord(), false);
             }
             records = null;
 
@@ -1202,8 +1202,9 @@ public class DBTool implements DBConstants {
 
                 } finally {
                     bkrFS.close();
-                    if (jmsbridgeStore != null)
+                    if (jmsbridgeStore != null) {
                         jmsbridgeStore.closeJMSBridgeStore();
+                    }
                 }
             }
 
@@ -1423,8 +1424,9 @@ public class DBTool implements DBConstants {
 
                 } finally {
                     bkrFS.close();
-                    if (jmsbridgeStore != null)
+                    if (jmsbridgeStore != null) {
                         jmsbridgeStore.closeJMSBridgeStore();
+                    }
                 }
             }
 
@@ -1930,7 +1932,7 @@ public class DBTool implements DBConstants {
 
             } else if (args[i].equals(OPT_VERBOSE)) {
                 // Handled by wrapper script
-                ;
+                
             } else if (args[i].equals(OPT_DEBUG)) {
                 debugSpecified = true;
             } else if (args[i].equals(OPT_FORCE)) {
@@ -2091,7 +2093,7 @@ public class DBTool implements DBConstants {
 
         // 1st check existence of broker instance because Globals.init()
         // method will create an instance if it does not exist!
-        String configName = (String) props.getProperty(Globals.IMQ + ".instancename");
+        String configName = props.getProperty(Globals.IMQ + ".instancename");
         if (configName != null && configName.length() > 0) {
             Globals.pathinit(null);
             String topname = Globals.getJMQ_INSTANCES_HOME() + File.separator + configName;
@@ -2228,6 +2230,10 @@ public class DBTool implements DBConstants {
     }
 
     private static class ParserException extends Exception {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 2797707625946445308L;
         String cmd;
         String cmdarg;
         String opt;

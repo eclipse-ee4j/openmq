@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
-import java.io.IOException;
 import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -28,8 +27,6 @@ import java.util.Vector;
 import java.util.Hashtable;
 import java.util.HashMap;
 import java.nio.ByteBuffer;
-import javax.jms.*;
-
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;
@@ -55,6 +52,7 @@ public class GetMessagesHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {
@@ -322,7 +320,7 @@ public class GetMessagesHandler extends AdminCmdHandler {
                 try {
                     ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(msgBody);
                     ObjectInputStream objectInputStream = new FilteringObjectInputStream(byteArrayInputStream);
-                    Object objMsg = (Serializable) objectInputStream.readObject();
+                    Object objMsg = objectInputStream.readObject();
 
                     h.put("MessageBody", objMsg);
                 } catch (Exception e) {

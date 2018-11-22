@@ -20,19 +20,12 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
-import java.util.*;
 import java.nio.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
-import com.sun.messaging.jmq.jmsserver.multibroker.ClusterGlobals;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterProtocolHelper;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 
@@ -177,7 +170,7 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper {
         assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_TAKEOVER_ME_PREPARE_REPLY);
-        gp.putProp("X", (Long) pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -188,6 +181,7 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper {
         return gp;
     }
 
+    @Override
     public void sendReply(BrokerAddress recipient, int status, String reason, Object extraInfo) {
         if (!needReply()) {
             return;
@@ -205,6 +199,7 @@ public class ClusterTakeoverMEPrepareInfo implements ClusterProtocolHelper {
 
     /**
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {

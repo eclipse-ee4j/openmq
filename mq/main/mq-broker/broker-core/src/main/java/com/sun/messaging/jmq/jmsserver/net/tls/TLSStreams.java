@@ -43,6 +43,7 @@ public class TLSStreams extends TcpStreams {
         super(soc, true/* must be blocking */, inBufSz, outBufSz);
     }
 
+    @Override
     public String toString() {
         if (socket != null) {
             return "SSL/TLS connection to " + socket;
@@ -56,6 +57,7 @@ public class TLSStreams extends TcpStreams {
      * Call socket.close() instead of inputStream.close() to prevent com.sun.net.ssl.internal.ssl.AppInputStream's close()
      * and read() locking each other causing the broker to hang.
      */
+    @Override
     public synchronized void close() throws IOException {
         if (socket != null) {
             socket.close();

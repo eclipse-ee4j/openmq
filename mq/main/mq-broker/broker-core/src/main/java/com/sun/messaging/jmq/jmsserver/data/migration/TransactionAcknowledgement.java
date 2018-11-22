@@ -30,7 +30,7 @@ import java.io.*;
  * Acknowledgement for transactions.
  *
  * Object format prior to 370 filestore, use for migration purpose only.
- * 
+ *
  * @see com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement
  */
 public class TransactionAcknowledgement implements Serializable {
@@ -55,7 +55,7 @@ public class TransactionAcknowledgement implements Serializable {
 
     /**
      * Construct the acknowledgement with the specified sysid and iid.
-     * 
+     *
      * @param sysid message system id
      * @param iid interest id
      */
@@ -89,11 +89,13 @@ public class TransactionAcknowledgement implements Serializable {
     /**
      * Returns a hash code value for this object. ?? just added the hashCode of sysid and iid together ??
      */
+    @Override
     public int hashCode() {
         return sysid.hashCode() + iid.hashCode();
     }
 
     // just compare the hashcode
+    @Override
     public boolean equals(Object o) {
         if ((o instanceof TransactionAcknowledgement) && (hashCode() == o.hashCode())) {
             return true;
@@ -102,6 +104,7 @@ public class TransactionAcknowledgement implements Serializable {
         }
     }
 
+    @Override
     public String toString() {
         return "[" + sysid.toString() + "]" + iid.toString() + ":" + sid.toString();
     }

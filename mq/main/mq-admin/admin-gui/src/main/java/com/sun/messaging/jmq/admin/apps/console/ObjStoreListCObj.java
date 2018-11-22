@@ -34,6 +34,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
  *
  */
 public class ObjStoreListCObj extends ObjStoreAdminCObj {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8157671958980785296L;
     private transient ObjStoreManager osMgr = null;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private String label;
@@ -50,18 +54,22 @@ public class ObjStoreListCObj extends ObjStoreAdminCObj {
         return (osMgr);
     }
 
+    @Override
     public String getExplorerLabel() {
         return (label);
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.OBJSTORE_LIST]);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -78,22 +86,27 @@ public class ObjStoreListCObj extends ObjStoreAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (getActiveActions());
     }
 
+    @Override
     public int getActiveActions() {
         return (ActionManager.ADD);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".ObjStoreListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("JMQ Object Stores");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

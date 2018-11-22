@@ -37,6 +37,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
 
     }
 
+    @Override
     void processStoredTxnOnStartup(BaseTransaction baseTxn) {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processStoredTxnOnStartup " + baseTxn;
@@ -52,6 +53,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     TransactionEvent generateEvent(BaseTransaction baseTxn, boolean completion) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " generateEvent " + baseTxn;
@@ -71,6 +73,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         return result;
     }
 
+    @Override
     void processTxn(BaseTransaction baseTxn) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processTxn " + baseTxn;
@@ -85,6 +88,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     BaseTransaction processTxnCompletion(TransactionUID tid, int state) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processTxnCompletion " + tid;
@@ -117,8 +121,9 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         clusterTxn = (ClusterTransaction) incompleteUnstored.get(tid);
         if (clusterTxn == null) {
             clusterTxn = (ClusterTransaction) incompleteStored.get(tid);
-            if (clusterTxn != null)
+            if (clusterTxn != null) {
                 stored = true;
+            }
 
         }
         if (clusterTxn != null) {
@@ -157,11 +162,12 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         boolean allComplete = true;
         for (int i = 0; i < txnBrokers.length; i++) {
             BrokerAddress ba = txnBrokers[i].getCurrentBrokerAddress();
-            if (ba == null)
+            if (ba == null) {
                 continue;
-            if (ba.equals(b))
+            }
+            if (ba.equals(b)) {
                 result = txnBrokers[i];
-            else {
+            } else {
                 allComplete &= txnBrokers[i].isCompleted();
             }
         }
@@ -170,6 +176,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
         return allComplete;
     }
 
+    @Override
     void replayTransactionEvent(TransactionEvent txnEvent, HashSet dstLoadedSet) throws BrokerException, IOException {
 
         if (Store.getDEBUG()) {
@@ -240,6 +247,7 @@ public class ClusterTransactionManager extends BaseTransactionManager {
 
     }
 
+    @Override
     String getPrefix() {
         return "ClusterTransactionManager: " + Thread.currentThread().getName();
     }

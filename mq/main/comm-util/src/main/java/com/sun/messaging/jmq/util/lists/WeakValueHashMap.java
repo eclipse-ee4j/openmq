@@ -37,6 +37,7 @@ public class WeakValueHashMap implements Map {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return "WeakValueHashMap(" + name + ")";
     }
@@ -59,6 +60,7 @@ public class WeakValueHashMap implements Map {
             this.mykey = key;
         }
 
+        @Override
         public int hashCode() {
             return mykey.hashCode();
         }
@@ -67,6 +69,7 @@ public class WeakValueHashMap implements Map {
             return mykey;
         }
 
+        @Override
         public String toString() {
             return mykey.toString();
         }
@@ -80,6 +83,7 @@ public class WeakValueHashMap implements Map {
      *
      * @return the number of key-value mappings in this map.
      */
+    @Override
     public int size() {
         cleanupMap();
         return baseMap.size();
@@ -90,6 +94,7 @@ public class WeakValueHashMap implements Map {
      *
      * @return <tt>true</tt> if this map contains no key-value mappings.
      */
+    @Override
     public boolean isEmpty() {
         cleanupMap();
         return baseMap.isEmpty();
@@ -102,11 +107,12 @@ public class WeakValueHashMap implements Map {
      *
      * @param key key whose presence in this map is to be tested.
      * @return <tt>true</tt> if this map contains a mapping for the specified key.
-     * 
+     *
      * @throws ClassCastException if the key is of an inappropriate type for this map (optional).
      * @throws NullPointerException if the key is <tt>null</tt> and this map does not not permit <tt>null</tt> keys
      * (optional).
      */
+    @Override
     public boolean containsKey(Object key) {
         WeakReference k = (WeakReference) baseMap.get(key);
         return k != null && !k.isEnqueued();
@@ -124,6 +130,7 @@ public class WeakValueHashMap implements Map {
      * @throws NullPointerException if the value is <tt>null</tt> and this map does not not permit <tt>null</tt> values
      * (optional).
      */
+    @Override
     public boolean containsValue(Object value) {
         cleanupMap();
         return baseMap.containsValue(value);
@@ -144,12 +151,13 @@ public class WeakValueHashMap implements Map {
      * @param key key whose associated value is to be returned.
      * @return the value to which this map maps the specified key, or <tt>null</tt> if the map contains no mapping for this
      * key.
-     * 
+     *
      * @throws ClassCastException if the key is of an inappropriate type for this map (optional).
      * @throws NullPointerException key is <tt>null</tt> and this map does not not permit <tt>null</tt> keys (optional).
-     * 
+     *
      * @see #containsKey(Object)
      */
+    @Override
     public Object get(Object key) {
         cleanupMap();
         Reference ref = (Reference) baseMap.get(key);
@@ -169,13 +177,14 @@ public class WeakValueHashMap implements Map {
      * @return previous value associated with specified key, or <tt>null</tt> if there was no mapping for key. A
      * <tt>null</tt> return can also indicate that the map previously associated <tt>null</tt> with the specified key, if
      * the implementation supports <tt>null</tt> values.
-     * 
+     *
      * @throws UnsupportedOperationException if the <tt>put</tt> operation is not supported by this map.
      * @throws ClassCastException if the class of the specified key or value prevents it from being stored in this map.
      * @throws IllegalArgumentException if some aspect of this key or value prevents it from being stored in this map.
      * @throws NullPointerException this map does not permit <tt>null</tt> keys or values, and the specified key or value is
      * <tt>null</tt>.
      */
+    @Override
     public Object put(Object key, Object value) {
         cleanupMap();
         MyWeakValueReference ref = new MyWeakValueReference(key, value, myqueue);
@@ -203,6 +212,7 @@ public class WeakValueHashMap implements Map {
      * (optional).
      * @throws UnsupportedOperationException if the <tt>remove</tt> method is not supported by this map.
      */
+    @Override
     public Object remove(Object key) {
         cleanupMap();
         WeakReference ref = (WeakReference) baseMap.remove(key);
@@ -218,17 +228,18 @@ public class WeakValueHashMap implements Map {
      * map is modified while the operation is in progress.
      *
      * @param t Mappings to be stored in this map.
-     * 
+     *
      * @throws UnsupportedOperationException if the <tt>putAll</tt> method is not supported by this map.
-     * 
+     *
      * @throws ClassCastException if the class of a key or value in the specified map prevents it from being stored in this
      * map.
-     * 
+     *
      * @throws IllegalArgumentException some aspect of a key or value in the specified map prevents it from being stored in
      * this map.
      * @throws NullPointerException the specified map is <tt>null</tt>, or if this map does not permit <tt>null</tt> keys or
      * values, and the specified map contains <tt>null</tt> keys or values.
      */
+    @Override
     public void putAll(Map t) {
         cleanupMap();
         baseMap.putAll(t);
@@ -239,6 +250,7 @@ public class WeakValueHashMap implements Map {
      *
      * @throws UnsupportedOperationException clear is not supported by this map.
      */
+    @Override
     public void clear() {
         cleanupMap();
         baseMap.clear();
@@ -255,6 +267,7 @@ public class WeakValueHashMap implements Map {
      *
      * @return a set view of the keys contained in this map.
      */
+    @Override
     public Set keySet() {
         cleanupMap();
         return baseMap.keySet();
@@ -271,6 +284,7 @@ public class WeakValueHashMap implements Map {
      */
     private transient Collection values = null;
 
+    @Override
     public Collection values() {
         cleanupMap();
         Collection vs = values;
@@ -285,6 +299,7 @@ public class WeakValueHashMap implements Map {
             this.itr = itr;
         }
 
+        @Override
         public boolean hasNext() {
             if (next != null) {
                 return true;
@@ -306,6 +321,7 @@ public class WeakValueHashMap implements Map {
 
         }
 
+        @Override
         public Object next() {
             if (next == null) {
                 if (!hasNext()) {
@@ -324,39 +340,48 @@ public class WeakValueHashMap implements Map {
             return refval;
         }
 
+        @Override
         public void remove() {
             itr.remove();
         }
     }
 
     private class Values extends AbstractCollection {
+        @Override
         public Iterator iterator() {
             return new ValueIterator(baseMap.values().iterator());
         }
 
+        @Override
         public int size() {
             return WeakValueHashMap.this.size();
         }
 
+        @Override
         public boolean contains(Object o) {
             return containsValue(o);
         }
 
+        @Override
         public void clear() {
             WeakValueHashMap.this.clear();
         }
 
+        @Override
         public Object[] toArray() {
             Collection c = new ArrayList(size());
-            for (Iterator i = iterator(); i.hasNext();)
+            for (Iterator i = iterator(); i.hasNext();) {
                 c.add(i.next());
+            }
             return c.toArray();
         }
 
+        @Override
         public Object[] toArray(Object a[]) {
             Collection c = new ArrayList(size());
-            for (Iterator i = iterator(); i.hasNext();)
+            for (Iterator i = iterator(); i.hasNext();) {
                 c.add(i.next());
+            }
             return c.toArray(a);
         }
     }
@@ -373,6 +398,7 @@ public class WeakValueHashMap implements Map {
      */
     private transient Set entrySet = null;
 
+    @Override
     public Set entrySet() {
         cleanupMap();
         Set vs = entrySet;
@@ -387,6 +413,7 @@ public class WeakValueHashMap implements Map {
             this.itr = itr;
         }
 
+        @Override
         public boolean hasNext() {
             if (nextentry != null) {
                 return true;
@@ -409,6 +436,7 @@ public class WeakValueHashMap implements Map {
 
         }
 
+        @Override
         public Object next() {
             if (nextentry == null) {
                 if (!hasNext()) {
@@ -420,34 +448,42 @@ public class WeakValueHashMap implements Map {
             return returnval;
         }
 
+        @Override
         public void remove() {
             itr.remove();
         }
     }
 
     private class EntrySet extends AbstractSet {
+        @Override
         public Iterator iterator() {
             return new newEntryIterator(baseMap.entrySet().iterator());
         }
 
+        @Override
         public boolean contains(Object o) {
-            if (!(o instanceof Map.Entry))
+            if (!(o instanceof Map.Entry)) {
                 return false;
+            }
             Map.Entry e = (Map.Entry) o;
             return WeakValueHashMap.this.containsKey(e.getKey());
         }
 
+        @Override
         public boolean remove(Object o) {
-            if (!(o instanceof Map.Entry))
+            if (!(o instanceof Map.Entry)) {
                 return false;
+            }
             Map.Entry e = (Map.Entry) o;
             return WeakValueHashMap.this.remove(e.getKey()) != null;
         }
 
+        @Override
         public int size() {
             return WeakValueHashMap.this.size();
         }
 
+        @Override
         public void clear() {
             WeakValueHashMap.this.clear();
         }
@@ -479,6 +515,7 @@ public class WeakValueHashMap implements Map {
          *
          * @return the key corresponding to this entry.
          */
+        @Override
         public Object getKey() {
             return key;
         }
@@ -489,6 +526,7 @@ public class WeakValueHashMap implements Map {
          *
          * @return the value corresponding to this entry.
          */
+        @Override
         public Object getValue() {
             return value;
         }
@@ -500,13 +538,14 @@ public class WeakValueHashMap implements Map {
          *
          * @param value new value to be stored in this entry.
          * @return old value corresponding to the entry.
-         * 
+         *
          * @throws UnsupportedOperationException if the <tt>put</tt> operation is not supported by the backing map.
          * @throws ClassCastException if the class of the specified value prevents it from being stored in the backing map.
          * @throws IllegalArgumentException if some aspect of this value prevents it from being stored in the backing map.
          * @throws NullPointerException the backing map does not permit <tt>null</tt> values, and the specified value is
          * <tt>null</tt>.
          */
+        @Override
         public Object setValue(Object value) {
             throw new UnsupportedOperationException("not supported");
         }
@@ -515,18 +554,19 @@ public class WeakValueHashMap implements Map {
          * Compares the specified object with this entry for equality. Returns <tt>true</tt> if the given object is also a map
          * entry and the two entries represent the same mapping. More formally, two entries <tt>e1</tt> and <tt>e2</tt>
          * represent the same mapping if
-         * 
+         *
          * <pre>
          * (e1.getKey() == null ? e2.getKey() == null : e1.getKey().equals(e2.getKey()))
          *         && (e1.getValue() == null ? e2.getValue() == null : e1.getValue().equals(e2.getValue()))
          * </pre>
-         * 
+         *
          * This ensures that the <tt>equals</tt> method works properly across different implementations of the
          * <tt>Map.Entry</tt> interface.
          *
          * @param o object to be compared for equality with this map entry.
          * @return <tt>true</tt> if the specified object is equal to this map entry.
          */
+        @Override
         public boolean equals(Object o) {
 
             if (o instanceof Map.Entry) {
@@ -541,11 +581,11 @@ public class WeakValueHashMap implements Map {
 
         /**
          * Returns the hash code value for this map entry. The hash code of a map entry <tt>e</tt> is defined to be:
-         * 
+         *
          * <pre>
          * (e.getKey() == null ? 0 : e.getKey().hashCode()) ^ (e.getValue() == null ? 0 : e.getValue().hashCode())
          * </pre>
-         * 
+         *
          * This ensures that <tt>e1.equals(e2)</tt> implies that <tt>e1.hashCode()==e2.hashCode()</tt> for any two Entries
          * <tt>e1</tt> and <tt>e2</tt>, as required by the general contract of <tt>Object.hashCode</tt>.
          *
@@ -554,6 +594,7 @@ public class WeakValueHashMap implements Map {
          * @see Object#equals(Object)
          * @see #equals(Object)
          */
+        @Override
         public int hashCode() {
             return (getKey() == null ? 0 : getKey().hashCode()) ^ (getValue() == null ? 0 : getValue().hashCode());
         }
@@ -570,6 +611,7 @@ public class WeakValueHashMap implements Map {
      * @param o object to be compared for equality with this map.
      * @return <tt>true</tt> if the specified object is equal to this map.
      */
+    @Override
     public boolean equals(Object o) {
         cleanupMap();
         if (o instanceof WeakValueHashMap) {
@@ -591,6 +633,7 @@ public class WeakValueHashMap implements Map {
      * @see Object#equals(Object)
      * @see #equals(Object)
      */
+    @Override
     public int hashCode() {
         cleanupMap();
         return baseMap.hashCode();

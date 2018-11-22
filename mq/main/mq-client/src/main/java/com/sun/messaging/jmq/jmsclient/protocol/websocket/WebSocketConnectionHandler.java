@@ -21,21 +21,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.ByteBuffer;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.Properties;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Logger;
 import java.util.logging.Level;
-import javax.websocket.Encoder;
-import javax.websocket.Decoder;
 import javax.websocket.Session;
 import javax.websocket.Endpoint;
-import javax.websocket.EncodeException;
-import javax.websocket.DecodeException;
 import javax.websocket.ContainerProvider;
 import javax.websocket.WebSocketContainer;
 import javax.websocket.MessageHandler;
@@ -80,7 +72,7 @@ public class WebSocketConnectionHandler extends Endpoint implements ConnectionHa
     public WebSocketConnectionHandler(MQAddress addr, ConnectionImpl conn) {
         this.mqaddr = addr;
         this.connectTimeout = conn.getSocketConnectTimeout();
-        this.conn = (ConnectionImpl) conn;
+        this.conn = conn;
     }
 
     /*************************************************************
@@ -153,10 +145,12 @@ public class WebSocketConnectionHandler extends Endpoint implements ConnectionHa
         }
 
         pkt.writePacket(new ByteBufferOutput() {
+            @Override
             public void writeByteBuffer(ByteBuffer data) throws IOException {
                 session.getBasicRemote().sendBinary(data);
             }
 
+            @Override
             public void writeBytes(byte[] data) throws IOException {
                 throw new IOException("Unexpected call", new UnsupportedOperationException("writeBytes(byte[])"));
             }

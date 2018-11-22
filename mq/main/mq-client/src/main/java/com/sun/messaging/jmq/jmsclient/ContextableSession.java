@@ -21,19 +21,19 @@ import javax.jms.JMSException;
 /**
  * All Session objects which are able to be wrapped in a JMSContextImpl need to implement this interface, which defines
  * some private methods needed by JMSContextImpl
- * 
+ *
  */
 public interface ContextableSession {
 
     /**
      * Acknowledges all consumed messages of this session
-     * 
+     *
      * Calls to acknowledge are ignored for both transacted sessions and sessions specified to use implicit acknowledgement
      * modes.
-     * 
+     *
      * Note that if an acknowledge() method is added to Session in JMS 2.0, that method can be used instead and this method
      * will be redundant
-     * 
+     *
      * @throws JMSException if the JMS provider fails to acknowledge the messages due to some internal error.
      * @throws IllegalStateException if this method is called on a closed session.
      */

@@ -19,10 +19,8 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc.sharecc;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
-import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.*;
@@ -294,6 +292,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         }
     }
 
+    @Override
     public Properties getStoreShareProperties() {
         if (dbmgr == null) {
             throw new RuntimeException("JDBShareConfigChangeStore not initialized");
@@ -303,6 +302,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         return p;
     }
 
+    @Override
     public String getVendorPropertySetting() {
         return dbmgr.getVendorProp() + "=" + dbmgr.getVendor();
     }
@@ -334,6 +334,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         }
     }
 
+    @Override
     public ChangeRecordInfo storeChangeRecord(ChangeRecordInfo rec, boolean sync) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.DEBUG, "JDBCShareCCStore.storeChangeRecord called");
@@ -361,6 +362,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         }
     }
 
+    @Override
     public void storeResetRecord(ChangeRecordInfo rec, boolean canExist, boolean sync) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCShareCCStore.storeResetRecord called");
@@ -391,9 +393,10 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
 
     /**
      * Retrieves all the records whose sequence number greater than the specified seq
-     * 
+     *
      * @return a List
      */
+    @Override
     public List<ChangeRecordInfo> getChangeRecordsSince(Long seq, String resetUUID, boolean canReset) throws BrokerException {
 
         if (DEBUG) {
@@ -426,6 +429,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
      * @return
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public List<ChangeRecordInfo> getAllChangeRecords() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -458,6 +462,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
      * @param sync ignored
      * @exception BrokerException
      */
+    @Override
     public void clearAllChangeRecords(boolean sync) throws BrokerException {
 
         if (DEBUG) {
@@ -485,12 +490,14 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
         }
     }
 
+    @Override
     public void beforeWaitAfterSetClosed() {
         if (dbmgr != null) {
             dbmgr.setIsClosing();
         }
     }
 
+    @Override
     public void close() {
 
         try {
@@ -513,7 +520,7 @@ public class JDBCShareConfigChangeStore extends ShareConfigChangeStore implement
 
     /*
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     public Hashtable getDebugState() throws BrokerException {

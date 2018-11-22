@@ -103,6 +103,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
 
     // serialize message body
     // This is called when producing messages.
+    @Override
     protected void setMessageBodyToPacket() throws JMSException {
 
         try {
@@ -126,6 +127,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
 
     // deserialize message body
     // This is called after message is received in Session Reader.
+    @Override
     protected void getMessageBodyFromPacket() throws JMSException {
 
         try {
@@ -143,6 +145,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
     /*
      * Over writing super class method.
      */
+    @Override
     public void clearBody() throws JMSException {
         mapMessage.clear();
         setMessageReadMode(false);
@@ -159,6 +162,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public boolean getBoolean(String name) throws JMSException {
         return ValueConvert.toBoolean(mapMessage.get(name));
     }
@@ -174,6 +178,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public byte getByte(String name) throws JMSException {
         return ValueConvert.toByte(mapMessage.get(name));
     }
@@ -189,6 +194,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public short getShort(String name) throws JMSException {
         return ValueConvert.toShort(mapMessage.get(name));
     }
@@ -204,6 +210,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public char getChar(String name) throws JMSException {
         return ValueConvert.toChar(mapMessage.get(name));
     }
@@ -219,6 +226,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public int getInt(String name) throws JMSException {
         return ValueConvert.toInt(mapMessage.get(name));
     }
@@ -234,6 +242,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public long getLong(String name) throws JMSException {
         return ValueConvert.toLong(mapMessage.get(name));
     }
@@ -249,6 +258,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public float getFloat(String name) throws JMSException {
         return ValueConvert.toFloat(mapMessage.get(name));
     }
@@ -264,6 +274,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public double getDouble(String name) throws JMSException {
         return ValueConvert.toDouble(mapMessage.get(name));
     }
@@ -279,6 +290,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public String getString(String name) throws JMSException {
         return ValueConvert.toString(mapMessage.get(name));
     }
@@ -295,6 +307,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageFormatException if this type conversion is invalid.
      */
 
+    @Override
     public byte[] getBytes(String name) throws JMSException {
         Object obj = mapMessage.get(name);
         if (obj == null) {
@@ -328,6 +341,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public Object getObject(String name) throws JMSException {
         return mapMessage.get(name);
     }
@@ -340,6 +354,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception JMSException if JMS fails to read message due to some internal JMS error.
      */
 
+    @Override
     public Enumeration getMapNames() throws JMSException {
         // return mapMessage.keys();
         Set names = mapMessage.keySet();
@@ -356,6 +371,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setBoolean(String name, boolean value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -372,6 +388,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setByte(String name, byte value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -388,6 +405,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setShort(String name, short value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -404,6 +422,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setChar(String name, char value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -420,6 +439,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setInt(String name, int value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -436,6 +456,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setLong(String name, long value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -452,6 +473,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setFloat(String name, float value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -468,6 +490,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setDouble(String name, double value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -484,6 +507,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setString(String name, String value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -501,6 +525,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setBytes(String name, byte[] value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -519,6 +544,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setBytes(String name, byte[] value, int offset, int length) throws JMSException {
 
         checkMessageAccess();
@@ -545,6 +571,7 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception MessageNotWriteableException if message in read-only mode.
      */
 
+    @Override
     public void setObject(String name, Object value) throws JMSException {
         checkMessageAccess();
         checkName(name);
@@ -588,15 +615,18 @@ public class MapMessageImpl extends MessageImpl implements MapMessage {
      * @exception JMSException if a JMS error occurs.
      */
 
+    @Override
     public boolean itemExists(String name) throws JMSException {
         return (mapMessage.containsKey(name));
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ MapMessageImpl dump ------");
         super.dump(ps);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }

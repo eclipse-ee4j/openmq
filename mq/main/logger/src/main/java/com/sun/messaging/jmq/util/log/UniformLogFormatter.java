@@ -78,7 +78,7 @@ public class UniformLogFormatter extends Formatter {
 
     private long recordNumber = 0;
 
-    private static final String LINE_SEPARATOR = (String) java.security.AccessController
+    private static final String LINE_SEPARATOR = java.security.AccessController
             .doPrivileged(new sun.security.action.GetPropertyAction("line.separator"));
 
     private String recordBeginMarker;
@@ -129,7 +129,7 @@ public class UniformLogFormatter extends Formatter {
      */
     protected String getProductId() {
 
-//        String version = Version.getAbbreviatedVersion() + Version.getVersionPrefix() + 
+//        String version = Version.getAbbreviatedVersion() + Version.getVersionPrefix() +
 //                Version.getMajorVersion() + "." + Version.getMinorVersion();
 //        return (version);
         return version.getProductVersion();

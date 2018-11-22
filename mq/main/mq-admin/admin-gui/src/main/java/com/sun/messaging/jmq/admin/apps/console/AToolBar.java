@@ -34,6 +34,10 @@ import javax.swing.ImageIcon;
  */
 public class AToolBar extends JToolBar {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5326652359682344028L;
     private ConsoleObj conObj = null;
     private ActionManager actionMgr;
     private boolean displayIcons, displayText, displayToolTip;

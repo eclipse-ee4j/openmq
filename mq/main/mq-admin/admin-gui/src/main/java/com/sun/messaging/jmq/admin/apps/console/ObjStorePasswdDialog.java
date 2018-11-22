@@ -23,9 +23,7 @@ package com.sun.messaging.jmq.admin.apps.console;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.Vector;
 
 import javax.naming.Context;
@@ -49,6 +47,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  */
 public class ObjStorePasswdDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7799138711805026864L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
 
@@ -79,6 +81,7 @@ public class ObjStorePasswdDialog extends AdminDialog {
         setHelpId(ConsoleHelpID.CONNECT_OBJECT_STORE);
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         JPanel workPanel = new JPanel();
@@ -105,6 +108,7 @@ public class ObjStorePasswdDialog extends AdminDialog {
         return (workPanel);
     }
 
+    @Override
     public void doOK() {
         String principalValue = principalText.getText().trim();
 
@@ -145,20 +149,25 @@ public class ObjStorePasswdDialog extends AdminDialog {
 
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
         principalText.setText("");
         credentialsText.setText("");
@@ -197,6 +206,7 @@ public class ObjStorePasswdDialog extends AdminDialog {
     /**********************************************************************
      * ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent ev) {
 
         if (ev.getSource() == principalText) {

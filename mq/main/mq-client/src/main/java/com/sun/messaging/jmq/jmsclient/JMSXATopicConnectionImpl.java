@@ -41,14 +41,15 @@ public class JMSXATopicConnectionImpl extends XATopicConnectionImpl {
 
     /**
      * Create an XATopicSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public JMSXATopicSession createXATopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
 
         checkConnectionState();
@@ -61,10 +62,11 @@ public class JMSXATopicConnectionImpl extends XATopicConnectionImpl {
 
     /**
      * get a TopicConnection associated with this XATopicConnection object.
-     * 
+     *
      * @return a TopicConnection.
      */
+    @Override
     public TopicConnection getTopicConnection() {
-        return (TopicConnection) this;
+        return this;
     }
 }

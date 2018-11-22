@@ -36,6 +36,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
         super(transactionLogManager);
     }
 
+    @Override
     void processStoredTxnOnStartup(BaseTransaction baseTxn) {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processStoredTxnOnStartup " + baseTxn;
@@ -51,6 +52,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     TransactionEvent generateEvent(BaseTransaction baseTxn, boolean completion) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             Globals.getLogger().log(Logger.DEBUG, getPrefix() + " generateEvent ");
@@ -69,6 +71,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
         return result;
     }
 
+    @Override
     void processTxn(BaseTransaction baseTxn) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             String msg = getPrefix() + " processTxn " + baseTxn;
@@ -83,6 +86,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
         }
     }
 
+    @Override
     BaseTransaction processTxnCompletion(TransactionUID tid, int state) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             Globals.getLogger().log(Logger.DEBUG, getPrefix() + " processTxnCompletion " + tid);
@@ -95,6 +99,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
         return processTxnCompletion(tid, state, removeFromStore);
     }
 
+    @Override
     void replayTransactionEvent(TransactionEvent txnEvent, HashSet dstLoadedSet) throws BrokerException, IOException {
 
         if (Store.getDEBUG()) {
@@ -161,6 +166,7 @@ public class RemoteTransactionManager extends BaseTransactionManager {
 
     }
 
+    @Override
     String getPrefix() {
         return "RemoteTransactionManager: " + Thread.currentThread().getName();
     }

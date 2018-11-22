@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-import java.util.Properties;
-
 /**
  *
  */
@@ -31,7 +29,7 @@ public interface JMSRABroker extends JMSBroker {
      * Return the default JMS Service that supports 'DIRECT' in-JVM Java EE JMS clients.
      *
      * @throws IllegalStateException if the broker is already stopped
-     * 
+     *
      */
     public JMSService getJMSService() throws IllegalStateException;
 

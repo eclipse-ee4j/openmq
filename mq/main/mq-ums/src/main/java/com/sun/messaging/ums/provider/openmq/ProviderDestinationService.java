@@ -57,7 +57,7 @@ public class ProviderDestinationService {
 
     /**
      * Called by UMS immediately after constructed.
-     * 
+     *
      * @param props properties used by the connection factory.
      * @throws javax.jms.JMSException
      */
@@ -94,7 +94,7 @@ public class ProviderDestinationService {
 
     /**
      * Same as JMS ConnectionFactory.createConnection();
-     * 
+     *
      * @return
      * @throws javax.jms.JMSException
      */
@@ -104,7 +104,7 @@ public class ProviderDestinationService {
 
     /**
      * Same as JMS ConnectionFactory.createConnection(String user, String password);
-     * 
+     *
      * @param user
      * @param password
      * @return
@@ -219,7 +219,7 @@ public class ProviderDestinationService {
                 }
 
             } catch (Exception e) {
-                ;
+                
             }
         }
 
@@ -284,7 +284,7 @@ public class ProviderDestinationService {
                 }
 
             } catch (Exception e) {
-                ;
+                
             }
         }
 
@@ -293,7 +293,7 @@ public class ProviderDestinationService {
 
     /**
      * XXX: review
-     * 
+     *
      * @param user
      * @param pass
      * @throws javax.jms.JMSException

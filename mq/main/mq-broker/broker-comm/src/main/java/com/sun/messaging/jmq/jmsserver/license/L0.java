@@ -18,7 +18,6 @@ package com.sun.messaging.jmq.jmsserver.license;
 
 import java.io.*;
 import java.util.*;
-import java.security.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
@@ -64,6 +63,7 @@ public class L0 extends LicenseBase {
         }
     }
 
+    @Override
     public boolean isLicenseFileRequired() {
         return false;
     }

@@ -21,10 +21,8 @@
 package com.sun.messaging.jmq.jmsclient.protocol.http;
 
 import java.io.*;
-import java.net.*;
 import javax.jms.*;
 
-import com.sun.messaging.AdministeredObject;
 import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
@@ -64,7 +62,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     }
 
     public HTTPConnectionHandler(MQAddress addr, ConnectionImpl conn) throws JMSException {
-        ConnectionImpl connection = (ConnectionImpl) conn;
+        ConnectionImpl connection = conn;
         URLString = addr.getURL();
 
         if (URLString == null) {
@@ -84,6 +82,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     /**
      * Get socket input stream.
      */
+    @Override
     public InputStream getInputStream() throws IOException {
         return socket.getInputStream();
     }
@@ -91,6 +90,7 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     /**
      * Get socket output stream.
      */
+    @Override
     public OutputStream getOutputStream() throws IOException {
         return socket.getOutputStream();
     }
@@ -98,18 +98,22 @@ public class HTTPConnectionHandler extends SocketConnectionHandler {
     /**
      * Get socket local port for the current connection.
      */
+    @Override
     public int getLocalPort() throws IOException {
         return socket.getConnId();
     }
 
+    @Override
     protected void closeSocket() throws IOException {
         socket.close();
     }
 
+    @Override
     public String getBrokerHostName() {
         return this.URLString;
     }
 
+    @Override
     public String getBrokerAddress() {
         return this.URLString;
     }

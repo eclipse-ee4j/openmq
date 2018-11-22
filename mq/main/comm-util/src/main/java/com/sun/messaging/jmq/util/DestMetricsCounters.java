@@ -110,7 +110,7 @@ public class DestMetricsCounters extends HashMap {
     public long getLongProperty(String propName) {
         Long l = (Long) get(propName);
         if (l == null) {
-            return (long) 0;
+            return 0;
         }
         return l.longValue();
     }
@@ -412,7 +412,7 @@ public class DestMetricsCounters extends HashMap {
      * System.out.println("getAverageMessages = " + dmc.getAverageMessages());
      * System.out.println("getAverageMessageBytes = " + dmc.getAverageMessageBytes());
      * System.out.println("----------------- DONE ----------");
-     * 
+     *
      * }
      */
 }

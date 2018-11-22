@@ -16,10 +16,8 @@
 
 package com.sun.messaging.bridge.service.stomp;
 
-import java.util.Iterator;
 import java.util.Enumeration;
 import java.util.Properties;
-import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.jms.*;
@@ -124,21 +122,25 @@ public class StompSenderSession implements StompSession {
             this.mt = mt;
         }
 
+        @Override
         public void setText(StompFrameMessage message) throws Exception {
             jmsmsg = session.createTextMessage();
             ((TextMessage) jmsmsg).setText(message.getBodyText());
         }
 
+        @Override
         public void setBytes(StompFrameMessage message) throws Exception {
             jmsmsg = session.createBytesMessage();
             ((BytesMessage) jmsmsg).writeBytes(message.getBody());
         }
 
+        @Override
         public void setDestination(String stompdest) throws Exception {
             StompDestination d = stompconn.getProtocolHandler().toStompDestination(stompdest, StompSenderSession.this, false);
             this.jmsdest = ((StompDestinationImpl) d).getJMSDestination();
         }
 
+        @Override
         public void setReplyTo(String replyto) throws Exception {
             if (replyto == null) {
                 return;
@@ -148,6 +150,7 @@ public class StompSenderSession implements StompSession {
             jmsmsg.setJMSReplyTo(jmsdestr);
         }
 
+        @Override
         public void setPersistent(String v) throws Exception {
             if (v == null) {
                 return;
@@ -156,6 +159,7 @@ public class StompSenderSession implements StompSession {
             jmsmsg.setJMSDeliveryMode(deliveryMode);
         }
 
+        @Override
         public void setJMSExpiration(String v) throws Exception {
             if (v == null) {
                 return;
@@ -166,6 +170,7 @@ public class StompSenderSession implements StompSession {
             }
         }
 
+        @Override
         public void setJMSPriority(String v) throws Exception {
             if (v == null) {
                 return;
@@ -174,18 +179,21 @@ public class StompSenderSession implements StompSession {
             jmsmsg.setJMSPriority(pri);
         }
 
+        @Override
         public void setJMSCorrelationID(String v) throws Exception {
             if (v != null) {
                 jmsmsg.setJMSCorrelationID(v);
             }
         }
 
+        @Override
         public void setJMSType(String v) throws Exception {
             if (v != null) {
                 jmsmsg.setJMSType(v);
             }
         }
 
+        @Override
         public void setProperty(String name, String value) throws Exception {
             try {
                 jmsmsg.setStringProperty(name, value);
@@ -205,66 +213,82 @@ public class StompSenderSession implements StompSession {
             }
         }
 
+        @Override
         public String getSubscriptionID() throws Exception {
             throw new RuntimeException("Unexpected call: getSubscriptionID()");
         }
 
+        @Override
         public String getDestination() throws Exception {
             throw new RuntimeException("Unexpected call: getDestination()");
         }
 
+        @Override
         public String getReplyTo() throws Exception {
             throw new RuntimeException("Unexpected call: getReplyTo()");
         }
 
+        @Override
         public String getJMSMessageID() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSMessageID()");
         }
 
+        @Override
         public String getJMSCorrelationID() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSCorrelationID()");
         }
 
+        @Override
         public String getJMSExpiration() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSExpiration()");
         }
 
+        @Override
         public String getJMSRedelivered() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSRedelivered()");
         }
 
+        @Override
         public String getJMSPriority() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSPriority()");
         }
 
+        @Override
         public String getJMSTimestamp() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSTimestamp()");
         }
 
+        @Override
         public String getJMSType() throws Exception {
             throw new RuntimeException("Unexpected call: getJMSType()");
         }
 
+        @Override
         public Enumeration getPropertyNames() throws Exception {
             throw new RuntimeException("Unexpected call: getPropertyNames()");
         }
 
+        @Override
         public String getProperty(String name) throws Exception {
             throw new RuntimeException("Unexpected call: getProperty()");
         }
 
+        @Override
         public boolean isTextMessage() throws Exception {
             throw new RuntimeException("Unexpected call: isTextMessage()");
         }
 
+        @Override
         public boolean isBytesMessage() throws Exception {
             throw new RuntimeException("Unexpected call: isBytesMessage()");
         }
 
+        @Override
         public String getText() throws Exception {
             throw new RuntimeException("Unexpected call: getText()");
         }
 
+        @Override
         public byte[] getBytes() throws Exception {
             throw new RuntimeException("Unexpected call: getBytes()");
         }

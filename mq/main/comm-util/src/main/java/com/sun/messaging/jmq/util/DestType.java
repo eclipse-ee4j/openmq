@@ -22,20 +22,20 @@ package com.sun.messaging.jmq.util;
 
 /**
  * DestType defines the bitmaps for setting destination types. Strictly speaking a destination has three attributes:
- * 
+ *
  * <pre>
  *      1. Its type (Queue or Topic)
  *      2. Its lifespan (temporary or not)
  *      3. Its flavor (single, round robin, failover, etc)
  * </pre>
- * 
+ *
  * In practice all combinations are not used (for example you don't have round-robin topics), but by using bitmaps we
  * have that flexibility.
  * <P>
  * This class defines the bitmaps to specify these three components of a destination type.
  * <P>
  * A couple examples of specifying a destination type are:
- * 
+ *
  * <pre>
  * // A round robin queue
  * int type = DEST_TYPE_QUEUE | DEST_FLAVOR_RROBIN;
@@ -63,21 +63,24 @@ public class DestType {
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static final int DEST_FLAVOR_SINGLE = 0x00000100;
 
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static final int DEST_FLAVOR_RROBIN = 0x00000200;
 
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static final int DEST_FLAVOR_FAILOVER = 0x00000400;
 
     /**
      * Internal destination name prefix
-     * 
+     *
      * @since 3.5
      */
     public static final String INTERNAL_DEST_PREFIX = "mq.";
@@ -90,12 +93,15 @@ public class DestType {
      */
     public static String queueOrTopic(int type) {
         // only access control for non-temp QUEUES and TOPICS
-        if ((type & DEST_TEMP) == DEST_TEMP)
+        if ((type & DEST_TEMP) == DEST_TEMP) {
             return null;
-        if ((type & DEST_TYPE_QUEUE) == DEST_TYPE_QUEUE)
+        }
+        if ((type & DEST_TYPE_QUEUE) == DEST_TYPE_QUEUE) {
             return toString(DEST_TYPE_QUEUE);
-        if ((type & DEST_TYPE_TOPIC) == DEST_TYPE_TOPIC)
+        }
+        if ((type & DEST_TYPE_TOPIC) == DEST_TYPE_TOPIC) {
             return toString(DEST_TYPE_TOPIC);
+        }
         return null;
     }
 
@@ -184,6 +190,7 @@ public class DestType {
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static boolean isSingle(int mask) {
         return (mask & DEST_FLAVOR_SINGLE) == DEST_FLAVOR_SINGLE;
     }
@@ -191,6 +198,7 @@ public class DestType {
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static boolean isRRobin(int mask) {
         return (mask & DEST_FLAVOR_RROBIN) == DEST_FLAVOR_RROBIN;
     }
@@ -198,6 +206,7 @@ public class DestType {
     /**
      * @deprecated since 3.5
      */
+    @Deprecated
     public static boolean isFailover(int mask) {
         return (mask & DEST_FLAVOR_FAILOVER) == DEST_FLAVOR_FAILOVER;
     }

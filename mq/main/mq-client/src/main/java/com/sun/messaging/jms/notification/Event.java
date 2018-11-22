@@ -28,6 +28,11 @@ package com.sun.messaging.jms.notification;
 public class Event extends java.util.EventObject {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 3331300887622929557L;
+
+    /**
      * MQ event code.
      */
     private String eventCode = null;
@@ -53,7 +58,7 @@ public class Event extends java.util.EventObject {
 
     /**
      * Get the event code associated with the MQ event.
-     * 
+     *
      * @return the event code associated with the MQ event.
      */
     public String getEventCode() {
@@ -62,7 +67,7 @@ public class Event extends java.util.EventObject {
 
     /**
      * Get the event message associated with the connection event.
-     * 
+     *
      * @return the event message associated with the connection event.
      */
     public String getEventMessage() {
@@ -76,6 +81,7 @@ public class Event extends java.util.EventObject {
      *
      * @return a String representation of this EventObject.
      */
+    @Override
     public String toString() {
         return this.getEventCode() + ":" + this.getEventMessage() + ", " + super.toString();
     }

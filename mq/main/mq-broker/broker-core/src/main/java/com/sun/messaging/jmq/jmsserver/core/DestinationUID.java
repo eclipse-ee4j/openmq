@@ -29,7 +29,6 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import java.util.Collections;
 import java.util.Map;
-import java.util.HashMap;
 import java.util.regex.*;
 import java.io.IOException;
 
@@ -59,8 +58,9 @@ public class DestinationUID extends StringUID {
         this.name = name;
         this.isQueue = queue;
         if (isWildcard(this.name)) {
-            if (isQueue)
+            if (isQueue) {
                 throw new BrokerException("Wildcards are not supported for queues", Status.UNSUPPORTED_TYPE);
+            }
             String regEx = createRegExString(name);
             regExPattern = Pattern.compile(regEx);
         }
@@ -71,8 +71,9 @@ public class DestinationUID extends StringUID {
         name = getName(str);
         isQueue = getIsQueue(str);
         if (isWildcard(this.name)) {
-            if (isQueue)
+            if (isQueue) {
                 throw new BrokerException("Wildcards are not supported for queues", Status.UNSUPPORTED_TYPE);
+            }
             String regEx = createRegExString(name);
             regExPattern = Pattern.compile(regEx);
         }
@@ -95,8 +96,9 @@ public class DestinationUID extends StringUID {
         ois.defaultReadObject();
         if (isWildcard(this.name)) {
             try {
-                if (isQueue)
+                if (isQueue) {
                     throw new BrokerException("Wildcards are not supported for queues", Status.UNSUPPORTED_TYPE);
+                }
                 String regEx = createRegExString(name);
                 regExPattern = Pattern.compile(regEx);
             } catch (BrokerException ex) {
@@ -108,8 +110,9 @@ public class DestinationUID extends StringUID {
     }
 
     public String getDestType() {
-        if (isQueue)
+        if (isQueue) {
             return localQueue;
+        }
         return localTopic;
     }
 
@@ -186,10 +189,11 @@ public class DestinationUID extends StringUID {
                 }
                 toEndMatch = true;
                 // ok, if the previous character was a wildcard, add a dot
-                if (i > 0 && str.charAt(i - 1) == '*')
+                if (i > 0 && str.charAt(i - 1) == '*') {
                     buffer.append("\\.[\\S]*");
-                else
+                } else {
                     buffer.append("(\\.|$|^)[\\S]*");
+                }
                 dot = false;
                 break;
             case '.':
@@ -239,14 +243,17 @@ public class DestinationUID extends StringUID {
         //
         // if both have a wildcard, something is wrong.
 
-        if (u1.regExPattern != null && u2.regExPattern != null)
+        if (u1.regExPattern != null && u2.regExPattern != null) {
             throw new IllegalArgumentException("Can not compare two wildcards: " + u1 + " -> " + u2);
+        }
 
-        if (u1.regExPattern == null && u2.regExPattern == null)
+        if (u1.regExPattern == null && u2.regExPattern == null) {
             return u1.equals(u2);
+        }
 
-        if (u1.isQueue() != u2.isQueue())
+        if (u1.isQueue() != u2.isQueue()) {
             return false;
+        }
 
         Pattern p = u1.regExPattern;
         String str = u2.getName();
@@ -279,19 +286,22 @@ public class DestinationUID extends StringUID {
     }
 
     public static void clearUID(DestinationUID uid) {
-        if (uid.isQueue())
+        if (uid.isQueue()) {
             queues.remove(uid.getName());
-        else
+        } else {
             topics.remove(uid.getName());
+        }
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }
 
     public String getLongString() {
-        if (isQueue)
+        if (isQueue) {
             return "queue:" + name;
+        }
         return "topic:" + name;
     }
 
@@ -342,8 +352,9 @@ public class DestinationUID extends StringUID {
                     System.out.println("Bummer(2) : stock.my$bank");
                 }
 
-                if (true)
+                if (true) {
                     System.exit(0);
+                }
 
             } catch (BrokerException ex) {
                 ex.printStackTrace();

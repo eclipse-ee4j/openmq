@@ -27,7 +27,6 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
@@ -99,6 +98,7 @@ public class MetricManager implements ConfigListener {
         }
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
 
         if (!name.equals(INTERVAL_PROPERTY)) {
@@ -108,6 +108,7 @@ public class MetricManager implements ConfigListener {
         getLongProperty(name, value);
     }
 
+    @Override
     public boolean update(String name, String value) {
 
         if (name.equals(INTERVAL_PROPERTY)) {
@@ -265,6 +266,7 @@ public class MetricManager implements ConfigListener {
         /**
          * Run!
          */
+        @Override
         public void run() {
             MetricData md = getMetrics();
             logger.log(Logger.INFO, "\n" + md.toString());

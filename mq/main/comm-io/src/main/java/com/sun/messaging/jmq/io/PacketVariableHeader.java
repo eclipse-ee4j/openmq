@@ -95,7 +95,7 @@ public class PacketVariableHeader {
      * This routine will not return null. If there is no data in the variable header a buffer will be allocated that just
      * contains the terminating NULL entry. This is for backwards compatibility with 2.0 clients that had a bug and always
      * expected something in this part of the packet.
-     * 
+     *
      * WARNING! The buffer is NOT a copy or duplicate.
      */
     public synchronized ByteBuffer getBytes2() throws IOException {

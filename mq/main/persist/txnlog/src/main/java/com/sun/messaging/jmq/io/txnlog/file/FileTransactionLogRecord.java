@@ -46,7 +46,7 @@ import com.sun.messaging.jmq.io.txnlog.*;
  * 9. Record body data (byte[], size defined in #3 above)
  *
  * <p>
- * 
+ *
  * @see TransactionLogRecord
  * @see FileTransactionLogWriter
  */
@@ -86,10 +86,12 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * returns the timestamp of the entry/
      */
+    @Override
     public long getTimestamp() {
         return timestamp;
     }
 
+    @Override
     public void setTimestamp(long ts) {
         this.timestamp = ts;
     }
@@ -97,24 +99,28 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * returns the sequence (combination of timestamp + sequence should be unique for a system)
      */
+    @Override
     public long getSequence() {
         return sequence;
     }
 
+    @Override
     public void setSequence(long seq) {
         this.sequence = seq;
     }
 
     /**
      * retrieves the type of the entry.
-     * 
+     *
      * @see StateType
      * @return an integer which matches to a type
      */
+    @Override
     public int getType() {
         return logType;
     }
 
+    @Override
     public void setType(int type) {
         this.logType = type;
     }
@@ -122,6 +128,7 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * sets the formatted bytes for writing or sending.
      */
+    @Override
     public void setBody(byte[] body) {
         this.logBody = body;
     }
@@ -129,6 +136,7 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * retrieves the formatted bytes for writing or sending.
      */
+    @Override
     public byte[] getBody() {
         return logBody;
     }
@@ -136,6 +144,7 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * This is set by FileTransactionLogWriter after written to the txn log file.
      */
+    @Override
     public void setCheckPointSequence(long cpseq) {
         this.cpSequence = cpseq;
     }
@@ -143,6 +152,7 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
     /**
      * Get the cp seq number of this txn log record.
      */
+    @Override
     public long getCheckPointSequence() {
         return this.cpSequence;
     }
@@ -152,37 +162,42 @@ public class FileTransactionLogRecord implements TransactionLogRecord {
      *
      * @return the body data of this entry.
      */
+    @Override
     public Exception getException() {
         return exception;
     }
 
     /**
      * Set the associated exception for this log entry.
-     * 
+     *
      * @param exception the exception for this log entry.
      */
+    @Override
     public void setException(Exception exception) {
         this.exception = exception;
     }
 
     /**
      * Get the written flag for this log entry.
-     * 
+     *
      * @return true if this record has been written to the log.
      */
+    @Override
     public boolean isWritten() {
         return isWritten;
     }
 
     /**
      * Set the written flag for this log entry.
-     * 
+     *
      * @param flag the written flag for this log entry.
      */
+    @Override
     public void setWritten(boolean flag) {
         isWritten = flag;
     }
 
+    @Override
     public String toString() {
         return "CPSequence=" + cpSequence + ", Sequence=" + sequence + ", type=" + logType + ", timestamp=" + timestamp + ", body size=" + getBody().length;
     }

@@ -36,12 +36,15 @@ public class DestScope {
     public static final int DISTRIBUTED = 2;
 
     public static int getStateFromString(String str) {
-        if (str.equals("LOCAL"))
+        if (str.equals("LOCAL")) {
             return LOCAL;
-        if (str.equals("CLUSTER"))
+        }
+        if (str.equals("CLUSTER")) {
             return CLUSTER;
-        if (str.equals("DISTRIBUTED"))
+        }
+        if (str.equals("DISTRIBUTED")) {
             return DISTRIBUTED;
+        }
         return UNKNOWN;
     }
 

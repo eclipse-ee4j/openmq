@@ -50,6 +50,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
         return super.hashCode();
     }
 
+    @Override
     public String toString() {
         if (!isLocalBroker()) {
             return "-" + getInstanceName() + getBrokerURL() + ":" + getState() + "[StoreSession:" + storeSession + ", BrokerSession:" + getBrokerSessionUID()
@@ -65,6 +66,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
      *
      * @return the store session uid (if known)
      */
+    @Override
     public synchronized UID getStoreSessionUID() {
         return storeSession;
     }
@@ -73,6 +75,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
         storeSession = uid;
     }
 
+    @Override
     public synchronized String getNodeName() throws BrokerException {
         String instn = getInstanceName();
         UID storeSession = getStoreSessionUID();
@@ -84,30 +87,35 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
      *
      * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
+    @Override
     public String getTakeoverBroker() throws BrokerException {
         return null;
     }
 
+    @Override
     public long getHeartbeat() throws BrokerException {
         return 0L;
     }
 
+    @Override
     public long updateHeartbeat() throws BrokerException {
         throw new BrokerException("Operation not supported");
     }
 
+    @Override
     public long updateHeartbeat(boolean reset) throws BrokerException {
         throw new BrokerException("Operation not supported");
     }
 
     /**
      * Attempt to take over the persistent state of the broker.
-     * 
+     *
      * @param force force the takeover
      * @param tracker for tracking takingover stages
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
+    @Override
     public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException {
 
         String targetRepHostPort = (String) extraInfo;
@@ -122,6 +130,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
      *
      * @throws Exception if operation fails
      */
+    @Override
     public void resetTakeoverBrokerReadyOperating() throws Exception {
         throw new BrokerException("Operation not supported");
     }
@@ -132,6 +141,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
      * @param storeSession the store session that the failover processed
      * @throws Exception if operation fails
      */
+    @Override
     public void setStateFailoverProcessed(UID storeSession) throws Exception {
     }
 
@@ -141,6 +151,7 @@ public class RepHAClusteredBrokerImpl extends ClusteredBrokerImpl implements HAC
      * @param brokerSession the broker session that the failover failed
      * @throws Exception if operation fails
      */
+    @Override
     public void setStateFailoverFailed(UID brokerSession) throws Exception {
     }
 }

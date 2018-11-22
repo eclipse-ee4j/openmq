@@ -98,6 +98,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         fc.removeConsumerFlowControl(this);
     }
 
+    @Override
     protected Long getReadQueueId() {
         return session.getSessionId();
     }
@@ -105,6 +106,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
     /*
      * This method is called by SessionReader. Messages are delivered to the receiveQueue
      */
+    @Override
     protected void onMessage(MessageImpl message) throws JMSException {
         if (receiveQueue.getIsClosed()) {
             return;
@@ -138,7 +140,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         while (!moreComming && cursor <= cursorEnd) {
             int count = 0;
             while (cursor <= cursorEnd && count < browseChunkLimit) {
-                messageID = (SysMessageID) messageIDs[cursor];
+                messageID = messageIDs[cursor];
                 try {
                     messageID.writeID(dos);
                 } catch (IOException e) {
@@ -163,6 +165,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         }
     }
 
+    @Override
     public boolean hasMoreElements() {
         if (receiveQueue.getIsClosed()) {
             String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_BROWSER_CLOSED);
@@ -173,6 +176,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         }
     }
 
+    @Override
     public Object nextElement() {
 
         Message message = null;
@@ -234,6 +238,7 @@ class BrowserConsumer extends Consumer implements Enumeration, Traceable {
         }
     }
 
+    @Override
     public void dump(PrintStream ps) {
 
         ps.println("------ BrowserConsumer dump ------");

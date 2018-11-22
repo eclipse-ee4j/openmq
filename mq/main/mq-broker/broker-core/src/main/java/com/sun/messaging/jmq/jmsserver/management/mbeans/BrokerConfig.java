@@ -31,13 +31,9 @@ import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.AttributeChangeNotification;
 import javax.management.MBeanException;
-import javax.management.ObjectName;
-
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
-import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.Broker;
@@ -255,29 +251,36 @@ public class BrokerConfig extends MQMBeanReadWrite implements ConfigListener {
         return (Globals.getConfig().getProperty(propertyName));
     }
 
+    @Override
     public String getMBeanName() {
         return ("BrokerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_BKR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
     }
 
+    @Override
     public boolean update(String name, String value) {
         Object newVal = null;
         Object oldVal = null;

@@ -57,10 +57,12 @@ public class JMQFileUserRepository implements UserRepository {
     public JMQFileUserRepository() {
     }
 
+    @Override
     public String getType() {
         return TYPE;
     }
 
+    @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authType = authType;
         this.authProps = authProperties;
@@ -73,12 +75,13 @@ public class JMQFileUserRepository implements UserRepository {
      * @param credential password (String type) for "basic" is the password
      * @param extra null for basic, nonce if digest
      * @param matchType must be "basic" or "digest"
-     * 
+     *
      * @return the authenticated subject <BR>
      * null if no match found <BR>
      *
      * @exception LoginException
      */
+    @Override
     public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException {
         if (matchType == null || (!matchType.equals(AccessController.AUTHTYPE_BASIC) && !matchType.equals(AccessController.AUTHTYPE_DIGEST))) {
             String matchtyp = (matchType == null) ? "null" : matchType;
@@ -151,6 +154,7 @@ public class JMQFileUserRepository implements UserRepository {
         final String rolestr = (String) userRTable.get(user);
         final String tempUser = user;
         subject = (Subject) java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+            @Override
             public Object run() {
                 Subject tempSubject = new Subject();
                 tempSubject.getPrincipals().add(new MQUser(tempUser));
@@ -220,10 +224,12 @@ public class JMQFileUserRepository implements UserRepository {
 
         } catch (IOException ioe) {
             try {
-                if (br != null)
+                if (br != null) {
                     br.close();
-                if (fr != null)
+                }
+                if (fr != null) {
                     fr.close();
+                }
             } catch (IOException e) {
             }
             IOException ex = new IOException(
@@ -234,10 +240,12 @@ public class JMQFileUserRepository implements UserRepository {
         }
     }
 
+    @Override
     public Refreshable getCacheData() {
         return null;
     }
 
+    @Override
     public void close() throws LoginException {
     }
 

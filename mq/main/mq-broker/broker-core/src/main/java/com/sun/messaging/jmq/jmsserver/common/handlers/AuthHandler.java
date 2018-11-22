@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.io.*;
 import java.nio.*;
 import java.security.AccessControlException;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
@@ -32,7 +31,6 @@ import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
-import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
@@ -41,7 +39,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
 import com.sun.messaging.jmq.auth.api.FailedLoginException;
-import com.sun.messaging.jmq.auth.api.server.*;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 
 /**
@@ -60,6 +57,7 @@ public class AuthHandler extends PacketHandler {
     /**
      * Method to handle Authentication messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         byte[] resp = null;
 
@@ -151,8 +149,9 @@ public class AuthHandler extends PacketHandler {
         pkt.setConsumerID(msg.getConsumerID());
         Hashtable hash = new Hashtable();
 
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
+        }
 
         if (resp == null) {
             pkt.setPacketType(PacketType.AUTHENTICATE_REPLY);
@@ -177,8 +176,9 @@ public class AuthHandler extends PacketHandler {
                 }
                 pkt.setPacketType(PacketType.AUTHENTICATE_REPLY);
                 hash.put("JMQStatus", Integer.valueOf(status));
-                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                     hash.put("JMQReqID", msg.getSysMessageID().toString());
+                }
                 pkt.setProperties(hash);
 
             } else {
@@ -186,8 +186,9 @@ public class AuthHandler extends PacketHandler {
                 pkt.setPacketType(PacketType.AUTHENTICATE_REQUEST);
                 hash.put("JMQAuthType", ac.getAuthType());
                 hash.put("JMQChallenge", Boolean.valueOf(false));
-                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+                if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
                     hash.put("JMQReqID", msg.getSysMessageID().toString());
+                }
                 pkt.setProperties(hash);
                 pkt.setMessageBody(req);
             }

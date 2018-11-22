@@ -26,6 +26,11 @@ package com.sun.messaging.jms.management.server;
  */
 public class ConsumerInfo implements java.io.Serializable {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -739436843168186087L;
+
+    /**
      * Acknowledge mode
      */
     public static final String ACKNOWLEDGE_MODE = "AcknowledgeMode";

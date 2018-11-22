@@ -29,26 +29,26 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
 /**
  * An XATopicSession provides a regular TopicSession which can be used to create TopicSubscribers and TopicPublishers
  * (optional).
- * 
+ *
  * <P>
  * XASession extends the capability of Session by adding access to a JMS provider's support for JTA (optional). This
  * support takes the form of a <CODE>javax.transaction.xa.XAResource</CODE> object. The functionality of this object
  * closely resembles that defined by the standard X/Open XA Resource interface.
- * 
+ *
  * <P>
  * An application server controls the transactional assignment of an XASession by obtaining its XAResource. It uses the
  * XAResource to assign the session to a transaction; prepare and commit work on the transaction; etc.
- * 
+ *
  * <P>
  * An XAResource provides some fairly sophisticated facilities for interleaving work on multiple transactions;
  * recovering a list of transactions in progress; etc. A JTA aware JMS provider must fully implement this functionality.
  * This could be done by using the services of a database that supports XA or a JMS provider may choose to implement
  * this functionality from scratch.
- * 
+ *
  * <P>
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying XASession.
- * 
+ *
  * @see javax.jms.XASession javax.jms.XASession
  * @see javax.jms.XATopicSession javax.jms.XATopicSession
  */
@@ -65,7 +65,7 @@ public class XATopicSessionImpl extends XASessionImpl implements TopicSession, X
 
     @Override
     public TopicSession getTopicSession() throws JMSException {
-        return (TopicSession) this;
+        return this;
     }
 
     @Override

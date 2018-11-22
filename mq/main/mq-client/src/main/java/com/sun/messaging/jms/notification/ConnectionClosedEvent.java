@@ -31,6 +31,11 @@ import javax.jms.JMSException;
  */
 public class ConnectionClosedEvent extends ConnectionEvent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7020602592556706912L;
+
     // if there is any exception that caused the connection to be closed,
     // it is set to this event.
     private JMSException exception = null;

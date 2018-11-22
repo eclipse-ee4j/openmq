@@ -36,7 +36,7 @@ class MySQLBrokerDAOImpl extends BrokerDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     MySQLBrokerDAOImpl() throws BrokerException {

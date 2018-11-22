@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.Date;
 import java.util.logging.FileHandler;
@@ -36,7 +35,6 @@ import javax.management.MBeanException;
 import com.sun.messaging.jms.management.server.*;
 
 import com.sun.messaging.jmq.Version;
-import com.sun.messaging.jmq.util.log.FileLogHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
@@ -154,29 +152,36 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
         return getLogFile().getName();
     }
 
+    @Override
     public String getMBeanName() {
         return ("LogConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_LOG_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (null);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
     }
 
+    @Override
     public boolean update(String name, String value) {
         Object newVal, oldVal;
 
@@ -240,7 +245,7 @@ public class LogConfig extends MQMBeanReadWrite implements ConfigListener {
     /**
      * Read user configured log handler .pattern config string from config property and generate File object from it after
      * resolving pattern
-     * 
+     *
      * @return File object for log file
      */
     private File getLogFile() throws MBeanException {

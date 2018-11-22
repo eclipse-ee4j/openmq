@@ -61,7 +61,7 @@ import com.sun.messaging.jmq.io.*;
  *
  * 6. Define 'imq.debug.file=fileName' if the output is desired to go to a file. For example, java
  * -Dimq.debug.file=debug.out -DReadWritePacket TestProg This will dump all outgoing packets to debug.out file.
- * 
+ *
  * 7. Define 'imq.debug.transaction' syatem property will dump all pkts related to transactions.
  */
 public class Debug {
@@ -147,7 +147,7 @@ public class Debug {
 
     /**
      * print info message.
-     * 
+     *
      * @param msg
      */
     public static void info(String msg) {
@@ -237,7 +237,7 @@ public class Debug {
 
     /**
      * print pkt if pkt type matches one of the types specified in prop.
-     * 
+     *
      * @param pkt the pkt to be dumped.
      * @param prop a list of pkt types separated by '|'. For example, "21|22".
      * @param msg the message to be printed before the pkt dump.

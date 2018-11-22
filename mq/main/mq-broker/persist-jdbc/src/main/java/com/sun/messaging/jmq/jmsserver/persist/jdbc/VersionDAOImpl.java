@@ -46,7 +46,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     VersionDAOImpl() throws BrokerException {
@@ -76,29 +76,32 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param storeVersion version of the the store
      * @throws BrokerException
      */
+    @Override
     public void insert(Connection conn, int storeVersion) throws BrokerException {
 
         boolean myConn = false;
@@ -146,7 +149,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Update the lock ID.
-     * 
+     *
      * @param conn database connection
      * @param storeVersion version of the store
      * @param newLockID the borker ID or imqdbmgr that want to lock this store
@@ -154,6 +157,7 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
      * @return true if lock ID has been updated, false otherwise
      * @throws BrokerException
      */
+    @Override
     public boolean updateLock(Connection conn, int storeVersion, String newLockID, String oldLockID) throws BrokerException {
 
         boolean updated = false;
@@ -218,10 +222,11 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         if (Globals.getHAEnabled()) {
@@ -233,11 +238,12 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get the version of the store.
-     * 
+     *
      * @param conn database connection
      * @return version of the store
      * @throws BrokerException
      */
+    @Override
     public int getStoreVersion(Connection conn) throws BrokerException {
 
         int version = -1;
@@ -292,12 +298,13 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get the lock ID.
-     * 
+     *
      * @param conn database connection
      * @param storeVersion version of the store
      * @return lockID that is currently using the store; empty string for no lock and null value for record not found
      * @throws BrokerException
      */
+    @Override
     public String getLock(Connection conn, int storeVersion) throws BrokerException {
 
         String lockID = null;
@@ -357,10 +364,11 @@ class VersionDAOImpl extends BaseDAOImpl implements VersionDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();

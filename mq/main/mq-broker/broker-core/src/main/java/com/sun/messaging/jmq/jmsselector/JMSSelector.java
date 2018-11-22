@@ -28,10 +28,14 @@ import java.util.StringTokenizer;
 
 /**
  * Provides JMS selector capability
- * 
+ *
  * Uses SQL parser in SQLParser.jj
  */
 public class JMSSelector implements java.io.Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 987679311016714425L;
     transient SQLParser parser;
     String selectorPattern;
     transient Hashtable msgHeader;
@@ -62,7 +66,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Constructor.
-     * 
+     *
      * @param pattern The selector pattern.
      * @param header The message header.
      */
@@ -94,7 +98,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSDeliveryMode used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSDeliveryMode used by this JMSSelector
      */
     public int getJMSDeliveryMode() {
@@ -103,7 +107,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSDeliveryMode used by this JMSSelector
-     * 
+     *
      * @param deliveryMode The JMS Header property JMSDeliveryMode used by this JMSSelector
      */
     public void setJMSDeliveryMode(int deliveryMode) {
@@ -112,7 +116,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSPriority used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSPriority used by this JMSSelector
      */
     public int getJMSPriority() {
@@ -121,7 +125,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSPriority used by this JMSSelector
-     * 
+     *
      * @param priority The JMS Header property JMSPriority used by this JMSSelector
      */
     public void setJMSPriority(int priority) {
@@ -130,7 +134,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSMessageID used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSMessageID used by this JMSSelector
      */
     public String getJMSMessageID() {
@@ -139,7 +143,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSMessageID used by this JMSSelector
-     * 
+     *
      * @param messageID The JMS Header property JMSMessageID used by this JMSSelector
      */
     public void setJMSMessageID(String messageID) {
@@ -148,7 +152,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSTimestamp used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSTimestamp used by this JMSSelector
      */
     public long getJMSTimestamp() {
@@ -157,7 +161,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSTimestamp used by this JMSSelector
-     * 
+     *
      * @param timestamp The JMS Header property JMSTimestamp used by this JMSSelector
      */
     public void setJMSTimestamp(long timestamp) {
@@ -166,7 +170,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSCorrelationID used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSCorrelationID used by this JMSSelector
      */
     public String getJMSCorrelationID() {
@@ -175,7 +179,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSCorrelationID used by this JMSSelector
-     * 
+     *
      * @param correlationID The JMS Header property JMSCorrelationID used by this JMSSelector
      */
     public void setJMSCorrelationID(String correlationID) {
@@ -184,7 +188,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the JMS Header property JMSType used by this JMSSelector
-     * 
+     *
      * @return The JMS Header property JMSType used by this JMSSelector
      */
     public String getJMSType() {
@@ -193,7 +197,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets the JMS Header property JMSType used by this JMSSelector
-     * 
+     *
      * @param type The JMS Header property JMSType used by this JMSSelector
      */
     public void setJMSType(String type) {
@@ -202,7 +206,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Sets all the JMS Header property fields used by this JMSSelector
-     * 
+     *
      * @param deliveryMode The JMS Header property JMSDeliveryMode used by this JMSSelector
      * @param priority The JMS Header property JMSPriority used by this JMSSelector
      * @param messageID The JMS Header property JMSMessageID used by this JMSSelector
@@ -221,7 +225,7 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Returns the selectorPattern used by this JMSSelector.
-     * 
+     *
      * @return The selectorPattern used by this JMSSelector.
      */
     public String getSelectorPattern() {
@@ -273,11 +277,11 @@ public class JMSSelector implements java.io.Serializable {
 
     /**
      * Matches the message header passed in with the selector pattern set in this JMSSelector.
-     * 
+     *
      * @param header The message header (a java.util.Hashtable object)
-     * 
+     *
      * @return <code>true</code> if a match was made; <code>false</code> otherwise.
-     * 
+     *
      * @exception InvalidJMSSelectorException If the selectorPattern does not conform to the SQL-92 specification for an SQL
      * pattern.
      */
@@ -312,7 +316,7 @@ public class JMSSelector implements java.io.Serializable {
      * @param escapeChar The escape character used to treat wildcards '_' and '%' as normal
      *
      * @return
-     * 
+     *
      * @see
      */
     boolean matchPattern(String patternStr, String str, char escapeChar) {
@@ -529,6 +533,7 @@ public class JMSSelector implements java.io.Serializable {
         return strLiteral;
     }
 
+    @Override
     public String toString() {
 
         return ("JMSSelector:\tPattern=\t`" + selectorPattern + "'" + "\n    Headers:\tDeliveryMode\t" + jmsDeliveryMode + "\n\t\tPriority\t" + jmsPriority

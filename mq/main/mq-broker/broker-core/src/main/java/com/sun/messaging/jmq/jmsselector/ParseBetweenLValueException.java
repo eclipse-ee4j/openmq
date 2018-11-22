@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseBetweenLValueException extends ParseException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -1724383413723184468L;
+
+    /**
      * Construct a ParseBetweenLValueException
      */
     public ParseBetweenLValueException(String whatever) {

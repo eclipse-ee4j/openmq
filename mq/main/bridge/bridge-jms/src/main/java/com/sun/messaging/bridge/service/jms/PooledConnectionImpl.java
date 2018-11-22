@@ -28,6 +28,7 @@ public class PooledConnectionImpl extends PooledConnection implements Connection
         super(conn);
     }
 
+    @Override
     public Session createSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return _conn.createSession(transacted, acknowledgeMode);
     }
@@ -42,43 +43,53 @@ public class PooledConnectionImpl extends PooledConnection implements Connection
         return _conn.createSession();
     }
 
+    @Override
     public String getClientID() throws JMSException {
         return _conn.getClientID();
     }
 
+    @Override
     public void setClientID(String clientID) throws JMSException {
         _conn.setClientID(clientID);
     }
 
+    @Override
     public ConnectionMetaData getMetaData() throws JMSException {
         return _conn.getMetaData();
     }
 
+    @Override
     public ExceptionListener getExceptionListener() throws JMSException {
         return _conn.getExceptionListener();
     }
 
+    @Override
     public void setExceptionListener(ExceptionListener listener) throws JMSException {
         _conn.setExceptionListener(listener);
     }
 
+    @Override
     public void start() throws JMSException {
         _conn.start();
     }
 
+    @Override
     public void stop() throws JMSException {
         _conn.stop();
     }
 
+    @Override
     public void close() throws JMSException {
         _conn.close();
     }
 
+    @Override
     public ConnectionConsumer createConnectionConsumer(Destination destination, String messageSelector, ServerSessionPool sessionPool, int maxMessages)
             throws JMSException {
         return _conn.createConnectionConsumer(destination, messageSelector, sessionPool, maxMessages);
     }
 
+    @Override
     public ConnectionConsumer createDurableConnectionConsumer(Topic topic, String subscriptionName, String messageSelector, ServerSessionPool sessionPool,
             int maxMessages) throws JMSException {
         return _conn.createDurableConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
@@ -96,6 +107,7 @@ public class PooledConnectionImpl extends PooledConnection implements Connection
         return _conn.createSharedDurableConnectionConsumer(topic, subscriptionName, messageSelector, sessionPool, maxMessages);
     }
 
+    @Override
     public String toString() {
         return _conn.toString();
     }

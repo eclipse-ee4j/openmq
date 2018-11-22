@@ -41,9 +41,10 @@ public class XATopicConnectionImpl extends TopicConnectionImpl implements XATopi
 
     /**
      * Create an XATopicSession.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public XATopicSession createXATopicSession() throws JMSException {
 
         checkConnectionState();
@@ -56,28 +57,30 @@ public class XATopicConnectionImpl extends TopicConnectionImpl implements XATopi
 
     /**
      * Create an XATopicSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public TopicSession createTopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new XATopicSessionImpl(this, transacted, acknowledgeMode);
     }
 
     /**
      * Create an XATopicSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public JMSXATopicSession createXATopicSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new JMSXATopicSessionImpl(this, transacted, acknowledgeMode);
     }
@@ -87,7 +90,8 @@ public class XATopicConnectionImpl extends TopicConnectionImpl implements XATopi
      *
      * @return the TopicConnection
      */
+    @Override
     public TopicConnection getTopicConnection() {
-        return (TopicConnection) (this);
+        return (this);
     }
 }

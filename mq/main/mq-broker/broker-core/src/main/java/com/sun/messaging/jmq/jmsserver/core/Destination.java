@@ -26,51 +26,37 @@ import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.selector.*;
 import com.sun.messaging.jmq.util.DestState;
 import com.sun.messaging.jmq.util.DestMetricsCounters;
-import com.sun.messaging.jmq.io.PacketType;
-
 import com.sun.messaging.jmq.util.DestLimitBehavior;
 import com.sun.messaging.jmq.util.ClusterDeliveryPolicy;
 import com.sun.messaging.jmq.util.DestScope;
 import com.sun.messaging.jmq.util.timer.*;
-import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
-import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.util.ConflictException;
 import com.sun.messaging.jmq.jmsserver.util.ConsumerAlreadyAddedException;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.util.lists.AddReason;
 import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
-import com.sun.messaging.jmq.jmsserver.util.ConflictException;
 import com.sun.messaging.jmq.jmsserver.util.DestinationNotFoundException;
 import com.sun.messaging.jmq.jmsserver.util.FeatureUnavailableException;
-import com.sun.messaging.jmq.jmsserver.util.TransactionAckExistException;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.handlers.RefCompare;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.DiskFileStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.jmsserver.persist.api.LoadException;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
-import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.util.admin.DestinationInfo;
@@ -245,8 +231,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     public void setUseDMQ(boolean use) throws BrokerException {
-        if (use && isDMQ)
+        if (use && isDMQ) {
             throw new BrokerException(br.getKString(BrokerResources.X_DMQ_USE_DMQ_INVALID));
+        }
         Boolean oldVal = Boolean.valueOf(this.useDMQ);
         this.useDMQ = use;
 
@@ -287,23 +274,28 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         Hashtable m = new Hashtable();
 
-        if (comment != null)
+        if (comment != null) {
             m.put(DMQ.UNDELIVERED_COMMENT, comment);
+        }
 
-        if (deliverCnt != -1)
+        if (deliverCnt != -1) {
             m.put(TEMP_CNT, Integer.valueOf(deliverCnt));
+        }
 
-        if (exception != null)
+        if (exception != null) {
             m.put(DMQ.UNDELIVERED_EXCEPTION, exception);
+        }
 
-        if (broker != null)
+        if (broker != null) {
             m.put(DMQ.DEAD_BROKER, broker);
-        else
+        } else {
             m.put(DMQ.DEAD_BROKER, Globals.getMyAddress().toString());
+        }
 
         // remove the old message
-        if (r == null)
+        if (r == null) {
             r = RemoveReason.ERROR;
+        }
 
         RemoveMessageReturnInfo ret = _removeMessage(ref.getSysMessageID(), r, m, null, !ref.isExpired());
         return ret.removed;
@@ -326,8 +318,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         Hashtable packetProps = null;
         try {
             packetProps = p.getProperties();
-            if (packetProps == null)
+            if (packetProps == null) {
                 packetProps = new Hashtable();
+            }
         } catch (Exception ex) {
             logger.logStack(Logger.DEBUG, "could not get props ", ex);
             packetProps = new Hashtable();
@@ -445,17 +438,19 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         } else {
             props.put(DMQ.UNDELIVERED_REASON, DMQ.REASON_ERROR);
         }
-        if (pr.getBrokerAddress() != null)
+        if (pr.getBrokerAddress() != null) {
             props.put(DMQ.BROKER, pr.getBrokerAddress().toString());
-        else
+        } else {
             props.put(DMQ.BROKER, Globals.getMyAddress().toString());
+        }
 
         String deadbkr = (String) packetProps.get(DMQ.DEAD_BROKER);
 
-        if (deadbkr != null)
+        if (deadbkr != null) {
             props.put(DMQ.DEAD_BROKER, deadbkr);
-        else
+        } else {
             props.put(DMQ.DEAD_BROKER, Globals.getMyAddress().toString());
+        }
 
         if (!pr.isLocal()) {
             boolean waitack = !pr.isNoAckRemoteConsumers();
@@ -623,6 +618,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             this.r = r;
         }
 
+        @Override
         public void eventOccured(EventType type, Reason reason, Object target, Object orig_value, Object cur_value, Object userdata) {
             assert type == EventType.SET_CHANGED_REQUEST;
             boolean full = destMessages.isFull();
@@ -654,13 +650,15 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
             }
         }
-    };
+    }
 
     class FlowListener implements com.sun.messaging.jmq.util.lists.EventListener {
+        @Override
         public void eventOccured(EventType type, Reason reason, Object target, Object orig_value, Object cur_value, Object userdata) {
 
-            if (reason instanceof RemoveReason)
+            if (reason instanceof RemoveReason) {
                 return;
+            }
             assert type == EventType.FULL;
             if (reason != AddReason.LOADED) {
                 assert cur_value instanceof Boolean;
@@ -681,7 +679,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             }
 
         }
-    };
+    }
 
     transient Object behaviorListener = null;
 
@@ -735,11 +733,13 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             this.uid = uid;
         }
 
+        @Override
         public synchronized boolean cancel() {
             canceled = true;
             return super.cancel();
         }
 
+        @Override
         public void run() {
             synchronized (this) {
                 if (!canceled) {
@@ -787,11 +787,13 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             this.time = time;
         }
 
+        @Override
         public synchronized boolean cancel() {
             canceled = true;
             return super.cancel();
         }
 
+        @Override
         public void run() {
             synchronized (this) {
                 if (canceled) {
@@ -858,8 +860,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         void removeTimer() {
             assert Thread.holdsLock(this);
             try {
-                if (mytimer != null)
+                if (mytimer != null) {
                     mytimer.cancel();
+                }
             } catch (IllegalStateException ex) {
                 logger.logStack(Logger.DEBUG, "timer canceled ", ex);
             }
@@ -867,6 +870,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
 
         class MyExpireTimerTask extends TimerTask {
+            @Override
             public void run() {
                 long currentTime = System.currentTimeMillis();
                 int removedCount = 0;
@@ -928,14 +932,17 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     class DestFilter implements Filter {
+        @Override
         public boolean matches(Object o) {
             return uid.equals(((PacketReference) o).getDestinationUID());
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
@@ -1203,6 +1210,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return loaded;
     }
 
+    @Override
     public DestinationUID getDestinationUID() {
         return uid;
     }
@@ -1406,7 +1414,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
             // largest size of destination since broker started
             // retrieved from destination
-            dmc.setHighWaterMessages((int) destMessages.highWaterCount());
+            dmc.setHighWaterMessages(destMessages.highWaterCount());
 
             // largest bytes of destination since broker started
             // retrieved from destination
@@ -1421,21 +1429,21 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
             // current # of failover consumers
             // only applies to queues
-            dmc.setFailoverConsumers((int) 0);
+            dmc.setFailoverConsumers(0);
 
             // max # of active consumers
             dmc.setHWActiveConsumers(consumers.highWaterCount());
             dmc.setHWNumConsumers(consumers.highWaterCount());
 
             // max # of failover consumers
-            dmc.setHWFailoverConsumers((int) 0);
+            dmc.setHWFailoverConsumers(0);
 
             // avg active consumer
             dmc.setAvgActiveConsumers((int) consumers.averageCount());
             dmc.setAvgNumConsumers((int) consumers.averageCount());
 
             // avg failover consumer
-            dmc.setAvgFailoverConsumers((int) (int) 0);
+            dmc.setAvgFailoverConsumers(0);
 
             // total messages bytes sent to the destination
             dmc.setMessageBytesIn(msgBytesIn);
@@ -1649,8 +1657,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     public synchronized boolean store() throws BrokerException, IOException {
-        if (neverStore || stored)
+        if (neverStore || stored) {
             return false;
+        }
         pstore.storeDestination(this, PERSIST_SYNC);
         stored = true;
         return stored;
@@ -1728,10 +1737,12 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         m.put(MAX_PREFETCH, Integer.valueOf(maxPrefetch));
         m.put(MAX_MESSAGES, Integer.valueOf(countLimit));
         m.put(USE_DMQ, Boolean.valueOf(useDMQ));
-        if (memoryLimit != null)
+        if (memoryLimit != null) {
             m.put(MAX_BYTES, Long.valueOf(memoryLimit.getBytes()));
-        if (msgSizeLimit != null)
+        }
+        if (msgSizeLimit != null) {
             m.put(MAX_MSG_BYTES, Long.valueOf(msgSizeLimit.getBytes()));
+        }
         m.put(BEHAVIOUR, Integer.valueOf(limit));
         m.put(STATE, Integer.valueOf(scope));
         m.put(VALIDATE_XML_SCHEMA_ENABLED, Boolean.valueOf(validateXMLSchemaEnabled));
@@ -1745,8 +1756,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
      * used to update the destination from remote brokers or for admin support
      */
     public void setDestinationProperties(Map m) throws BrokerException {
-        if (getDEBUG())
+        if (getDEBUG()) {
             logger.log(Logger.DEBUG, "Setting destination properties for " + this + " to " + m);
+        }
         if (m.get(MAX_CONSUMERS) != null) {
             try {
                 setMaxConsumers(((Integer) m.get(MAX_CONSUMERS)).intValue());
@@ -1861,12 +1873,14 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         ht.put("_state", DestState.toString(state));
         ht.put("producerMsgBatchSize", String.valueOf(producerMsgBatchSize));
         ht.put("producerMsgBatchBytes", String.valueOf(producerMsgBatchBytes));
-        if (reconnectReaper != null)
+        if (reconnectReaper != null) {
             ht.put("_reconnectReaper", reconnectReaper.toString());
+        }
         ht.put("_clientReconnectInterval", String.valueOf(clientReconnectInterval));
         ht.put("TrueType", DestType.toString(type));
-        if (id != null)
+        if (id != null) {
             ht.put("ConnectionUID", String.valueOf(id.longValue()));
+        }
         ht.put("activeProducerCount", String.valueOf(producerFlow.activeProducerCnt()));
         ht.put("pausedProducerCount", String.valueOf(producerFlow.pausedProducerCnt()));
         ht.put("pausedProducerSet", producerFlow.getDebugPausedProducers());
@@ -2014,27 +2028,33 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return uid.getLocalizedName();
     }
 
+    @Override
     public String getDestinationName() {
         return uid.getName();
     }
 
+    @Override
     public ConnectionUID getConnectionUID() {
         return id;
     }
 
+    @Override
     public boolean isAutoCreated() {
         return ((type & DestType.DEST_AUTO) != 0);
     }
 
+    @Override
     public boolean isTemporary() {
 
         return ((type & DestType.DEST_TEMP) != 0);
     }
 
+    @Override
     public boolean isQueue() {
         return ((type & DestType.DEST_TYPE_QUEUE) != 0);
     }
 
+    @Override
     public int getType() {
         return type;
     }
@@ -2117,8 +2137,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 logger.logStack(Logger.WARNING, BrokerResources.E_PURGE_DST_FAILED, getName(), ex);
             }
 
-            if (ex instanceof BrokerException)
+            if (ex instanceof BrokerException) {
                 throw (BrokerException) ex;
+            }
 
             throw new BrokerException(br.getKString(BrokerResources.E_PURGE_DST_FAILED, getName()), ex);
         }
@@ -2344,7 +2365,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     public float destMessagesSizePercent() {
         int maxc = destMessages.capacity();
         if (maxc <= 0) {
-            return (float) 0;
+            return 0;
         }
         return ((float) destMessages.size() / (float) maxc) * 100;
     }
@@ -2533,8 +2554,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     public int getAllActiveConsumerCount() {
         int cnt = 0;
         synchronized (consumers) {
-            if (consumers.size() == 0)
+            if (consumers.size() == 0) {
                 return 0;
+            }
             Iterator itr = consumers.values().iterator();
             Consumer c = null;
             while (itr.hasNext()) {
@@ -2549,6 +2571,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return cnt;
     }
 
+    @Override
     public int getActiveConsumerCount() {
         return getConsumerCount();
     }
@@ -2569,6 +2592,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return new HashSet();
     }
 
+    @Override
     public int getFailoverConsumerCount() {
         return NONE;
     }
@@ -2591,14 +2615,17 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         throw new UnsupportedOperationException("setting max failover consumers not supported on this destination type");
     }
 
+    @Override
     public int hashCode() {
         return uid.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         if (o instanceof Destination) {
-            if (uid == ((Destination) o).uid)
+            if (uid == ((Destination) o).uid) {
                 return true;
+            }
             return uid.equals(((Destination) o).uid);
         }
         return false;
@@ -2698,7 +2725,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 }
             } catch (IllegalStateException ex) { // message exists
                 throw new BrokerException(br.getKString(BrokerResources.X_MSG_EXISTS_IN_DEST, pkt.getSysMessageID(), this.toString()),
-                        BrokerResources.X_MSG_EXISTS_IN_DEST, (Throwable) ex, Status.NOT_MODIFIED);
+                        BrokerResources.X_MSG_EXISTS_IN_DEST, ex, Status.NOT_MODIFIED);
             } catch (OutOfLimitsException ex) {
                 removeMessage(pkt.getSysMessageID(), RemoveReason.OVERFLOW);
                 Object lmt = ex.getLimit();
@@ -2727,7 +2754,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 default:
                 }
 
-                throw new BrokerException(br.getKString(id, args), id, (Throwable) ex, status);
+                throw new BrokerException(br.getKString(id, args), id, ex, status);
 
             } catch (IllegalArgumentException ex) {
                 removeMessage(pkt.getSysMessageID(), RemoveReason.ERROR);
@@ -3137,12 +3164,14 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
 
         // send a message IF we are on a monitor destination
-        if (bm != null)
+        if (bm != null) {
             bm.updateNewConsumer(interest);
+        }
 
         return null;
     }
 
+    @Override
     public void removeConsumer(ConsumerUID interest, boolean notify) throws BrokerException {
         removeConsumer(interest, null, false, notify);
     }
@@ -3199,6 +3228,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
+    @Override
     public boolean addProducer(ProducerSpi producer) throws BrokerException {
         if (isInternal()) {
             throw new BrokerException(br.getKString(BrokerResources.X_MONITOR_PRODUCER, getName()));
@@ -3225,7 +3255,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             }
         } catch (IndexOutOfBoundsException ex) {
             throw new BrokerException(br.getKString(BrokerResources.X_PRODUCER_LIMIT_EXCEEDED, getName(), String.valueOf(maxProducerLimit)),
-                    BrokerResources.X_PRODUCER_LIMIT_EXCEEDED, (Throwable) ex, Status.CONFLICT);
+                    BrokerResources.X_PRODUCER_LIMIT_EXCEEDED, ex, Status.CONFLICT);
         }
         producerFlow.addProducer((Producer) producer);
         boolean active = producerFlow.checkResumeFlow((Producer) producer, false);
@@ -3240,7 +3270,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
             p = (Producer) producers.remove(producerUID);
         }
         if (p == null)
+         {
             return; // nothing to do
+        }
 
         producerFlow.removeProducer(p);
         producerFlow.checkResumeFlow(p, false);
@@ -3466,8 +3498,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                             }
                             if (consumers.length > 0) {
                                 int[] states = new int[consumers.length];
-                                for (int i = 0; i < states.length; i++)
+                                for (int i = 0; i < states.length; i++) {
                                     states[i] = PartitionedStore.INTEREST_STATE_ROUTED;
+                                }
                                 try {
                                     pstore.storeInterestStates(getDestinationUID(), pr.getSysMessageID(), consumers, states, true, null);
                                     pr.setStoredWithInterest(true);
@@ -3626,8 +3659,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         while (deaditr.hasNext()) {
             PacketReference pr = (PacketReference) deaditr.next();
             try {
-                if (preparedTrans != null)
+                if (preparedTrans != null) {
                     preparedTrans.remove(pr.getSysMessageID());
+                }
                 removeMessage(pr.getSysMessageID(), RemoveReason.EXPIRED);
             } catch (Exception ex) {
                 logger.logStack(Logger.INFO, BrokerResources.E_INTERNAL_BROKER_ERROR, "Processing " + pr + " while loading destination " + this, ex);
@@ -3723,19 +3757,22 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
     }
 
     static class UnloadFilter implements Filter {
+        @Override
         public boolean matches(Object o) {
             assert o instanceof PacketReference;
             return ((PacketReference) o).isPersistent();
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
-    };
+    }
 
     transient Filter unloadfilter = new UnloadFilter();
 
@@ -3770,8 +3807,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                 try {
                     pstore.removeDestination(this, PERSIST_SYNC);
                 } catch (DestinationNotFoundException e) {
-                    if (!noerrnotfound)
+                    if (!noerrnotfound) {
                         throw e;
+                    }
                     logger.log(Logger.INFO, br.getKString(br.I_RM_DST_NOTFOUND_INSTORE, getName(), e.getMessage()));
                 }
                 stored = false;
@@ -3790,20 +3828,23 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
+    @Override
     public String toString() {
         return uid.getLocalizedName();
     }
 
+    @Override
     public String getUniqueName() {
         return uid.toString();
     }
 
     /**
      * Called when a specific event occurs
-     * 
+     *
      * @param type the event that occured
      */
 
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldValue, Object newValue, Object userdata) {
     }
 
@@ -3841,21 +3882,22 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
         boolean onRollback = false;
         synchronized (this) {
-            if (r == RemoveReason.REMOVED_LOW_PRIORITY || r == RemoveReason.REMOVED_OLDEST || r == RemoveReason.REMOVED_OTHER)
+            if (r == RemoveReason.REMOVED_LOW_PRIORITY || r == RemoveReason.REMOVED_OLDEST || r == RemoveReason.REMOVED_OTHER) {
                 discardedCnt++;
-            else if (r == RemoveReason.EXPIRED || r == RemoveReason.EXPIRED_BY_CLIENT || r == RemoveReason.EXPIRED_ON_DELIVERY)
+            } else if (r == RemoveReason.EXPIRED || r == RemoveReason.EXPIRED_BY_CLIENT || r == RemoveReason.EXPIRED_ON_DELIVERY) {
                 expiredCnt++;
-            else if (r == RemoveReason.PURGED)
+            } else if (r == RemoveReason.PURGED) {
                 purgedCnt++;
-            else if (r == RemoveReason.ROLLBACK) {
+            } else if (r == RemoveReason.ROLLBACK) {
                 rollbackCnt++;
                 onRollback = true;
-            } else if (r == RemoveReason.ACKNOWLEDGED)
+            } else if (r == RemoveReason.ACKNOWLEDGED) {
                 ackedCnt++;
-            else if (r == RemoveReason.OVERFLOW)
+            } else if (r == RemoveReason.OVERFLOW) {
                 overflowCnt++;
-            else if (r == RemoveReason.ERROR)
+            } else if (r == RemoveReason.ERROR) {
                 errorCnt++;
+            }
             decrementDestinationSize(ref);
         }
         boolean ret = ref.remove(onRollback);
@@ -3923,11 +3965,13 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return overrideTTLvalue;
     }
 
+    @Override
     public boolean isInternal() {
         boolean ret = DestType.isInternal(type);
         return ret;
     }
 
+    @Override
     public boolean isDMQ() {
         boolean ret = DestType.isDMQ(type);
         return ret;
@@ -3979,6 +4023,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return producers.size();
     }
 
+    @Override
     public int getMaxPrefetch() {
         return maxPrefetch;
     }
@@ -4011,8 +4056,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     public long getMsgBytesProducerFlow() {
         // xxx - should we cache this
-        if (DL.NO_PRODUCER_FLOW)
+        if (DL.NO_PRODUCER_FLOW) {
             return -1;
+        }
         long bytes = 0;
         if (msgSizeLimit == null || msgSizeLimit.getBytes() <= 0) {
             bytes = Limitable.UNLIMITED_BYTES;
@@ -4022,15 +4068,19 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         return bytes;
     }
 
+    @Override
     public long getBytesProducerFlow() {
-        if (DL.NO_PRODUCER_FLOW)
+        if (DL.NO_PRODUCER_FLOW) {
             return -1;
+        }
         return producerMsgBatchBytes;
     }
 
+    @Override
     public int getSizeProducerFlow() {
-        if (DL.NO_PRODUCER_FLOW)
+        if (DL.NO_PRODUCER_FLOW) {
             return -1;
+        }
         return producerMsgBatchSize;
     }
 
@@ -4272,8 +4322,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
                             // notify if notify=true or pids dont match
                             boolean shouldNotify = notify || (producer != null && !p.getProducerUID().equals(producer.getProducerUID()));
-                            if (shouldNotify)
+                            if (shouldNotify) {
                                 sendResumeFlow(p, true, info);
+                            }
                         }
                     }
                     return false; // paused
@@ -4290,8 +4341,9 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                             p.resume();
                             // notify if notify=true or pids dont match
                             boolean shouldNotify = notify || (producer != null && !p.getProducerUID().equals(producer.getProducerUID()));
-                            if (shouldNotify)
+                            if (shouldNotify) {
                                 sendResumeFlow(p, false, info);
+                            }
                         }
                     }
                     return true; // not paused
@@ -4319,9 +4371,10 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
                         if (!p.isValid()) {
                             continue;
                         }
-                        if (getDEBUG())
+                        if (getDEBUG()) {
                             logger.log(logger.DEBUGHIGH, "Resuming producer " + p + " The destination has " + fs + " more space and " + activeProducerMap.size()
                                     + " active producers [" + " batch size " + producerMsgBatchSize + "  msg " + destMessages.size());
+                        }
 
                         activeProducerMap.put(p.getProducerUID(), p);
                         itr.remove();
@@ -4380,6 +4433,7 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
 
     }
 
+    @Override
     public boolean isProducerActive(ProducerUID uid) {
         return producerFlow.isProducerActive(uid);
     }
@@ -4398,32 +4452,44 @@ public abstract class Destination implements DestinationSpi, Serializable, com.s
         }
     }
 
+    @Override
     public void setValidateXMLSchemaEnabled(boolean b) {
         this.validateXMLSchemaEnabled = b;
     }
 
+    @Override
     public boolean validateXMLSchemaEnabled() {
         return (this.validateXMLSchemaEnabled);
     }
 
+    @Override
     public void setXMLSchemaUriList(String s) {
         this.XMLSchemaUriList = s;
     }
 
+    @Override
     public String getXMLSchemaUriList() {
         return (this.XMLSchemaUriList);
     }
 
+    @Override
     public void setReloadXMLSchemaOnFailure(boolean b) {
         this.reloadXMLSchemaOnFailure = b;
     }
 
+    @Override
     public boolean reloadXMLSchemaOnFailure() {
         return (this.reloadXMLSchemaOnFailure);
     }
 }
 
 class LoadComparator implements Comparator, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6719078017856553946L;
+
+    @Override
     public int compare(Object o1, Object o2) {
         if (o1 instanceof PacketReference && o2 instanceof PacketReference) {
             PacketReference ref1 = (PacketReference) o1;
@@ -4431,16 +4497,20 @@ class LoadComparator implements Comparator, Serializable {
             // compare priority
             long dif = ref2.getPriority() - ref1.getPriority();
 
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getTimestamp() - ref2.getTimestamp();
+            }
 
             // then sequence
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getSequence() - ref2.getSequence();
-            if (dif < 0)
+            }
+            if (dif < 0) {
                 return -1;
-            if (dif > 0)
+            }
+            if (dif > 0) {
                 return 1;
+            }
             return 0;
         } else {
             assert false;
@@ -4448,10 +4518,12 @@ class LoadComparator implements Comparator, Serializable {
         }
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }
 
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }

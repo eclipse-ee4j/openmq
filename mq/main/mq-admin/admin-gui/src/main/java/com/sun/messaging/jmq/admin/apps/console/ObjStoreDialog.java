@@ -29,14 +29,12 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.net.URI;
 import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.naming.Context;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -59,7 +57,6 @@ import javax.swing.table.AbstractTableModel;
 
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
-import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
 import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelledComponent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
@@ -71,6 +68,10 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  */
 public class ObjStoreDialog extends AdminDialog implements ListSelectionListener {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1800350885238627037L;
     protected JTextField osText;
     protected LabelValuePanel lvp;
     protected ObjStoreManager osMgr = null;
@@ -104,16 +105,19 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
      */
     public ObjStoreDialog(Frame parent, String title, ObjStoreListCObj oslCObj) {
         super(parent, title, (OK | CANCEL | HELP));
-        if (oslCObj != null)
+        if (oslCObj != null) {
             osMgr = oslCObj.getObjStoreManager();
+        }
     }
 
     public ObjStoreDialog(Frame parent, String title, int whichButtons, ObjStoreListCObj oslCObj) {
         super(parent, title, whichButtons);
-        if (oslCObj != null)
+        if (oslCObj != null) {
             osMgr = oslCObj.getObjStoreManager();
+        }
     }
 
+    @Override
     public JPanel createWorkPanel() {
         String[] jndiPropNames = { Context.INITIAL_CONTEXT_FACTORY, Context.OBJECT_FACTORIES, Context.STATE_FACTORIES, Context.URL_PKG_PREFIXES,
                 Context.PROVIDER_URL, Context.DNS_URL, Context.AUTHORITATIVE, Context.BATCHSIZE, Context.REFERRAL, Context.SECURITY_PROTOCOL,
@@ -159,10 +163,11 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         c1.anchor = GridBagConstraints.WEST;
         panel1.add(osPanel);
 
-        if (propsDlg)
+        if (propsDlg) {
             checkBox = new JCheckBox(acr.getString(acr.I_CONNECT_AFTER_UPDATES), true);
-        else
+        } else {
             checkBox = new JCheckBox(acr.getString(acr.I_CONNECT_UPON_ADDING), true);
+        }
         checkBox.addActionListener(this);
         c.gridx = 0;
         c.gridy = 1;
@@ -265,10 +270,11 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         // 2) Width of LabelValuePanel
         int width1 = storeLabel.getPreferredSize().width + 5 + osText.getPreferredSize().width;
         int width2 = lvp.getPreferredSize().width;
-        if (width1 >= width2)
+        if (width1 >= width2) {
             ta.setSize(width1, 1);
-        else
+        } else {
             ta.setSize(width2, 1);
+        }
         ta.setEditable(false);
         Dimension textSize = ta.getPreferredSize();
         ta.setSize(textSize);
@@ -286,21 +292,27 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         return (workPanel);
     }
 
+    @Override
     public void doOK() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
     }
 
+    @Override
     public void doClose() {
     }
 
+    @Override
     public void doClear() {
         // Clear out all fields.
         jndiProps.clear();
@@ -323,6 +335,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
@@ -337,8 +350,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
             dirty = true;
         } else if (source == checkBox) {
             dirty = true;
-        } else
+        } else {
             super.actionPerformed(e);
+        }
     }
     /*
      * END INTERFACE ActionListener
@@ -347,6 +361,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
     /*
      * BEGIN INTERFACE ListSelectionListener
      */
+    @Override
     public void valueChanged(ListSelectionEvent e) {
         ListSelectionModel lsm = (ListSelectionModel) e.getSource();
         boolean isAdjusting = e.getValueIsAdjusting();
@@ -384,7 +399,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
                 /*
                  * Dispatch a selection event. SelectionEvent se = new SelectionEvent(this, SelectionEvent.OBJ_SELECTED);
                  * se.setSelectedObj((ConsoleObj)o);
-                 * 
+                 *
                  * fireAdminEventDispatched(se);
                  */
             }
@@ -401,7 +416,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         //
         String value = (valueText.getText()).trim();
         if (value == null || value.equals("")) {
-            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, (String) comboBox.getSelectedItem()),
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, comboBox.getSelectedItem()),
                     acr.getString(acr.I_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_NO_PROP_VALUE), JOptionPane.YES_NO_OPTION,
                     JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             valueText.requestFocus();
@@ -413,7 +428,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         //
         String checkValue = jndiProps.getProperty((String) comboBox.getSelectedItem());
         if (checkValue != null) {
-            JOptionPane.showOptionDialog(this, acr.getString(acr.E_PROP_VALUE_EXISTS, (String) comboBox.getSelectedItem()),
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_PROP_VALUE_EXISTS, comboBox.getSelectedItem()),
                     acr.getString(acr.I_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_PROP_VALUE_EXISTS),
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             return;
@@ -438,8 +453,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
         for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
             String propName = (String) e.nextElement();
-            if (propName.equals((String) comboBox.getSelectedItem()))
+            if (propName.equals(comboBox.getSelectedItem())) {
                 break;
+            }
             index++;
         }
         model.fireTableRowsInserted(index, index);
@@ -456,11 +472,12 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
         for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
             String propName = (String) e.nextElement();
-            if (propName.equals((String) comboBox.getSelectedItem()))
+            if (propName.equals(comboBox.getSelectedItem())) {
                 break;
+            }
             index++;
         }
-        jndiProps.remove((String) comboBox.getSelectedItem());
+        jndiProps.remove(comboBox.getSelectedItem());
         model.fireTableRowsDeleted(index, index);
 
         // Nothing is selected now so
@@ -479,7 +496,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         //
         String value = (valueText.getText()).trim();
         if (value == null || value.equals("")) {
-            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, (String) comboBox.getSelectedItem()),
+            JOptionPane.showOptionDialog(this, acr.getString(acr.E_NO_PROP_VALUE, comboBox.getSelectedItem()),
                     acr.getString(acr.I_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_NO_PROP_VALUE), JOptionPane.YES_NO_OPTION,
                     JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             valueText.requestFocus();
@@ -500,8 +517,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
         for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
             String propName = (String) e.nextElement();
-            if (propName.equals((String) comboBox.getSelectedItem()))
+            if (propName.equals(comboBox.getSelectedItem())) {
                 break;
+            }
             index++;
         }
         jndiProps.setProperty((String) comboBox.getSelectedItem(), value);
@@ -511,15 +529,16 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
     /*
      * public void doUrlButton() { osText.setEnabled(false); urlLabel.setEnabled(true); }
-     * 
+     *
      * public void doOsTextButton() { osText.setEnabled(true); urlLabel.setEnabled(false); }
      */
 
     public void doComboBox() {
         String name = (String) comboBox.getSelectedItem();
 
-        if (jndiProps == null)
+        if (jndiProps == null) {
             valueText.setText("");
+        }
 
         if (name != null) {
             String value = jndiProps.getProperty(name);
@@ -535,8 +554,9 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
                 int index = 0;
                 for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
                     String propName = (String) e.nextElement();
-                    if (propName.equals(name))
+                    if (propName.equals(name)) {
                         break;
+                    }
                     index++;
                 }
                 table.setRowSelectionInterval(index, index);
@@ -587,7 +607,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
             } else if (mandatoryNames[i].equals(Context.INITIAL_CONTEXT_FACTORY)) {
                 // Validate the value of initial context provided.
                 try {
-                    Object obj = (Object) Class.forName(propName);
+                    Object obj = Class.forName(propName);
                 } catch (ClassNotFoundException e) {
                     JOptionPane.showOptionDialog(this, acr.getString(acr.E_CANNOT_INSTANTIATE, propName, mandatoryNames[i]),
                             acr.getString(acr.I_ADD_OBJSTORE) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_CANNOT_INSTANTIATE),
@@ -700,10 +720,16 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
 
     class PropsTableModel extends AbstractTableModel {
         /**
+         * 
+         */
+        private static final long serialVersionUID = -6685250332698377866L;
+
+        /**
          * Returns the number of collumns in table.
          *
          * @return The number of collumns in table.
          */
+        @Override
         public int getColumnCount() {
 
             return columnNames.length;
@@ -714,11 +740,13 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
          *
          * @return The number of rows in table.
          */
+        @Override
         public int getRowCount() {
-            if (jndiProps == null)
+            if (jndiProps == null) {
                 return 0;
-            else
+            } else {
                 return jndiProps.size();
+            }
         }
 
         /**
@@ -726,6 +754,7 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
          *
          * @return the collumn name/label for a given collumn.
          */
+        @Override
         public String getColumnName(int col) {
             return columnNames[col];
         }
@@ -733,18 +762,21 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         /**
          * Return value at a particular table cell location. Calls the TabledInspector.getValueAtCollumn() method.
          */
+        @Override
         public Object getValueAt(int row, int col) {
 
-            if (jndiProps == null)
+            if (jndiProps == null) {
                 return "";
+            }
 
             int i = 0;
             for (Enumeration e = jndiProps.propertyNames(); e.hasMoreElements();) {
                 String propName = (String) e.nextElement();
-                if (col == 0 && i == row)
+                if (col == 0 && i == row) {
                     return propName;
-                else if (col == 1 && i == row)
+                } else if (col == 1 && i == row) {
                     return jndiProps.getProperty(propName);
+                }
                 i++;
             }
             return "";
@@ -753,20 +785,24 @@ public class ObjStoreDialog extends AdminDialog implements ListSelectionListener
         /**
          * Don't need to implement this method unless your table's data can change.
          */
+        @Override
         public void setValueAt(Object value, int row, int col) {
         }
 
     }
 
     class ObjStoreDocumentListener implements DocumentListener {
+        @Override
         public void insertUpdate(DocumentEvent e) {
             dirty = true;
         }
 
+        @Override
         public void removeUpdate(DocumentEvent e) {
             dirty = true;
         }
 
+        @Override
         public void changedUpdate(DocumentEvent e) {
             dirty = true;
         }

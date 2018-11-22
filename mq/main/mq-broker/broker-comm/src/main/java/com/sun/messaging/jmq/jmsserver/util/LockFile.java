@@ -26,9 +26,7 @@ import java.net.*;
 import java.util.*;
 
 import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.*;
 
 /**
  * This class encapsulates a broker lock file. The lock file makes sure that no two brokers using the same instance name
@@ -40,7 +38,7 @@ import com.sun.messaging.jmq.util.log.*;
  * was left over from a previous run of this broker and we assume we got the lock and return. Else try to connect to the
  * broker on host:port to see if it is still up. If we connect to broker then we failed to get lock. return. Else assume
  * the lock file is cruft. Remove it and try to acquire again.
- * 
+ *
  */
 
 public class LockFile {
@@ -140,7 +138,7 @@ public class LockFile {
 
     /**
      * check if host1 and host 2 have the same IP address.
-     * 
+     *
      * @param host1
      * @param host2
      * @return true if we can obtain IPs from host1 and host2 and they are the equal.
@@ -196,6 +194,7 @@ public class LockFile {
         return port;
     }
 
+    @Override
     public String toString() {
         return instance + " " + hostname + ":" + port + " (" + isMyLock + ")";
     }

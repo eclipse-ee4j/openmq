@@ -20,6 +20,11 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
 
 public class BridgeMgrPrinter extends MultiColumnPrinter {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8625056236061678626L;
+
     public BridgeMgrPrinter(int numCol, int gap, String border, int align, boolean sort) {
         super(numCol, gap, border, align, sort);
     }
@@ -40,10 +45,12 @@ public class BridgeMgrPrinter extends MultiColumnPrinter {
         super();
     }
 
+    @Override
     public void doPrint(String str) {
         Globals.stdOutPrint(str);
     }
 
+    @Override
     public void doPrintln(String str) {
         Globals.stdOutPrintln(str);
     }

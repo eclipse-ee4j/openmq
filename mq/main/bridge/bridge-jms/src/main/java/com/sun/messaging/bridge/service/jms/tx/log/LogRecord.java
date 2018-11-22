@@ -136,12 +136,14 @@ public class LogRecord implements Externalizable {
         }
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeObject(_gxidd);
         out.writeObject(_bxidds);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         _gxidd = (GlobalXidDecision) in.readObject();
@@ -161,20 +163,24 @@ public class LogRecord implements Externalizable {
         return baos.toByteArray();
     }
 
+    @Override
     public String toString() {
 
         StringBuffer sb = new StringBuffer();
         int i = 0;
         for (i = 0; i < _bxidds.length; i++) {
-            if (i == 0)
+            if (i == 0) {
                 sb.append("[");
-            if (i > 0)
+            }
+            if (i > 0) {
                 sb.append(", ");
+            }
             sb.append(_bxidds[i].toString());
             sb.append(_bxidds[i].toString());
         }
-        if (i > 0)
+        if (i > 0) {
             sb.append("]");
+        }
         return _gxidd.toString() + sb.toString();
     }
 }

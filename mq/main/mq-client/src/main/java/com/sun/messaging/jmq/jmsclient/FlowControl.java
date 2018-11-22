@@ -73,17 +73,19 @@ public class FlowControl implements Runnable, Traceable {
     private static final Logger connLogger = ConnectionImpl.connectionLogger;
 
     private static void initFlowControlDebug() {
-        if (FLOWCONTROL_DEBUG == false || fdbg != null)
+        if (FLOWCONTROL_DEBUG == false || fdbg != null) {
             return;
+        }
 
-        if (FLOWCONTROL_LOG == null)
+        if (FLOWCONTROL_LOG == null) {
             FLOWCONTROL_LOG = "stderr";
+        }
 
-        if (FLOWCONTROL_LOG.equals("stdout"))
+        if (FLOWCONTROL_LOG.equals("stdout")) {
             fdbg = System.out;
-        else if (FLOWCONTROL_LOG.equals("stderr"))
+        } else if (FLOWCONTROL_LOG.equals("stderr")) {
             fdbg = System.err;
-        else {
+        } else {
             try {
                 java.io.FileOutputStream fos = new java.io.FileOutputStream(FLOWCONTROL_LOG, true);
                 fdbg = new PrintStream(fos);
@@ -160,8 +162,9 @@ public class FlowControl implements Runnable, Traceable {
     }
 
     public void requestResume(Object key) {
-        if (debug)
+        if (debug) {
             Debug.println("**** In requestResume. key = " + key);
+        }
 
         FlowControlEntry fce = getFlowControlEntry(key);
 
@@ -178,27 +181,31 @@ public class FlowControl implements Runnable, Traceable {
 
     public void messageReceived(Object key) {
         FlowControlEntry fce = findFlowControlEntry(key);
-        if (fce != null)
+        if (fce != null) {
             fce.messageReceived();
+        }
     }
 
     public void messageDelivered(Object key) {
         FlowControlEntry fce = findFlowControlEntry(key);
-        if (fce != null)
+        if (fce != null) {
             fce.messageDelivered();
+        }
     }
 
     // bug 6271876 -- connection flow control
     public void resetFlowControl(Object key, int count) {
         FlowControlEntry fce = findFlowControlEntry(key);
-        if (fce != null)
+        if (fce != null) {
             fce.resetFlowControl(count);
+        }
     }
 
     public Hashtable getDebugState(Object key) {
         FlowControlEntry fce = findFlowControlEntry(key);
-        if (fce != null)
+        if (fce != null) {
             return fce.getDebugState();
+        }
 
         return new Hashtable();
     }
@@ -216,8 +223,9 @@ public class FlowControl implements Runnable, Traceable {
 
         if (fce == null) {
             // This should never happen.
-            if (!(key instanceof Consumer) && !(key instanceof ConnectionImpl))
+            if (!(key instanceof Consumer) && !(key instanceof ConnectionImpl)) {
                 throw new IllegalArgumentException("getFlowControlEntry: Bad key type. key = " + key);
+            }
 
             throw new java.lang.IllegalStateException("FlowControlEntry not found. key = " + key);
         }
@@ -226,8 +234,9 @@ public class FlowControl implements Runnable, Traceable {
     }
 
     private FlowControlEntry findFlowControlEntry(Object key) {
-        if (key == null)
+        if (key == null) {
             return null;
+        }
 
         FlowControlEntry fce = (FlowControlEntry) flowControlTable.get(key);
         return fce;
@@ -249,6 +258,7 @@ public class FlowControl implements Runnable, Traceable {
     /**
      * This method exit only if ReadChannel is closed (connection is closed).
      */
+    @Override
     public void run() {
         long lastDump = 0;
         while (true) {
@@ -298,7 +308,9 @@ public class FlowControl implements Runnable, Traceable {
                 } // while
 
                 if (isClosed)
+                 {
                     break; // Returns from the run() method.
+                }
 
                 rqCopy = (FlowControlEntry[]) readyQueue.values().toArray(new FlowControlEntry[readyQueue.size()]);
             }
@@ -320,8 +332,9 @@ public class FlowControl implements Runnable, Traceable {
                 if (connection.isClosed) {
                     isClosed = true;
                     break; // Returns from the run() method.
-                } else
+                } else {
                     Debug.printStackTrace(e);
+                }
             }
         }
     }
@@ -354,15 +367,17 @@ public class FlowControl implements Runnable, Traceable {
     }
 
     protected synchronized void addToReadyQueue(FlowControlEntry fce) {
-        if (debug)
+        if (debug) {
             Debug.println("In addToReadyQueue : " + fce);
+        }
         readyQueue.put(fce, fce);
         notifyAll();
     }
 
     protected synchronized void removeFromReadyQueue(FlowControlEntry fce) {
-        if (debug)
+        if (debug) {
             Debug.println("In addToReadyQueue : " + fce);
+        }
 
         readyQueue.remove(fce);
     }
@@ -375,6 +390,7 @@ public class FlowControl implements Runnable, Traceable {
         notifyAll();
     }
 
+    @Override
     public void dump(PrintStream ps) {
     }
 }
@@ -447,11 +463,13 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
      *
      * Increment the inQueueCounter.
      */
+    @Override
     public void messageReceived() {
         synchronized (this) {
             inQueueCounter++;
-            if (inQueueCounter > TEST_peakCount)
+            if (inQueueCounter > TEST_peakCount) {
                 TEST_peakCount = inQueueCounter;
+            }
         }
     }
 
@@ -461,6 +479,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
      * Decrement the inQueueCounter. If resumeFlow has been requested AND if there is room in the queue, add this entry to
      * the readyQueue.
      */
+    @Override
     public void messageDelivered() {
         synchronized (this) {
             inQueueCounter--;
@@ -475,6 +494,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
      * Reset the flow control state counters and send resume flow if necessary. This is called when session is closed or
      * cinsumer is closed. bug 6271876 -- connection flow control
      */
+    @Override
     public void resetFlowControl(int reduceFlowCount) {
 
         inQueueCounter = inQueueCounter - reduceFlowCount;
@@ -492,6 +512,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
     /**
      * Handle resume request from the broker.
      */
+    @Override
     public synchronized void setResumeRequested(boolean resumeRequested) {
         if (debug) {
             Debug.println("setResumeRequsted[" + this + "] : " + resumeRequested);
@@ -504,6 +525,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
         }
     }
 
+    @Override
     protected synchronized void sendResumeFlow() throws Exception {
         setResumeRequested(false);
         protocolHandler.resumeFlow(flowControlChunkSize);
@@ -520,6 +542,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
         }
     }
 
+    @Override
     protected Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
 
@@ -533,19 +556,25 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
         return ht;
     }
 
+    @Override
     protected Object TEST_GetAttribute(String name) {
-        if (name.equals("FlowControl.Count"))
+        if (name.equals("FlowControl.Count")) {
             return Integer.valueOf(inQueueCounter);
-        if (name.equals("FlowControl.PeakCount"))
+        }
+        if (name.equals("FlowControl.PeakCount")) {
             return Integer.valueOf(TEST_peakCount);
-        if (name.equals("FlowControl.IsFlowPaused"))
+        }
+        if (name.equals("FlowControl.IsFlowPaused")) {
             return Boolean.valueOf(resumeRequested);
-        if (name.equals("FlowControl.PauseCount"))
+        }
+        if (name.equals("FlowControl.PauseCount")) {
             return Integer.valueOf(TEST_pauseCount);
+        }
 
         return null;
     }
 
+    @Override
     protected void status_report(PrintStream dbg) {
         dbg.println("FlowControlState for Connection : " + fc.connection);
         dbg.println("\t# pending messages : " + inQueueCounter);
@@ -553,6 +582,7 @@ class ConnectionFlowControlEntry extends FlowControlEntry {
         dbg.println("\t# flowControlWaterMark : " + flowControlWaterMark);
     }
 
+    @Override
     public String toString() {
         return "ConnectionFlowControlEntry[" + fc.connection + "]";
     }
@@ -582,8 +612,9 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
 
     private static boolean sendResumeOnRecover = true;
     static {
-        if (System.getProperty("imq.resume_on_recover") != null)
+        if (System.getProperty("imq.resume_on_recover") != null) {
             sendResumeOnRecover = Boolean.getBoolean("imq.resume_on_recover");
+        }
     }
 
     public ConsumerFlowControlEntry(FlowControl fc, ProtocolHandler protocolHandler, Consumer consumer) {
@@ -599,24 +630,30 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
             cfcLogger.log(Level.FINE, "ConsumerFlowControl[" + consumer + "]maxMsgCount=" + maxMsgCount);
         }
 
-        if (prefetchThresholdPercent < 0)
+        if (prefetchThresholdPercent < 0) {
             prefetchThresholdPercent = 0;
+        }
 
-        if (prefetchThresholdPercent > 100)
+        if (prefetchThresholdPercent > 100) {
             prefetchThresholdPercent = 100;
+        }
 
         thresholdCount = (int) ((float) maxMsgCount * prefetchThresholdPercent / 100.0);
 
-        if (thresholdCount >= maxMsgCount)
+        if (thresholdCount >= maxMsgCount) {
             thresholdCount = maxMsgCount - 1;
+        }
     }
 
+    @Override
     public synchronized void messageReceived() {
         inQueueCounter++;
-        if (inQueueCounter > TEST_peakCount)
+        if (inQueueCounter > TEST_peakCount) {
             TEST_peakCount = inQueueCounter;
+        }
     }
 
+    @Override
     public synchronized void messageDelivered() {
         inQueueCounter--;
         checkAndResumeFlow();
@@ -629,12 +666,15 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
      *
      * bug 6271876 -- connection flow control
      */
+    @Override
     public synchronized void resetFlowControl(int count) {
         inQueueCounter = 0;
-        if (sendResumeOnRecover)
+        if (sendResumeOnRecover) {
             checkAndResumeFlow();
+        }
     }
 
+    @Override
     public synchronized void setResumeRequested(boolean resumeRequested) {
         if (debug) {
             Debug.println("setResumeRequsted[" + this + "] : " + resumeRequested);
@@ -647,10 +687,12 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
         }
     }
 
+    @Override
     protected synchronized void sendResumeFlow() throws Exception {
         int count = -1;
-        if (maxMsgCount > 0)
+        if (maxMsgCount > 0) {
             count = maxMsgCount - inQueueCounter;
+        }
 
         if (maxMsgCount > 0 && count <= 0) {
             fc.removeFromReadyQueue(this);
@@ -663,8 +705,9 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
         protocolHandler.resumeConsumerFlow(consumer, count);
         fc.removeFromReadyQueue(this);
 
-        if (count < TEST_minResumeCount)
+        if (count < TEST_minResumeCount) {
             TEST_minResumeCount = count;
+        }
 
         TEST_lastResumeCount = count;
         TEST_resumeCount++;
@@ -676,9 +719,10 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
      * Caller must take care of synchronization...
      */
     private void checkAndResumeFlow() {
-        if (debug)
+        if (debug) {
             Debug.println("In checkAndResumeFlow : " + this + "\n\tresumeRequested = " + resumeRequested + ", maxMsgCount = " + maxMsgCount
                     + ", inQueueCounter = " + inQueueCounter + ", thresholdCount = " + thresholdCount);
+        }
 
         if (resumeRequested) {
             if ((maxMsgCount <= 0) || (inQueueCounter <= thresholdCount)) {
@@ -687,6 +731,7 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
         }
     }
 
+    @Override
     protected Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
 
@@ -703,25 +748,33 @@ class ConsumerFlowControlEntry extends FlowControlEntry {
         return ht;
     }
 
+    @Override
     protected Object TEST_GetAttribute(String name) {
-        if (name.equals("FlowControl.Count"))
+        if (name.equals("FlowControl.Count")) {
             return Integer.valueOf(inQueueCounter);
-        if (name.equals("FlowControl.PeakCount"))
+        }
+        if (name.equals("FlowControl.PeakCount")) {
             return Integer.valueOf(TEST_peakCount);
-        if (name.equals("FlowControl.IsFlowPaused"))
+        }
+        if (name.equals("FlowControl.IsFlowPaused")) {
             return Boolean.valueOf(resumeRequested);
-        if (name.equals("FlowControl.PauseCount"))
+        }
+        if (name.equals("FlowControl.PauseCount")) {
             return Integer.valueOf(TEST_pauseCount);
-        if (name.equals("FlowControl.MinResumeCount"))
+        }
+        if (name.equals("FlowControl.MinResumeCount")) {
             return Integer.valueOf(TEST_minResumeCount);
+        }
 
         return null;
     }
 
+    @Override
     public String toString() {
         return "ConsumerFlowControlEntry[" + consumer + "]";
     }
 
+    @Override
     protected void status_report(PrintStream dbg) {
         dbg.println("FlowControlState for : " + this);
         dbg.println("\t# pending messages : " + inQueueCounter);

@@ -73,7 +73,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * construct UMS connection factory
-     * 
+     *
      * @throws javax.jms.JMSException
      */
     private void init() throws JMSException {
@@ -156,7 +156,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * check out a cached connection. This is called when a client is created.
-     * 
+     *
      * @return
      * @throws JMSException
      */
@@ -209,7 +209,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * This is called when a client is sweeped/closed.
-     * 
+     *
      * @param cc
      */
     public void releaseConnection(CachedConnection cc) {
@@ -228,7 +228,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * Only called from getCachedConnection and already acquired lock.
-     * 
+     *
      * @return
      * @throws JMSException
      */
@@ -249,7 +249,7 @@ public class CachedConnectionPool implements Sweepable {
 
     /**
      * Only called from newCachedConnection and already acquired lock.
-     * 
+     *
      * @return
      * @throws JMSException
      */
@@ -271,6 +271,7 @@ public class CachedConnectionPool implements Sweepable {
         return conn;
     }
 
+    @Override
     public void sweep(long duration) {
 
         if (UMSServiceImpl.getDebug()) {
@@ -370,6 +371,7 @@ public class CachedConnectionPool implements Sweepable {
         }
     }
 
+    @Override
     public String toString() {
         return this.getClass().getName() + ", provider=" + this.provider + ", service=" + this.serviceName + ", #cc=" + this.connections.size();
     }

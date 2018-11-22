@@ -27,6 +27,12 @@ package com.sun.messaging.jmq.util.options;
 
 public class UnrecognizedOptionException extends OptionException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8585187689988645874L;
+
+    @Override
     public String toString() {
         return (super.toString() + " (" + getOption() + ")");
     }

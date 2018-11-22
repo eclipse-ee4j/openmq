@@ -23,6 +23,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class MaxConsecutiveRollbackException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 205165917423656834L;
+
     public MaxConsecutiveRollbackException(String msg) {
         super(msg, Status.EXPECTATION_FAILED);
     }

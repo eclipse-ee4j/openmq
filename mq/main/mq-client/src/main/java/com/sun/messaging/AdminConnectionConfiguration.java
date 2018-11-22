@@ -44,7 +44,7 @@ public class AdminConnectionConfiguration {
      * <p>
      * <code><i>scheme</i>://<i>address_syntax</i></code><br>
      * </p>
-     * 
+     *
      * <P>
      * This syntax is similar to the one used by JMS clients to configure JMS ConnectionFactory objects. However, the
      * address syntax includes an MQ broker JMX connector name (instead of a connection service name).
@@ -59,24 +59,24 @@ public class AdminConnectionConfiguration {
      * <TH>Description</TH>
      * <TH>Syntax</TH>
      * </TR>
-     * 
+     *
      * <TR>
      * <TD valign="top"><code>mq</code></TD>
-     * 
+     *
      * <TD valign="top"><code>jmxrmi<br>
      *         and <br>
      *         jmxsslrmi</code></TD>
-     * 
+     *
      * <TD valign="top">The MQ Port Mapper at the specified host and port will handle the connection request, and determine
      * the JMXServiceURL for the connector that is specified. Once this is known, MQ makes the connection.</TD>
-     * 
+     *
      * <TD valign="top"><code>[<i>hostName</i>][:<i>port</i>]/<i>connectorName</i></code> <br>
      * Defaults: <br>
      * <code><i>hostName</i> = localhost <br>
      *       <i>port</i> = 7676</code><br>
      * A connector name must be specified.</TD>
      * </TR>
-     * 
+     *
      * </TABLE>
      * <p>
      * &nbsp;
@@ -91,73 +91,73 @@ public class AdminConnectionConfiguration {
      * <TH>Port</TH>
      * <TH>Example Address</TH>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">jmxrmi</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top"><code>mq:///jmxrmi<br>
      *       (mq://localhost:7676/jmxrmi)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">jmxrmi</TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://myBkrHost/jmxrmi<br>
      *       (mq://myBkrHost:7676/jmxrmi)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">jmxrmi</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Specified Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://:1012/jmxrmi<br>
      *       (mq://localHost:1012/jmxrmi)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>jmxsslrmi</code></TD>
-     * 
+     *
      * <TD valign="top">Local Host</TD>
-     * 
+     *
      * <TD valign="top">Default Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://localHost:7676/jmxsslrmi</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
      * <TD valign="top"><code>jmxsslrmi</code></TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Default Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://myBkrHost:7676/jmxsslrmi</code></TD>
      * </TR>
      * <TR>
      * <TD valign="top"><code>jmxsslrmi</code></TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Specified Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://myBkrHost:1012/jmxsslrmi</code></TD>
      * </TR>
-     * 
+     *
      * </TABLE>
      * <P>
      * &nbsp;

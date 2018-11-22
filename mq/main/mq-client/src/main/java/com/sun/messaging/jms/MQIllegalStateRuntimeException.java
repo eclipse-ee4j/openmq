@@ -27,11 +27,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQIllegalStateRuntimeException extends javax.jms.IllegalStateRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -742054100604186609L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQIllegalStateRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQIllegalStateRuntimeException(String detailMessage) {
@@ -40,7 +44,7 @@ public class MQIllegalStateRuntimeException extends javax.jms.IllegalStateRuntim
 
     /**
      * Constructs a <code>MQIllegalStateRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -50,7 +54,7 @@ public class MQIllegalStateRuntimeException extends javax.jms.IllegalStateRuntim
 
     /**
      * Constructs a <code>MQIllegalStateRuntimeException</code> with the specified detail message, error code and cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -61,7 +65,7 @@ public class MQIllegalStateRuntimeException extends javax.jms.IllegalStateRuntim
 
     /**
      * Construct a <code>MQIllegalStateRuntimeException</code> to wrap the specified IllegalStateException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQIllegalStateRuntimeException(IllegalStateException cause) {
@@ -70,18 +74,20 @@ public class MQIllegalStateRuntimeException extends javax.jms.IllegalStateRuntim
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

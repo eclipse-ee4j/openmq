@@ -79,11 +79,12 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
 
     /**
      * Return an XA resource to the caller.
-     * 
+     *
      * @return an XA resource to the caller
      */
+    @Override
     public XAResource getXAResource() {
-        return (XAResource) xar;
+        return xar;
     }
 
     /**
@@ -93,6 +94,7 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
      *
      * @exception JMSException if JMS fails to return the transaction mode due to internal error in JMS Provider.
      */
+    @Override
     public boolean getTransacted() throws JMSException {
         checkSessionState();
         if (xaTxnMode) {
@@ -107,6 +109,7 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
      * @exception TransactionInProgressException if method is called on a XASession.
      *
      */
+    @Override
     public void commit() throws JMSException {
         if (xaTxnMode) {
             String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_COMMIT_ROLLBACK_XASESSION);
@@ -118,8 +121,9 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
     @Override
     public void close() throws JMSException {
         super.close();
-        if (xar != null)
+        if (xar != null) {
             xar.close();
+        }
     }
 
     /**
@@ -128,6 +132,7 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
      * @exception TransactionInProgressException if method is called on a XASession.
      *
      */
+    @Override
     public void rollback() throws JMSException {
         if (xaTxnMode) {
             String error = AdministeredObject.cr.getKString(AdministeredObject.cr.X_COMMIT_ROLLBACK_XASESSION);
@@ -138,20 +143,21 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
 
     /**
      * Get the queue session associated with this XAQueueSession.
-     * 
+     *
      * @return the queue session object.
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public Session getSession() throws JMSException {
-        return (Session) this;
+        return this;
     }
 
     /**
      * Perform recreate consumer for RA.
-     * 
+     *
      * Called by SessionReader@ra.MessageListener when detects that remoteAckFailedFlag is set to true.
-     * 
+     *
      * @throws JMSException
      */
     public void recreateConsumerForRA() {
@@ -179,7 +185,7 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
 
     /**
      * This is called from XAResourceForRA when a remote ack failed occurred.
-     * 
+     *
      * @param rae the remote exception that contains consumer UID
      */
     public void notifyRemoteAcknowledgeException(RemoteAcknowledgeException rae) {
@@ -219,6 +225,7 @@ public class XASessionImpl extends UnifiedSessionImpl implements XASession {
         return this.raRemoteAckFailedFlag;
     }
 
+    @Override
     public void stopSession() throws JMSException {
         super.stopSession();
     }

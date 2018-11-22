@@ -24,21 +24,17 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionWorkMessage;
 import com.sun.messaging.jmq.jmsserver.data.TransactionWorkMessageAck;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
-import com.sun.messaging.jmq.jmsserver.persist.api.TransactionInfo;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.WaitTimeoutException;
@@ -52,49 +48,49 @@ import com.sun.messaging.jmq.io.txnlog.file.FileTransactionLogWriter;
 
 /**
  * @author gsivewright
- * 
+ *
  * This class manages the transfer of data between the message store and the transaction log.
- * 
+ *
  */
 
 /*
  * Order of handling prepared txns
- * 
+ *
  * The following scenario describes a sequence of updates to the transaction log and message store. This sequence is
  * used to illustrate how consistent state can be recreated on restart after a failure of the broker at various specific
  * processing points.
- * 
+ *
  * 1.write prepared txn to txnLog 2.checkpoint1 (see checkpoint sequence) 3.write commit record to txnLog 4.write txn to
  * store 5.write commit record to preparedTxnStore 6.checkpoint2 (see checkpoint sequence)
- * 
+ *
  * checkpoint sequence:
- * 
+ *
  * 1.sync message store 2.write prepared txns (since last checkpoint) to prepared store 3.sync prepareTxnStore 4.reset
  * txn log 5.remove committed txns (since last checkpoint) from prepared store
- * 
- * 
+ *
+ *
  * replay after failure at 1 -> 2.2
- * 
+ *
  * 1.read preparedTxnStore (empty) 2.read prepared txn from txnLog 3.check if txn is in preparedTxnStore. (add).
  * 4.checkpoint
- * 
+ *
  * replay after failure at 2.3 -> 2.4
- * 
+ *
  * 1.read txns from preparedTxnStore 2.read prepared txn from txnLog 3.check if txn is in preparedTxnStore. (already
  * there) 4.checkpoint
- * 
+ *
  * replay after failure at 2.5
- * 
+ *
  * 1.read preparedTxn from preparedTxnStore 2.checkpoint
- * 
+ *
  * replay after failure at 3 -> 5
- * 
+ *
  * 1.read txns from preparedTxnStore 2.read commit record from txnLog 3.write txn to message store (replace if there)
  * 4.write commit record to preparedTxnStore (if not committed) 5.checkpoint
- * 
+ *
  * replay after failure at 6.4 1)read txns from preparedTxnStore (find committed txn) 2)do not replay (not in reset
  * txnLog) 3)checkpoint
- * 
+ *
  */
 
 public class TransactionLogManager implements CheckPointListener {
@@ -235,10 +231,12 @@ public class TransactionLogManager implements CheckPointListener {
     public void close() {
         closed = true;
         try {
-            if (msgLogWriter != null)
+            if (msgLogWriter != null) {
                 msgLogWriter.close(false);
-            if (preparedTxnStore != null)
+            }
+            if (preparedTxnStore != null) {
                 preparedTxnStore.close(true);
+            }
         } catch (IOException e) {
             logger.logStack(Logger.ERROR, "caught exception closing", e);
         }
@@ -260,8 +258,9 @@ public class TransactionLogManager implements CheckPointListener {
         }
         File incompleteTxnStore = new File(rootDir, INCOMPLETE_TXN_STORE);
         try {
-            if (incompleteTxnStore.exists())
+            if (incompleteTxnStore.exists()) {
                 FileUtil.removeFiles(incompleteTxnStore, true);
+            }
         } catch (IOException e) {
             String msg = "Can not delete incomplete txn store " + incompleteTxnStore;
             logger.log(Logger.ERROR, msg, e);
@@ -295,10 +294,10 @@ public class TransactionLogManager implements CheckPointListener {
      * localTransactionManager.getAllIncompleteTransactions(); List<BaseTransaction> cluster =
      * clusterTransactionManager.getAllIncompleteTransactions(); List<BaseTransaction> remote =
      * remoteTransactionManager.getAllIncompleteTransactions();
-     * 
+     *
      * List<BaseTransaction> all = new ArrayList<BaseTransaction>(); all.addAll(local); all.addAll(cluster);
      * all.addAll(remote); return all; }
-     * 
+     *
      */
 
     HashMap getAllTransactionStates() throws IOException {
@@ -813,6 +812,7 @@ public class TransactionLogManager implements CheckPointListener {
 
     // checkpoint handling
 
+    @Override
     public final void checkpoint() {
         if (Store.getDEBUG()) {
             logger.log(Logger.DEBUG, getPrefix() + " request a checkpoint");

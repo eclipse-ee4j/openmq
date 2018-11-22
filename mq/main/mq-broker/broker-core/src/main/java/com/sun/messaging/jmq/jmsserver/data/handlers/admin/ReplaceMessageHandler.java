@@ -23,12 +23,8 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
-import java.io.Serializable;
-import java.util.Vector;
 import java.util.Hashtable;
 import java.util.HashMap;
-import java.nio.ByteBuffer;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.util.DestType;
@@ -54,6 +50,7 @@ public class ReplaceMessageHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

@@ -39,13 +39,15 @@ public class getConfiguration implements ReadOnlyService {
 
     /**
      * initialize with the servlet init params.
-     * 
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
 
+    @Override
     public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
 
         try {

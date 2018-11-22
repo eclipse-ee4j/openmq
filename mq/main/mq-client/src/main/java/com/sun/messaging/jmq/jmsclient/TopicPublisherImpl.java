@@ -60,6 +60,7 @@ public class TopicPublisherImpl extends MessageProducerImpl implements TopicPubl
      * @exception JMSException if JMS fails to get topic for this topic publisher due to some internal error.
      */
 
+    @Override
     public Topic getTopic() throws JMSException {
         checkState();
         return topic;
@@ -74,6 +75,7 @@ public class TopicPublisherImpl extends MessageProducerImpl implements TopicPubl
      * @exception MessageFormatException if invalid message specified
      * @exception InvalidDestinationException if a client uses this method with a Topic Publisher with an invalid topic.
      */
+    @Override
     public void publish(Message message) throws JMSException {
 
         super.send(message);
@@ -92,6 +94,7 @@ public class TopicPublisherImpl extends MessageProducerImpl implements TopicPubl
      * @exception MessageFormatException if invalid message specified
      * @exception InvalidDestinationException if a client uses this method with a Topic Publisher with an invalid topic.
      */
+    @Override
     public void publish(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
 
         super.send(message, deliveryMode, priority, timeToLive);
@@ -113,6 +116,7 @@ public class TopicPublisherImpl extends MessageProducerImpl implements TopicPubl
      * @exception InvalidDestinationException if a client uses this method with an invalid topic.
      */
 
+    @Override
     public void publish(Topic topic, Message message) throws JMSException {
 
         super.send(topic, message);
@@ -138,6 +142,7 @@ public class TopicPublisherImpl extends MessageProducerImpl implements TopicPubl
      * @exception InvalidDestinationException if a client uses this method with an invalid topic.
      */
 
+    @Override
     public void publish(Topic topic, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
 
         super.send(topic, message, deliveryMode, priority, timeToLive);

@@ -23,17 +23,12 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import java.util.Hashtable;
 import java.util.HashSet;
 import java.util.Set;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
 import java.util.Iterator;
 import java.util.Properties;
 
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.Queue;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.Version;
@@ -41,9 +36,7 @@ import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.Broker;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.license.*;
-import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
@@ -61,6 +54,7 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;
@@ -165,8 +159,9 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
                 list += "," + itr.next().toString();
             }
         }
-        if (list == null)
+        if (list == null) {
             list = "";
+        }
         brokerProps.put("imq.cluster.brokerlist", list);
 
         list = null;
@@ -184,8 +179,9 @@ public class GetBrokerPropsHandler extends AdminCmdHandler {
                 list += "," + itr.next().toString();
             }
         }
-        if (list == null)
+        if (list == null) {
             list = "";
+        }
         brokerProps.put("imq.cluster.brokerlist.active", list);
 
         // Send reply

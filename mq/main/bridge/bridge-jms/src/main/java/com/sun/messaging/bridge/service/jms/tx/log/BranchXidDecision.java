@@ -68,12 +68,14 @@ public class BranchXidDecision implements Externalizable {
         _decision = d;
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         _xid.write(out);
         out.writeInt(_decision);
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         _xid = BranchXid.read(in);
         _decision = in.readInt();
@@ -96,6 +98,7 @@ public class BranchXidDecision implements Externalizable {
         }
     }
 
+    @Override
     public String toString() {
         return _xid.toString() + "(" + decisionString(_decision) + ")";
     }

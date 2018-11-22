@@ -417,22 +417,27 @@ public class DestinationConfig extends MQMBeanReadWrite {
         }
     }
 
+    @Override
     public String getMBeanName() {
         return ("DestinationConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_DST_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
@@ -456,7 +461,7 @@ public class DestinationConfig extends MQMBeanReadWrite {
      *
      * This internal value is always zero even if we set it to -1. For these attributes (internally, at least), setting them
      * to 0 or -1 is equivalent i.e. both mean unlimited.
-     * 
+     *
      * To be consistent, it is necessary to intercept get requests on these attributes and return -1 whenever we see 0. This
      * is done similarly in imqcmd.
      *

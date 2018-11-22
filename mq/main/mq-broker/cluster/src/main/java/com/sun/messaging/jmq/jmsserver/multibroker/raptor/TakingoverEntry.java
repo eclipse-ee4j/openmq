@@ -76,11 +76,13 @@ public class TakingoverEntry {
             }
         }
 
+        @Override
         public String toString() {
             return "brokerHost=" + brokerHost + ", brokerSession=" + brokerSession + ", expire=" + expire;
         }
     }
 
+    @Override
     public String toString() {
         return ("brokerID=" + brokerID + ", storeSession=" + storeSession);
     }
@@ -103,32 +105,48 @@ public class TakingoverEntry {
     }
 
     private static class ExpireComparator implements Comparator, Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1956507811123051806L;
+
+        @Override
         public int compare(Object o1, Object o2) {
             XidEntry x1 = (XidEntry) o1;
             XidEntry x2 = (XidEntry) o2;
             return (Long.compare(x1.expire, x2.expire));
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
     }
 
     private static class SessionComparator implements Comparator, Serializable {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -5283436895290578169L;
+
+        @Override
         public int compare(Object o1, Object o2) {
             XidEntry x1 = (XidEntry) o1;
             XidEntry x2 = (XidEntry) o2;
             return Long.compare(x1.brokerSession.getTimestamp(), x2.brokerSession.getTimestamp());
         }
 
+        @Override
         public int hashCode() {
             return super.hashCode();
         }
 
+        @Override
         public boolean equals(Object o) {
             return super.equals(o);
         }
@@ -197,7 +215,7 @@ public class TakingoverEntry {
         Iterator itr = l.iterator();
         while (itr.hasNext()) {
             x = (XidEntry) itr.next();
-            if (x.brokerHost.equals(((BrokerMQAddress) ba.getMQAddress()).getHost().getHostAddress())) {
+            if (x.brokerHost.equals(ba.getMQAddress().getHost().getHostAddress())) {
                 sl.add(x);
             }
         }
@@ -335,7 +353,7 @@ public class TakingoverEntry {
         while (itr.hasNext()) {
             xid = (Long) itr.next();
             x = (XidEntry) xids.get(xid);
-            if (x.brokerHost.equals(((BrokerMQAddress) ba.getMQAddress()).getHost().getHostAddress())) {
+            if (x.brokerHost.equals(ba.getMQAddress().getHost().getHostAddress())) {
                 if (x.expire != 0L && System.currentTimeMillis() >= x.expire) {
                     if (DEBUG) {
                         Globals.getLogger().log(Logger.INFO, "TakeingoverEntry.getNotificationGPacket(" + ba + "): ignore expired entry: " + x);
@@ -361,6 +379,7 @@ public class TakingoverEntry {
         return null;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (!(obj instanceof TakingoverEntry)) {
             return false;
@@ -369,6 +388,7 @@ public class TakingoverEntry {
         return brokerID.equals(toe.brokerID) && (storeSession.equals(toe.storeSession));
     }
 
+    @Override
     public int hashCode() {
         return brokerID.hashCode() + (int) (storeSession.longValue() ^ (storeSession.longValue() >>> 32));
     }
@@ -378,7 +398,7 @@ public class TakingoverEntry {
         boolean exist = false;
         TakingoverEntry toe = new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession(), getTakeoverTimeout());
         synchronized (takingoverBrokers) {
-            TakingoverEntry v = (TakingoverEntry) takingoverBrokers.get(toe);
+            TakingoverEntry v = takingoverBrokers.get(toe);
             if (v != null) {
                 toe = v;
             } else {
@@ -395,7 +415,7 @@ public class TakingoverEntry {
 
         TakingoverEntry toe = new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession());
         synchronized (takingoverBrokers) {
-            TakingoverEntry v = (TakingoverEntry) takingoverBrokers.get(toe);
+            TakingoverEntry v = takingoverBrokers.get(toe);
             if (v != null) {
                 if (v.takeoverAbort(cti.getXid())) {
                     takingoverBrokers.remove(toe);
@@ -407,13 +427,14 @@ public class TakingoverEntry {
     protected static TakingoverEntry takeoverComplete(Map<TakingoverEntry, TakingoverEntry> takingoverBrokers, ClusterTakeoverInfo cti) {
 
         synchronized (takingoverBrokers) {
-            TakingoverEntry toe = (TakingoverEntry) takingoverBrokers.get(new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession()));
+            TakingoverEntry toe = takingoverBrokers.get(new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession()));
             if (toe == null) {
                 toe = new TakingoverEntry(cti.getBrokerID(), cti.getStoreSession(), getTakeoverTimeout());
                 takingoverBrokers.put(toe, toe);
             }
-            if (toe.takeoverComplete())
+            if (toe.takeoverComplete()) {
                 return null;
+            }
             return toe;
         }
     }

@@ -144,13 +144,14 @@ public class ClusterMessageInfo {
         return gp;
     }
 
+    @Override
     public String toString() {
         if (consumers == null || ref == null) {
             return super.toString();
         }
         StringBuffer buf = new StringBuffer("\n");
         for (int i = 0; i < consumers.size(); i++) {
-            ConsumerUID intid = ((Consumer) consumers.get(i)).getConsumerUID();
+            ConsumerUID intid = consumers.get(i).getConsumerUID();
             buf.append("\t").append(intid).append("\n");
         }
         return buf.toString();

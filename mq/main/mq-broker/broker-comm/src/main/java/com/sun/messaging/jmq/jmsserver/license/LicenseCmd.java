@@ -22,21 +22,22 @@ package com.sun.messaging.jmq.jmsserver.license;
 
 import java.io.*;
 import java.util.*;
-import java.security.*;
 
 class LicenseCmd {
     public static void main(String args[]) throws Exception {
-        if (args.length == 0)
+        if (args.length == 0) {
             usage();
+        }
 
-        if (args[0].equals("-generateFile"))
+        if (args[0].equals("-generateFile")) {
             generateFile();
-        else if (args.length == 2 && args[0].equals("-generateCode"))
+        } else if (args.length == 2 && args[0].equals("-generateCode")) {
             generateCode(args[1]);
-        else if (args.length == 2 && args[0].equals("-dump"))
+        } else if (args.length == 2 && args[0].equals("-dump")) {
             dump(args[1]);
-        else
+        } else {
             usage();
+        }
     }
 
     private static final String LICENSE_FILE_PREFIX = "imqbroker";
@@ -103,7 +104,7 @@ class LicenseCmd {
 
         StringBuffer sbuf = new StringBuffer();
         for (int i = 0; i < encrypted.length; i++) {
-            sbuf.append(Integer.toString((int) encrypted[i]) + ", ");
+            sbuf.append(Integer.toString(encrypted[i]) + ", ");
             if ((i + 1) % 10 == 0) {
                 sbuf.append("\n        ");
             }
@@ -131,26 +132,30 @@ class LicenseCmd {
             String name = commonParams[i];
             String value = p.getProperty(name);
 
-            if (value != null)
+            if (value != null) {
                 System.out.println(name + " = " + value);
+            }
         }
 
         for (int i = 0; i < raptorParams.length; i++) {
             String name = raptorParams[i];
             String value = p.getProperty(name);
-            if (name.equals("date_string"))
+            if (name.equals("date_string")) {
                 value = dumpDateString(value);
+            }
 
-            if (value != null)
+            if (value != null) {
                 System.out.println(name + " = " + value);
+            }
         }
 
         System.out.println("\nUnknown properties :");
         Iterator itr = p.keySet().iterator();
         while (itr.hasNext()) {
             String s = (String) itr.next();
-            if (types.get(s) == null)
+            if (types.get(s) == null) {
                 System.out.println(s + " = " + p.getProperty(s));
+            }
         }
     }
 
@@ -202,20 +207,25 @@ class LicenseCmd {
                 System.exit(1);
             }
 
-            if (ptype.equals("Integer"))
+            if (ptype.equals("Integer")) {
                 value = readInt(prompt);
+            }
 
-            if (ptype.equals("Limit"))
+            if (ptype.equals("Limit")) {
                 value = readLimit(prompt);
+            }
 
-            if (ptype.equals("String"))
+            if (ptype.equals("String")) {
                 value = readString(prompt);
+            }
 
-            if (ptype.equals("DateInfo"))
+            if (ptype.equals("DateInfo")) {
                 value = readDateInfo(prompt);
+            }
 
-            if (ptype.equals("Boolean"))
+            if (ptype.equals("Boolean")) {
                 value = readBoolean(prompt);
+            }
 
             if (value == null) {
                 System.out.println("Bad value : name = " + name + ", value = " + value);
@@ -239,20 +249,25 @@ class LicenseCmd {
                 System.exit(1);
             }
 
-            if (ptype.equals("Integer"))
+            if (ptype.equals("Integer")) {
                 value = readInt(prompt);
+            }
 
-            if (ptype.equals("Limit"))
+            if (ptype.equals("Limit")) {
                 value = readLimit(prompt);
+            }
 
-            if (ptype.equals("String"))
+            if (ptype.equals("String")) {
                 value = readString(prompt);
+            }
 
-            if (ptype.equals("DateInfo"))
+            if (ptype.equals("DateInfo")) {
                 value = readDateInfo(prompt);
+            }
 
-            if (ptype.equals("Boolean"))
+            if (ptype.equals("Boolean")) {
                 value = readBoolean(prompt);
+            }
 
             if (value == null) {
                 System.out.println("Bad value : name = " + name + ", value = " + value);
@@ -399,12 +414,12 @@ class LicenseCmd {
     /*
      * private static int readIntChoice(String prompt, int[] choices) throws Exception { System.out.println(prompt);
      * System.out.flush();
-     * 
+     *
      * String line = getLine(); int value = Integer.parseInt(line);
-     * 
+     *
      * boolean good = false; for (int i = 0; i < choices.length; i++) { if (choices[i] == value) good = true; } if (!good) {
      * System.out.println("Bad value : " + line); System.exit(1); }
-     * 
+     *
      * return value; }
      */
 
@@ -413,10 +428,12 @@ class LicenseCmd {
         System.out.flush();
 
         String line = getLine();
-        if (line.equals("y") || line.equals("Y"))
+        if (line.equals("y") || line.equals("Y")) {
             return "true";
-        if (line.equals("n") || line.equals("N"))
+        }
+        if (line.equals("n") || line.equals("N")) {
             return "false";
+        }
 
         return null;
     }
@@ -436,8 +453,9 @@ class LicenseCmd {
 
         String line = getLine();
         int value = Integer.parseInt(line);
-        if (value < 0)
+        if (value < 0) {
             value = Integer.MAX_VALUE;
+        }
 
         return String.valueOf(value);
     }
@@ -523,8 +541,9 @@ class LicenseCmd {
             int dashindex = line.indexOf(DASH);
             if (dashindex > 1 || dashindex == -1) {
                 // get start date
-                if (dashindex == -1)
+                if (dashindex == -1) {
                     dashindex = line.length();
+                }
 
                 dateString = line.substring(1, dashindex);
                 checkDateString(dateString);
@@ -614,10 +633,11 @@ class DateInfo {
     public DateInfo() {
     }
 
+    @Override
     public String toString() {
         return "(start = " + _start + ", end = " + _end + ", daysToUse = " + _daysToUse + ", Expiration = " + _noExpiration + ")";
     }
-};
+}
 
 /*
  * EOF

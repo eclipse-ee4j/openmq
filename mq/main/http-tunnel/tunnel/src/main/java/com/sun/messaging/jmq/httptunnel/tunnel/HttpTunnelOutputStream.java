@@ -46,6 +46,7 @@ public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDe
      * @exception IOException if an I/O error occurs. In particular, an <code>IOException</code> may be thrown if the output
      * stream has been closed.
      */
+    @Override
     public synchronized void write(int b) throws IOException {
         byte[] buf = new byte[1];
         buf[0] = (byte) b;
@@ -65,14 +66,16 @@ public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDe
      * @exception IOException if an I/O error occurs. In particular, an <code>IOException</code> is thrown if the output
      * stream is closed.
      */
+    @Override
     public synchronized void write(byte b[], int off, int len) throws IOException {
         byte[] buf;
 
         while (len > 0) {
-            if (len > MAX_PACKETSIZE)
+            if (len > MAX_PACKETSIZE) {
                 buf = new byte[MAX_PACKETSIZE];
-            else
+            } else {
                 buf = new byte[len];
+            }
 
             System.arraycopy(b, off, buf, 0, buf.length);
             conn.writeData(buf);
@@ -87,6 +90,7 @@ public class HttpTunnelOutputStream extends OutputStream implements HttpTunnelDe
      *
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized void close() throws IOException {
     }
 }

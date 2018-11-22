@@ -26,7 +26,7 @@ package com.sun.messaging.jmq.util;
  * Note that 128+signal is used by the JVM (e.g. 129 (SIGHUP), 130 (SIGINT), etc). And the restart logic of the broker
  * checks for 129 (SIGHUP), 130 (SIGINT), 143 (SIGTERM) and 255. When defining new exit codes, avoid overlapping with
  * those.
- * 
+ *
  */
 public class BrokerExitCode {
 

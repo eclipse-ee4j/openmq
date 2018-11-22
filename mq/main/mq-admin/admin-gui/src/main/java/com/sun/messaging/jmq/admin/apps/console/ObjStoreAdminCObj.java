@@ -25,4 +25,9 @@ package com.sun.messaging.jmq.admin.apps.console;
  * related to object store administration.
  */
 public abstract class ObjStoreAdminCObj extends ConsoleObj {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7459196963864180055L;
 }

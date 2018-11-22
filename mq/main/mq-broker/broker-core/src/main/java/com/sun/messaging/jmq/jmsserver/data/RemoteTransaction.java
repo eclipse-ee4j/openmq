@@ -49,11 +49,13 @@ public class RemoteTransaction extends BaseTransaction {
         setTxnHomeBroker(txnHomeBroker);
     }
 
+    @Override
     public void readData(DataInputStream dis) throws IOException, BrokerException {
         transactionDetails.readContent(dis);
 
     }
 
+    @Override
     public void readObjects(ObjectInputStream ois) throws IOException, ClassNotFoundException {
         transactionState = (TransactionState) ois.readObject();
         txnAcks = (TransactionAcknowledgement[]) ois.readObject();
@@ -61,11 +63,13 @@ public class RemoteTransaction extends BaseTransaction {
         txnHomeBroker = (BrokerAddress) ois.readObject();
     }
 
+    @Override
     public void writeData(DataOutputStream dos) throws IOException {
         transactionDetails.writeContent(dos);
 
     }
 
+    @Override
     public void writeObjects(ObjectOutputStream oos) throws IOException {
         oos.writeObject(transactionState);
         oos.writeObject(txnAcks);
@@ -73,6 +77,7 @@ public class RemoteTransaction extends BaseTransaction {
         oos.writeObject(txnHomeBroker);
     }
 
+    @Override
     String getPrefix() {
         return "RemoteTransaction: " + Thread.currentThread().getName() + " " + this.getTid();
     }

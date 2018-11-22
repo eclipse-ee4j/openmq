@@ -26,7 +26,6 @@ import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -47,6 +46,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         super();
     }
 
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
         if (Globals.getClusterID() == null) {
             throw new BrokerException("imq.cluster.clusterid must set");
@@ -58,6 +58,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         return r;
     }
 
+    @Override
     protected void setupListeners() {
         config.addListener(TRANSPORT_PROPERTY, this);
         config.addListener(HOST_PROPERTY, this);
@@ -67,6 +68,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
     /**
      * to be called internally in cluster manager framework
      */
+    @Override
     public ClusteredBroker newClusteredBroker(MQAddress url, boolean isLocal, UID sid) throws BrokerException {
 
         ClusteredBroker cb = super.newClusteredBroker(url, isLocal, sid);
@@ -78,9 +80,11 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
      * Reload the cluster properties from config
      *
      */
+    @Override
     public void reloadConfig() throws BrokerException {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         String[] props = { CLUSTERURL_PROPERTY };
         config.reloadProps(Globals.getConfigName(), props, false);
@@ -88,6 +92,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
 
     /**
      */
+    @Override
     protected String addBroker(MQAddress url, boolean isLocal, boolean isConfig, UID uid) throws NoSuchElementException, BrokerException {
 
         if (!initialized) {
@@ -128,6 +133,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         return name;
     }
 
+    @Override
     protected Map initAllBrokers(MQAddress myaddr) throws BrokerException {
 
         String cstr = Globals.getConfig().getProperty(Globals.AUTOCLUSTER_BROKERMAP_CLASS_PROP);
@@ -154,6 +160,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         }
     }
 
+    @Override
     protected LinkedHashSet parseBrokerList() throws MalformedURLException {
 
         String val = config.getProperty(AUTOCONNECT_PROPERTY);
@@ -179,6 +186,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         return brokers;
     }
 
+    @Override
     public String lookupBrokerID(MQAddress address) {
 
         if (!initialized) {
@@ -194,14 +202,17 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         return super.lookupBrokerID(address);
     }
 
+    @Override
     public Iterator getConfigBrokers() {
         return getKnownBrokers(true);
     }
 
+    @Override
     public int getConfigBrokerCount() {
         return super.getKnownBrokerCount();
     }
 
+    @Override
     public Iterator getKnownBrokers(boolean refresh) {
 
         if (!initialized) {
@@ -220,6 +231,7 @@ public class BasicAutoClusterManagerImpl extends ClusterManagerImpl {
         return super.getKnownBrokers(refresh);
     }
 
+    @Override
     public ClusteredBroker getBroker(String brokerid) {
 
         ClusteredBroker cb = super.getBroker(brokerid);

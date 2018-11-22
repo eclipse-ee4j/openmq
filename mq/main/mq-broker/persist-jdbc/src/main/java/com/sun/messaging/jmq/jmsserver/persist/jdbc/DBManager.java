@@ -21,10 +21,7 @@
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.StringUtil;
-import com.sun.messaging.jmq.util.Password;
 import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -35,12 +32,8 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.CommDBManager;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.DBConnectionPool;
 import com.sun.messaging.jmq.io.Status;
 
-import java.io.*;
 import java.sql.*;
 import java.util.*;
-import java.net.*;
-import java.lang.reflect.*;
-import javax.sql.*;
 
 /**
  * DB Manager for imq.persist.jdbc store - JDBCStore
@@ -112,13 +105,14 @@ public final class DBManager extends CommDBManager implements DBConstants {
     private static String v350tableNames[] = { VERSION_TBL_35, CONFIGRECORD_TBL_35, DESTINATION_TBL_35, INTEREST_TBL_35, MESSAGE_TBL_35, PROPERTY_TBL_35,
             INTEREST_STATE_TBL_35, TXN_TBL_35, TXNACK_TBL_35 };
 
+    @Override
     protected boolean getDEBUG() {
         return Store.getDEBUG();
     }
 
     /**
      * Get DBManager method for singleton pattern.
-     * 
+     *
      * @return DBManager
      * @throws BrokerException
      */
@@ -136,30 +130,37 @@ public final class DBManager extends CommDBManager implements DBConstants {
         return dbMgr;
     }
 
+    @Override
     protected String getJDBCPropPrefix() {
         return JDBC_PROP_PREFIX;
     }
 
+    @Override
     protected String getStoreTypeProp() {
         return STORE_TYPE_PROP;
     }
 
+    @Override
     protected String getCreateStoreProp() {
         return Store.CREATE_STORE_PROP;
     }
 
+    @Override
     protected boolean getCreateStorePropDefault() {
         return Store.CREATE_STORE_PROP_DEFAULT;
     }
 
+    @Override
     protected String getLogStringTag() {
         return "";
     }
 
+    @Override
     public String toString() {
         return "DBManager";
     }
 
+    @Override
     protected void checkMaxTableNameLength(int maxTableNameLength) throws BrokerException {
         if (maxTableNameLength > 0) {
             // We do know the max number of chars allowed for a table
@@ -178,6 +179,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
         }
     }
 
+    @Override
     protected boolean isStoreInited() {
         return storeInited;
     }
@@ -199,6 +201,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
         initDBDriver();
     }
 
+    @Override
     protected void initTableSuffix() throws BrokerException {
         brokerID = Globals.getBrokerID();
         if (brokerID == null || brokerID.length() == 0 || !Util.isAlphanumericString(brokerID)) {
@@ -229,26 +232,31 @@ public final class DBManager extends CommDBManager implements DBConstants {
         return clusterID;
     }
 
+    @Override
     public int checkStoreExists(Connection conn) throws BrokerException {
         return super.checkStoreExists(conn, null);
     }
 
     /**
      */
+    @Override
     protected Connection getConnection() throws BrokerException {
         return dbpool.getConnection();
     }
 
+    @Override
     public void freeConnection(Connection conn, Throwable thr) throws BrokerException {
 
         dbpool.freeConnection(conn, thr);
     }
 
+    @Override
     public void closeSQLObjects(ResultSet rset, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
 
         Util.close(rset, stmt, conn, ex);
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("storeInited", Boolean.valueOf(storeInited));
@@ -309,6 +317,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
         return daoFactory;
     }
 
+    @Override
     protected BaseDAO getFirstDAO() throws BrokerException {
         return (BaseDAO) getDAOFactory().getAllDAOs().get(0);
     }
@@ -317,6 +326,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
         dbpool.reset(); // Reset/clear connection pool
     }
 
+    @Override
     protected void close() {
         synchronized (classLock) {
             dbpool.close();
@@ -328,6 +338,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
     }
 
     // Get all names of tables used in a specific store version; i.e. pre-4.0
+    @Override
     public String[] getTableNames(int version) {
         String names[] = new String[0];
         if (version == JDBCStore.STORE_VERSION) {
@@ -340,14 +351,17 @@ public final class DBManager extends CommDBManager implements DBConstants {
         return names;
     }
 
+    @Override
     public boolean hasSupplementForCreateDrop(String tableName) {
         return false;
     }
 
+    @Override
     public Iterator allDAOIterator() throws BrokerException {
         return getDAOFactory().getAllDAOs().iterator();
     }
 
+    @Override
     protected String getTableLockTableName() throws BrokerException {
         VersionDAO dao = getDBManager().getDAOFactory().getVersionDAO();
         return dao.getTableName();
@@ -358,6 +372,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
      *
      * @return must not null; the current lock id or "" if no lock
      */
+    @Override
     protected String getCurrentTableLock(Connection conn, boolean doLock) throws BrokerException {
 
         // Check if there is a lock; if the store does not exist, VersionDAO
@@ -383,6 +398,7 @@ public final class DBManager extends CommDBManager implements DBConstants {
     /**
      * @param newLockID null if it's unlock
      */
+    @Override
     protected void updateTableLock(Connection conn, String newLockID, String oldLockID, Object extra) throws BrokerException {
 
         VersionDAO verDAO = getDBManager().getDAOFactory().getVersionDAO();
@@ -399,10 +415,12 @@ public final class DBManager extends CommDBManager implements DBConstants {
         }
     }
 
+    @Override
     public void throwTableLockedException(String lockid) throws BrokerException {
         throwTableLockedException(new TableLock(lockid, getTableLockTableName()));
     }
 
+    @Override
     protected void throwTableLockedException(TableLock lock) throws BrokerException {
         BrokerResources br = Globals.getBrokerResources();
         String emsg = null;

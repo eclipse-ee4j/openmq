@@ -23,7 +23,7 @@ package com.sun.messaging;
 /**
  * The <code>DestinationConfiguration</code> class contains Sun MQ specific destination identity configuration property
  * names and values.
- * 
+ *
  * @see com.sun.messaging.Destination com.sun.messaging.Destination
  */
 public class DestinationConfiguration {
@@ -41,6 +41,7 @@ public class DestinationConfiguration {
      * @deprecated
      * @see com.sun.messaging.DestinationConfiguration#imqDestinationName
      */
+    @Deprecated
     public static final String JMQDestinationName = imqDestinationName;
 
     /**
@@ -52,6 +53,7 @@ public class DestinationConfiguration {
      * @deprecated
      * @see com.sun.messaging.DestinationConfiguration#imqDestinationDescription
      */
+    @Deprecated
     public static final String JMQDestinationDescription = imqDestinationDescription;
 
     /**

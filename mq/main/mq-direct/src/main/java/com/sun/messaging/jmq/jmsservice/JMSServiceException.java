@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsservice;
 
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -28,6 +27,10 @@ import java.util.Map;
  */
 public class JMSServiceException extends java.lang.Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5745390870553763460L;
     /**
      *
      */

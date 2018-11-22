@@ -20,8 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.management.util;
 
-import com.sun.messaging.jmq.util.log.Logger;
-
 public class LogUtil {
 
     public static String toExternalLogLevel(String internalLogLevel) {

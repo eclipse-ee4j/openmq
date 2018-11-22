@@ -51,12 +51,14 @@ public abstract class MQBasicPermission extends Permission {
      *
      */
     private void init(String name) {
-        if (name == null)
+        if (name == null) {
             throw new NullPointerException("name null");
+        }
 
         int len = name.length();
-        if (len == 0)
+        if (len == 0) {
             throw new IllegalArgumentException("name empty");
+        }
 
         if (len == 1 && name.equals("*")) {
             wildcard = true;
@@ -68,20 +70,25 @@ public abstract class MQBasicPermission extends Permission {
     public abstract void validateName(String name) throws IllegalArgumentException;
 
     /**
-     * 
+     *
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof MQBasicPermission))
+        if (!(p instanceof MQBasicPermission)) {
             return false;
-        if (p.getClass() != getClass())
+        }
+        if (p.getClass() != getClass()) {
             return false;
+        }
 
         MQBasicPermission that = (MQBasicPermission) p;
 
-        if (this.wildcard)
+        if (this.wildcard) {
             return true;
-        if (that.wildcard)
+        }
+        if (that.wildcard) {
             return false;
+        }
 
         return this.getName().equals(that.getName());
     }
@@ -89,15 +96,19 @@ public abstract class MQBasicPermission extends Permission {
     /**
      *
      */
+    @Override
     public boolean equals(Object obj) {
-        if (obj == this)
+        if (obj == this) {
             return true;
+        }
 
-        if (!(obj instanceof MQBasicPermission))
+        if (!(obj instanceof MQBasicPermission)) {
             return false;
+        }
 
-        if (obj.getClass() != getClass())
+        if (obj.getClass() != getClass()) {
             return false;
+        }
 
         MQBasicPermission p = (MQBasicPermission) obj;
 
@@ -107,6 +118,7 @@ public abstract class MQBasicPermission extends Permission {
     /**
      *
      */
+    @Override
     public int hashCode() {
         return this.getName().hashCode();
     }
@@ -114,6 +126,7 @@ public abstract class MQBasicPermission extends Permission {
     /**
      *
      */
+    @Override
     public String getActions() {
         return "";
     }
@@ -121,6 +134,7 @@ public abstract class MQBasicPermission extends Permission {
     /**
      *
      */
+    @Override
     public PermissionCollection newPermissionCollection() {
         return new MQBasicPermissionCollection();
     }
@@ -158,6 +172,7 @@ final class MQBasicPermissionCollection extends PermissionCollection {
     /**
      *
      */
+    @Override
     public void add(Permission p) {
 
         if (!(p instanceof MQBasicPermission)) {
@@ -180,32 +195,38 @@ final class MQBasicPermissionCollection extends PermissionCollection {
         }
 
         if (!allowAll) {
-            if (pm.getName().equals("*"))
+            if (pm.getName().equals("*")) {
                 allowAll = true;
+            }
         }
     }
 
     /**
      *
      */
+    @Override
     public boolean implies(Permission p) {
-        if (!(p instanceof MQBasicPermission))
+        if (!(p instanceof MQBasicPermission)) {
             return false;
+        }
 
         MQBasicPermission pm = (MQBasicPermission) p;
 
-        if (pm.getClass() != permClass)
+        if (pm.getClass() != permClass) {
             return false;
+        }
 
-        if (allowAll)
+        if (allowAll) {
             return true;
+        }
 
         Permission x;
         synchronized (this) {
             x = (Permission) perms.get(p.getName());
         }
-        if (x != null)
+        if (x != null) {
             return x.implies(p);
+        }
 
         return false;
     }
@@ -213,6 +234,7 @@ final class MQBasicPermissionCollection extends PermissionCollection {
     /**
      *
      */
+    @Override
     public Enumeration elements() {
         synchronized (this) {
             return Collections.enumeration(perms.values());

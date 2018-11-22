@@ -27,7 +27,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 import java.io.*;
 import java.util.*;
-import java.security.*;
 import java.lang.reflect.*;
 
 /**
@@ -48,8 +47,9 @@ public class LicenseManager {
      * This method loads the appropriate license.
      */
     public LicenseBase getLicense(String filestr) throws BrokerException {
-        if (currentLicense != null)
+        if (currentLicense != null) {
             return currentLicense;
+        }
         // Step 1 : Choose the best LicenseBase implementation class.
         base = getLicenseBase();
         if (base == null) {
@@ -191,6 +191,7 @@ public class LicenseManager {
 
     // file name filter for licence files (imqbroker*.lic)
     private static FilenameFilter licFilter = new FilenameFilter() {
+        @Override
         public boolean accept(File dir, String name) {
             return (name.startsWith(LICENSE_FILE_PREFIX) && name.endsWith(LICENSE_FILE_SUBFIX));
         }
@@ -205,24 +206,26 @@ public class LicenseManager {
         if (filestr != null) {
             // Bug 6157397
             String strname = base.getProperty(LicenseBase.PROP_LICENSE_TYPE);
-            if (filestr.equalsIgnoreCase(strname))
+            if (filestr.equalsIgnoreCase(strname)) {
                 return null;
+            }
 
             // try to load the specified file
             String licenseFile = LICENSE_FILE_PREFIX + filestr + LICENSE_FILE_SUBFIX;
             File file = null;
             // For bug fix 4995767
-            if (filestr.equalsIgnoreCase("try"))
+            if (filestr.equalsIgnoreCase("try")) {
                 file = new File(trialdir, licenseFile);
-            else
+            } else {
                 file = new File(dir, licenseFile);
+            }
 
             // BUG FIX 5025985
-            if (!file.exists())
+            if (!file.exists()) {
                 throw new BrokerException(br.getString(br.E_LOAD_LICENSE, filestr));
-            // BUG FIX 5057293
-            else if (!file.canRead())
+            } else if (!file.canRead()) {
                 throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE, licenseFile));
+            }
 
             fl = new FileLicense(file);
         } else {
@@ -230,11 +233,12 @@ public class LicenseManager {
             if (loadFileLicenses().length != 0) {
                 fl = (FileLicense) selectBestLicense(licenses);
                 File f = fl.getLicenseFile();
-                if (!f.canRead())
+                if (!f.canRead()) {
                     throw new BrokerException(br.getString(br.E_LICENSE_FILE_NOT_READABLE, f.toString()));
+                }
 
                 // BUG FIX 4996564
-                LicenseBase lb = (LicenseBase) fl;
+                LicenseBase lb = fl;
                 Properties prop = lb.props;
                 String datestring = prop.getProperty(lb.PROP_DATE_STRING);
                 if (datestring.startsWith(lb.TRY_STRING)) {
@@ -249,7 +253,7 @@ public class LicenseManager {
 
     /**
      * Load all valid licenses from from the license directory.
-     * 
+     *
      * @return an array of License objects
      */
     public static FileLicense[] loadFileLicenses() {
@@ -302,10 +306,12 @@ public class LicenseManager {
 
         // int length = fl.length + (lb == null? 0 : 1);
         LicenseBase rl[] = new LicenseBase[fl.length + 1];
-        for (int i = 0; i < fl.length; i++)
+        for (int i = 0; i < fl.length; i++) {
             rl[i] = fl[i];
-        if (lb != null)
+        }
+        if (lb != null) {
             rl[fl.length] = lb;
+        }
         return rl;
     }
 }

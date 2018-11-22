@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.util;
 
 import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.io.IOException;
 
 /**
@@ -40,6 +38,7 @@ import java.io.IOException;
 public class BASE64Encoder extends CharacterEncoder {
 
     /** this class encodes three bytes per atom. */
+    @Override
     protected int bytesPerAtom() {
         return (3);
     }
@@ -48,6 +47,7 @@ public class BASE64Encoder extends CharacterEncoder {
      * this class encodes 57 bytes per line. This results in a maximum of 57/3 * 4 or 76 characters per output line. Not
      * counting the line termination.
      */
+    @Override
     protected int bytesPerLine() {
         return (57);
     }
@@ -69,6 +69,7 @@ public class BASE64Encoder extends CharacterEncoder {
      * encodeAtom - Take three bytes of input and encode it as 4 printable characters. Note that if the length in len is
      * less than three is encodes either one or two '=' signs to indicate padding characters.
      */
+    @Override
     protected void encodeAtom(OutputStream outStream, byte data[], int offset, int len) throws IOException {
         byte a, b, c;
 

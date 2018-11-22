@@ -228,7 +228,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /**
      * Constructor.
-     * 
+     *
      */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, long applicationCookie) throws IOException {
         this(parent, fileName, size, mode, true, false, applicationCookie);
@@ -236,7 +236,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /**
      * Constructor.
-     * 
+     *
      */
     public FileTransactionLogWriter(File parent, String fileName, long size, String mode, boolean sync, boolean groupCommit, long applicationCookie)
             throws IOException {
@@ -338,7 +338,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /**
      * Read and validate file header.
-     * 
+     *
      * @throws IOException
      */
     private void readFileHeader() throws IOException {
@@ -484,6 +484,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * sets the point where a checkpoint automatically occurs XXX: should we remove this?
      */
+    @Override
     public void setCheckpointSize(long bytes) {
         this.cpSize = bytes;
     }
@@ -492,6 +493,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      * sets the maximum size of all State logs. When the maximum is hit, the log is checkpointed and renamed as a back up
      * file.
      */
+    @Override
     public void setMaximumSize(long bytes) {
         this.maxSize = bytes;
         this.cpSize = maxSize - this.cpOffset;
@@ -503,6 +505,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * Set check point offset. When the file pointer position reached to (maxSize-offset), a check point is triggerred.
      */
+    @Override
     public void setCheckPointOffset(long offset) {
         this.cpOffset = offset;
         this.cpSize = maxSize - offset;
@@ -514,9 +517,10 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * registeres the checkpoint CB. The callback is triggered when checkpoint is called whether because the system hit a
      * size limit or the application explicitly called checkpoint();
-     * 
+     *
      * @see checkpoint();
      */
+    @Override
     public void setCheckPointListener(CheckPointListener cb) {
         this.callback = cb;
     }
@@ -625,6 +629,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     }
 
+    @Override
     public void run() {
 
         log("run called ");
@@ -723,39 +728,40 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /*
      * public void write(TransactionLogRecord entry) throws IOException {
-     * 
+     *
      * synchronized (txnLogSyncObj) {
-     * 
+     *
      * if (isFileCorrupted) { throw new IllegalStateException("File is corrupted. You must reset the log file to
      * continue."); }
-     * 
+     *
      * if (playBackRequired) { throw new IllegalStateException("File not synced. You must call Iterator to play back log
      * file."); }
-     * 
+     *
      * if (callback == null) { throw new IllegalStateException("Check point listener not set. You must set a
      * CheckPointListener before writing TransactionLogRecords."); } // write entry, we need to sync from this point //
      * First come first serve entry.setCheckPointSequence(checkpointSequence);
-     * 
+     *
      * //set timestamp entry.setTimestamp (System.currentTimeMillis ());
-     * 
+     *
      * //set entry sequence. increase 1 after addition. entry.setSequence (entrySequence++); // 1. calculate record size int
      * size = RECORD_HEADER_SIZE + entry.getBody().length; // 2. allocate byte buffer byte[] bytes = new byte[size];
      * ByteBuffer buf = ByteBuffer.wrap(bytes); // 3. write record header writeRecordHeader(buf, entry); // 4. write body
      * buf.put(entry.getBody()); // write (and sync) bytes to disk //raf.write(bytes); doWrite (bytes);
-     * 
+     *
      * //check if we need to notify CP listener. if (raf.getFilePointer() > cpSize) {
-     * 
+     *
      * //we only call the listener once if ( this.isListenerCalled == false) {
-     * 
+     *
      * if (debug) { log ("calling check point listener, fpointer: " + raf.getFilePointer ()); }
-     * 
+     *
      * callback.checkpoint();
-     * 
+     *
      * //set flag to true so that we only call the listener once. this.isListenerCalled = true; } }
-     * 
+     *
      * //last record added to the log file this.lastEntry = entry; } }
-     * 
+     *
      */
+    @Override
     public void write(TransactionLogRecord entry) throws IOException {
         if (doAsyncWrites) {
             writeAsyncRecord(entry);
@@ -834,7 +840,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     /**
      * header size - 32 bytes.
-     * 
+     *
      * @param buf
      * @param entry XXX: NEED SEQUENCE NUMBER?
      */
@@ -913,6 +919,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      *
      * @return the next check point sequence number.
      */
+    @Override
     public TransactionLogRecord checkpoint() throws IOException {
 
         synchronized (this.txnLogSyncObj) {
@@ -938,6 +945,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * iterates from the last checkpoint
      */
+    @Override
     public Iterator iterator() throws IOException {
 
         Iterator it = new FileLogRecordIterator(this);
@@ -956,6 +964,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      * <p>
      * 2.
      */
+    @Override
     public void reset() throws IOException {
 
         log("Reseting txn log file ...");
@@ -989,12 +998,14 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
      *
      * XXX: only works when the txn log is in writing/inserting mode.
      */
+    @Override
     public TransactionLogRecord getLastEntry() {
         synchronized (this.txnLogSyncObj) {
             return this.lastEntry;
         }
     }
 
+    @Override
     public void close(boolean clean) throws IOException {
         if (clean) {
             close();
@@ -1011,6 +1022,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * 1. set SHUTDOWN_NORMAL. 2. set cpPosition to current file position.
      */
+    @Override
     public void close() throws IOException {
         synchronized (this.txnLogSyncObj) {
 
@@ -1031,6 +1043,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
     /**
      * XXX chiaming; Not required to sync the class since we have a cp sequence.
      */
+    @Override
     public TransactionLogRecord newTransactionLogRecord() {
         return new FileTransactionLogRecord();
     }
@@ -1130,6 +1143,7 @@ public class FileTransactionLogWriter implements TransactionLogWriter, Runnable 
 
     }
 
+    @Override
     public boolean playBackRequired() {
         return this.playBackRequired;
     }

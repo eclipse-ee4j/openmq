@@ -29,7 +29,6 @@ import com.sun.messaging.jmq.jmsservice.Destination;
 import com.sun.messaging.jmq.jmsservice.JMSAck;
 import com.sun.messaging.jmq.jmsservice.JMSServiceReply;
 import com.sun.messaging.jmq.jmsservice.JMSServiceException;
-import com.sun.messaging.jmq.jmsservice.JMSService.SessionAckMode;
 import com.sun.messaging.jmq.jmsservice.JMSService.MessageAckType;
 import com.sun.messaging.jmq.jmsservice.JMSService.TransactionAutoRollback;
 import com.sun.messaging.jmq.jmsservice.ConsumerClosedNoDeliveryException;
@@ -409,9 +408,11 @@ public class StompTransactedSession extends StompSenderSession {
             this.sysid = sysid;
         }
 
+        @Override
         public boolean equals(Object obj) {
-            if (obj == null)
+            if (obj == null) {
                 return false;
+            }
             if (!(obj instanceof SubscribedMessage)) {
                 return false;
             }
@@ -423,6 +424,7 @@ public class StompTransactedSession extends StompSenderSession {
             return false;
         }
 
+        @Override
         public int hashCode() {
             return subid.hashCode() + sysid.hashCode();
         }

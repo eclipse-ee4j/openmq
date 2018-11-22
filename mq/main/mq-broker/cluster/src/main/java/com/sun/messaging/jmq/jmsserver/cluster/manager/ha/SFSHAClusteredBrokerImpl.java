@@ -21,7 +21,6 @@ package com.sun.messaging.jmq.jmsserver.cluster.manager.ha;
 
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.MQAddress;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
@@ -72,6 +71,7 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         super(brokerid, url, version, state, session, parent);
     }
 
+    @Override
     public void update(HABrokerInfo m) {
         MQAddress oldaddr = address;
         synchronized (this) {
@@ -89,6 +89,7 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         }
     }
 
+    @Override
     public void resetTakeoverBrokerReadyOperating() throws Exception {
         setState(BrokerState.OPERATING);
     }
@@ -98,23 +99,28 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
      *
      * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
+    @Override
     public synchronized String getTakeoverBroker() throws BrokerException {
         return null;
     }
 
+    @Override
     public long getHeartbeat() throws BrokerException {
         return 0L;
     }
 
+    @Override
     public synchronized long updateHeartbeat() throws BrokerException {
         return updateHeartbeat(false);
     }
 
+    @Override
     public long updateHeartbeat(boolean reset) throws BrokerException {
         Globals.getStore().updateBrokerHeartbeat(brokerid);
         return 0L;
     }
 
+    @Override
     protected synchronized UID updateEntry(int updateType, Object oldValue, Object newValue) throws Exception {
         if (!local) {
             throw new IllegalAccessException("Can not update entry " + " for broker " + brokerid);
@@ -140,15 +146,18 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
      * @throws BrokerException if the state can not be retrieve
      * @return the current state
      */
+    @Override
     public BrokerState getState() throws BrokerException {
         // XXX
         return state;
     }
 
+    @Override
     public void setStateFailoverProcessed(UID storeSession) throws Exception {
         // no-op
     }
 
+    @Override
     public void setStateFailoverFailed(UID brokerSession) throws Exception {
         // no-op
     }
@@ -167,6 +176,7 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         state = BrokerState.INITIALIZING;
     }
 
+    @Override
     public void setState(BrokerState newstate) throws IllegalAccessException, IllegalStateException, IndexOutOfBoundsException {
         if (!local) {
             // no-op
@@ -174,8 +184,9 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         try {
             BrokerState oldState = getState();
             if (newstate != BrokerState.FAILOVER_PENDING && newstate != BrokerState.FAILOVER_PROCESSED && newstate != BrokerState.FAILOVER_FAILED) {
-                if (!Globals.getStore().updateBrokerState(brokerid, newstate, state, local))
+                if (!Globals.getStore().updateBrokerState(brokerid, newstate, state, local)) {
                     throw new IllegalStateException("Could not update broker state from " + oldState + " to state " + newstate + " for " + brokerid);
+                }
             }
             state = newstate;
             parent.brokerChanged(ClusterReason.STATE_CHANGED, this.getBrokerName(), oldState, this.state, null, null);
@@ -187,12 +198,13 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
     }
 
     /**
-     * 
+     *
      * @param force force the takeover
      * @param tracker for tracking takingover stages
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
+    @Override
     public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException {
 
         Store store = Globals.getStore();
@@ -203,6 +215,7 @@ public class SFSHAClusteredBrokerImpl extends HAClusteredBrokerImpl {
         return o;
     }
 
+    @Override
     public synchronized String getNodeName() throws BrokerException {
         String instn = getInstanceName();
         UID storeSession = getStoreSessionUID();

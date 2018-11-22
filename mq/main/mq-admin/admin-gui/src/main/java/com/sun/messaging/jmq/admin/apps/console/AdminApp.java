@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.admin.apps.console;
 
 import java.awt.Frame;
 
-import com.sun.messaging.jmq.admin.objstore.ObjStoreManager;
-
 /**
  * This class defines the interface to the admin GUI application. It represents the central point from which the major
  * GUI pieces of the admin GUI application and other information can be obtained.

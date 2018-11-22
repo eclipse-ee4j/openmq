@@ -23,11 +23,7 @@ package com.sun.messaging.jmq.jmsserver.persist.api;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Hashtable;
@@ -40,7 +36,6 @@ import com.sun.messaging.bridge.api.DupKeyException;
 import com.sun.messaging.bridge.api.JMSBridgeStore;
 import com.sun.messaging.bridge.api.KeyNotFoundException;
 import com.sun.messaging.bridge.api.UpdateOpaqueDataCallback;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.UID;
@@ -49,24 +44,13 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
-import com.sun.messaging.jmq.jmsserver.data.ClusterTransaction;
-import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
-import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
-import com.sun.messaging.jmq.jmsserver.data.TransactionState;
-import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.txnlog.TransactionLogWriter;
 import com.sun.messaging.jmq.jmsserver.persist.api.sharecc.ShareConfigChangeStore;
 import org.jvnet.hk2.annotations.Contract;
 import javax.inject.Singleton;
@@ -227,7 +211,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Notified that a partition has arrived this broker
-     * 
+     *
      * @param id the partition id
      *
      * @exception BrokerException
@@ -295,7 +279,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Get the store version.
-     * 
+     *
      * @return store version
      */
     public abstract int getStoreVersion();
@@ -378,7 +362,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Close the store and releases any system resources associated with it.
-     * 
+     *
      * @param cleanup if this is false, the store will not be cleaned up when it is closed. The default behavior is that the
      * store is cleaned up.
      */
@@ -436,7 +420,7 @@ public abstract class Store implements JMSBridgeStore {
     /**
      * Get all the config change records since the given timestamp. Retrieves all the entries with recorded timestamp
      * greater than the specified timestamp.
-     * 
+     *
      * @return a list of ChangeRecordInfo, empty list if no records
      * @exception BrokerException if an error occurs while getting the data.
      */
@@ -465,21 +449,21 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Get information about the underlying storage for the specified destination.
-     * 
+     *
      * @return A HashMap of name value pair of information
      */
     public abstract HashMap getStorageInfo(Destination destination) throws BrokerException;
 
     /**
      * Return the type of store.
-     * 
+     *
      * @return A String
      */
     public abstract String getStoreType();
 
     /**
      * Return true if the store is a JDBC Store.
-     * 
+     *
      * @return true if the store is a JDBC Store
      */
     public boolean isJDBCStore() {
@@ -500,7 +484,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     public abstract Hashtable getDebugState() throws BrokerException;
@@ -652,7 +636,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Get the broker that owns the specified store session ID (HA support).
-     * 
+     *
      * @param sessionID store session ID
      * @return the broker ID
      * @throws BrokerException
@@ -667,7 +651,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * Get the broker that creates the specified store session ID (HA support).
-     * 
+     *
      * @param sessionID store session ID
      * @return the broker ID
      * @throws BrokerException
@@ -785,7 +769,7 @@ public abstract class Store implements JMSBridgeStore {
 
     /**
      * This method should be called by all store apis to make sure that the store is not closed before doing the operation.
-     * 
+     *
      * @throws BrokerException
      */
     protected void checkClosedAndSetInProgress() throws BrokerException {
@@ -879,6 +863,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void storeTMLogRecord(String xid, byte[] logRecord, String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -896,6 +881,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found and addIfNotExist false else Exception on error
      */
+    @Override
     public void updateTMLogRecord(String xid, byte[] logRecord, String name, UpdateOpaqueDataCallback callback, boolean addIfNotExist, boolean sync,
             java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
@@ -911,6 +897,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void removeTMLogRecord(String xid, String name, boolean sync, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -925,6 +912,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return null if not found
      * @exception Exception if error
      */
+    @Override
     public byte[] getTMLogRecord(String xid, String name, java.util.logging.Logger logger_) throws Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -939,6 +927,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordUpdatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -952,6 +941,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordCreatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -965,6 +955,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return a list of log records
      * @exception Exception if error
      */
+    @Override
     public List getTMLogRecordsByName(String name, java.util.logging.Logger logger_) throws Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -1007,6 +998,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return a list of keys
      * @exception Exception if error
      */
+    @Override
     public List getTMLogRecordKeysByName(String name, java.util.logging.Logger logger_) throws Exception {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
@@ -1019,6 +1011,7 @@ public abstract class Store implements JMSBridgeStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void addJMSBridge(String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -1031,6 +1024,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return list of names
      * @exception Exception if error
      */
+    @Override
     public List getJMSBridges(java.util.logging.Logger logger_) throws Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -1055,6 +1049,7 @@ public abstract class Store implements JMSBridgeStore {
      * @return updated time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeUpdatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
@@ -1066,11 +1061,13 @@ public abstract class Store implements JMSBridgeStore {
      * @return created time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeCreatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }
 
+    @Override
     public void closeJMSBridgeStore() throws Exception {
         throw new UnsupportedOperationException("Operation not supported by the " + getStoreType() + " store");
     }

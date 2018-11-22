@@ -34,14 +34,18 @@ public class DestState {
     public static final int PAUSED = 3;
 
     public static int getStateFromString(String str) {
-        if (str.equals("RUNNING"))
+        if (str.equals("RUNNING")) {
             return RUNNING;
-        if (str.equals("CONSUMERS_PAUSED"))
+        }
+        if (str.equals("CONSUMERS_PAUSED")) {
             return CONSUMERS_PAUSED;
-        if (str.equals("PRODUCERS_PAUSED"))
+        }
+        if (str.equals("PRODUCERS_PAUSED")) {
             return PRODUCERS_PAUSED;
-        if (str.equals("PAUSED"))
+        }
+        if (str.equals("PAUSED")) {
             return PAUSED;
+        }
         return UNKNOWN;
     }
 

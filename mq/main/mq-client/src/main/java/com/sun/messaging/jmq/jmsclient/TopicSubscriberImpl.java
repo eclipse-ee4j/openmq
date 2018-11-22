@@ -123,6 +123,7 @@ public class TopicSubscriberImpl extends MessageConsumerImpl implements TopicSub
      * @exception JMSException if JMS fails to get topic for this topic subscriber due to some internal error.
      */
 
+    @Override
     public Topic getTopic() throws JMSException {
         checkState();
         return topic;
@@ -136,6 +137,7 @@ public class TopicSubscriberImpl extends MessageConsumerImpl implements TopicSub
      * @exception JMSException if JMS fails to get noLocal attribute for this topic subscriber due to some internal error.
      */
 
+    @Override
     public boolean getNoLocal() throws JMSException {
         checkState();
         return noLocal;

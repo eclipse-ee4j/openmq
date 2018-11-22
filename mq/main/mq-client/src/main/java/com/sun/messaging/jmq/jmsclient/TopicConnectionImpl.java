@@ -37,6 +37,7 @@ public class TopicConnectionImpl extends UnifiedConnectionImpl implements com.su
         setIsTopicConnection(true);
     }
 
+    @Override
     public TopicSession createTopicSession(int acknowledgeMode) throws JMSException {
         checkConnectionState();
 

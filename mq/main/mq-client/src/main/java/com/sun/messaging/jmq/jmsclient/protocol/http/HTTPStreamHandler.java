@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient.protocol.http;
 
-import java.io.*;
 import java.util.Arrays;
 import javax.jms.*;
 
@@ -56,6 +55,7 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
         final String sysval = buf.toString();
         final String sysprop = "https.protocols";
         java.security.AccessController.doPrivileged(new java.security.PrivilegedAction<Object>() {
+            @Override
             public Object run() {
                 if (System.getProperty(sysprop) == null) {
                     System.out.println(orig + ", System.setProperty: " + sysprop + "=" + sysval);
@@ -72,12 +72,14 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
     public HTTPStreamHandler() {
     }
 
+    @Override
     public String[] getPropertyNames() {
         String[] propnames = new String[1];
         propnames[0] = ConnectionConfiguration.imqConnectionURL;
         return propnames;
     }
 
+    @Override
     public String getPropertyType(String propname) {
         if (ConnectionConfiguration.imqConnectionURL.equals(propname)) {
             return AdministeredObject.AO_PROPERTY_TYPE_STRING;
@@ -85,6 +87,7 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyLabel(String propname) {
         if (ConnectionConfiguration.imqConnectionURL.equals(propname)) {
             return (AdministeredObject.cr.L_JMQHTTP_URL);
@@ -92,6 +95,7 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
         return null;
     }
 
+    @Override
     public String getPropertyDefault(String propname) {
         if (ConnectionConfiguration.imqConnectionURL.equals(propname)) {
             return "http://localhost/imq/tunnel";
@@ -106,10 +110,12 @@ public class HTTPStreamHandler implements StreamHandler, PropertyOwner {
      * @return a new instance of ConnectionHandler.
      * @exception throws IOException if socket creation failed.
      */
+    @Override
     public ConnectionHandler openConnection(Object connection) throws JMSException {
         return new HTTPConnectionHandler(connection);
     }
 
+    @Override
     public ConnectionHandler openConnection(MQAddress addr, ConnectionImpl connection) throws JMSException {
         return new HTTPConnectionHandler(addr, connection);
     }

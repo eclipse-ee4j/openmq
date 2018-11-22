@@ -75,7 +75,6 @@ import com.sun.messaging.jmq.util.lists.EventType;
 import com.sun.messaging.jmq.util.lists.Prioritized;
 import com.sun.messaging.jmq.util.lists.Reason;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 import com.sun.messaging.jmq.io.txnlog.TransactionLogType;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
@@ -139,32 +138,39 @@ public class MultibrokerRouter implements ClusterRouter {
         return "UNKNOWN";
     }
 
+    @Override
     public void addConsumer(Consumer c) throws BrokerException, IOException, SelectorFormatException {
         bc.addConsumer(c);
     }
 
+    @Override
     public void removeConsumer(com.sun.messaging.jmq.jmsserver.core.ConsumerUID c, Map<TransactionUID, LinkedHashMap<SysMessageID, Integer>> pendingMsgs,
             boolean cleanup) throws BrokerException, IOException {
 
         bc.removeConsumer(c, pendingMsgs, cleanup);
     }
 
+    @Override
     public void removeConsumers(ConnectionUID uid) throws BrokerException, IOException {
         bc.removeConsumers(uid);
     }
 
+    @Override
     public void brokerDown(com.sun.messaging.jmq.jmsserver.core.BrokerAddress ba) throws BrokerException, IOException {
         bc.brokerDown(ba);
     }
 
+    @Override
     public void forwardMessage(PacketReference ref, Collection consumers) {
         bc.forwardMessageToRemote(ref, consumers);
     }
 
+    @Override
     public void shutdown() {
         bc.destroy();
     }
 
+    @Override
     public void handleJMSMsg(Packet p, Map<ConsumerUID, Integer> consumers, BrokerAddress sender, boolean sendMsgDeliveredAck) throws BrokerException {
 
         Map<ConsumerUID, Integer> deliveryCnts = consumers;
@@ -260,7 +266,7 @@ public class MultibrokerRouter implements ClusterRouter {
             // consumer
             if (sendMsgDeliveredAck) {
                 for (int i = 0; i < targetVector.size(); i++) {
-                    Consumer c = (Consumer) targetVector.get(i);
+                    Consumer c = targetVector.get(i);
                     // ref.addMessageDeliveredAck(c.getStoredConsumerUID());
                     ref.addMessageDeliveredAck(c.getConsumerUID());
                 }
@@ -352,7 +358,7 @@ public class MultibrokerRouter implements ClusterRouter {
 
         int i;
         for (i = 0; i < targetVector.size(); i++) {
-            Consumer interest = (Consumer) targetVector.get(i);
+            Consumer interest = targetVector.get(i);
 
             if (!interest.routeMessage(ref, false)) {
                 // it disappeard on us, take care of it
@@ -420,24 +426,29 @@ public class MultibrokerRouter implements ClusterRouter {
         }
 
         if (DEBUG) {
-            if (ignoreVector.size() > 0)
+            if (ignoreVector.size() > 0) {
                 logger.log(logger.DEBUGHIGH, "MessageBus: Invalid targets : {0}", debugString.toString());
+            }
         }
     }
 
+    @Override
     public void handleAck(int type, SysMessageID sysid, ConsumerUID cuid, Map optionalProps) throws BrokerException {
         bc.acknowledgeMessageFromRemote(type, sysid, cuid, optionalProps);
     }
 
+    @Override
     public void handleAck2P(int type, SysMessageID[] sysids, ConsumerUID[] cuids, Map optionalProps, Long txnID,
             com.sun.messaging.jmq.jmsserver.core.BrokerAddress txnHomeBroker) throws BrokerException {
         bc.acknowledgeMessageFromRemote2P(type, sysids, cuids, optionalProps, txnID, txnHomeBroker);
     }
 
+    @Override
     public void handleCtrlMsg(int type, HashMap props) throws BrokerException {
         // not implemented
     }
 
+    @Override
     public Hashtable getDebugState() {
         return bc.getDebugState();
     }
@@ -507,22 +518,27 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         public PendingCheckEventHandler() {
         }
 
+        @Override
         public void handleOOMError(Throwable e) {
             logger.logStack(logger.WARNING, "OutOfMemoryError[ClusterRouterPendingTransactionTimer]", e);
         }
 
+        @Override
         public void handleLogInfo(String msg) {
             logger.log(logger.INFO, msg + "[ClusterRouterPendingTransactionTimer]");
         }
 
+        @Override
         public void handleLogWarn(String msg, Throwable e) {
             logger.logStack(logger.WARNING, msg + "[ClusterRouterPendingTransactionTimer]", e);
         }
 
+        @Override
         public void handleLogError(String msg, Throwable e) {
             logger.logStack(logger.WARNING, msg + "[ClusterRouterPendingTransactionTimer]", e);
         }
 
+        @Override
         public void handleTimerExit(Throwable e) {
             synchronized (pendingCheckTimerLock) {
                 pendingCheckTimer = null;
@@ -532,6 +548,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             }
         }
 
+        @Override
         public long runTask() {
             Set<Map<TransactionUID, Set<AckEntry>>> maps = null;
             synchronized (pendingConsumerUIDs) {
@@ -613,6 +630,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             return markConsumed;
         }
 
+        @Override
         public String toString() {
             return "" + id + "[" + uid + ", " + storedcid + "]TUID=" + tuid + ", (" + pendingStartTime + ")";
         }
@@ -696,6 +714,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             return done;
         }
 
+        @Override
         public boolean equals(Object o) {
             if (!(o instanceof AckEntry)) {
                 return false;
@@ -704,6 +723,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             return uid.equals(ak.uid) && id.equals(ak.id);
         }
 
+        @Override
         public int hashCode() {
             // uid is 4 bytes
             return id.hashCode() * 15 + uid.hashCode();
@@ -825,6 +845,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         }
     }
 
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
         if (type != EventType.BUSY_STATE_CHANGED) {
             assert false; // bad type
@@ -893,8 +914,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid = consumer.getConsumerUID();
 
             // if we dont have an ack, go on
-            if (uid.isNoAck())
+            if (uid.isNoAck()) {
                 continue;
+            }
 
             synchronized (removeConsumerLock) {
                 if (consumers.get(uid) == null) {
@@ -973,8 +995,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         synchronized (removeConsumerLock) {
             c = (Consumer) consumers.remove(uid);
         }
-        if (c == null && !cleanup)
+        if (c == null && !cleanup) {
             return;
+        }
 
         Destination d = null;
         if (c != null) {
@@ -1636,7 +1659,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                     pair = itr.next();
                     tl = pair.getKey();
                     tltas = pair.getValue();
-                    tas = (TransactionAcknowledgement[]) tltas.toArray(new TransactionAcknowledgement[tltas.size()]);
+                    tas = tltas.toArray(new TransactionAcknowledgement[tltas.size()]);
                     TransactionState ts = new TransactionState(AutoRollbackType.NOT_PREPARED, 0L, true);
                     ts.setState(TransactionState.PREPARED);
                     if (getDEBUG()) {
@@ -1879,8 +1902,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                             if (dstName != null) {
                                 // keep track for consumer txn log
                                 com.sun.messaging.jmq.jmsserver.core.ConsumerUID suid = tas[i].getStoredConsumerUID();
-                                if (suid == null)
+                                if (suid == null) {
                                     suid = cuid;
+                                }
                                 cLogRecordCount++;
                                 cLogDstList.add(dstName);
                                 cLogMsgList.add(sysid);
@@ -1974,16 +1998,18 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
             return;
         }
         for (int j = 0; j < tae.length; j++) {
-            if (tae[j].processed())
+            if (tae[j].processed()) {
                 continue;
+            }
             TransactionAcknowledgement[] tas = tae[j].getAcks();
             for (int i = 0; i < tas.length; i++) {
 
                 SysMessageID sysid = tas[i].getSysMessageID();
                 com.sun.messaging.jmq.jmsserver.core.ConsumerUID cuid = tas[i].getConsumerUID();
                 com.sun.messaging.jmq.jmsserver.core.ConsumerUID suid = tas[i].getStoredConsumerUID();
-                if (suid == null)
+                if (suid == null) {
                     suid = cuid;
+                }
                 PacketReference ref = DL.get(null, sysid); // PART
                 if (ref == null) {
                     if (getDEBUG()) {
@@ -2013,19 +2039,22 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         }
         boolean done = true;
         for (int j = 0; j < tae.length; j++) {
-            if (tae[j].processed())
+            if (tae[j].processed()) {
                 continue;
+            }
             TransactionAcknowledgement[] tas = tae[j].getAcks();
             for (int i = 0; i < tas.length; i++) {
 
                 SysMessageID sysid = tas[i].getSysMessageID();
                 com.sun.messaging.jmq.jmsserver.core.ConsumerUID uid = tas[i].getConsumerUID();
                 com.sun.messaging.jmq.jmsserver.core.ConsumerUID suid = tas[i].getStoredConsumerUID();
-                if (suid == null)
+                if (suid == null) {
                     suid = uid;
+                }
                 PacketReference ref = DL.get(null, sysid); // PART
-                if (ref == null || ref.isDestroyed() || ref.isInvalid())
+                if (ref == null || ref.isDestroyed() || ref.isInvalid()) {
                     continue;
+                }
                 try {
                     if (ref.acknowledged(uid, suid, true, true)) {
                         ref.getDestination().removeMessage(ref.getSysMessageID(), RemoveReason.ACKNOWLEDGED);
@@ -2099,8 +2128,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                             d = null;
                         }
                     }
-                    if (d == null)
+                    if (d == null) {
                         throw new BrokerException("Unable to attach to destination " + duid);
+                    }
                 }
             } catch (IOException ex) {
                 throw new BrokerException("Unable to autocreate destination " + duid, ex);
@@ -2203,6 +2233,7 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
         }
     }
 
+    @Override
     public void run() {
         while (valid) {
             Consumer c = null;
@@ -2217,12 +2248,14 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                     Iterator itr = activeConsumers.iterator();
                     c = (Consumer) itr.next();
                     itr.remove();
-                    if (c.isBusy())
+                    if (c.isBusy()) {
                         activeConsumers.add(c);
+                    }
                 }
             }
-            if (c == null)
+            if (c == null) {
                 continue;
+            }
 
             PacketReference ref = null;
             HashSet s = null;
@@ -2236,8 +2269,9 @@ class BrokerConsumers implements Runnable, com.sun.messaging.jmq.util.lists.Even
                 }
 
                 ref = (PacketReference) c.getAndFillNextPacket(null);
-                if (ref == null)
+                if (ref == null) {
                     continue;
+                }
 
                 s = new HashSet();
                 s.add(c);

@@ -41,7 +41,7 @@ import javax.transaction.xa.XAResource;
  * <P>
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying JMSXASession.
- * 
+ *
  * @see com.sun.jms.xa.spi.JMSXAQueueSession
  * @see com.sun.jms.xa.spi.JMSXATopicSession
  */
@@ -60,7 +60,7 @@ public interface JMSXASession {
      * return a Session associated with this XASession object.
      *
      * @return a Session to the caller
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      */
 

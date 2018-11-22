@@ -23,9 +23,7 @@ package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.BaseDAO;
 
-import java.sql.SQLException;
 import java.sql.Connection;
-import java.util.HashMap;
 import java.util.Properties;
 import java.util.List;
 

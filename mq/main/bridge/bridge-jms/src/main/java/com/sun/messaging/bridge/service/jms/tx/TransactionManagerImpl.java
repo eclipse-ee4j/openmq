@@ -16,7 +16,6 @@
 
 package com.sun.messaging.bridge.service.jms.tx;
 
-import java.io.File;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
@@ -103,6 +102,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         _jdbcStore = store;
     }
 
+    @Override
     public synchronized void init(Properties props, boolean reset) throws Exception {
         if (_logger == null) {
             throw new IllegalStateException("TM has no logger set");
@@ -166,6 +166,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
 
     /**
      */
+    @Override
     public String[] getAllTransactions() throws Exception {
         if (_state != TMState.INITIALIZED || _txlog == null) {
             return null;
@@ -190,6 +191,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
     /**
      *
      */
+    @Override
     public TransactionManager getTransactionManager() throws SystemException {
         return this;
     }
@@ -271,6 +273,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         return _maxBranches;
     }
 
+    @Override
     public boolean registerRM() {
         return true;
     }
@@ -278,8 +281,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
     /**
      * More than one XAResource object can be registered to a same rmName and isSameRM can be false among them; However
      * resources registered to a same rmName and if isSameRM true among them, they must have same class name
-     * 
+     *
      */
+    @Override
     public void registerRM(String rmName, XAResource xaRes) throws Exception {
         if (_state != TMState.INITIALIZED) {
             throw new IllegalStateException("TM not initialized");
@@ -310,8 +314,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                     }
                 }
             }
-            if (!l.contains(xaRes))
+            if (!l.contains(xaRes)) {
                 l.add(xaRes);
+            }
         }
         ArrayList<Xid[]> axids = new ArrayList<Xid[]>();
         Xid[] xidsr = null;
@@ -327,8 +332,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 }
 
                 xidsr = xaRes.recover(flag);
-                if (xidsr.length > 0)
+                if (xidsr.length > 0) {
                     flag = XAResource.TMNOFLAGS;
+                }
                 axids.add(xidsr);
             } catch (Throwable t) {
                 _logger.log(Level.SEVERE, "Recovering XAResource " + xaRes + " from RM " + rmName + " failed", t);
@@ -353,14 +359,14 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                     continue;
                 }
                 gdata = bxid.getGlobalTransactionId();
-                int tmnlen = (int) gdata[0];
+                int tmnlen = gdata[0];
                 String tmn = new String(gdata, 1, tmnlen, "UTF-8");
                 if (!tmn.equals(_tmName)) {
                     _logger.log(Level.WARNING, "Ignore global XID " + bxid + " from different TM name [" + tmn + "] from mine [" + _tmName + "]");
                     continue;
                 }
                 bdata = bxid.getBranchQualifier();
-                int rmnlen = (int) bdata[0];
+                int rmnlen = bdata[0];
                 String rmn = new String(bdata, 1, rmnlen, "UTF-8");
                 if (!rmn.equals(rmName)) {
                     _logger.log(Level.WARNING, "XID " + bxid + " from RM [" + rmName + "]" + xaRes + " has different RM name [" + rmn + "]");
@@ -422,8 +428,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                     _keepGxidsForRM.put(effectiveRM, gxids);
                 }
                 if (gxid != null) {
-                    if (!gxids.contains(gxid))
+                    if (!gxids.contains(gxid)) {
                         gxids.add(gxid);
+                    }
                 }
             }
 
@@ -434,8 +441,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                     _keepGxidsForRM.put(realRM, gxids);
                 }
                 if (gxid != null) {
-                    if (!gxids.contains(gxid))
+                    if (!gxids.contains(gxid)) {
                         gxids.add(gxid);
+                    }
                 }
             }
         }
@@ -487,7 +495,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 for (int i = 0; i < bxidds.length; i++) {
                     bxid = bxidds[i].getBranchXid();
                     bq = bxid.getBranchQualifier();
-                    len = (int) bq[0];
+                    len = bq[0];
                     try {
                         rmn = new String(bq, 1, len, "UTF-8");
                     } catch (UnsupportedEncodingException e) {
@@ -535,6 +543,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
     /**
      *
      */
+    @Override
     public void unregisterRM(String rmName) throws Exception {
         if (rmName == null) {
             throw new SystemException("null RM name");
@@ -545,8 +554,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
                 _logger.log(Level.WARNING, "Removing a unknown RM " + rmName);
                 return;
             }
-            if (l.size() == 0)
+            if (l.size() == 0) {
                 _rmToXAResources.remove(rmName);
+            }
         }
     }
 
@@ -580,6 +590,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void begin() throws NotSupportedException, SystemException {
         checkState();
         TransactionImpl tx = _threadLocal.get();
@@ -611,6 +622,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void commit()
             throws RollbackException, HeuristicMixedException, HeuristicRollbackException, SecurityException, IllegalStateException, SystemException {
 
@@ -636,6 +648,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public int getStatus() throws SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
@@ -652,6 +665,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public Transaction getTransaction() throws SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
@@ -673,6 +687,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      *
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      */
+    @Override
     public void resume(Transaction tobj) throws InvalidTransactionException, IllegalStateException, SystemException {
         throw new SystemException("operation not supported");
 
@@ -689,6 +704,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void rollback() throws IllegalStateException, SecurityException, SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
@@ -710,6 +726,7 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public void setRollbackOnly() throws IllegalStateException, SystemException {
         TransactionImpl tx = _threadLocal.get();
         if (tx == null) {
@@ -731,11 +748,12 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public synchronized void setTransactionTimeout(int seconds) throws SystemException {
         throw new SystemException("operation not supported");
         /*
          * checkState();
-         * 
+         *
          * if (seconds = 0) { _transactionTimeout = DEFAULT_TIMEOUT; _logger.log(Level.INFO,
          * "Restored TM default transaction timeout "+DEFAULT_TIMEOUT); return; } if (seconds > 0) { _transactionTimeout =
          * seconds; _logger.log(Level.INFO, "Set TM transaction timeout to "+seconds); return; } throw new
@@ -753,10 +771,12 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
      * @exception SystemException Thrown if the transaction manager encounters an unexpected error condition.
      *
      */
+    @Override
     public Transaction suspend() throws SystemException {
         throw new SystemException("operation not supported");
     }
 
+    @Override
     public synchronized void shutdown() throws SystemException {
         if (_state == TMState.CLOSED) {
             _logger.log(Level.INFO, _jbr.getString(_jbr.I_TM_ALREADY_SHUTDOWN, this.toString()));
@@ -804,8 +824,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             return xid;
 
         } catch (Exception e) {
-            if (e instanceof SystemException)
+            if (e instanceof SystemException) {
                 throw (SystemException) e;
+            }
             SystemException se = new SystemException(e.getMessage());
             se.initCause(e);
             throw se;
@@ -825,8 +846,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             }
             byte[] cn = className.getBytes("UTF-8");
             int cnlen = MAX_RMNAME_LENGTH - rn.length;
-            if (cnlen > cn.length)
+            if (cnlen > cn.length) {
                 cnlen = cn.length;
+            }
 
             if (_logger.isLoggable(Level.FINE)) {
                 _logger.log(Level.INFO, "genBranchXid:rmName=" + rmName + "[" + rn.length + "], className=" + className + "[" + cnlen + "]");
@@ -841,8 +863,9 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
             return bxid;
 
         } catch (Exception e) {
-            if (e instanceof SystemException)
+            if (e instanceof SystemException) {
                 throw (SystemException) e;
+            }
             SystemException se = new SystemException(e.getMessage());
             se.initCause(e);
             throw se;
@@ -868,10 +891,12 @@ public class TransactionManagerImpl implements TransactionManager, TransactionMa
         }
     }
 
+    @Override
     public String toString() {
         return "TM:" + _tmName + "[" + stateString(_state) + "]";
     }
 
+    @Override
     public void setLogger(Logger logger) {
         _logger = logger;
     }

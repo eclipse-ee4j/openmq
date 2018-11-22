@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.io;
 
-import java.util.Random;
 import java.util.ArrayList;
 import java.util.StringTokenizer;
 import java.net.MalformedURLException;
@@ -29,6 +28,11 @@ import java.net.MalformedURLException;
  * This class represents broker address URL.
  */
 public class MQAddressList extends ArrayList {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8579742305036692078L;
 
     protected MQAddressList() {
     }
@@ -50,6 +54,7 @@ public class MQAddressList extends ArrayList {
         return alist;
     }
 
+    @Override
     public String toString() {
         StringBuffer strbuf = new StringBuffer();
         strbuf.append("");

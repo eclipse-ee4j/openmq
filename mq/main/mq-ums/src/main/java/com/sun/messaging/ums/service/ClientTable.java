@@ -23,7 +23,7 @@ import java.util.Hashtable;
 /**
  *
  * This class is not used yet.
- * 
+ *
  * @author chiaming
  */
 public class ClientTable {

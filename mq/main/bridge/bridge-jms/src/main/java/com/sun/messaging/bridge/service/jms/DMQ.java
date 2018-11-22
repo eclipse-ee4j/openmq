@@ -32,7 +32,6 @@ import javax.jms.MessageProducer;
 import javax.jms.DeliveryMode;
 import javax.jms.Session;
 import javax.jms.Connection;
-import javax.jms.ConnectionFactory;
 import javax.jms.XAConnectionFactory;
 import javax.jms.ConnectionMetaData;
 import javax.jms.JMSException;
@@ -54,7 +53,7 @@ public class DMQ {
     public static enum DMQReason {
         MESSAGE_EXPIRED, TRANSFORMER_FAILURE, FIRST_TRANSFORMER_NOTRANSFER, FIRST_TRANSFORMER_BRANCHTO, FIRST_TRANSFORMER_AS_SOURCE_CHANGE, SEND_FAILURE,
         COMMIT_FAILURE, ACK_FAILURE
-    };
+    }
 
     public enum DMQProperty {
 
@@ -62,11 +61,11 @@ public class DMQ {
         JMS_SUN_JMSBRIDGE_SOURCE_DESTINATION, JMS_SUN_JMSBRIDGE_TARGET_DESTINATION, JMS_SUN_JMSBRIDGE_TARGET_CURRENT_DESTINATION,
         JMS_SUN_JMSBRIDGE_SOURCE_PROVIDER, JMS_SUN_JMSBRIDGE_TARGET_PROVIDER, JMS_SUN_JMSBRIDGE_DMQ_REASON, JMS_SUN_JMSBRIDGE_DMQ_EXCEPTION,
         JMS_SUN_JMSBRIDGE_DMQ_TIMESTAMP, JMS_SUN_JMSBRIDGE_DMQ_BODY_TRUNCATED,
-    };
+    }
 
     private enum DMQState {
         UNINITIALIZED, STARTING, STARTED, STOPPING, STOPPED
-    };
+    }
 
     private Logger _logger = null;
 
@@ -119,8 +118,9 @@ public class DMQ {
         _maxAttempts = Integer.parseInt(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTS, JMSBridgeXMLConstant.CF.CONNECTATTEMPTS_DEFAULT));
         _attemptInterval = Long
                 .parseLong(_dmqAttrs.getProperty(JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL, JMSBridgeXMLConstant.CF.CONNECTATTEMPTINTERVAL_DEFAULT));
-        if (_attemptInterval < 0)
+        if (_attemptInterval < 0) {
             _attemptInterval = 0;
+        }
         _attemptInterval = _attemptInterval * 1000;
 
         String val = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.STAYCONNECTED, JMSBridgeXMLConstant.DMQ.STAYCONNECTED_DEFAULT);
@@ -137,8 +137,9 @@ public class DMQ {
 
         val = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.SENDATTEMPTINTERVAL, JMSBridgeXMLConstant.DMQ.SENDATTEMPTINTERVAL_DEFAULT);
         _sendInterval = Long.parseLong(val) * 1000;
-        if (_sendInterval < 0)
+        if (_sendInterval < 0) {
             _sendInterval = 0;
+        }
 
         String cn = _dmqAttrs.getProperty(JMSBridgeXMLConstant.DMQ.MTFCLASS);
         if (cn != null) {
@@ -214,8 +215,9 @@ public class DMQ {
             } finally {
                 _notifier.removeEventListener(l);
             }
-            if (val != null)
+            if (val != null) {
                 _conn.setClientID(val);
+            }
 
         } else {
             _conn = _parent.obtainConnection(_cf, "DMQ", this, doReconnect);
@@ -223,6 +225,7 @@ public class DMQ {
 
         _conn.setExceptionListener(new ExceptionListener() {
 
+            @Override
             public void onException(JMSException exception) {
                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_ON_CONN_EXCEPTION, this.toString()), exception);
                 _connException = true;
@@ -260,8 +263,9 @@ public class DMQ {
 
     private synchronized void closeJMS() {
         _connException = false;
-        if (_conn == null)
+        if (_conn == null) {
             return;
+        }
 
         if (_conn instanceof SharedConnection || _conn instanceof PooledConnection) {
             try {
@@ -496,7 +500,7 @@ public class DMQ {
                                 _logger.log(Level.WARNING, "Exception in setting DMQ body-truncated property for DMQ message " + m + "in " + l, e);
                             }
                             try {
-                                om.setObject((Serializable) msgToSend.toString());
+                                om.setObject(msgToSend.toString());
                             } catch (Exception e) {
                                 String[] eparam = { "ObjectMessage.setObject()", "" + mid, l.toString() };
                                 _logger.log(Level.WARNING, _jbr.getKString(_jbr.W_EXCEPTION_TRUNCATE_DMQ_MSG, eparam), e);
@@ -634,6 +638,7 @@ public class DMQ {
         }
     }
 
+    @Override
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("dmq(" + getName() + ")[");
@@ -653,8 +658,9 @@ public class DMQ {
 
     public String getProviderName() {
         String pn = _providerName;
-        if (pn != null)
+        if (pn != null) {
             return pn;
+        }
 
         return ((Refable) _cf).getRefed().getClass().getName();
     }

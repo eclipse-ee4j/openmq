@@ -150,14 +150,14 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Connect to the provider.
-     * 
+     *
      * @exception JMSException thrown if connection to the provider cannot be established or if an error occurs
      */
     void connectToProvider() throws JMSException;
 
     /**
      * Disconnect from the provider.
-     * 
+     *
      * @exception JMSException thrown if connection to the provider cannot be closed or ir an error occurs
      */
     void disconnectFromProvider() throws JMSException;
@@ -176,7 +176,7 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Delete a physical destination within the JMS Provider.
-     * 
+     *
      * @param type Either QUEUE or TOPIC.
      * @param destinationName
      * @exception JMSException thrown if Queue could not be deleted.
@@ -185,7 +185,7 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Get all provider destinations.
-     * 
+     *
      * @return A multi dimensional array containing information about the JMS destinations. array[0] is a String[] listing
      * the destination names. array[1] is a String[] listing the destination types.
      * @exception JMSException thrown if array could not be obtained.
@@ -194,7 +194,7 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Make start provider command line
-     * 
+     *
      * @param iMQHome directory of MQ executables, ignored if argsOnly true
      * @param optArgs Array of optional broker command line arguments.
      * @param serverName Instance name of the server.
@@ -216,49 +216,49 @@ public interface JMSAdmin extends JMSConstants {
 
     /**
      * Ping the provider.
-     * 
+     *
      * @exception JMSException thrown if ping fails.
      */
     void pingProvider() throws JMSException;
 
     /**
      * Get the provider instance name
-     * 
+     *
      * @exception JMSException thrown if the get fails.
      */
     String getProviderInstanceName() throws JMSException;
 
     /**
      * Get the provider VARHOME directory
-     * 
+     *
      * @exception JMSException thrown if the get fails.
      */
     String getProviderVarHome() throws JMSException;
 
     /**
      * Shutdown the provider.
-     * 
+     *
      * @exception JMSException thrown if the shutdown fails.
      */
     void shutdownProvider() throws JMSException;
 
     /**
      * Restart the provider.
-     * 
+     *
      * @exception JMSException thrown if the restart fails.
      */
     void restartProvider() throws JMSException;
 
     /**
      * Return the provider host name
-     * 
+     *
      * @exception JMSException
      */
     String getProviderHostName() throws JMSException;
 
     /**
      * Return the provider host port number
-     * 
+     *
      * @exception JMSException
      */
     String getProviderHostPort() throws JMSException;

@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;
-import java.net.*;
 import java.io.*;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -46,6 +45,10 @@ import com.sun.messaging.jmq.util.log.*;
  */
 
 public class UpdateProperties extends Properties {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2654468190051766351L;
     private Logger logger = CommGlobals.getLogger();
     /**
      * Properties object which contains any properties which need to be stored in the instance property location
@@ -109,7 +112,7 @@ public class UpdateProperties extends Properties {
     }
 
     /**
-     * 
+     *
      */
     protected void setStoredProperties(Properties props) throws IllegalArgumentException {
         putAll(props);
@@ -117,17 +120,20 @@ public class UpdateProperties extends Properties {
     }
 
     protected void setStoredPropertiesLocation(String location) throws IllegalArgumentException {
-        if (storedloc != null)
+        if (storedloc != null) {
             throw new IllegalArgumentException(
                     CommGlobals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not access more than one stored property location"));
+        }
 
-        if (location == null)
+        if (location == null) {
             throw new IllegalArgumentException(
                     CommGlobals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Can not load property from null location"));
+        }
 
         storedloc = location;
     }
 
+    @Override
     public Object put(Object name, Object value) {
         Object o = super.get(name);
         Object retobj = null;
@@ -141,6 +147,7 @@ public class UpdateProperties extends Properties {
         return retobj;
     }
 
+    @Override
     public Object remove(Object key) {
         Object o = super.get(key);
         Object retobj = null;
@@ -234,6 +241,8 @@ public class UpdateProperties extends Properties {
      *
      * @deprecated replaced by {@link #updateProperty(String, String)}
      */
+    @Deprecated
+    @Override
     public Object setProperty(String key, String value) {
         throw new RuntimeException(
                 CommGlobals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "setProperty is not implemented, use updateProperty"));
@@ -253,6 +262,7 @@ public class UpdateProperties extends Properties {
      * No validation will be preformed by this method
      * <P>
      */
+    @Override
     public void putAll(Map props) {
         // OK .. we know we are valid, so update
         Iterator itr = props.entrySet().iterator();
@@ -295,7 +305,7 @@ public class UpdateProperties extends Properties {
 
     /**
      * Convenience method for updating a boolean property
-     * 
+     *
      * @see updateProperty(String, String, boolean);
      */
     public void updateBooleanProperty(String key, boolean value, boolean save) throws PropertyUpdateException, IOException {
@@ -304,7 +314,7 @@ public class UpdateProperties extends Properties {
 
     /**
      * Convenience method for updating an int property
-     * 
+     *
      * @see updateProperty(String, String);
      */
     public void updateIntProperty(String key, int value, boolean save) throws PropertyUpdateException, IOException {
@@ -313,7 +323,7 @@ public class UpdateProperties extends Properties {
 
     /**
      * Convenience method for updating a size property
-     * 
+     *
      * @see updateProperty(String, String);
      */
     public void updateSizeProperty(String key, SizeString str, boolean save) throws PropertyUpdateException, IOException {
@@ -322,7 +332,7 @@ public class UpdateProperties extends Properties {
 
     /**
      * Convenience method for updating an int property
-     * 
+     *
      * @see updateProperty(String, String);
      */
     public void updateLongProperty(String key, long value, boolean save) throws PropertyUpdateException, IOException {
@@ -502,17 +512,21 @@ public class UpdateProperties extends Properties {
      * @see #getProperty(String,String)
      * @see WatchedProperty#getValue()
      */
+    @Override
     public String getProperty(String key) {
         Object prop = super.get(key);
 
-        if (prop == null)
+        if (prop == null) {
             return null;
+        }
 
-        if (prop instanceof WatchedProperty)
+        if (prop instanceof WatchedProperty) {
             return ((WatchedProperty) prop).getValue();
+        }
 
-        if (prop instanceof String)
+        if (prop instanceof String) {
             return (String) prop;
+        }
 
         return null;
     }
@@ -528,11 +542,13 @@ public class UpdateProperties extends Properties {
      * @see #getProperty(String)
      * @see WatchedProperty#getValue()
      */
+    @Override
     public String getProperty(String key, String default_value) {
         String prop = getProperty(key);
 
-        if (prop == null)
+        if (prop == null) {
             return default_value;
+        }
 
         return prop;
     }
@@ -542,12 +558,13 @@ public class UpdateProperties extends Properties {
      *
      * @param out an output stream.
      */
+    @Override
     public void list(PrintStream out) {
         out.println("-- listing properties --");
         Enumeration e = super.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            Object val = (Object) super.get(key);
+            Object val = super.get(key);
             String valstr = val.toString();
             if (valstr.length() > 60) {
                 valstr = valstr.substring(0, 57) + "...";
@@ -561,12 +578,13 @@ public class UpdateProperties extends Properties {
      *
      * @param out an output stream.
      */
+    @Override
     public void list(PrintWriter out) {
         out.println("-- listing properties --");
         Enumeration e = super.keys();
         while (e.hasMoreElements()) {
             String key = (String) e.nextElement();
-            Object val = (Object) super.get(key);
+            Object val = super.get(key);
             String valstr = val.toString();
             if (valstr.length() > 60) {
                 valstr = valstr.substring(0, 57) + "...";
@@ -684,8 +702,9 @@ public class UpdateProperties extends Properties {
 
     public List getList(String name) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return null;
+        }
         StringTokenizer token = new StringTokenizer(prop, ",", false);
         List retv = new ArrayList();
         while (token.hasMoreElements()) {
@@ -696,14 +715,17 @@ public class UpdateProperties extends Properties {
             // leading
             int start = 0;
             while (start < newtoken.length()) {
-                if (!Character.isSpaceChar(newtoken.charAt(start)))
+                if (!Character.isSpaceChar(newtoken.charAt(start))) {
                     break;
+                }
                 start++;
             }
-            if (start > 0)
+            if (start > 0) {
                 newtoken = newtoken.substring(start + 1);
-            if (newtoken.length() > 0)
+            }
+            if (newtoken.length() > 0) {
                 retv.add(newtoken);
+            }
         }
         return retv;
     }
@@ -717,8 +739,9 @@ public class UpdateProperties extends Properties {
      */
     public String[] getArray(String name) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return null;
+        }
         StringTokenizer token = new StringTokenizer(prop, ",", false);
         int num = token.countTokens();
         String[] retv = new String[num];
@@ -730,12 +753,14 @@ public class UpdateProperties extends Properties {
             // leading
             int start = 0;
             while (start < newtoken.length()) {
-                if (!Character.isSpaceChar(newtoken.charAt(start)))
+                if (!Character.isSpaceChar(newtoken.charAt(start))) {
                     break;
+                }
                 start++;
             }
-            if (start > 0)
+            if (start > 0) {
                 newtoken = newtoken.substring(start + 1);
+            }
             retv[i] = newtoken;
         }
         return retv;
@@ -762,8 +787,9 @@ public class UpdateProperties extends Properties {
      */
     public long getLongProperty(String name, long defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return defval;
+        }
         try {
             return Long.parseLong(prop);
         } catch (Exception ex) {
@@ -794,8 +820,9 @@ public class UpdateProperties extends Properties {
      */
     public float getPercentageProperty(String name, float defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return defval;
+        }
         try {
             return (Float.parseFloat(prop) / 100);
         } catch (Exception ex) {
@@ -825,8 +852,9 @@ public class UpdateProperties extends Properties {
      */
     public int getIntProperty(String name, int defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return defval;
+        }
         try {
             return Integer.parseInt(prop);
         } catch (Exception ex) {
@@ -856,8 +884,9 @@ public class UpdateProperties extends Properties {
      */
     public SizeString getSizeProperty(String name, long defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return new SizeString(defval);
+        }
         try {
             return new SizeString(prop);
         } catch (Exception ex) {
@@ -887,8 +916,9 @@ public class UpdateProperties extends Properties {
      */
     public boolean getBooleanProperty(String name, boolean defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return defval;
+        }
         try {
             return Boolean.valueOf(prop).booleanValue();
         } catch (Exception ex) {
@@ -918,8 +948,9 @@ public class UpdateProperties extends Properties {
      */
     public float getFloatProperty(String name, float defval) {
         String prop = getProperty(name);
-        if (prop == null)
+        if (prop == null) {
             return defval;
+        }
         try {
             return Float.valueOf(prop).floatValue();
         } catch (Exception ex) {
@@ -942,8 +973,9 @@ public class UpdateProperties extends Properties {
             String key = (String) e.nextElement();
             String val = this.getProperty(key);
 
-            if (val == null)
+            if (val == null) {
                 val = "";
+            }
             props.setProperty(key, val);
         }
 
@@ -987,7 +1019,7 @@ class WatchedProperty {
 
     /**
      * create a new watched property object
-     * 
+     *
      * @param value value of the property
      */
     public WatchedProperty(String value) {
@@ -997,7 +1029,7 @@ class WatchedProperty {
 
     /**
      * sets the value of the property object
-     * 
+     *
      * @param value the new value of the property
      */
     public void setValue(String value) {
@@ -1006,7 +1038,7 @@ class WatchedProperty {
 
     /**
      * returns the value of the property object
-     * 
+     *
      * @return the current value of the property
      */
     public String getValue() {
@@ -1051,6 +1083,7 @@ class WatchedProperty {
     /**
      * prints out the string for a watched Property
      */
+    @Override
     public String toString() {
         StringBuffer buf = new StringBuffer();
         buf.append("WatchedProperty(" + listeners.size() + ") value = [\"" + value + "\"] {");

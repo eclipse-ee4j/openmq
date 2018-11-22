@@ -26,7 +26,6 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import org.jvnet.hk2.annotations.Service;
 import javax.inject.Singleton;
 
@@ -62,16 +61,18 @@ public class NoClusterManager implements ClusterManager {
      *
      * @return the id or null if this is not an HA cluster
      */
+    @Override
     public String getClusterId() {
         return clusterid;
     }
 
     /**
      * Changes the host/port of the local broker.
-     * 
+     *
      * @param address MQAddress to the portmapper
      * @throws BrokerException if something goes wrong when the address is changed
      */
+    @Override
     public void setMQAddress(MQAddress address) throws Exception {
         if (!initialized) {
             initialize(address);
@@ -81,39 +82,43 @@ public class NoClusterManager implements ClusterManager {
         cb.setBrokerURL(address);
     }
 
+    @Override
     public int getClusterPingInterval() {
         return CLUSTER_PING_INTERVAL_DEFAULT;
     }
 
     /**
      * Retrieves the host/port of the local broker.
-     * 
+     *
      * @return the MQAddress to the portmapper
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public MQAddress getMQAddress() {
-        if (!initialized)
+        if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
+        }
 
         return getLocalBroker().getBrokerURL();
     }
 
     /**
      * Sets a listener for notification when the state/status or configuration of the cluster changes.
-     * 
+     *
      * <p>
      * This api is used by the Monitor Service to determine when a broker should be monitored because it may be down.
      *
      * @see ClusterListener
      * @param listener the listener to add
      */
+    @Override
     public void addEventListener(ClusterListener listener) {
     }
 
     /**
      * Removes a listener for notification when the state changes.
-     * 
+     *
      * <p>
      * This api is used by the Monitor Service to determine when a broker should be monitored because it may be down.
      *
@@ -121,6 +126,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterListener
      * @param listener the listener to remove
      */
+    @Override
     public boolean removeEventListener(ClusterListener listener) {
         return true;
     }
@@ -133,6 +139,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      * @see ClusterManagerImpl#getBroker(String)
      */
+    @Override
     public ClusteredBroker getLocalBroker() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -143,11 +150,12 @@ public class NoClusterManager implements ClusterManager {
     /**
      * Returns the current number of brokers in the cluster. In a non-ha cluster, this includes all brokers which have a
      * BrokerLink to the local broker and the local broker.
-     * 
+     *
      * @return count of all brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getKnownBrokerCount() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -158,11 +166,12 @@ public class NoClusterManager implements ClusterManager {
     /**
      * Returns the current number of brokers in the configuration propperties. In a non-ha cluster, this includes all
      * brokers listed by -cluster or the cluster property.
-     * 
+     *
      * @return count of configured brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getConfigBrokerCount() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -173,11 +182,12 @@ public class NoClusterManager implements ClusterManager {
     /**
      * Returns the current number of brokers in the cluster. In a non-ha cluster, this includes all brokers which have an
      * active BrokerLink to the local broker and the local broker.
-     * 
+     *
      * @return count of all brokers in the cluster.
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getActiveBrokerCount() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -187,12 +197,13 @@ public class NoClusterManager implements ClusterManager {
 
     /**
      * Returns an iterator of ClusteredBroker objects for all brokers in the cluster. This is a copy of the current list.
-     * 
+     *
      * @param refresh if true refresh current list then return it
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getKnownBrokers(boolean refresh) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -206,11 +217,12 @@ public class NoClusterManager implements ClusterManager {
     /**
      * Returns an iterator of ClusteredBroker objects for all brokers in the cluster. This is a copy of the current list and
      * is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getConfigBrokers() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -223,11 +235,12 @@ public class NoClusterManager implements ClusterManager {
     /**
      * Returns an iterator of ClusteredBroker objects for all active brokers in the cluster. This is a copy of the current
      * list and is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public Iterator getActiveBrokers() {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -239,12 +252,13 @@ public class NoClusterManager implements ClusterManager {
 
     /**
      * Returns a specific ClusteredBroker object by name.
-     * 
+     *
      * @param brokerid the id associated with the broker
      * @return the broker associated with brokerid or null if the broker is not found
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public ClusteredBroker getBroker(String brokerid) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -268,6 +282,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      * @return the uid associated with the new broker
      */
+    @Override
     public String activateBroker(MQAddress URL, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + URL + " ...)");
     }
@@ -284,6 +299,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws BrokerException if the database can not be accessed
      * @return the uid associated with the new broker
      */
+    @Override
     public String activateBroker(String brokerid, UID uid, String instName, Object userData) throws NoSuchElementException, BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".activateBroker(" + brokerid + " ...)");
     }
@@ -295,6 +311,7 @@ public class NoClusterManager implements ClusterManager {
      * @param userData optional data associated with the status change
      * @throws NoSuchElementException if the broker can not be found in the cluster.
      */
+    @Override
     public void deactivateBroker(MQAddress URL, Object userData) throws NoSuchElementException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + URL + " ...)");
     }
@@ -308,6 +325,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public void deactivateBroker(String brokerid, Object userData) throws NoSuchElementException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".deactivateBroker(" + brokerid + " ..)");
     }
@@ -320,6 +338,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String lookupBrokerID(MQAddress broker) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -337,10 +356,12 @@ public class NoClusterManager implements ClusterManager {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupStoreSessionOwner(UID uid) {
         return null;
     }
 
+    @Override
     public String getStoreSessionCreator(UID uid) {
         return null;
     }
@@ -351,6 +372,7 @@ public class NoClusterManager implements ClusterManager {
      * @param uid is the session uid to search for
      * @return the uid associated with the session or null we cant find it.
      */
+    @Override
     public String lookupBrokerSessionUID(UID uid) {
         if (!initialized) {
             throw new RuntimeException("Cluster not initialized");
@@ -378,6 +400,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public ClusteredBroker getMasterBroker() {
         return null;
     }
@@ -390,28 +413,31 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      */
 
+    @Override
     public String getTransport() {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getTransport()");
     }
 
     /**
      * Returns the port configured for the cluster service.
-     * 
+     *
      * @return the port (or 0 if a dynamic port should be used)
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public int getClusterPort() {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getClusterPort()");
     }
 
     /**
      * Returns the host that the cluster service should bind to .
-     * 
+     *
      * @return the hostname (or null if the service should bind to all)
      * @throws RuntimeException if the cluster has not be initialized (which occurs the first time the MQAddress is set)
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String getClusterHost() {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getClusterHost()");
     }
@@ -424,6 +450,7 @@ public class NoClusterManager implements ClusterManager {
      * @see ClusterManagerImpl#setMQAddress
      * @see Globals#getHAEnabled()
      */
+    @Override
     public boolean isHA() {
         return false;
     }
@@ -432,6 +459,7 @@ public class NoClusterManager implements ClusterManager {
      * Reload cluster properties from config
      *
      */
+    @Override
     public void reloadConfig() throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".reloadCluster()");
     }
@@ -444,6 +472,7 @@ public class NoClusterManager implements ClusterManager {
      * @throws BrokerException if the cluster can not be initialized
      * @see ClusterManagerImpl#setMQAddress
      */
+    @Override
     public String initialize(MQAddress address) throws BrokerException {
 
         localcb = new NoClusteredBroker(address, new UID());
@@ -460,9 +489,10 @@ public class NoClusterManager implements ClusterManager {
 
     /**
      * Returns a user-readable string representing this class.
-     * 
+     *
      * @return the user-readable represeation.
      */
+    @Override
     public String toString() {
         return "NoClusterManager: [local=" + localcb + "]";
     }
@@ -472,6 +502,7 @@ public class NoClusterManager implements ClusterManager {
      *
      * @return null (this cluster type does not support session)
      */
+    @Override
     public synchronized UID getStoreSessionUID() {
         return null;
     }
@@ -481,6 +512,7 @@ public class NoClusterManager implements ClusterManager {
      *
      * @return null (this cluster type does not support session)
      */
+    @Override
     public synchronized UID getBrokerSessionUID() {
         return getLocalBroker().getBrokerSessionUID();
     }
@@ -493,18 +525,22 @@ public class NoClusterManager implements ClusterManager {
 
     /**
     */
+    @Override
     public Set getSupportedStoreSessionUIDs() {
         return new HashSet();
     }
 
+    @Override
     public MQAddress getBrokerNextToMe() {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getBrokerNextToMe()");
     }
 
+    @Override
     public LinkedHashSet parseBrokerList(String values) throws MalformedURLException, UnknownHostException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".parseBrokerList()");
     }
 
+    @Override
     public ClusteredBroker getBrokerByNodeName(String nodeName) throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call: " + getClass().getName() + ".getbrokerByNodeName()");
     }
@@ -512,12 +548,14 @@ public class NoClusterManager implements ClusterManager {
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionAdded(UID partitionID, Object source) {
     }
 
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionRemoved(UID partitionID, Object source, Object destinedTo) {
     }
 

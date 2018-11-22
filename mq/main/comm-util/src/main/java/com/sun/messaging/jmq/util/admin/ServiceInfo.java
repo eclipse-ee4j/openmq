@@ -28,6 +28,10 @@ import com.sun.messaging.jmq.util.MetricCounters;
  */
 public class ServiceInfo extends AdminInfo {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8845478839645199012L;
     // Values that are only set by broker
     public String name;
     public String protocol;
@@ -57,6 +61,7 @@ public class ServiceInfo extends AdminInfo {
         reset();
     }
 
+    @Override
     public void reset() {
         name = null;
         protocol = null;
@@ -77,6 +82,7 @@ public class ServiceInfo extends AdminInfo {
      *
      * @return String representation of the service.
      */
+    @Override
     public String toString() {
 
         return "{" + name + ":" + " port=" + port + " #connections=" + nConnections + " threads=" + currentThreads + "[" + minThreads + "," + maxThreads + "]"

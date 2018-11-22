@@ -17,18 +17,14 @@
 package com.sun.messaging.jmq.jmsserver;
 
 import java.util.*;
-import java.util.concurrent.*;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQEmbeddedService;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
-import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
 import com.sun.messaging.jmq.jmsservice.JMSDirectBroker;
-import com.sun.messaging.jmq.io.*; //test program only
 
 /**
  * DirectBrokerProcess implementation. It wraps a singleton class (only one broker can be running in any process).
@@ -39,7 +35,7 @@ import com.sun.messaging.jmq.io.*; //test program only
  * <code><PRE>
  *      DirectBrokerProcess bp = BrokerProcess.getBrokerProcess(BrokerProcess.DIRECT_BROKER);
  *      try {
- *      
+ *
  *          Properties ht = BrokerProcess.convertArgs(args);
  *          int exitcode = bp.start();
  *          if (exitcode != 0) { // failure to start
@@ -59,6 +55,7 @@ public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroke
         super();
     }
 
+    @Override
     public int start(boolean inProcess, Properties properties, BrokerEventListener bel, boolean initOnly, Throwable failStartThrowable)
             throws OutOfMemoryError, IllegalStateException, IllegalArgumentException {
 
@@ -72,13 +69,16 @@ public class DirectBrokerProcess extends BrokerProcess implements JMSDirectBroke
     /**
      * Returns true when the broker is ready to start processing messages
      */
+    @Override
     public boolean directServiceIsUp() {
         IMQService service = (IMQService) Globals.getServiceManager().getService(name);
-        if (service == null)
+        if (service == null) {
             return false;
+        }
         return service.getState() == ServiceState.RUNNING;
     }
 
+    @Override
     public DirectBrokerConnection getConnection() {
         IMQEmbeddedService service = (IMQEmbeddedService) Globals.getServiceManager().getService(name);
         try {

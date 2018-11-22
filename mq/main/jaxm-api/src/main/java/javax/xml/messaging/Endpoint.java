@@ -44,7 +44,7 @@ public class Endpoint {
 
     /**
      * Constructs an <code>Endpoint</code> object using the given string identifier.
-     * 
+     *
      * @param uri a string that identifies the party that this <code>Endpoint</code> object represents; the default is a URI
      */
     public Endpoint(String uri) {
@@ -58,6 +58,7 @@ public class Endpoint {
      *
      * @return a <code>String</code> with a provider-specific representation of this <code>Endpoint</code> object
      */
+    @Override
     public String toString() {
         return id;
     }

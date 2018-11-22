@@ -104,7 +104,7 @@ import java.util.*;
  * <p>
  * <b>XXX-TBD:</b> should we store a string or letter not an int in jdbc for readability.
  *
- * 
+ *
  */
 
 public class BrokerState {
@@ -219,6 +219,7 @@ public class BrokerState {
     /**
      * a string representation of the object
      */
+    @Override
     public String toString() {
         return "BrokerState[" + name + "]";
     }

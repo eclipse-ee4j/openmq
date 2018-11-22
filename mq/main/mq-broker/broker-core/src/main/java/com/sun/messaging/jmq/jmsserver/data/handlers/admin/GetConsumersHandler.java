@@ -23,8 +23,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Vector;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -32,13 +30,10 @@ import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
-import com.sun.messaging.jmq.util.admin.DestinationInfo;
-import com.sun.messaging.jmq.util.admin.ConsumerInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -61,6 +56,7 @@ public class GetConsumersHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {
@@ -247,7 +243,7 @@ public class GetConsumersHandler extends AdminCmdHandler {
         /*
          * if (con instanceof Subscription) { List l = ((Subscription)con).getChildConsumers(); Consumer c = (Consumer)l.get(0);
          * System.err.println("Consumer from child list: " + c);
-         * 
+         *
          * cid = c.getConnectionUID(); } else { cid = con.getConnectionUID(); }
          */
 

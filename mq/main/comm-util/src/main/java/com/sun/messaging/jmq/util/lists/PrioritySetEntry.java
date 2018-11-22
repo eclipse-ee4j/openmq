@@ -34,6 +34,7 @@ class PrioritySetEntry extends SetEntry {
         return priority;
     }
 
+    @Override
     protected Comparator createSortComparator(Comparator comp) {
         return new PrioritySetEntryComparator(comp);
     }
@@ -45,11 +46,13 @@ class PrioritySetEntry extends SetEntry {
             datacmp = c;
         }
 
+        @Override
         public int compare(Object o1, Object o2) {
             if (o1 instanceof PrioritySetEntry && o2 instanceof PrioritySetEntry) {
                 // compare
-                if (((PrioritySetEntry) o1).priority != ((PrioritySetEntry) o2).priority)
+                if (((PrioritySetEntry) o1).priority != ((PrioritySetEntry) o2).priority) {
                     return ((PrioritySetEntry) o1).priority - ((PrioritySetEntry) o2).priority;
+                }
                 Object d1 = ((PrioritySetEntry) o1).data;
                 Object d2 = ((PrioritySetEntry) o2).data;
                 return datacmp.compare(d1, d2);
@@ -70,6 +73,7 @@ class PrioritySetEntry extends SetEntry {
             }
         }
 
+        @Override
         public boolean equals(Object o1) {
             return super.equals(o1);
         }

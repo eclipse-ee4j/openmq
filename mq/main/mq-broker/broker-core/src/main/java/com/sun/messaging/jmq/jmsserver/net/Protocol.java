@@ -22,10 +22,7 @@ package com.sun.messaging.jmq.jmsserver.net;
 
 import java.util.Map;
 import java.io.IOException;
-import java.nio.*;
 import java.nio.channels.spi.*;
-import java.nio.channels.*;
-import java.net.*;
 
 /**
  * This interface class handles a specific type of protocol (e.g. tcp)

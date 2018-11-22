@@ -39,7 +39,7 @@ import com.sun.messaging.DestinationConfiguration;
  * It specifically handles the format conversion from Reference objects created by JMQ1.1 <code>Destination</code>
  * objects to iMQ3.0 <code>Destination</code> objects.
  * <p>
- * 
+ *
  * @see javax.naming.Reference javax.naming.Reference
  * @see com.sun.messaging.Destination com.sun.messaging.Destination
  * @see com.sun.messaging.AdministeredObject com.sun.messaging.AdministeredObject
@@ -60,18 +60,19 @@ public abstract class DObjectFactory extends AdministeredObjectFactory {
 
     /**
      * Creates an instance of the object represented by a Reference object.
-     * 
+     *
      * @param obj The Reference object.
-     * 
+     *
      * @return an instance of the class named in the Reference object <code>obj</code>.
      * @return null if <code>obj</code> is not an instance of a Reference object.
-     * 
+     *
      * @throws MissingVersionNumberException if either <code>obj</code> references an object that is not an instance of a
      * <code>com.sun.messaging.Queue</code> object or the version number is missing from the Reference object.
      * @throws UnsupportedVersionNumberException if an unsupported version number is present in the Reference.
      * @throws CorruptedConfigurationPropertiesException if <code>obj</code> does not have the minimum information
      * neccessary to recreate an instance of a a valid <code>com.sun.messaging.AdministeredObject</code>.
      */
+    @Override
     public Object getObjectInstance(Object obj, Name name, Context ctx, Hashtable env) throws Exception {
 
         if (obj instanceof Reference) {

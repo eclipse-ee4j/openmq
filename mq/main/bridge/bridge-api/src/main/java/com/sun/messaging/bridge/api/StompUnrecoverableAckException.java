@@ -22,6 +22,11 @@ package com.sun.messaging.bridge.api;
 
 public class StompUnrecoverableAckException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 752819753643345594L;
+
     public StompUnrecoverableAckException(String reason) {
         super(reason);
     }

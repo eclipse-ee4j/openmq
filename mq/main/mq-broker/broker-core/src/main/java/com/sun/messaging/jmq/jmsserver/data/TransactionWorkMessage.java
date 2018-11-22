@@ -63,6 +63,7 @@ public class TransactionWorkMessage {
         this.message = ref.getPacket();
     }
 
+    @Override
     public String toString() {
         StringBuffer result = new StringBuffer("sysMessageID=").append(message.getMessageID());
         result.append(" destUID=").append(destUID);

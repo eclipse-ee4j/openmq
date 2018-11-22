@@ -42,6 +42,11 @@ import com.sun.messaging.jmq.resources.SharedResources;
  */
 public abstract class JAXMServlet extends HttpServlet {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -2176753361492935877L;
+
+    /**
      * The <code>MessageFactory</code> object that will be used internally to create the <code>SOAPMessage</code> object to
      * be passed to the method <code>onMessage</code>. This new message will contain the data from the message that was
      * posted to the servlet. Using the <code>MessageFactory</code> object that is the value for this field to create the
@@ -58,6 +63,7 @@ public abstract class JAXMServlet extends HttpServlet {
      * @param servletConfig the <code>ServletConfig</code> object to be used in initializing this <code>JAXMServlet</code>
      * object
      */
+    @Override
     public void init(ServletConfig servletConfig) throws ServletException {
         super.init(servletConfig);
         try {
@@ -98,8 +104,9 @@ public abstract class JAXMServlet extends HttpServlet {
             String headerValue = req.getHeader(headerName);
 
             StringTokenizer values = new StringTokenizer(headerValue, ",");
-            while (values.hasMoreTokens())
+            while (values.hasMoreTokens()) {
                 headers.addHeader(headerName, values.nextToken().trim());
+            }
         }
 
         return headers;
@@ -107,7 +114,7 @@ public abstract class JAXMServlet extends HttpServlet {
 
     /**
      * Sets the given <code>HttpServletResponse</code> object with the headers in the given <code>MimeHeaders</code> object.
-     * 
+     *
      * @param headers the <code>MimeHeaders</code> object containing the the headers in the message sent to the servlet
      * @param res the <code>HttpServletResponse</code> object to which the headers are to be written
      * @see #getHeaders
@@ -118,14 +125,15 @@ public abstract class JAXMServlet extends HttpServlet {
             MimeHeader header = (MimeHeader) it.next();
 
             String[] values = headers.getHeader(header.getName());
-            if (values.length == 1)
+            if (values.length == 1) {
                 res.setHeader(header.getName(), header.getValue());
-            else {
+            } else {
                 StringBuffer concat = new StringBuffer();
                 int i = 0;
                 while (i < values.length) {
-                    if (i != 0)
+                    if (i != 0) {
                         concat.append(',');
+                    }
                     concat.append(values[i++]);
                 }
 
@@ -146,6 +154,7 @@ public abstract class JAXMServlet extends HttpServlet {
      * @throws ServletException if there is a servlet error
      * @throws IOException if there is an input or output error
      */
+    @Override
     public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             // Get all the headers from the HTTP request.
@@ -161,11 +170,11 @@ public abstract class JAXMServlet extends HttpServlet {
             SOAPMessage reply = null;
 
             // There are no replies in case of an OnewayListener.
-            if (this instanceof ReqRespListener)
+            if (this instanceof ReqRespListener) {
                 reply = ((ReqRespListener) this).onMessage(msg);
-            else if (this instanceof OnewayListener)
+            } else if (this instanceof OnewayListener) {
                 ((OnewayListener) this).onMessage(msg);
-            else {
+            } else {
                 String lstnrMsg = cr.getKString(cr.X_NO_JAXMSERVLET_LISTENER, this.getClass().getName());
                 throw new ServletException(lstnrMsg);
                 // throw new ServletException("JAXM component: "
@@ -193,8 +202,9 @@ public abstract class JAXMServlet extends HttpServlet {
 
                 os.flush();
 
-            } else
+            } else {
                 resp.setStatus(HttpServletResponse.SC_NO_CONTENT);
+            }
         } catch (Exception ex) {
             String postMsg = cr.getKString(cr.X_JAXM_POST_FAILED);
             throw new ServletException(postMsg + "\n" + ex.getMessage());

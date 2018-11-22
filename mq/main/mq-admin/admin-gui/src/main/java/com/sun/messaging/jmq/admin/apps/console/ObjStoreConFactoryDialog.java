@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.admin.apps.console;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridBagConstraints;
@@ -28,22 +27,15 @@ import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import javax.naming.Context;
 import javax.swing.BorderFactory;
-import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
@@ -62,6 +54,10 @@ import com.sun.messaging.jmq.admin.apps.console.util.LongField;
  */
 public class ObjStoreConFactoryDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 517513555795379528L;
     protected JTabbedPane tabbedPane;
     protected JTextField lookupText;
     protected JLabel lookupLabel;
@@ -97,6 +93,7 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         super(parent, title, whichButtons, false);
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         boolean propsDlg = false;
@@ -112,8 +109,9 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         // Get the groups for this admin obj.
         String groupString = aobj.getPropertyGroups();
         String groups[] = stringToArray(groupString, "|");
-        if (groups == null)
+        if (groups == null) {
             return workPanel;
+        }
 
         GridBagLayout gridbag = new GridBagLayout();
         workPanel.setLayout(gridbag);
@@ -188,14 +186,14 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         /*
          * JPanel panel2 = null; if (!propsDlg) { // Add Conn Factory panel2 = new JPanel(); GridBagLayout gridbag2 = new
          * GridBagLayout(); panel2.setLayout(gridbag2);
-         * 
+         *
          * GridBagConstraints c2 = new GridBagConstraints(); c2.gridx = 0; c2.gridy = 0; c2.ipadx = 0; c2.ipady = -8; c2.anchor
          * = GridBagConstraints.WEST; queuecfButton = new JRadioButton(acr.getString(acr.I_QCF), true);
          * gridbag2.setConstraints(queuecfButton, c2); panel2.add(queuecfButton);
-         * 
+         *
          * c2.gridx = 0; c2.gridy = 1; c2.ipadx = 0; c2.ipady = 8; c2.anchor = GridBagConstraints.WEST; topiccfButton = new
          * JRadioButton(acr.getString(acr.I_TCF)); gridbag2.setConstraints(topiccfButton, c2); panel2.add(topiccfButton);
-         * 
+         *
          * ButtonGroup group = new ButtonGroup(); group.add(queuecfButton); group.add(topiccfButton); }
          */
 
@@ -240,21 +238,27 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
      * Panel for second tab. private JPanel makeConnHandlerPanel() { JPanel chPanel = new JPanel(); return chPanel; }
      */
 
+    @Override
     public void doOK() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
     }
 
+    @Override
     public void doClose() {
     }
 
+    @Override
     public void doClear() {
     }
 
@@ -319,13 +323,15 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
         if (source instanceof JComboBox) {
             doComboBox((JComboBox) source);
-        } else
+        } else {
             super.actionPerformed(e);
+        }
     }
 
     /*
@@ -387,10 +393,11 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
 
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_BOOLEAN) && c instanceof JCheckBox) {
 
-            if (value.equalsIgnoreCase("true"))
+            if (value.equalsIgnoreCase("true")) {
                 ((JCheckBox) c).setSelected(true);
-            else
+            } else {
                 ((JCheckBox) c).setSelected(false);
+            }
 
         } else {
             System.err.println("No setting for " + propType + " " + value);
@@ -420,10 +427,11 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
 
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_BOOLEAN) && c instanceof JCheckBox) {
 
-            if (((JCheckBox) c).isSelected())
+            if (((JCheckBox) c).isSelected()) {
                 value = "true";
-            else
+            } else {
                 value = "false";
+            }
 
         } else {
             System.err.println("No value for " + propType + " " + c);
@@ -517,23 +525,25 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
              * addExtra = true; String [] listProps = {"imqBrokerHostName", "imqBrokerHostPort", "imqSSLProviderClassname",
              * "imqSSLIsHostTrusted", "imqBrokerServicePort", "imqConnectionURL"}; extraItems = new
              * LabelledComponent[listProps.length];
-             * 
+             *
              * for (int k = 0; k < listProps.length; k++) { extraItems[k] = makeLabelledComponent(aobj, listProps[k]); }
              */
 
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_INTEGER)) {
 
-            if (propDefault == null)
+            if (propDefault == null) {
                 lc = new LabelledComponent(propLabel + ":", new IntegerField(Integer.MIN_VALUE, Integer.MAX_VALUE, propDefault, 7));
-            else
+            } else {
                 lc = new LabelledComponent(propLabel + ":", new IntegerField(Integer.MIN_VALUE, Integer.MAX_VALUE, 7));
+            }
 
             lc.setClientData(propName);
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_LONG)) {
-            if (propDefault == null)
+            if (propDefault == null) {
                 lc = new LabelledComponent(propLabel + ":", new LongField(Long.MIN_VALUE, Long.MAX_VALUE, propDefault, 7));
-            else
+            } else {
                 lc = new LabelledComponent(propLabel + ":", new LongField(Long.MIN_VALUE, Long.MAX_VALUE, 7));
+            }
 
             lc.setClientData(propName);
         } else if (propType.equals(AdministeredObject.AO_PROPERTY_TYPE_BOOLEAN)) {
@@ -564,21 +574,21 @@ public class ObjStoreConFactoryDialog extends AdminDialog {
         String propDefault = null;
         String connType = null;
         /*
-         * 
+         *
          * for (int i = 0; i < extraItems.length; i++) { propName = (String)extraItems[i].getClientData(); if
          * (propName.equals("imqBrokerHostName") || propName.equals("imqBrokerHostPort") ||
          * propName.equals("imqBrokerServiceName") || propName.equals("imqBrokerServicePort") ||
          * propName.equals("imqSSLProviderClassname") || propName.equals("imqSSLIsHostTrusted")) {
-         * 
+         *
          * connType = "TLS"; } else if (propName.equals("imqConnectionURL")) { connType = "HTTP"; }
-         * 
+         *
          * if (connType == null) continue;
-         * 
+         *
          * try { tempObj.setProperty("imqConnectionType", connType); propType = tempObj.getPropertyType(propName); propDefault =
          * tempObj.getProperty(propName); } catch (Exception ex) { System.err.println("Exception in adminobj.setProperty()"); }
-         * 
+         *
          * JComponent comp = extraItems[i].getComponent();
-         * 
+         *
          * if (setDisabledItemsOnly) { if (!comp.isEnabled()) { setValue(extraItems[i].getComponent(), propType, propDefault); }
          * } else { setValue(extraItems[i].getComponent(), propType, propDefault); } }
          */

@@ -22,9 +22,7 @@ package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.util.log.*;
 
 public class Red extends MemoryLevelHandler {
@@ -42,22 +40,27 @@ public class Red extends MemoryLevelHandler {
         GCItrCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
     }
 
+    @Override
     public int getMessageCount(long freeMem, int producers) {
         return PAUSED;
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
         return PAUSED;
     }
 
+    @Override
     public int gcCount() {
         return GCCount;
     }
 
+    @Override
     public int gcIteration() {
         return GCItrCount;
     }
 
+    @Override
     public boolean cleanup(int cnt) {
         super.cleanup(cnt);
 
@@ -81,11 +84,13 @@ public class Red extends MemoryLevelHandler {
         return !SWAP_NON_PERSIST || cnt == 1;
     }
 
+    @Override
     public boolean enter(boolean fromHigher) {
         super.enter(fromHigher);
 
-        if (fromHigher)
+        if (fromHigher) {
             return true;
+        }
 
         // MemoryGlobals.setMEM_FREE_P_ALL(true);
         MemoryGlobals.setMEM_DISALLOW_PRODUCERS(true);
@@ -100,6 +105,7 @@ public class Red extends MemoryLevelHandler {
         return true; // change cnt/etc
     }
 
+    @Override
     public boolean leave(boolean toHigher) {
         super.leave(toHigher);
 

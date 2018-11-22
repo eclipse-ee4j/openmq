@@ -71,8 +71,9 @@ public class Password {
             password = null;
             return pw;
         } catch (Throwable e) {
-            if (DEBUG)
+            if (DEBUG) {
                 e.printStackTrace();
+            }
             return null;
         }
     }
@@ -132,12 +133,13 @@ public class Password {
         System.out.print("Enter password: ");
         String s;
 
-        if (normal)
+        if (normal) {
             s = pw.getPassword();
-        else if (clearText)
+        } else if (clearText) {
             s = pw.getClearTextPassword();
-        else
+        } else {
             s = pw.getHiddenPassword();
+        }
 
         System.err.println("");
         System.out.println("Password enterd is: " + s);

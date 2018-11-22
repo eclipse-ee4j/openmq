@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.jmsclient;
 
 import javax.jms.*;
 
-import com.sun.messaging.AdministeredObject;
-
 /**
  * A client uses a QueueSender to send messages to a queue.
  *
@@ -55,6 +53,7 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
      *
      * @exception JMSException if JMS fails to get queue for this queue sender due to some internal error.
      */
+    @Override
     public Queue getQueue() throws JMSException {
         checkState();
         return queue;
@@ -69,6 +68,7 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
      * @exception MessageFormatException if invalid message specified
      * @exception InvalidDestinationException if a client uses this method with a Queue sender with an invalid queue.
      */
+    @Override
     public void send(Message message) throws JMSException {
 
         super.send(message);
@@ -87,6 +87,7 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
      * @exception MessageFormatException if invalid message specified
      * @exception InvalidDestinationException if a client uses this method with a Queue sender with an invalid queue.
      */
+    @Override
     public void send(Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
 
         super.send(message, deliveryMode, priority, timeToLive);
@@ -108,6 +109,7 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
      * @exception MessageFormatException if invalid message specified
      * @exception InvalidDestinationException if a client uses this method with an invalid queue.
      */
+    @Override
     public void send(Queue queue, Message message) throws JMSException {
 
         super.send(queue, message);
@@ -132,6 +134,7 @@ public class QueueSenderImpl extends MessageProducerImpl implements QueueSender 
      * @exception InvalidDestinationException if a client uses this method with an invalid queue.
      */
 
+    @Override
     public void send(Queue queue, Message message, int deliveryMode, int priority, long timeToLive) throws JMSException {
 
         super.send(queue, message, deliveryMode, priority, timeToLive);

@@ -20,11 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.data;
 
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.log.*;
@@ -58,8 +55,9 @@ public class TransactionBroker implements Externalizable, Cloneable {
 
     public TransactionBroker(BrokerAddress broker, boolean completed) {
         this(broker);
-        if (completed)
+        if (completed) {
             state = COMPLETE;
+        }
     }
 
     public BrokerAddress getBrokerAddress() {
@@ -75,8 +73,9 @@ public class TransactionBroker implements Externalizable, Cloneable {
     }
 
     public boolean copyState(TransactionBroker b) throws BrokerException {
-        if (state == b.state)
+        if (state == b.state) {
             return false;
+        }
         if (state == PENDING) {
             state = b.state;
             return true;
@@ -84,11 +83,13 @@ public class TransactionBroker implements Externalizable, Cloneable {
         throw new BrokerException("Can't update transaction broker state from " + toString(state) + " to " + toString(b.state));
     }
 
+    @Override
     public int hashCode() {
         return broker.hashCode();
     }
 
     // just compare the hashcode
+    @Override
     public boolean equals(Object o) {
         if (!(o instanceof TransactionBroker)) {
             return false;
@@ -133,6 +134,7 @@ public class TransactionBroker implements Externalizable, Cloneable {
         return false;
     }
 
+    @Override
     public String toString() {
         return "[" + broker.toString() + "]" + ((state == COMPLETE) ? "" : toString(state));
     }
@@ -147,18 +149,21 @@ public class TransactionBroker implements Externalizable, Cloneable {
         return "UNKNOWN";
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
 
         state = in.readInt();
         broker = (BrokerAddress) in.readObject();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
 
         out.writeInt(state);
         out.writeObject(broker);
     }
 
+    @Override
     public Object clone() {
         try {
             return super.clone();

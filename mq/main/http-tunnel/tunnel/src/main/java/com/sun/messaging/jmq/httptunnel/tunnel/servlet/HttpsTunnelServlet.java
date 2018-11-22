@@ -29,6 +29,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpsTunnelServlet extends HttpTunnelServlet {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5507561796961134088L;
+
+    @Override
     public void init() throws ServletException {
         servletContext = this.getServletContext();
         startTime = new java.util.Date();
@@ -44,6 +50,7 @@ public class HttpsTunnelServlet extends HttpTunnelServlet {
         }
     }
 
+    @Override
     public void handleTest(HttpServletRequest request, HttpServletResponse response) {
         try {
             response.setContentType("text/html; charset=UTF-8 ");

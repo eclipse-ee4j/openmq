@@ -23,7 +23,7 @@ package com.sun.messaging;
 /**
  * The <code>ConnectionConfiguration</code> class contains Sun MQ specific connection configuration property names and
  * special values.
- * 
+ *
  * @see com.sun.messaging.ConnectionFactory com.sun.messaging.ConnectionFactory
  */
 public class ConnectionConfiguration {
@@ -42,7 +42,7 @@ public class ConnectionConfiguration {
      * <p>
      * <code><i>scheme</i>://<i>address_syntax</i></code><br>
      * </p>
-     * 
+     *
      * <p>
      * where the <code><i>scheme</i></code> and <code><i>address_syntax</i></code> are described in the folowing table.
      * </p>
@@ -53,74 +53,74 @@ public class ConnectionConfiguration {
      * <TH>Description</TH>
      * <TH>Syntax</TH>
      * </TR>
-     * 
+     *
      * <TR>
      * <TD valign="top"><code>mq</code></TD>
-     * 
+     *
      * <TD valign="top"><code>jms<br>
      *         and <br>
      *         ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">The MQ Port Mapper at the specified host and port will handle the connection request, dynamically
      * assigning a port based on the specified connection service. Once the port number is known, MQ makes the
      * connection.</TD>
-     * 
+     *
      * <TD valign="top"><code>[<i>hostName</i>][:<i>port</i>][/<i>serviceName</i>]</code> <br>
      * Defaults (for jms service only): <br>
      * <code><i>hostName</i> = localhost <br>
      *       <i>port</i> = 7676 <br>
      *       <i>serviceName</i> = jms</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>mqtcp</code></TD>
-     * 
+     *
      * <TD valign="top"><code>jms</code></TD>
-     * 
+     *
      * <TD valign="top">MQ makes a direct tcp connection to the specified host and port to establish a connection.</TD>
-     * 
+     *
      * <TD valign="top"><code><i>hostName</i>:<i>port</i>/jms</code></TD>
-     * 
+     *
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>mqssl</code></TD>
-     * 
+     *
      * <TD valign="top"><code>ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">MQ makes a direct, secure ssl connection to the specified host and port to establish a
      * connection.</TD>
-     * 
+     *
      * <TD valign="top"><code><i>hostName</i>:<i>port</i>/ssljms</code></TD>
-     * 
+     *
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>htttp</code></TD>
-     * 
+     *
      * <TD valign="top"><code>httpjms</code></TD>
-     * 
+     *
      * <TD valign="top">MQ makes a direct HTTP connection to the specified MQ tunnel servlet URL. (The broker must be
      * configured to access the tunnel servlet.)</TD>
-     * 
+     *
      * <TD valign="top"><code><i>HTTPtunnelServletURL</i></code></TD>
-     * 
+     *
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>htttps</code></TD>
-     * 
+     *
      * <TD valign="top"><code>httpsjms</code></TD>
-     * 
+     *
      * <TD valign="top">MQ makes a direct HTTPS connection to the specified MQ tunnel servlet URL. (The broker must be
      * configured to access the tunnel servlet.)</TD>
-     * 
+     *
      * <TD valign="top"><code><i>HTTPStunnelServletURL</i></code></TD>
-     * 
+     *
      * </TR>
      * </TABLE>
      * <p>
@@ -136,114 +136,114 @@ public class ConnectionConfiguration {
      * <TH>Port</TH>
      * <TH>Example Address</TH>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Default<br>
      * <code>(mq://localHost:7676/jms)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top"><code>myBkrHost<br>
      *       (mq://myBkrHost:7676/jms)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Unspecified</TD>
-     * 
+     *
      * <TD valign="top">Specified Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>1012<br>
      *       (mq://localHost:1012/jms)</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">Local Host</TD>
-     * 
+     *
      * <TD valign="top">Default Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://localHost:7676/ssljms</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
      * <TD valign="top"><code>ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Default Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://myBkrHost:7676/ssljms</code></TD>
      * </TR>
      * <TR>
      * <TD valign="top"><code>ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Specified Portmapper Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mq://myBkrHost:1012/ssljms</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>jms</code></TD>
-     * 
+     *
      * <TD valign="top">Local Host</TD>
-     * 
+     *
      * <TD valign="top">Specified Service Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mqtcp://localhost:1032/jms</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>ssljms</code></TD>
-     * 
+     *
      * <TD valign="top">Specified Host</TD>
-     * 
+     *
      * <TD valign="top">Specified Service Port</TD>
-     * 
+     *
      * <TD valign="top"><code>mqssl://myBkrHost:1034/ssljms</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>httpjms</code></TD>
-     * 
+     *
      * <TD valign="top">N/A</TD>
-     * 
+     *
      * <TD valign="top">N/A</TD>
-     * 
+     *
      * <TD valign="top"><code>http://websrvr1:8085/imq/tunnel</code></TD>
      * </TR>
-     * 
+     *
      * <TR>
-     * 
+     *
      * <TD valign="top"><code>httpsjms</code></TD>
-     * 
+     *
      * <TD valign="top">N/A</TD>
-     * 
+     *
      * <TD valign="top">N/A</TD>
-     * 
+     *
      * <TD valign="top"><code>https://websrvr2:8090/imq/tunnel</code></TD>
      * </TR>
      * </TABLE>
@@ -253,7 +253,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>empty</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListBehavior
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListIterations
      */
@@ -261,7 +261,7 @@ public class ConnectionConfiguration {
 
     /*
      * @deprecated
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList public static final String JMQAddressList =
      * "imqAddressList";
      */
@@ -272,7 +272,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>1</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListBehavior
      */
@@ -280,7 +280,7 @@ public class ConnectionConfiguration {
 
     /*
      * @deprecated
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListIterations public static final String
      * JMQAddressListIterations = "imqAddressListIterations";
      */
@@ -305,7 +305,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>PRIORITY</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListIterations
      */
@@ -313,7 +313,7 @@ public class ConnectionConfiguration {
 
     /*
      * @deprecated
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressListBehavior public static final String
      * JMQAddressListBehavior = "imqAddressListBehavior";
      */
@@ -331,7 +331,7 @@ public class ConnectionConfiguration {
      * When the special value of <code><b>...</b></code> is used, the classname specified in the property
      * <code><b>imqConnectionHandler</b></code> is required to handle the connection to the Sun MQ Message Service.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqConnectionType = "imqConnectionType";
@@ -340,6 +340,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionType
      */
+    @Deprecated
     public static final String JMQConnectionType = imqConnectionType;
 
     /**
@@ -360,6 +361,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionHandler
      */
+    @Deprecated
     public static final String JMQConnectionHandler = imqConnectionHandler;
 
     /**
@@ -373,6 +375,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultUsername
      */
+    @Deprecated
     public static final String JMQDefaultUsername = imqDefaultUsername;
 
     /**
@@ -386,6 +389,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqDefaultPassword
      */
+    @Deprecated
     public static final String JMQDefaultPassword = imqDefaultPassword;
 
     /**
@@ -412,6 +416,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqAckTimeout
      */
+    @Deprecated
     public static final String JMQAckTimeout = imqAckTimeout;
 
     /**
@@ -426,12 +431,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectEnabled
      */
+    @Deprecated
     public static final String imqReconnect = imqReconnectEnabled;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectEnabled
      */
+    @Deprecated
     public static final String JMQReconnect = imqReconnectEnabled;
 
     /**
@@ -446,12 +453,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectInterval
      */
+    @Deprecated
     public static final String imqReconnectDelay = imqReconnectInterval;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectInterval
      */
+    @Deprecated
     public static final String JMQReconnectDelay = imqReconnectInterval;
 
     /**
@@ -471,12 +480,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectAttempts
      */
+    @Deprecated
     public static final String imqReconnectRetries = imqReconnectAttempts;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqReconnectAttempts
      */
+    @Deprecated
     public static final String JMQReconnectRetries = imqReconnectAttempts;
 
     /**
@@ -499,7 +510,7 @@ public class ConnectionConfiguration {
      * A value of <code>0</code> indicates no timeout
      * <p>
      * The default value for this property is <code><b>0</b></code>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAbortOnPingAckTimeout
      */
     public static final String imqPingAckTimeout = "imqPingAckTimeout";
@@ -560,6 +571,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXAppID
      */
+    @Deprecated
     public static final String JMQSetJMSXAppID = imqSetJMSXAppID;
 
     /**
@@ -573,6 +585,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXUserID
      */
+    @Deprecated
     public static final String JMQSetJMSXUserID = imqSetJMSXUserID;
 
     /**
@@ -586,6 +599,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXProducerTXID
      */
+    @Deprecated
     public static final String JMQSetJMSXProducerTXID = imqSetJMSXProducerTXID;
 
     /**
@@ -599,6 +613,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXConsumerTXID
      */
+    @Deprecated
     public static final String JMQSetJMSXConsumerTXID = imqSetJMSXConsumerTXID;
 
     /**
@@ -612,6 +627,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSetJMSXRcvTimestamp
      */
+    @Deprecated
     public static final String JMQSetJMSXRcvTimestamp = imqSetJMSXRcvTimestamp;
 
     /**
@@ -623,7 +639,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>localhost</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerHostName = "imqBrokerHostName";
@@ -632,6 +648,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqBrokerHostName
      */
+    @Deprecated
     public static final String JMQBrokerHostName = imqBrokerHostName;
 
     /**
@@ -646,7 +663,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>7676</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerHostPort = "imqBrokerHostPort";
@@ -655,6 +672,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqBrokerHostPort
      */
+    @Deprecated
     public static final String JMQBrokerHostPort = imqBrokerHostPort;
 
     /**
@@ -674,7 +692,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>null</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerServiceName = "imqBrokerServiceName";
@@ -683,6 +701,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqBrokerServiceName
      */
+    @Deprecated
     public static final String JMQBrokerServiceName = imqBrokerServiceName;
 
     /**
@@ -701,7 +720,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>0</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqBrokerServicePort = "imqBrokerServicePort";
@@ -710,6 +729,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqBrokerServicePort
      */
+    @Deprecated
     public static final String JMQBrokerServicePort = imqBrokerServicePort;
 
     /**
@@ -724,6 +744,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSSLProviderClassname
      */
+    @Deprecated
     public static final String JMQSSLProviderClassname = imqSSLProviderClassname;
 
     /**
@@ -741,6 +762,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqSSLIsHostTrusted
      */
+    @Deprecated
     public static final String JMQSSLIsHostTrusted = imqSSLIsHostTrusted;
 
     /**
@@ -757,7 +779,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>http://localhost/imq/tunnel</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAddressList
      */
     public static final String imqConnectionURL = "imqConnectionURL";
@@ -766,6 +788,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionURL
      */
+    @Deprecated
     public static final String JMQConnectionURL = imqConnectionURL;
 
     /**
@@ -774,7 +797,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
      * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
      * @see javax.jms.Connection#getClientID() Connection.getClientID()
@@ -785,6 +808,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
      */
+    @Deprecated
     public static final String JMQDisableSetClientID = imqDisableSetClientID;
 
     /**
@@ -792,7 +816,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
      * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
      * @see javax.jms.Connection#getClientID() Connection.getClientID()
@@ -803,6 +827,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
      */
+    @Deprecated
     public static final String JMQConfiguredClientID = imqConfiguredClientID;
 
     /**
@@ -819,7 +844,7 @@ public class ConnectionConfiguration {
      * The default value of this property is <code><b>false</b></code> - i.e. a client identifier will be requested in
      * 'unique' mode.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConfiguredClientID
      * @see com.sun.messaging.ConnectionConfiguration#imqDisableSetClientID
      * @see javax.jms.Connection#setClientID(java.lang.String) Connection.setClientID(clientID)
@@ -831,6 +856,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqEnableSharedClientID
      */
+    @Deprecated
     public static final String JMQEnableSharedClientID = "imqEnableSharedClientID";
 
     /**
@@ -852,7 +878,7 @@ public class ConnectionConfiguration {
      * <p>
      * The value of this property is not set by default.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAckOnAcknowledge
      */
     public static final String imqAckOnProduce = "imqAckOnProduce";
@@ -861,6 +887,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqAckOnProduce
      */
+    @Deprecated
     public static final String JMQAckOnProduce = imqAckOnProduce;
 
     /**
@@ -885,7 +912,7 @@ public class ConnectionConfiguration {
      * <p>
      * The value of this property is not set by default.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqAckOnProduce
      */
     public static final String imqAckOnAcknowledge = "imqAckOnAcknowledge";
@@ -894,6 +921,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqAckOnAcknowledge
      */
+    @Deprecated
     public static final String JMQAckOnAcknowledge = imqAckOnAcknowledge;
 
     /**
@@ -918,7 +946,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>1000</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowThreshold
      */
     public static final String imqConsumerFlowLimit = "imqConsumerFlowLimit";
@@ -926,6 +954,7 @@ public class ConnectionConfiguration {
     /**
      * @deprecated
      */
+    @Deprecated
     public static final String JMQPrefetchMaxMsgCount = "imqConsumerFlowLimit";
 
     /**
@@ -938,7 +967,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>50</b></code> (percent).
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConsumerFlowLimit
      */
     public static final String imqConsumerFlowThreshold = "imqConsumerFlowThreshold";
@@ -946,6 +975,7 @@ public class ConnectionConfiguration {
     /**
      * @deprecated
      */
+    @Deprecated
     public static final String JMQConsumerFlowThreshold = "imqConsumerFlowThreshold";
 
     /**
@@ -976,7 +1006,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>100</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
      */
@@ -986,12 +1016,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqFlowControlCount
      */
+    @Deprecated
     public static final String imqFlowControlCount = imqConnectionFlowCount;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqFlowControlCount
      */
+    @Deprecated
     public static final String JMQFlowControlCount = imqConnectionFlowCount;
 
     /**
@@ -1006,7 +1038,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowCount
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
      */
@@ -1016,12 +1048,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
      */
+    @Deprecated
     public static final String imqFlowControlIsLimited = imqConnectionFlowLimitEnabled;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
      */
+    @Deprecated
     public static final String JMQFlowControlIsLimited = imqConnectionFlowLimitEnabled;
 
     /**
@@ -1038,7 +1072,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>1000</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimitEnabled
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowCount
      */
@@ -1048,12 +1082,14 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
      */
+    @Deprecated
     public static final String imqFlowControlLimit = imqConnectionFlowLimit;
 
     /**
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqConnectionFlowLimit
      */
+    @Deprecated
     public static final String JMQFlowControlLimit = imqConnectionFlowLimit;
 
     /**
@@ -1085,7 +1121,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>60000</b></code> milliseconds.
      * <p>
-     * 
+     *
      * @see java.util.Enumeration
      * @see java.util.Enumeration#nextElement()
      * @see java.util.NoSuchElementException
@@ -1097,6 +1133,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqQueueBrowserRetrieveTimeout
      */
+    @Deprecated
     public static final String JMQQueueBrowserRetrieveTimeout = imqQueueBrowserRetrieveTimeout;
 
     /**
@@ -1105,7 +1142,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value for this property is <code><b>1000</b></code>
      * <p>
-     * 
+     *
      * @see java.util.Enumeration
      * @see java.util.Enumeration#nextElement()
      * @see javax.jms.QueueBrowser javax.jms.QueueBrowser
@@ -1116,6 +1153,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqQueueBrowserMaxMessagesPerRetrieve
      */
+    @Deprecated
     public static final String JMQQueueBrowserMaxMessagesPerRetrieve = imqQueueBrowserMaxMessagesPerRetrieve;
 
     /**
@@ -1130,7 +1168,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>true</b></code>
      * <p>
-     * 
+     *
      * @see javax.jms.ConnectionConsumer javax.jms.ConnectionConsumer
      * @see javax.jms.QueueConnection#createConnectionConsumer(javax.jms.Queue, java.lang.String,
      * javax.jms.ServerSessionPool, int) QueueConnection.createConnectionConsumer(Queue, messageSelector, ServerSessionPool,
@@ -1148,6 +1186,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqLoadMaxToServerSession
      */
+    @Deprecated
     public static final String JMQLoadMaxToServerSession = imqLoadMaxToServerSession;
 
     /**
@@ -1161,7 +1200,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      * @see javax.jms.MessageProducer#setDeliveryMode(int) MessageProducer.setDeliveryMode(deliveryMode)
      * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
@@ -1179,6 +1218,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      */
+    @Deprecated
     public static final String JMQOverrideJMSDeliveryMode = imqOverrideJMSDeliveryMode;
 
     /**
@@ -1198,7 +1238,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#JMSDeliveryMode_PERSISTENT
      * @see com.sun.messaging.ConnectionConfiguration#JMSDeliveryMode_NON_PERSISTENT
@@ -1221,7 +1261,7 @@ public class ConnectionConfiguration {
      * This constant is used to set the value of <code>imqJMSDeliveryMode</code> to <b>PERSISTENT</b> when the
      * <b>JMSDeliveryMode</b> JMS Message Header is administratively configured.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      */
@@ -1231,7 +1271,7 @@ public class ConnectionConfiguration {
      * This constant is used to set the value of <code>imqJMSDeliveryMode</code> to <b>NON_PERSISTENT</b> when the
      * <b>JMSDeliveryMode</b> JMS Message Header is administratively configured.
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      */
@@ -1241,6 +1281,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      */
+    @Deprecated
     public static final String JMQJMSDeliveryMode = imqJMSDeliveryMode;
 
     /**
@@ -1254,7 +1295,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
      * @see javax.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
      * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
@@ -1272,6 +1313,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
      */
+    @Deprecated
     public static final String JMQOverrideJMSExpiration = imqOverrideJMSExpiration;
 
     /**
@@ -1296,7 +1338,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
      * @see javax.jms.Message#DEFAULT_TIME_TO_LIVE
      * @see javax.jms.MessageProducer#setTimeToLive(long) MessageProducer.setTimeToLive(timeToLive)
@@ -1315,6 +1357,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSExpiration
      */
+    @Deprecated
     public static final String JMQJMSExpiration = imqJMSExpiration;
 
     /**
@@ -1329,7 +1372,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
      * @see javax.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
      * @see javax.jms.QueueSender#send(Message, int, int, long) QueueSender.send(Message, deliveryMode, priority,
@@ -1349,6 +1392,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
      */
+    @Deprecated
     public static final String JMQOverrideJMSPriority = imqOverrideJMSPriority;
 
     /**
@@ -1372,7 +1416,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b><i>null</i></b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSPriority
      * @see javax.jms.Message#DEFAULT_PRIORITY
      * @see javax.jms.MessageProducer#setPriority(int) MessageProducer.setPriority(priority)
@@ -1391,6 +1435,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSPriority
      */
+    @Deprecated
     public static final String JMQJMSPriority = imqJMSPriority;
 
     /**
@@ -1410,7 +1455,7 @@ public class ConnectionConfiguration {
      * <p>
      * The default value of this property is <code><b>false</b></code>
      * <p>
-     * 
+     *
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#imqJMSDeliveryMode
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSExpiration
@@ -1437,6 +1482,7 @@ public class ConnectionConfiguration {
      * @deprecated
      * @see com.sun.messaging.ConnectionConfiguration#imqOverrideJMSHeadersToTemporaryDestinations
      */
+    @Deprecated
     public static final String JMQOverrideJMSHeadersToTemporaryDestinations = imqOverrideJMSHeadersToTemporaryDestinations;
 
 }

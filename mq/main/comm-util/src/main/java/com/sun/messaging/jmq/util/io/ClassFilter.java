@@ -23,8 +23,7 @@ import java.util.StringTokenizer;
  * a Class filter utility which is utilized as a mechanism which hooks into resolveClass, to prevent any black listed
  * classes or packages from loading By Default the following packages are black listed:
  *
- * @code org.apache.commons.collections.functors @code com.sun.org.apache.xalan.internal.xsltc.trax
- * @code javassist
+ * @code org.apache.commons.collections.functors @code com.sun.org.apache.xalan.internal.xsltc.trax @code javassist
  *
  * The black list mechanism may be globally disabled by setting @code com.sun.messaging.io.disableblacklist to true The
  * above defaults may be disabled by setting @code com.sun.messaging.io.disabledefaultblacklist to true
@@ -56,8 +55,9 @@ abstract public class ClassFilter {
 
     static {
         if (!isBlackListDisabled()) {
-            if (!isDefaultBlacklistEntriesDisabled())
+            if (!isDefaultBlacklistEntriesDisabled()) {
                 updateBlackList(DEFAULT_BLACK_LIST);
+            }
             updateBlackList(System.getProperty(BLACK_LIST_PROPERTY, null));
         }
     }
@@ -81,17 +81,18 @@ abstract public class ClassFilter {
     }
 
     private static void processToken(String token) {
-        if (token.startsWith("+"))
+        if (token.startsWith("+")) {
             BLACK_LIST.add(token.substring(1));
-        else if (token.startsWith("-"))
+        } else if (token.startsWith("-")) {
             BLACK_LIST.remove(token.substring(1));
-        else // no operand specified: first character must be part of class name
+        } else {
             BLACK_LIST.add(token);
+        }
     }
 
     /**
      * Returns true if the named class, or its package is black listed
-     * 
+     *
      * @param className the class name to check
      * @return true if black listed
      */

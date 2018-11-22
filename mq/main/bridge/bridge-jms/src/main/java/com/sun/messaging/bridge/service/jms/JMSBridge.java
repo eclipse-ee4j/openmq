@@ -19,7 +19,6 @@ package com.sun.messaging.bridge.service.jms;
 import java.io.File;
 import java.io.IOException;
 import java.util.Map;
-import java.util.List;
 import java.util.Locale;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -30,7 +29,6 @@ import java.util.Enumeration;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.FileHandler;
-import java.lang.reflect.Method;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Future;
@@ -50,7 +48,6 @@ import javax.jms.JMSSecurityException;
 import javax.naming.InitialContext;
 import com.sun.messaging.bridge.api.Bridge;
 import com.sun.messaging.bridge.api.BridgeContext;
-import com.sun.messaging.bridge.api.BridgeException;
 import com.sun.messaging.bridge.api.LogSimpleFormatter;
 import com.sun.messaging.bridge.service.jms.xml.*;
 import javax.transaction.TransactionManager;
@@ -65,7 +62,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedResources;
 import com.sun.messaging.bridge.service.jms.resources.JMSBridgeResources;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -208,8 +205,9 @@ public class JMSBridge {
                 Map<String, XAConnectionFactoryImpl> xacfs = new LinkedHashMap<String, XAConnectionFactoryImpl>((Map) _localXACFs);
 
                 for (Map.Entry<String, Object> pair : _allCF.entrySet()) {
-                    if (xacfs.get(pair.getKey()) != null)
+                    if (xacfs.get(pair.getKey()) != null) {
                         continue;
+                    }
                     if (pair.getValue() instanceof XAConnectionFactory) {
                         xacfs.put(pair.getKey(), (XAConnectionFactoryImpl) pair.getValue());
                     }
@@ -220,8 +218,9 @@ public class JMSBridge {
                 Map<String, ConnectionFactoryElement> cfs = _jmsbridge.getAllCF();
                 for (Map.Entry<String, ConnectionFactoryElement> pair : cfs.entrySet()) {
                     cfref = pair.getKey();
-                    if (xacfs.get(cfref) != null)
+                    if (xacfs.get(cfref) != null) {
                         continue;
+                    }
 
                     try {
                         cf = createConnectionFactory(pair.getValue(), true);
@@ -282,8 +281,9 @@ public class JMSBridge {
                 value = holder.getObjectProperty(key);
                 msg.setObjectProperty(key, value);
             } catch (Exception e) {
-                if (ex != null)
+                if (ex != null) {
                     ex = e;
+                }
             }
         }
         if (ex != null) {
@@ -451,8 +451,9 @@ public class JMSBridge {
 
     private Object createConnectionFactory(ConnectionFactoryElement ecf, boolean transacted) throws Exception {
         Properties props = ecf.getProperties();
-        if (props == null)
+        if (props == null) {
             props = new Properties();
+        }
 
         String lookup = ecf.getLookupName();
         if (lookup == null) {
@@ -493,8 +494,9 @@ public class JMSBridge {
 
     private Object createDestination(DestinationElement ed) throws Exception {
         Properties props = ed.getProperties();
-        if (props == null)
+        if (props == null) {
             props = new Properties();
+        }
 
         String lookup = ed.getLookupName();
         if (lookup == null) {
@@ -605,6 +607,7 @@ public class JMSBridge {
             async = b;
         }
 
+        @Override
         public Void call() throws Exception {
 
             try {
@@ -774,8 +777,9 @@ public class JMSBridge {
 
         for (int i = 0; i < ls.length; i++) {
             l = ls[i];
-            if (!l.isEnabled())
+            if (!l.isEnabled()) {
                 continue;
+            }
             oneRow[0] = l.getName();
             oneRow[1] = l.getState().toString();
             oneRow[2] = l.getSourceString();
@@ -871,8 +875,9 @@ public class JMSBridge {
 
         int n = 0;
         for (int i = 0; i < ls.length; i++) {
-            if (!ls[i].isEnabled())
+            if (!ls[i].isEnabled()) {
                 continue;
+            }
 
             n++;
         }
@@ -984,8 +989,9 @@ public class JMSBridge {
 
         _spcfs.clear();
 
-        if (stayInited)
+        if (stayInited) {
             return;
+        }
 
         synchronized (_initLock) {
             if (_tma != null) {
@@ -1097,8 +1103,9 @@ public class JMSBridge {
                 continue;
             }
         }
-        if (sent)
+        if (sent) {
             return;
+        }
         throw ee;
     }
 
@@ -1131,8 +1138,9 @@ public class JMSBridge {
         if (val != null) {
             attemptInterval = Long.parseLong(val);
         }
-        if (attemptInterval < 0)
+        if (attemptInterval < 0) {
             attemptInterval = 0;
+        }
         attemptInterval = attemptInterval * 1000;
 
         String username = null, password = null;
@@ -1224,8 +1232,9 @@ public class JMSBridge {
 
     public TransactionManager getTransactionManager() throws Exception {
         synchronized (_initLock) {
-            if (_tm != null)
+            if (_tm != null) {
                 return _tm;
+            }
             initTransactionManager();
             return _tm;
         }
@@ -1233,8 +1242,9 @@ public class JMSBridge {
 
     public TransactionManagerAdapter getTransactionManagerAdapter() throws Exception {
         synchronized (_initLock) {
-            if (_tma != null)
+            if (_tma != null) {
                 return _tma;
+            }
             initTransactionManager();
             return _tma;
         }
@@ -1243,8 +1253,9 @@ public class JMSBridge {
     private void initTransactionManager() throws Exception {
 
         synchronized (_initLock) {
-            if (_tma != null)
+            if (_tma != null) {
                 return;
+            }
 
             String c = _bc.getTransactionManagerClass();
 
@@ -1257,8 +1268,9 @@ public class JMSBridge {
             _tma = (TransactionManagerAdapter) cs.newInstance();
             _tma.setLogger(_logger);
             Properties props = _bc.getTransactionManagerProps();
-            if (props == null)
+            if (props == null) {
                 props = new Properties();
+            }
             if (_tma instanceof TransactionManagerImpl) {
                 props.setProperty("tmname", _bc.getIdentityName() + ":" + _name);
                 props.setProperty("txlogDir", _bc.getRootDir());
@@ -1292,8 +1304,9 @@ public class JMSBridge {
     private void registerXAResources(Map<String, ? extends Object> cfs) throws Exception {
 
         TransactionManagerAdapter tma = getTransactionManagerAdapter();
-        if (!tma.registerRM())
+        if (!tma.registerRM()) {
             return;
+        }
 
         String cfref = null;
         Object cf = null;
@@ -1301,8 +1314,9 @@ public class JMSBridge {
         for (Map.Entry<String, ? extends Object> pair : cfs.entrySet()) {
             cfref = pair.getKey();
             cf = pair.getValue();
-            if (!(cf instanceof XAConnectionFactory))
+            if (!(cf instanceof XAConnectionFactory)) {
                 continue;
+            }
             if (((Refable) cf).isMultiRM()) {
                 _logger.log(Level.INFO, _jbr.getString(_jbr.I_SKIP_REGISTER_MULTIRM_CF, JMSBridgeXMLConstant.CF.MULTIRM, cfref));
                 continue;
@@ -1327,11 +1341,11 @@ public class JMSBridge {
                     conn.close();
                 } catch (Exception e) {
                 }
-                ;
             }
         }
     }
 
+    @Override
     public String toString() {
         return JMSBridgeXMLConstant.Element.JMSBRIDGE + "(" + _name + ")";
     }
@@ -1370,22 +1384,25 @@ public class JMSBridge {
             if (files == null) {
                 throw new IOException("Can't list files in " + rootDir);
             }
-            if (files.length == 0)
+            if (files.length == 0) {
                 return null;
+            }
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     bname = files[i].getName();
                     break;
                 }
             }
-            if (bname == null)
+            if (bname == null) {
                 return null;
+            }
 
             props.setProperty("jmsbridge", bname);
         }
 
-        if (!dir.exists())
+        if (!dir.exists()) {
             dir.mkdirs();
+        }
 
         Logger logger = Logger.getLogger(logdomain);
         props.setProperty("txlogDir", rootDir);
@@ -1396,8 +1413,9 @@ public class JMSBridge {
         props.setProperty("txlogDir", txlogDir);
 
         dir = new File(txlogDir);
-        if (!dir.exists())
+        if (!dir.exists()) {
             dir.mkdirs();
+        }
 
         String logfile = dir + File.separator + "jms%g.log";
         FileHandler h = new FileHandler(logfile, true);

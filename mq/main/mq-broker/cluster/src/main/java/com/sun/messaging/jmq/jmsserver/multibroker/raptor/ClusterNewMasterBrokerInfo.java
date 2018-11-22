@@ -19,13 +19,9 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.util.ArrayList;
-import java.io.ByteArrayOutputStream;
-import java.nio.ByteBuffer;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.Cluster;
 
 /**
@@ -112,8 +108,8 @@ public class ClusterNewMasterBrokerInfo {
         assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NEW_MASTER_BROKER_REPLY);
-        gp.putProp("X", (Long) pkt.getProp("X"));
-        gp.putProp("UUID", (String) pkt.getProp("UUID"));
+        gp.putProp("X", pkt.getProp("X"));
+        gp.putProp("UUID", pkt.getProp("UUID"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -121,6 +117,7 @@ public class ClusterNewMasterBrokerInfo {
         return gp;
     }
 
+    @Override
     public String toString() {
         if (pkt == null) {
             return "[newMasterBroker=" + newmaster + ", oldMasterBroker=" + oldmaster + ", xid=" + xid + ", uuid=" + uuid + "]";

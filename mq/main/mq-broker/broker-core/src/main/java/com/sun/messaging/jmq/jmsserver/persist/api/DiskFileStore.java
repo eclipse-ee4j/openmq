@@ -34,7 +34,7 @@ public interface DiskFileStore {
 
     /**
      * Get information about the underlying storage for the specified destination.
-     * 
+     *
      * @return A HashMap of name value pair of information
      */
     public HashMap getStorageInfo(Destination destination) throws BrokerException;

@@ -197,6 +197,7 @@ public abstract class CommDBManager {
 
     protected abstract void checkMaxTableNameLength(int maxlenAllowed) throws BrokerException;
 
+    @Override
     public String toString() {
         return "CommDBManager";
     }
@@ -230,6 +231,7 @@ public abstract class CommDBManager {
     }
 
     private ConfigListener cfgListener = new ConfigListener() {
+        @Override
         public void validate(String name, String value) throws PropertyUpdateException {
             if (name.equals(getJDBCPropPrefix() + CONNECTION_RETRY_DELAY_PROP_SUFFIX)) {
                 long v = -1L;
@@ -245,6 +247,7 @@ public abstract class CommDBManager {
             }
         }
 
+        @Override
         public boolean update(String name, String value) {
             BrokerConfig cfg = Globals.getConfig();
             if (name.equals(getJDBCPropPrefix() + CONNECTION_RETRY_DELAY_PROP_SUFFIX)) {
@@ -417,7 +420,7 @@ public abstract class CommDBManager {
         }
         String sqlRetriablesp = vendorPropPrefix + SQL_RETRIABLE_ERROR_CODES_PROP_SUFFIX;
         String sqlRetriablesv = config.getProperty(sqlRetriablesp);
-        List<String> sqlRetriables = (List<String>) config.getList(sqlRetriablesp);
+        List<String> sqlRetriables = config.getList(sqlRetriablesp);
         if (sqlRetriables != null && sqlRetriables.size() > 0) {
             logger.log(logger.INFO, sqlRetriablesp + "=" + sqlRetriablesv);
             Integer val = null;
@@ -556,9 +559,9 @@ public abstract class CommDBManager {
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("vendor", "" + vendor);
-        ;
+        
         ht.put("user", "" + user);
-        ;
+        
         ht.put("isDataSource", Boolean.valueOf(isDataSource));
         ht.put("isPoolDataSource", Boolean.valueOf(isPoolDataSource));
         ht.put("supportBatch", Boolean.valueOf(supportBatch));
@@ -683,6 +686,7 @@ public abstract class CommDBManager {
         if (c instanceof PooledConnection) {
             final PooledConnection pc = (PooledConnection) c;
             pc.addConnectionEventListener(new ConnectionEventListener() {
+                @Override
                 public void connectionClosed(ConnectionEvent event) {
                     pc.removeConnectionEventListener(this);
                     try {
@@ -693,6 +697,7 @@ public abstract class CommDBManager {
                     }
                 }
 
+                @Override
                 public void connectionErrorOccurred(ConnectionEvent event) {
                     logger.log(logger.WARNING, br.getKString(br.W_DB_CONN_ERROR_EVENT, "0x" + pc.hashCode(), "" + event.getSQLException()));
                     pc.removeConnectionEventListener(this);
@@ -1423,7 +1428,7 @@ public abstract class CommDBManager {
     /**
      * Putting our broker identifier in a lock column of a table that is served as lock for tables managed by this manager,
      * or unlock by setting the column to null.
-     * 
+     *
      * @param conn Database connection
      * @param doLock
      * @throws BrokerException if the operation is not successful because it cannot be locked

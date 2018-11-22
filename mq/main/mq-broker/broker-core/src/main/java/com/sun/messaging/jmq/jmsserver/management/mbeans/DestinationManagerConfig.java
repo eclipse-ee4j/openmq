@@ -35,7 +35,6 @@ import javax.management.MBeanException;
 
 import com.sun.messaging.jms.management.server.*;
 
-import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.Version;
@@ -460,29 +459,36 @@ public class DestinationManagerConfig extends MQMBeanReadWrite implements Config
         DestinationUtil.resumeAllDestinations();
     }
 
+    @Override
     public String getMBeanName() {
         return ("DestinationManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_DST_MGR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
     }
 
+    @Override
     public boolean update(String name, String value) {
         Object newVal, oldVal;
 

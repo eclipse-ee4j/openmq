@@ -65,8 +65,9 @@ public class UpgradeStore implements DBConstants {
 
     private static boolean DEBUG = false;
     static {
-        if (Globals.getLogger().getLevel() <= Logger.DEBUG)
+        if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
+        }
     }
 
     UpgradeStore(JDBCStore jdbcStore, int oldVersion) throws BrokerException {
@@ -85,7 +86,7 @@ public class UpgradeStore implements DBConstants {
             oldStateTable = dbMgr.getTableName(ConsumerStateDAO.TABLE + DBConstants.SCHEMA_VERSION_40);
             oldInterestTable = dbMgr.getTableName(ConsumerDAO.TABLE + DBConstants.SCHEMA_VERSION_40);
             oldTxnTable = dbMgr.getTableName(TransactionDAO.TABLE + DBConstants.SCHEMA_VERSION_40);
-            ;
+            
         } else if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_370) {
             useBlob = true;
             oldVersionTable = VERSION_TBL_37 + brokerID;
@@ -463,8 +464,9 @@ public class UpgradeStore implements DBConstants {
 
                 if (oldStoreVersion == JDBCStore.OLD_STORE_VERSION_400) {
                     txnID = rs.getLong(4);
-                    if (rs.wasNull())
+                    if (rs.wasNull()) {
                         txnID = -1;
+                    }
                     createdTS = rs.getLong(5);
                 }
 

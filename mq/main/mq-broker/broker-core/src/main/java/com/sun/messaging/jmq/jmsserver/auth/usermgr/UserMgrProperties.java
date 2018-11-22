@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 
 import java.util.Properties;
-import java.util.Enumeration;
 
 /**
  * This class encapsulates the information that the user has provided to perform any JMQ Broker Administration task. It
@@ -43,6 +42,11 @@ import java.util.Enumeration;
  */
 public class UserMgrProperties extends Properties implements UserMgrOptions {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7346038143570040359L;
+
     public UserMgrProperties() {
         super();
     }
@@ -61,7 +65,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The command string
      */
     public String getCommand(int commandIndex) {
@@ -95,7 +99,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The old/current user password.
      */
     public Boolean isActive(int commandIndex) {
@@ -104,7 +108,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
             String s = getActiveValue();
 
             if (s == null) {
-                return ((Boolean) null);
+                return (null);
             }
 
             if (s.equalsIgnoreCase(Boolean.TRUE.toString())) {
@@ -143,7 +147,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The user password.
      */
     public String getPassword(int commandIndex) {
@@ -177,7 +181,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The user role.
      */
     public String getRole(int commandIndex) {
@@ -202,7 +206,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The user name.
      */
     public String getUserName(int commandIndex) {
@@ -236,7 +240,7 @@ public class UserMgrProperties extends Properties implements UserMgrOptions {
      *
      * @param commandIndex Index for specifyng which command (for the case where multiple commands exist in the same
      * UserMgrProperties object).
-     * 
+     *
      * @return The instance name.
      */
     public String getInstance(int commandIndex) {

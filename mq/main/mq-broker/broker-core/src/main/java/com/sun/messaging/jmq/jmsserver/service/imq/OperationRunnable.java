@@ -51,18 +51,23 @@ public class OperationRunnable extends BasicRunnable {
         release();
     }
 
+    @Override
     public void suspend() {
         super.suspend();
-        if (op != null)
+        if (op != null) {
             op.suspend();
+        }
     }
 
+    @Override
     public void resume() {
         super.resume();
-        if (op != null)
+        if (op != null) {
             op.resume();
+        }
     }
 
+    @Override
     public String toString() {
         return "OpRun[id =" + id + ", ioevents=" + ioevents + ", behavior=" + behaviorToString(behavior) + ", op={" + op + "}, state=" + stateToString(state)
                 + "]";
@@ -96,11 +101,13 @@ public class OperationRunnable extends BasicRunnable {
     }
 
     public void destroy(String reason) {
-        if (op != null)
+        if (op != null) {
             op.destroy(true, GoodbyeReason.OTHER, reason);
+        }
         super.destroy();
     }
 
+    @Override
     protected void process() throws IOException {
         Operation myop = null;
         synchronized (opUpdateLock) {

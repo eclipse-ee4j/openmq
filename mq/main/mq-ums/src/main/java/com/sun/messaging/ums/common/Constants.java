@@ -144,14 +144,14 @@ public class Constants {
 
     /**
      * JMS cache duration. JMS resources are closed if not used for the defined duration (milli secs).
-     * 
+     *
      * default is 7 minutes.
      */
     public static final String CACHE_DURATION = "ums.cache.duration";
 
     /**
      * Daemon wake up intervals to sweep the cache.
-     * 
+     *
      * default 30 seconds.
      */
     public static final String SWEEP_INTERVAL = "ums.cache.sweep.interval";

@@ -23,10 +23,7 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 import java.io.*;
 import java.util.*;
 import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.jmsserver.util.lists.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.MessageBusCallback;
@@ -38,9 +35,11 @@ public class MessageDataHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket gp) {
-        if (DEBUG)
+        if (DEBUG) {
             logger.log(logger.DEBUG, "MessageDataHandler");
+        }
 
         if (gp.getType() == ProtocolGlobals.G_MESSAGE_DATA) {
             handleMessageData(cb, sender, gp);
@@ -94,7 +93,7 @@ public class MessageDataHandler extends GPacketHandler {
     }
 
     public void handleMessageDataReply(BrokerAddress sender, GPacket gp) {
-        logger.log(logger.DEBUG, "MessageBus: Received reset G_MESSAGE_DATA_REPLY from {0} : STATUS = {1}", sender, ((Integer) gp.getProp("S")));
+        logger.log(logger.DEBUG, "MessageBus: Received reset G_MESSAGE_DATA_REPLY from {0} : STATUS = {1}", sender, (gp.getProp("S")));
     }
 }
 

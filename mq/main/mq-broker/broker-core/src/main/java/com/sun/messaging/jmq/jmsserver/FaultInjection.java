@@ -250,23 +250,27 @@ public class FaultInjection extends RuntimeFaultInjection {
     }
 
     public void checkFaultAndThrowBrokerException(String value, Map props) throws BrokerException {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return;
+        }
         if (checkFault(value, props)) {
             BrokerException ex = new BrokerException("Fault Insertion: " + value);
             throw ex;
         }
     }
 
+    @Override
     protected void exit(int exitCode) {
         // XXX use broker method to shutdown
         System.exit(1);
     }
 
+    @Override
     protected String sleepIntervalPropertyName() {
         return SLEEP_INTERVAL_PROP;
     }
 
+    @Override
     protected int sleepIntervalDefault() {
         return SLEEP_INTERVAL_DEFAULT;
     }

@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.core;
 
-import java.io.*;
 import java.lang.ref.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +30,6 @@ import java.util.Vector;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
-import java.util.HashSet;
 import java.util.Set;
 import java.util.Collections;
 import java.util.Iterator;
@@ -45,7 +43,6 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.lists.*;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
@@ -92,6 +89,7 @@ public class SessionOp extends SessionOpSpi {
             pref = null;
         }
 
+        @Override
         public String toString() {
             return id + "[" + uid + "," + storedcid + "]" + (tuid == null ? "" : "TUID=" + tuid);
         }
@@ -205,13 +203,15 @@ public class SessionOp extends SessionOpSpi {
                 } else {
                     logger.log(Logger.WARNING, emsg);
                 }
-                if (ex instanceof BrokerException)
+                if (ex instanceof BrokerException) {
                     throw (BrokerException) ex;
+                }
                 throw new BrokerException(emsg, ex);
             }
             return (rm ? ref : null);
         }
 
+        @Override
         public boolean equals(Object o) {
             if (!(o instanceof ackEntry)) {
                 return false;
@@ -220,6 +220,7 @@ public class SessionOp extends SessionOpSpi {
             return uid.equals(ak.uid) && id.equals(ak.id);
         }
 
+        @Override
         public int hashCode() {
             // uid is 4 bytes
             if (hc == 0) {
@@ -237,6 +238,7 @@ public class SessionOp extends SessionOpSpi {
      * Implements SessionOpSpi abstract methods
      *************************************************/
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("TABLE", "SessionOp[" + session + "]");
@@ -257,24 +259,28 @@ public class SessionOp extends SessionOpSpi {
             while (itr.hasNext()) {
                 ackEntry e = (ackEntry) itr.next();
                 int indx = copyCuids.indexOf(e.getConsumerUID());
-                if (indx == -1)
+                if (indx == -1) {
                     continue;
-                else
+                } else {
                     cuidCnt[indx]++;
+                }
             }
             Hashtable m = new Hashtable();
             for (int i = 0; i < copyCuids.size(); i++) {
-                if (cuidCnt[i] == 0)
+                if (cuidCnt[i] == 0) {
                     continue;
+                }
                 ConsumerUID cuid = (ConsumerUID) copyCuids.get(i);
                 m.put(String.valueOf(cuid.longValue()), String.valueOf(cuidCnt[i]));
             }
-            if (!m.isEmpty())
+            if (!m.isEmpty()) {
                 ht.put("PendingAcksByConsumer", m);
+            }
         }
         return ht;
     }
 
+    @Override
     public Vector getDebugMessages(boolean full) {
         Vector v = new Vector();
         synchronized (deliveredMessages) {
@@ -287,12 +293,14 @@ public class SessionOp extends SessionOpSpi {
         return v;
     }
 
+    @Override
     public List getPendingAcks(ConsumerUID uid) {
         List acks = new ArrayList();
         Map copyDelivered = new HashMap();
         synchronized (deliveredMessages) {
-            if (deliveredMessages.size() == 0)
+            if (deliveredMessages.size() == 0) {
                 return acks;
+            }
             copyDelivered.putAll(deliveredMessages);
         }
 
@@ -306,12 +314,14 @@ public class SessionOp extends SessionOpSpi {
         return acks;
     }
 
+    @Override
     public void checkAckType(int type) throws BrokerException {
     }
 
     /**
      * @return true to deliver the message
      */
+    @Override
     public boolean onMessageDelivery(ConsumerSpi con, Object msg) {
         Consumer consumer = (Consumer) con;
         PacketReference ref = (PacketReference) msg;
@@ -371,6 +381,7 @@ public class SessionOp extends SessionOpSpi {
         return true;
     }
 
+    @Override
     public String toString() {
         return "SessionOp[" + session + "]";
     }
@@ -382,6 +393,7 @@ public class SessionOp extends SessionOpSpi {
      * @param redeliverAll ignore id and redeliver all
      * @param redeliverPendingConsume - redeliver pending messages
      */
+    @Override
     public boolean detachConsumer(ConsumerSpi c, SysMessageID id, boolean idInTransaction, boolean redeliverPendingConsume, boolean redeliverAll,
             Connection conn) {
         if (Session.DEBUG || Session.DEBUG_CLUSTER_MSG) {
@@ -480,8 +492,9 @@ public class SessionOp extends SessionOpSpi {
             while (itr.hasNext()) {
                 ackEntry val = (ackEntry) itr.next();
                 // see if we are for a different consumer
-                if (!val.storedcid.equals(suid) || !val.uid.equals(cuid))
+                if (!val.storedcid.equals(suid) || !val.uid.equals(cuid)) {
                     continue;
+                }
                 PacketReference pr = val.getReference();
                 if (session.isTransacted()) {
                     tid = translist.getConsumedInTransaction(val.getSysMessageID(), val.uid);
@@ -541,6 +554,7 @@ public class SessionOp extends SessionOpSpi {
         return false;
     }
 
+    @Override
     public Object ackInTransaction(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, int deliverCnt) throws BrokerException {
 
         // remove from the session pending list
@@ -592,7 +606,7 @@ public class SessionOp extends SessionOpSpi {
     public boolean hasDeliveredMessages(ConsumerUID cuid) {
         List<ackEntry> list = null;
         synchronized (deliveredMessages) {
-            list = new ArrayList<ackEntry>((Collection<ackEntry>) deliveredMessages.values());
+            list = new ArrayList<ackEntry>(deliveredMessages.values());
         }
         ackEntry entry = null;
         Iterator<ackEntry> itr = list.iterator();
@@ -605,6 +619,7 @@ public class SessionOp extends SessionOpSpi {
         return !session.isValid();
     }
 
+    @Override
     public void close(Connection conn) {
         TransactionList[] tls = DL.getTransactionList(((IMQConnection) conn).getPartitionedStore());
         TransactionList translist = tls[0];
@@ -650,7 +665,9 @@ public class SessionOp extends SessionOpSpi {
                     }
                     PacketReference ref = e.getReference();
                     if (ref == null)
+                     {
                         ref = DL.get(null, e.getSysMessageID()); // PART
+                    }
                     if (ref != null && !ref.isLocal()) {
                         itr.remove();
                         try {
@@ -799,6 +816,7 @@ public class SessionOp extends SessionOpSpi {
      * </UL>
      * If the message can not be routed, returns the packet reference (to clean up)
      */
+    @Override
     public Object handleUndeliverable(ConsumerSpi con, SysMessageID id, int deliverCnt, boolean deliverCntUpdateOnly) throws BrokerException {
 
         Consumer c = (Consumer) con;
@@ -858,6 +876,7 @@ public class SessionOp extends SessionOpSpi {
      * </UL>
      * If the message can not be routed, returns the packet reference (to clean up)
      */
+    @Override
     public Object handleDead(ConsumerSpi con, SysMessageID id, RemoveReason deadReason, Throwable thr, String comment, int deliverCnt) throws BrokerException {
 
         Consumer c = (Consumer) con;
@@ -890,6 +909,7 @@ public class SessionOp extends SessionOpSpi {
      *
      * @see PacketReference#postAcknowledgedRemoval()
      */
+    @Override
     public Object ackMessage(ConsumerUID cuid, SysMessageID id, TransactionUID tuid, Object translist, HashMap remoteNotified, boolean ackack)
             throws BrokerException {
 
@@ -916,6 +936,7 @@ public class SessionOp extends SessionOpSpi {
         return ref;
     }
 
+    @Override
     public void postAckMessage(ConsumerUID cuid, SysMessageID id, boolean ackack) {
         if (session.isAutoAck(cuid)) {
             synchronized (deliveredMessages) {

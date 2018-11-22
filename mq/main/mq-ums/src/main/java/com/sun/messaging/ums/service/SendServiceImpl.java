@@ -77,6 +77,7 @@ public class SendServiceImpl implements SendService {
     // cache.authenticateUUID (clientId);
     // }
 
+    @Override
     public void send(SOAPMessage sm) throws JMSException {
 
         Client client = null;
@@ -89,10 +90,10 @@ public class SendServiceImpl implements SendService {
 
             /**
              * String clientId = MessageUtil.getServiceClientId(sm);
-             * 
+             *
              * if (clientId == null) { user = MessageUtil.getServiceAttribute(sm, Constants.USER); pass =
              * MessageUtil.getServiceAttribute(sm, Constants.PASSWORD); }
-             * 
+             *
              * client = cache.getClient(clientId, user, pass);
              **/
 
@@ -152,7 +153,7 @@ public class SendServiceImpl implements SendService {
 
     /**
      * Send a Text message to MQ.
-     * 
+     *
      * @param clientId
      * @param isTopic
      * @param destName
@@ -214,6 +215,7 @@ public class SendServiceImpl implements SendService {
         }
     }
 
+    @Override
     public void commit(SimpleMessage sm) throws JMSException {
 
         String sid = sm.getMessageProperty(Constants.CLIENT_ID);
@@ -228,6 +230,7 @@ public class SendServiceImpl implements SendService {
         this.commit(client);
     }
 
+    @Override
     public void rollback(SimpleMessage sm) throws JMSException {
 
         String sid = sm.getMessageProperty(Constants.CLIENT_ID);
@@ -242,6 +245,7 @@ public class SendServiceImpl implements SendService {
         this.rollback(client);
     }
 
+    @Override
     public void commit(SOAPMessage sm) throws JMSException {
 
         try {
@@ -264,6 +268,7 @@ public class SendServiceImpl implements SendService {
         }
     }
 
+    @Override
     public void rollback(SOAPMessage sm) throws JMSException {
 
         try {
@@ -361,6 +366,7 @@ public class SendServiceImpl implements SendService {
         }
     }
 
+    @Override
     public void close() {
 
         try {

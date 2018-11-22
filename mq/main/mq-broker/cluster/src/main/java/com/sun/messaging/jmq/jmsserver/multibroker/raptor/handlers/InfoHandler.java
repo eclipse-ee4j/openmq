@@ -31,6 +31,7 @@ public class InfoHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(MessageBusCallback cb, BrokerAddress sender, GPacket pkt) {
         if (DEBUG) {
             logger.log(logger.INFO, "InfoHandler");

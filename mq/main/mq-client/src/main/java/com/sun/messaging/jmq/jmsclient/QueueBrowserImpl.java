@@ -80,6 +80,7 @@ public class QueueBrowserImpl implements QueueBrowser {
      * @exception JMSException if JMS fails to get the queue associated with this Browser due to some JMS error.
      */
 
+    @Override
     public Queue getQueue() throws JMSException {
         checkState();
         return queue;
@@ -93,6 +94,7 @@ public class QueueBrowserImpl implements QueueBrowser {
      * @exception JMSException if JMS fails to get the message selector for this browser due to some JMS error.
      */
 
+    @Override
     public String getMessageSelector() throws JMSException {
         checkState();
         return messageSelector;
@@ -106,11 +108,12 @@ public class QueueBrowserImpl implements QueueBrowser {
      * @exception JMSException if JMS fails to get the enumeration for this browser due to some JMS error.
      */
 
+    @Override
     public Enumeration getEnumeration() throws JMSException {
 
         checkState();
 
-        return (Enumeration) (new BrowserConsumer(this, queue, messageSelector));
+        return (new BrowserConsumer(this, queue, messageSelector));
     }
 
     protected void addBrowserConsumer(BrowserConsumer consumer) {
@@ -129,6 +132,7 @@ public class QueueBrowserImpl implements QueueBrowser {
      * @exception JMSException if a JMS fails to close this Browser due to some JMS error.
      */
 
+    @Override
     public void close() throws JMSException {
         BrowserConsumer consumer = null;
         for (int i = consumers.size() - 1; i >= 0; i--) {

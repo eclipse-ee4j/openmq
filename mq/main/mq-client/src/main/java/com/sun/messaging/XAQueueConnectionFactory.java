@@ -20,8 +20,6 @@
 
 package com.sun.messaging;
 
-import javax.jms.*;
-
 /**
  * An <code>XAQueueConnectionFactory</code> is used to create XAQueueConnections with a Java Message Service (JMS)
  * Point-to-Point (PTP) provider.
@@ -30,5 +28,10 @@ import javax.jms.*;
  */
 public class XAQueueConnectionFactory extends com.sun.messaging.XAConnectionFactory
         implements javax.jms.QueueConnectionFactory, javax.jms.XAQueueConnectionFactory {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7533973539959581060L;
 
 }

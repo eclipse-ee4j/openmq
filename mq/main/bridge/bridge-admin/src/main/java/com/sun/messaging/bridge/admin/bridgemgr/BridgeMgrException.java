@@ -36,6 +36,10 @@ import com.sun.messaging.jmq.admin.apps.broker.CommonCmdException;
 
 public class BridgeMgrException extends CommonCmdException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8455325604786213719L;
     /********************************************************
      * use integer 5000 -5999
      *******************************************************/

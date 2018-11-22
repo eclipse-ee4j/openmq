@@ -26,6 +26,10 @@ import com.sun.messaging.jmq.io.SysMessageID;
 
 public class AckEntryNotFoundException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4749853304361601911L;
     ArrayList[] aes = null;
 
     public AckEntryNotFoundException(String msg) {

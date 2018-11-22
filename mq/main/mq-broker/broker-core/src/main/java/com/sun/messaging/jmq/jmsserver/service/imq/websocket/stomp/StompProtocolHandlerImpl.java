@@ -44,7 +44,7 @@ public class StompProtocolHandlerImpl extends StompProtocolHandler {
     private JMSService jmsservice = null;
 
     public StompProtocolHandlerImpl(STOMPWebSocket wsocket, JMSService jmss) {
-        super((LoggerWrapper) logger);
+        super(logger);
         this.wsocket = wsocket;
         this.jmsservice = jmss;
         stompConnection = new StompConnectionImpl(this);
@@ -108,49 +108,60 @@ public class StompProtocolHandlerImpl extends StompProtocolHandler {
         return ClientConstants.TEMPORARY_DESTINATION_URI_PREFIX + ClientConstants.TEMPORARY_TOPIC_URI_NAME;
     }
 
+    @Override
     protected String getKStringI_CLOSE_STOMP_CONN(String stompconn) {
         return br.getKString(br.I_STOMP_CLOSE_CONN, stompconn);
     }
 
+    @Override
     protected String getKStringW_CLOSE_STOMP_CONN_FAILED(String stompconn, String emsg) {
         return br.getKString(br.W_STOMP_CLOSE_CONN_FAILED, stompconn, emsg);
     }
 
+    @Override
     protected String getKStringE_COMMAND_FAILED(String cmd, String emsg, String stompconn) {
         String[] args = { cmd, emsg, stompconn };
         return br.getKString(br.E_STOMP_COMMAND_FAILED, args);
     }
 
+    @Override
     protected String getKStringE_UNABLE_SEND_ERROR_MSG(String emsg, String eemsg) {
         return br.getKString(br.E_STOMP_UNABLE_SEND_ERROR_MSG, emsg, eemsg);
     }
 
+    @Override
     protected String getKStringX_SUBID_ALREADY_EXISTS(String subid) {
         return br.getKString(br.X_STOMP_SUBID_ALREADY_EXISTS, subid);
     }
 
+    @Override
     protected String getKStringX_UNSUBSCRIBE_WITHOUT_HEADER(String destHeader, String subidHeader) {
         return br.getKString(br.X_STOMP_UNSUBSCRIBE_WITHOUT_HEADER, destHeader, subidHeader);
     }
 
+    @Override
     protected String getKStringX_HEADER_NOT_SPECIFIED_FOR(String header, String cmd) {
         return br.getKString(br.X_STOMP_HEADER_NOT_SPECIFIED_FOR, header, cmd);
     }
 
+    @Override
     protected String getKStringX_SUBSCRIBER_ID_NOT_FOUND(String subid) {
         return br.getKString(br.X_STOMP_SUBSCRIBER_ID_NOT_FOUND, subid);
     }
 
+    @Override
     protected String getKStringW_NO_SUBID_TXNACK(String subidHeader, String tid, String subidPrefix, String msgid) {
         // not supported
         return br.getKString(br.X_STOMP_HEADER_NOT_SPECIFIED_FOR, subidHeader, "ACK[tid=" + tid + ", " + msgid + "]");
     }
 
+    @Override
     protected String getKStringW_NO_SUBID_NONTXNACK(String subidHeader, String subidPrefix, String msgid) {
         // not supported
         return br.getKString(br.X_STOMP_HEADER_NOT_SPECIFIED_FOR, subidHeader, "ACK[" + msgid + "]");
     }
 
+    @Override
     protected String getKStringX_INVALID_MESSAGE_PROP_NAME(String name) {
         return br.getKString(br.X_STOMP_INVALID_MESSAGE_PROP_NAME, name);
     }

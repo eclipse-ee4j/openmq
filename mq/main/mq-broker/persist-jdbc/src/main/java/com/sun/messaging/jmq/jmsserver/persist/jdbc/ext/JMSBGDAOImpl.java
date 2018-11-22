@@ -19,7 +19,6 @@ package com.sun.messaging.jmq.jmsserver.persist.jdbc.ext;
 import java.util.*;
 import java.sql.*;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.StoreBeingTakenOverException;
@@ -78,12 +77,14 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
     /**
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      */
+    @Override
     public String getTableName() {
         return tableName;
     }
@@ -94,6 +95,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null
      * @throws DupKeyException if already exist else Exception on error
      */
+    @Override
     public void insert(Connection conn, String name, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
         Connection myconn = null;
@@ -145,6 +147,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null
      * @throws KeyNotFoundException if not found StoreBeingTakenOverException if being takeover Exception on any other error
      */
+    @Override
     public void updateBrokerId(Connection conn, String name, String newBrokerId, String expectedBrokerId, java.util.logging.Logger logger_)
             throws KeyNotFoundException, StoreBeingTakenOverException, Exception {
 
@@ -196,6 +199,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void delete(Connection conn, String name, java.util.logging.Logger logger_) throws Exception {
 
         Connection myconn = null;
@@ -235,10 +239,11 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
     /**
      * Delete all entries for this broker
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         DBManager dbMgr = DBManager.getDBManager();
@@ -254,6 +259,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public String getBrokerId(Connection conn, String name, java.util.logging.Logger logger_) throws Exception {
         String brokerId = null;
 
@@ -299,6 +305,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getUpdatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
         long updatedTime = -1;
@@ -345,6 +352,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @param logger_ can be null;
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getCreatedTime(Connection conn, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
         long createdTime = -1;
 
@@ -391,6 +399,7 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @return list of names
      * @throws Exception
      */
+    @Override
     public List getNamesByBroker(Connection conn, String brokerID, java.util.logging.Logger logger_) throws Exception {
         List list = new ArrayList();
 
@@ -431,10 +440,11 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
 
     /**
      * (same impl as in other DAO impls)
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
@@ -456,8 +466,9 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
      * @Exception DupKeyException if xid already exists
      */
     private void checkDupKeyOnException(Connection conn, String name, java.util.logging.Logger logger_) throws DupKeyException {
-        if (conn == null)
+        if (conn == null) {
             return;
+        }
 
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -477,8 +488,9 @@ public class JMSBGDAOImpl extends BaseDAOImpl implements JMSBGDAO {
                 logger.log(Logger.ERROR, BrokerResources.X_DB_ROLLBACK_FAILED + "[" + selectCreatedTimeSQL + "]", rbe);
             }
 
-            if (e instanceof DupKeyException)
+            if (e instanceof DupKeyException) {
                 throw (DupKeyException) e;
+            }
 
             String emsg = br.getKString(BrokerResources.X_INTERNAL_EXCEPTION, "Exception on checkDupKey for name " + name);
             logger.logStack(Logger.WARNING, emsg, e);

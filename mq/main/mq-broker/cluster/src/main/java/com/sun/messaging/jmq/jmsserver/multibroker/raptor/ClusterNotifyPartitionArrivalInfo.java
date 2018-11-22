@@ -20,8 +20,6 @@
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
 import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.io.GPacket;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -114,7 +112,7 @@ public class ClusterNotifyPartitionArrivalInfo {
         assert (pkt != null);
         GPacket gp = GPacket.getInstance();
         gp.setType(ProtocolGlobals.G_NOTIFY_PARTITION_ARRIVAL_REPLY);
-        gp.putProp("X", (Long) pkt.getProp("X"));
+        gp.putProp("X", pkt.getProp("X"));
         gp.putProp("S", Integer.valueOf(status));
         if (reason != null) {
             gp.putProp("reason", reason);
@@ -124,6 +122,7 @@ public class ClusterNotifyPartitionArrivalInfo {
 
     /**
      */
+    @Override
     public String toString() {
 
         if (pkt == null) {

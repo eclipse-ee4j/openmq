@@ -29,7 +29,6 @@ import com.sun.messaging.bridge.api.StompSession;
 import com.sun.messaging.bridge.api.StompConnection;
 import com.sun.messaging.bridge.api.StompSubscriber;
 import com.sun.messaging.bridge.api.StompOutputHandler;
-import com.sun.messaging.bridge.api.StompProtocolHandler;
 import com.sun.messaging.bridge.api.StompProtocolHandler.StompAckMode;
 import com.sun.messaging.bridge.api.StompProtocolException;
 import com.sun.messaging.bridge.api.StompNotConnectedException;
@@ -113,6 +112,7 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
     /**
      *
      */
+    @Override
     public String toString() {
         String s = _connectionUID;
         return ((s == null) ? "" : s);
@@ -122,8 +122,9 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
      */
     @Override
     public synchronized void disconnect(boolean check) throws Exception {
-        if (check)
+        if (check) {
             checkConnection();
+        }
 
         if (_connection != null) {
             try {
@@ -272,11 +273,11 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
             StompTransactedSession ts = (StompTransactedSession) getTransactedSession(tid);
             ts.ack(subid, msgid);
         } else {
-            StompSubscriberSession ss = (StompSubscriberSession) getSubscriberSession(subid);
+            StompSubscriberSession ss = getSubscriberSession(subid);
             if (ss != null) {
                 ss.ack(msgid);
             } else {
-                StompTransactedSession ts = (StompTransactedSession) getTransactedSession();
+                StompTransactedSession ts = getTransactedSession();
                 if (ts == null) {
                     throw new StompProtocolException(_sbr.getKString(_sbr.X_SUBSCRIBE_NO_SESSION, subid));
                 }
@@ -310,11 +311,13 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
     private synchronized StompTransactedSession getTransactedSession() throws Exception {
         checkConnection();
 
-        if (_txSession == null)
+        if (_txSession == null) {
             return null;
+        }
 
-        if (_txSession.getStompTransactionId() == null)
+        if (_txSession.getStompTransactionId() == null) {
             return null;
+        }
 
         return _txSession;
     }
@@ -422,12 +425,14 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
 
         if (_txSession != null) {
             String sid = _txSession.closeSubscriber(subid, duraname);
-            if (duraname != null)
+            if (duraname != null) {
                 return sid;
-            if (sid != null)
+            }
+            if (sid != null) {
                 return sid;
+            }
         } else if (duraname != null) {
-            ((StompSenderSession) getSenderSession()).getJMSSession().unsubscribe(duraname);
+            getSenderSession().getJMSSession().unsubscribe(duraname);
             return null;
         }
         throw new StompProtocolException(_sbr.getKString(_sbr.X_SUBSCRIBER_ID_NOT_FOUND, subid));
@@ -453,6 +458,7 @@ public class StompConnectionImpl implements StompConnection, ExceptionListener {
         }
     }
 
+    @Override
     public void onException(JMSException e) {
         _logger.log(Level.SEVERE, _sbr.getKString(_sbr.E_ONEXCEPTION_JMS_CONN, _connectionUID, e.getMessage()), e);
         _connectionException = true;

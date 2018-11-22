@@ -27,6 +27,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class WaitTimeoutException extends BrokerException {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -8666422811210776507L;
+
+    /**
      * create an exception with a message but no root cause
      *
      * @param msg the detail message

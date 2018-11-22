@@ -39,12 +39,13 @@ class Writer extends Thread {
         try {
             s.setPullPeriod(PULLPERIOD);
             this.os = s.getOutputStream();
-            ;
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    @Override
     public void run() {
         try {
             BufferedOutputStream bos = new BufferedOutputStream(os, 8192);
@@ -59,13 +60,15 @@ class Writer extends Thread {
                 dos.writeObject(rb);
                 dos.flush();
                 dos.reset();
-                if (SLEEP > 0)
+                if (SLEEP > 0) {
                     // Thread.sleep(r.nextInt(SLEEP) * 1000);
                     Thread.sleep((int) (r.nextFloat() * 1000));
+                }
 
                 n++;
-                if (VERBOSITY > 0)
+                if (VERBOSITY > 0) {
                     System.out.println("#### Sent packet #" + n);
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();

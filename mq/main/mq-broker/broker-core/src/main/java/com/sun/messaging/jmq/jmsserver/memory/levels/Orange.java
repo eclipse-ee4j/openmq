@@ -22,9 +22,7 @@ package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.*;
 
 public class Orange extends Yellow {
     protected int GC_DEFAULT = 5;
@@ -40,34 +38,43 @@ public class Orange extends Yellow {
         GCItrCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".gcitr", GC_ITR_DEFAULT);
     }
 
+    @Override
     public int getMessageCount(long freeMem, int producers) {
         return messageCount; // 1
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
         if (producers >= 0)
+         {
             producers = 1; // dont divide by 0
+        }
         return (freeMemory - MAX_MEMORY_DELTA) / producers / 2;
     }
 
+    @Override
     public int gcCount() {
         return GCCount;
     }
 
+    @Override
     public int gcIteration() {
         return GCItrCount;
     }
 
+    @Override
     public boolean cleanup(int cnt) {
         super.cleanup(cnt);
         return true;
     }
 
+    @Override
     public boolean enter(boolean fromHigher) {
         super.enter(fromHigher);
 
-        if (fromHigher)
+        if (fromHigher) {
             return false;
+        }
 
         // MemoryGlobals.setMEM_FREE_P_NOCON(true);
         MemoryGlobals.setMEM_EXPLICITLY_CHECK(true);
@@ -75,6 +82,7 @@ public class Orange extends Yellow {
         return true; // change cnt/etc
     }
 
+    @Override
     public boolean leave(boolean toHigher) {
         super.leave(toHigher);
         if (toHigher) {

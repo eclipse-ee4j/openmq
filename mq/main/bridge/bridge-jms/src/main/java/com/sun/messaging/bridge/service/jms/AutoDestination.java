@@ -17,7 +17,7 @@
 package com.sun.messaging.bridge.service.jms;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -29,7 +29,7 @@ public class AutoDestination {
     public AutoDestination(String name, boolean isqueue) {
         _name = name;
         _isqueue = isqueue;
-    };
+    }
 
     public String getName() {
         return _name;
@@ -43,6 +43,7 @@ public class AutoDestination {
         return !_isqueue;
     }
 
+    @Override
     public String toString() {
         return "" + (_isqueue ? "queue:" : "topic:") + getName();
     }

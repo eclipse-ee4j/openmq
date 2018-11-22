@@ -28,6 +28,10 @@ import javax.xml.soap.SOAPException;
 public class MessageHandlerException extends SOAPException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 7801657722575841911L;
+    /**
      * The SOAP fault message. Message handler construct and set fault values in the message before throwing the exception.
      */
     protected SOAPMessage faultMessage = null;

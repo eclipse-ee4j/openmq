@@ -36,13 +36,13 @@ public interface Message {
 
     /**
      * Acknowledges this consumed message only.
-     * 
+     *
      * <P>
      * All consumed JMS messages in Oracle GlassFish(tm) Server Message Queue support the
      * <CODE>acknowledgeThisMessage</CODE> method for use when a client has specified that its JMS session's consumed
      * messages are to be explicitly acknowledged. By invoking <CODE>acknowledgeThisMessage</CODE> on a consumed message, a
      * client acknowledges only the specific message that the method is invoked on.
-     * 
+     *
      * <P>
      * Calls to <CODE>acknowledgeThisMessage</CODE> are ignored for both transacted sessions and sessions specified to use
      * implicit acknowledgement modes.
@@ -58,14 +58,14 @@ public interface Message {
 
     /**
      * Acknowledges consumed messages of the session up through and including this consumed message.
-     * 
+     *
      * <P>
      * All consumed JMS messages in Oracle GlassFish(tm) Server Message Queue support the
      * <CODE>acknowledgeUpThroughThisMessage</CODE> method for use when a client has specified that its JMS session's
      * consumed messages are to be explicitly acknowledged. By invoking <CODE>acknowledgeUpThroughThisMessage</CODE> on a
      * consumed message, a client acknowledges messages starting with the first unacknowledged message and ending with this
      * message that were consumed by the session that this message was delivered to.
-     * 
+     *
      * <P>
      * Calls to <CODE>acknowledgeUpThroughThisMessage</CODE> are ignored for both transacted sessions and sessions specified
      * to use implicit acknowledgement modes.

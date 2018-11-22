@@ -32,26 +32,26 @@ import com.sun.messaging.jms.ra.api.JMSRAManagedConnection;
 /**
  * An XAQueueSession provides a regular QueueSession which can be used to create QueueReceivers, QueueSenders and
  * QueueBrowsers (optional).
- * 
+ *
  * <P>
  * XASession extends the capability of Session by adding access to a JMS provider's support for JTA (optional). This
  * support takes the form of a <CODE>javax.transaction.xa.XAResource</CODE> object. The functionality of this object
  * closely resembles that defined by the standard X/Open XA Resource interface.
- * 
+ *
  * <P>
  * An application server controls the transactional assignment of an XASession by obtaining its XAResource. It uses the
  * XAResource to assign the session to a transaction; prepare and commit work on the transaction; etc.
- * 
+ *
  * <P>
  * An XAResource provides some fairly sophisticated facilities for interleaving work on multiple transactions;
  * recovering a list of transactions in progress; etc. A JTA aware JMS provider must fully implement this functionality.
  * This could be done by using the services of a database that supports XA or a JMS provider may choose to implement
  * this functionality from scratch.
- * 
+ *
  * <P>
  * A client of the application server is given what it thinks is a regular JMS Session. Behind the scenes, the
  * application server controls the transaction management of the underlying XASession.
- * 
+ *
  * @see javax.jms.XASession javax.jms.XASession
  * @see javax.jms.XAQueueSession javax.jms.XAQueueSession
  */
@@ -66,8 +66,9 @@ public class XAQueueSessionImpl extends XASessionImpl implements QueueSession, X
         super(connection, transacted, ackMode, mc);
     }
 
+    @Override
     public QueueSession getQueueSession() throws JMSException {
-        return (QueueSession) this;
+        return this;
     }
 
     @Override
@@ -130,6 +131,7 @@ public class XAQueueSessionImpl extends XASessionImpl implements QueueSession, X
         throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);
     }
 
+    @Override
     public void unsubscribe(String name) throws JMSException {
         String errorString = AdministeredObject.cr.getKString(AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN, "unsubscribe");
         throw new javax.jms.IllegalStateException(errorString, AdministeredObject.cr.X_ILLEGAL_METHOD_FOR_DOMAIN);

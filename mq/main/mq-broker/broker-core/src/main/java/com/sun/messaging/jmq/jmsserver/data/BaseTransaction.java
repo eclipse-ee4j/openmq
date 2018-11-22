@@ -76,6 +76,7 @@ public abstract class BaseTransaction {
         this.data = data;
     }
 
+    @Override
     public String toString() {
 
         return transactionDetails.toString();

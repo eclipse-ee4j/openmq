@@ -229,9 +229,10 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     /**
      * Get the JDBC store version.
-     * 
+     *
      * @return JDBC store version
      */
+    @Override
     public final int getStoreVersion() {
         return STORE_VERSION;
     }
@@ -265,6 +266,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if a message with the same id exists in the store already
      */
+    @Override
     public void storeMessage(DestinationUID dst, Packet message, ConsumerUID[] iids, int[] states, boolean sync) throws BrokerException {
 
         if (partitionMode) {
@@ -288,6 +290,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if a message with the same id exists in the store already
      */
+    @Override
     public void storeMessage(DestinationUID dst, Packet message, boolean sync) throws BrokerException {
 
         if (partitionMode) {
@@ -365,6 +368,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception NullPointerException if <code>message</code>, <code>from</code>, <code>to</code>, <code>iids</code>, or
      * <code>states</code> is <code>null</code>
      */
+    @Override
     public void moveMessage(Packet message, DestinationUID from, DestinationUID to, ConsumerUID[] iids, int[] states, boolean sync) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -455,6 +459,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the message is not found in the store
      */
+    @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync, boolean onRollback) throws BrokerException {
 
         String id = mID.getUniqueName();
@@ -470,6 +475,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void removeMessage(DestinationUID dID, String id, boolean sync) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -515,6 +521,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the destination is not found in the store
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public void removeAllMessages(Destination dst, boolean sync) throws IOException, BrokerException {
 
         if (dst == null) {
@@ -559,6 +566,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * destionation
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public Enumeration messageEnumeration(Destination dst) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -639,6 +647,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void closeEnumeration(Enumeration en) {
         if (!(en instanceof MessageEnumeration)) {
             return;
@@ -661,6 +670,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return the number of persisted messages for the given broker
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public int getMessageCount(String brokerID) throws BrokerException {
 
         if (brokerID == null) {
@@ -699,6 +709,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return A HashMap of name value pair of information
      * @throws BrokerException if an error occurs while getting the data
      */
+    @Override
     public HashMap getMessageStorageInfo(Destination dst) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -740,6 +751,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         if (mID == null) {
@@ -757,6 +769,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a message
      * @exception BrokerException if the message is not found in the store or if an error occurs while getting the data
      */
+    @Override
     public Packet getMessage(DestinationUID dID, String mID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -802,6 +815,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
+    @Override
     public void storeInterestStates(DestinationUID dID, SysMessageID mID, ConsumerUID[] iids, int[] states, boolean sync, Packet msg) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -858,6 +872,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param isLastAck Unused by jdbc store
      * @exception BrokerException if the message is not in the store
      */
+    @Override
     public void updateInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID, int state, boolean sync, TransactionUID txid, boolean isLastAck)
             throws BrokerException {
 
@@ -953,6 +968,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the specified interest is not associated with the message; or if the message is not in
      * the store
      */
+    @Override
     public int getInterestState(DestinationUID dID, SysMessageID mID, ConsumerUID iID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -999,6 +1015,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public HashMap getInterestStates(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1053,6 +1070,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * interest is associated with the message
      * @exception BrokerException if the message is not in the store
      */
+    @Override
     public ConsumerUID[] getConsumerUIDs(DestinationUID dID, SysMessageID mID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1108,6 +1126,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception IOException if an error occurs while persisting the interest
      * @exception BrokerException if an interest with the same id exists in the store already
      */
+    @Override
     public void storeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
         if (interest == null) {
@@ -1149,6 +1168,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception IOException if an error occurs while removing the interest
      * @exception BrokerException if the interest is not found in the store
      */
+    @Override
     public void removeInterest(Consumer interest, boolean sync) throws IOException, BrokerException {
 
         if (interest == null) {
@@ -1189,6 +1209,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return an array of Interest objects; a zero length array is returned if no interests exist in the store
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public Consumer[] getAllInterests() throws IOException, BrokerException {
 
         if (DEBUG) {
@@ -1226,6 +1247,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the same destination exists the store already
      * @exception NullPointerException if <code>destination</code> is <code>null</code>
      */
+    @Override
     public void storeDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1277,6 +1299,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the destination is not found in the store or if an error occurs while updating the
      * destination
      */
+    @Override
     public void updateDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1318,6 +1341,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the destination is not found in the store
      */
+    @Override
     public void removeDestination(Destination destination, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1428,6 +1452,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a Destination object
      * @throws BrokerException if no destination exist in the store
      */
+    @Override
     public Destination getDestination(DestinationUID id) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1466,6 +1491,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return an array of Destination objects; a zero length array is returned if no destinations exist in the store
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public Destination[] getAllDestinations() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1529,6 +1555,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the same transaction id exists the store already
      * @exception NullPointerException if <code>id</code> is <code>null</code>
      */
+    @Override
     public void storeTransaction(TransactionUID id, TransactionState ts, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1570,6 +1597,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if the transaction is not found in the store
      */
+    @Override
     public void removeTransaction(TransactionUID id, boolean removeAcks, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1647,6 +1675,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the transaction id does NOT exists in the store already
      * @exception NullPointerException if <code>id</code> is <code>null</code>
      */
+    @Override
     public void updateTransactionState(TransactionUID id, TransactionState ts, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1681,6 +1710,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public void updateTransactionStateWithWork(TransactionUID id, TransactionState ts, TransactionWork txnwork, boolean sync) throws BrokerException {
         if (partitionMode) {
             String emsg = br.getKString(br.E_INTERNAL_BROKER_ERROR, "JDBCStore.updateTransactionStateWithWork(): Unexpected call in partition-mode");
@@ -1797,6 +1827,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a HashMap. The key is a TransactionUID. The value is a TransactionState.
      * @exception IOException if an error occurs while getting the data
      */
+    @Override
     public HashMap getAllTransactionStates() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1827,6 +1858,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public HashMap getAllRemoteTransactionStates() throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1866,6 +1898,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the transaction id is not found in the store, if the acknowledgement already exists, or
      * if it failed to persist the data
      */
+    @Override
     public void storeTransactionAck(TransactionUID tid, TransactionAcknowledgement ack, boolean sync) throws BrokerException {
         checkClosedAndSetInProgress();
         try {
@@ -1908,6 +1941,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if error occurs while removing the acknowledgements
      */
+    @Override
     public void removeTransactionAck(TransactionUID tid, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -1945,9 +1979,10 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
      * returned in the form a HashMap. Each entry in the HashMap has the transaction id as the key and an array of the
      * associated TransactionAcknowledgement objects as the value.
-     * 
+     *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
+    @Override
     public HashMap getAllTransactionAcks() throws BrokerException {
         checkClosedAndSetInProgress();
         try {
@@ -1982,6 +2017,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param id id of the transaction whose acknowledgements are to be returned
      * @exception BrokerException if the transaction id is not in the store
      */
+    @Override
     public TransactionAcknowledgement[] getTransactionAcks(TransactionUID id) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -2066,6 +2102,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void storeClusterTransaction(TransactionUID tid, TransactionState ts, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -2102,6 +2139,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public void updateClusterTransaction(TransactionUID tid, TransactionBroker[] txnBrokers, boolean sync) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -2135,6 +2173,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public void updateClusterTransactionBrokerState(TransactionUID tid, int expectedTxnState, TransactionBroker txnBroker, boolean sync)
             throws BrokerException {
 
@@ -2172,6 +2211,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public void updateRemoteTransaction(TransactionUID tid, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
 
@@ -2235,6 +2275,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void storeRemoteTransaction(TransactionUID tid, TransactionState ts, TransactionAcknowledgement[] txnAcks, BrokerAddress txnHomeBroker, boolean sync)
             throws BrokerException {
 
@@ -2312,6 +2353,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if an error occurs while persisting the data
      * @exception NullPointerException if <code>name</code> is <code>null</code>
      */
+    @Override
     public void updateProperty(String name, Object value, boolean sync) throws BrokerException {
 
         if (name == null) {
@@ -2353,6 +2395,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if an error occurs while retrieving the data
      * @exception NullPointerException if <code>name</code> is <code>null</code>
      */
+    @Override
     public Object getProperty(String name) throws BrokerException {
 
         if (name == null) {
@@ -2390,6 +2433,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      *
      * @return an array of property names; an empty array will be returned if no property exists in the store.
      */
+    @Override
     public String[] getPropertyNames() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2424,6 +2468,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      *
      * @return a properties object.
      */
+    @Override
     public Properties getAllProperties() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2462,6 +2507,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if an error occurs while persisting the data or if the timestamp is less than 0
      * @exception NullPointerException if <code>recordData</code> is <code>null</code>
      */
+    @Override
     public void storeConfigChangeRecord(long createdTime, byte[] recordData, boolean sync) throws BrokerException {
 
         if (DEBUG) {
@@ -2504,9 +2550,10 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Get all the config change records since the given timestamp. Retrieves all the entries with recorded timestamp
      * greater than the specified timestamp.
-     * 
+     *
      * @return a list of ChangeRecordInfo, empty list if no record
      */
+    @Override
     public ArrayList<ChangeRecordInfo> getConfigChangeRecordsSince(long timeStamp) throws BrokerException {
 
         if (DEBUG) {
@@ -2541,6 +2588,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of ChangeRecordInfo
      * @exception BrokerException if an error occurs while getting the data
      */
+    @Override
     public List<ChangeRecordInfo> getAllConfigRecords() throws BrokerException {
 
         if (Store.getDEBUG()) {
@@ -2575,6 +2623,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param sync if true, will synchronize data to disk
      * @exception BrokerException if an error occurs while clearing the data
      */
+    @Override
     public void clearAllConfigChangeRecords(boolean sync) throws BrokerException {
 
         if (DEBUG) {
@@ -2604,6 +2653,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void clearAll(boolean sync) throws BrokerException {
 
         if (DEBUG) {
@@ -2663,6 +2713,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void close(boolean cleanup) {
 
         // make sure all operations are done before we proceed to close
@@ -2689,6 +2740,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     protected void beforeWaitOnClose() {
 
         Iterator<Enumeration> itr = null;
@@ -2710,6 +2762,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     // HA operations
 
+    @Override
     public long getBrokerHeartbeat(String brokerID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2734,6 +2787,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public HashMap getAllBrokerHeartbeats() throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2758,6 +2812,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public Long updateBrokerHeartbeat(String brokerID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2783,6 +2838,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public Long updateBrokerHeartbeat(String brokerID, long lastHeartbeat) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2808,6 +2864,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void addBrokerInfo(String brokerID, String URL, BrokerState state, int version, long sessionID, long heartbeat) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2877,6 +2934,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public UID updateBrokerInfo(String brokerID, int updateType, Object oldValue, Object newValue) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2901,6 +2959,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public HABrokerInfo getBrokerInfo(String brokerID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2925,6 +2984,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public HashMap getAllBrokerInfos(boolean loadSession) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -2949,6 +3009,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public HashMap getAllBrokerInfoByState(BrokerState state) throws BrokerException {
 
         if (state == null) {
@@ -2977,6 +3038,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public String getStoreSessionOwner(long sessionID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3001,6 +3063,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public boolean ifOwnStoreSession(long sessionID, String brokerID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3025,6 +3088,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public String getStoreSessionCreator(long sessionID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3049,6 +3113,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public boolean updateBrokerState(String brokerID, BrokerState newState, BrokerState expectedState, boolean local) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3074,6 +3139,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public BrokerState getBrokerState(String brokerID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3098,6 +3164,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public Object[] getAllBrokerStates() throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3122,6 +3189,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void getTakeOverLock(String brokerID, String targetBrokerID, long lastHeartbeat, BrokerState expectedState, long newHeartbeat, BrokerState newState,
             boolean force, TakingoverTracker tracker) throws TakeoverLockException, BrokerException {
 
@@ -3194,6 +3262,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public TakeoverStoreInfo takeOverBrokerStore(String brokerID, String targetBrokerID, TakingoverTracker tracker) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3397,6 +3466,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public TransactionState getTransactionState(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3422,6 +3492,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public BrokerAddress getRemoteTransactionHomeBroker(TransactionUID tid) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3452,6 +3523,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public TransactionBroker[] getClusterTransactionBrokers(TransactionUID tid) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3504,6 +3576,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public TransactionInfo getTransactionInfo(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3556,6 +3629,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public int[] getTransactionUsageInfo(TransactionUID txnID) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3585,6 +3659,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public long getDestinationConnectedTime(Destination destination) throws BrokerException {
 
         checkClosedAndSetInProgress();
@@ -3614,6 +3689,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         } while (true);
     }
 
+    @Override
     public boolean hasMessageBeenAcked(DestinationUID dst, SysMessageID mID) throws BrokerException {
 
         // make sure store is not closed then increment in progress count
@@ -3668,6 +3744,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         dbmgr.close();
     }
 
+    @Override
     public String getStoreType() {
         return JDBC_STORE_TYPE;
     }
@@ -3676,15 +3753,17 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * The following methods does not apply to jdbc store. Data synchronization methods are implemented as no-ops after the
      * necessary checks. Others will throw BrokerException.
      */
+    @Override
     public HashMap getStorageInfo(Destination destination) throws BrokerException {
         throw new BrokerException(br.getKString(BrokerResources.E_NOT_JDBC_STORE_OPERATION));
     }
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
+    @Override
     public Hashtable getDebugState() throws BrokerException {
 
         String url = dbmgr.getOpenDBURL();
@@ -3715,6 +3794,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         return t;
     }
 
+    @Override
     public boolean isHADBStore() {
         if (dbmgr != null) {
             return dbmgr.isHADB();
@@ -3722,6 +3802,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         return false;
     }
 
+    @Override
     public void resetConnectionPool() throws BrokerException {
         if (dbmgr != null) {
             dbmgr.resetConnectionPool();
@@ -3953,11 +4034,13 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
             this.store = store;
         }
 
+        @Override
         public synchronized boolean cancel() {
             canceled = true;
             return super.cancel();
         }
 
+        @Override
         public void run() {
             synchronized (this) {
                 if (canceled) {
@@ -4006,14 +4089,18 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void storeTMLogRecord(String xid, byte[] logRecord, String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (logRecord == null)
+        }
+        if (logRecord == null) {
             throw new IllegalArgumentException("null logRecord");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.storeTMLogRecord(" + xid + ")");
@@ -4057,14 +4144,18 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     public void updateTMLogRecord(String xid, byte[] logRecord, UpdateOpaqueDataCallback callback, String name, boolean addIfNotExist, boolean sync,
             java.util.logging.Logger logger_) throws Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (logRecord == null)
+        }
+        if (logRecord == null) {
             throw new IllegalArgumentException("null logRecord");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
-        if (callback == null)
+        }
+        if (callback == null) {
             throw new IllegalArgumentException("null callback");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.updateTMLogRecord(" + xid + ")");
@@ -4101,12 +4192,15 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public void removeTMLogRecord(String xid, String name, boolean sync, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.removeTMLogRecord(" + xid + ")");
@@ -4143,12 +4237,15 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return null if not found
      * @exception Exception if error
      */
+    @Override
     public byte[] getTMLogRecord(String xid, String name, java.util.logging.Logger logger_) throws Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTMLogRecord(" + xid + ")");
@@ -4183,12 +4280,15 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordUpdatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTMLogRecordUpdatedTime(" + xid + ")");
@@ -4223,12 +4323,15 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param logger_ can be null
      * @exception KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getTMLogRecordCreatedTime(String xid, String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
-        if (xid == null)
+        if (xid == null) {
             throw new IllegalArgumentException("null xid");
-        if (name == null)
+        }
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTMLogRecordCreatedTime(" + xid + ")");
@@ -4263,6 +4366,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of log records
      * @exception Exception if error
      */
+    @Override
     public List getTMLogRecordsByName(String name, java.util.logging.Logger logger_) throws Exception {
         return getLogRecordsByNameByBroker(name, dbmgr.getBrokerID(), logger_);
     }
@@ -4277,8 +4381,9 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      */
     public List getLogRecordsByNameByBroker(String name, String brokerID, java.util.logging.Logger logger_) throws Exception {
 
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTMLogRecordsByNameByBroker(" + name + ", " + brokerID + ")");
@@ -4314,10 +4419,12 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of log records
      * @exception Exception if error
      */
+    @Override
     public List getNamesByBroker(String brokerID, java.util.logging.Logger logger_) throws Exception {
 
-        if (brokerID == null)
+        if (brokerID == null) {
             throw new IllegalArgumentException("null brokerID");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getTMNamesByBroker(" + brokerID + ")");
@@ -4353,10 +4460,12 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @param logger_ can be null
      * @exception DupKeyException if already exist else Exception on error
      */
+    @Override
     public void addJMSBridge(String name, boolean sync, java.util.logging.Logger logger_) throws DupKeyException, Exception {
 
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.addJMSBridge(" + name + ")");
@@ -4391,6 +4500,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of names
      * @exception Exception if error
      */
+    @Override
     public List getJMSBridges(java.util.logging.Logger logger_) throws Exception {
         return getJMSBridgesByBroker(dbmgr.getBrokerID(), logger_);
     }
@@ -4403,6 +4513,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return a list of names
      * @exception Exception if error
      */
+    @Override
     public List getJMSBridgesByBroker(String brokerID, java.util.logging.Logger logger_) throws Exception {
 
         if (DEBUG) {
@@ -4436,10 +4547,12 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return updated time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeUpdatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getJMSBridgeUpdatedTime(" + name + ")");
@@ -4472,10 +4585,12 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @return created time
      * @throws KeyNotFoundException if not found else Exception on error
      */
+    @Override
     public long getJMSBridgeCreatedTime(String name, java.util.logging.Logger logger_) throws KeyNotFoundException, Exception {
 
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("null name");
+        }
 
         if (DEBUG) {
             logger.log(Logger.INFO, "JDBCStore.getJMSbridgeCreatedTime(" + name + ")");
@@ -4502,6 +4617,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public void closeJMSBridgeStore() throws Exception {
         // ignore
     }
@@ -4513,6 +4629,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Return the LoadException for loading destinations; null if there's none.
      */
+    @Override
     public LoadException getLoadDestinationException() {
         return null;
     }
@@ -4520,6 +4637,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Return the LoadException for loading transactions; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionException() {
         return null;
     }
@@ -4527,6 +4645,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
     /**
      * Return the LoadException for loading transaction acknowledgements; null if there's none.
      */
+    @Override
     public LoadException getLoadTransactionAckException() {
         return null;
     }
@@ -4542,6 +4661,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @exception BrokerException if the message is not found in the store
      * @exception NullPointerException if <code>dID</code> is <code>null</code>
      */
+    @Override
     public void removeMessage(DestinationUID dID, SysMessageID mID, boolean sync) throws IOException, BrokerException {
         removeMessage(dID, mID, sync, false);
     }
@@ -4550,6 +4670,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * Partitioned Store Specific Methods
      **********************************************/
 
+    @Override
     public void init(Store store, UID id, boolean isPrimrary) throws BrokerException {
         throw new UnsupportedOperationException("Operation not supported by JDBCStore class");
     }
@@ -4564,14 +4685,17 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         return partitionMigratable;
     }
 
+    @Override
     public String toString() {
         return "[" + getStoreType() + "]";
     }
 
+    @Override
     public int hashCode() {
         return partitionid.hashCode();
     }
 
+    @Override
     public boolean equals(Object anObject) {
         if (this == anObject) {
             return true;
@@ -4583,10 +4707,12 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
 
     }
 
+    @Override
     public UID getPartitionID() {
         return partitionid;
     }
 
+    @Override
     public boolean isPrimaryPartition() {
         return true;
     }
@@ -4624,6 +4750,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         return ps;
     }
 
+    @Override
     public void partitionDeparture(UID partitionID, String targetBrokerID) throws BrokerException {
         checkClosedAndSetInProgress();
         try {
@@ -4670,6 +4797,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
      * @partitionID the UID for the arrived partition or null if check partition arrival
      * @return a list contains the PartitionedStore for the partitionID or a list of arrived PartitionedStore during check
      */
+    @Override
     public List<PartitionedStore> partitionArrived(UID partitionID) throws BrokerException {
 
         PartitionedStore pstore = null;
@@ -4816,6 +4944,7 @@ public class JDBCStore extends Store implements DBConstants, PartitionedStore {
         }
     }
 
+    @Override
     public PartitionedStore getPrimaryPartition() throws BrokerException {
         checkClosedAndSetInProgress();
         try {

@@ -21,8 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.service;
 
 import java.util.*;
-import com.sun.messaging.jmq.jmsserver.service.*;
-
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -31,14 +29,9 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 import java.security.Principal;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
-import com.sun.messaging.jmq.jmsserver.auth.JMQAccessControlContext;
-import com.sun.messaging.jmq.auth.api.server.AccessControlContext;
-
 import com.sun.messaging.jmq.io.*;
 
-import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
 
 /**
@@ -144,10 +137,11 @@ public abstract class Connection {
         ht.put("uid", String.valueOf(conId.longValue()));
         ht.put("service", service.toString());
         ht.put("state", getConnectionStateString(state));
-        if (clientData != null)
+        if (clientData != null) {
             ht.put("clientData", clientData.toString());
-        else
+        } else {
             ht.put("clientData", "none");
+        }
         ht.put("clientProtocol", String.valueOf(clientProtocolVersion));
         ht.put("reconnectInterval", String.valueOf(reconnectInterval));
         ht.put("lastAccess", String.valueOf(lastAccess));
@@ -270,12 +264,13 @@ public abstract class Connection {
 
     /**
      * retrieves the connection state
-     * 
+     *
      * @return false if connection being destroyed
      */
     public boolean setConnectionState(int state) {
-        if (state >= STATE_DESTROYED)
+        if (state >= STATE_DESTROYED) {
             return true;
+        }
         this.state = state;
         return false;
     }
@@ -316,7 +311,7 @@ public abstract class Connection {
 
     /**
      * sets the connection state
-     * 
+     *
      * @return false if connection being destroyed
      */
     public int getConnectionState() {
@@ -327,8 +322,9 @@ public abstract class Connection {
      * Place an object (by name) in the client data storage section of the Connection object
      */
     public void addClientData(String name, Object data) {
-        if (clientData == null)
+        if (clientData == null) {
             clientData = new Hashtable();
+        }
         clientData.put(name, data);
     }
 
@@ -336,8 +332,9 @@ public abstract class Connection {
      * remove client data object (by name)
      */
     public void removeClientData(String name) {
-        if (clientData == null)
+        if (clientData == null) {
             return;
+        }
         clientData.remove(name);
     }
 
@@ -345,16 +342,18 @@ public abstract class Connection {
      * retrieve client data object (by name)
      */
     public Object getClientData(String name) {
-        if (clientData == null)
+        if (clientData == null) {
             return null;
+        }
         return clientData.get(name);
     }
 
     // dont sync .. we dont care who won
     public void updateAccessTime(boolean received) {
         lastAccess = System.currentTimeMillis();
-        if (received)
+        if (received) {
             lastResponse = lastAccess;
+        }
     }
 
     public long getAccessTime() {

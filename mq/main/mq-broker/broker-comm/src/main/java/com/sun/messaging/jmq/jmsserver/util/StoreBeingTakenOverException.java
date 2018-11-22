@@ -22,6 +22,11 @@ package com.sun.messaging.jmq.jmsserver.util;
 
 public class StoreBeingTakenOverException extends BrokerException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6609748214356082918L;
+
     public StoreBeingTakenOverException(String msg) {
         super(msg);
     }

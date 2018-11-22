@@ -89,9 +89,9 @@ public interface JMSBroker {
      * typically used to log the broker properties configured on an embedded broker, and so is logged immediately after its
      * arguments are logged. However this method can be used for other messages which need to be logged by an embedded
      * broker when it starts.
-     * 
+     *
      * This can be called multiple times to specify multiple messages, each of which will be logged on a separate line.
-     * 
+     *
      * @param embeddedBrokerStartupMessage
      */
     public void addEmbeddedBrokerStartupMessage(String embeddedBrokerStartupMessage);

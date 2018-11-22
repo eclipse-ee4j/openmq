@@ -22,20 +22,10 @@ package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
 import java.lang.reflect.*;
-import java.io.*;
-import java.nio.channels.spi.*;
-import java.nio.channels.*;
 import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-
-import com.sun.messaging.jmq.jmsserver.net.Protocol;
-import com.sun.messaging.jmq.jmsserver.net.ProtocolStreams;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 
 class MapEntry {
     Logger logger = Globals.getLogger();
@@ -62,8 +52,9 @@ class MapEntry {
             ht.put("MapEntry", String.valueOf(this.hashCode()));
             ArrayList mylist = null;
             synchronized (this) {
-                if (l != null)
+                if (l != null) {
                     mylist = new ArrayList(l);
+                }
             }
             logger.log(Logger.INFO, "... ... ... Dumping MapEntry" + this.hashCode());
             Hashtable thrInfo = new Hashtable();
@@ -73,10 +64,12 @@ class MapEntry {
                 thrInfo.put(String.valueOf(i), thr.getDebugState());
             }
             ht.put("SelectThreads", thrInfo);
-            if (mylist != null)
+            if (mylist != null) {
                 ht.put("SelectThreadCnt", String.valueOf(mylist.size()));
-            if (svc != null)
+            }
+            if (svc != null) {
                 ht.put("Service", svc.getName());
+            }
             ht.put("min", String.valueOf(min));
             ht.put("limit", String.valueOf(limit));
             ht.put("mask", String.valueOf(mask));
@@ -110,11 +103,11 @@ class MapEntry {
         }
         if (free) {
             GroupRunnable grp = thr.getParent();
-            if (grp != null)
+            if (grp != null) {
                 grp.freeThread();
-
-            else if (thr.isValid())
+            } else if (thr.isValid()) {
                 thr.destroy("Unused thread");
+            }
 
             return true;
         }

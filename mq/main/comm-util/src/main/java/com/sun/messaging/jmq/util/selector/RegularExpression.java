@@ -22,7 +22,7 @@ package com.sun.messaging.jmq.util.selector;
 
 /**
  * A simple RegularExpression handler to handle the JMS Selector "LIKE" operation.
- * 
+ *
  */
 public class RegularExpression {
 
@@ -37,9 +37,11 @@ public class RegularExpression {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
         if (!(o instanceof RegularExpression)) {
             return false;
@@ -48,6 +50,7 @@ public class RegularExpression {
         return (expression.equals(obj.expression) && escape.equals(obj.escape));
     }
 
+    @Override
     public String toString() {
         return ("{re=" + expression + ", esc=" + escape + "}");
     }
@@ -60,6 +63,7 @@ public class RegularExpression {
         return escape;
     }
 
+    @Override
     public int hashCode() {
         return expression.hashCode();
     }

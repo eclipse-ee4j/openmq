@@ -23,18 +23,15 @@ package com.sun.messaging.jmq.jmsserver.management.mbeans;
 import java.util.Enumeration;
 import java.util.Vector;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
 import javax.management.MBeanNotificationInfo;
-import javax.management.AttributeChangeNotification;
 import javax.management.MBeanException;
 
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
@@ -190,22 +187,27 @@ public class TransactionManagerConfig extends MQMBeanReadWrite {
         }
     }
 
+    @Override
     public String getMBeanName() {
         return ("TransactionManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_TXN_MGR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

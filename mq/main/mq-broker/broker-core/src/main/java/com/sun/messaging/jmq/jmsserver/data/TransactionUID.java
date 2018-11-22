@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data;
 
 import java.io.*;
-import com.sun.messaging.jmq.util.UID;
 
 /**
  * Transaction Unique Identifier. A globally unique identifier for a transaction.
@@ -38,14 +37,17 @@ public class TransactionUID extends com.sun.messaging.jmq.util.UID implements Ex
         super(id);
     }
 
+    @Override
     public String toString() {
         return super.toString();
     }
 
+    @Override
     public void readExternal(ObjectInput in) throws IOException, ClassNotFoundException {
         id = in.readLong();
     }
 
+    @Override
     public void writeExternal(ObjectOutput out) throws IOException {
         out.writeLong(id);
     }

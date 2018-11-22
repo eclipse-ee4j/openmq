@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.persist.jdbc;
 
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -71,7 +70,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     ConsumerStateDAOImpl() throws BrokerException {
@@ -151,25 +150,27 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param dstID the destination ID
      * @param sysMsgID the system message ID
@@ -177,6 +178,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
      * @param states an array of states
      * @throws BrokerException
      */
+    @Override
     public void insert(Connection conn, String dstID, SysMessageID sysMsgID, ConsumerUID[] conUIDs, int[] states, boolean checkMsgExist, boolean replaycheck)
             throws BrokerException {
 
@@ -316,7 +318,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param dstUID the destination ID
      * @param sysMsgID the system message ID
@@ -324,6 +326,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
      * @param state the state
      * @throws BrokerException
      */
+    @Override
     public void updateState(Connection conn, DestinationUID dstUID, SysMessageID sysMsgID, ConsumerUID conUID, int state, boolean replaycheck)
             throws BrokerException {
 
@@ -432,7 +435,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param dstUID the destination ID
      * @param sysMsgID the system message ID
@@ -441,6 +444,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
      * @param expectedState the expected state
      * @throws BrokerException
      */
+    @Override
     public void updateState(Connection conn, DestinationUID dstUID, SysMessageID sysMsgID, ConsumerUID conUID, int newState, int expectedState)
             throws BrokerException {
 
@@ -509,13 +513,14 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param sysMsgID the system message ID
      * @param conUID the consumer id
      * @param txnUID the transaction id associated with an acknowledgment
      * @throws BrokerException
      */
+    @Override
     public void updateTransaction(Connection conn, SysMessageID sysMsgID, ConsumerUID conUID, TransactionUID txnUID) throws BrokerException {
 
         String msgID = sysMsgID.getUniqueName();
@@ -695,11 +700,12 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Clear the transaction from all consumer states associated with it.
-     * 
+     *
      * @param conn Database Connection
      * @param txnUID the transaction
      * @throws BrokerException
      */
+    @Override
     public void clearTransaction(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         long txnID = txnUID.longValue();
@@ -783,11 +789,12 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Delete all consumer states for a message.
-     * 
+     *
      * @param conn Database Connection
      * @param sysMsgID the SysMessageID
      * @throws BrokerException
      */
+    @Override
     public void deleteByMessageID(Connection conn, String msgID) throws BrokerException {
 
         boolean myConn = false;
@@ -835,11 +842,12 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Delete all consumer states for a transaction.
-     * 
+     *
      * @param conn Database Connection
      * @param txnUID the transaction
      * @throws BrokerException
      */
+    @Override
     public void deleteByTransaction(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         long txnID = txnUID.longValue();
@@ -893,12 +901,13 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
      * Delete all consumer states for a destination. Note: Because Consumer State table is a child table to the Message
      * table, this method will be call from MessageDAO.deleteByDestinationBySession() to delete all consumer states before
      * it deletes the messages.
-     * 
+     *
      * @param conn Database Connection
      * @param dstUID the destination
      * @param storeSession null if delete all consumer state for a destination
      * @throws BrokerException
      */
+    @Override
     public void deleteByDestinationBySession(Connection conn, DestinationUID dstUID, Long storeSession) throws BrokerException {
 
         String dstID = dstUID.toString();
@@ -958,10 +967,11 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn Database Connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         String whereClause = null;
@@ -986,13 +996,14 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get consumer's state.
-     * 
+     *
      * @param conn database connection
      * @param sysMsgID the system message ID
      * @param conUID the consumer ID
      * @return consumer's state
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
+    @Override
     public int getState(Connection conn, SysMessageID sysMsgID, ConsumerUID conUID) throws BrokerException {
 
         int state = -1;
@@ -1053,11 +1064,12 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get all consumers and states associated with the messapge ID.
-     * 
+     *
      * @param conn database connection
      * @return HashMap of containing all consumer's state
      * @throws BrokerException
      */
+    @Override
     public HashMap getStates(Connection conn, SysMessageID sysMsgID) throws BrokerException {
 
         HashMap map = new HashMap();
@@ -1116,12 +1128,13 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get consumer's transaction.
-     * 
+     *
      * @param conn database connection
      * @param sysMsgID the system message ID
      * @param conUID the consumer ID
      * @return consumer's transaction
      */
+    @Override
     public long getTransaction(Connection conn, SysMessageID sysMsgID, ConsumerUID conUID) throws BrokerException {
 
         long txnID = -1;
@@ -1179,12 +1192,13 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get all consumers associated with the messapge ID and state is not INTEREST_STATE_ACKNOWLEDGED.
-     * 
+     *
      * @param conn database connection
      * @param sysMsgID the system message ID
      * @return list of consumer IDs
      * @throws BrokerException
      */
+    @Override
     public List getConsumerUIDs(Connection conn, SysMessageID sysMsgID) throws BrokerException {
 
         List list = new ArrayList();
@@ -1242,12 +1256,13 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Retrieve all transaction acknowledgements for the specified transaction ID.
-     * 
+     *
      * @param conn database connection
      * @param txnUID the transaction ID
      * @return List of transaction acks
      * @throws BrokerException
      */
+    @Override
     public List getTransactionAcks(Connection conn, TransactionUID txnUID) throws BrokerException {
 
         List data = new ArrayList();
@@ -1311,11 +1326,12 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Retrieve all transaction acknowledgements for all transactions.
-     * 
+     *
      * @param conn database connection
      * @return HashMap of containing all acknowledgement
      * @throws BrokerException
      */
+    @Override
     public HashMap getAllTransactionAcks(Connection conn) throws BrokerException {
 
         HashMap data = new HashMap(100);
@@ -1399,10 +1415,11 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return A HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
@@ -1421,7 +1438,7 @@ class ConsumerStateDAOImpl extends BaseDAOImpl implements ConsumerStateDAO {
 
     /**
      * Get the number of consumers (e.g. interest) for the specified message.
-     * 
+     *
      * @param conn database connection
      * @param msgID the message ID
      * @return number of consumers

@@ -154,6 +154,7 @@ public class ChangeRecordInfo {
         return isSelectAll;
     }
 
+    @Override
     public String toString() {
         return "seq=" + seq + ", uuid=" + uuid + ", type=" + type + ", timestamp=" + timestamp + ", resetUUId=" + resetUUID;
     }

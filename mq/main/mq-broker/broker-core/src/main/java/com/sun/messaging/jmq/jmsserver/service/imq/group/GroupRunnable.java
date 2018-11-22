@@ -40,6 +40,7 @@ public class GroupRunnable extends BasicRunnable {
         super(id, pool);
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         if (selthr == null) {
@@ -63,6 +64,7 @@ public class GroupRunnable extends BasicRunnable {
         }
     }
 
+    @Override
     public String toString() {
         return "GroupRun[id =" + id + ", ioevents=" + ioevents + ", behavior=" + behaviorToString(behavior) + ", selthr={" + selthr + "}, state="
                 + stateToString(state) + "]";
@@ -79,11 +81,13 @@ public class GroupRunnable extends BasicRunnable {
         }
     }
 
+    @Override
     public void suspend() {
         super.suspend();
         paused = true;
     }
 
+    @Override
     public void resume() {
         super.resume();
         synchronized (this) {
@@ -92,6 +96,7 @@ public class GroupRunnable extends BasicRunnable {
         }
     }
 
+    @Override
     protected void process() throws IOException {
         boolean OK = false;
 
@@ -107,8 +112,9 @@ public class GroupRunnable extends BasicRunnable {
         // OK .. determine when to free
         Throwable err = null;
         try { // how to handle ???
-            if (selthr != null)
+            if (selthr != null) {
                 selthr.processThread();
+            }
             OK = true;
         } catch (NullPointerException ex) {
             // if we are shutting the thread down .. there are times
@@ -116,8 +122,9 @@ public class GroupRunnable extends BasicRunnable {
             // we really dont want to have to synchronized each access
             // SO ... if we get a null pointer exception .. just ignore
             // it and exit the thread ... its what we want to do anyway
-            if (selthr != null && selthr.isValid())
+            if (selthr != null && selthr.isValid()) {
                 logger.logStack(Logger.WARNING, BrokerResources.E_INTERNAL_BROKER_ERROR, selthr.getSelector().toString(), ex);
+            }
             err = ex;
         } catch (IOException ex) {
             // ignore, its OK
@@ -128,8 +135,9 @@ public class GroupRunnable extends BasicRunnable {
             err = ex;
         } finally {
             if (!OK) {
-                if (err != null)
+                if (err != null) {
                     logger.logStack(Logger.WARNING, "got an unexpected error " + err + " freeing thread " + this, err);
+                }
                 freeThread();
             }
         }

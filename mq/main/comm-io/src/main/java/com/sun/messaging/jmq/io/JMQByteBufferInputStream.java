@@ -61,6 +61,7 @@ public class JMQByteBufferInputStream extends InputStream {
      *
      * @return the next byte of data, or <code>-1</code> if the end of the stream has been reached.
      */
+    @Override
     public synchronized int read() {
         ensureOpen();
 
@@ -85,6 +86,7 @@ public class JMQByteBufferInputStream extends InputStream {
      * @return the total number of bytes read into the buffer, or <code>-1</code> if there is no more data because the end
      * of the stream has been reached.
      */
+    @Override
     public synchronized int read(byte b[], int off, int len) {
         ensureOpen();
 
@@ -118,6 +120,7 @@ public class JMQByteBufferInputStream extends InputStream {
      * @param n the number of bytes to be skipped.
      * @return the actual number of bytes skipped.
      */
+    @Override
     public synchronized long skip(long n) {
         ensureOpen();
 
@@ -136,6 +139,7 @@ public class JMQByteBufferInputStream extends InputStream {
      *
      * @return the number of bytes that can be read from the input stream without blocking.
      */
+    @Override
     public synchronized int available() {
         ensureOpen();
         return buf.remaining();
@@ -146,6 +150,7 @@ public class JMQByteBufferInputStream extends InputStream {
      *
      * @since JDK1.1
      */
+    @Override
     public boolean markSupported() {
         return true;
     }
@@ -157,6 +162,7 @@ public class JMQByteBufferInputStream extends InputStream {
      *
      * @since JDK1.1
      */
+    @Override
     public void mark(int readAheadLimit) {
         ensureOpen();
 
@@ -167,6 +173,7 @@ public class JMQByteBufferInputStream extends InputStream {
      * Resets the buffer to the marked position. The marked position is the beginning unless another position was marked.
      * The value of </code>position</code> is set to 0.
      */
+    @Override
     public synchronized void reset() {
         ensureOpen();
         buf.rewind();
@@ -176,6 +183,7 @@ public class JMQByteBufferInputStream extends InputStream {
      * Closes this input stream and releases any system resources associated with the stream.
      * <p>
      */
+    @Override
     public synchronized void close() throws IOException {
         // isClosed = true;
         buf = null;

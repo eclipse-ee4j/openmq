@@ -95,14 +95,14 @@ public interface ClusterManager extends PartitionListener {
 
     /**
      * retrieves the cluster id associated with this cluster.
-     * 
+     *
      * @return the cluster id (or null if there isnt an id associated with this cluster)
      */
     public String getClusterId();
 
     /**
      * sets the address for the portmapper
-     * 
+     *
      * @param address MQAddress to the portmapper
      * @throws Exception if something goes wrong when the address is changed
      */
@@ -110,7 +110,7 @@ public interface ClusterManager extends PartitionListener {
 
     /**
      * retrieves the host/port of the local broker
-     * 
+     *
      * @return the MQAddress to the portmapper
      */
     public MQAddress getMQAddress();
@@ -139,7 +139,7 @@ public interface ClusterManager extends PartitionListener {
 
     /**
      * returns the ClusteredBroker which represents this broker.
-     * 
+     *
      * @return the local broker
      * @see ClusterManager#getBroker(String)
      */
@@ -147,21 +147,21 @@ public interface ClusterManager extends PartitionListener {
 
     /**
      * returns the list of all known brokers in the cluster (the union of the active and configured brokers)
-     * 
+     *
      * @return count of known brokers in the cluster.
      */
     public int getKnownBrokerCount();
 
     /**
      * returns the number of brokers configured in the cluster
-     * 
+     *
      * @return count of all configured brokers in the cluster.
      */
     public int getConfigBrokerCount();
 
     /**
      * returns the number of active brokers in the cluster
-     * 
+     *
      * @return count of all active brokers in the cluster.
      */
     public int getActiveBrokerCount();
@@ -179,7 +179,7 @@ public interface ClusterManager extends PartitionListener {
     /**
      * returns an iterator of ClusteredBroker objects for all active brokers in the cluster. This is a copy of the current
      * list and is accurate at the time getActiveBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      */
     public Iterator getActiveBrokers();
@@ -187,14 +187,14 @@ public interface ClusterManager extends PartitionListener {
     /**
      * returns an iterator of ClusteredBroker objects for all configured brokers in the cluster. This is a copy of the
      * current list and is accurate at the time getBrokers was called.
-     * 
+     *
      * @return iterator of ClusteredBrokers
      */
     public Iterator getConfigBrokers();
 
     /**
      * returns a specific ClusteredBroker object by name.
-     * 
+     *
      * @param brokerid the id associated with the broker
      * @return the broker associated with brokerid or null if the broker is not found
      */
@@ -264,7 +264,7 @@ public interface ClusterManager extends PartitionListener {
 
     /**
      * Retrieve the broker that creates the specified store session ID.
-     * 
+     *
      * @param sessionID store session ID
      * @return the broker ID
      */
@@ -334,7 +334,7 @@ public interface ClusterManager extends PartitionListener {
      * <p>
      * This list may not include all sessionUID's that have been supported by this running broker (ids may age out over
      * time).
-     * 
+     *
      * @return the set of sessionUIDs
      */
     public Set getSupportedStoreSessionUIDs();

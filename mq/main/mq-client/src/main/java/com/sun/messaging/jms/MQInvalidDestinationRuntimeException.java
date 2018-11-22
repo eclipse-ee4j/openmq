@@ -26,11 +26,15 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDestinationRuntimeException implements Loggable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3060976463386795388L;
     private boolean isLogged = false;
 
     /**
      * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message
-     * 
+     *
      * @param detailMessage a description of the exception
      **/
     public MQInvalidDestinationRuntimeException(String detailMessage) {
@@ -39,7 +43,7 @@ public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDesti
 
     /**
      * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message and error code.
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      **/
@@ -50,7 +54,7 @@ public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDesti
     /**
      * Constructs a <code>MQInvalidDestinationRuntimeException</code> with the specified detail message, error code and
      * cause
-     * 
+     *
      * @param detailMessage a description of the exception
      * @param errorCode a provider-specific error code
      * @param cause the underlying cause of this exception
@@ -61,7 +65,7 @@ public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDesti
 
     /**
      * Construct a <code>MQInvalidDestinationRuntimeException</code> to wrap the specified InvalidDestinationException
-     * 
+     *
      * @param cause the underlying cause of this exception
      */
     public MQInvalidDestinationRuntimeException(InvalidDestinationException cause) {
@@ -70,18 +74,20 @@ public class MQInvalidDestinationRuntimeException extends javax.jms.InvalidDesti
 
     /**
      * Specify whether this object is logged.
-     * 
+     *
      * @param whether this object is logged
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * return whether this object is logged
-     * 
+     *
      * @return whether this object is logged
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

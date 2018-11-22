@@ -23,13 +23,11 @@ package com.sun.messaging.jmq.jmsserver.data;
 import com.sun.messaging.jmq.io.*;
 import java.security.AccessControlException;
 import com.sun.messaging.jmq.util.ServiceType;
-import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.ServiceRestrictionException;
 import com.sun.messaging.jmq.jmsserver.util.ServiceRestrictionWaitException;
-import com.sun.messaging.jmq.io.PacketUtil;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -99,8 +97,9 @@ public class PacketRouter {
     public void addHandler(int sid, int eid, PacketHandler handler) throws ArrayIndexOutOfBoundsException {
         // NOTE: this is not that efficient, but it should ONLY happen at initialization
         // so I'm not worrying about it
-        for (int i = sid; i < eid; i++)
+        for (int i = sid; i < eid; i++) {
             addHandler(i, handler);
+        }
 
     }
 

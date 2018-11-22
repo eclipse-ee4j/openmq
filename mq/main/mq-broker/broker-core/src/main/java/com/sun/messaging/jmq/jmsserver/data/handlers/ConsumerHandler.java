@@ -38,19 +38,13 @@ import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.io.PacketUtil;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.util.lists.OutOfLimitsException;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
-import com.sun.messaging.jmq.jmsserver.license.*;
-import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
-import com.sun.messaging.jmq.jmsserver.common.handlers.ClientIDHandler;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterBroadcast;
 
 /**
  * Handler class which deals with adding and removing interests from the RouteTable
@@ -65,8 +59,9 @@ public class ConsumerHandler extends PacketHandler {
     private DestinationList DL = Globals.getDestinationList();
 
     static {
-        if (!DEBUG)
+        if (!DEBUG) {
             DEBUG = DEBUG_CLUSTER_TXN || DEBUG_CLUSTER_MSG;
+        }
     }
 
     private FaultInjection fi = null;
@@ -80,6 +75,7 @@ public class ConsumerHandler extends PacketHandler {
     /**
      * Method to handle Consumer(add or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         boolean sessionPaused = false;
         boolean conPaused = false;
@@ -270,8 +266,9 @@ public class ConsumerHandler extends PacketHandler {
                             if (d == null) {
                                 break;
                             }
-                            if (d.isAutoCreated())
+                            if (d.isAutoCreated()) {
                                 warning = BrokerResources.W_ADD_AUTO_CONSUMER_FAILED;
+                            }
                             try {
                                 d.incrementRefCount();
                             } catch (BrokerException ex) {
@@ -422,12 +419,14 @@ public class ConsumerHandler extends PacketHandler {
             String destination = null;
             try {
                 destination = (String) props.get("JMQDestination");
-                if (destination == null && msg.getPacketType() != PacketType.ADD_CONSUMER)
+                if (destination == null && msg.getPacketType() != PacketType.ADD_CONSUMER) {
                     destination = "";
-                if (oldid != null)
+                }
+                if (oldid != null) {
                     consumid = oldid.toString();
-                else
+                } else {
                     consumid = "";
+                }
             } catch (Exception ex1) {
             }
             String args[] = { consumid, con.getRemoteConnectionString(), destination };
@@ -463,8 +462,9 @@ public class ConsumerHandler extends PacketHandler {
             String consumid = null;
             try {
                 destination = (String) props.get("JMQDestination");
-                if (oldid != null)
+                if (oldid != null) {
                     consumid = oldid.toString();
+                }
             } catch (Exception ex1) {
             }
             logger.log(Logger.WARNING, warning, destination, consumid, ex);
@@ -475,30 +475,36 @@ public class ConsumerHandler extends PacketHandler {
         }
         hash.put("JMQStatus", Integer.valueOf(status));
 
-        if (err_reason != null)
+        if (err_reason != null) {
             hash.put("JMQReason", err_reason);
+        }
 
         if (uid != null) {
             hash.put("JMQConsumerID", Long.valueOf(uid.longValue()));
         }
 
-        if (destType != null)
+        if (destType != null) {
             hash.put("JMQDestType", destType);
+        }
 
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
 
-        if (sessionPaused)
+        if (sessionPaused) {
             session.resume("Consumer - session was paused");
+        }
 
-        if (sub != null)
+        if (sub != null) {
             sub.resume("Consumer - added to sub");
+        }
 
-        if (newc != null)
+        if (newc != null) {
             newc.resume("Consumer - new consumer");
+        }
 
         return true;
     }
@@ -558,8 +564,9 @@ public class ConsumerHandler extends PacketHandler {
                 DestinationUID dest_uid = c.getDestinationUID();
                 Destination[] ds = DL.getDestination(con.getPartitionedStore(), dest_uid);
                 Destination d = ds[0];
-                if (d != null)
+                if (d != null) {
                     d.removeConsumer(uid, true);
+                }
             }
         }
     }
@@ -605,8 +612,9 @@ public class ConsumerHandler extends PacketHandler {
             int prefetch = -1;
             if (isIndemp) { // see if we already created it
                 c = Consumer.getConsumer(consumerString);
-                if (c != null)
+                if (c != null) {
                     prefetch = c.getPrefetch();
+                }
             }
 
             if (c == null) {
@@ -701,8 +709,9 @@ public class ConsumerHandler extends PacketHandler {
                         }
                     }
                     c.attachToConnection(con.getConnectionUID());
-                    if (sub != null)
+                    if (sub != null) {
                         sub.sendCreateSubscriptionNotification(c);
+                    }
                 } else {
                     c.localConsumerCreationReady();
                     // non-durable
@@ -762,7 +771,6 @@ public class ConsumerHandler extends PacketHandler {
                         } catch (Exception e2) {
                         }
                     }
-                    ;
                 }
                 Map<PartitionedStore, LinkedHashSet<Destination>> dmap = DL.findMatchingDestinationMap(null, dest_uid);
                 LinkedHashSet dset = null;

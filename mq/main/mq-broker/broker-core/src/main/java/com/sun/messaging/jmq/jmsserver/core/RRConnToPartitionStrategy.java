@@ -32,6 +32,7 @@ import org.glassfish.hk2.api.PerLookup;
 public class RRConnToPartitionStrategy implements ConnToPartitionStrategy {
     private long lastid = 0L;
 
+    @Override
     public PartitionedStore chooseStorePartition(List<ConnToPartitionStrategyContext> pscs) throws BrokerException {
 
         if (pscs == null || pscs.size() == 0) {
@@ -40,6 +41,7 @@ public class RRConnToPartitionStrategy implements ConnToPartitionStrategy {
         Collections.sort(pscs,
 
                 new Comparator<ConnToPartitionStrategyContext>() {
+                    @Override
                     public int compare(ConnToPartitionStrategyContext o1, ConnToPartitionStrategyContext o2) {
 
                         long v1 = o1.getPartitionedStore().getPartitionID().longValue();

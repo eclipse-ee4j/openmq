@@ -22,7 +22,6 @@ package com.sun.messaging.jmq.jmsclient;
 
 import java.util.Hashtable;
 import java.util.Enumeration;
-import javax.jms.*;
 
 /**
  * The Interest Table is used to hold the consumer's object that has registered interest to the Broker.
@@ -116,10 +115,10 @@ class InterestTable {
     // XXX PROTOCOL2.1 -- to be removed.
     /*
      * protected synchronized Long getNextInterestId() { nextInterestId ++;
-     * 
+     *
      * //check if it has reached max value if (nextInterestId == MAX_INTEREST_ID) { nextInterestId = 1; interestIdReset =
      * true; }
-     * 
+     *
      * //if it has reached to the limit at least once. if ( interestIdReset == true ) { boolean found = false; while (
      * !found ) { //check if still in use Object key = table.get ( new Long (nextInterestId) ); if ( key == null ) { //not
      * in use found = true; } else { //increase one and keep trying nextInterestId ++; //still need to check the limit if

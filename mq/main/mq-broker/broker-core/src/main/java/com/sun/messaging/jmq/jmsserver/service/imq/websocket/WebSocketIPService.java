@@ -23,11 +23,9 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Iterator;
 import java.util.ArrayList;
-import java.util.Properties;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -52,7 +50,6 @@ import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
@@ -335,11 +332,13 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
                 Globals.getConfig().getProperty(WebSocketIPServiceFactory.SERVICE_PREFIX + getName() + ".servicetype"), lportn, getServiceProperties());
     }
 
+    @Override
     public int getLocalPort() {
         int port = networkListener.getPort();
         return (port < 0 ? 0 : port);
     }
 
+    @Override
     public boolean isOpen() {
         return httpServer != null;
     }
@@ -391,6 +390,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
 
     }
 
+    @Override
     public synchronized void startService(boolean startPaused) {
         if (DEBUG) {
             logger.log(Logger.INFO, "WebSocketIPService.startService(" + startPaused + ") for service " + getName());
@@ -696,6 +696,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
     /**************************************
      * Implement NotificationInfo interface
      **********************************************/
+    @Override
     public void setReadyToWrite(IMQConnection con, boolean ready) {
         setReadyToWrite(con, ready, null);
     }
@@ -724,6 +725,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         final WebSocketMQIPConnection c = pc;
         try {
             writerPool.execute(new Runnable() {
+                @Override
                 public void run() {
                     int ret = Operation.PROCESS_PACKETS_REMAINING;
                     try {
@@ -773,21 +775,26 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
         }
     }
 
+    @Override
     public void assigned(IMQConnection con, int events) throws IllegalAccessException {
         throw new UnsupportedOperationException("Unsupported call WebSocketIPServer.assigned()");
     }
 
+    @Override
     public void released(IMQConnection con, int events) {
         throw new UnsupportedOperationException("Unsupported call WebSocketIPServer.assigned()");
     }
 
+    @Override
     public void destroy(String reason) {
     }
 
+    @Override
     public void dumpState() {
         logger.log(Logger.INFO, getStateInfo());
     }
 
+    @Override
     public String getStateInfo() {
         synchronized (writeLock) {
             return "WebSocketIPService[" + getName() + "]" + "pendingWriteCount: " + pendingWrites.size() + "\n" + "WebSocketIPService[" + getName() + "]"
@@ -805,18 +812,21 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
             this.counter = counter;
         }
 
+        @Override
         public void onThreadPoolStartEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] started, " + threadPool);
             }
         }
 
+        @Override
         public void onThreadPoolStopEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] stopped");
             }
         }
 
+        @Override
         public void onThreadAllocateEvent(AbstractThreadPool threadPool, Thread thread) {
             int cnt = counter.getAndIncrement();
             if (DEBUG) {
@@ -824,6 +834,7 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
             }
         }
 
+        @Override
         public void onThreadReleaseEvent(AbstractThreadPool threadPool, Thread thread) {
             int cnt = counter.getAndDecrement();
             if (DEBUG) {
@@ -831,36 +842,42 @@ public class WebSocketIPService extends IMQService implements GrizzlyService, No
             }
         }
 
+        @Override
         public void onMaxNumberOfThreadsEvent(AbstractThreadPool threadPool, int maxNumberOfThreads) {
             if (DEBUG) {
                 logger.log(logger.INFO, "ThreadPool[" + pname + "] threads max " + maxNumberOfThreads + " reached");
             }
         }
 
+        @Override
         public void onTaskQueueEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue event:" + task);
             }
         }
 
+        @Override
         public void onTaskDequeueEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task dequeue event:" + task);
             }
         }
 
+        @Override
         public void onTaskCompleteEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task complete event:" + task);
             }
         }
 
+        @Override
         public void onTaskQueueOverflowEvent(AbstractThreadPool threadPool) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task queue overflow event");
             }
         }
 
+        @Override
         public void onTaskCancelEvent(AbstractThreadPool threadPool, Runnable task) {
             if (DEBUG) {
                 logger.log(logger.DEBUGHIGH, "ThreadPool[" + pname + "] task cancel event");

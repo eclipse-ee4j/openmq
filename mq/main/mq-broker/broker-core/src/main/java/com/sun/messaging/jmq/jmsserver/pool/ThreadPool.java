@@ -168,10 +168,11 @@ public class ThreadPool {
             Iterator itr = current.iterator();
             while (itr.hasNext()) {
                 BasicRunnable runner = (BasicRunnable) itr.next();
-                if (runner == null)
+                if (runner == null) {
                     v.add("Runner is null");
-                else
+                } else {
                     v.add(runner.getDebugState());
+                }
             }
             ht.put("current", v);
         } else {
@@ -239,8 +240,9 @@ public class ThreadPool {
 
         for (int i = newmax; i < max && i < count; i++) {
             BasicRunnable runner = (BasicRunnable) current.get(i);
-            if (runner == null)
+            if (runner == null) {
                 continue;
+            }
             runner.setThreadBehavior(BasicRunnable.B_DESTROY_THREAD);
         }
 
@@ -248,16 +250,18 @@ public class ThreadPool {
         // && below min
         for (int i = newmin; i > min && i > 0 && i < count; i--) {
             BasicRunnable runner = (BasicRunnable) current.get(i);
-            if (runner == null)
+            if (runner == null) {
                 continue;
+            }
             runner.setThreadBehavior(BasicRunnable.B_STAY_RUNNING);
         }
 
         // now turn on timeout behavior on threads > newmin
         for (int i = newmin; i < max && i < count; i++) {
             BasicRunnable runner = (BasicRunnable) current.get(i);
-            if (runner == null)
+            if (runner == null) {
                 continue;
+            }
             runner.setThreadBehavior(BasicRunnable.B_TIMEOUT_THREAD);
         }
 
@@ -265,8 +269,9 @@ public class ThreadPool {
         LinkedHashSet list = new LinkedHashSet();
         for (int i = 0; i < count; i++) {
             Object obj = current.get(i);
-            if (obj == null) // empty
+            if (obj == null) {
                 list.add(Integer.valueOf(i));
+            }
         }
         // set the values
         if (min != newmin) {
@@ -427,17 +432,18 @@ public class ThreadPool {
      * suspends or resume threads operation.
      * <P>
      * This just calls the appropriate suspend() or resume() operation.
-     * 
+     *
      * @see #suspend
      * @see #resume
      *
      * @param susp true if the pool should be suspended, false if the thread pool should be resumed
      */
     public void setSuspended(boolean susp) {
-        if (susp)
+        if (susp) {
             suspend();
-        else
+        } else {
             resume();
+        }
     }
 
 // XXX
@@ -512,9 +518,10 @@ public class ThreadPool {
      * @throws ArrayIndexOutOfBoundsException if max threads has been reached
      */
     private synchronized BasicRunnable createNewThread(int indx) throws ArrayIndexOutOfBoundsException {
-        if (indx >= max)
+        if (indx >= max) {
             throw new ArrayIndexOutOfBoundsException(
                     Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "Too many threads " + current_count + "," + max));
+        }
         BasicRunnable runner = null;
         if (indx < current.size()) { // get current if possible
             runner = (BasicRunnable) current.get(indx);
@@ -627,8 +634,9 @@ public class ThreadPool {
             if (runner.isBusy()) {
                 runner.waitOnDestroy(timeout);
             }
-            if (!runner.isDestroyed() && runner.isCritical())
+            if (!runner.isDestroyed() && runner.isCritical()) {
                 logger.log(Logger.WARNING, BrokerResources.W_CANNOT_DESTROY_OPERATION, runner, String.valueOf(timeout));
+            }
         }
         destroyed = true;
         synchronized (this) {
@@ -653,6 +661,7 @@ public class ThreadPool {
             super(name);
         }
 
+        @Override
         public void uncaughtException(Thread t, Throwable thr) {
             // notify ThreadPool that the thread is gone
             Globals.handleGlobalError(thr, "Unexpected thread pool error");

@@ -74,8 +74,9 @@ public abstract class RuntimeFaultInjection {
             Selector s = Selector.compile(selector);
             injectionSelectors.put(fault, s);
         }
-        if (props != null)
+        if (props != null) {
             injectionProps.put(fault, props);
+        }
 
     }
 
@@ -87,6 +88,12 @@ public abstract class RuntimeFaultInjection {
     }
 
     static class FaultInjectionException extends Exception {
+        /**
+         * 
+         */
+        private static final long serialVersionUID = -4916449065238440067L;
+
+        @Override
         public String toString() {
             return "FaultInjectionTrace";
         }
@@ -105,8 +112,9 @@ public abstract class RuntimeFaultInjection {
 
     private void logInjection(String fault, Selector sel) {
         String str = "Fault Injection: triggered " + fault;
-        if (sel != null)
+        if (sel != null) {
             str += " selector [ " + sel.toString() + "]";
+        }
 
         Exception ex = new FaultInjectionException();
         ex.fillInStackTrace();
@@ -114,14 +122,17 @@ public abstract class RuntimeFaultInjection {
     }
 
     private Map checkFaultGetProps(String fault, Map props) {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return null;
+        }
         boolean ok = checkFault(fault, props);
-        if (!ok)
+        if (!ok) {
             return null;
+        }
         Map m = (Map) injectionProps.get(fault);
-        if (m == null)
+        if (m == null) {
             m = new HashMap();
+        }
         return m;
     }
 
@@ -130,22 +141,25 @@ public abstract class RuntimeFaultInjection {
     }
 
     private boolean checkFault(String fault, Map props, boolean onceOnly) {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return false;
+        }
         if (injections.contains(fault)) {
             Selector s = (Selector) injectionSelectors.get(fault);
             if (s == null) {
                 logInjection(fault, null);
-                if (onceOnly)
+                if (onceOnly) {
                     injections.remove(fault);
+                }
                 return true;
             }
             try {
                 boolean match = s.match(props, null);
                 if (match) {
                     logInjection(fault, s);
-                    if (onceOnly)
+                    if (onceOnly) {
                         injections.remove(fault);
+                    }
                     return true;
                 }
                 return false;
@@ -159,8 +173,9 @@ public abstract class RuntimeFaultInjection {
     }
 
     public void checkFaultAndThrowIOException(String value, Map props) throws IOException {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return;
+        }
         if (checkFault(value, props)) {
             IOException ex = new IOException("Fault Insertion: " + value);
             throw ex;
@@ -172,8 +187,9 @@ public abstract class RuntimeFaultInjection {
     }
 
     public void checkFaultAndThrowException(String value, Map props, String ex_class, boolean onceOnly) throws Exception {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return;
+        }
         if (checkFault(value, props, onceOnly)) {
             Class c = Class.forName(ex_class);
             Class[] paramTypes = { String.class };
@@ -185,8 +201,9 @@ public abstract class RuntimeFaultInjection {
     }
 
     public void checkFaultAndThrowError(String value, Map props) throws Error {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return;
+        }
         if (checkFault(value, props)) {
             // XXX use exclass to create exception
             Error ex = new Error("Fault Insertion: " + value);
@@ -195,8 +212,9 @@ public abstract class RuntimeFaultInjection {
     }
 
     public void checkFaultAndExit(String value, Map props, int exitCode, boolean nice) {
-        if (!FAULT_INJECTION)
+        if (!FAULT_INJECTION) {
             return;
+        }
         if (checkFault(value, props)) {
             if (nice) {
                 logInfo(shutdownMsg + value);

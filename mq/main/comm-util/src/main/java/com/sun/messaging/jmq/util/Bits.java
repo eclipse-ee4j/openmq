@@ -98,7 +98,7 @@ public class Bits {
 
     /* Make an int from 4 bytes */
     public static int makeInt(byte b3, byte b2, byte b1, byte b0) {
-        return (int) ((((b3 & 0xff) << 24) | ((b2 & 0xff) << 16) | ((b1 & 0xff) << 8) | ((b0 & 0xff) << 0)));
+        return ((((b3 & 0xff) << 24) | ((b2 & 0xff) << 16) | ((b1 & 0xff) << 8) | ((b0 & 0xff) << 0)));
     }
 
     /* make a long from 8 bytes */
@@ -230,7 +230,7 @@ public class Bits {
         // Get a few "random" longs
         long[] seeds = new long[4];
         seeds[0] = System.currentTimeMillis();
-        seeds[1] = (long) (new Object()).hashCode();
+        seeds[1] = (new Object()).hashCode();
         seeds[2] = Runtime.getRuntime().freeMemory();
         seeds[3] = Runtime.getRuntime().totalMemory();
 

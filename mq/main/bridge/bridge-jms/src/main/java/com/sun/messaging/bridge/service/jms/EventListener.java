@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -29,7 +29,7 @@ public class EventListener {
 
     public enum EventType {
         BRIDGE_STOP, LINK_STOP, DMQ_STOP, CONN_CLOSE
-    };
+    }
 
     private List<EventType> _occurredEvents = Collections.synchronizedList(new ArrayList<EventType>());
     private Object src = null;

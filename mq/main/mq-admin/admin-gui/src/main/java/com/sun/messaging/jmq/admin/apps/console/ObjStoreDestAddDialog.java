@@ -56,6 +56,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStore;
  */
 public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 9193127070893470080L;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
     private static String close[] = { acr.getString(acr.I_DIALOG_CLOSE) };
     private ObjStoreDestListCObj osCObj;
@@ -65,6 +69,7 @@ public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
         setHelpId(ConsoleHelpID.ADD_DEST_OBJECT);
     }
 
+    @Override
     public void doOK() {
 
         /*
@@ -88,10 +93,10 @@ public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
 
         if (queueButton.isSelected()) {
             type = ObjAdminEvent.QUEUE;
-            tempObj = (AdministeredObject) new com.sun.messaging.Queue();
+            tempObj = new com.sun.messaging.Queue();
         } else if (topicButton.isSelected()) {
             type = ObjAdminEvent.TOPIC;
-            tempObj = (AdministeredObject) new com.sun.messaging.Topic();
+            tempObj = new com.sun.messaging.Topic();
         }
 
         /*
@@ -120,32 +125,39 @@ public class ObjStoreDestAddDialog extends ObjStoreDestDialog {
         oae.setObjStore(os);
         oae.setDestinationType(type);
         oae.setObjProperties(props);
-        if (checkBox.isSelected())
+        if (checkBox.isSelected()) {
             oae.setReadOnly(true);
-        else
+        } else {
             oae.setReadOnly(false);
+        }
         oae.setOKAction(true);
         fireAdminEventDispatched(oae);
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
         resetValues();
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doClose() {
         hide();
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public void show() {
     }
 

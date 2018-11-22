@@ -52,6 +52,7 @@ public abstract class TrustSSLSocketFactory extends javax.net.ssl.SSLSocketFacto
             /*
              * Unused public void checkClientTrusted(java.security.cert.X509Certificate[] chain) { return; }
              */
+            @Override
             public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String type) {
                 return;
             }
@@ -59,10 +60,12 @@ public abstract class TrustSSLSocketFactory extends javax.net.ssl.SSLSocketFacto
             /*
              * Unused public void checkServerTrusted(java.security.cert.X509Certificate[] chain) { return; }
              */
+            @Override
             public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String type) {
                 return;
             }
 
+            @Override
             public java.security.cert.X509Certificate[] getAcceptedIssuers() {
                 return null;
             }

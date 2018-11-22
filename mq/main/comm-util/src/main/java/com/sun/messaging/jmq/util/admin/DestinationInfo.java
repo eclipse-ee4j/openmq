@@ -50,21 +50,21 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Number of producers on destination. Not Updateable
-     * 
+     *
      * @since 3.5
      */
     public int nProducers;
 
     /**
      * Number of active consumers on destination. Not Updateable
-     * 
+     *
      * @since 3.5
      */
     public int naConsumers;
 
     /**
      * Number of failover consumers on destination. Not Updateable
-     * 
+     *
      * @since 3.5
      */
     public int nfConsumers;
@@ -73,14 +73,14 @@ public class DestinationInfo extends AdminInfo {
      * Identifies if the destination was autocreated. Not-updatable.
      * <p>
      * Note: autocreated really indicates that the destination was not created using imqcmd. e.g. the DMQ is autocreated.
-     * 
+     *
      * @since 3.5
      */
     public boolean autocreated;
 
     /**
      * Identifies the state of the destination. Not-updateable.
-     * 
+     *
      * @see com.sun.messaging.jmq.util.DestState
      * @since 3.5
      */
@@ -124,7 +124,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Identifies the scope of the destination. Updateable.
-     * 
+     *
      * @see com.sun.messaging.jmq.util.DestScope
      * @since 3.5
      */
@@ -132,7 +132,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Identifies the limit behavior of the destination. Updateable.
-     * 
+     *
      * @see com.sun.messaging.jmq.util.DestLimitBehavior
      * @since 3.5
      */
@@ -140,7 +140,7 @@ public class DestinationInfo extends AdminInfo {
     /**
      * Defined the max prefetch value for the consumer. Max Prefetch is the maximum flow control for a consumer on this
      * destination. May be unset (-1). Updateable.
-     * 
+     *
      * @since 3.5
      */
     public int maxPrefetch;
@@ -180,7 +180,7 @@ public class DestinationInfo extends AdminInfo {
      * <p>
      * [<i>topic only</i>, <i>private</i>]
      * <p>
-     * 
+     *
      * @since 3.6
      */
     public int maxNumSharedConsumers;
@@ -188,21 +188,21 @@ public class DestinationInfo extends AdminInfo {
     /**
      * shared consumer flow limit. [<i>topic only</i>, <i>private</i>]
      * <p>
-     * 
+     *
      * @since 3.6
      */
     public int sharedConsumerFlowLimit;
 
     /**
      * Uses Dead Message Queue
-     * 
+     *
      * @since 3.6
      */
     public boolean useDMQ;
 
     /**
      * Number of unack'd messages currently in destination. Not Updateable
-     * 
+     *
      * @since 3.6
      */
     public int nUnackMessages;
@@ -211,7 +211,7 @@ public class DestinationInfo extends AdminInfo {
      * Number of messages currently in destination held for delayed delivery
      *
      * Not Updateable
-     * 
+     *
      * @since 5.0
      */
     public int nInDelayMessages;
@@ -219,28 +219,28 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * number of messages in open transactions
-     * 
+     *
      * @since 4.0
      */
     public int nTxnMessages;
 
     /**
      * bytes of messages in open transactions
-     * 
+     *
      * @since 4.0
      */
     public long nTxnMessageBytes;
 
     /**
      * Hashtable containing consumer wildcards (eg "news.java.*") and consumer count. Not updateable.
-     * 
+     *
      * @since 4.2
      */
     public Hashtable consumerWildcards;
 
     /**
      * Hashtable containing producer wildcards (eg "news.java.*") and producer count Not updateable.
-     * 
+     *
      * @since 4.2
      */
     public Hashtable producerWildcards;
@@ -252,7 +252,7 @@ public class DestinationInfo extends AdminInfo {
     public boolean validateXMLSchemaEnabled;
 
     /**
-     * 
+     *
      * @since 4.2
      */
     public String XMLSchemaUriList;
@@ -343,6 +343,7 @@ public class DestinationInfo extends AdminInfo {
         reset();
     }
 
+    @Override
     public void reset() {
         name = null;
         type = 0;
@@ -383,6 +384,7 @@ public class DestinationInfo extends AdminInfo {
      *
      * @return String representation of destination.
      */
+    @Override
     public String toString() {
 
         return name + ": " + DestType.toString(type) + ", " + nConsumers + " consumers, " + nMessages + " messages (" + maxMessages + " max), " + nMessageBytes
@@ -411,7 +413,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Set the maximum number of messages allowed in this destination. Queues only.
-     * 
+     *
      * @param n The maximum number of messages allowed in this Queue. -1 for unlimited.
      */
     public void setMaxMessages(int n) {
@@ -421,7 +423,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Set the maximum number of message bytes allowed in this destination. Queues only.
-     * 
+     *
      * @param The maximum number of message bytes allowed in this Queue.
      */
     public void setMaxMessageBytes(long n) {
@@ -431,7 +433,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Set the max message size this destination will accept.
-     * 
+     *
      * @param n The max message size this destination will accept.
      */
     public void setMaxMessageSize(long n) {
@@ -500,7 +502,7 @@ public class DestinationInfo extends AdminInfo {
 
     /**
      * Returns is the destination is local (Scope of local).
-     * 
+     *
      * @see com.sun.messaging.jmq.util.DestScope
      * @since 3.5
      */

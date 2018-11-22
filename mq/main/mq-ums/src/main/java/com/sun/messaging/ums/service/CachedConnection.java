@@ -80,7 +80,7 @@ public class CachedConnection {
 
     /**
      * Called by CachedConnectionPool.
-     * 
+     *
      * @return
      */
     protected boolean reachedMaxCapacity() {
@@ -126,7 +126,7 @@ public class CachedConnection {
 
     /**
      * This should be called from the pool.
-     * 
+     *
      * @throws JMSException
      */
     protected synchronized void close() throws JMSException {
@@ -158,6 +158,7 @@ public class CachedConnection {
         return this.timestamp;
     }
 
+    @Override
     public String toString() {
         return "CachedConnection, conn=" + this.conn + ", available permits=" + this.available.availablePermits() + ", max capacity=" + this.maxClients;
     }

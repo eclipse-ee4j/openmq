@@ -118,10 +118,12 @@ class MsgStore {
     protected FileStore parent = null;
 
     static final private Enumeration emptyEnum = new Enumeration() {
+        @Override
         public boolean hasMoreElements() {
             return false;
         }
 
+        @Override
         public Object nextElement() {
             return null;
         }
@@ -169,7 +171,7 @@ class MsgStore {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {
@@ -318,7 +320,7 @@ class MsgStore {
 
     /**
      * Get information about the underlying storage for the specified destination. Only return info about vrfile.
-     * 
+     *
      * @return A HashMap of name value pair of information
      */
     public HashMap getStorageInfo(Destination destination) throws BrokerException {
@@ -409,6 +411,7 @@ class MsgStore {
             Object nextToReturn = null;
 
             // will enumerate through all messages of all destinations
+            @Override
             public boolean hasMoreElements() {
                 while (true) {
                     if (tempenum != null) {
@@ -442,6 +445,7 @@ class MsgStore {
                 }
             }
 
+            @Override
             public Object nextElement() {
                 if (nextToReturn != null) {
                     Object tmp = nextToReturn;
@@ -515,7 +519,7 @@ class MsgStore {
      * @param iids an array of interest ids whose states are to be stored
      * @param states an array of states
      * @param sync if true, will synchronize data to disk
-     * 
+     *
      * @exception BrokerException if the message is not in the store; if there's an interest list associated with the
      * message already; or if an error occurs while persisting the data
      */
@@ -703,8 +707,9 @@ class MsgStore {
         Iterator itr = dstMap.values().iterator();
         while (itr.hasNext()) {
             DstMsgStore dstMsgStore = (DstMsgStore) itr.next();
-            if (dstMsgStore != null)
+            if (dstMsgStore != null) {
                 dstMsgStore.close(msgCleanup);
+            }
         }
     }
 }

@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class NullMessageHeaderException extends java.lang.Exception {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 5636390769232336554L;
+
+    /**
      * Construct a NullMessageHeaderException
      */
     public NullMessageHeaderException() {

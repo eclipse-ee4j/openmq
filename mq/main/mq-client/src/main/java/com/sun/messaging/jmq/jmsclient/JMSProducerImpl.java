@@ -19,7 +19,6 @@ package com.sun.messaging.jmq.jmsclient;
 import java.io.PrintStream;
 import java.io.Serializable;
 import java.util.Collections;
-import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Iterator;
 import java.util.Map;
@@ -149,7 +148,7 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
             try {
                 for (Iterator<Entry<String, Object>> entryIter = payload.entrySet().iterator(); entryIter.hasNext();) {
                     Entry<String, Object> thisEntry = entryIter.next();
-                    mapMessage.setObject((String) thisEntry.getKey(), thisEntry.getValue());
+                    mapMessage.setObject(thisEntry.getKey(), thisEntry.getValue());
                 }
             } catch (MessageNotWriteableException e) {
                 throw new MQMessageNotWriteableRuntimeException(e);
@@ -230,7 +229,7 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
 
     /**
      * Configure the MessageProducer prior to sending a message
-     * 
+     *
      * Note that although the MessageProducer is associated with the JMSContext and so may be used by other JMSConsumer
      * objects for that JMSContext only one thread is allowed to send a message at a time so this code does not need to be
      * threadsafe.
@@ -251,7 +250,7 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
 
     /**
      * Check that the specified message is valid
-     * 
+     *
      * @param message
      */
     private void checkMessage(Message message) {
@@ -264,9 +263,9 @@ public class JMSProducerImpl implements JMSProducer, Traceable {
 
     /**
      * Configure the specified Message before sending it
-     * 
+     *
      * Set the specified message headers and properties
-     * 
+     *
      * @param message
      */
     private void configureMessage(Message message) {

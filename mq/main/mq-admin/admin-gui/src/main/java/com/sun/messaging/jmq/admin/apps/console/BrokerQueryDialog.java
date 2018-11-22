@@ -21,25 +21,16 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import java.util.Properties;
-import java.awt.Component;
-import java.awt.Container;
 import java.awt.Frame;
-import java.awt.CardLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.ButtonGroup;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JCheckBox;
 import javax.swing.JTabbedPane;
-import javax.swing.JRadioButton;
-
-import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.bkrutil.BrokerConstants;
@@ -61,6 +52,10 @@ import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
  */
 public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6285556648618742064L;
     private final static String UNLIMITED_VALUE_0 = "0";
     // Unlimited value for Active/Failover Consumers
     private final static String UNLIMITED_VALUE_NEG1 = "-1";
@@ -120,10 +115,12 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
         setHelpId(ConsoleHelpID.QUERY_BROKER);
     }
 
+    @Override
     public void doCancel() {
         hide();
     }
 
+    @Override
     public void doOK() {
         Properties bkrProps = new Properties();
         String tmpStr;
@@ -268,18 +265,23 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     }
 
     // not used
+    @Override
     public void doClose() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doClear() {
     }
 
+    @Override
     public JPanel createWorkPanel() {
         JPanel workPanel, tab;
 
@@ -467,18 +469,18 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     }
 
     /*
-     * 
+     *
      * private void makeReadOnly() { portTF.setEditable(false);
-     * 
+     *
      * //logRolloverSizeBF.setEditable(false); //logRolloverIntervalTF.setEditable(false);
-     * 
+     *
      * //metricIntervalTF.setEditable(false);
-     * 
+     *
      * //maxNumMsgsInMemDskTF.setEditable(false); //maxTtlSizeMsgsInMemDskBF.setEditable(false);
      * //maxMsgSizeBF.setEditable(false);
-     * 
+     *
      * }
-     * 
+     *
      */
 
     public void show(BrokerCObj bkrCObj) {
@@ -531,27 +533,31 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
 
         value = bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_ACTIVE_CONS, "");
         activeConsumerIF.setText("0"); // Reset Integer field
-        if (!value.equals(UNLIMITED_VALUE_NEG1))
+        if (!value.equals(UNLIMITED_VALUE_NEG1)) {
             activeConsumerIF.setText(value);
+        }
         checkUnlimitedNeg1(activeConsumerSF, value);
 
         value = bkrProps.getProperty(PROP_NAME_BKR_AUTOCREATE_QUEUE_MAX_BACKUP_CONS, "");
         failoverConsumerIF.setText("0"); // Reset Integer field
-        if (!value.equals(UNLIMITED_VALUE_NEG1))
+        if (!value.equals(UNLIMITED_VALUE_NEG1)) {
             failoverConsumerIF.setText(value);
+        }
         checkUnlimitedNeg1(failoverConsumerSF, value);
 
         value = bkrProps.getProperty(PROP_NAME_BKR_LOG_LEVEL, "");
         logLevelCb.setSelectedItem(value);
 
         value = bkrProps.getProperty(PROP_NAME_BKR_LOG_ROLL_SIZE, "");
-        if (!value.equals(UNLIMITED_VALUE_NEG1) && !value.equals(UNLIMITED_VALUE_0))
+        if (!value.equals(UNLIMITED_VALUE_NEG1) && !value.equals(UNLIMITED_VALUE_0)) {
             logRolloverSizeBF.setSizeString(value);
+        }
         checkBothUnlimited(logRolloverSizeSF, value);
 
         value = bkrProps.getProperty(PROP_NAME_BKR_LOG_ROLL_INTERVAL, "");
-        if (!value.equals(UNLIMITED_VALUE_NEG1) && !value.equals(UNLIMITED_VALUE_0))
+        if (!value.equals(UNLIMITED_VALUE_NEG1) && !value.equals(UNLIMITED_VALUE_0)) {
             logRolloverIntervalTF.setText(value);
+        }
         checkBothUnlimited(logRolloverIntervalSF, value);
 
         /*
@@ -612,10 +618,11 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
 
     private boolean valueIsUnlimitedNeg1(String val) {
 
-        if (val.equals(UNLIMITED_VALUE_NEG1))
+        if (val.equals(UNLIMITED_VALUE_NEG1)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     private void checkBothUnlimited(SpecialValueField sf, String val) {
@@ -684,6 +691,7 @@ public class BrokerQueryDialog extends AdminDialog implements BrokerConstants {
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 

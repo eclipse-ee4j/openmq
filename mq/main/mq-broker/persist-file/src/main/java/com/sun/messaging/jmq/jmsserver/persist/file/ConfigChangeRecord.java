@@ -24,7 +24,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.ChangeRecordInfo;
 
@@ -119,8 +118,9 @@ class ConfigChangeRecord {
             int i = 0;
             for (; i < size; i++) {
                 Long stamp = (Long) timeList.get(i);
-                if (stamp.longValue() > timestamp)
+                if (stamp.longValue() > timestamp) {
                     break;
+                }
             }
 
             for (; i < size; i++) {
@@ -195,7 +195,7 @@ class ConfigChangeRecord {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {

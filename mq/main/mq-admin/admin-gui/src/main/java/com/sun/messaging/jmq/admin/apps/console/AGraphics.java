@@ -30,7 +30,7 @@ import com.sun.messaging.jmq.Version;
  * This class initializes all the images used by the iMQ admin console.
  *
  * This class is also used to access the images. Here is an example:
- * 
+ *
  * <PRE>
  * JLabel l = new JLabel(AGraphics.adminImages[AGraphics.SPLASH_SCREEN]);
  * </PRE>
@@ -157,8 +157,9 @@ public class AGraphics {
         String imgRoot;
         Version version;
 
-        if (imagesLoaded)
+        if (imagesLoaded) {
             return;
+        }
 
         imgTotal = imageFileNames.length;
         adminImages = new ImageIcon[imgTotal];

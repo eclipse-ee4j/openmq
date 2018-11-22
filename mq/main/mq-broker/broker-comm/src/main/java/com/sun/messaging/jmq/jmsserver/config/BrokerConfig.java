@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.config;
 
 import java.util.*;
-import java.net.*;
 import java.io.*;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.util.*;
@@ -112,7 +111,7 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * All normal properties should be listed here (if possible) to provide a single point for engineers to look for all
  * properties (whether public/private or secret)
  *
- * 
+ *
  * NOTE: if no properties are found (this is the only property file)
  *
  * * the list of active Services will be -> jms and admin * the persistent store used will be file * error/info will be
@@ -121,199 +120,199 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
 
 /*
  * PROPERTY INFORMATION
- * 
+ *
  * // PUBLIC PROPERTIES // ------------------------------- //
- * 
+ *
  * // Connection Services Settings
- * 
- * 
+ *
+ *
  * // General Connection Services
- * 
+ *
  * // List of active services, started at startup imq.service.activelist=jms,admin,httpjms
- * 
+ *
  * imq.service.activelist=jms,admin // only set minimal properties
- * 
+ *
  * // Connection Service Specific Settings
- * 
- * 
+ *
+ *
  * // Some properties settings below are described in other sections of this file.
- * 
+ *
  * // Information about thread pool settings: // min is the minimum number of threads in the system, the number MUST be
  * even. // max is the maximum of threads in the system, the number MUST be even. // shared is the property to switch
  * between the new weighted thread pool code // and the old thread pool code (which may not be available after beta). //
  * Setting this property to true, turns on the weighted thread pool behavior. // On either setting, the system will act
  * identically IF the number of // current connections < max threads
- * 
+ *
  * // jms connection service imq.jms.protocoltype=tcp imq.jms.servicetype=NORMAL imq.jms.tcp.port=0
  * imq.jms.tcp.hostname= imq.jms.tcp.backlog=100 imq.jms.tcp.blocking=true imq.jms.tcp.useChannels=false
  * imq.jms.min_threads=10 imq.jms.max_threads=1000 imq.jms.threadpool_model=dedicated
- * 
+ *
  * // jmsdirect connection service imq.jmsdirect.servicetype=NORMAL imq.jmsdirect.handler_name=jmsdirect
- * 
+ *
  * // MQ direct connection service imq.mqdirect.servicetype=NORMAL imq.mqdirect.min_threads=10
  * imq.mqdirect.max_threads=1000 imq.mqdirect.threadpool_model=dedicated
- * 
+ *
  * // MQ direct connection service (2) imq.mqdirect2.servicetype=NORMAL
- * 
+ *
  * // ssljms connection service // NOTE: ssljms is not active in the fallback case imq.ssljms.protocoltype=tls
  * imq.ssljms.servicetype=NORMAL imq.ssljms.tls.port=0 imq.ssljms.tls.hostname= imq.ssljms.tls.backlog=100
  * imq.ssljms.tcp.blocking=true imq.ssljms.tcp.useChannels=false imq.ssljms.min_threads=10 imq.ssljms.max_threads=500
  * imq.ssljms.threadpool_model=dedicated
- * 
+ *
  * // configuration for the keystore used by the ssl service imq.keystore.file.dirpath=${imq.etchome}
  * imq.keystore.file.name=keystore imq.keystore.password= imq.passfile.enabled=false imq.passfile.dirpath=${imq.etchome}
  * imq.passfile.name=keypassfile
- * 
+ *
  * // admin connection service imq.admin.protocoltype=tcp imq.admin.servicetype=ADMIN imq.admin.tcp.port=0
  * imq.admin.tcp.backlog=5 imq.admin.tcp.blocking=true imq.admin.tcp.useChannels=false imq.admin.min_threads=4
  * imq.admin.max_threads=10 imq.admin.threadpool_model=dedicated
- * 
+ *
  * // ssladmin connection service // NOTE: ssladmin is not active in the fallback case imq.ssladmin.protocoltype=tls
  * imq.ssladmin.servicetype=ADMIN imq.ssladmin.tls.port=0 imq.ssladmin.tls.hostname= imq.ssladmin.tls.backlog=5
  * imq.ssladmin.tcp.blocking=true imq.ssladmin.tcp.useChannels=false imq.ssladmin.min_threads=4
  * imq.ssladmin.max_threads=10 imq.ssladmin.threadpool_model=dedicated
- * 
+ *
  * // httpjms connection service
- * 
+ *
  * // NOTE: httpjms is not active in the fallback case
- * 
+ *
  * imq.httpjms.protocoltype=http imq.httpjms.servicetype=NORMAL imq.httpjms.http.servletHost=localhost
  * imq.httpjms.http.servletPort=7675 imq.httpjms.http.pullPeriod=-1 imq.httpjms.http.connectionTimeout=300
  * imq.httpjms.min_threads=10 imq.httpjms.max_threads=500 imq.httpjms.threadpool_model=dedicated
- * 
+ *
  * // httpsjms connection service (ssl communication with servlet)
- * 
+ *
  * imq.httpsjms.protocoltype=https imq.httpsjms.servicetype=NORMAL imq.httpsjms.https.servletHost=localhost
  * imq.httpsjms.https.servletPort=7674 imq.httpsjms.https.pullPeriod=-1 imq.httpjms.http.connectionTimeout=300
  * imq.httpsjms.min_threads=10 imq.httpsjms.max_threads=500
- * 
+ *
  * // Supported Protocols
- * 
- * 
+ *
+ *
  * // Buffer Size // Set the per connection input and output buffer sizes in bytes. // For the output buffer this
  * basically affects per packet buffering, so // having a value larger than your largest packet size may not improve //
  * performance much. // For the input buffer this can affect buffering accross packets as // well, depending on the
  * situation. // Set to 0 to turn off buffering.
- * 
+ *
  * // Only tcp is used in the true fallback case
- * 
+ *
  * imq.protocol.tcp.inbufsz=2048 imq.protocol.tcp.outbufsz=2048 imq.protocol.tls.inbufsz=2048
  * imq.protocol.tls.outbufsz=2048 imq.protocol.http.inbufsz=2048 imq.protocol.http.outbufsz=2048
  * imq.protocol.https.inbufsz=2048 imq.protocol.https.outbufsz=2048
- * 
+ *
  * // No Delay Flags // this turns off the Nagle's algorithm for socket (turns on TCPNoDelay) // Nagles algorithm speeds
  * up performance on low band-width systems // but lowers performance on most systems.
- * 
+ *
  * // In most configuration, no delay should be true // (Nagle's algorithm should be off)
- * 
+ *
  * // This flag is only applicable on protocols running over tcp // (this includes the tcp, and tls )
  * imq.protocol.tcp.nodelay=true imq.protocol.tls.nodelay=true imq.protocol.http.nodelay=true
  * imq.protocol.https.nodelay=true
- * 
+ *
  * // JMX Connector Settings imq.jmx.usePlatformMBeanServer=true imq.jmx.rmiregistry.start=false
  * imq.jmx.rmiregistry.use=false imq.jmx.connector.list=jmxrmi,ssljmxrmi imq.jmx.connector.activelist=jmxrmi
  * imq.jmx.connector.ssljmxrmi.useSSL=true
- * 
+ *
  * // Portmapper Settings
- * 
- * 
+ *
+ *
  * // Configuration for portmapper imq.portmapper.port=7676 imq.portmapper.bind=true imq.portmapper.backlog=50
  * imq.portmapper.sotimeout=500 // Linger on close in seconds, -1 will not set linger. imq.portmapper.solinger=5
- * 
- * 
+ *
+ *
  * // Message Router Settings
- * 
- * 
+ *
+ *
  * // Memory reclamation period
- * 
- * 
+ *
+ *
  * // The message expiration timeout value determines how often (in // seconds) the reaper thread will look at the
  * current expiration // value for JMS messages imq.message.expiration.interval=60
- * 
+ *
  * // Message limits: broker
- * 
- * 
+ *
+ *
  * // When these limits are reached, new messages received by broker are rejected // until the system is below these
  * limits
- * 
+ *
  * // Count limit (a value of -1 indicates no limit) imq.system.max_count=-1
- * 
+ *
  * // Size limit (a value of -1 indicates no limit) // To indicate a value other than bytes, an argument [m, k, b] can
  * be added // 1m-> 1meg // 1k -> 1 Kbytes // 1b -> 1 byte imq.system.max_size=-1
- * 
+ *
  * // Individual message limits
- * 
- * 
+ *
+ *
  * // This sets a limit on the maximum size of ANY message body (in Kbytes)
- * 
+ *
  * // Size limit (a value of -1 indicates no limit) // To indicate a value other than bytes, an argument [m, k, b] can
  * be added // 1m-> 1meg // 1k -> 1 Kbytes // 1b -> 1 byte imq.message.max_size=-1
- * 
- * 
- * 
+ *
+ *
+ *
  * // Persistence Settings
- * 
- * 
+ *
+ *
  * // Type of data store
- * 
- * 
+ *
+ *
  * // Both file-based and JDBC-based persistence is currently supported. File-based // is the default. (Set the value to
  * jdbc for JDBC-based persistence. imq.persist.store=file
- * 
+ *
  * // File-based store
- * 
- * 
+ *
+ *
  * // The percentage of files in the pool that are kept in a clean state // while the broker is running. Any files left
  * in a dirty state must be // cleaned up at shutdown. A high value keeps the file pool in a clean // state which allows
  * the broker to shutdown quickly but slows down the // performance of the file pool somewhat. A low value improves the
  * speed // of the filepool, but may result in the broker taking longer to shutdown. // Default: 60 percent
  * imq.persist.file.message.filepool.cleanratio=60
- * 
+ *
  * // Control whether the message store is 'cleaned up' when the broker exits. // If the store is to be "cleaned" then
  * the broker will truncate all // message files to the appropriate size at exit. For files that contain // message data
  * this will be the size of the message data. For files that // contain deleted messages this would be 0. // This does
  * not control whether the VR message file is compacted. imq.persist.file.message.cleanup=true
- * 
+ *
  * // Initial size of VR message file for destinations. imq.persist.file.message.vrfile.initial_size=1m
- * 
+ *
  * // block size of the VR message file imq.persist.file.message.vrfile.block_size=256
- * 
+ *
  * // Maximum size of a message that will be stored in the VR message // file. Messages that are bigger than this size
  * will be stored in its // own files imq.persist.file.message.max_record_size=1m
- * 
+ *
  * // Maximum number of files in the file pool per destination used by the // file based message store. The larger the
  * pool the faster the broker // can process large numbers of persistent messages at the expense of disk // space. // If
  * the capacity of the file pool is exceeded, the broker will create // and delete files as needed to process persistent
  * messages. // Default: 100 files imq.persist.file.destination.message.filepool.limit=100
- * 
- * 
+ *
+ *
  * // JDBC-based store
- * 
- * 
+ *
+ *
  * // Vendor specific JDBC driver. imq.persist.jdbc.driver=<jdbcdriver class>
- * 
+ *
  * // Vendor specific database url to get a database connection. imq.persist.jdbc.opendburl=<url to open database>
- * 
+ *
  * // An identifier to make database table names unique per broker. // If specified, this identifier will be appended to
  * database tables // names to make them unique in the case where more than one broker // is persisting data in the same
  * database // The specified value should contain alphanumeric characters only. // The length of the identifier should
  * not exceed the maximum length // of a table name allowed in the database minus 12. // (12 is the length of table name
  * reserved for iMQ's internal use.) imq.persist.jdbc.brokerid=<alphanumeric id>
- * 
+ *
  * // Vendor specific url to create a database. // This is an optional property. Should be specified if the database
  * will // need to be created using imqdbmgr. imq.persist.jdbc.createdburl=<url to create database>
- * 
+ *
  * // Vendor specific database url to shutdown the connection. // This is an optional property. Should be specified if
  * the database needs // to be shutdown explicitly. If specified, // java.sql.DriverManager.getConnection() will be
  * called with the specified // url at broker shutdown. imq.persist.jdbc.closedburl=<url to close database connection>
- * 
+ *
  * // User name used to open database connection. // This is an optional property. The value can also be specified by
  * command // line opton for imqbroker and imqdbmgr. imq.persist.jdbc.user=<username>
- * 
+ *
  * // Specify whether the broker should prompt the user for a password for // database access. // This is an optional
  * property. It should be set to true if the database // requires a password and the password is not provided by other
  * means imq.persist.jdbc.needpassword=[true|false]
- * 
+ *
  * // properties defining the database schema imq.persist.jdbc.table.IMQSV35=<CREATE TABLE SQL FOR VERSION TABLE>
  * imq.persist.jdbc.table.IMQCCREC35=<CREATE TABLE SQL FOR VERSION TABLE> imq.persist.jdbc.table.IMQDEST35=<CREATE TABLE
  * SQL FOR VERSION TABLE> imq.persist.jdbc.table.IMQINT35=<CREATE TABLE SQL FOR VERSION TABLE>
@@ -321,40 +320,40 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * SQL FOR VERSION TABLE> imq.persist.jdbc.table.IMQILIST35=<CREATE TABLE SQL FOR VERSION TABLE>
  * imq.persist.jdbc.table.IMQTXN35=<CREATE TABLE SQL FOR VERSION TABLE> imq.persist.jdbc.table.IMQTACK35=<CREATE TABLE
  * SQL FOR VERSION TABLE>
- * 
+ *
  * // Security Settings
- * 
- * 
+ *
+ *
  * // Authentication Type
- * 
- * 
+ *
+ *
  * // You can specify two types of authentication: basic and digest.
- * 
+ *
  * // basic imq.authentication.basic.user_repository=file
- * 
+ *
  * // digest (value of this property should not be changed from file) imq.authentication.digest.user_repository=file
- * 
+ *
  * // You can specify authentication for all connection services or // on a service-by-service basis. Individual service
  * settings override // system settings. imq.authentication.type=digest
- * 
+ *
  * // Authentication Timeout
- * 
- * 
+ *
+ *
  * // timeout in seconds in waiting for client hello and response to // authentication request on a connection
  * imq.authentication.client.response.timeout=180
- * 
+ *
  * // User Repository
- * 
- * 
+ *
+ *
  * // You can define access to two types of user repositories: file-based and LDAP.
- * 
+ *
  * // File-based (file) user repository: imq.user_repository.file.dirpath=${imq.etchome}
  * imq.user_repository.file.filename=passwd
- * 
+ *
  * // LDAP user repository (only supported for basic authentication type) // The following properties are an example
  * setup (please configure)
- * 
- * 
+ *
+ *
  * imq.user_repository.ldap.server=host:port imq.user_repository.ldap.principal= imq.user_repository.ldap.password=
  * imq.user_repository.ldap.base=ou=people, o=foobar.com imq.user_repository.ldap.uidattr=uid
  * imq.user_repository.ldap.usrformat= imq.user_repository.ldap.usrfilter= imq.user_repository.ldap.grpsearch=false
@@ -362,42 +361,42 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * imq.user_repository.ldap.memattr=uniquemember imq.user_repository.ldap.grpfilter=
  * imq.user_repository.ldap.ssl.enabled=false
  * imq.user_repository.ldap.ssl.socketfactory=com.sun.messaging.jmq.jmsserver.auth.ldap.TrustSSLSocketFactory
- * 
+ *
  * // (search in seconds) imq.user_repository.ldap.timeout=180
- * 
+ *
  * // Access Control
- * 
- * 
+ *
+ *
  * // Enable authorization (access control) // You can enable access control for all connection services or // on a
  * service-by-service basis. Individual service settings override // system settings. imq.accesscontrol.enabled=true
  * imq.accesscontrol.type=file
- * 
+ *
  * // You can currently specify only file-based access control.
- * 
+ *
  * // File-based (file) access control imq.accesscontrol.file.dirpath=${imq.etchome}
  * imq.accesscontrol.file.filename=accesscontrol.properties
- * 
+ *
  * // audit service configuration imq.audit.enabled=false
- * 
+ *
  * // Logger Settings
- * 
- * 
+ *
+ *
  * // Log Level
- * 
- * 
+ *
+ *
  * // Only messages >= this level will get passed on to output channels (LogHandlers). // The categories used in normal
  * operation of the broker from highest // level to lowest are: ERROR, WARNING, INFO. You may specify NONE to // turn
  * off logging. .level=INFO
- * 
+ *
  * // Output Channels (LogHandlers)
- * 
- * 
+ *
+ *
  * // All Output Channels (LogHandlers) write out messages based on specific // categories. Valid categories are ALL to
  * select all messages, NONE // to select no message or a comma (",") separated list of // ERROR, WARNING, INFO.
- * 
+ *
  * // Specify supported and needed LogHandlers // Supported Handles are java.util.logging.FileHandler,
  * java.util.logging.ConsoleHandler,
- * 
+ *
  * // Old imq.log.handlers=file,console,destination,syslog,jmx handlers=java.util.logging.FileHandler,
  * java.util.logging.ConsoleHandler, com.sun.messaging.jmq.jmsserver.service.DestinationLogHandler,
  * com.sun.messaging.jmq.util.log.SysLogHandler, com.sun.messaging.jmq.jmsserver.management.agent.JMXLogHandler //
@@ -416,102 +415,102 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * java.util.logging.FileHandler.formatter=com.sun.messaging.jmq.util.log.UniformLogFormatter
  * java.util.logging.FileHandler.limit=268435456
  * java.util.logging.FileHandler.pattern=${imq.instanceshome}${/}${imq.instancename}${/}log${/}server.log
- * 
+ *
  * // Console settings. // The console handler logs messages to an OutputStream. This can either be // System.err (ERR)
  * or System.out (OUT). java.util.logging.ConsoleHandler.formatter=com.sun.messaging.jmq.util.log.UniformLogFormatter
  * java.util.logging.ConsoleHandler.level=WARNING
- * 
+ *
  * // Syslog settings. // The syslog handler logs messages to syslog on UNIX. imq.log.syslog.facility=LOG_DAEMON
  * imq.log.syslog.logpid=true imq.log.syslog.logconsole=false imq.log.syslog.identity=imqbrokerd_${imq.instancename}
  * imq.log.syslog.output=ERROR
- * 
+ *
  * // Destination log handler settings. // The destination handler logs messages to a topic (mq.log.broker)
  * imq.log.destination.output=ERROR|WARNING imq.log.destination.timetolive=300 imq.log.destination.persist=false
- * 
+ *
  * // JMX log handler settings // The jmx log handler exposes log messages as JMX notifications imq.log.jmx.output=ALL
- * 
+ *
  * // Metrics settings
- * 
- * 
+ *
+ *
  * // These settings enable metric counting in the broker and set the // time interval (in seconds) // at which the
  * broker will generate a metrics report. 0 means no report. imq.metrics.enabled=true imq.metrics.interval=0
- * 
+ *
  * // Properties for configuring the behaviout of metrics obtained // via the JMS monitoring API
  * imq.metrics.topic.enabled=true imq.metrics.topic.interval=60 imq.metrics.topic.persist=false
  * imq.metrics.topic.timetolive=300
- * 
- * 
- * 
+ *
+ *
+ *
  * // Destination Management Settings
- * 
- * 
+ *
+ *
  * // autocreate for topics should always be true imq.autocreate.topic=true
- * 
+ *
  * // autocreate for queues should default to false after EA imq.autocreate.queue=true
- * 
+ *
  * //max active/failover counts for autocreated queues imq.autocreate.queue.maxNumActiveConsumers=-1
  * imq.autocreate.queue.maxNumBackupConsumers=0
- * 
+ *
  * // default queue delivery policy (for auto-create queues) // Choices are: // single - standard single queue receiver
  * queues // failover - failover // round-robin imq.queue.deliverypolicy=single
- * 
+ *
  * // defines the number of messages queued at a time to a receiver // on a round robin queue
  * imq.queue.rr.messageblock=5
- * 
- * 
+ *
+ *
  * // Miscellaneous Settings
- * 
- * 
+ *
+ *
  * // Exit code Broker uses when it is exiting due to a restart imq.restart.code=255
- * 
- * 
+ *
+ *
  * // SECRET PROPERTIES (WILL BE REMOVED BY FCS)
- * 
- * 
+ *
+ *
  * // list of supported protocols imq.protocol.list=tcp,tls,http,https
- * 
+ *
  * // List of available system services (may be needed by admin)
  * imq.service.list=jms,admin,ssljms,httpjms,httpsjms,ssladmin,mqdirect,mqdirect2
- * 
+ *
  * // authentication classes/properties imq.authentication.basic.properties=class,user_repository
  * imq.authentication.basic.class=com.sun.messaging.jmq.jmsserver.auth.JMQBasicAuthenticationHandler
  * imq.authentication.digest.properties=class,user_repository
  * imq.authentication.digest.class=com.sun.messaging.jmq.jmsserver.auth.JMQDigestAuthenticationHandler
- * 
+ *
  * // user_repository classes/properties
  * imq.user_repository.file.properties=class,filename,userPrincipalClass,groupPrincipalClass,dirpath
  * imq.user_repository.file.class=com.sun.messaging.jmq.jmsserver.auth.file.JMQFileUserRepository
  * imq.user_repository.ldap.properties=class,server,principal,password,base,uidattr,usrformat,usrfilter,grpsearch,
  * grpbase,gidattr,memattr,grpfilter,timeout,ssl.enabled,ssl.socketfactory,userPrincipalClass, groupPrincipalClass
  * imq.user_repository.ldap.class=com.sun.messaging.jmq.jmsserver.auth.ldap.LdapUserRepository
- * 
+ *
  * // accesscontrol classes/properties imq.accesscontrol.file.properties=class,filename,dirpath
  * imq.accesscontrol.file.class=com.sun.messaging.jmq.jmsserver.auth.acl.JMQFileAccessControlModel
- * 
+ *
  * imq.accesscontrol.jaas.properties=class,permissionFactory,permissionFactoryPrivate,policyProvider
  * imq.accesscontrol.jaas.class=com.sun.messaging.jmq.jmsserver.auth.acl.JAASAccessControlModel
- * 
+ *
  * // logging classes imq.log.file.class=com.sun.messaging.jmq.util.log.FileLogHandler
  * imq.log.console.class=com.sun.messaging.jmq.util.log.StreamLogHandler
  * imq.log.syslog.class=com.sun.messaging.jmq.util.log.SysLogHandler
  * imq.log.destination.class=com.sun.messaging.jmq.jmsserver.service.DestinationLogHandler
  * imq.log.jmx.class=com.sun.messaging.jmq.jmsserver.management.agent.JMXLogHandler
- * 
+ *
  * // Class/properties of supported protocols
- * 
+ *
  * imq.protocol.tcp.propertylist=port,backlog,useChannels,blocking
  * imq.protocol.tcp.class=com.sun.messaging.jmq.jmsserver.net.tcp.TcpProtocol
- * 
+ *
  * imq.protocol.tls.propertylist=port,backlog,keystore,,useChannels,blocking
  * imq.protocol.tls.class=com.sun.messaging.jmq.jmsserver.net.tls.TLSProtocol
- * 
+ *
  * imq.protocol.http.propertylist=servletHost,servletPort,pullPeriod,connectionTimeout,useChannels,blocking
  * imq.protocol.http.class=com.sun.messaging.jmq.jmsserver.net.http.HTTPProtocol
- * 
+ *
  * // not exposed yet; we'll always trust the servlet host for now jms.httpsjms.https.isHostTrusted=true
  * imq.protocol.https.propertylist=servletHost,servletPort,pullPeriod,connectionTimeout,sHostTrusted
  * imq.protocol.https.class=com.sun.messaging.jmq.jmsserver.net.https.HttpsProtocol
- * 
+ *
  * // Class for creating standard services
  * imq.service_handler.dedicated.class=com.sun.messaging.jmq.jmsserver.service.imq.dedicated.DedicatedServiceFactory
  * imq.service_handler.shared.class=com.sun.messaging.jmq.jmsserver.service.imq.assigned.AssignedServiceFactory
@@ -519,81 +518,81 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * imq.service_handler.direct.class=com.sun.messaging.jmq.jmsserver.service.imq.IMQDirectServiceFactory
  * imq.service_handler.mqdirect.class=com.sun.messaging.jmq.jmsserver.service.imq.IMQEmbeddedServiceFactory
  * imq.service_handler.mqdirect2.class=com.sun.messaging.jmq.jmsserver.service.imq.IMQDualThreadServiceFactory
- * 
+ *
  * // Debug properties
- * 
+ *
  * // Format is: imq.debug.<class name to control debugging on>=true|false // Note: To see debug messages the log level
  * must be set to // DEBUG, DEBUGMED or DEBUGHIGH imq.debug.com.sun.messaging.jmq.jmsserver.multibroker.RouteTable=false
  * imq.debug.com.sun.messaging.jmq.jmsserver.persist.api.Store=false
- * 
+ *
  * // packet tracking code (turns on additional information on packets through // the system)
- * 
+ *
  * imq.dump.packet.debug=false imq.dump.packet.debugall=false
- * 
+ *
  * // Reference Tracking:
- * 
+ *
  * // track information on all packet references and dump the information when // the packet is destroyed (very
  * memory/time intensive) imq.debug.packet.pktdebug_all
- * 
+ *
  * // track information on all packet references and dump the information when // an exception is received (very
  * memory/time intensive) imq.debug.packet.pktdebug
- * 
+ *
  * // PERSISTENCE
- * 
+ *
  * // control whether to sync all persistent operations, including those that // truncate a file or tag a file 'FREE'
  * imq.persist.file.sync.all=false
- * 
+ *
  * // the class instantiated for a specific type of store // imq.persist.<type>.class
- * 
- * 
+ *
+ *
  * // SERVICES
- * 
+ *
  * // A service controls the connections between clients and how // those clients are processed (threading model)
- * 
+ *
  * // In the 2.0 release, only one type of service (standard) which // has a protocol and two threadpools (input and
  * output) is supported.
- * 
+ *
  * // However, the infrastructure is designed to allow other models to // be plugged into the system.
- * 
+ *
  * // The service has several pieces: // Service -> the actual service class, handles accepting "connections" // from a
  * client and creating Connection objects // Connection-> an abstract class which represents a JMS connection //
  * ServiceHandler -> a class which controls monitoring, creating // and updating properties on a service //
  * ServiceManager -> the class that creates services
- * 
+ *
  * // the creating and access of a service is controled through properties
- * 
+ *
  * // the class instanciated for a specific service handler
- * 
+ *
  * // imq.service_handler.<handlername>.class
- * 
+ *
  * // the handler used for a specific service
- * 
+ *
  * // imq.<service name>.service_handler
- * 
+ *
  * // the list of all available services in the system (may be used // by admin in the future
- * 
+ *
  * imq.service.list=jms,admin,httpjms,ssljms,httpsjms,ssladmin
- * 
+ *
  * // the list of currently "active" services imq.service.activelist=jms,admin
- * 
+ *
  * // type of service (NORMAL or ADMIN) // imq.<service>.servicetype
- * 
+ *
  * // imq.service.jms.servicetype=NORMAL // imq.service.ssljms.servicetype=NORMAL // imq.service.admin.servicetype=ADMIN
  * // imq.service.httpjms.servicetype=NORMAL // imq.service.httpsjms.servicetype=NORMAL //
  * imq.service.ssladmin.servicetype=ADMIN
- * 
+ *
  * // The following properties can be configured for a standard service
- * 
+ *
  * // imq.<instancename>.threadpool.is_shared // imq.<instancename>.threadpool.shared_percent //
  * imq.<instancename>.threadpool.priority // imq.<instancename>.<protocolname>.<property>
- * 
+ *
  * // imq.protocol.<protocolname>.propertylist // imq.protocol.<protocolname>.class // imq.<instancename>.protocoltype
  * // imq.<instancename>.min_threads // imq.<instancename>.max_threads // imq.<instancename>.<protocol>.nodelay //
  * imq.<instancename>.<protocol>.inbufsz
- * 
- * 
+ *
+ *
  * // MEMORY management properties
- * 
+ *
  * imq.memory.levels=green,yellow,orange,red imq.memory.gcdelta=1024 imq.memory.hysteresis=1024
  * imq.memory.overhead=10240 imq.green.threshold=0 imq.green.count=50000 imq.green.gccount=0 imq.green.gcitr=0
  * imq.green.classname=com.sun.messaging.jmq.jmsserver.memory.levels.Green imq.yellow.seconds=5 imq.yellow.threshold=60
@@ -603,9 +602,14 @@ import com.sun.messaging.jmq.jmsserver.comm.CommGlobals;
  * imq.orange.gcitr=100 imq.orange.seconds=1 imq.red.threshold=80
  * imq.red.classname=com.sun.messaging.jmq.jmsserver.memory.levels.Red imq.red.count=0 imq.red.gccount=10
  * imq.red.gcitr=5 imq.red.seconds=10
- * 
+ *
  */
 public class BrokerConfig extends UpdateProperties {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8067470983633403256L;
+
     private static final String IMQ = CommGlobals.IMQ;
 
     // #########################################################################
@@ -892,8 +896,9 @@ public class BrokerConfig extends UpdateProperties {
             Properties clusterprops = localconfig.loadClusterProps(this, params, storedprops);
 
             // overlay cluster props
-            if (clusterprops != null)
+            if (clusterprops != null) {
                 putAll(clusterprops);
+            }
 
             // overlay stored props
             setStoredProperties(storedprops);
@@ -923,11 +928,13 @@ public class BrokerConfig extends UpdateProperties {
         Enumeration keys = propertyNames();
         while (keys.hasMoreElements()) {
             String name = (String) keys.nextElement();
-            if (name == null)
+            if (name == null) {
                 continue;
+            }
             String value = getProperty(name);
-            if (value == null || value.length() <= 0)
+            if (value == null || value.length() <= 0) {
                 continue;
+            }
             char c = value.charAt(value.length() - 1);
             if (Character.isSpaceChar(c)) {
                 Exception e = null;
@@ -938,10 +945,11 @@ public class BrokerConfig extends UpdateProperties {
                     e = ex;
                     put(name, value);
                 }
-                if (e == null)
+                if (e == null) {
                     logger.log(Logger.WARNING, BrokerResources.W_BAD_PROPERTY, name, value);
-                else
+                } else {
                     logger.log(Logger.WARNING, BrokerResources.W_BAD_PROPERTY, name, value, e);
+                }
             }
         }
     }
@@ -957,6 +965,7 @@ public class BrokerConfig extends UpdateProperties {
      *
      * XXX - LKS 7/5/00 - How should IOExceptiones be handled ??
      */
+    @Override
     protected void saveUpdatedProperties(Properties props) throws IOException {
         if (localconfig == null) {
 
@@ -975,8 +984,9 @@ public class BrokerConfig extends UpdateProperties {
      * Reload given set of properties from the configuration store.
      */
     public void reloadProps(String instancename, String[] propnames, boolean overideparams) throws BrokerException {
-        if (localconfig == null)
+        if (localconfig == null) {
             return;
+        }
 
         // Remove old values.
         ArrayList newpropnames = new ArrayList();
@@ -988,14 +998,16 @@ public class BrokerConfig extends UpdateProperties {
                 newpropnames.add(propnames[i]);
             }
         }
-        if (!overideparams)
+        if (!overideparams) {
             propnames = (String[]) newpropnames.toArray(new String[newpropnames.size()]);
+        }
 
         // Reload broker properties.
 
         Properties sprops = localconfig.reloadProps(instancename, propnames);
-        if (sprops == null)
+        if (sprops == null) {
             sprops = new Properties();
+        }
 
         Properties clusterprops = localconfig.loadClusterProps(this, new Properties(), sprops);
 
@@ -1004,8 +1016,9 @@ public class BrokerConfig extends UpdateProperties {
             String value = null;
             for (int i = 0; i < propnames.length; i++) {
                 value = clusterprops.getProperty(propnames[i]);
-                if (value != null)
+                if (value != null) {
                     cprops.setProperty(propnames[i], value);
+                }
             }
         }
 

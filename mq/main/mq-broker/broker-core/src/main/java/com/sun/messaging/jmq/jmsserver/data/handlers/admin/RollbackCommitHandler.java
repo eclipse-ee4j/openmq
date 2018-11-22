@@ -21,11 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.io.*;
-import java.util.Vector;
-import java.util.List;
-import java.util.Iterator;
 import javax.transaction.xa.XAResource;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -38,7 +33,6 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.RollbackReason;
 import com.sun.messaging.jmq.jmsserver.data.handlers.TransactionHandler;
 import com.sun.messaging.jmq.util.admin.MessageType;
-import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -58,6 +52,7 @@ public class RollbackCommitHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

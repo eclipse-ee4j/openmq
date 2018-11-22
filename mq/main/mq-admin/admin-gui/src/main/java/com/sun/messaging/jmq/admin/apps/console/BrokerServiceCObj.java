@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
@@ -42,6 +39,10 @@ import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
  */
 public class BrokerServiceCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7118096466773059445L;
     private BrokerCObj bCObj;
     private ServiceInfo svcInfo;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
@@ -67,21 +68,26 @@ public class BrokerServiceCObj extends BrokerAdminCObj {
         this.svcInfo = svcInfo;
     }
 
+    @Override
     public String getExplorerLabel() {
-        if (svcInfo != null)
+        if (svcInfo != null) {
             return svcInfo.name;
-        else
+        } else {
             return (acr.getString(acr.I_BROKER_SVC));
+        }
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.BROKER_SERVICE]);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -104,44 +110,44 @@ public class BrokerServiceCObj extends BrokerAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME);
     }
 
+    @Override
     public int getActiveActions() {
         int mask;
 
         // REVISIT: for now, no operation is allowed if we are not connected.
         // This should be taken out, as we should disallow selecting a service
         // when it is not connected.
-        if (!getBrokerAdmin().isConnected())
+        if (!getBrokerAdmin().isConnected()) {
             mask = 0;
-
-        /*
-         * ActionManager.REFRESH is included here to enable refreshing of the entire service list
-         */
-
-        // If this is an admin service, no operation is allowed
-        else if (svcInfo.type == ServiceType.ADMIN || svcInfo.state == ServiceState.UNKNOWN)
+        } else if (svcInfo.type == ServiceType.ADMIN || svcInfo.state == ServiceState.UNKNOWN) {
             mask = ActionManager.PROPERTIES | ActionManager.REFRESH;
-        else if (svcInfo.state == ServiceState.RUNNING)
+        } else if (svcInfo.state == ServiceState.RUNNING) {
             mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.REFRESH;
-        else if (svcInfo.state == ServiceState.PAUSED)
+        } else if (svcInfo.state == ServiceState.PAUSED) {
             mask = ActionManager.PROPERTIES | ActionManager.RESUME | ActionManager.REFRESH;
-        else
+        } else {
             mask = ActionManager.PROPERTIES | ActionManager.PAUSE | ActionManager.RESUME | ActionManager.REFRESH;
+        }
 
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelId() {
         return (null);
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (null);
     }

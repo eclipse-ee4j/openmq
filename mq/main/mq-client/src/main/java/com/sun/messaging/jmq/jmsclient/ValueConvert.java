@@ -71,7 +71,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to boolean value
-     * 
+     *
      * @param obj the object to convert
      * @return the converted value
      */
@@ -92,7 +92,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the byte value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      **/
@@ -113,7 +113,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the short value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      **/
@@ -136,7 +136,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the int value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      **/
@@ -160,7 +160,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the long value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      */
@@ -186,7 +186,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the float value
-     * 
+     *
      * @param obj the non null object to convert
      * @return the coverted value
      **/
@@ -206,7 +206,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the double value
-     * 
+     *
      * @param obj the non null object to convert
      * @return the coverted value
      */
@@ -228,7 +228,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the String value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      */
@@ -253,7 +253,7 @@ class ValueConvert {
 
     /**
      * If possible, converts the given object to the char value
-     * 
+     *
      * @param obj the object to convert
      * @return the coverted value
      */

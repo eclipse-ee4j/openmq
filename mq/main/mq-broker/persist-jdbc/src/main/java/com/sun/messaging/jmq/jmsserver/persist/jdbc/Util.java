@@ -32,8 +32,6 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.comm.MQSQLException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.StoreBeingTakenOverException;
 import com.sun.messaging.jmq.jmsserver.persist.api.util.MQObjectInputStream;
-import com.sun.messaging.jmq.util.log.Logger;
-
 import java.io.*;
 import java.sql.*;
 import java.lang.reflect.Method;
@@ -215,7 +213,7 @@ public class Util implements DBConstants {
 
     /**
      * Returns true if the string contains only alphanumeric characters and '_'.
-     * 
+     *
      * @param str the string to check
      */
     public static boolean isAlphanumericString(String str) {
@@ -248,7 +246,7 @@ public class Util implements DBConstants {
 
     /**
      * Initalize methods for Oracle LOB APIs.
-     * 
+     *
      * @throws BrokerException
      */
     static final void OracleBLOB_init() throws BrokerException {
@@ -341,7 +339,7 @@ public class Util implements DBConstants {
     /**
      * Returns true if the error is due to HADB running out of locks set: HADB-E-02080: Too many locks set, out of request
      * objects HADB-E-02096: Too many locks held concurrently
-     * 
+     *
      * @param t throwable object
      * @return true if HADB is running out of locks set
      */
@@ -614,7 +612,7 @@ public class Util implements DBConstants {
                             || (emsg.trim().toLowerCase().contains("got temporary error") && emsg.trim().toLowerCase().contains("from ndb"))
                             || (emsg.trim().toLowerCase().contains("no operations allowed after connection closed"))
                             || (emsg.trim().toLowerCase().contains("lock wait timeout exceeded"));
-                    ;
+                    
                 } else if (dbMgr.isDerby()) {
                     retry = sqlState.equals("40001") // deadlock
                     ;
@@ -775,8 +773,9 @@ public class Util implements DBConstants {
     }
 
     public static void checkBeingTakenOver(Connection conn, DBManager dbMgr, Logger logger, java.util.logging.Logger logger_) throws BrokerException {
-        if (!Globals.getHAEnabled())
+        if (!Globals.getHAEnabled()) {
             return;
+        }
 
         String brokerID = dbMgr.getBrokerID();
         BrokerDAO dao = dbMgr.getDAOFactory().getBrokerDAO();
@@ -794,8 +793,9 @@ public class Util implements DBConstants {
     }
 
     public static void logExt(java.util.logging.Logger logger_, java.util.logging.Level level, String emsg, Throwable t) {
-        if (logger_ == null)
+        if (logger_ == null) {
             return;
+        }
         if (t != null) {
             logger_.log(level, emsg, t);
         } else {

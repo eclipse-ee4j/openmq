@@ -31,6 +31,7 @@ import com.sun.messaging.jmq.jmsserver.persist.jdbc.ext.JMSBGDAOImpl;
  */
 public class GenericDAOFactory extends DAOFactory {
 
+    @Override
     public VersionDAO getVersionDAO() throws BrokerException {
 
         if (versionDAO == null) {
@@ -39,6 +40,7 @@ public class GenericDAOFactory extends DAOFactory {
         return versionDAO;
     }
 
+    @Override
     public BrokerDAO getBrokerDAO() throws BrokerException {
 
         if (brokerDAO == null) {
@@ -47,6 +49,7 @@ public class GenericDAOFactory extends DAOFactory {
         return brokerDAO;
     }
 
+    @Override
     public StoreSessionDAO getStoreSessionDAO() throws BrokerException {
 
         if (storeSessionDAO == null) {
@@ -55,6 +58,7 @@ public class GenericDAOFactory extends DAOFactory {
         return storeSessionDAO;
     }
 
+    @Override
     public PropertyDAO getPropertyDAO() throws BrokerException {
 
         if (propertyDAO == null) {
@@ -63,6 +67,7 @@ public class GenericDAOFactory extends DAOFactory {
         return propertyDAO;
     }
 
+    @Override
     public MessageDAO getMessageDAO() throws BrokerException {
 
         if (messageDAO == null) {
@@ -71,6 +76,7 @@ public class GenericDAOFactory extends DAOFactory {
         return messageDAO;
     }
 
+    @Override
     public DestinationDAO getDestinationDAO() throws BrokerException {
 
         if (destinationDAO == null) {
@@ -79,6 +85,7 @@ public class GenericDAOFactory extends DAOFactory {
         return destinationDAO;
     }
 
+    @Override
     public ConsumerDAO getConsumerDAO() throws BrokerException {
 
         if (consumerDAO == null) {
@@ -87,6 +94,7 @@ public class GenericDAOFactory extends DAOFactory {
         return consumerDAO;
     }
 
+    @Override
     public ConsumerStateDAO getConsumerStateDAO() throws BrokerException {
 
         if (consumerStateDAO == null) {
@@ -95,6 +103,7 @@ public class GenericDAOFactory extends DAOFactory {
         return consumerStateDAO;
     }
 
+    @Override
     public ConfigRecordDAO getConfigRecordDAO() throws BrokerException {
 
         if (configRecordDAO == null) {
@@ -103,6 +112,7 @@ public class GenericDAOFactory extends DAOFactory {
         return configRecordDAO;
     }
 
+    @Override
     public TransactionDAO getTransactionDAO() throws BrokerException {
 
         if (transactionDAO == null) {
@@ -111,6 +121,7 @@ public class GenericDAOFactory extends DAOFactory {
         return transactionDAO;
     }
 
+    @Override
     public TMLogRecordDAO getTMLogRecordDAOJMSBG() throws BrokerException {
 
         if (tmLogRecordDAOJMSBG == null) {
@@ -119,6 +130,7 @@ public class GenericDAOFactory extends DAOFactory {
         return tmLogRecordDAOJMSBG;
     }
 
+    @Override
     public JMSBGDAO getJMSBGDAO() throws BrokerException {
 
         if (jmsbgDAO == null) {

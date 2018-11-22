@@ -22,19 +22,12 @@ package com.sun.messaging.jmq.jmsserver.service.imq;
 
 import com.sun.messaging.jmq.jmsserver.service.*;
 
-import java.util.*;
-import java.io.*;
-
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
-import com.sun.messaging.jmq.jmsserver.config.ConfigListener;
 import com.sun.messaging.jmq.jmsserver.config.PropertyUpdateException;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 
-import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.net.tcp.*;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.util.log.Logger;
 
@@ -54,6 +47,7 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
         }
     }
 
+    @Override
     public void updateService(Service s) throws BrokerException {
         IMQService ss = (IMQService) s;
         String name = s.getName();
@@ -75,6 +69,7 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
 
 // XXX - this is not optimized, but it should rarely happen
 
+    @Override
     public void startMonitoringService(Service s) throws BrokerException {
 
         String name = s.getName();
@@ -87,6 +82,7 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
         props.addListener(bstr, this);
     }
 
+    @Override
     public void stopMonitoringService(Service s) throws BrokerException {
         String name = s.getName();
 
@@ -98,10 +94,12 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
         props.removeListener(bstr, this);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         // for now, dont bother with validation
     }
 
+    @Override
     public boolean update(String name, String value) {
 
         return true;
@@ -124,6 +122,7 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
         return props.getIntProperty(bstr);
     }
 
+    @Override
     public Service createService(String instancename, int type) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.DEBUG, " Creating new Service(" + instancename + ": Embedded )");
@@ -133,8 +132,9 @@ public class IMQEmbeddedServiceFactory extends ServiceFactory {
 
         // bug 4433282 -> support optional timeout for pool
         long timeout = getPoolTimeout(instancename);
-        if (timeout > 0)
+        if (timeout > 0) {
             ((IMQService) svc).setDestroyWaitTime(timeout);
+        }
         return svc;
 
     }

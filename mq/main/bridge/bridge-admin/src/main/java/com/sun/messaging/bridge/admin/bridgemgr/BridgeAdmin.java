@@ -113,26 +113,32 @@ public class BridgeAdmin extends BrokerAdminConn {
     /**********************************************************
      * BEGIN impl of admin protocol specific abstract methods
      **********************************************************/
+    @Override
     public String getAdminQueueDest() {
         return AdminMessageType.JMQ_BRIDGE_ADMIN_DEST;
     }
 
+    @Override
     public String getAdminMessagePropNameMessageType() {
         return AdminMessageType.PropName.MESSAGE_TYPE;
     }
 
+    @Override
     public String getAdminMessagePropNameErrorString() {
         return AdminMessageType.PropName.ERROR_STRING;
     }
 
+    @Override
     public String getAdminMessagePropNameStatus() {
         return AdminMessageType.PropName.STATUS;
     }
 
+    @Override
     public int getAdminMessageStatusOK() {
         return Status.OK;
     }
 
+    @Override
     public int getAdminMessageTypeSHUTDOWN_REPLY() {
         return AdminMessageType.Type.LAST;
     }
@@ -144,14 +150,17 @@ public class BridgeAdmin extends BrokerAdminConn {
     /************************************************************
      * BEGIN impl of BridgeAdmin specific abstract methods
      ***********************************************************/
+    @Override
     public CommonCmdStatusEvent newCommonCmdStatusEvent(int type) {
         return new BridgeMgrStatusEvent(this, this, type);
     }
 
+    @Override
     public CommonCmdStatusEvent getCurrentStatusEvent() {
         return this.statusEvent;
     }
 
+    @Override
     public void clearStatusEvent() {
         statusEvent = null;
     }
@@ -170,8 +179,9 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public void sendHelloMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** sendHelloMessage *****");
+        }
 
         checkIfBusy();
 
@@ -196,12 +206,13 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public void receiveHelloReplyMessage() throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveHelloReplyMessage() *****");
+        }
 
         Message mesg = null;
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -212,12 +223,14 @@ public class BridgeAdmin extends BrokerAdminConn {
                 Globals.stdErrPrintln("HELLO_REPLY protocol error: no JMSReplyTo");
                 throw new BrokerAdminException(BrokerAdminException.MSG_REPLY_ERROR);
             }
-            if (getDebug())
+            if (getDebug()) {
                 Globals.stdOutPrintln("*****Got replyQueue from broker: " + replyTo);
+            }
             _sender = session.createSender(replyTo);
             _sender.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
-            if (getDebug())
+            if (getDebug()) {
                 Globals.stdOutPrintln("***** Created a _sender: " + _sender);
+            }
 
             isConnected = true;
 
@@ -234,8 +247,9 @@ public class BridgeAdmin extends BrokerAdminConn {
     public void sendCommandMessage(String cmd, String bridgeName, String bridgeType, String linkName, int msgType, String msgTypeString, int eventType,
             int replyType, String replyTypeString, boolean debugMode) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** send " + cmd + " Message *****");
+        }
 
         checkIfBusy();
 
@@ -278,12 +292,13 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public boolean receiveCommandReplyMessage(String cmd, int replyType, String replyTypeString) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receive " + replyTypeString + " Message() *****");
+        }
 
         Message mesg = null;
         try {
-            mesg = (ObjectMessage) receiveCheckMessageTimeout(false);
+            mesg = receiveCheckMessageTimeout(false);
 
             mesg.acknowledge();
             clearStatusEvent();
@@ -305,8 +320,9 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public ArrayList<BridgeCmdSharedReplyData> receiveListReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveListReplyMessage *****");
+        }
 
         ObjectMessage mesg = null;
         try {
@@ -315,8 +331,9 @@ public class BridgeAdmin extends BrokerAdminConn {
             clearStatusEvent();
             checkReplyTypeStatus(mesg, AdminMessageType.Type.LIST_REPLY, "LIST_REPLY");
 
-            if (getDebug())
+            if (getDebug()) {
                 Globals.stdErrPrintln("Received list reply: " + mesg);
+            }
 
             Object obj;
             if ((obj = mesg.getObject()) != null) {
@@ -325,8 +342,9 @@ public class BridgeAdmin extends BrokerAdminConn {
                 }
             }
 
-            if (getDebug())
+            if (getDebug()) {
                 Globals.stdErrPrintln("Unexpected reply from broker: " + obj);
+            }
 
             throw new RuntimeException("Unexpected reply type " + obj + " for LIST");
 
@@ -339,8 +357,9 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public void sendDebugMessage(String debugArg, String targetName, Properties props) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** send debug " + debugArg + " Message *****");
+        }
 
         checkIfBusy();
 
@@ -382,8 +401,9 @@ public class BridgeAdmin extends BrokerAdminConn {
 
     public Hashtable receiveDebugReplyMessage(boolean waitForResponse) throws BrokerAdminException {
 
-        if (getDebug())
+        if (getDebug()) {
             Globals.stdOutPrintln("***** receiveDebugReplyMessage *****");
+        }
 
         ObjectMessage mesg = null;
         try {
@@ -396,8 +416,9 @@ public class BridgeAdmin extends BrokerAdminConn {
             Object obj;
 
             if ((obj = mesg.getObject()) != null) {
-                if (obj instanceof Hashtable)
+                if (obj instanceof Hashtable) {
                     return (Hashtable) obj;
+                }
             }
 
         } catch (Exception e) {

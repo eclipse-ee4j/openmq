@@ -24,7 +24,6 @@ import java.io.Serializable;
 import java.util.Enumeration;
 import java.util.Vector;
 import java.util.Map;
-import java.util.Hashtable;
 import java.util.TreeMap;
 import java.util.Iterator;
 
@@ -44,7 +43,7 @@ import java.util.Iterator;
  *
  * <P>
  * Example usage:
- * 
+ *
  * <PRE>
  * MyPrinter mp = new MyPrinter(3, 2, "-");
  * String oneRow[] = new String[3];
@@ -68,7 +67,7 @@ import java.util.Iterator;
  * <P>
  * The above would print:
  * <P>
- * 
+ *
  * <PRE>
  *	--------------------------------------
  *	User Name  Email Address  Phone Number
@@ -79,7 +78,7 @@ import java.util.Iterator;
  *
  * <P>
  * This class also supports multi-row titles and having title strings spanning multiple collumns. Example usage:
- * 
+ *
  * <PRE>
  * TestPrinter tp = new TestPrinter(4, 2, "-");
  * String oneRow[] = new String[4];
@@ -96,36 +95,36 @@ import java.util.Iterator;
  * oneRow[2] = "Contact";
  * oneRow[3] = "";
  * tp.addTitle(oneRow, span);
- * 
+ *
  * oneRow[0] = "First";
  * oneRow[1] = "Last";
  * oneRow[2] = "Email";
  * oneRow[3] = "Phone";
  * tp.addTitle(oneRow);
- * 
+ *
  * oneRow[0] = "Bob";
  * oneRow[1] = "Jones";
  * oneRow[2] = "bob@foo.com";
  * oneRow[3] = "123-4567";
  * tp.add(oneRow);
- * 
+ *
  * oneRow[0] = "John";
  * oneRow[1] = "Doe";
  * oneRow[2] = "john@foo.com";
  * oneRow[3] = "456-7890";
  * tp.add(oneRow);
- * 
+ *
  * tp.println();
  * </PRE>
  *
  * <P>
  * The above would print:
  * <P>
- * 
+ *
  * <PRE>
  *      ------------------------------------
- *          Name             Contact          
- *      First  Last      Email       Phone  
+ *          Name             Contact
+ *      First  Last      Email       Phone
  *      ------------------------------------
  *      Bob    Jones  bob@foo.com   123-4567
  *      John   Doe    john@foo.com  456-7890
@@ -134,6 +133,10 @@ import java.util.Iterator;
  */
 public abstract class MultiColumnPrinter implements Serializable {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8013528725857861640L;
     final public static int LEFT = 0;
     final public static int CENTER = 1;
 
@@ -272,8 +275,9 @@ public abstract class MultiColumnPrinter implements Serializable {
      * @param row Array of strings to print in one row of title.
      */
     public void addTitle(String[] row) {
-        if (row == null)
+        if (row == null) {
             return;
+        }
 
         int[] span = new int[row.length];
         for (int i = 0; i < row.length; i++) {
@@ -290,11 +294,11 @@ public abstract class MultiColumnPrinter implements Serializable {
      * multiple collumns:
      *
      * <P>
-     * 
+     *
      * <PRE>
      * ------------------------------------
-     *     Name             Contact          
-     * First  Last      Email       Phone  
+     *     Name             Contact
+     * First  Last      Email       Phone
      * ------------------------------------
      * Bob    Jones  bob@foo.com   123-4567
      * John   Doe    john@foo.com  456-7890
@@ -390,7 +394,7 @@ public abstract class MultiColumnPrinter implements Serializable {
 
     /**
      * Prints the multi-column table.
-     * 
+     *
      * @param printTitle Specifies if the title rows should be printed.
      */
     public void print(boolean printTitle) {
@@ -414,8 +418,9 @@ public abstract class MultiColumnPrinter implements Serializable {
                 // This happens when a field to be listed is null.
                 // None of the fields should be null, but if it
                 // happens to be so, replace it with "-".
-                if (row[i] == null)
+                if (row[i] == null) {
                     row[i] = "-";
+                }
 
                 int len = getItemLength(row[i]);
 
@@ -457,13 +462,15 @@ public abstract class MultiColumnPrinter implements Serializable {
                 // This happens when a field to be listed is null.
                 // None of the fields should be null, but if it
                 // happens to be so, replace it with "-".
-                if (row[i] == null)
+                if (row[i] == null) {
                     row[i] = "-";
+                }
 
                 int itemLen = getItemLength(row[i]);
 
-                if (curLength[i] < itemLen)
+                if (curLength[i] < itemLen) {
                     curLength[i] = itemLen;
+                }
             }
         }
 
@@ -487,8 +494,9 @@ public abstract class MultiColumnPrinter implements Serializable {
                 for (int i = 0; i < numCol; i++) {
                     int availableSpace = 0, span = curSpan[i], itemLen = getItemLength(row[i]);
 
-                    if (span == 0)
+                    if (span == 0) {
                         continue;
+                    }
 
                     availableSpace = curLength[i];
 
@@ -507,12 +515,14 @@ public abstract class MultiColumnPrinter implements Serializable {
                         printSpaces(space_before);
                         doPrint(getItemString(row[i]));
                         printSpaces(space_after);
-                        if (i < numCol - 1)
+                        if (i < numCol - 1) {
                             printSpaces(gap);
+                        }
                     } else {
                         doPrint(getItemString(row[i]));
-                        if (i < numCol - 1)
+                        if (i < numCol - 1) {
                             printSpaces(availableSpace - itemLen + gap);
+                        }
                     }
 
                 }
@@ -521,10 +531,11 @@ public abstract class MultiColumnPrinter implements Serializable {
             printBorder();
         }
 
-        if (sortNeeded)
+        if (sortNeeded) {
             printSortedTable();
-        else
+        } else {
             printUnsortedTable();
+        }
     }
 
     /*
@@ -542,10 +553,11 @@ public abstract class MultiColumnPrinter implements Serializable {
             // for the key.
             if (keyCriteria != null && keyCriteria.length > 0) {
                 String key = getKey(row);
-                if (key != null)
+                if (key != null) {
                     sortedTable.put(key, row);
-                else
+                } else {
                     sortedTable.put(row[0], row);
+                }
             } else {
                 sortedTable.put(row[0], row);
             }
@@ -643,8 +655,9 @@ public abstract class MultiColumnPrinter implements Serializable {
                 }
             }
         }
-        if (needLineFeed)
+        if (needLineFeed) {
             doPrintln("");
+        }
     }
 
     /**
@@ -666,8 +679,9 @@ public abstract class MultiColumnPrinter implements Serializable {
     private void printBorder() {
 
         int colNum = 1;
-        if (border == null)
+        if (border == null) {
             return;
+        }
 
         /*
          * Print indentation if any

@@ -35,13 +35,13 @@ import com.sun.messaging.jmq.util.log.Logger;
 
 /**
  * @author gsivewright
- * 
+ *
  * This class is used to keep track of which messages have been logged to the transaction log since the last checkpoint.
- * 
+ *
  * This info is required to check if a message removal event also needs to be logged.
- * 
+ *
  * An unlogged message removal will not be replayed and can result in a duplicate.
- * 
+ *
  */
 public class LoggedMessageHelper {
 
@@ -95,8 +95,9 @@ public class LoggedMessageHelper {
                     logger.log(Logger.DEBUG, msg);
                 }
 
-                if (pendingRemove.size() == 0)
+                if (pendingRemove.size() == 0) {
                     pendingRemove.notifyAll();
+                }
             }
         }
     }

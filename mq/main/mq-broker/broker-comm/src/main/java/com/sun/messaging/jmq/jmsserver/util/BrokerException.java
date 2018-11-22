@@ -28,6 +28,11 @@ import com.sun.messaging.jmq.io.Status;
 
 public class BrokerException extends Exception {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -7016435578580516234L;
+
+    /**
      * the "error-code" associated with the problem (if any)
      */
     private String errorID = null;
@@ -200,18 +205,18 @@ public class BrokerException extends Exception {
 
     /*
      * public String toString() { String str = ""; if (errorID != null) str += errorID + ": ";
-     * 
+     *
      * str += super.toString();
-     * 
+     *
      * if (getCause() != null) str += "[" + getCause().toString() +"]";
-     * 
+     *
      * return str; }
-     * 
+     *
      * public void printStackTrace() { printStackTrace(System.err); }
-     * 
+     *
      * public void printStackTrace(java.io.PrintStream s) { if (thr != null) thr.printStackTrace(s); else
      * super.printStackTrace(s); }
-     * 
+     *
      * public void printStackTrace(java.io.PrintWriter w) { if (thr != null) thr.printStackTrace(w); else
      * super.printStackTrace(w); }
      */

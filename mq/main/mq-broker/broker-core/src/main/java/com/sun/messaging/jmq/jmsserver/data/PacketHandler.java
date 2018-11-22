@@ -24,7 +24,6 @@ import java.io.IOException;
 import java.util.Hashtable;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.security.Principal;
 import java.security.AccessControlException;
@@ -35,7 +34,6 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
@@ -71,7 +69,7 @@ public abstract class PacketHandler {
 
     /**
      * method to handle processing the specific packet associated with this PacketHandler
-     * 
+     *
      * @returns true if the packet can be freed
      */
     public abstract boolean handle(IMQConnection con, Packet msg) throws BrokerException;
@@ -248,8 +246,9 @@ public abstract class PacketHandler {
             return;
         }
         ServiceRestriction[] srs = service.getServiceRestrictions();
-        if (srs == null)
+        if (srs == null) {
             return;
+        }
         ServiceRestriction sr = null;
         for (int i = 0; i < srs.length; i++) {
             sr = srs[i];
@@ -258,15 +257,18 @@ public abstract class PacketHandler {
                 String dest = (String) prop.get("JMQDestination");
                 int dtype = ((Integer) prop.get("JMQDestType")).intValue();
                 if (id == PacketType.CREATE_DESTINATION) {
-                    if (!checkForAutoCreate(dest, dtype))
+                    if (!checkForAutoCreate(dest, dtype)) {
                         return;
+                    }
                     DestinationUID duid = DestinationUID.getUID(dest, DestType.isQueue(dtype));
                     DestinationSpi[] ds = coreLifecycle.getDestination(con.getPartitionedStore(), duid);
                     DestinationSpi d = ds[0];
-                    if (d != null)
+                    if (d != null) {
                         return;
-                    if (DestType.isQueue(dtype) && DestType.isTemporary(dtype))
+                    }
+                    if (DestType.isQueue(dtype) && DestType.isTemporary(dtype)) {
                         return;
+                    }
                     String[] args = { Thread.currentThread().getName(), dest, service.toString(), sr.toString(true) };
                     String emsg = Globals.getBrokerResources().getKString(BrokerResources.X_SERVICE_RESTRICTION_AUTO_CREATE_DEST, args);
                     logger.log(logger.WARNING, emsg);
@@ -327,6 +329,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
     ArrayList<Request> requests = new ArrayList<Request>();
     boolean notified = false;
 
+    @Override
     public void serviceRestrictionChanged(Service s) {
         synchronized (lock) {
             notified = true;
@@ -334,6 +337,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
         }
     }
 
+    @Override
     public void connectionClosed(Connection con) {
         if (PacketHandler.getDEBUG()) {
             logger.log(logger.INFO, "MasterBrokerWaiter.connectionClosed(): " + con);
@@ -418,6 +422,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
             this.rq = rq;
         }
 
+        @Override
         public void run() {
             waiter.requestTimedout(rq);
         }
@@ -476,6 +481,7 @@ class MasterBrokerWaiter extends Thread implements ServiceRestrictionListener, C
         }
     }
 
+    @Override
     public void run() {
 
         long logtime = 0L;

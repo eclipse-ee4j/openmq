@@ -18,7 +18,6 @@ package com.sun.messaging.bridge.service.jms;
 
 import java.util.ArrayList;
 import java.util.Properties;
-import java.util.Iterator;
 import java.util.ResourceBundle;
 import java.util.concurrent.RejectedExecutionException;
 import org.jvnet.hk2.annotations.Service;
@@ -32,7 +31,7 @@ import com.sun.messaging.bridge.api.BridgeCmdSharedReplyData;
 import com.sun.messaging.bridge.api.JMSBridgeStore;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -44,11 +43,12 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
     private String _name = null;
 
     private State _state = State.STOPPED;
-    private JMSBridge _jmsbridge = null;;
+    private JMSBridge _jmsbridge = null;
 
     public BridgeImpl() {
-    };
+    }
 
+    @Override
     public synchronized void asyncStartCompleted() throws Exception {
         if (_state == State.STARTING) {
             _state = State.STARTED;
@@ -58,6 +58,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
                 "Received bridge async start completion notification on unexpected state " + _state.toString(JMSBridge.getJMSBridgeResources()));
     }
 
+    @Override
     public synchronized void asyncStartFailed() throws Exception {
         if (_state == State.STARTING) {
             _state = State.STOPPED;
@@ -77,6 +78,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @throws Exception if unable to start the bridge
      */
+    @Override
     public synchronized boolean start(BridgeContext bc, String[] args) throws Exception {
 
         String linkName = parseLinkName(args);
@@ -134,6 +136,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @throws Exception if unable to pause the bridge
      */
+    @Override
     public synchronized void pause(BridgeContext bc, String[] args) throws Exception {
 
         String linkName = parseLinkName(args);
@@ -146,8 +149,9 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             return;
         }
 
-        if (_state == State.PAUSED)
+        if (_state == State.PAUSED) {
             return;
+        }
         if (_state != State.STARTED) {
             throw new IllegalStateException(JMSBridge.getJMSBridgeResources().getKString(JMSBridge.getJMSBridgeResources().X_PAUSE_NOT_ALLOWED_STATE,
                     _state.toString(JMSBridge.getJMSBridgeResources())));
@@ -167,7 +171,6 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
                 _jmsbridge.stop(parseLinkName(args));
             } catch (Throwable t) {
             }
-            ;
             throw e;
         }
     }
@@ -180,6 +183,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @throws Exception if unable to resume the bridge
      */
+    @Override
     public synchronized void resume(BridgeContext bc, String[] args) throws Exception {
 
         String linkName = parseLinkName(args);
@@ -192,8 +196,9 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             return;
         }
 
-        if (_state == State.STARTED)
+        if (_state == State.STARTED) {
             return;
+        }
         if (_state != State.PAUSED) {
             throw new IllegalStateException(JMSBridge.getJMSBridgeResources().getKString(JMSBridge.getJMSBridgeResources().X_RESUME_NOT_ALLOWED_STATE,
                     _state.toString(JMSBridge.getJMSBridgeResources())));
@@ -225,6 +230,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @throws Exception if unable to stop the bridge
      */
+    @Override
     public synchronized void stop(BridgeContext bc, String[] args) throws Exception {
         if (_jmsbridge == null) {
             _state = State.STOPPED;
@@ -241,8 +247,9 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
             return;
         }
 
-        if (_state == State.STOPPED)
+        if (_state == State.STOPPED) {
             return;
+        }
 
         State oldstate = _state;
         _state = State.STOPPING;
@@ -268,6 +275,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @throws Exception if unable to stop the bridge
      */
+    @Override
     public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception {
         JMSBridge jb = getJMSBridge();
         if (jb == null) {
@@ -305,6 +313,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @return the type of the bridge
      */
+    @Override
     public String getType() {
         return _type;
     }
@@ -313,6 +322,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @return true if multiple of this type of bridge can coexist
      */
+    @Override
     public boolean isMultipliable() {
         return true;
     }
@@ -320,6 +330,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
     /**
      * Set the bridge's name
      */
+    @Override
     public void setName(String name) {
         _name = name;
     }
@@ -328,10 +339,12 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @return the bridge's name
      */
+    @Override
     public String getName() {
         return _name;
     }
 
+    @Override
     public String toString() {
         return _name + "[" + getState() + "]";
     }
@@ -340,6 +353,7 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @return a string representing the bridge's status (length <= 15, uppercase)
      */
+    @Override
     public synchronized State getState() {
         return _state;
     }
@@ -348,12 +362,15 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      *
      * @return an object of exported service corresponding to the className
      */
+    @Override
     public Object getExportedService(Class c, Properties props) throws Exception {
 
-        if (c == null)
+        if (c == null) {
             throw new IllegalArgumentException("null class");
-        if (props == null)
+        }
+        if (props == null) {
             throw new IllegalArgumentException("null props");
+        }
 
         if (!c.getName().equals(JMSBridgeStore.class.getName())) {
             throw new IllegalArgumentException("Unexpected class " + c);
@@ -365,12 +382,14 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
      * The passed args must ensure correct options
      */
     private String parseLinkName(String[] args) {
-        if (args == null)
+        if (args == null) {
             return null;
+        }
 
         for (int n = 0; n < args.length; n++) {
-            if (args[n].equals("-ln"))
+            if (args[n].equals("-ln")) {
                 return args[++n];
+            }
         }
 
         return null;
@@ -379,24 +398,28 @@ public class BridgeImpl implements Bridge, AsyncStartListener {
     /**
      */
     private boolean parseResetArg(String[] args) {
-        if (args == null)
+        if (args == null) {
             return false;
+        }
 
         for (int n = 0; n < args.length; n++) {
-            if (args[n].equals("-reset"))
+            if (args[n].equals("-reset")) {
                 return true;
+            }
         }
 
         return false;
     }
 
     private boolean parseDebugModeArg(String[] args) {
-        if (args == null)
+        if (args == null) {
             return false;
+        }
 
         for (int n = 0; n < args.length; n++) {
-            if (args[n].equals("-debug"))
+            if (args[n].equals("-debug")) {
                 return true;
+            }
         }
 
         return false;

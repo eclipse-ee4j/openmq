@@ -31,28 +31,28 @@ public interface JMSManager {
 
     /**
      * Set an instance of the external manager.
-     * 
+     *
      * @param externalManager JMS manager.
      */
     void setExternalManager(ExternalManager externalManager);
 
     /**
      * Get an instance of the external manager.
-     * 
+     *
      * @return manager set by a previous set call.
      */
     ExternalManager getExternalManager();
 
     /**
      * Start an instance of the JMS Service within the current java virtual machine.
-     * 
+     *
      * @exception JMSException thrown if start not successful.
      */
     void startJMSService() throws JMSException;
 
     /**
      * Stop the instance of the JMS Service running within the current java virtual machine.
-     * 
+     *
      * @exception JMSException thrown if stop not successful.
      */
     void stopJMSService() throws JMSException;

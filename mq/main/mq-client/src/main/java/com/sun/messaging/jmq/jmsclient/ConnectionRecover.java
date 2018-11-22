@@ -165,7 +165,7 @@ public class ConnectionRecover implements Runnable {
 
         /**
          * fix for bug 6520902 - client runtime gave up reconnecting.
-         * 
+         *
          * The state must be set before the thread is started. This makes it impossible to have the recover thread to finish
          * before the state is set to STARTED again.
          */
@@ -184,6 +184,7 @@ public class ConnectionRecover implements Runnable {
      *
      *
      */
+    @Override
     public void run() {
 
         // set the current thread reference.
@@ -435,7 +436,7 @@ public class ConnectionRecover implements Runnable {
         // clean up closed consumer
         while (v.isEmpty() == false) {
             Object o = v.firstElement();
-            connection.interestTable.remove((Consumer) o);
+            connection.interestTable.remove(o);
             v.remove(o);
         }
 
@@ -597,13 +598,13 @@ public class ConnectionRecover implements Runnable {
             }
 
         } catch (InterruptedException e) {
-            ;
+            
         }
     }
 
     /**
      * log recover state.
-     * 
+     *
      * @param state the current recover state.
      */
     private void logRecoverState(int state) {

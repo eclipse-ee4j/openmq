@@ -25,7 +25,7 @@ public interface XAResourceForJMQ {
 
     /**
      * Return whether this XAResourceForJMQ and the specified XAResourceForJMQ represent the same resource manager instance.
-     * 
+     *
      * This is determined by checking whether the two resources have the same brokerSessionID
      *
      * @param xaResource XAResourceForJMQ
@@ -35,21 +35,21 @@ public interface XAResourceForJMQ {
 
     /**
      * Return the brokerSessionID of this object's connection
-     * 
+     *
      * @return
      */
     public long getBrokerSessionID();
 
     /**
      * Return whether this XAResource is in the COMPLETE state. This state is reached when end(TMSUCCESS) is called
-     * 
+     *
      * @return
      */
     public boolean isComplete();
 
     /**
      * Clean up the state of this object following a commit or rollback, ready for it to be used again if necessary
-     * 
+     *
      * @throws JMSException
      */
     public void clearTransactionInfo() throws JMSException;

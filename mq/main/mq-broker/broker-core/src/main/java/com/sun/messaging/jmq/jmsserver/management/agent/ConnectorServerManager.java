@@ -239,6 +239,7 @@ public class ConnectorServerManager implements NotificationListener {
         }
     }
 
+    @Override
     public void handleNotification(Notification notification, Object handback) {
         if (notification instanceof JMXConnectionNotification) {
             JMXConnectionNotification jmxc = (JMXConnectionNotification) notification;

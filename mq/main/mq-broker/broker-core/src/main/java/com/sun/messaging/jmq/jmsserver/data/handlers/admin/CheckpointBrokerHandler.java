@@ -20,7 +20,6 @@ import java.util.Hashtable;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
@@ -36,7 +35,7 @@ public class CheckpointBrokerHandler extends AdminCmdHandler {
 
     /**
      * Handle the incomming administration message.
-     * 
+     *
      * @param con The Connection the message came in on.
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
@@ -46,6 +45,7 @@ public class CheckpointBrokerHandler extends AdminCmdHandler {
         DL.doCheckpoint(null, true);
     }
 
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

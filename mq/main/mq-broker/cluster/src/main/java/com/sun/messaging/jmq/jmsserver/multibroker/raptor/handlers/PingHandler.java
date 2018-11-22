@@ -23,8 +23,6 @@ package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 import java.io.*;
 import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
@@ -50,6 +48,7 @@ public class PingHandler extends GPacketHandler {
         logreq.compareAndSet(0, 2);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         if (pkt.getType() == ProtocolGlobals.G_PING) {
 

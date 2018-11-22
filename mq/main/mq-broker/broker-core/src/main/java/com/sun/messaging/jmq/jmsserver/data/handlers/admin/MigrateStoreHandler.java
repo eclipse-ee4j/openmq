@@ -20,11 +20,6 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
-import java.util.HashSet;
-import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -39,7 +34,6 @@ import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.persist.api.ReplicableStore;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
@@ -49,8 +43,6 @@ import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.OperationNotAllowedException;
-import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.util.admin.MessageType;
@@ -72,6 +64,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
         boolean noop = true;
         int status = Status.OK;
@@ -304,6 +297,7 @@ public class MigrateStoreHandler extends AdminCmdHandler {
                         final long totalwait = Globals.getConfig().getIntProperty(MAX_WAIT_ADMIN_CLIENT_PROP, DEFAULT_MAX_WAIT_ADMIN_CLIENT) * 1000L;
                         final IMQConnection conn = con;
                         Executors.newSingleThreadExecutor().execute(new Runnable() {
+                            @Override
                             public void run() {
                                 try {
 

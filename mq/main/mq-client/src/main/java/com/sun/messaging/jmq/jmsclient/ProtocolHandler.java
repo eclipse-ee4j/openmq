@@ -252,7 +252,7 @@ public class ProtocolHandler {
 
     /**
      * set time to ping flag
-     * 
+     *
      * @param pflag timeToPing flag.
      */
     protected void setTimeToPing(boolean pflag) {
@@ -261,7 +261,7 @@ public class ProtocolHandler {
 
     /**
      * get time to ping flag.
-     * 
+     *
      * @return timeToPing.
      */
     protected boolean getTimeToPing() {
@@ -505,7 +505,7 @@ public class ProtocolHandler {
     /*
      * private int writePacketWithAckStatus(ReadWritePacket pkt, int expectedAckType) throws JMSException { int packetType =
      * -1; int statusCode = -1;
-     * 
+     *
      * ReadOnlyPacket ack = writePacketWithAck(pkt); try { Hashtable ackProperties = ack.getProperties(); Integer value =
      * (Integer) ackProperties.get("JMQStatus"); statusCode = value.intValue(); packetType = ack.getPacketType(); } catch
      * (IOException e) { ExceptionHandler.handleException(e, AdministeredObject.cr.X_NET_ACK, true); } catch
@@ -915,7 +915,7 @@ public class ProtocolHandler {
         byte[] reqData, resData;
         ReadWritePacket response;
         Hashtable properties;
-        Hashtable authProperties = (Hashtable) connection.getConfiguration();
+        Hashtable authProperties = connection.getConfiguration();
         AuthenticationProtocolHandler hd = null;
         ReadWritePacket request = (ReadWritePacket) authRequest;
 
@@ -1927,7 +1927,7 @@ public class ProtocolHandler {
 
     /**
      * Set client ID.
-     * 
+     *
      * @param clientID the client ID to be verified by the broker.
      */
     public void setClientID(String clientID) throws JMSException {
@@ -2379,9 +2379,9 @@ public class ProtocolHandler {
     /**
      * Send auto acknowledge packet to the broker. Default for ackAck is true for auto/client acknowledge. Turn this off if
      * system property ackAck is set to false.
-     * 
+     *
      * @param pkt the auto acknowledge packet sent to the broker.
-     * 
+     *
      * @exception JMSException any internal errors caused by the ReadWritePacket IO.
      */
     public void acknowledge(ReadWritePacket pkt) throws JMSException {
@@ -2694,7 +2694,7 @@ public class ProtocolHandler {
 
     /**
      * prepare HA transaction for stand alone client.
-     * 
+     *
      * @param transactionID long
      * @throws TransactionRolledBackException if prepare failed.
      */
@@ -2791,7 +2791,7 @@ public class ProtocolHandler {
 
     /**
      * stand alone client calls this method to verify a transaction after failover.
-     * 
+     *
      * @param transactionID
      * @param tstate
      * @return
@@ -2803,15 +2803,15 @@ public class ProtocolHandler {
 
     /**
      * Verify transaction -- XA uses this to verify a transaction.
-     * 
+     *
      * The transaction ID is 0 when Xid contains a value.
-     * 
+     *
      * @param transactionID long
      * @return the state of transaction.
      *
      * 1 CREATED 2 STARTED 3 FAILED 4 INCOMPLETE 5 COMPLETE 6 PREPARED 7 COMMITED 8 ROLLEDBACK 9 TIMEDOUT
      *
-     * 
+     *
      * @throws JMSException
      */
     public int verifyHATransaction(long transactionID, int tstate, JMQXid xid) throws JMSException {
@@ -2901,7 +2901,7 @@ public class ProtocolHandler {
 
     /**
      * Prepare a transaction (XA only).
-     * 
+     *
      */
     public void prepare(long transactionID, JMQXid xid, boolean onePhase) throws JMSException {
         ReadWritePacket pkt = new ReadWritePacket();
@@ -3577,8 +3577,9 @@ public class ProtocolHandler {
         Hashtable ackProperties = getReplyProperties(ack);
         Long value = (Long) ackProperties.get("JMQNextTransactionID");
 
-        if (value != null)
+        if (value != null) {
             nextTransactionID = value.longValue();
+        }
 
         return nextTransactionID;
 
@@ -3602,7 +3603,7 @@ public class ProtocolHandler {
 
     /**
      * Get properties object from reply packet.
-     * 
+     *
      * @param ack the reply packet.
      * @return The hashtable in the reply pkt.
      * @throws JMSException if any internal error occurs.
@@ -3763,7 +3764,7 @@ public class ProtocolHandler {
 
     /**
      * Send Ping Packet to the broker.
-     * 
+     *
      * @throws JMSException
      */
     public void ping() throws JMSException {
@@ -3782,7 +3783,7 @@ public class ProtocolHandler {
 
     /**
      * Send Ping reply Packet to the broker.
-     * 
+     *
      * @throws JMSException
      */
     public void pingReply(ReadOnlyPacket ping) throws JMSException {
@@ -3833,7 +3834,7 @@ public class ProtocolHandler {
 
     /**
      * redirect the connection to the new url.
-     * 
+     *
      * @return String
      */
     public void redirect(String url) throws JMSException {
@@ -3885,7 +3886,7 @@ public class ProtocolHandler {
 
     /**
      * this method id called from UnifiedSessionImpl. if this is true, we don't need to send client ID again.
-     * 
+     *
      * @return
      */
     protected boolean isClientIDsent() {
@@ -3898,7 +3899,7 @@ public class ProtocolHandler {
 
     /**
      * Return whether we are using direct mode, using two-threads rather than four
-     * 
+     *
      * @return
      */
     public boolean isDirectModeTwoThread() {
@@ -3908,20 +3909,21 @@ public class ProtocolHandler {
     /**
      * Return whether we are using direct mode, using two-threads rather than four, and receiving replies synchronusly using
      * a ThreadLocal
-     * 
+     *
      * @return
      */
     public boolean isDirectModeTwoThreadWithSyncReplies() {
         return (isDirectModeTwoThread() && BrokerInstanceImpl.isTwoThreadSyncReplies);
     }
 
+    @Override
     public String toString() {
         return connectionHandler.toString();
     }
 
     /**
      * add destination/validator entry if TextMessage is to be validated when sending to this destination.
-     * 
+     *
      * @param dest
      * @param ack
      * @throws JMSException
@@ -3987,7 +3989,7 @@ public class ProtocolHandler {
 
     /**
      * Specify a ReplyDispatcher that can be used by an embedded broker to process reply packets if required
-     * 
+     *
      * This can safely be called in all cases, but is only used with an embedded broker using two threads and sync replies
      *
      * @param rd a ReplyDispatcher that can be used by an embedded broker to process reply packets
@@ -4001,7 +4003,7 @@ public class ProtocolHandler {
     /**
      * Return a long that uniquely represents this connection uniquely within this JVM and which can be used to construct
      * the name of temporary connections
-     * 
+     *
      * @return
      */
     public long getConnID() {

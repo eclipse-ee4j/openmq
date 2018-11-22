@@ -22,7 +22,7 @@ public abstract class ClientRuntime {
 
     /**
      * Get an instance of client runtime object.
-     * 
+     *
      * @return an instance of client runtime object.
      */
     public static ClientRuntime getRuntime() {
@@ -31,15 +31,15 @@ public abstract class ClientRuntime {
 
     /**
      * Create the singleton broker instance. Only one instance can be created per JVM.
-     * 
-     * 
+     *
+     *
      * @see BrokerInstance
      */
     public abstract BrokerInstance createBrokerInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException;
 
     /**
      * Check if there is an embedded broker running in the current JVM.
-     * 
+     *
      * @return true if it is. Otherwise, return false.
      */
     public abstract boolean isEmbeddedBrokerRunning();

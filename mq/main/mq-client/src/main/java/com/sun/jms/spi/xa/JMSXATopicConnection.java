@@ -32,7 +32,7 @@ public interface JMSXATopicConnection extends JMSXAConnection {
 
     /**
      * Create an XATopicSession.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
 
@@ -40,7 +40,7 @@ public interface JMSXATopicConnection extends JMSXAConnection {
 
     /**
      * get a TopicConnection associated with this XATopicConnection object.
-     * 
+     *
      * @return a TopicConnection.
      */
 

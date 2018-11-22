@@ -45,7 +45,7 @@ import com.sun.messaging.jmq.util.FileUtil;
  *     System.out.println(
  *             "Usage:" + "\n\tjava PasswdDB -add <user_name> " + "-password <password>" + "\n\tjava PasswdDB -delete <user_name>" + "\n\tjava PasswdDB -list");
  * }
- * 
+ *
  * public static void main(String[] args) {
  *     if (args.length <= 0) {
  *         usage();

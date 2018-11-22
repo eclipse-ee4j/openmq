@@ -24,10 +24,10 @@ public interface SendService {
 
     /**
      * Send a SOAP message to MQ.
-     * 
-     * 
+     *
+     *
      * @param message the soap message to be sent to MQ.
-     * 
+     *
      * @throws JMSException if any internal error occurred to send the message.
      */
     public void send(SOAPMessage message) throws JMSException;
@@ -42,7 +42,7 @@ public interface SendService {
 
     /**
      * Close the send service resources.
-     * 
+     *
      * @throws JMSException
      */
     public void close() throws JMSException;

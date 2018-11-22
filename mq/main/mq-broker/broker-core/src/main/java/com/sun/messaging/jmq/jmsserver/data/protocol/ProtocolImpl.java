@@ -79,7 +79,7 @@ import com.sun.messaging.jmq.util.selector.Selector;
 import com.sun.messaging.jmq.util.selector.SelectorFormatException;
 
 /**
- * 
+ *
  * Api used for direct access to the broker. This code is not integrated into the handler classes because the
  * interaction (e.g. when callbacks happen) is different for the jms protocol and other protocols.
  */
@@ -98,6 +98,7 @@ public class ProtocolImpl implements Protocol {
         pr = router;
     }
 
+    @Override
     public boolean getDEBUG() {
         return DEBUG;
     }
@@ -109,6 +110,7 @@ public class ProtocolImpl implements Protocol {
      * </p>
      */
 
+    @Override
     public void hello() {
         // does nothing
     }
@@ -119,6 +121,7 @@ public class ProtocolImpl implements Protocol {
      * Packet:<B>AUTHENTICATE</b>
      * </p>
      */
+    @Override
     public void authenticate(String username, String password) throws BrokerException {
         /*
          * TBD - currently does nothing
@@ -131,6 +134,7 @@ public class ProtocolImpl implements Protocol {
      * Packet:<B>GOODBYE</b>
      * </p>
      */
+    @Override
     public void goodbye() {
         // does nothing
     }
@@ -144,6 +148,7 @@ public class ProtocolImpl implements Protocol {
      * @returns a hashtable with license info
      */
 
+    @Override
     public Hashtable getLicense() {
         // does nothing
         return new Hashtable();
@@ -159,6 +164,7 @@ public class ProtocolImpl implements Protocol {
      * @returns a hashtable with broker/cluster information
      */
 
+    @Override
     public Hashtable getInfo(boolean cluster) {
         // currently does nothing
         return new Hashtable();
@@ -171,6 +177,7 @@ public class ProtocolImpl implements Protocol {
      * </p>
      */
 
+    @Override
     public void ping() {
         // does nothing
     }
@@ -181,6 +188,7 @@ public class ProtocolImpl implements Protocol {
      * Packet:<B>FLOW_PAUSED</b>
      * </p>
      */
+    @Override
     public void flowPaused(int size) {
         throw new UnsupportedOperationException("flow paused is not supported by the client");
     }
@@ -205,6 +213,7 @@ public class ProtocolImpl implements Protocol {
      * @param ids list of message ids to process
      * @param cids list of consumerIDs associated with a message, should directly correspond to the same index in ids
      */
+    @Override
     public void acknowledge(IMQConnection con, TransactionUID tid, boolean validate, int ackType, Throwable exception, String deadComment, int deliverCnt,
             SysMessageID ids[], ConsumerUID cids[]) throws BrokerException, IOException {
         if (DEBUG) {
@@ -258,6 +267,7 @@ public class ProtocolImpl implements Protocol {
      * @throws BrokerException if the clientId can not be set
      */
 
+    @Override
     public void setClientID(IMQConnection con, String clientID, String namespace, boolean share) throws BrokerException {
         ClientIDHandler handler = (ClientIDHandler) pr.getHandler(PacketType.SET_CLIENTID);
         handler.setClientID(con, clientID, namespace, share);
@@ -274,6 +284,7 @@ public class ProtocolImpl implements Protocol {
      * @param uid a unique string used for finding the producer
      * @throws BrokerException if the producer can not be created
      */
+    @Override
     public Producer addProducer(Destination d, IMQConnection con, String uid, boolean acc) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "ProtocolImpl.addProducer(d=" + d + ", uid=" + uid + ", acc=" + acc + ") on conn=@" + con.hashCode() + "["
@@ -298,11 +309,13 @@ public class ProtocolImpl implements Protocol {
      * @param uid a unique string used for finding the producer
      * @throws BrokerException if the producer can not be created
      */
+    @Override
     public void removeProducer(ProducerUID uid, IMQConnection con, String suid) throws BrokerException {
         ProducerHandler handler = (ProducerHandler) pr.getHandler(PacketType.ADD_PRODUCER);
         handler.removeProducer(uid, false, con, suid);
     }
 
+    @Override
     public void resumeFlow(IMQConnection con, int bufsize) {
         FlowHandler handler = (FlowHandler) pr.getHandler(PacketType.RESUME_FLOW);
         handler.connectionFlow(con, bufsize);
@@ -317,6 +330,7 @@ public class ProtocolImpl implements Protocol {
      * @param bufsize size of the buffer to receive (-1 indicates unlimited)
      * @param con the consumer to resume
      */
+    @Override
     public void resumeFlow(Consumer con, int bufsize) {
         FlowHandler handler = (FlowHandler) pr.getHandler(PacketType.RESUME_FLOW);
         handler.consumerFlow(con, bufsize);
@@ -332,17 +346,20 @@ public class ProtocolImpl implements Protocol {
      * @param ids a list of id's to deliver
      * @return an ArrayList of packets
      */
+    @Override
     public ArrayList deliver(long cid, ArrayList ids) throws BrokerException, IOException {
         ArrayList returnlist = new ArrayList();
         Iterator itr = ids.iterator();
         while (itr.hasNext()) {
             SysMessageID id = (SysMessageID) itr.next();
             PacketReference ref = DL.get(null, id);
-            if (ref == null)
+            if (ref == null) {
                 continue;
+            }
             Packet realp = ref.getPacket();
-            if (ref.isInvalid())
+            if (ref.isInvalid()) {
                 continue;
+            }
             Packet p = new Packet(false /* use direct buffers */);
             p.fill(realp);
             p.setConsumerID(cid);
@@ -362,6 +379,7 @@ public class ProtocolImpl implements Protocol {
      * @param ids a list of id's to deliver
      * @return an ArrayList of packets
      */
+    @Override
     public ArrayList redeliver(TransactionUID tid, ConsumerUID cids[], SysMessageID[] ids, boolean redeliver) throws BrokerException {
         // does nothing currently
         // XXX - TBD
@@ -373,10 +391,11 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>CREATE_SESSION</b>
      * </p>
-     * 
+     *
      * @param ackType acknowledge type to use
      * @param con connection to attach the session to
      */
+    @Override
     public Session createSession(int ackType, IMQConnection con) throws BrokerException {
 
         Object obj = new Object();
@@ -391,10 +410,11 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>DESTROY_SESSION</b>
      * </p>
-     * 
+     *
      * @param uid sessionUID to destroy
      * @param con connection to deattach the session from
      */
+    @Override
     public void destroySession(SessionUID uid, IMQConnection con) throws BrokerException {
         SessionHandler handler = (SessionHandler) pr.getHandler(PacketType.CREATE_SESSION);
 
@@ -406,13 +426,15 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>STOP</b>
      * </p>
-     * 
+     *
      * @param uid session to pause
      */
+    @Override
     public void pauseSession(SessionUID uid) throws BrokerException {
         Session ses = Session.getSession(uid);
-        if (ses == null)
+        if (ses == null) {
             throw new BrokerException("No session for " + uid);
+        }
         ses.pause("PROTOCOL");
     }
 
@@ -421,13 +443,15 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>START</b>
      * </p>
-     * 
+     *
      * @param uid session to resume
      */
+    @Override
     public void resumeSession(SessionUID uid) throws BrokerException {
         Session ses = Session.getSession(uid);
-        if (ses == null)
+        if (ses == null) {
             throw new BrokerException("No session for " + uid);
+        }
         ses.resume("PROTOCOL");
     }
 
@@ -436,9 +460,10 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>STOP</b>
      * </p>
-     * 
+     *
      * @param con connection to pause
      */
+    @Override
     public void pauseConnection(IMQConnection con) {
         con.stopConnection();
     }
@@ -448,9 +473,10 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<B>START</b>
      * </p>
-     * 
+     *
      * @param con connection to start
      */
+    @Override
     public void resumeConnection(IMQConnection con) {
         con.startConnection();
     }
@@ -460,14 +486,16 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<b>BROWSE</b>
      * </p>
-     * 
+     *
      * @param d destination to browse
      * @param sstr selector string to use (or null if none)
      * @return an ordered list of SysMessageIDs
      */
+    @Override
     public ArrayList browseQueue(Destination d, String sstr, IMQConnection con, boolean acc) throws BrokerException, SelectorFormatException {
-        if (acc)
+        if (acc) {
             checkAccessPermission(PacketType.BROWSE, d, con);
+        }
         QBrowseHandler handler = (QBrowseHandler) pr.getHandler(PacketType.BROWSE);
         return handler.getQBrowseList(d, sstr);
     }
@@ -477,7 +505,7 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<b>ADD_CONSUMER</b>
      * </p>
-     * 
+     *
      * @param d Destination to create the consumer on
      * @param con Connection associated with the consumer
      * @param session session associated with the consumer
@@ -494,6 +522,7 @@ public class ProtocolImpl implements Protocol {
      * sysmessageid)
      * @return a consumer
      */
+    @Override
     public Consumer createConsumer(Destination d, IMQConnection con, Session session, String selector, String clientid, String subscriptionName,
             boolean durable, boolean share, boolean jmsshare, boolean nolocal, int size, String creator_uid, boolean acc, boolean useFlowControl)
             throws BrokerException, SelectorFormatException, IOException {
@@ -528,10 +557,12 @@ public class ProtocolImpl implements Protocol {
         }
         Consumer[] c = handler.createConsumer(d.getDestinationUID(), con, session, selectorstr, clientid, subscriptionName, durable, share, jmsshare, nolocal,
                 size, creator_uid, false, useFlowControl);
-        if (c[2] != null)
+        if (c[2] != null) {
             c[2].resume("Resuming from protocol");
-        if (c[1] != null)
+        }
+        if (c[1] != null) {
             c[1].resume("Resuming from protocol");
+        }
         return c[0];
     }
 
@@ -540,10 +571,11 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<b>DELETE_CONSUMER</b>
      * </P>
-     * 
+     *
      * @param durableName durable name associated with the subscription
      * @param clientID clientID associated with the subscription
      */
+    @Override
     public void unsubscribe(String durableName, String clientID, IMQConnection con) throws BrokerException {
         ConsumerHandler handler = (ConsumerHandler) pr.getHandler(PacketType.ADD_CONSUMER);
         handler.destroyConsumer(con, null, null, durableName, clientID, null, false, false, false);
@@ -554,12 +586,13 @@ public class ProtocolImpl implements Protocol {
      * <P>
      * Packet:<b>DELETE_CONSUMER</b>
      * </P>
-     * 
+     *
      * @param uid ConsumerUID to close.
      * @param session session associated with the consumer.
      * @param lastid last message id seen by application
      * @param con Connection associated with the consumer (used for retrieving protocol version).
      */
+    @Override
     public void destroyConsumer(ConsumerUID uid, Session session, SysMessageID lastid, boolean lastidInTransaction, IMQConnection con) throws BrokerException {
         ConsumerHandler handler = (ConsumerHandler) pr.getHandler(PacketType.ADD_CONSUMER);
         handler.destroyConsumer(con, session, uid, null, null, lastid, lastidInTransaction, (lastid == null), false);
@@ -567,12 +600,13 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * End a transaction.
-     * 
+     *
      * @param id The TransactionUID to end
      * @param xid The Xid of the transaction to end. Required if transaction is an XA transaction. Must be null if it is not
      * an XA transaction.
      * @param xaFlags xaFlags passed on END operation. Used only if an XA transaction.
      */
+    @Override
     public void endTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException {
 
         if (DEBUG) {
@@ -595,7 +629,7 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Start a transaction.
-     * 
+     *
      * @param xid The Xid of the transaction to start. Required if transaction is an XA transaction. Must be null if it is
      * not an XA transaction.
      * @param xaFlags xaFlags passed on START operation. Used only if an XA transaction.
@@ -604,6 +638,7 @@ public class ProtocolImpl implements Protocol {
      * @param lifetime how long the transaction should live (0 == forever)
      * @return The TransactionUID started
      */
+    @Override
     public TransactionUID startTransaction(JMQXid xid, Integer xaFlags, AutoRollbackType type, long lifetime, IMQConnection con) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "ProtocolImpl.START TRANSACTION:XID=" + xid + ", xaFlags=" + TransactionState.xaFlagToString(xaFlags) + ", type=" + type
@@ -657,13 +692,14 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Commit a transaction.
-     * 
+     *
      * @param id The TransactionUID to commit
      * @param xid The Xid of the transaction to commit. Required if transaction is an XA transaction. Must be null if it is
      * not an XA transaction.
      * @param xaFlags xaFlags passed on COMMIT operation. Used only if an XA transaction.
      * @param con Connection client commit packet came in on (or null if internal)
      */
+    @Override
     public void commitTransaction(TransactionUID id, JMQXid xid, Integer xaFlags, IMQConnection con) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO, "ProtocolImpl.COMMIT TRANSACTION:TID=" + id + ", XID=" + xid + ", xaFlags=" + TransactionState.xaFlagToString(xaFlags)
@@ -720,9 +756,10 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * prepare a transaction.
-     * 
+     *
      * @param id The TransactionUID to prepare
      */
+    @Override
     public void prepareTransaction(TransactionUID id, IMQConnection con) throws BrokerException {
         if (DEBUG) {
             logger.log(Logger.INFO,
@@ -743,7 +780,7 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Rollback a transaction
-     * 
+     *
      * @param id The TransactionUID to rollback
      * @param xid The Xid of the transaction to rollback. Required if transaction is an XA transaction. Must be null if it
      * is not an XA transaction.
@@ -751,6 +788,7 @@ public class ProtocolImpl implements Protocol {
      * @param setRedeliver if the messages are redelivered, should the redeliver flag be set on all messages or not
      * @param con Connection client rollback packet came in on (or null if internal)
      */
+    @Override
     public void rollbackTransaction(TransactionUID id, JMQXid xid, IMQConnection con, boolean redeliver, boolean setRedeliver, int maxRollbacks,
             boolean dmqOnMaxRollbacks) throws BrokerException {
 
@@ -836,9 +874,10 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Recover a transaction.
-     * 
+     *
      * @param id id to recover or null if all
      */
+    @Override
     public JMQXid[] recoverTransaction(TransactionUID id) {
         if (DEBUG) {
             logger.log(Logger.INFO, "ProtocolImpl.RECOVER TRANSACTION:TID=" + id);
@@ -893,7 +932,7 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Verify a destination exists.
-     * 
+     *
      * @param destination destination name
      * @param type DestType of the destination
      * @param selectorstr selector string to verify or null if none
@@ -905,6 +944,7 @@ public class ProtocolImpl implements Protocol {
      * <LI>DestType</LI>
      * </UL>
      */
+    @Override
     public HashMap verifyDestination(String destination, int type, String selectorstr /* may be null */) throws BrokerException, IOException {
 
         HashMap returnmap = new HashMap();
@@ -932,9 +972,10 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * Verify a transaction is PREPARED
-     * 
+     *
      * @param tuid transaction id to verify
      */
+    @Override
     public Map verifyTransaction(TransactionUID tuid) throws BrokerException {
 
         // TransactionHandler handler = (TransactionHandler)
@@ -956,6 +997,7 @@ public class ProtocolImpl implements Protocol {
     /**
      * Redeliver messages
      */
+    @Override
     public void redeliver(ConsumerUID ids[], SysMessageID sysids[], IMQConnection con, TransactionUID tid, boolean redeliver)
             throws BrokerException, IOException {
         RedeliverHandler handler = (RedeliverHandler) pr.getHandler(PacketType.REDELIVER);
@@ -965,6 +1007,7 @@ public class ProtocolImpl implements Protocol {
     /**
      * route, store and forward a message
      */
+    @Override
     public void processMessage(IMQConnection con, Packet msg) throws BrokerException, SelectorFormatException, IOException {
         DataHandler handler = (DataHandler) pr.getHandler(PacketType.MESSAGE);
 
@@ -1004,8 +1047,9 @@ public class ProtocolImpl implements Protocol {
 
         } catch (BrokerException ex) {
             int status = ex.getStatusCode();
-            if (status == Status.ERROR && ref != null && d != null)
+            if (status == Status.ERROR && ref != null && d != null) {
                 handler.cleanupOnError(d, ref);
+            }
 
             // rethrow
             throw ex;
@@ -1031,14 +1075,16 @@ public class ProtocolImpl implements Protocol {
 
     /**
      * create a destination Implemented CREATE_DESTINATION
-     * 
+     *
      * @param dname name of the destination
      * @param dtype type of the destination as a bit flag from DestType
      */
 
+    @Override
     public Destination createDestination(String dname, int dtype, IMQConnection con, boolean acc) throws BrokerException, IOException {
-        if (acc)
+        if (acc) {
             checkAccessPermission(PacketType.CREATE_DESTINATION, dname, dtype, con);
+        }
         if (DestType.isTemporary(dtype)) {
             boolean storeTemps = con.getConnectionUID().getCanReconnect();
             long reconnectTime = con.getReconnectInterval();
@@ -1057,6 +1103,7 @@ public class ProtocolImpl implements Protocol {
     /**
      * destroy a destination Implemented DESTROY_DESTINATION
      */
+    @Override
     public void destroyDestination(DestinationUID duid) throws BrokerException, IOException {
 
         DL.removeDestination(null, duid, true, "request from protocol");
@@ -1070,8 +1117,9 @@ public class ProtocolImpl implements Protocol {
 
     void checkAccessPermission(int pktType, String dname, int dtype, IMQConnection con) throws BrokerException {
         String op = PacketType.mapOperation(pktType);
-        if (op == null)
+        if (op == null) {
             return;
+        }
         PacketHandler handler = pr.getHandler(pktType);
         try {
             handler.checkPermission(pktType, op, dname, dtype, con);

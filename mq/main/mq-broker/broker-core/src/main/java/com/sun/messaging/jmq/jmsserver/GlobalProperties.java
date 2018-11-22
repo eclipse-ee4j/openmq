@@ -88,8 +88,9 @@ public class GlobalProperties implements ConfigListener {
     public static GlobalProperties getGlobalProperties() {
         if (globals == null) {
             synchronized (lock) {
-                if (globals == null)
+                if (globals == null) {
                     globals = new GlobalProperties();
+                }
             }
         }
         return globals;
@@ -105,6 +106,7 @@ public class GlobalProperties implements ConfigListener {
      * @throws PropertyUpdateException the the value is invalid
      *
      */
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
         // dont bother for now
     }
@@ -118,6 +120,7 @@ public class GlobalProperties implements ConfigListener {
      * @return true if the property has taken affect, false if it will not take affect until the next broker restart
      *
      */
+    @Override
     public boolean update(String name, String value) {
         updateProperty(name);
         return true;

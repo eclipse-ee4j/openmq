@@ -20,15 +20,13 @@
 
 package com.sun.messaging.jmq.jmsselector;
 
-import java.util.*;
-
 /*
  * compares 2 objects determines relative order.
- * 
+ *
  * Used by JMSSelector class.
- * 
+ *
  * Uses Singleton
- * 
+ *
  */
 
 /**
@@ -51,7 +49,7 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     }
 
     /**
-     * 
+     *
      */
     public int compare(Object o1, Object o2) throws ClassCastException {
         int result = 0;
@@ -329,6 +327,7 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
     /**
      *
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof com.sun.messaging.jmq.jmsselector.PropertyValueComparator) {
             return true;
@@ -337,6 +336,7 @@ public class PropertyValueComparator { // XX:JAVA2 implements Comparator {
         }
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }

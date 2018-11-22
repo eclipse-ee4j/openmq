@@ -41,22 +41,27 @@ public class ConnectionConfig extends MQMBeanReadWrite {
         return (Long.toString(id));
     }
 
+    @Override
     public String getMBeanName() {
         return ("ConnectionConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_CXN_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (null);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

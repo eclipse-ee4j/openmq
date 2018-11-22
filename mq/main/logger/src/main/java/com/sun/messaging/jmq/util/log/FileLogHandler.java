@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.util.Properties;
 
 import com.sun.messaging.jmq.util.log.RollingFileOutputStream;
-import com.sun.messaging.jmq.resources.SharedResources;
 import com.sun.messaging.jmq.util.StringUtil;
 
 /**
@@ -50,7 +49,7 @@ public class FileLogHandler extends LogHandler {
      * prefixed with the specified prefix.
      * <P>
      * An example of valid properties are:
-     * 
+     *
      * <PRE>
      * imq.log.file.rolloverbytes=10240
      * imq.log.file.rolloversecs=0
@@ -58,9 +57,9 @@ public class FileLogHandler extends LogHandler {
      * imq.log.file.filename=brokerlog
      * imq.log.file.output=ALL
      * </PRE>
-     * 
+     *
      * In this case prefix would be "imq.log.file".
-     * 
+     *
      * <P>
      * As of MQ 3.5, the value that is used to mean 'unlimited' is -1 (although 0 is still supported). To support -1 as an
      * additional way of specifying unlimited, this method will detect if -1 was set for rolloverbytes or rolloversecs
@@ -71,13 +70,14 @@ public class FileLogHandler extends LogHandler {
      *
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      */
+    @Override
     public void configure(Properties props, String prefix) throws IllegalArgumentException {
 
         String value = null;
         String property = null;
         String error_msg = null;
         long bytes = 0L, secs = 0L;
-        ;
+        
 
         prefix = prefix + ".";
 
@@ -192,14 +192,16 @@ public class FileLogHandler extends LogHandler {
     public void setRolloverLimits(long roll_bytes, long roll_secs) {
         if (roll_bytes >= 0) {
             this.roll_bytes = roll_bytes;
-            if (rfos != null)
+            if (rfos != null) {
                 rfos.setRolloverBytes(this.roll_bytes);
+            }
         }
 
         if (roll_secs >= 0) {
             this.roll_secs = roll_secs;
-            if (rfos != null)
+            if (rfos != null) {
                 rfos.setRolloverSecs(this.roll_secs);
+            }
         }
     }
 
@@ -210,6 +212,7 @@ public class FileLogHandler extends LogHandler {
      * @param message Message to write to log file
      *
      */
+    @Override
     public void publish(int level, String message) throws IOException {
 
         // ignore FORCE messages if we have explicitly been asked to ignore them
@@ -225,10 +228,12 @@ public class FileLogHandler extends LogHandler {
     /**
      * Open handler
      */
+    @Override
     public void open() throws IOException {
 
-        if (rfos != null)
+        if (rfos != null) {
             return;
+        }
 
         rfos = new RollingFileOutputStream(new File(logFile), roll_bytes, roll_secs);
     }
@@ -236,6 +241,7 @@ public class FileLogHandler extends LogHandler {
     /**
      * Close handler
      */
+    @Override
     public void close() {
         if (rfos != null) {
             try {
@@ -251,6 +257,7 @@ public class FileLogHandler extends LogHandler {
     /**
      * Flush handler. This just flushes the output stream.
      */
+    @Override
     public void flush() {
         if (rfos != null) {
             try {
@@ -264,6 +271,7 @@ public class FileLogHandler extends LogHandler {
      * Return a string description of this FileHandler. The descirption is the class name followed by the path of the file
      * we are logging to.
      */
+    @Override
     public String toString() {
         return this.getClass().getName() + ":" + logFile;
     }

@@ -83,6 +83,7 @@ public class JMQAccessControlContext implements AccessControlContext {
         }
     }
 
+    @Override
     public Principal getClientUser() {
         return mquser;
     }
@@ -94,6 +95,7 @@ public class JMQAccessControlContext implements AccessControlContext {
     /**
      * This method is always called for ADMIN service regardless jmq.accesscontrol
      */
+    @Override
     public void checkConnectionPermission(String serviceName, String serviceType) throws AccessControlException {
         if (serviceType.equals("ADMIN")) {
             String acEnabled = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_ENABLED);
@@ -119,6 +121,7 @@ public class JMQAccessControlContext implements AccessControlContext {
         acs.checkConnectionPermission(mquser, serviceName, serviceType, subject);
     }
 
+    @Override
     public void checkDestinationPermission(String serviceName, String serviceType, String operation, String destination, String destinationType)
             throws AccessControlException {
         if (acs == null) {

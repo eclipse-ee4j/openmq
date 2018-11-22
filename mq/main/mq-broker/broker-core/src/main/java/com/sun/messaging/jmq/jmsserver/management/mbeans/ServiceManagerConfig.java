@@ -26,13 +26,11 @@ import java.util.List;
 import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
-import javax.management.MBeanParameterInfo;
 import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanException;
 
 import com.sun.messaging.jms.management.server.*;
 
-import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.MetricCounters;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.MetricManager;
@@ -118,22 +116,27 @@ public class ServiceManagerConfig extends MQMBeanReadWrite {
         }
     }
 
+    @Override
     public String getMBeanName() {
         return ("ServiceManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_SVC_MGR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

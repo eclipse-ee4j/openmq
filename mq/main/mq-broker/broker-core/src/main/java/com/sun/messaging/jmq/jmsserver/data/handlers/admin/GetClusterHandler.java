@@ -21,30 +21,17 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.Vector;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Properties;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.*;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
-import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.util.SizeString;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.admin.MessageType;
-import com.sun.messaging.jmq.util.admin.ConnectionInfo;
-import com.sun.messaging.jmq.util.admin.DestinationInfo;
-import com.sun.messaging.jmq.util.admin.ConsumerInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.persist.api.StoreManager;
 import com.sun.messaging.jms.management.server.BrokerClusterInfo;
 
@@ -163,6 +150,7 @@ public class GetClusterHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

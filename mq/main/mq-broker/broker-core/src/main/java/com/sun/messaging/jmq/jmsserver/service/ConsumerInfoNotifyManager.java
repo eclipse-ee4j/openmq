@@ -33,7 +33,6 @@ import com.sun.messaging.jmq.jmsserver.core.DestinationList;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.common.handlers.InfoRequestHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 
@@ -59,8 +58,9 @@ public class ConsumerInfoNotifyManager implements Runnable {
 
     public ConsumerInfoNotifyManager(ConnectionManager cm) {
         this.cm = cm;
-        if (Globals.getLogger().getLevel() <= Logger.DEBUG)
+        if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
+        }
     }
 
     private synchronized void wakeup() {
@@ -82,6 +82,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
         notifyAll();
     }
 
+    @Override
     public void run() {
         ArrayList pendingEvents = new ArrayList();
         DestinationList DL = Globals.getDestinationList();
@@ -267,29 +268,33 @@ public class ConsumerInfoNotifyManager implements Runnable {
     }
 
     public void remoteConsumerAdded(Destination dest) {
-        if (!requested)
+        if (!requested) {
             return;
+        }
         eventQueue.add(new RemoteConsumerAddedEvent(dest));
         wakeup();
     }
 
     public void consumerAdded(Destination dest, Connection conn) {
-        if (!requested)
+        if (!requested) {
             return;
+        }
         eventQueue.add(new ConsumerAddedEvent(dest, (conn == null ? null : conn.getConnectionUID())));
         wakeup();
     }
 
     public void consumerRemoved(Destination dest) {
-        if (!requested)
+        if (!requested) {
             return;
+        }
         eventQueue.add(new ConsumerRemovedEvent(dest));
         wakeup();
     }
 
     public void connectionStarted(Connection conn) {
-        if (!requested)
+        if (!requested) {
             return;
+        }
         eventQueue.add(new ConnectionStartedEvent(conn));
         wakeup();
     }
@@ -324,6 +329,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             this.dest = dest;
         }
 
+        @Override
         public String toString() {
             return "RemoteConsumerAddedEvent: dest=" + dest;
         }
@@ -338,6 +344,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             this.connid = connid;
         }
 
+        @Override
         public String toString() {
             return "ConsumerAddedEvent: dest=" + dest + ", conn=" + connid;
         }
@@ -350,6 +357,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             this.dest = dest;
         }
 
+        @Override
         public String toString() {
             return "ConsumerRemovedEvent: dest=" + dest;
         }
@@ -362,6 +370,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             this.conn = conn;
         }
 
+        @Override
         public String toString() {
             return "ConnectionStartedEvent: conn=" + conn;
         }
@@ -380,6 +389,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             this.infoType = infoType;
         }
 
+        @Override
         public String toString() {
             return "ConsumerInfoRequestEvent: conn=" + conn + ", duid=" + duid + ", destType=" + DestType.toString(destType) + ", infoType="
                     + ConsumerInfoNotifyManager.toString(infoType);
@@ -417,6 +427,7 @@ public class ConsumerInfoNotifyManager implements Runnable {
             return (requestInfoType == infoType);
         }
 
+        @Override
         public String toString() {
             return "ConsumerInfoNotification: duid=" + duid + ", destType=" + DestType.toString(destType) + ", infoType="
                     + ConsumerInfoNotifyManager.toString(infoType);

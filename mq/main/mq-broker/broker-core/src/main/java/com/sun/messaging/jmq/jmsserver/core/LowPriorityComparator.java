@@ -25,31 +25,43 @@ import java.util.Comparator;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 
 class LowPriorityComparator implements Comparator, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -1623037417454068504L;
+
+    @Override
     public int compare(Object o1, Object o2) {
         if (o1 instanceof PacketReference && o2 instanceof PacketReference) {
             PacketReference ref1 = (PacketReference) o1;
             PacketReference ref2 = (PacketReference) o2;
 
-            if (ref1.equals(ref2))
+            if (ref1.equals(ref2)) {
                 return 0;
+            }
 
             // compare priority
             long dif = ref1.getPriority() - ref2.getPriority();
 
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getTimestamp() - ref2.getTimestamp();
+            }
 
             // then sequence
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getSequence() - ref2.getSequence();
+            }
 
-            if (dif == 0)
+            if (dif == 0) {
                 dif = ref1.getCreateTime() - ref2.getCreateTime();
+            }
 
-            if (dif < 0)
+            if (dif < 0) {
                 return -1;
-            if (dif > 0)
+            }
+            if (dif > 0) {
                 return 1;
+            }
             return o1.hashCode() - o2.hashCode();
         } else {
             assert false;
@@ -57,10 +69,12 @@ class LowPriorityComparator implements Comparator, Serializable {
         }
     }
 
+    @Override
     public boolean equals(Object o) {
         return super.equals(o);
     }
 
+    @Override
     public int hashCode() {
         return super.hashCode();
     }

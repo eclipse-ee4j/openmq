@@ -21,9 +21,6 @@
 package com.sun.messaging.jmq.admin.apps.console;
 
 import javax.swing.ImageIcon;
-import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
-
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
@@ -37,6 +34,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerDestListCObj extends BrokerAdminCObj {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7072055242203219452L;
     private BrokerCObj bCObj;
     private static AdminConsoleResources acr = Globals.getAdminConsoleResources();
 
@@ -52,18 +53,22 @@ public class BrokerDestListCObj extends BrokerAdminCObj {
         return (bCObj.getBrokerAdmin());
     }
 
+    @Override
     public String getExplorerLabel() {
         return (acr.getString(acr.I_BROKER_DEST_LIST));
     }
 
+    @Override
     public String getExplorerToolTip() {
         return (null);
     }
 
+    @Override
     public ImageIcon getExplorerIcon() {
         return (AGraphics.adminImages[AGraphics.BROKER_DEST_LIST]);
     }
 
+    @Override
     public String getActionLabel(int actionFlag, boolean forMenu) {
         if (forMenu) {
             switch (actionFlag) {
@@ -92,29 +97,35 @@ public class BrokerDestListCObj extends BrokerAdminCObj {
         return (null);
     }
 
+    @Override
     public int getExplorerPopupMenuItemMask() {
         return (ActionManager.ADD | ActionManager.PAUSE | ActionManager.RESUME);
     }
 
+    @Override
     public int getActiveActions() {
         BrokerAdmin ba = getBrokerAdmin();
         int mask;
-        if (ba.isConnected())
+        if (ba.isConnected()) {
             mask = ActionManager.ADD | ActionManager.REFRESH | ActionManager.PAUSE | ActionManager.RESUME;
-        else
+        } else {
             mask = 0;
+        }
 
         return (mask);
     }
 
+    @Override
     public String getInspectorPanelClassName() {
         return (ConsoleUtils.getPackageName(this) + ".BrokerDestListInspector");
     }
 
+    @Override
     public String getInspectorPanelId() {
         return ("Broker Destinations");
     }
 
+    @Override
     public String getInspectorPanelHeader() {
         return (getInspectorPanelId());
     }

@@ -33,12 +33,15 @@ public class ClusterDeliveryPolicy {
     public static final int DISTRIBUTED = 2;
 
     public static int getStateFromString(String str) {
-        if (str.equals("NA") || str.equals("N/A"))
+        if (str.equals("NA") || str.equals("N/A")) {
             return NA;
-        if (str.equals("LOCAL_PREFERRED"))
+        }
+        if (str.equals("LOCAL_PREFERRED")) {
             return LOCAL_PREFERRED;
-        if (str.equals("DISTRIBUTED"))
+        }
+        if (str.equals("DISTRIBUTED")) {
             return DISTRIBUTED;
+        }
         return UNKNOWN;
     }
 

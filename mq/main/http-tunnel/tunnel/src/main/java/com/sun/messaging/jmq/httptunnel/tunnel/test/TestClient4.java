@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.httptunnel.tunnel.test;
 
-import java.io.*;
 import com.sun.messaging.jmq.httptunnel.tunnel.*;
 
 class TestClient4 {

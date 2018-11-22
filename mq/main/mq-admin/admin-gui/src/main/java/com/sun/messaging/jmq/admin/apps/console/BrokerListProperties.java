@@ -32,12 +32,12 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 /**
  * This class encapsulates the information needed to save and restore the list of <EM>favourite</EM> object stores in
  * the JMQ Administration Console.
- * 
+ *
  * <P>
  * It represents the property object containing the list of brokers.
  *
  * The format of the property file is:
- * 
+ *
  * <PRE>
  * version=2.0
  * broker.count=5
@@ -52,6 +52,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  */
 public class BrokerListProperties extends UserProperties {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 7356903960060999063L;
     public final static String FIRST_VERSION = "2.0";
     public final static String VERSION = "2.0";
 
@@ -129,7 +133,7 @@ public class BrokerListProperties extends UserProperties {
      * Returns a BrokerAdmin object for the given index.
      *
      * @param index Index for specifying the broker in question.
-     * 
+     *
      * @return The BrokerAdmin object for the given index.
      */
     public BrokerAdmin getBrokerAdmin(int index) throws BrokerAdminException {
@@ -282,7 +286,7 @@ public class BrokerListProperties extends UserProperties {
         for (Enumeration e = brokerAttrs.propertyNames(); e.hasMoreElements();) {
             String propName = (String) e.nextElement(), newPropName, newValue;
 
-            newValue = (String) brokerAttrs.getProperty(propName);
+            newValue = brokerAttrs.getProperty(propName);
             newPropName = brokerAttrsStr + propName;
 
             setProperty(newPropName, newValue);
@@ -292,6 +296,7 @@ public class BrokerListProperties extends UserProperties {
         setProperty(PROP_NAME_BROKER_COUNT, Integer.toString(index));
     }
 
+    @Override
     public Object setProperty(String key, String value) {
         if (DEBUG) {
             System.err.println("\tSetting property: " + key + "=" + value);
@@ -299,6 +304,7 @@ public class BrokerListProperties extends UserProperties {
         return (super.setProperty(key, value));
     }
 
+    @Override
     public void load() throws UserPropertiesException, SecurityException {
         super.load();
 

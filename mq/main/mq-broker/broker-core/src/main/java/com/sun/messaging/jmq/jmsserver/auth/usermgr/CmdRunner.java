@@ -23,10 +23,6 @@ package com.sun.messaging.jmq.jmsserver.auth.usermgr;
 import java.io.File;
 import java.io.FileReader;
 import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.util.Hashtable;
 import java.util.Enumeration;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -38,7 +34,7 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
  * This class contains the logic to execute the user commands specified in the UserMgrProperties object. It has one
  * public entry point which is the runCommands() method. It is expected to display to the user if the command execution
  * was successful or not.
- * 
+ *
  * @see ObjMgr
  *
  */
@@ -256,7 +252,7 @@ public class CmdRunner implements UserMgrOptions {
 
     /*
      * Return values: Old: -1 Error 0 admin 1 user 2 anonymous
-     * 
+     *
      * New: 0 Success 1 Failure Output: "admin", "user", "anonymous"
      */
     private int runGetGroup(UserMgrProperties userMgrProps) {

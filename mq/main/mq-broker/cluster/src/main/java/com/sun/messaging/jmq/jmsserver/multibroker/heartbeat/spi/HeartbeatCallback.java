@@ -59,7 +59,7 @@ public interface HeartbeatCallback {
      * @param key The opaque key associated with this endpoint
      * @param endpoint The endpoint
      * @param reason The IOException if any associated with the timeout or null
-     * 
+     *
      */
     void heartbeatTimeout(Object key, InetSocketAddress endpoint, IOException reason);
 
@@ -69,7 +69,7 @@ public interface HeartbeatCallback {
      * @param key The opaque key associated with this endpoint
      * @param endpoint The endpoint
      * @param reason The IOException if any associated with the timeout or null
-     * 
+     *
      */
     void heartbeatIOException(Object key, InetSocketAddress endpoint, IOException reason);
 

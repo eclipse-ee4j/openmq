@@ -42,8 +42,9 @@ public class FileUtil {
      */
     public static void removeFiles(File path, boolean removeTopDir) throws IOException {
 
-        if (!path.exists())
+        if (!path.exists()) {
             return;
+        }
 
         if (!path.isDirectory()) {
             // delete the file
@@ -118,9 +119,9 @@ public class FileUtil {
 
     /*
      * LKS public static void main(String[] args) throws Exception {
-     * 
+     *
      * String filename = null; if (args.length > 1) { if (args[0].equalsIgnoreCase("-rmdir")) { filename = args[1]; } }
-     * 
+     *
      * if (filename != null) { FileUtil.removeFiles(new File(filename), true); } }
      */
 

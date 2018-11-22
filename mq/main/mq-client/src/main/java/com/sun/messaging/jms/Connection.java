@@ -55,6 +55,7 @@ public interface Connection extends javax.jms.Connection {
      * @see com.sun.messaging.jms.Session#NO_ACKNOWLEDGE
      */
 
+    @Override
     public Session createSession(int acknowledgeMode) throws JMSException;
 
     /**

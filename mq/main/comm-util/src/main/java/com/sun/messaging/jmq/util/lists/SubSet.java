@@ -35,7 +35,7 @@ public interface SubSet extends Set, EventBroadcaster {
 
     /**
      * Method which allows an object to be added to the class for a specific reason.
-     * 
+     *
      * @see EventBroadcaster
      * @param o object to add
      * @param r reason the object was added
@@ -45,7 +45,7 @@ public interface SubSet extends Set, EventBroadcaster {
 
     /**
      * Method which allows an object to be removed to the class for a specific reason.
-     * 
+     *
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed

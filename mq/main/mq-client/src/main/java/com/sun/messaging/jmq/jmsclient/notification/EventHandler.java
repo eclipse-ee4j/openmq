@@ -148,6 +148,7 @@ public class EventHandler implements Runnable {
 
     }
 
+    @Override
     public void run() {
 
         boolean timeoutExit = false;
@@ -163,7 +164,7 @@ public class EventHandler implements Runnable {
                     try {
                         wait(WAIT_TIMEOUT);
                     } catch (InterruptedException inte) {
-                        ;
+                        
                     }
                 }
             }
@@ -274,7 +275,7 @@ public class EventHandler implements Runnable {
 
     private void deliverConsumerEvent(ConsumerEvent event) {
 
-        com.sun.messaging.Destination dest = (com.sun.messaging.Destination) event.getDestination();
+        com.sun.messaging.Destination dest = event.getDestination();
 
         EventListener listener = null;
 

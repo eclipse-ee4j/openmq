@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.io;
 
-import java.io.*;
 import java.util.*;
 
 /**
@@ -185,13 +184,15 @@ public class ServiceTable {
 
         System.out.println("Remote Services :");
         Enumeration e = remoteServices.keys();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             System.out.println("\t" + (String) e.nextElement());
+        }
 
         System.out.println("Local Services :");
         e = table.elements();
-        while (e.hasMoreElements())
+        while (e.hasMoreElements()) {
             System.out.println("\t" + ((ServiceEntry) e.nextElement()).toString());
+        }
     }
 }
 

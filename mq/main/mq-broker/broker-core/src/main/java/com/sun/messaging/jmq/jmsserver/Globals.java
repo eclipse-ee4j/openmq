@@ -20,18 +20,14 @@
 
 package com.sun.messaging.jmq.jmsserver;
 
-import java.io.*;
 import java.util.Set;
 import java.util.Arrays;
 import java.util.LinkedHashSet;
 import java.util.HashMap;
-import java.util.ResourceBundle;
 import java.util.Locale;
 import java.util.Properties;
-import java.util.Enumeration;
 import java.net.InetAddress;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsservice.BrokerEvent;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
@@ -55,7 +51,6 @@ import com.sun.messaging.jmq.util.timer.MQTimer;
 import com.sun.messaging.jmq.Version;
 import com.sun.messaging.jmq.io.MQAddress;
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.BrokerExitCode;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.bridge.api.BridgeServiceManager;
@@ -204,7 +199,7 @@ public final class Globals extends CommGlobals {
 
     /**
      * Return whether the property imq.cluster.masterbroker was specified on the command line or read from standard input
-     * 
+     *
      * @return
      */
     public static boolean isMasterBrokerSpecified() {
@@ -220,12 +215,14 @@ public final class Globals extends CommGlobals {
     }
 
     public static MemoryManager getMemManager() {
-        if (!useMem)
+        if (!useMem) {
             return null;
+        }
         if (mem_manager == null) {
             synchronized (lock) {
-                if (mem_manager == null)
+                if (mem_manager == null) {
                     mem_manager = new MemoryManager();
+                }
             }
         }
         return mem_manager;
@@ -328,8 +325,9 @@ public final class Globals extends CommGlobals {
     public static Globals getGlobals() {
         if (globals == null) {
             synchronized (lock) {
-                if (globals == null)
+                if (globals == null) {
                     globals = new Globals();
+                }
             }
         }
         return globals;
@@ -349,8 +347,9 @@ public final class Globals extends CommGlobals {
                 }
             }
         }
-        if (purge)
+        if (purge) {
             timer.purge();
+        }
         return timer;
     }
 
@@ -438,8 +437,9 @@ public final class Globals extends CommGlobals {
      * configured.
      */
     public static String getJMXHostname() {
-        if (jmxHostname != null)
+        if (jmxHostname != null) {
             return jmxHostname;
+        }
 
         return (getHostname());
     }
@@ -564,8 +564,9 @@ public final class Globals extends CommGlobals {
 
     public static String getIdentityName() {
         String id = Globals.getBrokerID();
-        if (id != null)
+        if (id != null) {
             return id;
+        }
         return getConfigName();
     }
 
@@ -1051,7 +1052,7 @@ public final class Globals extends CommGlobals {
 
     /**
      * Return whether properties (including passwords) should be read from stdin at broker startup
-     * 
+     *
      * @return
      */
     public static boolean isReadPropertiessFromStdin() {

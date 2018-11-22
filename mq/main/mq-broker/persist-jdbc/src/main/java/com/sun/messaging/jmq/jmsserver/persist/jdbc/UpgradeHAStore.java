@@ -30,11 +30,8 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
-import com.sun.messaging.jmq.jmsserver.persist.api.TransactionInfo;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 

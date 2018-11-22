@@ -28,6 +28,11 @@ import com.sun.messaging.jmq.admin.event.CommonCmdStatusEvent;
  */
 public class BridgeMgrStatusEvent extends CommonCmdStatusEvent {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5013347940636367723L;
+
     /*******************************************************************************
      * BridgeMgrStatusEvent event types use integers 5000 - 5999
      *******************************************************************************/

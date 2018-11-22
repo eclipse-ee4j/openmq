@@ -31,10 +31,7 @@ import javax.management.MBeanParameterInfo;
 import javax.management.MBeanException;
 
 import com.sun.messaging.jms.management.server.*;
-import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.management.util.ConnectionUtil;
 
 public class ConnectionManagerConfig extends MQMBeanReadWrite {
@@ -120,22 +117,27 @@ public class ConnectionManagerConfig extends MQMBeanReadWrite {
         return (oNames);
     }
 
+    @Override
     public String getMBeanName() {
         return ("ConnectionManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_CXN_MGR_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

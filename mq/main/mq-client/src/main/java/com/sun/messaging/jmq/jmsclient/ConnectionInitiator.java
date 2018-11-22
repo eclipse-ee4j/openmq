@@ -359,7 +359,7 @@ public class ConnectionInitiator {
 
     /**
      * called from createConnectionOld.
-     * 
+     *
      * @return ConnectionHandler
      * @throws JMSException
      */
@@ -392,7 +392,7 @@ public class ConnectionInitiator {
 
     /**
      * Get if this connection uses address list.
-     * 
+     *
      * @return
      */
     public boolean getUseAddressList() {
@@ -401,7 +401,7 @@ public class ConnectionInitiator {
 
     /**
      * Get address list size used in this connection.
-     * 
+     *
      * @return
      */
     public int getAddrListSize() {
@@ -416,7 +416,7 @@ public class ConnectionInitiator {
 
     /**
      * Hawk development.
-     * 
+     *
      * @param aList MQAddressList
      * @throws JMSException
      */
@@ -449,7 +449,7 @@ public class ConnectionInitiator {
 
     /**
      * This validates if the address list fulfils HAWK HA requirement.
-     * 
+     *
      * @param aList MQAddressList
      * @throws JMSException
      */
@@ -459,7 +459,7 @@ public class ConnectionInitiator {
 
     /**
      * Create an AddressList object from the address list string
-     * 
+     *
      * @param addrString String
      * @return MQAddressList
      * @throws JMSException
@@ -561,7 +561,7 @@ public class ConnectionInitiator {
 
     /**
      * This method only support addrString in the following syntax: "mq://host:port" or "mq://host:port/".
-     * 
+     *
      * @param addrString String
      * @param serviceName String
      * @return String
@@ -771,7 +771,7 @@ public class ConnectionInitiator {
         try {
             Thread.sleep(this.reconnectDelay);
         } catch (Exception e) {
-            ;
+            
         }
     }
 
@@ -815,7 +815,7 @@ public class ConnectionInitiator {
 
     /**
      * log the linked exception from the caught JMSException.
-     * 
+     *
      * @param jmse JMSException
      */
     // private static void logException (JMSException jmse) {

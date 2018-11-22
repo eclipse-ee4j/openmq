@@ -31,7 +31,6 @@ import java.util.Enumeration;
 import javax.swing.JTree;
 import javax.swing.JScrollPane;
 import javax.swing.JPopupMenu;
-import javax.swing.JMenuItem;
 import javax.swing.ImageIcon;
 import javax.swing.ToolTipManager;
 
@@ -56,6 +55,10 @@ import com.sun.messaging.jmq.admin.apps.console.event.SelectionEvent;
  */
 public class AExplorer extends JScrollPane implements TreeSelectionListener {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2511898999982882760L;
     private ActionManager actionMgr;
     private EventListenerList aListeners = new EventListenerList();
     private JTree tree;
@@ -83,7 +86,7 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
      * Selection management
      */
     public void select(ConsoleObj cObj) {
-        DefaultMutableTreeNode node = (DefaultMutableTreeNode) cObj;
+        DefaultMutableTreeNode node = cObj;
         tree.setSelectionPath(new TreePath(node.getPath()));
 
         SelectionEvent se = new SelectionEvent(this, SelectionEvent.OBJ_SELECTED);
@@ -119,8 +122,9 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
     }
 
     public void removeFromParent(ConsoleObj child) {
-        if (child.getParent() != null)
+        if (child.getParent() != null) {
             model.removeNodeFromParent(child);
+        }
     }
 
     public void addBroker(ConsoleObj brokerCObj) {
@@ -132,7 +136,7 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
 
     /**
      * Add an admin event listener to this admin UI component.
-     * 
+     *
      * @param l admin event listener to add.
      */
     public void addAdminEventListener(AdminEventListener l) {
@@ -141,7 +145,7 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
 
     /**
      * Remove an admin event listener for this admin UI component.
-     * 
+     *
      * @param l admin event listener to remove.
      */
     public void removeAdminEventListener(AdminEventListener l) {
@@ -169,6 +173,7 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
     /*
      * BEGIN INTERFACE TreeSelectionListener
      */
+    @Override
     public void valueChanged(TreeSelectionEvent e) {
         DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
         SelectionEvent se;
@@ -274,24 +279,25 @@ public class AExplorer extends JScrollPane implements TreeSelectionListener {
             // because then the tree scrolls down to the bottom and
             // we can't set it back to the root without some strange
             // behavior. Fix for 4526701.
-            if (scrollToPath)
+            if (scrollToPath) {
                 tree.scrollPathToVisible(new TreePath(node.getPath()));
+            }
         }
 
     }
 
     /*
      * Not used private void insertNewNode(ConsoleObj parent, ConsoleObj child, int index) {
-     * 
+     *
      * // Insert top level obj store node into tree. model.insertNodeInto(child, parent, index);
-     * 
+     *
      * // Make sure we can see this newly created node and it's children. Enumeration e = child.children(); if
      * (e.hasMoreElements()) { DefaultMutableTreeNode node = (DefaultMutableTreeNode)e.nextElement(); // We only want to
      * call this scrollPathToVisible() only // when the user manually adds a node -- not during // initialization when we
      * read in the objstore/broker properties // because then the tree scrolls down to the bottom and // we can't set it
      * back to the root without some strange // behavior. Fix for 4526701. if (scrollToPath) if (scrollToPath)
      * tree.scrollPathToVisible(new TreePath(node.getPath())); }
-     * 
+     *
      * }
      */
 }
@@ -305,6 +311,7 @@ class ExplorerMouseAdapter extends MouseAdapter {
         this.actionMgr = actionMgr;
     }
 
+    @Override
     public void mouseClicked(MouseEvent e) {
         /*
          * System.err.println("\n**MouseClicked:");
@@ -313,6 +320,7 @@ class ExplorerMouseAdapter extends MouseAdapter {
         doPopup(e);
     }
 
+    @Override
     public void mousePressed(MouseEvent e) {
         /*
          * System.err.println("\n**MousePressed:");
@@ -321,6 +329,7 @@ class ExplorerMouseAdapter extends MouseAdapter {
         doPopup(e);
     }
 
+    @Override
     public void mouseReleased(MouseEvent e) {
         /*
          * System.err.println("\n**MouseRelease:");
@@ -373,8 +382,13 @@ class ExplorerMouseAdapter extends MouseAdapter {
 }
 
 class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8842768979030693460L;
     ImageIcon leafIcon, parentIcon;
 
+    @Override
     public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf, int row, boolean hasFocus) {
         super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 
@@ -420,6 +434,11 @@ class ExplorerTreeCellRenderer extends DefaultTreeCellRenderer {
 class ExplorerTreeModel extends DefaultTreeModel {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 797941995460452105L;
+
+    /**
      * Instantiate a ExplorerTreeModel.
      *
      * @param root The root node for the model.
@@ -442,6 +461,7 @@ class ExplorerTreeModel extends DefaultTreeModel {
      *
      * @return true if node is a leaf in the JTree, false otherwise.
      */
+    @Override
     public boolean isLeaf(Object node) {
         if ((node instanceof ObjStoreDestListCObj) || (node instanceof ObjStoreConFactoryListCObj) || (node instanceof BrokerServiceListCObj)
                 || (node instanceof BrokerDestListCObj) || (node instanceof BrokerLogListCObj)) {

@@ -45,12 +45,14 @@ public class HttpTunnelInputStream extends InputStream {
      * @return the next byte of data, or <code>-1</code> if the end of the stream is reached.
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized int read() throws IOException {
         int n = conn.readData(singlebyte);
-        if (n == 0)
+        if (n == 0) {
             return -1;
+        }
 
-        return (((int) singlebyte[0]) & 0xff);
+        return ((singlebyte[0]) & 0xff);
     }
 
     /**
@@ -65,10 +67,12 @@ public class HttpTunnelInputStream extends InputStream {
      * of the stream has been reached.
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized int read(byte b[], int off, int len) throws IOException {
         int n = conn.readData(b, off, len);
-        if (n == 0)
+        if (n == 0) {
             return -1;
+        }
 
         return n;
     }
@@ -83,6 +87,7 @@ public class HttpTunnelInputStream extends InputStream {
      * @return the actual number of bytes skipped.
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized long skip(long n) throws IOException {
         int skipped = 0;
         int ret;
@@ -91,13 +96,15 @@ public class HttpTunnelInputStream extends InputStream {
             try {
                 ret = conn.readData(null, 0, (int) n - skipped);
             } catch (IOException e) {
-                if (skipped == 0)
+                if (skipped == 0) {
                     throw e;
-                else
+                } else {
                     break;
+                }
             }
-            if (ret == 0)
+            if (ret == 0) {
                 break;
+            }
 
             skipped += ret;
         }
@@ -112,6 +119,7 @@ public class HttpTunnelInputStream extends InputStream {
      * @return the number of bytes that can be read from this input stream without blocking.
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized int available() throws IOException {
         return conn.available();
     }
@@ -121,6 +129,7 @@ public class HttpTunnelInputStream extends InputStream {
      *
      * @exception IOException if an I/O error occurs.
      */
+    @Override
     public synchronized void close() throws IOException {
     }
 }

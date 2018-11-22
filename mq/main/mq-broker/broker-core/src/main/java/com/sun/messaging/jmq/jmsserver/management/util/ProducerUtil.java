@@ -37,7 +37,6 @@ import com.sun.messaging.jms.management.server.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
@@ -173,7 +172,7 @@ public class ProducerUtil {
 
         if (al.size() > 0) {
             ret = new String[al.size()];
-            ret = (String[]) al.toArray(ret);
+            ret = al.toArray(ret);
         }
 
         return (ret);

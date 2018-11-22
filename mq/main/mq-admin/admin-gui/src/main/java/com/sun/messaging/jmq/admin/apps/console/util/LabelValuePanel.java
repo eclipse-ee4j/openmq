@@ -29,6 +29,10 @@ import javax.swing.JPanel;
 
 public class LabelValuePanel extends JPanel {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 2236227532993780908L;
     private int vgap = 5;
     private int hgap = 5;
     private JPanel panel;

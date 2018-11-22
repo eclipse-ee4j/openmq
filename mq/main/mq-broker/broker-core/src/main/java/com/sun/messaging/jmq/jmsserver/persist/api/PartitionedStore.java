@@ -19,22 +19,16 @@
 package com.sun.messaging.jmq.jmsserver.persist.api;
 
 import java.io.IOException;
-import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
-import java.util.List;
-import java.util.Map;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.data.BaseTransaction;
-import com.sun.messaging.jmq.jmsserver.data.ClusterTransaction;
 import com.sun.messaging.jmq.jmsserver.data.TransactionAcknowledgement;
 import com.sun.messaging.jmq.jmsserver.data.TransactionWork;
 import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
@@ -191,7 +185,7 @@ public interface PartitionedStore {
 
     /**
      * Check if a a message has been acknowledged by all interests.
-     * 
+     *
      * @param dst the destination the message is associated with
      * @param id the system message id of the message to be checked
      * @return true if all interests have acknowledged the message; false if message has not been routed or acknowledge by
@@ -276,7 +270,7 @@ public interface PartitionedStore {
 
     /**
      * Retrieve all interests and states associated with the specified message.
-     * 
+     *
      * @param dID the destination the message is associated with
      * @param mID the system message id of the message that the interest
      * @return HashMap of containing all consumer's state
@@ -322,7 +316,7 @@ public interface PartitionedStore {
      * Remove the destination from the persistent store. All messages associated with the destination will be removed as
      * well.
      *
-     * 
+     *
      * @param destination the destination to be removed
      * @param sync if true, will synchronize data to disk
      * @exception IOException if an error occurs while removing the destination
@@ -446,7 +440,7 @@ public interface PartitionedStore {
      * Update the transaction home broker for the specified remote transaction (HA support).
      *
      * In HA mode, the txn is owned by another broker so we'll only update the txn home broker.
-     * 
+     *
      * @param txnUID the transaction ID
      * @param txnHomeBroker the home broker for a REMOTE txn
      * @throws BrokerException if transaction does not exists in the store
@@ -523,7 +517,7 @@ public interface PartitionedStore {
 
     /**
      * Close the store and releases any system resources associated with it.
-     * 
+     *
      * @param cleanup if this is false, the store will not be cleaned up when it is closed. The default behavior is that the
      * store is cleaned up.
      */
@@ -561,7 +555,7 @@ public interface PartitionedStore {
      * Retrieve all acknowledgement list in the persistence store together with their associated transaction id. The data is
      * returned in the form a HashMap. Each entry in the HashMap has the transaction id as the key and an array of the
      * associated TransactionAcknowledgement objects as the value.
-     * 
+     *
      * @return a HashMap object containing all acknowledgement lists in the persistence store
      */
     public HashMap getAllTransactionAcks() throws BrokerException;

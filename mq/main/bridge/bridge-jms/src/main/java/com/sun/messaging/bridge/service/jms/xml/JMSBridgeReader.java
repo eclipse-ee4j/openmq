@@ -89,14 +89,17 @@ public class JMSBridgeReader extends DefaultHandler {
      * SAX2 DefaultHandler methods
      ***********************************************************/
 
+    @Override
     public void startDocument() throws SAXException {
         _logger.log(Level.FINE, "Start parsing " + _xmlurl);
     }
 
+    @Override
     public void endDocument() throws SAXException {
         _logger.log(Level.FINE, "End of parsing " + _xmlurl);
     }
 
+    @Override
     public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
         String elemname = qName;
         String name = null;
@@ -167,6 +170,7 @@ public class JMSBridgeReader extends DefaultHandler {
         }
     }
 
+    @Override
     public void endElement(String uri, String localName, String qName) throws SAXException {
         String elemname = qName;
 
@@ -209,19 +213,23 @@ public class JMSBridgeReader extends DefaultHandler {
 
     }
 
+    @Override
     public void characters(char buf[], int offset, int len) throws SAXException {
         _logger.log(Level.FINE, "XML Parser characters: " + String.valueOf(buf, offset, len));
     }
 
+    @Override
     public void warning(SAXParseException e) throws SAXException {
         _logger.log(Level.WARNING, e.getSystemId() + ", line " + e.getLineNumber() + ": " + e.getMessage());
     }
 
+    @Override
     public void error(SAXParseException e) throws SAXException {
         _logger.log(Level.SEVERE, e.getSystemId() + ", line " + e.getLineNumber() + ": " + e.getMessage());
         throw e;
     }
 
+    @Override
     public void fatalError(SAXParseException e) throws SAXException {
         _logger.log(Level.SEVERE, e.getSystemId() + ", line " + e.getLineNumber() + ": " + e.getMessage());
         super.fatalError(e);

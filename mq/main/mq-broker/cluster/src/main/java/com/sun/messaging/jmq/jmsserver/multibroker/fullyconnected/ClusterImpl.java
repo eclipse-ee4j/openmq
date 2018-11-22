@@ -46,7 +46,6 @@ import com.sun.messaging.jmq.jmsserver.license.LicenseBase;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.util.LoopbackAddressException;
-import com.sun.messaging.jmq.jmsserver.util.VerifyAddressException;
 import com.sun.messaging.jmq.util.net.MQServerSocketFactory;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.UID;
@@ -152,8 +151,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         } catch (LoopbackAddressException e) {
             int level = nocluster ? Logger.WARNING : Logger.ERROR;
             logger.log(level, br.E_CLUSTER_HOSTNAME, ClusterManager.HOST_PROPERTY);
-            if (nocluster)
+            if (nocluster) {
                 throw e;
+            }
             Broker.getBroker().exit(1, br.getKString(br.E_CLUSTER_HOSTNAME, ClusterManager.HOST_PROPERTY), BrokerEvent.Type.FATAL_ERROR);
             throw e;
         } catch (Exception e) {
@@ -165,8 +165,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             Broker.getBroker().exit(1, br.getString(br.E_BADADDRESS_CLUSTER_SERVICE, ClusterManager.HOST_PROPERTY, e.getMessage()),
                     BrokerEvent.Type.FATAL_ERROR);
 
-            if (e instanceof BrokerException)
+            if (e instanceof BrokerException) {
                 throw (BrokerException) e;
+            }
             BrokerException be = new BrokerException(e.getMessage());
             be.initCause(e);
             throw be;
@@ -177,8 +178,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         } catch (LoopbackAddressException e) {
             int level = nocluster ? Logger.WARNING : Logger.ERROR;
             logger.log(level, br.E_BADADDRESS_PORTMAPPER_FOR_CLUSTER, PortMapper.HOSTNAME_PROPERTY, e.getMessage());
-            if (nocluster)
+            if (nocluster) {
                 throw e;
+            }
             Broker.getBroker().exit(1, br.getString(br.E_BADADDRESS_PORTMAPPER_FOR_CLUSTER, PortMapper.HOSTNAME_PROPERTY, e.getMessage()),
                     BrokerEvent.Type.FATAL_ERROR);
             throw e;
@@ -191,8 +193,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             Broker.getBroker().exit(1, br.getString(br.E_BADADDRESS_PORTMAPPER_FOR_CLUSTER, PortMapper.HOSTNAME_PROPERTY, e.getMessage()),
                     BrokerEvent.Type.FATAL_ERROR);
 
-            if (e instanceof BrokerException)
+            if (e instanceof BrokerException) {
                 throw (BrokerException) e;
+            }
             BrokerException be = new BrokerException(e.getMessage());
             be.initCause(e);
             throw be;
@@ -204,8 +207,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             int level = nocluster ? Logger.WARNING : Logger.ERROR;
             logger.log(level, br.getKString(br.E_BADADDRESS_THIS_BROKER, e.getMessage()));
 
-            if (nocluster)
+            if (nocluster) {
                 throw e;
+            }
             Broker.getBroker().exit(1, br.getString(br.E_BADADDRESS_THIS_BROKER, e.getMessage()), BrokerEvent.Type.FATAL_ERROR);
             throw e;
         } catch (Exception e) {
@@ -216,8 +220,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             }
             Broker.getBroker().exit(1, br.getString(br.E_BADADDRESS_THIS_BROKER, e.getMessage()), BrokerEvent.Type.FATAL_ERROR);
 
-            if (e instanceof BrokerException)
+            if (e instanceof BrokerException) {
                 throw (BrokerException) e;
+            }
             BrokerException be = new BrokerException(e.getMessage());
             be.initCause(e);
             throw be;
@@ -278,7 +283,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     /**
      * Check to see if stored last config server property loaded properly
-     * 
+     *
      * System.exit if the last config server info is corrupted the last refresh timestamp info is corrupted and unable to
      * reset potentially last config server info is corrupted: store LoadPropertyException occurred with key corruption and
      * LastConfigServer property does not in store
@@ -316,7 +321,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
                     bad = true;
                     break;
                 }
-                ;
             }
             le = le.getNextException();
         }
@@ -398,16 +402,18 @@ public class ClusterImpl implements Cluster, ClusterListener {
     }
 
     private BrokerLink searchBrokerList(BrokerMQAddress key) {
-        if (brokerList == null)
+        if (brokerList == null) {
             return null;
+        }
 
         synchronized (brokerList) {
             Iterator itr = brokerList.keySet().iterator();
 
             while (itr.hasNext()) {
                 BrokerAddressImpl b = (BrokerAddressImpl) itr.next();
-                if (key.equals(b.getMQAddress()))
+                if (key.equals(b.getMQAddress())) {
                     return (BrokerLink) brokerList.get(b);
+                }
             }
 
             return null;
@@ -445,12 +451,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
     /*
      * private void setListenHost(String host) throws Exception { if (DEBUG) { logger.log(Logger.DEBUG,
      * "ClusterImpl: Changing the listening hostname to {0}", host); }
-     * 
+     *
      * if (supportClusters == false) return;
-     * 
+     *
      * InetAddress saveListenHost = listenHost; try { listenHost = BrokerMQAddress.resolveBindAddress(host, true);
      * ClusterServiceListener newListener = new ClusterServiceListener(this);
-     * 
+     *
      * // Success! Replace the global listener. if (listener != null) listener.shutdown(); listener = newListener; } catch
      * (Exception e) { listenHost = saveListenHost; throw e; } }
      */
@@ -463,8 +469,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         String args[] = { SERVICE_NAME, String.valueOf(port), String.valueOf(1), String.valueOf(1) };
         logger.log(Logger.INFO, BrokerResources.I_UPDATE_SERVICE_REQ, args);
 
-        if (supportClusters == false)
+        if (supportClusters == false) {
             return;
+        }
 
         int saveListenPort = listenPort;
 
@@ -473,8 +480,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             ClusterServiceListener newListener = new ClusterServiceListener(this);
 
             // Success! Replace the global listener.
-            if (listener != null)
+            if (listener != null) {
                 listener.shutdown();
+            }
             listener = newListener;
         } catch (IOException e) {
             listenPort = saveListenPort;
@@ -491,8 +499,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
     }
 
     protected boolean waitForConfigSync() {
-        if (cb == null)
+        if (cb == null) {
             return true;
+        }
         return ((Protocol) cb).waitForConfigSync();
     }
 
@@ -551,8 +560,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
                 return;
             }
 
-            if (brokerList.remove(remote) == null)
+            if (brokerList.remove(remote) == null) {
                 return;
+            }
             brokerList.notifyAll();
 
         }
@@ -567,6 +577,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         connectList.remove(remote.getMQAddress());
     }
 
+    @Override
     public void receivedFileTransferRequest(BrokerAddress from, String uuid) {
         pendingFileTransfers.put(from, uuid + ":" + System.currentTimeMillis());
     }
@@ -824,14 +835,15 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     /**
      * Detects duplicate connections between a pair of brokers.
-     * 
+     *
      * @param remote BrokerAddress of the remote broker.
      * @return <code> true </code> if this broker is supposed to initiate the connection, <code> false </code> if remote is
      * supposed to initiate the connection.
      */
     private boolean connectionInitiator(BrokerAddressImpl remote) {
-        if (self.getMQAddress().hashCode() > remote.getMQAddress().hashCode())
+        if (self.getMQAddress().hashCode() > remote.getMQAddress().hashCode()) {
             return true;
+        }
 
         return false;
     }
@@ -884,34 +896,40 @@ public class ClusterImpl implements Cluster, ClusterListener {
         } catch (Exception e) {
             logger.log(Logger.WARNING, br.W_MBUS_SERIALIZATION, sender);
 
-            if (l != null)
+            if (l != null) {
                 l.shutdown();
+            }
             return null;
         }
 
         Integer v = info.getClusterProtocolVersion();
-        if (v != null && v.intValue() >= ProtocolGlobals.VERSION_400)
+        if (v != null && v.intValue() >= ProtocolGlobals.VERSION_400) {
             return info;
+        }
 
-        if (l != null)
+        if (l != null) {
             l.handshakeSent();
+        }
 
         int status = cb.addBrokerInfo(info);
 
-        if (status == cb.ADD_BROKER_INFO_OK)
+        if (status == cb.ADD_BROKER_INFO_OK) {
             return info;
+        }
 
         if (status == cb.ADD_BROKER_INFO_RETRY) {
             synchronized (brokerList) {
                 BrokerLink link = (BrokerLink) brokerList.get(sender);
-                if (link != null)
+                if (link != null) {
                     link.closeConn();
+                }
             }
         } else if (status == cb.ADD_BROKER_INFO_BAN) {
             synchronized (brokerList) {
                 BrokerLink link = (BrokerLink) brokerList.get(sender);
-                if (link != null)
+                if (link != null) {
                     link.shutdown();
+                }
             }
         }
 
@@ -944,28 +962,32 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
             synchronized (brokerList) {
                 BrokerLink link = (BrokerLink) brokerList.get(sender);
-                if (link != null)
+                if (link != null) {
                     link.shutdown();
+                }
             }
             return;
         }
 
         int status = cb.addBrokerInfo(info);
 
-        if (status == cb.ADD_BROKER_INFO_OK)
+        if (status == cb.ADD_BROKER_INFO_OK) {
             return;
+        }
 
         if (status == cb.ADD_BROKER_INFO_RETRY) {
             synchronized (brokerList) {
                 BrokerLink link = (BrokerLink) brokerList.get(sender);
-                if (link != null)
+                if (link != null) {
                     link.closeConn();
+                }
             }
         } else if (status == cb.ADD_BROKER_INFO_BAN) {
             synchronized (brokerList) {
                 BrokerLink link = (BrokerLink) brokerList.get(sender);
-                if (link != null)
+                if (link != null) {
                     link.shutdown();
+                }
             }
         }
     }
@@ -1016,8 +1038,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         synchronized (brokerList) {
             link = (BrokerLink) brokerList.get(addr);
         }
-        if (link != null)
+        if (link != null) {
             link.setFlowControl(enabled);
+        }
     }
 
     /**
@@ -1026,8 +1049,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
     protected Object receivePacket(BrokerAddressImpl from, Packet p, String realRemote, BrokerLink l) {
         Object ret = null;
 
-        if (cb == null)
+        if (cb == null) {
             return ret;
+        }
 
         switch (p.getPacketType()) {
         case Packet.UNICAST:
@@ -1066,24 +1090,29 @@ public class ClusterImpl implements Cluster, ClusterListener {
             receiveBrokerInfoReply(from, gp, realRemote);
             return;
         }
-        if (cb == null)
+        if (cb == null) {
             return;
+        }
 
-        if (gp.getBit(gp.B_BIT))
+        if (gp.getBit(gp.B_BIT)) {
             cb.receiveBroadcast(from, gp);
-        else
+        } else {
             cb.receiveUnicast(from, gp);
+        }
     }
 
+    @Override
     public void useGPackets(boolean useGPackets) {
         this.useGPackets = useGPackets;
     }
 
+    @Override
     public void setCallback(ClusterCallback cb) {
         this.cb = cb;
         self.setClusterVersion(cb.getHighestSupportedVersion());
     }
 
+    @Override
     public void setMatchProps(Properties matchProps) {
         this.matchProps = matchProps;
     }
@@ -1092,10 +1121,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
         return matchProps;
     }
 
+    @Override
     public BrokerAddress getSelfAddress() {
-        return (BrokerAddress) self;
+        return self;
     }
 
+    @Override
     public BrokerAddress getConfigServer() throws BrokerException {
         synchronized (configServerLock) {
             if (!configServerResolved) {
@@ -1110,6 +1141,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public void changeMasterBroker(BrokerAddress newmaster, BrokerAddress oldmaster) throws BrokerException {
         synchronized (configServerLock) {
 
@@ -1155,10 +1187,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public void marshalBrokerAddress(BrokerAddress addr, GPacket gp) {
         ((BrokerAddressImpl) addr).writeBrokerAddress(gp);
     }
 
+    @Override
     public BrokerAddress unmarshalBrokerAddress(GPacket gp) throws Exception {
         return BrokerAddressImpl.readBrokerAddress(gp);
     }
@@ -1167,9 +1201,11 @@ public class ClusterImpl implements Cluster, ClusterListener {
      * Start all the initial BrokerLink threads in 'connectList'. This list contains all the links (connections) to be
      * initiated by this broker.
      */
+    @Override
     public void start() throws IOException {
-        if (supportClusters == false)
+        if (supportClusters == false) {
             return;
+        }
 
         clsmgr.addEventListener(this);
 
@@ -1203,14 +1239,16 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     protected String getServerSocketString() {
         ClusterServiceListener l = listener;
-        if (l != null)
+        if (l != null) {
             return l.getServerSocketString();
+        }
         return null;
     }
 
     /**
      * Shutdown the cluster.
      */
+    @Override
     public void shutdown(boolean force, BrokerAddress excludedBroker) {
         if (supportClusters == false) {
             return;
@@ -1321,18 +1359,21 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public void closeLink(BrokerAddress remote, boolean force) {
         synchronized (brokerList) {
             BrokerLink l = (BrokerLink) brokerList.get(remote);
-            if (l != null)
+            if (l != null) {
                 l.closeConn(force);
+            }
             brokerList.notifyAll();
         }
     }
 
     private void closeLink(String brokerID, UID storeSession) {
-        if (!Globals.getHAEnabled())
+        if (!Globals.getHAEnabled()) {
             return;
+        }
         BrokerAddress remote = null;
         BrokerLink l = null;
         synchronized (brokerList) {
@@ -1348,6 +1389,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public boolean isReachable(BrokerAddress remote, int timeout) throws IOException {
         Class inetc = null;
         java.lang.reflect.Method m = null;
@@ -1379,6 +1421,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
     /**
      * Wait for the cluster connection initialization.
      */
+    @Override
     public void waitClusterInit() {
         if (readyForBroadcast) {
             return;
@@ -1401,13 +1444,15 @@ public class ClusterImpl implements Cluster, ClusterListener {
         readyForBroadcast = true;
     }
 
+    @Override
     public long getLinkInitWaitTime() {
         return BrokerLink.INIT_WAIT_TIME;
     }
 
     public void sendFlowControlUpdate(BrokerAddressImpl addr) throws IOException {
-        if (flowControlState == Packet.STOP_FLOW)
+        if (flowControlState == Packet.STOP_FLOW) {
             sendFlowControlUpdate(addr, flowControlState);
+        }
     }
 
     private void sendFlowControlUpdate(BrokerAddressImpl addr, int type) throws IOException {
@@ -1438,6 +1483,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public void stopMessageFlow() throws IOException {
         synchronized (brokerList) {
             flowControlState = Packet.STOP_FLOW;
@@ -1446,6 +1492,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         sendFlowControlUpdate(null, Packet.STOP_FLOW);
     }
 
+    @Override
     public void resumeMessageFlow() throws IOException {
         synchronized (brokerList) {
             flowControlState = Packet.RESUME_FLOW;
@@ -1454,6 +1501,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         sendFlowControlUpdate(null, Packet.RESUME_FLOW);
     }
 
+    @Override
     public void enablePingLogging(BrokerAddress remote) {
         Collection values;
         synchronized (brokerList) {
@@ -1515,17 +1563,20 @@ public class ClusterImpl implements Cluster, ClusterListener {
     }
 
     private class PingTimerTask extends TimerTask {
+        @Override
         public void run() {
             try {
-                if (useGPackets)
+                if (useGPackets) {
                     sendPingGPacket();
-                else
+                } else {
                     sendPingPacket();
+                }
             } catch (Exception e) {
                 /* Ignore */ }
         }
     }
 
+    @Override
     public void unicastUrgent(BrokerAddress addr, GPacket gp) throws IOException {
         if (!useGPackets) {
             logger.log(logger.WARNING, "Protocol mismatch. GPacket unicast on old cluster");
@@ -1534,6 +1585,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         unicast(addr, gp, false, false, true);
     }
 
+    @Override
     public void unicast(BrokerAddress addr, GPacket gp) throws IOException {
         if (!useGPackets) {
             logger.log(logger.WARNING, "Protocol mismatch. GPacket unicast on old cluster");
@@ -1543,10 +1595,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
         unicast(addr, gp, false, false, false);
     }
 
+    @Override
     public void unicastAndClose(BrokerAddress addr, GPacket gp) throws IOException {
         unicast(addr, gp, false, true, false);
     }
 
+    @Override
     public void unicast(BrokerAddress addr, GPacket gp, boolean flowControl) throws IOException {
         unicast(addr, gp, flowControl, false, false);
     }
@@ -1558,8 +1612,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
 
         if (addr.equals(self)) {
-            if (cb != null)
+            if (cb != null) {
                 cb.receiveUnicast(self, gp);
+            }
             return;
         }
 
@@ -1576,6 +1631,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         link.sendPacket(gp, close, urgent);
     }
 
+    @Override
     public boolean isLinkModified(BrokerAddress remote, Object o) {
         Collection values;
         synchronized (brokerList) {
@@ -1595,10 +1651,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
         return true;
     }
 
+    @Override
     public Map<BrokerAddress, Object> broadcast(GPacket gp) throws IOException {
         return broadcast(gp, false);
     }
 
+    @Override
     public Map<BrokerAddress, Object> broadcastUrgent(GPacket gp) throws IOException {
         return broadcast(gp, true);
     }
@@ -1647,6 +1705,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         return map;
     }
 
+    @Override
     public void unicast(BrokerAddress addr, int destId, byte[] pkt) throws IOException {
         if (useGPackets) {
             logger.log(logger.WARNING, "Protocol mismatch. Old packet unicast on raptor cluster");
@@ -1656,6 +1715,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         unicast(addr, destId, pkt, false);
     }
 
+    @Override
     public void unicast(BrokerAddress addr, int destId, byte[] pkt, boolean flowControl) throws IOException {
         if (useGPackets) {
             logger.log(logger.WARNING, "Protocol mismatch. Old packet unicast on raptor cluster");
@@ -1663,8 +1723,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
 
         if (addr.equals(self)) {
-            if (cb != null)
+            if (cb != null) {
                 cb.receiveUnicast(self, destId, pkt);
+            }
             return;
         }
 
@@ -1687,6 +1748,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         link.sendPacket(p);
     }
 
+    @Override
     public void broadcast(int destId, byte[] pkt) throws IOException {
         if (useGPackets) {
             logger.log(logger.WARNING, "Protocol mismatch. Old packet broadcast on raptor cluster");
@@ -1723,6 +1785,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public void reloadCluster() {
         try {
             clsmgr.reloadConfig();
@@ -1747,6 +1810,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
      * @param name the name of the changed property
      * @param value the new value of the changed property
      */
+    @Override
     public void clusterPropertyChanged(String name, String value) {
         if (name.equals(ClusterManager.PORT_PROPERTY)) {
             try {
@@ -1777,9 +1841,10 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     /**
      * Called when a new broker has been added.
-     * 
+     *
      * @param broker the new broker added.
      */
+    @Override
     public void brokerAdded(ClusteredBroker broker, UID uid) {
         if (!broker.isConfigBroker()) {
             if (DEBUG) {
@@ -1812,8 +1877,9 @@ public class ClusterImpl implements Cluster, ClusterListener {
             if (DEBUG) {
                 logger.log(Logger.INFO, "ClusterImpl: Added link to connectList - " + link);
             }
-            if (newLink)
+            if (newLink) {
                 link.start();
+            }
             return;
         }
         if (DEBUG) {
@@ -1821,6 +1887,7 @@ public class ClusterImpl implements Cluster, ClusterListener {
         }
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("self", self.toString());
@@ -1847,9 +1914,10 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     /**
      * Called when a broker has been removed.
-     * 
+     *
      * @param broker the broker removed.
      */
+    @Override
     public void brokerRemoved(ClusteredBroker broker, UID uid) {
         if (!broker.isConfigBroker()) {
             if (DEBUG) {
@@ -1874,10 +1942,11 @@ public class ClusterImpl implements Cluster, ClusterListener {
 
     /**
      * Called when the broker who is the master broker changes (because of a reload properties).
-     * 
+     *
      * @param oldMaster the previous master broker.
      * @param newMaster the new master broker.
      */
+    @Override
     public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
         // do nothing
     }
@@ -1885,18 +1954,21 @@ public class ClusterImpl implements Cluster, ClusterListener {
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldStatus the previous status.
      * @param newStatus the new status.
      * @param userData data associated with the state change
      */
+    @Override
     public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID brokerSession, Object userData) {
         ClusteredBroker cb = clsmgr.getBroker(brokerid);
-        if (!(cb instanceof HAClusteredBroker))
+        if (!(cb instanceof HAClusteredBroker)) {
             return;
-        if (cb.isLocalBroker())
+        }
+        if (cb.isLocalBroker()) {
             return;
+        }
 
         if (BrokerStatus.getBrokerIsDown(newStatus)) {
             closeLink(cb.getBrokerName(), (UID) userData);
@@ -1907,11 +1979,12 @@ public class ClusterImpl implements Cluster, ClusterListener {
     /**
      * Called when the state of a broker has changed. The state may not be accurate if a previous listener updated the state
      * for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldState the previous state.
      * @param newState the new state.
      */
+    @Override
     public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
         /*
          * if (newState == BrokerState.FAILOVER_PENDING) { //storeSession pass in ? cb.preTakeover(brokerid,
@@ -1928,25 +2001,28 @@ public class ClusterImpl implements Cluster, ClusterListener {
     /**
      * Called when the version of a broker has changed. The state may not be accurate if a previous listener updated the
      * version for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldVersion the previous version.
      * @param newVersion the new version.
      */
+    @Override
     public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
     }
 
     /**
      * Called when the url address of a broker has changed. The address may not be accurate if a previous listener updated
      * the address for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param newAddress the previous address.
      * @param oldAddress the new address.
      */
+    @Override
     public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
     }
 
+    @Override
     public void transferFiles(String[] fileNames, BrokerAddress targetBroker, Long syncTimeout, String uuid, String myBrokerID, String module,
             FileTransferCallback callback) throws BrokerException {
         String to = targetBroker.toString();
@@ -2103,7 +2179,6 @@ public class ClusterImpl implements Cluster, ClusterListener {
                     socket.close();
                 } catch (Exception e) {
                 }
-                ;
             }
             StringBuffer buf = new StringBuffer();
             if (fileNames != null) {
@@ -2189,8 +2264,9 @@ class ClusterServiceListener extends Thread {
             Throwable t = e;
             if (e instanceof java.lang.reflect.InvocationTargetException) {
                 t = e.getCause();
-                if (t == null)
+                if (t == null) {
                     t = e;
+                }
                 if (ClusterImpl.DEBUG && t != e) {
                     logger.logStack(Logger.ERROR, e.getMessage(), e);
                 }
@@ -2241,9 +2317,9 @@ class ClusterServiceListener extends Thread {
         int listenPort = callback.getListenPort();
         HashMap h = null;
 
-        if (listenHost == null)
+        if (listenHost == null) {
             ss = ssf.createServerSocket(listenPort);
-        else {
+        } else {
             ss = ssf.createServerSocket(listenPort, 50, listenHost);
             // Why backlog = 50? According the JDK 1.4 javadoc,
             // that's the default value for ServerSocket().
@@ -2283,6 +2359,7 @@ class ClusterServiceListener extends Thread {
         return done;
     }
 
+    @Override
     public void run() {
         String oomstr = br.getKString(br.M_LOW_MEMORY_CLUSTER);
         while (true) {
@@ -2302,11 +2379,13 @@ class ClusterServiceListener extends Thread {
             } catch (Exception e) {
                 /* Ignore. This happens when ServerSocket is closed.. */
             } catch (OutOfMemoryError e) {
-                if (isDone())
+                if (isDone()) {
                     return;
+                }
                 try {
-                    if (sock != null)
+                    if (sock != null) {
                         sock.close();
+                    }
                 } catch (Throwable t) {
                 } finally {
                     logger.log(Logger.WARNING, oomstr);
@@ -2329,6 +2408,7 @@ class WarningTask extends TimerTask {
         this.parent = parent;
     }
 
+    @Override
     public void run() {
         if (parent.isConfigServerResolved()) {
             cancel();
@@ -2376,6 +2456,7 @@ class FileTransferRunnable implements Runnable {
         }
     }
 
+    @Override
     public void run() {
         String from = remote + "[" + socket.getInetAddress() + "]";
         try {
@@ -2401,7 +2482,6 @@ class FileTransferRunnable implements Runnable {
                 } catch (Exception e) {
                     /* ignore */
                 }
-                ;
                 return;
             }
             ClusterTransferFileListInfo tfl = ClusterTransferFileListInfo.newInstance(gp);
@@ -2414,7 +2494,6 @@ class FileTransferRunnable implements Runnable {
                     socket.close();
                 } catch (Exception e) {
                 }
-                ;
                 return;
             }
             if (!tfl.getModule().equals(FileTransferCallback.STORE)) {
@@ -2424,7 +2503,6 @@ class FileTransferRunnable implements Runnable {
                     socket.close();
                 } catch (Exception e) {
                 }
-                ;
                 return;
             }
             FileTransferCallback callback = (FileTransferCallback) Globals.getStore();
@@ -2447,7 +2525,6 @@ class FileTransferRunnable implements Runnable {
                         socket.close();
                     } catch (Exception e) {
                     }
-                    ;
                     return;
                 }
                 ClusterTransferFileStartInfo tfs = ClusterTransferFileStartInfo.newInstance(gp);
@@ -2458,7 +2535,6 @@ class FileTransferRunnable implements Runnable {
                         socket.close();
                     } catch (Exception e) {
                     }
-                    ;
                     return;
                 }
                 if (!tfs.getBrokerID().equals(tfl.getBrokerID())) {
@@ -2468,7 +2544,6 @@ class FileTransferRunnable implements Runnable {
                         socket.close();
                     } catch (Exception e) {
                     }
-                    ;
                     return;
                 }
                 String tmpfile = tfs.getFileName() + ".tmp";
@@ -2498,7 +2573,6 @@ class FileTransferRunnable implements Runnable {
                                 socket.close();
                             } catch (Exception e1) {
                             }
-                            ;
                             return;
                         }
                         if (count < 0) {
@@ -2508,7 +2582,6 @@ class FileTransferRunnable implements Runnable {
                                 socket.close();
                             } catch (Exception e) {
                             }
-                            ;
                             return;
                         }
                         totalread += count;
@@ -2529,7 +2602,6 @@ class FileTransferRunnable implements Runnable {
                             socket.close();
                         } catch (Exception e) {
                         }
-                        ;
                         return;
                     }
                     fte = ClusterTransferFileEndInfo.newInstance(gp);
@@ -2539,7 +2611,6 @@ class FileTransferRunnable implements Runnable {
                             socket.close();
                         } catch (Exception e) {
                         }
-                        ;
                         return;
                     }
                     os.close();
@@ -2608,7 +2679,6 @@ class FileTransferRunnable implements Runnable {
                 socket.close();
             } catch (Exception e) {
             }
-            ;
             logger.logStack(logger.ERROR, br.getKString(br.E_CLUSTER_PROCESS_FILE_TX_REQUEST, from), t);
         } finally {
             es.shutdownNow();

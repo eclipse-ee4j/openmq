@@ -36,6 +36,7 @@ public class StompFrameMessageImpl extends StompFrameMessage {
     private static final StompFrameMessageFactory factory = new StompFrameMessageFactoryImpl();
 
     static class StompFrameMessageFactoryImpl implements StompFrameMessageFactory {
+        @Override
         public StompFrameMessage newStompFrameMessage(Command cmd, LoggerWrapper logger) {
             return new StompFrameMessageImpl(cmd, logger);
         }
@@ -129,32 +130,39 @@ public class StompFrameMessageImpl extends StompFrameMessage {
             this.buf = buf;
         }
 
+        @Override
         public Buffer getWrapped() {
             return buf;
         }
 
+        @Override
         public int position() {
             return buf.position();
         }
 
+        @Override
         public ByteBufferWrapper position(int newPosition) {
             buf.position(newPosition);
             return this;
         }
 
+        @Override
         public boolean hasRemaining() {
             return buf.hasRemaining();
         }
 
+        @Override
         public int remaining() {
             return buf.remaining();
         }
 
+        @Override
         public ByteBufferWrapper flip() {
             buf.flip();
             return this;
         }
 
+        @Override
         public byte get() {
             return buf.get();
         }

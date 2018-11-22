@@ -29,6 +29,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseException extends Exception {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 7976960827075906685L;
+
+    /**
      * This constructor is used by the method "generateParseException" in the generated parser. Calling this constructor
      * generates a new object of this type with the fields "currentToken", "expectedTokenSequences", and "tokenImage" set.
      * The boolean flag "specialConstructor" is also set to true to indicate that this constructor was used to create this
@@ -90,6 +95,7 @@ public class ParseException extends Exception {
      * has been created due to a parse error, and you do not catch it (it gets thrown from the parser), then this method is
      * called during the printing of the final stack trace, and hence the correct error message gets displayed.
      */
+    @Override
     public String getMessage() {
         if (!specialConstructor) {
             return super.getMessage();
@@ -112,8 +118,9 @@ public class ParseException extends Exception {
         retval.append("Encountered \"");
         Token tok = currentToken.next;
         for (int i = 0; i < maxSize; i++) {
-            if (i != 0)
+            if (i != 0) {
                 retval.append(" ");
+            }
             if (tok.kind == 0) {
                 retval.append(tokenImage[0]);
                 break;

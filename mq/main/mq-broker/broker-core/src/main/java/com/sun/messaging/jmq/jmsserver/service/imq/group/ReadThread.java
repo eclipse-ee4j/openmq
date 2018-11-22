@@ -22,14 +22,11 @@ package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
 import java.io.*;
-import java.nio.channels.spi.*;
 import java.nio.channels.*;
-import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 class ReadThread extends SelectThread {
@@ -43,6 +40,7 @@ class ReadThread extends SelectThread {
         POSSIBLE_MASK = SelectionKey.OP_READ; // none
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("TYPE", "ReadThread");
@@ -50,16 +48,20 @@ class ReadThread extends SelectThread {
         return ht;
     }
 
+    @Override
     protected void wakeup() {
         Selector s = selector;
-        if (s != null)
+        if (s != null) {
             s.wakeup();
+        }
     }
 
+    @Override
     protected void process() throws IOException {
         Selector s = selector;
-        if (s == null)
+        if (s == null) {
             throw new IOException("connection gone");
+        }
         int cnt = 0;
         try {
             cnt = s.select(TIMEOUT);

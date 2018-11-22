@@ -30,7 +30,7 @@ class HADBTransactionDAOImpl extends TransactionDAOImpl {
 
     /**
      * Constructor
-     * 
+     *
      * @throws com.sun.messaging.jmq.jmsserver.util.BrokerException
      */
     HADBTransactionDAOImpl() throws BrokerException {
@@ -41,6 +41,7 @@ class HADBTransactionDAOImpl extends TransactionDAOImpl {
     /**
      * Delete all entries.
      */
+    @Override
     protected void deleteAll(Connection conn, String whereClause, String timestampColumn, int chunkSize) throws BrokerException {
 
         super.deleteAll(conn, whereClause, EXPIRED_TS_COLUMN, HADB_CHUNK_SIZE);

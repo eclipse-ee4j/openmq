@@ -17,23 +17,14 @@
 package com.sun.messaging.bridge.service.stomp;
 
 import java.io.IOException;
-import java.util.Map;
 import java.util.Properties;
-import java.util.LinkedHashMap;
-import java.util.Collections;
-import java.nio.ByteBuffer;
 import java.util.logging.Logger;
 import java.util.logging.Level;
 import org.glassfish.grizzly.GrizzlyFuture;
 import org.glassfish.grizzly.Connection;
-import org.glassfish.grizzly.Grizzly;
-import org.glassfish.grizzly.attributes.Attribute;
 import org.glassfish.grizzly.filterchain.BaseFilter;
 import org.glassfish.grizzly.filterchain.FilterChainContext;
 import org.glassfish.grizzly.filterchain.NextAction;
-import org.glassfish.grizzly.memory.MemoryManager;
-import org.glassfish.grizzly.WriteResult;
-import org.glassfish.grizzly.CompletionHandler;
 import com.sun.messaging.bridge.api.BridgeContext;
 import com.sun.messaging.bridge.api.StompFrameMessage;
 import com.sun.messaging.bridge.api.StompProtocolHandler;
@@ -134,10 +125,12 @@ public class StompMessageDispatchFilter extends BaseFilter implements StompOutpu
         return ctx.getInvokeAction();
     }
 
+    @Override
     public void sendToClient(StompFrameMessage msg) throws Exception {
         throw new UnsupportedOperationException("sendToclient(msg)");
     }
 
+    @Override
     public void sendToClient(final StompFrameMessage msg, StompProtocolHandler sph, final Object context) throws Exception {
         FilterChainContext ctx = (FilterChainContext) context;
         boolean closechannel = false;

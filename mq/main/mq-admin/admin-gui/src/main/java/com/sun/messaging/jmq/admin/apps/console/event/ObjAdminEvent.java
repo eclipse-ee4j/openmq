@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.admin.apps.console.event;
 
-import java.util.EventObject;
 import java.util.Properties;
 import java.util.Vector;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
@@ -34,6 +33,10 @@ import com.sun.messaging.jmq.admin.objstore.ObjStoreAttrs;
  * The fields of this event include the various pieces of information needed for object management tasks.
  */
 public class ObjAdminEvent extends AdminEvent {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5437958055298936323L;
     /*
      * ObjAdminEvent event types
      */
@@ -74,7 +77,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /**
      * Creates an instance of ObjAdminEvent
-     * 
+     *
      * @param source the object where the event originated
      */
     public ObjAdminEvent(Object source) {
@@ -83,7 +86,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /**
      * Creates an instance of ObjAdminEvent
-     * 
+     *
      * @param source the object where the event originated
      * @type the event type
      */
@@ -93,7 +96,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set object store attributes. This may be needed for object store creation for example.
-     * 
+     *
      * @param osa Object Store Attributes to set on this event object.
      */
     public void setObjStoreAttrs(ObjStoreAttrs osa) {
@@ -102,7 +105,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Return object store attributes.
-     * 
+     *
      * @return Object Store Attributes.
      */
     public ObjStoreAttrs getObjStoreAttrs() {
@@ -111,7 +114,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set object store.
-     * 
+     *
      * @param os Object Store to set on this event object.
      */
     public void setObjStore(ObjStore os) {
@@ -120,7 +123,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the object store.
-     * 
+     *
      * @return The Object Store.
      */
     public ObjStore getObjStore() {
@@ -129,7 +132,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set new object store id (for an update).
-     * 
+     *
      * @param id id Object Store to set on this event object.
      */
     public void setObjStoreID(String id) {
@@ -138,7 +141,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Get new object store id (for an update).
-     * 
+     *
      * @return The Obj Store ID
      */
     public String getObjStoreID() {
@@ -155,7 +158,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set dest destination type.
-     * 
+     *
      * @param type Type of destination
      */
     public void setDestinationType(int destType) {
@@ -164,7 +167,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the destination type
-     * 
+     *
      * @return The Destination Type
      */
     public int getDestinationType() {
@@ -173,7 +176,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set connectio factory type.
-     * 
+     *
      * @param type Type of destination
      */
     public void setFactoryType(int factoryType) {
@@ -182,7 +185,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the factory type
-     * 
+     *
      * @return The Factory Type
      */
     public int getFactoryType() {
@@ -191,7 +194,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set lookup name.
-     * 
+     *
      * @param lookupName The Lookup Name
      */
     public void setLookupName(String lookupName) {
@@ -200,7 +203,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the lookup name.
-     * 
+     *
      * @return The Lookup Name
      */
     public String getLookupName() {
@@ -209,7 +212,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set object store manager.
-     * 
+     *
      * @param osMgr Object Store Manager to set on this event object.
      */
     public void setObjStoreManager(ObjStoreManager osMgr) {
@@ -218,7 +221,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the object store manager.
-     * 
+     *
      * @return The Object Store Manager.
      */
     public ObjStoreManager getObjStoreManager() {
@@ -227,7 +230,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set object properties.
-     * 
+     *
      * @param objProps Properties to set on the Administered Object.
      */
     public void setObjProperties(Properties objProps) {
@@ -236,7 +239,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the object properties;
-     * 
+     *
      * @return The Object Properties;
      */
     public Properties getObjProperties() {
@@ -245,7 +248,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Set missing authorization info
-     * 
+     *
      * @param missingInfo Vector of security properties that are missing.
      */
     public void setMissingAuthInfo(Vector missingInfo) {
@@ -254,7 +257,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns the Vector
-     * 
+     *
      * @return The Vector of Properties;
      */
     public Vector getMissingAuthInfo() {
@@ -273,7 +276,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns whether this event is trigerred by an 'OK' action.
-     * 
+     *
      * @return True if this is an 'OK' action, false otherwise.
      */
     public boolean isOKAction() {
@@ -291,7 +294,7 @@ public class ObjAdminEvent extends AdminEvent {
 
     /*
      * Returns whether or not to attempt to connect to the object store when adding/updating it.
-     * 
+     *
      * @return True if attempt to connect, false otherwise.
      */
     public boolean isConnectAttempt() {

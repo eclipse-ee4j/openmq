@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsservice;
 public class BrokerErrorEvent extends BrokerEvent {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -8397139454553239996L;
+
+    /**
      * The error number of the error
      */
     private int errorNumber;

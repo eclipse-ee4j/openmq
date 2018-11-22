@@ -30,7 +30,7 @@ import java.util.Properties;
 
 /**
  * This class is used for debugging purposes.
- * 
+ *
  * @author chiaming
  */
 public class ssendwithdrawn implements ReadOnlyService {
@@ -39,13 +39,15 @@ public class ssendwithdrawn implements ReadOnlyService {
 
     /**
      * initialize with the servlet init params.
-     * 
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
 
+    @Override
     public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
 
         try {

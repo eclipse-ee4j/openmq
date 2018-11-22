@@ -44,19 +44,21 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
     private Refreshable cacheData = null;
     // private boolean cacheDataMaystaled;
 
+    @Override
     public String getType() {
         return AccessController.AUTHTYPE_DIGEST;
     }
 
     /**
      * This method is called once before any handleReponse() calls
-     * 
+     *
      * @param sequence packet sequence number
      * @param authProps authentication properties
      * @param cacheData the cacheData
-     * 
+     *
      * @return initial authentication request data if any
      */
+    @Override
     public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authProps = authProperties;
         String clientip = authProps.getProperty(Globals.IMQ + ".clientIP");
@@ -76,9 +78,10 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
      *
      * @return next request data if any; null if no more request. The request data will be sent as packet body in
      * AUTHENTICATE_REQUEST
-     * 
+     *
      * @exception LoginException
      */
+    @Override
     public byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
         Subject subject = null;
 
@@ -125,13 +128,16 @@ public class JMQDigestAuthenticationHandler implements AuthenticationProtocolHan
 
     }
 
+    @Override
     public void logout() {
     }
 
+    @Override
     public AccessControlContext getAccessControlContext() {
         return acc;
     }
 
+    @Override
     public Refreshable getCacheData() {
         return cacheData;
     }

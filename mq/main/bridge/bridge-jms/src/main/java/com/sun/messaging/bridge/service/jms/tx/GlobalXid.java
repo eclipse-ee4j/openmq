@@ -21,11 +21,16 @@ import com.sun.messaging.jmq.util.XidImpl;
 
 /**
  * Xid representing a global xid to facilitate tx logging
- * 
+ *
  * @author amyk
  */
 
 public class GlobalXid extends XidImpl {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 6625936869972286045L;
 
     public GlobalXid() {
         super();

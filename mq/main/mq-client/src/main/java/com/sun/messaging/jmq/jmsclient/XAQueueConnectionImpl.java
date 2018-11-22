@@ -41,9 +41,10 @@ public class XAQueueConnectionImpl extends QueueConnectionImpl implements XAQueu
 
     /**
      * Create an XAQueueSession.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public XAQueueSession createXAQueueSession() throws JMSException {
 
         checkConnectionState();
@@ -56,28 +57,30 @@ public class XAQueueConnectionImpl extends QueueConnectionImpl implements XAQueu
 
     /**
      * Create an XAQueueSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public QueueSession createQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new XAQueueSessionImpl(this, transacted, acknowledgeMode);
     }
 
     /**
      * Create an XAQueueSession
-     * 
+     *
      * @param transacted ignored.
      * @param acknowledgeMode ignored.
-     * 
+     *
      * @return a newly created XA topic session.
-     * 
+     *
      * @exception JMSException if JMS Connection fails to create a XA topic session due to some internal error.
      */
+    @Override
     public JMSXAQueueSession createXAQueueSession(boolean transacted, int acknowledgeMode) throws JMSException {
         return new JMSXAQueueSessionImpl(this, transacted, acknowledgeMode);
     }
@@ -87,7 +90,8 @@ public class XAQueueConnectionImpl extends QueueConnectionImpl implements XAQueu
      *
      * @return the QueueConnection
      */
+    @Override
     public QueueConnection getQueueConnection() {
-        return (QueueConnection) (this);
+        return (this);
     }
 }

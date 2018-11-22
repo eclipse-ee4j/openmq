@@ -21,7 +21,6 @@
 package com.sun.messaging.jmq.jmsserver.cluster.api;
 
 import java.util.Map;
-import java.util.Set;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Properties;
@@ -120,7 +119,7 @@ public interface ClusterBroadcast {
 
     /**
      * Returns the address of this broker.
-     * 
+     *
      * @return <code> BrokerAddress </code> object representing this broker.
      */
     public BrokerAddress getMyAddress();

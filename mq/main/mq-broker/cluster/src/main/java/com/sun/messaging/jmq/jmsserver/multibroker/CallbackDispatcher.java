@@ -29,20 +29,16 @@ import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.BrokerStateHandler;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Consumer;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
 import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterGoodbyeInfo;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterMessageInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ClusterMessageAckInfo;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
-import com.sun.messaging.jmq.jmsserver.multibroker.raptor.RaptorProtocol;
 import com.sun.messaging.jmq.jmsserver.FaultInjection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.UID;
@@ -125,6 +121,7 @@ public final class CallbackDispatcher extends Thread {
         try {
 
             syncAckExecutor.execute(new Runnable() {
+                @Override
                 public void run() {
                     try {
                         p.handleGPacket(cb, sender, pkt);
@@ -179,6 +176,7 @@ public final class CallbackDispatcher extends Thread {
             final TransactionUID tuid = new TransactionUID(transactionID.longValue());
             final UID ss = ClusterMessageAckInfo.getAckAckStoreSessionUID(pkt);
             commitAckExecutor.execute(new Runnable() {
+                @Override
                 public void run() {
                     try {
                         BrokerAddress addr = sender;
@@ -236,6 +234,7 @@ public final class CallbackDispatcher extends Thread {
         try {
 
             msgDataExecutor.execute(new Runnable() {
+                @Override
                 public void run() {
                     try {
                         p.handleGPacket(cb, sender, pkt);
@@ -262,11 +261,14 @@ public final class CallbackDispatcher extends Thread {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
                 ev = (CallbackEvent) itr.next();
-                if (!(ev instanceof GPacketCallbackEvent))
+                if (!(ev instanceof GPacketCallbackEvent)) {
                     continue;
+                }
                 GPacketCallbackEvent gpev = (GPacketCallbackEvent) ev;
                 if (!gpev.getSender().equals(sender))
+                 {
                     continue; // XXXbrokerSessionUID
+                }
                 if (gpev.getEventType() == ProtocolGlobals.G_MESSAGE_ACK || gpev.getEventType() == ProtocolGlobals.G_MESSAGE_DATA) {
                     if (DEBUG_CLUSTER_MSG || DEBUG_CLUSTER_TXN) {
                         logger.log(logger.INFO,
@@ -284,13 +286,17 @@ public final class CallbackDispatcher extends Thread {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
                 ev = (CallbackEvent) itr.next();
-                if (!(ev instanceof GPacketCallbackEvent))
+                if (!(ev instanceof GPacketCallbackEvent)) {
                     continue;
+                }
                 GPacketCallbackEvent gpev = (GPacketCallbackEvent) ev;
                 if (!gpev.getSender().equals(sender))
+                 {
                     continue; // XXXbrokerSessionUID
-                if (gpev.getEventType() != ProtocolGlobals.G_MESSAGE_ACK_REPLY)
+                }
+                if (gpev.getEventType() != ProtocolGlobals.G_MESSAGE_ACK_REPLY) {
                     continue;
+                }
                 if (DEBUG) {
                     logger.log(logger.INFO, "Processed G_MESSAGE_ACK_REPLY from " + sender);
                 }
@@ -367,14 +373,17 @@ public final class CallbackDispatcher extends Thread {
             Iterator itr = eventQ.iterator();
             while (itr.hasNext()) {
                 e = (CallbackEvent) itr.next();
-                if (!(e instanceof GPacketCallbackEvent))
+                if (!(e instanceof GPacketCallbackEvent)) {
                     continue;
+                }
                 GPacketCallbackEvent ge = (GPacketCallbackEvent) e;
-                if (!ge.getSender().equals(broker))
+                if (!ge.getSender().equals(broker)) {
                     continue;
+                }
                 if (ge.getSender().getBrokerSessionUID() != null && broker.getBrokerSessionUID() != null
-                        && (!ge.getSender().getBrokerSessionUID().equals(broker.getBrokerSessionUID())))
+                        && (!ge.getSender().getBrokerSessionUID().equals(broker.getBrokerSessionUID()))) {
                     continue;
+                }
                 if (ge.getEventType() == ProtocolGlobals.G_MESSAGE_ACK_REPLY || ge.getEventType() == ProtocolGlobals.G_NEW_INTEREST
                         || ge.getEventType() == ProtocolGlobals.G_INTEREST_UPDATE || ge.getEventType() == ProtocolGlobals.G_DURABLE_ATTACH
                         || ge.getEventType() == ProtocolGlobals.G_NEW_PRIMARY_INTEREST || ge.getEventType() == ProtocolGlobals.G_REM_INTEREST
@@ -504,6 +513,7 @@ public final class CallbackDispatcher extends Thread {
         return ht;
     }
 
+    @Override
     public void run() {
         int restartCode = BrokerStateHandler.getRestartCode();
         String oomsg = Globals.getBrokerResources().getKString(BrokerResources.M_CLUSTER_DISPATCHER_LOW_MEM);
@@ -525,7 +535,9 @@ public final class CallbackDispatcher extends Thread {
                         }
 
                         if (stopThread)
+                         {
                             break; // Ignore the pending events.
+                        }
 
                         cbe = (CallbackEvent) eventQ.removeFirst();
                     }
@@ -535,8 +547,9 @@ public final class CallbackDispatcher extends Thread {
                         firstpass = true;
                     } finally {
                         CallbackEventListener l = cbe.getEventListener();
-                        if (l != null)
+                        if (l != null) {
                             l.eventProcessed();
+                        }
                     }
 
                 } catch (Exception e) {
@@ -552,7 +565,6 @@ public final class CallbackDispatcher extends Thread {
                             sleep(1);
                         } catch (InterruptedException ex) {
                         }
-                        ;
                         continue;
                     }
                     Broker.getBroker().exit(restartCode, oomsg, BrokerEvent.Type.RESTART, e, false, false, false);
@@ -575,8 +587,9 @@ public final class CallbackDispatcher extends Thread {
                     cbe = (CallbackEvent) eventQ.removeFirst();
                     while (cbe != null) {
                         CallbackEventListener l = cbe.getEventListener();
-                        if (l != null)
+                        if (l != null) {
                             l.eventProcessed();
+                        }
                         cbe = (CallbackEvent) eventQ.removeFirst();
                     }
 
@@ -586,7 +599,7 @@ public final class CallbackDispatcher extends Thread {
             }
 
         }
-    };
+    }
 }
 
 abstract class CallbackEvent {
@@ -624,10 +637,12 @@ class ConfigSyncCompleteCallbackEvent extends CallbackEvent {
     public ConfigSyncCompleteCallbackEvent() {
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.configSyncComplete();
     }
 
+    @Override
     public String toString() {
         return "ConfigSyncCompleted";
     }
@@ -652,10 +667,12 @@ class GPacketCallbackEvent extends CallbackEvent {
         return sender;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         p.handleGPacket(cb, sender, pkt);
     }
 
+    @Override
     public String toString() {
         return ProtocolGlobals.getPacketTypeString(pkt.getType()) + ", from " + sender;
     }
@@ -668,10 +685,12 @@ class InterestCreatedCallbackEvent extends CallbackEvent {
         this.intr = intr;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.interestCreated(intr);
     }
 
+    @Override
     public String toString() {
         return "InterestCreated: " + intr;
     }
@@ -688,10 +707,12 @@ class InterestRemovedCallbackEvent extends CallbackEvent {
         this.cleanup = cleanup;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.interestRemoved(intr, pendingMsgs, cleanup);
     }
 
+    @Override
     public String toString() {
         return "InterestRemoved: " + intr + ", cleanup=" + cleanup + ", pendingMsgs=" + pendingMsgs;
     }
@@ -713,6 +734,7 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
         this.intid = null;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         if (intr == null && intid != null) {
             intr = Consumer.getConsumer(intid);
@@ -727,6 +749,7 @@ class PrimaryInterestChangedCallbackEvent extends CallbackEvent {
         cb.activeStateChanged(intr);
     }
 
+    @Override
     public String toString() {
         return "PrimaryInterestChanged: " + intid;
     }
@@ -739,10 +762,12 @@ class ClientDownCallbackEvent extends CallbackEvent {
         this.conid = conid;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.clientDown(conid);
     }
 
+    @Override
     public String toString() {
         return "ClientDown: " + conid;
     }
@@ -755,10 +780,12 @@ class BrokerDownCallbackEvent extends CallbackEvent {
         this.broker = broker;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.brokerDown(broker);
     }
 
+    @Override
     public String toString() {
         return "BrokerDown: " + broker;
     }
@@ -773,14 +800,17 @@ class ClusterCreateDestinationCallbackEvent extends CallbackEvent {
         this.l = listener;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.notifyCreateDestination(d);
     }
 
+    @Override
     public CallbackEventListener getEventListener() {
         return l;
     }
 
+    @Override
     public String toString() {
         return "DestinationCreated: " + d;
     }
@@ -797,14 +827,17 @@ class ClusterUpdateDestinationCallbackEvent extends CallbackEvent {
         this.l = listener;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.notifyUpdateDestination(duid, changes);
     }
 
+    @Override
     public CallbackEventListener getEventListener() {
         return l;
     }
 
+    @Override
     public String toString() {
         return "DestinationUpdated: " + duid;
     }
@@ -819,14 +852,17 @@ class ClusterDestroyDestinationCallbackEvent extends CallbackEvent {
         this.l = listener;
     }
 
+    @Override
     public void dispatch(MessageBusCallback cb) {
         cb.notifyDestroyDestination(d);
     }
 
+    @Override
     public CallbackEventListener getEventListener() {
         return l;
     }
 
+    @Override
     public String toString() {
         return "DestinationDetroyed: " + d;
     }

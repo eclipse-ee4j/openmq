@@ -69,6 +69,7 @@ public class UserInfo {
         return (user + ":" + passwd + ":" + role + ":" + (active ? "1" : "0"));
     }
 
+    @Override
     public String toString() {
         return (getPasswdEntry());
     }

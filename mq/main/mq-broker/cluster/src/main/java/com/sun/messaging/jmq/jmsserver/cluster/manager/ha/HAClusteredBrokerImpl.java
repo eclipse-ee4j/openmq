@@ -149,12 +149,15 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
         this.heartbeat = store.getBrokerHeartbeat(brokerid);
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (!(o instanceof ClusteredBroker))
+        if (!(o instanceof ClusteredBroker)) {
             return false;
+        }
         return this.getBrokerName().equals(((ClusteredBroker) o).getBrokerName());
     }
 
+    @Override
     public int hashCode() {
         return this.getBrokerName().hashCode();
     }
@@ -187,7 +190,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
     /**
      * Sets if this broker is local or not/
-     * 
+     *
      * @param local true if the broker is running in the current vm
      * @see #isLocalBroker
      */
@@ -199,10 +202,12 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * String representation of this broker.
      */
+    @Override
     public String toString() {
-        if (!local)
+        if (!local) {
             return "-" + brokerid + "@" + address + ":" + state + "[StoreSession:" + session + ", BrokerSession:" + brokerSessionUID + "]" + ":"
                     + BrokerStatus.toString(status.intValue());
+        }
         return "*" + brokerid + "@" + address + ":" + state + "[StoreSession:" + session + ", BrokerSession:" + brokerSessionUID + "]" + ":"
                 + BrokerStatus.toString(status.intValue());
 
@@ -217,15 +222,17 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @return the name of the broker
      */
+    @Override
     public String getBrokerName() {
         return brokerid;
     }
 
     /**
      * the URL to the portmapper of this broker
-     * 
+     *
      * @return the URL of this broker
      */
+    @Override
     public MQAddress getBrokerURL() {
         return address;
     }
@@ -233,6 +240,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * @return The instance name of this broker, can be null
      */
+    @Override
     public String getInstanceName() {
         return instanceName;
     }
@@ -240,6 +248,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * @param instName The instance name of this broker, can be null
      */
+    @Override
     public void setInstanceName(String instName) {
         instanceName = instName;
     }
@@ -247,6 +256,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * the URL to the portmapper of this broker
      */
+    @Override
     public void setBrokerURL(MQAddress address) throws Exception {
         if (!local) {
             throw new UnsupportedOperationException("Only the local broker can have its url changed");
@@ -267,6 +277,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * resets the takeover broker
      */
+    @Override
     public void resetTakeoverBrokerReadyOperating() throws Exception {
         if (!local) {
             throw new UnsupportedOperationException("Only the local broker can have its takeover broker reset");
@@ -291,9 +302,10 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
     /**
      * Is this the address of the broker running in this VM
-     * 
+     *
      * @return true if this is the broker running in the current vm
      */
+    @Override
     public boolean isLocalBroker() {
         return local;
     }
@@ -304,25 +316,28 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      * @see BrokerStatus
      * @return the status of the broker
      */
+    @Override
     public synchronized int getStatus() {
         return status.intValue();
     }
 
     /**
      * gets the protocol version of the broker .
-     * 
+     *
      * @return the current cluster protocol version (if known) or 0 if not known
      */
+    @Override
     public synchronized int getVersion() {
         return (version == null ? 0 : version.intValue());
     }
 
     /**
      * sets the protocol version of the broker .
-     * 
+     *
      * @param version the current cluster protocol version (if known) or 0 if not known
      * @throws UnsupportedOperationException if this change can not be made on this broker
      */
+    @Override
     public synchronized void setVersion(int version) throws Exception
 
     {
@@ -347,28 +362,32 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      * @param userData optional user data
      * @see ConfigListener
      */
+    @Override
     public void setStatus(int newstatus, Object userData) {
         UID uid = null;
         Integer oldstatus = null;
         synchronized (this) {
-            if (this.status.intValue() == newstatus)
+            if (this.status.intValue() == newstatus) {
                 return;
+            }
             uid = getBrokerSessionUID();
             oldstatus = this.status;
             this.status = Integer.valueOf(newstatus);
         }
         // notify
-        if (!oldstatus.equals(this.status))
+        if (!oldstatus.equals(this.status)) {
             parent.brokerChanged(ClusterReason.STATUS_CHANGED, this.getBrokerName(), oldstatus, this.status, uid, userData);
+        }
 
     }
 
     /**
      * Updates the BROKER_UP bit flag on status.
-     * 
+     *
      * @param userData optional user data
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerIsUp(boolean up, UID brokerSession, Object userData) {
 
         UID uid = brokerSession;
@@ -398,17 +417,19 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
             }
         }
         // notify
-        if (!oldstatus.equals(this.status))
+        if (!oldstatus.equals(this.status)) {
             parent.brokerChanged(ClusterReason.STATUS_CHANGED, this.getBrokerName(), oldstatus, newstatus, uid, userData);
+        }
 
     }
 
     /**
      * Updates the BROKER_LINK_UP bit flag on status.
-     * 
+     *
      * @param userData optional user data
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerLinkUp(boolean up, Object userData) {
 
         UID uid = null;
@@ -426,17 +447,19 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
             this.status = Integer.valueOf(newStatus);
         }
         // notify
-        if (!oldstatus.equals(this.status))
+        if (!oldstatus.equals(this.status)) {
             parent.brokerChanged(ClusterReason.STATUS_CHANGED, this.getBrokerName(), oldstatus, this.status, uid, userData);
+        }
 
     }
 
     /**
      * Updates the BROKER_INDOUBT bit flag on status.
-     * 
+     *
      * @param userData optional user data
      * @param up setting for the bit flag (true/false)
      */
+    @Override
     public void setBrokerInDoubt(boolean up, Object userData) {
 
         UID uid = (UID) userData;
@@ -464,8 +487,9 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
             }
         }
         // notify
-        if (!oldstatus.equals(this.status))
+        if (!oldstatus.equals(this.status)) {
             parent.brokerChanged(ClusterReason.STATUS_CHANGED, this.getBrokerName(), oldstatus, newstatus, uid, userData);
+        }
 
     }
 
@@ -474,6 +498,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @see BrokerStatus#setBrokerIsDown
      */
+    @Override
     public void destroy() {
         synchronized (this) {
             status = Integer.valueOf(BrokerStatus.setBrokerIsDown(status.intValue()));
@@ -485,6 +510,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @return the store session uid (if known)
      */
+    @Override
     public synchronized UID getStoreSessionUID() {
         return session;
     }
@@ -494,6 +520,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @return the broker session uid (if known)
      */
+    @Override
     public synchronized UID getBrokerSessionUID() {
         return brokerSessionUID;
     }
@@ -503,10 +530,12 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @param uid the new broker session uid
      */
+    @Override
     public synchronized void setBrokerSessionUID(UID uid) {
         brokerSessionUID = uid;
     }
 
+    @Override
     public boolean isBrokerIDGenerated() {
         return false;
     }
@@ -516,6 +545,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
      *
      * @return the broker id of the takeover broker (or null if there is not a takeover broker).
      */
+    @Override
     public synchronized String getTakeoverBroker() throws BrokerException {
         HABrokerInfo bkrInfo = Globals.getStore().getBrokerInfo(brokerid);
         if (bkrInfo == null) {
@@ -529,25 +559,28 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * Returns the heartbeat timestamp associated with this broker. <b>Note:</b> the heartbeat is always retrieved from the
      * store before it is returned (so its current).
-     * 
+     *
      * @return the heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be retrieve.
      */
+    @Override
     public long getHeartbeat() throws BrokerException {
         heartbeat = Globals.getStore().getBrokerHeartbeat(brokerid);
         return heartbeat;
     }
 
+    @Override
     public synchronized long updateHeartbeat() throws BrokerException {
         return updateHeartbeat(false);
     }
 
     /**
      * Update the timestamp associated with this broker.
-     * 
+     *
      * @return the updated heartbeat in milliseconds
      * @throws BrokerException if the heartbeat can not be set or retrieve.
      */
+    @Override
     public synchronized long updateHeartbeat(boolean reset) throws BrokerException {
         // this one always accesses the backing store
         Store store = Globals.getStore();
@@ -606,11 +639,12 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * gets the state of the broker . <b>Note:</b> the state is always retrieved from the store before it is returned (so
      * its current).
-     * 
+     *
      *
      * @throws BrokerException if the state can not be retrieve
      * @return the current state
      */
+    @Override
     public BrokerState getState() throws BrokerException {
 //          this should always retrieve the state on disk (I think)
         BrokerState oldState = state;
@@ -622,6 +656,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
     }
 
+    @Override
     public void setStateFailoverProcessed(UID storeSession) throws Exception {
         if (local) {
             throw new IllegalAccessException("Cannot update self state to " + BrokerState.FAILOVER_PROCESSED);
@@ -646,6 +681,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
         }
     }
 
+    @Override
     public void setStateFailoverFailed(UID brokerSession) throws Exception {
         if (local) {
             throw new IllegalAccessException("Cannot update self state to " + BrokerState.FAILOVER_FAILED);
@@ -672,12 +708,13 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
     /**
      * sets the persistent state of the broker
-     * 
+     *
      * @throws IllegalAccessException if the broker does not have permission to change the broker (e.g. one broker is
      * updating anothers state).
      * @throws IllegalStateException if the broker state changed unexpectedly.
      * @throws IndexOutOfBoundsException if the state value is not allowed.
      */
+    @Override
     public void setState(BrokerState newstate) throws IllegalAccessException, IllegalStateException, IndexOutOfBoundsException {
         if (!local && newstate != BrokerState.FAILOVER_PROCESSED && newstate != BrokerState.FAILOVER_STARTED && newstate != BrokerState.FAILOVER_COMPLETE
                 && newstate != BrokerState.FAILOVER_FAILED) {
@@ -689,8 +726,9 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
         try {
             BrokerState oldState = getState();
             if (newstate != BrokerState.FAILOVER_PENDING && newstate != BrokerState.FAILOVER_PROCESSED && newstate != BrokerState.FAILOVER_FAILED) {
-                if (!Globals.getStore().updateBrokerState(brokerid, newstate, state, local))
+                if (!Globals.getStore().updateBrokerState(brokerid, newstate, state, local)) {
                     throw new IllegalStateException("Could not update broker state from " + oldState + " to state " + newstate + " for " + brokerid);
+                }
             }
             state = newstate;
             parent.brokerChanged(ClusterReason.STATE_CHANGED, this.getBrokerName(), oldState, this.state, null, null);
@@ -715,10 +753,11 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
 
     /**
      * attempt to take over the persistent state of the broker
-     * 
+     *
      * @throws IllegalStateException if this broker can not takeover.
      * @return data associated with previous broker
      */
+    @Override
     public TakeoverStoreInfo takeover(boolean force, Object extraInfo, TakingoverTracker tracker) throws BrokerException {
         int delay = Globals.getConfig().getIntProperty(Globals.IMQ + ".cluster.takeover.delay.interval", 0);
         if (delay > 0) {
@@ -778,6 +817,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * Is the broker static or dynmically configured
      */
+    @Override
     public boolean isConfigBroker() {
         return true;
     }
@@ -785,6 +825,7 @@ public class HAClusteredBrokerImpl implements HAClusteredBroker {
     /**
      * used by replicated BDB
      */
+    @Override
     public String getNodeName() throws BrokerException {
         throw new UnsupportedOperationException("Unexpected call" + getClass().getName() + ".getNodeName()");
     }

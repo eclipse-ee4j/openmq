@@ -44,7 +44,7 @@ package com.sun.messaging.jmq.io.txnlog;
  * 9. Record body data (byte[], size defined in #3 above)
  *
  * <p>
- * 
+ *
  * @see TransactionLogWriter
  */
 
@@ -88,11 +88,11 @@ public interface TransactionLogRecord {
      * <p>
      * All records added after a check point contains the same check point sequence number until a new checkpoint is called.
      * <p>
-     * 
+     *
      * @see TransactionLogWriter#write
      *
      * @return the assigned check point sequence.
-     * 
+     *
      */
     public long getCheckPointSequence();
 
@@ -108,7 +108,7 @@ public interface TransactionLogRecord {
 
     /**
      * Get the record type of the log entry.
-     * 
+     *
      * @see TransactionLogType
      * @return the type of the log record.
      */
@@ -116,7 +116,7 @@ public interface TransactionLogRecord {
 
     /**
      * Set the entry type of this log record.
-     * 
+     *
      * @param type the transaction type of this log entry.
      */
     public void setType(int type);
@@ -142,21 +142,21 @@ public interface TransactionLogRecord {
 
     /**
      * Set the associated exception for this log entry.
-     * 
+     *
      * @param exception the exception for this log entry.
      */
     public void setException(Exception exception);
 
     /**
      * Get the written flag for this log entry.
-     * 
+     *
      * @return true if this record has been written to the log.
      */
     public boolean isWritten();
 
     /**
      * Set the written flag for this log entry.
-     * 
+     *
      * @param flag the written flag for this log entry.
      */
     public void setWritten(boolean flag);

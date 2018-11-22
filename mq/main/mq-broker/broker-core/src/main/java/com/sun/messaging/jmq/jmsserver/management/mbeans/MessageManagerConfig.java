@@ -20,12 +20,8 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import java.io.ByteArrayOutputStream;
-import java.io.ObjectOutputStream;
-import java.util.Iterator;
 import java.util.HashMap;
 
-import javax.management.ObjectName;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanParameterInfo;
@@ -33,17 +29,9 @@ import javax.management.MBeanNotificationInfo;
 import javax.management.MBeanException;
 
 import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jms.management.server.*;
-import com.sun.messaging.jmq.jmsserver.core.Consumer;
-import com.sun.messaging.jmq.jmsserver.core.Subscription;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.management.util.ConsumerUtil;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.util.lists.RemoveReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsserver.data.handlers.admin.AdminDataHandler;
@@ -145,10 +133,12 @@ public class MessageManagerConfig extends MQMBeanReadWrite {
         return (newMsgID);
     }
 
+    @Override
     public String getMBeanName() {
         return ("MessageManagerConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return ("Configuration MBean for Message Manager");
         /*
@@ -156,14 +146,17 @@ public class MessageManagerConfig extends MQMBeanReadWrite {
          */
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (null);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (null);
     }

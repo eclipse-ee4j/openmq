@@ -680,10 +680,11 @@ public class Selector {
         if (n != null) {
             return n.intValue();
         } else if (s.startsWith("JMS")) {
-            if (headers.contains(s))
+            if (headers.contains(s)) {
                 return JMS_FIELD;
-            else
+            } else {
                 return IDENTIFIER;
+            }
         } else {
             return IDENTIFIER;
         }
@@ -1021,7 +1022,7 @@ public class Selector {
                     break;
                 }
                 // Copy higher precedence operators to RPN expression
-                out[i++] = (SelectorToken) stack.pop();
+                out[i++] = stack.pop();
             }
 
             // Push operator from scanned expression onto stack
@@ -1043,7 +1044,7 @@ public class Selector {
         // off of stack and put in expression.
         while (!stack.empty()) {
             try {
-                out[i] = (SelectorToken) stack.pop();
+                out[i] = stack.pop();
             } catch (IndexOutOfBoundsException e) {
                 SelectorFormatException ex = new SelectorFormatException("Bad selector ", selector);
                 ex.initCause(e);
@@ -1184,7 +1185,7 @@ public class Selector {
                         if (properties == null) {
                             value = null;
                         } else {
-                            value = properties.get((String) token.getValue());
+                            value = properties.get(token.getValue());
                         }
                         if (value == null) {
                             stack.push(SelectorToken.getInstance(UNKNOWN, null));
@@ -1197,7 +1198,7 @@ public class Selector {
                         if (fields == null) {
                             value = null;
                         } else {
-                            value = fields.get((String) token.getValue());
+                            value = fields.get(token.getValue());
                         }
                         if (value == null) {
                             stack.push(SelectorToken.getInstance(UNKNOWN, null));
@@ -1356,7 +1357,7 @@ public class Selector {
                     if (operand2.getToken() == UNKNOWN) {
                         // If operand is unknow, result is unknown.
                         stack.push(SelectorToken.getInstance(FALSE));
-                    } else if (set.contains((String) operand2.getValue())) {
+                    } else if (set.contains(operand2.getValue())) {
                         if (token.getToken() == IN) {
                             stack.push(SelectorToken.getInstance(TRUE));
                         } else {
@@ -1737,12 +1738,14 @@ public class Selector {
     /**
      * Two Selector instances are equal if they are the same instance or if the selector strings match.
      */
+    @Override
     public boolean equals(Object o) {
 
         // Since we cache Selectors it should be the case that Selectors
         // with the same selector string will be the same instance.
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
         if (!(o instanceof Selector)) {
             return false;
@@ -1752,11 +1755,13 @@ public class Selector {
         return (this.selector.equals(obj.selector));
     }
 
+    @Override
     public int hashCode() {
         /* Return the hashCode for the Selector string */
         return selector.hashCode();
     }
 
+    @Override
     public String toString() {
         return selector;
     }

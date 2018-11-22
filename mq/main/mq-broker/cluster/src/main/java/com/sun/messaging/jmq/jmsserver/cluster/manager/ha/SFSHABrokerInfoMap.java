@@ -25,28 +25,31 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.persist.api.HABrokerInfo;
 import com.sun.messaging.jmq.jmsserver.cluster.api.BrokerState;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ClusterManager;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.ClusterReason;
 import com.sun.messaging.jmq.jmsserver.cluster.manager.AutoClusterBrokerMap;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 /**
  * For shared file system store.
  */
 public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap {
+    /**
+     *
+     */
+    private static final long serialVersionUID = 5895105903367080815L;
     transient SFSHAClusterManagerImpl parent = null;
 
     /**
      * Create an instance of HAMap
-     * 
+     *
      * @throws BrokerException
      */
     public SFSHABrokerInfoMap(SFSHAClusterManagerImpl manager) throws BrokerException {
         init(manager, null);
     }
 
+    @Override
     public void init(ClusterManager mgr, MQAddress addr) throws BrokerException {
         this.parent = (SFSHAClusterManagerImpl) mgr;
 
@@ -65,13 +68,15 @@ public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap 
 
     /**
      * Method which reloads the contents of this map from the current information in the JDBC store.
-     * 
+     *
      * @throws BrokerException
      */
+    @Override
     public void updateMap() throws BrokerException {
         updateMap(false);
     }
 
+    @Override
     public void updateMap(boolean all) throws BrokerException {
         if (all) {
             updateHAMapForState(null);
@@ -120,10 +125,11 @@ public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap 
     /**
      * Retrieves the HAClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
      * store will be checked.
-     * 
+     *
      * @param key the brokerid to lookup
      * @return the HAClusteredBroker object (or null if one can't be found)
      */
+    @Override
     public Object get(Object key) {
         return get(key, false);
     }
@@ -131,11 +137,12 @@ public class SFSHABrokerInfoMap extends HashMap implements AutoClusterBrokerMap 
     /**
      * Retrieves the HAClusteredBroker associated with the passed in broker id. If the id is not found in the hashtable, the
      * store will be checked.
-     * 
+     *
      * @param key the brokerid to lookup
      * @param update update against store
      * @return the HAClusteredBroker object (or null if one can't be found)
      */
+    @Override
     public Object get(Object key, boolean update) {
         // always check against the backing store
         Object o = super.get(key);

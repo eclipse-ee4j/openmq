@@ -39,6 +39,11 @@ import java.io.IOException;
  */
 public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject implements javax.jms.ConnectionFactory {
 
+    /**
+     *
+     */
+    private static final long serialVersionUID = 8164883087551643143L;
+
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "ConnectionFactory";
 
@@ -83,7 +88,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Constructs a BasicConnectionFactory with the default configuration.
-     * 
+     *
      */
     public BasicConnectionFactory() {
         super(defaultsBase);
@@ -91,7 +96,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Constructs a BasicConnectionFactory with the specified configuration.
-     * 
+     *
      */
     protected BasicConnectionFactory(String defaultsBase) {
         super(defaultsBase);
@@ -108,27 +113,29 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
      * Creates a Connection with the default user identity. The default user identity is defined by the
      * <code>ConnectionFactory</code> properties <code><b>imqDefaultUsername</b></code> and
      * <code><b>imqDefaultPassword</b></code>
-     * 
+     *
      * @return a newly created Connection.
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      * @see ConnectionConfiguration#imqDefaultUsername
      * @see ConnectionConfiguration#imqDefaultPassword
      */
+    @Override
     public Connection createConnection() throws JMSException {
         return createConnection(getProperty(ConnectionConfiguration.imqDefaultUsername), getProperty(ConnectionConfiguration.imqDefaultPassword));
     }
 
     /**
      * Creates a Connection with a specified user identity.
-     * 
+     *
      * @param username the caller's user name
      * @param password the caller's password
-     * 
+     *
      * @return a newly created connection.
-     * 
+     *
      * @exception JMSException if a JMS error occurs.
      */
+    @Override
     public Connection createConnection(String username, String password) throws JMSException {
         return new UnifiedConnectionImpl(getCurrentConfiguration(), username, password, getConnectionType());
     }
@@ -160,7 +167,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Sets the type of connections created by this <code>BasicConnectionFactory</code>.
-     * 
+     *
      * @param type The type of connections created by this <code>BasicConnectionFactory</code>.
      */
     public final void setConnectionType(String type) {
@@ -173,7 +180,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
 
     /**
      * Returns the type of connections created by this <code>BasicConnectionFactory</code>.
-     * 
+     *
      * @return The type of connections created by this <code>BasicConnectionFactory</code>.
      */
     public final String getConnectionType() {
@@ -190,6 +197,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
      *
      * @return the pretty printed string.
      */
+    @Override
     public String toString() {
         return ("Oracle GlassFish(tm) Server MQ ConnectionFactory" + super.toString());
     }
@@ -198,6 +206,7 @@ public class BasicConnectionFactory extends com.sun.messaging.AdministeredObject
      * Sets the minimum <code>BasicConnectionFactory</code> configuration defaults required to connect to the Sun MQ Message
      * Service.
      */
+    @Override
     public void setDefaultConfiguration() {
         configuration = new Properties();
         configurationTypes = new Properties();

@@ -24,32 +24,43 @@ import java.security.Principal;
 
 public class MQAdminGroup implements Principal, java.io.Serializable {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8509283869710709514L;
     private String name;
 
     public MQAdminGroup(String name) {
         this.name = name;
     }
 
+    @Override
     public boolean equals(Object obj) {
-        if (obj == null)
+        if (obj == null) {
             return false;
-        if (!(obj instanceof MQAdminGroup))
+        }
+        if (!(obj instanceof MQAdminGroup)) {
             return false;
-        if (this == obj)
+        }
+        if (this == obj) {
             return true;
+        }
 
         MQAdminGroup that = (MQAdminGroup) obj;
         return this.getName().equals(that.getName());
     }
 
+    @Override
     public String toString() {
         return name;
     }
 
+    @Override
     public int hashCode() {
         return name.hashCode();
     }
 
+    @Override
     public String getName() {
         return name;
     }

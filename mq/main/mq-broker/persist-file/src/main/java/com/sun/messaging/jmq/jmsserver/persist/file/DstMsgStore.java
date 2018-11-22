@@ -36,7 +36,6 @@ import com.sun.messaging.jmq.io.disk.VRecordRAF;
 import com.sun.messaging.jmq.util.DestMetricsCounters;
 
 import java.io.*;
-import java.nio.*;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -88,16 +87,19 @@ class DstMsgStore extends RandomAccessStore {
 
     // skip 'vrfile'
     private static FilenameFilter vrfileFilter = new FilenameFilter() {
+        @Override
         public boolean accept(File dir, String name) {
             return (!name.equals(VRFILE_NAME));
         }
     };
 
     private static Enumeration emptyEnum = new Enumeration() {
+        @Override
         public boolean hasMoreElements() {
             return false;
         }
 
+        @Override
         public Object nextElement() {
             return null;
         }
@@ -389,6 +391,7 @@ class DstMsgStore extends RandomAccessStore {
         return byteCount;
     }
 
+    @Override
     protected void close(boolean cleanup) {
 
         // vrfile
@@ -410,7 +413,7 @@ class DstMsgStore extends RandomAccessStore {
      * Load all messages in the backing file.
      *
      * returned if no messages exist in the store
-     * 
+     *
      * @exception BrokerException if an error occurs while getting the data
      */
     private void loadMessages() throws BrokerException {
@@ -440,6 +443,7 @@ class DstMsgStore extends RandomAccessStore {
      * parse the message and it's associated interest list from the given buffers. This is loaded from individual message
      * files. Returns the sysMessageID.
      */
+    @Override
     Object parseData(byte[] data, byte[] attachment) throws IOException {
 
         MessageInfo minfo = new MessageInfo(this, data, attachment);
@@ -452,6 +456,7 @@ class DstMsgStore extends RandomAccessStore {
         return mid;
     }
 
+    @Override
     FilenameFilter getFilenameFilter() {
         return vrfileFilter;
     }
@@ -570,6 +575,7 @@ class DstMsgStore extends RandomAccessStore {
             msgEnum = e;
         }
 
+        @Override
         public boolean hasMoreElements() {
             Packet msg = null;
             if (itr != null) {
@@ -609,10 +615,11 @@ class DstMsgStore extends RandomAccessStore {
             }
         }
 
+        @Override
         public Object nextElement() {
             if (objToReturn != null) {
                 Object result = null;
-                ;
+                
                 if (objToReturn instanceof SysMessageID) {
                     try {
                         result = parent.getMessage((SysMessageID) objToReturn);
@@ -640,7 +647,7 @@ class DstMsgStore extends RandomAccessStore {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return A Hashtable of name value pair of information
      */
     Hashtable getDebugState() {

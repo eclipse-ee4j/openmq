@@ -29,9 +29,7 @@ import com.sun.messaging.jmq.util.log.*;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 
 abstract class SelectThread {
     protected Logger logger = Globals.getLogger();
@@ -201,14 +199,16 @@ abstract class SelectThread {
         synchronized (key_con_map) {
             key = (SelectionKey) key_con_map.get(con.getConnectionUID());
         }
-        if (key != null)
+        if (key != null) {
             changeInterest(key, -1, reason);
+        }
     }
 
     protected SelectionKey processPendingConnection(IMQIPConnection con) throws IOException {
 
-        if (con == null)
+        if (con == null) {
             return null;
+        }
 
         synchronized (all_connections) {
             all_connections.put(con.getConnectionUID(), con);
@@ -222,14 +222,16 @@ abstract class SelectThread {
 
         SelectionKey key = sch.register(selector, INITIAL_KEY);
 
-        if (key == null)
+        if (key == null) {
             return null;
+        }
 
         key.attach(con);
         GroupNotificationInfo ninfo = (GroupNotificationInfo) con.attachment();
 
-        if (ninfo == null)
+        if (ninfo == null) {
             return null;
+        }
         ninfo.setThread(POSSIBLE_MASK, this, key);
         synchronized (key_con_map) {
             key_con_map.put(con.getConnectionUID(), key);
@@ -391,6 +393,7 @@ abstract class SelectThread {
 
     abstract protected void process() throws IOException;
 
+    @Override
     public String toString() {
         return "SelectThread[" + type + ":" + id + "]";
     }

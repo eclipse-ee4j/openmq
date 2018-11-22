@@ -23,31 +23,18 @@ package com.sun.messaging.jmq.admin.apps.console;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
-import javax.swing.JCheckBox;
-import javax.swing.JOptionPane;
-import javax.swing.JRadioButton;
-import javax.swing.ButtonGroup;
-import javax.swing.event.EventListenerList;
-
 import com.sun.messaging.jmq.admin.bkrutil.BrokerAdmin;
-import com.sun.messaging.jmq.admin.bkrutil.BrokerAdminException;
 import com.sun.messaging.jmq.admin.util.Globals;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
-import com.sun.messaging.jmq.admin.event.BrokerAdminEvent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelledComponent;
 import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
 import com.sun.messaging.jmq.admin.apps.console.util.IntegerField;
@@ -59,6 +46,10 @@ import com.sun.messaging.jmq.admin.apps.console.util.IntegerField;
  * and also for viewing/editing existing entries on the broker list (BrokerPropsDialog).
  */
 public abstract class BrokerDialog extends AdminDialog {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 5388061153841315227L;
     /*
      * This should be obtained from the admin objects instead of being hardcoded.
      */
@@ -79,6 +70,7 @@ public abstract class BrokerDialog extends AdminDialog {
         super(parent, title, whichButtons);
     }
 
+    @Override
     public JPanel createWorkPanel() {
         JPanel workPanel = new JPanel();
         GridBagLayout workGridbag = new GridBagLayout();
@@ -161,10 +153,11 @@ public abstract class BrokerDialog extends AdminDialog {
         // 2) LabelValuePanel
         int width1 = l.getPreferredSize().width + 5 + brokerNameTF.getPreferredSize().width;
         int width2 = lvp.getPreferredSize().width;
-        if (width1 >= width2)
+        if (width1 >= width2) {
             ta.setSize(width1, 1);
-        else
+        } else {
             ta.setSize(width2, 1);
+        }
 
         ta.setEditable(false);
         Dimension textSize = ta.getPreferredSize();
@@ -178,10 +171,11 @@ public abstract class BrokerDialog extends AdminDialog {
     }
 
     protected boolean isValidString(String s) {
-        if ((s == null) || ("".equals(s)))
+        if ((s == null) || ("".equals(s))) {
             return false;
-        else
+        } else {
             return true;
+        }
     }
 
     protected void clearFields() {

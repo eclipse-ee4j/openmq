@@ -24,8 +24,6 @@ import javax.jms.XAConnectionFactory;
 import javax.jms.XAJMSContext;
 
 import com.sun.messaging.bridge.api.BridgeContext;
-import com.sun.messaging.jmq.jmsclient.ContainerType;
-import com.sun.messaging.jmq.jmsclient.XAJMSContextImpl;
 import com.sun.messaging.jms.MQRuntimeException;
 
 /**
@@ -58,6 +56,7 @@ public class XAConnectionFactoryImpl implements XAConnectionFactory, Refable {
         _isMultiRM = isMultiRM;
     }
 
+    @Override
     public XAConnection createXAConnection() throws JMSException {
         if (_bc != null) {
             XAConnectionFactory cf = null;
@@ -73,6 +72,7 @@ public class XAConnectionFactoryImpl implements XAConnectionFactory, Refable {
         return _cf.createXAConnection();
     }
 
+    @Override
     public XAConnection createXAConnection(String userName, String password) throws JMSException {
         if (_bc != null) {
             XAConnectionFactory cf = null;
@@ -118,22 +118,27 @@ public class XAConnectionFactoryImpl implements XAConnectionFactory, Refable {
         return _cf.createXAContext(userName, password);
     }
 
+    @Override
     public String getRef() {
         return _ref;
     }
 
+    @Override
     public Object getRefed() {
         return _cf;
     }
 
+    @Override
     public boolean isEmbeded() {
         return _isEmbeded;
     }
 
+    @Override
     public boolean isMultiRM() {
         return _isMultiRM;
     }
 
+    @Override
     public String toString() {
         String refs = _ref + (_isEmbeded ? ", embeded" : "") + (_isMultiRM ? ", multirm" : "");
         String s = null;

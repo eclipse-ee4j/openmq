@@ -134,6 +134,7 @@ public class ChangeRecord {
     public void transferFlag(ChangeRecordInfo cri) {
     }
 
+    @Override
     public String toString() {
         return getUniqueKey() + ", isAddOp() = " + isAddOp();
     }
@@ -340,8 +341,9 @@ public class ChangeRecord {
         } catch (Throwable t) {
             Globals.getLogger().logStack(Logger.ERROR, Globals.getBrokerResources().getKString(BrokerResources.E_FAIL_PROCESS_SHARECC_RECORDS, t.getMessage()),
                     t);
-            if (t instanceof BrokerException)
+            if (t instanceof BrokerException) {
                 throw (BrokerException) t;
+            }
             throw new BrokerException(t.getMessage(), t);
         }
     }
@@ -484,7 +486,7 @@ public class ChangeRecord {
             recordList.add(cr);
 
             // Discard previous record with the same name.
-            ChangeRecord prev = (ChangeRecord) recordMap.get(cr.getUniqueKey());
+            ChangeRecord prev = recordMap.get(cr.getUniqueKey());
             if (prev != null) {
                 prev.setDiscard(true);
 
@@ -552,8 +554,9 @@ public class ChangeRecord {
 
             while (true) {
                 int recsize = dis.readInt();
-                if (recsize == 0)
+                if (recsize == 0) {
                     break;
+                }
 
                 byte[] rec = new byte[recsize];
                 dis.readFully(rec, 0, recsize);

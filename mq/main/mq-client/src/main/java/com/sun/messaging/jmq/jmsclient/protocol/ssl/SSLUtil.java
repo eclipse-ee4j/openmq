@@ -20,16 +20,10 @@ package com.sun.messaging.jmq.jmsclient.protocol.ssl;
 
 import java.io.*;
 import java.util.logging.Logger;
-import com.sun.messaging.jmq.util.MQResourceBundle;
-import java.net.*;
 import javax.net.ssl.*;
 import java.security.*;
-import javax.security.cert.X509Certificate;
-import javax.jms.*;
-import com.sun.messaging.ConnectionConfiguration;
 import com.sun.messaging.jmq.jmsclient.*;
 import com.sun.messaging.jmq.jmsclient.resources.*;
-import com.sun.messaging.jmq.jmsclient.protocol.SocketConnectionHandler;
 
 /**
  */

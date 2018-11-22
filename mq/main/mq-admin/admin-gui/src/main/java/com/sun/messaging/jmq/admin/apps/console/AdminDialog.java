@@ -39,7 +39,6 @@ import javax.swing.event.EventListenerList;
 import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
 import com.sun.messaging.jmq.admin.event.AdminEvent;
 import com.sun.messaging.jmq.admin.event.AdminEventListener;
-import com.sun.messaging.jmq.admin.apps.console.event.DialogEvent;
 import com.sun.messaging.jmq.admin.util.Globals;
 
 /**
@@ -57,6 +56,11 @@ import com.sun.messaging.jmq.admin.util.Globals;
  * do that.
  */
 public abstract class AdminDialog extends JDialog implements ActionListener {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -4390215343313774916L;
 
     /**
      * Bit value for OK button.
@@ -151,7 +155,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
     /**
      * Add an admin event listener to this admin UI component.
-     * 
+     *
      * @param l admin event listener to add.
      */
     public void addAdminEventListener(AdminEventListener l) {
@@ -160,7 +164,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
     /**
      * Remove an admin event listener for this admin UI component.
-     * 
+     *
      * @param l admin event listener to remove.
      */
     public void removeAdminEventListener(AdminEventListener l) {
@@ -169,7 +173,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
     /**
      * Fire off/dispatch an admin event to all the listeners.
-     * 
+     *
      * @param ae AdminEvent to dispatch to event listeners.
      */
     public void fireAdminEventDispatched(AdminEvent ae) {
@@ -185,6 +189,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
     /*
      * BEGIN INTERFACE ActionListener
      */
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 
@@ -292,8 +297,9 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
 
     public void setHelpId(String helpId) {
 
-        if (helpButton == null)
+        if (helpButton == null) {
             return;
+        }
 
         if (ConsoleHelp.helpLoaded()) {
             HelpBroker hb = ConsoleHelp.hb[ConsoleHelp.CONSOLE_HELP];
@@ -331,6 +337,7 @@ public abstract class AdminDialog extends JDialog implements ActionListener {
         }
     }
 
+    @Override
     public void hide() {
         /*
          * Can only call this only after help has been displayed at least once. Otherwise, the call to this on Solaris will take

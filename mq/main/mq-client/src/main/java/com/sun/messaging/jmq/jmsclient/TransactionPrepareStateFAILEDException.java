@@ -25,6 +25,11 @@ import com.sun.messaging.jms.JMSException;
  */
 public class TransactionPrepareStateFAILEDException extends JMSException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -8524204135092576544L;
+
     public TransactionPrepareStateFAILEDException(String reason, String errorCode) {
         super(reason, errorCode);
     }

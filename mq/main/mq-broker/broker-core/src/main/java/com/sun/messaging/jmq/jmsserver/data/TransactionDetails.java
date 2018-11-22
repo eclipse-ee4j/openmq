@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.jmsserver.data;
 
-import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -85,10 +84,11 @@ public class TransactionDetails {
         // write txn state
         dos.writeInt(getState());
         // write txn state
-        if (complete)
+        if (complete) {
             dos.writeInt(1);
-        else
+        } else {
             dos.writeInt(0);
+        }
 
         // write xid if present
         writeXid(dos);
@@ -114,6 +114,7 @@ public class TransactionDetails {
 
     }
 
+    @Override
     public String toString() {
         StringBuffer s = new StringBuffer();
         s.append("type=").append(type);

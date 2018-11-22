@@ -26,4 +26,9 @@ package com.sun.messaging.jmq.util.options;
  **/
 
 public class InvalidBasePropNameException extends OptionException {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3305408409154963869L;
 }

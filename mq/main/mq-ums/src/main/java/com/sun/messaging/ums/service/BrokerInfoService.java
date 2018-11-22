@@ -23,7 +23,7 @@ import javax.jms.JMSException;
 /**
  *
  * @author isa
- * 
+ *
  * XXX chiaming: multivendor support
  */
 public class BrokerInfoService {

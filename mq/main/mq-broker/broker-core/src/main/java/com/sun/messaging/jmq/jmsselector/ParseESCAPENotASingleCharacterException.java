@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseESCAPENotASingleCharacterException extends ParseException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = -8457376612920823292L;
+
+    /**
      * Construct a ParseESCAPENotASingleCharacterException
      */
     public ParseESCAPENotASingleCharacterException(String string) {

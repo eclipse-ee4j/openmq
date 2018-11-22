@@ -16,7 +16,6 @@
 
 package com.sun.messaging.jmq.jmsclient.validation;
 
-import java.net.URI;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Properties;
@@ -36,7 +35,7 @@ public class ValidatorFactory {
 
     /**
      * new instance of this class.
-     * 
+     *
      * @return a new instance of the factory.
      */
     public static ValidatorFactory newInstance() {
@@ -45,9 +44,9 @@ public class ValidatorFactory {
 
     /**
      * Construct a new instance of the XMLValidator. This is used to validate against DTD defined in the XML document.
-     * 
+     *
      * @return a new instance of XMLValidator.
-     * 
+     *
      * @throws javax.jms.JMSException
      */
     public static XMLValidator newValidator() throws JMSException {
@@ -56,13 +55,13 @@ public class ValidatorFactory {
 
     /**
      * Construct a new instance of validator with the specified schema language and xsd URI list.
-     * 
+     *
      * BY default, the xml schema language is used: "http://www.w3.org/2001/XMLSchema"
-     * 
+     *
      * @param xsdURIList the xsd used by this validator to validate XML document.
-     * 
+     *
      * @return a new instance of the xml validator.
-     * 
+     *
      * @throws javax.jms.JMSException
      */
     public static XMLValidator newValidator(String xsdURIList) throws JMSException {
@@ -72,13 +71,13 @@ public class ValidatorFactory {
 
     /**
      * Construct a new instance of validator with the specified schema language and xsd URI list.
-     * 
+     *
      * @param schemaLang the schema language for this validator.
-     * 
+     *
      * @param xsdURIList the xsd used by this validator to validate XML document.
-     * 
+     *
      * @return a new instance of the xml validator.
-     * 
+     *
      * @throws javax.jms.JMSException
      */
     public static XMLValidator newValidator(String schemaLang, String xsdURIList) throws JMSException {
@@ -96,10 +95,10 @@ public class ValidatorFactory {
 
     /**
      * return topic validation table defined with System properties for the client runtime JVM.
-     * 
-     * 
+     *
+     *
      * @return Hashtable -- key=topic name, value=XMLValodator instance for the topic.
-     * 
+     *
      */
     private static Hashtable getValidateTable(String prefix) {
 

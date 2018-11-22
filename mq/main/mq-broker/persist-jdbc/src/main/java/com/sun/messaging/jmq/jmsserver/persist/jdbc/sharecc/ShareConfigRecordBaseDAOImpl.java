@@ -29,11 +29,13 @@ import java.sql.*;
  */
 public abstract class ShareConfigRecordBaseDAOImpl extends CommBaseDAOImpl {
 
+    @Override
     protected CommDBManager getDBManager() throws BrokerException {
 
         return ShareConfigChangeDBManager.getDBManager();
     }
 
+    @Override
     protected void closeSQLObjects(ResultSet rs, Statement stmt, Connection conn, Throwable ex) throws BrokerException {
 
         getDBManager().closeSQLObjects(rs, stmt, conn, ex);

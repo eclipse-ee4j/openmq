@@ -46,6 +46,7 @@ public class ConnectionConsumerReader extends ConsumerReader {
         load = 0;
     }
 
+    @Override
     protected void deliver(ReadOnlyPacket packet) throws IOException, JMSException {
         MessageImpl message = protocolHandler.getJMSMessage(packet);
         if (maxMessages == 1) {
@@ -67,10 +68,12 @@ public class ConnectionConsumerReader extends ConsumerReader {
         }
     }
 
+    @Override
     protected void deliver() throws IOException, JMSException {
         connectionConsumer.onNullMessage();
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ ConnectionConsumerReader dump ------");
         ps.println("maxMessages: " + maxMessages);

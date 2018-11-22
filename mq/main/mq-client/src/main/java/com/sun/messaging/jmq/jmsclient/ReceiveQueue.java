@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import java.util.Vector;
 import java.io.PrintStream;
 
 /**
@@ -39,6 +38,7 @@ class ReceiveQueue extends SessionQueue {
         super(useSequential, size);
     }
 
+    @Override
     protected synchronized Object dequeueWait() {
         return dequeueWait(0);
     }
@@ -46,6 +46,7 @@ class ReceiveQueue extends SessionQueue {
     /**
      * receive with time out.
      */
+    @Override
     protected synchronized Object dequeueWait(long timeout) {
 
         long waitTime = timeout;
@@ -125,6 +126,7 @@ class ReceiveQueue extends SessionQueue {
         isLocked = true;
     }
 
+    @Override
     protected synchronized void start() {
 
         if (isEmpty() == false) {
@@ -149,11 +151,12 @@ class ReceiveQueue extends SessionQueue {
                 wait();
             }
         } catch (InterruptedException e) {
-            ;
+            
         }
 
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ ReceiveQueue dump ------");
 

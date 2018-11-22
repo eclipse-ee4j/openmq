@@ -48,6 +48,7 @@ public class MessageEnumeration implements Enumeration {
         this.store = store;
     }
 
+    @Override
     public boolean hasMoreElements() {
         try {
             nextPacket = (Packet) dao.loadData(rs, true);
@@ -80,6 +81,7 @@ public class MessageEnumeration implements Enumeration {
         return (nextPacket != null);
     }
 
+    @Override
     public Object nextElement() {
         if (nextPacket == null) {
             throw new NoSuchElementException();

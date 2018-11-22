@@ -29,9 +29,7 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
 import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
 import com.sun.messaging.jmq.jmsserver.core.Session;
@@ -41,7 +39,6 @@ import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
 
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
 
 /**
  * Handler class which deals with requests delivering messages
@@ -63,6 +60,7 @@ public class RedeliverHandler extends PacketHandler {
     /**
      * Method to handle DELIVER messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         Hashtable props = null;
         try {
@@ -77,8 +75,9 @@ public class RedeliverHandler extends PacketHandler {
 
         if (props != null) {
             Boolean bool = (Boolean) props.get("JMQSetRedelivered");
-            if (bool != null)
+            if (bool != null) {
                 redeliver = bool.booleanValue();
+            }
 
             Object txnid = props.get("JMQTransactionID");
             if (txnid != null) {
@@ -90,8 +89,9 @@ public class RedeliverHandler extends PacketHandler {
             }
             if (tid == null) { // for client < 4.1
                 long id = msg.getTransactionID();
-                if (id != 0)
+                if (id != 0) {
                     tid = new TransactionUID(id);
+                }
             }
         }
 

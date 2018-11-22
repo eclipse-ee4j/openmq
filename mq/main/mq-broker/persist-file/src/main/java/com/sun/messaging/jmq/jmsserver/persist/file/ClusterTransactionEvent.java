@@ -57,6 +57,7 @@ public abstract class ClusterTransactionEvent extends TransactionEvent {
         return result;
     }
 
+    @Override
     int getType() {
         return BaseTransaction.CLUSTER_TRANSACTION_TYPE;
     }
@@ -65,6 +66,7 @@ public abstract class ClusterTransactionEvent extends TransactionEvent {
 }
 
 class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
+    @Override
     int getSubType() {
         return Type2PPrepareEvent;
     }
@@ -73,6 +75,7 @@ class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
         return "ClusterTransaction2PPrepareEvent: " + Thread.currentThread().getName();
     }
 
+    @Override
     public byte[] writeToBytes() throws IOException {
         if (Store.getDEBUG()) {
             Globals.getLogger().log(Logger.DEBUG, getPrefix() + " writeToBytes");
@@ -121,6 +124,7 @@ class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
 
     }
 
+    @Override
     public void readFromBytes(byte[] data) throws IOException, BrokerException {
         if (Store.getDEBUG()) {
             Globals.getLogger().log(Logger.DEBUG, getPrefix() + "readFromBytes");
@@ -164,10 +168,12 @@ class ClusterTransaction2PPrepareEvent extends ClusterTransactionEvent {
 
 class ClusterTransaction2PCompleteEvent extends ClusterTransactionEvent {
 
+    @Override
     int getSubType() {
         return Type2PCompleteEvent;
     }
 
+    @Override
     byte[] writeToBytes() throws IOException {
 
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -182,6 +188,7 @@ class ClusterTransaction2PCompleteEvent extends ClusterTransactionEvent {
         return data;
     }
 
+    @Override
     void readFromBytes(byte[] data) throws IOException, BrokerException {
         ByteArrayInputStream bais = new ByteArrayInputStream(data);
         DataInputStream dis = new DataInputStream(bais);

@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseInvalidJMSPropertyInSelectorException extends ParseException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 6948708962065305256L;
+
+    /**
      * Construct a ParseInvalidJMSPropertyInSelectorException
      */
     public ParseInvalidJMSPropertyInSelectorException(String string) {

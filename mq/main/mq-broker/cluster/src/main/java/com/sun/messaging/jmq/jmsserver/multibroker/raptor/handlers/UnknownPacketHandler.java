@@ -20,9 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor.handlers;
 
-import java.io.*;
-import com.sun.messaging.jmq.util.*;
-import com.sun.messaging.jmq.jmsserver.util.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.core.*;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.*;
@@ -33,6 +30,7 @@ public class UnknownPacketHandler extends GPacketHandler {
         super(p);
     }
 
+    @Override
     public void handle(BrokerAddress sender, GPacket pkt) {
         logger.log(logger.WARNING, "Unknown packet from : " + sender);
 

@@ -68,6 +68,7 @@ public class MQResourceBundle extends ResourceBundle {
      *
      * We cache converted strings so we don't need to convert every time we get a string.
      */
+    @Override
     public Object handleGetObject(String key) {
         if (convertEOL) {
             // For windows we want to perform proper EOL termination
@@ -103,9 +104,9 @@ public class MQResourceBundle extends ResourceBundle {
         // the following check is needed because when the
         // second argument is of type Object[], this method
         // is called instead of getString(String, Object[])
-        if (arg instanceof Object[])
+        if (arg instanceof Object[]) {
             return MessageFormat.format(getString(key), (Object[]) arg);
-        else {
+        } else {
             Object[] args = { arg };
 
             return MessageFormat.format(getString(key), args);
@@ -245,12 +246,14 @@ public class MQResourceBundle extends ResourceBundle {
 
         int start = 0;
 
-        if (s == null)
+        if (s == null) {
             return "<null>";
+        }
 
         // If this platforms EOL termination is Unix style just return string
-        if (EOL.equals("\n"))
+        if (EOL.equals("\n")) {
             return s;
+        }
 
         // Search string for a unix newline
         for (int n = 0; n < s.length(); n++) {
@@ -277,6 +280,7 @@ public class MQResourceBundle extends ResourceBundle {
         }
     }
 
+    @Override
     public String toString() {
 
         StringBuffer sb = new StringBuffer();
@@ -294,10 +298,12 @@ public class MQResourceBundle extends ResourceBundle {
         return sb.toString();
     }
 
+    @Override
     public Enumeration getKeys() {
         return rb.getKeys();
     }
 
+    @Override
     public Locale getLocale() {
         return rb.getLocale();
     }

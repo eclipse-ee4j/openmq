@@ -25,10 +25,6 @@ import java.util.Properties;
 import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.jms.JMSSecurityException;
-
-import com.sun.messaging.AdministeredObject;
-
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.DestState;
 import com.sun.messaging.jmq.util.admin.ServiceInfo;
@@ -95,6 +91,7 @@ public class BrokerAdminHandler implements AdminEventListener {
     /*
      * BEGIN INTERFACE AdminEventListener
      */
+    @Override
     public void adminEventDispatched(AdminEvent e) {
         int id;
         ConsoleObj selObj;
@@ -138,15 +135,17 @@ public class BrokerAdminHandler implements AdminEventListener {
             break;
 
         case DialogEvent.DELETE_DIALOG:
-            if (selObj instanceof BrokerCObj)
+            if (selObj instanceof BrokerCObj) {
                 doDeleteBroker((BrokerCObj) selObj);
-            else if (selObj instanceof BrokerDestCObj)
+            } else if (selObj instanceof BrokerDestCObj) {
                 doDeleteDestination((BrokerDestCObj) selObj);
+            }
             break;
 
         case DialogEvent.PURGE_DIALOG:
-            if (selObj instanceof BrokerDestCObj)
+            if (selObj instanceof BrokerDestCObj) {
                 doPurgeDestination((BrokerDestCObj) selObj);
+            }
             break;
 
         case DialogEvent.PROPS_DIALOG:
@@ -189,45 +188,51 @@ public class BrokerAdminHandler implements AdminEventListener {
             break;
 
         case DialogEvent.CONNECT_DIALOG:
-            if (selObj instanceof BrokerCObj)
+            if (selObj instanceof BrokerCObj) {
                 doConnectToBroker((BrokerCObj) selObj);
+            }
             break;
 
         case DialogEvent.DISCONNECT_DIALOG:
-            if (selObj instanceof BrokerCObj)
+            if (selObj instanceof BrokerCObj) {
                 doDisconnectFromBroker((BrokerCObj) selObj);
+            }
             break;
 
         case DialogEvent.SHUTDOWN_DIALOG:
-            if (selObj instanceof BrokerCObj)
+            if (selObj instanceof BrokerCObj) {
                 doShutdownBroker((BrokerCObj) selObj);
+            }
             break;
 
         case DialogEvent.RESTART_DIALOG:
-            if (selObj instanceof BrokerCObj)
+            if (selObj instanceof BrokerCObj) {
                 doRestartBroker((BrokerCObj) selObj);
+            }
             break;
 
         case DialogEvent.PAUSE_DIALOG:
-            if (selObj instanceof BrokerServiceCObj)
+            if (selObj instanceof BrokerServiceCObj) {
                 doPauseService((BrokerServiceCObj) selObj);
-            else if (selObj instanceof BrokerCObj)
+            } else if (selObj instanceof BrokerCObj) {
                 doPauseBroker((BrokerCObj) selObj);
-            else if (selObj instanceof BrokerDestCObj)
+            } else if (selObj instanceof BrokerDestCObj) {
                 doPauseDest((BrokerDestCObj) selObj);
-            else if (selObj instanceof BrokerDestListCObj)
+            } else if (selObj instanceof BrokerDestListCObj) {
                 doPauseAllDests((BrokerDestListCObj) selObj);
+            }
             break;
 
         case DialogEvent.RESUME_DIALOG:
-            if (selObj instanceof BrokerServiceCObj)
+            if (selObj instanceof BrokerServiceCObj) {
                 doResumeService((BrokerServiceCObj) selObj);
-            else if (selObj instanceof BrokerCObj)
+            } else if (selObj instanceof BrokerCObj) {
                 doResumeBroker((BrokerCObj) selObj);
-            else if (selObj instanceof BrokerDestCObj)
+            } else if (selObj instanceof BrokerDestCObj) {
                 doResumeDest((BrokerDestCObj) selObj);
-            else if (selObj instanceof BrokerDestListCObj)
+            } else if (selObj instanceof BrokerDestListCObj) {
                 doResumeAllDests((BrokerDestListCObj) selObj);
+            }
             break;
 
         case DialogEvent.HELP_DIALOG:
@@ -290,8 +295,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                  * }
                  */
 
-                if (bae.isOKAction())
+                if (bae.isOKAction()) {
                     brokerAddDialog.hide();
+                }
             }
 
             break;
@@ -300,15 +306,17 @@ public class BrokerAdminHandler implements AdminEventListener {
             if (selObj instanceof BrokerDestListCObj) {
                 BrokerDestCObj bDestCObj = null;
                 bCObj = ((BrokerDestListCObj) selObj).getBrokerCObj();
-                if ((bDestCObj = addDestination(bCObj, bae)) == null)
+                if ((bDestCObj = addDestination(bCObj, bae)) == null) {
                     return;
+                }
 
                 // Update the table entry
                 app.getExplorer().addToParent(selObj, bDestCObj);
                 app.getInspector().refresh();
 
-                if (bae.isOKAction())
+                if (bae.isOKAction()) {
                     brokerDestAddDialog.hide();
+                }
             }
             break;
 
@@ -388,7 +396,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                 if ((brokerName != null) && (brokerName.equals(bCObj.getExplorerLabel()))) {
                     bCObj.setBrokerProps(null);
                     clearBroker(bCObj);
-                    app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                    app.getExplorer().nodeChanged(bCObj);
 
                     // Update menu items, buttons.
                     controller.setActions(bCObj);
@@ -467,7 +475,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     ba.setIsConnected(true);
                     if (refreshBrokerServiceListCObj(bCObj.getBrokerServiceListCObj())) {
                         if (refreshBrokerDestListCObj(bCObj.getBrokerDestListCObj())) {
-                            app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                            app.getExplorer().nodeChanged(bCObj);
                             app.getInspector().refresh();
                             controller.setActions(bCObj);
                         }
@@ -531,8 +539,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                     BrokerDestCObj bDestCObj = (BrokerDestCObj) refreshObj;
                     refreshBrokerDestCObj(bDestCObj, BrokerAdminEvent.DELETE_DUR);
                     Vector durables = bDestCObj.getDurables();
-                    if (durables != null)
+                    if (durables != null) {
                         brokerDestPropsDialog.refresh(durables);
+                    }
                 }
             } else {
                 msg = acr.getString(acr.E_BROKER_DESTROY_DUR, BrokerAdminUtil.getDSubLogString(clientID, durName));
@@ -556,8 +565,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                         BrokerCObj bCObj = (BrokerCObj) refreshObj;
                         bDestlCObj = bCObj.getBrokerDestListCObj();
 
-                    } else
+                    } else {
                         return;
+                    }
 
                     refreshBrokerDestList(dests, bDestlCObj);
                     app.getInspector().refresh();
@@ -606,8 +616,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                 msg = acr.getString(acr.S_BROKER_UPDATE_SVC, svcInfo.name);
 
                 if (refreshObj instanceof BrokerServiceCObj) {
-                    if (refreshBrokerServiceCObj((BrokerServiceCObj) refreshObj))
+                    if (refreshBrokerServiceCObj((BrokerServiceCObj) refreshObj)) {
                         app.getInspector().refresh();
+                    }
                 }
 
             } else {
@@ -632,8 +643,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                         BrokerCObj bCObj = (BrokerCObj) refreshObj;
                         bSvclCObj = bCObj.getBrokerServiceListCObj();
 
-                    } else
+                    } else {
                         return;
+                    }
 
                     refreshBrokerServiceList(svcs, bSvclCObj);
                     app.getInspector().refresh();
@@ -711,8 +723,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * refreshing the console in such cases. We only set the associated object when BrokerAdmin is not busy; otherwise, we
          * could be pointing to the wrong ConsoleObj.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bCObj);
+        }
 
         boolean authenticationNeeded = false;
 
@@ -734,19 +747,23 @@ public class BrokerAdminHandler implements AdminEventListener {
 
         } else { // no authentication needed; everything is already provided
             if (connectToBroker(ba)) {
-                if (!refreshBrokerCObj(bCObj))
+                if (!refreshBrokerCObj(bCObj)) {
                     return;
-                if (!populateBrokerServices(bCObj))
+                }
+                if (!populateBrokerServices(bCObj)) {
                     return;
-                if (!populateBrokerDestinations(bCObj))
+                }
+                if (!populateBrokerDestinations(bCObj)) {
                     return;
-                app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                }
+                app.getExplorer().nodeChanged(bCObj);
                 app.getInspector().refresh();
                 // Update menu items, buttons.
                 controller.setActions(bCObj);
 
-            } else
+            } else {
                 return;
+            }
         }
     }
 
@@ -816,8 +833,9 @@ public class BrokerAdminHandler implements AdminEventListener {
                  * This is not a security problem so dismiss the password dialog. If we do not do this then the user will have to
                  * manually dismiss the password dialog by clicking CANCEL.
                  */
-                if (brokerPasswdDialog != null)
+                if (brokerPasswdDialog != null) {
                     brokerPasswdDialog.hide();
+                }
             }
             return false;
 
@@ -841,20 +859,24 @@ public class BrokerAdminHandler implements AdminEventListener {
             String tempPasswd = bae.getPassword();
 
             if (connectToBroker(ba, tempUsername, tempPasswd, true)) {
-                if (!refreshBrokerCObj(bCObj))
+                if (!refreshBrokerCObj(bCObj)) {
                     return;
-                if (!populateBrokerServices(bCObj))
+                }
+                if (!populateBrokerServices(bCObj)) {
                     return;
-                if (!populateBrokerDestinations(bCObj))
+                }
+                if (!populateBrokerDestinations(bCObj)) {
                     return;
-                app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                }
+                app.getExplorer().nodeChanged(bCObj);
                 app.getInspector().refresh();
 
                 // Close the login window
                 brokerPasswdDialog.hide();
 
-            } else
+            } else {
                 return;
+            }
 
             // Update menu items, buttons.
             controller.setActions(bCObj);
@@ -882,8 +904,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bCObj);
+        }
 
         try {
             ba.sendUpdateBrokerPropsMessage(bkrProps);
@@ -922,8 +945,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestCObj);
+        }
 
         durableName = bae.getDurableName();
         clientID = bae.getClientID();
@@ -931,8 +955,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_DELETE_DUR, durableName, "" + clientID),
                 acr.getString(acr.I_DELETE_DURABLE), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         try {
             ba.sendDestroyDurableMessage(durableName, clientID);
@@ -952,8 +977,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          */
         refreshBrokerDestCObj(bDestCObj, bae.getType());
         Vector durables = bDestCObj.getDurables();
-        if (durables != null)
+        if (durables != null) {
             brokerDestPropsDialog.refresh(durables);
+        }
     }
 
     private void doPurgeDurable(BrokerAdminEvent bae, ConsoleObj selObj) {
@@ -976,8 +1002,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestCObj);
+        }
 
         durableName = bae.getDurableName();
         clientID = bae.getClientID();
@@ -985,8 +1012,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_PURGE_DUR, durableName, "" + clientID),
                 acr.getString(acr.I_PURGE_DURABLE), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         try {
             ba.sendPurgeDurableMessage(durableName, clientID);
@@ -1007,8 +1035,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          */
         refreshBrokerDestCObj(bDestCObj, bae.getType());
         Vector durables = bDestCObj.getDurables();
-        if (durables != null)
+        if (durables != null) {
             brokerDestPropsDialog.refresh(durables);
+        }
     }
 
     private void doUpdateService(BrokerAdminEvent bae, ConsoleObj selObj) {
@@ -1033,8 +1062,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bSvcCObj);
+        }
 
         serviceName = bSvcCObj.getServiceInfo().name;
         portValue = bae.getPort();
@@ -1091,8 +1121,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestCObj);
+        }
 
         destName = bDestCObj.getDestinationInfo().name;
         destTypeMask = bDestCObj.getDestinationInfo().type;
@@ -1138,8 +1169,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         }
 
         BrokerCObj bCObj = (BrokerCObj) selObj;
-        if (refreshBrokerCObj(bCObj))
+        if (refreshBrokerCObj(bCObj)) {
             brokerBkrQueryDialog.show(bCObj);
+        }
     }
 
     /*
@@ -1225,8 +1257,9 @@ public class BrokerAdminHandler implements AdminEventListener {
 
         saveBrokerList();
 
-        if (bae.isOKAction())
+        if (bae.isOKAction()) {
             brokerBkrPropsDialog.hide();
+        }
 
     }
 
@@ -1262,7 +1295,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                                 acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                                 JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                         // Update the node
-                        app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                        app.getExplorer().nodeChanged(bCObj);
                         // Update menu items, buttons.
                         controller.setActions(bCObj);
                     }
@@ -1271,7 +1304,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                             acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                             JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                     // Update the node
-                    app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                    app.getExplorer().nodeChanged(bCObj);
                     // Update menu items, buttons.
                     controller.setActions(bCObj);
                 }
@@ -1281,7 +1314,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                         acr.getString(acr.I_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT_BROKER),
                         JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                 // Update the node
-                app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                app.getExplorer().nodeChanged(bCObj);
                 // Update menu items, buttons.
                 controller.setActions(bCObj);
             }
@@ -1291,7 +1324,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                         acr.getString(acr.I_CONNECT_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RECONNECT),
                         JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
                 // Update the node
-                app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                app.getExplorer().nodeChanged(bCObj);
                 // Update menu items, buttons.
                 controller.setActions(bCObj);
 
@@ -1342,10 +1375,11 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Remove destinations and services from this broker's node hierarchy.
              */
             clearBroker(bCObj);
-            app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+            app.getExplorer().nodeChanged(bCObj);
             app.getInspector().refresh();
-        } else
+        } else {
             return;
+        }
 
         // Update menu items, buttons.
         controller.setActions(bCObj);
@@ -1377,8 +1411,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bSvclCObj);
+        }
 
         try {
             ba.sendGetServicesMessage(null);
@@ -1400,8 +1435,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         // If there are any services, remove them all from the list, only
         // if the new services is NOT null.
         if (svcs != null) {
-            if (bSvclCObj != null)
+            if (bSvclCObj != null) {
                 bSvclCObj.removeAllChildren();
+            }
 
             BrokerServiceCObj bSvcCObj;
             int i = 0;
@@ -1423,8 +1459,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bSvcCObj);
+        }
 
         Vector svc = null;
         try {
@@ -1469,8 +1506,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestlCObj);
+        }
 
         try {
             ba.sendGetDestinationsMessage(null, -1);
@@ -1492,8 +1530,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         // If there are any destinations, remove them all from the list, only
         // if the new destinations is NOT null.
         if (dests != null) {
-            if (bDestlCObj != null)
+            if (bDestlCObj != null) {
                 bDestlCObj.removeAllChildren();
+            }
 
             BrokerDestCObj bDestCObj;
             int i = 0;
@@ -1525,8 +1564,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestCObj);
+        }
 
         Vector dests = null;
         Vector durables = null;
@@ -1618,8 +1658,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_DELETE, ba.getKey()), acr.getString(acr.I_DELETE_BROKER),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             baMgr.deleteBrokerAdmin(ba);
@@ -1638,16 +1679,18 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_SERVICE_PAUSE, svcInfo.name, ba.getKey()),
                 acr.getString(acr.I_PAUSE_SERVICE), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bSvcCObj);
+            }
 
             if (pauseService(ba, svcInfo.name)) {
                 svcInfo = queryServiceInfo(ba, svcInfo.name);
@@ -1685,16 +1728,18 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_SERVICE_RESUME, svcInfo.name, ba.getKey()),
                 acr.getString(acr.I_RESUME_SERVICE), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bSvcCObj);
+            }
 
             if (resumeService(ba, svcInfo.name)) {
                 svcInfo = queryServiceInfo(ba, svcInfo.name);
@@ -1730,8 +1775,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_DEST_PAUSE, destInfo.name, ba.getKey()), acr.getString(acr.I_PAUSE_DEST),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         /*
          * REVISIT: At this point we can ask the user what pauseType they want: ALL PRODUCERS CONSUMERS For now, we assume 'ALL'
@@ -1743,8 +1789,9 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bDestCObj);
+            }
 
             if (pauseDest(ba, destInfo.name, destInfo.type, DestState.PAUSED)) {
                 destInfo = queryDestinationInfo(ba, destInfo.name, destInfo.type);
@@ -1765,21 +1812,24 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_DEST_PAUSE_ALL, ba.getKey()), acr.getString(acr.I_PAUSE_ALL_DESTS),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bDestListCObj);
+            }
 
             if (pauseAllDests(ba, DestType.DEST_TYPE_QUEUE, DestState.PAUSED)) {
 
-                if (!populateBrokerDestinations((BrokerCObj) bDestListCObj.getParent()))
+                if (!populateBrokerDestinations((BrokerCObj) bDestListCObj.getParent())) {
                     return;
+                }
 
                 // Update menu items, buttons.
                 controller.setActions(bDestListCObj);
@@ -1825,24 +1875,27 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_PAUSE, ba.getKey()), acr.getString(acr.I_PAUSE_BROKER),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bCObj);
+            }
 
             if (pauseBroker(ba)) {
                 Enumeration e = bCObj.children();
                 BrokerServiceListCObj bSvclCObj = null;
                 while (e.hasMoreElements()) {
                     ConsoleObj cObj = (ConsoleObj) e.nextElement();
-                    if (cObj instanceof BrokerServiceListCObj)
+                    if (cObj instanceof BrokerServiceListCObj) {
                         bSvclCObj = (BrokerServiceListCObj) cObj;
+                    }
                 }
 
                 Vector svcs = queryAllServiceInfo(ba);
@@ -1878,24 +1931,27 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_RESUME, ba.getKey()), acr.getString(acr.I_RESUME_BROKER),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bCObj);
+            }
 
             if (resumeBroker(ba)) {
                 Enumeration e = bCObj.children();
                 BrokerServiceListCObj bSvclCObj = null;
                 while (e.hasMoreElements()) {
                     ConsoleObj cObj = (ConsoleObj) e.nextElement();
-                    if (cObj instanceof BrokerServiceListCObj)
+                    if (cObj instanceof BrokerServiceListCObj) {
                         bSvclCObj = (BrokerServiceListCObj) cObj;
+                    }
                 }
 
                 Vector svcs = queryAllServiceInfo(ba);
@@ -1930,21 +1986,24 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_DEST_RESUME_ALL, ba.getKey()), acr.getString(acr.I_RESUME_ALL_DESTS),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bDestListCObj);
+            }
 
             if (resumeAllDests(ba, DestType.DEST_TYPE_QUEUE)) {
 
-                if (!populateBrokerDestinations((BrokerCObj) bDestListCObj.getParent()))
+                if (!populateBrokerDestinations((BrokerCObj) bDestListCObj.getParent())) {
                     return;
+                }
 
                 // Update menu items, buttons.
                 controller.setActions(bDestListCObj);
@@ -1960,16 +2019,18 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_DEST_RESUME, destInfo.name, ba.getKey()),
                 acr.getString(acr.I_RESUME_DEST), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             /*
              * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
              * the console in such cases.
              */
-            if (!ba.isBusy())
+            if (!ba.isBusy()) {
                 ba.setAssociatedObj(bDestCObj);
+            }
 
             if (resumeDest(ba, destInfo.name, destInfo.type)) {
                 destInfo = queryDestinationInfo(ba, destInfo.name, destInfo.type);
@@ -2080,16 +2141,18 @@ public class BrokerAdminHandler implements AdminEventListener {
     }
 
     private void updateAllServiceInfo(BrokerServiceListCObj bSvclCObj, Vector svcs) {
-        if (bSvclCObj == null || svcs == null)
+        if (bSvclCObj == null || svcs == null) {
             return;
+        }
 
         Enumeration e = bSvclCObj.children();
         while (e.hasMoreElements()) {
             BrokerServiceCObj bSvcCObj = (BrokerServiceCObj) e.nextElement();
             for (int i = 0; i < svcs.size(); i++) {
                 ServiceInfo svc = (ServiceInfo) svcs.elementAt(i);
-                if ((bSvcCObj.getServiceInfo().name).equals(svc.name))
+                if ((bSvcCObj.getServiceInfo().name).equals(svc.name)) {
                     bSvcCObj.setServiceInfo((ServiceInfo) svcs.elementAt(i));
+                }
             }
         }
     }
@@ -2123,8 +2186,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_SHUTDOWN, ba.getKey()), acr.getString(acr.I_SHUTDOWN_BROKER),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             ba.setInitiator(true);
@@ -2136,7 +2200,7 @@ public class BrokerAdminHandler implements AdminEventListener {
 
             if (shutdownBroker(ba)) {
                 clearBroker(bCObj);
-                app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                app.getExplorer().nodeChanged(bCObj);
                 app.getInspector().refresh();
 
                 // Update menu items, buttons.
@@ -2168,8 +2232,9 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_RESTART, ba.getKey()), acr.getString(acr.I_RESTART_BROKER),
                 JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
         if (ba != null) {
             ba.setInitiator(true);
@@ -2207,18 +2272,22 @@ public class BrokerAdminHandler implements AdminEventListener {
 
             } else { // no authentication needed; everything is already provided
                 if (reconnectToBroker(bCObj)) {
-                    if (!refreshBrokerCObj(bCObj))
+                    if (!refreshBrokerCObj(bCObj)) {
                         return false;
-                    if (!populateBrokerServices(bCObj))
+                    }
+                    if (!populateBrokerServices(bCObj)) {
                         return false;
-                    if (!populateBrokerDestinations(bCObj))
+                    }
+                    if (!populateBrokerDestinations(bCObj)) {
                         return false;
-                    app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+                    }
+                    app.getExplorer().nodeChanged(bCObj);
                     app.getInspector().refresh();
                     app.getStatusArea().appendText(acr.getString(acr.S_BROKER_RESTART, ba.getKey()));
 
-                } else
+                } else {
                     return false;
+                }
 
                 // Update menu items, buttons.
                 controller.setActions(bCObj);
@@ -2229,7 +2298,7 @@ public class BrokerAdminHandler implements AdminEventListener {
                     acr.getString(acr.I_RESTART_BROKER) + ": " + acr.getString(acr.I_ERROR_CODE, AdminConsoleResources.E_RESTART_BROKER),
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close, close[0]);
             // Update the node
-            app.getExplorer().nodeChanged((DefaultMutableTreeNode) bCObj);
+            app.getExplorer().nodeChanged(bCObj);
             // Update menu items, buttons.
             controller.setActions(bCObj);
 
@@ -2247,8 +2316,9 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bCObj);
+        }
 
         String destName = destInfo.name;
         try {
@@ -2292,24 +2362,27 @@ public class BrokerAdminHandler implements AdminEventListener {
          * Broker may take more time to complete the task than the specified timeout value. This value is used when refreshing
          * the console in such cases.
          */
-        if (!ba.isBusy())
+        if (!ba.isBusy()) {
             ba.setAssociatedObj(bDestCObj);
+        }
 
         DestinationInfo destInfo = bDestCObj.getDestinationInfo();
 
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_DELETE_DEST, destInfo.name, ba.getKey()),
                 acr.getString(acr.I_DELETE_BROKER_DEST), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
-        if (!deleteDestination(ba, destInfo.name, destInfo.type))
+        if (!deleteDestination(ba, destInfo.name, destInfo.type)) {
             return;
+        }
 
         BrokerDestListCObj destList = (BrokerDestListCObj) bDestCObj.getParent();
         app.getExplorer().removeFromParent(bDestCObj);
         // Force selection of BrokerDestListCObj
-        app.getExplorer().select(((ConsoleObj) destList));
+        app.getExplorer().select((destList));
         app.getInspector().refresh();
     }
 
@@ -2336,11 +2409,13 @@ public class BrokerAdminHandler implements AdminEventListener {
         int result = JOptionPane.showConfirmDialog(app.getFrame(), acr.getString(acr.Q_BROKER_PURGE_DEST, destInfo.name, ba.getKey()),
                 acr.getString(acr.I_PURGE_MESSAGES), JOptionPane.YES_NO_OPTION);
 
-        if (result == JOptionPane.NO_OPTION)
+        if (result == JOptionPane.NO_OPTION) {
             return;
+        }
 
-        if (!purgeDestination(ba, destInfo.name, destInfo.type))
+        if (!purgeDestination(ba, destInfo.name, destInfo.type)) {
             return;
+        }
 
         destInfo = queryDestinationInfo(ba, destInfo.name, destInfo.type);
         if (destInfo != null) {
@@ -2400,10 +2475,11 @@ public class BrokerAdminHandler implements AdminEventListener {
         }
 
         if (e != null) {
-            if (errorMessage != null)
+            if (errorMessage != null) {
                 errorMessage = errorMessage + e.getMessage();
-            else
+            } else {
                 errorMessage = e.getMessage();
+            }
         }
 
         return (errorMessage);
@@ -2569,8 +2645,9 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Refresh the destination list only if the service list refresh was successful.
              */
             if (refreshBrokerServiceListCObj(bCObj.getBrokerServiceListCObj())) {
-                if (refreshBrokerDestListCObj(bCObj.getBrokerDestListCObj()))
+                if (refreshBrokerDestListCObj(bCObj.getBrokerDestListCObj())) {
                     app.getStatusArea().appendText(acr.getString(acr.S_BROKER_REFRESH, bCObj.toString()));
+                }
             }
 
         } else if (selObj instanceof BrokerServiceListCObj) {
@@ -2581,8 +2658,9 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Not necessary since the broker should always be running or else exception must have been caught and have been taken
              * care of. if (!isLatestBrokerAvailable(bCObj)) return;
              */
-            if (refreshBrokerServiceListCObj(bSvclCObj))
+            if (refreshBrokerServiceListCObj(bSvclCObj)) {
                 app.getStatusArea().appendText(acr.getString(acr.S_BROKER_REFRESH_SVCLIST, bCObj.toString()));
+            }
 
         } else if (selObj instanceof BrokerServiceCObj) {
             BrokerServiceCObj bSvcCObj = (BrokerServiceCObj) selObj;
@@ -2593,8 +2671,9 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Not necessary since the broker should always be running or else exception must have been caught and have been taken
              * care of. if (!isLatestBrokerAvailable(bCObj)) return;
              */
-            if (refreshBrokerServiceListCObj(bSvclCObj))
+            if (refreshBrokerServiceListCObj(bSvclCObj)) {
                 app.getStatusArea().appendText(acr.getString(acr.S_BROKER_REFRESH_SVCLIST, bCObj.toString()));
+            }
 
         } else if (selObj instanceof BrokerDestListCObj) {
             BrokerDestListCObj bDestlCObj = (BrokerDestListCObj) selObj;
@@ -2604,8 +2683,9 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Not necessary since the broker should always be running or else exception must have been caught and have been taken
              * care of. if (!isLatestBrokerAvailable(bCObj)) return;
              */
-            if (refreshBrokerDestListCObj(bDestlCObj))
+            if (refreshBrokerDestListCObj(bDestlCObj)) {
                 app.getStatusArea().appendText(acr.getString(acr.S_BROKER_REFRESH_DESTLIST, bCObj.toString()));
+            }
 
         } else if (selObj instanceof BrokerDestCObj) {
             BrokerDestCObj bDestCObj = (BrokerDestCObj) selObj;
@@ -2616,30 +2696,31 @@ public class BrokerAdminHandler implements AdminEventListener {
              * Not necessary since the broker should always be running or else exception must have been caught and have been taken
              * care of. if (!isLatestBrokerAvailable(bCObj)) return;
              */
-            if (refreshBrokerDestListCObj(bDestlCObj))
+            if (refreshBrokerDestListCObj(bDestlCObj)) {
                 app.getStatusArea().appendText(acr.getString(acr.S_BROKER_REFRESH_DESTLIST, bCObj.toString()));
+            }
         }
     }
 
     /*
      * private boolean isLatestBrokerAvailable(BrokerCObj bCObj) { BrokerAdmin ba = bCObj.getBrokerAdmin();
-     * 
+     *
      * // Check to see if BrokerAdmin can connect to the broker by // sending a hello message. It acts like a ping (verified
      * w/ Joe.)
-     * 
+     *
      * try { ba.sendHelloMessage(); ba.receiveHelloReplyMessage(); return true;
-     * 
+     *
      * } catch (BrokerAdminException bae) { JOptionPane.showOptionDialog(app.getFrame(),
      * acr.getString(acr.E_BROKER_NOT_CONNECTED, ba.getKey()) + printBrokerAdminExceptionDetails(bae),
      * acr.getString(acr.I_BROKER_REFRESH) + ": " + acr.getString(acr.I_ERROR_CODE,
      * AdminConsoleResources.E_BROKER_NOT_CONNECTED), JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE, null, close,
      * close[0]);
-     * 
+     *
      * ba.setIsConnected(false); bCObj.setBrokerProps(null);
-     * 
+     *
      * // Remove destinations and services from this broker's node // hierarchy. // clearBroker(bCObj);
      * app.getExplorer().nodeChanged((DefaultMutableTreeNode)bCObj); app.getInspector().refresh();
-     * 
+     *
      * // Update menu items, buttons. controller.setActions(bCObj); } return false; }
      */
 }

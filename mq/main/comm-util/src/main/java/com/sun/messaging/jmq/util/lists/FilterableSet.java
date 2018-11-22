@@ -33,7 +33,7 @@ public interface FilterableSet extends Set {
     /**
      * returns a new set that contains all objects matching the filter. This new set will not be updated to reflect changes
      * in the original set.
-     * 
+     *
      * @param f filter to use when matching
      * @returns a new set of matching objects
      * @see #subSet(Filter)
@@ -45,7 +45,7 @@ public interface FilterableSet extends Set {
      * original set (and changes in the original set will reflect in the subset).
      * <P>
      * For example, if you remove an object from the original set it will also be removed from the subset.
-     * 
+     *
      * @param f filter to use when matching
      * @returns a subset of matching objects
      * @see #getAll(Filter)
@@ -57,7 +57,7 @@ public interface FilterableSet extends Set {
      * original set (and changes in the original set will reflect in the subset).
      * <P>
      * For example, if you remove an object from the original set it will also be removed from the subset.
-     * 
+     *
      * @param c comparator to use when sorting the objects
      * @returns a set ordered by the comparator
      */
@@ -65,7 +65,7 @@ public interface FilterableSet extends Set {
 
     /**
      * Method which allows an object to be added to the class for a specific reason.
-     * 
+     *
      * @see EventBroadcaster
      * @param o object to add
      * @param r reason the object was added
@@ -75,7 +75,7 @@ public interface FilterableSet extends Set {
 
     /**
      * Method which allows an object to be removed to the class for a specific reason.
-     * 
+     *
      * @see EventBroadcaster
      * @param o object to remove
      * @param r reason the object was removed

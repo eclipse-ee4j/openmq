@@ -19,7 +19,6 @@
 
 package com.sun.messaging.bridge.api;
 
-import java.io.Serializable;
 import com.sun.messaging.jmq.util.MultiColumnPrinter;
 
 /**
@@ -29,6 +28,11 @@ import com.sun.messaging.jmq.util.MultiColumnPrinter;
  */
 
 public class BridgeCmdSharedReplyData extends MultiColumnPrinter {
+
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4018911051035243876L;
 
     public BridgeCmdSharedReplyData(int numCol, int gap, String border, int align, boolean sort) {
         super(numCol, gap, border, align, sort);
@@ -46,10 +50,12 @@ public class BridgeCmdSharedReplyData extends MultiColumnPrinter {
         super(numCol, gap);
     }
 
+    @Override
     public void doPrint(String str) {
         throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
     }
 
+    @Override
     public void doPrintln(String str) {
         throw new UnsupportedOperationException("BridgeCmdSharedReplyData.doPrint");
     }

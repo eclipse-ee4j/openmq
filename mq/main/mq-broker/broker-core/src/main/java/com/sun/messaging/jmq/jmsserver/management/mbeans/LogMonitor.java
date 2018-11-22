@@ -23,13 +23,7 @@ package com.sun.messaging.jmq.jmsserver.management.mbeans;
 import javax.management.MBeanAttributeInfo;
 import javax.management.MBeanOperationInfo;
 import javax.management.MBeanNotificationInfo;
-import javax.management.AttributeChangeNotification;
-
 import com.sun.messaging.jms.management.server.*;
-
-import com.sun.messaging.jmq.Version;
-import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.jmsserver.Globals;
 
 public class LogMonitor extends MQMBeanReadOnly {
     private static String[] logNotificationTypes = { LogNotification.LOG_LEVEL_PREFIX + LogLevel.WARNING, LogNotification.LOG_LEVEL_PREFIX + LogLevel.ERROR,
@@ -42,22 +36,27 @@ public class LogMonitor extends MQMBeanReadOnly {
         super();
     }
 
+    @Override
     public String getMBeanName() {
         return ("LogMonitor");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_LOG_MON_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (null);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (null);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }

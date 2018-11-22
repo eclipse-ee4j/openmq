@@ -27,7 +27,7 @@ import com.sun.messaging.AdministeredObject;
 /**
  * A TopicSession provides methods for creating TopicPublisher's, TopicSubscriber's and TemporaryTopics. It also
  * provides a method for deleting its client's durable subscribers.
- * 
+ *
  * @see javax.jms.Session
  * @see javax.jms.TopicConnection#createTopicSession(boolean, int)
  * @see javax.jms.XATopicSession#getTopicSession()

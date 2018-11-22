@@ -33,8 +33,9 @@ public class BridgeUtil {
      */
     public static List<String> getListProperty(String name, Properties props) {
         String value = props.getProperty(name);
-        if (value == null)
+        if (value == null) {
             return new ArrayList<String>();
+        }
         return breakToList(value, ",");
     }
 
@@ -46,14 +47,17 @@ public class BridgeUtil {
             newtoken = newtoken.trim();
             int start = 0;
             while (start < newtoken.length()) {
-                if (!Character.isSpaceChar(newtoken.charAt(start)))
+                if (!Character.isSpaceChar(newtoken.charAt(start))) {
                     break;
+                }
                 start++;
             }
-            if (start > 0)
+            if (start > 0) {
                 newtoken = newtoken.substring(start + 1);
-            if (newtoken.trim().length() > 0)
+            }
+            if (newtoken.trim().length() > 0) {
                 retv.add(newtoken.trim());
+            }
         }
         return retv;
     }

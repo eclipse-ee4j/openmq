@@ -36,6 +36,7 @@ public final class MQConnectionPermission extends MQBasicPermission {
         super(name);
     }
 
+    @Override
     public void validateName(String name) throws IllegalArgumentException {
         if (!name.equals(PermissionFactory.CONN_NORMAL) && !name.equals(PermissionFactory.CONN_ADMIN)) {
             throw new IllegalArgumentException("invalidate name " + name);

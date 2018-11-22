@@ -31,7 +31,7 @@ import com.sun.messaging.bridge.service.stomp.resources.StompBridgeResources;
 
 /**
  * The Stomp Bridge
- * 
+ *
  * @author amyk
  *
  */
@@ -47,7 +47,7 @@ public class StompBridge implements Bridge {
     private StompServer _stompServer = null;
 
     public StompBridge() {
-    };
+    }
 
     /**
      * Start the bridge
@@ -59,6 +59,7 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to start the bridge
      */
+    @Override
     public synchronized boolean start(BridgeContext bc, String[] args) throws Exception {
 
         if (args != null) {
@@ -81,8 +82,9 @@ public class StompBridge implements Bridge {
         } catch (Exception e) {
             bc.logError(e.getMessage(), e);
             try {
-                if (inited)
+                if (inited) {
                     stop(bc, null);
+                }
             } catch (Throwable t) {
             }
 
@@ -102,6 +104,7 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to pause the bridge
      */
+    @Override
     public void pause(BridgeContext bc, String[] args) throws Exception {
         throw new UnsupportedOperationException(
                 StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("pause"), getType()));
@@ -115,6 +118,7 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to resume the bridge
      */
+    @Override
     public void resume(BridgeContext bc, String[] args) throws Exception {
         throw new UnsupportedOperationException(
                 StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("resume"), getType()));
@@ -128,6 +132,7 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to stop the bridge
      */
+    @Override
     public synchronized void stop(BridgeContext bc, String[] args) throws Exception {
         if (args != null) {
             throw new UnsupportedOperationException(StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT,
@@ -151,6 +156,7 @@ public class StompBridge implements Bridge {
      *
      * @throws Exception if unable to list the bridge
      */
+    @Override
     public ArrayList<BridgeCmdSharedReplyData> list(BridgeContext bc, String[] args, ResourceBundle rb) throws Exception {
 
         throw new UnsupportedOperationException(
@@ -162,6 +168,7 @@ public class StompBridge implements Bridge {
      *
      * @return the type of the bridge
      */
+    @Override
     public String getType() {
         return _type;
     }
@@ -170,6 +177,7 @@ public class StompBridge implements Bridge {
      *
      * @return true if multiple of this type of bridge can coexist
      */
+    @Override
     public boolean isMultipliable() {
         return false;
     }
@@ -178,6 +186,7 @@ public class StompBridge implements Bridge {
      *
      * @return set the bridge's name
      */
+    @Override
     public void setName(String name) {
         _name = name;
     }
@@ -186,6 +195,7 @@ public class StompBridge implements Bridge {
      *
      * @return the bridge's name
      */
+    @Override
     public String getName() {
         return _name;
     }
@@ -194,6 +204,7 @@ public class StompBridge implements Bridge {
      *
      * @return a string representing the bridge's status (length <= 15, uppercase)
      */
+    @Override
     public synchronized State getState() {
         return _state;
     }
@@ -202,6 +213,7 @@ public class StompBridge implements Bridge {
      *
      * @return an object of exported service corresponding to the className
      */
+    @Override
     public Object getExportedService(Class c, Properties props) throws Exception {
         throw new UnsupportedOperationException(
                 StompServer.getStompBridgeResources().getKString(StompBridgeResources.X_OPERATION_NO_SUPPORT, String.valueOf("getExportedService"), getType()));

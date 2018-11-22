@@ -30,7 +30,7 @@ public class JMSXAWrappedLock {
     private boolean locked = false;
 
     public JMSXAWrappedLock() {
-    };
+    }
 
     public synchronized void acquireLock() {
         Thread me = Thread.currentThread();

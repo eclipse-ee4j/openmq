@@ -56,17 +56,21 @@ public class HTTPStreams implements ProtocolStreams {
         outputBufferSize = outBufSz;
     }
 
+    @Override
     public boolean getBlocking() {
         return true;
     }
 
+    @Override
     public AbstractSelectableChannel getChannel() {
         return null;
     }
 
+    @Override
     public InputStream getInputStream() throws IOException {
-        if (socket == null)
+        if (socket == null) {
             throw new IOException("Can not get an input stream without a socket");
+        }
 
         if (is == null) {
             synchronized (this) {
@@ -81,9 +85,11 @@ public class HTTPStreams implements ProtocolStreams {
         return is;
     }
 
+    @Override
     public OutputStream getOutputStream() throws IOException {
-        if (socket == null)
+        if (socket == null) {
             throw new IOException("Can not get an output stream without a socket");
+        }
 
         if (os == null) {
             synchronized (this) {
@@ -98,6 +104,7 @@ public class HTTPStreams implements ProtocolStreams {
         return os;
     }
 
+    @Override
     public synchronized void close() throws IOException {
         if (is != null) {
             try {
@@ -117,22 +124,27 @@ public class HTTPStreams implements ProtocolStreams {
         socket = null;
     }
 
+    @Override
     public int getLocalPort() {
         return socket.getConnId();
     }
 
+    @Override
     public int getRemotePort() {
         return -1;
     }
 
+    @Override
     public InetAddress getLocalAddress() {
         return null;
     }
 
+    @Override
     public InetAddress getRemoteAddress() {
         HttpTunnelSocket s = socket;
-        if (s == null)
+        if (s == null) {
             return null;
+        }
         try {
             return s.getRemoteAddress();
         } catch (Exception e) {
@@ -141,22 +153,27 @@ public class HTTPStreams implements ProtocolStreams {
         }
     }
 
+    @Override
     public String toString() {
         return "HTTP connection to " + socket;
     }
 
+    @Override
     public String toDebugString() {
         return "HTTP connection to " + socket;
     }
 
+    @Override
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
+    @Override
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
 
+    @Override
     public Hashtable getDebugState() {
         if (socket != null) {
             return socket.getDebugState();

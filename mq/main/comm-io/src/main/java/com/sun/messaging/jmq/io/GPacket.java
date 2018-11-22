@@ -571,7 +571,7 @@ public class GPacket {
      *
      * @throws IllegalArgumentException if the packet read has a bad version. In this case the entire packet is read, but
      * can't be parsed. Subusequent reads should still work, but you may continue to encounter bogus packet versions.
-     * 
+     *
      */
     public synchronized void read(InputStream is) throws IOException, EOFException, StreamCorruptedException, IllegalArgumentException {
 
@@ -710,8 +710,9 @@ public class GPacket {
      */
     private static void readFully(InputStream in, byte b[], int off, int len, boolean retry) throws IOException, EOFException, InterruptedIOException {
 
-        if (len < 0)
+        if (len < 0) {
             throw new IndexOutOfBoundsException();
+        }
 
         // System.out.println("readFully(off=" + off + ", len=" + len);
         int n = 0;
@@ -746,9 +747,11 @@ public class GPacket {
      * differentiate on payload then set a property that uniquely identifies the payload (for example a checksum of the
      * payload).
      */
+    @Override
     public synchronized boolean equals(Object o) {
-        if (this == o)
+        if (this == o) {
             return true;
+        }
 
         if (!(o instanceof GPacket)) {
             return false;
@@ -784,12 +787,14 @@ public class GPacket {
         return true;
     }
 
+    @Override
     public int hashCode() {
         // for now, just compare sysid
         // this really should include property and body comparison
         return (int) (timestamp + sequence + size + type + bitFlags + propsByteSize + version + magic);
     }
 
+    @Override
     public synchronized String toString() {
 
         getProperties();

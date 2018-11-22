@@ -31,14 +31,14 @@ public class DestinationName {
 
     /**
      * Internal destination name prefix
-     * 
+     *
      * @since 3.5
      */
     public static final String INTERNAL_DEST_PREFIX = "mq.";
 
     /**
      * Validates whether a name conforms to the JMQ provider specific syntax for Destination Names.
-     * 
+     *
      * @param name The name to be validated.
      *
      * @return <code>true</code> if the name is valid; <code>false</code> if the name is invalid.

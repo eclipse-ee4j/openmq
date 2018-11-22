@@ -119,8 +119,9 @@ public class TransactionHandler extends PacketHandler {
     }
 
     public void sendReply(IMQConnection con, Packet msg, int type, int status, long tid, String reason, BrokerException bex, Map props, long nextTid) {
-        if (fi.FAULT_INJECTION)
+        if (fi.FAULT_INJECTION) {
             checkFIAfterProcess(msg.getPacketType());
+        }
         Packet pkt = new Packet(con.useDirectBuffers());
         pkt.setPacketType(type);
         pkt.setConsumerID(msg.getConsumerID());
@@ -154,8 +155,9 @@ public class TransactionHandler extends PacketHandler {
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);
-        if (fi.FAULT_INJECTION)
+        if (fi.FAULT_INJECTION) {
             checkFIAfterReply(msg.getPacketType());
+        }
     }
 
     /**
@@ -170,8 +172,9 @@ public class TransactionHandler extends PacketHandler {
             hash = new Hashtable();
         }
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
 
@@ -223,6 +226,7 @@ public class TransactionHandler extends PacketHandler {
     /**
      * Method to handle Transaction Messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         long messagetid = 0;
@@ -248,8 +252,9 @@ public class TransactionHandler extends PacketHandler {
 
         try {
             props = msg.getProperties();
-            if (props == null)
+            if (props == null) {
                 props = new Hashtable();
+            }
         } catch (Exception ex) {
             logger.logStack(Logger.WARNING, "Unable to retrieve " + " properties from transaction message " + msg, ex);
             props = new Hashtable();
@@ -554,13 +559,15 @@ public class TransactionHandler extends PacketHandler {
                 // if the noop flag is set the we don't want to actually
                 // process the XA_END. See bug 12364646 and XAResourceImpl.end()
                 Boolean jmqnoop = (Boolean) props.get("JMQNoOp");
-                if (jmqnoop == null || jmqnoop == false)
+                if (jmqnoop == null || jmqnoop == false) {
                     doEnd(translist, msg.getPacketType(), xid, xaFlags, ts, id);
+                }
             } catch (Exception ex) {
                 status = Status.ERROR;
                 reason = ex.getMessage();
-                if (ex instanceof BrokerException)
+                if (ex instanceof BrokerException) {
                     status = ((BrokerException) ex).getStatusCode();
+                }
             }
             sendReply(con, msg, msg.getPacketType() + 1, status, id.longValue(), reason);
             break;
@@ -854,8 +861,9 @@ public class TransactionHandler extends PacketHandler {
 
         // Do this only if transaction debug is enabled!
         if (GlobalProperties.getGlobalProperties().TRANSACTION_DEBUG) {
-            if (con == null)
+            if (con == null) {
                 return;
+            }
 
             CacheHashMap cache = (CacheHashMap) con.getClientData(IMQConnection.TRANSACTION_CACHE);
             if (cache == null) {
@@ -1101,8 +1109,9 @@ public class TransactionHandler extends PacketHandler {
                     for (int i = 0; i < interests.size(); i++) {
                         ConsumerUID intid = (ConsumerUID) interests.get(i);
                         ConsumerUID sid = (ConsumerUID) sToCmap.get(intid);
-                        if (sid == null)
+                        if (sid == null) {
                             sid = intid;
+                        }
 
                         try {
                             Session s = Session.getSession(intid);
@@ -1319,8 +1328,9 @@ public class TransactionHandler extends PacketHandler {
                 SysMessageID sysid = (SysMessageID) entry.getKey();
                 List interests = (List) entry.getValue();
 
-                if (sysid == null)
+                if (sysid == null) {
                     continue;
+                }
 
                 PacketReference ref = DL.get(null, sysid);
                 if (ref == null || ref.isDestroyed() || ref.isInvalid()) {
@@ -1346,8 +1356,9 @@ public class TransactionHandler extends PacketHandler {
                 for (int i = 0; i < interests.size(); i++) {
                     ConsumerUID intid = (ConsumerUID) interests.get(i);
                     ConsumerUID sid = (ConsumerUID) sToCmap.get(intid);
-                    if (sid == null)
+                    if (sid == null) {
                         sid = intid;
+                    }
 
                     try {
                         // ignore non-durable subscriber
@@ -1513,7 +1524,7 @@ public class TransactionHandler extends PacketHandler {
      * Rollback a transaction. This method is invoked from two places: 1) From TransactionHandler.handle() when handling a
      * client ROLLBACK packet. This is the common case. 2) From the admin handler when an admin rollback request has been
      * issued on a PREPARED XA transaction.
-     * 
+     *
      * @param id The TransactionUID to commit
      * @param xid The Xid of the transaction to commit. Required if transaction is an XA transaction. Must be null if it is
      * not an XA transaction.
@@ -1521,7 +1532,7 @@ public class TransactionHandler extends PacketHandler {
      * @param ts Current TransactionState of this transaction.
      * @param conlist List of transactions on this connection. Will be null if commit is trigger by an admin request.
      * @param con Connection client commit packet came in on or, for admin, the connection the admin request came in on.
-     * 
+     *
      * @throws BrokerException on an error. The method will have logged a message to the broker log.
      */
     public void doRollback(TransactionList translist, TransactionUID id, JMQXid xid, Integer xaFlags, TransactionState ts, List conlist, IMQConnection con,
@@ -2210,7 +2221,7 @@ public class TransactionHandler extends PacketHandler {
 
     /**
      * Prepare an XATransaction.
-     * 
+     *
      * @param id The TransactionUID to commit
      * @param xaFlags xaFlags passed on COMMIT operation.
      * @param ts Current TransactionState of this transaction.
@@ -2293,8 +2304,9 @@ public class TransactionHandler extends PacketHandler {
             }
             try {
                 Agent agent = Globals.getAgent();
-                if (agent != null)
+                if (agent != null) {
                     agent.notifyTransactionPrepare(id);
+                }
             } catch (Throwable t) {
                 logger.log(Logger.WARNING, "XXXI18N - JMX agent notify transaction prepared failed: " + t.getMessage());
             }
@@ -2331,7 +2343,7 @@ public class TransactionHandler extends PacketHandler {
 
         HashMap<BrokerAddress, ArrayList[]> bmmap = rets[0];
         TransactionBroker[] tranbas = (TransactionBroker[]) rets[1].keySet().toArray(new TransactionBroker[rets[1].size()]);
-        BrokerAddress[] bas = (BrokerAddress[]) bmmap.keySet().toArray(new BrokerAddress[bmmap.size()]);
+        BrokerAddress[] bas = bmmap.keySet().toArray(new BrokerAddress[bmmap.size()]);
         boolean persist = true;
         ClusterTransaction clusterTransaction = null;
         if (Globals.isNewTxnLogEnabled()) {
@@ -2370,7 +2382,7 @@ public class TransactionHandler extends PacketHandler {
                     continue;
                 }
                 mcl = (ArrayList<TransactionAcknowledgement>) rets[1].get(tba);
-                tas = (TransactionAcknowledgement[]) mcl.toArray(new TransactionAcknowledgement[mcl.size()]);
+                tas = mcl.toArray(new TransactionAcknowledgement[mcl.size()]);
                 tl = TransactionList.getTransListByPartitionID(tbapid);
                 if (tl == null) {
                     throw new BrokerException("Can't prepare transaction " + id + " because " + "transaction list for partition " + tbapid + " not found");
@@ -2389,15 +2401,16 @@ public class TransactionHandler extends PacketHandler {
             if (ba == Globals.getMyAddress() || ba.equals(Globals.getMyAddress())) {
                 continue;
             }
-            mcll = (ArrayList[]) bmmap.get(ba);
+            mcll = bmmap.get(ba);
             try {
 
                 Globals.getClusterBroadcast().acknowledgeMessage2P(ba, (SysMessageID[]) mcll[0].toArray(new SysMessageID[mcll[0].size()]),
                         (ConsumerUID[]) mcll[1].toArray(new ConsumerUID[mcll[1].size()]), ClusterBroadcast.MSG_PREPARE, null, Long.valueOf(id.longValue()),
                         tranpid, true, false);
             } catch (BrokerException e) {
-                if (!(e instanceof BrokerDownException) && !(e instanceof AckEntryNotFoundException))
+                if (!(e instanceof BrokerDownException) && !(e instanceof AckEntryNotFoundException)) {
                     throw e;
+                }
 
                 HashMap sToCmap = translist.retrieveStoredConsumerUIDs(id);
 
@@ -2705,22 +2718,28 @@ public class TransactionHandler extends PacketHandler {
                     + ((oldAddr == null) ? "" : " (" + oldAddr + ")") + ", TUID=" + id);
             return false;
         }
-        if (ref.isOverrided())
+        if (ref.isOverrided()) {
             return true;
+        }
 
         BrokerAddress currAddr = ref.getBrokerAddress();
-        if (oldAddr == null && currAddr == null)
+        if (oldAddr == null && currAddr == null) {
             return false;
-        if ((oldAddr == null && currAddr != null) || (oldAddr != null && currAddr == null))
+        }
+        if ((oldAddr == null && currAddr != null) || (oldAddr != null && currAddr == null)) {
             return true;
-        if (!oldAddr.equals(currAddr))
+        }
+        if (!oldAddr.equals(currAddr)) {
             return true;
+        }
         UID oldUID = oldAddr.getBrokerSessionUID();
         UID currUID = currAddr.getBrokerSessionUID();
-        if (oldUID == null || currUID == null)
+        if (oldUID == null || currUID == null) {
             return false;
-        if (!oldUID.equals(currUID))
+        }
+        if (!oldUID.equals(currUID)) {
             return true;
+        }
         return false;
     }
 
@@ -2777,8 +2796,8 @@ public class TransactionHandler extends PacketHandler {
                     ts.setClientID((String) con.getClientData(IMQConnection.CLIENT_ID));
                     ts.setXid(xid);
 
-                    ts.setConnectionString(((IMQConnection) con).userReadableString());
-                    ts.setConnectionUID(((IMQConnection) con).getConnectionUID());
+                    ts.setConnectionString(con.userReadableString());
+                    ts.setConnectionUID(con.getConnectionUID());
                     translist.addTransactionID(id, ts);
 
                     conlist.add(id);

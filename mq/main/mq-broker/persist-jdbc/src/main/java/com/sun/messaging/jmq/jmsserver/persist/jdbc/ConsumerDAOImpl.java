@@ -52,7 +52,7 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     ConsumerDAOImpl() throws BrokerException {
@@ -95,30 +95,33 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param consumer the Consumer
      * @param createdTS timestamp
      * @throws BrokerException if entry exists in the store already
      */
+    @Override
     public void insert(Connection conn, Consumer consumer, long createdTS) throws BrokerException {
 
         ConsumerUID consumerUID = consumer.getConsumerUID();
@@ -226,11 +229,12 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Delete an existing entry.
-     * 
+     *
      * @param conn database connection
      * @param consumer the Consumer
      * @throws BrokerException if entry does not exists in the store
      */
+    @Override
     public void delete(Connection conn, Consumer consumer) throws BrokerException {
 
         ConsumerUID consumerUID = consumer.getConsumerUID();
@@ -288,10 +292,11 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn database connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         if (Globals.getHAEnabled()) {
@@ -303,12 +308,13 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Get a Consumer.
-     * 
+     *
      * @param conn database connection
      * @param consumerUID the consumer ID
      * @return Consumer
      * @throws BrokerException
      */
+    @Override
     public Consumer getConsumer(Connection conn, ConsumerUID consumerUID) throws BrokerException {
 
         Consumer consumer = null;
@@ -369,10 +375,11 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Retrieve all consumers in the store.
-     * 
+     *
      * @param conn database connection
      * @return a List of Consumer objects; an empty List is returned if no consumers exist in the store
      */
+    @Override
     public List getAllConsumers(Connection conn) throws BrokerException {
 
         ArrayList list = new ArrayList();
@@ -434,7 +441,7 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Check whether the specified consumer exists.
-     * 
+     *
      * @param conn database connection
      * @param consumer the Consumer
      * @return return true if the specified consumer exists
@@ -507,10 +514,11 @@ class ConsumerDAOImpl extends BaseDAOImpl implements ConsumerDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @param conn database connection
      * @return a HashMap of name value pair of information
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();

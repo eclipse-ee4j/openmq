@@ -25,7 +25,6 @@ import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.Service;
 import com.sun.messaging.jmq.io.Packet;
-import com.sun.messaging.jmq.io.ReadOnlyPacket;
 import com.sun.messaging.jmq.io.ReadWritePacket;
 import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
 import com.sun.messaging.jmq.jmsservice.DirectBrokerConnection;
@@ -51,7 +50,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
         public String getReason() {
             return reason;
         }
-    };
+    }
 
     /**
      * constructor
@@ -64,14 +63,17 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
         outputQueue = new IMQBlockingQueue();
     }
 
+    @Override
     public HandOffQueue getClientToBrokerQueue() {
         return inputQueue;
     }
 
+    @Override
     public HandOffQueue getBrokerToClientQueue() {
         return outputQueue;
     }
 
+    @Override
     public boolean isBlocking() {
         return true;
     }
@@ -79,6 +81,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
     /**
      * The debug state of this object
      */
+    @Override
     public synchronized Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         // LKS - XXX
@@ -88,9 +91,11 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
         return ht;
     }
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -104,23 +109,27 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
                     userset = true;
                 }
             } catch (BrokerException e) {
-                if (IMQBasicConnection.DEBUG)
+                if (IMQBasicConnection.DEBUG) {
                     logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
 
             }
         }
 
         String retstr = userString + "@" + "Direct" + ":" + getConnectionUID();
-        if (userset)
+        if (userset) {
             remoteConString = retstr;
+        }
         return retstr;
     }
 
     String localsvcstring = null;
 
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         localsvcstring = service.getName();
         return localsvcstring;
     }
@@ -129,6 +138,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
 //   Basic Connection Management
 // -------------------------------------------------------------------------
 
+    @Override
     public synchronized void closeConnection(boolean force, int reason, String reasonStr) {
         super.closeConnection(force, reason, reasonStr);
 
@@ -146,6 +156,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
 //   Sending/Receiving Messages
 // -------------------------------------------------------------------------
 
+    @Override
     protected boolean readInPacket(Packet p) throws IOException {
         // get and fill packet
         try {
@@ -174,12 +185,14 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
         return true;
     }
 
+    @Override
     protected Packet clearReadPacket(Packet p) {
         // XXX - we don't need a new packet if its not message data
         // Revisit
         return null;
     }
 
+    @Override
     protected boolean writeOutPacket(Packet p) throws IOException {
         // write packet
         // it needs to be of type ReadOnlyPacket
@@ -193,6 +206,7 @@ public class IMQEmbeddedConnection extends IMQIPConnection implements DirectBrok
         return true;
     }
 
+    @Override
     protected Packet clearWritePacket(Packet p) {
         // not sure if we need to clear this or not
         // XXX- Revisit

@@ -87,10 +87,10 @@ class AckQueue extends SessionQueue {
 
     /**
      * Wait for a reply from the broker to arrive on this AckQueue.
-     * 
+     *
      * If the specified timeout is zero (no timeout) or is greater than 2 mins, logging messages are generated after 2 mins
      * and periodically afterwards until a message arrives or the timeout is reached
-     * 
+     *
      * @param conn The connection to the broker
      * @param pkt Used for logging only: The Packet for which we are awaiting a reply
      * @param timeout Total amount we are prepared to wait, or 0 if we are prepared to wait indefinitely
@@ -115,7 +115,7 @@ class AckQueue extends SessionQueue {
             /**
              * resend is disabled due to bug ID 6551007: PREPARE_TRANSACTION pkt sent to broker again while waiting
              * PREPARE_TRANSACTION_REPLY.
-             * 
+             *
              * This feature would require broker to handle resend. Otherwise broker prints error messages and caused confustion.
              */
             if (icounter > 0) {
@@ -126,7 +126,7 @@ class AckQueue extends SessionQueue {
             try {
                 wait(lengthOfNextWait);
             } catch (InterruptedException e) {
-                ;
+                
             }
 
             if (isEmpty() && (isClosed == false)) {
@@ -236,7 +236,7 @@ class AckQueue extends SessionQueue {
 
     /**
      * XXX HAWK: NOT all packets are resent to broker.
-     * 
+     *
      * @param pkt ReadWritePacket
      * @return boolean
      */
@@ -299,6 +299,7 @@ class AckQueue extends SessionQueue {
         ConnectionImpl.connectionLogger.log(Level.WARNING, msg);
     }
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("------ AckQueue dump ------");
         ps.println("isEmpty: " + isEmpty());

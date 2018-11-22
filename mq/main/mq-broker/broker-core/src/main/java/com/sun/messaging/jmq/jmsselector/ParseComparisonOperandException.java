@@ -26,6 +26,11 @@ package com.sun.messaging.jmq.jmsselector;
 public class ParseComparisonOperandException extends ParseException {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 1090352462469525365L;
+
+    /**
      * Construct a ParseComparisonOperandException
      */
     public ParseComparisonOperandException(String operator) {

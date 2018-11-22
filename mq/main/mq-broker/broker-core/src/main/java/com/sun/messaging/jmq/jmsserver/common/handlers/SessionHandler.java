@@ -21,17 +21,10 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.io.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
-import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.io.PacketUtil;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -70,6 +63,7 @@ public class SessionHandler extends PacketHandler {
     /**
      * Method to handle Session(add or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         int status = Status.OK;
         String reason = null;
@@ -118,8 +112,9 @@ public class SessionHandler extends PacketHandler {
         }
 
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
+        }
 
         if (msg.getSendAcknowledge()) {
             Packet pkt = new Packet(con.useDirectBuffers());

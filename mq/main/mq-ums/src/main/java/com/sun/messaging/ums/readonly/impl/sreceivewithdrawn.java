@@ -24,13 +24,12 @@ import com.sun.messaging.ums.readonly.ReadOnlyResponseMessage;
 import com.sun.messaging.ums.readonly.ReadOnlyService;
 import com.sun.messaging.ums.service.UMSServiceException;
 import com.sun.messaging.ums.service.UMSServiceImpl;
-import java.net.URLDecoder;
 import java.util.Map;
 import java.util.Properties;
 
 /**
  * This class is used for debugging purposes.
- * 
+ *
  * @author chiaming
  */
 public class sreceivewithdrawn implements ReadOnlyService {
@@ -39,13 +38,15 @@ public class sreceivewithdrawn implements ReadOnlyService {
 
     /**
      * initialize with the servlet init params.
-     * 
+     *
      * @param props
      */
+    @Override
     public void init(Properties initParams) {
         this.initParams = initParams;
     }
 
+    @Override
     public ReadOnlyResponseMessage request(ReadOnlyRequestMessage request) {
 
         try {

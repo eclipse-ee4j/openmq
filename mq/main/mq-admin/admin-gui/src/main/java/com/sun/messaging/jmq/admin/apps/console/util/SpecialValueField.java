@@ -31,9 +31,6 @@ import javax.swing.JRadioButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 
-import com.sun.messaging.jmq.admin.util.Globals;
-import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
-
 /**
  * This class is a panel that is used to manage the layout and enable state of components that can have normal values as
  * well as a special value.
@@ -49,7 +46,7 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * This class is used primarily to avoid duplication of layout code and code that enables/disables components. Getting
  * the entered values can be done via normal channels. This class does not have convenience methods for getting the
  * values since different components have different ways of getting this.
- * 
+ *
  * <P>
  *
  * This class is implemented as a simple container containing the component (field) that allows input of normal values
@@ -65,6 +62,10 @@ import com.sun.messaging.jmq.admin.resources.AdminConsoleResources;
  * </UL>
  */
 public class SpecialValueField extends JPanel implements ActionListener {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 8130713003324411403L;
     private JComponent comp;
     private JLabel specialValueLabel;
     private JRadioButton specialValueRB, normalValueRB;
@@ -98,6 +99,7 @@ public class SpecialValueField extends JPanel implements ActionListener {
         return (comp);
     }
 
+    @Override
     public void setEnabled(boolean b) {
         if (comp != null) {
             comp.setEnabled(b);
@@ -113,6 +115,7 @@ public class SpecialValueField extends JPanel implements ActionListener {
         }
     }
 
+    @Override
     public void actionPerformed(ActionEvent e) {
         Object source = e.getSource();
 

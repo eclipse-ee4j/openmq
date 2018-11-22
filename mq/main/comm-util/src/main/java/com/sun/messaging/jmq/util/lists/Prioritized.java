@@ -29,7 +29,7 @@ import java.util.*;
 public interface Prioritized {
     /**
      * add a single item at the passed in priority. Item will be added behind all other objects which have the same priority
-     * 
+     *
      * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param o object to add
      * @returns true if the item could be added
@@ -38,7 +38,7 @@ public interface Prioritized {
 
     /**
      * add the set of items infront of all items of the same priority.
-     * 
+     *
      * @param priority priority to add object at (0 is the highest priority, followed by 1, etc)
      * @param c collection of objects to add
      */

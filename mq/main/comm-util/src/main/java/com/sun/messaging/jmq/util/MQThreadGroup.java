@@ -29,6 +29,7 @@ public class MQThreadGroup extends ThreadGroup {
         this.uncaughtExMsg = threadUncaughtExWarnMsg;
     }
 
+    @Override
     public void uncaughtException(Thread t, Throwable e) {
         e.printStackTrace();
         if (logger == null) {// XXX

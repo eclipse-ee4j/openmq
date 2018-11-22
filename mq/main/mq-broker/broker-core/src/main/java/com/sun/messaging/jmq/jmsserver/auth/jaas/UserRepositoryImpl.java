@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.auth.jaas;
 
-import java.io.*;
 import java.util.*;
 import javax.security.auth.Subject;
 import javax.security.auth.Refreshable;
@@ -65,10 +64,12 @@ public class UserRepositoryImpl implements UserRepository {
     public UserRepositoryImpl() {
     }
 
+    @Override
     public String getType() {
         return TYPE;
     }
 
+    @Override
     public void open(String authType, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authType = authType;
         this.authProps = authProperties;
@@ -117,12 +118,13 @@ public class UserRepositoryImpl implements UserRepository {
      * @param credential password (String type) for "basic" is the password
      * @param extra null for basic, nonce if digest
      * @param matchType must be "basic"
-     * 
+     *
      * @return the authenticated Subject <BR>
      * null if no match found <BR>
      *
      * @exception LoginException
      */
+    @Override
     public Subject findMatch(String user, Object credential, Object extra, String matchType) throws LoginException {
         if (matchType != null && matchType.equals(AccessController.AUTHTYPE_BASIC)) {
             return basicFindMatch(user, (String) credential);
@@ -168,9 +170,10 @@ public class UserRepositoryImpl implements UserRepository {
             Object cred = null;
             while (itr.hasNext()) {
                 try {
-                    cred = (Object) itr.next();
-                    if (cred == null)
+                    cred = itr.next();
+                    if (cred == null) {
                         continue;
+                    }
                     if (cred instanceof Destroyable && !((Destroyable) cred).isDestroyed()) {
                         ((Destroyable) cred).destroy();
                     }
@@ -182,12 +185,15 @@ public class UserRepositoryImpl implements UserRepository {
         }
     }
 
+    @Override
     public Refreshable getCacheData() {
-        if (subjectHelper == null)
+        if (subjectHelper == null) {
             return null;
+        }
         return subjectHelper.getCacheData();
     }
 
+    @Override
     public void close() throws LoginException {
         synchronized (lock) {
             if (!logout) {

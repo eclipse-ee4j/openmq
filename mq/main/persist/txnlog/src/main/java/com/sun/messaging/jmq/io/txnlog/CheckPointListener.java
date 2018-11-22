@@ -38,7 +38,7 @@ public interface CheckPointListener {
      * <p>
      * When received the notification, broker should sync its message store and calls TransactionLogWriter.checkpoint() to
      * inform the TransactionLogWriter that the message store is synced.
-     * 
+     *
      * @see TransactionLogWriter#setCheckPointListener(CheckPointListener)
      * @see TransactionLogWriter#checkpoint
      */

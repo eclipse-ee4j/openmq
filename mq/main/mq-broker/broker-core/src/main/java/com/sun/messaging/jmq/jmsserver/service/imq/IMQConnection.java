@@ -20,28 +20,19 @@
 
 package com.sun.messaging.jmq.jmsserver.service.imq;
 
-import java.net.*;
 import java.util.*;
-
-import com.sun.messaging.jmq.util.ServiceState;
 
 import com.sun.messaging.jmq.jmsserver.service.*;
 
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
 import java.security.Principal;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
-import com.sun.messaging.jmq.jmsserver.auth.JMQAccessControlContext;
-import com.sun.messaging.jmq.auth.api.server.AccessControlContext;
-
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.UID;
 import com.sun.messaging.jmq.util.MetricCounters;
-import com.sun.messaging.jmq.jmsserver.service.MetricManager;
-
 import com.sun.messaging.jmq.util.admin.ConnectionInfo;
 import com.sun.messaging.jmq.util.GoodbyeReason;
 import com.sun.messaging.jmq.jmsserver.data.TransactionList;
@@ -49,28 +40,16 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionState;
 import com.sun.messaging.jmq.jmsserver.data.TransactionUID;
 import com.sun.messaging.jmq.jmsserver.data.RollbackReason;
 import com.sun.messaging.jmq.jmsserver.data.handlers.TransactionHandler;
-import com.sun.messaging.jmq.jmsserver.core.PacketReference;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.core.Producer;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ProducerSpi;
 import com.sun.messaging.jmq.jmsserver.core.ProducerUID;
 import com.sun.messaging.jmq.jmsserver.core.Session;
 import com.sun.messaging.jmq.jmsserver.core.SessionUID;
-import com.sun.messaging.jmq.io.PacketUtil;
-import com.sun.messaging.jmq.jmsserver.memory.*;
-import com.sun.messaging.jmq.jmsserver.util.lists.*;
-import com.sun.messaging.jmq.jmsserver.data.PacketRouter;
-import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
-import com.sun.messaging.jmq.util.net.IPAddress;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.net.*;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.util.lists.*;
-import com.sun.messaging.jmq.util.ServiceState;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.ConsumerSpi;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.CoreLifecycleSpi;
-import com.sun.messaging.jmq.jmsserver.persist.api.Store;
 import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 
 public abstract class IMQConnection extends Connection implements com.sun.messaging.jmq.util.lists.EventListener {
@@ -117,9 +96,11 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
         return destroyReason;
     }
 
+    @Override
     public void debug(String prefix) {
-        if (prefix == null)
+        if (prefix == null) {
             prefix = "";
+        }
         dumpState();
         Iterator itr = sessions.values().iterator();
         while (itr.hasNext()) {
@@ -202,6 +183,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * The debug state of this object
      */
+    @Override
     public synchronized Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("pauseFlowCnt", String.valueOf(pauseFlowCnt));
@@ -270,8 +252,9 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
      */
     public void setRemoteIP(byte[] remoteIP) {
         this.remoteIP = remoteIP;
-        if (coninfo != null)
+        if (coninfo != null) {
             coninfo.remoteIP = remoteIP;
+        }
     }
 
     /**
@@ -361,6 +344,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * Compares connections to each other or connections to connection ID's
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Connection) {
             return ((Connection) obj).getConnectionUID().equals(this.getConnectionUID());
@@ -371,15 +355,18 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * calculates hashCode for the object
      */
+    @Override
     public int hashCode() {
-        if (conId == null)
+        if (conId == null) {
             return 0;
+        }
         return conId.hashCode();
     }
 
     /**
      * default toString method, sub-classes should override
      */
+    @Override
     public String toString() {
         return "IMQConn[" + getConnectionStateString(state) + "," + getRemoteConnectionString() + "," + localServiceString() + "]";
     }
@@ -393,6 +380,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
 
     public abstract String remoteHostString();
 
+    @Override
     public abstract String getRemoteConnectionString();
 
     protected abstract String localServiceString();
@@ -438,8 +426,9 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
 
     public void resumeFlow(int count) {
         sent_count = 0;
-        if (count != -1)
+        if (count != -1) {
             setFlowCount(count);
+        }
         synchronized (stateLock) {
             waitingForResumeFlow = false;
             resumeFlowCnt++;
@@ -458,6 +447,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * start sending JMS messages to the connection
      */
+    @Override
     public void startConnection() {
         synchronized (stateLock) {
             runningMsgs = true;
@@ -475,6 +465,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * stop sending JMS messages to the connection (does not stop control messages)
      */
+    @Override
     public void stopConnection() {
         synchronized (stateLock) {
             runningMsgs = false;
@@ -496,6 +487,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
         }
     }
 
+    @Override
     public synchronized void cleanupConnection() {
         boolean successful = false;
         try {
@@ -504,15 +496,17 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
                 successful = true;
                 return;
             }
-            if (state < Connection.STATE_CLEANED)
+            if (state < Connection.STATE_CLEANED) {
                 state = Connection.STATE_CLEANED;
+            }
             stopConnection();
             cleanup(false);
             wakeup();
             successful = true;
         } finally {
-            if (!successful)
+            if (!successful) {
                 state = Connection.STATE_AUTHENTICATED;
+            }
 
         }
 
@@ -555,7 +549,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
             TransactionList tl = tls[0];
             TransactionUID[] tuids = (TransactionUID[]) conlist.toArray(new TransactionUID[conlist.size()]);
             for (int i = 0; i < tuids.length; i++) {
-                tid = (TransactionUID) tuids[i];
+                tid = tuids[i];
                 TransactionState ts = tl.retrieveState(tid);
                 if (ts == null) {
                     // nothing to do if no transaction state
@@ -620,6 +614,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * cleanup connections when broker shutting down
      */
+    @Override
     public synchronized void shutdownConnection(String reason) {
         if (DEBUG) {
             logger.log(Logger.DEBUGMED, "Shuting down Connection {0}", this.toString());
@@ -632,10 +627,12 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     /**
      * Sets the ConnectionUID for this connection.
      */
+    @Override
     public void setConnectionUID(ConnectionUID id) {
         this.conId = id;
-        if (coninfo != null)
+        if (coninfo != null) {
             coninfo.id = id.toString().getBytes();
+        }
     }
 
 // -------------------------------------------------------------------------
@@ -667,6 +664,7 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
 //     Abstract Connection methods
 // ---------------------------------------
 
+    @Override
     public void cleanupMemory(boolean persist) {
         // does nothing right now
     }
@@ -689,8 +687,9 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
             Globals.getMemManager().removeProducer();
         }
         Object o = producers.remove(pid);
-        if (o == null)
+        if (o == null) {
             throw new BrokerException("Requested removal of " + " producer " + pid + " which is not associated with" + " connection " + getConnectionUID());
+        }
 
         clc.destroyProducer(pid, reason);
     }
@@ -746,8 +745,9 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
      * called when the connection is closed
      */
     private void cleanUpProducers() {
-        if (Globals.getMemManager() != null)
+        if (Globals.getMemManager() != null) {
             Globals.getMemManager().removeProducer(producers.size());
+        }
         synchronized (producers) {
             Iterator itr = producers.values().iterator();
             while (itr.hasNext()) {
@@ -843,8 +843,9 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
     public void closeSession(SessionUID uid) throws BrokerException {
         synchronized (sessions) {
             Session s = (Session) sessions.remove(uid);
-            if (s == null)
+            if (s == null) {
                 throw new BrokerException("Requested removal of " + " session " + uid + " which is not associated with" + " connection " + getConnectionUID());
+            }
             if (lockToSession != null) {
                 lockToSession.remove(s.getSessionUID());
             }
@@ -858,11 +859,11 @@ public abstract class IMQConnection extends Connection implements com.sun.messag
 
     /**
      * Return the transaction list from the connection's client data. If the list doesn't already exist, it is created.
-     * 
+     *
      * This method is thread-safe, and if the list doesn't already exist, creates a list which is itself thread-safe.
-     * 
+     *
      * This should be used in cases where this IMQConnection may be used by multiple threads concurrently (i.e. RADirect)
-     * 
+     *
      * @return
      */
     public synchronized List getTransactionListThreadSafe() {

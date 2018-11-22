@@ -121,6 +121,7 @@ public abstract class ConsumerReader implements Runnable, Traceable {
         }
     }
 
+    @Override
     public void run() {
         // read loop ...
         ReadOnlyPacket packet = null;
@@ -299,18 +300,19 @@ public abstract class ConsumerReader implements Runnable, Traceable {
     // Flow control is now handled in FlowControl class
     /*
      * protected void checkQueueSize() throws JMSException {
-     * 
+     *
      * if ( sessionQueue.size() > maxQueueSize ) { if ( messageSuspended == false ) { if (debug) {
      * Debug.println("suspend connection cause queue is full ..."); Debug.println("queue size = " + sessionQueue.size()); }
-     * 
+     *
      * protocolHandler.suspendMessageDelivery(); messageSuspended = true; } } else if ( (sessionQueue.size() <=
      * minQueueSize) ) { if ( messageSuspended == true ) { protocolHandler.resumeMessageDelivery(); messageSuspended =
      * false;
-     * 
+     *
      * if (debug) { Debug.println("resume connection cause queue is normal ..."); Debug.println("queue size = " +
      * sessionQueue.size()); } } } }
      */
 
+    @Override
     public void dump(PrintStream ps) {
         ps.println("is alive: " + isAlive);
         ps.println("is suspended: " + isSuspended);

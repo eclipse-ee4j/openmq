@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Properties;
 
-import com.sun.messaging.jmq.util.log.RollingFileOutputStream;
-
 /**
  * A LogHandler that is implemented as a simple OutputStream (For example System.err)
  */
@@ -41,12 +39,12 @@ public class StreamLogHandler extends LogHandler {
      * are prefixed with the specified prefix.
      * <P>
      * An example of valid properties are:
-     * 
+     *
      * <PRE>
      * jmq.log.console.stream=ERR
      * jmq.log.console.output=ERROR|WARNING|INFO
      * </PRE>
-     * 
+     *
      * In this case prefix would be "jmq.log.stream"
      *
      * @param props Properties to get configuration information from
@@ -54,13 +52,14 @@ public class StreamLogHandler extends LogHandler {
      *
      * @throws IllegalArgumentException if one or more property values are invalid. All valid properties will still be set.
      */
+    @Override
     public void configure(Properties props, String prefix) throws IllegalArgumentException {
 
         String value = null;
         String property = null;
         String error_msg = null;
         long bytes = 0L, secs = 0L;
-        ;
+        
 
         prefix = prefix + ".";
 
@@ -102,6 +101,7 @@ public class StreamLogHandler extends LogHandler {
      * @param message Message to write to log file
      *
      */
+    @Override
     public void publish(int level, String message) throws IOException {
 
         // ignore FORCE messages if we have explicitly been asked to ignore them
@@ -117,6 +117,7 @@ public class StreamLogHandler extends LogHandler {
     /**
      * Open handler. This is a no-op. It is assumed the stream is already opened.
      */
+    @Override
     public void open() throws IOException {
         return;
     }
@@ -124,6 +125,7 @@ public class StreamLogHandler extends LogHandler {
     /**
      * Close handler. This just flushes the output stream.
      */
+    @Override
     public void close() {
         if (os != null) {
             try {
@@ -136,6 +138,7 @@ public class StreamLogHandler extends LogHandler {
     /**
      * This just flushes the output stream.
      */
+    @Override
     public void flush() {
         if (os != null) {
             try {
@@ -149,6 +152,7 @@ public class StreamLogHandler extends LogHandler {
      * Return a string description of this FileHandler. The descirption is the class name followed by the path of the file
      * we are logging to.
      */
+    @Override
     public String toString() {
         return this.getClass().getName() + ":" + os.toString();
     }

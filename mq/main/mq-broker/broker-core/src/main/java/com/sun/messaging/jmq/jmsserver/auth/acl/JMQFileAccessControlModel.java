@@ -35,18 +35,14 @@ import org.w3c.dom.DOMException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-import org.xml.sax.SAXParseException;
 import org.xml.sax.SAXParseException;
 import com.sun.messaging.jmq.util.StringUtil;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.auth.api.server.*;
 import com.sun.messaging.jmq.auth.api.server.model.*;
 
 /**
@@ -89,6 +85,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
     private Class userClass = null;
     private Class groupClass = null;
 
+    @Override
     public String getType() {
         return TYPE;
     }
@@ -100,6 +97,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      * @param type the jmq.accesscontrol.type
      * @param authProperties broker auth properties
      */
+    @Override
     public void initialize(String type, Properties authProperties) throws AccessControlException {
         this.type = type;
         if (!type.equals(TYPE)) {
@@ -119,10 +117,12 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         String gprop = AccessController.PROP_USER_REPOSITORY_PREFIX + rep + AccessController.PROP_GROUP_PRINCIPAL_CLASS_SUFFIX;
         String gclass = authProps.getProperty(gprop);
         try {
-            if (uclass != null)
+            if (uclass != null) {
                 userClass = Class.forName(uclass);
-            if (gclass != null)
+            }
+            if (gclass != null) {
                 groupClass = Class.forName(gclass);
+            }
         } catch (ClassNotFoundException e) {
             logger.log(Logger.ERROR, e.getMessage(), e);
             throw new AccessControlException("ClassNotFoundException: " + e.getMessage());
@@ -207,8 +207,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
             throw e;
         } finally {
             try {
-                if (ins != null)
+                if (ins != null) {
                     ins.close();
+                }
             } catch (Exception e) {
             }
         }
@@ -240,12 +241,14 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         }
     }
 
+    @Override
     public void load() throws AccessControlException {
         String aclurl = authProps.getProperty(AccessController.PROP_ACCESSCONTROL_PREFIX + PROP_URL_SUFFIX);
         String serviceLevelfn = authProps.getProperty(Globals.IMQ + "." + authProps.getProperty(AccessController.PROP_SERVICE_NAME) + "."
                 + AccessController.PROP_ACCESSCONTROL_AREA + "." + PROP_FILENAME_SUFFIX);
-        if (serviceLevelfn != null)
+        if (serviceLevelfn != null) {
             aclurl = null;
+        }
 
         if (aclurl != null) {
             try {
@@ -307,10 +310,12 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         } catch (IOException e) {
             acs = null;
             try {
-                if (bis != null)
+                if (bis != null) {
                     bis.close();
-                if (fis != null)
+                }
+                if (fis != null) {
                     fis.close();
+                }
             } catch (IOException ioe) {
             }
             logger.log(Logger.ERROR, e.getMessage(), e);
@@ -350,6 +355,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      *
      * @exception AccessControlException
      */
+    @Override
     public void checkConnectionPermission(Principal clientUser, String serviceName, String serviceType, Subject subject) throws AccessControlException {
 
         checkPermission(clientUser, subject, "connection", serviceType, null, false);
@@ -367,6 +373,7 @@ public class JMQFileAccessControlModel implements AccessControlModel {
      *
      * @exception AccessControlException
      */
+    @Override
     public void checkDestinationPermission(Principal clientUser, String serviceName, String serviceType, Subject subject, String operation, String destination,
             String destinationType) throws AccessControlException {
         boolean supportWildDest = !DestType.isQueueStr(destinationType);
@@ -377,10 +384,12 @@ public class JMQFileAccessControlModel implements AccessControlModel {
             throws AccessControlException {
         Set groups = null;
         Set users = null;
-        if (groupClass != null)
+        if (groupClass != null) {
             groups = subject.getPrincipals(groupClass);
-        if (userClass != null)
+        }
+        if (userClass != null) {
             users = subject.getPrincipals(userClass);
+        }
         if (users == null || users.size() == 0) {
             users = new HashSet();
             users.add(clientUser);
@@ -394,8 +403,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
         Iterator itr = users.iterator();
         while (itr.hasNext()) {
             user = (Principal) itr.next();
-            if (user == null)
+            if (user == null) {
                 continue;
+            }
             validate(user.getName(), groups);
 
             ArrayList list = getRules(prefix, variant, suffix, wild);
@@ -408,8 +418,9 @@ public class JMQFileAccessControlModel implements AccessControlModel {
                     logger.log(logger.INFO, clientUser + "[" + user.getName() + "]AccessControlException: " + e.getMessage());
                 }
 
-                if (exceptionMsg == null)
+                if (exceptionMsg == null) {
                     exceptionMsg = new StringBuffer();
+                }
                 exceptionMsg.append(e.getMessage());
                 exceptionMsg.append(", ");
 
@@ -590,14 +601,17 @@ public class JMQFileAccessControlModel implements AccessControlModel {
             logger.log(Logger.DEBUG, "check permission " + propname);
         }
         String values = acs.getProperty(propname);
-        if (values == null)
+        if (values == null) {
             return null;
+        }
         StringTokenizer token = new StringTokenizer(values, ",", false);
         HashMap hp = new HashMap();
-        while (token.hasMoreElements())
+        while (token.hasMoreElements()) {
             hp.put(token.nextToken().trim(), "");
-        if (hp.size() == 0)
+        }
+        if (hp.size() == 0) {
             return null;
+        }
         return hp;
     }
 

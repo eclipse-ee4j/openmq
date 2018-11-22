@@ -24,10 +24,7 @@ import java.util.List;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.security.AccessControlException;
-import javax.security.auth.Subject;
-import javax.security.auth.Refreshable;
 import javax.security.auth.login.LoginException;
-import com.sun.messaging.jmq.auth.api.FailedLoginException;
 import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.Globals;
@@ -35,7 +32,6 @@ import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
-import com.sun.messaging.jmq.auth.api.server.*;
 
 /**
  * This class is to be used to shut-circus client connection authentication. An object of this class should only be used
@@ -109,8 +105,9 @@ public class MQAuthenticator {
 
         com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler hd = (com.sun.messaging.jmq.auth.api.client.AuthenticationProtocolHandler) handlers
                 .get(authType);
-        if (hd != null)
+        if (hd != null) {
             return hd;
+        }
 
         if (authType.equals(AccessController.AUTHTYPE_BASIC)) {
             hd = new com.sun.messaging.jmq.auth.handlers.BasicAuthenticationHandler();
@@ -138,8 +135,9 @@ public class MQAuthenticator {
     public static boolean authenticateCMDUserIfset() {
         BrokerConfig bcfg = Globals.getConfig();
         String cmduser = bcfg.getProperty(CMDUSER_PROPERTY);
-        if (cmduser == null)
+        if (cmduser == null) {
             return true;
+        }
 
         Logger logger = Globals.getLogger();
         BrokerResources rb = Globals.getBrokerResources();
@@ -157,8 +155,9 @@ public class MQAuthenticator {
             return false;
         }
         String cmdsvc = bcfg.getProperty(CMDUSER_SVC_PROPERTY);
-        if (cmdsvc == null)
+        if (cmdsvc == null) {
             cmdsvc = "admin";
+        }
         List activesvcs = ServiceManager.getAllActiveServiceNames();
         if (activesvcs == null || !activesvcs.contains(cmdsvc)) {
             logger.log(Logger.FORCE, rb.E_NOT_ACTIVE_SERVICE, cmdsvc, CMDUSER_PROPERTY + "=" + cmduser);

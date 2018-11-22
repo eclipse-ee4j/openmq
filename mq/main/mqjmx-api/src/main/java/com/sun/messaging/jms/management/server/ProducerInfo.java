@@ -27,6 +27,11 @@ package com.sun.messaging.jms.management.server;
 public class ProducerInfo implements java.io.Serializable {
 
     /**
+     * 
+     */
+    private static final long serialVersionUID = 8312389857873926027L;
+
+    /**
      * Connection ID
      */
     public static final String CONNECTION_ID = "ConnectionID";

@@ -155,6 +155,7 @@ public class JMSXid {
      * @return {@code true} If the supplied object (Xid) represents the same global transaction as this; {@code false}
      * otherwise.
      */
+    @Override
     public boolean equals(Object obj) {
         if (obj instanceof Xid) {
             return this.equals((Xid) obj);
@@ -166,8 +167,9 @@ public class JMSXid {
         // If the the other xid is null or this one is uninitialized than the Xid's
         // are not equal. Since the other Xid may be a different implementation we
         // can't assume that the formatId has a special value of -1 if not initialized.
-        if ((xid == null) || (this.formatId == NULL_XID))
+        if ((xid == null) || (this.formatId == NULL_XID)) {
             return false;
+        }
 
         return ((this.formatId == xid.getFormatId()) && this.isEqualGlobalTxnId(xid.getGlobalTransactionId())
                 && this.isEqualBranchQualifier(xid.getBranchQualifier())) ? true : false;
@@ -180,6 +182,7 @@ public class JMSXid {
      *
      * @return The computed hashcode
      */
+    @Override
     public int hashCode() {
         int hash = 0;
 
@@ -187,15 +190,19 @@ public class JMSXid {
         // qualifier to make up a 4 byte hash code. . This creates a decent
         // hash.
 
-        if (this.bqLength >= 2)
+        if (this.bqLength >= 2) {
             hash += this.branchQualifier[bqLength - 1] << 8;
-        if (this.bqLength >= 1)
+        }
+        if (this.bqLength >= 1) {
             hash += this.branchQualifier[0];
+        }
 
-        if (this.gtLength >= 2)
+        if (this.gtLength >= 2) {
             hash += this.globalTxnId[gtLength - 1] << 24;
-        if (this.gtLength >= 1)
+        }
+        if (this.gtLength >= 1) {
             hash += this.globalTxnId[0] << 16;
+        }
 
         return hash;
     }
@@ -218,8 +225,9 @@ public class JMSXid {
         for (i = 0; i < this.bqLength; i++) {
             value = branchQualifier[i] & 0xff;
             data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
-            if (i != (this.bqLength - 1))
+            if (i != (this.bqLength - 1)) {
                 data.append(",");
+            }
         }
         data.append(")gt(");
 
@@ -227,8 +235,9 @@ public class JMSXid {
         for (i = 0; i < this.gtLength; i++) {
             value = this.globalTxnId[i] & 0xff;
             data.append("0x" + hextab.charAt(value / 16) + hextab.charAt(value & 15));
-            if (i != (this.gtLength - 1))
+            if (i != (this.gtLength - 1)) {
                 data.append(",");
+            }
         }
         data.append(")}");
 
@@ -240,13 +249,15 @@ public class JMSXid {
      *
      * @return the string representation of this JMSXid
      */
+    @Override
     public String toString() {
         StringBuffer data = new StringBuffer(256);
         int i;
         int value;
 
-        if (this.formatId == NULL_XID)
+        if (this.formatId == NULL_XID) {
             return "NULL_XID";
+        }
 
         // Add branch qualifier. Convert data string to hex
         for (i = 0; i < this.bqLength; i++) {
@@ -312,11 +323,13 @@ public class JMSXid {
      */
     public boolean isEqualBranchQualifier(byte[] bq) {
 
-        if (bq == null)
+        if (bq == null) {
             return ((this.bqLength == 0) ? true : false);
+        }
 
-        if (bq.length != this.bqLength)
+        if (bq.length != this.bqLength) {
             return false;
+        }
 
         for (int i = 0; i < this.bqLength; i++) {
             if (bq[i] != this.branchQualifier[i]) {
@@ -333,11 +346,13 @@ public class JMSXid {
      */
     public boolean isEqualGlobalTxnId(byte[] gt) {
 
-        if (gt == null)
+        if (gt == null) {
             return ((this.gtLength == 0) ? true : false);
+        }
 
-        if (gt.length != this.gtLength)
+        if (gt.length != this.gtLength) {
             return false;
+        }
 
         for (int i = 0; i < gtLength; i++) {
             if (gt[i] != globalTxnId[i]) {

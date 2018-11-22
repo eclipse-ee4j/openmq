@@ -55,6 +55,7 @@ public class GroupServiceFactory extends IMQIPServiceFactory {
         }
     }
 
+    @Override
     public Service createService(String instancename, int type) throws BrokerException {
         // see if we need to override properties
         if (!SHARED_ALLOWED) {
@@ -75,6 +76,7 @@ public class GroupServiceFactory extends IMQIPServiceFactory {
 
     }
 
+    @Override
     protected IMQService createService(String instancename, Protocol proto, PacketRouter router, int type, int min, int max) throws IOException {
         proto.configureBlocking(false);
         return new GroupService(instancename, proto, type, router, min, max);

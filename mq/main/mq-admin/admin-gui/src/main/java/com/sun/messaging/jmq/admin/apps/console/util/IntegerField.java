@@ -32,6 +32,11 @@ public class IntegerField extends JTextField {
     // *****************************************************************
     // Constructors
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3341304154834961301L;
+
     public IntegerField(long min, long max, String text) {
         this(min, max, text, 0);
     }
@@ -49,6 +54,10 @@ public class IntegerField extends JTextField {
 // IntegerDocument class
 
 class IntegerDocument extends PlainDocument {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -7461527535286681317L;
     long min;
     long max;
 
@@ -63,13 +72,14 @@ class IntegerDocument extends PlainDocument {
     // *********************************************************************
     // Validation routines
 
+    @Override
     public void insertString(int offset, String str, AttributeSet a) throws BadLocationException {
         // Validate each char in str checking if in '0' .. '9'.
         // If the min value is < 0, then allow a '-' only in the
         // first position.
 
         for (int i = 0; i < str.length(); i++) {
-            int keyCode = (int) str.charAt(i);
+            int keyCode = str.charAt(i);
             if (keyCode < KeyEvent.VK_0 || keyCode > KeyEvent.VK_9) {
                 // keyCode 45 is the '-' char.
                 if (!(min < 0 && offset == 0 && keyCode == 45)) {

@@ -31,7 +31,6 @@ import com.sun.messaging.jmq.util.BASE64Decoder;
 import com.sun.messaging.jmq.auth.jaas.MQUser;
 import com.sun.messaging.jmq.auth.jaas.MQAdminGroup;
 import com.sun.messaging.jmq.auth.api.server.*;
-import com.sun.messaging.jmq.auth.api.server.model.UserRepository;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.util.log.Logger;
@@ -48,6 +47,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
     private Properties authProps = null;
     private static final String ADMINKEYNAME = "admin";
 
+    @Override
     public String getType() {
         return AccessController.AUTHTYPE_JMQADMINKEY;
     }
@@ -61,6 +61,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
      *
      * @return initial authentication request data if any
      */
+    @Override
     public byte[] init(int sequence, Properties authProperties, Refreshable cacheData) throws LoginException {
         this.authProps = authProperties;
         return null;
@@ -72,9 +73,10 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
      *
      * @return next request data if any; null if no more request. The request data will be sent as packet body in
      * AUTHENTICATE_REQUEST
-     * 
+     *
      * @exception LoginException
      */
+    @Override
     public byte[] handleResponse(byte[] authResponse, int sequence) throws LoginException {
         Subject subject = null;
         acc = null;
@@ -102,6 +104,7 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
                 if (username.equals(ADMINKEYNAME) && password.equals(adminkey)) {
                     final String tempUserName = username;
                     subject = (Subject) java.security.AccessController.doPrivileged(new PrivilegedAction<Object>() {
+                        @Override
                         public Object run() {
                             Subject tempSubject = new Subject();
                             tempSubject.getPrincipals().add(new MQUser(tempUserName));
@@ -126,14 +129,17 @@ public final class JMQAdminKeyAuthenticationHandler implements AuthenticationPro
         }
     }
 
+    @Override
     public AccessControlContext getAccessControlContext() {
         return acc;
     }
 
+    @Override
     public Refreshable getCacheData() {
         return null;
     }
 
+    @Override
     public void logout() {
         authProps = null;
     }

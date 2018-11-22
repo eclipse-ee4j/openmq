@@ -72,6 +72,7 @@ public class UMSServiceContext implements ServiceContext {
      * @param name a String specifying the name of the attribute
      * @param value an Object representing the attribute to be bound
      */
+    @Override
     public void setAttribute(Object key, Object value) {
         this.attributes.put(key, value);
     }
@@ -89,6 +90,7 @@ public class UMSServiceContext implements ServiceContext {
      *
      * @see getAttributeKeys
      */
+    @Override
     public Object getAttribute(Object name) {
         return this.attributes.get(name);
     }
@@ -99,6 +101,7 @@ public class UMSServiceContext implements ServiceContext {
      *
      * @param key an Object specifying the key of the attribute to be removed
      */
+    @Override
     public Object removeAttribute(Object key) {
         return this.attributes.remove(key);
     }
@@ -109,6 +112,7 @@ public class UMSServiceContext implements ServiceContext {
      *
      * @return an Iterator of attribute keys
      */
+    @Override
     public java.util.Iterator getAttributeKeys() {
         return this.attributes.keySet().iterator();
     }
@@ -119,6 +123,7 @@ public class UMSServiceContext implements ServiceContext {
      *
      * @return the init properties of the SOAPService instance.
      */
+    @Override
     public java.util.Properties getInitProperties() {
         return this.props;
     }

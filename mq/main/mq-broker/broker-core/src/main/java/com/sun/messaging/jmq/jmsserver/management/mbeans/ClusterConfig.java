@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsserver.management.mbeans;
 
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Properties;
 import java.util.Date;
@@ -455,29 +454,36 @@ public class ClusterConfig extends MQMBeanReadWrite implements ConfigListener {
         }
     }
 
+    @Override
     public String getMBeanName() {
         return ("ClusterConfig");
     }
 
+    @Override
     public String getMBeanDescription() {
         return (mbr.getString(mbr.I_CLS_CFG_DESC));
     }
 
+    @Override
     public MBeanAttributeInfo[] getMBeanAttributeInfo() {
         return (attrs);
     }
 
+    @Override
     public MBeanOperationInfo[] getMBeanOperationInfo() {
         return (ops);
     }
 
+    @Override
     public MBeanNotificationInfo[] getMBeanNotificationInfo() {
         return (notifs);
     }
 
+    @Override
     public void validate(String name, String value) throws PropertyUpdateException {
     }
 
+    @Override
     public boolean update(String name, String value) {
         Object newVal, oldVal;
 

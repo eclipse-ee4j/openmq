@@ -31,18 +31,21 @@ public class DefaultTrustManager implements X509TrustManager {
 
     private static boolean DEBUG = false;
 
+    @Override
     public void checkClientTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
         if (DEBUG) {
             System.out.println("DefaultTrustManager.checkClientTrusted() - true");
         }
     }
 
+    @Override
     public void checkServerTrusted(java.security.cert.X509Certificate[] chain, String authType) throws CertificateException {
         if (DEBUG) {
             System.out.println("DefaultTrustManager.isServerTrusted() - true");
         }
     }
 
+    @Override
     public java.security.cert.X509Certificate[] getAcceptedIssuers() {
         return new java.security.cert.X509Certificate[0];
     }

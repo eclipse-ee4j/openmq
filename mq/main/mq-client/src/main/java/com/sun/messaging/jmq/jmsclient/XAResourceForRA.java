@@ -156,6 +156,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * manager may throw one of the XA_RB* exceptions. Upon return, the resource manager has rolled back the branch's work
      * and has released all held resources.
      */
+    @Override
     public synchronized void commit(Xid foreignXid, boolean onePhase) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -315,6 +316,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * @exception XAException An error has occurred. Possible XAException values are XAER_RMERR, XAER_RMFAILED, XAER_NOTA,
      * XAER_INVAL, XAER_PROTO, or XA_RB*.
      */
+    @Override
     public synchronized void end(Xid foreignXid, int flags) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -419,6 +421,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, XAER_NOTA,
      * XAER_INVAL, or XAER_PROTO.
      */
+    @Override
     public void forget(Xid foreignXid) throws XAException {
         // MQ does not support heuristically completed transaction branches
         // This is a NOP
@@ -444,6 +447,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      */
+    @Override
     public int getTransactionTimeout() throws XAException {
         // Debug.println("*=*=*=*=*=*=*=*=*=*=XAR:getTransactionTimeout");
         return transactionTimeout;
@@ -461,6 +465,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      *
      */
+    @Override
     public boolean isSameRM(XAResource foreignXaRes) throws XAException {
 
         // don't allow a XAResourceImpl to be joined to a XAResourceForMC or a XAResourceForRA
@@ -477,12 +482,13 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * Return whether this XAResourceForJMQ and the specified XAResourceForJMQ represent the same resource manager instance.
-     * 
+     *
      * This is determined by checking whether the two resources have the same brokerSessionID
      *
      * @param xaResource XAResourceForJMQ
      * @return true if same RM instance, otherwise false.
      */
+    @Override
     public boolean isSameJMQRM(XAResourceForJMQ xaResource) {
 
         boolean result;
@@ -501,9 +507,10 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * Return the brokerSessionID of this object's connection
-     * 
+     *
      * @return
      */
+    @Override
     public long getBrokerSessionID() {
         return this.epConnection.getBrokerSessionID();
     }
@@ -571,8 +578,9 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * two-phase commit prepare for HA.
-     * 
+     *
      */
+    @Override
     public synchronized int prepare(Xid foreignXid) throws XAException {
 
         // result code
@@ -606,12 +614,12 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * For XA onePhase commit, if RA is connected to HA brokers, we use two phase MQ protocol to commit a transaction.
-     * 
+     *
      * "JMQXAOnePhase" property is set to true for prepare and commit pkts.
-     * 
+     *
      * "TMNOFLAGS" is used in the onePhase commit pkt.
-     * 
-     * 
+     *
+     *
      * @param foreignXid
      * @param jmqXid
      * @throws JMSException
@@ -675,7 +683,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * check prepared status
-     * 
+     *
      * @param jmse
      * @param tstate -- transaction state when exception occurred
      * @param jmqXid --
@@ -841,6 +849,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * appropriate XAException.
      *
      */
+    @Override
     public Xid[] recover(int flags) throws XAException {
         Xid[] result = null;
         // Debug.println("*=*=*=*=*=*=*=*=*=*=XAR:recover:flags="+flags);
@@ -868,12 +877,13 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      *
      * @exception XAException An error has occurred.
      */
+    @Override
     public synchronized void rollback(Xid foreignXid) throws XAException {
         rollback(foreignXid, -1, false);
     }
 
     /**
-     * 
+     *
      * @param maxRollbacks maximum number of consecutive rollbacks allowed for active consumers
      * @param dmqOnMaxRollbacks if true, place the consumed message on DMQ if maxRollbacks reached
      */
@@ -992,6 +1002,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, or XAER_INVAL.
      */
+    @Override
     public boolean setTransactionTimeout(int transactionTimeout) throws XAException {
         // Debug.println("*=*=*=*=*=*=*=*=*=*=XAR:setTransactionTimeout:timeout="+transactionTimeout);
         // XXX:GT RFE - transactionTimeout not supported for now
@@ -1021,6 +1032,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
      * XAER_OUTSIDE, XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      *
      */
+    @Override
     public synchronized void start(Xid foreignXid, int flags) throws XAException {
 
         if (_logger.isLoggable(Level.FINE)) {
@@ -1154,10 +1166,12 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
         rollbackCause = cause;
     }
 
+    @Override
     public boolean isComplete() {
         return this.resourceState == COMPLETE;
     }
 
+    @Override
     public void clearTransactionInfo() {
         this.resourceState = CREATED;
     }
@@ -1168,7 +1182,7 @@ public class XAResourceForRA implements XAResource, XAResourceForJMQ {
 
     /**
      * remove xid in the XATable after commit/rollback successfully.
-     * 
+     *
      * @param jmqXid
      */
     private void removeXid(JMQXid jmqXid) {

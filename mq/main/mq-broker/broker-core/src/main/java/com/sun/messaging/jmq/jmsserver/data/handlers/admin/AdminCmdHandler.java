@@ -29,12 +29,10 @@ import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.io.PacketType;
 import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.BrokerConfig;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.core.DestinationList;
-import com.sun.messaging.jmq.jmsserver.persist.api.PartitionedStore;
 import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
@@ -157,7 +155,9 @@ public class AdminCmdHandler {
         if (e instanceof BrokerException) {
             Throwable root_ex = ((BrokerException) e).getCause();
             if (root_ex == null)
+             {
                 return m; // no root cause
+            }
             String lm = root_ex.getMessage();
 
             if (lm != null) {

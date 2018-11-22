@@ -34,6 +34,10 @@ import javax.jms.*;
  */
 public abstract class Destination extends AdministeredObject implements javax.jms.Destination {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -9148065553435050339L;
     /** The default basename for AdministeredObject initialization */
     private static final String defaultsBase = "Destination";
 
@@ -72,7 +76,7 @@ public abstract class Destination extends AdministeredObject implements javax.jm
 
     /**
      * Returns the name of this Destination.
-     * 
+     *
      * @return the Destination name
      */
     public String getName() {
@@ -85,7 +89,7 @@ public abstract class Destination extends AdministeredObject implements javax.jm
 
     /**
      * Returns the queue name.
-     * 
+     *
      * @return the queue name
      *
      * @exception JMSException if a queue access error occurs.
@@ -96,7 +100,7 @@ public abstract class Destination extends AdministeredObject implements javax.jm
 
     /**
      * Returns the topic name.
-     * 
+     *
      * @return the topic name
      *
      * @exception JMSException if a topic access error occurs.
@@ -107,9 +111,10 @@ public abstract class Destination extends AdministeredObject implements javax.jm
 
     /**
      * Returns a pretty printed version of the provider specific information for this Destination identity object.
-     * 
+     *
      * @return the pretty printed string.
      */
+    @Override
     public String toString() {
         return ("Oracle GlassFish(tm) Server MQ Destination\ngetName():\t\t" + getName() + super.toString());
     }
@@ -131,6 +136,7 @@ public abstract class Destination extends AdministeredObject implements javax.jm
     /**
      * Sets the minimum <code>Destination</code> configuration defaults required of a Sun MQ Destination identity object.
      */
+    @Override
     public void setDefaultConfiguration() {
         configuration = new Properties();
         configurationTypes = new Properties();

@@ -21,8 +21,6 @@
 package com.sun.messaging.jms;
 
 import java.io.*;
-import javax.jms.*;
-
 import com.sun.messaging.jmq.jmsclient.logging.Loggable;
 
 /**
@@ -34,6 +32,11 @@ import com.sun.messaging.jmq.jmsclient.logging.Loggable;
  **/
 
 public class IllegalStateException extends javax.jms.IllegalStateException implements Loggable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -6725501689233767640L;
 
     private boolean isLogged = false;
 
@@ -82,6 +85,7 @@ public class IllegalStateException extends javax.jms.IllegalStateException imple
      * printStackTrace} a backtrace of the cause will also get printed.
      *
      **/
+    @Override
     public synchronized void setLinkedException(Exception ex) {
         super.setLinkedException(ex);
         try {
@@ -98,6 +102,7 @@ public class IllegalStateException extends javax.jms.IllegalStateException imple
      * exception linked to this <CODE>IllegalStateException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace() {
         this.printStackTrace(System.err);
     }
@@ -109,6 +114,7 @@ public class IllegalStateException extends javax.jms.IllegalStateException imple
      * exception linked to this <CODE>IllegalStateException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException javax.jms.JMSException.getLinkedException()}
      **/
+    @Override
     public void printStackTrace(PrintStream s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -132,6 +138,7 @@ public class IllegalStateException extends javax.jms.IllegalStateException imple
      * exception linked to this <CODE>IllegalStateException</CODE> and obtained via
      * {@link javax.jms.JMSException#getLinkedException}
      **/
+    @Override
     public void printStackTrace(PrintWriter s) {
         Throwable cause;
         super.printStackTrace(s);
@@ -150,18 +157,20 @@ public class IllegalStateException extends javax.jms.IllegalStateException imple
 
     /**
      * set state to true if this object is logged.
-     * 
+     *
      * @param state boolean
      */
+    @Override
     public void setLogState(boolean state) {
         this.isLogged = state;
     }
 
     /**
      * get logging state of this object.
-     * 
+     *
      * @return boolean true if this object is logged.
      */
+    @Override
     public boolean getLogState() {
         return this.isLogged;
     }

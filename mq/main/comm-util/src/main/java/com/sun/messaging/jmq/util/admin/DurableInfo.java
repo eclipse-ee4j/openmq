@@ -71,6 +71,7 @@ public class DurableInfo implements java.io.Serializable {
      *
      * @return String representation of durable subscription.
      */
+    @Override
     public String toString() {
         return clientID + "/" + name + ": " + consumer;
     }

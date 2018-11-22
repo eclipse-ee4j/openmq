@@ -45,6 +45,7 @@ public class MQJMXAuthenticator implements JMXAuthenticator {
         this.csi = csi;
     }
 
+    @Override
     public Subject authenticate(Object credentials) {
         if (credentials == null) {
             String errStr = rb.getString(rb.W_JMX_CONNECTOR_CREDENTIALS_NEEDED, csi.getName());

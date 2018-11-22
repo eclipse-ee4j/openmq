@@ -41,7 +41,7 @@ import com.sun.messaging.jmq.util.io.FilteringObjectInputStream;
  *     [Name length][Name (UTF-8)][Value type][Value Length][Value]
  *
  *    Pad out to 32 bit boundry
- * 
+ *
  */
 public class PacketProperties {
     public static final short BOOLEAN = 1;
@@ -127,8 +127,9 @@ public class PacketProperties {
         int cnt = 0;
         while (cnt < propcnt) {
             String key = dis.readUTF();
-            if (key.length() <= 0)
+            if (key.length() <= 0) {
                 break;
+            }
 
             short type = dis.readShort();
 

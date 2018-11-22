@@ -27,7 +27,7 @@ public interface PropertiesHolder {
 
     /**
      * Regenerate the Properties associated with this PropertiesHolder and return them to the caller
-     * 
+     *
      * @return
      */
     public Properties getProperties();

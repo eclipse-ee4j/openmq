@@ -24,7 +24,6 @@ import java.net.*;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.util.VerifyAddressException;
 import com.sun.messaging.jmq.jmsserver.util.LoopbackAddressException;
 
 public class BrokerMQAddress extends MQAddress {
@@ -37,11 +36,13 @@ public class BrokerMQAddress extends MQAddress {
     protected BrokerMQAddress() {
     }
 
+    @Override
     protected void initialize(String addr) throws MalformedURLException {
         super.initialize(addr);
         serviceName = "";
     }
 
+    @Override
     protected void initialize(String host, int port) throws MalformedURLException {
         super.initialize(host, port);
         serviceName = "";
@@ -66,12 +67,15 @@ public class BrokerMQAddress extends MQAddress {
         return toString().hashCode();
     }
 
+    @Override
     public String toString() {
-        if (tostring != null)
+        if (tostring != null) {
             return tostring;
+        }
 
-        if (getIsHTTP())
+        if (getIsHTTP()) {
             return super.toString();
+        }
 
         tostring = getSchemeName() + "://" + getHostAddressNPort() + "/" + getServiceName();
         return tostring;
@@ -126,10 +130,12 @@ public class BrokerMQAddress extends MQAddress {
      *
      */
     public static InetAddress resolveBindAddress(String listenHost, boolean nolocalhost) throws BrokerException, UnknownHostException {
-        if (listenHost == null)
+        if (listenHost == null) {
             return null;
-        if (listenHost.trim().length() == 0)
+        }
+        if (listenHost.trim().length() == 0) {
             return null;
+        }
 
         InetAddress iaddr = null;
         if (nolocalhost && listenHost.equals("localhost")) {
@@ -137,8 +143,9 @@ public class BrokerMQAddress extends MQAddress {
         } else {
             iaddr = InetAddress.getByName(listenHost);
         }
-        if (!nolocalhost)
+        if (!nolocalhost) {
             return iaddr;
+        }
 
         checkLoopbackAddress(iaddr, listenHost);
         return iaddr;
@@ -148,8 +155,9 @@ public class BrokerMQAddress extends MQAddress {
      *
      */
     public static void checkLoopbackAddress(InetAddress iaddr, String hostname) throws BrokerException, UnknownHostException {
-        if (iaddr == null)
+        if (iaddr == null) {
             return;
+        }
 
         if (iaddr.isLoopbackAddress()) {
             throw new LoopbackAddressException(Globals.getBrokerResources().getString(Globals.getBrokerResources().X_LOOPBACKADDRESS,

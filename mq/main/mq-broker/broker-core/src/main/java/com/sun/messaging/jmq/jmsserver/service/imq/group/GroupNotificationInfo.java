@@ -63,6 +63,7 @@ public class GroupNotificationInfo implements NotificationInfo {
         targetWrite = tw;
     }
 
+    @Override
     public String getStateInfo() {
         String ret = "[rt,wt]=[" + readthr + "," + writethr + "]\n" + "\tReadState: " + (readthr == null ? null : readthr.getStateInfo()) + "\n"
                 + "\tWriteState: " + (writethr == null ? null : writethr.getStateInfo()) + "\n";
@@ -70,6 +71,7 @@ public class GroupNotificationInfo implements NotificationInfo {
 
     }
 
+    @Override
     public String toString() {
         return "GroupNotificationInfo[" + id + "]";
     }
@@ -97,10 +99,12 @@ public class GroupNotificationInfo implements NotificationInfo {
 
     }
 
+    @Override
     public synchronized void setReadyToWrite(IMQConnection con, boolean ready) {
         try {
-            if (writethr != null)
+            if (writethr != null) {
                 writethr.changeInterest(writekey, (ready ? SelectionKey.OP_WRITE : 0), "changeState");
+            }
             readyToWrite = ready;
         } catch (IOException ex) {
             // OK .. just means we are going away
@@ -114,12 +118,15 @@ public class GroupNotificationInfo implements NotificationInfo {
         }
     }
 
+    @Override
     public synchronized void assigned(IMQConnection con, int events) throws IllegalAccessException {
     }
 
+    @Override
     public synchronized void released(IMQConnection con, int events) {
     }
 
+    @Override
     public synchronized void destroy(String reason) {
         valid = false;
         if (readthr != null && readkey != null) {
@@ -144,6 +151,7 @@ public class GroupNotificationInfo implements NotificationInfo {
 
     }
 
+    @Override
     public void dumpState() {
         dumpState("");
     }
@@ -165,14 +173,18 @@ public class GroupNotificationInfo implements NotificationInfo {
             ht.put("targetWrite: ", String.valueOf(targetWrite));
             ht.put("writethr: ", String.valueOf(writethr));
             ht.put("readthr:  ", String.valueOf(readthr));
-            if (targetRead != null)
+            if (targetRead != null) {
                 ht.put("targetRead_state:  ", targetRead.getDebugState());
-            if (targetWrite != null)
+            }
+            if (targetWrite != null) {
                 ht.put("targetWrite_state:  ", targetWrite.getDebugState());
-            if (readthr != null)
+            }
+            if (readthr != null) {
                 ht.put("readthr_state:  ", readthr.getDebugState());
-            if (writethr != null)
+            }
+            if (writethr != null) {
                 ht.put("writethr_state:  ", writethr.getDebugState());
+            }
             ht.put("readkey:  ", String.valueOf(readkey));
             ht.put("writekey: ", String.valueOf(writekey));
             /*
@@ -186,8 +198,9 @@ public class GroupNotificationInfo implements NotificationInfo {
     }
 
     String getOps(SelectionKey key) {
-        if (key == null)
+        if (key == null) {
             return "iOps[key is null]";
+        }
         return "iOps[" + getKeyString(key.interestOps()) + "]" + ", rOps[" + getKeyString(key.readyOps()) + "]";
     }
 

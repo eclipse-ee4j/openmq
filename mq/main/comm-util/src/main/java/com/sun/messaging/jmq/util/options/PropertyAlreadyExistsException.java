@@ -27,6 +27,10 @@ package com.sun.messaging.jmq.util.options;
 
 public class PropertyAlreadyExistsException extends OptionException {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4408440739359989477L;
     String propName;
 
     /**

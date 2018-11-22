@@ -31,7 +31,6 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TimerTask;
 import java.util.Vector;
 import java.util.concurrent.CountDownLatch;
@@ -47,7 +46,6 @@ import com.sun.messaging.jmq.io.SysMessageID;
 import com.sun.messaging.jmq.jmsserver.Broker;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.core.BrokerMQAddress;
 import com.sun.messaging.jmq.jmsserver.core.ConsumerUID;
@@ -82,8 +80,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
     protected static boolean DEBUG = false;
 
     static {
-        if (Globals.getLogger().getLevel() <= Logger.DEBUG)
+        if (Globals.getLogger().getLevel() <= Logger.DEBUG) {
             DEBUG = true;
+        }
     }
 
     public static final boolean DEBUG_CLUSTER_TXN = (Globals.getConfig().getBooleanProperty(Globals.IMQ + ".cluster.debug.txn") || DEBUG);
@@ -194,6 +193,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
         }
     }
 
+    @Override
     public String toString() {
         if (DL == null || !DL.isPartitionMode()) {
             return super.toString();
@@ -447,10 +447,12 @@ public class TransactionList implements ClusterListener, PartitionListener {
             return ht;
         }
 
-        if (ti != null)
+        if (ti != null) {
             ht.put(id.toString(), ti.getDebugState());
-        if (rti != null)
+        }
+        if (rti != null) {
             ht.put(id.toString() + "(remote)", rti.getDebugState());
+        }
         return ht;
     }
 
@@ -459,8 +461,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
         Iterator itr = txns.iterator();
         while (itr.hasNext()) {
             TransactionUID tid = (TransactionUID) itr.next();
-            if (tid == null)
+            if (tid == null) {
                 continue;
+            }
 
             shareLock.lock();
             try {
@@ -469,8 +472,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 shareLock.unlock();
             }
 
-            if (ti == null)
+            if (ti == null) {
                 continue;
+            }
             ti.releaseTakeoverLock();
         }
     }
@@ -519,8 +523,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
         itr = remoteTxns.iterator();
         while (itr.hasNext()) {
             TransactionUID tid = (TransactionUID) itr.next();
-            if (txns.contains(tid))
+            if (txns.contains(tid)) {
                 continue;
+            }
             TransactionInfo ti = null;
             try {
                 ti = pstore.getTransactionInfo(tid);
@@ -633,8 +638,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 TransactionInformation info = (TransactionInformation) itr.next();
                 TransactionState ts = info.getState();
                 String creator = ts.getCreator();
-                if (creator != null && creator.equals(id))
+                if (creator != null && creator.equals(id)) {
                     return info.getTID();
+                }
             }
         } finally {
             shareLock.unlock();
@@ -680,12 +686,13 @@ public class TransactionList implements ClusterListener, PartitionListener {
             }
         } catch (Exception ex) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_TRANSACTION_STORE_ERROR, id.toString()),
-                    BrokerResources.X_TRANSACTION_STORE_ERROR, (Throwable) ex, Status.ERROR);
+                    BrokerResources.X_TRANSACTION_STORE_ERROR, ex, Status.ERROR);
         }
 
         TransactionInformation ti = new TransactionInformation(id, ts, persist);
-        if (takeover)
+        if (takeover) {
             ti.getTakeoverLock();
+        }
 
         exclusiveLock.lock();
         try {
@@ -789,8 +796,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
     }
 
     public void removeRemoteTransactionAck(TransactionUID id) throws BrokerException {
-        if (Globals.getHAEnabled())
+        if (Globals.getHAEnabled()) {
             return;
+        }
         removeTransactionAck(id, true);
     }
 
@@ -900,8 +908,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
 
         Hashtable ht = new Hashtable();
         ht.put("JMQAutoRollback", Integer.valueOf(ts.getType().intValue()));
-        if (ts.getXid() != null)
+        if (ts.getXid() != null) {
             ht.put("JMQXid", ts.getXid().toString());
+        }
         ht.put("JMQSessionLess", Boolean.valueOf(ts.isSessionLess()));
         ht.put("JMQCreateTime", Long.valueOf(ts.getCreationTime()));
         ht.put("JMQLifetime", Long.valueOf(ts.getLifetime()));
@@ -1103,8 +1112,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getPublishedMessages();
     }
 
@@ -1118,8 +1128,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return 0;
+        }
         return ti.getNPublishedMessages();
     }
 
@@ -1137,8 +1148,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getConsumedMessages(inrollback);
     }
 
@@ -1155,8 +1167,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getStoredConsumerUIDs();
     }
 
@@ -1170,8 +1183,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getAckBrokerAddresses();
     }
 
@@ -1185,8 +1199,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return 0;
+        }
         return ti.getNConsumedMessages();
     }
 
@@ -1200,8 +1215,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return 0;
+        }
         return ti.getNRemoteConsumedMessages();
     }
 
@@ -1436,8 +1452,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             }
             if (state == TransactionState.FAILED && currstate != TransactionState.FAILED) {
                 ts.setFailFromState(currstate);
-                if (failToState != TransactionState.NULL)
+                if (failToState != TransactionState.NULL) {
                     ts.setFailToState(failToState);
+                }
             }
         }
 
@@ -1844,8 +1861,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
                                 break;
                             }
                         }
-                        if (!completed)
+                        if (!completed) {
                             commitWaitCN++;
+                        }
                     } else {
                         addTransactionID(tid, ts, false);
                     }
@@ -2104,8 +2122,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
         if (ti != null && ti.isTakeoverLocked()) {
             throw new BrokerException(Globals.getBrokerResources().getString(BrokerResources.X_TXN_LOCKED, id), Status.NOT_FOUND);
         }
-        if (ti != null)
+        if (ti != null) {
             ti.setClusterTransactionBrokers(brokers);
+        }
 
         if (persist) {
             try {
@@ -2231,8 +2250,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getRecoveryTransactionAcks();
     }
 
@@ -2337,7 +2357,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 }
                 logger.logStack(Logger.ERROR, ex.getMessage() + (ex.getCause() == null ? "" : ": " + ex.getCause().getMessage()), ex);
                 throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_TRANSACTION_STORE_ERROR, id.toString()),
-                        BrokerResources.X_TRANSACTION_STORE_ERROR, (Throwable) ex, Status.ERROR);
+                        BrokerResources.X_TRANSACTION_STORE_ERROR, ex, Status.ERROR);
             }
         }
     }
@@ -2352,8 +2372,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (rti == null)
+        if (rti == null) {
             return null;
+        }
         return rti.getTransactionAcks();
     }
 
@@ -2371,8 +2392,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
         if (rti == null) {
             throw new BrokerException(Globals.getBrokerResources().getKString(BrokerResources.X_REMOTE_TXN_UNKOWN, id.toString()), Status.NOT_FOUND);
         }
-        if (!rti.isProcessed())
+        if (!rti.isProcessed()) {
             return;
+        }
 
         try {
             if (persist && !Globals.getHAEnabled()) {
@@ -2421,8 +2443,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getClusterTransactionBroker(broker);
     }
 
@@ -2436,8 +2459,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return false;
+        }
         return ti.isClusterTransactionBroker(ssid);
     }
 
@@ -2493,8 +2517,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (rti == null)
+        if (rti == null) {
             return null;
+        }
         return rti.getTransactionHomeBroker();
     }
 
@@ -2511,8 +2536,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
                 Map.Entry entry = (Map.Entry) itr.next();
                 tid = (TransactionUID) entry.getKey();
                 rti = (RemoteTransactionInformation) entry.getValue();
-                if (rti == null)
+                if (rti == null) {
                     continue;
+                }
                 ts = rti.getState();
                 if (ts != null && ts.getState() == TransactionState.PREPARED) {
                     if (timeout == null || rti.isPendingTimeout(timeout.longValue())) {
@@ -2573,8 +2599,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return null;
+        }
         return ti.getRemovedConsumedMessages(rerouted);
     }
 
@@ -2607,8 +2634,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return false;
+        }
         return (ti.getType() == TransactionInfo.TXN_LOCAL);
     }
 
@@ -2633,8 +2661,9 @@ public class TransactionList implements ClusterListener, PartitionListener {
             shareLock.unlock();
         }
 
-        if (ti == null)
+        if (ti == null) {
             return false;
+        }
         return (ti.getType() == TransactionInfo.TXN_CLUSTER);
     }
 
@@ -2658,28 +2687,33 @@ public class TransactionList implements ClusterListener, PartitionListener {
      * Implements ClusterListener
      ***************************************************************/
 
+    @Override
     public void clusterPropertyChanged(String name, String value) {
     }
 
+    @Override
     public void brokerAdded(ClusteredBroker broker, UID brokerSession) {
     }
 
+    @Override
     public void brokerRemoved(ClusteredBroker broker, UID brokerSession) {
     }
 
+    @Override
     public void masterBrokerChanged(ClusteredBroker oldMaster, ClusteredBroker newMaster) {
     }
 
     /**
      * Called when the status of a broker has changed. The status may not be accurate if a previous listener updated the
      * status for this specific broker.
-     * 
+     *
      * @param brokerid the name of the broker updated.
      * @param oldStatus the previous status.
      * @param newStatus the new status.
      * @param brokerSession uid associated with the changed broker
      * @param userData data associated with the state change
      */
+    @Override
     public void brokerStatusChanged(String brokerid, int oldStatus, int newStatus, UID uid, Object userData) {
         ClusterManager clsmgr = Globals.getClusterManager();
         ClusteredBroker cb = clsmgr.getBroker(brokerid);
@@ -2688,19 +2722,22 @@ public class TransactionList implements ClusterListener, PartitionListener {
                     + BrokerStatus.toString(newStatus) + ", brokerSession=" + uid + ", userData=" + userData);
         }
         if (BrokerStatus.getBrokerLinkIsUp(newStatus) && !BrokerStatus.getBrokerLinkIsUp(oldStatus)) {
-            newlyActivatedBrokers.add((BrokerMQAddress) cb.getBrokerURL());
+            newlyActivatedBrokers.add(cb.getBrokerURL());
             if (txnReaper != null) {
                 txnReaper.wakeupReaperTimer();
             }
         }
     }
 
+    @Override
     public void brokerStateChanged(String brokerid, BrokerState oldState, BrokerState newState) {
     }
 
+    @Override
     public void brokerVersionChanged(String brokerid, int oldVersion, int newVersion) {
     }
 
+    @Override
     public void brokerURLChanged(String brokerid, MQAddress oldAddress, MQAddress newAddress) {
     }
 
@@ -2711,6 +2748,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionAdded(UID partitionID, Object source) {
         if (source instanceof DestinationList) {
             newlyActivatedPartitions.add(partitionID);
@@ -2723,6 +2761,7 @@ public class TransactionList implements ClusterListener, PartitionListener {
     /**
      * @param partitionID the partition id
      */
+    @Override
     public void partitionRemoved(UID partitionID, Object source, Object destinedTo) {
     }
 }
@@ -2802,8 +2841,9 @@ class TransactionInformation {
     }
 
     public synchronized boolean processed() {
-        if (processed)
+        if (processed) {
             return true;
+        }
         processed = true;
         return false;
     }
@@ -2812,13 +2852,15 @@ class TransactionInformation {
         return processed;
     }
 
+    @Override
     public synchronized String toString() {
         if (type == TransactionInfo.TXN_CLUSTER) {
             StringBuffer buf = new StringBuffer();
             buf.append("TransactionInfo[" + tid + "]cluster - ");
             for (int i = 0; i < brokers.length; i++) {
-                if (i > 0)
+                if (i > 0) {
                     buf.append(", ");
+                }
                 buf.append(brokers[i].toString());
             }
             return buf.toString();
@@ -2841,23 +2883,27 @@ class TransactionInformation {
             l = new ArrayList();
             m.put(sid, l);
         }
-        if (cid != null)
+        if (cid != null) {
             l.add(cid);
+        }
     }
 
     public synchronized void removeOrphanAck(SysMessageID sysid, ConsumerUID sid, ConsumerUID cid) {
         Map m = (Map) orphanedMessages.get(sysid);
-        if (m == null)
+        if (m == null) {
             return;
+        }
         if (cid == null) {
             m.remove(sid);
-            if (m.size() == 0)
+            if (m.size() == 0) {
                 orphanedMessages.remove(sysid);
+            }
             return;
         }
         List l = (List) m.get(sid);
-        if (l == null)
+        if (l == null) {
             return;
+        }
         l.remove(cid);
     }
 
@@ -2893,14 +2939,16 @@ class TransactionInformation {
                     Map.Entry me = (Map.Entry) itr.next();
                     String id = me.getKey().toString();
                     ArrayList ids = (ArrayList) me.getValue();
-                    if (ids.size() == 0)
+                    if (ids.size() == 0) {
                         continue;
+                    }
                     if (ids.size() == 1) {
                         m.put(id, ids.get(0).toString());
                     } else {
                         Vector v = new Vector();
-                        for (int i = 0; i < ids.size(); i++)
+                        for (int i = 0; i < ids.size(); i++) {
                             v.add(ids.get(i).toString());
+                        }
                         m.put(id, v);
                     }
 
@@ -2916,14 +2964,16 @@ class TransactionInformation {
                     Map.Entry me = (Map.Entry) itr.next();
                     String id = me.getKey().toString();
                     ArrayList ids = (ArrayList) me.getValue();
-                    if (ids.size() == 0)
+                    if (ids.size() == 0) {
                         continue;
+                    }
                     if (ids.size() == 1) {
                         m.put(id, ids.get(0).toString());
                     } else {
                         Vector v = new Vector();
-                        for (int i = 0; i < ids.size(); i++)
+                        for (int i = 0; i < ids.size(); i++) {
                             v.add(ids.get(i).toString());
+                        }
                         m.put(id, v);
                     }
                 }
@@ -2939,14 +2989,16 @@ class TransactionInformation {
                     Map.Entry me = (Map.Entry) itr.next();
                     String id = me.getKey().toString();
                     ArrayList ids = (ArrayList) me.getValue();
-                    if (ids.size() == 0)
+                    if (ids.size() == 0) {
                         continue;
+                    }
                     if (ids.size() == 1) {
                         m.put(id, ids.get(0).toString());
                     } else {
                         Vector v = new Vector();
-                        for (int i = 0; i < ids.size(); i++)
+                        for (int i = 0; i < ids.size(); i++) {
                             v.add(ids.get(i).toString());
+                        }
                         m.put(id, v);
                     }
                 }
@@ -3029,12 +3081,15 @@ class TransactionInformation {
     }
 
     public synchronized boolean isConsumedMessage(SysMessageID sysid, ConsumerUID id) {
-        if (state == null)
+        if (state == null) {
             return false;
-        if (state.getState() == TransactionState.ROLLEDBACK)
+        }
+        if (state.getState() == TransactionState.ROLLEDBACK) {
             return false;
-        if (inROLLBACK)
+        }
+        if (inROLLBACK) {
             return false;
+        }
 
         List l = (List) consumed.get(sysid);
         if (l == null) {
@@ -3163,11 +3218,13 @@ class TransactionInformation {
 
     public synchronized boolean isClusterTransactionBroker(UID ssid) {
 
-        if (brokers == null)
+        if (brokers == null) {
             return false;
+        }
         for (int i = 0; i < brokers.length; i++) {
-            if (brokers[i].isSame(ssid))
+            if (brokers[i].isSame(ssid)) {
                 return true;
+            }
         }
         return false;
     }
@@ -3199,6 +3256,7 @@ class RemoteTransactionInformation extends TransactionInformation {
         return ((System.currentTimeMillis() - pendingStartTime) >= timeout);
     }
 
+    @Override
     public synchronized String toString() {
         return "RemoteTransactionInfo[" + tid + "]remote - " + txnhome.toString();
     }
@@ -3213,8 +3271,9 @@ class RemoteTransactionInformation extends TransactionInformation {
 
     public synchronized RemoteTransactionAckEntry[] getRecoveryTransactionAcks() {
 
-        if (recoveryTxnAckEntrys.size() == 0)
+        if (recoveryTxnAckEntrys.size() == 0) {
             return null;
+        }
         return (RemoteTransactionAckEntry[]) recoveryTxnAckEntrys.toArray(new RemoteTransactionAckEntry[recoveryTxnAckEntrys.size()]);
     }
 
@@ -3242,18 +3301,21 @@ class RemoteTransactionInformation extends TransactionInformation {
         return n;
     }
 
+    @Override
     public boolean isProcessed() {
 
-        if (txnAckEntry != null && !txnAckEntry.isProcessed())
+        if (txnAckEntry != null && !txnAckEntry.isProcessed()) {
             return false;
+        }
 
         synchronized (this) {
             RemoteTransactionAckEntry tae = null;
             Iterator itr = recoveryTxnAckEntrys.iterator();
             while (itr.hasNext()) {
                 tae = (RemoteTransactionAckEntry) itr.next();
-                if (!tae.isProcessed())
+                if (!tae.isProcessed()) {
                     return false;
+                }
             }
         }
         return true;
@@ -3263,6 +3325,7 @@ class RemoteTransactionInformation extends TransactionInformation {
         return (recoveryTxnAckEntrys.size() > 0);
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
 
@@ -3300,7 +3363,7 @@ class TransactionReaper implements TimerEventHandler {
 
     enum ClusterPCommittedState {
         UNPROCCESSED, PROCCESSED, TAKEOVER
-    };
+    }
 
     static class TIDEntry {
         TransactionUID tid = null;
@@ -3318,10 +3381,12 @@ class TransactionReaper implements TimerEventHandler {
             pstate = s;
         }
 
+        @Override
         public int hashCode() {
             return tid.hashCode();
         }
 
+        @Override
         public boolean equals(Object obj) {
             if (obj instanceof TIDEntry) {
                 return tid.equals(((TIDEntry) obj).tid);
@@ -3494,14 +3559,17 @@ class TransactionReaper implements TimerEventHandler {
     /***************************************************
      * Methods for TimerEventHandler for WakeupableTimer
      ***************************************************/
+    @Override
     public void handleOOMError(Throwable e) {
         Globals.handleGlobalError(e, "OOM:TransactionReaper");
     }
 
+    @Override
     public void handleLogInfo(String msg) {
         logger.log(Logger.INFO, msg);
     }
 
+    @Override
     public void handleLogWarn(String msg, Throwable e) {
         if (e == null) {
             logger.log(Logger.WARNING, msg);
@@ -3510,6 +3578,7 @@ class TransactionReaper implements TimerEventHandler {
         }
     }
 
+    @Override
     public void handleLogError(String msg, Throwable e) {
         if (e == null) {
             logger.log(Logger.ERROR, msg);
@@ -3518,6 +3587,7 @@ class TransactionReaper implements TimerEventHandler {
         }
     }
 
+    @Override
     public void handleTimerExit(Throwable e) {
         if (BrokerStateHandler.isShuttingDown() || reapTimer == null) {
             return;
@@ -3694,6 +3764,7 @@ class TransactionReaper implements TimerEventHandler {
         }
     }
 
+    @Override
     public long runTask() {
         try {
             run(false);
@@ -3897,8 +3968,9 @@ class DetachedTransactionReaper {
         }
         synchronized (this) {
             txns.add(tid);
-            if (mytimer == null || txns.size() == 1)
+            if (mytimer == null || txns.size() == 1) {
                 addTimer(timeoutsec);
+            }
         }
     }
 
@@ -3933,8 +4005,9 @@ class DetachedTransactionReaper {
 
     public synchronized void destroy() {
         destroyed = true;
-        if (mytimer != null)
+        if (mytimer != null) {
             removeTimer();
+        }
         txns.clear();
     }
 
@@ -3955,8 +4028,9 @@ class DetachedTransactionReaper {
     private void removeTimer() {
         assert Thread.holdsLock(this);
         try {
-            if (mytimer != null)
+            if (mytimer != null) {
                 mytimer.cancel();
+            }
         } catch (IllegalStateException ex) {
             Globals.getLogger().logStack(Logger.DEBUG, "Failed to cancel detached-transaction reaper timer ", ex);
         }
@@ -3993,6 +4067,7 @@ class DetachedTransactionReaper {
             this.timeout = timeoutsec * 1000L;
         }
 
+        @Override
         public void run() {
             TransactionHandler rbh = (TransactionHandler) Globals.getPacketRouter(0).getHandler(PacketType.ROLLBACK_TRANSACTION);
             long currentTime = System.currentTimeMillis();

@@ -24,11 +24,9 @@ import java.util.*;
 import java.io.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.DestType;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.jmsserver.cluster.api.*;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
@@ -52,6 +50,7 @@ public class InfoRequestHandler extends PacketHandler {
     /**
      * Method to handle INFO_REQUEST messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         Hashtable pktprops = null;
 
@@ -187,8 +186,9 @@ public class InfoRequestHandler extends PacketHandler {
     static Hashtable getAllInfo() {
 
         ClusterManager cfg = Globals.getClusterManager();
-        if (cfg == null)
+        if (cfg == null) {
             return null;
+        }
         Iterator itr = cfg.getKnownBrokers(true);
         Hashtable ht = new Hashtable();
         String nameList = "";

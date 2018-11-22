@@ -22,6 +22,11 @@ package com.sun.messaging.jmq.jmsclient.auth;
 
 public class UnsupportedAuthTypeException extends Exception {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 3648729855884353046L;
+
     public UnsupportedAuthTypeException() {
         super();
     }

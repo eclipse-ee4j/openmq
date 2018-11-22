@@ -19,7 +19,6 @@
 
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
-import java.util.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 
@@ -30,6 +29,7 @@ public class ExclusiveRequest {
         this.name = name;
     }
 
+    @Override
     public String toString() {
         return toString(false);
     }
@@ -42,15 +42,19 @@ public class ExclusiveRequest {
         return Globals.getBrokerResources().getString(BrokerResources.I_OP_IN_PROGRESS, this.name);
     }
 
+    @Override
     public boolean equals(Object o) {
-        if (o == null)
+        if (o == null) {
             return false;
-        if (!(o instanceof ExclusiveRequest))
+        }
+        if (!(o instanceof ExclusiveRequest)) {
             return false;
+        }
         ExclusiveRequest that = (ExclusiveRequest) o;
         return this.name.equals(that.name);
     }
 
+    @Override
     public int hashCode() {
         return name.hashCode();
     }

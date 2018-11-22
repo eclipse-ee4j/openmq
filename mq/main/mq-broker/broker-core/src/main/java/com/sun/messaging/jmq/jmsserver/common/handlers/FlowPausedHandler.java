@@ -24,16 +24,10 @@ import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.util.log.*;
-import java.io.IOException;
 import com.sun.messaging.jmq.io.PacketType;
-import com.sun.messaging.jmq.io.Status;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-
 import java.util.*;
 
 /**
@@ -47,6 +41,7 @@ public class FlowPausedHandler extends PacketHandler {
     /**
      * Method to handle FlowPaused messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
         assert msg.getPacketType() == PacketType.FLOW_PAUSED;
         Hashtable props = null;

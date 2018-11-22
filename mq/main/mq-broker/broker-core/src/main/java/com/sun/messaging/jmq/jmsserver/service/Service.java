@@ -56,7 +56,7 @@ public interface Service {
 
     /**
      * stop and destroy the service
-     * 
+     *
      * @param all if false, disallow new connections only
      */
     public void stopService(boolean all);
@@ -73,7 +73,7 @@ public interface Service {
 
     /**
      * pause the service
-     * 
+     *
      * @param all if true, connections as well as the service should be paused
      */
     public void pauseService(boolean all);

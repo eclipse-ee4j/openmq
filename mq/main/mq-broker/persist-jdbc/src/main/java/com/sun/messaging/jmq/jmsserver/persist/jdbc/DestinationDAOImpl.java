@@ -56,7 +56,7 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Constructor
-     * 
+     *
      * @throws BrokerException
      */
     DestinationDAOImpl() throws BrokerException {
@@ -100,7 +100,6 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
         if (dbMgr.isUseDerivedTableForUnionSubQueries()) {
             tmpbuf.append(" FROM ").append("(SELECT ").append(ID_COLUMN);
         }
-        ;
         tmpbuf.append(" FROM ").append(tableName).append(" WHERE ").append(IS_LOCAL_COLUMN).append(" = 0").append(" UNION SELECT dstTbl.").append(ID_COLUMN)
                 .append(" FROM ").append(tableName).append(" dstTbl, ").append(dbMgr.getTableName(StoreSessionDAO.TABLE_NAME_PREFIX))
                 .append(" sesTbl WHERE sesTbl.").append(StoreSessionDAO.BROKER_ID_COLUMN).append(" = ?").append(" AND sesTbl.")
@@ -123,25 +122,27 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Get the prefix name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableNamePrefix() {
         return TABLE_NAME_PREFIX;
     }
 
     /**
      * Get the name of the table.
-     * 
+     *
      * @return table name
      */
+    @Override
     public final String getTableName() {
         return tableName;
     }
 
     /**
      * Insert a new entry.
-     * 
+     *
      * @param conn database connection
      * @param destination the Destination
      * @param storeSessionID the store session ID
@@ -149,6 +150,7 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
      * @param createdTime timestamp
      * @throws BrokerException if destination already exists in the store
      */
+    @Override
     public void insert(Connection conn, Destination destination, long storeSessionID, long connectedTime, long createdTime) throws BrokerException {
 
         String destName = destination.getUniqueName();
@@ -233,11 +235,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param destination the Destination
      * @throws BrokerException if destination does not exists in the store
      */
+    @Override
     public void update(Connection conn, Destination destination) throws BrokerException {
 
         String destName = destination.getUniqueName();
@@ -306,11 +309,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Update existing entry.
-     * 
+     *
      * @param conn database connection
      * @param destination the Destination
      * @throws BrokerException if destination does not exists in the store
      */
+    @Override
     public void updateConnectedTime(Connection conn, Destination destination, long connectedTime) throws BrokerException {
 
         String destName = destination.getUniqueName();
@@ -370,13 +374,14 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Delete an existing entry.
-     * 
+     *
      * @param conn Database Connection
      * @param destination the Destination
      * @param storeSessionID null if for this entire broker
      * @return true if entry is deleted; false otherwise
      * @throws BrokerException
      */
+    @Override
     public boolean delete(Connection conn, Destination destination, Long storeSessionID) throws BrokerException {
 
         return delete(conn, destination.getDestinationUID(), destination.getType(), storeSessionID);
@@ -384,13 +389,14 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Delete an existing entry.
-     * 
+     *
      * @param conn Database Connection
      * @param dstUID the DestinationUID
      * @param type the type of destination
      * @return true if entry is deleted; false otherwise
      * @throws BrokerException
      */
+    @Override
     public boolean delete(Connection conn, DestinationUID dstUID, int type) throws BrokerException {
         return delete(conn, dstUID, type, null);
     }
@@ -481,10 +487,11 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Delete all entries.
-     * 
+     *
      * @param conn Database Connection
      * @throws BrokerException
      */
+    @Override
     public void deleteAll(Connection conn) throws BrokerException {
 
         String whereClause = null;
@@ -509,12 +516,13 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Get a destination.
-     * 
+     *
      * @param conn database connection
      * @param destName destination's name
      * @return Destination the Destination object
      * @throws BrokerException
      */
+    @Override
     public Destination getDestination(Connection conn, String destName) throws BrokerException {
 
         Destination dest = null;
@@ -568,12 +576,13 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Get connected timestamp for a local destination.
-     * 
+     *
      * @param conn database connection
      * @param destName destination's name
      * @return connected timestamp
      * @throws BrokerException
      */
+    @Override
     public long getDestinationConnectedTime(Connection conn, String destName) throws BrokerException {
 
         long connectedTime = -1;
@@ -631,11 +640,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Retrieve all non-local destinations and local destination for the specified broker.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of Destination objects; an empty List is returned if no destinations exist in the store
      */
+    @Override
     public List getAllDestinations(Connection conn, String brokerID) throws BrokerException {
 
         List list = Collections.EMPTY_LIST;
@@ -693,11 +703,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Retrieve all local destinations for the specified broker.
-     * 
+     *
      * @param conn database connection
      * @param brokerID the broker ID
      * @return a List of Destination objects; an empty List is returned if no destinations exist in the store
      */
+    @Override
     public List getLocalDestinationsByBroker(Connection conn, String brokerID) throws BrokerException {
 
         List list = Collections.EMPTY_LIST;
@@ -756,11 +767,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Check whether the specified destination exists.
-     * 
+     *
      * @param conn database connection
      * @param destName name of destination
      * @return return true if the specified destination exists
      */
+    @Override
     public boolean hasDestination(Connection conn, String destName) throws BrokerException {
 
         boolean found = false;
@@ -816,11 +828,12 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Check whether the specified destination exists.
-     * 
+     *
      * @param conn database connection
      * @param destName name of destination
      * @throws BrokerException if the destination does not exists in the store
      */
+    @Override
     public void checkDestination(Connection conn, String destName) throws BrokerException {
 
         if (!hasDestination(conn, destName)) {
@@ -837,10 +850,11 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Get debug information about the store.
-     * 
+     *
      * @return a HashMap of name value pair of information
      * @param conn
      */
+    @Override
     public HashMap getDebugInfo(Connection conn) {
 
         HashMap map = new HashMap();
@@ -859,7 +873,7 @@ class DestinationDAOImpl extends BaseDAOImpl implements DestinationDAO {
 
     /**
      * Load a single destination or destinations from a ResultSet.
-     * 
+     *
      * @param rs the ResultSet
      * @param isSingleRow specify interesed in only the 1st row of the ResultSet
      * @return a single Destination or List of Destinations

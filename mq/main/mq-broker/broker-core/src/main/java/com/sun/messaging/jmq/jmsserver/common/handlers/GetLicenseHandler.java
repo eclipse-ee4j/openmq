@@ -21,18 +21,12 @@
 package com.sun.messaging.jmq.jmsserver.common.handlers;
 
 import java.util.*;
-import java.net.*;
 import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
 import com.sun.messaging.jmq.jmsserver.license.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
-import com.sun.messaging.jmq.jmsserver.service.imq.IMQBasicConnection;
-
-import com.sun.messaging.jmq.jmsserver.service.ConnectionManager;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
 /**
@@ -70,6 +64,7 @@ public class GetLicenseHandler extends PacketHandler {
     /**
      * Method to handle GET_LICENSE messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         if (DEBUG) {

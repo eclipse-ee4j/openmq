@@ -19,16 +19,7 @@
 
 package com.sun.messaging.jmq.jmsserver.multibroker.raptor;
 
-import java.io.*;
-import java.util.*;
-import java.nio.*;
 import com.sun.messaging.jmq.io.GPacket;
-import com.sun.messaging.jmq.io.Status;
-import com.sun.messaging.jmq.util.UID;
-import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.resources.BrokerResources;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ClusteredBroker;
-import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAClusteredBroker;
 import com.sun.messaging.jmq.jmsserver.multibroker.raptor.ProtocolGlobals;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 
@@ -106,6 +97,7 @@ public class ClusterTransferFileListInfo {
         return (String) pkt.getProp("module");
     }
 
+    @Override
     public String toString() {
         return toString(false);
     }

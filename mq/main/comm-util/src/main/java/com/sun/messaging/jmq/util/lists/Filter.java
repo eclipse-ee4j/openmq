@@ -21,10 +21,10 @@
 package com.sun.messaging.jmq.util.lists;
 
 /**
- * 
+ *
  * A algorithm which can be used to determine if an object matches a specific critera.
  * <P>
- * 
+ *
  * Used to determine the set of "items" which match a "view"
  *
  */
@@ -32,7 +32,7 @@ package com.sun.messaging.jmq.util.lists;
 public interface Filter {
     /**
      * determines if an object matches the filters criteria
-     * 
+     *
      * @param o object to compare against filter
      * @returns true if the object matches, false otherwise
      */
@@ -40,18 +40,20 @@ public interface Filter {
 
     /**
      * determines if an object is the same as the filter
-     * 
+     *
      * @param o object to compare against filter
      * @returns true if the object matches, false otherwise
      * @see Object#equals
      */
+    @Override
     public boolean equals(Object o);
 
     /**
      * This hashcode of this object
-     * 
+     *
      * @returns value of the hashcode
      * @see Object#hashCode
      */
+    @Override
     public int hashCode();
 }

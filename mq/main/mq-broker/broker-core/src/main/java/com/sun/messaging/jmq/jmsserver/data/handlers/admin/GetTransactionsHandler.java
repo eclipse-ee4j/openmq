@@ -22,9 +22,7 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
 import java.io.IOException;
-import java.io.*;
 import java.util.Vector;
-import java.util.List;
 import java.util.Enumeration;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -37,7 +35,6 @@ import com.sun.messaging.jmq.jmsserver.data.TransactionBroker;
 import com.sun.messaging.jmq.jmsserver.service.ConnectionUID;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.admin.MessageType;
-import com.sun.messaging.jmq.util.admin.ServiceInfo;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.jmsserver.core.BrokerAddress;
 import com.sun.messaging.jmq.jmsserver.util.*;
@@ -77,8 +74,9 @@ public class GetTransactionsHandler extends AdminCmdHandler {
             ts = tl.getRemoteTransactionState(id);
         }
 
-        if (ts == null)
+        if (ts == null) {
             return null;
+        }
 
         JMQXid xid = tl.UIDToXid(id);
 
@@ -92,8 +90,9 @@ public class GetTransactionsHandler extends AdminCmdHandler {
 
         PartitionedStore pstore = tl.getPartitionedStore();
         table.put("txnid", Long.valueOf(id.longValue()) + (showpartition ? "[" + pstore.getPartitionID() + (pstore.isPrimaryPartition() ? "*]" : "]") : ""));
-        if (ts.getUser() != null)
+        if (ts.getUser() != null) {
             table.put("user", ts.getUser());
+        }
 
         if (ts.getClientID() != null) {
             table.put("clientid", ts.getClientID());
@@ -169,6 +168,7 @@ public class GetTransactionsHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

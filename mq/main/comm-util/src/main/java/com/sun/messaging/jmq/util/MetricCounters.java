@@ -27,6 +27,10 @@ import java.io.Serializable;
  */
 
 public class MetricCounters implements Cloneable, Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -6326807264269230289L;
     // We use two locks because counters are typically incremented by
     // seperate input and output threads.
     transient private Object inLock;
@@ -137,6 +141,7 @@ public class MetricCounters implements Cloneable, Serializable {
         }
     }
 
+    @Override
     public String toString() {
         synchronized (outLock) {
             synchronized (inLock) {
@@ -146,6 +151,7 @@ public class MetricCounters implements Cloneable, Serializable {
         }
     }
 
+    @Override
     public Object clone() {
 
         // Bug id 6359793

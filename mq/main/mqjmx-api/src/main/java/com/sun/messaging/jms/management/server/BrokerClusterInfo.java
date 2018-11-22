@@ -26,6 +26,11 @@ package com.sun.messaging.jms.management.server;
  */
 public class BrokerClusterInfo implements java.io.Serializable {
     /**
+     * 
+     */
+    private static final long serialVersionUID = -3958064200335848563L;
+
+    /**
      * Address of broker in the form of host:port
      */
     public static final String ADDRESS = "Address";

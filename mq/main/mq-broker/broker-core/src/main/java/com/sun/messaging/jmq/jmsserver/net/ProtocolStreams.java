@@ -24,10 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.InputStream;
 import java.net.*;
-import java.nio.*;
 import java.nio.channels.spi.*;
-import java.nio.channels.*;
-
 import java.util.Hashtable;
 
 /**
@@ -55,13 +52,16 @@ public interface ProtocolStreams {
     /**
      * @deprecated
      */
+    @Deprecated
     public int getInputBufferSize();
 
     /**
      * @deprecated
      */
+    @Deprecated
     public int getOutputBufferSize();
 
+    @Override
     public String toString();
 
     public String toDebugString();

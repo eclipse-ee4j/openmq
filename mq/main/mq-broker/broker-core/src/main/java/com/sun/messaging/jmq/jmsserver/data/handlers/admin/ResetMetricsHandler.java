@@ -21,24 +21,14 @@
 package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
-import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
-
 import com.sun.messaging.jmq.io.Packet;
 import com.sun.messaging.jmq.jmsserver.cluster.api.ha.HAMonitorService;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQConnection;
 import com.sun.messaging.jmq.jmsserver.service.MetricManager;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.util.DestType;
-import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.admin.MessageType;
 import com.sun.messaging.jmq.util.log.Logger;
-import com.sun.messaging.jmq.util.ServiceType;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.core.Destination;
-import com.sun.messaging.jmq.jmsserver.config.*;
-import com.sun.messaging.jmq.jmsserver.service.ServiceManager;
 import com.sun.messaging.jmq.jmsserver.service.imq.IMQService;
 import com.sun.messaging.jmq.jmsserver.management.agent.Agent;
 import java.util.*;
@@ -68,8 +58,9 @@ public class ResetMetricsHandler extends AdminCmdHandler {
         while (itr.hasNext()) {
             String name = (String) itr.next();
             IMQService service = (IMQService) Globals.getServiceManager().getService(name);
-            if (service != null)
+            if (service != null) {
                 service.resetCounters();
+            }
         }
 
         // reset metrics manager
@@ -85,6 +76,7 @@ public class ResetMetricsHandler extends AdminCmdHandler {
         }
     }
 
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         if (DEBUG) {

@@ -30,7 +30,6 @@ import java.util.Enumeration;
 import java.util.Properties;
 
 import javax.swing.ButtonGroup;
-import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
@@ -52,6 +51,10 @@ import com.sun.messaging.jmq.admin.apps.console.util.LabelValuePanel;
  */
 public class ObjStoreDestDialog extends AdminDialog {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -5002800902173075342L;
     protected JTextField lookupText;
     protected JLabel lookupLabel;
     protected JCheckBox checkBox;
@@ -81,6 +84,7 @@ public class ObjStoreDestDialog extends AdminDialog {
         super(parent, title, whichButtons);
     }
 
+    @Override
     public JPanel createWorkPanel() {
 
         boolean propsDlg = false;
@@ -175,7 +179,7 @@ public class ObjStoreDestDialog extends AdminDialog {
         /*
          * From here, list the properties on the destination.
          */
-        AdministeredObject obj = (AdministeredObject) new com.sun.messaging.Topic();
+        AdministeredObject obj = new com.sun.messaging.Topic();
         Properties props = obj.getConfiguration();
 
         LabelledComponent items2[] = new LabelledComponent[props.size()];
@@ -210,21 +214,27 @@ public class ObjStoreDestDialog extends AdminDialog {
         return (workPanel);
     }
 
+    @Override
     public void doOK() {
     }
 
+    @Override
     public void doApply() {
     }
 
+    @Override
     public void doReset() {
     }
 
+    @Override
     public void doCancel() {
     }
 
+    @Override
     public void doClose() {
     }
 
+    @Override
     public void doClear() {
     }
 

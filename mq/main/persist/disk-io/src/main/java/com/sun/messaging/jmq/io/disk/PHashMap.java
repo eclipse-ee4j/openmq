@@ -31,6 +31,11 @@ import java.io.*;
  */
 public class PHashMap extends ConcurrentHashMap {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = -3714925848468714416L;
+
     private static boolean DEBUG = false;
 
     public static final int VERSION = 1;
@@ -51,7 +56,7 @@ public class PHashMap extends ConcurrentHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
      * @param reset If true, all data in the file will be cleared.
@@ -64,7 +69,7 @@ public class PHashMap extends ConcurrentHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param size Initialize size of backing file.
      * @param safe Indicate whether the underlying file should be sync'ed as soon as possible.
@@ -78,7 +83,7 @@ public class PHashMap extends ConcurrentHashMap {
     /**
      * Construct the hash table backed by the specified file. If the file exists, the hash table will be initialized with
      * entries from the file.
-     * 
+     *
      * @param filename Backing file.
      * @param size Initialize size of backing file.
      * @param mapCapacity Initialize map capacity.
@@ -223,10 +228,12 @@ public class PHashMap extends ConcurrentHashMap {
         }
     }
 
+    @Override
     public Object put(Object key, Object value) {
         return doPut(key, value, false);
     }
 
+    @Override
     public Object putIfAbsent(Object key, Object value) {
         return doPut(key, value, true);
     }
@@ -316,14 +323,17 @@ public class PHashMap extends ConcurrentHashMap {
         }
     }
 
+    @Override
     public boolean remove(Object key, Object value) {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
+    @Override
     public Object replace(Object key, Object value) {
         throw new UnsupportedOperationException("Operation not supported");
     }
 
+    @Override
     public boolean replace(Object key, Object oldValue, Object newValue) {
         throw new UnsupportedOperationException("Operation not supported");
     }
@@ -345,6 +355,7 @@ public class PHashMap extends ConcurrentHashMap {
         backingFile.close();
     }
 
+    @Override
     public Set entrySet() {
         checkLoaded();
 
@@ -368,6 +379,7 @@ public class PHashMap extends ConcurrentHashMap {
         return warning;
     }
 
+    @Override
     public Collection values() {
         checkLoaded();
 
@@ -421,14 +433,17 @@ public class PHashMap extends ConcurrentHashMap {
             this.set = set;
         }
 
+        @Override
         public int size() {
             return set.size();
         }
 
+        @Override
         public boolean contains(Object o) {
             return set.contains(o);
         }
 
+        @Override
         public boolean remove(Object o) {
             boolean b = set.remove(o);
             if (b) {
@@ -447,10 +462,12 @@ public class PHashMap extends ConcurrentHashMap {
             return b;
         }
 
+        @Override
         public void clear() {
             PHashMap.this.clear();
         }
 
+        @Override
         public Iterator iterator() {
             return new HashIterator(set.iterator());
         }
@@ -463,18 +480,22 @@ public class PHashMap extends ConcurrentHashMap {
             this.entries = e;
         }
 
+        @Override
         public int size() {
             return entries.size();
         }
 
+        @Override
         public boolean contains(Object o) {
             return containsValue(o);
         }
 
+        @Override
         public void clear() {
             PHashMap.this.clear();
         }
 
+        @Override
         public Iterator iterator() {
             return new HashIterator(entries.iterator(), true);
         }
@@ -495,10 +516,12 @@ public class PHashMap extends ConcurrentHashMap {
             this.values = values;
         }
 
+        @Override
         public boolean hasNext() {
             return iterator.hasNext();
         }
 
+        @Override
         public Object next() {
             current = iterator.next();
             if (values) {
@@ -508,6 +531,7 @@ public class PHashMap extends ConcurrentHashMap {
             }
         }
 
+        @Override
         public void remove() {
             iterator.remove();
             Object key = null;

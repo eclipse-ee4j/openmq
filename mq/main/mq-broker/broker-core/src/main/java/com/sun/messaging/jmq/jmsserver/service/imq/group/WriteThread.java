@@ -22,14 +22,9 @@ package com.sun.messaging.jmq.jmsserver.service.imq.group;
 
 import java.util.*;
 import java.io.*;
-import java.nio.channels.spi.*;
 import java.nio.channels.*;
-import com.sun.messaging.jmq.util.log.*;
-import com.sun.messaging.jmq.jmsserver.Globals;
 import com.sun.messaging.jmq.jmsserver.service.imq.*;
-import com.sun.messaging.jmq.jmsserver.resources.*;
 import com.sun.messaging.jmq.jmsserver.service.*;
-import com.sun.messaging.jmq.jmsserver.pool.*;
 
 class WriteThread extends SelectThread {
     boolean inSelect = false;
@@ -37,6 +32,7 @@ class WriteThread extends SelectThread {
 
     Object selectLock = new Object();
 
+    @Override
     public void addNewConnection(IMQIPConnection conn) throws IOException {
         synchronized (pending_connections) {
             busy = true;
@@ -44,6 +40,7 @@ class WriteThread extends SelectThread {
         }
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = super.getDebugState();
         ht.put("TYPE", "WriteThread");
@@ -54,11 +51,13 @@ class WriteThread extends SelectThread {
         return ht;
     }
 
+    @Override
     public void changeInterest(SelectionKey key, int mask, String reason) throws IOException {
         super.changeInterest(key, mask, reason);
         wakeup();
     }
 
+    @Override
     public void wakeup() {
         synchronized (selectLock) {
             Selector s = selector;
@@ -79,6 +78,7 @@ class WriteThread extends SelectThread {
 
     int selector_cnt = 0;
 
+    @Override
     protected void process() throws IOException {
         busy = false;
 

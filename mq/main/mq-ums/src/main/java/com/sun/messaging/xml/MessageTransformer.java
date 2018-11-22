@@ -26,8 +26,6 @@ import java.io.*;
 import javax.jms.Message;
 import javax.jms.BytesMessage;
 import javax.jms.Session;
-import javax.jms.JMSException;
-
 import javax.xml.messaging.*;
 import javax.xml.soap.*;
 
@@ -241,7 +239,7 @@ public class MessageTransformer {
 
     /**
      * Get SOAP message factory from JMS message.
-     * 
+     *
      * @param message JMS message.
      */
     private static MessageFactory getMessageFactory() throws SOAPException {

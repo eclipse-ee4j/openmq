@@ -22,9 +22,7 @@ package com.sun.messaging.jmq.jmsserver.memory.levels;
 
 import com.sun.messaging.jmq.jmsserver.memory.*;
 import com.sun.messaging.jmq.jmsserver.Globals;
-import com.sun.messaging.jmq.jmsserver.config.*;
 import com.sun.messaging.jmq.jmsserver.resources.*;
-import com.sun.messaging.jmq.util.log.*;
 
 public class Green extends MemoryLevelHandler {
 
@@ -37,18 +35,22 @@ public class Green extends MemoryLevelHandler {
         messageCount = Globals.getConfig().getIntProperty(Globals.IMQ + "." + name + ".count", DEFAULT_COUNT);
     }
 
+    @Override
     public int getMessageCount(long freeMem, int producers) {
         return messageCount;
     }
 
+    @Override
     public long getMemory(long freeMemory, int producers) {
         return (freeMemory - MAX_MEMORY_DELTA) / 2;
     }
 
+    @Override
     public int gcCount() {
         return NEVER_GC;
     }
 
+    @Override
     public int gcIteration() {
         return NEVER_GC;
     }

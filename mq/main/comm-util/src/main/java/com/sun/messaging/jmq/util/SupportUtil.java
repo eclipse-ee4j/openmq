@@ -66,8 +66,9 @@ public class SupportUtil {
                 Thread thr = (Thread) me.getKey();
                 StackTraceElement[] stes = (StackTraceElement[]) me.getValue();
                 retstr.append(prefix + thr + " 0x" + Long.toHexString(thr.hashCode()) + "\n");
-                for (int i = 0; i < stes.length; i++)
+                for (int i = 0; i < stes.length; i++) {
                     retstr.append(prefix + "\t" + stes[i] + "\n");
+                }
                 retstr.append("\n");
             }
             return retstr.toString();
@@ -110,14 +111,14 @@ public class SupportUtil {
      * http://docs.oracle.com/javase/7/docs/api/java/lang/instrument/Instrumentation.html) These methods should not be
      * called in MQ production code
      ***********************************************************
-     * 
+     *
      * private static java.lang.instrument.Instrumentation instrumentation;
-     * 
+     *
      * public static void premain(String args, java.lang.instrument.Instrumentation inst) { instrumentation = inst; }
-     * 
+     *
      * public static long getObjectSize(Object o) { return instrumentation.getObjectSize(o); }
      *******************************************************
-     * 
+     *
      * END util of java.lang.instrument.Instrumentation
      *******************************************************/
 

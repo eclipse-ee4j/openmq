@@ -16,13 +16,12 @@
 
 package com.sun.messaging.bridge.service.jms;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 
 /**
- * 
+ *
  * @author amyk
  *
  */
@@ -52,8 +51,9 @@ public class EventNotifier {
                 EventListener.EventType key = itr.next();
                 ArrayList<EventListener> ls = _listeners.get(key);
                 ls.remove(l);
-                if (ls.size() == 0)
+                if (ls.size() == 0) {
                     itr.remove();
+                }
             }
         }
     }
@@ -66,8 +66,9 @@ public class EventNotifier {
                 als = ls.toArray(new EventListener[ls.size()]);
             }
         }
-        if (als == null)
+        if (als == null) {
             return;
+        }
 
         for (int i = 0; i < als.length; i++) {
             als[i].onEvent(evt, source);

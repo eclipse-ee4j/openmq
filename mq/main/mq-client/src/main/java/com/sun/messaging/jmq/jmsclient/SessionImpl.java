@@ -26,10 +26,6 @@ import javax.jms.*;
 import java.util.*;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import com.sun.messaging.jmq.io.*;
 import com.sun.messaging.jmq.util.JMQXid;
 import com.sun.messaging.jmq.util.timer.WakeupableTimer;
@@ -298,7 +294,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     public static final boolean noBlockUntilTxnCompletes = Boolean.getBoolean("imq.noBlockUntilTxnCompletes");
     public static final boolean noBlockOnAutoAckNPTopics = Boolean.getBoolean("imq.noBlockOnAutoAckNPTopics");
-    private static long waitTimeoutForConsumerCloseDone = (long) Integer.getInteger("imqWaitTimeoutForConsumerCloseDone", 90000).intValue();
+    private static long waitTimeoutForConsumerCloseDone = Integer.getInteger("imqWaitTimeoutForConsumerCloseDone", 90000).intValue();
 
     private ThreadLocal<Boolean> isMessageListener = new ThreadLocal<Boolean>();
 
@@ -337,7 +333,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * Constructor for standard JMS sessions.
-     * 
+     *
      * @param connection
      * @param isTransacted
      * @param acknowledgeMode
@@ -354,7 +350,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Constructor for MQ extended sessions. Use this constructor for non transacted MQ extended session -- such as
      * NO_ACKNOWLEDGE mode.
-     * 
+     *
      * @param connection
      * @param acknowledgeMode
      * @throws JMSException
@@ -575,8 +571,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         // will force an implicit rollback -- i.e. have to commit before switching
         // else work done so far is discarded
         // unless an xaTxn has already been started on this session (and possibly suspended)
-        if (xaTxnMode)
+        if (xaTxnMode) {
             return;
+        }
         if (isTransacted) {
             setInSyncState();
             try {
@@ -767,22 +764,27 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         public AsyncSendTimerEventHandler() {
         }
 
+        @Override
         public void handleOOMError(Throwable e) {
             sessionLogger.log(Level.WARNING, "OutOfMemoryError occurred in AsyncSendListenerProcessor thread[" + SessionImpl.this.toString() + "]", e);
         }
 
+        @Override
         public void handleLogInfo(String msg) {
             sessionLogger.log(Level.FINE, msg + "[" + SessionImpl.this.toString() + "]");
         }
 
+        @Override
         public void handleLogWarn(String msg, Throwable e) {
             sessionLogger.log(Level.WARNING, msg + "[" + SessionImpl.this.toString() + "]", e);
         }
 
+        @Override
         public void handleLogError(String msg, Throwable e) {
             sessionLogger.log(Level.WARNING, msg + "[" + SessionImpl.this.toString() + "]", e);
         }
 
+        @Override
         public void handleTimerExit(Throwable e) {
             if (isClosed) {
                 return;
@@ -794,6 +796,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             sessionLogger.log(Level.SEVERE, emsg + "[" + SessionImpl.this.toString() + "]", e);
         }
 
+        @Override
         public long runTask() {
             sessionLogger.log(Level.FINEST, "asyncSendCBProcessor start runTask[" + SessionImpl.this.toString() + "]");
             long ret = 0L; // wait for next wakeup
@@ -984,7 +987,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         synchronized (raEndpointSyncObj) {
             /**
              * EndpointConsumer.stopMessageConsumer() calls this method to stop the SessionReader.
-             * 
+             *
              * Do not need to wait because the caller must wait for OnMessageRunners to ruturn. bug ID 6526078 - MQ thread deadlock
              * during AS shutdown.
              */
@@ -1048,8 +1051,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
      */
     protected void resetServerSessionRunner(boolean resetState) {
         ServerSessionRunner ssr = serverSessionRunner;
-        if (ssr != null)
+        if (ssr != null) {
             ssr.reset(resetState);
+        }
     }
 
     /**
@@ -1321,8 +1325,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                 // System.out.println("\t\tSessionImpl:doAcknowledge...done:bkrSessionId="+brokerSessionID);
 
             } finally {
-                if (originalProps != null)
+                if (originalProps != null) {
                     ackPkt.setProperties(originalProps);
+                }
                 releaseInSyncState();
             }
         }
@@ -1515,7 +1520,6 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                     }
                 } catch (Exception e1) {
                 }
-                ;
                 Object args[] = { message.getMessageID(), destName, message.getInterestID(), e.getMessage() };
                 String ecode = (deadReason == 1 ? ClientResources.X_EXPIRE_MSG_TO_DMQ : ClientResources.X_UNDELIVERABLE_MSG_TO_DMQ);
                 String estr = AdministeredObject.cr.getKString(ecode, args);
@@ -1547,7 +1551,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
                 String param = makeDebugStringForMessage(message);
                 sessionLogger.log(Level.FINER, key, param);
                 if (sessionLogger.isLoggable(Level.FINEST)) {
-                    param = "MQTrace=MessageConsumer" + ", ConsumerID=" + ((MessageImpl) message).getInterestID() + ", Message=" + message.toString();
+                    param = "MQTrace=MessageConsumer" + ", ConsumerID=" + message.getInterestID() + ", Message=" + message.toString();
                     sessionLogger.log(Level.FINEST, key, param);
                 }
             }
@@ -1563,11 +1567,11 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             com.sun.messaging.Destination mqDest = (com.sun.messaging.Destination) message.getJMSDestination();
             String domain = (mqDest.isQueue() ? "Queue:" : "Topic:");
 
-            String pktType = PacketType.getString(((MessageImpl) message).getPacket().getPacketType());
+            String pktType = PacketType.getString(message.getPacket().getPacketType());
 
             return ("MQTrace=MessageConsumer" + ", ThreadID=" + Thread.currentThread().getId() + ", ClientID=" + this.connection.getClientID()
                     + ", ConnectionID=" + this.connection.getConnectionID() + ", SessionID=" + this.getBrokerSessionID() + ", ConsumerID="
-                    + ((MessageImpl) message).getInterestID() + ", Destination=" + domain + mqDest.getName() + ", MessageID=" + message.getJMSMessageID()
+                    + message.getInterestID() + ", Destination=" + domain + mqDest.getName() + ", MessageID=" + message.getJMSMessageID()
                     + ", MessageType=" + pktType);
 
         } catch (Exception e) {
@@ -1578,7 +1582,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * auto acknowledge.
-     * 
+     *
      * @param message the message to be acknowledged.
      */
     protected void autoAcknowledge(MessageImpl message, boolean isdurable) throws JMSException {
@@ -1639,7 +1643,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * Write interestID and messageID to the byte array.
-     * 
+     *
      * @param message the message to be acked/redelivered.
      */
     protected void writeMessageID(MessageImpl message) throws JMSException {
@@ -1902,13 +1906,15 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /*
      * (non-Javadoc)
-     * 
+     *
      * @see com.sun.messaging.jmq.jmsclient.ContextableSession#clientAcknowledge()
      */
+    @Override
     public void clientAcknowledge() throws JMSException {
 
-        if (getAcknowledgeMode() != Session.CLIENT_ACKNOWLEDGE)
+        if (getAcknowledgeMode() != Session.CLIENT_ACKNOWLEDGE) {
             return;
+        }
 
         if (failoverOccurred) {
             // "Cannot acknowledge messages due to provider connection failover.
@@ -2177,7 +2183,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * Check if session is closed.
-     * 
+     *
      * @throws IllegalStateException if session is closed.
      */
     protected void checkSessionState() throws JMSException {
@@ -2405,8 +2411,8 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             } else {
 
                 if (!connection.isConnectedToHABroker()) { // 1-phase commit
-                    if (((JMSException) jmse).getErrorCode().equals(ClientResources.X_SERVER_ERROR)) {
-                        Exception e1 = ((JMSException) jmse).getLinkedException();
+                    if (jmse.getErrorCode().equals(ClientResources.X_SERVER_ERROR)) {
+                        Exception e1 = jmse.getLinkedException();
                         if (e1 != null && (e1 instanceof JMSException) && (((JMSException) e1).getErrorCode().equals(Status.getString(Status.GONE))
                                 || ((JMSException) e1).getErrorCode().equals(Status.getString(Status.CONFLICT)))) {
                             sessionLogger.log(Level.WARNING, "Exception on commit transaction " + transaction.getTransactionID() + ", will rollback", jmse);
@@ -2562,7 +2568,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             Thread.yield();
             Thread.sleep(3000);
         } catch (Exception e) {
-            ;
+            
         }
     }
 
@@ -2999,8 +3005,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             // stopping a session (during rollback / recover) this is
             // not an issue starting from 3.5 release...
 
-            if (!connection.getIsStopped())
+            if (!connection.getIsStopped()) {
                 protocolHandler.start();
+            }
         } else {
             protocolHandler.resumeSession(brokerSessionID);
         }
@@ -3384,19 +3391,19 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * public void _redeliverMessageFromRA(MessageImpl message) throws JMSException { synchronized (raEndpointSyncObj) {
-     * 
+     *
      * if (message != null) { writeMessageID(message);
-     * 
+     *
      * ReadWritePacket pkt = new ReadWritePacket(); try { dos.flush(); bos.flush();
-     * 
+     *
      * //set message body pkt.setMessageBody(bos.toByteArray());
-     * 
+     *
      * //for transacted session, set transaction ID to pkt ////if ( isTransacted ) { ////pkt.setTransactionID(
      * transaction.getTransactionID() ); ////}
-     * 
+     *
      * //write packet - ensure that this message is marked 'redelivered' protocolHandler.redeliver (pkt, true,
      * isTransacted); //reset buf count to 0 bos.reset();
-     * 
+     *
      * } catch (IOException e) { ExceptionHandler.handleException(e, ClientResources.X_MESSAGE_REDELIVER); } } } }
      **/
 
@@ -3532,10 +3539,12 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         return transaction;
     }
 
+    @Override
     public void setFailoverOccurred(boolean v) {
         failoverOccurred = v;
     }
 
+    @Override
     public void initXATransactionForMC(long transactionID) throws JMSException {
         if (transaction == null) {
             transaction = new Transaction(this, false);
@@ -3545,6 +3554,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         isTransacted = true;
     }
 
+    @Override
     public void finishXATransactionForMC() {
         // No longer needs to be in a dist txn
         xaTxnMode = false;
@@ -3553,6 +3563,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         transaction = null;
     }
 
+    @Override
     public void dump(PrintStream ps) {
 
         ps.println("------ SessionImpl dump ------");
@@ -3635,7 +3646,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * backward compatibility -- 4934856
-     * 
+     *
      * @param message the message used to call client ack method.
      * @throws JMSException
      */
@@ -3699,6 +3710,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
         }
     }
 
+    @Override
     public String toString() {
         return "ConnectionID=" + this.connection.getConnectionID() + ", SessionID=" + this.brokerSessionID;
     }
@@ -3724,6 +3736,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             return cid;
         }
 
+        @Override
         public String toString() {
             return "mid:[" + ((mid != null) ? mid.toString() : "") + "] cid:" + cid;
         }
@@ -3732,32 +3745,32 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * The method is called when client runtime detects that the remote broker had failed and any of the following
      * conditions is true.
-     * 
+     *
      * 1. if ((ack_mode == transacted) and (Session.commit())) is called.
-     * 
+     *
      * Broker sets status code (in commit_reply/prepare_reply) to inform client runtime that recreate consumer is required.
-     * 
+     *
      * 1.1 Client runtime calls this method to delete and add consumers in the session. 1.2 The transaction is rolled back.
      * A transaction rolled back exception is thrown. A new transaction is created.
-     * 
+     *
      * 2. if ((ack_mode == transacted) and (Session.rollback())) is called.
-     * 
+     *
      * If the client runtime has a state indicating that the remote broker had failed:
-     * 
+     *
      * 2.1 Client runtime calls this method to delete and add consumers in the session. 2.2 The transaction is rolled back.
      * A new transaction is created.
-     * 
+     *
      * 3. if ((ack_mode == client_ack) and (Session.recover())) is called.
-     * 
+     *
      * If the client runtime has a state indicating that the remote broker had failed:
-     * 
+     *
      * 3.1 Client runtime calls this method to delete and add consumers in the session. 3.2 The session is recovered.
      * Messages ack failed will be redelivered.
-     * 
+     *
      * 4. If ((ack_mode == auto_ack) || (ack_mode == dups_ok_ack))
-     * 
+     *
      * If the client runtime has a state indicating that the remote broker had failed:
-     * 
+     *
      * 4.1 Client runtime calls this method to delete and add consumers in the session. 4.2 Messages not acknowledged
      * (includes ack failed) are redelivered.
      */
@@ -3772,7 +3785,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
             sessionLogger.finest("Re-creating consumers for the session: " + this.sessionId);
 
             // the current consumers in the session is saved to recreate after delete them.
-            Object savedConsumers[] = (Object[]) consumers.values().toArray();
+            Object savedConsumers[] = consumers.values().toArray();
 
             // 1. stop message delivery for the session.
             // this is the active session thread to reconstruct the state of the consumers.
@@ -3855,9 +3868,9 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
 
     /**
      * Check if this is a remote ack/commit failed exception
-     * 
+     *
      * Re-create consumers in the session if it is caused by remore broker failure.
-     * 
+     *
      * @param jmse
      */
     protected boolean isRemoteException(JMSException jmse) {
@@ -3877,7 +3890,7 @@ public class SessionImpl implements JMSRAXASession, Traceable, ContextableSessio
     /**
      * Match the consumer IDs contained in the specified RemoteAcknowledgeException with the consumer IDs in the session
      * consumers table.
-     * 
+     *
      * @param rae
      * @return true if the consumers table contains a consumer with cid in the
      * RemoteAcknowledgeException.JMQRemoteConsumerIDs property.

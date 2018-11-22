@@ -71,8 +71,9 @@ public class FileLogRecordIterator implements Iterator {
     }
 
     /**
-     * 
+     *
      */
+    @Override
     public synchronized boolean hasNext() {
 
         /**
@@ -86,6 +87,7 @@ public class FileLogRecordIterator implements Iterator {
 
     }
 
+    @Override
     public synchronized Object next() {
 
         if (eof) {
@@ -104,15 +106,17 @@ public class FileLogRecordIterator implements Iterator {
                     // there are more compound entries to go
                     compoundEntryIndex++;
                     entry = compoundEntries[compoundEntryIndex];
-                    if (debug)
+                    if (debug) {
                         log("setting next entry to a compound sub record");
+                    }
 
                     // no need to read next record
                     return lrec;
                 } else {
                     // this is the last compound entry
-                    if (debug)
+                    if (debug) {
                         log("This is the last compound sub record");
+                    }
                     compoundEntries = null;
                     compoundEntryIndex = 0;
                 }
@@ -132,14 +136,16 @@ public class FileLogRecordIterator implements Iterator {
         throw new NoSuchElementException();
     }
 
+    @Override
     public void remove() {
         throw new UnsupportedOperationException("Unsupported Operation.");
     }
 
     private synchronized void readNextRecord() {
 
-        if (debug)
+        if (debug) {
             log("readNextRecord");
+        }
         if (eof) {
             return;
         }
@@ -264,8 +270,9 @@ public class FileLogRecordIterator implements Iterator {
         ByteBuffer buf = ByteBuffer.wrap(compoundBody);
 
         int numEntries = buf.getInt();
-        if (debug)
+        if (debug) {
             log("processCompoundTransactionLogRecord numEntries=" + numEntries);
+        }
 
         compoundEntries = new FileTransactionLogRecord[numEntries];
         compoundEntryIndex = 0;

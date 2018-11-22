@@ -23,7 +23,6 @@ package com.sun.messaging.jmq.jmsserver.net.tcp;
 import java.net.*;
 import java.util.Map;
 import java.io.IOException;
-import java.nio.*;
 import java.util.*;
 import java.nio.channels.*;
 import java.nio.channels.spi.*;
@@ -79,6 +78,7 @@ public class TcpProtocol implements Protocol {
         // does nothing
     }
 
+    @Override
     public void registerProtocolCallback(ProtocolCallback cb, Object callback_data) {
         this.cb = cb;
         this.callback_data = callback_data;
@@ -91,10 +91,12 @@ public class TcpProtocol implements Protocol {
         cb.socketUpdated(callback_data, getLocalPort(), hostname);
     }
 
+    @Override
     public String getHostName() {
         return hostname;
     }
 
+    @Override
     public boolean canPause() {
         return true;
     }
@@ -107,20 +109,23 @@ public class TcpProtocol implements Protocol {
         synchronized (protocolLock) {
             this.useChannels = useChannel;
             this.blocking = blocking;
-            if (hostname != null && hostname.trim().length() == 0)
+            if (hostname != null && hostname.trim().length() == 0) {
                 hostname = null;
+            }
             if (useChannels) {
-                if (!blocking && selector == null)
+                if (!blocking && selector == null) {
                     selector = Selector.open();
+                }
                 chl = ServerSocketChannel.open();
                 svc = chl.socket();
                 // Bug 6294767: Force SO_REUSEADDRR to true
                 svc.setReuseAddress(true);
                 InetSocketAddress endpoint = null;
-                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL))
+                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL)) {
                     endpoint = new InetSocketAddress(port);
-                else
+                } else {
                     endpoint = new InetSocketAddress(hostname, port);
+                }
                 svc.bind(endpoint, backlog);
                 serversocket = svc;
                 if (!blocking) {
@@ -129,9 +134,9 @@ public class TcpProtocol implements Protocol {
                     selector.wakeup();
                 }
             } else {
-                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL))
+                if (hostname == null || hostname.equals(Globals.HOSTNAME_ALL)) {
                     svc = ssf.createServerSocket(port, backlog);
-                else {
+                } else {
                     InetAddress endpoint = InetAddress.getByName(hostname);
                     svc = ssf.createServerSocket(port, backlog, endpoint);
                 }
@@ -147,12 +152,15 @@ public class TcpProtocol implements Protocol {
         return svc;
     }
 
+    @Override
     public void configureBlocking(boolean blocking) throws UnsupportedOperationException, IOException {
-        if (!useChannels)
+        if (!useChannels) {
             return;
-        if (!canChangeBlocking && !blocking)// we cant be non-blocking
+        }
+        if (!canChangeBlocking && !blocking) {
             throw new UnsupportedOperationException(
                     Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "This protocol can not be non-blocking"));
+        }
 
         // OK .. only configure blocking IF we have a channel
         AbstractSelectableChannel asc = getChannel();
@@ -165,6 +173,7 @@ public class TcpProtocol implements Protocol {
         asc.configureBlocking(blocking);
     }
 
+    @Override
     public AbstractSelectableChannel getChannel() throws IOException {
         synchronized (protocolLock) {
             if (serversocket == null) {
@@ -178,6 +187,7 @@ public class TcpProtocol implements Protocol {
         return new TcpStreams(socket, blocking, inputBufferSize, outputBufferSize);
     }
 
+    @Override
     public ProtocolStreams accept() throws IOException {
         ServerSocket currentsocket = null;
         synchronized (protocolLock) {
@@ -228,11 +238,13 @@ public class TcpProtocol implements Protocol {
                     return accept();
                 }
             } else {
-                if (serversocket != null)
+                if (serversocket != null) {
                     s = serversocket.accept();
+                }
             }
-            if (s == null)
+            if (s == null) {
                 throw new IOException(Globals.getBrokerResources().getKString(BrokerResources.X_INTERNAL_EXCEPTION, "no socket"));
+            }
             try {
                 s.setTcpNoDelay(nodelay);
             } catch (SocketException e) {
@@ -266,6 +278,7 @@ public class TcpProtocol implements Protocol {
         }
     }
 
+    @Override
     public void open() throws IOException, IllegalStateException {
         synchronized (protocolLock) {
             if (selector != null && !startSocket) { // we are a channel
@@ -273,19 +286,22 @@ public class TcpProtocol implements Protocol {
                 selector.wakeup();
                 return;
             }
-            if (serversocket != null || startSocket)
+            if (serversocket != null || startSocket) {
                 throw new IOException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION, "can not open already opened protocol"));
+            }
             serversocket = createSocket(hostname, port, backlog, blocking, useChannels);
             notifyProtocolCallback();
         }
     }
 
+    @Override
     public boolean isOpen() {
         synchronized (protocolLock) {
             return serversocket != null;
         }
     }
 
+    @Override
     public void close() throws IOException, IllegalStateException {
         synchronized (protocolLock) {
             try {
@@ -313,6 +329,7 @@ public class TcpProtocol implements Protocol {
 
     }
 
+    @Override
     public void checkParameters(Map params) throws IllegalArgumentException {
         checkTcpParameters(params);
     }
@@ -322,6 +339,7 @@ public class TcpProtocol implements Protocol {
         checkIntValue("backlog", params, one, null);
     }
 
+    @Override
     public Map setParameters(Map params) throws IOException {
 
         if (params.get("serviceFactoryHandlerName") != null) {
@@ -354,12 +372,15 @@ public class TcpProtocol implements Protocol {
 
         if (newport != port || newbacklog != backlog || newhost) {
 
-            if (newport != -1)
+            if (newport != -1) {
                 port = newport;
-            if (newbacklog != -1)
+            }
+            if (newbacklog != -1) {
                 backlog = newbacklog;
-            if (newhost)
+            }
+            if (newhost) {
                 hostname = newhostname;
+            }
 
             if (!active) {
                 return null;
@@ -414,13 +435,15 @@ public class TcpProtocol implements Protocol {
             return value;
         }
 
-        if (min != null && value < min.intValue())
+        if (min != null && value < min.intValue()) {
             throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
                     propname + "(" + value + ")" + " value below minimum of " + min));
+        }
 
-        if (max != null && value > max.intValue())
+        if (max != null && value > max.intValue()) {
             throw new IllegalArgumentException(Globals.getBrokerResources().getString(BrokerResources.X_INTERNAL_EXCEPTION,
                     propname + "(" + value + ")" + " value above maximum of " + max));
+        }
 
         return value;
     }
@@ -457,12 +480,15 @@ public class TcpProtocol implements Protocol {
         return backlog;
     }
 
+    @Override
     public int getLocalPort() {
-        if (serversocket == null)
+        if (serversocket == null) {
             return 0;
+        }
         return serversocket.getLocalPort();
     }
 
+    @Override
     public String toString() {
         boolean nio = (chl != null);
         boolean blockednio = (nio && blocking);
@@ -470,30 +496,37 @@ public class TcpProtocol implements Protocol {
                 + (blockednio ? " [blocked i/o]" : "") + ")";
     }
 
+    @Override
     public void setNoDelay(boolean val) {
         nodelay = val;
     }
 
+    @Override
     public void setTimeout(int val) {
         throw new UnsupportedOperationException("Setting timeouts no longer supported");
     }
 
+    @Override
     public void setInputBufferSize(int val) {
         inputBufferSize = val;
     }
 
+    @Override
     public void setOutputBufferSize(int val) {
         outputBufferSize = val;
     }
 
+    @Override
     public int getInputBufferSize() {
         return inputBufferSize;
     }
 
+    @Override
     public int getOutputBufferSize() {
         return outputBufferSize;
     }
 
+    @Override
     public boolean getBlocking() {
         return blocking;
     }

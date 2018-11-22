@@ -24,6 +24,10 @@ import java.io.*;
 import java.util.Random;
 
 class RandomBytes implements Serializable {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 4599014503769715713L;
     private byte[] data = null;
     private int sequence = 0;
 
@@ -31,8 +35,9 @@ class RandomBytes implements Serializable {
         int sum = 0;
         for (int i = 0; i < data.length; i++) {
             sum += (data[i] & 0xff);
-            if (sum > 255)
+            if (sum > 255) {
                 sum = (sum & 0xff) + 1;
+            }
         }
         return (byte) ~((sum & 0xff));
     }
@@ -90,10 +95,11 @@ class RandomBytes implements Serializable {
             }
         }
         RandomBytes rb;
-        if (maxlen < 0)
+        if (maxlen < 0) {
             rb = new RandomBytes(args[0]);
-        else
+        } else {
             rb = new RandomBytes(maxlen);
+        }
 
         byte[] tmp = rb.getData();
         int len = tmp.length;

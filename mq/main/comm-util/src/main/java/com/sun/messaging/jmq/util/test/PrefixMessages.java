@@ -20,9 +20,6 @@
 
 package com.sun.messaging.jmq.util.test;
 
-import java.text.*;
-import java.util.*;
-
 /**
  * This class has a method that will take the Object[][] from a ListResourceBundle and appends the given string to all
  * the strings in the messages (not the keys).

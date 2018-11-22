@@ -28,7 +28,6 @@ import com.sun.messaging.jmq.jmsserver.data.PacketHandler;
 import com.sun.messaging.jmq.jmsserver.plugin.spi.DestinationSpi;
 import com.sun.messaging.jmq.jmsserver.core.DestinationUID;
 import com.sun.messaging.jmq.io.*;
-import com.sun.messaging.jmq.jmsserver.service.Connection;
 import com.sun.messaging.jmq.jmsserver.util.BrokerException;
 import com.sun.messaging.jmq.util.DestType;
 
@@ -53,6 +52,7 @@ public class VerifyDestinationHandler extends PacketHandler {
     /**
      * Method to handle Destination (create or delete) messages
      */
+    @Override
     public boolean handle(IMQConnection con, Packet msg) throws BrokerException {
 
         int status = Status.OK;
@@ -113,8 +113,9 @@ public class VerifyDestinationHandler extends PacketHandler {
                 reason = "destination not found";
                 hash.put("JMQCanCreate", Boolean.valueOf(coreLifecycle.canAutoCreate(DestType.isQueue(type))));
             } else {
-                if (d != null)
+                if (d != null) {
                     hash.put("JMQDestType", Integer.valueOf(d.getType()));
+                }
             }
 
         } catch (SelectorFormatException ex) {
@@ -141,10 +142,12 @@ public class VerifyDestinationHandler extends PacketHandler {
         }
 
         hash.put("JMQStatus", Integer.valueOf(status));
-        if (reason != null)
+        if (reason != null) {
             hash.put("JMQReason", reason);
-        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket())
+        }
+        if (((IMQBasicConnection) con).getDumpPacket() || ((IMQBasicConnection) con).getDumpOutPacket()) {
             hash.put("JMQReqID", msg.getSysMessageID().toString());
+        }
 
         pkt.setProperties(hash);
         con.sendControlMessage(pkt);

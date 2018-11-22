@@ -98,6 +98,7 @@ public class IMQDirectConnection extends IMQConnection {
 // -------------------------------------------------------------------------
 //   General connection information and metrics
 // -------------------------------------------------------------------------
+    @Override
     public boolean isBlocking() {
         return (false);
     }
@@ -106,6 +107,7 @@ public class IMQDirectConnection extends IMQConnection {
         return 0;
     }
 
+    @Override
     public boolean useDirectBuffers() {
         return (false);
     }
@@ -116,12 +118,14 @@ public class IMQDirectConnection extends IMQConnection {
     /**
      * default toString method, sub-classes should override
      */
+    @Override
     public String toString() {
         return "IMQDirectConn[" + getConnectionStateString(state) + "," + getRemoteConnectionString() + "," + localServiceString() + "]";
     }
 
     String remoteHostString = null;
 
+    @Override
     public String remoteHostString() {
         if (remoteHostString == null) {
             try {
@@ -136,9 +140,11 @@ public class IMQDirectConnection extends IMQConnection {
 
     String remoteConString = null;
 
+    @Override
     public String getRemoteConnectionString() {
-        if (remoteConString != null)
+        if (remoteConString != null) {
             return remoteConString;
+        }
 
         boolean userset = false;
 
@@ -153,23 +159,27 @@ public class IMQDirectConnection extends IMQConnection {
                     userset = true;
                 }
             } catch (BrokerException e) {
-                if (DEBUG)
+                if (DEBUG) {
                     logger.log(Logger.DEBUG, "Exception getting authentication name " + conId, e);
+                }
 
             }
         }
 
         String retstr = userString + "@" + IPAddress.rawIPToString(remoteIP, true, true) + ":" + remotePortString;
-        if (userset)
+        if (userset) {
             remoteConString = retstr;
+        }
         return retstr;
     }
 
     String localsvcstring = null;
 
+    @Override
     protected String localServiceString() {
-        if (localsvcstring != null)
+        if (localsvcstring != null) {
             return localsvcstring;
+        }
         String localPortString = "0";
         localsvcstring = service.getName() + ":" + localPortString;
         return localsvcstring;
@@ -178,6 +188,7 @@ public class IMQDirectConnection extends IMQConnection {
 // -------------------------------------------------------------------------
 //   Basic Connection Management
 // -------------------------------------------------------------------------
+    @Override
     public synchronized void closeConnection(boolean force, int reason, String reasonStr) {
         if (state >= Connection.STATE_CLOSED) {
             logger.log(Logger.DEBUG, "Requested close of already closed connection:" + this);
@@ -208,6 +219,7 @@ public class IMQDirectConnection extends IMQConnection {
         }
     }
 
+    @Override
     protected void cleanupControlPackets(boolean shutdown) {
     }
 
@@ -216,6 +228,7 @@ public class IMQDirectConnection extends IMQConnection {
     /**
      * destroy the connection to the client clearing out messages, etc
      */
+    @Override
     public void destroyConnection(boolean force, int reason, String reasonstr) {
         int oldstate = 0;
         boolean destroyOK = false;
@@ -223,8 +236,9 @@ public class IMQDirectConnection extends IMQConnection {
 
             synchronized (this) {
                 oldstate = state;
-                if (state >= Connection.STATE_DESTROYING)
+                if (state >= Connection.STATE_DESTROYING) {
                     return;
+                }
 
                 if (state < Connection.STATE_CLOSED) {
                     closeConnection(force, reason, reasonstr);
@@ -250,7 +264,7 @@ public class IMQDirectConnection extends IMQConnection {
 
             /*
              * synchronized (timerLock) {
-             * 
+             *
              * if (stateWatcher != null) { try { stateWatcher.cancel(); } catch (IllegalStateException ex) {
              * logger.log(Logger.DEBUG,"Error destroying "+ " connection " + this + " to state " + state, ex); } stateWatcher =
              * null; } }
@@ -278,9 +292,10 @@ public class IMQDirectConnection extends IMQConnection {
 
     /**
      * sets the connection state
-     * 
+     *
      * @return false if connection being destroyed
      */
+    @Override
     public boolean setConnectionState(int state) {
         synchronized (timerLock) {
             this.state = state;
@@ -333,6 +348,7 @@ public class IMQDirectConnection extends IMQConnection {
         return true;
     }
 
+    @Override
     public void logConnectionInfo(boolean closing) {
         this.logConnectionInfo(closing, "Unknown");
     }
@@ -360,6 +376,7 @@ public class IMQDirectConnection extends IMQConnection {
      *
      * @param msg message to send back to the client
      */
+    @Override
     public void sendControlMessage(Packet msg) {
     }
 
@@ -369,9 +386,11 @@ public class IMQDirectConnection extends IMQConnection {
          */
     }
 
+    @Override
     protected void sayGoodbye(int reason, String reasonStr) {
     }
 
+    @Override
     protected void sendConsumerInfo(int requestType, String destName, int destType, int infoType) {
         // XXX todo
     }
@@ -380,6 +399,7 @@ public class IMQDirectConnection extends IMQConnection {
 //   Sending Messages
 // -------------------------------------------------------------------------
 
+    @Override
     protected void checkState() {
         assert Thread.holdsLock(stateLock);
     }
@@ -391,32 +411,35 @@ public class IMQDirectConnection extends IMQConnection {
     protected void sayGoodbye(boolean force, int reason, String reasonStr) {
     }
 
+    @Override
     protected void checkConnection() {
     }
 
+    @Override
     protected void flushConnection(long timeout) {
     }
 
     /**
      * called when either the session or the control message is busy
      */
+    @Override
     public void eventOccured(EventType type, Reason r, Object target, Object oldval, Object newval, Object userdata) {
         /*
-         * 
+         *
          * // LKS - at this point, we are in a write lock // only one person can change the values // at a time
-         * 
+         *
          * synchronized (stateLock) { if (type == EventType.EMPTY) {
-         * 
+         *
          * // this can only be from the control queue assert target == control; assert newval instanceof Boolean; assert newval
          * != null;
-         * 
+         *
          * } else if (type == EventType.BUSY_STATE_CHANGED) { assert target instanceof Session; assert newval instanceof
          * Boolean; assert newval != null;
-         * 
+         *
          * Session s = (Session) target;
-         * 
+         *
          * synchronized(busySessions) { synchronized (s.getBusyLock()) { if (s.isBusy()) { busySessions.add(s); } } }
-         * 
+         *
          * } checkState(); }
          */
     }

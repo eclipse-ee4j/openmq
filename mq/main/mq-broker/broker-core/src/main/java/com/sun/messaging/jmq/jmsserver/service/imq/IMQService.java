@@ -24,9 +24,7 @@ import java.io.*;
 
 import com.sun.messaging.jmq.jmsserver.service.*;
 import com.sun.messaging.jmq.jmsserver.util.*;
-import com.sun.messaging.jmq.util.*;
 import com.sun.messaging.jmq.jmsserver.auth.AuthCacheData;
-import com.sun.messaging.jmq.jmsserver.auth.AccessController;
 import com.sun.messaging.jmq.jmsserver.net.*;
 import com.sun.messaging.jmq.util.log.Logger;
 import com.sun.messaging.jmq.util.ServiceState;
@@ -75,8 +73,9 @@ public abstract class IMQService implements Service {
     }
 
     protected void addServiceProp(String name, String value) {
-        if (serviceprops == null)
+        if (serviceprops == null) {
             serviceprops = new HashMap();
+        }
         serviceprops.put(name, value);
     }
 
@@ -88,13 +87,15 @@ public abstract class IMQService implements Service {
         }
     }
 
+    @Override
     public Hashtable getDebugState() {
         Hashtable ht = new Hashtable();
         ht.put("name", name);
         ht.put("state", ServiceState.getString(state));
         ht.put("shuttingDown", String.valueOf(isShuttingDown()));
-        if (serviceprops != null)
+        if (serviceprops != null) {
             ht.put("props", new Hashtable(serviceprops));
+        }
         ht.put("connections", connectionList.getDebugState(this));
         return ht;
     }
@@ -107,11 +108,13 @@ public abstract class IMQService implements Service {
      * public void dumpPool() { pool.debug(); }
      */
 
+    @Override
     public int size() {
         List list = connectionList.getConnectionList(this);
         return list.size();
     }
 
+    @Override
     public List getConsumers() {
         ArrayList list = new ArrayList();
         List cons = connectionList.getConnectionList(this);
@@ -123,6 +126,7 @@ public abstract class IMQService implements Service {
         return list;
     }
 
+    @Override
     public List getProducers() {
         ArrayList list = new ArrayList();
         List cons = connectionList.getConnectionList(this);
@@ -138,10 +142,12 @@ public abstract class IMQService implements Service {
         return (null);
     }
 
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getState() {
         return state;
     }
@@ -150,6 +156,7 @@ public abstract class IMQService implements Service {
         this.state = state;
     }
 
+    @Override
     public int getServiceType() {
         return type;
     }
@@ -200,6 +207,7 @@ public abstract class IMQService implements Service {
         return (shuttingDown);
     }
 
+    @Override
     public void stopNewConnections() throws IOException, IllegalStateException {
         if (state != ServiceState.RUNNING) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_STOP_SERVICE));
@@ -207,6 +215,7 @@ public abstract class IMQService implements Service {
         state = ServiceState.QUIESCED;
     }
 
+    @Override
     public void startNewConnections() throws IOException {
         if (state != ServiceState.QUIESCED && state != ServiceState.PAUSED) {
             throw new IllegalStateException(Globals.getBrokerResources().getKString(BrokerResources.X_CANT_START_SERVICE));
@@ -218,9 +227,11 @@ public abstract class IMQService implements Service {
         }
     }
 
+    @Override
     public void destroyService() {
-        if (getState() < ServiceState.STOPPED)
+        if (getState() < ServiceState.STOPPED) {
             stopService(true);
+        }
         synchronized (this) {
             setState(ServiceState.DESTROYED);
             this.notifyAll();
@@ -235,6 +246,7 @@ public abstract class IMQService implements Service {
         return authCacheData;
     }
 
+    @Override
     public void removeConnection(ConnectionUID uid, int reason, String str) {
         connectionList.removeConnection(uid, true, reason, str);
     }
@@ -247,10 +259,12 @@ public abstract class IMQService implements Service {
         return (false);
     }
 
+    @Override
     public String toString() {
         return getName();
     }
 
+    @Override
     public void addServiceRestriction(ServiceRestriction sr) {
         synchronized (serviceress) {
             serviceress.add(sr);
@@ -258,6 +272,7 @@ public abstract class IMQService implements Service {
         }
     }
 
+    @Override
     public void removeServiceRestriction(ServiceRestriction sr) {
         synchronized (serviceress) {
             serviceress.remove(sr);
@@ -265,18 +280,21 @@ public abstract class IMQService implements Service {
         }
     }
 
+    @Override
     public ServiceRestriction[] getServiceRestrictions() {
         synchronized (serviceress) {
             return (ServiceRestriction[]) serviceress.toArray(new ServiceRestriction[serviceress.size()]);
         }
     }
 
+    @Override
     public void addServiceRestrictionListener(ServiceRestrictionListener l) {
         synchronized (serviceress) {
             serviceressListeners.add(l);
         }
     }
 
+    @Override
     public void removeServiceRestrictionListener(ServiceRestrictionListener l) {
         synchronized (serviceress) {
             serviceressListeners.remove(l);

@@ -22,8 +22,6 @@ package com.sun.messaging.jmq.jmsserver.data.handlers.admin;
 
 import java.util.Hashtable;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.util.Vector;
 import java.util.Properties;
 
 import com.sun.messaging.jmq.io.Packet;
@@ -49,6 +47,7 @@ public class UpdateBrokerPropsHandler extends AdminCmdHandler {
      * @param cmd_msg The administration message
      * @param cmd_props The properties from the administration message
      */
+    @Override
     public boolean handle(IMQConnection con, Packet cmd_msg, Hashtable cmd_props) {
 
         int status = Status.OK;

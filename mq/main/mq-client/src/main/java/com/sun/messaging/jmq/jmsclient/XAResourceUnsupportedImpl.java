@@ -20,7 +20,6 @@
 
 package com.sun.messaging.jmq.jmsclient;
 
-import javax.jms.*;
 import javax.transaction.xa.*;
 
 /**
@@ -76,6 +75,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * manager may throw one of the XA_RB* exceptions. Upon return, the resource manager has rolled back the branch's work
      * and has released all held resources.
      */
+    @Override
     public void commit(Xid foreignXid, boolean onePhase) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -107,6 +107,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * @exception XAException An error has occurred. Possible XAException values are XAER_RMERR, XAER_RMFAILED, XAER_NOTA,
      * XAER_INVAL, XAER_PROTO, or XA_RB*.
      */
+    @Override
     public void end(Xid foreignXid, int flags) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -119,6 +120,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, XAER_NOTA,
      * XAER_INVAL, or XAER_PROTO.
      */
+    @Override
     public void forget(Xid foreignXid) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -133,6 +135,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      */
+    @Override
     public int getTransactionTimeout() throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -149,6 +152,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR and XAER_RMFAIL.
      *
      */
+    @Override
     public boolean isSameRM(XAResource foreignXaRes) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -165,6 +169,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * XA_RDONLY or XA_OK. If the resource manager wants to roll back the transaction, it should do so by raising an
      * appropriate XAException in the prepare method.
      */
+    @Override
     public int prepare(Xid foreignXid) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -185,6 +190,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * appropriate XAException.
      *
      */
+    @Override
     public Xid[] recover(int flags) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -196,6 +202,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      *
      * @exception XAException An error has occurred.
      */
+    @Override
     public void rollback(Xid foreignXid) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -215,6 +222,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      *
      * @exception XAException An error has occurred. Possible exception values are XAER_RMERR, XAER_RMFAIL, or XAER_INVAL.
      */
+    @Override
     public boolean setTransactionTimeout(int transactionTimeout) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }
@@ -237,6 +245,7 @@ public class XAResourceUnsupportedImpl implements XAResource {
      * XAER_OUTSIDE, XAER_NOTA, XAER_INVAL, or XAER_PROTO.
      *
      */
+    @Override
     public void start(Xid foreignXid, int flags) throws XAException {
         throw new XAException(XAException.XAER_RMFAIL);
     }

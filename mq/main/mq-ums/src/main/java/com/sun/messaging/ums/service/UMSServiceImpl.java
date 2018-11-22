@@ -70,13 +70,13 @@ public class UMSServiceImpl {
     }
 
     /**
-     * 
+     *
      * XXX chiaming: Multi-vendor support.
-     * 
+     *
      * Here we construct all available messaging providers to UMS.
-     * 
+     *
      * A HashMap that can be searched with vendorID. Each Send/Receive service is mapped to a vendorID.
-     * 
+     *
      * @throws javax.xml.soap.SOAPException
      */
     public void init() throws SOAPException {
@@ -122,7 +122,7 @@ public class UMSServiceImpl {
 
     /**
      * get a list of provider names
-     * 
+     *
      * @return
      */
     private List<String> getProviders() {
