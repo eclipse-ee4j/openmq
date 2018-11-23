@@ -51,7 +51,7 @@ public class KeystoreUtil implements SSLPropertyMap {
 
     public static void clear() {
         keystore_location = null;
-        String pass_phrase = null;
+        pass_phrase = null;
     }
 
     public static String getKeystoreLocation() throws IOException {
