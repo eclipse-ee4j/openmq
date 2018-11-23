@@ -68,8 +68,7 @@
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
         <glassfish.version>5.1.0</glassfish.version>
         
-        <!-- Should be 2.4.4, but at 21-11-2018 not fully staged yet -->
-        <grizzly.version>2.4.3</grizzly.version>
+        <grizzly.version>2.4.4</grizzly.version>
 
         <!-- begin of websocket dependencies -->
         <json.version>1.1.5</json.version>
