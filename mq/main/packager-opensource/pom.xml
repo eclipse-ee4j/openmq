@@ -776,7 +776,7 @@
 
                                 <zip destfile="${ws.dist.bundles.dir}/mq-src.zip"
                                    basedir="${ws.top.dir}"
-                                   includes="main/**,src/**,legal/**,pom.xml,README"
+                                   includes="main/**,src/**,legal/**,pom.xml,README,LICENSE.md,NOTICE.md"
                                 />
 
                             </tasks>

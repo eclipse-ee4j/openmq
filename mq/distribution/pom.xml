@@ -81,30 +81,46 @@
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.gmaven</groupId>
-                <artifactId>groovy-maven-plugin</artifactId>
-                <version>2.1</version>
-                <executions>
-                    <execution>
-                        <id>set-main-artifact</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>execute</goal>
-                        </goals>
-                        <configuration>
-                            <source>
-                                println '### Setting project artifacts for ' + project.version
-                                def projectHelper = container.lookup("org.apache.maven.project.MavenProjectHelper")
-                                
-                                projectHelper.attachArtifact(project, "zip", null, new File("../dist/bundles//mq.zip").canonicalFile)
-                                projectHelper.attachArtifact(project, "zip", "sources", new File("../dist/bundles/mq-src.zip").canonicalFile)
-                            </source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+    	<resources>
+    		<resource>
+                <directory>${project.basedir}/../..</directory>
+                <includes>
+                    <include>LICENSE.md</include>
+                    <include>NOTICE.md</include>
+                </includes>
+                <targetPath>META-INF</targetPath>
+            </resource>
+        </resources>
+
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>build-helper-maven-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+					<execution>
+						<id>attach-artifacts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>attach-artifact</goal>
+						</goals>
+						<configuration>
+							<artifacts>
+								<artifact>
+									<file>../dist/bundles/mq.zip</file>
+									<type>zip</type>
+								</artifact>
+								<artifact>
+									<file>../dist/bundles/mq-src.zip</file>
+									<type>zip</type>
+									<classifier>sources</classifier>
+								</artifact>
+							</artifacts>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+            
         </plugins>
     </build>
 
