@@ -120,19 +120,10 @@
                 <module>portunif</module>
                 <module>jaxm-api</module>
                 <module>mq-jmsra</module>
-                <module>bridge/bridge-api</module>
-                <module>bridge/bridge-admin</module>
-                <module>bridge/bridge-jms</module>
-                <module>bridge/bridge-stomp</module>
+                <module>bridge</module>
                 <module>mq-share</module>
                 <module>mq-direct</module>
-                <module>mq-broker/broker-comm</module>
-                <module>mq-broker/broker-core</module>
-                <module>mq-broker/persist-file</module>
-                <module>mq-broker/persist-jdbc</module>
-                <module>mq-broker/cluster</module>
-                <module>mq-broker/partition/persist-api</module>
-                <module>mq-broker/partition/persist-jdbc</module>
+                <module>mq-broker</module>
                 <module>mq-client</module>
                 <module>mq-admin</module>
                 <!-- FIXME make Ant Goal work if possible in Jenkins module>packager-opensource</module -->

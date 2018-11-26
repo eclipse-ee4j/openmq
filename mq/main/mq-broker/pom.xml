@@ -25,7 +25,6 @@
        <groupId>org.glassfish.mq</groupId>
        <artifactId>mq</artifactId>
        <version>5.1.2-SNAPSHOT</version>
-       <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>mq-broker</artifactId>
@@ -34,14 +33,10 @@
 
     <modules>
 	<module>broker-comm</module>
-	<module>broker-audit</module>
 	<module>broker-core</module>
 	<module>cluster</module>
 	<module>persist-file</module>
-	<module>persist-bdb</module>
 	<module>persist-jdbc</module>
-	<module>persist-inmemory</module>
-	<module>persist-coherence</module>
 	<module>partition</module>
     </modules>
 
