@@ -807,7 +807,7 @@
      <copy file="${packager.artifacts}/grizzly-http-servlet.jar" tofile="${classes.dir}/grizzly-http-servlet.jar"/>  
      <copy file="${packager.artifacts}/jakarta.servlet-api.jar" tofile="${classes.dir}/jakarta.servlet-api.jar"/>
      <copy file="${packager.artifacts}/grizzly-websockets.jar" tofile="${classes.dir}/grizzly-websockets.jar"/>  
-     <copy file="${packager.artifacts}/javax.json.jar" tofile="${classes.dir}/javax.json.jar"/>  
+     <copy file="${packager.artifacts}/jakarta.json.jar" tofile="${classes.dir}/jakarta.json.jar"/>  
      <copy file="${packager.artifacts}/tyrus-standalone-client.jar" tofile="${classes.dir}/tyrus-standalone-client.jar"/>  
    </target>
 

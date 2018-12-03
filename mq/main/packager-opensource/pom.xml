@@ -722,7 +722,7 @@
                                         <include
                                             name="grizzly-websockets.jar" />
                                         <include
-                                            name="javax.json.jar" />
+                                            name="jakarta.json.jar" />
                                         <!-- end websocket broker dependencies -->
 
                                         <!-- begin websocket client dependencies -->
@@ -735,13 +735,13 @@
                                         <include
                                             name="jakarta.transaction-api.jar" />
                                         <include
-                                            name="javax.xml.soap-api.jar" />
+                                            name="jakarta.xml.soap-api.jar" />
                                         <include
                                             name="saaj-impl.jar" />
                                         <include
                                             name="activation.jar" />
                                         <include name="mail.jar" />
-                                        <include name="javax.resource-api.jar" />
+                                        <include name="jakarta.resource-api.jar" />
                                     </fileset>
                                 </copy>
 
@@ -941,8 +941,8 @@
         </dependency>
         <dependency>
             <groupId>org.glassfish</groupId>
-            <artifactId>javax.json</artifactId>
-            <version>1.1</version>
+            <artifactId>jakarta.json</artifactId>
+            <version>1.1.5</version>
         </dependency>
 
         <!-- begin of tyrus client runtime dependencies -->
