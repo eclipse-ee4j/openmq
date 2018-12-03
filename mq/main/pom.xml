@@ -61,9 +61,8 @@
 
         <!-- Versions of dependencies -->
         
-        <!-- Should be 2.5.1 or b63, but not staged yet -->
-        <hk2.version>2.5.0-b62</hk2.version>
-        <hk2.plugin.version>2.5.0-b53</hk2.plugin.version>
+        <hk2.version>2.5.0</hk2.version>
+        <hk2.plugin.version>2.5.0</hk2.plugin.version>
         <hk2.config-generator.version>5.1.0</hk2.config-generator.version>
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
         <glassfish.version>5.1.0</glassfish.version>
