@@ -71,6 +71,8 @@
 
         <!-- begin of websocket dependencies -->
         <json.version>1.1.5</json.version>
+        
+        <!-- Should be 1.15 but not staged correctly yet -->
         <tyrus.version>1.13.1</tyrus.version>
         <!-- end of websocket dependencies -->
 
@@ -81,8 +83,8 @@
 
         <jaf.version>1.2.1</jaf.version>
         <javamail.version>1.6.3</javamail.version>
-        <jakarta.xml.soap-api.version>1.4.0-b01</jakarta.xml.soap-api.version>
-        <saaj-impl.version>1.4.0-b03</saaj-impl.version>
+        <jakarta.xml.soap-api.version>1.4.1</jakarta.xml.soap-api.version>
+        <saaj-impl.version>1.5.1</saaj-impl.version>
         <junit.version>4.12</junit.version>
         <findbugs.skip>false</findbugs.skip>
         <findbugs.threshold>High</findbugs.threshold>
@@ -673,8 +675,8 @@
                 <version>${jsp-api.version}</version>
             </dependency>
             <dependency>
-                <groupId>javax.xml.soap</groupId>
-                <artifactId>javax.xml.soap-api</artifactId>
+                <groupId>jakarta.xml.soap</groupId>
+                <artifactId>jakarta.xml.soap-api</artifactId>
                 <version>${jakarta.xml.soap-api.version}</version>
             </dependency>
             <dependency>

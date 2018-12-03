@@ -78,8 +78,8 @@
              <artifactId>jakarta.servlet-api</artifactId>
          </dependency>
          <dependency>
-             <groupId>javax.xml.soap</groupId>
-             <artifactId>javax.xml.soap-api</artifactId>
+             <groupId>jakarta.xml.soap</groupId>
+             <artifactId>jakarta.xml.soap-api</artifactId>
          </dependency>
          <dependency>
              <groupId>org.glassfish.mq</groupId>
