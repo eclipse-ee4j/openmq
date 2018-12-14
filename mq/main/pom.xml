@@ -56,7 +56,7 @@
         <product.name>Message Queue</product.name>
         <product.abbrevname>MQ</product.abbrevname>
         <product.copyright>Copyright (c) 2012, 2018 Oracle and/or its affiliates. All rights reserved.</product.copyright>
-        <jakarta-jms.version>2.0.1</jakarta-jms.version>
+        <jakarta-jms.version>2.0.2</jakarta-jms.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <!-- Versions of dependencies -->
