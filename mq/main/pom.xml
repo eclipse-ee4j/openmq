@@ -80,7 +80,6 @@
         <jakarta.resource-api.version>1.7.2</jakarta.resource-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
-        <jaf.version>1.2.1</jaf.version>
         <javamail.version>1.6.3</javamail.version>
         <jakarta.xml.soap-api.version>1.4.1</jakarta.xml.soap-api.version>
         <saaj-impl.version>1.5.1</saaj-impl.version>
@@ -850,11 +849,6 @@
             </dependency>
 
             <!-- compile test only -->
-            <dependency>
-                <groupId>jakarta.activation</groupId>
-                <artifactId>activation</artifactId>
-                <version>${jaf.version}</version>
-            </dependency>
             <dependency>
                 <groupId>jakarta.mail</groupId>
                 <artifactId>jakarta.mail-api</artifactId>
