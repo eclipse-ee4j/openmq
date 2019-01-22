@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
 
-    Copyright (c) 2011, 2018 Oracle and/or its affiliates. All rights reserved.
+    Copyright (c) 2011, 2019 Oracle and/or its affiliates. All rights reserved.
 
     This program and the accompanying materials are made available under the
     terms of the Eclipse Public License v. 2.0, which is available at
@@ -63,9 +63,9 @@
         
         <hk2.version>2.5.0</hk2.version>
         <hk2.plugin.version>2.5.0</hk2.plugin.version>
-        <hk2.config-generator.version>5.1.0</hk2.config-generator.version>
+        <hk2.config-generator.version>5.0.1</hk2.config-generator.version>
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
-        <glassfish.version>5.1.0</glassfish.version>
+        <glassfish.version>5.0.1</glassfish.version>
         
         <grizzly.version>2.4.4</grizzly.version>
 
@@ -77,7 +77,7 @@
 
         <servlet-api.version>4.0.2</servlet-api.version>
         <jsp-api.version>2.3.4</jsp-api.version>
-        <jakarta.resource-api.version>1.7.2</jakarta.resource-api.version>
+        <jakarta.resource-api.version>1.7.3</jakarta.resource-api.version>
         <javahelp.version>2.0.06</javahelp.version>
 
         <javamail.version>1.6.3</javamail.version>
@@ -200,7 +200,7 @@
 
 
                 <plugin>
-                    <groupId>org.glassfish.hk2</groupId>
+                    <groupId>org.glassfish.hk2.main</groupId>
                     <artifactId>config-generator</artifactId>
                     <version>${hk2.config-generator.version}</version>
                 </plugin>
