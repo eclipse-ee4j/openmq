@@ -200,7 +200,7 @@
 
 
                 <plugin>
-                    <groupId>org.glassfish.hk2.main</groupId>
+                    <groupId>org.glassfish.main.hk2</groupId>
                     <artifactId>config-generator</artifactId>
                     <version>${hk2.config-generator.version}</version>
                 </plugin>
@@ -390,7 +390,7 @@
             </plugin>
 
             <plugin>
-                <groupId>org.glassfish.hk2</groupId>
+                <groupId>org.glassfish.main.hk2</groupId>
                 <artifactId>config-generator</artifactId>
                 <configuration>
                     <excludes>**/.ade_path/**</excludes>
