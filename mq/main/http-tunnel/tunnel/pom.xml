@@ -24,7 +24,7 @@
     <parent>
        <groupId>org.glassfish.mq</groupId>
        <artifactId>http-tunnel</artifactId>
-       <version>5.1.3-SNAPSHOT</version>
+       <version>5.1.4-RC1</version>
        <relativePath>../pom.xml</relativePath>
     </parent>
 
