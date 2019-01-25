@@ -63,9 +63,9 @@
         
         <hk2.version>2.5.0</hk2.version>
         <hk2.plugin.version>2.5.0</hk2.plugin.version>
-        <hk2.config-generator.version>5.0.1</hk2.config-generator.version>
+        <hk2.config-generator.version>5.1.0-RC2</hk2.config-generator.version>
         <glassfishbuild.version>3.2.4</glassfishbuild.version>
-        <glassfish.version>5.0.1</glassfish.version>
+        <glassfish.version>5.1.0-RC2</glassfish.version>
         
         <grizzly.version>2.4.4</grizzly.version>
 
