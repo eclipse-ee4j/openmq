@@ -30,7 +30,7 @@
     <name>MQ Parent Project</name>
     <groupId>org.glassfish.mq</groupId>
     <artifactId>project</artifactId>
-    <version>5.1.4</version>
+    <version>5.1.5-SNAPSHOT</version>
     <url>https://github.com/eclipse-ee4j/openmq</url>
 
     <scm>
