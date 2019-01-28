@@ -1,0 +1,371 @@
+type=page
+status=published
+title=JES Monitoring Framework Reference
+next=part-appendixes.html
+prev=metrics-information.html
+~~~~~~
+JES Monitoring Framework Reference
+==================================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00053]][[gfomw]]
+
+
+[[jes-monitoring-framework-reference]]
+22 JES Monitoring Framework Reference
+-------------------------------------
+
+This chapter describes the monitoring information items that Message
+Queue exposes through the Sun Java Enterprise System Monitoring
+Framework (JESMF), using the Monitoring Framework's Common Monitoring
+Model (CMM). It contains the following sections:
+
+* link:#gfomt[Common Attributes]
+* link:#gfond[Message Queue Product Information]
+* link:#gfooc[Broker Information]
+* link:#gfoop[Port Mapper Information]
+* link:#gfopb[Connection Service Information]
+* link:#gfomr[Destination Information]
+* link:#gfont[Persistent Store Information]
+* link:#gfomy[User Repository Information]
+
+[[gfomt]][[GMADG00308]][[common-attributes]]
+
+Common Attributes
+~~~~~~~~~~~~~~~~~
+
+The attributes listed in link:#gfopc[Table 22-1] are common to all (or
+almost all) CMM objects.
+
+[[GMADG799]][[sthref266]][[gfopc]]
+
+
+Table 22-1 JESMF Common Object Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Attribute |Description
+|`Name` |Object name
+
+|`Caption` |Short description
+
+|`Description` |Full description
+
+|`LastUpdateTime` |Time last updated
+
+|`OperationalStatus` |Current status (for example, `OK` or `DORMANT`)
+
+|`StatusDescriptions` |Description of status
+
+|`OperationalStatusLastChange` |Time of last change in operational
+status
+|=======================================================================
+
+
+[[gfond]][[GMADG00309]][[message-queue-product-information]]
+
+Message Queue Product Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gfong[Table 22-2] shows attributes of the Message Queue product
+itself that can be accessed with JESMF.
+
+[[GMADG800]][[sthref267]][[gfong]]
+
+
+Table 22-2 JESMF-Accessible Message Queue Product Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Attribute |Description
+|`ProductName` |Product name
+
+|`ProductIdentifyingNumber` a|
+Identifying number of product, in the form
+
+* urn`:`uuid`:`xxxxxxxx`-`xxxx`-`xxxx`-`xxxx`-`xxxxxxxxxxxx
+
+Value changes for every version.
+
+|`ProductVendor` |Vendor name
+
+|`ProductVersion` |Version number
+
+|`RevisionNumber` |Revision number
+
+|`BuildNumber` |Build number
+
+|`PatchID` |Patch identifier (if any)
+
+|`CollectionID` a|
+Identification key for installed product object
+
+Differentiates among product installations; usually identifies the
+installation location.
+
+|`InstallDate` |Installation date
+|=======================================================================
+
+
+[[gfooc]][[GMADG00310]][[broker-information]]
+
+Broker Information
+~~~~~~~~~~~~~~~~~~
+
+link:#gfoog[Table 22-3] shows the JESMF -accessible attributes
+pertaining to each broker instance.
+
+[[GMADG801]][[sthref268]][[gfoog]]
+
+
+Table 22-3 JESMF-Accessible Message Queue Broker Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Attribute |Description
+|`PrimaryOwnerName` |Name of primary system owner (broker property
+`imq.primaryowner.name`; see link:broker-properties.html#gbnns[Table
+17-13])
+
+|`PrimaryOwnerContact` |Contact information for primary system owner
+(broker property `imq.primaryowner.contact`; see
+link:broker-properties.html#gbnns[Table 17-13])
+
+|`Roles` |Array of strings denoting broker's roles (taken from broker
+properties `imq.broker.adminDefinedRoles.name`n; see
+link:broker-properties.html#gbnns[Table 17-13])
+
+|`StartupTime` |Time of last startup (date and time in milliseconds)
+
+|`URL` |URL of Port Mapper
+
+|`ConfigurationDirectory` |Broker instance directory (for example,
+`/var/imq/instances/mybroker`)
+
+|`DirectoryName` a|
+Distinguished name of directory (for example, LDAP) entry where static
+information about application is stored
+
+An empty string indicates that no information about the application is
+available in the directory.
+
+|=======================================================================
+
+
+[[gfoop]][[GMADG00311]][[port-mapper-information]]
+
+Port Mapper Information
+~~~~~~~~~~~~~~~~~~~~~~~
+
+The attributes shown in link:#gfooi[Table 22-4] provide information
+about a broker's Port Mapper.
+
+[[GMADG802]][[sthref269]][[gfooi]]
+
+
+Table 22-4 JESMF-Accessible Message Queue Port Mapper Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|==================================================
+|Attribute |Description
+|`LabeledURI` a|
+URI for accessing Port Mapper, in the form
+
+* `mq://`hostName:portNumber
+
+|`Secured` |Is Port Mapper access secure (SSL/TLS)?
+|==================================================
+
+
+[[gfopb]][[GMADG00312]][[connection-service-information]]
+
+Connection Service Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gfooo[Table 22-5] shows the JESMF -accessible attributes
+pertaining to each connection service.
+
+[[GMADG803]][[sthref270]][[gfooo]]
+
+
+Table 22-5 JESMF-Accessible Message Queue Connection Service Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Attribute |Description
+|`LabeledURI` a|
+URI for accessing connection service, in the form
+
+* `mq://`hostName`:`portNumber`/`serviceName
+
+if dynamically allocated, or
+
+* `mqtcp://`hostName`:`servicePort`/`serviceName
+
+or
+
+* `mqssl://`hostName`:`servicePort`/`serviceName
+
+if statically assigned
+
+|`Secured` |Is connection service access secure (SSL/TLS)?
+
+|`ConnectionsCount` |Current number of connections
+
+|`NumConnectionsCreated` |Cumulative number of connections created since
+broker started
+
+|`FailedConnectionsCount` |Cumulative number of connections rejected
+since broker started
+
+|`CurrentNumberOfThreads` |Current number of threads actively handling
+connections
+
+|`MinThreadPoolSize` |Minimum number of threads maintained in connection
+service's thread pool (broker property `imq.`serviceName`.min_threads`;
+see link:broker-properties.html#gbnni[Table 17-1])
+
+|`MaxThreadPoolSize` |Number of threads beyond which no new threads are
+added to thread pool for use by connection service (broker property
+`imq.`serviceName`.max_threads`; see
+link:broker-properties.html#gbnni[Table 17-1])
+
+|`NumProducers` |Current number of message producers
+
+|`NumConsumers` |Current number of message consumers
+
+|`NumMsgsIn` |Cumulative number of messages received since broker
+started
+
+|`NumMsgsOut` |Cumulative number of messages sent since broker started
+
+|`InBytesCount` |Cumulative size in bytes of messages received since
+broker started
+
+|`OutBytesCount` |Cumulative size in bytes of messages sent since broker
+started
+
+|`NumPktsIn` |Cumulative number of packets received since broker started
+
+|`NumPktsOut` |Cumulative number of packets sent since broker started
+
+|`PktBytesIn` |Cumulative size in bytes of packets received since broker
+started
+
+|`PktBytesOut` |Cumulative size in bytes of packets sent since broker
+started
+|=======================================================================
+
+
+[[gfomr]][[GMADG00313]][[destination-information]]
+
+Destination Information
+~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gfomk[Table 22-6] shows the JESMF -accessible attributes
+pertaining to each destination. Each of these attributes corresponds to
+a Message Queue physical destination property; see
+link:physical-destination-properties.html#gbnne[Table 18-1] for further
+information.
+
+[[GMADG804]][[sthref271]][[gfomk]]
+
+
+Table 22-6 JESMF-Accessible Message Queue Destination Attributes
+
+[width="100%",cols="30%,30%,40%",options="header",]
+|=======================================================================
+|Attribute |Corresponding Property |Description
+|`Type` | + |Destination type (`q` = queue, `t` = topic)
+
+|`MaxNumMsgs` |`maxNumMsgs` |Maximum number of unconsumed messages
+
+|`MaxBytesPerMsg` |`maxBytesPerMsg` |Maximum size, in bytes, of any
+single message
+
+|`MaxTotalMsgBytes` |`maxTotalMsgBytes` |Maximum total memory, in bytes,
+for unconsumed messages
+
+|`LimitBehavior` |`limitBehavior` |Broker behavior when memory-limit
+threshold reached
+
+|`MaxNumProducers`link:#foot-nodmq2[^Foot 1 ^] |`maxNumProducers`
+|Maximum number of associated message producers
+
+|`MaxNumActiveConsumers`link:#foot-queueonly4[^Foot 2 ^]
+|`maxNumActiveConsumers` |Maximum number of associated active message
+consumers in load-balanced delivery
+
+|`MaxNumBackupConsumers`link:#sthref272[^Footref 2^]
+|`maxNumBackupConsumers` |Maximum number of associated backup message
+consumers in load-balanced delivery
+
+|`ConsumerFlowLimit` |`consumerFlowLimit` |Maximum number of messages
+delivered to consumer in a single batch
+
+|`LocalOnly`link:#sthref273[^Footref 1^] |`isLocalOnly` |Local delivery
+only?
+
+|`LocalDeliveryPreferred`link:#sthref274[^Footref 1^]
+^,^link:#sthref275[^Footref 2^] |`localDeliveryPreferred` |Local
+delivery preferred?
+
+|`UseDMQ`link:#sthref276[^Footref 1^] |`useDMQ` |Send dead messages to
+dead message queue?
+|=======================================================================
+
+
+^Footnote 1 ^Does not apply to dead message queue
+
+^Footnote 2 ^Queue destinations only
+
+[[gfont]][[GMADG00314]][[persistent-store-information]]
+
+Persistent Store Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The attributes shown in link:#gfomi[Table 22-7] pertain to the
+persistent data store.
+
+[[GMADG805]][[sthref277]][[gfomi]]
+
+
+Table 22-7 JESMF-Accessible Message Queue Persistent Store Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|======================================================
+|Attribute |Description
+|`AccessInfo` |URL for accessing JDBC database
+|`InfoFormat` |Format of `AccessInfo` attribute (`URL`)
+|`JDBCDriver` |JDBC driver
+|`UserName` |User name for authentication
+|======================================================
+
+
+[[gfomy]][[GMADG00315]][[user-repository-information]]
+
+User Repository Information
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The attributes shown in link:#gfoob[Table 22-8] pertain to the LDAP user
+repository.
+
+[[GMADG806]][[sthref278]][[gfoob]]
+
+
+Table 22-8 JESMF-Accessible Message Queue User Repository Attributes
+
+[width="100%",cols="30%,70%",options="header",]
+|======================================================
+|Attribute |Description
+|`AccessInfo` |URL for accessing LDAP server
+|`InfoFormat` |Format of `AccessInfo` attribute (`URL`)
+|`Base` |Root or base node for user lookup
+|`GroupBase` |Root or base node for group lookup
+|`UserName` |User name for authentication
+|======================================================
+
+
+

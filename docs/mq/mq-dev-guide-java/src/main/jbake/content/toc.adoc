@@ -1,0 +1,415 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Developer's Guide for Java Clients, Release 5.1.3
+next=title.html
+~~~~~~
+Eclipse Open Message Queue Developer's Guide for Java Clients, Release 5.1.3
+============================================================================
+
+[[contents]]
+Contents
+--------
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#gblyj[Who Should Use This Book]
+* link:preface.html#gblxf[Before You Read This Book]
+* link:preface.html#gblxh[How This Book Is Organized]
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+[[overview]]
+link:overview.html#aeqaq[1 Overview]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:overview.html#aeqar[Setting Up Your Environment]
+* link:overview.html#aeqas[Starting and Testing a Message Broker]
+
+** link:overview.html#gboup[To Start a Broker]
+
+** link:overview.html#gbott[To Test a Broker]
+* link:overview.html#aeqat[Developing a Client Application]
+
+** link:overview.html#gbotf[To Produce Messages]
+
+** link:overview.html#gboty[To Consume Messages]
+* link:overview.html#aeqau[Compiling and Running a Client Application]
+
+** link:overview.html#gbosw[To Compile and Run the HelloWorldMessage
+Application]
+* link:overview.html#aeqav[Deploying a Client Application]
+* link:overview.html#aeqaw[Example Application Code]
+
+[[message-queue-clients-design-and-features]]
+link:client-design-and-features.html#aeqcq[2 Message Queue Clients: Design and Features]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:client-design-and-features.html#aeqcr[Client Design
+Considerations]
+
+** link:client-design-and-features.html#aeqcs[Developing Portable
+Clients]
+
+** link:client-design-and-features.html#aeqct[Choosing which JMS API to
+Use]
+
+** link:client-design-and-features.html#aeqcu[Connections and Sessions]
+
+** link:client-design-and-features.html#sthref6[JMSContext]
+
+** link:client-design-and-features.html#aeqcv[Producers and Consumers]
+*** link:client-design-and-features.html#aeqcw[Assigning Client
+Identifiers]
+*** link:client-design-and-features.html#aeqcx[Message Order and
+Priority]
+*** link:client-design-and-features.html#aeqcy[Using Selectors
+Efficiently]
+
+** link:client-design-and-features.html#aeqcz[Balancing Reliability and
+Performance]
+* link:client-design-and-features.html#aeqda[Managing Client Threads]
+
+** link:client-design-and-features.html#aeqdb[JMS Threading Restrictions]
+
+** link:client-design-and-features.html#aeqdc[Thread Allocation for
+Connections]
+* link:client-design-and-features.html#aeqdd[Managing Memory and
+Resources]
+
+** link:client-design-and-features.html#aeqde[Managing Memory]
+
+** link:client-design-and-features.html#aeqdf[Managing Message Size]
+*** link:client-design-and-features.html#aeqdg[Message Compression]
+*** link:client-design-and-features.html#aeqdh[Advantages and Limitations
+of Compression]
+*** link:client-design-and-features.html#aeqdi[Compression Examples]
+
+** link:client-design-and-features.html#aeqdj[Managing the Dead Message
+Queue]
+
+** link:client-design-and-features.html#aeqdk[Managing Physical
+Destination Limits]
+* link:client-design-and-features.html#aeqdl[Programming Issues for
+Message Consumers]
+
+** link:client-design-and-features.html#aeqdm[Using the Client Runtime
+Ping Feature]
+
+** link:client-design-and-features.html#aeqdn[Preventing Message Loss for
+Synchronous Consumers]
+
+** link:client-design-and-features.html#aeqdo[Synchronous Consumption in
+Distributed Applications]
+* link:client-design-and-features.html#aeqdp[Factors Affecting
+Performance]
+
+** link:client-design-and-features.html#aeqdq[Delivery Mode
+(Persistent/Nonpersistent)]
+
+** link:client-design-and-features.html#aeqdr[Use of Transactions]
+
+** link:client-design-and-features.html#aeqds[Acknowledgment Mode]
+
+** link:client-design-and-features.html#aeqdt[Durable vs. Nondurable
+Subscriptions]
+
+** link:client-design-and-features.html#aeqdu[Use of Selectors (Message
+Filtering)]
+*** link:client-design-and-features.html#aeqdv[Message Size]
+*** link:client-design-and-features.html#aeqdw[Message Body Type]
+* link:client-design-and-features.html#gcbkz[Connection Event
+Notification]
+
+** link:client-design-and-features.html#gcblp[Connection Events]
+
+** link:client-design-and-features.html#gcblg[Creating an Event Listener]
+
+** link:client-design-and-features.html#gcbla[Event Listener Examples]
+* link:client-design-and-features.html#gkvyk[Consumer Event Notification]
+
+** link:client-design-and-features.html#gkvxy[Consumer Events]
+
+** link:client-design-and-features.html#gkvxz[Creating a Consumer Event
+Listener]
+
+** link:client-design-and-features.html#gkvym[Consumer Event Listener
+Examples]
+* link:client-design-and-features.html#aeqdx[Client Connection Failover
+(Auto-Reconnect)]
+
+** link:client-design-and-features.html#aeqdy[Enabling Auto-Reconnect]
+*** link:client-design-and-features.html#aeqec[Single-Broker
+Auto-Reconnect]
+*** link:client-design-and-features.html#aeqed[Parallel Broker
+Auto-Reconnect]
+*** link:client-design-and-features.html#aeqee[Clustered-Broker
+Auto-Reconnect]
+
+** link:client-design-and-features.html#gfoak[Auto-Reconnect Behaviors]
+
+** link:client-design-and-features.html#aeqea[Auto-Reconnect Limitations]
+
+** link:client-design-and-features.html#gczqs[Handling Exceptions When
+Failover Occurs]
+*** link:client-design-and-features.html#gczqp[Handling Exceptions in a
+Transacted Session]
+*** link:client-design-and-features.html#gczqm[Handling Exceptions in a
+Non-Transacted Session]
+* link:client-design-and-features.html#aeqef[Custom Client
+Acknowledgment]
+
+** link:client-design-and-features.html#aeqeg[Using Client Acknowledge
+Mode]
+
+** link:client-design-and-features.html#aeqeh[Using No Acknowledge Mode]
+* link:client-design-and-features.html#gglft[Schema Validation of XML
+Payload Messages]
+* link:client-design-and-features.html#aeqei[Communicating with C
+Clients]
+* link:client-design-and-features.html#gcbii[Client Runtime Logging]
+
+** link:client-design-and-features.html#gcbke[Logging Name Spaces,
+Levels, and Activities]
+
+** link:client-design-and-features.html#gcblo[Using the JRE Logging
+Configuration File]
+
+** link:client-design-and-features.html#gcbkm[Using a Logging
+Configuration File for a Specific Application]
+
+** link:client-design-and-features.html#gcbkk[Setting the Logging
+Configuration Programmatically]
+
+[[the-jms-simplified-api]]
+link:using-the-simplifed-java-api.html#BGBFAEAG[3 The JMS Simplified API]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:using-the-simplifed-java-api.html#BABCIBDI[Using the Simplified
+API]
+
+** link:using-the-simplifed-java-api.html#sthref14[Using the
+Autocloseable Interface]
+
+** link:using-the-simplifed-java-api.html#sthref15[Simplified Extraction
+of Message Bodies]
+* link:using-the-simplifed-java-api.html#BABCEIJG[Developing a JMS Client
+using the Simplified API]
+* link:using-the-simplifed-java-api.html#BABFIDDI[Working With
+Connections]
+* link:using-the-simplifed-java-api.html#BABHBBGG[Working With
+Destinations]
+* link:using-the-simplifed-java-api.html#BABFJEHJ[Working With Messages]
+
+** link:using-the-simplifed-java-api.html#sthref17[Message Structure]
+*** link:using-the-simplifed-java-api.html#BABGEIDC[Message Headers]
+*** link:using-the-simplifed-java-api.html#BABFAGED[Changes for Standard
+JMS 2.0 Message Properties]
+
+** link:using-the-simplifed-java-api.html#BABIJCJD[Sending Messages]
+
+** link:using-the-simplifed-java-api.html#sthref23[Simplified API methods
+for Asynchronous Sends]
+
+** link:using-the-simplifed-java-api.html#BABECHCG[Receiving Messages]
+*** link:using-the-simplifed-java-api.html#sthref24[Using Shared
+Non-durable Subscriptions]
+*** link:using-the-simplifed-java-api.html#sthref25[Using Shared Durable
+Subscriptions]
+*** link:using-the-simplifed-java-api.html#sthref26[Starting Message
+Delivery]
+
+** link:using-the-simplifed-java-api.html#BABGJDBF[Processing Messages]
+*** link:using-the-simplifed-java-api.html#sthref27[Retrieving Message
+Header Fields]
+
+[[the-jms-classic-api]]
+link:using-the-java-api.html#aeqax[4 The JMS Classic API]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:using-the-java-api.html#aeqay[Messaging Domains]
+* link:using-the-java-api.html#aeqaz[Working With Connections]
+
+** link:using-the-java-api.html#aeqba[Obtaining a Connection Factory]
+*** link:using-the-java-api.html#aeqbb[Looking Up a Connection Factory
+With JNDI]
+*** link:using-the-java-api.html#aeqbc[Overriding Configuration Settings]
+*** link:using-the-java-api.html#aeqbd[Instantiating a Connection
+Factory]
+
+** link:using-the-java-api.html#aeqbe[Using Connections]
+
+** link:using-the-java-api.html#gcvuc[Creating Secure Connections (SSL)]
+* link:using-the-java-api.html#aeqbf[Working With Destinations]
+
+** link:using-the-java-api.html#aeqbg[Looking Up a Destination With JNDI]
+*** link:using-the-java-api.html#gbotz[To Look Up a Destination With
+JNDI]
+
+** link:using-the-java-api.html#aeqbh[Instantiating a Destination]
+
+** link:using-the-java-api.html#aeqbi[Temporary Destinations]
+* link:using-the-java-api.html#aeqbj[Working With Sessions]
+
+** link:using-the-java-api.html#aeqbk[Acknowledgment Modes]
+
+** link:using-the-java-api.html#gdydy[Transacted Sessions]
+* link:using-the-java-api.html#aeqbm[Working With Messages]
+
+** link:using-the-java-api.html#aeqbn[Message Structure]
+*** link:using-the-java-api.html#aeqbo[Message Header]
+*** link:using-the-java-api.html#aeqbp[Message Properties]
+*** link:using-the-java-api.html#aeqbq[Message Body]
+
+** link:using-the-java-api.html#aeqbr[Composing Messages]
+*** link:using-the-java-api.html#aeqbs[Composing Text Messages]
+*** link:using-the-java-api.html#aeqbt[Composing Stream Messages]
+*** link:using-the-java-api.html#aeqbu[Composing Map Messages]
+*** link:using-the-java-api.html#aeqbv[Composing Object Messages]
+*** link:using-the-java-api.html#aeqbw[Composing Bytes Messages]
+
+** link:using-the-java-api.html#aeqbx[Sending Messages]
+*** link:using-the-java-api.html#BGBGDFBA[Asynchronous send]
+
+** link:using-the-java-api.html#aeqby[Receiving Messages]
+*** link:using-the-java-api.html#aeqbz[Creating Message Consumers]
+*** link:using-the-java-api.html#aeqcc[Receiving Messages Synchronously]
+*** link:using-the-java-api.html#aeqcd[Receiving Messages Asynchronously]
+*** link:using-the-java-api.html#aeqce[Acknowledging Messages]
+*** link:using-the-java-api.html#aeqcf[Browsing Messages]
+*** link:using-the-java-api.html#aeqcg[Closing a Consumer]
+
+** link:using-the-java-api.html#aeqch[Processing Messages]
+*** link:using-the-java-api.html#aeqci[Retrieving Message Header Fields]
+*** link:using-the-java-api.html#aeqcj[Retrieving Message Properties]
+*** link:using-the-java-api.html#aeqck[Processing the Message Body]
+*** link:using-the-java-api.html#sthref53[Simplified Extraction of
+Message Bodies]
+* link:using-the-java-api.html#BGBGIECH[Using the Autocloseable
+Interface]
+
+[[using-the-metrics-monitoring-api]]
+link:using-the-metrics-monitoring-api.html#aeqej[5 Using the Metrics Monitoring API]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:using-the-metrics-monitoring-api.html#aeqek[Monitoring Overview]
+
+** link:using-the-metrics-monitoring-api.html#aeqel[Administrative Tasks]
+
+** link:using-the-metrics-monitoring-api.html#aeqem[Implementation
+Summary]
+*** link:using-the-metrics-monitoring-api.html#gbowb[To Implement
+Message-Based Monitoring]
+* link:using-the-metrics-monitoring-api.html#aeqen[Creating a
+Metrics-Monitoring Client]
+
+** link:using-the-metrics-monitoring-api.html#gbouy[To Monitor Broker
+Metrics]
+* link:using-the-metrics-monitoring-api.html#aeqeo[Format of Metrics
+Messages]
+
+** link:using-the-metrics-monitoring-api.html#aeqep[Broker Metrics]
+*** link:using-the-metrics-monitoring-api.html#aeqeq[JVM Metrics]
+*** link:using-the-metrics-monitoring-api.html#aeqer[Destination-List
+Metrics]
+*** link:using-the-metrics-monitoring-api.html#aeqes[Destination Metrics]
+* link:using-the-metrics-monitoring-api.html#aeqet[Metrics Monitoring
+Client Code Examples]
+
+** link:using-the-metrics-monitoring-api.html#aeqeu[A Broker Metrics
+Example]
+*** link:using-the-metrics-monitoring-api.html#aeqev[A Destination List
+Metrics Example]
+*** link:using-the-metrics-monitoring-api.html#aeqew[A Destination
+Metrics Example]
+
+[[working-with-soap-messages]]
+link:soap-messages.html#aeqex[6 Working with SOAP Messages]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:soap-messages.html#aeqey[What is SOAP?]
+
+** link:soap-messages.html#aeqez[SOAP with Attachments API for Java]
+*** link:soap-messages.html#aeqfa[The Transport Layer]
+*** link:soap-messages.html#aeqfb[The SOAP Layer]
+*** link:soap-messages.html#aeqfc[The Language Implementation Layer]
+*** link:soap-messages.html#aeqfd[The Profiles Layer]
+*** link:soap-messages.html#aeqfe[Interoperability]
+
+** link:soap-messages.html#aeqff[The SOAP Message]
+
+** link:soap-messages.html#aeqfg[SOAP Packaging Models]
+* link:soap-messages.html#aeqfh[SOAP Messaging in JAVA]
+
+** link:soap-messages.html#aeqfi[The SOAP Message Object]
+*** link:soap-messages.html#aeqfj[Inherited Methods]
+*** link:soap-messages.html#aeqfk[Namespaces]
+
+** link:soap-messages.html#aeqfo[Destination, Message Factory, and
+Connection Objects]
+*** link:soap-messages.html#aeqfp[Endpoint]
+*** link:soap-messages.html#aeqft[Message Factory]
+*** link:soap-messages.html#aeqfu[Connection]
+*** link:soap-messages.html#gdysa[SOAP Connection]
+* link:soap-messages.html#aeqfx[SOAP Messaging Models and Examples]
+
+** link:soap-messages.html#aeqfy[SOAP Messaging Programming Models]
+
+** link:soap-messages.html#aeqga[Working with Attachments]
+*** link:soap-messages.html#gboxw[To Create and Add an Attachment]
+
+** link:soap-messages.html#aeqgb[Exception and Fault Handling]
+
+** link:soap-messages.html#aeqgc[Writing a SOAP Client]
+*** link:soap-messages.html#gboxv[To Write a SOAP Client for
+Point-to-Point Messaging]
+
+** link:soap-messages.html#aeqgd[Writing a SOAP Service]
+*** link:soap-messages.html#aeqge[Disassembling Messages]
+*** link:soap-messages.html#aeqgf[Handling Attachments]
+*** link:soap-messages.html#aeqgg[Replying to Messages]
+*** link:soap-messages.html#aeqgh[Handling SOAP Faults]
+* link:soap-messages.html#aeqgk[Integrating SOAP and Message Queue]
+
+** link:soap-messages.html#aeqgl[Example 1: Deferring SOAP Processing]
+*** link:soap-messages.html#gboxx[To Transform the SOAP Message into a
+JMS Message and Send the JMS Message]
+*** link:soap-messages.html#gboxh[To Receive the JMS Message, Transform
+it into a SOAP Message, and Process It]
+
+** link:soap-messages.html#aeqgm[Example 2: Publishing SOAP Messages]
+
+** link:soap-messages.html#aeqgn[Code Samples]
+
+[[embedding-a-message-queue-broker-in-a-java-client]]
+link:embedded-brokers.html#gjmtl[7 Embedding a Message Queue Broker in a Java Client]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:embedded-brokers.html#gjmtr[Creating, Initializing and Starting an
+Embedded Broker]
+
+** link:embedded-brokers.html#gjmth[Creating a Broker Event Listener]
+
+** link:embedded-brokers.html#gjmue[Arguments to Specify When
+Initializing an Embedded Broker]
+* link:embedded-brokers.html#gjmul[Creating a Direct Connection to an
+Embedded Broker]
+* link:embedded-brokers.html#gjmuf[Creating a TCP Connection to an
+Embedded Broker]
+* link:embedded-brokers.html#gjmto[Stopping and Shutting Down an Embedded
+Broker]
+* link:embedded-brokers.html#gjmtz[Embedded Broker Example]
+
+[[a-warning-messages-and-client-error-codes]]
+link:warning-messages_error-codes.html#aeqgo[A Warning Messages and Client Error Codes]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:warning-messages_error-codes.html#gboyb[Warning Messages and Error
+Codes]
+
+

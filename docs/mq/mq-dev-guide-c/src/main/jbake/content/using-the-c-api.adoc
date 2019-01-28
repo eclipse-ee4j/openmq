@@ -1,0 +1,1995 @@
+type=page
+status=published
+title=Using the C API
+next=client-design-issues.html
+prev=introduction.html
+~~~~~~
+Using the C API
+===============
+
+[[GMCCG00003]][[aelba]]
+
+
+[[using-the-c-api]]
+2 Using the C API
+-----------------
+
+This chapter describes how to use C functions to accomplish specific
+tasks and provides brief code samples to illustrate some of these tasks.
+(For clarity, the code examples shown in the following sections omit a
+function call status check.)
+
+Following a brief discussion of overall design and a summary of client
+tasks, the topics covered include the following:
+
+* link:#aelbc[Message Queue C Client Setup Operations]
+* link:#aelbd[Working With Properties]
+* link:#aelbg[Working With Connections]
+* link:#aelbq[Working With Sessions and Destinations]
+* link:#aelcb[Working With Messages]
+* link:#aelcm[Error Handling]
+* link:#aelcn[Memory Management]
+* link:#aelco[Logging]
+
+This chapter does not provide exhaustive information about each
+function. For detailed function information, please see the description
+of that function in link:reference.html#aeldi[Reference].
+
+For information on building Message Queue C programs, see
+link:client-design-issues.html#aelcp[Client Design Issues].
+
+[[aelbc]][[GMCCG00040]][[message-queue-c-client-setup-operations]]
+
+Message Queue C Client Setup Operations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The general procedures for producing and consuming messages are
+introduced below. The procedures have a number of common steps which
+need not be duplicated if a client is both producing and consuming
+messages.
+
+[[gblxv]][[GMCCG00016]][[to-set-up-a-message-queue-c-client-to-produce-messages]]
+
+To Set Up a Message Queue C Client to Produce Messages
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Call the `MQCreateProperties` function to get a handle to a
+properties object.
+2.  Use one or more of the `MQSet...Property` functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.
+3.  Use the `MQCreateConnection` function to create a connection.
+4.  Use the `MQCreateSession` function to create a session and to
+specify its acknowledge mode and its receive mode. If the session will
+be used only for producing messages, use the receive mode
+`MQ_SESSION_SYNC_RECEIVE` to avoid creating a thread for asynchronous
+message delivery.
+5.  Use the `MQCreateDestination` function to specify a physical
+destination on the broker. The destination name you specify must be the
+same as the name of the physical destination.
+6.  Use the `MQCreateMessageProducer` function or the
+`MQCreateMessageProducerForDestination` function to create a message
+producer. (If you plan to send a lot of messages to the same
+destination, you should use the `MQCreateMessageProducerForDestination`
+function.)
+7.  Use the `MQCreateBytesMessage` function or the `MQCreateTextMessage`
+function to get a newly created message handle.
+8.  [[BABHDHAG]] +
+Call the `MQCreateProperties` function to get a handle to a properties
+object that will describe the message header properties. This is only
+required if you want to set a message header property.
+9.  [[BABFAHGI]] +
+Use one or more of the `MQSet...Property` functions to set properties
+that specify the value of the message header properties you want to set.
+10. Use the `MQSetMessageHeaders` function, passing a handle to the
+properties object you created in Step link:#BABHDHAG[8] and Step
+link:#BABFAHGI[9].
+11. Repeat Step link:#BABHDHAG[8] if you want to define custom message
+properties, and then use the `MQSetMessageProperties` function to set
+these properties for your message.
+12. Use the `MQSetMessageReplyTo` function if you want to specify a
+destination where replies to the message are to be sent.
+13. Use one of the `MQSendMessage...` functions to send the message.
+
+[[gblxa]][[GMCCG00017]][[to-set-up-a-message-queue-c-client-to-consume-messages-synchronously]]
+
+To Set Up a Message Queue C Client to Consume Messages Synchronously
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Call the `MQCreateProperties` function to get a handle to a
+properties object.
+2.  Use one or more of the `MQSet...Property` functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.
+3.  Use the `MQCreateConnection` function to create a connection.
+4.  Use the `MQCreateSession` function to create a session and to
+specify its receive mode. Specify `MQ_SESSION_SYNC_RECEIVE` for a
+synchronous session.
+5.  Use the `MQCreateDestination` function to specify a destination on
+the broker from which the consumer is to receive messages. The
+destination name you specify must be the same as the name of the
+physical destination.
+6.  Use the `MQCreateMessageConsumer` function or the
+`MQCreateDurableMessageConsumer` function to create a consumer.
+7.  Use the `MQStartConnection` function to start the connection.
+8.  Use one of the `MQReceiveMessage...` functions to start message
+delivery.
+
+[[gblxg]][[GMCCG00018]][[to-set-up-a-message-queue-c-client-to-consume-messages-asynchronously]]
+
+To Set Up a Message Queue C Client to Consume Messages Asynchronously
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Call the `MQCreateProperties` function to get a handle to a
+properties object.
+2.  Use one or more of the `MQSet...Property` functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.
+3.  Use the `MQCreateConnection` function to create a connection.
+4.  Use the `MQCreateSession` function to create a session and to
+specify its acknowledge mode and its receive mode. Specify
+`MQ_SESSION_ASYNC_RECEIVE` for asynchronous message delivery.
+5.  Use the `MQCreateDestination` function to specify a destination on
+the broker from which the consumer is to receive messages. The logical
+destination name you specify must be the same as the name of the
+physical destination.
+6.  Write a callback function of type `MQMessageListenerFunc` that will
+be called when the broker starts message delivery. In the body of this
+callback function, use the functions described in link:#aelcl[Processing
+a Message] , to process the contents of the incoming message.
+7.  Use the `MQCreateAsyncMessageConsumer` function or the
+`MQCreateAsyncDurableMessageConsumer` function to create a consumer.
+8.  Use the `MQStartConnection` function to start the connection and
+message delivery.
+
+[[aelbd]][[GMCCG00041]][[working-with-properties]]
+
+Working With Properties
+~~~~~~~~~~~~~~~~~~~~~~~
+
+When you create a connection, set message header properties, or set
+user-defined message properties, you must pass a handle to a properties
+object. You use the `MQCreateProperties` function to create this object
+and to obtain a handle to it. When you receive a message, you can use
+specific `MQGet...Property` functions to obtain the type and value of
+each message property.
+
+This section describes the functions you use to set and get properties.
+A property is defined as a key-value pair.
+
+[[aelbe]][[GMCCG00308]][[setting-connection-and-message-properties]]
+
+Setting Connection and Message Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You use the functions listed in link:#gblxi[Table 2-1] to create a
+handle to a properties object, and to set properties. You can use these
+functions to create and define properties for connections or for
+individual messages.
+
+Set message properties and message header properties using the same
+procedure you use to set connection properties. You can set the
+following message header properties for sending a message:
+
+* `MQ_CORRELATION_ID_HEADER_PROPERTY`
+* `MQ_MESSAGE_TYPE_HEADER_PROPERTY`
+
+For more information, see the description of the
+link:reference.html#aelgg[MQSetMessageProperties] function.
+
+[[GMCCG422]][[sthref6]][[gblxi]]
+
+
+Table 2-1 Functions Used to Set Properties
+
+[width="100%",cols="37%,63%",options="header",]
+|============================================================
+|Function |Description
+a|
+link:reference.html#aeleg[MQCreateProperties]
+
+
+ |Creates a properties object and passes back a handle to it.
+a|
+link:reference.html#aelfx[MQSetBoolProperty]
+
+
+ |Sets an `MQBool` property.
+a|
+link:reference.html#aelgi[MQSetStringProperty]
+
+
+ |Sets an `MQString` property.
+a|
+link:reference.html#aelge[MQSetInt8Property]
+
+
+ |Sets an `MQInt8` property.
+a|
+link:reference.html#aelgb[MQSetInt16Property]
+
+
+ |Sets an `MQInt16` property.
+a|
+link:reference.html#aelgc[MQSetInt32Property]
+
+
+ |Sets an `MQInt32` property.
+a|
+link:reference.html#aelgd[MQSetInt64Property]
+
+
+ |Sets an `MQInt64` property.
+a|
+link:reference.html#aelfz[MQSetFloat32Property]
+
+
+ |Sets an `MQFloat32` property.
+a|
+link:reference.html#aelga[MQSetFloat64Property]
+
+
+ |Sets an `MQFloat64` property.
+|============================================================
+
+
+[[gblyc]][[GMCCG00019]][[to-set-properties-for-a-connection]]
+
+To Set Properties for a Connection
+++++++++++++++++++++++++++++++++++
+
+1.  Call the `MQCreateProperties` function to get a handle to a newly
+created properties object.
+2.  Call one of the `MQSet...Property` functions to set one of the
+connection properties described in link:reference.html#gcsrb[Table 4-2] .
+At a minimum, you must specify the name of the host of the broker to
+which you want to connect and its port number. +
+Which function you call depends on the type of the property you want to
+set; for example, to set an `MQString` property, you call the
+`MQSetStringProperty` function; to set an `MQBool` property, you call
+the `MQSetBoolProperty` function; and so on. Each function that sets a
+property requires that you pass a key name and value; these are listed
+and described in link:reference.html#gcsrb[Table 4-2].
+3.  When you have set all the properties you want to define for the
+connection, you can then create the connection, by calling the
+`MQCreateConnection` function. +
+Once the connection is created with the properties you specify, you
+cannot change its properties. If you need to change connection
+properties after you have created a connection, you will need to destroy
+the old connection and its associated objects and create a new one with
+the desired properties. It is a good idea to think through the desired
+behavior before you create a connection. +
+The code sample below illustrates how you create a properties handle and
+how you use it for setting connection properties. +
+[source,oac_no_warn]
+----
+MQStatus status;
+MQPropertiesHandle propertiesHandle = MQ_INVALID_HANDLE;
+
+status = (MQCreateProperties(&propertiesHandle);
+
+status = (MQSetStringProperty(propertiesHandle,
+           MQ_BROKER_HOST_PROPERTY, "localhost"));
+
+status = (MQSetInt32Property(propertiesHandle,
+           MQ_BROKER_PORT_PROPERTY, 7676));
+
+status = MQSetStringProperty(propertiesHandle,
+          MQ_CONNECTION_TYPE_PROPERTY, "TCP"));
+                  
+----
+The Message Queue C client runtime sets the connection properties that
+specify the name and version of the Message Queue product; you can
+retrieve these using the
+functionlink:reference.html#aelfe[MQGetMetaData]. These properties are
+described at the end of link:reference.html#gcsrb[Table 4-2], starting
+with `MQ_NAME_PROPERTY`.
+
+[[aelbf]][[GMCCG00309]][[getting-message-properties]]
+
+Getting Message Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When you receive a message, if you are interested in the message
+properties, you need to obtain a handle to the properties object
+associated with that message:
+
+* Use the `MQGetMessageProperties` function to obtain a handle to the
+properties object for user-defined properties.
+* If you are interested in any message header properties, use the
+`MQGetMessageHeaderProperties` function to obtain a handle to the header
+properties. See link:reference.html#aelfa[MQGetMessageHeaders].
+
+Having obtained the handle, you can iterate through the properties and
+then use the appropriate `MQGet...Property` function to determine the
+type and value of each property.
+
+link:#gblxq[Table 2-2] lists the functions you use to iterate through a
+properties handle and to obtain the type and value of each property.
+
+[[GMCCG423]][[sthref7]][[gblxq]]
+
+
+Table 2-2 Functions Used to Get Message Properties
+
+[width="100%",cols="40%,60%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#aelfn[MQPropertiesKeyIterationStart]
+
+
+ |Starts the iteration process through the specified properties handle.
+
+a|
+link:reference.html#aelfm[MQPropertiesKeyIterationHasNext]
+
+
+ |Returns `MQ_TRUE` if there are additional property keys left in the
+iteration.
+
+a|
+link:reference.html#aelfl[MQPropertiesKeyIterationGetNext]
+
+
+ |Passes back the address of the next property key in the referenced
+property handle.
+
+a|
+link:reference.html#aelff[MQGetPropertyType]
+
+
+ |Gets the type of the specified property.
+
+a|
+link:reference.html#aeleq[MQGetBoolProperty]
+
+
+ |Gets the value of the specified `MQBool` type property.
+
+a|
+link:reference.html#aelfi[MQGetStringProperty]
+
+
+ |Gets the value of the specified `MQString` type property.
+
+a|
+link:reference.html#aelez[MQGetInt8Property]
+
+
+ |Gets the value of the specified `MQInt8` type property.
+
+a|
+link:reference.html#aelew[MQGetInt16Property]
+
+
+ |Gets the value of the specified `MQInt16` type property.
+
+a|
+link:reference.html#aelex[MQGetInt32Property]
+
+
+ |Gets the value of the specified `MQInt32` type property.
+
+a|
+link:reference.html#aeley[MQGetInt64Property]
+
+
+ |Gets the value of the specified `MQInt64` type property.
+
+a|
+link:reference.html#aeleu[MQGetFloat32Property]
+
+
+ |Gets the value of the specified `MQFloat32` type property.
+
+a|
+link:reference.html#aelev[MQGetFloat64Property]
+
+
+ |Gets the value of the specified `MQFloat64` type property.
+|=======================================================================
+
+
+[[gblxs]][[GMCCG00020]][[to-iterate-through-a-properties-handle]]
+
+To Iterate Through a Properties Handle
+++++++++++++++++++++++++++++++++++++++
+
+1.  Start the process by calling the
+link:reference.html#aelfn[MQPropertiesKeyIterationStart] function.
+2.  Loop using the
+link:reference.html#aelfm[MQPropertiesKeyIterationHasNext] function.
+3.  Extract the name of each property key by calling the
+link:reference.html#aelfl[MQPropertiesKeyIterationGetNext] function.
+4.  Determine the type of the property value for a given key by calling
+the link:reference.html#aelff[MQGetPropertyType] function.
+5.  Use the appropriate `MQGet...Property` function to find the value of
+the specified property key and type. +
+If you know the property key, you can just use the appropriate
+`MQGet...Property` function to get its value. The code sample below
+illustrates how you implement these steps. +
+[source,oac_no_warn]
+----
+MQStatus status;
+
+MQPropertiesHandle headersHandle = MQ_INVALID_HANDLE;
+
+MQBool redelivered;
+
+ConstMQString my_msgtype;
+
+status = (MQGetMessageHeaders(messageHandle, &headersHandle));
+
+status = (MQGetBoolProperty(headersHandle,
+           MQ_REDELIVERED_HEADER_PROPERTY, &redelivered));
+
+status = MQGetStringProperty(headersHandle,
+          MQ_MESSAGE_TYPE_HEADER_TYPE_PROPERTY, &my_msgtype);
+
+
+                  
+----
+
+[[aelbg]][[GMCCG00042]][[working-with-connections]]
+
+Working With Connections
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+All messaging occurs within the context of a connection: the behavior of
+the connection is defined by the properties set for that connection. You
+use the functions listed in link:#gblxt[Table 2-3] to create, start,
+stop, and close a connection.
+
+[[GMCCG424]][[sthref8]][[gblxt]]
+
+
+Table 2-3 Functions Used to Work with Connections
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#aelfk[MQInitializeSSL]
+
+
+ |Initializes the SSL library. You must call this function before you
+create any connection that uses SSL.
+
+a|
+link:reference.html#aeldy[MQCreateConnection]
+
+
+ |Creates a connection and passes back a handle to it.
+
+a|
+link:reference.html#aelgk[MQStartConnection]
+
+
+ |Starts the specified connection and starts or resumes delivery of
+messages.
+
+a|
+link:reference.html#aelgm[MQStopConnection]
+
+
+ |Stops the specified connection.
+
+a|
+link:reference.html#aelfe[MQGetMetaData]
+
+
+ |Returns a handle to name and version information for the Message Queue
+product.
+
+a|
+link:reference.html#aeldq[MQCloseConnection]
+
+
+ |Closes the specified connection.
+|=======================================================================
+
+
+Before you create a connection, you must do the following:
+
+* Define the connection properties. See link:#aelbe[Setting Connection
+and Message Properties] for more information.
+* Specify a user name and password for the connection. See
+"link:../mq-admin-guide/security-services.html#GMADG00247[User Authentication]" in Open Message Queue
+Administration Guide for information on how to set up users.
+* Write a connection exception listener function. You will need to pass
+a reference to this listener when you create the connection. This
+function will be called synchronously when a connection exception occurs
+for this connection. For more information, see
+link:reference.html#aeldn[Callback Type for Connection Exception
+Handling] .
+* If you want a secure connection, call the `MQIntitializeSSL` function
+to initialize the SSL library. See link:#aelbl[Working With Secure
+Connections] for more information.
+
+When you have completed these steps, you are ready to call
+`MQCreateConnection` to create a connection. After you create the
+connection, you can create a session as described in link:#aelbq[Working
+With Sessions and Destinations] .
+
+When you send a message, you do not need to start the connection
+explicitly by calling `MQStartConnection`. You do need to call
+link:reference.html#aelgk[MQStartConnection] before the broker can
+deliver messages to a consumer.
+
+If you need to halt delivery in the course of processing messages, you
+can call the link:reference.html#aelgm[MQStopConnection] function.
+
+[[aelbh]][[GMCCG00310]][[defining-connection-properties]]
+
+Defining Connection Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Connection properties specify the following information:
+
+* The host name and port of the broker to which you want to connect
+* The transport protocol of the connection service used by the client
+* How broker and client acknowledgements are handled to support
+messaging reliability
+* How message flow is to be managed
+* How secure messaging should be implemented
+
+The following sections examine the effect of properties used to manage
+connection handling, reliability, message flow, and security.
+
+link:reference.html#gcsrb[Table 4-2] lists and describes all properties
+of a connection. For information on how to set and change connection
+properties, see link:#aelbd[Working With Properties].
+
+[[aelbi]][[GMCCG00068]][[connection-handling]]
+
+Connection Handling
++++++++++++++++++++
+
+Connections to a message server are specified by a broker host name and
+port number.
+
+* Set `MQ_BROKER_NAME_PROPERTY` to specify the broker name.
+* Set `MQ_BROKER_PORT_PROPERTY` to specify the port of the broker's port
+mapper service. In this case, the port mapper will dynamically assign
+the port to which the client connects.
+* Set `MQ_BROKER_SERVICE_PORT_PROPERTY` to specify the number of a port
+to which the client connects. This is a static, fixed port assignment;
+it bypasses the broker's port mapper service. If you do need to connect
+to a fixed port on the broker, make sure that the service needed is
+enabled and available at the specified port by setting the
+`imq.serviceName.protocolType.port` broker property.
+* Set the connection property `MQ_CONNECTION_TYPE_PROPERTY` to specify
+the underlying transport protocol. Possible values are `TCP` or `SSL`. +
+Remember that you need to configure the JMS service port on the broker
+side as well. For example, if you want to connect your client via
+`ssljms` to port 1756, you would do the following.
+
+** On the client side: Set the `MQ_SERVICE_PORT_PROPERTY` to 1756 and
+set the `MQ_CONNECTION_TYPE_PROPERTY` to `SSL`.
+
+** On the broker side: Set the imq.serviceNameType.protocol.port
+property to 1756 as follows. +
+[source,oac_no_warn]
+----
+imq.ssljms.ssl.port=1756
+----
+
+The `MQ_PING_INTERVAL_PROPERTY` also affects connection handling. This
+property is set to the interval (in seconds) that the connection can be
+idle before the C client runtime pings the broker to test whether the
+connection is still alive. This property is useful for either producers
+who use the connection infrequently or for clients who are exclusive
+consumers, passively waiting for messages to arrive. The default value
+is 30 seconds. Setting an interval that is too low may result in some
+performance loss. The minimum permitted value is 1 second to prevent
+this from happening.
+
+Currently, the C-API does not support auto-reconnect or failover, which
+allows the client runtime to automatically reconnect to a broker if a
+connection fails.
+
+[[aelbj]][[GMCCG00069]][[reliability]]
+
+Reliability
++++++++++++
+
+Two connection properties enable the acknowledgement of messages sent to
+the broker and of messages received from the broker. These are described
+in link:#aelbt[Message Acknowledgement]. In addition to setting these
+properties, you can also set `MQ_ACK_TIMEOUT_PROPERTY`, which determines
+the maximum time that the client runtime will wait for any broker
+acknowledgement before throwing an exception.
+
+[[aelbk]][[GMCCG00070]][[flow-control]]
+
+Flow Control
+++++++++++++
+
+A number of connection properties determine the use of Message Queue
+control messages by the client runtime. Messages sent and received by
+Message Queue clients and Message Queue control messages pass over the
+same client-broker connection. Because of this, delays may occur in the
+delivery of control messages, such as broker acknowledgements, if these
+are held up by the delivery of JMS messages. To prevent this type of
+congestion, Message Queue meters the flow of JMS messages across a
+connection.
+
+* Set `MQ_CONNECTION_FLOW_COUNT_PROPERTY` to specify the number of
+Message Queue messages in a metered batch. When this number of messages
+is delivered to the client runtime, delivery is temporarily suspended,
+allowing any control messages that had been held up to be delivered.
+Message delivery is resumed upon notification by the client runtime, and
+continues until the count is again reached.
+* `MQ_CONNECTION_FLOW_LIMIT_PROPERTY` specifies the maximum number of
+unconsumed messages that can be delivered to a client runtime. When the
+number of messages reaches this limit, delivery stops and resumes only
+when the number of unconsumed messages drops below the specified limit.
+This helps a consuming client that is taking a long time to process
+messages from being overwhelmed with pending messages that might cause
+it to run out of memory.
+* `MQ_CONNECTION_FLOW_LIMIT_ENABLED_PROPERTY` specifies whether the
+value `MQ_CONNECTION_FLOW_LIMIT_PROPERTY` is used to control message
+flow.
+
+You should keep the value of `MQ_CONNECTION_FLOW_COUNT_PROPERTY` low if
+the client is doing operations that require many responses from the
+broker; for example, the client is using the
+`CLIENT_ACKNOWLEDGE or AUTO_ACKNOWLEDGE` modes, persistent messages,
+transactions, or if the client is adding or removing consumers. You can
+increase the value of `MQ_CONNECTION_FLOW_COUNT_PROPERTY` without
+compromising performance if the client has only simple consumers on a
+connection using `DUPS_OK` mode.
+
+The C API does not currently support consumer-based flow control.
+
+[[aelbl]][[GMCCG00311]][[working-with-secure-connections]]
+
+Working With Secure Connections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Establishing a secure connection between the client and the broker
+requires both the administrator and the developer to do some additional
+work. The administrator's work is described in "link:../mq-admin-guide/security-services.html#GMADG00249[Message
+Encryption]" in Open Message Queue Administration Guide. In brief, it
+requires that the administrator do the following:
+
+* Generate certificates (self-signed or signed by a certificate
+authority) and add those certificates to the broker's keystore
+* Enable the `ssljms` connection service in the broker
+* Provide the password to the certificate keystore when starting the
+broker
+
+The developer must also do some work to configure the client for secure
+messaging. The work required depends on whether the broker is trusted
+(the default setting) and on whether the developer wants to provide an
+additional means of verification if the broker is not trusted and the
+initial attempt to create a secure connection fails.
+
+The MessageQueue C-API library uses NSS to support the SSL transport
+protocol between the Message Queue C client and the Message Queue
+broker. The developer must take care if the client application using
+secure Message Queue connections uses NSS (for other purposes) directly
+as well and does NSS initialization. For additional information, see
+link:#aelbo[Coordinating NSS Initialization].
+
+[[aelbm]][[GMCCG00071]][[configuring-the-client-for-secure-communication]]
+
+Configuring the Client for Secure Communication
++++++++++++++++++++++++++++++++++++++++++++++++
+
+By default the `MQ_SSL_BROKER_IS_TRUSTED` property is set to `true`, and
+this means that the Message Queue client runtime will accept any
+certificate that is presented to it. The following procedure explains
+what you must do to establish a secure connection.
+
+[[gblye]][[GMCCG00021]][[to-establish-a-secure-connection]]
+
+To Establish a Secure Connection
+
+Follow this procedure:
+
+1.  Set the `MQ_CONNECTION_TYPE_PROPERTY` to `SSL` .
+2.  If you want the runtime to check the broker's certificate, set the
+`MQ_SSL_BROKER_IS_TRUSTED` property to `false`. Otherwise, you can leave
+it to its default (`true`) value.
+3.  Generate the NSS files `cert`N`.db`, `key`N`.db`, and `secmod.db`
+using the certificate database tool `certutil`. +
+You can find this tool in mqInstallHome`/nss/bin`. +
+For directions and an example of using this tool, see +
+`http://www.mozilla.org/projects/security/pki/nss/tools/certutil.html`
+4.  Note the path name of the directory that contains the NSS files you
+generated in link:#aelbm[Configuring the Client for Secure
+Communication].
+5.  If you have set the `MQ_SSL_BROKER_IS_TRUSTED` property to `false`,
+use the `certutil` tool to import the root certificate of the authority
+certifying the broker into the database files you generated in
+link:#aelbm[Configuring the Client for Secure Communication] . +
+Make sure that the `MQ_BROKER_HOST_PROPERTY` value is set to the same
+value as the (CN) common name in the broker's certificate.
+6.  If you have set the `MQ_SSL_BROKER_IS_TRUSTED` property to `false`,
+you have the option of enabling broker fingerprint-based verification in
+case authorization fails. For details, see link:#aelbn[Verification
+Using Fingerprints].
+7.  Call the function `MQInitializeSSL` once (and only once) before
+creating the connection, and pass the name of the directory that
+contains the NSS files you generated in link:#aelbm[Configuring the
+Client for Secure Communication]. If the broker is trusted, these files
+can be empty. +
+You must call this function before you create any connection to the
+broker, including connections that do not use SSL.
+
+[[aelbn]][[GMCCG00072]][[verification-using-fingerprints]]
+
+Verification Using Fingerprints
++++++++++++++++++++++++++++++++
+
+If certificate authorization fails when the broker is using a
+certificate authority, it is possible to give the client runtime another
+means of establishing a secure connection by comparing broker
+certificate fingerprints. If the fingerprints match, the connection is
+granted; if they do not match, the attempt to create the connection will
+fail.
+
+[[gblxm]][[GMCCG00022]][[to-set-up-fingerprint-certification]]
+
+To Set Up Fingerprint Certification
+
+Follow this procedure:
+
+1.  Set the broker connection property `MQ_SSL_CHECK_BROKER_FINGERPRINT`
+to `true`.
+2.  Retrieve the broker's certificate fingerprint by using the java
+`keytool -list` option on the broker's keystore file: +
+You will use the output of this command as the value for the connection
+property `MQ_SSL_BROKER_CERT_FINGERPRINT` in link:#aelbn[Verification
+Using Fingerprints]. For example, if the output contains a value like
+the following: +
+[source,oac_no_warn]
+----
+Certificate fingerprint (MD5): F6:A5:C1:F2:E6:63:40:73:97:64:39:6C:1B:35:0F:8E
+----
+You would specify this value for `MQ_SSL_BROKER_CERT_FINGEPRINT`.
+3.  Set the connection property `MQ_SSL_BROKER_CERT_FINGEPRINT` to the
+value obtained in link:#aelbn[Verification Using Fingerprints].
+
+[[aelbo]][[GMCCG00073]][[coordinating-nss-initialization]]
+
+Coordinating NSS Initialization
++++++++++++++++++++++++++++++++
+
+If your application uses NSS directly, other than to support Message
+Queue secure communication, you need to coordinate NSS initialization
+with the Message Queue C-API library. There are two cases to consider:
+
+* Your application does not use secure Message Queue connections. +
+In this case, you should do your application's NSS initialization before
+calling `MQCreateConnection` to create any connection to the Message
+Queue broker.
+* Your application does use secure Message Queue connections. +
+In this case, you should follow the procedure outlined below before
+calling `MQCreateConnection` to create any Message Queue connection.
+
+[[gblys]][[GMCCG00023]][[to-coordinate-nss-initialization]]
+
+To Coordinate NSS Initialization
+
+Follow this procedure:
+
+1.  Call the function `MQInitializeSSL.` (You must specify the path to
+the directory containing the NSS files as the `certdbpath` parameter to
+this function.) +
+Your application's use of NSS must specify the same `certdbpath` value
+for the location of its NSS files. (That is, the certificates needed by
+your application must be located in the same directory as the
+certificates needed by Message Queue.) +
+Internally, the function `MQInitializeSSL` does the following:
+* Calls the function `NSS_Init(certdbpath)`.
+* Sets `DOMESTIC` cipher policy using the function
+`NSS_SetDomesticPolicy()`.
+* Enables all cipher suites, including `RSA_NULL_MD5` by calling the
+function `SSL_CipherPrefSetDefault(SSL_RSA_WITH_NULL_MD5, PR_TRUE)` .
+* Calls the function `SSL_ClearSessionCache()`.
+2.  If your application needs different cipher suite settings, after you
+call the `MQInitializeSSL()` function, you can modify the cipher suites
+by calling the function `SSL_CipherPrefSetDefault`. However, note that
+these changes will affect your secure connection to the Message Queue
+broker as well.
+
+[[aelbp]][[GMCCG00312]][[shutting-down-connections]]
+
+Shutting Down Connections
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In order to do an orderly shutdown, you need to close the connection by
+calling link:reference.html#aeldq[MQCloseConnection] and then to free the
+memory associated with the connection by calling the
+link:reference.html#aelek[MQFreeConnection] function.
+
+* Closing the connection closes all sessions, producers, and consumers
+created from this connection. This also forces all threads associated
+with this connection that are blocking in the library to return.
+* After all the application threads associated with this connection and
+its descendant sessions, producers, and consumers have returned, the
+application can call the link:reference.html#aelek[MQFreeConnection]
+function to release all resources associated with the connection.
+
+To get information about a connection, call the
+link:reference.html#aelfe[MQGetMetaData] function. This returns name and
+version information for the Message Queue product.
+
+[[aelbq]][[GMCCG00043]][[working-with-sessions-and-destinations]]
+
+Working With Sessions and Destinations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A session is a single-threaded context for producing and consuming
+messages. You can create multiple producers and consumers for a session,
+but you are restricted to using them serially. In effect, only a single
+logical thread of control can use them. A session supports reliable
+delivery through acknowledgment options or by using transactions.
+
+link:#gblyr[Table 2-4] describes the functions you use to create and
+manage sessions.
+
+[[GMCCG425]][[sthref9]][[gblyr]]
+
+
+Table 2-4 Functions Used to Work with Sessions
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#aeleh[MQCreateSession]
+
+
+ |Creates the specified session and passes back a handle to it.
+
+a|
+link:reference.html#aelep[MQGetAcknowledgeMode]
+
+
+ |Passes back the acknowledgement mode of the specified session.
+
+a|
+link:reference.html#aelfr[MQRecoverSession]
+
+
+ |Stops message delivery and restarts message delivery with the oldest
+unacknowledged message. (For non-transacted sessions.)
+
+a|
+link:reference.html#aelfs[MQRollBackSession]
+
+
+ |Rolls back a transaction associated with the specified session.
+
+a|
+link:reference.html#aeldu[MQCommitSession]
+
+
+ |Commits a transaction associated with the specified session.
+
+a|
+link:reference.html#aeldt[MQCloseSession]
+
+
+ |Closes the specified session.
+|=======================================================================
+
+
+[[aelbr]][[GMCCG00313]][[creating-a-session]]
+
+Creating a Session
+^^^^^^^^^^^^^^^^^^
+
+The `MQCreateSession` function creates a new session and initializes a
+handle to it in the `sessionHandle` parameter. The number of sessions
+you can create for a single connection is limited only by system
+resources. You can create a session after you have created a connection.
+
+When you create a session, you specify whether it is transacted, the
+acknowledge mode, and the receive mode. After you create a session, you
+can create the producers, consumers, and destinations that use the
+session context to do their work.
+
+[[aelbs]][[GMCCG00074]][[transacted-sessions]]
+
+Transacted Sessions
++++++++++++++++++++
+
+If you specify that a session be transacted, the acknowledge mode is
+ignored. Within a transacted session, the broker tracks sends and
+receives, completing these operations only when the client issues a call
+to commit the transaction. If a send or receive operation fails, the
+operation will return an error. Your application can handle the error by
+ignoring it, retrying it, or rolling back the entire transaction. When a
+transaction is committed, all the successful operations are completed.
+When a transaction is rolled back, all the successful operations are
+cancelled. A transaction cannot encompass both the production and
+consumption of the same message.
+
+The scope of a local transaction is a single session. One or more
+producer or consumer operations can be grouped into a single local
+transaction only if performed in the context of a single session.
+
+To extend the scope of a transaction beyond a single session, you can
+use a distributed transaction. A distributed transaction is managed by
+an external distributed transaction manager, as described in
+link:#gheqr[Working With Distributed Transactions].
+
+[[aelbt]][[GMCCG00075]][[message-acknowledgement]]
+
+Message Acknowledgement
++++++++++++++++++++++++
+
+Both messages that are sent and messages that are received can be
+acknowledged.
+
+In the case of message producers, if you want the broker to acknowledge
+its having received a non-persistent message (to its physical
+destination), you must set the connection's `MQ_ACK_ON_PRODUCE_PROPERTY`
+to `MQ_TRUE`. If you do so, the sending function will return only after
+the broker has acknowledged receipt of the message. By default, the
+broker acknowledges receipt of persistent messages.
+
+Acknowledgements on the consuming side means that the client runtime
+acknowledges delivery and consumption of all messages from a physical
+destination before the message service deletes the message from that
+destination. You can specify one of the following acknowledge modes for
+the consuming session when you create that session.
+
+* `MQ_AUTO_ACKNOWLEDGE` specifies that the session automatically
+acknowledge each message consumed by the client.
+* `MQ_CLIENT_ACKNOWLEDGE` specifies that the client must explicitly
+acknowledge messages by calling `MQAcknowledgeMessages`. In this case,
+all messages are acknowledged that have been consumed up to the point
+where the acknowledge function is called. (This could include messages
+consumed asynchronously by many different message listeners in that
+session, independent of the order in which they were consumed.)
+* `MQ_DUPS_OK_ACKNOWLEDGE` specifies that the session acknowledges
+receipt of messages after each ten messages are consumed. It does not
+guarantee that messages are delivered and consumed only once.
+
+(The setting of the connection property `MQ_ACK_ON_ACKNOWLEDGE_PROPERTY`
+also determines the effect of some of these acknowledge modes. For more
+information, see link:reference.html#gcsrb[Table 4-2].)
+
+
+[NOTE]
+=======================================================================
+
+In the `DUPS_OK_ACKNOWLEDGE` mode, the session does not wait for broker
+acknowledgements. This option can be used in Message Queue C clients for
+which duplicate messages are not a problem. Also, you can call the
+link:reference.html#aelfr[MQRecoverSession] function to explicitly
+request redelivery of messages that have been received but not yet
+acknowledged by the client. When redelivering such messages, the broker
+will set the header field `MQ_REDLIEVERED_HEADER_PROPERTY` .
+
+=======================================================================
+
+
+[[aelbu]][[GMCCG00076]][[receive-mode]]
+
+Receive Mode
+++++++++++++
+
+You can specify a session's receive mode as either
+`MQ_SESSION_SYNC_RECEIVE` or `MQ_SESSION_ASYNC_RECEIVE`. If the session
+you create will be used for sending messages only, you should specify
+`MQ_SESSION_SYNC_RECEIVE` for its receive mode for optimization because
+the asynchronous receive mode automatically allocates an additional
+thread for the delivery of messages it expects to receive.
+
+[[aelbv]][[GMCCG00314]][[managing-a-session]]
+
+Managing a Session
+^^^^^^^^^^^^^^^^^^
+
+Managing a session involves using threads appropriately for the type of
+session (synchronous or asynchronous) and managing message delivery for
+both transacted and nontransacted sessions. For more information about
+thread management, see link:client-design-issues.html#aelct[Managing
+Threads].
+
+* For a session that is not transacted, use the
+link:reference.html#aelfr[MQRecoverSession] function to restart message
+delivery with the last unacknowledged message.
+* For a session that is transacted, use the
+link:reference.html#aelfs[MQRollBackSession] function to roll back any
+messages that were delivered within this transaction. Use the
+link:reference.html#aeldu[MQCommitSession] function to commit all
+messages associated with this transaction.
+* Use the link:reference.html#aeldt[MQCloseSession] function to close a
+session and all its associated producers and consumers. This function
+also frees memory allocated for the session.
+
+You can get information about a session's acknowledgment mode by calling
+the link:reference.html#aelep[MQGetAcknowledgeMode] function.
+
+[[aelbw]][[GMCCG00315]][[creating-destinations]]
+
+Creating Destinations
+^^^^^^^^^^^^^^^^^^^^^
+
+After creating a session, you can create destinations or temporary
+destinations for the messages you want to send. link:#gblyp[Table 2-5]
+lists the functions you use to create and to get information about
+destinations.
+
+[[GMCCG426]][[sthref10]][[gblyp]]
+
+
+Table 2-5 Functions Used to Work with Destinations
+
+[width="100%",cols="36%,64%",options="header",]
+|================================================================
+|Functions |Description
+a|
+link:reference.html#aeleb[MQCreateDestination]
+
+
+ |Creates a destination and initializes a handle to it.
+a|
+link:reference.html#aelei[MQCreateTemporaryDestination]
+
+
+ |Creates a temporary destination and initializes a handle to it.
+a|
+link:reference.html#aeles[MQGetDestinationType]
+
+
+ |Returns the type (queue or topic) of the specified destination.
+|================================================================
+
+
+A destination refers to where a message is destined to go. A physical
+destination is a JMS message service entity (a location on the broker)
+to which producers send messages and from which consumers receive
+messages. The message service provides the routing and delivery for
+messages sent to a physical destination.
+
+When a Message Queue C client creates a destination programmatically
+using the `MQCreateDestination` function, a destination name must be
+specified. The function initializes a handle to a destination data type
+that holds the identity (name) of the destination. The important thing
+to remember is that this function does not create the physical
+destination on the broker; this must be done by the administrator. The
+destination that is created programmatically however must have the exact
+same name and type as the physical destination created on the broker.
+For example, if you use the `MQCreateDestination` function to create a
+queue destination called `myMailQDest`, the administrator has to create
+a physical destination on the broker named `myMailQDest`.
+
+Destination names starting with "mq" are reserved and should not be used
+by client programs.
+
+[[aelbx]][[GMCCG00077]][[programming-domains]]
+
+Programming Domains
++++++++++++++++++++
+
+When you create a destination, you must also specify its type:
+`MQ_QUEUE_DESTINATION` or `MQ_TOPIC_DESTINATION`. See
+"link:../mq-tech-over/client-programming-model.html#GMTOV00052[Messaging Domains]" in Open Message Queue Technical
+Overview for a discussion of these two types of destinations and how to
+choose the type that suits your needs.
+
+[[aelby]][[GMCCG00078]][[auto-created-destinations]]
+
+Auto-Created Destinations
++++++++++++++++++++++++++
+
+By default, the `imq.autocreate.topic` and `imq.autocreate.queue` broker
+properties are turned on. In this case, which is more convenient in a
+development environment, the broker automatically creates a physical
+destination whenever a message consumer or message producer attempts to
+access a non-existent destination. The auto-created physical destination
+will have the same name as that of the destination you created using the
+`MQCreateDestination` function.
+
+[[aelbz]][[GMCCG00079]][[temporary-destinations]]
+
+Temporary Destinations
+++++++++++++++++++++++
+
+You use the `MQCreateTemporaryDestination` function to create a
+temporary destination. You can use such a destination to implement a
+simple request/reply mechanism. When you pass the handle of a temporary
+destination to the `MQSetMessageReplyTo` function, the consumer of the
+message can use that handle as the destination to which it sends a
+reply.
+
+Temporary destinations are explicitly created by client applications and
+are automatically deleted when the connection is closed. They are
+maintained (and named) by the broker only for the duration of the
+connection for which they are created. Temporary destinations are
+system-generated uniquely for their connection and only their own
+connection is allowed to create message consumers for them.
+
+[[aelca]][[GMCCG00080]][[getting-information-about-destinations]]
+
+Getting Information About Destinations
+++++++++++++++++++++++++++++++++++++++
+
+Use the `MQGetDestinationType` function to determine the type of a
+destination: queue or topic. There may be times when you do not know the
+type of the destination to which you are replying: for example, when you
+get a handle from the `MQGetMessageReplyTo` function. Because the
+semantics of queue and topic destinations differ, you need to determine
+the type of a destination in order to reply appropriately.
+
+[[aelcb]][[GMCCG00044]][[working-with-messages]]
+
+Working With Messages
+~~~~~~~~~~~~~~~~~~~~~
+
+This section describes how you use the C-API to complete the following
+tasks:
+
+* Compose a message
+* Send a message
+* Receive a message
+* Process a message
+
+[[aelcc]][[GMCCG00316]][[composing-messages]]
+
+Composing Messages
+^^^^^^^^^^^^^^^^^^
+
+You can create either a text message or a bytes message. A message,
+whether text or bytes, is composed of a header, properties, and a body.
+You can also create a message type which has no body.
+
+link:#gblyw[Table 2-6] lists the functions you use to construct
+messages.
+
+[[GMCCG427]][[sthref11]][[gblyw]]
+
+
+Table 2-6 Functions Used to Construct Messages
+
+[width="100%",cols="36%,64%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#gbjak[MQCreateMessage]
+
+
+ |Creates an `MQ_MESSAGE` type message.
+
+a|
+link:reference.html#aeldx[MQCreateBytesMessage]
+
+
+ |Creates an `MQ_BYTES_MESSAGE` message.
+
+a|
+link:reference.html#aelej[MQCreateTextMessage]
+
+
+ |Creates an `MQ_TEXT_MESSAGE` message.
+
+a|
+link:reference.html#aelgf[MQSetMessageHeaders]
+
+
+ |Sets message header properties. (Optional)
+
+a|
+link:reference.html#aelgg[MQSetMessageProperties]
+
+
+ |Sets user-defined message properties.
+
+a|
+link:reference.html#aelgi[MQSetStringProperty]
+
+
+ |Sets the body of an `MQ_TEXT_MESSAGE` message.
+
+a|
+link:reference.html#aelfy[MQSetBytesMessageBytes]
+
+
+ |Sets the body of an `MQ_BYTES_MESSAGE` message.
+
+a|
+link:reference.html#aelgh[MQSetMessageReplyTo]
+
+
+ |Specifies the destination where replies to this message should be
+sent.
+|=======================================================================
+
+
+[[aelcd]][[GMCCG00081]][[message-header]]
+
+Message Header
+++++++++++++++
+
+A header is required of every message. Header fields contain values used
+for routing and identifying messages.
+
+Some header field values are set automatically by Message Queue during
+the process of producing and delivering a message, some depend on
+settings specified when message producers send a message, and others are
+set on a message-by-message basis by the client using the
+`MQSetMessageHeader` function. link:#gblxx[Table 2-7] lists the header
+fields defined (and required) by JMS and their corresponding names, as
+defined by the C-API.
+
+[[GMCCG428]][[sthref12]][[gblxx]]
+
+
+Table 2-7 JMS-defined Message Header
+
+[width="100%",cols="32%,68%",options="header",]
+|=======================================================================
+|JMS Message Header Field |C-API Message Header Property Name
+|`JMSDestination` |Defined implicitly when a producer sends a message to
+a destination, or when a consumer receives a message from a destination.
+
+|`JMSDeliveryMode` |`MQ_PERSISTENT_HEADER_PROPERTY`
+
+|`JMSExpiration` |`MQ_EXPIRATION_HEADER_PROPERTY`
+
+|`JMSPriority` |`MQ_PRIORITY_HEADER_PROPERTY`
+
+|`JMSDeliveryTime` |`MQ_DELIVERY_TIME_HEADER PROPERTY`
+
+|`JMSMessageID` |`MQ_MESSAGE_ID_HEADER_PROPERTY`
+
+|`JMSTimeStamp` |`MQ_TIMESTAMP_HEADER_PROPERTY`
+
+|`JMSRedelivered` |`MQ_REDELIVERED_HEADER_PROPERTY`
+
+|`JMSCorrelationID` |`MQ_CORRELATION_ID_HEADER_PROPERTY`
+
+|`JMSReplyTo` |Set by the `MQSetMessageReplyTo` function, and obtained
+by the `MQGetMessageReplyTo` function.
+
+|`JMSPriority` |`MQ_MESSAGE_TYPE_HEADER_PROPERTY`
+|=======================================================================
+
+
+For additional information about each property type and who sets it, see
+link:reference.html#aelgf[MQSetMessageHeaders].
+
+[[aelce]][[GMCCG00082]][[message-body-types]]
+
+Message Body Types
+++++++++++++++++++
+
+JMS specifies six classes (or types) of messages. The C-API supports
+only three of these types, as described in link:#gblyg[Table 2-8]. If a
+Message Queue C client expects to receive messages from a Message Queue
+Java client, it will be unable to process messages whose body types are
+other than those described in the table. It will also be unable to
+process messages that are compressed by the Message Queue Java client
+runtime.
+
+[[GMCCG429]][[sthref13]][[gblyg]]
+
+
+Table 2-8 C-API Message Body Types
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Type |Description
+|`MQ_Text_Message` |A message whose body contains an `MQString` string,
+for example an XML message.
+
+|`MQ_Bytes_Message` |A message whose body contains a stream of
+uninterpreted bytes.
+
+|`MQ_Message` |A message consisting of a header and (optional)
+properties, but no body.
+|=======================================================================
+
+
+[[aelcf]][[GMCCG00083]][[composing-the-message]]
+
+Composing the Message
++++++++++++++++++++++
+
+Create a message using either the
+link:reference.html#aeldx[MQCreateBytesMessage] function or the
+link:reference.html#aelej[MQCreateTextMessage] function. Either of these
+functions returns a message handle that you can then pass to the
+functions you use to set the message body, header, and properties
+(listed in link:#aelcc[Composing Messages]). You can also use the
+link:reference.html#gbjak[MQCreateMessage] function to create a message
+that has a header and properties but no message body.
+
+* Use the link:reference.html#aelgj[MQSetTextMessageText] function to
+define the body of a text message; use the
+link:reference.html#aelfy[MQSetBytesMessageBytes] function to define the
+body of a bytes message.
+* Use the link:reference.html#aelgf[MQSetMessageHeaders] to set any
+message header properties. +
+The message header can specify up to eight properties; most of these are
+set by the client runtime when sending the message or are set by the
+broker. The client can set `MQ_CORRELATION_ID_HEADER_PROPERTY` and
+`MQ_MESSAGE_TYPE_HEADER_PROPERTY` for sending a message.
+* Use the link:reference.html#aelgg[MQSetMessageProperties] function to
+set any user-defined properties for this message.
+
+When you set message header properties or when you set additional
+user-defined properties, you must pass a handle to a properties object
+that you have created using the
+link:reference.html#aeleg[MQCreateProperties] function. For more
+information, see link:#aelbd[Working With Properties].
+
+You can use the link:reference.html#aelgh[MQSetMessageReplyTo] function
+to associate a message with a destination that recipients can use for
+replies. To do this, you must first create a destination that will serve
+as your reply-to destination. Then, pass a handle to that destination
+when you call the link:reference.html#aelgh[MQSetMessageReplyTo]
+function. The receiver of a message can use the
+link:reference.html#aelfc[MQGetMessageReplyTo] function to determine
+whether a sender has set up a destination where replies are to be sent.
+
+[[aelcg]][[GMCCG00317]][[sending-a-message]]
+
+Sending a Message
+^^^^^^^^^^^^^^^^^
+
+Messages are sent by a message producer within the context of a
+connection and a session. Once you have obtained a connection, created a
+session, and composed your message, you can use the functions listed in
+link:#gblyv[Table 2-9]to create a message producer and to send the
+message.
+
+Which function you choose to send a message depends on the following
+factors:
+
+* Whether you want the send function to override certain message header
+properties +
+Send functions whose names end in `Ext` allow you to override default
+values for priority, time-to-live, and delivery mode header properties.
+* Whether you want to send the message to the destination associated
+with the message producer +
+If you created a message producer with no specified destination, you
+must used one of the `...ToDestination` send functions. If you created a
+message producer with a specified destination, you must use one of the
+other send functions.
+
+[[GMCCG430]][[sthref14]][[gblyv]]
+
+
+Table 2-9 Functions for Sending Messages
+
+[width="100%",cols="46%,54%",options="header",]
+|=======================================================================
+|Function |Action
+a|
+link:reference.html#aelee[MQCreateMessageProducer]
+
+
+ |Creates a message producer with no specified destination.
+
+a|
+link:reference.html#aelef[MQCreateMessageProducerForDestination]
+
+
+ |Creates a message producer with a specified destination.
+
+a|
+link:reference.html#aelft[MQSendMessage]
+
+
+ |Sends a message for the specified producer.
+
+a|
+link:reference.html#aelfu[MQSendMessageExt]
+
+
+ |Sends a message for the specified producer and allows you to set
+priority, time-to-live, and delivery mode.
+
+a|
+link:reference.html#aelfv[MQSendMessageToDestination]
+
+
+ |Sends a message to the specified destination.
+
+a|
+link:reference.html#aelfw[MQSendMessageToDestinationExt]
+
+
+ |Sends a message to the specified destination and allows you to set
+priority, time-to-live, and delivery mode.
+|=======================================================================
+
+
+If you send a message using one of the functions that does not allow you
+to override header properties, the following message header fields are
+set to default values by the send function.
+
+* `MQ_PERSISTENT_HEADER_PROPERTY` will be set to
+`MQ_PERSISTENT_DELIVERY`.
+* `MQ_PRIORITY_HEADER_PROPERTY` will be set to 4.
+* `MQ_EXPIRATION_HEADER_PROPERTY` will be set to 0, which means that the
+message will never expire.
+
+To override these values, use one of the extended send functions. For a
+complete list of message header properties, see
+link:reference.html#aelfa[MQGetMessageHeaders] .
+
+Message headers also contain fields that can be set by the sending
+client; in addition, you can set user-defined message properties as
+well. For more information, see link:#aelcc[Composing Messages].
+
+You can set the connection property `MQ_ACK_ON_PRODUCE_PROPERTY` when
+you create the connection to make sure that the message has reached its
+destination on the broker:
+
+* By default, the broker acknowledges receiving persistent messages
+only.
+* If you set the property to `MQ_TRUE`, the broker acknowledges receipt
+of all messages (persistent and non-persistent) from the producing
+client.
+* If you set the property to `MQ_FALSE`, the broker does not acknowledge
+receipt of any message (persistent or non-persistent) from the producing
+client.
+
+Note that "acknowledgement" in this case is not programmatic but
+internally implemented. That is, the client thread is blocked and does
+not return until the broker acknowledges messages it receives.
+
+An administrator can set a broker limit, `REJECT_NEWEST`, which allows
+the broker to avert memory problems by rejecting the newest incoming
+message. If the incoming message is persistent, then an error is
+returned which the sending client should handle, perhaps by retrying the
+send a bit later. If the incoming message is not persistent, the client
+has no way of knowing that the broker rejected it. The broker might also
+reject a message if it exceeds a specified limit.
+
+[[aelch]][[GMCCG00318]][[receiving-messages]]
+
+Receiving Messages
+^^^^^^^^^^^^^^^^^^
+
+Messages are received by a message consumer in the context of a
+connection and a session. In order to receive messages, you must
+explicitly start the connection by calling the `MQStartConnection`
+function.
+
+link:#gblwz[Table 2-10] lists the functions you use to create message
+consumers and to receive messages.
+
+[[GMCCG431]][[sthref15]][[gblwz]]
+
+
+Table 2-10 Functions Used to Receive Messages
+
+[width="100%",cols="50%,50%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#aeled[MQCreateMessageConsumer]
+
+
+ |Creates the specified synchronous consumer and passes back a handle to
+it.
+
+a|
+link:reference.html#aelec[MQCreateDurableMessageConsumer]
+
+
+ |Creates a durable synchronous message consumer for the specified
+destination.
+
+a|
+link:reference.html#aeldw[MQCreateAsyncMessageConsumer]
+
+
+ |Creates an asynchronous message consumer for the specified
+destination.
+
+a|
+link:reference.html#aeldv[MQCreateAsyncDurableMessageConsumer]
+
+
+ |Creates a durable asynchronous message consumer for the specified
+destination.
+
+a|
+link:reference.html#aelgn[MQUnsubscribeDurableMessageConsumer]
+
+
+ |Unsubscribes the specified durable message consumer.
+
+a|
+link:reference.html#aelfo[MQReceiveMessageNoWait]
+
+
+ |Passes a handle back to a message delivered to the specified consumer
+if a message is available; otherwise it returns an error.
+
+a|
+link:reference.html#aelfp[MQReceiveMessageWait]
+
+
+ |Passes a handle back to a message delivered to the specified consumer
+if a message is available; otherwise it blocks until a message becomes
+available.
+
+a|
+link:reference.html#aelfq[MQReceiveMessageWithTimeout]
+
+
+ |Passes a handle back to a message delivered to the specified consumer
+if a message is available within the specified amount of time.
+
+a|
+link:reference.html#aeldp[MQAcknowledgeMessages]
+
+
+ |Acknowledges the specified message and all messages received before it
+on the same session
+
+a|
+link:reference.html#aeldr[MQCloseMessageConsumer]
+
+
+ |Closes the specified consumer.
+|=======================================================================
+
+
+[[aelci]][[GMCCG00084]][[working-with-consumers]]
+
+Working With Consumers
+++++++++++++++++++++++
+
+When you create a consumer, you need to make several decisions:
+
+* Do you want to receive messages synchronously or asynchronously? +
+If you create a synchronous consumer, you can call one of three kinds of
+receive functions to receive your messages. If you create an
+asynchronous consumer, you must specify the name of a callback function
+that the client runtime can call when a message is delivered to the
+destination for that consumer. For information about the callback
+function signature, see link:reference.html#aeldm[Callback Type for
+Asynchronous Message Consumption] .
+* If you are consuming messages from a topic, do you want to use a
+durable or a nondurable consumer? +
+A durable consumer receives all the messages published to a topic,
+including the ones published while the subscriber is inactive. A
+nondurable consumer only receives messages while the subscriber is
+active. +
+The broker retains a record of this durable subscription and makes sure
+that all messages from the publishers to this topic are retained until
+they are either acknowledged by this durable subscriber or until they
+have expired. Sessions with durable subscribers must always provide the
+same client identifier. In addition, each consumer must specify a
+durable name using the `durableName` parameter, which uniquely
+identifies (for each client identifier) each durable subscription it
+creates.
+
+A session's consumers are automatically closed when you close the
+session or connection to which they belong. However, messages will be
+routed to the durable subscriber while it is inactive and delivered when
+a new durable consumer is recreated. To close a consumer without closing
+the session or connection to which it belongs, use the
+link:reference.html#aeldr[MQCloseMessageConsumer] function. If you want
+to close a durable consumer permanently, you should call the function
+link:reference.html#aelgn[MQUnsubscribeDurableMessageConsumer] after
+closing it, to delete state information maintained by the broker on
+behalf of the durable consumer.
+
+[[aelcj]][[GMCCG00085]][[receiving-a-message-synchronously]]
+
+Receiving a Message Synchronously
++++++++++++++++++++++++++++++++++
+
+If you have created a synchronous consumer, you can use one of three
+receive functions: `MQReceiveMessageNoWait`, `MQReceiveMessageWait` , or
+`MQReceiveMessagewithTimeOut`. In order to use any of these functions,
+you must have specified `MQ_SESSION_SYNC_RECEIVE` for the receive mode
+when you created the session.
+
+When you create a session you must specify one of several acknowledge
+modes for that session. If you specify `MQ_CLIENT_ACKNOWLEDGE` as the
+acknowledge mode for the session, you must explicitly call the
+`MQAcknowledgeMessages` function to acknowledge messages that you have
+received. If the session is transacted, the acknowledge mode parameter
+is ignored.
+
+When the receiving function returns, it gives you a handle to the
+delivered message. You can pass that handle to the functions described
+in link:#aelcl[Processing a Message], in order to read message
+properties and information stored in the header and body of the message.
+
+It is possible that a message can be lost for synchronous consumers in a
+session using `AUTO_ACKNOWLEDGE` mode if the provider fails. To prevent
+this possibility, you should either use a transacted session or a
+session in `CLIENT_ACKNOWLEDGE` mode.
+
+Because distributed applications involve greater processing time, such
+an application might not behave as expected if it were run locally. For
+example, calling the `MQReceiveMessageNoWait` function might return
+`MQ_NO_MESSAGE` even when there is a message available to be retrieved
+on the broker. See the usage notes provided in the section
+link:reference.html#aelfo[MQReceiveMessageNoWait] for more information.
+
+[[aelck]][[GMCCG00086]][[receiving-a-message-asynchronously]]
+
+Receiving a Message Asynchronously
+++++++++++++++++++++++++++++++++++
+
+To receive a message asynchronously, you must create an asynchronous
+message consumer and pass the name of an `MQMessageListenerFunc` type
+callback function. (Therefore, you must set up the callback function
+before you create the asynchronous consumer that will use it.) You
+should start the connection only after creating an asynchronous
+consumer. If the connection is already started, you should stop the
+connection before creating an asynchronous consumer.
+
+You are also responsible for writing the message listener function.
+Mainly, the function needs to process the incoming message by examining
+its header, body, and properties, or it needs to pass control to a
+function that can do this processing. The client is also responsible for
+freeing the message handle (either from within the listener or from
+outside of the listener) by calling the `MQFreeMessage` function.
+
+When you create a session you must specify one of several acknowledge
+modes for that session. If you specify `MQ_CLIENT_ACKNOWLEDGE` as the
+acknowledge mode for the session, you must explicitly call the
+`MQAcknowledgeMessages` function to acknowledge messages that you have
+received.
+
+For more information about the signature and content of a call back
+function, see link:reference.html#aeldm[Callback Type for Asynchronous
+Message Consumption].
+
+When the callback function is called by the session delivery of a
+message, it gives you a handle to the delivered message. You can pass
+that handle to the functions described in link:#aelcl[Processing a
+Message], in order to read message properties and information stored in
+the header and body of the message.
+
+[[aelcl]][[GMCCG00319]][[processing-a-message]]
+
+Processing a Message
+^^^^^^^^^^^^^^^^^^^^
+
+When a message is delivered to you, you can examine the message's
+properties, type, headers, and body. The functions used to process a
+message are described in link:#aelcl[Processing a Message].
+
+[[GMCCG432]][[sthref16]][[gblxw]]
+
+
+Table 2-11 Functions Used to Process Messages
+
+[width="100%",cols="29%,71%",options="header",]
+|===================================================================
+|Function |Description
+a|
+link:reference.html#aelfa[MQGetMessageHeaders]
+
+
+ |Gets message header properties.
+a|
+link:reference.html#aelfb[MQGetMessageProperties]
+
+
+ |Gets user-defined message properties.
+a|
+link:reference.html#aelfd[MQGetMessageType]
+
+
+ |Gets the message type: `MQ_TEXT_MESSAGE` or `MQ_BYTES_MESSAGE`
+a|
+link:reference.html#aelfj[MQGetTextMessageText]
+
+
+ |Gets the body of an `MQ_TEXT_MESSAGE` message.
+a|
+link:reference.html#aeler[MQGetBytesMessageBytes]
+
+
+ |Gets the body of an `MQ_BYTES_MESSAGE` message.
+a|
+link:reference.html#aelfc[MQGetMessageReplyTo]
+
+
+ |Gets the destination where replies to this message should be sent.
+|===================================================================
+
+
+If you are interested in a message's header information, you need to
+call the `MQGetMessageHeaders` function. If you need to read or check
+any user-defined properties, you need to call the
+`MQGetMessageProperties` function. Each of these functions passes back a
+properties handle. For information on how you can read property values,
+see link:#aelbf[Getting Message Properties].
+
+Before you can examine the message body, you can call the
+`MQGetMessageType` function to determine whether the message is a text
+or bytes message. You can then call the `MQGetTextMessageText`, or the
+`MQGetBytesMessageBytes` function to get the contents of the message.
+
+Some message senders specify a reply destination for their message. Use
+the `MQGetMessageReplyTo` function to determine that destination.
+
+[[gheqr]][[GMCCG00045]][[working-with-distributed-transactions]]
+
+Working With Distributed Transactions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In accordance with the X/Open distributed transaction model, Message
+Queue C-API support for distributed transactions relies upon a
+distributed transaction manager. The distributed transaction manage
+tracks and manages distributed transactions, coordinating the decision
+to commit them or roll them back, and coordinating failure recovery. The
+Message Queue C-API supports the X/Open XA interface, qualifying it as
+an XA-compliant resource manager. This support allows C-API clients
+running in a distributed transaction processing environment to
+participate in distributed transactions.
+
+In particular, two C-API functions support the participation of C-API
+clients in distributed transactions:
+
+[source,oac_no_warn]
+----
+MQGetXAConnection()
+MQCreateXASession()
+----
+
+If a C-client application is to be used in the context of a distributed
+transaction, then it must obtain a connection by using
+`MQGetXAConnection()` and create a session for producing and consuming
+messages by using `MQCreateXASession()`. The start, commit, and
+rollback, of any distributed transaction is managed by the distributed
+transaction manager.
+
+For more information on XA resource managers, see the
+http://www.opengroup.org/onlinepubs/009680699/toc.pdf[XA Specification].
+
+[[gherf]][[GMCCG00320]][[message-queue-resource-manager-information]]
+
+Message Queue Resource Manager Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In accordance with the X/Open XA interface specification, a distributed
+transaction manager needs the following information regarding the
+Message Queue XA-compliant resource manager:
+
+* Name of the `xa_switch_t` structure: `sun_my_xa_switch`
+* Name of the Resource Manager: `SUN_RM`
+* The MQ C-API library to be linked: `mqcrt`
+* The `xa_close` string and format: none
+* The `xa_open` string and format: semicolon (";")-separated name/value
+pairs
+
+The following name/value pairs are supported:
+
+[[GMCCG433]][[sthref17]][[ghetf]]
+
+
+Table 2-12 Message Queue Resource Manager Name/Value Pairs
+
+[width="100%",cols="14%,16%,49%,21%",options="header",]
+|=======================================================================
+|Name |Value |Description |Default
+|address |host:port |The host:port of the broker's Portmapper service.
+|`localhost:7676`
+
+|username |string |The username for connecting to the broker |`guest`
+
+|password |string |The username's password |`guest`
+
+|conntype |`TCP` or `SSL` |The protocol type of the connection to the
+broker |`TCP`
+
+|trustedhost |`true`/`false` |Whether the broker host is trusted (only
+applicable for `conntype=SSL`) |`true`
+
+|certdbpath |string |The full path to the directory that contains NSS
+certificate and key database files |not set
+
+|clientid |string |Required only for JMS durable subscriptions |not set
+
+|reconnects |integer |The number of re-connection attempts to broker (0
+means no reconnect) |`0`
+|=======================================================================
+
+
+[[gheui]][[GMCCG00321]][[programming-examples]]
+
+Programming Examples
+^^^^^^^^^^^^^^^^^^^^
+
+To help you program an application that uses distributed transactions,
+Message Queue provides programming examples based on the Tuxedo
+distributed transaction manager. A description of the sample programs
+and their location is provided in link:introduction.html#gherq[Table
+1-3].
+
+[[aelcm]][[GMCCG00046]][[error-handling]]
+
+Error Handling
+~~~~~~~~~~~~~~
+
+Nearly all Message Queue C functions return an `MQStatus` result. You
+can use this return value to determine whether the function returned
+successfully and, if not, to determine the cause of the error.
+
+link:#gblxe[Table 2-13] lists the functions you use to get error
+information.
+
+[[GMCCG434]][[sthref18]][[gblxe]]
+
+
+Table 2-13 Functions Used in Handling Errors
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Function |Description
+a|
+link:reference.html#aelgl[MQStatusIsError]
+
+
+ |Returns an `MQ_TRUE` if the specified `MQStatus` is an error.
+
+a|
+link:reference.html#aelfg[MQGetStatusCode]
+
+
+ |Returns the error code for the specified `MQStatus`.
+
+a|
+link:reference.html#aelfh[MQGetStatusString]
+
+
+ |Returns a descriptive string for the specified `MQStatus`.
+
+a|
+link:reference.html#aelet[MQGetErrorTrace]
+
+
+ |Returns the calling thread's current error trace or `NULL` if no error
+trace is available.
+|=======================================================================
+
+
+[[gblyu]][[GMCCG00024]][[to-handle-errors-in-your-code]]
+
+To Handle Errors in Your Code
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Call `MQStatusIsError`, passing it an `MQStatus` result for the
+function whose result you want to test.
+2.  If the `MQStatusIsError` function returns `MQ_TRUE` , call
+`MQGetStatusCode` or `MQGetStatusString` to identify the error.
+3.  If the status code and string information is not sufficient to
+identify the cause of the error, you can get additional diagnostic
+information by calling `MQGetErrorTrace` to obtain the calling thread's
+current error trace if this information is available. +
+link:reference.html#aeldi[Reference] lists common errors returned for
+each function. In addition to these errors, the following error codes
+may be returned by any Message Queue C function:
+* `MQ_STATUS_INVALID_HANDLE`
+* `MQ_OUT_OF_MEMORY`
+* `MQ_NULL_PTR_ARG` +
+In addition, the `MQ_TIMEOUT_EXPIRED` can return from any Message Queue
+C function that communicates with the Message Queue broker if the
+connection `MQ_ACK_TIMEOUT_PROPERTY` is set to a non-zero value.
+
+[[aelcn]][[GMCCG00047]][[memory-management]]
+
+Memory Management
+~~~~~~~~~~~~~~~~~
+
+link:#gblyl[Table 2-14] lists the functions you use to free or
+deallocate memory allocated by the Message Queue-C client library on
+behalf of the user. Such deallocation is part of normal memory
+management and will prevent memory leaks.
+
+The functions `MQCloseConnection`, `MQCloseSession` ,
+`MQCloseMessageProducer`, and `MQCloseMessageConsumer` are used to free
+resources associated with connections, sessions, producers, and
+consumers.
+
+[[GMCCG435]][[sthref19]][[gblyl]]
+
+
+Table 2-14 Functions Used to Free Memory
+
+[width="100%",cols="30%,70%",options="header",]
+|===========================================================
+|Function |Description
+a|
+link:reference.html#aelek[MQFreeConnection]
+
+
+ |Frees memory allocated to the specified connection.
+a|
+link:reference.html#aelel[MQFreeDestination]
+
+
+ |Frees memory allocated to the specified destination.
+a|
+link:reference.html#aelem[MQFreeMessage]
+
+
+ |Frees memory allocated to the specified message.
+a|
+link:reference.html#aelen[MQFreeProperties]
+
+
+ |Frees memory allocated to the specified properties handle.
+a|
+link:reference.html#aeleo[MQFreeString]
+
+
+ |Frees memory allocated to the specified `MQString`.
+|===========================================================
+
+
+You should free a connection only after you have closed the connection
+with the link:reference.html#aeldq[MQCloseConnection] function and after
+all of the application threads associated with this connection and its
+dependent sessions, producers, and consumers have returned.
+
+You should not free a connection while an application thread is active
+in a library function associated with this connection or one of its
+dependent sessions, producers, consumers, and destinations.
+
+Freeing a connection does not release resources held by a message
+associated with this connection. You must free memory allocated for this
+message by explicitly calling the `MQFreeMessage` function.
+
+You should not free a properties handle if the properties handle passed
+to a function becomes invalid on its return. If you do, you will get an
+error.
+
+[[aelco]][[GMCCG00048]][[logging]]
+
+Logging
+~~~~~~~
+
+The Message Queue C-API library uses two environment variables to
+control execution-time logging:
+
+* `MQ_LOG_FILE` specifies the file to which log messages are directed.
+If you do not specify a file name for this variable, `stderr` is used.
+If `MQ_LOG_FILE` is a directory name, it should include a trailing
+directory separator. +
+By default, .n (where n is 0, 1, 2,...) is appended to the actual log
+file name. This is used as a rotation index, and the indices are used
+sequentially when the maximum log file size is reached. You can use `%g`
+to specify a rotation index replacement in `MQ_LOG_FILE` after the last
+directory separator. Only the last `%g` is used if multiple `%g's` are
+specified. the `%g` replacement can be escaped with `%`. The maximum
+rotation index is 9, and the maximum log file size is 1 MB. These limits
+are not configurable.
+* `MQ_LOG_LEVEL` specifies a numeric level that indicates the detail of
+logging information needed:::
+`-1`::
+  OFF, which suppresses the generation of log messages
+`0`::
+  SEVERE level, which indicates a severe failure
+`1`::
+  WARNING level, which indicates a potential problem
+`2`::
+  INFO level, for informational messages
+`3`::
+  CONFIG level, for static configuration messages
+`4`::
+  FINE level, which provides tracing information
+`5`::
+  FINER level, which provides detailed tracing information
+`6`::
+  FINEST level, which provides highly detailed tracing information +
+For any value of `MQ_LOG_LEVEL`, log messages of that value or lower are
+generated. For example, setting `MQ_LOG_LEVEL` to `2` causes INFO,
+WARNING and SEVERE log messages to be generated. +
+The default level is `3`, CONFIG.
+
+

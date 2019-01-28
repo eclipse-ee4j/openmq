@@ -1,0 +1,604 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.3
+next=lot.html
+~~~~~~
+Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.3
+=========================================================================
+
+[[contents]]
+Contents
+--------
+
+[[list-of-tables]]
+link:lot.html[List of Tables]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#gblyj[Who Should Use This Book]
+* link:preface.html#gblxf[Before You Read This Book]
+* link:preface.html#gblxh[How This Book Is Organized]
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+[[introduction]]
+link:introduction.html#aelao[1 Introduction]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:introduction.html#aelap[Message Queue for the C Developer]
+* link:introduction.html#aelaq[Building and Running C Clients]
+
+** link:introduction.html#aelar[Building C Clients]
+*** link:introduction.html#aelas[Header Files and Shared Libraries]
+*** link:introduction.html#aelat[Pre-Processor Definitions]
+*** link:introduction.html#aelau[C++ Runtime Library Support]
+
+** link:introduction.html#aelav[Providing Runtime Support]
+* link:introduction.html#aelaw[Working With the Sample C-Client Programs]
+
+** link:introduction.html#ghetd[Basic C-Client Programs]
+*** link:introduction.html#aelax[Building the Basic C-Client Sample
+Programs]
+*** link:introduction.html#aelay[Running the Basic C-Client Sample
+Programs]
+
+** link:introduction.html#gherr[Distributed Transaction Sample Programs]
+*** link:introduction.html#gheqx[To Set Up Tuxedo as a Distributed
+Transaction Manager]
+*** link:introduction.html#gherg[To Build the Distributed Transaction
+Sample Programs]
+*** link:introduction.html#ghesi[To Run the Distributed Transaction
+Sample Programs]
+* link:introduction.html#aelaz[Client Application Deployment
+Considerations]
+
+[[using-the-c-api]]
+link:using-the-c-api.html#aelba[2 Using the C API]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:using-the-c-api.html#aelbc[Message Queue C Client Setup
+Operations]
+
+** link:using-the-c-api.html#gblxv[To Set Up a Message Queue C Client to
+Produce Messages]
+
+** link:using-the-c-api.html#gblxa[To Set Up a Message Queue C Client to
+Consume Messages Synchronously]
+
+** link:using-the-c-api.html#gblxg[To Set Up a Message Queue C Client to
+Consume Messages Asynchronously]
+* link:using-the-c-api.html#aelbd[Working With Properties]
+
+** link:using-the-c-api.html#aelbe[Setting Connection and Message
+Properties]
+*** link:using-the-c-api.html#gblyc[To Set Properties for a Connection]
+
+** link:using-the-c-api.html#aelbf[Getting Message Properties]
+*** link:using-the-c-api.html#gblxs[To Iterate Through a Properties
+Handle]
+* link:using-the-c-api.html#aelbg[Working With Connections]
+
+** link:using-the-c-api.html#aelbh[Defining Connection Properties]
+*** link:using-the-c-api.html#aelbi[Connection Handling]
+*** link:using-the-c-api.html#aelbj[Reliability]
+*** link:using-the-c-api.html#aelbk[Flow Control]
+
+** link:using-the-c-api.html#aelbl[Working With Secure Connections]
+*** link:using-the-c-api.html#aelbm[Configuring the Client for Secure
+Communication]
+*** link:using-the-c-api.html#aelbn[Verification Using Fingerprints]
+*** link:using-the-c-api.html#aelbo[Coordinating NSS Initialization]
+
+** link:using-the-c-api.html#aelbp[Shutting Down Connections]
+* link:using-the-c-api.html#aelbq[Working With Sessions and Destinations]
+
+** link:using-the-c-api.html#aelbr[Creating a Session]
+*** link:using-the-c-api.html#aelbs[Transacted Sessions]
+*** link:using-the-c-api.html#aelbt[Message Acknowledgement]
+*** link:using-the-c-api.html#aelbu[Receive Mode]
+
+** link:using-the-c-api.html#aelbv[Managing a Session]
+
+** link:using-the-c-api.html#aelbw[Creating Destinations]
+*** link:using-the-c-api.html#aelbx[Programming Domains]
+*** link:using-the-c-api.html#aelby[Auto-Created Destinations]
+*** link:using-the-c-api.html#aelbz[Temporary Destinations]
+*** link:using-the-c-api.html#aelca[Getting Information About
+Destinations]
+* link:using-the-c-api.html#aelcb[Working With Messages]
+
+** link:using-the-c-api.html#aelcc[Composing Messages]
+*** link:using-the-c-api.html#aelcd[Message Header]
+*** link:using-the-c-api.html#aelce[Message Body Types]
+*** link:using-the-c-api.html#aelcf[Composing the Message]
+
+** link:using-the-c-api.html#aelcg[Sending a Message]
+
+** link:using-the-c-api.html#aelch[Receiving Messages]
+*** link:using-the-c-api.html#aelci[Working With Consumers]
+*** link:using-the-c-api.html#aelcj[Receiving a Message Synchronously]
+*** link:using-the-c-api.html#aelck[Receiving a Message Asynchronously]
+
+** link:using-the-c-api.html#aelcl[Processing a Message]
+* link:using-the-c-api.html#gheqr[Working With Distributed Transactions]
+
+** link:using-the-c-api.html#gherf[Message Queue Resource Manager
+Information]
+
+** link:using-the-c-api.html#gheui[Programming Examples]
+* link:using-the-c-api.html#aelcm[Error Handling]
+
+** link:using-the-c-api.html#gblyu[To Handle Errors in Your Code]
+* link:using-the-c-api.html#aelcn[Memory Management]
+* link:using-the-c-api.html#aelco[Logging]
+
+[[client-design-issues]]
+link:client-design-issues.html#aelcp[3 Client Design Issues]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:client-design-issues.html#aelcq[Producers and Consumers]
+* link:client-design-issues.html#aelcr[Using Selectors Efficiently]
+* link:client-design-issues.html#aelcs[Determining Message Order and
+Priority]
+* link:client-design-issues.html#aelct[Managing Threads]
+
+** link:client-design-issues.html#aelcu[Message Queue C Runtime Thread
+Model]
+
+** link:client-design-issues.html#aelcv[Concurrent Use of Handles]
+
+** link:client-design-issues.html#aelcw[Single-Threaded Session Control]
+
+** link:client-design-issues.html#aelcx[Connection Exceptions]
+* link:client-design-issues.html#aelcy[Managing Physical Destination
+Limits]
+* link:client-design-issues.html#aelcz[Managing the Dead Message Queue]
+* link:client-design-issues.html#aelda[Factors Affecting Performance]
+
+** link:client-design-issues.html#aeldb[Delivery Mode
+(Persistent/Non-persistent)]
+
+** link:client-design-issues.html#aeldc[Use of Transactions]
+
+** link:client-design-issues.html#aeldd[Acknowledgement Mode]
+
+** link:client-design-issues.html#aelde[Durable and Non-Durable
+Subscriptions]
+
+** link:client-design-issues.html#aeldf[Use of Selectors (Message
+Filtering)]
+
+** link:client-design-issues.html#aeldg[Message Size]
+
+** link:client-design-issues.html#aeldh[Message Type]
+
+[[reference]]
+link:reference.html#aeldi[4 Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:reference.html#aeldj[Data Types]
+
+** link:reference.html#aeldk[Connection Properties]
+*** link:reference.html#gblzb[To Set Connection Properties]
+
+** link:reference.html#aeldl[Acknowledge Modes]
+
+** link:reference.html#aeldm[Callback Type for Asynchronous Message
+Consumption]
+*** link:reference.html#ghesl[Parameters]
+
+** link:reference.html#aelgr[Callback Type for Asynchronous Message
+Consumption in Distributed Transactions]
+*** link:reference.html#gbmhc[Parameters]
+
+** link:reference.html#aeldn[Callback Type for Connection Exception
+Handling]
+*** link:reference.html#ghesx[Parameters]
+* link:reference.html#aeldo[Function Reference]
+
+** link:reference.html#aeldp[MQAcknowledgeMessages]
+*** link:reference.html#gblzk[Return Value]
+*** link:reference.html#gblzr[Parameters]
+*** link:reference.html#gblze[Common Errors]
+
+** link:reference.html#aeldq[MQCloseConnection]
+*** link:reference.html#gblzl[Return Value]
+*** link:reference.html#gblzh[Parameters]
+*** link:reference.html#gblzt[Common Errors]
+
+** link:reference.html#aeldr[MQCloseMessageConsumer]
+*** link:reference.html#gblyz[Return Value]
+*** link:reference.html#gblzi[Parameters]
+*** link:reference.html#gblzd[Common Errors]
+
+** link:reference.html#aelds[MQCloseMessageProducer]
+*** link:reference.html#gblzw[Return Value]
+*** link:reference.html#gblzj[Parameters]
+*** link:reference.html#gblzq[Common Errors]
+
+** link:reference.html#aeldt[MQCloseSession]
+*** link:reference.html#gblzg[Return Value]
+*** link:reference.html#gblzf[Parameters]
+*** link:reference.html#gblzo[Common Errors]
+
+** link:reference.html#aeldu[MQCommitSession]
+*** link:reference.html#gblzs[Return Value]
+*** link:reference.html#gblyy[Parameters]
+*** link:reference.html#gblzx[Common Errors]
+
+** link:reference.html#aeldv[MQCreateAsyncDurableMessageConsumer]
+*** link:reference.html#gblzm[Return Value]
+*** link:reference.html#gbmac[Parameters]
+*** link:reference.html#gbmab[Common Errors]
+
+** link:reference.html#aeldw[MQCreateAsyncMessageConsumer]
+*** link:reference.html#gbmax[Return Value]
+*** link:reference.html#gbmbb[Parameters]
+*** link:reference.html#gbmaq[Common Errors]
+
+** link:reference.html#CIAIAGFJ[MQCreateAsyncSharedDurableMessageConsumer]
+*** link:reference.html#sthref29[Return Value]
+*** link:reference.html#sthref30[Parameters]
+*** link:reference.html#sthref31[Common Errors]
+
+** link:reference.html#CIACEAJE[MQCreateAsyncSharedMessageConsumer]
+*** link:reference.html#sthref32[Return Value]
+*** link:reference.html#sthref33[Parameters]
+*** link:reference.html#sthref34[Common Errors]
+
+** link:reference.html#aeldx[MQCreateBytesMessage]
+*** link:reference.html#gbmad[Return Value]
+*** link:reference.html#gbmar[Parameters]
+
+** link:reference.html#aeldy[MQCreateConnection]
+*** link:reference.html#gbmaf[Return Value]
+*** link:reference.html#gbmai[Parameters]
+*** link:reference.html#gbman[Common Errors]
+
+** link:reference.html#aeleb[MQCreateDestination]
+*** link:reference.html#gbmau[Return Value]
+*** link:reference.html#gbmay[Parameters]
+*** link:reference.html#gbmam[Common Errors]
+
+** link:reference.html#aelec[MQCreateDurableMessageConsumer]
+*** link:reference.html#gbmag[Return Value]
+*** link:reference.html#gbmaa[Parameters]
+*** link:reference.html#gbmav[Common Errors]
+
+** link:reference.html#gbjak[MQCreateMessage]
+*** link:reference.html#gbmat[Return Value]
+*** link:reference.html#gbmbd[Parameters]
+
+** link:reference.html#aeled[MQCreateMessageConsumer]
+*** link:reference.html#gbmas[Return Value]
+*** link:reference.html#gbmaw[Parameters]
+*** link:reference.html#gbmaz[Common Errors]
+
+** link:reference.html#aelee[MQCreateMessageProducer]
+*** link:reference.html#gbmao[Return Value]
+*** link:reference.html#gbmah[Parameters]
+*** link:reference.html#gbmal[Common Errors]
+
+** link:reference.html#aelef[MQCreateMessageProducerForDestination]
+*** link:reference.html#gbmba[Return Value]
+*** link:reference.html#gbmap[Parameters]
+*** link:reference.html#gbmbc[Common Errors]
+
+** link:reference.html#aeleg[MQCreateProperties]
+*** link:reference.html#gbmae[Return Value]
+*** link:reference.html#gbmaj[Parameters]
+
+** link:reference.html#aeleh[MQCreateSession]
+*** link:reference.html#gbmak[Return Value]
+*** link:reference.html#gbmbj[Parameters]
+
+** link:reference.html#CIACFJDI[MQCreateSharedDurableMessageConsumer]
+*** link:reference.html#sthref35[Return Value]
+*** link:reference.html#sthref36[Parameters]
+*** link:reference.html#sthref37[Common Errors]
+
+** link:reference.html#CIAJABFE[MQCreateSharedMessageConsumer]
+*** link:reference.html#sthref38[Return Value]
+*** link:reference.html#sthref39[Parameters]
+*** link:reference.html#sthref40[Common Errors]
+
+** link:reference.html#aelei[MQCreateTemporaryDestination]
+*** link:reference.html#gbmde[Return Value]
+*** link:reference.html#gbmcu[Parameters]
+*** link:reference.html#gbmdd[Common Errors]
+
+** link:reference.html#aelej[MQCreateTextMessage]
+*** link:reference.html#gheto[Return Value]
+*** link:reference.html#gheqf[Parameters]
+
+** link:reference.html#ghern[MQCreateXASession]
+*** link:reference.html#gbmhb[Return Value]
+*** link:reference.html#gbmha[Parameters]
+*** link:reference.html#gheyw[Common Errors]
+
+** link:reference.html#aelek[MQFreeConnection]
+*** link:reference.html#gbmby[Return Value]
+*** link:reference.html#gbmbt[Parameters]
+*** link:reference.html#gbmbf[Common Errors]
+
+** link:reference.html#aelel[MQFreeDestination]
+*** link:reference.html#gbmcb[Return Value]
+*** link:reference.html#gbmcl[Parameters]
+
+** link:reference.html#aelem[MQFreeMessage]
+*** link:reference.html#gbmbh[Return Value]
+*** link:reference.html#gbmcz[Parameters]
+
+** link:reference.html#aelen[MQFreeProperties]
+*** link:reference.html#gbmcj[Return Value]
+*** link:reference.html#gbmbk[Parameters]
+
+** link:reference.html#aeleo[MQFreeString]
+*** link:reference.html#gbmbz[Return Value]
+*** link:reference.html#gbmcs[Parameters]
+
+** link:reference.html#aelep[MQGetAcknowledgeMode]
+*** link:reference.html#gbmco[Return Value]
+*** link:reference.html#gbmcv[Parameters]
+
+** link:reference.html#aeleq[MQGetBoolProperty]
+*** link:reference.html#gbmbr[Return Value]
+*** link:reference.html#gbmci[Parameters]
+*** link:reference.html#gbmbs[Common Errors]
+
+** link:reference.html#aeler[MQGetBytesMessageBytes]
+*** link:reference.html#gbmbm[Return Value]
+*** link:reference.html#gbmbv[Parameters]
+
+** link:reference.html#ghevs[MQGetConnectionProperties]
+*** link:reference.html#ghezj[Return Value]
+*** link:reference.html#ghezk[Parameters]
+
+** link:reference.html#CIAFJBHF[MQGetDeliveryDelay]
+*** link:reference.html#sthref41[Return Value]
+*** link:reference.html#sthref42[Parameters]
+
+** link:reference.html#gbjog[MQGetDestinationName]
+*** link:reference.html#gbmcn[Return Value]
+*** link:reference.html#gbmcc[Parameters]
+
+** link:reference.html#aeles[MQGetDestinationType]
+*** link:reference.html#gbmbw[Return Value]
+*** link:reference.html#gbmbp[Parameters]
+
+** link:reference.html#aelet[MQGetErrorTrace]
+*** link:reference.html#aeleu[MQGetFloat32Property]
+*** link:reference.html#gbmcx[Return Value]
+*** link:reference.html#gbmbe[Parameters]
+*** link:reference.html#gbmdb[Common Errors]
+
+** link:reference.html#aelev[MQGetFloat64Property]
+*** link:reference.html#gbmct[Return Value]
+*** link:reference.html#gbmce[Parameters]
+*** link:reference.html#gbmbq[Common Errors]
+
+** link:reference.html#aelew[MQGetInt16Property]
+*** link:reference.html#gbmcg[Return Value]
+*** link:reference.html#gbmbx[Parameters]
+*** link:reference.html#gbmbn[Common Errors]
+
+** link:reference.html#aelex[MQGetInt32Property]
+*** link:reference.html#gbmcw[Return Value]
+*** link:reference.html#gbmbo[Parameters]
+*** link:reference.html#gbmca[Common Errors]
+
+** link:reference.html#aeley[MQGetInt64Property]
+*** link:reference.html#gbmbu[Return Value]
+*** link:reference.html#gbmbl[Parameters]
+*** link:reference.html#gbmcd[Common Errors]
+
+** link:reference.html#aelez[MQGetInt8Property]
+*** link:reference.html#gbmbi[Return Value]
+*** link:reference.html#gbmcm[Parameters]
+*** link:reference.html#gbmcp[Common Errors]
+
+** link:reference.html#aelfa[MQGetMessageHeaders]
+*** link:reference.html#gbmcf[Return Value]
+*** link:reference.html#gbmcr[Parameters]
+
+** link:reference.html#aelfb[MQGetMessageProperties]
+*** link:reference.html#gbmcy[Return Value]
+*** link:reference.html#gbmch[Parameters]
+*** link:reference.html#gbmcq[Common Errors]
+
+** link:reference.html#aelfc[MQGetMessageReplyTo]
+*** link:reference.html#gbmdc[Return Value]
+*** link:reference.html#gbmdv[Parameters]
+*** link:reference.html#gbmeu[Common Errors]
+
+** link:reference.html#aelfd[MQGetMessageType]
+*** link:reference.html#gbmey[Return Value]
+*** link:reference.html#gbmdt[Parameters]
+
+** link:reference.html#aelfe[MQGetMetaData]
+*** link:reference.html#gbmdp[Return Value]
+*** link:reference.html#gbmes[Parameters]
+
+** link:reference.html#aelff[MQGetPropertyType]
+*** link:reference.html#gbmdy[Return Value]
+*** link:reference.html#gbmeq[Parameters]
+*** link:reference.html#gbmet[Common Errors]
+
+** link:reference.html#aelfg[MQGetStatusCode]
+*** link:reference.html#gbmew[Parameters]
+
+** link:reference.html#aelfh[MQGetStatusString]
+*** link:reference.html#gbmeh[Parameters]
+
+** link:reference.html#aelfi[MQGetStringProperty]
+*** link:reference.html#gbmdf[Return Value]
+*** link:reference.html#gbmea[Parameters]
+
+** link:reference.html#aelfj[MQGetTextMessageText]
+*** link:reference.html#ghepf[Return Value]
+*** link:reference.html#ghesc[Parameters]
+
+** link:reference.html#gherz[MQGetXAConnection]
+*** link:reference.html#gbmds[Return Value]
+*** link:reference.html#gbmdu[Parameters]
+*** link:reference.html#ghewd[Common Errors]
+
+** link:reference.html#aelfk[MQInitializeSSL]
+*** link:reference.html#gbmdj[Return Value]
+*** link:reference.html#gbmem[Parameters]
+*** link:reference.html#gbmdl[Common Errors]
+
+** link:reference.html#aelfl[MQPropertiesKeyIterationGetNext]
+*** link:reference.html#gbmeb[Return Value]
+*** link:reference.html#gbmex[Parameters]
+
+** link:reference.html#aelfm[MQPropertiesKeyIterationHasNext]
+*** link:reference.html#gbmdx[Return Value]
+*** link:reference.html#gbmep[Parameters]
+
+** link:reference.html#aelfn[MQPropertiesKeyIterationStart]
+*** link:reference.html#gbmek[Return Value]
+*** link:reference.html#gbmdo[Parameters]
+
+** link:reference.html#aelfo[MQReceiveMessageNoWait]
+*** link:reference.html#gbmfb[Return Value]
+*** link:reference.html#gbmdg[Parameters]
+*** link:reference.html#gbmdi[Common Errors]
+
+** link:reference.html#aelfp[MQReceiveMessageWait]
+*** link:reference.html#gbmef[Return Value]
+*** link:reference.html#gbmec[Parameters]
+*** link:reference.html#gbmeo[Common Errors]
+
+** link:reference.html#aelfq[MQReceiveMessageWithTimeout]
+*** link:reference.html#gbmdz[Return Value]
+*** link:reference.html#gbrdm[Parameters]
+*** link:reference.html#gbmei[Common Errors]
+
+** link:reference.html#aelfr[MQRecoverSession]
+*** link:reference.html#gbmev[Return Value]
+*** link:reference.html#gbmdk[Parameters]
+*** link:reference.html#gbmdm[Common Errors]
+
+** link:reference.html#aelfs[MQRollBackSession]
+*** link:reference.html#gbmdq[Return Value]
+*** link:reference.html#gbmfa[Parameters]
+*** link:reference.html#gbmer[Common Errors]
+
+** link:reference.html#aelft[MQSendMessage]
+*** link:reference.html#gbmdw[Return Value]
+*** link:reference.html#gbmed[Parameters]
+*** link:reference.html#gbmej[Common Errors]
+
+** link:reference.html#aelfu[MQSendMessageExt]
+*** link:reference.html#gbmen[Return Value]
+*** link:reference.html#gbmee[Parameters]
+*** link:reference.html#gbmdn[Common Errors]
+
+** link:reference.html#aelfv[MQSendMessageToDestination]
+*** link:reference.html#gbmdh[Return Value]
+*** link:reference.html#gbmez[Parameters]
+*** link:reference.html#gbmfn[Common Errors]
+
+** link:reference.html#aelfw[MQSendMessageToDestinationExt]
+*** link:reference.html#gbmgp[Return Value]
+*** link:reference.html#gbmfc[Parameters]
+*** link:reference.html#gbmgn[Common Errors]
+
+** link:reference.html#aelfx[MQSetBoolProperty]
+*** link:reference.html#gbmfl[Return Value]
+*** link:reference.html#gbmgh[Parameters]
+*** link:reference.html#gbmgq[Common Errors]
+
+** link:reference.html#aelfy[MQSetBytesMessageBytes]
+*** link:reference.html#gbmfx[Return Value]
+*** link:reference.html#gbmgx[Parameters]
+
+** link:reference.html#CIAHJGHF[MQSetDeliveryDelay]
+*** link:reference.html#sthref44[Return Value]
+*** link:reference.html#sthref45[Parameters]
+
+** link:reference.html#aelfz[MQSetFloat32Property]
+*** link:reference.html#gbmgi[Return Value]
+*** link:reference.html#gbmgz[Parameters]
+*** link:reference.html#gbmgu[Common Errors]
+
+** link:reference.html#aelga[MQSetFloat64Property]
+*** link:reference.html#gbmge[Return Value]
+*** link:reference.html#gbmff[Parameters]
+*** link:reference.html#gbmgd[Common Errors]
+
+** link:reference.html#aelgb[MQSetInt16Property]
+*** link:reference.html#gbmgf[Return Value]
+*** link:reference.html#gbmfh[Parameters]
+*** link:reference.html#gbmga[Common Errors]
+
+** link:reference.html#aelgc[MQSetInt32Property]
+*** link:reference.html#gbmfe[Return Value]
+*** link:reference.html#gbmgr[Parameters]
+*** link:reference.html#gbmgj[Common Errors]
+
+** link:reference.html#aelgd[MQSetInt64Property]
+*** link:reference.html#gbmfd[Return Value]
+*** link:reference.html#gbmfk[Parameters]
+*** link:reference.html#gbmfr[Common Errors]
+
+** link:reference.html#aelge[MQSetInt8Property]
+*** link:reference.html#gbmfq[Return Value]
+*** link:reference.html#gbmfv[Parameters]
+*** link:reference.html#gbmfu[Common Errors]
+
+** link:reference.html#aelgf[MQSetMessageHeaders]
+*** link:reference.html#gbmfs[Return Value]
+*** link:reference.html#gbmgs[Parameters]
+*** link:reference.html#gbmgc[Common Errors]
+
+** link:reference.html#aelgg[MQSetMessageProperties]
+*** link:reference.html#gbmfp[Return Value]
+*** link:reference.html#gbmgl[Parameters]
+
+** link:reference.html#aelgh[MQSetMessageReplyTo]
+*** link:reference.html#gbmfg[Return Value]
+*** link:reference.html#gbmgk[Parameters]
+
+** link:reference.html#aelgi[MQSetStringProperty]
+*** link:reference.html#gbmgb[Return Value]
+*** link:reference.html#gbmgo[Parameters]
+
+** link:reference.html#aelgj[MQSetTextMessageText]
+*** link:reference.html#gbmgv[Return Value]
+*** link:reference.html#gbmfm[Parameters]
+
+** link:reference.html#aelgk[MQStartConnection]
+*** link:reference.html#gbmfj[Return Value]
+*** link:reference.html#gbmgg[Parameters]
+*** link:reference.html#gbmgy[Common Errors]
+
+** link:reference.html#aelgl[MQStatusIsError]
+*** link:reference.html#gbmfy[Parameters]
+
+** link:reference.html#aelgm[MQStopConnection]
+*** link:reference.html#gbmfi[Return Value]
+*** link:reference.html#gbmfo[Parameters]
+*** link:reference.html#gbmgm[Common Errors]
+
+** link:reference.html#aelgn[MQUnsubscribeDurableMessageConsumer]
+*** link:reference.html#gbmfw[Return Value]
+*** link:reference.html#gbmft[Parameters]
+*** link:reference.html#gbmgt[Common Errors]
+* link:reference.html#aelgo[Header Files]
+
+[[a-message-queue-c-api-error-codes]]
+link:capi-error-codes.html#aelgp[A Message Queue C API Error Codes]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:capi-error-codes.html#aelgq[Error Codes]
+
+

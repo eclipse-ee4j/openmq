@@ -1,0 +1,23 @@
+type=page
+status=published
+title=Introduction to Message Queue Administration
+next=admin-tasks-and-tools.html
+prev=preface.html
+~~~~~~
+Introduction to Message Queue Administration
+============================================
+
+[[gcrlv]][[GMADG00141]][[part-i]]
+
+Part I +
+--------
+
+[[introduction-to-message-queue-administration]]
+Introduction to Message Queue Administration
+--------------------------------------------
+
+* link:admin-tasks-and-tools.html#aeoap[Chapter 1, "Administrative Tasks
+and Tools"]
+* link:quick-start.html#aeoay[Chapter 2, "Quick-Start Tutorial"]
+
+

@@ -1,0 +1,623 @@
+type=page
+status=published
+title=Managing a Broker
+next=connection-services.html
+prev=broker-configuration.html
+~~~~~~
+Managing a Broker
+=================
+
+[[GMADG00036]][[aeodm]]
+
+
+[[managing-a-broker]]
+5 Managing a Broker
+-------------------
+
+This chapter explains how to use the Message Queue Command utility
+(`imqcmd`) to manage a broker. The chapter has the following sections:
+
+* link:#aeodn[Command Utility Preliminaries]
+* link:#aeodo[Using the Command Utility]
+* link:#geobv[Managing Brokers]
+
+This chapter does not cover all topics related to managing a broker.
+Additional topics are covered in the following separate chapters:
+
+* For information on configuring and managing connection services, see
+link:connection-services.html#gheau[Configuring and Managing Connection
+Services].
+* For information on managing message delivery services, including how
+to create, display, update, and destroy physical destinations, see
+link:message-delivery.html#ghebf[Managing Message Delivery].
+* For information on configuring and managing persistence services, for
+both flat-file and JDBC-based data stores, see
+link:persistence-services.html#gheas[Configuring Persistence Services].
+* For information about setting up security for the broker, such as user
+authentication, access control, encryption, and password files, see
+link:security-services.html#aeoff[Configuring and Managing Security
+Services].
+* For information on configuring and managing clustering services, for
+both conventional and enhanced broker clusters, see
+link:broker-clusters.html#aeohv[Configuring and Managing Broker
+Clusters].
+* For information about monitoring a broker, see
+link:monitoring.html#aeoik[Monitoring Broker Operations].
+
+[[aeodn]][[GMADG00232]][[command-utility-preliminaries]]
+
+Command Utility Preliminaries
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before using the Command utility to manage a broker, you must do the
+following:
+
+* Start the broker using the `imqbrokerd` command. You cannot use the
+Command utility subcommands l until a broker is running.
+* Determine whether you want to set up a Message Queue administrative
+user or use the default account. You must specify a user name and
+password to use all Command utility subcommands (except to display
+command help and version information). +
+When you install Message Queue, a default flat-file user repository is
+installed. The repository is shipped with two default entries: an
+administrative user and a guest user. If you are testing Message Queue,
+you can use the default user name and password (`admin`/`admin`) to run
+the Command utility. +
+If you are setting up a production system, you must set up
+authentication and authorization for administrative users. See
+link:security-services.html#aeoff[Configuring and Managing Security
+Services] for information on setting up a file-based user repository or
+configuring the use of an LDAP directory server. In a production
+environment, it is a good security practice to use a nondefault user
+name and password.
+* If you want to use a secure connection to the broker, set up and
+enable the `ssladmin` service on the target broker instance, For more
+information, see link:security-services.html#aeogb[Message Encryption].
+
+[[aeodo]][[GMADG00233]][[using-the-command-utility]]
+
+Using the Command Utility
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue Command utility (`imqcmd`) enables you to manage the
+broker and its services interactively from the command line. See
+link:command-line-reference.html#aeonf[Command Utility] for general
+reference information about the syntax, subcommands, and options of the
+`imqcmd` command, and link:broker-properties.html#aeons[Broker Properties
+Reference] for specific information on the configuration properties used
+to specify broker behavior.
+
+[[aeodr]][[GMADG00516]][[specifying-the-user-name-and-password]]
+
+Specifying the User Name and Password
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Because each `imqcmd` subcommand is authenticated against the user
+repository, it requires a user name and password. The only exceptions
+are commands that use the `-h` or `-H` option to display help, and those
+that use the `-v` option to display the product version.
+
+Use the `-u` option to specify an administrative user name. For example,
+the following command displays information about the default broker:
+
+[source,oac_no_warn]
+----
+imqcmd query bkr  -u admin 
+----
+
+If you omit the user name, the command will prompt you for it.
+
+
+[NOTE]
+=======================================================================
+
+For simplicity, the examples in this chapter use the default user name
+`admin` as the argument to the `-u` option. In a real-life production
+environment, you would use a custom user name.
+
+=======================================================================
+
+
+Specify the password using one of the following methods:
+
+* Create a password file and enter the password into that file as the
+value of the `imq.imqcmd.password` property. On the command line, use
+the `-passfile` option to provide the name of the password file.
+* Let the `imqcmd` command prompt you for the password.
+
+
+[NOTE]
+=======================================================================
+
+In previous versions of Message Queue, you could use the `-p` option to
+specify a password on the `imqcmd` command line. As of Message Queue
+4.0, this option is deprecated and is no longer supported; you must
+instead use one of the methods listed above.
+
+=======================================================================
+
+
+[[aeodu]][[GMADG00517]][[specifying-the-broker-name-and-port]]
+
+Specifying the Broker Name and Port
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Most `imqcmd` subcommands use the `-b` option to specify the host name
+and the port mapper port number of the broker to which the command
+applies:
+
+[source,oac_no_warn]
+----
+-b hostName:portNumber
+----
+
+If no broker is specified, the command applies by default to a broker
+running on the local host (`localhost`) at port mapper port number
+`7676`. See link:connection-services.html#aeoco["Port Mapper"] for more
+information.
+
+To issue a command to a broker that is running on a remote host,
+listening on a non-default port, or both, you must use the `-b` option
+to specify the host and port explicitly.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+[[aeodq]][[GMADG00518]][[displaying-the-product-version]]
+
+Displaying the Product Version
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To display the Message Queue product version, use the `-v` option. For
+example:
+
+[source,oac_no_warn]
+----
+imqcmd  -v
+----
+
+If you enter an `imqcmd` command line containing the `-v` option in
+addition to a subcommand or other options, the Command utility processes
+only the `-v` option. All other items on the command line are ignored.
+
+[[aeodp]][[GMADG00519]][[displaying-help]]
+
+Displaying Help
+^^^^^^^^^^^^^^^
+
+To display help on the `imqcmd` command, use the `-h` or `-H` option,
+and do not use a subcommand. You cannot get help about specific
+subcommands.
+
+For example, the following command displays help about `imqcmd`:
+
+[source,oac_no_warn]
+----
+imqcmd  -H
+----
+
+If you enter an `imqcmd` command line containing the `-h` or `-H` option
+in addition to a subcommand or other options, the Command utility
+processes only the `-h` or `-H` option. All other items on the command
+line are ignored.
+
+[[aeodv]][[GMADG00520]][[examples]]
+
+Examples
+^^^^^^^^
+
+The examples in this section illustrate how to use the `imqcmd` command.
+
+The following example lists the properties of the broker running on host
+`localhost` at port `7676`, so the `-b` option is unnecessary:
+
+[source,oac_no_warn]
+----
+imqcmd query bkr  -u admin 
+----
+
+The command uses the default administrative user name (`admin`) and
+omits the password, so that the command will prompt for it.
+
+The following example lists the properties of the broker running on the
+host `myserver` at port `1564`. The user name is `aladdin`:
+
+[source,oac_no_warn]
+----
+imqcmd query bkr  -b myserver:1564  -u aladdin
+----
+
+(For this command to work, the user repository would need to be updated
+to add the user name `aladdin` to the `admin` group.)
+
+The following example lists the properties of the broker running on
+`localhost` at port `7676`. The initial timeout for the command is set
+to 20 seconds and the number of retries after timeout is set to 7. The
+user's password is in a password file called `myPassfile`, located in
+the current directory at the time the command is invoked.
+
+[source,oac_no_warn]
+----
+imqcmd query bkr  -u admin  -passfile myPassfile  -rtm 20  -rtr 7
+----
+
+For a secure connection to the broker, these examples could include the
+`-secure` option. This option causes the Command utility to use the
+`ssladmin` service if that service has been configured and started.
+
+[[geobv]][[GMADG00234]][[managing-brokers]]
+
+Managing Brokers
+~~~~~~~~~~~~~~~~
+
+This section describes how to use Command utility subcommands to perform
+the following broker management tasks:
+
+* link:#aeoeb[Shutting Down and Restarting a Broker]
+* link:#geodc[Quiescing a Broker]
+* link:#aeody[Pausing and Resuming a Broker]
+* link:#aeodx[Updating Broker Properties]
+* link:#aeodw[Viewing Broker Information]
+
+In addition to using the subcommands described in the following
+sections, `imqcmd` allows you to set system properties using the `-D`
+option. This is useful for setting or overriding connection factory
+properties or connection-related Java system properties.
+
+For example, the following command changes the default value of
+`imqSSLIsHostTrusted`:
+
+[source,oac_no_warn]
+----
+imqcmd list svc -secure -DimqSSLIsHostTrusted=true
+----
+
+The following command specifies the password file and the password used
+for the SSL trust store that is used by the `imqcmd` command:
+
+[source,oac_no_warn]
+----
+imqcmd list svc -secure -DJavax.net.ssl.trustStore=/tmp/MyTruststore
+              -Djavax.net.ssl.trustStorePassword=MyTrustword
+----
+
+[[aeoeb]][[GMADG00521]][[shutting-down-and-restarting-a-broker]]
+
+Shutting Down and Restarting a Broker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `shutdown` `bkr` shuts down a broker:
+
+[source,oac_no_warn]
+----
+imqcmd shutdown bkr  [-b hostName:portNumber]
+[-time nSeconds]
+[-nofailover]
+----
+
+The broker stops accepting new connections and messages, completes
+delivery of existing messages, and terminates the broker process.
+
+The `-time` option, if present, specifies the interval, in seconds, to
+wait before shutting down the broker. For example, the following command
+delays 90 seconds and then shuts down the broker running on host
+`wolfgang` at port `1756`:
+
+[source,oac_no_warn]
+----
+imqcmd shutdown bkr  -b wolfgang:1756  -time 90  -u admin
+----
+
+The broker will not block, but will return immediately from the delayed
+shutdown request. During the shutdown interval, the broker will not
+accept any new `jms` connections; `admin` connections will be accepted,
+and existing `jms` connections will continue to operate. If the broker
+belongs to an enhanced broker cluster, it will not attempt to take over
+for any other broker during the shutdown interval.
+
+If the broker is part of an enhanced broker cluster (see
+"link:../mq-tech-over/broker-clusters.html#GMTOV00068[Enhanced Clusters]" in Open Message Queue Technical
+Overview), another broker in the cluster will ordinarily attempt to take
+over its persistent data on shutdown; the `-nofailover` option to the
+`imqcmd` `shutdown` `bkr` subcommand suppresses this behavior.
+Conversely, you can use the `imqcmd` `takeover` `bkr` subcommand to
+force such a takeover manually (for instance, if the takeover broker
+were to fail before completing the takeover process); see
+link:broker-clusters.html#gecjm[Preventing or Forcing Broker Failover]
+for more information.
+
+
+[NOTE]
+=======================================================================
+
+The `imqcmd` `takeover` `bkr` subcommand is intended only for use in
+failed-takeover situations. You should use it only as a last resort, and
+not as a general way of forcibly taking over a running broker.
+
+=======================================================================
+
+
+To shut down and restart a broker, use the subcommand `imqcmd` `restart`
+`bkr`:
+
+[source,oac_no_warn]
+----
+imqcmd restart bkr  [-b hostName:portNumber]
+----
+
+This shuts down the broker and then restarts it using the same options
+that were specified when it was first started. To choose different
+options, shut down the broker with `imqcmd` `shutdown` `bkr` and then
+start it again with the Broker utility (`imqbrokerd`), specifying the
+options you want.
+
+[[geodc]][[GMADG00522]][[quiescing-a-broker]]
+
+Quiescing a Broker
+^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `quiesce` `bkr` quiesces a broker, causing it to
+refuse any new client connections while continuing to service old ones:
+
+[source,oac_no_warn]
+----
+imqcmd quiesce bkr  [-b hostName:portNumber]
+----
+
+If the broker is part of an enhanced broker cluster, this allows its
+operations to wind down normally without triggering a takeover by
+another broker, for instance in preparation for shutting it down
+administratively for upgrade or similar purposes. For example, the
+following command quiesces the broker running on host `hastings` at port
+`1066`:
+
+[source,oac_no_warn]
+----
+imqcmd quiesce bkr  -b hastings:1066  -u admin
+----
+
+To reverse the process and return the broker to normal operation, use
+the `imqcmd` `unquiesce` `bkr` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd unquiesce bkr  [-b hostName:portNumber]
+----
+
+For example, the following command unquiesces the broker that was
+quiesced in the preceding example:
+
+[source,oac_no_warn]
+----
+imqcmd unquiesce bkr  -b hastings:1066  -u admin
+----
+
+[[aeody]][[GMADG00523]][[pausing-and-resuming-a-broker]]
+
+Pausing and Resuming a Broker
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `pause` `bkr` pauses a broker, suspending its
+connection service threads and causing it to stop listening on the
+connection ports:
+
+[source,oac_no_warn]
+----
+imqcmd pause bkr  [-b hostName:portNumber]
+----
+
+For example, the following command pauses the broker running on host
+`myhost` at port `1588`:
+
+[source,oac_no_warn]
+----
+imqcmd pause bkr  -b myhost:1588  -u admin
+----
+
+Because its connection service threads are suspended, a paused broker is
+unable to accept new connections, receive messages, or dispatch
+messages. The `admin` connection service is not suspended, allowing you
+to continue performing administrative tasks needed to regulate the flow
+of messages to the broker. Pausing a broker also does not suspend the
+`cluster` connection service; however, since message delivery within a
+cluster depends on the delivery functions performed by the different
+brokers in the cluster, pausing a broker in a cluster may result in a
+slowing of some message traffic.
+
+You can also pause individual connection services and physical
+destinations. For more information, see
+link:connection-services.html#aeoei[Pausing and Resuming a Connection
+Service] and link:message-delivery.html#aeoet[Pausing and Resuming a
+Physical Destination].
+
+The subcommand `imqcmd` `resume` `bkr` reactivates a broker's service
+threads, causing it to resume listening on the ports:
+
+[source,oac_no_warn]
+----
+imqcmd resume bkr  [-b hostName:portNumber]
+----
+
+For example, the following command resumes the default broker (host
+`localhost` at port `7676`):
+
+[source,oac_no_warn]
+----
+imqcmd resume bkr  -u admin 
+----
+
+[[aeodx]][[GMADG00524]][[updating-broker-properties]]
+
+Updating Broker Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `update` `bkr` can be used to change the values
+of a subset of broker properties for the default broker (or for the
+broker at a specified host and port):
+
+[source,oac_no_warn]
+----
+imqcmd update bkr [-b hostName:portNumber]
+-o property1=value1  [ [-o property2=value2] … ]
+----
+
+For example, the following command turns off the auto-creation of queue
+destinations for the default broker:
+
+[source,oac_no_warn]
+----
+imqcmd update bkr  -o imq.autocreate.queue=false  -u admin
+----
+
+You can use `imqcmd` `update` `bkr` to update any of the following
+broker properties:
+
+* `imq.autocreate.queue`
+* `imq.autocreate.topic`
+* `imq.autocreate.queue.maxNumActiveConsumers`
+* `imq.autocreate.queue.maxNumBackupConsumers`
+* `imq.cluster.url`
+* `imq.destination.DMQ.truncateBody`
+* `imq.destination.logDeadMsgs`
+* `imq.log.level`
+* `imq.log.file.rolloversecs`
+* `imq.log.file.rolloverbytes`
+* `imq.system.max_count`
+* `imq.system.max_size`
+* `imq.message.max_size`
+* `imq.portmapper.port`
+
+See link:broker-properties.html#aeons[Broker Properties Reference] for
+detailed information about these properties.
+
+[[aeodw]][[GMADG00525]][[viewing-broker-information]]
+
+Viewing Broker Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To display information about a single broker, use the `imqcmd` `query`
+`bkr` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd query bkr  -b hostName:portNumber
+----
+
+This lists the current settings of the broker's properties, as shown in
+link:#gechs[Example 5-1].
+
+[[GMADG00100]][[gechs]]
+
+
+Example 5-1 Broker Information Listing
+
+[source,oac_no_warn]
+----
+
+Querying the broker specified by:
+-------------------------
+Host         Primary Port
+-------------------------
+localHost    7676
+
+Version                                              5.0
+Instance Name                                        imqbroker
+Broker ID                                            mybroker
+Primary Port                                         7676
+Broker is Embedded                                   false
+Instance Configuration/Data Root Directory           /var/imq
+
+Current Number of Messages in System                 0
+Current Total Message Bytes in System                0
+
+Current Number of Messages in Dead Message Queue     0
+Current Total Message Bytes in Dead Message Queue    0
+Log Dead Messages                                    true
+Truncate Message Body in Dead Message Queue          false
+
+Max Number of Messages in System                     unlimited (-1)
+Max Total Message Bytes in System                    unlimited (-1)
+Max Message Size                                     70m
+
+Auto Create Queues                                   true
+Auto Create Topics                                   true
+Auto Created Queue Max Number of Active Consumers    1
+Auto Created Queue Max Number of Backup Consumers    0
+
+Cluster ID                                           myClusterID
+Cluster Is Highly Available                          true
+Cluster Broker List (active)                         
+Cluster Broker List (configured)                     
+Cluster Master Broker                                
+Cluster URL                                          
+
+Log Level                                            INFO
+Log Rollover Interval (seconds)                      604800
+Log Rollover Size (bytes)                            unlimited (-1)
+----
+
+The `imqcmd` `metrics` `bkr` subcommand displays detailed metric
+information about a broker's operation:
+
+[source,oac_no_warn]
+----
+imqcmd metrics bkr  [-b hostName:portNumber]
+[-m metricType]
+[-int interval]
+[-msp numSamples]
+----
+
+The `-m` option specifies the type of metric information to display:
+
+* `ttl` (default): Messages and packets flowing into and out of the
+broker
+* `rts`: Rate of flow of messages and packets into and out of the broker
+per second
+* `cxn`: Connections, virtual memory heap, and threads
+
+The `-int` and `-msp` options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.
+
+For example, the following command displays the rate of message flow
+into and out of the default broker (host `localhost` at port `7676`) at
+10-second intervals:
+
+[source,oac_no_warn]
+----
+imqcmd metrics bkr  -m rts  -int 10  -u admin
+----
+
+link:#genml[Example 5-2] shows an example of the resulting output.
+
+[[GMADG00101]][[genml]]
+
+
+Example 5-2 Broker Metrics Listing
+
+[source,oac_no_warn]
+----
+
+--------------------------------------------------------
+ Msgs/sec   Msg Bytes/sec   Pkts/sec    Pkt Bytes/sec   
+ In   Out     In      Out     In   Out     In      Out  
+--------------------------------------------------------
+ 0     0      27      56      0     0      38      66   
+ 10    0     7365     56      10    10    7457    1132  
+ 0     0      27      56      0     0      38      73   
+ 0     10     27     7402     10    20    1400    8459  
+ 0     0      27      56      0     0      38      73
+----
+
+For a more detailed description of the data gathered and reported by the
+broker, see link:metrics-information.html#aeoot[Brokerwide Metrics].
+
+For brokers belonging to a broker cluster, the `imqcmd` `list` `bkr`
+subcommand displays information about the configuration of the cluster;
+see link:broker-clusters.html#geciv[Displaying a Cluster Configuration]
+for more information.
+
+

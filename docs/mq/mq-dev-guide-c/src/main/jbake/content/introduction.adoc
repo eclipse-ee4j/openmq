@@ -1,0 +1,520 @@
+type=page
+status=published
+title=Introduction
+next=using-the-c-api.html
+prev=preface.html
+~~~~~~
+Introduction
+============
+
+[[GMCCG00002]][[aelao]]
+
+
+[[introduction]]
+1 Introduction
+--------------
+
+This chapter summarizes the differences between the C API and the Java
+API to Message Queue and provides a quick start to compiling and running
+Message Queue C clients. It covers the following topics:
+
+* link:#aelap[Message Queue for the C Developer]
+* link:#aelaq[Building and Running C Clients]
+* link:#aelaw[Working With the Sample C-Client Programs]
+* link:#aelaz[Client Application Deployment Considerations]
+
+You should be familiar with the concepts presented in the Open Message
+Queue Technical Overview before you read this chapter.
+
+Depending on your needs, after you read this chapter, you can proceed
+either to link:client-design-issues.html#aelcp[Chapter 3, "Client Design
+Issues"], which describes the major issues governing C client design, or
+to link:using-the-c-api.html#aelba[Chapter 2, "Using the C API"], which
+explains how you use C data types and functions to obtain the messaging
+behavior that interests you.
+
+The term "C developer" is used generically throughout this book and
+includes the C++ developer as well.
+
+[[aelap]][[GMCCG00036]][[message-queue-for-the-c-developer]]
+
+Message Queue for the C Developer
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue product is an enterprise messaging system that
+implements the Java Message Specification (JMS) standard as a JMS
+provider. Message Queue developers can use two programming interfaces to
+establish a connection to the broker, and send or receive messages:
+
+* C clients use the API described in this manual to send messages to and
+retrieve messages from a Message Queue broker.
+* Java clients use the Java API, described in the link:../mq-tech-over/toc.html#GMTOV[Open
+Message Queue Technical Overview], to send messages to and receive
+messages from a Message Queue broker.
+
+Message Queue provides a C API to its messaging services to enable
+legacy C applications and C++ applications to participate in JMS-based
+messaging. It is important to understand however that the Java Message
+Service specification is a standard for Java clients only; thus the C
+API described in this book is specific to the Message Queue provider and
+cannot be used with other JMS providers. A messaging application that
+includes a C client cannot be handled by another JMS provider.
+
+The C interface, compared to the Java interface, does not support the
+following features:
+
+* The use of administered objects
+* Map, stream, or object message types
+* Consumer-based flow control
+* Queue browsers
+* JMS application server facilities (ConnectionConsumer, distributed
+transactions)
+* Receiving or sending SOAP messages
+* Receiving or sending compressed JMS messages
+* Auto-reconnect or failover, which allows the client runtime to
+automatically reconnect to a broker if a connection fails
+* The `NO_ACKNOWLEDGE` mode
+
+Like the Java interface, the C interface does support the following:
+
+* Publish/subscribe and point-to-point connections
+* Synchronous and asynchronous receives
+* `CLIENT`, `AUTO`, and `DUPS_OK` acknowledgement modes
+* Local transactions
+* Session recover
+* Temporary topics and queues
+* Message selectors
+
+The JMS programming model is the foundation for the design of a Message
+Queue C client. link:using-the-c-api.html#aelba[Using the C API] explains
+how this model is implemented by the C data types and functions used by
+a Message Queue C client for delivery of messages.
+
+The next section provides a quick introduction to building and running
+Message Queue clients.
+
+[[aelaq]][[GMCCG00037]][[building-and-running-c-clients]]
+
+Building and Running C Clients
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue provides several sample Message Queue C-client
+applications that illustrate how to send and receive messages. Before
+you run these applications, read through the next two sections to make
+sure that you understand the general procedure and requirements for
+building and running Message Queue C-client programs.
+
+[[aelar]][[GMCCG00304]][[building-c-clients]]
+
+Building C Clients
+^^^^^^^^^^^^^^^^^^
+
+This section explains how you build Message Queue programs from C source
+files. You should already be familiar with writing and compiling C
+applications.
+
+[[aelas]][[GMCCG00063]][[header-files-and-shared-libraries]]
+
+Header Files and Shared Libraries
++++++++++++++++++++++++++++++++++
+
+The Message Queue C client includes the header files (`mqcrt.h`), the C
+client runtime shared library `mqcrt`, and its direct dependency
+libraries. When writing a Message Queue C client application, you should
+include the header files and link to the runtime library `mqcrt`.
+
+The header files are located in `IMQ_HOME/include`, and the 32-bit
+runtime library is located in `IMQ_HOME/lib`. A 64-bit runtime library
+is available for the following platforms in the specified location:
+
+* Linux: `IMQ_HOME/lib64`
+* Solaris SPARC: `IMQ_HOME/lib/sparcv9`
+* Solaris x86: `IMQ_HOME/lib/amd64`
+
+[[aelat]][[GMCCG00064]][[pre-processor-definitions]]
+
+Pre-Processor Definitions
++++++++++++++++++++++++++
+
+Use the appropriate compiler for your platform, as described in the
+link:../mq-release-notes/toc.html#GMRLN[Open Message Queue Release Notes].
+
+When compiling a Message Queue C client application, you need to specify
+the pre-processor definition shown for each platform in
+link:#gblya[Table 1-1]. This definition is used to support Message Queue
+fixed-size integer types.
+
+[[GMCCG419]][[sthref3]][[gblya]]
+
+
+Table 1-1 Preprocessor Definitions for Supporting Fixed-Size Integer
+Types
+
+[width="100%",cols="30%,70%",options="header",]
+|====================
+|Platform |Definition
+|Solaris |SOLARIS
+|Linux |LINUX
+|AIX |AIX
+|Windows |WIN32
+|====================
+
+
+[[aelau]][[GMCCG00065]][[c-runtime-library-support]]
+
+C++ Runtime Library Support
++++++++++++++++++++++++++++
+
+When building a Message Queue C client application, you should be aware
+that the Message Queue C runtime library is a multi-threaded library and
+requires C++ runtime library support:
+
+* On Solaris, this support is provided by the Oracle Solaris Studio
+`libCrun` C++ runtime library.
+* On Linux, this support is provided by the `gcc/g++ libstdc++` runtime
+library.
+* On AIX, this support is provided by the C++ runtime library in the in
+the XLC/C++ Runtime Environment.
+* On Windows, this support is provided by Microsoft Windows Visual C++
+runtime library `msvcrt`.
+
+[[aelav]][[GMCCG00305]][[providing-runtime-support]]
+
+Providing Runtime Support
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To run a Message Queue C-client application, you need to make sure that
+the application can find the `mqcrt` shared library. Please consult the
+documentation for your compiler to determine the best way to do this.
+
+You also need to make sure that the appropriate C++ runtime support
+library, as described in link:#aelau[C++ Runtime Library Support] is
+available.
+
+On Windows you also need to make sure that your application can find the
+dependent libraries NSPR and NSS that are shipped with Message Queue.
+These may be different from the NSPR and NSS libraries that are
+installed on your system to support the Netscape browser and GlassFish
+Server. The `mqcrt` shared library depends directly on the NSPR and NSS
+versions installed with Message Queue. If a different version of the
+libraries is loaded at runtime, you may get a runtime error specifying
+that the libraries being used are incompatible. If this happens, look on
+your system to see if other versions of the NSPR or NSS libraries exist;
+for example, `libnspr4.dll` or `nss3.dll`. If you find such versions,
+take appropriate action to make sure that Message Queue can access the
+versions it needs.
+
+[[aelaw]][[GMCCG00038]][[working-with-the-sample-c-client-programs]]
+
+Working With the Sample C-Client Programs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section describes the sample C-Client programs that are installed
+with Message Queue and explains how you should build them and run them.
+
+Message Queue provides two sets of sample C-client programs: basic
+C-client programs and distributed transaction programs.
+
+[[ghetd]][[GMCCG00306]][[basic-c-client-programs]]
+
+Basic C-Client Programs
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The sample C-client program files include the following:
+
+[[GMCCG420]][[sthref4]][[ghesh]]
+
+
+Table 1-2 Basic C-Client Sample Program Files
+
+[width="100%",cols="34%,66%",options="header",]
+|=======================================================================
+|Sample Program |Description
+|`Producer.c` |Illustrates how you send a message
+
+|`Consumer.c` |Illustrates how you receive a message synchronously
+
+|`ProducerAsyncConsumer.c` |Illustrates how you send a message and
+receive it asynchronously
+
+|`RequestReply.c` |Illustrates how you send and respond to a message
+that specifies a reply-to destination
+|=======================================================================
+
+
+These sample programs are located in `IMQ_HOME/examples/C`.
+
+[[aelax]][[GMCCG00066]][[building-the-basic-c-client-sample-programs]]
+
+Building the Basic C-Client Sample Programs
++++++++++++++++++++++++++++++++++++++++++++
+
+The following commands illustrate the process of building and linking
+the sample application `Producer.c` on the Solaris, Linux, AIX, and
+Windows platforms. The commands include the pre-processor definitions
+needed to support Message Queue C-API fixed-size integer types. For
+options used to support multithreading, please consult documentation for
+your compiler.
+
+[[gblwy]][[GMCCG00007]][[to-compile-and-link-on-solaris-os]]
+
+To Compile and Link on Solaris OS
+
+Use the following command:
+
+[source,oac_no_warn]
+----
+CC -compat=5 -mt -DSOLARIS -Iheader_path -o Producer \\
+    -Lruntime_path -lmqcrt Producer.c
+----
+
+where header_path and runtime_path are the paths to the Message Queue
+header file and runtime shared library appropriate to your processor
+architecture, as listed in link:#aelas[Header Files and Shared
+Libraries].
+
+For 64-bit support on either the SPARC or x86 processor architecture,
+you must also specify the `-xarch` compiler option:
+
+* SPARC: `-xarch=v9`
+* x86: `-xarch=amd64`
+
+For example, to compile and link the example application Solaris SPARC
+64–bit, you would use the following command:
+
+[source,oac_no_warn]
+----
+CC -compat=5 -mt -xarch=v9 -DSOLARIS -I$IMQ_HOME/include -o Producer \\
+-L$IMQ_HOME/lib/sparcv9 -lmqcrt Producer.c
+----
+
+[[gblxj]][[GMCCG00008]][[to-compile-and-link-on-linux]]
+
+To Compile and Link on Linux
+
+Use the following command:
+
+[source,oac_no_warn]
+----
+g++ -DLINUX -D_REENTRANT -I$IMQ_HOME/include -o Producer \\
+-L$IMQ_HOME/lib -lmqcrt Producer.c
+----
+
+[[ghpfc]][[GMCCG00009]][[to-compile-and-link-on-aix]]
+
+To Compile and Link on AIX
+
+Use the following command:
+
+[source,oac_no_warn]
+----
+xlC_r -qthreaded -DAIX -I$IMQ_HOME/include -o Producer \\
+-blibsuff:so -l$IMQ_HOME/lib -imqcrt Producer.c
+----
+
+[[gblyb]][[GMCCG00010]][[to-compile-and-link-on-windows]]
+
+To Compile and Link on Windows
+
+Use the following command:
+
+[source,oac_no_warn]
+----
+cl /c /MD -DWIN32 -I%IMQ_HOME%\include Producer.c
+
+link Producer.obj /NODEFAULTLIB msvcrt.lib \\
+/LIBPATH:%IMQ_HOME%\lib mqcrt.lib
+----
+
+[[aelay]][[GMCCG00067]][[running-the-basic-c-client-sample-programs]]
+
+Running the Basic C-Client Sample Programs
+++++++++++++++++++++++++++++++++++++++++++
+
+Before you run any sample programs, you should start the broker. You can
+display output describing the command-line options for each program by
+starting the program with the -`help` option.
+
+For example, the following command, runs the program `Producer`. It
+specifies that the program should connect to the broker running on the
+host `MyHost` and port `8585`, and that it should send a message to the
+destination `My Topic` :
+
+[source,oac_no_warn]
+----
+Producer -h MyHost -p 8585 -d MyTopic
+----
+
+The directories that contain the sample programs also include a `README`
+file that explains how you should run their respective samples.
+
+[[gherr]][[GMCCG00307]][[distributed-transaction-sample-programs]]
+
+Distributed Transaction Sample Programs
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The distributed transaction sample programs show how to use the X/Open
+distributed transaction (XA) support of the Message Queue C-API with an
+X/Open distributed transaction processing system (in this case Oracle
+Tuxedo:
+`http://www.oracle.com/technetwork/middleware/tuxedo/overview/index.html`.)
+
+The distributed transaction sample programs include the following files:
+
+[[GMCCG421]][[sthref5]][[gherq]]
+
+
+Table 1-3 Distributed Transaction Sample Program Files
+
+[width="100%",cols="38%,62%",options="header",]
+|=======================================================================
+|Sample Program |Description
+|`jmsserver.c` |Implements Tuxedo services that send and receive
+messages using the Message Queue C-API
+
+|`jmsclient_sender.c` |Tuxedo client that uses the message producing
+service in `jmsserver.c`
+
+|`jmsclient_receiver.c` |Tuxedo client that uses the message receiving
+service in `jmsserver.c`
+
+|`async_jmsserver.c` |Implements a Tuxedo service that asynchronously
+consumes messages using the Message Queue C-API
+
+|`jmsclient_async_receiver.c` |Tuxedo client that uses the asynchronous
+message consuming service in `async_jmsserver.c`
+|=======================================================================
+
+
+These sample programs are located in `IMQ_HOME/examples/C/tuxedo`.
+
+The following procedures document how to set up Tuxedo as a distributed
+transaction manager, how to build the sample distributed transaction
+programs, and how to run the sample programs. The procedures are based
+on the synchronous message consumption samples and assume a Solaris
+operating system platform.
+
+[[gheqx]][[GMCCG00013]][[to-set-up-tuxedo-as-a-distributed-transaction-manager]]
+
+To Set Up Tuxedo as a Distributed Transaction Manager
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Install Tuxedo. +
+See Tuxedo documentation for instructions.
+2.  Set up the following environment variables: +
+[width="100%",cols="33%,67%",options="header",]
+|=======================================================================
+|Environment Variable |Description
+|`LD_LIBRARY_PATH` |Modify to include Message Queue C-API runtime
+library path and `TUXDIR/lib` path
+
+|`TUXDIR` |Tuxedo install root
+
+|`PATH` |modify to include `$TUXDIR/bin` and compiler path
+
+|`TUXCONFIG` |`TUXCONFIG` filename path
+
+|`TLOGDEVICE` |Tuxedo transaction log filename path
+
+|`MQ_HOME` |Message Queue install root
+
+|`MQ_LOG_FILE` |Message Queue C-API runtime log file name
+
+|`MQ_LOG_FILE_APPEND_PID` |Set so that Message Queue C-API runtime log
+file name will be auto-appended with the Tuxedo server process id
+|=======================================================================
+
+3.  Build the Tuxedo transaction monitor server (TMS).
+1.  Add the following entry to the `$TUXDIR/udataobj/RM` file: +
+`# SUN_MQ:sun_mq_xa_switch:-lmqcrt`
+2.  Build the TMS executable using `buildtms`: +
+`# buildtms -o $TUXDIR/bin/<exe-name> -r SUN_MQ`
+4.  Configure the Tuxedo servers. +
+`# tmloadcf` config-file +
+where config-file is the Tuxedo UBBCONFIG file.
+
+[[gherg]][[GMCCG00014]][[to-build-the-distributed-transaction-sample-programs]]
+
+To Build the Distributed Transaction Sample Programs
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Build the server side of the sample application (jmsserver.c). +
+[source,oac_no_warn]
+----
+# cc -I$IMQ_HOME/include -I$TUXDIR/include -g -c jmsserver.c
+# buildserver -v -t -r SUN_MQ -s SENDMESSAGES,RECVMESSAGES -o jmsserver
+-f jmsserver.o -f -lmqcrt
+----
+2.  Build the client side of the sample application (jmsclient_sender.c
+and jmsclient_receiver.c). +
+[source,oac_no_warn]
+----
+# cc -I$TUXDIR/include -c jmsclient_sender.c
+# buildclient -o jmsclient_sender -f jmsclient_sender.o 
+# cc -I$TUXDIR/include -c jmsclient_receiver.c
+# buildclient -o jmsclient_receiver -f jmsclient_receiver.o
+----
+
+[[ghesi]][[GMCCG00015]][[to-run-the-distributed-transaction-sample-programs]]
+
+To Run the Distributed Transaction Sample Programs
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Start a Message Queue broker. +
+[source,oac_no_warn]
+----
+# imqbrokerd -tty
+----
+2.  Start the Tuxedo servers. +
+[source,oac_no_warn]
+----
+# tmboot
+----
+3.  Run the client-side applications. +
+[source,oac_no_warn]
+----
+# jmsclient_sender
+# jmsclient_receiver
+----
+4.  Confirm the messages are produced to and consumed from the
+applicable destination. +
+[source,oac_no_warn]
+----
+# imqcmd list dst -u admin 
+# imqcmd querry dst -t q -n xatestqueue -u admin
+----
+
+[[aelaz]][[GMCCG00039]][[client-application-deployment-considerations]]
+
+Client Application Deployment Considerations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you are ready to deploy your client application, you should make
+sure the administrator knows your application's needs. The following
+checklist shows the basic information required. Consult with your
+administrator to determine the exact information needed. In some cases,
+it might be useful to provide a range of values rather than a specific
+value. Refer to "link:../mq-admin-guide/physical-destination-properties.html#GMADG00049[Physical Destination Property
+Reference]" in Open Message Queue Administration Guide about attribute
+names and default values.
+
+* Configuring physical destinations:
+
+** Type:
+
+** Name:
+
+** Properties:
+
+** Maximum number of messages expected:
+
+** Maximum message bytes expected:
+* Configuring Dead Message Queue:
+
+** Place dead messages on Dead Message Queue:
+
+** Log the placement of messages on the Dead Message Queue:
+
+** Discard the body of messages placed on the Dead Message Queue:
+
+

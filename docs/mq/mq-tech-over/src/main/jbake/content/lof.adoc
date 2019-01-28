@@ -1,0 +1,51 @@
+type=page
+status=published
+title=List of Figures
+next=lot.html
+prev=toc.html
+~~~~~~
+List of Figures
+===============
+
+[[list-of-figures]]
+List of Figures
+---------------
+
+* link:messaging-systems-introduction.html#gbpdh[1-1 Middleware]
+* link:messaging-systems-introduction.html#gbpcx[1-2 MOM-Based System]
+* link:messaging-systems-introduction.html#gbpdl[1-3 Combining RPC and
+MOM Systems]
+* link:messaging-systems-introduction.html#gbpdg[1-4 JMS Messaging
+Domains]
+* link:messaging-systems-introduction.html#gbpcy[1-5 Basic Elements of a
+JMS Application System]
+* link:messaging-systems-introduction.html#gbpdm[1-6 Message Queue
+Service]
+* link:client-programming-model.html#gbpcv[2-1 Simple Point-to-Point
+Messaging]
+* link:client-programming-model.html#gbpde[2-2 Complex Point-to-Point
+Messaging]
+* link:client-programming-model.html#gbpdr[2-3 Simple Publish/Subscribe
+Messaging]
+* link:client-programming-model.html#gbpdu[2-4 Complex Publish/Subscribe
+Messaging]
+* link:client-programming-model.html#BABJGHAI[2-5 Simplified API
+Programming Objects]
+* link:client-programming-model.html#gbpcp[2-6 Classic API Programming
+Objects]
+* link:client-programming-model.html#gbpcs[2-7 Request/Reply Pattern]
+* link:client-programming-model.html#gbpdv[2-8 Message Delivery Steps]
+* link:brokers.html#gbpeh[3-1 Persistence Support]
+* link:brokers.html#gbpeo[3-2 Security Manager Support]
+* link:brokers.html#gbpfh[3-3 Monitoring Service Support]
+* link:brokers.html#ggyhe[3-4 Message Queue Administration Tools]
+* link:broker-clusters.html#ggtjt[4-1 Message Queue Broker Cluster]
+* link:broker-clusters.html#ggtld[4-2 Conventional Broker Cluster with
+Master Broker]
+* link:broker-clusters.html#gkthh[4-3 Conventional Broker Cluster of Peer
+Brokers]
+* link:broker-clusters.html#ggtim[4-4 Enhanced Cluster]
+* link:broker-clusters.html#ggtie[4-5 Cluster Infrastructure]
+* link:mq-and-java-ee.html#gbpeq[5-1 Messaging with MDBs]
+
+

@@ -1,0 +1,97 @@
+type=page
+status=published
+title=Message Queue Implementation of Optional JMS Functionality
+next=mq-optional-jms-support.html
+prev=mq-and-java-ee.html
+~~~~~~
+Message Queue Implementation of Optional JMS Functionality
+==========================================================
+
+[[GMTOV00030]][[aerdy]]
+
+
+[[a-message-queue-implementation-of-optional-jms-functionality]]
+A Message Queue Implementation of Optional JMS Functionality
+------------------------------------------------------------
+
+The JMS specification indicates certain items that are optional: each
+JMS provider (vendor) chooses whether to implement them. This appendix
+describes how the Message Queue product handles JMS optional items.
+
+link:#gbpfs[Table A-1] describes how the Message Queue service handles
+JMS optional items.
+
+[[gbpeu]][[GMTOV00073]][[optional-features]]
+
+Optional Features
+~~~~~~~~~~~~~~~~~
+
+[[GMTOV162]][[sthref38]][[gbpfs]]
+
+
+Table A-1 Optional JMS Functionality
+
+[width="100%",cols="29%,71%",options="header",]
+|=======================================================================
+|Section in JMS Specification |Description and Message Queue
+Implementation
+|3.4.3 `JMSMessageID` a|
+"Since message IDs take some effort to create and increase a message's
+size, some JMS providers may be able to optimize message overhead if
+they are given a hint that message ID is not used by an application. JMS
+Message Producer provides a hint to disable message ID."
+
+Message Queue implementation: Product does not disable Message ID
+generation (any `setDisableMessageID`() call in `MessageProducer` is
+ignored). All messages will contain a valid `MessageID` value.
+
+|3.4.12 Overriding Message Header Fields a|
+"JMS does not define specifically how an administrator overrides these
+header field values. A JMS provider is not required to support this
+administrative option."
+
+Message Queue implementation: The Message Queue product supports
+administrative override of the values in message header fields through
+configuration of the client runtime (see
+link:client-programming-model.html#aerbq[Message Header]).
+
+|3.5.9 JMS Defined Properties a|
+"JMS Reserves the '`JMSX`' Property name prefix for JMS defined
+properties.""Unless noted otherwise, support for these properties is
+optional."
+
+Message Queue implementation: The `JMSX` properties defined by the JMS
+specification are supported in the Message Queue product (see
+"link:../mq-admin-guide/interface-stability.html#GMADG00055[Stability of Message Queue Interfaces]" in Open
+Message Queue Administration Guide).
+
+|3.5.10 Provider-specific Properties a|
+"JMS reserves the '`JMS_<`vendor_name `>`' property name prefix for
+provider-specific properties."
+
+Message Queue implementation: The purpose of the provider-specific
+properties is to provide special features needed to support JMS use with
+provider-native clients. They should not be used for JMS to JMS
+messaging.
+
+|4.4.8 Distributed Transactions a|
+"JMS does not require that a provider support distributed transactions."
+
+Message Queue implementation: Distributed transactions are supported in
+this release of the Message Queue product (see
+link:client-programming-model.html#aercb[Transactions]).
+
+|4.4.9 Multiple Sessions a|
+"For PTP <point-to-point distribution model>, JMS does not specify the
+semantics of concurrent `QueueReceivers` for the same queue; however,
+JMS does not prohibit a provider from supporting this." See section 5.8
+of the JMS specification for more information.
+
+Message Queue implementation: The Message Queue implementation supports
+queue delivery to multiple consumers. For more information, see
+link:client-programming-model.html#aerbj[Point-To-Point Messaging].
+
+|=======================================================================
+
+
+

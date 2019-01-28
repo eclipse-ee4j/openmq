@@ -1,0 +1,1067 @@
+type=page
+status=published
+title=The Message Queue Broker
+next=broker-clusters.html
+prev=client-programming-model.html
+~~~~~~
+The Message Queue Broker
+========================
+
+[[GMTOV00027]][[aercg]]
+
+
+[[the-message-queue-broker]]
+3 The Message Queue Broker
+--------------------------
+
+This chapter provides a more detailed view of the Message Queue broker,
+which was introduced in
+link:messaging-systems-introduction.html#aerav[The Message Queue
+Service]. The chapter examines the services provided by the broker, the
+tools you use to configure these services, and the administrative tasks
+required to support these services.
+
+The chapter includes the following sections:
+
+* link:#aerch[Broker Services]
+* link:#aerdc[Administration Tools]
+* link:#ggspx[Administration Tasks]
+
+[[aerch]][[GMTOV00062]][[broker-services]]
+
+Broker Services
+~~~~~~~~~~~~~~~
+
+link:messaging-systems-introduction.html#gbpdm[Figure 1-6] shows the
+different elements of the Message Queue service.
+link:client-programming-model.html#aerbg[Client Programming Model]
+described the programming model and how clients use the Java and C APIs
+to interact with the Message Queue client runtime, the part of the
+message service that is directly accessed by client applications. This
+chapter focuses on the broker services, the part of the message service
+that is accessed through administration tools.
+
+The broker is the centerpiece of the Message Queue service shown in
+link:messaging-systems-introduction.html#gbpdm[Figure 1-6]. The broker
+provides the set of services that enable secure, reliable messaging:
+
+* Connection services that manage the physical connections between a
+broker and its clients that provide transport for incoming and outgoing
+messages. See link:#aerci[Connection Services].
+* Message delivery services that route and deliver JMS messages as well
+as control messages used by the message service to support reliable
+delivery. See link:#aercl[Message Delivery Services].
+* Persistence services that manage the writing of data to persistent
+storage and its retrieval from persistent storage. See
+link:#aercs[Persistence Services].
+* Security services that authenticate users connecting to the broker and
+authorize their actions. See link:#aercv[Security Services]
+* Clustering services that support the grouping of brokers into a
+cluster to achieve scalability and availability. See
+link:broker-clusters.html#aerdj[Broker Clusters].
+* Monitoring services that generate metrics and diagnostic information
+and write this information to a specified output channel. See
+link:#aercy[Monitoring Services].
+
+The sections that follow describe each of the broker services. These
+services are configured by setting broker configuration properties.
+Broker properties are specified in different configuration files and can
+also be set using options of the broker startup command.
+"link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]" in Open Message Queue
+Administration Guide describes the broker configuration files and
+explains the order of precedence by which property values in one
+configuration file can be used to override values set in a different
+file. Properties set with the startup command override all other
+settings.
+
+[[aerci]][[GMTOV00136]][[connection-services]]
+
+Connection Services
+^^^^^^^^^^^^^^^^^^^
+
+You use connection-related properties to configure and manage the
+physical connections between a broker and its clients. As shown in
+link:messaging-systems-introduction.html#gbpdm[Figure 1-6] both
+application clients and administration clients can connect to the
+broker. The JMS specification does not dictate that providers implement
+any specific wire protocols. Message Queue connection services, used by
+application clients and administration clients to connect to the broker,
+are currently layered on top of TCP, TLS, HTTP, or HTTPS protocols. TLS
+(Transport Layer Security) is a successor to and compatible with SSL
+(Secure Socket Layer).
+
+There are two general types of connection services:
+
+* `NORMAL`: Services that provide JMS support and allow clients to
+connect to the broker (`jms`, `ssljms`, `http`, or `https`) and are
+layered on top of `TCP`, `TLS`, `HTTP`, or `HTTPS` protocols,
+respectively. (Services layered on top of HTTP allow messages to pass
+through firewalls.)
+* `ADMIN`: Services that allow administrators to connect to the broker (
+`admin`, `ssladmin`) and are layered on top of `TCP` or `TLS` protocols.
+
+Connection services are available through dedicated ports that can be
+dynamically assigned by the broker's Port Mapper (see link:#aercj[Port
+Mapper Service]) or statically assigned by the administrator. By
+default, when you start the broker, the `jms` and `admin` services are
+up and running. Additionally, you can configure a broker to run any or
+all of the connection services.
+
+Each connection service is multi-threaded, supporting multiple
+connections, and each service supports specific authentication and
+authorization (access control) features. See link:#aercv[Security
+Services] for more information.
+
+Should a connection fail, the Message Queue service can automatically
+retry connecting the client to the same broker or to a different broker
+if this feature is enabled. For more information, see the description of
+the automatic reconnect feature in
+link:mq-optional-jms-support.html#aerdz[Message Queue Features]
+
+The connections provided by Message Queue connection services can be
+configured to specify which brokers to connect to, how to handle
+reconnection, message flow control, and so on. For additional
+information about how connections can be configured, see
+link:client-programming-model.html#aerbn[Connection].
+
+Connection configuration can be performed by both administrators and in
+client application code:
+
+* An administrator creates connection factory administered objects that
+encapsulate connection behaviors. In addition, an administrator can use
+broker properties to activate non-default connection services, to assign
+static ports if required, to configure threading, and to specify a host
+to connect to if multiple network interfaces are used. An administrator
+can also specify a ping interval to test whether the client is
+accessible; this is useful in managing resources.
+* Client code can instantiate configuration factory objects and set
+their attributes to achieve desired connection behaviors. These
+attributes specify non-default connection services, hosts, ports, a list
+of brokers to connect to in case reconnection is required, and
+reconnection behavior. The client can also specify a ping interval to
+test for failed connections.
+
+A client can connect to the Message Queue service through a firewall.
+This can be done either by having the firewall administrator open a
+specific port and then connecting to that (static) port or by using the
+HTTP or HTTPS service as summarized in
+link:mq-optional-jms-support.html#aerdz[Message Queue Features].
+
+[[aercj]][[GMTOV00088]][[port-mapper-service]]
+
+Port Mapper Service
++++++++++++++++++++
+
+Connection services are dynamically assigned a port by a common Port
+Mapper service that resides at a the broker's main port, 7676. When the
+Message Queue client runtime sets up a connection with the broker, it
+first contacts the Port Mapper, requesting a port number for the
+connection service it has chosen.
+
+You can override the Port Mapper by assigning a static port number for
+the `jms`, `ssljms`, `admin` and `ssladmin` connection services when
+configuring these services. However, static ports are generally used
+only in special situations, such as in making connections through a
+firewall, and are not generally recommended.
+
+[[aerck]][[GMTOV00089]][[thread-pool-management]]
+
+Thread Pool Management
+++++++++++++++++++++++
+
+Each connection service is multithreaded, supporting multiple
+connections. The threads needed for these connections are maintained by
+the broker in a pool. How they are allocated depends on the values you
+specify for the minimum and maximum thread values, and on the threading
+model you choose.
+
+You can set broker properties to specify a minimum number and maximum
+number of threads. As threads are needed by connections, they are added
+to the thread pool for the service supporting that connection. The
+minimum specifies the number of threads available to be allocated. When
+the available threads exceeds this minimum threshold, the system will
+shut down threads as they become free until the minimum is reached
+again, thereby saving on memory resources. Under heavy loads, the number
+of threads might increase until the pool's maximum number is reached; at
+this point, new connections are rejected until a thread becomes
+available.
+
+The threading model you choose specifies whether threads are dedicated
+to a single connection or shared by multiple connections:
+
+* In the dedicated model, each connection to the broker requires two
+threads: one for incoming messages and one for outgoing messages. This
+limits the number of possible connections but provides high performance.
+* In the shared model, connections are processed by a shared thread when
+sending or receiving messages. Because each connection does not require
+dedicated threads, this model increases the number of possible
+connections, but adds some overhead for thread management and thereby
+impacts performance.
+
+[[aercl]][[GMTOV00137]][[message-delivery-services]]
+
+Message Delivery Services
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Once clients are connected to the broker, the routing and delivery of
+messages can proceed. In this phase, the broker is responsible for
+creating and managing different types of physical destinations, for
+ensuring a smooth flow of messages, and for using resources efficiently.
+The broker properties related to routing and delivery are used by the
+broker to manage these tasks in a way that suits your application's
+needs.
+
+[[ggtpb]][[GMTOV00090]][[physical-destinations]]
+
+Physical Destinations
++++++++++++++++++++++
+
+A physical destination on the broker is a memory location where messages
+are stored before being delivered to a message consumer. There are four
+kinds of physical destinations:
+
+* Admin-created destinations are created by an administrator using
+Message Queue administration tools. Admin-created destinations
+correspond to destination administered objects created by an
+administrator and accessed by client applications by using a JNDI
+lookup. Admin-created destinations can also correspond to destination
+objects created programmatically by a client application. You use
+Message Queue administration tools to set or update properties for each
+admin-created destination.
+* Auto-created destinations are automatically created by the broker
+whenever a message consumer or producer attempts to access a nonexistent
+destination. These are typically used during development. You can set a
+broker property to disallow the creation of such destinations. You set
+broker properties to configure all auto-create destinations on a
+particular broker. +
+An auto-created destination is automatically destroyed by the broker
+when it is no longer being used: that is, when it has no consumer
+clients and no longer contains any messages. If a broker restarts, it
+only recreates this kind of destination if it contains persistent
+messages.
+* Temporary destinations are explicitly created and destroyed
+programmatically by client applications that need a destination at which
+to receive replies to messages. As their name implies, these
+destinations are temporary. They are maintained by the broker only for
+the duration of the connection in which they are created. +
+Temporary destinations are only stored persistently only if the consumer
+of the destination is set to automatically reconnect in the event of
+failure. Otherwise, they are not recreated when a broker is restarted.
+Nevertheless, temporary destinations are visible to administration
+tools.
+* The dead message queue is a specialized destination, created
+automatically at broker startup and used to store dead messages for
+diagnostic purposes. You can set properties for the dead message queue
+using the `imqcmd` utility.
+
+[[ggtnq]][[GMTOV00037]][[managing-destinations]]
+
+Managing Destinations
+
+Managing a destination involves one or more of the following tasks:
+
+* Creating, pausing, resuming, or destroying a destination
+* Listing all destinations on a broker
+* Displaying information about the state and properties of a destination
+* Displaying metrics information for a destination
+* Compacting disk space used to persist messages for a destination
+* Updating a physical destination's properties
+
+Management tasks vary with the kind of destination being managed:
+admin-created, auto-created, temporary, or dead message queue. For
+example, temporary destinations do not need to be explicitly destroyed;
+auto created properties are configured using broker configuration
+properties which apply to all auto-created destinations on that broker.
+
+[[ggtoj]][[GMTOV00038]][[configuring-physical-destinations]]
+
+Configuring Physical Destinations
+
+For optimal performance, you can set properties when creating or
+updating physical destinations. Properties that can be set include the
+following:
+
+* The type and name of the destination.
+* Individual and aggregate limits for destinations (the maximum number
+of messages, the maximum number of total bytes, the maximum number of
+bytes per message, the maximum number of producers).
+* What the broker should do when individual or aggregate limits are
+exceeded.
+* The maximum number of messages to be delivered in a single batch.
+* Whether deleted messages for a destination should be sent to the dead
+message queue.
+* In the case of a broker cluster, whether a destination should be
+propagated to other brokers in the cluster.
+
+For a queue destination you can also configure the maximum number of
+active and back up consumers and you can specify (for broker clusters)
+whether delivery to a local queue is preferred.
+
+You can also configure the limits and behavior of the dead message
+queue. Note, however, that default properties for this queue differ from
+those of a standard queue.
+
+[[aerco]][[GMTOV00091]][[managing-memory]]
+
+Managing Memory
++++++++++++++++
+
+Destinations can consume significant resources, depending on the number
+and size of messages they handle and on the number and durability of the
+consumers that register; therefore, they need to be managed closely to
+guarantee good messaging service performance and reliability.
+
+You can set properties to prevent a broker from being overwhelmed by
+incoming messages and to prevent the broker from running out of memory.
+The broker uses three levels of memory protection to keep the message
+service operating as resources become scarce: destination limits,
+system-wide limits, and system memory thresholds. Ideally, if
+destination limits and system-wide limits are set appropriately,
+critical system-memory thresholds should never be breached.
+
+[[aercp]][[GMTOV00039]][[destination-message-limits]]
+
+Destination Message Limits
+
+You can set destination properties to manage memory and message flow for
+each destination. For example, you can specify the maximum number of
+producers allowed for a destination, the maximum number (or size) of
+messages allowed in a destination, and the maximum size of any single
+message.
+
+You can also specify how the broker should respond when any such limits
+are reached: to slow producers, to throw out the oldest messages, to
+throw out the lowest-priority messages, or to reject the newest
+messages.
+
+[[aercq]][[GMTOV00040]][[system-wide-message-limits]]
+
+System-Wide Message Limits
+
+You can also use properties to set limits that apply to all destinations
+on a broker: you can specify the total number of messages and the memory
+consumed by all messages. If any of the system-wide message limits are
+reached, the broker rejects new messages.
+
+[[aercr]][[GMTOV00041]][[system-memory-thresholds]]
+
+System Memory Thresholds
+
+Finally, you can use properties to set thresholds at which the broker
+takes increasingly serious action to prevent memory overload. The action
+taken depends on the state of memory resources: `green` (plenty of
+memory is available), `yellow` (broker memory is running low), `orange`
+(broker is low on memory), `red` (broker is out of memory). As the
+broker's memory state progresses from `green` to `red`, the broker takes
+increasingly serious actions:
+
+* It throws out in-memory copies of persistent messages in the data
+store.
+* It throttles back producers of non-persistent messages, eventually
+stopping the flow of messages into the broker. Persistent message flow
+is automatically limited by the requirement that each message be
+acknowledged by the broker.
+
+[[aercs]][[GMTOV00138]][[persistence-services]]
+
+Persistence Services
+^^^^^^^^^^^^^^^^^^^^
+
+For a broker to recover in case of failure, it needs to recreate the
+state of its message delivery operations. To be able to do this, it must
+save state information to a data store. When the broker restarts, it
+uses the saved data to recreate destinations and durable subscriptions,
+to recover persistent messages, to roll back open transactions, and to
+recreate its routing table for undelivered messages. It can then resume
+message delivery.
+
+The Message Queue service supports both file-based and JDBC compliant
+persistence modules (see link:#gbpeh[Figure 3-1]). File-based
+persistence is the default.
+
+[[GMTOV00014]][[gbpeh]]
+
+
+.*Figure 3-1 Persistence Support*
+image:img/to_persistsvcs.png[
+"Diagram showing that the broker uses either a flat file store or a
+JDBC-compliant data store for persisting messages."]
+
+
+[[aerct]][[GMTOV00092]][[file-based-persistence]]
+
+File-Based Persistence
+++++++++++++++++++++++
+
+File-based persistence is a mechanism that uses individual files to
+store persistent data. If you use file-based persistence you can set
+broker properties to do the following:
+
+* Compact the data store to alleviate fragmentation as messages are
+added and removed.
+* Synchronize the in-memory state with the physical storage device on
+every write. This helps eliminate data loss due to system crashes.
+* Manage the allocation of messages to data store files and manage the
+resources needed for file management and storage.
+
+File-based persistence is generally faster that JDBC-based persistence;
+however, some users prefer the redundancy and administrative control
+provided by a JDBC-compliant store.
+
+[[aercu]][[GMTOV00093]][[jdbc-based-persistence]]
+
+JDBC-Based Persistence
+++++++++++++++++++++++
+
+JDBC-Based persistence uses a Java Database Connectivity (JDBC)
+interface to connect the broker to a JDBC-compliant data store. To have
+the broker access a data store through a JDBC driver you must do the
+following:
+
+* Set JDBC-related broker configuration properties. You use these to
+specify the JDBC driver used, to authenticate the broker as a JDBC user,
+to create needed tables, and so on.
+* Use the `imqdbmgr` utility to create a data store with the proper
+schema.
+
+Complete procedures for completing these tasks and related configuration
+properties are detailed in the "link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]"
+in Open Message Queue Administration Guide.
+
+[[aercv]][[GMTOV00139]][[security-services]]
+
+Security Services
+^^^^^^^^^^^^^^^^^
+
+The Message Queue service supports authentication and authorization
+(access control) for each broker instance, and also supports encryption:
+
+* Authentication ensures that only verified users can establish a
+connection to the broker.
+* Authorization specifies which users or groups have the right to access
+resources and to perform specific operations.
+* Encryption protects messages from being tampered with during delivery
+over a connection.
+
+Authentication and authorization depend upon a repository that contains
+information about the users of the messaging system—their names,
+passwords, and group memberships. In addition, to authorize specific
+operations for a user or group, the broker must check an access control
+properties file that specifies which operations a user or group can
+perform. You are responsible for setting up the information the broker
+needs to authenticate users and authorize their actions.
+
+link:#gbpeo[Figure 3-2] shows the components needed by the broker to
+provide authentication and authorization.
+
+[[GMTOV00015]][[gbpeo]]
+
+
+.*Figure 3-2 Security Manager Support*
+image:img/to_secmanager.png[
+"Security manager can use various user repositories for authentication
+and an access control properties file for authorization, as explained in
+text."]
+
+
+As link:#gbpeo[Figure 3-2] shows, you can store user data in a flat file
+user repository that is provided with the Message Queue service, you can
+access an existing LDAP repository, or you can plug in a Java
+Authentication and Authorization Service (JAAS) service. You set a
+broker property to indicate your choice.
+
+* If you choose a flat-file repository, you must use the `imqusermgr`
+utility to manage the repository. This option is easy to use and
+built-in.
+* If you want to use an existing LDAP server, you use the tools provided
+by the LDAP vendor to populate and manage the user repository. You must
+also set properties in the broker instance configuration file to enable
+the broker to query the LDAP server for information about users and
+groups. +
+The LDAP option is better if scalability is important or if you need the
+repository to be shared by different brokers. This might be the case if
+you are using broker clusters.
+* If you want to plug-in an existing JAAS authentication service, you
+need to set the corresponding properties in the broker instance
+configuration file.
+
+[[aercw]][[GMTOV00094]][[authentication-and-authorization]]
+
+Authentication and Authorization
+++++++++++++++++++++++++++++++++
+
+When a client requests a connection, the client must supply a user name
+and password. The broker compares the specified name and password to
+those stored in the user repository. On transmitting the password from
+client to broker, the passwords are encoded using either base 64
+encoding or message digest (MD5) hashing. MD5 is used for a flat file
+repository; base 64 is required for LDAP repositories. If using LDAP you
+may want to use the secure TLS protocol. You can set broker properties
+to configure the type of encoding used by each connection service
+separately or to set the encoding on a broker-wide basis.
+
+When a user attempts to perform an operation, the broker checks the
+user's name and group membership (from the user repository) against
+those specified for access to that operation (in the access control
+properties file). The access control properties file specifies
+permissions to users or groups for the following operations:
+
+* Connecting to a broker
+* Accessing destinations: creating a consumer, a producer, or a queue
+browser for any given destination or all destinations
+* Auto-creating destinations
+
+You set broker properties to specify the following information:
+
+* Whether access control is enabled
+* The name of the access control file
+* How passwords should be encoded
+* How long the system should wait for a client to respond to an
+authentication request from the broker
+* Information required by secure connections
+
+[[gemjg]][[GMTOV00095]][[jaas-based-authentication]]
+
+JAAS-Based Authentication
++++++++++++++++++++++++++
+
+In addition to the file-based and LDAP-based built-in authentication
+mechanisms, Message Queue also supports the Java Authentication and
+Authorization Service (JAAS), which allows you to plug a variety of
+services into the broker to authenticate Message Queue clients.
+
+JAAS defines an abstraction layer between an application and an
+authentication mechanism, allowing the desired mechanism to be plugged
+in with no disruption or change to application code. For the Message
+Queue service, the abstraction layer lies between the broker and the
+authentication provider. By setting a few broker properties, it is
+possible to plug in any JAAS-compliant authentication service and to
+upgrade or change this service with no disruption or change to broker
+code.
+
+The service to be plugged in consists of a LoginModule and of logic that
+performs the authentication. A JAAS configuration file contains the
+location of the LoginModule. When the broker starts up it locates this
+file and uses information in the file to determine which LoginModules it
+will use to perform the authentication. The fact that the broker plugs
+in an authentication service is transparent to the client; the client
+continues to pass authentication information to the broker as before and
+gains access to broker services if the identifying information (user
+name, password) is authenticated by the plugged in service.
+
+For complete information about JAAS-based authentication, see
+"link:../mq-admin-guide/security-services.html#GMADG00551[Using JAAS-Based Authentication]" in Open Message
+Queue Administration Guide.
+
+[[aercx]][[GMTOV00096]][[encryption]]
+
+Encryption
+++++++++++
+
+To encrypt messages sent between clients and broker, you need to use a
+connection service based on the Secure Socket Layer (SSL) standard. SSL
+provides security at a connection level by establishing an encrypted
+connection between an SSL-enabled broker and an SSL-enabled client.
+
+You can set broker properties to specify the security properties of the
+SSL keystore to be used and the name and location of a password file.
+
+For more information, see "link:../mq-admin-guide/security-services.html#GMADG00249[Message Encryption]" in Open
+Message Queue Administration Guide.
+
+[[gjdnq]][[GMTOV00140]][[bridge-services]]
+
+Bridge Services
+^^^^^^^^^^^^^^^
+
+Message-Oriented Middleware (MOM) systems use a broad spectrum of
+technologies and standards to provide messaging services. Often, these
+technologies and standards are incompatible, leading to MOM systems that
+cannot communicate with each other in a larger enterprise application
+context.
+
+To alleviate this inability to communicate, Message Queue incorporates
+bridge services, which are overseen by the Bridge Service Manager, an
+application that runs in same JVM as a broker. The Bridge Service
+Manager supports individual bridge services of various types. Each type
+of bridge service provides connectivity at the broker level to a MOM
+technology or standard that would otherwise be unavailable in Message
+Queue.
+
+At present, Message Queue provides two bridge services, the JMS bridge
+service and the STOMP bridge service.
+
+[[gjdod]][[GMTOV00097]][[jms-bridge-service]]
+
+JMS Bridge Service
+++++++++++++++++++
+
+Because the JMS specification does not dictate the communication
+protocol between brokers and clients, each JMS provider (including
+Message Queue) has defined and uses its own propriety protocol. This
+situation has led to non-interoperability across JMS providers.
+
+The JMS bridge service in Message Queue closes this gap by enabling a
+Message Queue broker to map its destinations to destinations in external
+JMS providers. This mapping effectively allows the Message Queue broker
+to communicate with clients of the external JMS provider.
+
+The JMS bridge service supports mapping destinations to external JMS
+providers that:
+
+* Are JMS 2.0 compliant
+* Support JNDI administrative objects
+* Use connection factories of type `javax.jms.ConnectionFactory` or
+`javax.jms.XAConnectionFactory`
+* Support the XA interfaces as a resource manager for transacted mapping
+
+As an administrative and management convenience, the JMS bridge service
+supports the creation of any number of JMS bridges in a broker. Each JMS
+bridge in the broker is identified by a unique name, has its own
+configuration, and is managed separately from other JMS bridges in the
+broker.
+
+A JMS bridge consists of two primary components:
+
+* One or more links, each of which maps between a destination in the
+Message Queue broker and a destination in an external JMS provider or in
+another Message Queue broker.
+* A default Dead Message Queue (DMQ) where undeliverable messages are
+sent. Additional, special-purpose DMQs can also be specified.
+
+To provide destination mapping, each link consists of:
+
+* A source: the destination from which the JMS bridge receives messages.
+The source consists of a connection factory for creating connections to
+a JMS provider and a destination in that provider.
+* A target: the destination to which the JMS bridge forwards messages
+received from the source. The target consists of a connection factory
+for creating connections to a JMS provider and a destination in that
+provider. Additionally, a target can optionally specify a message
+transformer that alters messages from the source before forwarding them
+to the target destination.
+
+Links are unidirectional. Links that have an external JMS provider or
+another Message Queue broker as their source are called inbound links,
+and links that have the Message Queue broker as their source are called
+outbound links.
+
+To provide flexible, high-performing message transfer between mapped
+destinations, a JMS bridge offers these features:
+
+* Pooled, shared, and dedicated Connections
+* Transactional message transfer
+* JMS bridges in enhanced (high availability) broker clusters
+* Message transformation during message delivery
+* `JMSReplyTo` header processing
+* Dead Message Queue (DMQ) processing
+
+[[gjdmw]][[GMTOV00098]][[stomp-bridge-service]]
+
+STOMP Bridge Service
+++++++++++++++++++++
+
+The STOMP (Streaming Text Oriented Messaging Protocol) open source
+project at `http://stomp.codehaus.org` defines a simple communication
+protocol that clients written in any language can use to communicate
+with any messaging provider that supports the STOMP protocol.
+
+Message Queue provides support for the STOMP protocol through the STOMP
+bridge service. This service enables a Message Queue broker to
+communicate with STOMP clients.
+
+The STOMP bridge service provides the features needed to fully integrate
+STOMP messaging into the JMS messaging environment of Message Queue:
+
+* Registration with the Message Queue Port Mapper service so that STOMP
+clients can discover the service dynamically
+* Support for TCP and SSL/TLS connections, including SSL/TLS connections
+requiring client authentication
+* Automatic conversion of STOMP frame messages to and from JMS
+`BytesMessage` and `TextMessage` types
+* Extensible message handling and transformation (by defining a custom
+message transformer)
+* Support for the full STOMP protocol, including the STOMP JMS bindings
+
+[[aercy]][[GMTOV00141]][[monitoring-services]]
+
+Monitoring Services
+^^^^^^^^^^^^^^^^^^^
+
+The broker includes components for monitoring and diagnosing application
+and broker performance. These include the components shown in the
+following figure:
+
+* Components that generate data: a metrics generator and broker code
+that logs events.
+* A logger component that writes out information to a number of output
+channels.
+* A metrics message producer that sends JMS messages containing metrics
+information to topic destinations for consumption by JMS monitoring
+clients.
+* A comprehensive set of Java Management Extensions (JMX) MBeans that
+expose broker resources using the JMX API
+* Support for the Java ES Monitoring Framework
+
+The following subsections describe these components.
+
+[[GMTOV00016]][[gbpfh]]
+
+
+.*Figure 3-3 Monitoring Service Support*
+image:img/to_monitor.png[
+"Diagram showing inputs to logger, error levels, and output channels.
+Figure explained in text."]
+
+
+[[aercz]][[GMTOV00099]][[metrics-generator]]
+
+Metrics Generator
++++++++++++++++++
+
+The metrics generator provides information about broker activity, such
+as message flow in and out of the broker, the number of messages in
+broker memory and the memory they consume, the number of open
+connections, and the number of threads being used.
+
+You can set broker properties to turn the generation of metric data on
+and off, and to specify how frequently metrics reports are generated.
+
+[[aerda]][[GMTOV00100]][[logger]]
+
+Logger
+++++++
+
+The Message Queue logger takes information generated by broker code and
+the metrics generator and writes that information to standard output
+(the console), to a log file, and, on Solaris platforms, to the `syslog`
+daemon process in case of errors.
+
+You can set broker properties to specify the type of information
+gathered by the logger as well as the type written to each of the output
+channels. In the case of a log file, you can also specify the point at
+which the log file is closed and output is rolled over to a new file.
+Once the log file reaches a specified size or age, it is saved and a new
+log file created.
+
+For details about how to configure the logger and how to use it to
+obtain performance information, see "link:../mq-admin-guide/monitoring.html#GMADG00263[Configuring and
+Using Broker Logging]" in Open Message Queue Administration Guide.
+
+[[aerdb]][[GMTOV00101]][[metrics-message-producer]]
+
+Metrics Message Producer
+++++++++++++++++++++++++
+
+The metrics message producer shown in link:#gbpfh[Figure 3-3] receives
+information from the metrics generator at regular intervals and writes
+the information into messages, which it then sends to one of a number of
+metric topic destinations, depending on the type of metric information
+contained in the message.
+
+Message Queue clients subscribed to these metric topic destinations can
+consume the messages and process the metric data contained in the
+messages. This allows developers to create custom monitoring tools to
+support messaging applications. For details of the metric quantities
+reported in each type of metrics message, see "link:../mq-admin-guide/metrics-information.html#GMADG00052[Metrics
+Information Reference]" in Open Message Queue Administration Guide. For
+information about how to configure the production of metrics messages,
+see "link:../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015[Using the Metrics Monitoring API]" in Open Message
+Queue Developer's Guide for Java Clients and "link:../mq-admin-guide/monitoring.html#GMADG00267[Using the
+Message-Based Monitoring API]" in Open Message Queue Administration
+Guide.
+
+[[ggsnk]][[GMTOV00102]][[jmx-mbeans]]
+
+JMX MBeans
+++++++++++
+
+The broker implements a comprehensive set of Java Management Extensions
+(JMX) MBeans that represent the broker's manageable resources. Using the
+JMX API, you can access these MBeans to perform broker configuration and
+monitoring operations programmatically from within a Java application.
+
+In this way, the MBeans provide a Java application access to data values
+representing static or dynamic properties of a broker, connection,
+destination, or other resource. The application can also receive
+notifications of state changes or other significant events affecting the
+resource.
+
+For more information see link:#gemjx[JMX-Based Administration].
+
+[[gezee]][[GMTOV00103]][[java-es-monitoring-framework-support]]
+
+Java ES Monitoring Framework Support
+++++++++++++++++++++++++++++++++++++
+
+Message Queue supports the Sun Java Enterprise System (Java ES)
+Monitoring Framework, which allows Java Enterprise System components to
+be monitored using a common graphical interface. This interface is
+implemented by a web-based console called the Sun Java System Monitoring
+Console. If you are running Message Queue along with other Java ES
+components, you might find it more convenient to use a single interface
+to manage all these components.
+
+The Java ES monitoring framework defines a common data model (CMM) to be
+used by all Java ES component products. This model enables a centralized
+and uniform view of all Java ES components. Message Queue exposes the
+following objects to the Java ES monitoring framework:
+
+* the installed product
+* the broker instance name
+* the broker port mapper
+* each connection service
+* each physical destination
+* the persistent store
+* the user repository
+
+Each one of these objects is mapped to a CMM object whose attributes can
+be monitored using the Java ES monitoring console. At runtime,
+administrators can use the console to view performance statistics,
+create rules to monitor automatically, and acknowledge alarms. For
+detailed information about the mapping of Message Queue objects to CMM
+objects, see the Sun Java Enterprise System Monitoring Guide.
+
+Using the Java ES Monitoring Framework will not impact broker
+performance because all the work of gathering metrics is done by the
+monitoring framework, which pulls data from the broker's existing
+monitoring data infrastructure.
+
+[[aerdc]][[GMTOV00063]][[administration-tools]]
+
+Administration Tools
+~~~~~~~~~~~~~~~~~~~~
+
+This section describes the tools you use to configure and manageMessage
+Queue broker services. The tools fall into two categories:
+
+* link:#aerdd[Built-in Administration Tools]
+* link:#gemjx[JMX-Based Administration]
+
+[[aerdd]][[GMTOV00142]][[built-in-administration-tools]]
+
+Built-in Administration Tools
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following illustration shows the administration tools provided by
+Message Queue for configuring and managing broker services.
+
+[[GMTOV00017]][[ggyhe]]
+
+
+.*Figure 3-4 Message Queue Administration Tools*
+image:img/to_admintools.png[
+"Figure shows which tools the administrator uses to control which Message
+Queue Service components. Figure explained in text."]
+
+
+The administration tools include the following command line interfaces:
+
+* Broker utility (`imqbrokerd`). Used to start a broker. You can use
+options to the `imqbrokerd` command to specify whether brokers should be
+connected in a broker cluster and to specify additional startup
+configuration information.
+* Command utility (`imqcmd`). Used after starting a broker to manage
+broker resources, such as connection services, connections, durable
+subscriptions, transactions, physical destinations, and so forth.
+* Object Manager utility (`imqobjmgr`). Used to create, list, update,
+and delete administered objects in a JNDI object store.
+* User Manager utility (`imqusermgr`). Used to populate a file-based
+user repository for user authentication and authorization.
+* Database Manager utility (`imqdbmgr`). Used to create and manage a
+JDBC-based persistent data store. (The built-in file store requires no
+external management.)
+* Key Tool utility (`imqkeytool`). Used to generate self-signed broker
+certificates needed for SSL authentication.
+* Service Administrator utility (`imqsvcadmin`). Used to install, query,
+and remove a broker as a Windows service.
+
+In addition to the command line utilities shown in link:#ggyhe[Figure
+3-4],Message Queue administration tools also include the GUI-based
+Administration Console. The Administration Console combines some of the
+capabilities of the Command utility (`imqcmd`) and the Object Manager
+utility (`imqobjmgr`). You can use it to do the following:
+
+* Manage a broker, its connection services, and other resources.
+* Create, update, and delete physical destinations.
+* Connect to a JNDI object store, add administered objects to the store,
+and manage them.
+
+[[gemjx]][[GMTOV00143]][[jmx-based-administration]]
+
+JMX-Based Administration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To serve customers who need a standard programmatic means to monitor and
+access the broker, Message Queue also supports the Java Management
+Extensions (JMX) architecture, which allows a Java application to manage
+broker resources programmatically.
+
+* Resources include everything that you can manipulate using the Command
+utility (`imqcmd`) and the Message Queue Admin Console: the broker,
+connection services, connections, destinations, durable subscribers,
+transactions, and so on.
+* Management includes the ability to dynamically configure and monitor
+resources, and the ability to obtain notifications about state changes
+and error conditions.
+
+The JMX specification defines an architecture for the instrumentation
+and programmatic management of distributed resources. This architecture
+is based on the notion of a managed bean, or MBean: a Java object,
+similar to a JavaBean, representing a resource to be managed. Message
+Queue MBeans are associated with individual resources such as connection
+services, connections, or destinations, or with whole categories of
+resources, such as the set of all destinations on a broker. There are
+separate configuration MBeans and monitor MBeans for setting a
+resource's configuration properties and monitoring its runtime state.
+
+Java applications access MBeans through remote method invocation (RMI)
+protocols. The MBeans are hosted by an MBean server in the broker, which
+functions as an MBean container. The MBean server is accessed by means
+of a RMI connector, which is used to obtain an MBean server connection,
+which, in turn, provides access to the individual MBeans.
+
+The JMX specification defines an architecture that enables the
+programmatic management of any distributed resource. This architecture
+is defined by design patterns, APIs, and various services.
+
+JMX-based administration provides dynamic, fine grained, programmatic
+access to the broker. You can use this kind of administration in a
+number of ways.
+
+* You can include JMX code in your JMS client application to monitor
+application performance and, based on the results, to reconfigure the
+Message Queue resources you use to improve performance.
+* You can write JMX client applications that monitor the broker to
+identify use patterns and performance problems, and you can use the JMX
+API to reconfigure the broker to optimize performance.
+* You can write a JMX client application to automate regular maintenance
+tasks, rolling upgrades, and so on.
+* You can write a JMX client application that constitutes your own
+version of the Command utility (`imqcmd`), and you can use it instead of
+`imqcmd`.
+* You can use the standard Java Monitoring and Management Console
+(jconsole) that provides standard web browser access to the broker's
+MBeans.
+
+JMX is the Java standard for building management applications and is
+widely used for managing Java EE infrastructure. If your Message Queue
+client is a part of a larger Java EE deployment, JMX support allows you
+to use a standard programmatic management framework throughout your Java
+EE application. Message Queue is based on the JMX 1.2 specification,
+which is part of JDK 1.5.
+
+To manage a Message Queue broker using the JMX architecture, see the
+link:../mq-dev-guide-jmx/toc.html#GMJMG[Open Message Queue Developer's Guide for JMX Clients]. For
+information on JMX infrastructure and configuring the broker's JMX
+support, see "link:../mq-admin-guide/jmx-support.html#GMADG00057[JMX Support]" in Open Message Queue
+Administration Guide.
+
+[[ggspx]][[GMTOV00064]][[administration-tasks]]
+
+Administration Tasks
+~~~~~~~~~~~~~~~~~~~~
+
+This section describes the tasks that you need to complete to support a
+Message Queue development or a production environment.
+
+[[aerde]][[GMTOV00144]][[supporting-a-development-environment]]
+
+Supporting a Development Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In developing a client component, it's best to keep administrative work
+to a minimum. The Message Queue product is designed to help you do this
+and can be used out of the box. It should be enough just to start the
+broker. The following practices allow you to focus on development:
+
+* Use default implementations of the data store (built-in file
+persistence), the user repository (file-based), and access control
+properties file. These are adequate for developmental testing. The
+default user repository is created with default entries that allow you
+to use the broker immediately after installation. You can use the
+default user name (`guest`) and password (`guest`) to authenticate a
+client.
+* Use a simple file-system object store by creating a directory for that
+purpose, and store administered objects there. You can also instantiate
+administered objects directly in code if you prefer not to create an
+object store at all.
+* Use auto-created physical destinations rather than explicitly creating
+destinations on the broker. See the appropriate developer's guide for
+information.
+
+[[aerdf]][[GMTOV00145]][[supporting-a-production-environment]]
+
+Supporting a Production Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In a production environment, message service management plays a key role
+in application performance and in meeting the enterprise requirements
+for scaling, availability, and security. In this environment, the
+administrator has many more tasks to perform. These can be roughly
+divided into setup and maintenance operations.
+
+[[aerdg]][[GMTOV00104]][[setup-operations]]
+
+Setup Operations
+++++++++++++++++
+
+Typically, you have to perform the following setup operations:
+
+* Secure administrative access +
+Whether you use a file-based or LDAP user repository, make sure that the
+administrator is in the `admin` group and has a secure password. If
+necessary, create a secure connection to the broker for the
+administrator.
+* Secure client access +
+Whether you use a file-based or LDAP user repository, populate the user
+repository with the names of users who can access the message service
+and edit the access control properties file to give them appropriate
+authorization. If necessary set up SSL-based connection services. To
+prevent unauthenticated connections, be sure to change the "guest"
+user's password.
+* Create and configure physical destinations +
+Set destination attributes so that the number of messages and the amount
+of memory allocated for messages can be supported by broker resources.
+* Create and configure administered objects. +
+If you want to use an LDAP object store, configure and set up the store.
+Create and configure connection factory and destination administered
+objects.
+* If horizontal scaling and/or message service availability is required,
+create a broker cluster. +
+For a conventional broker cluster, create a cluster configuration file
+and designate a master broker. +
+For an enhanced broker cluster, create a cluster configuration file that
+specifies property values for enhanced cluster mechanisms.
+
+[[aerdh]][[GMTOV00105]][[maintenance-operations]]
+
+Maintenance Operations
+++++++++++++++++++++++
+
+To monitor and control broker resources and to tune application
+performance, you must do the following after an application has been
+deployed:
+
+* Support and manage application clients
+
+** Monitor and manage destinations, durable subscriptions, and
+transactions
+
+** Disable auto-create capability
+
+** Monitor and manage the dead message queue
+* Monitor and tune the broker
+
+** Recover failed brokers
+
+** Monitor, tune, and reconfigure the broker
+
+** Manage broker memory resources
+
+** Expand clusters if necessary
+* Manage administered objects +
+Create additional administered objects as needed and adjust connection
+factory attributes to improve performance and throughput.
+
+

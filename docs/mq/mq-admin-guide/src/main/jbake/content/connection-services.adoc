@@ -1,0 +1,560 @@
+type=page
+status=published
+title=Configuring and Managing Connection Services
+next=message-delivery.html
+prev=broker-management.html
+~~~~~~
+Configuring and Managing Connection Services
+============================================
+
+[[GMADG00037]][[gheau]]
+
+
+[[configuring-and-managing-connection-services]]
+6 Configuring and Managing Connection Services
+----------------------------------------------
+
+Message Queue offers various connection services using a variety of
+transport protocols for connecting both application and administrative
+clients to a broker. This chapter describes how to configure and manage
+these services and the connections they support:
+
+* link:#aeocn[Configuring Connection Services]
+* link:#aeoed[Managing Connection Services]
+* link:#aeoej[Managing Connections]
+
+[[aeocn]][[GMADG00235]][[configuring-connection-services]]
+
+Configuring Connection Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Broker configuration properties related to connection services are
+listed under link:broker-properties.html#aeont[Connection Properties].
+
+link:#ghptq[Figure 6-1] shows the connection services provided by the
+Message Queue broker.
+
+[[GMADG00018]][[ghptq]]
+
+
+.*Figure 6-1 Message Queue Connection Services*
+image:img/adm_mqservice.png[
+"Elements of a Message Queue service showing the connection services
+provided by the broker."]
+
+
+These connection services are distinguished by two characteristics, as
+shown in link:#gbnjw[Table 6-1]:
+
+* The service type specifies whether the service provides JMS message
+delivery (`NORMAL`) or Message Queue administration services ( `ADMIN`).
+* The protocol type specifies the underlying transport protocol.
+
+[[GMADG648]][[sthref20]][[gbnjw]]
+
+
+Table 6-1 Message Queue Connection Service Characteristics
+
+[width="100%",cols="19%,17%,64%",options="header",]
+|================================================
+|Service Name |Service Type |Protocol Type
+|`jms` |`NORMAL` |TCP
+|`ssljms` |`NORMAL` |TLS (SSL-based security)
+|`httpjms` |`NORMAL` |HTTP
+|`httpsjms` |`NORMAL` |HTTPS (SSL-based security)
+|`admin` |`ADMIN` |TCP
+|`ssladmin` |`ADMIN` |TLS (SSL-based security)
+|================================================
+
+
+By setting a broker's `imq.service.activelist` property, you can
+configure it to run any or all of these connection services. The value
+of this property is a list of connection services to be activated when
+the broker is started up; if the property is not specified explicitly,
+the `jms` and `admin` services will be activated by default.
+
+Each connection service also supports specific authentication and
+authorization features; see
+link:security-services.html#aeocu[Introduction to Security Services] for
+more information.
+
+
+[NOTE]
+=======================================================================
+
+There is also a special `cluster` connection service, used internally by
+the brokers within a broker cluster to exchange information about the
+cluster's configuration and state. This service is not intended for use
+by clients communicating with a broker. See
+link:broker-clusters.html#aeohv[Configuring and Managing Broker Clusters]
+for more information about broker clusters.
+
+Also there are two JMX connectors, `jmxrmi` and `ssljmxrmi`, that
+support JMX-based administration. These JMX connectors are very similar
+to the connection services in link:#gbnjw[Table 6-1], above, and are
+used by JMX clients to establish a connection to the broker's MBean
+server. For more information, see link:jmx-support.html#ggvry[JMX
+Connection Infrastructure].
+
+=======================================================================
+
+
+[[aeoco]][[GMADG00526]][[port-mapper]]
+
+Port Mapper
+^^^^^^^^^^^
+
+Each connection service is available at a particular port, specified by
+host name (or IP address) and port number. You can explicitly specify a
+static port number for a service or have the broker's Port Mapper assign
+one dynamically. The Port Mapper itself resides at the broker's primary
+port, which is normally located at the standard port number `7676`. (If
+necessary, you can use the broker configuration property
+`imq.portmapper.port` to override this with a different port number.) By
+default, each connection service registers itself with the Port Mapper
+when it starts up. When a client creates a connection to the broker, the
+Message Queue client runtime first contacts the Port Mapper, requesting
+a port number for the desired connection service.
+
+Alternatively, you can override the Port Mapper and explicitly assign a
+static port number to a connection service, using the
+`imq`.serviceName.protocolType. `port` configuration property (where
+serviceName and protocolType identify the specific connection service,
+as shown in link:#gbnjw[Table 6-1]). (Only the `jms`, `ssljms`, `admin`,
+and `ssladmin` connection services can be configured this way; the
+`httpjms` and `httpsjms` services use different configuration
+properties, described in link:http_https-support.html#aeopb[HTTP/HTTPS
+Support]). Static ports are generally used only in special situations,
+however, such as in making connections through a firewall (see
+link:security-services.html#gcuhq[Connecting Through a Firewall]), and
+are not recommended for general use.
+
+
+[NOTE]
+=======================================================================
+
+In cases where two or more hosts are available (such as when more than
+one network interface card is installed in a computer), you can use
+broker properties to specify which host the connection services should
+bind to. The `imq.hostname` property designates a single default host
+for all connection services; this can then be overridden, if necessary,
+with `imq`.serviceName. protocolType.`hostname` (for the `jms`,
+`ssljms`, `admin`, or `ssl`admin service) or `imq.portmapper.hostname`
+(for the Port Mapper itself).
+
+=======================================================================
+
+
+When multiple Port Mapper requests are received concurrently, they are
+stored in an operating system backlog while awaiting action. The
+`imq.portmapper.backlog` property specifies the maximum number of such
+backlogged requests. When this limit is exceeded, any further requests
+will be rejected until the backlog is reduced.
+
+[[aeocp]][[GMADG00527]][[thread-pool-management]]
+
+Thread Pool Management
+^^^^^^^^^^^^^^^^^^^^^^
+
+Each connection service is multithreaded, supporting multiple
+connections. The threads needed for these connections are maintained by
+the broker in a separate thread pool for each service. As threads are
+needed by a connection, they are added to the thread pool for the
+service supporting that connection.
+
+The threading model you choose specifies whether threads are dedicated
+to a single connection or shared by multiple connections:
+
+* In the dedicated model, each connection to the broker requires two
+threads: one for incoming and one for outgoing messages. This limits the
+number of connections that can be supported, but provides higher
+performance.
+* In the shared model, connections are processed by a shared thread when
+sending or receiving messages. Because each connection does not require
+dedicated threads, this model increases the number of possible
+connections, but at the cost of lower performance because of the
+additional overhead needed for thread management.
+
+The broker's `imq`.serviceName. `threadpool_model` property specifies
+which of the two models to use for a given connection service. This
+property takes either of two string values: `dedicated` or `shared`. If
+you don't set the property explicitly, `dedicated` is assumed by
+default.
+
+You can also set the broker properties `imq`.serviceName. `min_threads`
+and `imq`.serviceName. `max_threads` to specify a minimum and maximum
+number of threads in a service's thread pool. When the number of
+available threads exceeds the specified minimum threshold, Message Queue
+will shut down threads as they become free until the minimum is reached
+again, thereby saving on memory resources. Under heavy loads, the number
+of threads might increase until the pool's maximum number is reached; at
+this point, new connections are rejected until a thread becomes
+available.
+
+The shared threading model uses distributor threads to assign threads to
+active connections. The broker property
+`imq.shared.connectionMonitor_limit` specifies the maximum number of
+connections that can be monitored by a single distributor thread. The
+smaller the value of this property, the faster threads can be assigned
+to connections. The `imq.ping.interval` property specifies the time
+interval, in seconds, at which the broker will periodically test
+("ping") a connection to verify that it is still active, allowing
+connection failures to be detected preemptively before an attempted
+message transmission fails.
+
+[[aeoed]][[GMADG00236]][[managing-connection-services]]
+
+Managing Connection Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue brokers support connections from both application clients
+and administrative clients. See link:#aeocn[Configuring Connection
+Services] for a description of the available connection services. The
+Command utility provides subcommands that you can use for managing both
+connection services as a whole and individual services; to apply a
+subcommand to a particular service, use the `-n` option to specify one
+of the names listed in the "Service Name" column of link:#gbnjw[Table
+6-1]. Subcommands are available for the following connection service
+management tasks:
+
+* link:#aeoei[Pausing and Resuming a Connection Service]
+* link:#aeoeg[Updating Connection Service Properties]
+* link:#aeoee[Viewing Connection Service Information]
+
+[[aeoei]][[GMADG00528]][[pausing-and-resuming-a-connection-service]]
+
+Pausing and Resuming a Connection Service
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Pausing a connection service has the following effects:
+
+* The broker stops accepting new client connections on the paused
+service. If a Message Queue client attempts to open a new connection, it
+will get an exception.
+* All existing connections on the paused service are kept alive, but the
+broker suspends all message processing on such connections until the
+service is resumed. (For example, if a client attempts to send a
+message, the `send` method will block until the service is resumed.)
+* The message delivery state of any messages already received by the
+broker is maintained. (For example, transactions are not disrupted and
+message delivery will resume when the service is resumed.)
+
+The `admin` connection service can never be paused; to pause and resume
+any other service, use the subcommands `imqcmd` `pause` `svc` and
+`imqcmd` `resume` `svc`. The syntax of the `imqcmd` `pause` `svc`
+subcommand is as follows:
+
+[source,oac_no_warn]
+----
+imqcmd pause svc   -n serviceName
+                     [-b hostName:portNumber]
+----
+
+For example, the following command pauses the `httpjms` service running
+on the default broker (host `localhost` at port `7676`):
+
+[source,oac_no_warn]
+----
+imqcmd pause svc  -n httpjms  -u admin
+----
+
+The `imqcmd` `resume` `svc` subcommand resumes operation of a connection
+service following a pause:
+
+[source,oac_no_warn]
+----
+imqcmd resume svc   -n serviceName
+                      [-b hostName:portNumber]
+----
+
+[[aeoeg]][[GMADG00529]][[updating-connection-service-properties]]
+
+Updating Connection Service Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can use the `imqcmd` `update` `svc` subcommand to change the value
+of one or more of the service properties listed in link:#gbnjt[Table
+6-2]. See link:broker-properties.html#aeont[Connection Properties] for a
+description of these properties.
+
+[[GMADG649]][[sthref21]][[gbnjt]]
+
+
+Table 6-2 Connection Service Properties Updated by Command Utility
+
+[width="100%",cols="17%,83%",options="header",]
+|=======================================================================
+|Property |Description
+|`port` a|
+Port assigned to the service to be updated (does not apply to `httpjms`
+or `httpsjms`)
+
+A value of `0` means the port is dynamically allocated by the Port
+Mapper.
+
+|`minThreads` |Minimum number of threads assigned to the service
+
+|`maxThreads` |Maximum number of threads assigned to the service
+|=======================================================================
+
+
+The `imqcmd` `update` `svc` subcommand has the following syntax:
+
+[source,oac_no_warn]
+----
+imqcmd update svc   -n serviceName
+                      [-b hostName:portNumber]
+ -o property1=value1  [[-o property2=value2]…]
+----
+
+For example, the following command changes the minimum number of threads
+assigned to the `jms` connection service on the default broker (host
+`localhost` at port `7676`) to 20:
+
+[source,oac_no_warn]
+----
+imqcmd update svc  -o minThreads=20  -u admin
+----
+
+[[aeoee]][[GMADG00530]][[viewing-connection-service-information]]
+
+Viewing Connection Service Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To list the connection services available on a broker, use the `imqcmd`
+`list` `svc` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd list svc  [-b hostName:portNumber]
+----
+
+For example, the following command lists all services on the default
+broker (host `localhost` at port `7676`):
+
+[source,oac_no_warn]
+----
+imqcmd list svc  -u admin 
+----
+
+link:#genpd[Example 6-1] shows an example of the resulting output.
+
+[[GMADG00102]][[genpd]]
+
+
+Example 6-1 Connection Services Listing
+
+[source,oac_no_warn]
+----
+
+------------------------------------------------
+Service Name    Port Number        Service State
+------------------------------------------------
+admin           41844 (dynamic)    RUNNING
+httpjms         -                  UNKNOWN
+httpsjms        -                  UNKNOWN
+jms             41843 (dynamic)    RUNNING
+ssladmin        dynamic            UNKNOWN
+ssljms          dynamic            UNKNOWN
+----
+
+The `imqcmd` `query` `svc` subcommand displays information about a
+single connection service:
+
+[source,oac_no_warn]
+----
+imqcmd query svc   -n serviceName
+[-b hostName:portNumber]
+----
+
+For example, the following command displays information about the `jms`
+connection service on the default broker (host `localhost` at port
+`7676`):
+
+[source,oac_no_warn]
+----
+imqcmd query svc  -n jms  -u admin 
+----
+
+link:#genpc[Example 6-2] shows an example of the resulting output.
+
+[[GMADG00103]][[genpc]]
+
+
+Example 6-2 Connection Service Information Listing
+
+[source,oac_no_warn]
+----
+
+Service Name                           jms
+Service State                          RUNNING
+Port Number                            60920 (dynamic)
+                                     
+Current Number of Allocated Threads    0
+Current Number of Connections          0
+                                     
+Min Number of Threads                  10
+Max Number of Threads                  1000
+----
+
+To display metrics information about a connection service, use the
+`imqcmd` `metrics` `svc` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd metrics svc   -n serviceName
+                       [-b hostName:portNumber]
+[-m metricType]
+[-int interval]
+[-msp numSamples]
+----
+
+The `-m` option specifies the type of metric information to display:
+
+* `ttl` (default): Messages and packets flowing into and out of the
+broker by way of the specified connection service
+* `rts`: Rate of flow of messages and packets into and out of the broker
+per second by way of the specified connection service
+* `cxn`: Connections, virtual memory heap, and threads
+
+The `-int` and `-msp` options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.
+
+For example, the following command displays cumulative totals for
+messages and packets handled by the default broker (host `localhost` at
+port `7676`) by way of the `jms` connection service:
+
+[source,oac_no_warn]
+----
+imqcmd metrics svc  -n jms  -m ttl  -u admin
+----
+
+link:#genou[Example 6-3] shows an example of the resulting output.
+
+[[GMADG00104]][[genou]]
+
+
+Example 6-3 Connection Service Metrics Listing
+
+[source,oac_no_warn]
+----
+
+-------------------------------------------------
+  Msgs      Msg Bytes      Pkts      Pkt Bytes   
+In   Out    In     Out   In   Out    In     Out  
+-------------------------------------------------
+164  100  120704  73600  282  383  135967  102127
+657  100  483552  73600  775  876  498815  149948
+----
+
+For a more detailed description of the use of the Command utility to
+report connection service metrics, see
+link:metrics-information.html#aeoou[Connection Service Metrics].
+
+[[aeoej]][[GMADG00237]][[managing-connections]]
+
+Managing Connections
+~~~~~~~~~~~~~~~~~~~~
+
+The Command utility's `list` `cxn` and `query` `cxn` subcommands display
+information about individual connections. The subcommand `imqcmd` `list`
+`cxn` lists all connections for a specified connection service:
+
+[source,oac_no_warn]
+----
+imqcmd list cxn  [-svn serviceName]
+[-b hostName:portNumber]
+----
+
+If no service name is specified, all connections are listed. For
+example, the following command lists all connections on the default
+broker (host `localhost` at port `7676`):
+
+[source,oac_no_warn]
+----
+imqcmd list cxn  -u admin 
+----
+
+link:#genoj[Example 6-4] shows an example of the resulting output.
+
+[[GMADG00105]][[genoj]]
+
+
+Example 6-4 Broker Connections Listing
+
+[source,oac_no_warn]
+----
+
+Listing all the connections on the broker specified by:
+-----------------------------------
+Host                   Primary Port
+------------------------------------
+localhost              7676
+
+---------------------------------------------------------------------------
+Connection ID         User    Service   Producers  Consumers    Host
+---------------------------------------------------------------------------
+1964412264455443200   guest   jms       0          1            127.0.0.1
+1964412264493829311   admin   admin     1          1            127.0.0.1
+
+Successfully listed connections.
+----
+
+To display detailed information about a single connection, obtain the
+connection identifier from `imqcmd` `list` `cxn` and pass it to the
+`imqcmd` `query` `cxn` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd query cxn   -n connectionID
+                     [-b hostName:portNumber]
+----
+
+For example, the command
+
+[source,oac_no_warn]
+----
+imqcmd query cxn  -n 421085509902214374  -u admin
+----
+
+produces output like that shown in link:#genoy[Example 6-5].
+
+[[GMADG00106]][[genoy]]
+
+
+Example 6-5 Connection Information Listing
+
+[source,oac_no_warn]
+----
+
+Connection ID      421085509902214374
+User               guest
+Service            jms
+Producers          0
+Consumers          1
+Host               111.22.333.444
+Port               60953
+Client ID          
+Client Platform    
+----
+
+The `imqcmd` `destroy` `cxn` subcommand destroys a connection:
+
+[source,oac_no_warn]
+----
+imqcmd destroy cxn   -n connectionID
+                     [-b hostName:portNumber]
+----
+
+For example, the command
+
+[source,oac_no_warn]
+----
+imqcmd destroy cxn  -n 421085509902214374  -u admin
+----
+
+destroys the connection shown in link:#genoy[Example 6-5].
+
+

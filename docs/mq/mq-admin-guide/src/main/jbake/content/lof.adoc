@@ -1,0 +1,54 @@
+type=page
+status=published
+title=List of Figures
+next=lot.html
+prev=loe.html
+~~~~~~
+List of Figures
+===============
+
+[[list-of-figures]]
+List of Figures
+---------------
+
+* link:admin-tasks-and-tools.html#gbngk[1-1 Local and Remote
+Administration Utilities]
+* link:quick-start.html#gbngn[2-1 Administration Console Window]
+* link:quick-start.html#gbnhm[2-2 Administration Console Help Window]
+* link:quick-start.html#gbnid[2-3 Add Broker Dialog Box]
+* link:quick-start.html#gbngo[2-4 Broker Displayed in Administration
+Console Window]
+* link:quick-start.html#gbngp[2-5 Connect to Broker Dialog Box]
+* link:quick-start.html#gbnie[2-6 Viewing Connection Services]
+* link:quick-start.html#gbnja[2-7 Service Properties Dialog Box]
+* link:quick-start.html#gbnim[2-8 Add Broker Destination Dialog Box]
+* link:quick-start.html#gbniq[2-9 Broker Destination Properties Dialog
+Box]
+* link:quick-start.html#gbnis[2-10 Add Object Store Dialog Box]
+* link:quick-start.html#gbnix[2-11 Object Store Displayed in
+Administration Console Window]
+* link:quick-start.html#gbnik[2-12 Add Connection Factory Object Dialog
+Box]
+* link:quick-start.html#gbnih[2-13 Add Destination Object Dialog Box]
+* link:quick-start.html#gbnii[2-14 Destination Object Displayed in
+Administration Console Window]
+* link:broker-configuration.html#gbnjd[4-1 Broker Configuration Files]
+* link:connection-services.html#ghptq[6-1 Message Queue Connection
+Services]
+* link:persistence-services.html#ggydt[8-1 Persistent Data Stores]
+* link:security-services.html#ggydo[9-1 Security Support]
+* link:security-services.html#gepft[9-2 JAAS Elements]
+* link:security-services.html#gepgx[9-3 How Message Queue Uses JAAS]
+* link:security-services.html#ghezq[9-4 Setting Up JAAS Support]
+* link:monitoring.html#ggyhf[13-1 Monitoring Services Support]
+* link:tuning.html#gbnkr[14-1 Message Delivery Through a Message Queue
+Service]
+* link:tuning.html#gbnkx[14-2 Transport Protocol Speeds]
+* link:http_https-support.html#gcsbp[C-1 HTTP/HTTPS Support Architecture]
+* link:jmx-support.html#ghbqi[D-1 Basic JMX Infrastructure]
+* link:jmx-support.html#ghbqz[D-2 Obtaining a Connector Stub from an RMI
+Registry]
+* link:jmx-support.html#ghbqn[D-3 Obtaining a Connector Stub from an
+Admin Connection Factory]
+
+
