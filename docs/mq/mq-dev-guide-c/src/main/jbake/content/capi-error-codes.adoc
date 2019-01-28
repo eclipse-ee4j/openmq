@@ -1,0 +1,1861 @@
+type=page
+status=published
+title=Message Queue C API Error Codes
+prev=reference.html
+~~~~~~
+Message Queue C API Error Codes
+===============================
+
+[[GMCCG00006]][[aelgp]]
+
+
+[[a-message-queue-c-api-error-codes]]
+A Message Queue C API Error Codes
+---------------------------------
+
+Having found that a Message Queue function has not returned
+successfully, you can determine the reason by passing the return status
+of that function to the `MQGetStatusCode` function, which returns the
+error code associated with the specified status. This appendix lists the
+error codes that can be returned and provides a description that is
+associated with that code. You can retrieve the error string
+(description) by calling the `MQGetStatusString` function.
+
+Some Message Queue functions, when they fail, might return an `MQStatus`
+result that contains an NSPR or NSS library error code instead of a
+Message Queue error code. For NSPR and NSS library error codes, the
+`MQGetStatusString` function returns the symbolic name of the NSPR or
+NSS library error code. Please see NSPR and NSS public documentation for
+NSPR and NSS error code symbols and their interpretation at the
+following locations:
+
+* For NSPR error codes, see the "NSPR Error Handling" chapter at the
+following site:
+`http://www.mozilla.org/projects/nspr/reference/html/index.html`
+* For NSS error codes, see the "NSS and SSL Error Codes" chapter at the
+following site:
+`http://www.mozilla.org/projects/security/pki/nss/ref/ssl/`
+
+When checking a Message Queue function for return errors, you should
+only reference the Message Queue common error code symbol names in order
+to maintain maximum compatibility with future releases. For each
+function, link:reference.html#aeldi[Reference] lists the common error
+codes that can be returned by that function.
+
+For information on error handling, see link:#gbmja[Table A-1].
+
+[[aelgq]][[GMCCG00059]][[error-codes]]
+
+Error Codes
+~~~~~~~~~~~
+
+link:#gbmja[Table A-1] lists the error codes in alphabetical order. For
+each code listed, it provides a description for the error code and notes
+whether it is a common error (Common).
+
+[[GMCCG470]][[sthref48]][[gbmja]]
+
+
+Table A-1 Message Queue C Client Error Codes
+
+[width="100%",cols="56%,12%,32%",options="header",]
+|=======================================================================
+|Code |Common |Description
+a|
+[source,oac_no_warn]
+----
+MQ_ACK_STATUS_NOT_OK
+----
+
+ | + |Acknowledgement status is not OK
+
+a|
+[source,oac_no_warn]
+----
+MQ_ADMIN_KEY_AUTH_MISMATCH
+----
+
+ | + |Admin key authorization mismatch
+
+a|
+[source,oac_no_warn]
+----
+MQ_BAD_VECTOR_INDEX
+----
+
+ | + |Bad vector index
+
+a|
+[source,oac_no_warn]
+----
+MQ_BASE64_ENCODE_FAILURE
+----
+
+ | + |Base 64 encode failure.
+
+a|
+[source,oac_no_warn]
+----
+MQ_BASIC_TYPE_SIZE_MISMATCH
+----
+
+ | + |Message Queue basic type size mismatch
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_BAD_REQUEST
+----
+
+ | + |Broker: bad request
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_BAD_VERSION
+----
+
+ | + |Broker: bad version
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_CONFLICT
+----
+
+ | + |Broker: conflict
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_CONNECTION_CLOSED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Broker connection is closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_ENTITY_TOO_LARGE
+----
+
+ | + |Broker: entity too large
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_ERROR
+----
+
+ | + |Broker: error
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_FORBIDDEN
+----
+
+ | + |Broker: forbidden
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_GONE
+----
+
+ | + |Broker: gone
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_INVALID_LOGIN
+----
+
+ | + |Broker: invalid login
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_NOT_ALLOWED
+----
+
+ | + |Broker: not allowed
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_NOT_FOUND
+----
+
+ | + |Broker: not found
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_NOT_IMPLEMENTED
+----
+
+ | + |Broker: not implemented
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_PRECONDITION_FAILED
+----
+
+ | + |Broker: precondition failed
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_RESOURCE_FULL
+----
+
+ | + |Broker: resource full
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_TIMEOUT
+----
+
+ | + |Broker: timeout
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_UNAUTHORIZED
+----
+
+ | + |Broker: unauthorized
+
+a|
+[source,oac_no_warn]
+----
+MQ_BROKER_UNAVAILABLE
+----
+
+ | + |Broker: unavailable
+
+a|
+[source,oac_no_warn]
+----
+MQ_CALLBACK_RUNTIME_ERROR
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Callback runtime error occurred
+
+a|
+[source,oac_no_warn]
+----
+MQ_CANNOT_UNSUBSCRIBE_ACTIVE_CONSUMER
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Cannot unsubscribe an active consumer.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CLIENTID_IN_USE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Client id already in use
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONCURRENT_ACCESS
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Concurrent access
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONCURRENT_DEADLOCK
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Operation may cause deadlock
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONCURRENT_NOT_OWNER
+----
+
+ | + |Concurrent access not owner
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONNECTION_CREATE_SESSION_ERROR
+----
+
+ | + |Connection failed to create a session.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONNECTION_OPEN_ERROR
+----
+
+ | + |Connection failed to open a connection.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONNECTION_START_ERROR
+----
+
+ | + |Connection start failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONNECTION_UNSUPPORTED_TRANSPORT
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The transport specified is not supported.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_CLOSED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The consumer was closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_EXCEPTION
+----
+
+ | + |An exception occurred on the consumer.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_NO_DURABLE_NAME
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |There is no durable name specified
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_NO_SESSION
+----
+
+ | + |The consumer has no session.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_NOT_FOUND
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Message consumer not found
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_NOT_IN_SESSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The consumer is not part of this session.
+
+a|
+[source,oac_no_warn]
+----
+MQ_CONSUMER_NOT_INITIALIZED
+----
+
+ | + |The consumer has not been initialized.
+
+a|
+[source,oac_no_warn]
+----
+MQ_COULD_NOT_CONNECT_TO_BROKER
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Could not connect to Broker
+
+a|
+[source,oac_no_warn]
+----
+MQ_COULD_NOT_CREATE_THREAD
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Could not create thread
+
+a|
+[source,oac_no_warn]
+----
+MQ_DESTINATION_CONSUMER_LIMIT_EXCEEDED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The number of consumers on the destination exceeded limit.
+
+a|
+[source,oac_no_warn]
+----
+MQ_DESTINATION_NO_CLASS
+----
+
+ | + |The destination does not have a class.
+
+a|
+[source,oac_no_warn]
+----
+MQ_DESTINATION_NO_NAME
+----
+
+ | + |The destination does not have a name.
+
+a|
+[source,oac_no_warn]
+----
+MQ_DESTINATION_NOT_TEMPORARY
+----
+
+ | + |The destination is not temporary
+
+a|
+[source,oac_no_warn]
+----
+MQ_END_OF_STREAM
+----
+
+ | + |End of stream
+
+a|
+[source,oac_no_warn]
+----
+MQ_FILE_NOT_FOUND
+----
+
+ | + |The property file could not be found
+
+a|
+[source,oac_no_warn]
+----
+MQ_FILE_OUTPUT_ERROR
+----
+
+ | + |File output error
+
+a|
+[source,oac_no_warn]
+----
+MQ_HANDLED_OBJECT_IN_USE
+----
+
+ | + |The object could not be deleted because there is another reference
+to it.
+
+a|
+[source,oac_no_warn]
+----
+MQ_HANDLED_OBJECT_INVALID_HANDLE_ERROR
+----
+
+ | + |The object is invalid (i.e. it has not been deleted).
+
+a|
+[source,oac_no_warn]
+----
+MQ_HANDLED_OBJECT_NO_MORE_HANDLES
+----
+
+ | + |A handle could not be allocated because the supply of handles has
+been exhausted.
+
+a|
+[source,oac_no_warn]
+----
+MQ_HASH_TABLE_ALLOCATION_FAILED
+----
+
+ | + |The hash table could not be allocated
+
+a|
+[source,oac_no_warn]
+----
+MQ_HASH_VALUE_ALREADY_EXISTS
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The hash value already exists in the hash table.
+
+a|
+[source,oac_no_warn]
+----
+MQ_ILLEGAL_CLOSE_XA_CONNECTION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Illegally closed an XA connection
+
+a|
+[source,oac_no_warn]
+----
+MQ_INCOMPATIBLE_LIBRARY
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The library is incompatible
+
+a|
+[source,oac_no_warn]
+----
+MQ_INPUT_STREAM_ERROR
+----
+
+ | + |Input stream error
+
+a|
+[source,oac_no_warn]
+----
+MQ_INTERNAL_ERROR
+----
+
+ | + |Generic internal error
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_ACKNOWLEDGE_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid acknowledge mode
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_AUTHENTICATE_REQUEST
+----
+
+ | + |Invalid authenticate request
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_CLIENTID
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid client id
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_CONSUMER_ID
+----
+
+ | + |Invalid consumer id
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_DELIVERY_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid delivery mode.
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_DESTINATION_TYPE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid destination type.
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_ITERATOR
+----
+
+ | + |Invalid iterator
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_MESSAGE_SELECTOR
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid message selector.
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_PACKET
+----
+
+ | + |Invalid packet
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_PACKET_FIELD
+----
+
+ | + |Invalid packet field
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_PORT
+----
+
+ | + |Invalid port
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_PRIORITY
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid priority
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_RECEIVE_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Invalid receive mode.
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_TRANSACTION_ID
+----
+
+ | + |Invalid transaction id
+
+a|
+[source,oac_no_warn]
+----
+MQ_INVALID_TYPE_CONVERSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The object could not be converted invalid input
+
+a|
+[source,oac_no_warn]
+----
+MQ_MD5_HASH_FAILURE
+----
+
+ | + |MD5 Hash failure
+
+a|
+[source,oac_no_warn]
+----
+MQ_MESSAGE_NO_DESTINATION
+----
+
+ | + |The message does not have a destination
+
+a|
+[source,oac_no_warn]
+----
+MQ_MESSAGE_NOT_IN_SESSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The message was not delivered to the session.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NEGATIVE_AMOUNT
+----
+
+ | + |Negative amount
+
+a|
+[source,oac_no_warn]
+----
+MQ_NO_AUTHENTICATION_HANDLER
+----
+
+ | + |No authentication handler
+
+a|
+[source,oac_no_warn]
+----
+MQ_NO_CONNECTION
+----
+
+ | + |The session's connection has been closed
+
+a|
+[source,oac_no_warn]
+----
+MQ_NO_MESSAGE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |There was no message to receive.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NO_MESSAGE_PROPERTIES
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |There are no message properties
+
+a|
+[source,oac_no_warn]
+----
+MQ_NO_REPLY_TO_DESTINATION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The message does not have a reply to destination.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_ASYNC_RECEIVE_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The session is not in async receive mode.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_FOUND
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Not found
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_IPV4_ADDRESS
+----
+
+ | + |Not an IPv4 Address
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_SYNC_RECEIVE_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The session is not in sync receive mode.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_TRANSACTED_SESSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The session is not transacted.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NOT_XA_CONNECTION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The connection is not an XA connection.
+
+a|
+[source,oac_no_warn]
+----
+MQ_NULL_PTR_ARG
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |NULL pointer passed to method
+
+a|
+[source,oac_no_warn]
+----
+MQ_NULL_STRING
+----
+
+ | + |The string is `NULL`
+
+a|
+[source,oac_no_warn]
+----
+MQ_NUMBER_NOT_INT16
+----
+
+ | + |Number not a UINT16
+
+a|
+[source,oac_no_warn]
+----
+MQ_OBJECT_NOT_CLONABLE
+----
+
+ | + |The object cannot be cloned
+
+a|
+[source,oac_no_warn]
+----
+MQ_OUT_OF_MEMORY
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Out of memory
+
+a|
+[source,oac_no_warn]
+----
+MQ_PACKET_OUTPUT_ERROR
+----
+
+ | + |Packet output error
+
+a|
+[source,oac_no_warn]
+----
+MQ_POLL_ERROR
+----
+
+ | + |Poll error
+
+a|
+[source,oac_no_warn]
+----
+MQ_PORTMAPPER_ERROR
+----
+
+ | + |Portmapper error
+
+a|
+[source,oac_no_warn]
+----
+MQ_PORTMAPPER_INVALID_INPUT
+----
+
+ | + |Portmapper returned invalid.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PORTMAPPER_WRONG_VERSION
+----
+
+ | + |Portmapper is the wrong version
+
+a|
+[source,oac_no_warn]
+----
+MQ_PRODUCER_CLOSED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Producer closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PRODUCER_HAS_DESTINATION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The producer has a specified destination
+
+a|
+[source,oac_no_warn]
+----
+MQ_PRODUCER_NO_DESTINATION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The producer does not have a specified destination.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PRODUCER_NOT_IN_SESSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The producer is not part of this session
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROPERTY_FILE_ERROR
+----
+
+ | + |There was an error reading from the property file
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROPERTY_NULL
+----
+
+ | + |Property is`NULL`.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROPERTY_WRONG_VALUE_TYPE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Property has the wrong value type
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_AUTHENTICATE_FAILED
+----
+
+ | + |Authenticating to the broker failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_DELETE_DESTINATION_FAILED
+----
+
+ | + |Deleting destination failed
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_ERROR
+----
+
+ | + |Protocol Handler error
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_GOODBYE_FAILED
+----
+
+ | + |Error in saying goodbye to broker.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_HELLO_FAILED
+----
+
+ | + |Error saying hello to the broker.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_READ_ERROR
+----
+
+ | + |Reading a packet from the broker failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_RESUME_FLOW_FAILED
+----
+
+ | + |Error resume flow from broker.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_SET_CLIENTID_FAILED
+----
+
+ | + |Setting client id failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_START_FAILED
+----
+
+ | + |Starting broker connection failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_STOP_FAILED
+----
+
+ | + |Stopping broker connection failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_UNEXPECTED_REPLY
+----
+
+ | + |Received an unexpected reply from the broker.
+
+a|
+[source,oac_no_warn]
+----
+MQ_PROTOCOL_HANDLER_WRITE_ERROR
+----
+
+ | + |Writing a packet to the broker failed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_QUEUE_CONSUMER_CANNOT_BE_DURABLE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |A queue consumer cannot be durable
+
+a|
+[source,oac_no_warn]
+----
+MQ_READ_CHANNEL_DISPATCH_ERROR
+----
+
+ | + |Read channel couldn't dispatch packet.
+
+a|
+[source,oac_no_warn]
+----
+MQ_READQTABLE_ERROR
+----
+
+ | + |ReadQTable error
+
+a|
+[source,oac_no_warn]
+----
+MQ_RECEIVE_QUEUE_CLOSED
+----
+
+ | + |The receive queue is closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_RECEIVE_QUEUE_ERROR
+----
+
+ | + |The Session is not associated with a connection.
+
+a|
+[source,oac_no_warn]
+----
+MQ_REFERENCED_FREED_OBJECT_ERROR
+----
+
+ | + |A freed object was referenced.
+
+a|
+[source,oac_no_warn]
+----
+MQ_REUSED_CONSUMER_ID
+----
+
+ | + |Reused consumer id
+
+a|
+[source,oac_no_warn]
+----
+MQ_SHARED_SUBSCRIPTION_NOT_TOPIC
+----
+
+ | + |Shared subscription must use Topic destination
+
+a|
+[source,oac_no_warn]
+----
+MQ_SEND_NOT_FOUND
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The destination to which this message was sent could not be found.
+
+a|
+[source,oac_no_warn]
+----
+MQ_SEND_RESOURCE_FULL
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The destination is full and is rejecting new messages.
+
+a|
+[source,oac_no_warn]
+----
+MQ_SEND_TOO_LARGE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The message exceeds the single message size limit for the server or
+for the destination.
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_BAD_CLASS_UID
+----
+
+ | + |Serialize bad class UID
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_BAD_HANDLE
+----
+
+ | + |Serialize bad handle
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_BAD_MAGIC_NUMBER
+----
+
+ | + |Serialize bad magic number
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_BAD_SUPER_CLASS
+----
+
+ | + |Serialize bad super class
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_BAD_VERSION
+----
+
+ | + |Serialize bad version
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_CANNOT_CLONE
+----
+
+ | + |Serialize cannot clone
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_CORRUPTED_HASHTABLE
+----
+
+ | + |Serialize corrupted hashtable
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_NO_CLASS_DESC
+----
+
+ | + |Serialize no class description
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_NOT_CLASS_DEF
+----
+
+ | + |Serialize not class definition
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_NOT_CLASS_HANDLE
+----
+
+ | + |Serialize not a class object
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_NOT_HASHTABLE
+----
+
+ | + |Serialize not a hashtable
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_NOT_OBJECT_HANDLE
+----
+
+ | + |Serialize not a handle object
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_STRING_CONTAINS_NULL
+----
+
+ | + |Serialize string contains`NULL`
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_STRING_TOO_BIG
+----
+
+ | + |Serialize string too big
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_TEST_ERROR
+----
+
+ | + |Serialize testing error
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_UNEXPECTED_BYTES
+----
+
+ | + |Serialize unexpected bytes
+
+a|
+[source,oac_no_warn]
+----
+MQ_SERIALIZE_UNRECOGNIZED_CLASS
+----
+
+ | + |Serialize unrecognized class
+
+a|
+[source,oac_no_warn]
+----
+MQ_SESSION_CLOSED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Session closed
+
+a|
+[source,oac_no_warn]
+----
+MQ_SESSION_NOT_CLIENT_ACK_MODE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Session is not in client acknowledge mode
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_CLOSE_FAILED
+----
+
+ | + |Could not close the socket
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_CONNECT_FAILED
+----
+
+ | + |Could not connect socket to the host
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_ERROR
+----
+
+ | + |Socket error
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_READ_FAILED
+----
+
+ | + |Could not read from the socket
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_SHUTDOWN_FAILED
+----
+
+ | + |Could not shutdown socket
+
+a|
+[source,oac_no_warn]
+----
+MQ_SOCKET_WRITE_FAILED
+----
+
+ | + |Could not write to the socket
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_ALREADY_INITIALIZED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |SSL has already been initialized
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_CERT_ERROR
+----
+
+ | + |SSL certification error
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_ERROR
+----
+
+ | + |SSL error
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_INIT_ERROR
+----
+
+ | + |SSL initialization error
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_NOT_INITIALIZED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |SSL not initialized
+
+a|
+[source,oac_no_warn]
+----
+MQ_SSL_SOCKET_INIT_ERROR
+----
+
+ | + |SSL socket initialization error
+
+a|
+[source,oac_no_warn]
+----
+MQ_STATUS_CONNECTION_NOT_CLOSED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The connection cannot be deleted because it was not closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_STATUS_INVALID_HANDLE
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The handle passed to a function is invalid.
+
+a|
+[source,oac_no_warn]
+----
+MQ_STRING_NOT_NUMBER
+----
+
+ | + |String not a number
+
+a|
+[source,oac_no_warn]
+----
+MQ_SUCCESS
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Success
+
+a|
+[source,oac_no_warn]
+----
+MQ_TCP_ALREADY_CONNECTED
+----
+
+ | + |TCP already connected.
+
+a|
+[source,oac_no_warn]
+----
+MQ_TCP_CONNECTION_CLOSED
+----
+
+ | + |TCP connection is closed.
+
+a|
+[source,oac_no_warn]
+----
+MQ_TCP_INVALID_PORT
+----
+
+ | + |Invalid TCP port.
+
+a|
+[source,oac_no_warn]
+----
+MQ_TEMPORARY_DESTINATION_NOT_IN_CONNECTION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The temporary destination is not in the connection.
+
+a|
+[source,oac_no_warn]
+----
+MQ_THREAD_OUTSIDE_XA_TRANSACTION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |The calling thread is not associated with an XA transaction
+
+a|
+[source,oac_no_warn]
+----
+MQ_TIMEOUT_EXPIRED
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Timeout expired
+
+a|
+[source,oac_no_warn]
+----
+MQ_TRANSACTED_SESSION
+----
+
+ a|
+[source,oac_no_warn]
+----
+ X
+----
+
+ |Session is transacted.
+
+a|
+[source,oac_no_warn]
+----
+MQ_TRANSACTION_ID_IN_USE
+----
+
+ | + |Transaction id in use.
+
+a|
+[source,oac_no_warn]
+----
+MQ_TYPE_CONVERSION_OUT_OF_BOUNDS
+----
+
+ | + |The object conversion failed because the value is out of bounds
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNEXPECTED_ACKNOWLEDGEMENT
+----
+
+ | + |Received an unexpected acknowledgement
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNEXPECTED_NULL
+----
+
+ | + |Unexpected null
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNINITIALIZED_STREAM
+----
+
+ | + |Uninitialized stream
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNRECOGNIZED_PACKET_TYPE
+----
+
+ | + |The packet type was unrecognized
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNSUPPORTED_ARGUMENT_VALUE
+----
+
+ | + |Unsupported argument value
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNSUPPORTED_AUTH_TYPE
+----
+
+ | + |Unsupported authentication type
+
+a|
+[source,oac_no_warn]
+----
+MQ_UNSUPPORTED_MESSAGE_TYPE
+----
+
+ | + |The JMS message type is not supported
+
+a|
+[source,oac_no_warn]
+----
+MQ_VECTOR_TOO_BIG
+----
+
+ | + |Vector too big
+
+a|
+[source,oac_no_warn]
+----
+MQ_WRONG_ARG_BUFFER_SIZE
+----
+
+ | + |Buffer is the wrong size
+
+a|
+[source,oac_no_warn]
+----
+MQ_XA_SESSION_IN_PROGRESS
+----
+
+ | + |An XA session is in progress
+
+a|
+[source,oac_no_warn]
+----
+MQ_XA_SESSION_NO_TRANSACTION
+----
+
+ | + |The XA session has no active transaction
+|=======================================================================
+
+
+

@@ -1,0 +1,510 @@
+type=page
+status=published
+title=JMX Support
+next=frequent-commands.html
+prev=http_https-support.html
+~~~~~~
+JMX Support
+===========
+
+[[GMADG00057]][[geoel]]
+
+
+[[d-jmx-support]]
+D JMX Support
+-------------
+
+Message Queue includes support for Java-based client programs to
+programmatically configure and monitor Message Queue resources by means
+of the Java Management Extensions (JMX) application programming
+interface. These resources include brokers, connection services,
+connections, destinations, durable subscribers, and transactions, Use of
+the JMX API from the client side is fully described in the Open Message
+Queue Developer's Guide for JMX Clients. This appendix describes the JMX
+support infrastructure on the broker side, including the following
+topics:
+
+* link:#ggvry[JMX Connection Infrastructure]
+* link:#ggvud[JMX Configuration]
+
+[[ggvry]][[GMADG00324]][[jmx-connection-infrastructure]]
+
+JMX Connection Infrastructure
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The JMX API allows Java client applications to monitor and manage broker
+resources by programmatically accessing JMX MBeans (managed beans) that
+represent broker resources. As explained in "link:../mq-tech-over/brokers.html#GMTOV00143[JMX-Based
+Administration]" in Open Message Queue Technical Overview, the broker
+implements MBeans associated with individual broker resources, such as
+connection services, connections, destinations, and so forth, as well as
+with whole categories of resources, such as the set of all destinations
+on a broker. There are separate configuration MBeans and monitor MBeans
+for setting a resource's configuration properties and monitoring its
+runtime state.
+
+[[ghbqo]][[GMADG00638]][[mbean-access-mechanism]]
+
+MBean Access Mechanism
+^^^^^^^^^^^^^^^^^^^^^^
+
+In the JMX implementation used by Message Queue, JMX client applications
+access MBeans using remote method invocation (RMI) protocols provided by
+JDK 1.5 (and later).
+
+When a broker is started, it automatically creates MBeans that
+correspond to broker resources and places them in an MBean server (a
+container for MBeans). JMX client applications access the MBean server
+by means of an JMX RMI connector (heretofore called a JMX connector),
+which is used to obtain an MBean server connection, which, in turn,
+provides access to individual MBeans.
+
+The broker also creates and configures two default JMX connectors,
+`jmxrmi` and `ssljmxrmi`. These connectors are similar to the broker
+connection services used to provide connections to the broker from JMS
+clients. By default, only the `jmxrmi` connector is activated at broker
+startup. The `ssljmxrmi` connector, which is configured to use SSL
+encryption, can be activated using the `imq.jmx.connector.activelist`
+broker property (see link:#geofc[To Activate the SSL-Based JMX
+connector]).
+
+JMX client applications programmatically access JMX MBeans by first
+obtaining an MBean server connection from the `jmxrmi` or `ssljmxrmi`
+connector. The connector itself is accessed by using a proxy object (or
+stub) that is obtained from the broker by the JMX client runtime, as
+shown in the following figure. Encapsulated in the connector stub is the
+port at which the connector resides, which is dynamically assigned each
+time a broker is started, and other connection properties.
+
+[[GMADG00028]][[ghbqi]]
+
+
+.*Figure D-1 Basic JMX Infrastructure*
+image:img/adm_jmxconnect.png[
+"Figure showing basic elements of the JMX connection infrastructure."]
+
+
+[[ghbrs]][[GMADG00639]][[the-jmx-service-url]]
+
+The JMX Service URL
+^^^^^^^^^^^^^^^^^^^
+
+JMX client applications obtain a JMX connector stub using an address
+called the JMX service URL. The value and format of the JMX service URL
+depends on how the broker's JMX support is configured:
+
+* Static JMX service URL. The JMX service URL specifies the location of
+the JMX connector stub in an RMI registry. When the broker is started,
+it creates the JMX connector stub and places it in the specified
+location in the RMI registry. This location is fixed across broker
+startups.
+* Dynamic JMX service URL.The JMX service URL contains the JMX connector
+stub as a serialized object. This URL is dynamically created each time
+the broker is started.
+
+A JMX service URL has the following form:
+
+`service:jmx:rmi://`brokerHost`[:`connectorPort`]`urlpath
+
+where `rmi://`brokerHost`[:`connectorPort`]` specifies the host (and
+optionally a port) used by the JMX connector. By default the port is
+assigned dynamically on broker startup, but can be set to a fixed value
+for JMX connections through a firewall.
+
+The urlpath portion of the JMX service URL depends on whether the JMX
+service URL is static (see link:#ggvvp[Static JMX Service URL: Using an
+RMI Registry]) or dynamic (see link:#ggvvt[Dynamic JMX Service URL: Not
+Using an RMI Registry]). In either case, you can determine the value of
+the JMX service URL by using the `imqcmd list jmx` subcommand (see the
+examples in link:#ggvsp[RMI Registry Configuration]).
+
+By default, the broker does not use an RMI registry, and the JMX runtime
+obtains a JMX connector stub by extracting it from a dynamic JMX service
+URL. However, if the broker is configured to use an RMI registry, then
+JMX runtime uses a static JMX service URL to perform a JNDI lookup of
+the JMX connector stub in the RMI registry. This approach, illustrated
+in the following figure, has the advantage of providing a fixed location
+at which the connector stub resides, one that does not change across
+broker startups.
+
+[[GMADG00029]][[ghbqz]]
+
+
+.*Figure D-2 Obtaining a Connector Stub from an RMI Registry*
+image:img/adm_jmxconnect_wregistry.png[
+"Figure showing use of an RMI registry to obtain a JMX connector stub."]
+
+
+[[ghbrb]][[GMADG00640]][[the-admin-connection-factory]]
+
+The Admin Connection Factory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue also provides, as a convenience, an
+`AdminConnectionFactory` class that hides the details of the JMX Service
+URL and JMX connector stub. The Admin Connection Factory uses the
+Message Queue Port Mapper service to get the relevant JMX Service URL
+(regardless of the form being used) and thereby obtain a JMX connector
+stub. JMX applications that use the Admin Connection Factory only need
+to know the broker's host and Port Mapper port. The scheme is shown in
+the following figure.
+
+[[GMADG00030]][[ghbqn]]
+
+
+.*Figure D-3 Obtaining a Connector Stub from an Admin Connection Factory*
+image:img/adm_jmxconnect_wcf.png[
+"Figure showing the use of an Admin Connection factory to obtain a
+connector stub."]
+
+
+For programmatic details, see "link:../mq-dev-guide-jmx/using-the-jmx-api.html#GMJMG00169[Obtaining a JMX
+Connector from an Admin Connection Factory]" in Open Message Queue
+Developer's Guide for JMX Clients.
+
+[[ggvud]][[GMADG00325]][[jmx-configuration]]
+
+JMX Configuration
+~~~~~~~~~~~~~~~~~
+
+Broker configuration properties that support JMX are listed in
+link:broker-properties.html#gclfp[Table 17-18]. These properties can be
+set in the broker's instance configuration file (`config.properties`) or
+at broker startup with the `-D` option of the Broker utility
+(`imqbrokerd`). None of these properties can be set dynamically with the
+Command utility (`imqcmd`). In addition, as described below, some of
+these properties can be set with corresponding `imqbrokerd` options.
+
+This section discusses several JMX configuration topics:
+
+* link:#ggvsp[RMI Registry Configuration]
+* link:#ggvun[SSL-Based JMX Connections]
+* link:#ggvxj[JMX Connections Through a Firewall]
+
+[[ggvsp]][[GMADG00641]][[rmi-registry-configuration]]
+
+RMI Registry Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can configure the broker to do any of the following:
+
+* Start an RMI registry (`imq.jmx.rmiregistry.start=true`) +
+If the broker is configured to start an RMI registry, then the broker
+will do the following:
+
+** Start an RMI registry in the broker process. The RMI registry will
+remain operational during the lifetime of the broker.
+
+** Store the JMX connector stub for it's connectors in this RMI
+registry.
+
+** Advertise a static JMX Service URL that points to the relevant JMX
+connector stub in this registry.
+
+** Shut down the RMI registry as part of the broker shutdown process.
+* Use an existing RMI registry (`imq.jmx.rmiregistry.use=true`) +
+If the broker is configured to use an existing RMI registry on the local
+host, then the broker will do the following:
+
+** Expect an RMI registry to be running on the same host (at a port
+which can also be specified)
+
+** Store the JMX connector stub for it's connectors in this externally
+managed RMI registry.
+
+** Advertise a static JMX Service URL that points to the relevant JMX
+connector stub in this registry. This means the registry must remain
+operational during the lifetime of the broker.
+
+** Not shut down the RMI registry as part of the broker shutdown
+process.
+* Not use a registry at all (both `imq.jmx.rmiregistry.start` and
+`imq.jmx.rmiregistry.use` are set to `false`). +
+If the broker is configured to not use a registry, then the broker will
+advertise a dynamic JMX Service URL that contains the JMX connector stub
+as a serialized object.
+
+The choice of using or not using an RMI registry depends upon whether
+you want a static or dynamic JMX Service URL, respectively. The
+advantages and disadvantages of using an RMI registry are shown in the
+following table.
+
+[[GMADG814]][[sthref290]][[ghauv]]
+
+
+Table D-1 Advantages and Disadvantages of Using an RMI Registry
+
+[width="100%",cols="12%,30%,28%,30%",options="header",]
+|=======================================================================
+|Scenario |Broker Configuration |Advantages |Disadvantages
+a|
+Using a Registry
+
+(Static JMX Service URL)
+
+ a|
+Configuration Properties:
+
+`imq.jmx.rmigegistry.start`
+
+`imq.jmx.rmigegistry.use`
+
+`imq.jmx.rmigegistry.port`
+
+ |The value of the JMX Service URL is constant across broker restarts.
+|Broker depends on an RMI registry, either one it starts or one that is
+externally available. There is therefore one more port to worry about
+with regard to port conflicts or firewall configurations.
+
+a|
+Not Using a Registry
+
+(Dynamic JMX Service URL)
+
+ |Default |Broker does not start up an RMI registry. There is therefore
+one less port to worry about with regard to port conflicts or firewall
+configurations. |The value of the JMX Service URL changes at every
+broker startup. JMX applications need to be provided a new URL every
+time the broker restarts. (This is not an issue with JMX client
+applications that use the `AdminConnectionFactory` class.)
+|=======================================================================
+
+
+If a registry is being used, the `imq.jmx.rmiregistry.port` property
+specifies the port number for the RMI registry. For convenience, you can
+also specify these RMI registry related properties by using equivalent
+Broker utility (`imqbrokerd`) options at broker startup:
+`-startRmiRegistry`, `-useRmiRegistry`, and `-rmiRegistryPort`,
+respectively (see link:command-line-reference.html#gbnla[Table 16-1]).
+
+[[ggvvp]][[GMADG00479]][[static-jmx-service-url-using-an-rmi-registry]]
+
+Static JMX Service URL: Using an RMI Registry
++++++++++++++++++++++++++++++++++++++++++++++
+
+When using an RMI Registry to store a JMX connector stub, the urlpath
+portion of the JMX service URL (see link:#ghbrs[The JMX Service URL])
+does not change across broker startups and has the following form:
+
+`/jndi/rmi://`brokerHost`[:`rmiPort`]/`brokerHost`/`portMapperPort`/`connectorName
+
+This path consists of two segments:
+
+* `/jndi/rmi://`brokerHost`[:`rmiPort`]` +
+Specifies the RMI registry host and port at which the JMX contector stub
+is obtained by performing a JNDI lookup. The default port is 1099.
+* `/`brokerHost`/`portMapperPort`/`connectorName +
+Specifies the location within the RMI registry where the JMX connector
+stub is stored.
+
+[[GMADG00137]][[ggvsd]]
+
+
+Example D-1 JMX Service URL When Using an RMI Registry
+
+The following example shows the JMX service URL for the default `jmxrmi`
+connector in the case where an RMI registry is started on port 1098 on a
+host called `yourhost`:
+
+`# imqbrokerd -startRmiRegistry -rmiRegistryPort 1098`
+
+[source,oac_no_warn]
+----
+% imqcmd list jmx -u admin -passfile /myDir/psswds
+Listing JMX Connectors on the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Name      Active URL
+jmxrmi    true   service:jmx:rmi://yourhost/jndi/rmi://yourhost:1098
+                 /yourhost/7676/jmxrmi
+ssljmxrmi false
+
+Successfully listed JMX Connectors.
+----
+
+The JMX service URL could potentially contain a hostname and port three
+separate times, indicating the location of the JMX connector, the RMI
+registry, and the broker, respectively.
+
+[[ggvvt]][[GMADG00480]][[dynamic-jmx-service-url-not-using-an-rmi-registry]]
+
+Dynamic JMX Service URL: Not Using an RMI Registry
+++++++++++++++++++++++++++++++++++++++++++++++++++
+
+When not using an RMI Registry to store a JMX connector stub, the
+urlpath portion of the JMX service URL is dynamically generated at
+broker startup and has the following form:
+
+`/stub/rO0ABdmVyLlJlpIDJyGvQkwAAAARod97VdgAEAeA==`
+
+where the string following `/stub/` is the is the serialized JMX
+connector stub encoded in BASE64 (shortened above for legibility)
+
+[[GMADG00138]][[ggvuk]]
+
+
+Example D-2 JMX Service URL When Not Using an RMI Registry
+
+The following example shows the JMX service URL for the default `jmxrmi`
+connector when no RMI registry is started by the broker and no existing
+registry is used.
+
+`# imqbrokerd`
+
+[source,oac_no_warn]
+----
+% imqcmd list jmx -u admin -passfile /myDir/psswds
+Listing JMX Connectors on the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Name      Active  URL
+jmxrmi    true    service:jmx:rmi://yourhost/stub/rO0ABdmVyLlJlpIDJy==
+
+ssljmxrmi false
+
+Successfully listed JMX Connectors.
+----
+
+[[ggvun]][[GMADG00642]][[ssl-based-jmx-connections]]
+
+SSL-Based JMX Connections
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If you need to have secure, encrypted connections between a JMX client
+and the broker's MBean server, then you need to configure both sides of
+the connection accordingly.
+
+[[ggvxb]][[GMADG00481]][[broker-side-ssl-configuration]]
+
+Broker Side SSL Configuration
++++++++++++++++++++++++++++++
+
+As mentioned in link:#ggvry[JMX Connection Infrastructure], a broker is
+configured by default for non-secure communication using the
+preconfigured `jmxrmi` connector. Applications wishing to use the Secure
+Socket Layer (SSL) for secure communication must activate the alternate
+`ssljmxrmi` connector. The `ssljmxrmi` connector is preconfigured with
+`imq.jmx.connector.`RMIconnectorName`.useSSL``=true`.
+
+[[geofc]][[GMADG00209]][[to-activate-the-ssl-based-jmx-connector]]
+
+To Activate the SSL-Based JMX connector
+
+1.  Obtain and install a signed certificate. +
+The procedure is the same as for the `ssljms`, `ssladmin`, or `cluster`
+connection service, as described under
+link:security-services.html#aeogk[Using Signed Certificates].
+2.  Install the root certification authority certificate in the trust
+store if necessary.
+3.  Add the `ssljmxrmi` connector to the list of JMX connectors to be
+activated at broker startup: +
+[source,oac_no_warn]
+----
+imq.jmx.connector.activelist=jmxrmi,ssljmxrmi
+----
+4.  Start the broker. +
+Use the Broker utility (`imqbrokerd`), either passing it the keystore
+password in a passfile or typing it from at the command line when
+prompted.
+5.  Disable validation of certificates if desired. +
+By default, the `ssljmxrmi` connector (or any other SSL-based connector)
+is configured to validate all broker SSL certificates presented to it.
+Validation will fail if the signer of the certificate is not in the
+client's trust store. To avoid this validation (for instance, when using
+self-signed certificates during software testing), set the broker
+property `imq.jmx.connector.ssljmxrmi.brokerHostTrusted` to `true`.
+
+[[ggvwc]][[GMADG00482]][[jmx-client-side-ssl-configuration]]
+
+JMX Client Side SSL Configuration
++++++++++++++++++++++++++++++++++
+
+On the client side, if the `AdminConnectionFactory` class is being used
+to obtain a JMX connector, the `AdminConnectionFactory` object must be
+configured with a URL specifying the `ssljmxrmi` connector:
+
+[source,oac_no_warn]
+----
+AdminConnectionFactory  acf = new AdminConnectionFactory();
+   acf.setProperty(AdminConnectionConfiguration.imqAddress,
+                   "mq://myhost:7676/ssljmxrmi");
+----
+
+In addition, if the JMX client needs to access the trust store, use the
+system properties `javax.net.ssl.trustStore` and
+`javax.net.ssl.trustStorePassword` to point the JMX client to the trust
+store. For example:
+
+`java -Djavax.net.ssl.trustStore=/tmp/myStrustsore -Djavax.net.ssl.trustStorePassword=myTurstword MyApp`
+
+[[ggvxj]][[GMADG00643]][[jmx-connections-through-a-firewall]]
+
+JMX Connections Through a Firewall
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+If a JMX client application needs to connect to a broker that is located
+behind a firewall, the broker must be configured to use fixed JMX ports
+so the firewall can, in turn, be configured to allow traffic on these
+ports. The relevant ports are the following:
+
+* The port used by the JMX connector. The property used to configure
+this port is `imq.jmx.connector.`connectorName`.port`, where
+connectorName can be `jmxrmi` or `ssljmxrmi`.
+* The port used by the RMI registry, if any. The property used to
+configure this port is `imq.jmx.rmiregistry.port`. The equivalent
+command line option for `imqbrokerd` is `-rmiRegistryPort`.
+
+Once these ports are specified, configure the firewall to allow traffic
+on these ports.
+
+[[GMADG00139]][[ggvvc]]
+
+
+Example D-3 JMX Configuration for Firewall When Not Using a RMI Registry
+
+The following example starts a broker with no RMI registry and a
+`jmxrmi` connector on port 5656 on a host called `yourhost`, as follows:
+
+`# imqbrokerd -Dimq.jmx.connector.jmxrmi.port=5656`
+
+The resulting JMX service URL is:
+
+[source,oac_no_warn]
+----
+service:jmx:rmi://yourhost:5656/stub/rO0ABdmVyLlJlpIDJy==
+----
+
+The JMX service URL shows the connector port. In this case, you need to
+configure the firewall to allow traffic only on port 5656.
+
+[[GMADG00140]][[ggvvi]]
+
+
+Example D-4 JMX Configuration for Firewall When Using an RMI Registry
+
+The following example starts a broker with an RMI registry on port 1098
+and a `jmxrmi` connector on port 5656 on a host called `yourhost`, as
+follows:
+
+`# imqbrokerd -startRmiRegistry -rmiRegistryPort 1098 -Dimq.jmx.connector.jmxrmi.port=5656`
+
+The resulting JMX service URL is:
+
+[source,oac_no_warn]
+----
+ service:jmx:rmi://yourhost:5656/jndi/rmi://yourhost:1098
+                 /yourhost/7676/jmxrmi
+----
+
+The JMX service URL shows both these ports. You need to configure the
+firewall to allow traffic on ports 1098 and 5656.
+
+

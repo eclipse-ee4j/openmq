@@ -1,0 +1,456 @@
+type=page
+status=published
+title=Metrics Information Reference
+next=java-es-monitoring-framework.html
+prev=jmsra-properties.html
+~~~~~~
+Metrics Information Reference
+=============================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00052]][[aeoor]]
+
+
+[[metrics-information-reference]]
+21 Metrics Information Reference
+--------------------------------
+
+This chapter describes the metrics information that a Message Queue
+broker can provide for monitoring, tuning, and diagnostic purposes. This
+information can be made available in a variety of ways:
+
+* In a log file (see link:monitoring.html#aeois[Sending Metrics Data to
+Log Files])
+* Interactively with the Command utility's `imqcmd metrics` subcommand
+(see link:broker-management.html#aeodo[Using the Command Utility])
+* In metrics messages sent to a metrics topic destination (see
+link:monitoring.html#aeojc[Using the Message-Based Monitoring API])
+* Through JMX MBeans that can be accessed programmatically by Java
+applications using the JMX Administration API.
+
+The tables in this chapter list the kinds of metrics information
+available and the forms in which it can be provided. For metrics
+provided through the Command utility's `imqcmd metrics` subcommand, the
+tables list the metric type with which they can be requested; for those
+provided in metrics messages, the tables list the metrics topic
+destination to which they are delivered. All the metrics information in
+this chapter can be accessed progamatically using the JMX Administration
+API as described in the Open Message Queue Developer's Guide for JMX
+Clients
+
+The chapter consists of the following sections:
+
+* link:#aeoos[JVM Metrics]
+* link:#aeoot[Brokerwide Metrics]
+* link:#aeoou[Connection Service Metrics]
+* link:#aeoov[Physical Destination Metrics]
+
+[[aeoos]][[GMADG00304]][[jvm-metrics]]
+
+JVM Metrics
+~~~~~~~~~~~
+
+link:#gbnmo[Table 21-1] shows the metrics information that the broker
+reports for the broker process JVM (Java Virtual Machine) heap.
+
+[[GMADG795]][[sthref254]][[gbnmo]]
+
+
+Table 21-1 JVM Metrics
+
+[width="163%",cols="17%,26%,42%,6%,9%",options="header",]
+|=======================================================================
+|Metrics Quantity |Description |Log File? |`metrics` `bkr`Metric Type
+|Metrics Topic
+|JVM heap: total memory |Current total memory, in bytes |Yes |`cxn`
+|`mq.metrics.jvm`
+
+|JVM heap: free memory |Amount of memory currently available for use, in
+bytes |Yes |`cxn` |`mq.metrics.jvm`
+
+|JVM heap: max memory |Maximum allowable heap size, in bytes |Yes |None
+|`mq.metrics.jvm`
+|=======================================================================
+
+
+[[aeoot]][[GMADG00305]][[brokerwide-metrics]]
+
+Brokerwide Metrics
+~~~~~~~~~~~~~~~~~~
+
+link:#gbnoc[Table 21-2] shows the brokerwide metrics information that
+the broker reports.
+
+[[GMADG796]][[sthref255]][[gbnoc]]
+
+
+Table 21-2 Brokerwide Metrics
+
+[width="163%",cols="17%,26%,42%,6%,9%",options="header",]
+|=======================================================================
+|Metrics Quantity |Description |Log File? |`metrics` `bkr`Metric Type
+|Metrics Topic
+|Connections | | | |
+
+|Num connections |Total current number of connections for all connection
+services |Yes |`cxn` |`mq.metrics.broker`
+
+|Num threads |Total current number of threads for all connection
+services |Yes |`cxn` |None
+
+|Min threads |Total minimum number of threads for all connection
+services |Yes |`cxn` |None
+
+|Max threads |Total maximum number of threads for all connection
+services |Yes |`cxn` |None
+
+|Stored Messages | | | |
+
+|Num messages |Current number of payload messages stored in memory and
+persistent store |No |Nonelink:#foot-usequerybkr[^Foot 1 ^]
+|`mq.metrics.broker`
+
+|Total message bytes |Total size in bytes of payload messages currently
+stored in memory and persistent store |No
+|Nonelink:#sthref256[^Footref 1^] |`mq.metrics.broker`
+
+|Message Flow | | | |
+
+|Num messages in |Cumulative number of payload messages received since
+broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Num messages out |Cumulative number of payload messages sent since
+broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Rate messages in |Current rate of flow of payload messages into broker
+|Yes |`rts` |None
+
+|Rate messages out |Current rate of flow of payload messages out of
+broker |Yes |`rts` |None
+
+|Message bytes in |Cumulative size in bytes of payload messages received
+since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Message bytes out |Cumulative size in bytes of payload messages sent
+since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Rate message bytes in |Current rate of flow of payload message bytes
+into broker |Yes |`rts` |None
+
+|Rate message bytes out |Current rate of flow of payload message bytes
+out of broker |Yes |`rts` |None
+
+|Num packets in |Cumulative number of payload and control packets
+received since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Num packets out |Cumulative number of payload and control packets sent
+since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Rate packets in |Current rate of flow of payload and control packets
+into broker |Yes |`rts` |None
+
+|Rate packets out |Current rate of flow of payload and control packets
+out of broker |Yes |`rts` |None
+
+|Packet bytes in |Cumulative size in bytes of payload and control
+packets received since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Packet bytes out |Cumulative size in bytes of payload and control
+packets sent since broker started |Yes |`ttl` |`mq.metrics.broker`
+
+|Rate packet bytes in |Current rate of flow of payload and control
+packet bytes into broker |Yes |`rts` |None
+
+|Rate packet bytes out |Current rate of flow of payload and control
+packet bytes out of broker |Yes |`rts` |None
+
+|Destinations | | | |
+
+|Num destinations |Current number of physical destinations |No |None
+|`mq.metrics.broker`
+|=======================================================================
+
+
+^Footnote 1 ^Use `query` `bkr` command instead
+
+[[aeoou]][[GMADG00306]][[connection-service-metrics]]
+
+Connection Service Metrics
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnnb[Table 21-3] shows the metrics information that the broker
+reports for individual connection services.
+
+[[GMADG797]][[sthref257]][[gbnnb]]
+
+
+Table 21-3 Connection Service Metrics
+
+[width="163%",cols="17%,26%,42%,6%,9%",options="header",]
+|=======================================================================
+|Metrics Quantity |Description |Log File? |`metrics` `svc`Metric Type
+|Metrics Topic
+|Connections | | | |
+
+|Num connections |Current number of connections |No
+|`cxn`link:#foot-alsoquerysvc[^Foot 1 ^] |None
+
+|Num threads |Current number of threads |No
+|`cxn`link:#sthref258[^Footref 1^] |None
+
+|Min threads |Minimum number of threads assigned to service |No |`cxn`
+|None
+
+|Max threads |Maximum number of threads assigned to service |No |`cxn`
+|None
+
+|Message Flow | | | |
+
+|Num messages in |Cumulative number of payload messages received through
+connection service since broker started |No |`ttl` |None
+
+|Num messages out |Cumulative number of payload messages sent through
+connection service since broker started |No |`ttl` |None
+
+|Rate messages in |Current rate of flow of payload messages into broker
+through connection service |No |`rts` |None
+
+|Rate messages out |Current rate of flow of payload messages out of
+broker through connection service |No |`rts` |None
+
+|Message bytes in |Cumulative size in bytes of payload messages received
+through connection service since broker started |No |`ttl` |None
+
+|Message bytes out |Cumulative size in bytes of payload messages sent
+through connection service since broker started |No |`ttl` |None
+
+|Rate message bytes in |Current rate of flow of payload message bytes
+into broker through connection service |No |`rts` |None
+
+|Rate message bytes out |Current rate of flow of payload message bytes
+out of broker through connection service |No |`rts` |None
+
+|Num packets in |Cumulative number of payload and control packets
+received through connection service since broker started |No |`ttl`
+|None
+
+|Num packets out |Cumulative number of payload and control packets sent
+through connection service since broker started |No |`ttl` |None
+
+|Rate packets in |Current rate of flow of payload and control packets
+into broker through connection service |No |`rts` |None
+
+|Rate packets out |Current rate of flow of payload and control packets
+out of broker through connection service |No |`rts` |None
+
+|Packet bytes in |Cumulative size in bytes of payload and control
+packets received through connection service since broker started |No
+|`ttl` |None
+
+|Packet bytes out |Cumulative size in bytes of payload and control
+packets sent through connection service since broker started |No |`ttl`
+|None
+
+|Rate packet bytes in |Current rate of flow of payload and control
+packet bytes into broker through connection service |No |`rts` |None
+
+|Rate packet bytes out |Current rate of flow of payload and control
+packet bytes out of broker through connection service |No |`rts` |None
+|=======================================================================
+
+
+^Footnote 1 ^Also available with `query` `svc` command
+
+[[aeoov]][[GMADG00307]][[physical-destination-metrics]]
+
+Physical Destination Metrics
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnnf[Table 21-4] shows the metrics information that the broker
+reports for individual destinations.
+
+[[GMADG798]][[sthref259]][[gbnnf]]
+
+
+Table 21-4 Physical Destination Metrics
+
+[width="163%",cols="17%,12%,42%,6%,23%",options="header",]
+|=======================================================================
+|Metrics Quantity |Description |Log File? |`metrics` `dst`Metric Type
+|Metrics Topic
+|Message Consumers | | | |
+
+|Num consumers a|
+Current number of associated message consumers
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Num
+active consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Peak num consumers a|
+Peak number of associated message consumers since broker started
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Peak num
+active consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Avg num consumers a|
+Average number of associated message consumers since broker started
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Avg num
+active consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Num active consumers a|
+Current number of associated active message consumers
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Num
+consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Peak num active consumers a|
+Peak number of associated active message consumers since broker started
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Peak num
+consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Avg num active consumers a|
+Average number of associated active message consumers since broker
+started
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Avg num
+consumers."
+
+ |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Num backup consumerslink:#foot-queueonly3[^Foot 1 ^] |Current number of
+associated backup message consumers |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Peak num backup consumerslink:#sthref260[^Footref 1^] |Peak number of
+associated backup message consumers since broker started |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Avg num backup consumerslink:#sthref261[^Footref 1^] |Average number of
+associated backup message consumers since broker started |No |`con`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Stored Messages | | | |
+
+|Num messages |Current number of messages stored in memory and
+persistent store |No |`con``ttl``rts`link:#foot-aslsoquerydst[^Foot 2 ^]
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Num messages remote |Current number of messages stored in memory and
+persistent store that were sent from a remote broker in a cluster. This
+number does not include messages included in transactions. |No |Not
+Availablelink:#foot-onlyquerydst[^Foot 3 ^] |Not Available
+
+|Peak num messages |Peak number of messages stored in memory and
+persistent store since broker started |No |`con``ttl``rts`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Avg num messages |Average number of messages stored in memory and
+persistent store since broker started |No |`con``ttl``rts`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Total message bytes |Current total size in bytes of messages stored in
+memory and persistent store |No |`ttl``rts`link:#sthref262[^Footref 2^]
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Total message bytes remote |Current total size in bytes of messages
+stored in memory and persistent store that were sent from a remote
+broker in a cluster. This value does not include messages included in
+transactions. |No |Not Available link:#sthref263[^Footref 3^] |Not
+Available
+
+|Peak total message bytes |Peak total size in bytes of messages stored
+in memory and persistent store since broker started |No |`ttl``rts`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Avg total message bytes |Average total size in bytes of messages stored
+in memory and persistent store since broker started |No |`ttl``rts`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Message Flow | | | |
+
+|Num messages in |Cumulative number of messages received since broker
+started |No |`ttl`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Num messages out |Cumulative number of messages sent since broker
+started |No |`ttl`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Msg bytes in |Cumulative size in bytes of messages received since
+broker started |No |`ttl`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Msg bytes out |Cumulative size in bytes of messages sent since broker
+started |No |`ttl`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Peak message bytes |Size in bytes of largest single message received
+since broker started |No |`ttl``rts`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Rate num messages in |Current rate of flow of messages received |No
+|`rts` |None
+
+|Rate num messages out |Current rate of flow of messages sent |No |`rts`
+|None
+
+|Rate msg bytes in |Current rate of flow of message bytes received |No
+|`rts` |None
+
+|Rate msg bytes out |Current rate of flow of message bytes sent |No
+|`rts` |None
+
+|Disk Utilization | | | |
+
+|Disk reservedlink:#foot-filebasedonly[^Foot 4 ^] |Amount of disk space,
+in bytes, reserved for destination |No |`dsk`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Disk usedlink:#sthref264[^Footref 4^] |Amount of disk space, in bytes,
+currently in use by destination |No |`dsk`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+
+|Disk utilization ratiolink:#sthref265[^Footref 4^] |Ratio of disk space
+in use to disk space reserved for destination |No |`dsk`
+|`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName
+|=======================================================================
+
+
+^Footnote 1 ^Queue destinations only
+
+^Footnote 2 ^Also available with `query` `dst` command
+
+^Footnote 3 ^Available only with `imqcmd query dst` command
+
+^Footnote 4 ^File-based persistence only
+
+

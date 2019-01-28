@@ -1,0 +1,1071 @@
+type=page
+status=published
+title=Using the JMX API
+next=mbean-reference.html
+prev=introduction.html
+~~~~~~
+Using the JMX API
+=================
+
+[[GMJMG00003]][[gdrru]]
+
+
+[[using-the-jmx-api]]
+2 Using the JMX API
+-------------------
+
+This chapter provides code examples showing how to use the JMX
+application programming interface to connect to a broker's MBean server,
+obtain MBeans for Message Queue resources, and access their attributes,
+operations, and notifications. The chapter consists of the following
+sections:
+
+* link:#gdrrv[Interface Packages]
+* link:#gciuh[Utility Classes]
+* link:#gchjb[Connecting to the MBean Server]
+* link:#gdrrt[Using MBeans]
+
+[[gdrrv]][[GMJMG00028]][[interface-packages]]
+
+Interface Packages
+~~~~~~~~~~~~~~~~~~
+
+The Message Queue 5.0 installation includes two Java packages related to
+the JMX interface:
+
+* `com.sun.messaging` contains the class `AdminConnectionFactory`
+(discussed in link:#gchjb[Connecting to the MBean Server]), along with a
+utility class `AdminConnectionConfiguration` defining static constants
+for use in configuring it.
+* `com.sun.messaging.jms.management.server` contains a collection of
+utility classes (listed in link:#gciuh[Utility Classes]) defining useful
+static constants and methods used in the JMX interface.
+
+These packages are contained in a Java archive file, `imqjmx.jar`,
+included in your Message Queue installation in the `IMQ_HOME/lib`
+directory.
+
+To do application development for the Message Queue JMX API, you must
+include this `.jar` file in your `CLASSPATH` environment variable.
+
+
+[NOTE]
+=======================================================================
+
+Message Queue's JMX interface requires version 1.5 of the Java
+Development Kit (JDK). The functionality described here is not available
+under earlier versions of the JDK.
+
+=======================================================================
+
+
+[[gciuh]][[GMJMG00029]][[utility-classes]]
+
+Utility Classes
+~~~~~~~~~~~~~~~
+
+The package `com.sun.messaging.jms.management.server` in the Message
+Queue JMX interface contains a collection of utility classes defining
+useful static constants and methods for use with Message Queue MBeans.
+link:#gcisw[Table 2-1] lists these utility classes; see the relevant
+sections of link:mbean-reference.html#gcakw[Message Queue MBean
+Reference] and the Message Queue JMX JavaDoc documentation for further
+details.
+
+[[GMJMG208]][[sthref10]][[gcisw]]
+
+
+Table 2-1 Message Queue JMX Utility Classes
+
+[width="100%",cols="35%,65%",options="header",]
+|=======================================================================
+|Class |Description
+|`MQObjectName` |Constants and methods for Message Queue MBean object
+names
+
+|`MQNotification` |Superclass for all Message Queue JMX notifications
+
+|`BrokerAttributes` |Names of broker attributes
+
+|`BrokerOperations` |Names of broker operations
+
+|`BrokerNotification` |Constants and methods related to broker
+notifications
+
+|`BrokerState` |Constants related to broker state
+
+|`ServiceAttributes` |Names of connection service attributes
+
+|`ServiceOperations` |Names of connection service operations
+
+|`ServiceNotification` |Constants and methods related to connection
+service notifications
+
+|`ServiceState` |Constants related to connection service state
+
+|`ConnectionAttributes` |Names of connection attributes
+
+|`ConnectionOperations` |Names of connection operations
+
+|`ConnectionNotification` |Constants and methods related to connection
+notifications
+
+|`DestinationAttributes` |Names of destination attributes
+
+|`DestinationOperations` |Names of destination operations
+
+|`DestinationNotification` |Constants and methods related to destination
+notifications
+
+|`DestinationType` |Names of destination types
+
+|`DestinationState` |Constants related to destination state
+
+|`DestinationLimitBehavior` |Names of destination limit behaviors
+
+|`DestinationPauseType` |Constants related to destination pause type
+
+|`ProducerAttributes` |Names of message producer attributes
+
+|`ProducerOperations` |Names of message producer operations
+
+|`ProducerInfo` |Field names in composite data object for message
+producers
+
+|`ConsumerAttributes` |Names of message consumer attributes
+
+|`ConsumerOperations` |Names of message consumer operations
+
+|`ConsumerInfo` |Field names in composite data object for message
+consumers
+
+|`TransactionAttributes` |Names of transaction attributes
+
+|`TransactionOperations` |Names of transaction operations
+
+|`TransactionNotification` |Constants and methods related to transaction
+notifications
+
+|`TransactionInfo` |Field names in composite data object for
+transactions
+
+|`TransactionState` |Constants related to transaction state
+
+|`ClusterAttributes` |Names of broker cluster attributes
+
+|`ClusterOperations` |Names of broker cluster operations
+
+|`ClusterNotification` |Constants and methods related to broker cluster
+notifications
+
+|`BrokerClusterInfo` |Field names in composite data object for broker
+clusters
+
+|`LogAttributes` |Names of logging attributes
+
+|`LogNotification` |Constants and methods related to logging
+notifications
+
+|`LogLevel` |Names of logging levels
+
+|`JVMAttributes` |Names of Java Virtual Machine (JVM) attributes
+|=======================================================================
+
+
+[[gchjb]][[GMJMG00030]][[connecting-to-the-mbean-server]]
+
+Connecting to the MBean Server
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+As defined in the JMX Specification, client applications obtain MBeans
+through an MBean server connection, accessed by means of a JMX connector
+. Message Queue brokers use the standard JMX infrastructure provided
+with the Java Development Kit (JDK) 1.5, which uses remote method
+invocation (RMI) for communicating between client and server. Once you
+obtain a JMX connector, you can use it to obtain an MBean server
+connection with which to access the attributes, operations, and
+notifications of individual MBeans. This infrastructure is described in
+"link:../mq-admin-guide/jmx-support.html#GMADG00324[JMX Connection Infrastructure]" in Open Message Queue
+Administration Guide.
+
+For convenience, Message Queue provides an admin connection factory
+(class `AdminConnectionFactory`), similar in spirit to the familiar
+Message Queue connection factory, for creating JMX connectors with a
+minimum of effort. It is also possible to dispense with this convenience
+class and obtain a JMX connector using standard JMX classes instead. The
+following sections illustrate these two techniques. While Message Queue
+client applications are free to use either method, the first is simpler
+and is recommended.
+
+[[gchjt]][[GMJMG00169]][[obtaining-a-jmx-connector-from-an-admin-connection-factory]]
+
+Obtaining a JMX Connector from an Admin Connection Factory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Message Queue convenience class `AdminConnectionFactory` (defined in
+package `com.sun.messaging`) encapsulates a predefined set of
+configuration properties and hides details, such as the JMX Service URL,
+involved in obtaining a JMX connector. link:#gchpl[Example 2-1] shows
+the most straightforward use, obtaining a JMX connector at the default
+broker Port Mapper port `7676` on host `localhost`, with the user name
+and password both set to the default value of `admin`. After obtaining
+the connector, its `getMBeanServerConnection` method is called to obtain
+an MBean server connection for interacting with Message Queue MBeans.
+
+[[GMJMG00006]][[gchpl]]
+
+
+Example 2-1 Obtaining a JMX Connector from an Admin Connection Factory
+
+[source,oac_no_warn]
+----
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+
+
+//  Create admin connection factory for default host and port (localhost:7676)
+    AdminConnectionFactory  acf = new AdminConnectionFactory();
+    
+//  Get JMX connector using default user name (admin) and password (admin)
+    JMXConnector  jmxc = acf.createConnection();
+    
+//  Get MBean server connection
+    MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+----
+
+link:#gcnqj[Example 2-2] shows how to reconfigure an admin connection
+factory's properties to nondefault values. Instead of using the default
+broker address (`localhost:7676`), the code shown here uses the
+connection factory's `setProperty` method to reconfigure it to connect
+to a broker at port `9898` on host `otherhost`. (The names of the
+connection factory's configuration properties are defined as static
+constants in the Message Queue utility class
+`AdminConnectionConfiguration`, defined in package `com.sun.messaging`.)
+The arguments to the factory's `createConnection` method are then used
+to supply a user name and password other than the defaults.
+
+[[GMJMG00007]][[gcnqj]]
+
+
+Example 2-2 Configuring an Admin Connection Factory
+
+[source,oac_no_warn]
+----
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+
+
+//  Create admin connection factory
+    AdminConnectionFactory  acf = new AdminConnectionFactory();
+    
+//  Configure for specific broker address
+    acf.setProperty(AdminConnectionConfiguration.imqAddress, "otherhost:9898");
+
+//  Get JMX connector, supplying user name and password
+    JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+//  Get MBean server connection
+    MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+----
+
+[[gchjy]][[GMJMG00170]][[obtaining-a-jmx-connector-without-using-an-admin-connection-factory]]
+
+Obtaining a JMX Connector Without Using an Admin Connection Factory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The generic (non-Message Queue) way of obtaining a JMX connector, as
+described in the JMX Specification, is by invoking the static `connect`
+method of the standard JMX class `JMXConnectorFactory` (see
+link:#gchhx[Example 2-3]). Client applications may choose to use this
+method instead of an admin connection factory in order to avoid
+dependency on Message Queue-specific classes.
+
+[[GMJMG00008]][[gchhx]]
+
+
+Example 2-3 Obtaining a JMX Connector Without Using an Admin Connection
+Factory
+
+[source,oac_no_warn]
+----
+import java.util.HashMap;
+import javax.management.remote.*;
+
+
+//  Provide credentials required by server for user authentication
+    HashMap   environment = new HashMap();
+    String[]  credentials = new String[] {"AliBaba", "sesame"};
+    environment.put (JMXConnector.CREDENTIALS, credentials);
+
+//  Get JMXServiceURL of JMX Connector (must be known in advance)
+    JMXServiceURL  url 
+        = new JMXServiceURL("service:jmx:rmi:///jndi/rmi://localhost:9999/server");
+
+//  Get JMX connector
+    JMXConnector  jmxc = JMXConnectorFactory.connect(url, environment);
+
+//  Get MBean server connection
+    MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+----
+
+The `JMXConnectorFactory``.` `connect` method accepts two parameters:
+
+* A JMX service URL. +
+The JMX service URL is an address used for obtaining the JMX connector.
+It can either specify the location of a JMX connector stub in an RMI
+registry or contain a connector stub as a serialized object. These
+options, and the format of the address, are described in
+"link:../mq-admin-guide/jmx-support.html#GMADG00639[The JMX Service URL]" in Open Message Queue
+Administration Guide.
+* An optional environment parameter. +
+The environment parameter is a hash map mapping attribute names to their
+corresponding values. In particular, the `CREDENTIALS` attribute
+specifies the authentication credentials (user name and password) to be
+used in establishing a connection. The hash-map key for this attribute
+is defined as a static constant, `CREDENTIALS`, in the `JMXConnector`
+interface; the corresponding value is a 2-element string array
+containing the user name at index `0` and the password at index `1`.
+
+[[gdrrt]][[GMJMG00031]][[using-mbeans]]
+
+Using MBeans
+~~~~~~~~~~~~
+
+Once you have obtained an MBean server connection, you can use it to
+communicate with Message Queue (and other) MBeans and to access their
+attributes, operations, and notifications. The following sections
+describe how this is done.
+
+[[gcitw]][[GMJMG00171]][[accessing-mbean-attributes]]
+
+Accessing MBean Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The MBean server connection's `getAttribute` method accepts the object
+name of an MBean along with a string representing the name of one of its
+attributes, and returns the value of the designated attribute.
+link:#gcitk[Example 2-4] shows an example, obtaining and printing the
+value of a destination's `MaxNumProducers` attribute from its
+configuration MBean (described in
+link:mbean-reference.html#gcamj[Destination Configuration]).
+
+[[GMJMG00009]][[gcitk]]
+
+
+Example 2-4 Getting an Attribute Value
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  GetAttrValue
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  destConfigName
+                    = MQObjectName.createDestinationConfig(DestinationType.QUEUE, "MyQueue");
+
+            //  Get and print attribute value
+                Integer  attrValue
+                    = (Integer)mbsc.getAttribute(destConfigName,
+                                                 DestinationAttributes.MAX_NUM_PRODUCERS);
+                System.out.println( "Maximum number of producers: " + attrValue );
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+There is also an `MBeanServerConnection` method named `getAttributes`,
+which accepts an MBean object name and an array of attribute name
+strings, and returns a result of class `AttributeList`. This is an array
+of `Attribute` objects, each of which provides methods (`getName` and
+`getValue`) for retrieving the name and value of one of the requested
+attributes. link:#gcitx[Example 2-5] shows a modified version of
+link:#gcitk[Example 2-4] that uses `getAttributes` to retrieve the
+values of a destination's `MaxNumProducers` and `maxNumActiveConsumers`
+attributes from its configuration MBean (see
+link:mbean-reference.html#gcamj[Destination Configuration]).
+
+[[GMJMG00010]][[gcitx]]
+
+
+Example 2-5 Getting Multiple Attribute Values
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+public class  GetAttrValues
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  destConfigName
+                    = MQObjectName.createDestinationConfig(DestinationType.QUEUE, "MyQueue");
+
+            //  Create array of attribute names
+                String  attrNames[] = 
+                            { DestinationAttributes.MAX_NUM_PRODUCERS,
+                              DestinationAttributes.MAX_NUM_ACTIVE_CONSUMERS
+                            };
+
+            //  Get attributes
+                AttributeList  attrList = mbsc.getAttributes(destConfigName, attrNames);
+
+            //  Extract and print attribute values
+                
+                Object  attrValue;
+                
+                attrValue = attrList.get(0).getValue();
+                System.out.println( "Maximum number of producers: " + attrValue.toString() );
+                
+                attrValue = attrList.get(1).getValue();
+                System.out.println( "Maximum number of active consumers: " + attrValue.toString() );
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+To set the value of an attribute, use the `MBeanServerConnection` method
+`setAttribute`. This takes an MBean object name and an `Attribute`
+object specifying the name and value of the attribute to be set.
+link:#gcisz[Example 2-6] uses this method to set a destination's
+`MaxNumProducers` attribute to `25`.
+
+[[GMJMG00011]][[gcisz]]
+
+
+Example 2-6 Setting an Attribute Value
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  SetAttrValue
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  destConfigName
+                    = MQObjectName.createDestinationConfig(DestinationType.QUEUE, "MyQueue");
+
+            //  Create attribute object
+                Attribute  attr = new Attribute(DestinationAttributes.MAX_NUM_PRODUCERS, 25);
+
+            //  Set attribute value
+                mbsc.setAttribute(destConfigName, attr);
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+Just as for getting attribute values, there is an
+`MBeanServerConnection` method named `setAttributes` for setting the
+values of multiple attributes at once. You supply an MBean object name
+and an attribute list giving the names and values of the attributes to
+be set. link:#gcitq[Example 2-7] illustrates the use of this method to
+set a destination's `MaxNumProducers` and `MaxNumActiveConsumers`
+attributes to `25` and `50`, respectively.
+
+[[GMJMG00012]][[gcitq]]
+
+
+Example 2-7 Setting Multiple Attribute Values
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  SetAttrValues
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  destConfigName
+                    = MQObjectName.createDestinationConfig(DestinationType.QUEUE, "MyQueue");
+
+            //  Create and populate attribute list
+                
+                AttributeList  attrList = new AttributeList();
+                Attribute      attr;
+                
+                attr = new Attribute(DestinationAttributes.MAX_NUM_PRODUCERS, 25);
+                attrList.add(attr);
+                
+                attr = new Attribute(DestinationAttributes.MAX_NUM_ACTIVE_CONSUMERS, 50);
+                attrList.add(attr);
+
+            //  Set attribute values
+                mbsc.setAttributes(destConfigName, attrList);
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+[[gcitp]][[GMJMG00172]][[invoking-mbean-operations]]
+
+Invoking MBean Operations
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To invoke an MBean operation, use the `MBeanServerConnection` method
+`invoke`. The first two parameters to this method are an MBean object
+name and a string specifying the name of the operation to be invoked.
+(The two remaining parameters are used for supplying parameters to the
+invoked operation, and are discussed in the next example.) The method
+returns an object that is the operation's return value (if any).
+link:#gcith[Example 2-8] shows the use of this method to pause the `jms`
+connection service by invoking the `pause` operation of its service
+configuration MBean (see link:mbean-reference.html#gcams[Service
+Configuration]).
+
+[[GMJMG00013]][[gcith]]
+
+
+Example 2-8 Invoking an Operation
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  InvokeOp
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  serviceConfigName = MQObjectName.createServiceConfig("jms");
+
+            //  Invoke operation
+                mbsc.invoke(serviceConfigName, ServiceOperations.PAUSE, null, null);
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+When the operation being invoked requires parameters, you supply them in
+an array as the third parameter to the
+`MBeanServerConnection``.``invoke` method. The method's fourth parameter
+is a signature array giving the class or interface names of the invoked
+operation's parameters. link:#gcmio[Example 2-9] shows an illustration,
+invoking the destination manager configuration MBean's `create`
+operation to create a new queue destination named `MyQueue` with the
+same attributes that were set in link:#gcitq[Example 2-7]. The `create`
+operation (see link:mbean-reference.html#gcaln[Destination Manager
+Configuration]) takes three parameters: the type (`QUEUE` or `TOPIC`)
+and name of the new destination and an attribute list specifying any
+initial attribute values to be set. The example shows how to set up a
+parameter array (opParams) containing these values, along with a
+signature array (opSig) giving their classes, and pass them to the
+`invoke` method.
+
+[[GMJMG00014]][[gcmio]]
+
+
+Example 2-9 Invoking an Operation with Parameters
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  InvokeOpWithParams
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  destMgrConfigName 
+                    = new ObjectName(MQObjectName.DESTINATION_MANAGER_CONFIG_MBEAN_NAME);
+
+            //  Create and populate attribute list
+                
+                AttributeList  attrList = new AttributeList();
+                Attribute      attr;
+                
+                attr = new Attribute(DestinationAttributes.MAX_NUM_PRODUCERS, 25);
+                attrList.add(attr);
+                
+                attr = new Attribute(DestinationAttributes.MAX_NUM_ACTIVE_CONSUMERS, 50);
+                attrList.add(attr);
+
+            //  Create operation's parameter and signature arrays
+                
+                Object  opParams[] = { DestinationType.QUEUE,
+                                       "MyQueue",
+                                       attrList
+                                     };
+                
+                String  opSig[] = { String.class.getName(),
+                                    String.class.getName(),
+                                    attrList.getClass().getName()
+                                  };
+
+            //  Invoke operation
+                mbsc.invoke(destMgrConfigName, DestinationOperations.CREATE, opParams, opSig);
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+link:#gciur[Example 2-10] shows a more elaborate example combining the
+use of MBean operations and attributes. The destination manager monitor
+MBean operation `getDestinations` (see
+link:mbean-reference.html#gcalp[Destination Manager Monitor]) returns an
+array of object names of the destination monitor MBeans for all current
+destinations. The example then iterates through the array, printing the
+name, destination type (`QUEUE` or `TOPIC`), and current state (such as
+`RUNNING` or `PAUSED`) for each destination.
+
+[[GMJMG00015]][[gciur]]
+
+
+Example 2-10 Combining Operations and Attributes
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  OpsAndAttrs
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name for destination manager monitor MBean
+                ObjectName  destMgrMonitorName
+                    = new ObjectName(MQObjectName.DESTINATION_MANAGER_MONITOR_MBEAN_NAME);
+
+            //  Get destination object names
+                ObjectName  destNames[] = mbsc.invoke(destMgrMonitorName,
+                                                      DestinationOperations.GET_DESTINATIONS,
+                                                      null,
+                                                      null);
+
+            //  Step through array of object names, printing information for each destination
+                
+                System.out.println( "Listing destinations: " );
+                
+                ObjectName  eachDestName;
+                Object      attrValue;
+                
+                for ( int i = 0; i < destNames.length; ++i )
+                  { eachDestName = destNames[i];
+                    
+                    attrValue = mbsc.getAttribute(eachDestName, DestinationAttributes.NAME);
+                    System.out.println( "\tName: " + attrValue );
+                    
+                    attrValue = mbsc.getAttribute(eachDestName, DestinationAttributes.TYPE);
+                    System.out.println( "\tTypeYPE: " + attrValue );
+                    
+                    attrValue = mbsc.getAttribute(eachDestName, DestinationAttributes.STATE_LABEL);
+                    System.out.println( "\tState: " + attrValue );
+                    
+                    System.out.println( "" );
+                  }
+
+            //  Close JMX connector
+                jmxc.close();
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+      }
+  }
+----
+
+Some of the Message Queue MBeans' operations and attributes return a
+composite data object (implementing the JMX `CompositeData` interface).
+This type of object consists of a collection of data values accessed by
+means of associative lookup keys. The specific keys vary from one MBean
+to another, and are described in the relevant sections of
+link:mbean-reference.html#gcakw[Message Queue MBean Reference].
+link:#gcmjx[Example 2-11] shows an illustration, invoking the consumer
+manager MBean's `GetConsumerInfo` operation (see
+link:mbean-reference.html#gcand[Consumer Manager Monitor] to obtain an
+array of composite data objects describing all current message
+consumers. It then steps through the array, using the lookup keys listed
+in link:mbean-reference.html#gbacz[Table 3-63] to retrieve and print the
+characteristics of each consumer.
+
+[[GMJMG00016]][[gcmjx]]
+
+
+Example 2-11 Using a Composite Data Object
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  CompData
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name
+                ObjectName  consumerMgrMonitorName
+                    = new ObjectName(MQObjectName.CONSUMER_MANAGER_MONITOR_MBEAN_NAME);
+
+            //  Invoke operation
+                Object  result
+                    = mbsc.invoke(consumerMgrMonitorName,
+                                  ConsumerOperations.GET_CONSUMER_INFO,
+                                  null,
+                                  null);
+
+            //  Typecast result to an array of composite data objects
+                CompositeData  cdArray[] = (CompositeData[])result;
+
+            //  Step through array, printing information for each consumer
+                
+                if ( cdArray == null )
+                  { System.out.println( "No message consumers found" );
+                  }
+                else
+                  { for ( int  i = 0; i < cdArray.length; ++i )
+                      { CompositeData  cd = cdArray[i];
+                        
+                        System.out.println( "Consumer ID: "
+                                                 + cd.get(ConsumerInfo.CONSUMER_ID) );
+                        System.out.println( "User: "
+                                                 + cd.get(ConsumerInfo.USER) );
+                        System.out.println( "Host: "
+                                                 + cd.get(ConsumerInfo.HOST) );
+                        System.out.println( "Connection service: "
+                                                 + cd.get(ConsumerInfo.SERVICE_NAME) );
+                        System.out.println( "Acknowledgment mode: "
+                                                 + cd.get(ConsumerInfo.ACKNOWLEDGE_MODE_LABEL) );
+                        System.out.println( "Destination name: "
+                                                 + cd.get(ConsumerInfo.DESTINATION_NAME) );
+                        System.out.println( "Destination type: "
+                                                 + cd.get(ConsumerInfo.DESTINATION_TYPE) );
+                      }
+                  }
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+
+        finally
+          { if ( jmxc != null )
+              { try
+                  { jmxc.close();
+                  }
+                catch (IOException ioe)
+                  { System.out.println( "I/O exception occurred: " + ioe.toString() );
+                    ioe.printStackTrace();
+                  }
+              }
+          }
+      }
+  }
+----
+
+[[gcitu]][[GMJMG00173]][[receiving-mbean-notifications]]
+
+Receiving MBean Notifications
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To receive notifications from an MBean, you must register a notification
+listener with the MBean server. This is an object implementing the JMX
+interface `NotificationListener`, which consists of the single method
+`handleNotification`. In registering the listener with the MBean server
+(using the `MBeanServerConnection` method `addNotificationListener`),
+you supply the object name of the MBean from which you wish to receive
+notifications, along with a notification filter specifying which types
+of notification you wish to receive. (You can also provide an optional
+handback object to be passed to your listener whenever it is invoked,
+and which you can use for any purpose convenient to your application.)
+The MBean server will then call your listener's `handleNotification`
+method whenever the designated MBean broadcasts a notification
+satisfying the filter you specified.
+
+The notification listener's `handleNotification` method receives two
+parameters: a notification object (belonging to the JMX class
+`Notification`) describing the notification being raised, along with the
+handback object, if any, that you supplied when you registered the
+listener. The notification object provides methods for retrieving
+various pieces of information about the notification, such as its type,
+the MBean raising it, its time stamp, and an MBean-dependent user data
+object and message string further describing the notification. The
+notifications raised by Message Queue MBeans belong to Message
+Queue-specific subclasses of `Notification`, such as
+`BrokerNotification`, `ServiceNotification`, and
+`DestinationNotification`, which add further information retrieval
+methods specific to each particular type of notification; see the
+relevant sections of link:mbean-reference.html#gcakw[Message Queue MBean
+Reference] for details.
+
+link:#gcita[Example 2-12] shows a notification listener for responding
+to Message Queue service notifications, issued by a service manager
+monitor MBean. On receiving a notification belonging to the Message
+Queue class `ServiceNotification`, the listener simply prints an
+informational message containing the notification's type and the name of
+the connection service affected.
+
+[[GMJMG00017]][[gcita]]
+
+
+Example 2-12 Notification Listener
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.jms.management.server.*;
+
+
+public class  ServiceNotificationListener implements NotificationListener
+  { 
+    public void  handleNotification (Notification  notification,
+                                     Object        handback)
+      { 
+        if ( notification instanceOf ServiceNotification )
+          { ServiceNotification  n = (ServiceNotification)notification;
+          }
+        else
+          { System.err.println( "Wrong type of notification for listener" );
+            return;
+          }
+
+        System.out.println( "\nReceived service notification: " );
+        System.out.println( "\tNotification type: " + n.getType() );
+        System.out.println( "\tService name: " + n.getServiceName() );
+        
+        System.out.println( "" );
+      }
+  }
+----
+
+link:#gcitr[Example 2-13] shows how to register the notification
+listener from link:#gcita[Example 2-12], using the
+`MBeanServerConnection` method `addNotificationListener`. The
+notification filter is an object of the standard JMX class
+`NotificationFilterSupport`; the calls to this object's `enableType`
+method specify that the listener should be invoked whenever a connection
+service is paused or resumed. The listener itself is an instance of
+class `ServiceNotificationListener`, as defined in link:#gcita[Example
+2-12].
+
+[[GMJMG00018]][[gcitr]]
+
+
+Example 2-13 Registering a Notification Listener
+
+[source,oac_no_warn]
+----
+import javax.management.*;
+import javax.management.remote.*;
+import com.sun.messaging.AdminConnectionFactory;
+import com.sun.messaging.jms.management.server.*;
+import java.io.IOException
+
+
+public class  NotificationService
+  { 
+    public static void  main (String[]  args)
+      { 
+        try
+          { //  Create admin connection factory
+                AdminConnectionFactory  acf = new AdminConnectionFactory();
+            
+            //  Get JMX connector, supplying user name and password
+                JMXConnector  jmxc = acf.createConnection("AliBaba", "sesame");
+
+            //  Get MBean server connection
+                MBeanServerConnection  mbsc = jmxc.getMBeanServerConnection();
+
+            //  Create object name for service manager monitor MBean
+                ObjectName  svcMgrMonitorName
+                    = new ObjectName( MQObjectName.SERVICE_MANAGER_MONITOR_MBEAN_NAME );
+
+            //  Create notification filter
+                NotificationFilterSupport  myFilter = new NotificationFilterSupport();
+                myFilter.enableType(ServiceNotification.SERVICE_PAUSE);
+                myFilter.enableType(ServiceNotification.SERVICE_RESUME);
+
+            //  Create notification listener
+                ServiceNotificationListener  myListener = new ServiceNotificationListener();
+                mbsc.addNotificationListener(svcMgrMonitorName, myListener, myFilter, null);
+                
+                ...
+          }
+
+        catch (Exception  e)
+          { System.out.println( "Exception occurred: " + e.toString() );
+            e.printStackTrace();
+          }
+
+        finally
+          { if ( jmxc != null )
+              { try
+                  { jmxc.close();
+                  }
+                catch (IOException ioe)
+                  { System.out.println( "I/O exception occurred: " + ioe.toString() );
+                    ioe.printStackTrace();
+                  }
+              }
+          }
+      }
+  }
+----
+
+

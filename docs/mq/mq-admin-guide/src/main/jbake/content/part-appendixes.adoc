@@ -1,0 +1,28 @@
+type=page
+status=published
+title=Appendixes
+next=data-locations.html
+prev=java-es-monitoring-framework.html
+~~~~~~
+Appendixes
+==========
+
+[[gbnuj]][[GMADG00144]][[part-iv]]
+
+Part IV +
+---------
+
+[[appendixes]]
+Appendixes
+----------
+
+* link:data-locations.html#aeoow[Appendix A, "Distribution-Specific
+Locations of Message Queue Data"]
+* link:interface-stability.html#aeopa[Appendix B, "Stability of Message
+Queue Interfaces"]
+* link:http_https-support.html#aeopb[Appendix C, "HTTP/HTTPS Support"]
+* link:jmx-support.html#geoel[Appendix D, "JMX Support"]
+* link:frequent-commands.html#aeoqj[Appendix E, "Frequently Used Command
+Utility Commands"]
+
+

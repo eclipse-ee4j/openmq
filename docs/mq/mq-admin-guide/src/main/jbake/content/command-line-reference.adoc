@@ -1,0 +1,2673 @@
+type=page
+status=published
+title=Command Line Reference
+next=broker-properties.html
+prev=part-reference.html
+~~~~~~
+Command Line Reference
+======================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00047]][[aeonc]]
+
+
+[[command-line-reference]]
+16 Command Line Reference
+-------------------------
+
+This chapter provides reference information on the use of the Message
+Queue command line administration utilities. It consists of the
+following sections:
+
+* link:#aeond[Command Line Syntax]
+* link:#aeone[Broker Utility]
+* link:#aeonf[Command Utility]
+* link:#aeonn[Object Manager Utility]
+* link:#aeono[Database Manager Utility]
+* link:#aeonp[User Manager Utility]
+* link:#gjdli[Bridge Manager Utility]
+* link:#aeonq[Service Administrator Utility]
+* link:#aeonr[Key Tool Utility]
+
+[[aeond]][[GMADG00279]][[command-line-syntax]]
+
+Command Line Syntax
+~~~~~~~~~~~~~~~~~~~
+
+Message Queue command line utilities are shell commands. The name of the
+utility is a command and its subcommands or options are arguments passed
+to that command. There is no need for separate commands to start or quit
+the utility.
+
+All the command line utilities share the following command syntax:
+
+[source,oac_no_warn]
+----
+utilityName [subcommand] [commandArgument] [-optionName [optionArgument] ]...
+----
+
+where utilityName is one of the following:
+
+* `imqbrokerd` (Broker utility)
+* `imqcmd` (Command utility)
+* `imqobjmgr` (Object Manager utility)
+* `imqdbmgr` (Database Manager utility)
+* `imqusermgr` (User Manager utility)
+* `imqbridgemgr` (Bridge Manager utility)
+* `imqsvcadmin` (Service Administrator utility)
+* `imqkeytool` (Key Tool utility)
+
+Subcommands and command-level arguments, if any, must precede all
+options and their arguments; the options themselves may appear in any
+order. All subcommands, command arguments, options, and option arguments
+are separated with spaces. If the value of an option argument contains a
+space, the entire value must be enclosed in quotation marks. (It is
+generally safest to enclose any attribute-value pair in quotation
+marks.)
+
+The following command, which starts the default broker, is an example of
+a command line with no subcommand clause:
+
+[source,oac_no_warn]
+----
+imqbrokerd
+----
+
+Here is a fuller example:
+
+[source,oac_no_warn]
+----
+imqcmddestroy dst-t q-n myQueue-u admin-f-s
+----
+
+This command destroys a queue destination (destination type `q`) named
+`myQueue`. Authentication is performed on the user name `admin`; the
+command will prompt for a password. The command will be performed
+without prompting for confirmation (`-f` option) and in silent mode,
+without displaying any output (`-s` option).
+
+[[aeone]][[GMADG00280]][[broker-utility]]
+
+Broker Utility
+~~~~~~~~~~~~~~
+
+The Broker utility (`imqbrokerd`) starts a broker. Command line options
+override values in the broker configuration files, but only for the
+current broker session.
+
+link:#gbnla[Table 16-1] shows the options to the `imqbrokerd` command
+and the configuration properties, if any, overridden by each option.
+
+[[GMADG742]][[sthref88]][[gbnla]]
+
+
+Table 16-1 Broker Utility Options
+
+[width="100%",cols="31%,69%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-name instanceName
+----
+
+ a|
+Instance name of broker
+
+Multiple broker instances running on the same host must have different
+instance names.
+
+Default value: `imqbroker`
+
+Properties overridden: `imq.instancename`
+
+a|
+[source,oac_no_warn]
+----
+-port portNumber
+----
+
+ a|
+Port number for broker's Port Mapper
+
+Message Queue clients use this port number to connect to the broker.
+Multiple broker instances running on the same host must have different
+Port Mapper port numbers.
+
+Default value: `7676`
+
+Properties overridden: `imq.portmapper.port`
+
+a|
+[source,oac_no_warn]
+----
+-cluster broker1 [,broker2]...
+----
+
+ a|
+Connect brokers into clusterlink:#foot-clustersonly1[^Foot 1 ^]
+
+The specified brokers are merged with the list in the
+`imq.cluster.brokerlist` property. Each broker argument has one of the
+forms
+
+* hostName`:`portNumber
+* hostName
+* `:`portNumber
+
+If hostName is omitted, the default value is `localhost`; if portNumber
+is omitted, the default value is `7676`.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+Properties overridden: `imq.cluster.brokerlist`
+
+a|
+[source,oac_no_warn]
+----
+-Dproperty=value
+----
+
+ a|
+Set configuration property
+
+See link:broker-properties.html#aeons[Broker Properties Reference] for
+information about broker configuration properties.
+
+Caution: Be careful to check the spelling and formatting of properties
+set with this option. Incorrect values will be ignored without
+notification or warning.
+
+Properties overridden: Corresponding property in instance configuration
+file
+
+a|
+[source,oac_no_warn]
+----
+-reset props
+----
+
+ a|
+Reset configuration properties
+
+Replaces the broker's existing instance configuration file
+`config.properties` with an empty file; all properties assume their
+default values.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-reset store
+----
+
+ a|
+Reset persistent data store
+
+Clears all persistent data from the data store (including persistent
+messages, durable subscriptions, and transaction information), allowing
+you to start the broker instance with a clean slate. To prevent the
+persistent store from being reset on subsequent restarts, restart the
+broker instance without the `-reset` option.
+
+To clear only persistent messages or durable subscriptions, use
+`-reset messages` or `-reset durables` instead.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-reset messages
+----
+
+ a|
+Clear persistent messages from data store
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-reset durables
+----
+
+ a|
+Clear durable subscriptions from data store
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-reset takeover-then-exit
+----
+
+ a|
+Clear any takeover locks and then exit.
+
+If a broker fails before completing the takeover of another broker's
+store, the failed broker retains a takeover lock even though it is not
+running. Use `-reset takeover-then-exit` to cause the failed broker to
+initiate startup, release the takeover lock, and then exit without
+actually starting up.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-backup fileName
+----
+
+ a|
+Back up configuration change record to filelink:#sthref89[^Footref 1^]
+
+See link:broker-clusters.html#aeoih[Managing a Conventional Cluster's
+Configuration Change Record] for more information.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-restore fileName
+----
+
+ a|
+Restore configuration change record from backup
+filelink:#sthref90[^Footref 1^]
+
+The backup file must have been previously created using the `-backup`
+option.
+
+See link:broker-clusters.html#aeoih[Managing a Conventional Cluster's
+Configuration Change Record] for more information.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-remove instance
+----
+
+ a|
+Remove broker instancelink:#foot-usercon[^Foot 2 ^]
+
+Deletes the instance configuration file, log files, persistent store,
+and other files and directories associated with the instance.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-dbuser userName
+----
+
+ a|
+User name for JDBC-based persistent data store
+
+Properties overridden: `imq.persist.jdbc.user`
+
+a|
+[source,oac_no_warn]
+----
+-passfile filePath
+----
+
+ a|
+Location of password file
+
+Sets the broker's `imq.passfile.enabled` property to `true`,
+`imq.passfile.dirpath` to the path containing the password file, and
+`imq.passfile.name` to the file name itself.
+
+See link:security-services.html#aeogq[Password Files] for more
+information.
+
+Properties overridden:
+`imq.passfile.enabledimq.passfile.dirpathimq.passfile.name`
+
+a|
+[source,oac_no_warn]
+----
+-shared
+----
+
+ a|
+Use shared thread pool model to implement `jms` connection service
+
+Execution threads will be shared among connections to increase the
+number of connections supported.
+
+Sets the broker's `imq.jms.threadpool_model` property to `shared`.
+
+Properties overridden: `imq.jms.threadpool_model`
+
+a|
+[source,oac_no_warn]
+----
+-javahome path
+----
+
+ a|
+Location of alternative Java runtime
+
+Default behavior: Use runtime installed on system or bundled with
+Message Queue.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-vmargs arg1 [arg2] ...
+----
+
+ a|
+Pass arguments to Java virtual machine
+
+Arguments are separated with spaces. To pass more than one argument, or
+an argument containing a space, enclose the argument list in quotation
+marks.
+
+VM arguments can be passed only from the command line; there is no
+associated configuration property in the instance configuration file.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-startRmiRegistry
+----
+
+ a|
+Start RMI registry at broker startup
+
+Properties overridden: `imq.jmx.rmiregistry.start`
+
+a|
+[source,oac_no_warn]
+----
+-useRmiRegistry
+----
+
+ a|
+Use external RMI registry
+
+Properties overridden: `imq.jmx.rmiregistry.use`
+
+a|
+[source,oac_no_warn]
+----
+-rmiRegistryPort
+----
+
+ a|
+Port number of RMI registry
+
+Properties overridden: `imq.jmx.rmiregistry.port`
+
+a|
+[source,oac_no_warn]
+----
+-upgrade-store-nobackup
+----
+
+ a|
+Automatically remove old data store on upgrade to Message Queue 3.5 or
+3.5 SPx from an incompatible versionlink:#sthref91[^Footref 2^]
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-force
+----
+
+ a|
+Perform action without user confirmation
+
+This option applies only to the `-remove instance` and
+`-upgrade-store-nobackup` options, which normally require confirmation.
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-loglevel level
+----
+
+ a|
+Logging level: `NONE`, `ERROR`, `WARNING` or `INFO`.
+
+Default value: `INFO`
+
+Properties overridden: `imq.broker.log.level`
+
+a|
+[source,oac_no_warn]
+----
+-metrics interval
+----
+
+ a|
+Logging interval for broker metrics, in seconds
+
+Properties overridden: `imq.metrics.interval`
+
+a|
+[source,oac_no_warn]
+----
+-tty
+----
+
+ a|
+Log all messages to console
+
+Sets the broker's `imq.log.console.output` property to `ALL`.
+
+If not specified, only error and warning messages will be logged.
+
+Properties overridden: `imq.log.console.output`
+
+a|
+[source,oac_no_warn]
+----
+-s | -silent
+----
+
+ a|
+Silent mode (no logging to console)
+
+Sets the broker's `imq.log.console.output` property to `NONE`.
+
+Properties overridden: `imq.log.console.output`
+
+a|
+[source,oac_no_warn]
+----
+-version
+----
+
+ a|
+Display version informationlink:#foot-othersignored2[^Foot 3 ^]
+
+Properties overridden: None
+
+a|
+[source,oac_no_warn]
+----
+-h | -help
+----
+
+ a|
+Display usage helplink:#sthref92[^Footref 3^]
+
+Properties overridden: None
+
+|=======================================================================
+
+
+^Footnote 1 ^Applies only to broker clusters
+
+^Footnote 2 ^Requires user confirmation unless `-force` is also
+specified
+
+^Footnote 3 ^Any other options specified on the command line are
+ignored.
+
+[[aeonf]][[GMADG00281]][[command-utility]]
+
+Command Utility
+~~~~~~~~~~~~~~~
+
+The Command utility (`imqcmd`) is used for managing brokers, connection
+services, connections, physical destinations, durable subscriptions, and
+transactions.
+
+All `imqcmd` commands must include a subcommand (except those using the
+`-v` or `-h` option to display product version information or usage
+help, respectively). The possible subcommands are listed in
+link:#gdyuu[Table 16-2] and described in detail in the corresponding
+sections below. In addition, each `imqcmd` subcommand supports the
+general options shown in link:#aeonm[General Command Utility Options].
+
+
+[NOTE]
+=======================================================================
+
+The `-u` userName option (and corresponding password) is required except
+when using the `-v` or `-h` option. Also if a subcommand accepts a
+broker address (`-b` option) and no host name or port number is
+specified, the values `localhost` and `7676` are assumed by default.
+
+=======================================================================
+
+
+[[GMADG743]][[sthref93]][[gdyuu]]
+
+
+Table 16-2 Command Utility Subcommands
+
+[width="100%",cols="25%,75%",options="header",]
+|=======================================================================
+|Command |Description
+a|
+link:#aeong[Broker Management]
+
+
+ |
+
+|`shutdown bkr` |Shut down broker
+
+|`restart bkr` |Restart broker
+
+|`pause bkr` |Pause broker
+
+|`quiesce bkr` |Quiesce broker
+
+|`unquiesce bkr` |Unquiesce broker
+
+|`resume bkr` |Resume broker
+
+|`takeover bkr` |Initiate broker takeover
+
+|`update bkr` |Set broker properties
+
+|`query bkr` |List broker property values
+
+|`list bkr` |List brokers in cluster
+
+|`metrics bkr` |Display broker metrics
+
+|`reload cls` |Reload cluster configuration
+
+|`changemaster cls` |Change the master broker in a conventional cluster
+with master broker
+
+a|
+link:#aeonh[Connection Service Management]
+
+
+ |
+
+|`pause svc` |Pause connection service
+
+|`resume svc` |Resume connection service
+
+|`update svc` |Set connection service properties
+
+|`list svc` |List connection services available on broker
+
+|`query svc` |List connection service property values
+
+|`metrics svc` |Display connection service metrics
+
+a|
+link:#aeoni[Connection Management]
+
+
+ |
+
+|`list cxn` |List connections on broker
+
+|`query cxn` |Display connection information
+
+|`destroy cxn` |Destroy connection
+
+a|
+link:#aeonj[Physical Destination Management]
+
+
+ |
+
+|`create dst` |Create physical destination
+
+|`destroy dst` |Destroy physical destination
+
+|`pause dst` |Pause message delivery for physical destination
+
+|`resume dst` |Resume message delivery for physical destination
+
+|`purge dst` |Purge all messages from physical destination
+
+|`compact dst` |Compact physical destination
+
+|`update dst` |Set physical destination properties
+
+|`list dst` |List physical destinations
+
+|`query dst` |List physical destination property values
+
+|`metrics dst` |Display physical destination metrics
+
+a|
+link:#aeonk[Durable Subscription Management]
+
+
+ |
+
+|`destroy dur` |Destroy durable subscription
+
+|`purge dur` |Purge all messages for durable subscription
+
+|`list dur` |List durable subscriptions for topics
+
+a|
+link:#aeonl[Transaction Management]
+
+
+ |
+
+|`commit txn` |Commit transaction
+
+|`rollback txn` |Roll back transaction
+
+|`list txn` |List transactions being tracked by broker
+
+|`query txn` |Display transaction information
+
+|`list dur` |List durable subscriptions for topic
+
+a|
+link:#geodj[JMX Management]
+
+
+ |
+
+|`list jmx` |List JMX service URLs of JMX connectors
+|=======================================================================
+
+
+[[aeonm]][[GMADG00611]][[general-command-utility-options]]
+
+General Command Utility Options
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The additional options listed in link:#gbnmh[Table 16-3] can be applied
+to any subcommand of the `imqcmd` command.
+
+[[GMADG744]][[sthref94]][[gbnmh]]
+
+
+Table 16-3 General Command Utility Options
+
+[width="100%",cols="22%,78%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-secure
+----
+
+ |Use secure connection to broker with `ssladmin` connection service
+
+a|
+[source,oac_no_warn]
+----
+-u userName
+----
+
+ a|
+User name for authentication
+
+If this option is omitted, the Command utility will prompt for it
+interactively.
+
+a|
+[source,oac_no_warn]
+----
+-passfile path
+----
+
+ a|
+Location of password file
+
+See link:security-services.html#aeogq[Password Files] for more
+information.
+
+a|
+[source,oac_no_warn]
+----
+-D
+----
+
+ a|
+Set connection-related system property that affects how `imqcmd` creates
+a connection to the broker. Not used to set broker configuration
+properties.
+
+Usually overrides connection factory attributes for `imqcmd` client
+runtime. For example, the option in the following command changes the
+default value of `imqSSLIsTrusted`:
+
+`imqcmd list svc -secure -DimqSSLIsTrusted=true`
+
+a|
+[source,oac_no_warn]
+----
+-rtm timeoutInterval
+----
+
+ a|
+Initial timeout interval, in seconds
+
+This is the initial length of time that the Command utility will wait
+for a reply from the broker before retrying a request. Each subsequent
+retry will use a timeout interval that is a multiple of this initial
+interval.
+
+Default value: `10`.
+
+a|
+[source,oac_no_warn]
+----
+-rtr numRetries
+----
+
+ a|
+Number of retries to attempt after a broker request times out
+
+Default value: `5`.
+
+a|
+[source,oac_no_warn]
+----
+-javahome path
+----
+
+ a|
+Location of alternative Java runtime
+
+Default behavior: Use runtime installed on system or bundled with
+Message Queue.
+
+a|
+[source,oac_no_warn]
+----
+-f
+----
+
+ |Perform action without user confirmation
+
+a|
+[source,oac_no_warn]
+----
+-s
+----
+
+ |Silent mode (no output displayed)
+
+a|
+[source,oac_no_warn]
+----
+-v
+----
+
+ |Display version
+informationlink:#foot-othersignored3[^Foot 1 ^]^,^link:#foot-nopassword[^Foot 2 ^]
+
+a|
+[source,oac_no_warn]
+----
+-h
+----
+
+ |Display usage
+helplink:#sthref95[^Footref 1^]^,^link:#sthref96[^Footref 2^]
+
+a|
+[source,oac_no_warn]
+----
+-H
+----
+
+ |Display expanded usage help, including attribute list and
+exampleslink:#sthref97[^Footref 1^]^,^link:#sthref98[^Footref 2^]
+|=======================================================================
+
+
+^Footnote 1 ^Any other options specified on the command line are
+ignored.
+
+^Footnote 2 ^User name and password not needed
+
+[[aeong]][[GMADG00612]][[broker-management]]
+
+Broker Management
+^^^^^^^^^^^^^^^^^
+
+The Command utility cannot be used to start a broker; use the Broker
+utility (`imqbrokerd`) instead. Once the broker is started, you can use
+the `imqcmd` subcommands listed in link:#gbnlm[Table 16-4] to manage and
+control it.
+
+[[GMADG745]][[sthref99]][[gbnlm]]
+
+
+Table 16-4 Command Utility Subcommands for Broker Management
+
+[width="100%",cols="40%,60%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+shutdown bkr [-b hostName:portNumber]
+ [-time nSeconds]
+ [-nofailover]
+----
+
+ a|
+Shut down broker
+
+The `-time` option specifies the interval, in seconds, to wait before
+shutting down the broker. (The broker will not block, but will return
+immediately from the delayed shutdown request.) During the shutdown
+interval, the broker will not accept any new `jms` connections; `admin`
+connections will be accepted, and existing `jms` connections will
+continue to operate. A broker belonging to an enhanced cluster will not
+attempt to take over for any other broker during the shutdown interval.
+
+The `-nofailover` option indicates that no other broker is to take over
+the persistent data of the one being shut down.
+link:#clustersonly[^Foot 1 ^]
+
+a|
+[source,oac_no_warn]
+----
+restart bkr [-b hostName:portNumber]
+----
+
+ a|
+Restart broker
+
+Shuts down the broker and then restarts it using the same options
+specified when it was originally started.
+
+a|
+[source,oac_no_warn]
+----
+pause bkr [-b hostName:portNumber]
+----
+
+ a|
+Pause broker
+
+See link:broker-management.html#aeody[Pausing and Resuming a Broker] for
+more information.
+
+a|
+[source,oac_no_warn]
+----
+quiesce bkr [-b hostName:portNumber]
+----
+
+ a|
+Quiesce broker
+
+The broker will stop accepting new connections; existing connections
+will continue to operate.
+
+a|
+[source,oac_no_warn]
+----
+unquiesce bkr [-b hostName:portNumber]
+----
+
+ a|
+Unquiesce broker
+
+The broker will resume accepting new connections, returning to normal
+operation.
+
+a|
+[source,oac_no_warn]
+----
+resume bkr [-b hostName:portNumber]
+----
+
+ |Resume broker
+
+a|
+[source,oac_no_warn]
+----
+takeover bkr 
+ -n brokerID
+ [-f]
+----
+
+ a|
+Initiate broker takeover link:#sthref100[^Footref 1^]
+
+Before taking over a broker, you should first shut it down manually
+using the `shutdown` `bkr` subcommand with the `-nofailover` option. If
+the specified broker appears to be still running, `takeover` `bkr` will
+display a confirmation message
+(`Do you want to take over for this broker?`). The `-f` option
+suppresses this message and initiates the takeover unconditionally.
+
+Note: The `takeover` `bkr` subcommand is intended only for use in
+failed-takeover situations. You should use it only as a last resort, and
+not as a general way of forcibly taking over a running broker.
+
+a|
+[source,oac_no_warn]
+----
+update bkr [-b hostName:portNumber]
+ -o property1=value1
+ [-o property2=value2]...
+----
+
+ a|
+Set broker properties
+
+See link:broker-properties.html#aeons[Broker Properties Reference] for
+information on broker properties.
+
+a|
+[source,oac_no_warn]
+----
+query bkr
+ -b hostName:portNumber
+----
+
+ a|
+List broker property values
+
+For brokers belonging to a cluster, also lists cluster properties such
+as broker list, master broker (for conventional clusters), and cluster
+identifier (for enhanced clusters).
+
+a|
+[source,oac_no_warn]
+----
+list bkr
+----
+
+ |List brokers in cluster
+
+a|
+[source,oac_no_warn]
+----
+metrics bkr [-b hostName:portNumber]
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]
+----
+
+ a|
+Display broker metrics
+
+The `-m` option specifies the type of metrics to display:
+
+* `ttl`: Messages and packets flowing into and out of the broker
+* `rts`: Rate of flow of messages and packets into and out of the broker
+per second
+* `cxn`: Connections, virtual memory heap, and threads
+
+Default value: `ttl`.
+
+The `-int` option specifies the interval, in seconds, at which to
+display metrics. Default value: `5`.
+
+The `-msp` option specifies the number of samples to display. Default
+value: Unlimited (infinite).
+
+a|
+[source,oac_no_warn]
+----
+reload cls
+----
+
+ a|
+Reload cluster configurationlink:#sthref101[^Footref 1^]
+
+Forces all persistent information to be brought up to date.
+
+a|
+[source,oac_no_warn]
+----
+changemaster cls
+ -o imq.cluster.masterbroker=newMaster
+----
+
+ a|
+Change the master broker in a conventional cluster with master broker.
+
+This command must be run on the current master broker.
+
+The value newMaster has the form hostName`:`portNumber, where hostName
+and portNumber are is its Port Mapper host name and port number,
+respectively.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+|=======================================================================
+
+
+^Footnote 1 ^Applies only to broker clusters
+
+[[aeonh]][[GMADG00613]][[connection-service-management]]
+
+Connection Service Management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnlz[Table 16-5] lists the `imqcmd` subcommands for managing
+connection services.
+
+[[GMADG746]][[sthref102]][[gbnlz]]
+
+
+Table 16-5 Command Utility Subcommands for Connection Service Management
+
+[width="100%",cols="29%,71%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+pause svc -n serviceName
+ [-bhostName:portNumber]
+----
+
+ a|
+Pause connection service
+
+The `admin` connection service cannot be paused.
+
+a|
+[source,oac_no_warn]
+----
+resume svc -n serviceName
+ [-b hostName:portNumber]
+----
+
+ |Resume connection service
+
+a|
+[source,oac_no_warn]
+----
+update svc -n serviceName
+ [-b hostName:portNumber]
+ -o property1=value1
+ [-o property2=value2]...
+----
+
+ a|
+Set connection service properties
+
+See link:broker-properties.html#aeont[Connection Properties] for
+information on connection service properties.
+
+a|
+[source,oac_no_warn]
+----
+list svc
+ [-b hostName:portNumber]
+----
+
+ |List connection services available on broker
+
+a|
+[source,oac_no_warn]
+----
+query svc -n serviceName
+ [-bhostName:portNumber]
+----
+
+ |List connection service property values
+
+a|
+[source,oac_no_warn]
+----
+metrics svc -n serviceName
+ [-bhostName:portNumber]
+ [-mmetricType]
+ [-intinterval]
+ [-mspnumSamples]
+----
+
+ a|
+Display connection service metrics
+
+The `-m` option specifies the type of metrics to display:
+
+* `ttl`: Messages and packets flowing into and out of the broker by way
+of the specified connection service
+* `rts`: Rate of flow of messages and packets into and out of the broker
+per second by way of the specified connection service
+* `cxn`: Connections, virtual memory heap, and threads
+
+Default value: `ttl`.
+
+The `-int` option specifies the interval, in seconds, at which to
+display metrics. Default value: `5`.
+
+The `-msp` option specifies the number of samples to display. Default
+value: Unlimited (infinite).
+
+|=======================================================================
+
+
+[[aeoni]][[GMADG00614]][[connection-management]]
+
+Connection Management
+^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnml[Table 16-6] lists the `imqcmd` subcommands for managing
+connections.
+
+[[GMADG747]][[sthref103]][[gbnml]]
+
+
+Table 16-6 Command Utility Subcommands for Connection Service Management
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+list cxn [-svn serviceName]
+ [-b hostName:portNumber]
+----
+
+ a|
+List connections on broker
+
+Lists all connections on the broker to the specified connection service.
+If no connection service is specified, all connections are listed.
+
+a|
+[source,oac_no_warn]
+----
+query cxn -n connectionID
+ [-b hostName:portNumber]
+----
+
+ |Display connection information
+
+a|
+[source,oac_no_warn]
+----
+destroy cxn -n connectionID
+ [-b hostName:portNumber]
+----
+
+ |Destroy connection
+|=======================================================================
+
+
+[[aeonj]][[GMADG00615]][[physical-destination-management]]
+
+Physical Destination Management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnky[Table 16-7] lists the `imqcmd` subcommands for managing
+physical destinations. In all cases, the `-t` (destination type) option
+can take either of two values:
+
+* `q`: Queue destination
+* `t`: Topic destination
+
+[[GMADG748]][[sthref104]][[gbnky]]
+
+
+Table 16-7 Command Utility Subcommands for Physical Destination
+Management
+
+[width="100%",cols="39%,61%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+create dst -t destType -n destName
+ [-o property=value]...
+----
+
+ a|
+Create physical destinationlink:#foot-nomasterbroker1[^Foot 1 ^]
+
+The destination name destName may contain only alphanumeric characters
+(no spaces) and must begin with an alphabetic character or the
+underscore (`_`) or dollar sign (`$`) character. It may not begin with
+the characters `mq`.
+
+a|
+[source,oac_no_warn]
+----
+destroy dst -t destType -n destName
+----
+
+ a|
+Destroy physical destinationlink:#sthref105[^Footref 1^]
+
+This operation cannot be applied to a system-created destination, such
+as a dead message queue.
+
+a|
+[source,oac_no_warn]
+----
+pause dst [-t destType -n destName]
+ [-pst pauseType]
+----
+
+ a|
+Pause message delivery for physical destination
+
+Pauses message delivery for the physical destination specified by the
+`-t` and `-n` options. If these options are not specified, all
+destinations are paused.
+
+The `-pst` option specifies the type of message delivery to be paused:
+
+* `PRODUCERS`: Pause delivery from message producers
+* `CONSUMERS`: Pause delivery to message consumers
+* `ALL`: Pause all message delivery
+
+Default value: `ALL`
+
+a|
+[source,oac_no_warn]
+----
+resume dst [-t destType -n destName]
+----
+
+ a|
+Resume message delivery for physical destination
+
+Resumes message delivery for the physical destination specified by the
+`-t` and `-n` options. If these options are not specified, all
+destinations are resumed.
+
+a|
+[source,oac_no_warn]
+----
+purge dst -t destType -n destName
+----
+
+ |Purge all messages from physical destination
+
+a|
+[source,oac_no_warn]
+----
+compact dst [-t destType -n destName]
+----
+
+ a|
+Compact physical destination
+
+Compacts the file-based persistent data store for the physical
+destination specified by the `-t` and `-n` options. If these options are
+not specified, all destinations are compacted.
+
+A destination must be paused before it can be compacted.
+
+a|
+[source,oac_no_warn]
+----
+update dst -t destType -n destName
+ -o property1=value1
+ [-o property2=value2]...
+----
+
+ a|
+Set physical destination properties
+
+See link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference] for information on physical destination properties.
+
+a|
+[source,oac_no_warn]
+----
+list dst [-tdestType]
+ [-tmp]
+----
+
+ a|
+List physical destinations
+
+Lists all physical destinations of the type specified by the `-t`
+option. If no destination type is specified, both queue and topic
+destinations are listed. If the `-tmp` option is specified, temporary
+destinations are listed as well.
+
+a|
+[source,oac_no_warn]
+----
+query dst -t destType -n destName
+----
+
+ |List physical destination property values
+
+a|
+[source,oac_no_warn]
+----
+metrics dst -t destType -n destName
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]
+----
+
+ a|
+Display physical destination metrics
+
+The `-m` option specifies the type of metrics to display:
+
+* `ttl`: Messages and packets flowing into and out of the destination
+and residing in memory
+* `rts`: Rate of flow of messages and packets into and out of the
+destination per second, along with other rate information
+* `con`: Metrics related to message consumers
+* `dsk`: Disk usage
+
+Default value: `ttl`.
+
+The `-int` option specifies the interval, in seconds, at which to
+display metrics. Default value: `5`.
+
+The `-msp` option specifies the number of samples to display. Default
+value: Unlimited (infinite).
+
+|=======================================================================
+
+
+^Footnote 1 ^Cannot be performed in a broker cluster whose master broker
+is temporarily unavailable
+
+[[aeonk]][[GMADG00616]][[durable-subscription-management]]
+
+Durable Subscription Management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnln[Table 16-8] lists the `imqcmd` subcommands for managing
+durable subscriptions.
+
+[[GMADG749]][[sthref106]][[gbnln]]
+
+
+Table 16-8 Command Utility Subcommands for Durable Subscription
+Management
+
+[width="100%",cols="44%,56%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+destroy dur -n subscriberName [-c clientID]
+----
+
+ |Destroy durable subscriptionlink:#foot-nomasterbroker2[^Foot 1 ^]
+
+a|
+[source,oac_no_warn]
+----
+purge dur -n subscriberName [-c clientID]
+----
+
+ |Purge all messages for durable subscription
+
+a|
+[source,oac_no_warn]
+----
+list dur [-d topicName]
+----
+
+ |List durable subscriptions for the specified topic. If `-d` option is
+omitted then the command lists all durable subscriptions for all topics.
+|=======================================================================
+
+
+^Footnote 1 ^Cannot be performed in a conventional broker cluster whose
+master broker is temporarily unavailable
+
+[[aeonl]][[GMADG00617]][[transaction-management]]
+
+Transaction Management
+^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnli[Table 16-9] lists the `imqcmd` subcommands for managing
+local (non-distributed) Message Queue transactions. Distributed
+transactions are managed by a distributed transaction manager rather
+than `imqcmd`.
+
+[[GMADG750]][[sthref107]][[gbnli]]
+
+
+Table 16-9 Command Utility Subcommands for Transaction Management
+
+[width="100%",cols="31%,69%",options="header",]
+|==========================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+commit txn -n transactionID
+----
+
+ |Commit transaction
+a|
+[source,oac_no_warn]
+----
+rollback txn -n transactionID
+----
+
+ |Roll back transaction
+a|
+[source,oac_no_warn]
+----
+list txn
+----
+
+ |List transactions being tracked by broker
+a|
+[source,oac_no_warn]
+----
+query txn -n transactionID
+----
+
+ |Display transaction information
+|==========================================
+
+
+[[geodj]][[GMADG00618]][[jmx-management]]
+
+JMX Management
+^^^^^^^^^^^^^^
+
+The `imqcmd` subcommand shown in link:#geodr[Table 16-10] is used for
+administrative support of Java applications using the Java Management
+Extensions (JMX) application programming interface to configure and
+monitor Message Queue resources. See link:jmx-support.html#geoel[JMX
+Support] for further information on the broker's JMX support.
+
+[[GMADG751]][[sthref108]][[geodr]]
+
+
+Table 16-10 Command Utility Subcommand for JMX Management
+
+[width="100%",cols="10%,90%",options="header",]
+|========================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+list jmx
+----
+
+ |List JMX service URLs of JMX connectors
+|========================================
+
+
+[[aeonn]][[GMADG00282]][[object-manager-utility]]
+
+Object Manager Utility
+~~~~~~~~~~~~~~~~~~~~~~
+
+The Object Manager utility (`imqobjmgr`) creates and manages Message
+Queue administered objects. link:#gbnlr[Table 16-11] lists the available
+subcommands.
+
+[[GMADG752]][[sthref109]][[gbnlr]]
+
+
+Table 16-11 Object Manager Subcommands
+
+[width="100%",cols="19%,81%",options="header",]
+|=============================================
+|Subcommand |Description
+a|
+[source,oac_no_warn]
+----
+add
+----
+
+ |Add administered object to object store
+a|
+[source,oac_no_warn]
+----
+delete
+----
+
+ |Delete administered object from object store
+a|
+[source,oac_no_warn]
+----
+list
+----
+
+ |List administered objects in object store
+a|
+[source,oac_no_warn]
+----
+query
+----
+
+ |Display administered object information
+a|
+[source,oac_no_warn]
+----
+update
+----
+
+ |Modify administered object
+|=============================================
+
+
+link:#gbnlb[Table 16-12] lists the options to the `imqobjmgr` command.
+
+[[GMADG753]][[sthref110]][[gbnlb]]
+
+
+Table 16-12 Object Manager Options
+
+[width="100%",cols="23%,77%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-l lookupName
+----
+
+ |JNDI lookup name of administered object
+
+a|
+[source,oac_no_warn]
+----
+-j attribute=value
+----
+
+ |Attributes of JNDI object store (see
+link:administered-objects.html#aeogv[Object Stores])
+
+a|
+[source,oac_no_warn]
+----
+-t objectType
+----
+
+ a|
+Type of administered object:
+
+* `q`: Queue destination
+* `t`: Topic destination
+* `cf`: Connection factory
+* `qf`: Queue connection factory
+* `tf`: Topic connection factory
+* `xcf`: Connection factory for distributed transactions
+* `xqf`: Queue connection factory for distributed transactions
+* `xtf`: Topic connection factory for distributed transactions
+
+a|
+[source,oac_no_warn]
+----
+-o attribute=value
+----
+
+ |Attributes of administered object (see
+link:administered-objects.html#aeogy[Administered Object Attributes] and
+link:administered-object-attributes.html#aeood[Administered Object
+Attribute Reference])
+
+a|
+[source,oac_no_warn]
+----
+-r readOnlyState
+----
+
+ a|
+Is administered object read-only?
+
+If `true`, client cannot modify object's attributes.
+
+Default value: `false`.
+
+a|
+[source,oac_no_warn]
+----
+-i fileName
+----
+
+ |Name of command file containing all or part of subcommand clause
+
+a|
+[source,oac_no_warn]
+----
+-pre
+----
+
+ a|
+Preview results without performing command
+
+This option is useful for checking the values of default attributes.
+
+a|
+[source,oac_no_warn]
+----
+-javahome path
+----
+
+ a|
+Location of alternative Java runtime
+
+Default behavior: Use runtime installed on system or bundled with
+Message Queue.
+
+a|
+[source,oac_no_warn]
+----
+-f
+----
+
+ |Perform action without user confirmation
+
+a|
+[source,oac_no_warn]
+----
+-s
+----
+
+ |Silent mode (no output displayed)
+
+a|
+[source,oac_no_warn]
+----
+-v
+----
+
+ |Display version informationlink:#foot-othersignored4[^Foot 1 ^]
+
+a|
+[source,oac_no_warn]
+----
+-h
+----
+
+ |Display usage helplink:#sthref111[^Footref 1^]
+
+a|
+[source,oac_no_warn]
+----
+-H
+----
+
+ |Display expanded usage help, including attribute list and
+exampleslink:#sthref112[^Footref 1^]
+|=======================================================================
+
+
+^Footnote 1 ^Any other options specified on the command line are
+ignored.
+
+[[aeono]][[GMADG00283]][[database-manager-utility]]
+
+Database Manager Utility
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Database Manager utility (`imqdbmgr`) sets up the database schema
+for a JDBC-based data store. You can also use it to delete Message Queue
+database tables that have become corrupted, change the database, display
+information about the database, convert a standalone database for use in
+an enhanced broker cluster, or back up and restore a highly-available
+database. link:#gbnmv[Table 16-13] lists the `imqdbmgr` subcommands.
+
+
+[NOTE]
+=======================================================================
+
+When using a cluster configuration file to simplify management of the
+properties for a cluster of brokers, make sure to run `imqdbmgr` with
+the `-D` option to specify the location of the cluster configuration
+file; for example:
+
+[source,oac_no_warn]
+----
+imqdbmgr -Dimq.cluster.url=location-of-cluster-configuration-file ...
+----
+
+=======================================================================
+
+
+[[GMADG754]][[sthref113]][[gbnmv]]
+
+
+Table 16-13 Database Manager Subcommands
+
+[width="100%",cols="34%,66%",options="header",]
+|=======================================================================
+|Subcommand |Description
+a|
+[source,oac_no_warn]
+----
+create all
+----
+
+ a|
+Create new database and persistent data store schema
+
+Used on embedded database systems. The broker property
+`imq.persist.jdbc.`vendorName`.createdburl` must be specified.
+
+a|
+[source,oac_no_warn]
+----
+create tbl
+----
+
+ a|
+Create persistent data store schema for existing database
+
+Used on external database systems.
+
+For brokers belonging to an enhanced broker cluster (`imq.cluster.ha` =
+`true`), the schema created is for the cluster's shared data store, in
+accordance with the database vendor identified by the broker's
+`imq.persist.jdbc.dbVendor` property. If `imq.cluster.ha` = `false`, the
+schema is for the individual broker's standalone data store. Since the
+two types of data store can coexist in the same database, they are
+distinguished by appending a suffix to all table names:
+
+* `C` clusterID: Shared data store
+* `S` brokerID: Standalone data store
+
+a|
+[source,oac_no_warn]
+----
+delete tbl
+----
+
+ |Delete Message Queue database tables from current data store
+
+a|
+[source,oac_no_warn]
+----
+delete oldtbl
+----
+
+ a|
+Delete Message Queue database tables from earlier-version data store
+
+Used after the data store has been automatically migrated to the current
+version of Message Queue.
+
+a|
+[source,oac_no_warn]
+----
+recreate tbl
+----
+
+ a|
+Re-create persistent store schema
+
+Deletes all existing Message Queue database tables from the current
+persistent store and then re-creates the schema.
+
+a|
+[source,oac_no_warn]
+----
+query
+----
+
+ |Display information about the data store
+
+a|
+[source,oac_no_warn]
+----
+upgrade hastore
+----
+
+ |Upgrade standalone data store to shared data store
+
+a|
+[source,oac_no_warn]
+----
+backup
+----
+
+ |Back up JDBC-based data store to backup files
+
+a|
+[source,oac_no_warn]
+----
+restore
+----
+
+ |Restore JDBC-based data store from backup files
+
+a|
+[source,oac_no_warn]
+----
+remove bkr
+----
+
+ a|
+Remove broker from shared data store
+
+The broker must not be running.
+
+a|
+[source,oac_no_warn]
+----
+remove jmsbridge
+----
+
+ a|
+Remove JMS bridge from the shared data store
+
+The broker hosting the JMS bridge must not be running.
+
+a|
+[source,oac_no_warn]
+----
+reset lck
+----
+
+ a|
+Reset data store lock
+
+Resets the lock so that the database can be used by other processes.
+
+|Subcommands for a Cluster's Shared Configuration Change Table |
+
+a|
+[source,oac_no_warn]
+----
+create sharecc_tbl
+----
+
+ |Create the shared database table for the cluster configuration change
+record
+
+a|
+[source,oac_no_warn]
+----
+delete sharecc_tbl
+----
+
+ |Delete the shared database table for the cluster configuration change
+record
+
+a|
+[source,oac_no_warn]
+----
+recreate sharecc_tbl
+----
+
+ a|
+Re-create the shared database table for the cluster configuration change
+record.
+
+Deletes existing shared database table and then re-creates it.
+
+a|
+[source,oac_no_warn]
+----
+backup sharecc_tbl-file filePath
+----
+
+ |Back up the shared database table for the cluster configuration change
+record to a backup file
+
+a|
+[source,oac_no_warn]
+----
+restore sharecc_tbl-file filePath
+----
+
+ |Restore the shared database table for the cluster configuration change
+record from a backup file. The table must already exist.
+|=======================================================================
+
+
+link:#gbnno[Table 16-14] lists the options to the `imqdbmgr` command.
+
+[[GMADG755]][[sthref114]][[gbnno]]
+
+
+Table 16-14 Database Manager Options
+
+[width="100%",cols="21%,79%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-b instanceName
+----
+
+ |Instance name of broker
+
+a|
+[source,oac_no_warn]
+----
+-Dproperty=value
+----
+
+ a|
+Set broker configuration property
+
+See link:broker-properties.html#aeonv[Persistence Properties] for
+information about persistence-related broker configuration properties.
+
+Caution: Be careful to check the spelling and formatting of properties
+set with this option. Incorrect values will be ignored without
+notification or warning.
+
+a|
+[source,oac_no_warn]
+----
+-u userName
+----
+
+ |User name for authentication against the database
+
+a|
+[source,oac_no_warn]
+----
+-passfile filePath
+----
+
+ a|
+Location of password file
+
+See link:security-services.html#aeogq[Password Files] for more
+information.
+
+a|
+[source,oac_no_warn]
+----
+-n brokerID
+----
+
+ |(Used with the `remove bkr` subcommand) Broker identifier of broker to
+be removed from shared data store
+
+a|
+[source,oac_no_warn]
+----
+-n bridgeName
+----
+
+ |(Used with the `remove jmsbridge` subcommand) Bridge name of the JMS
+bridge to be removed from shared data store
+
+a|
+[source,oac_no_warn]
+----
+-dir dirPath
+----
+
+ |Backup directory for backing up or restoring JDBC-based data store
+
+a|
+[source,oac_no_warn]
+----
+-v
+----
+
+ |Display version informationlink:#foot-othersignored5[^Foot 1 ^]
+
+a|
+[source,oac_no_warn]
+----
+-h
+----
+
+ |Display usage helplink:#sthref115[^Footref 1^]
+|=======================================================================
+
+
+^Footnote 1 ^Any other options specified on the command line are
+ignored.
+
+[[aeonp]][[GMADG00284]][[user-manager-utility]]
+
+User Manager Utility
+~~~~~~~~~~~~~~~~~~~~
+
+The User Manager utility (`imqusermgr`) is used for populating or
+editing a flat-file user repository. The utility must be run on the same
+host where the broker is installed; if a broker-specific user repository
+does not yet exist, you must first start up the corresponding broker
+instance in order to create it. You will also need the appropriate
+permissions to write to the repository: on the Solaris or Linux
+platforms, this means you must be either the root user or the user who
+originally created the broker instance.
+
+link:#gbnmr[Table 16-15] lists the subcommands available with the
+`imqusermgr` command. In all cases, the `-i` option specifies the
+instance name of the broker to whose user repository the command
+applies; if not specified, the default name `imqbroker` is assumed.
+
+[[GMADG756]][[sthref116]][[gbnmr]]
+
+
+Table 16-15 User Manager Subcommands
+
+[width="100%",cols="35%,65%",options="header",]
+|=======================================================================
+|Syntax |Description
+a|
+[source,oac_no_warn]
+----
+add [-i instanceName]
+ -u userName -p password
+ [-g  group]
+----
+
+ a|
+Add user and password to repository
+
+The optional `-g` option specifies a group to which to assign this user:
+
+* `admin`
+* `user`
+* `anonymous`
+
+a|
+`decode -src` `encodedPassfile`
+
+` -target` `unencodedPassfile`
+
+ a|
+Deobfuscates a passfile.
+
+* The `-src` option takes a string, represented by `encodedPassfile`, to
+specify the path and file name of the source file to be deobfuscated.
+* The `-target` option takes a string, represented by
+`unencodedPassfile`, to specify the path and file name of the resulting
+clear text file.
+
+a|
+[source,oac_no_warn]
+----
+delete [-i instanceName]
+ -u userName -target
+----
+
+ |Delete user from repository
+
+a|
+`encode -src` `unencodedPassfile`
+
+`-target` `encodedPassfile`
+
+ a|
+Obfuscates a passfile.
+
+* The `-src` option takes a string, represented by `unencodedPassfile`,
+to specify the path and file name of the source file to be obfuscated.
+* The `-target` option takes a string, represented by `encodedPassfile`,
+to specify the path and file name of the resulting obfuscated file.
+
+a|
+[source,oac_no_warn]
+----
+update [-i instanceName]
+ -u userName -p password
+
+update [-i instanceName]
+ -u userName -a activeStatus
+
+update [-i instanceName]
+ -u userName -p password
+ -a activeStatus
+----
+
+ a|
+Set user's password or active status (or both)
+
+The `-a` option takes a boolean value specifying whether to make the
+user active (`true`) or inactive (`false`). An inactive status means
+that the user entry remains in the user repository, but the user will
+not be authenticated, even if using the correct password.
+
+Default value: `true`.
+
+a|
+[source,oac_no_warn]
+----
+list [-i instanceName]
+ [-u userName]
+----
+
+ a|
+Display user information
+
+If no user name is specified, all users in the repository are listed.
+
+|=======================================================================
+
+
+In addition, the options listed in link:#gbnnn[Table 16-16] can be
+applied to any subcommand of the `imqusermgr` command.
+
+[[GMADG757]][[sthref117]][[gbnnn]]
+
+
+Table 16-16 General User Manager Options
+
+[width="100%",cols="28%,72%",options="header",]
+|================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-DbrokerProperty=value
+----
+
+ |Specify a broker property value when starting `imqusermgr`.
+a|
+[source,oac_no_warn]
+----
+-f
+----
+
+ |Perform action without user confirmation
+a|
+[source,oac_no_warn]
+----
+-s
+----
+
+ |Silent mode (no output displayed)
+a|
+[source,oac_no_warn]
+----
+-v
+----
+
+ |Display version informationlink:#foot-othersignored6[^Foot 1 ^]
+a|
+[source,oac_no_warn]
+----
+-h
+----
+
+ |Display usage helplink:#sthref118[^Footref 1^]
+|================================================================
+
+
+^Footnote 1 ^Any other options specified on the command line are
+ignored.
+
+[[gjdli]][[GMADG00285]][[bridge-manager-utility]]
+
+Bridge Manager Utility
+~~~~~~~~~~~~~~~~~~~~~~
+
+The Bridge Manager utility (`imqbridgemgr`) is used to manage the
+bridges configured for a broker, including the links within bridge types
+that support links. The basic syntax of `imqbridgemgr` is:
+
+[source,oac_no_warn]
+----
+imqbridgemgr subcommand commandArgument [ options ]
+imqbridgemgr -h | -help
+imqbridgemgr -H | -Help
+imqbridgemgr -v | -version
+----
+
+link:#gjlgu[Table 16-17] lists the `imqbridgemgr` subcommands for
+general bridge management, link:#gjlgv[Table 16-18] lists the
+`imqbridgemgr` subcommands for link management, which are applicable
+only to bridge types that support links, and link:#gjlhw[Table 16-19]
+lists the `imqbridgemgr` options.
+
+[[GMADG758]][[sthref119]][[gjlgu]]
+
+
+Table 16-17 Bridge Manager Subcommands for Bridge Management
+
+[width="100%",cols="19%,81%",options="header",]
+|=======================================================================
+|Subcommand |Description
+a|
+[source,oac_no_warn]
+----
+list bridge
+----
+
+ |Lists the bridges specified by the command options provided. For each
+bridge, the bridge name, type and state are displayed.
+
+a|
+[source,oac_no_warn]
+----
+pause bridge
+----
+
+ a|
+Pauses the bridges specified by the command options provided if the
+bridge type supports this subcommand.
+
+Attempting to pause a bridge that is stopped generates an error, and
+attempting to pause a bridge that is already paused has no effect.
+
+a|
+[source,oac_no_warn]
+----
+resume bridge
+----
+
+ a|
+Resumes the bridges specified by the command options provided if the
+bridge type supports this subcommand.
+
+Attempting to resume a bridge that is stopped generates an error, and
+attempting to resume a bridge that is already started has no effect.
+
+a|
+[source,oac_no_warn]
+----
+start bridge
+----
+
+ a|
+Starts the bridges specified by the command options provided.
+
+Attempting to start a bridge that is paused causes the bridge to resume,
+and attempting to start a bridge that is already started has no effect.
+
+a|
+[source,oac_no_warn]
+----
+stop bridge
+----
+
+ a|
+Stops the bridges specified by the command options provided.
+
+Attempting to stop a bridge that is paused causes the bridge to stop,
+and attempting to stop a bridge that is already stopped has no effect.
+
+|=======================================================================
+
+
+[[GMADG759]][[sthref120]][[gjlgv]]
+
+
+Table 16-18 Bridge Manager Subcommands for Link Management
+
+[width="100%",cols="19%,81%",options="header",]
+|=======================================================================
+|Subcommand |Description
+a|
+[source,oac_no_warn]
+----
+list link
+----
+
+ |Lists the links specified by the command options provided. For each
+link, the link name, state, source, target, and transaction status are
+displayed.
+
+a|
+[source,oac_no_warn]
+----
+pause link
+----
+
+ a|
+Pauses the link specified by the command options provided.
+
+Attempting to pause a link that is stopped, in the process of stopping,
+or has never been started generates an error. Attempting to pause a link
+that is already paused or in the process of pausing has no effect.
+
+a|
+[source,oac_no_warn]
+----
+resume link
+----
+
+ a|
+Resumes the link specified by the command options provided.
+
+Attempting to resume a link that is stopped, in the process of stopping,
+or has never been started generates an error. Attempting to resume a
+link that is already started or in the process of starting has no
+effect.
+
+a|
+[source,oac_no_warn]
+----
+start link
+----
+
+ a|
+Starts the link specified by the command options provided.
+
+Attempting to start a link that is paused causes the link to resume.
+Attempting to start a link that is in the process of pausing causes the
+link to complete pausing and then to resume. Attempting to start a link
+that is already started or in the process of starting has no effect.
+
+a|
+[source,oac_no_warn]
+----
+stop link
+----
+
+ a|
+Stops the link specified by the command options provided.
+
+Attempting to stop a link that has never been started generates an
+error. Attempting to stop a link that is in the process of starting
+causes the link to complete starting and then to stop. Attempting to
+stop a link that is paused causes the link to stop. Attempting to stop a
+link that is in the process of pausing causes the link to complete
+pausing and then to stop. Attempting to stop a link that is already
+stopped or in the process of stopping has no effect.
+
+|=======================================================================
+
+
+link:#gjlhw[Table 16-19] lists the options to the `imqbridgemgr`
+command.
+
+[[GMADG760]][[sthref121]][[gjlhw]]
+
+
+Table 16-19 Bridge Manager Options
+
+[width="100%",cols="30%,70%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-b hostName:portNumber
+----
+
+ a|
+The broker housing the bridge.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+Default value: localhost:7676
+
+a|
+[source,oac_no_warn]
+----
+-bn bridgeName
+----
+
+ |The name of the bridge.
+
+a|
+[source,oac_no_warn]
+----
+-f
+----
+
+ |Perform the action without user confirmation
+
+a|
+[source,oac_no_warn]
+----
+-javahome path
+----
+
+ a|
+Location of an alternative Java runtime.
+
+Default behavior: Use the runtime installed with Message Queue.
+
+a|
+[source,oac_no_warn]
+----
+-ln linkName
+----
+
+ |The name of the link.
+
+a|
+[source,oac_no_warn]
+----
+-passfile path
+----
+
+ |Location of password file
+
+a|
+[source,oac_no_warn]
+----
+-rtm timeoutInterval
+----
+
+ a|
+Initial timeout interval, in seconds
+
+This is the initial length of time that the Command utility will wait
+for a reply from the broker before retrying a request. Each subsequent
+retry will use a timeout interval that is a multiple of this initial
+interval.
+
+Default value: 10
+
+a|
+[source,oac_no_warn]
+----
+-rtr numRetries
+----
+
+ a|
+Number of retries to attempt after a broker request times out
+
+Default value: 5
+
+a|
+[source,oac_no_warn]
+----
+-s
+----
+
+ |Silent mode (no output displayed)
+
+a|
+[source,oac_no_warn]
+----
+-secure
+----
+
+ |Use secure connection to broker with `ssladmin` connection service
+
+a|
+[source,oac_no_warn]
+----
+-t bridgeType
+----
+
+ |The type of the bridge: `JMS` or `STOMP`
+
+a|
+[source,oac_no_warn]
+----
+-u userName
+----
+
+ |User name for authentication
+|=======================================================================
+
+
+[[aeonq]][[GMADG00286]][[service-administrator-utility]]
+
+Service Administrator Utility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Service Administrator utility (`imqsvcadmin`) installs a broker as a
+Windows service. link:#gbnnq[Table 16-20] lists the available
+subcommands.
+
+[[GMADG761]][[sthref122]][[gbnnq]]
+
+
+Table 16-20 Service Administrator Subcommands
+
+[width="100%",cols="19%,81%",options="header",]
+|=======================================================================
+|Subcommand |Description
+a|
+[source,oac_no_warn]
+----
+install
+----
+
+ |Install service
+
+a|
+[source,oac_no_warn]
+----
+remove
+----
+
+ |Remove service
+
+a|
+[source,oac_no_warn]
+----
+query
+----
+
+ a|
+Display startup options
+
+Startup options can include whether the service is started manually or
+automatically, its location, the location of the Java runtime, and the
+values of arguments passed to the broker on startup (see
+link:#gbnmn[Table 16-21]).
+
+|=======================================================================
+
+
+link:#gbnmn[Table 16-21] lists the options to the `imqsvcadmin` command.
+
+[[GMADG762]][[sthref123]][[gbnmn]]
+
+
+Table 16-21 Service Administrator Options
+
+[width="100%",cols="26%,74%",options="header",]
+|=======================================================================
+|Option |Description
+a|
+[source,oac_no_warn]
+----
+-javahome path
+----
+
+ a|
+Location of alternative Java runtime
+
+Default behavior: Use runtime installed on system or bundled with
+Message Queue.
+
+a|
+[source,oac_no_warn]
+----
+-jrehome path
+----
+
+ |Location of alternative Java Runtime Environment (JRE)
+
+a|
+[source,oac_no_warn]
+----
+-vmargs arg1 [arg2]…
+----
+
+ a|
+Additional arguments to pass to Java Virtual Machine (JVM) running
+broker servicelink:#foot-startparams[^Foot 1 ^]
+
+Example:
+
+`imqsvcadmin install` `vmargs "-Xms16m -Xmx128m"`
+
+a|
+[source,oac_no_warn]
+----
+-args arg1 [arg2]…
+----
+
+ a|
+Additional command line arguments to pass to broker
+servicelink:#sthref124[^Footref 1^]
+
+Example:
+
+`imqsvcadmin install` `args` `"``passfile` `d:\\imqpassfile``"`
+
+See link:#aeone[Broker Utility] for information about broker command
+line arguments.
+
+a|
+[source,oac_no_warn]
+----
+-h
+----
+
+ |Display usage helplink:#foot-othersignored7[^Foot 2 ^]
+|=======================================================================
+
+
+^Footnote 1 ^These arguments can also be specified in the Start
+Parameters field under the General tab in the service's Properties
+window (reached by way of the Services tool in the Windows
+Administrative Tools control panel).
+
+^Footnote 2 ^Any other options specified on the command line are
+ignored.
+
+Any information you specify using the `-javahome`, `-vmargs`, and
+`-args` options is stored in the Windows registry under the keys
+`JREHome`, `JVMArgs`, and `ServiceArgs` in the path
+
+[source,oac_no_warn]
+----
+HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\iMQ_Broker\Parameters
+----
+
+[[aeonr]][[GMADG00287]][[key-tool-utility]]
+
+Key Tool Utility
+~~~~~~~~~~~~~~~~
+
+The Key Tool utility (`imqkeytool`) generates a self-signed certificate
+for the broker, which can be used for the `ssljms`, `ssladmin`, or
+`cluster` connection service. The syntax is
+
+[source,oac_no_warn]
+----
+imqkeytool -broker
+----
+
+On UNIX systems, you might need to run the utility from the root user
+account.
+
+

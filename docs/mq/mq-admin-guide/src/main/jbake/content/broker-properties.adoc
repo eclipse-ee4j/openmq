@@ -1,0 +1,2662 @@
+type=page
+status=published
+title=Broker Properties Reference
+next=physical-destination-properties.html
+prev=command-line-reference.html
+~~~~~~
+Broker Properties Reference
+===========================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00048]][[aeons]]
+
+
+[[broker-properties-reference]]
+17 Broker Properties Reference
+------------------------------
+
+This chapter provides reference information about configuration
+properties for a message broker. It consists of the following sections:
+
+* link:#aeont[Connection Properties]
+* link:#aeonu[Routing and Delivery Properties]
+* link:#aeonv[Persistence Properties]
+* link:#aeony[Security Properties]
+* link:#aeonz[Monitoring Properties]
+* link:#aeooa[Cluster Configuration Properties]
+* link:#gjdkt[Bridge Properties]
+* link:#geofd[JMX Properties]
+* link:#aeoob[Alphabetical List of Broker Properties]
+
+[[aeont]][[GMADG00288]][[connection-properties]]
+
+Connection Properties
+~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnni[Table 17-1] lists the broker properties related to
+connection services.
+
+[[GMADG763]][[sthref125]][[gbnni]]
+
+
+Table 17-1 Broker Connection Properties
+
+[width="163%",cols="25%,42%,7%,26%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.brokerid` |String |None a|
+Broker identifier
+
+For brokers using a shared JDBC-based data store, this string is
+appended to the names of all database tables to identify each table with
+a particular broker.
+
+Must be a unique alphanumeric string of no more than n - 18 characters,
+where n is the maximum table name length allowed by the database.
+
+This property is unnecessary for an embedded database or a standalone
+database which stores data for only one broker instance.
+
+Note: For enhanced broker clusters (`imq.cluster.ha` = `true`), database
+table names also use the `imq.cluster.clusterid` property (see
+link:#gbnmu[Table 17-14]).
+
+|`imq.service.activelist`link:#foot-haclustersame[^Foot 1 ^] |String
+|`jms,admin` a|
+List of connection services to be activated at broker startup, separated
+by commas
+
+See link:connection-services.html#gbnjw[Table 6-1] under
+link:connection-services.html#aeocn[Configuring Connection Services] for
+the names of the available connection services.
+
+|`imq.hostname` |String |All available IP addresses |Default host name
+or IP address for all connection services
+
+|`imq.portmapper.hostname` |String |None a|
+Host name or IP address of Port Mapper
+
+If specified, overrides `imq.hostname`. This might be necessary, for
+instance, if the broker's host computer has more than one network
+interface card installed.
+
+|`imq.portmapper.port`link:#foot-usewithupdatebkr1[^Foot 2 ^] |Integer
+|`7676` a|
+Port number of Port Mapper
+
+Note: If multiple broker instances are running on the same host, each
+must be assigned a unique Port Mapper port.
+
+|`imq.`serviceName`.`protocolType`.hostname`link:#foot-nohttpservices[^Foot 3 ^]
+|String |None a|
+Host name or IP address for connection service
+
+If specified, overrides `imq.hostname` for the designated connection
+service. This might be necessary, for instance, if the broker's host
+computer has more than one network interface card installed.
+
+|`imq.`serviceName`.`protocolType`.port`link:#sthref126[^Footref 3^]
+|Integer |`0` a|
+Port number for connection service
+
+A value of `0` specifies that the port number should be allocated
+dynamically by the Port Mapper. You might need to set a different value,
+for instance, to specify a static port number for connecting to the
+broker through a firewall.
+
+|`imq.portmapper.backlog` |Integer |`50` |Maximum number of pending Port
+Mapper requests in operating system backlog
+
+| | | |
+
+| | | |
+
+|`imq.`serviceName`.threadpool_model`link:#foot-jmsadminonly[^Foot 4 ^]
+|String |`dedicated` a|
+Threading model for thread pool management:
+
+* `dedicated`: Two dedicated threads per connection, one for incoming
+and one for outgoing messages
+* `shared`: Connections processed by shared thread when sending or
+receiving messages
+
+The `dedicated` model limits the number of connections that can be
+supported, but provides higher performance; the `shared` model increases
+the number of possible connections, but at the cost of lower performance
+because of the additional overhead needed for thread management.
+
+|`imq.`serviceName`.min_threads` |Integer |`jms`: `10``ssljms`:
+`10``httpjms`: `10` `httpsjms`: `10` `admin`: `4``ssladmin`: `4` a|
+Minimum number of threads maintained in connection service's thread pool
+
+When the number of available threads exceeds this threshold, threads
+will be shut down as they become free until the minimum is reached.
+
+The default value varies by connection service, as shown.
+
+|`imq.`serviceName`.max_threads` |Integer |`jms`: `1000``ssljms`:
+`500``httpjms`: `500``httpsjms` : `500``admin`: `10``ssladmin`: `10` a|
+Number of threads beyond which no new threads are added to the thread
+pool for use by the named connection service
+
+Must be greater than `0` and greater than the value of
+`imq.`serviceName`.min_threads`.
+
+The default value varies by connection service, as shown.
+
+|`imq.shared.connectionMonitor_limit`link:#foot-sharedmodelonly[^Foot 5 ^]
+|Integer |Solaris: `512`Linux: `512`Windows: `64` a|
+Maximum number of connections monitored by a distributor thread
+
+The system allocates enough distributor threads to monitor all
+connections. The smaller the value of this property, the faster threads
+can be assigned to active connections. A value of `-1` denotes an
+unlimited number of connections per thread.
+
+The default value varies by operating-system platform, as shown.
+
+|`imq.ping.interval` |Integer |`120` a|
+Interval, in seconds, at which to test connection between client and
+broker
+
+A value of `0` or `-1` disables periodic testing of the connection.
+
+|=======================================================================
+
+
+^Footnote 1 ^Must have the same value for all brokers in an enhanced
+cluster.
+
+^Footnote 2 ^Can be used with `imqcmd` `update` `bkr` command
+
+^Footnote 3 ^`jms`, `ssljms`, `admin`, and `ssladmin` services only; see
+link:http_https-support.html#aeopb[HTTP/HTTPS Support] for information on
+configuring the `httpjms` and `httpsjms` services
+
+^Footnote 4 ^`jms` and `admin` services only
+
+^Footnote 5 ^Shared threading model only
+
+[[aeonu]][[GMADG00289]][[routing-and-delivery-properties]]
+
+Routing and Delivery Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section includes the following tables:
+
+* link:#gbnod[Table 17-2] lists the broker properties related to routing
+and delivery services
+* link:#gbnof[Table 17-3] lists the broker properties that configure the
+automatic creation of destinations
+* link:#gkudw[Table 17-4] lists the broker properties that configure the
+administrative creation of destinations
+
+[[GMADG764]][[sthref127]][[gbnod]]
+
+
+Table 17-2 Broker Routing and Delivery Properties
+
+[width="172%",cols="22%,46%,5%,27%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.system.max_count`link:#foot-usewithupdatebkr2[^Foot 1 ^] |Integer
+|`-1` a|
+Maximum number of messages held by broker
+
+A value of `-1` denotes an unlimited message count.
+
+|`imq.system.max_size`link:#sthref128[^Footref 1^] |String |`-1` a|
+Maximum total size of messages held by broker
+
+The value may be expressed in bytes, kilobytes, or megabytes, using the
+following suffixes:
+
+* `b`: Bytes
+* `k`: Kilobytes (1024 bytes)
+* `m`: Megabytes (1024 × 1024 = 1,048,576 bytes)
+
+| + | + | + |An unsuffixed value is expressed in bytes; a value of `-1`
+denotes an unlimited message capacity.
+
+| + | + | + a|
+Examples:
+
+* `1600`: 1600 bytes
+* `1600b`: 1600 bytes
+* `16k`: 16 kilobytes (= 16,384 bytes)
+* `16m`: 16 megabytes (= 16,777,216 bytes)
+* `-1`: No limit
+
+|`imq.message.max_size`link:#sthref129[^Footref 1^] |String |`70m` a|
+Maximum size of a single message body
+
+The syntax is the same as for `imq.system.max_size` (see above).
+
+|`imq.message.expiration.interval` |Integer |`60` |Interval, in seconds,
+at which expired messages are removed.
+
+|`imq.`resourceState`.threshold` |Integer |`green`: `0``yellow`:
+`80``orange`: `90``red`: `98` |Percent utilization at which memory
+resource state is triggered (where resourceState is `green`, `yellow`,
+`orange`, or `red`)
+
+|`imq.`resourceState`.count` |Integer |`green`: `5000``yellow`:
+`500``orange`: `50``red`: `0` a|
+Maximum number of incoming messages allowed in a batch before checking
+whether memory resource state threshold has been reached (where
+resourceState is `green`, `yellow`, `orange` , or `red`)
+
+This limit throttles back message producers as system memory becomes
+increasingly scarce.
+
+|`imq.destination.DMQ.truncateBody`link:#sthref130[^Footref 1^] |Boolean
+|`false` a|
+Remove message body before storing in dead message queue?
+
+If `true`, only the message header and property data will be saved.
+
+|`imq.transaction.autorollback` |Boolean |`false` a|
+Automatically roll back distributed transactions left in prepared state
+at broker startup?
+
+If `false`, transactions must be manually committed or rolled back using
+the Command utility (`imqcmd`).
+
+|`imq.transaction.producer.maxNumMsgs` |Integer |`1000` |The maximum
+number of messages that a producer can process in a single transaction.
+It is recommended that the value be less than 5000 to prevent the
+exhausting of resources.
+
+|`imq.transaction.consumer.maxNumMsgs` |Integer |`100` |The maximum
+number of messages that a consumer can process in a single transaction.
+It is recommended that the value be less than 1000 to prevent the
+exhausting of resources.
+
+|`imq.transaction.message.maxConsecutiveRollbacks` |`Integer` |`0` a|
+Specifies the number of consecutive number of rollbacks that may occur
+before a broker automatically puts a message to DMQ, If there is more
+than one message in the transaction, only the last message in the
+transaction is placed in DMQ. The transaction is then rolled back and
+returns the error status.
+
+If the value of this property is <= 0, this feature is disabled.
+
+|`imq.txn.reapInterval` |`Integer` |`900` |The interval, in seconds, the
+reaper thread periodically runs to reap/cleanup committed transactions.
+
+|`imq.txt.reapLimit` |`Integer` a|
+`500` or
+
+`0` for an embedded broker
+
+ |The maximum number of last committed transactions to retain when
+reaping/cleaning up committed transactions.
+|=======================================================================
+
+
+^Footnote 1 ^Can be used with `imqcmd` `update` `bkr` command
+
+This table lists properties that configure the automatic creation of
+destinations.
+
+[[GMADG765]][[sthref131]][[gbnof]]
+
+
+Table 17-3 Broker Properties for Auto-Created Destinations
+
+[width="172%",cols="27%,46%,6%,21%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.autocreate.queue`link:#foot-usewithupdatebkr3[^Foot 1 ^]^,^link:#foot-queueonly1[^Foot 2 ^]
+|Boolean |`true` |Allow auto-creation of queue destinations?
+
+|`imq.autocreate.topic`link:#foot-topiconly[^Foot 3 ^] |Boolean |`true`
+|Allow auto-creation of topic destinations?
+
+|`imq.autocreate.reaptime` |Integer |120 seconds |The delay, in seconds.
+before which auto-created destinations are removed from the system when
+they no longer have consumers nor contain messages, . A smaller value
+means that memory reclamation takes place more often.
+
+|`imq.autocreate.destination.maxNumMsgs` |Integer |`100000` a|
+Maximum number of unconsumed messages
+
+A value of `-1` denotes an unlimited number of messages.
+
+Note: When flow control is in effect
+(`imq.autocreate.destination.limitBehavior` = `FLOW_CONTROL`), it is
+possible for the specified message limit to be exceeded because the
+broker cannot react quickly enough to stop the flow of incoming
+messages. In such cases, the value specified for
+`imq.autocreate.destination.maxNumMsgs` serves as merely a hint for the
+broker rather than a strictly enforced limit. However, if the number of
+unconsumed messages would exceed `imq.system.max_count`, the broker
+generates a `ResourceAllocationException` indicating that the
+destination is full and rejecting new messages.
+
+|`imq.autocreate.destination.maxBytesPerMsg` |String |`10k` a|
+Maximum size, in bytes, of any single message
+
+The value may be expressed in bytes, kilobytes, or megabytes, using the
+following suffixes:
+
+* `b`: Bytes
+* `k`: Kilobytes (1024 bytes)
+* `m`: Megabytes (1024 × 1024 = 1,048,576 bytes)
+
+| + | + | + |An unsuffixed value is expressed in bytes; a value of `-1`
+denotes an unlimited message size.
+
+| + | + | + a|
+Examples:
+
+* `1600`: 1600 bytes
+* `1600b`: 1600 bytes
+* `16k`: 16 kilobytes (= 16,384 bytes)
+* `16m`: 16 megabytes (= 16,777,216 bytes)
+* `-1`: No limit
+
+|`imq.autocreate.destination.maxTotalMsgBytes` |String |`10m` a|
+Maximum total memory, in bytes, for unconsumed messages
+
+The syntax is the same as for
+`imq.autocreate.destination.maxBytesPerMsg` (see above).
+
+|`imq.autocreate.destination.limitBehavior` |String |`REJECT_NEWEST` a|
+Broker behavior when memory-limit threshold reached:
+
+* `FLOW_CONTROL`: Slow down producers
+* `REMOVE_OLDEST`: Throw out oldest messages
+* `REMOVE_LOW_PRIORITY`: Throw out lowest-priority messages according to
+age; no notification to producing client
+* `REJECT_NEWEST`: Reject newest messages; notify producing client with
+an exception only if message is persistent
+
+When `FLOW_CONTROL` is specified, it is still possible for the number of
+messages to exceed `imq.system.max_count`. In this situation, the broker
+generates a `ResourceAllocationException` indicating that the
+destination is full and rejecting new messages.
+
+| + | + | + |If the value is `REMOVE_OLDEST` or `REMOVE_LOW_PRIORITY`
+and the `imq.autocreate.destination.useDMQ` property is `true`, excess
+messages are moved to the dead message queue.
+
+|`imq.autocreate.destination.maxNumProducers` |Integer |`100` a|
+Maximum number of message producers for destination
+
+When this limit is reached, no new producers can be created. A value of
+`-1` denotes an unlimited number of producers.
+
+|`imq.autocreate.queue.maxNumActiveConsumers`link:#sthref132[^Footref 2^]
+|Integer |`-1` a|
+Maximum number of active message consumers in load-balanced delivery
+from queue destination
+
+A value of `-1` denotes an unlimited number of consumers.
+
+|`imq.autocreate.queue.maxNumBackupConsumers`link:#sthref133[^Footref 2^]
+|Integer |`0` a|
+Maximum number of backup message consumers in load-balanced delivery
+from queue destination
+
+A value of `-1` denotes an unlimited number of consumers.
+
+|`imq.autocreate.queue.consumerFlowLimit`link:#sthref134[^Footref 2^]
+|Integer |`1000` a|
+Maximum number of messages delivered to queue consumer in a single batch
+
+In load-balanced queue delivery, this is the initial number of queued
+messages routed to active consumers before load balancing begins. A
+destination consumer can override this limit by specifying a lower value
+on a connection.
+
+A value of `0` or `-1` denotes an unlimited number of messages.
+
+|`imq.autocreate.topic.consumerFlowLimit`link:#sthref135[^Footref 3^]
+|Integer |`1000` a|
+Maximum number of messages delivered to topic consumer in a single batch
+
+A value of `0` or `-1` denotes an unlimited number of messages.
+
+Not used when the JMS resource adapter, jmsra, is used to consume
+messages in a GlassFish Server cluster.
+
+|`imq.autocreate.topic.sharedConsumerFlowLimit`link:#sthref136[^Footref 3^]
+|Integer |`5` a|
+Maximum number of messages prefeteched to a topic shared subscriber or a
+topic consumer in a GlassFish server cluster.
+
+A value of `0` or `-1` denotes an unlimited number of messages.
+
+|`imq.autocreate.destination.isLocalOnly` |Boolean |`false` a|
+Local delivery only?
+
+This property applies only to destinations in broker clusters, and
+cannot be changed once the destination has been created. If `true`, the
+destination is not replicated on other brokers and is limited to
+delivering messages only to local consumers (those connected to the
+broker on which the destination is created).
+
+|`imq.autocreate.queue.localDeliveryPreferred`link:#sthref137[^Footref 2^]
+|Boolean |`false` a|
+Local delivery preferred?
+
+This property applies only to load-balanced queue delivery in broker
+clusters. If `true`, messages will be delivered to remote consumers only
+if there are no consumers on the local broker; the destination must not
+be restricted to local-only delivery
+(`imq.autocreate.destination.isLocalOnly` must be `false`).
+
+|`imq.autocreate.destination.useDMQ` |Boolean |`true` a|
+Send dead messages to dead message queue?
+
+If `false`, dead messages will simply be discarded.
+
+|`validateXMLSchemaEnabled` |Boolean |`false` a|
+XML schema validation is enabled?
+
+If set to `false` or not set, then XML schema validation is not enabled
+for the destination.
+
+|`XMLSchemaURIList` |String |null a|
+Space separated list of XML schema document (XSD) URI strings
+
+The URIs point to the location of one or more XSDs to use for XML schema
+validation, if enabled.
+
+Use double quotes around this value if multiple URIs are specified.
+
+Example:
+
+"`http://foo/flap.xsd http://test.com/test.xsd`"
+
+If this property is not set or null and XML validation is enabled, XML
+validation is performed using a DTD specified in the XML document.
+
+|`reloadXMLSchemaOnFailure` |Boolean |`false` a|
+Reload XML schema on failure enabled?
+
+If set to false or not set, then the schema is not reloaded if
+validation fails.
+
+|=======================================================================
+
+
+^Footnote 1 ^Can be used with `imqcmd` `update` `bkr` command
+
+^Footnote 2 ^Queue destinations only
+
+^Footnote 3 ^Topic destinations only
+
+This table lists properties that apply to all administratively created
+destinations. They cannot be configured on individual administratively
+created destinations.
+
+[[GMADG766]][[sthref138]][[gkudw]]
+
+
+Table 17-4 Broker Properties for Admin-Created Destinations
+
+[width="163%",cols="28%,42%,7%,23%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.admincreate.topic.sharedConsumerFlowLimit` |Integer |`5` a|
+Maximum number of messages prefetched to a topic shared subscriber or to
+a topic consumer in a GlassFish Server cluster.
+
+A value of `0` or `-1` denotes an unlimited number of messages.
+
+|=======================================================================
+
+
+[[aeonv]][[GMADG00290]][[persistence-properties]]
+
+Persistence Properties
+~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue supports both file-based and JDBC-based persistence
+modules. The broker property `imq.persist.store` (link:#gbnmp[Table
+17-5]) specifies which module to use. The following sections describe
+the broker configuration properties for the two modules.
+
+[[GMADG767]][[sthref139]][[gbnmp]]
+
+
+Table 17-5 Global Broker Persistence Property
+
+[width="100%",cols="35%,10%,15%,40%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.persist.store` |String |`file` a|
+Module used for persistent data storage:
+
+* `file`: File-based persistence
+* `jdbc`: JDBC-based persistence
+
+Must be set to `jdbc` for enhanced broker clusters (`imq.cluster.ha` =
+`true`).
+
+|=======================================================================
+
+
+[[aeonw]][[GMADG00619]][[file-based-persistence-properties]]
+
+File-Based Persistence Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnnh[Table 17-6] lists the broker properties related to
+file-based persistence.
+
+[[GMADG768]][[sthref140]][[gbnnh]]
+
+
+Table 17-6 Broker Properties for File-Based Persistence
+
+[width="225%",cols="25%,30%,30%,15%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.persist.file.message.max_record_size` |String |`1m` a|
+Maximum-size message to add to message storage file
+
+Any message exceeding this size will be stored in a separate file of its
+own.
+
+| + | + | + a|
+The value may be expressed in bytes, kilobytes, or megabytes, using the
+following suffixes:
+
+* `b`: Bytes
+* `k`: Kilobytes (1024 bytes)
+* `m`: Megabytes (1024 × 1024 = 1,048,576 bytes)
+
+An unsuffixed value is expressed in bytes.
+
+| + | + | + a|
+Examples:
+
+* `1600`: 1600 bytes
+* `1600b`: 1600 bytes
+* `16k`: 16 kilobytes (= 16,384 bytes)
+* `16m`: 16 megabytes (= 16,777,216 bytes)
+
+|`imq.persist.file.destination.message.filepool.limit` |Integer |`100`
+a|
+Maximum number of free files available for reuse in destination file
+pool
+
+Free files in excess of this limit will be deleted. The broker will
+create and delete additional files in excess of the limit as needed.
+
+The higher the limit, the faster the broker can process persistent data.
+
+|`imq.persist.file.message.filepool.cleanratio` |Integer |`0` a|
+Percentage of files in free file pools to be maintained in a clean
+(empty) state
+
+The higher this value, the less disk space is required for the file
+pool, but the more overhead is needed to clean files during operation.
+
+|`imq.persist.file.message.cleanup` |Boolean |`false` a|
+Clean up files in free file pools on shutdown?
+
+Setting this property to `true` saves disk space for the file store, but
+slows broker shutdown.
+
+|`imq.persist.file.sync.enabled` |Boolean |`false` a|
+Synchronize in-memory state with physical storage device?
+
+Setting this property to `true` eliminates data loss due to system
+crashes, but at a cost in performance.
+
+Note: If running Oracle Solaris Cluster and its Data Service for Message
+Queue, set this property to `true` for brokers on all cluster nodes.
+
+|`imq.persist.file.transaction.memorymappedfile.enabled` |Boolean
+|`true` a|
+Use memory-mapped file to store transaction data?
+
+Setting this property to `true` improves performance at the cost of
+increased memory usage. Set to `false` for file systems that do not
+support memory-mapped files.
+
+|=======================================================================
+
+
+[[gjmud]][[GMADG00620]][[file-based-persistence-properties-for-transaction-logging]]
+
+File-Based Persistence Properties for Transaction Logging
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gjmtg[Table 17-7] lists the file-based persistence properties for
+the transaction logging mechanism.
+
+[[GMADG769]][[sthref141]][[gjmtg]]
+
+
+Table 17-7 Broker Properties for File-Based Persistence Using the
+Transaction Logging Mechanism
+
+[width="234%",cols="23%,34%,29%,14%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.persist.file.newTxnLog.enabled` |Boolean |`false` |Enables the
+transaction logging mechanism. For information about this mechanism, see
+link:persistence-services.html#gjmqy[Optimizing File-Based Transaction
+Persistence].
+
+|`imq.persist.file.txnLog.groupCommit` |Boolean |`false` a|
+This property is applicable only if `imq.persist.file.newTxnLog.enabled`
+is `true`.
+
+Can improve performance if `imq.persist.file.sync.enabled` is `true` and
+the number of concurrent transactions being processed is high:
+
+* If `true`, write operations to the transaction log are not handled by
+individual connection threads; instead, writes from connection threads
+are added to a transaction queue. The connection threads then wait until
+they are notified that the transactions have been logged. A separate
+thread periodically drains the transaction queue and writes it to the
+transaction log. When possible, this thread groups together multiple
+active transactions and writes them to the transaction log in a single
+operation. After the write completes, waiting client threads are
+notified.
+* If `false`, write operations to the transaction log are handled by
+individual connection threads. Only one thread at a time is able to
+write to the log.
+
+|`imq.persist.file.txnLog.logNonTransactedMsgSend` |Boolean |`false` a|
+This property is applicable only if `imq.persist.file.newTxnLog.enabled`
+is `true`.
+
+Overrides the behavior for persisting non-transacted messages (as
+defined by the `imq.persist.file.sync.enabled` property):
+
+* If `true`, non-transacted messages are written to the transaction log
+before they are written to the persistent store.
+* If `false`, non-transacted messages are written directly to the
+persistent store.
+
+|`imq.persist.file.txnLog.logNonTransactedMsgAck` |Boolean |`false` a|
+This property is applicable only if `imq.persist.file.newTxnLog.enabled`
+is `true`.
+
+Overrides the behavior for persisting non-transacted message
+acknowledgements (as defined by the `imq.persist.file.sync.enabled`
+property):
+
+* If `true`, acknowledgements of non-transacted messages are written to
+the transaction log before they are written to the persistent store.
+* If `false`, acknowledgements of non-transacted messages are written
+directly to the persistent store.
+
+|=======================================================================
+
+
+[[aeonx]][[GMADG00621]][[jdbc-based-persistence-properties]]
+
+JDBC-Based Persistence Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnoa[Table 17-8] lists the broker properties related to
+JDBC-based persistence. The first of these properties,
+`imq.persist.jdbc.dbVendor`, identifies the database vendor being used
+for the broker's persistent data store; all of the remaining properties
+are qualified by this vendor name.
+
+[[GMADG770]][[sthref142]][[gbnoa]]
+
+
+Table 17-8 Broker Properties for JDBC-Based Persistence
+
+[width="235%",cols="21%,34%,29%,16%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.persist.jdbc.dbVendor` |String |None a|
+Name of database vendor for persistent data store:
+
+* `derby`: Java DB (Oracle Corporation)
+* `oracle`: Oracle (Oracle Corporation)
+* `mysql`: MySQL (Oracle Corporation)
+* `postgresql`: postgreSQL
+
+|`imq.persist.jdbc.connection.retry.delay` |Integer |5000 |The amount of
+time, in milliseconds, the broker waits before it attempts to retry
+connecting to a database server for a failed connection.
+
+|`imq.persist.jdbc.connection.retry.max` |Integer |60 |The maximum
+number of times the broker will retry connecting to a database server
+after a failed connection.
+
+|`imq.persist.jdbc.connection.reaptime` |Integer |300 |The interval in
+seconds between attempts to close unnecessary database connections.
+
+|`imq.persist.jdbc.max_connections` |Integer |5 |The maximum number of
+connections that should be opened to the database. The Message Queue
+database connection pool manager uses this value as a guide when
+creating new connections to the database.
+
+|`imq.persist.jdbc.min_connections` |Integer |5 |The number of
+connections that are opened to the database when the Message Queue
+database connection pool is initialized, and the minimum number of
+connections that are to be kept open when unnecessary connections are
+closed.
+
+|`imq.persist.jdbc.connection.timeoutIdle` |Boolean |`true` a|
+Should the Message Queue database connection pool manager considers the
+age of a connection in the pool?
+
+When `true`, the pool manager operates as follows:
+
+* When closing unnecessary database connections at each
+`imq.persist.jdbc.connection.reaptime` interval, the pool manager
+destroys any connections in the pool that have been idle for a period
+longer than `imq.persist.jdbc.connection.reaptime` seconds, and attempts
+to replace them with new connections.
+* When getting a connection from the pool, the pool manager destroys the
+connection if it has been idle for a period longer than
+`imq.persist.jdbc.connection.reaptime` seconds and replaces it with a
+new connection.
+
+|`imq.persist.jdbc.connection.validateOnGet` |Boolean |`true` for
+brokers in enhanced clusters; otherwise, `false` a|
+Should the Message Queue database connection pool manager perform extra
+validation when it gets a connection from the pool?
+
+Normally, the pool manager validates a connection it gets from the pool
+by checking whether the connection is closed and, if possible, by
+checking whether a connection error has occurred on the connection.
+
+When this property is set to `true`, the pool manager performs these
+additional validation checks:
+
+* For JDBC 4 connections, check whether the connection is valid.
+* Make the validation query specified by
+`imq.persist.jdbc.connection.validationQuery` on the connection.
+
+Regardless of the value of this property, Message Queue relies on the
+underlying JDBC driver to return a good connection when it needs to
+create a new connection through the driver. Therefore, you should set
+`imq.persist.jdbc.`vendorName`.driver` to a vendor JDBC driver that
+performs connection retries when creating a new connection to the
+database server; for example, a ConnectionPoolDataSource.
+
+|`imq.persist.jdbc.connection.validationQuery` |String |per vendor |The
+validation query for the Message Queue database connection pool manager
+to use when `imq.persist.jdbc.connection.validateOnGet` is set to
+`true`.
+
+|`imq.persist.jdbc.connection.limit` |Integer |`5` a|
+The maximum number of connections that can be opened to the database.
+
+This property is deprecated and may become unsupported in a future
+release of Message Queue.
+
+|`imq.persist.jdbc.``vendorName``.connection.retry.regex.``n` |String
+|(?s).* |There can be 0 or many of these properties specified, where `n`
+represents the n^th^ such property. Each of these properties specifies a
+regular expression that can be used to match a `SQLException` message in
+order to identify retriable database communication failures. These
+regular expressions are parsed in consecutive order starting with 1 and
+stops when a match is found.
+
+|`imq.persist.jdbc.``vendorName``.driver` |String |per vendor |Java
+class name of JDBC driver, if needed, for connecting to database from
+vendor `vendorName`
+
+|`imq.persist.jdbc.``vendorName``.opendburl` |String |None a|
+URL for connecting to existing database from vendor `vendorName`
+
+Applicable when driver is used to connect to database.
+
+|`imq.persist.jdbc.``vendorName``.createdburl`link:#foot-optional1[^Foot 1 ^]
+|String |None a|
+URL for creating new database from vendor `vendorName`
+
+Applies for embedded database, such as Java DB.
+
+|`imq.persist.jdbc.``vendorName``.closedburl`link:#sthref143[^Footref 1^]
+|String |None a|
+URL for closing connection to database from vendor `vendorName`
+
+Applies for some embedded databases, such as Java DB.
+
+|`imq.persist.jdbc.``vendorName``.user`link:#sthref144[^Footref 1^]
+|String |None a|
+User name, if required, for connecting to database from vendor
+`vendorName`
+
+For security reasons, the value can instead be specified using command
+line options `imqbrokerd` `dbuser` and `imqdbmgr` `u`.
+
+|`imq.persist.jdbc.``vendorName``.needpassword`link:#sthref145[^Footref 1^]
+|Boolean |`false` a|
+Does database from vendor `vendorName` require a password for broker
+access?
+
+If `true`, the `imqbrokerd` and `imqdbmgr` commands will prompt for a
+password, unless you use the `-passfile` option to specify a password
+file containing it.
+
+|`imq.persist.jdbc.``vendorName``.password`link:#sthref146[^Footref 1^]^,^link:#foot-passfileonly1[^Foot 2 ^]
+|String |None |Password, if required, for connecting to database from
+vendor `vendorName`
+
+|`imq.persist.jdbc.``vendorName``.property.`propNamelink:#sthref147[^Footref 1^]
+|String |None |Vendor-specific property `propName` for database from
+vendor `vendorName`
+
+|`imq.persist.jdbc.``vendorName``.tableoption`link:#sthref148[^Footref 1^]
+|String |None |Vendor-specific options passed to the database when
+creating the table schema.
+|=======================================================================
+
+
+^Footnote 1 ^Optional
+
+^Footnote 2 ^Should be used only in password files
+
+[[aeony]][[GMADG00291]][[security-properties]]
+
+Security Properties
+~~~~~~~~~~~~~~~~~~~
+
+link:#gbnok[Table 17-9] lists broker properties related to security
+services: authentication, authorization, and encryption.
+link:#gkvxf[Table 17-10] lists broker properties related specifically to
+file-based authentication, link:#gewfp[Table 17-11] lists broker
+properties related specifically to LDAP-based authentication, and
+link:#ggxis[Table 17-12] lists broker properties related specifically to
+JAAS-based authentication.
+
+[[GMADG771]][[sthref149]][[gbnok]]
+
+
+Table 17-9 Broker Security Properties
+
+[width="172%",cols="26%,46%,13%,15%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.authentication.basic.user_repository` |String |`file` a|
+Type of user authentication:
+
+* `file`: File-based
+* `ldap`: Lightweight Directory Access Protocol
+* `jaas`: Java Authentication and Authorization Service
+
+|`imq.authentication.type` |String |`digest` a|
+Password encoding method:
+
+* `digest`: MD5 (for file-based authentication)
+* `basic`: Base-64 (for LDAP or JAAS authentication)
+
+|`imq.`serviceName`.authentication.type` |String |None a|
+Password encoding method for connection service serviceName:
+
+* `digest`: MD5 (for file-based authentication)
+* `basic`: Base-64 (for LDAP or JAAS authentication)
+
+If specified, overrides `imq.authentication.type` for the designated
+connection service.
+
+|`imq.authentication.client.response.timeout` |Integer |`180` |Interval,
+in seconds, to wait for client response to authentication requests
+
+|`imq.accesscontrol.enabled` |Boolean |`true` a|
+Use access control?
+
+If `true`, the system will check the access control file to verify that
+an authenticated user is authorized to use a connection service or to
+perform specific operations with respect to specific destinations.
+
+|`imq.accesscontrol.type` |String |`file` |Specifies the access control
+type
+
+|`imq.`serviceName`.accesscontrol.enabled` |Boolean |None a|
+Use access control for connection service?
+
+If specified, overrides `imq.accesscontrol.enabled` for the designated
+connection service.
+
+If `true`, the system will check the access control file to verify that
+an authenticated user is authorized to use the designated connection
+service or to perform specific operations with respect to specific
+destinations.
+
+|`imq.accesscontrol.file.dirpath` |String |`IMQ_VARHOME/instances/` +
+instanceName`/etc` |Path to the access control directory
+
+|`imq.accesscontrol.file.filename` |String |`accesscontrol.properties`
+a|
+Name of access control file
+
+The file name specifies a path relative to
+`imq.accesscontrol.file.dirpath`.
+
+|`imq.`serviceName`.accesscontrol.file.filename` |String |None a|
+Name of access control file for connection service
+
+If specified, overrides `imq.accesscontrol.file.filename` for the
+designated connection service.
+
+The file name specifies a path relative to
+`imq.accesscontrol.file.dirpath`.
+
+|`imq.accesscontrol.file.url` |String |Not set a|
+The location, as a URL, of the access control file.
+
+If the URL uses LDAP protocol (`ldap://`), the access control file must
+be returned as a single string that uses dollar sign (`$`) as the
+separator between the lines of the access control file.
+
+|`imq.`serviceName`.accesscontrol.file.url` |String |None a|
+The location, as a URL, of the access control file for the connection
+service.
+
+If specified, overrides `imq.accesscontrol.file.url` for the designated
+connection service.
+
+If the URL uses LDAP protocol (`ldap://`), the access control file must
+be returned as a single string that uses dollar sign (`$`) as the
+separator between the lines of the access control file.
+
+|`imq.keystore.file.dirpath` |String |`IMW_HOME/etc` |Path to directory
+containing key store file
+
+|`imq.keystore.file.name` |String |`keystore` |Name of key store file
+
+|`imq.keystore.password`link:#foot-passfileonly2[^Foot 1 ^] |String
+|None |Password for key store file
+
+|`imq.passfile.enabled` |Boolean |`false` |Obtain passwords from
+password file?
+
+|`imq.passfile.dirpath` |String |`IMQ_HOME/etc` |Path to directory
+containing password file
+
+|`imq.passfile.name` |String |`passfile` |Name of password file
+
+|`imq.imqcmd.password`link:#sthref150[^Footref 1^] |String |None a|
+Password for administrative user
+
+The Command utility (`imqcmd`) uses this password to authenticate the
+user before executing a command.
+
+|`imq.audit.enabled` |Boolean |`false` |Is audit logging to broker log
+file enabled?
+
+|`imq.audit.bsm.disabled` |Boolean |`true` |Is audit logging to the
+Solaris BSM audit log disabled?
+|=======================================================================
+
+
+^Footnote 1 ^To be used only in password files
+
+link:#gkvxf[Table 17-10] lists broker properties related to user
+authentication when using a flat-file user repository.
+
+[[GMADG772]][[sthref151]][[gkvxf]]
+
+
+Table 17-10 Broker Security Properties for Flat-File Authentication
+
+[width="163%",cols="27%,42%,14%,17%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.user_repository.file.dirpath` |String |`IMQ_VARHOME/instances/` +
+instanceName`/etc/` |Path to the directory containing the flat-file user
+repository
+
+|`imq.user_repository.file.filename` |String |`passwd` |Name of the
+flat-file user repository file in the directory specified by
+`imq.user_repository.file.dirpath`
+|=======================================================================
+
+
+link:#gewfp[Table 17-11] lists broker properties related to LDAP-based
+user authentication.
+
+[[GMADG773]][[sthref152]][[gewfp]]
+
+
+Table 17-11 Broker Security Properties for LDAP Authentication
+
+[width="172%",cols="26%,46%,13%,15%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.user_repository.ldap.server` |String |None a|
+Host name and port number for LDAP server
+
+The value is of the form
+
+* hostName`:`port
+
+where hostName is the fully qualified DNS name of the host running the
+LDAP server and port is the port number used by the server.
+
+| + | + | + a|
+To specify a list of failover servers, use the following syntax:
+
+* host1`:`port1
+* `ldap://`host2`:` port2
+* `ldap://`host3 `:`port3
+* …
+
+| + | + | + |Entries in the list are separated by spaces. Note that each
+failover server address is prefixed with `ldap://`. Use this format even
+if you use SSL and have set the property
+`imq.user_repository.ldap.ssl.enabled` to `true`. You need not specify
+`ldaps` in the address.
+
+|`imq.user_repository.ldap.principal` |String |None a|
+Distinguished name for binding to LDAP user repository
+
+Not needed if the LDAP server allows anonymous searches.
+
+|`imq.user_repository.ldap.password`link:#foot-passfileonly3[^Foot 1 ^]
+|String |None a|
+Password for binding to LDAP user repository
+
+Not needed if the LDAP server allows anonymous searches.
+
+|`imq.user_repository.ldap.`propertyName | + | + | +
+
+|`imq.user_repository.ldap.base` |String |None |Directory base for LDAP
+user entries
+
+|`imq.user_repository.ldap.uidattr` |String |None |Provider-specific
+attribute identifier for LDAP user name
+
+|`imq.user_repository.ldap.usrformat` |String |None a|
+When set to a value of `dn`, specifies that DN username format is used
+for authentication (for example:
+`uid=mquser, ou=People, dc=red, dc=sun, dc=com`).
+
+Also, the broker extracts the value of the
+`imq.user.repository.lpdap.uidatr` attribute from the DN username, and
+uses this value as the user name in access control operations.
+
+If not set, then normal username format is used.
+
+|`imq.user_repository.ldap.usrfilter`link:#foot-optional2[^Foot 2 ^]
+|String |None |JNDI filter for LDAP user searches
+
+|`imq.user_repository.ldap.grpsearch` |Boolean |`false` a|
+Enable LDAP group searches?
+
+Note: Message Queue does not support nested groups.
+
+|`imq.user_repository.ldap.grpbase` |String |None |Directory base for
+LDAP group entries
+
+|`imq.user_repository.ldap.gidattr` |String |None |Provider-specific
+attribute identifier for LDAP group name
+
+|`imq.user_repository.ldap.memattr` |String |None |Provider-specific
+attribute identifier for user names in LDAP group
+
+|`imq.user_repository.ldap.grpfilter`link:#sthref153[^Footref 2^]
+|String |None |JNDI filter for LDAP group searches
+
+|`imq.user_repository.ldap.timeout` |Integer |`280` |Time limit for LDAP
+searches, in seconds
+
+|`imq.user_repository.ldap.ssl.enabled` |Boolean |`false` |Use SSL when
+communicating with LDAP server?
+
+|`imq.user_repository.ldap.ssl.socketfactory` |String
+|`com.sun.messaging.jmq.` +
+`jmsserver.auth.ldap.` +
+`TrustSSLSocketFactory` a|
+The fully qualified class name of the socket factory to use to make SSL
+connections to the LDAP server.
+
+When this property is not set and `imq.user_repository.ldap.ssl.enabled`
+is set to `true`, the default socket factory designated by the LDAP
+naming service is used.
+
+|=======================================================================
+
+
+^Footnote 1 ^Should be used only in password files
+
+^Footnote 2 ^Optional
+
+link:#ggxis[Table 17-12] lists broker properties related to JAAS-based
+user authentication.
+
+[[GMADG774]][[sthref154]][[ggxis]]
+
+
+Table 17-12 Broker Security Properties for JAAS Authentication
+
+[width="163%",cols="27%,42%,14%,17%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.user_repository.jaas.name` |String |None |Set to the name of the
+desired entry (in the JAAS configuration file) that references the login
+modules you want to use as the authentication service.
+
+|`imq.user_repository.jaas.userPrincipalClass` |String |None |This
+property, used by Message Queue access control, specifies the
+`java.security.Principal` implementation class in the login module(s)
+that the broker uses to extract the Principal name to represent the user
+entity in the Message Queue access control file. If, it is not
+specified, the user name passed from the Message Queue client when a
+connection was requested is used instead.
+
+|`imq.user_repository.jaas.groupPrincipalClass` |String |None |This
+property, used by Message Queue access control, specifies the
+`java.security.Principal` implementation class in the login module(s)
+that the broker uses to extract the Principal name to represent the
+group entity in the Message Queue access control file. If, it is not
+specified, the user name passed from the Message Queue client when a
+connection was requested is used instead.
+|=======================================================================
+
+
+[[aeonz]][[GMADG00292]][[monitoring-properties]]
+
+Monitoring Properties
+~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnns[Table 17-13] lists the broker properties related to
+monitoring services.
+
+[[GMADG775]][[sthref155]][[gbnns]]
+
+
+Table 17-13 Broker Monitoring Properties
+
+[width="172%",cols="22%,46%,16%,16%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.log.level`link:#foot-usewithupdatebkr4[^Foot 1 ^] |String |`INFO`
+a|
+Logging level
+
+Specifies the categories of logging information that can be written to
+an output channel. Possible values, from high to low:
+
+* `ERROR`
+* `WARNING`
+* `INFO`
+
+Each level includes those above it (for example, `WARNING` includes
+`ERROR`).
+
+|`imq.destination.logDeadMsgs`link:#sthref156[^Footref 1^] |Boolean
+|`false` a|
+Log information about dead messages?
+
+If `true`, the following events will be logged:
+
+* A destination is full, having reached its maximum size or message
+count.
+* The broker discards a message for a reason other than an
+administrative command or delivery acknowledgment.
+* The broker moves a message to the dead message queue.
+
+|`imq.log.console.stream` |String |`ERR` a|
+Destination for console output:
+
+* `OUT`: `stdout`
+* `ERR`: `stderr`
+
+|`imq.log.console.output` |String |`ERROR|WARNING` a|
+Categories of logging information to write to console:
+
+* `NONE`
+* `ERROR`
+* `WARNING`
+* `INFO`
+* `ALL`
+
+The `ERROR`, `WARNING`, and `INFO` categories do not include those above
+them, so each must be specified explicitly if desired. Any combination
+of categories can be specified, separated by vertical bars (`|`).
+
+|`imq.log.file.dirpath` |String |`IMQ_VARHOME/instances/` +
+instanceName`/log` |Path to directory containing log file
+
+|`imq.log.file.filename` |String |`log.txt` |Name of log file
+
+|`imq.log.file.output` |String |`ALL` a|
+Categories of logging information to write to log file:
+
+* `NONE`
+* `ERROR`
+* `WARNING`
+* `INFO`
+* `ALL`
+
+The `ERROR`, `WARNING`, and `INFO` categories do not include those above
+them, so each must be specified explicitly if desired. Any combination
+of categories can be specified, separated by vertical bars (`|`).
+
+|`imq.log.file.rolloverbytes`link:#sthref157[^Footref 1^] |Integer |`-1`
+a|
+File length, in bytes, at which output rolls over to a new log file
+
+A value of `-1` denotes an unlimited number of bytes (no rollover based
+on file length).
+
+|`imq.log.file.rolloversecs`link:#sthref158[^Footref 1^] |Integer
+|`604800` (one week) a|
+Age of file, in seconds, at which output rolls over to a new log file
+
+A value of `-1` denotes an unlimited number of seconds (no rollover
+based on file age).
+
+|`imq.log.syslog.output`link:#foot-solarisonly[^Foot 2 ^] |String
+|`ERROR` a|
+Categories of logging information to write to `syslogd(1M)`:
+
+* `NONE`
+* `ERROR`
+* `WARNING`
+* `INFO`
+* `ALL`
+
+The `ERROR`, `WARNING`, and `INFO` categories do not include those above
+them, so each must be specified explicitly if desired. Any combination
+of categories can be specified, separated by vertical bars (`|`).
+
+|`imq.log.syslog.facility`link:#sthref159[^Footref 2^] |String
+|`LOG_DAEMON` a|
+`syslog` facility for logging messages
+
+Possible values mirror those listed on the `syslog(3C)` `man` page.
+Appropriate values for use with Message Queue include:
+
+* `LOG_USER`
+* `LOG_DAEMON`
+* `LOG_LOCAL0`
+* `LOG_LOCAL1`
+* `LOG_LOCAL2`
+* `LOG_LOCAL3`
+* `LOG_LOCAL4`
+* `LOG_LOCAL5`
+* `LOG_LOCAL6`
+* `LOG_LOCAL7`
+
+|`imq.log.syslog.identity`link:#sthref160[^Footref 2^] |String
+|`imqbrokerd_${imq.`instanceName`}` |Identity string to be prefixed to
+all messages logged to `syslog`
+
+|`imq.log.syslog.logpid`link:#sthref161[^Footref 2^] |Boolean |`true`
+|Log broker process ID with message?
+
+|`imq.log.syslog.logconsole`link:#sthref162[^Footref 2^] |Boolean
+|`false` |Write messages to system console if they cannot be sent to
+`syslog`?
+
+|`imq.log.timezone` |String |Local time zone a|
+Time zone for log time stamps
+
+Possible values are the same as those used by the method
+`java.util.TimeZone.getTimeZone`.
+
+Examples:
+
+* `GMT`
+* `GMT-8:00`
+* `America/LosAngeles`
+* `Europe/Rome`
+* `Asia/Tokyo`
+
+|`imq.metrics.enabled` |Boolean |`true` a|
+Enable writing of metrics information to Logger?
+
+Does not affect the production of metrics messages (controlled by
+`imq.metrics.topic.enabled`).
+
+|`imq.metrics.interval` |Integer |`-1` a|
+Time interval, in seconds, at which to write metrics information to
+Logger
+
+Does not affect the time interval for production of metrics messages
+(controlled by `imq.metrics.topic.interval`).
+
+A value of `-1` denotes an indefinite interval (never write metrics
+information to Logger).
+
+|`imq.metrics.topic.enabled` |Boolean |`true` a|
+Enable production of metrics messages to metric topic destinations?
+
+If `false`, an attempt to subscribe to a metric topic destination will
+throw a client-side exception.
+
+|`imq.metrics.topic.interval` |Integer |`60` |Time interval, in seconds,
+at which to produce metrics messages to metric topic destinations
+
+|`imq.metrics.topic.persist` |Boolean |`false` |Are metrics messages
+sent to metric topic destinations persistent?
+
+|`imq.metrics.topic.timetolive` |Integer |`300` |Lifetime, in seconds,
+of metrics messages sent to metric topic destinations
+
+|`imq.primaryowner.name`link:#foot-jesmf[^Foot 3 ^] |String |System
+property `user.name` (user who started the broker) |Name of primary
+system owner
+
+|`imq.primaryowner.contact`link:#sthref163[^Footref 3^] |String |System
+property `user.name` (user who started the broker) |Contact information
+for primary system owner
+
+|`imq.broker.adminDefinedRoles.count`link:#sthref164[^Footref 3^]
+|Integer |None |Number of defined roles
+
+|`imq.broker.adminDefinedRoles.name`Nlink:#sthref165[^Footref 3^]
+|String |Broker instance name a|
+Name of defined role N (where N ranges from 0 to .count-1)
+
+Example:
+
+[source,oac_no_warn]
+----
+...name0=Stocks JMS Server
+...name1=JMS provider for appserver
+----
+
+|=======================================================================
+
+
+^Footnote 1 ^Can be used with `imqcmd` `update` `bkr` command
+
+^Footnote 2 ^Solaris platform only
+
+^Footnote 3 ^Used by JES Monitoring Framework
+
+[[aeooa]][[GMADG00293]][[cluster-configuration-properties]]
+
+Cluster Configuration Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnmu[Table 17-14] lists the configuration properties related to
+broker clusters.
+
+[[GMADG776]][[sthref166]][[gbnmu]]
+
+
+Table 17-14 Broker Properties for Cluster Configuration
+
+[width="252%",cols="16%,31%,35%,18%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.cluster.url`link:#foot-clustersame[^Foot 1 ^]^,^link:#foot-usewithupdatebkr5[^Foot 2 ^]
+|String |None a|
+URL of `cluster` configuration file, if any
+
+Examples:
+
+* `http://webserver/imq/cluster.properties`
+* (for a file on a Web server)
+* `file:/net/mfsserver/imq/cluster.properties`
+* (for a file on a shared drive)
+
+|`imq.cluster.hostname`link:#foot-clusterindependent[^Foot 3 ^] |String
+|None a|
+Host name or IP address for `cluster` connection service
+
+If specified, overrides `imq.hostname` (see link:#gbnni[Table 17-1]) for
+the `cluster` connection service. This might be necessary, for instance,
+if the broker's host computer has more than one interface card
+installed.
+
+|`imq.cluster.port`link:#sthref167[^Footref 3^] |Integer |`0` a|
+Port number for `cluster` connection service
+
+A value of `0` specifies that the port number should be allocated
+dynamically by the Port Mapper. You might need to set a different value,
+for instance, to specify a static port number for connecting to the
+broker through a firewall.
+
+|`imq.cluster.transport`link:#sthref168[^Footref 1^] |String |`tcp` a|
+Network transport protocol for `cluster` connection service
+
+For secure, encrypted message delivery between brokers, set this
+property to `ssl`.
+
+|`imq.cluster.ha` |Boolean |`false` |Is broker part of an enhanced
+(high-availability) cluster?
+
+|Additional Properties for Conventional Clusters | | |
+
+|`imq.cluster.brokerlist`link:#sthref169[^Footref 1^]
+^,^link:#foot-conventionalonly[^Foot 4 ^] |String |None a|
+List of broker addresses belonging to cluster
+
+The list consists of one or more addresses, separated by commas. Each
+address specifies the Port Mapper host name and Port Mapper port number
+of a broker in the cluster, in the form hostName`:`portNumber.
+
+Example:
+
+* `host1:3000,host2:8000,ctrlhost`
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+Note: If set, this property is ignored (and a warning logged) for
+high-availability clusters; all brokers configured to use the cluster's
+shared persistent store are automatically recognized as members of the
+cluster.
+
+|`imq.cluster.nomasterbroker`link:#sthref170[^Footref 1^]^,^link:#sthref171[^Footref 4^]
+|Boolean |`false` a|
+Specifies whether a conventional cluster uses a shared JDBC database
+store for the cluster configuration change record instead of using a
+master broker.
+
+Set to `true` for a conventional cluster of peer brokers, which uses a
+shared JDBC store for the cluster's configuration change record.
+
+When set to `true`, the `imq.cluster.clusterid` must be set, and the
+`imq.cluster.sharecc.persist.jdbc.*` properties must be configured for
+accessing the shared JDBC store.
+
+|`imq.cluster.masterbroker`link:#sthref172[^Footref 1^]^,^link:#sthref173[^Footref 4^]
+|String |None a|
+Port Mapper host name and Port Mapper port number of host on which
+cluster's master broker (if any) is running.
+
+The value has the form hostName`:`portNumber, where hostName is the Port
+Mapper host name of the master broker's host and portNumber is its Port
+Mapper port number.
+
+Example:
+
+* `ctrlhost:7676`
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+Note: enhanced clusters cannot have a master broker. If this property is
+set for a broker belonging to an enhanced cluster, the broker will log a
+warning message and ignore the property.
+
+|`imq.cluster.dynamicChangeMasterBrokerEnabled`link:#sthref174[^Footref 1^]^,^link:#sthref175[^Footref 4^]
+|Boolean |`false` a|
+Can the master broker for the cluster be changed dynamically; that is,
+without stopping all the brokers in the cluster?
+
+If set to `true`, you can use the `imqcmd changemaster` command to
+change the master broker without stopping the brokers in the cluster.
+
+If set to `true`, the `imq.cluster.masterbroker` property cannot be
+specified on the `imqbrokerd` command line.
+
+|`imq.cluster.sharecc.persist.jdbc.connection.retry.max` |Integer |60
+|The maximum number of times a broker will retry a connection.
+
+|`imq.cluster.sharecc.persist.jdbc.connection.retry.delay` |Integer
+|5000 |The amount of time, in milliseconds, the broker waits before
+retrying a failed connection.
+
+|`imq.cluster.sharecc.persist.jdbc.dbVendor`link:#sthref176[^Footref 1^]^,^link:#sthref177[^Footref 4^]
+|String |None a|
+Name of database vendor for shared JDBC data store housing the cluster
+configuration change record:
+
+* `db2`: DB2
+* `derby`: Java DB (Oracle Corporation)
+* `oracle`: Oracle (Oracle Corporation)
+* `mysql`: MySQL (Oracle Corporation)
+* `postgresql`: postgreSQL
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.driver`link:#sthref178[^Footref 1^]
+^,^link:#sthref179[^Footref 4^] |String |per Vendor |Java class name of
+the JDBC driver, if needed, for connecting to database from vendor
+vendorName for shared JDBC data store housing the cluster configuration
+change record
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.opendburl`link:#sthref180[^Footref 1^]^,^link:#sthref181[^Footref 4^]
+|String |None a|
+URL for connecting to existing database from vendor vendorName for
+shared JDBC data store housing the cluster configuration change record
+
+Applicable when a `java.sql.Driver` is used to connect to database.
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.createdburl`link:#sthref182[^Footref 1^]^,^link:#sthref183[^Footref 4^]
+|String |None a|
+URL for creating new database from vendor vendorName for shared JDBC
+data store housing the cluster configuration change record
+
+Applicable for embedded databases, such as Java DB.
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.closedburl`link:#sthref184[^Footref 1^]^,^link:#sthref185[^Footref 4^]
+|String |None a|
+URL for closing connection to database from vendor vendorName for shared
+JDBC data store housing the cluster configuration change record
+
+Applicable for some embedded databases, such as Java DB.
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.tableoption`link:#sthref186[^Footref 1^]^,^link:#sthref187[^Footref 4^]
+|String |None, except for MySQL a|
+Vendor-specific options passed to database from vendor vendorName for
+shared JDBC data store housing the cluster configuration change record
+when creating the table schema
+
+For information about this property's use, see the default broker
+properties file, `default.properties`.
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.connection.retry.regex.`n
+|String |None a|
+This property specifies a regular expression, n, to be used to match a
+`SQLException` message in order to identify a retriable database
+communication failure.
+
+There can be 0 or many of these properties (1, 2, 3, ... in consecutive
+order) specified. The `SQLException` message is matched to these regular
+expressions in the order of n and stops matching when a match is found.
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.user`link:#sthref188[^Footref 1^]
+^,^link:#sthref189[^Footref 4^] |String |None |User name, if required,
+for connecting to database from vendor vendorName for shared JDBC data
+store housing the cluster configuration change record
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.needpassword`link:#sthref190[^Footref 1^]^,^link:#sthref191[^Footref 4^]
+|Boolean |`false` a|
+Does database from vendor vendorName for shared JDBC data store housing
+the cluster configuration change record require a password for broker
+access?
+
+If `true`, the `imqbrokerd` and `imqdbmgr` commands will prompt for a
+password unless the following property, `password` is set.
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.password`link:#sthref192[^Footref 1^]^,^link:#sthref193[^Footref 4^]
+|String |None a|
+Password, if required, for connecting to database from vendor vendorName
+for shared JDBC data store housing the cluster configuration change
+record
+
+This property should only be specified in a password file, as described
+in link:security-services.html#aeogq[Password Files].
+
+|`imq.cluster.sharecc.persist.jdbc.` +
+vendorName`.property.`propNamelink:#sthref194[^Footref 1^]^,^link:#sthref195[^Footref 4^]
+|String |None |Optional vendor-specific property propName for the JDBC
+driver from vendor vendorName for shared JDBC data store housing the
+cluster configuration change record
+
+|Additional Properties for Enhanced (High-Availability) Clusters | | |
+
+|`imq.cluster.clusterid`link:#sthref196[^Footref 1^]
+^,^link:#foot-haonly[^Foot 5 ^] |String |None a|
+Cluster identifier
+
+Must be a unique alphanumeric string of no more than n-18 characters,
+where n is the maximum table name length allowed by the database. No two
+running clusters may have the same cluster identifier.
+
+Note: For brokers belonging to a high-availability cluster, this
+property is used in database table names in place of `imq.brokerid` (see
+link:#gbnni[Table 17-1]). For conventional cluster of peer brokers, this
+property is used in the shared database table name for the cluster's
+configuration change records.
+
+|`imq.cluster.ha.takeoverWaitTimeout`link:#sthref197[^Footref 5^]
+|Integer |300 |Time in seconds a failed broker attempting to restart
+waits for an existing takeover activity (from the broker's initial
+failure) to complete before exiting its restart attempt
+
+|`imq.cluster.heartbeat.hostname`link:#sthref198[^Footref 5^] |String
+|None a|
+Host name for heartbeat service
+
+If specified, overrides `imq.hostname` (see link:#gbnni[Table 17-1]) for
+the heartbeat service.
+
+|`imq.cluster.heartbeat.port`link:#sthref199[^Footref 5^] |Integer
+|`7676` a|
+Port number for heartbeat service
+
+A value of `0` specifies that the port number should be allocated
+dynamically by the Port Mapper.
+
+|`imq.cluster.heartbeat.interval`link:#sthref200[^Footref 5^] |Integer
+|2 |Interval between heartbeats, in seconds
+
+|`imq.cluster.heartbeat.threshold`link:#sthref201[^Footref 5^] |Integer
+|3 |Number of missed heartbeat intervals after which to invoke monitor
+service
+
+|`imq.cluster.monitor.interval`link:#sthref202[^Footref 5^] |Integer |30
+a|
+Interval, in seconds, at which to update monitor time stamp
+
+Note: Larger values for this property will reduce the frequency of
+database access and thus improve overall system performance, but at the
+cost of slower detection and takeover in the event of broker failure.
+
+|`imq.cluster.monitor.threshold`link:#sthref203[^Footref 5^] |Integer |2
+|Number of missed monitor intervals after which to initiate broker
+takeover
+|=======================================================================
+
+
+^Footnote 1 ^Must have the same value for all brokers in a cluster.
+
+^Footnote 2 ^Can be used with the `imqcmd update bkr` command.
+
+^Footnote 3 ^Can be specified independently for each broker in a
+cluster.
+
+^Footnote 4 ^Conventional clusters only
+
+^Footnote 5 ^Enhanced (high-availability) clusters only
+
+[[gjdkt]][[GMADG00294]][[bridge-properties]]
+
+Bridge Properties
+~~~~~~~~~~~~~~~~~
+
+link:#gjdnh[Table 17-15] lists broker properties related to the bridge
+service manager. link:#gjdnr[Table 17-16] lists broker properties
+related specifically to the JMS bridge service, and link:#gjdma[Table
+17-17] lists broker properties related specifically to the STOMP bridge
+service.
+
+[[GMADG777]][[sthref204]][[gjdnh]]
+
+
+Table 17-15 Broker Properties for the Bridge Service Manager
+
+[width="252%",cols="16%,31%,35%,18%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.bridge.enabled` |Boolean |`false` |Is the bridge service enabled
+on this broker?
+
+|`imq.bridge.activelist` |String |None a|
+List of bridges that will be loaded on broker startup.
+
+The list consists of one or more bridge names, separated by commas. All
+bridge names for a broker must be unique.
+
+|`imq.bridge.admin.user` |String |None |The Message Queue broker
+administrative user to be used by the bridge service manager and
+individual bridges to create ADMIN connections to the broker. For JMS
+bridges, this user is also used to access the JMS bridge's built-in DMQ
+destination.
+
+|`imq.bridge.admin.password` |String |None |The password for the
+`imq.bridge.admin.user` user.
+|=======================================================================
+
+
+[[GMADG778]][[sthref205]][[gjdnr]]
+
+
+Table 17-16 Broker Properties for a JMS Bridge Service
+
+[width="252%",cols="16%,31%,35%,18%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.bridge.`name`.type` |String |None |The bridge type of the bridge
+named name. For JMS bridges, specify a value of `JMS` or `jms`.
+
+|`imq.bridge.`name`.xmlurl` |String |None a|
+The URL where the XML configuration file for the JMS bridge name is
+stored.
+
+Examples:
+
+* `http://webserver/imq/jmsbridge1.config.xml`
+* (for a file on a Web server)
+* `file:/net/fileserver/imq/jmsbridge1.config.xml`
+* (for a file on a shared drive)
+
+|`imq.bridge.`name`.autostart` |Boolean |`true` |Should the JMS bridge
+name be automatically started when the broker is started?
+
+|`imq.bridge.`name`.logfile.limit` |Integer |`0` a|
+The approximate maximum number of bytes the JMS bridge name writes to
+any one log file.
+
+A value of `0` (zero) indicates that there is no maximum limit.
+
+|`imq.bridge.`name`.logfile.count` |Integer |`1` |The number of log
+files the JMS bridge name cycles through.
+
+a|
+`imq.bridge.tm.props`
+
+`imq.bridge.`name`.tm.props`
+
+ |String |None a|
+Each of these properties specifies a list of key-value pairs for the
+built-in transaction coordinator for the JMS bridge name.
+
+The list consists of one or more key`=`value pairs separated by commas.
+
+When the `imq.persist.store` is `file`, the built-in transaction
+coordinator supports these keys: `txlogSize`, `txlogSync`, and
+`txlogMmap`.
+
+If the same key appears in both properties, the value specified in
+`imq.bridge.`name`.tm.props` takes precedence.
+
+|=======================================================================
+
+
+[[GMADG779]][[sthref206]][[gjdma]]
+
+
+Table 17-17 Broker Properties for the STOMP Bridge Service
+
+[width="252%",cols="16%,31%,35%,18%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.bridge.stomp.hostname` |String |None a|
+Host name or IP address for the STOMP bridge service
+
+If specified, overrides `imq.hostname` (see link:#gbnni[Table 17-1]) for
+the STOMP bridge service.
+
+|`imq.bridge.stomp.tcp.enabled` |Boolean |`true` |Does the STOMP bridge
+accept TCP connections?
+
+|`imq.bridge.stomp.tcp.port` |Integer |`7672` |The port on which the
+STOMP bridge listens for TCP connections, provided that
+`imq.bridge.stomp.tcp.enabled` is `true`.
+
+|`imq.bridge.stomp.tls.enabled` |Boolean |`false` a|
+Does the STOMP bridge accept SSL/TLS connections?
+
+If `true`, a keystore must be created using the `imqkeytool` utility
+before starting the broker.
+
+|`imq.bridge.stomp.tls.port` |Integer |`7673` |The port on which the
+STOMP bridge listens for SSL/TLS connections, provided that
+`imq.bridge.stomp.tls.enabled` is `true`.
+
+|`imq.bridge.stomp.tls.requireClientAuth` |Boolean |`false` |Do SSL/TLS
+connections require client authentication?
+
+|`imq.bridge.stomp.consumerFlowLimit` |Integer |`1000` |The maximum
+number of unacknowledged messages that the STOMP bridge will deliver on
+a transacted STOMP subscription. The STOMP client must then acknowledge
+the messages and commit the transaction.
+
+|`imq.bridge.stomp.messageTransformer` |String |None |The fully
+qualified class name of a class that extends the Message Queue bridge
+`MessageTransformer` abstract class by implementing the `transform()`
+method. Place this class under the `IMQ_HOME/lib/ext`. directory
+
+|`imq.bridge.stomp.logfile.limit` |Integer |`0` a|
+The approximate maximum number of bytes the STOMP bridge writes to any
+one log file.
+
+A value of `0` (zero) indicates that there is no maximum limit.
+
+|`imq.bridge.stomp.logfile.count` |Integer |`1` |The number of log files
+the STOMP bridge cycles through.
+|=======================================================================
+
+
+[[geofd]][[GMADG00295]][[jmx-properties]]
+
+JMX Properties
+~~~~~~~~~~~~~~
+
+The broker properties listed in link:#gclfp[Table 17-18] support the use
+of the Java Management Extensions (JMX) application programming
+interface by Java applications. The JMX API is used to configure and
+monitor broker resources.
+
+These JMX-related properties can be set in the broker's instance
+configuration file (`config.properties`) or at broker startup with the
+`-D` option of the Broker utility (`imqbrokerd`). None of these
+properties can be set dynamically with the Command utility (`imqcmd`).
+
+In addition, some of these properties (`imq.jmx.rmiregistry.start`,
+`imq.jmx.rmiregistry.use`, `imq.jmx.rmiregistry.port`) can be set with
+corresponding Broker utility`imqbrokerd` options described in
+link:command-line-reference.html#gbnla[Table 16-1].
+
+See link:jmx-support.html#geoel[JMX Support] for further information on
+administrative support of JMX clients.
+
+[[GMADG780]][[sthref207]][[gclfp]]
+
+
+Table 17-18 Broker Properties for JMX Support
+
+[width="172%",cols="25%,46%,8%,21%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.jmx.connector.activelist` |String |`jmxrmi` |Names of JMX
+connectors to be activated at broker startup, separated by commas
+
+|`imq.jmx.connector.`RMIconnectorName`.urlpath` |String |Shown in next
+column a|
+urlpath component of JMX service URL for connector connectorName
+
+Useful in cases where an RMI registry is being used and the JMX service
+URL path must be set explicitly (such as when a shared external RMI
+registry is used). See link:jmx-support.html#ghbrs[The JMX Service URL].
+
+Default:
+
+[source,oac_no_warn]
+----
+/jndi/rmi://brokerHost:rmiPort
+/brokerHost/brokerPort/connectorName
+----
+
+|`imq.jmx.connector.`RMIconnectorName`.port` |Integer |None: the port is
+dynamically allocated a|
+Port number of JMX connector
+
+Used to specify a static/known JMX connector port, typically in cases
+where a JMX client is accessing the broker's MBean server through a
+firewall. See link:jmx-support.html#ggvxj[JMX Connections Through a
+Firewall].
+
+|`imq.jmx.connector.`RMIconnectorName`.useSSL` |Boolean |`false` a|
+Use Secure Socket Layer (SSL) for connector connectorName?
+
+This property is set to `true` for the `ssljmxrmi` connector.
+
+|`imq.jmx.connector.`RMIconnectorName`.brokerHostTrusted` |Boolean
+|`false` a|
+Trust any certificate presented by broker for connector connectorName?
+
+Applies only when `imq.jmx.connector.`connectorName`.useSSL` is `true`.
+
+If `false`, the JMX client runtime will validate all certificates
+presented to it. Validation will fail if the signer of the certificate
+is not in the client's trust store.
+
+If `true`, validation of certificates is skipped. This can be useful,
+for instance, during software testing when a self-signed certificate is
+used.
+
+|`imq.jmx.rmiregistry.start` |Boolean |`false` a|
+Start RMI registry at broker startup?
+
+If `true`, the broker will start an RMI registry at the port specified
+by `imq.jmx.rmiregistry.port` and use the regsitry to store the JMX
+connector stub. (The value of `imq.jmx.rmiregistry.use` is ignored in
+this case.)
+
+For convenience, this property can also be set at broker startup with
+the `-startRmiRegistry` option of`imqbrokerd`.
+
+|`imq.jmx.rmiregistry.use` |Boolean |`false` a|
+Use an existing RMI registry?
+
+Applies only if `imq.jmx.rmiregistry.start` is `false`.
+
+If `true`, the broker will use an existing RMI registry on the local
+host at the port specified by `imq.jmx.rmiregistry.port` to store the
+JMX connector stub. The existing RMI registry must already be running at
+broker startup.
+
+For convenience, this property can also be set at broker startup with
+the `-useRmiRegistry` option of`imqbrokerd`.
+
+|`imq.jmx.rmiregistry.port` |Integer |`1099` a|
+Port number of RMI registry
+
+Applies only if `imq.jmx.rmiregistry.start` is `true` or
+`imq.jmx.rmiregistry.use` is `true`.
+
+This port number will be included in the URL path of the JMX service
+URL.
+
+For convenience, this property can also be set at broker startup with
+the `-rmiRegistryPort` option of `imqbrokerd`.
+
+|=======================================================================
+
+
+[[aeoob]][[GMADG00296]][[alphabetical-list-of-broker-properties]]
+
+Alphabetical List of Broker Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#aeoob[Alphabetical List of Broker Properties] is an alphabetical
+list of broker configuration properties, with cross-references to the
+relevant tables in this chapter.
+
+[[GMADG781]][[sthref208]][[gbnnz]]
+
+
+Table 17-19 Alphabetical List of Broker Properties
+
+[width="100%",cols="75%,25%",options="header",]
+|=======================================================================
+|Property |Table
+|`imq.accesscontrol.enabled` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.accesscontrol.type` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.accesscontrol.file.filename` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.admincreate.topic.sharedConsumerFlowLimit` a|
+link:#gkudw[Table 17-4]
+
+
+|`imq.audit.bsm.disabled` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.audit.enabled` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.authentication.basic.user_repository` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.authentication.client.response.timeout` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.authentication.type` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.autocreate.destination.isLocalOnly` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.limitBehavior` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.maxBytesPerMsg` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.maxNumMsgs` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.maxNumProducers` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.maxTotalMsgBytes` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.destination.useDMQ` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.queue` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.queue.consumerFlowLimit` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.queue.localDeliveryPreferred` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.queue.maxNumActiveConsumers` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.queue.maxNumBackupConsumers` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.reaptime` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.topic` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.topic.consumerFlowLimit` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.autocreate.topic.sharedConsumerFlowLimit` a|
+link:#gbnof[Table 17-3]
+
+
+|`imq.broker.adminDefinedRoles.count` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.broker.adminDefinedRoles.name`n a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.brokerid` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.bridge.activelist` a|
+link:#gjdnh[Table 17-15]
+
+
+|`imq.bridge.admin.password` a|
+link:#gjdnh[Table 17-15]
+
+
+|`imq.bridge.admin.user` a|
+link:#gjdnh[Table 17-15]
+
+
+|`imq.bridge.enabled` a|
+link:#gjdnh[Table 17-15]
+
+
+|`imq.bridge.`name`.autostart` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.`name`.logfile.count` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.`name`.logfile.limit` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.`name`.tm.props` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.`name`.type` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.`name`.xmlurl` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.bridge.stomp.consumerFlowLimit` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.logfile.count` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.logfile.limit` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.messageTransformer` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.tcp.enabled` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.tcp.port` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.tls.enabled` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.tls.port` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.stomp.tls.requireClientAuth` a|
+link:#gjdma[Table 17-17]
+
+
+|`imq.bridge.tm.props` a|
+link:#gjdnr[Table 17-16]
+
+
+|`imq.cluster.brokerlist` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.clusterid` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.dynamicChangeMasterBrokerEnabled` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.ha` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.heartbeat.hostname` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.heartbeat.interval` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.heartbeat.port` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.heartbeat.threshold` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.hostname` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.nomasterbroker` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.masterbroker` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.monitor.interval` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.monitor.threshold` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.port` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.connection.retry.delay` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.connection.retry.max` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.dbVendor` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName.`connection.retry.regex.`n
+a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.driver` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.closedburl` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.createdburl` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.needpassword` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.opendburl` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.password` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.property.`propName a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.tableoption` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.sharecc.persist.jdbc.`vendorName`.user` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.transport` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.cluster.url` a|
+link:#gbnmu[Table 17-14]
+
+
+|`imq.destination.DMQ.truncateBody` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.destination.logDeadMsgs` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.hostname` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.imqcmd.password` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.jmx.connector.activelist` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.connector.`RMIconnectorName`.brokerHostTrusted` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.connector.`RMIconnectorName`.port` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.connector.`RMIconnectorName`.urlpath` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.connector.`RMIconnectorName`.useSSL` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.rmiregistry.port` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.rmiregistry.start` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.jmx.rmiregistry.use` a|
+link:#gclfp[Table 17-18]
+
+
+|`imq.keystore.file.dirpath` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.keystore.file.name` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.keystore.password` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.keystore.`propertyName a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.log.console.output` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.console.stream` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.file.dirpath` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.file.filename` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.file.output` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.file.rolloverbytes` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.file.rolloversecs` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.level` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.syslog.facility` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.syslog.identity` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.syslog.logconsole` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.syslog.logpid` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.syslog.output` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.log.timezone` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.message.expiration.interval` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.message.max_size` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.metrics.enabled` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.metrics.interval` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.metrics.topic.enabled` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.metrics.topic.interval` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.metrics.topic.persist` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.metrics.topic.timetolive` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.passfile.dirpath` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.passfile.enabled` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.passfile.name` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.persist.file.destination.message.filepool.limit` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.file.message.cleanup` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.file.message.filepool.cleanratio` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.file.message.max_record_size` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.file.sync.enabled` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.file.transaction.memorymappedfile.enabled` a|
+link:#gbnnh[Table 17-6]
+
+
+|`imq.persist.jdbc.dbVendor` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.connection.retry.delay` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.connection.retry.max` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.connection.retry.regex.`n a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.closedburl` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.createdburl` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.driver` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.needpassword` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.opendburl` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.password` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.property.`propName a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.jdbc.`vendorName`.user` a|
+link:#gbnoa[Table 17-8]
+
+
+|`imq.persist.store` a|
+link:#gbnmp[Table 17-5]
+
+
+|`imq.ping.interval` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.portmapper.backlog` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.portmapper.hostname` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.portmapper.port` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.primaryowner.contact` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.primaryowner.name` a|
+link:#gbnns[Table 17-13]
+
+
+|`imq.`resourceState`.count` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.`resourceState`.threshold` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.service.activelist` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.`serviceName`.accesscontrol.enabled` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.`serviceName`.accesscontrol.file.filename` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.`serviceName`.authentication.type` a|
+link:#gbnok[Table 17-9]
+
+
+|`imq.`serviceName`.max_threads` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.`serviceName`.min_threads` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.`serviceName`.`protocolType`.hostname` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.`serviceName`.`protocolType`.port` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.`serviceName`.threadpool_model` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.shared.connectionMonitor_limit` a|
+link:#gbnni[Table 17-1]
+
+
+|`imq.system.max_count` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.system.max_size` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.transaction.autorollback` a|
+link:#gbnod[Table 17-2]
+
+
+|`imq.user_repository.file.dirpath` a|
+link:#gkvxf[Table 17-10]
+
+
+|`imq.user_repository.file.filename` a|
+link:#gkvxf[Table 17-10]
+
+
+|`imq.user_repository.ldap.base` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.gidattr` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.grpbase` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.grpfilter` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.grpsearch` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.memattr` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.password` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.principal` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.`propertyName a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.server` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.ssl.enabled` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.ssl.socketfactory` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.timeout` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.uidattr` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.ldap.usrfilter` a|
+link:#gewfp[Table 17-11]
+
+
+|`imq.user_repository.jaas.name` a|
+link:#ggxis[Table 17-12]
+
+
+|`imq.user_repository.jaas.userPrincipalClass` a|
+link:#ggxis[Table 17-12]
+
+
+|`imq.user_repository.jaas.groupPrincipalClass` a|
+link:#ggxis[Table 17-12]
+
+
+|=======================================================================
+
+
+

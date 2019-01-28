@@ -1,0 +1,435 @@
+type=page
+status=published
+title=Preface
+next=overview.html
+prev=title.html
+~~~~~~
+Preface
+=======
+
+[[GMJVG00011]][[gblyo]]
+
+
+[[preface]]
+Preface
+-------
+
+This book provides information about concepts and procedures for
+developing Java messaging applications (Java clients) that work with
+Message Queue.
+
+This preface consists of the following sections:
+
+* link:#gblyj[Who Should Use This Book]
+* link:#gblxf[Before You Read This Book]
+* link:#gblxh[How This Book Is Organized]
+* link:#ghode[Documentation Conventions]
+* link:#gbqah[Related Documentation]
+
+[[GMJVG00079]][[gblyj]]
+
+
+[[who-should-use-this-book]]
+Who Should Use This Book
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+This guide is meant principally for developers of Java applications that
+use Message Queue.
+
+These applications use the Java Message Service (JMS) Application
+Programming Interface (API), and possibly the SOAP with Attachments API
+for Java (SAAJ), to create, send, receive, and read messages. As such,
+these applications are JMS clients and/or SOAP client applications,
+respectively. The JMS and SAAJ specifications are open standards.
+
+This book assumes that you are familiar with the JMS APIs and with JMS
+programming guidelines. Its purpose is to help you optimize your JMS
+client applications by making best use of the features and flexibility
+of a Message Queue messaging system.
+
+This book assumes no familiarity, however, with SAAJ. This material is
+described in link:soap-messages.html#aeqex[Chapter 6, "Working with SOAP
+Messages"] and assumes only basic knowledge of XML.
+
+[[GMJVG00080]][[gblxf]]
+
+
+[[before-you-read-this-book]]
+Before You Read This Book
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You must read the link:../mq-tech-over/toc.html#GMTOV[Open Message Queue Technical Overview] to
+become familiar with the Message Queue implementation of the Java
+Message Specification, with the components of the Message Queue service,
+and with the basic process of developing, deploying, and administering a
+Message Queue application.
+
+[[GMJVG00081]][[gblxh]]
+
+
+[[how-this-book-is-organized]]
+How This Book Is Organized
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This guide is designed to be read from beginning to end. The following
+table briefly describes the contents of each chapter.
+
+[width="100%",cols="31%,69%",options="header",]
+|=======================================================================
+|Chapter |Description
+|link:overview.html#aeqaq[Chapter 1, "Overview"] + |A high-level overview
+of the Message Queue Java interface. It includes a tutorial that
+acquaints you with the Message Queue development environment using a
+simple example JMS client application.
+
+|link:client-design-and-features.html#aeqcq[Chapter 2, "Message Queue
+Clients: Design and Features"] + |Describes architectural and
+configuration issues that depend upon Message Queue's implementation of
+the Java Message Specification.
+
+|link:using-the-simplifed-java-api.html#BGBFAEAG[Chapter 3, "The JMS
+Simplified API"] + |Explains how to use the simplified API introduced by
+the Java Message Service (JMS) specification, Version 2.0, in your
+client application.
+
+|link:using-the-java-api.html#aeqax[Chapter 4, "The JMS Classic API"] +
+|Explains how to use the Message Queue Java API in your client
+application.
+
+|link:using-the-metrics-monitoring-api.html#aeqej[Chapter 5, "Using the
+Metrics Monitoring API"] + |Describes message-based monitoring, a
+customized solution to metrics gathering that allows metrics data to be
+accessed programmatically and then to be processed in whatever way suits
+the consuming client.
+
+|link:soap-messages.html#aeqex[Chapter 6, "Working with SOAP Messages"] +
+|Explains how you send and receive SOAP messages with and without
+Message Queue support.
+
+|link:warning-messages_error-codes.html#aeqgo[Appendix A, "Warning
+Messages and Client Error Codes"] + |Provides reference information for
+warning messages and error codes returned by the Message Queue client
+runtime when it raises a JMS exception.
+|=======================================================================
+
+
+[[GMJVG00082]][[ghode]]
+
+
+[[documentation-conventions]]
+Documentation Conventions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section describes the following conventions used in Message Queue
+documentation:
+
+* link:#gbqam[Typographic Conventions]
+* link:#gdxny[Symbol Conventions]
+* link:#fwbsd[Shell Prompt Conventions]
+* link:#gbqig[Directory Variable Conventions]
+
+[[GMJVG00179]][[gbqam]]
+
+
+[[typographic-conventions]]
+Typographic Conventions
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The following table describes the typographic conventions that are used
+in this book.
+
+[width="100%",cols="14%,44%,42%",options="header",]
+|=======================================================================
+|Typeface |Meaning |Example
+|`AaBbCc123` |The names of commands, files, and directories, and
+onscreen computer output a|
+Edit your `.login` file.
+
+Use `ls` `a` to list all files.
+
+`machine_name% you have mail.`
+
+|`AaBbCc123` |What you type, contrasted with onscreen computer output a|
+`machine_name%` `su`
+
+`Password:`
+
+|aabbcc123 |Placeholder: replace with a real name or value |The command
+to remove a file is `rm` filename.
+
+|AaBbCc123 |Book titles, new terms, and terms to be emphasized a|
+Read Chapter 6 in the User's Guide.
+
+A cache is a copy that is stored locally.
+
+Do not save the file.
+
+Note: Some emphasized items appear bold online.
+
+|=======================================================================
+
+
+[[GMJVG00180]][[gdxny]]
+
+
+[[symbol-conventions]]
+Symbol Conventions
+^^^^^^^^^^^^^^^^^^
+
+The following table explains symbols that might be used in this book.
+
+[width="100%",cols="11%,27%,28%,34%",options="header",]
+|=======================================================================
+|Symbol |Description |Example |Meaning
+|`[ ]` |Contains optional arguments and command options. |`ls [-l]` |The
+`-l` option is not required.
+
+|`{ \| }` |Contains a set of choices for a required command option.
+|`-d {y\|n}` |The `-d` option requires that you use either the `y`
+argument or the `n` argument.
+
+|`${ }` |Indicates a variable reference. |`${com.sun.javaRoot}`
+|References the value of the `com.sun.javaRoot` variable.
+
+|- |Joins simultaneous multiple keystrokes. |Control-A |Press the
+Control key while you press the A key.
+
+|+ + |Joins consecutive multiple keystrokes. |Ctrl+A+N |Press the
+Control key, release it, and then press the subsequent keys.
+
+|> |Indicates menu item selection in a graphical user interface. |File >
+New > Templates |From the File menu, choose New. From the New submenu,
+choose Templates.
+|=======================================================================
+
+
+[[GMJVG00181]][[fwbsd]]
+
+
+[[shell-prompt-conventions]]
+Shell Prompt Conventions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following table shows the conventions used in Message Queue
+documentation for the default UNIX system prompt and superuser prompt
+for the C shell, Bourne shell, Korn shell, and for the Windows operating
+system.
+
+[width="100%",cols="67%,33%",options="header",]
+|===================================================================
+|Shell |Prompt
+|C shell on UNIX, Linux, or AIX |machine-name`%`
+|C shell superuser on UNIX, Linux, or AIX |machine-name`#`
+|Bourne shell and Korn shell on UNIX, Linux, or AIX |`$` +
+|Bourne shell and Korn shell superuser on UNIX, Linux, or AIX |`#` +
+|Windows command line |`C:\>`
+|===================================================================
+
+
+[[GMJVG00182]][[gbqig]]
+
+
+[[directory-variable-conventions]]
+Directory Variable Conventions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue documentation makes use of three directory variables; two
+of which represent environment variables needed by Message Queue. (How
+you set the environment variables varies from platform to platform.)
+
+The following table describes the directory variables that might be
+found in this book and how they are used. Some of these variables refer
+to the directory mqInstallHome, which is the directory where Message
+Queue is installed to when using the installer or unzipped to when using
+a zip-based distribution.
+
+
+[NOTE]
+=======================================================================
+
+In this book, directory variables are shown without platform-specific
+environment variable notation or syntax (such as `$IMQ_HOME` on UNIX).
+Non-platform-specific path names use UNIX directory separator (`/`)
+notation.
+
+=======================================================================
+
+
+[width="100%",cols="19%,81%",options="header",]
+|=======================================================================
+|Variable |Description
+|`IMQ_HOME` a|
+The Message Queue home directory:
+
+* For installations of Message Queue bundled with GlassFish Server,
+`IMQ_HOME` is as-install-parent`/mq`, where as-install-parent is the
+parent directory of the GlassFish Server base installation directory,
+`glassfish3` by default.
+* For installations of Open Message Queue, `IMQ_HOME` is
+mqInstallHome`/mq`.
+
+|`IMQ_VARHOME` a|
+The directory in which Message Queue temporary or dynamically created
+configuration and data files are stored; `IMQ_VARHOME` can be explicitly
+set as an environment variable to point to any directory or will default
+as described below:
+
+* For installations of Message Queue bundled with GlassFish Server,
+`IMQ_VARHOME` defaults to
+as-install-parent`/glassfish/domains/domain1/imq`.
+* For installations of Open Message Queue, `IMQ_HOME` defaults to
+mqInstallHome`/var/mq`.
+
+|`IMQ_JAVAHOME` |An environment variable that points to the location of
+the Java runtime environment (JRE) required by Message Queue executable
+files. By default, Message Queue looks for and uses the latest JDK, but
+you can optionally set the value of `IMQ_JAVAHOME` to wherever the
+preferred JRE resides.
+|=======================================================================
+
+
+[[GMJVG00083]][[gbqah]]
+
+
+[[related-documentation]]
+Related Documentation
+~~~~~~~~~~~~~~~~~~~~~
+
+The information resources listed in this section provide further
+information about Message Queue in addition to that contained in this
+manual. The section covers the following resources:
+
+* link:#ghohr[Message Queue Documentation Set]
+* link:#ghogx[Java Message Service (JMS) Specification]
+* link:#ghogf[JavaDoc]
+* link:#ghodr[Example Client Applications]
+* link:#ghodm[Online Help]
+
+[[GMJVG00183]][[ghohr]]
+
+
+[[message-queue-documentation-set]]
+Message Queue Documentation Set
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The documents that constitute the Message Queue documentation set are
+listed in the following table in the order in which you might normally
+use them. These documents are available through the Oracle GlassFish
+Server documentation web site at
+`http://www.oracle.com/technetwork/indexes/documentation/index.html`.
+
+[width="100%",cols="23%,22%,55%",options="header",]
+|=======================================================================
+|Document |Audience |Description
+|link:../mq-tech-over/toc.html#GMTOV[Technical Overview] |Developers and administrators
+|Describes Message Queue concepts, features, and components.
+
+|link:../mq-release-notes/toc.html#GMRLN[Release Notes] |Developers and administrators |Includes
+descriptions of new features, limitations, and known bugs, as well as
+technical notes.
+
+|link:../mq-admin-guide/toc.html#GMADG[Administration Guide] |Administrators, also recommended for
+developers |Provides background and information needed to perform
+administration tasks using Message Queue administration tools.
+
+|link:../mq-dev-guide-java/toc.html#GMJVG[Developer's Guide for Java Clients] |Developers |Provides a
+quick-start tutorial and programming information for developers of Java
+client programs using the Message Queue implementation of the JMS or
+SOAP/JAXM APIs.
+
+|link:../mq-dev-guide-c/toc.html#GMCCG[Developer's Guide for C Clients] |Developers |Provides
+programming and reference documentation for developers of C client
+programs using the Message Queue C implementation of the JMS API
+(C-API).
+
+|link:../mq-dev-guide-jmx/toc.html#GMJMG[Developer's Guide for JMX Clients] |Administrators
+|Provides programming and reference documentation for developers of JMX
+client programs using the Message Queue JMX API.
+|=======================================================================
+
+
+[[GMJVG00184]][[ghogx]]
+
+
+[[java-message-service-jms-specification]]
+Java Message Service (JMS) Specification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Message Queue message service conforms to the Java Message Service
+(JMS) application programming interface, described in the Java Message
+Service Specification. This document can be found at the URL
+`http://www.oracle.com/technetwork/java/jms/index.html`.
+
+[[GMJVG00185]][[ghogf]]
+
+
+[[javadoc]]
+JavaDoc
+^^^^^^^
+
+JMS and Message Queue API documentation in JavaDoc format is included in
+Message Queue installations at `IMQ_HOME/javadoc/index.html`. This
+documentation can be viewed in any HTML browser. It includes standard
+JMS API documentation as well as Message Queue-specific APIs.
+
+[[GMJVG00186]][[ghodr]]
+
+
+[[example-client-applications]]
+Example Client Applications
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue provides a number of example client applications to assist
+developers.
+
+[[GMJVG00123]][[ghodq]]
+
+
+[[example-java-client-applications]]
+Example Java Client Applications
+++++++++++++++++++++++++++++++++
+
+Example Java client applications are included in Message Queue
+installations at `IMQ_HOME/examples`. See the `README` files located in
+this directory and its subdirectories for descriptive information about
+the example applications.
+
+[[GMJVG00124]][[ghofu]]
+
+
+[[example-c-client-programs]]
+Example C Client Programs
++++++++++++++++++++++++++
+
+Example C client applications are included in Message Queue
+installations at `IMQ_HOME/examples/C`. See the `README` files located
+in this directory and its subdirectories for descriptive information
+about the example applications.
+
+[[GMJVG00125]][[ghofn]]
+
+
+[[example-jmx-client-programs]]
+Example JMX Client Programs
++++++++++++++++++++++++++++
+
+Example Java Management Extensions (JMX) client applications are
+included in Message Queue installations at `IMQ_HOME/examples/jmx`. See
+the `README` files located in this directory and its subdirectories for
+descriptive information about the example applications.
+
+[[GMJVG00187]][[ghodm]]
+
+
+[[online-help]]
+Online Help
+^^^^^^^^^^^
+
+Online help is available for the Message Queue command line utilities;
+for details, see "link:../mq-admin-guide/command-line-reference.html#GMADG00047[Command Line Reference]" in Open
+Message Queue Administration Guide. The Message Queue graphical user
+interface (GUI) administration tool, the Administration Console, also
+includes a context-sensitive help facility; for details, see
+"link:../mq-admin-guide/quick-start.html#GMADG00220[Administration Console Online Help]" in Open Message
+Queue Administration Guide.
+
