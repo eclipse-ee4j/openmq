@@ -1,0 +1,14 @@
+theme: jekyll-theme-architect
+
+title: [mq-dev-guide-c]
+description: [Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.0]
+
+# sidebar links url
+links:
+  source: https://github.com/javaee/mq-dev-guide-c
+  download: https://github.com/javaee/mq-dev-guide-c/releases
+  #mailinglist: https://javaee.groups.io/g/mq-dev-guide-c
+  #javadocs:
+  docs: https://javaee.github.io/mq-dev-guide-c
+  #faq:
+

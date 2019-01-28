@@ -1,0 +1,222 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Developer's Guide for JMX Clients, Release 5.1.3
+next=loe.html
+~~~~~~
+Eclipse Open Message Queue Developer's Guide for JMX Clients, Release 5.1.3
+===========================================================================
+
+[[contents]]
+Contents
+--------
+
+[[list-of-examples]]
+link:loe.html[List of Examples]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[list-of-tables]]
+link:lot.html[List of Tables]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#gblyj[Who Should Use This Book]
+* link:preface.html#gblxf[Before You Read This Book]
+* link:preface.html#gblxh[How This Book Is Organized]
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+[[introduction-to-jmx-programming-for-message-queue-clients]]
+link:introduction.html#gcgvu[1 Introduction to JMX Programming for Message Queue Clients]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:introduction.html#gchbn[JMX Architecture]
+* link:introduction.html#gdrsi[Message Queue MBeans]
+
+** link:introduction.html#gchdy[Resource MBeans]
+
+** link:introduction.html#gchdx[Manager MBeans]
+
+** link:introduction.html#gchri[Object Names]
+
+[[using-the-jmx-api]]
+link:using-the-jmx-api.html#gdrru[2 Using the JMX API]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:using-the-jmx-api.html#gdrrv[Interface Packages]
+* link:using-the-jmx-api.html#gciuh[Utility Classes]
+* link:using-the-jmx-api.html#gchjb[Connecting to the MBean Server]
+
+** link:using-the-jmx-api.html#gchjt[Obtaining a JMX Connector from an
+Admin Connection Factory]
+
+** link:using-the-jmx-api.html#gchjy[Obtaining a JMX Connector Without
+Using an Admin Connection Factory]
+* link:using-the-jmx-api.html#gdrrt[Using MBeans]
+
+** link:using-the-jmx-api.html#gcitw[Accessing MBean Attributes]
+
+** link:using-the-jmx-api.html#gcitp[Invoking MBean Operations]
+
+** link:using-the-jmx-api.html#gcitu[Receiving MBean Notifications]
+
+[[message-queue-mbean-reference]]
+link:mbean-reference.html#gcakw[3 Message Queue MBean Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:mbean-reference.html#gbxrr[Brokers]
+
+** link:mbean-reference.html#gcalt[Broker Configuration]
+*** link:mbean-reference.html#gciqr[Object Name]
+*** link:mbean-reference.html#gciny[Attributes]
+*** link:mbean-reference.html#gcimu[Operations]
+*** link:mbean-reference.html#gcioc[Notification]
+
+** link:mbean-reference.html#gciiw[Broker Monitor]
+*** link:mbean-reference.html#gcioy[Object Name]
+*** link:mbean-reference.html#gciom[Attributes]
+*** link:mbean-reference.html#gciof[Notifications]
+* link:mbean-reference.html#gbxsd[Connection Services]
+
+** link:mbean-reference.html#gcams[Service Configuration]
+*** link:mbean-reference.html#gciqv[Object Name]
+*** link:mbean-reference.html#gcino[Attributes]
+*** link:mbean-reference.html#gcinw[Operations]
+*** link:mbean-reference.html#gcimo[Notification]
+
+** link:mbean-reference.html#gcamu[Service Monitor]
+*** link:mbean-reference.html#gcisp[Object Name]
+*** link:mbean-reference.html#gcinf[Attributes]
+*** link:mbean-reference.html#gcing[Operations]
+*** link:mbean-reference.html#gcinx[Notifications]
+
+** link:mbean-reference.html#gcana[Service Manager Configuration]
+*** link:mbean-reference.html#gcira[Object Name]
+*** link:mbean-reference.html#gcinz[Attributes]
+*** link:mbean-reference.html#gcinm[Operations]
+
+** link:mbean-reference.html#gcamc[Service Manager Monitor]
+*** link:mbean-reference.html#gcisb[Object Name]
+*** link:mbean-reference.html#gcimy[Attributes]
+*** link:mbean-reference.html#gcint[Operation]
+*** link:mbean-reference.html#gcioi[Notifications]
+* link:mbean-reference.html#gbxsg[Connections]
+
+** link:mbean-reference.html#gcama[Connection Configuration]
+*** link:mbean-reference.html#gcire[Object Name]
+*** link:mbean-reference.html#gcinq[Attribute]
+
+** link:mbean-reference.html#gcaml[Connection Monitor]
+*** link:mbean-reference.html#gcisk[Object Name]
+*** link:mbean-reference.html#gciog[Attributes]
+*** link:mbean-reference.html#gciol[Operations]
+
+** link:mbean-reference.html#gcanj[Connection Manager Configuration]
+*** link:mbean-reference.html#gcisa[Object Name]
+*** link:mbean-reference.html#gcink[Attribute]
+*** link:mbean-reference.html#gcimz[Operations]
+
+** link:mbean-reference.html#gcamo[Connection Manager Monitor]
+*** link:mbean-reference.html#gcirt[Object Name]
+*** link:mbean-reference.html#gciod[Attributes]
+*** link:mbean-reference.html#gcina[Operation]
+*** link:mbean-reference.html#gcinc[Notifications]
+* link:mbean-reference.html#gbxrq[Destinations]
+
+** link:mbean-reference.html#gcamj[Destination Configuration]
+*** link:mbean-reference.html#gcirp[Object Name]
+*** link:mbean-reference.html#gcinr[Attributes]
+*** link:mbean-reference.html#gcimw[Operations]
+*** link:mbean-reference.html#gciob[Notification]
+
+** link:mbean-reference.html#gcalx[Destination Monitor]
+*** link:mbean-reference.html#gciqt[Object Name]
+*** link:mbean-reference.html#gcims[Attributes]
+*** link:mbean-reference.html#gcinv[Operations]
+*** link:mbean-reference.html#gcins[Notifications]
+
+** link:mbean-reference.html#gcaln[Destination Manager Configuration]
+*** link:mbean-reference.html#gcirz[Object Name]
+*** link:mbean-reference.html#gcinb[Attributes]
+*** link:mbean-reference.html#gcimp[Operations]
+*** link:mbean-reference.html#gcioa[Notification]
+
+** link:mbean-reference.html#gcalp[Destination Manager Monitor]
+*** link:mbean-reference.html#gciqy[Object Name]
+*** link:mbean-reference.html#gcioo[Attributes]
+*** link:mbean-reference.html#gcini[Operation]
+*** link:mbean-reference.html#gcinl[Notifications]
+* link:mbean-reference.html#gbxrt[Message Producers]
+
+** link:mbean-reference.html#gcamr[Producer Manager Configuration]
+*** link:mbean-reference.html#gciru[Object Name]
+*** link:mbean-reference.html#gcioq[Attribute]
+*** link:mbean-reference.html#gcisu[Operation]
+
+** link:mbean-reference.html#gcamd[Producer Manager Monitor]
+*** link:mbean-reference.html#gcirj[Object Name]
+*** link:mbean-reference.html#gcite[Attribute]
+*** link:mbean-reference.html#gcipo[Operations]
+* link:mbean-reference.html#gbxrw[Message Consumers]
+
+** link:mbean-reference.html#gcamy[Consumer Manager Configuration]
+*** link:mbean-reference.html#gciss[Object Name]
+*** link:mbean-reference.html#gcipj[Attribute]
+*** link:mbean-reference.html#gcipd[Operations]
+
+** link:mbean-reference.html#gcand[Consumer Manager Monitor]
+*** link:mbean-reference.html#gcisj[Object Name]
+*** link:mbean-reference.html#gciqg[Attribute]
+*** link:mbean-reference.html#gcios[Operations]
+* link:mbean-reference.html#gbxro[Transactions]
+
+** link:mbean-reference.html#gcamg[Transaction Manager Configuration]
+*** link:mbean-reference.html#gciry[Object Name]
+*** link:mbean-reference.html#gcior[Attribute]
+*** link:mbean-reference.html#gciox[Operations]
+
+** link:mbean-reference.html#gcanc[Transaction Manager Monitor]
+*** link:mbean-reference.html#gciqs[Object Name]
+*** link:mbean-reference.html#gcipz[Attributes]
+*** link:mbean-reference.html#gciqb[Operations]
+*** link:mbean-reference.html#gciqf[Notifications]
+* link:mbean-reference.html#gbxsf[Broker Clusters]
+
+** link:mbean-reference.html#gcamw[Cluster Configuration]
+*** link:mbean-reference.html#gcirs[Object Name]
+*** link:mbean-reference.html#gciqq[Attributes]
+*** link:mbean-reference.html#gciqj[Operations]
+*** link:mbean-reference.html#gcipf[Notification]
+
+** link:mbean-reference.html#gcanl[Cluster Monitor]
+*** link:mbean-reference.html#gcirv[Object Name]
+*** link:mbean-reference.html#gcipu[Attributes]
+*** link:mbean-reference.html#gciqk[Operations]
+*** link:mbean-reference.html#gcipe[Notifications]
+* link:mbean-reference.html#gbxsb[Logging]
+
+** link:mbean-reference.html#gcalw[Log Configuration]
+*** link:mbean-reference.html#gciqz[Object Name]
+*** link:mbean-reference.html#gciov[Attributes]
+*** link:mbean-reference.html#gciqp[Notification]
+
+** link:mbean-reference.html#gcane[Log Monitor]
+*** link:mbean-reference.html#gcist[Object Name]
+*** link:mbean-reference.html#gcipt[Notifications]
+* link:mbean-reference.html#gbxrj[Java Virtual Machine]
+
+** link:mbean-reference.html#gcani[JVM Monitor]
+*** link:mbean-reference.html#gcirn[Object Name]
+*** link:mbean-reference.html#gcipk[Attributes]
+
+[[a-alphabetical-reference]]
+link:alphabetical-reference.html#gcoee[A Alphabetical Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+

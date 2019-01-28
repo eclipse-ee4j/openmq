@@ -1,0 +1,538 @@
+type=page
+status=published
+title=Configuring Persistence Services
+next=security-services.html
+prev=message-delivery.html
+~~~~~~
+Configuring Persistence Services
+================================
+
+[[GMADG00039]][[gheas]]
+
+
+[[configuring-persistence-services]]
+8 Configuring Persistence Services
+----------------------------------
+
+For a broker to recover in case of failure, it needs to re-create the
+state of its message delivery operations. To do this, the broker must
+save state information to a persistent data store. When the broker
+restarts, it uses the saved data to re-create destinations and durable
+subscriptions, recover persistent messages, roll back open transactions,
+and rebuild its routing table for undelivered messages. It can then
+resume message delivery.
+
+A persistent data store is thus a key aspect of providing for reliable
+message delivery. This chapter describes the two different persistence
+implementations supported by the Message Queue broker and how to set
+each of them up:
+
+* link:#aeocr[Introduction to Persistence Services]
+* link:#gheap[File-Based Persistence]
+* link:#gheaz[JDBC-Based Persistence]
+* link:#ggwal[Data Store Formats]
+
+[[aeocr]][[GMADG00242]][[introduction-to-persistence-services]]
+
+Introduction to Persistence Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A broker's persistent data store holds information about physical
+destinations, durable subscriptions, messages, transactions, and
+acknowledgments.
+
+Message Queue supports both file-based and JDBC-based persistence
+modules, as shown in the following figure. File-based persistence uses
+individual files to store persistent data; JDBC-based persistence uses
+the Java Database Connectivity (JDBC) interface to connect the broker to
+a JDBC-based data store. While file-based persistence is generally
+faster than JDBC-based persistence, some users prefer the redundancy and
+administrative control provided by a JDBC database. The broker
+configuration property `imq.persist.store` (see
+link:broker-properties.html#gbnmp[Table 17-5]) specifies which of the two
+persistence modules (`file` or `jdbc`) to use.
+
+[[GMADG00019]][[ggydt]]
+
+
+.*Figure 8-1 Persistent Data Stores*
+image:img/adm_persistsvcs.png[
+"Diagram showing that persistence services use either a flat file-based
+or a JDBC-based data store."]
+
+
+Message Queue brokers are configured by default to use a file-based
+persistent store, but you can reconfigure them to plug in any data store
+accessible through a JDBC-compliant driver. The broker configuration
+property `imq.persist.store` (see link:broker-properties.html#gbnmp[Table
+17-5]) specifies which of the two forms of persistence to use.
+
+[[gheap]][[GMADG00243]][[file-based-persistence]]
+
+File-Based Persistence
+~~~~~~~~~~~~~~~~~~~~~~
+
+By default, Message Queue uses a file-based data store, in which
+individual files store persistent data (such as messages, destinations,
+durable subscriptions, transactions, and routing information).
+
+The file-based data store is located in a directory identified by the
+name of the broker instance (instanceName) to which the data store
+belongs:
+
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/instanceName/fs370
+----
+
+Each destination on the broker has its own subdirectory holding messages
+delivered to that destination.
+
+
+[NOTE]
+=======================================================================
+
+Because the data store can contain messages of a sensitive or
+proprietary nature, you should secure the
+`IMQ_VARHOME/instances/`instanceName`/fs370` directory against
+unauthorized access; see link:#aeodk[Securing a File-Based Data Store].
+
+=======================================================================
+
+
+[[aeocs]][[GMADG00539]][[file-based-persistence-properties]]
+
+File-Based Persistence Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Broker configuration properties related to file-based persistence are
+listed under link:broker-properties.html#aeonw[File-Based Persistence
+Properties]. These properties let you configure various aspects of how
+the file-based data store behaves.
+
+All persistent data other than messages is stored in separate files: one
+file each for destinations, durable subscriptions, and transaction state
+information. Most messages are stored in a single file consisting of
+variable-size records. You can compact this file to alleviate
+fragmentation as messages are added and removed (see
+link:message-delivery.html#aeoew[Managing Physical Destination Disk
+Utilization]). In addition, messages above a certain threshold size are
+stored in their own individual files rather than in the variable-sized
+record file. You can configure this threshold size with the broker
+property `imq.persist.file.message.max_record_size`.
+
+The broker maintains a file pool for these individual message files:
+instead of being deleted when it is no longer needed, a file is returned
+to the pool of free files in its destination directory so that it can
+later be reused for another message. The broker property
+`imq.persist.file.destination.message.filepool.limit` specifies the
+maximum number of files in the pool. When the number of individual
+message files for a destination exceeds this limit, files will be
+deleted when no longer needed instead of being returned to the pool.
+
+When returning a file to the file pool, the broker can save time at the
+expense of storage space by simply tagging the file as available for
+reuse without deleting its previous contents. You can use the
+`imq.persist.file.message.filepool.cleanratio` broker property to
+specify the percentage of files in each destination's file pool that
+should be maintained in a "clean" (empty) state rather than simply
+marked for reuse. The higher you set this value, the less space will be
+required for the file pool, but the more overhead will be needed to
+empty the contents of files when they are returned to the pool. If the
+broker's `imq.persist.file.message.cleanup` property is `true`, all
+files in the pool will be emptied at broker shutdown, leaving them in a
+clean state; this conserves storage space but slows down the shutdown
+process.
+
+In writing data to the data store, the operating system has some leeway
+in whether to write the data synchronously or "lazily" (asynchronously).
+Lazy storage can lead to data loss in the event of a system crash, if
+the broker believes the data to have been written to the data store when
+it has not. To ensure absolute reliability (at the expense of
+performance), you can require that all data be written synchronously by
+setting the broker property `imq.persist.file.sync.enabled` to `true`.
+In this case, the data is guaranteed to be available when the system
+comes back up after a crash, and the broker can reliably resume
+operation.
+
+[[aeodh]][[GMADG00540]][[configuring-a-file-based-data-store]]
+
+Configuring a File-Based Data Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A file-based data store is automatically created when you create a
+broker instance. However, you can configure the data store using the
+properties described in link:#aeocs[File-Based Persistence Properties].
+
+For example, by default, Message Queue performs asynchronous write
+operations to disk. However, to attain the highest reliability, you can
+set the broker property `imq.persist.file.sync` to write data
+synchronously instead. See link:broker-properties.html#gbnnh[Table 17-6].
+
+When you start a broker instance, you can use the `imqbrokerd` command's
+`-- reset` option to clear the file-based data store. For more
+information about this option and its suboptions, see
+link:command-line-reference.html#aeone[Broker Utility].
+
+[[aeodk]][[GMADG00541]][[securing-a-file-based-data-store]]
+
+Securing a File-Based Data Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The persistent data store can contain, among other information, message
+files that are being temporarily stored. Since these messages may
+contain proprietary information, it is important to secure the data
+store against unauthorized access. This section describes how to secure
+data in a file-based data store.
+
+A broker using file-based persistence writes persistent data to a
+flat-file data store:
+
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/instanceName/fs370
+----
+
+where instanceName is a name identifying the broker instance. This
+directory is created when the broker instance is started for the first
+time. The procedure for securing this directory depends on the operating
+system platform on which the broker is running:
+
+* On Solaris and Linux, the directory's permissions are determined by
+the file mode creation mask (`umask`) of the user who started the broker
+instance. Hence, permission to start a broker instance and to read its
+persistent files can be restricted by setting the mask appropriately.
+Alternatively, an administrator (superuser) can secure persistent data
+by setting the permissions on the `instances` directory to `700`.
+* On Windows, the directory's permissions can be set using the
+mechanisms provided by the Windows operating system. This generally
+involves opening a Properties dialog for the directory.
+
+[[gjmqy]][[GMADG00542]][[optimizing-file-based-transaction-persistence]]
+
+Optimizing File-Based Transaction Persistence
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Because many activities can occur during a transaction, persisting a
+transaction's state over the complete life cycle of the transaction can
+adversely affect overall performance, especially when the
+`imq.persist.file.sync.enabled` property is set to `true` to avoid data
+loss in case of a system crash.
+
+Message Queue provides a transaction logging mechanism that can improve
+performance of transaction persistence. This transaction log offers
+tuning parameters that can improve performance of file-based persistence
+for other objects, such as message payloads.
+
+To enable this transaction logging mechanism, set the
+`imq.persist.file.newTxnLogenabled` broker property to `true`.
+
+After enabling the transaction log, essential changes to the state of a
+JMS transaction are written to the transaction log. When the transaction
+is committed, all details regarding it are gathered and written to the
+persistent store. Additionally, the logging mechanism periodically
+performs a "checkpoint" operation to ensure that the persistent store
+and the transaction log are synchronized and that the log size remains
+manageable.
+
+As a further refinement, the operation of the logging mechanism is
+subject to the value of the `imq.persist.file.sync.enabled` broker
+property:
+
+* When `imq.persist.file.sync.enabled` is `true`, write operations to
+the transaction log are written synchronously to disk. Non-transacted
+message and non-transacted message acknowledgements are also written
+synchronously to the transaction log before being written asynchronously
+to the persistent store.
+* When `imq.persist.file.sync.enabled` is `false`, write operations to
+the transaction log are written asynchronously to disk. Non-transacted
+message and non-transacted message acknowledgements are not written to
+the transaction log.
+
+The tuning parameters supported by the transaction logging mechanism
+are:
+
+* `imq.persist.file.txnLog.groupCommit`
+* `imq.persist.file.txnLog.logNonTransactedMsgSend`
+* `imq.persist.file.txnLog.logNonTransactedMsgAck`
+
+Information about these parameters can be found in
+link:broker-properties.html#gjmtg[Table 17-7].
+
+[[gheaz]][[GMADG00244]][[jdbc-based-persistence]]
+
+JDBC-Based Persistence
+~~~~~~~~~~~~~~~~~~~~~~
+
+Instead of using a file-based data store, you can set up a broker to
+access any data store accessible through a JDBC-compliant driver. This
+involves setting the appropriate JDBC-related broker configuration
+properties and using the Database Manager utility (`imqdbmgr`) to create
+the proper database schema. See link:#aeodi[Configuring a JDBC-Based
+Data Store] for specifics.
+
+[[aeoct]][[GMADG00543]][[jdbc-based-persistence-properties]]
+
+JDBC-Based Persistence Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The full set of properties for configuring a broker to use a JDBC
+database are listed in link:broker-properties.html#gbnoa[Table 17-8]. You
+can specify these properties either in the instance configuration file
+(`config.properties`) of each broker instance or by using the `-D`
+command line option to the Broker utility (`imqbrokerd`) or the Database
+Manager utility (`imqdbmgr`).
+
+In practice, however, JDBC properties are preconfigured by default,
+depending on the database vendor being used for the data store. The
+property values are set in the `default.properties` file, and only need
+to be explicitly set if you are overriding the default values. In
+general, you only need to set the following properties:
+
+* `imq.persist.store` +
+This property specifies that a JDBC-based data store (as opposed to the
+default file-based data store) is used to store persistent data.
+* `imq.persist.jdbc.dbVendor` +
+This property identifies the database vendor being used for the data
+store; all of the remaining properties are qualified by this vendor
+name.
+* `imq.persist.jdbc`vendorName`.user` +
+This property specifies the user name to be used by the broker in
+accessing the database.
+* `imq.persist.jdbc`vendorName`.password` +
+This property specifies the password for accessing the database, if
+required; `imq.persist.jdbc.`vendorName`.needpassword` is a boolean flag
+specifying whether a password is needed. For security reasons, the
+database access password should be specified only in a password file
+referenced with the `-passfile` command line option; if no such password
+file is specified, the `imqbrokerd` and `imqdbmgr` commands will prompt
+for the password interactively.
+* `imq.persist.jdbc.`vendorName`.property.`propName +
+This set of properties represents any additional, vendor-specific
+properties that are required.
+* `imq.persist.jdbc.`vendorName`.tableoption` +
+Specifies the vendor-specific options passed to the database when
+creating the table schema.
+
+[[GMADG00115]][[ggwcc]]
+
+
+Example 8-1 Broker Properties for MySQL Database
+
+[source,oac_no_warn]
+----
+imq.persist.store=jdbc
+imq.persist.jdbc.dbVendor=mysql
+imq.persist.jdbc.mysql.user=userName
+imq.persist.jdbc.mysql.password=password
+imq.persist.jdbc.mysql.property.url=jdbc:mysql://hostName:port/dataBase
+----
+
+If you expect to have messages that are larger than 1 MB, configure
+MySQL's `max_allowed_packet` variable accordingly when starting the
+database. For more information see Appendix B of the MySQL 5.0 Reference
+Manual.
+
+In addition, in an enhanced broker cluster, in which a JDBC database is
+shared by multiple broker instances, each broker must be uniquely
+identified in the database (unnecessary for an embedded database, which
+stores data for only one broker instance). The configuration property
+`imq.brokerid` specifies a unique instance identifier to be appended to
+the names of database tables for each broker. See
+link:broker-clusters.html#ggult[Enhanced Broker Cluster Properties].
+
+After setting all of the broker's needed JDBC configuration properties,
+you must also install your JDBC driver's `.jar` file in
+`IMQ_HOME/lib/ext` and then create the database schema for the
+JDBC-based data store (see link:#gbnjm[To Set Up a JDBC-Based Data
+Store]).
+
+[[aeodi]][[GMADG00544]][[configuring-a-jdbc-based-data-store]]
+
+Configuring a JDBC-Based Data Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To configure a broker to use a JDBC database, you set JDBC-related
+properties in the broker's instance configuration file and create the
+appropriate database schema. The Message Queue Database Manager utility
+(`imqdbmgr`) uses your JDBC driver and the broker configuration
+properties to create the schema and manage the database. You can also
+use the Database Manager to delete corrupted tables from the database or
+if you want to use a different database as a data store. See
+link:command-line-reference.html#aeono[Database Manager Utility] for more
+information.
+
+
+[NOTE]
+=======================================================================
+
+If you use an embedded database, it is best to create it under the
+following directory:
+
+[source,oac_no_warn]
+----
+   .../instances/instanceName/dbstore/databaseName
+----
+
+If an embedded database is not protected by a user name and password, it
+is probably protected by file system permissions. To ensure that the
+database is readable and writable by the broker, the user who runs the
+broker should be the same user who created the embedded database using
+the `imqdbmgr` command.
+
+=======================================================================
+
+
+[[gbnjm]][[GMADG00163]][[to-set-up-a-jdbc-based-data-store]]
+
+To Set Up a JDBC-Based Data Store
++++++++++++++++++++++++++++++++++
+
+1.  Set JDBC-related properties in the broker's instance configuration
+file. +
+The relevant properties are discussed, with examples, in
+link:#aeoct[JDBC-Based Persistence Properties] and listed in full in
+link:broker-properties.html#gbnoa[Table 17-8]. In particular, you must
+specify a JDBC-based data store by setting the broker's
+`imq.persist.store` property to `jdbc`.
+2.  Place a copy of, or a symbolic link to, your JDBC driver's `.jar`
+file in `IMQ_HOME/lib/ext`, the Message Queue external resource files
+directory.
+3.  Check the message table schema for your database in
+`IMQ_HOME/lib/props/broker/default.properties`. +
+In the `default.properties` file, locate the message table schema for
+your database by searching for "imq.persist.jdbc.vendor.table.MQMSG".
+Read any commentary notes about the schema and check that the maximum
+message size is sufficient; if it is not, adjust the size of the MESSAGE
+column as needed.
+4.  Create the database schema needed for Message Queue persistence. +
+Use the `imqdbmgr create all` command (for an embedded database) or the
+`imqdbmgr create tbl` command (for an external database); see
+link:command-line-reference.html#aeono[Database Manager Utility].
+1.  Change to the directory where the Database Manager utility resides: +
+[source,oac_no_warn]
+----
+cd IMQ_HOME/bin
+----
+2.  Enter the `imqdbmgr` command: +
+[source,oac_no_warn]
+----
+imqdbmgr create all
+----
+5.  Optionally, if your JDBC driver does not provide automatic
+reconnect, you can configure the following:
+* `imq.persist.jdbc.connection.retry.delay` specifies the amount of
+time, in milliseconds, the broker waits before it attempts to retry
+connecting to a database server for a failed connection.
+* `imq.persist.jdbc.connection.retry.max` specifies the maximum number
+of times the broker will retry connecting to a database server after a
+failed connection.
+* `imq.persist.jdbc.``vendorName``.connection.retry.regex.``n` specifies
+1 or more regular expressions, to be used to match `SQLException`
+messages in order to identify retriable database communication failures.
+
+[[ggwdb]][[GMADG00164]][[to-display-information-about-a-jdbc-based-data-store]]
+
+To Display Information About a JDBC-Based Data Store
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+You can display information about a JDBC-based data store using the
+Database Manager utility (`imqdbmgr`) as follows:
+
+1.  Change to the directory where the Database Manager utility resides: +
+[source,oac_no_warn]
+----
+cd IMQ_HOME/bin
+----
+2.  Enter the `imqdbmgr` command: +
+[source,oac_no_warn]
+----
+imqdbmgr query
+----
+The output should resemble the following +
+[source,oac_no_warn]
+----
+dbmgr query
+
+[04/Oct/2005:15:30:20 PDT] Using plugged-in persistent store:
+        version=400
+        brokerid=Mozart1756
+        database connection url=jdbc:oracle:thin:@Xhome:1521:mqdb
+        database user=scott
+Running in standalone mode.
+Database tables have already been created.
+----
+
+[[aeodl]][[GMADG00545]][[securing-a-jdbc-based-data-store]]
+
+Securing a JDBC-Based Data Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The persistent data store can contain, among other information, message
+files that are being temporarily stored. Since these messages may
+contain proprietary information, it is important to secure the data
+store against unauthorized access. This section describes how to secure
+data in a JDBC-based data store.
+
+A broker using JDBC-based persistence writes persistent data to a
+JDBC-compliant database. For a database managed by a database server
+(such as Oracle), it is recommended that you create a user name and
+password to access the Message Queue database tables (tables whose names
+start with `MQ`). If the database does not allow individual tables to be
+protected, create a dedicated database to be used only by Message Queue
+brokers. See the documentation provided by your database vendor for
+information on how to create user name/password access.
+
+The user name and password required to open a database connection by a
+broker can be provided as broker configuration properties. However it is
+more secure to provide them as command line options when starting up the
+broker, using the `imqbrokerd` command's `-dbuser`and `-dbpassword`
+options (see link:command-line-reference.html#aeone[Broker Utility]).
+
+For an embedded database that is accessed directly by the broker by
+means of the database's JDBC driver, security is usually provided by
+setting file permissions on the directory where the persistent data will
+be stored, as described above under link:#aeodk[Securing a File-Based
+Data Store] To ensure that the database is readable and writable by both
+the broker and the Database Manager utility, however, both should be run
+by the same user.
+
+[[ggwal]][[GMADG00245]][[data-store-formats]]
+
+Data Store Formats
+~~~~~~~~~~~~~~~~~~
+
+Changes in the file formats for both file-based and JDBC-based
+persistent data stores were introduced in Message Queue 3.7, with
+further JDBC changes in version 4.0 and 4.1. As a result of these
+changes, the persistent data store version numbers have been updated to
+370 for file-based data stores and 410 for JDBC-based stores. You can
+use the `imqdbmgr` `query` command to determine the version number of
+your existing data store.
+
+On first startup, the Message Queue Broker utility (`imqbrokerd`) will
+check for the presence of an older persistent data store and
+automatically migrate it to the latest format:
+
+* File-based data store versions 200 and 350 are migrated to the version
+370 format.
+* JDBC-based data store versions 350, 370, and 400 are migrated to the
+version 410 format. (If you need to upgrade a version 200 data store,
+you will need to step through an intermediate Message Queue 3.5 or 3.6
+release.)
+
+The upgrade leaves the older copy of the persistent data store intact,
+allowing you to roll back the upgrade if necessary. To do so, you can
+uninstall the current version of Message Queue and reinstall the earlier
+version you were previously running. The older version's message brokers
+will locate and use the older copy of the data store.
+
+Beginning in Message Queue 4.5, the `imq.persist.file.newTxnLog`
+property is `true` by default. This setting can generate an error when
+starting a broker that is using an older persistent data store. To
+resolve the error, set the property value to `false` and start the
+broker, thus migrating the data store to the latest format. Then, you
+can stop the broker, set the property value back to `true`, and start
+the broker without encountering an error.
+
+

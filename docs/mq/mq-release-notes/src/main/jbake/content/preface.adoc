@@ -1,0 +1,352 @@
+type=page
+status=published
+title=Preface
+next=release-notes.html
+prev=title.html
+~~~~~~
+Preface
+=======
+
+[[GMRLN101]][[gblyo]]
+
+
+[[preface]]
+Preface
+-------
+
+This book provides information about concepts and procedures for
+developing Java messaging applications (Java clients) that work with
+Message Queue.
+
+This preface consists of the following sections:
+
+* link:#ghode[Documentation Conventions]
+* link:#gbqah[Related Documentation]
+
+[[GMRLN102]][[ghode]]
+
+
+[[documentation-conventions]]
+Documentation Conventions
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section describes the following conventions used in Message Queue
+documentation:
+
+* link:#gbqam[Typographic Conventions]
+* link:#gdxny[Symbol Conventions]
+* link:#fwbsd[Shell Prompt Conventions]
+* link:#gbqig[Directory Variable Conventions]
+
+[[GMRLN103]][[gbqam]]
+
+
+[[typographic-conventions]]
+Typographic Conventions
+^^^^^^^^^^^^^^^^^^^^^^^
+
+The following table describes the typographic conventions that are used
+in this book.
+
+[width="100%",cols="14%,44%,42%",options="header",]
+|=======================================================================
+|Typeface |Meaning |Example
+|`AaBbCc123` |The names of commands, files, and directories, and
+onscreen computer output a|
+Edit your `.login` file.
+
+Use `ls` `a` to list all files.
+
+`machine_name% you have mail.`
+
+|`AaBbCc123` |What you type, contrasted with onscreen computer output a|
+`machine_name%` `su`
+
+`Password:`
+
+|aabbcc123 |Placeholder: replace with a real name or value |The command
+to remove a file is `rm` filename.
+
+|AaBbCc123 |Book titles, new terms, and terms to be emphasized a|
+Read Chapter 6 in the User's Guide.
+
+A cache is a copy that is stored locally.
+
+Do not save the file.
+
+Note: Some emphasized items appear bold online.
+
+|=======================================================================
+
+
+[[GMRLN104]][[gdxny]]
+
+
+[[symbol-conventions]]
+Symbol Conventions
+^^^^^^^^^^^^^^^^^^
+
+The following table explains symbols that might be used in this book.
+
+[width="100%",cols="11%,27%,28%,34%",options="header",]
+|=======================================================================
+|Symbol |Description |Example |Meaning
+|`[ ]` |Contains optional arguments and command options. |`ls [-l]` |The
+`-l` option is not required.
+
+|`{ \| }` |Contains a set of choices for a required command option.
+|`-d {y\|n}` |The `-d` option requires that you use either the `y`
+argument or the `n` argument.
+
+|`${ }` |Indicates a variable reference. |`${com.sun.javaRoot}`
+|References the value of the `com.sun.javaRoot` variable.
+
+|- |Joins simultaneous multiple keystrokes. |Control-A |Press the
+Control key while you press the A key.
+
+|+ + |Joins consecutive multiple keystrokes. |Ctrl+A+N |Press the
+Control key, release it, and then press the subsequent keys.
+
+|> |Indicates menu item selection in a graphical user interface. |File >
+New > Templates |From the File menu, choose New. From the New submenu,
+choose Templates.
+|=======================================================================
+
+
+[[GMRLN105]][[fwbsd]]
+
+
+[[shell-prompt-conventions]]
+Shell Prompt Conventions
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following table shows the conventions used in Message Queue
+documentation for the default UNIX system prompt and superuser prompt
+for the C shell, Bourne shell, Korn shell, and for the Windows operating
+system.
+
+[width="100%",cols="67%,33%",options="header",]
+|===================================================================
+|Shell |Prompt
+|C shell on UNIX, Linux, or AIX |machine-name`%`
+|C shell superuser on UNIX, Linux, or AIX |machine-name`#`
+|Bourne shell and Korn shell on UNIX, Linux, or AIX |`$` +
+|Bourne shell and Korn shell superuser on UNIX, Linux, or AIX |`#` +
+|Windows command line |`C:\>`
+|===================================================================
+
+
+[[GMRLN106]][[gbqig]]
+
+
+[[directory-variable-conventions]]
+Directory Variable Conventions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue documentation makes use of three directory variables; two
+of which represent environment variables needed by Message Queue. (How
+you set the environment variables varies from platform to platform.)
+
+The following table describes the directory variables that might be
+found in this book and how they are used. Some of these variables refer
+to the directory mqInstallHome, which is the directory where Message
+Queue is installed to when using the installer or unzipped to when using
+a zip-based distribution.
+
+
+[NOTE]
+=======================================================================
+
+In this book, directory variables are shown without platform-specific
+environment variable notation or syntax (such as `$IMQ_HOME` on UNIX).
+Non-platform-specific path names use UNIX directory separator (`/`)
+notation.
+
+=======================================================================
+
+
+[width="100%",cols="19%,81%",options="header",]
+|=======================================================================
+|Variable |Description
+|`IMQ_HOME` a|
+The Message Queue home directory:
+
+* For installations of Message Queue bundled with GlassFish Server,
+`IMQ_HOME` is as-install-parent`/mq`, where as-install-parent is the
+parent directory of the GlassFish Server base installation directory,
+`glassfish5` by default for MQ 5.1.3 and GlassFish 4.1 for MQ 5.0.
+* For installations of Open Message Queue, `IMQ_HOME` is
+mqInstallHome`/mq`.
+
+|`IMQ_VARHOME` a|
+The directory in which Message Queue temporary or dynamically created
+configuration and data files are stored; `IMQ_VARHOME` can be explicitly
+set as an environment variable to point to any directory or will default
+as described below:
+
+* For installations of Message Queue bundled with GlassFish Server,
+`IMQ_VARHOME` defaults to
+as-install-parent`/glassfish/domains/domain1/imq`.
+* For installations of Open Message Queue, `IMQ_HOME` defaults to
+mqInstallHome`/var/mq`.
+
+|`IMQ_JAVAHOME` |An environment variable that points to the location of
+the Java runtime environment (JRE) required by Message Queue executable
+files. By default, Message Queue looks for and uses the latest JDK, but
+you can optionally set the value of `IMQ_JAVAHOME` to wherever the
+preferred JRE resides.
+|=======================================================================
+
+
+[[GMRLN107]][[gbqah]]
+
+
+[[related-documentation]]
+Related Documentation
+~~~~~~~~~~~~~~~~~~~~~
+
+The information resources listed in this section provide further
+information about Message Queue in addition to that contained in this
+manual. The section covers the following resources:
+
+* link:#ghohr[Message Queue Documentation Set]
+* link:#ghogx[Java Message Service (JMS) Specification]
+* link:#ghogf[JavaDoc]
+* link:#ghodr[Example Client Applications]
+* link:#ghodm[Online Help]
+
+[[GMRLN108]][[ghohr]]
+
+
+[[message-queue-documentation-set]]
+Message Queue Documentation Set
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The documents that constitute the Message Queue documentation set are
+listed in the following table in the order in which you might normally
+use them. These documents are available at
+`https://javaee.github.io/openmq/Documentation.html`.
+
+[width="100%",cols="23%,22%,55%",options="header",]
+|=======================================================================
+|Document |Audience |Description
+|https://javaee.github.io/glassfish/doc/4.0/mq-tech-over.pdf[Technical
+Overview] |Developers and administrators |Describes Message Queue
+concepts, features, and components.
+
+|https://javaee.github.io/glassfish/doc/5.0/mq-release-notes.pdf[Release
+Notes] |Developers and administrators |Includes descriptions of new
+features, limitations, and known bugs, as well as technical notes.
+
+|https://javaee.github.io/glassfish/doc/4.0/mq-admin-guide.pdf[Administration
+Guide] |Administrators, also recommended for developers |Provides
+background and information needed to perform administration tasks using
+Message Queue administration tools.
+
+|https://javaee.github.io/glassfish/doc/4.0/mq-dev-guide-java.pdf[Developer's
+Guide for Java Clients] |Developers |Provides a quick-start tutorial and
+programming information for developers of Java client programs using the
+Message Queue implementation of the JMS or SOAP/JAXM APIs.
+
+|https://javaee.github.io/glassfish/doc/4.0/mq-dev-guide-java.pdf[Developer's
+Guide for C Clients] |Developers |Provides programming and reference
+documentation for developers of C client programs using the Message
+Queue C implementation of the JMS API (C-API).
+
+|https://javaee.github.io/glassfish/doc/4.0/mq-dev-guide-jmx.pdf[Developer's
+Guide for JMX Clients] |Administrators |Provides programming and
+reference documentation for developers of JMX client programs using the
+Message Queue JMX API.
+|=======================================================================
+
+
+[[GMRLN109]][[ghogx]]
+
+
+[[java-message-service-jms-specification]]
+Java Message Service (JMS) Specification
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Message Queue message service conforms to the Java Message Service
+(JMS) application programming interface, described in the Java Message
+Service Specification. This document can be found at the URL
+`https://javaee.github.io/jms-spec/`.
+
+[[GMRLN110]][[ghogf]]
+
+
+[[javadoc]]
+JavaDoc
+^^^^^^^
+
+JMS and Message Queue API documentation in JavaDoc format is included in
+Message Queue installations at `IMQ_HOME/javadoc/index.html`. This
+documentation can be viewed in any HTML browser. It includes standard
+JMS API documentation as well as Message Queue-specific APIs.
+
+[[GMRLN111]][[ghodr]]
+
+
+[[example-client-applications]]
+Example Client Applications
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue provides a number of example client applications to assist
+developers.
+
+[[GMRLN112]][[ghodq]]
+
+
+[[example-java-client-applications]]
+Example Java Client Applications
+++++++++++++++++++++++++++++++++
+
+Example Java client applications are included in Message Queue
+installations at `IMQ_HOME/examples`. See the `README` files located in
+this directory and its subdirectories for descriptive information about
+the example applications.
+
+[[GMRLN113]][[ghofu]]
+
+
+[[example-c-client-programs]]
+Example C Client Programs
++++++++++++++++++++++++++
+
+Example C client applications are included in Message Queue
+installations at `IMQ_HOME/examples/C`. See the `README` files located
+in this directory and its subdirectories for descriptive information
+about the example applications.
+
+For 5.1 and 5.1.1: Example C client applications are available in MQ
+source code bundles at `https://github.com/javaee/openmq/releases`
+
+[[GMRLN114]][[ghofn]]
+
+
+[[example-jmx-client-programs]]
+Example JMX Client Programs
++++++++++++++++++++++++++++
+
+Example Java Management Extensions (JMX) client applications are
+included in Message Queue installations at `IMQ_HOME/examples/jmx`. See
+the `README` files located in this directory and its subdirectories for
+descriptive information about the example applications.
+
+[[GMRLN115]][[ghodm]]
+
+
+[[online-help]]
+Online Help
+^^^^^^^^^^^
+
+Online help is available for the Message Queue command line utilities;
+for details, see
+"https://javaee.github.io/glassfish/doc/4.0/mq-admin-guide.pdf#E25.aeonc[Command
+Line Reference]" in Open Message Queue Administration Guide. The Message
+Queue graphical user interface (GUI) administration tool, the
+Administration Console, also includes a context-sensitive help facility;
+for details, see
+"https://javaee.github.io/glassfish/doc/4.0/mq-admin-guide.pdf#G6.1002097[Administration
+Console Online Help]" in Open Message Queue Administration Guide.
+

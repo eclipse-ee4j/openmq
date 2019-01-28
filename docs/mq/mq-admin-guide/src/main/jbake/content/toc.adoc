@@ -1,0 +1,891 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Administration Guide, Release 5.1.3
+next=loe.html
+~~~~~~
+Eclipse Open Message Queue Administration Guide, Release 5.1.3
+==============================================================
+
+[[contents]]
+Contents
+--------
+
+[[list-of-examples]]
+link:loe.html[List of Examples]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[list-of-figures]]
+link:lof.html[List of Figures]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[list-of-tables]]
+link:lot.html[List of Tables]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#gblyj[Who Should Use This Book]
+* link:preface.html#gblxf[Before You Read This Book]
+* link:preface.html#gblxh[How This Book Is Organized]
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+
+[[part-i-introduction-to-message-queue-administration]]
+link:part-introduction.html#gcrlv[Part I Introduction to Message Queue Administration]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[administrative-tasks-and-tools]]
+link:admin-tasks-and-tools.html#aeoap[1 Administrative Tasks and Tools]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:admin-tasks-and-tools.html#aeoaq[Administrative Tasks]
+
+** link:admin-tasks-and-tools.html#aeoar[Administration in a Development
+Environment]
+
+** link:admin-tasks-and-tools.html#aeoas[Administration in a Production
+Environment]
+*** link:admin-tasks-and-tools.html#aeoat[Setup Operations]
+*** link:admin-tasks-and-tools.html#aeoau[Maintenance Operations]
+* link:admin-tasks-and-tools.html#aeoav[Administration Tools]
+
+** link:admin-tasks-and-tools.html#ggwcf[Built-in Administration Tools]
+*** link:admin-tasks-and-tools.html#aeoaw[Command Line Utilities]
+*** link:admin-tasks-and-tools.html#aeoax[Administration Console]
+
+** link:admin-tasks-and-tools.html#ggwao[JMX-Based Administration]
+
+[[quick-start-tutorial]]
+link:quick-start.html#aeoay[2 Quick-Start Tutorial]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:quick-start.html#aeoaz[Starting the Administration Console]
+* link:quick-start.html#aeoba[Administration Console Online Help]
+* link:quick-start.html#aeobb[Working With Brokers]
+
+** link:quick-start.html#aeobc[Starting a Broker]
+
+** link:quick-start.html#aeobd[Adding a Broker to the Administration
+Console]
+*** link:quick-start.html#gbngl[To Add a Broker to the Administration
+Console]
+
+** link:quick-start.html#aeobe[Connecting to a Broker]
+*** link:quick-start.html#gbngw[To Connect to a Broker]
+
+** link:quick-start.html#aeobf[Viewing Connection Services]
+*** link:quick-start.html#gbnhr[To View Available Connection Services]
+* link:quick-start.html#aeobg[Working With Physical Destinations]
+
+** link:quick-start.html#aeobh[Creating a Physical Destination]
+*** link:quick-start.html#gbnio[To Add a Physical Destination to a
+Broker]
+
+** link:quick-start.html#aeobi[Viewing Physical Destination Properties]
+*** link:quick-start.html#gbniy[To View or Modify the Properties of a
+Physical Destination]
+
+** link:quick-start.html#aeobj[Purging Messages From a Physical
+Destination]
+*** link:quick-start.html#gbnil[To Purge Messages From a Physical
+Destination]
+
+** link:quick-start.html#aeobk[Deleting a Physical Destination]
+*** link:quick-start.html#gbnij[To Delete a Physical Destination]
+* link:quick-start.html#aeobl[Working With Object Stores]
+
+** link:quick-start.html#aeobm[Adding an Object Store]
+*** link:quick-start.html#gbnip[To Add an Object Store to the
+Administration Console]
+
+** link:quick-start.html#aeobn[Connecting to an Object Store]
+*** link:quick-start.html#gbnin[To Connect to an Object Store]
+* link:quick-start.html#aeobo[Working With Administered Objects]
+
+** link:quick-start.html#aeobp[Adding a Connection Factory]
+*** link:quick-start.html#gbniv[To Add a Connection Factory to an Object
+Store]
+
+** link:quick-start.html#aeobq[Adding a Destination]
+*** link:quick-start.html#gbnit[To Add a Destination to an Object Store]
+
+** link:quick-start.html#aeobr[Viewing Administered Object Properties]
+*** link:quick-start.html#gbniw[To View or Modify the Properties of an
+Administered Object]
+
+** link:quick-start.html#aeobs[Deleting an Administered Object]
+*** link:quick-start.html#gbniu[To Delete an Administered Object]
+* link:quick-start.html#aeobt[Running the Sample Application]
+
+** link:quick-start.html#gbniz[To Run the Sample Application]
+
+[[part-ii-administrative-tasks]]
+link:part-administrative-tasks.html#gcrli[Part II Administrative Tasks]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[starting-brokers-and-clients]]
+link:starting-brokers-and-clients.html#aeobu[3 Starting Brokers and Clients]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:starting-brokers-and-clients.html#aeobv[Preparing System
+Resources]
+
+** link:starting-brokers-and-clients.html#aeobw[Synchronizing System
+Clocks]
+
+** link:starting-brokers-and-clients.html#aeobx[Setting the File
+Descriptor Limit]
+* link:starting-brokers-and-clients.html#aeoby[Starting Brokers]
+
+** link:starting-brokers-and-clients.html#aeobz[Starting Brokers
+Interactively]
+
+** link:starting-brokers-and-clients.html#aeoca[Starting Brokers
+Automatically]
+*** link:starting-brokers-and-clients.html#ggwew[Automatic Broker Startup
+on the Solaris Platforms]
+*** link:starting-brokers-and-clients.html#aeocb[Automatic Broker Startup
+on the Linux Platform]
+*** link:starting-brokers-and-clients.html#aeocc[Automatic Broker Startup
+on Windows]
+* link:starting-brokers-and-clients.html#aeoch[Deleting a Broker
+Instance]
+* link:starting-brokers-and-clients.html#aeock[Starting Clients]
+
+[[configuring-a-broker]]
+link:broker-configuration.html#aeocl[4 Configuring a Broker]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:broker-configuration.html#aeocm[Broker Services]
+* link:broker-configuration.html#aeodc[Setting Broker Configuration
+Properties]
+
+** link:broker-configuration.html#aeodd[Modifying Configuration Files]
+
+** link:broker-configuration.html#aeodf[Setting Configuration Properties
+from the Command Line]
+
+[[managing-a-broker]]
+link:broker-management.html#aeodm[5 Managing a Broker]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:broker-management.html#aeodn[Command Utility Preliminaries]
+* link:broker-management.html#aeodo[Using the Command Utility]
+
+** link:broker-management.html#aeodr[Specifying the User Name and
+Password]
+
+** link:broker-management.html#aeodu[Specifying the Broker Name and Port]
+
+** link:broker-management.html#aeodq[Displaying the Product Version]
+
+** link:broker-management.html#aeodp[Displaying Help]
+
+** link:broker-management.html#aeodv[Examples]
+* link:broker-management.html#geobv[Managing Brokers]
+
+** link:broker-management.html#aeoeb[Shutting Down and Restarting a
+Broker]
+
+** link:broker-management.html#geodc[Quiescing a Broker]
+
+** link:broker-management.html#aeody[Pausing and Resuming a Broker]
+
+** link:broker-management.html#aeodx[Updating Broker Properties]
+
+** link:broker-management.html#aeodw[Viewing Broker Information]
+
+[[configuring-and-managing-connection-services]]
+link:connection-services.html#gheau[6 Configuring and Managing Connection Services]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:connection-services.html#aeocn[Configuring Connection Services]
+
+** link:connection-services.html#aeoco[Port Mapper]
+
+** link:connection-services.html#aeocp[Thread Pool Management]
+* link:connection-services.html#aeoed[Managing Connection Services]
+
+** link:connection-services.html#aeoei[Pausing and Resuming a Connection
+Service]
+
+** link:connection-services.html#aeoeg[Updating Connection Service
+Properties]
+
+** link:connection-services.html#aeoee[Viewing Connection Service
+Information]
+* link:connection-services.html#aeoej[Managing Connections]
+
+[[managing-message-delivery]]
+link:message-delivery.html#ghebf[7 Managing Message Delivery]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:message-delivery.html#gheav[Configuring and Managing Physical
+Destinations]
+
+** link:message-delivery.html#aeoen[Command Utility Subcommands for
+Physical Destination Management]
+
+** link:message-delivery.html#aeoep[Creating and Destroying Physical
+Destinations]
+*** link:message-delivery.html#ghcfr[Naming Destinations]
+*** link:message-delivery.html#ghcgy[Setting Property Values]
+*** link:message-delivery.html#ghcee[Destroying Destinations]
+
+** link:message-delivery.html#aeoet[Pausing and Resuming a Physical
+Destination]
+
+** link:message-delivery.html#aeoeu[Purging a Physical Destination]
+
+** link:message-delivery.html#aeoes[Updating Physical Destination
+Properties]
+
+** link:message-delivery.html#aeoer[Viewing Physical Destination
+Information]
+
+** link:message-delivery.html#aeoew[Managing Physical Destination Disk
+Utilization]
+
+** link:message-delivery.html#aeoez[Using the Dead Message Queue]
+*** link:message-delivery.html#aeofb[Managing the Dead Message Queue]
+*** link:message-delivery.html#aeofe[Enabling Dead Message Logging]
+* link:message-delivery.html#aeocq[Managing Broker System-Wide Memory]
+* link:message-delivery.html#aeoek[Managing Durable Subscriptions]
+* link:message-delivery.html#aeoel[Managing Transactions]
+
+[[configuring-persistence-services]]
+link:persistence-services.html#gheas[8 Configuring Persistence Services]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:persistence-services.html#aeocr[Introduction to Persistence
+Services]
+* link:persistence-services.html#gheap[File-Based Persistence]
+
+** link:persistence-services.html#aeocs[File-Based Persistence
+Properties]
+
+** link:persistence-services.html#aeodh[Configuring a File-Based Data
+Store]
+
+** link:persistence-services.html#aeodk[Securing a File-Based Data Store]
+
+** link:persistence-services.html#gjmqy[Optimizing File-Based Transaction
+Persistence]
+* link:persistence-services.html#gheaz[JDBC-Based Persistence]
+
+** link:persistence-services.html#aeoct[JDBC-Based Persistence
+Properties]
+
+** link:persistence-services.html#aeodi[Configuring a JDBC-Based Data
+Store]
+*** link:persistence-services.html#gbnjm[To Set Up a JDBC-Based Data
+Store]
+*** link:persistence-services.html#ggwdb[To Display Information About a
+JDBC-Based Data Store]
+
+** link:persistence-services.html#aeodl[Securing a JDBC-Based Data Store]
+* link:persistence-services.html#ggwal[Data Store Formats]
+
+[[configuring-and-managing-security-services]]
+link:security-services.html#aeoff[9 Configuring and Managing Security Services]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:security-services.html#aeocu[Introduction to Security Services]
+
+** link:security-services.html#aeocv[Authentication]
+
+** link:security-services.html#aeocw[Authorization]
+
+** link:security-services.html#aeocx[Encryption]
+* link:security-services.html#aeofg[User Authentication]
+
+** link:security-services.html#aeofh[Using a Flat-File User Repository]
+*** link:security-services.html#aeofm[User Groups and Status]
+*** link:security-services.html#aeofj[Using the User Manager Utility]
+
+** link:security-services.html#aeofr[Using an LDAP User Repository]
+*** link:security-services.html#gbnkk[To Set Up an Administrative User]
+
+** link:security-services.html#gepfq[Using JAAS-Based Authentication]
+*** link:security-services.html#gephn[Elements of JAAS]
+*** link:security-services.html#gepfs[JAAS and Message Queue]
+*** link:security-services.html#gepgd[Setting up JAAS-Compliant
+Authentication]
+* link:security-services.html#aeofu[User Authorization]
+
+** link:security-services.html#aeofv[Access Control File Syntax]
+
+** link:security-services.html#aeofx[Application of Authorization Rules]
+
+** link:security-services.html#aeofy[Authorization Rules for Connection
+Services]
+
+** link:security-services.html#aeofz[Authorization Rules for Physical
+Destinations]
+*** link:security-services.html#gjmsn[Authorization Rules for
+Auto-Created Physical Destinations]
+* link:security-services.html#aeogb[Message Encryption]
+
+** link:security-services.html#aeogd[Using Self-Signed Certificates]
+*** link:security-services.html#ggwkm[Setting Up an SSL-Based Connection
+Service Using Self-Signed Certificates]
+*** link:security-services.html#aeogh[Configuring and Running an
+SSL-Based Client Using Self-Signed Certificates]
+
+** link:security-services.html#aeogk[Using Signed Certificates]
+*** link:security-services.html#aeogl[Obtaining and Installing a Signed
+Certificate]
+*** link:security-services.html#aeogm[Configuring the Client to Require
+Signed Certificates]
+* link:security-services.html#aeogq[Password Files]
+
+** link:security-services.html#aeogr[Security Considerations for
+Passwords and Password Files]
+
+** link:security-services.html#aeogs[Password File Contents]
+
+** link:security-services.html#CJAIJHAJ[Secure Password Files]
+*** link:security-services.html#CJAJGGBD[Obfuscate a Passfile]
+*** link:security-services.html#sthref37[Add a Password to a Password
+File]
+*** link:security-services.html#sthref38[Delete a Password from a
+Password File]
+*** link:security-services.html#sthref39[Change a Password in a Password
+File]
+*** link:security-services.html#sthref40[Deobfuscate a Password File]
+*** link:security-services.html#sthref41[Upgrading Clear Text Password
+Files]
+* link:security-services.html#gcuhq[Connecting Through a Firewall]
+
+** link:security-services.html#gcugz[To Enable Broker Connections Through
+a Firewall]
+* link:security-services.html#aeogt[Audit Logging with the Solaris BSM
+Audit Log]
+
+[[configuring-and-managing-broker-clusters]]
+link:broker-clusters.html#aeohv[10 Configuring and Managing Broker Clusters]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:broker-clusters.html#aeohw[Configuring Broker Clusters]
+
+** link:broker-clusters.html#gejlk[The Cluster Configuration File]
+
+** link:broker-clusters.html#gejkw[Cluster Configuration Properties]
+*** link:broker-clusters.html#ggumd[Cluster Connection Service
+Properties]
+*** link:broker-clusters.html#ggulp[Conventional Broker Cluster
+Properties]
+*** link:broker-clusters.html#ggult[Enhanced Broker Cluster Properties]
+
+** link:broker-clusters.html#geciv[Displaying a Cluster Configuration]
+* link:broker-clusters.html#aeohz[Managing Broker Clusters]
+
+** link:broker-clusters.html#gebnh[Managing Conventional Clusters]
+*** link:broker-clusters.html#aeoia[Connecting Brokers into a
+Conventional Cluster]
+*** link:broker-clusters.html#aeoid[Adding Brokers to a Conventional
+Cluster]
+*** link:broker-clusters.html#aeoie[Removing Brokers From a Conventional
+Cluster]
+*** link:broker-clusters.html#gkudn[Changing the Master Broker in a
+Conventional Cluster with Master Broker]
+*** link:broker-clusters.html#aeoih[Managing a Conventional Cluster's
+Configuration Change Record]
+*** link:broker-clusters.html#gktiy[Converting Between Types of
+Conventional Clusters]
+
+** link:broker-clusters.html#gebna[Managing Enhanced Clusters]
+*** link:broker-clusters.html#gebmt[Connecting Brokers into an Enhanced
+Cluster]
+*** link:broker-clusters.html#gecjj[Adding and Removing Brokers in an
+Enhanced Cluster]
+*** link:broker-clusters.html#gkbfh[Restarting a Failed Broker]
+*** link:broker-clusters.html#gecjm[Preventing or Forcing Broker
+Failover]
+*** link:broker-clusters.html#ggvcd[Backing up a Shared Data Store]
+
+** link:broker-clusters.html#ghsgh[Converting a Conventional Cluster to
+an Enhanced Cluster]
+*** link:broker-clusters.html#ghshq[Cluster Conversion : File-Based Data
+Store]
+*** link:broker-clusters.html#ghshc[Cluster Conversion: JDBC-Based Data
+Store]
+
+[[managing-administered-objects]]
+link:administered-objects.html#aeogu[11 Managing Administered Objects]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:administered-objects.html#aeogv[Object Stores]
+
+** link:administered-objects.html#aeogw[LDAP Server Object Stores]
+
+** link:administered-objects.html#aeogx[File-System Object Stores]
+* link:administered-objects.html#aeogy[Administered Object Attributes]
+
+** link:administered-objects.html#aeogz[Connection Factory Attributes]
+*** link:administered-objects.html#aeoha[Connection Handling]
+*** link:administered-objects.html#aeohe[Client Identification]
+*** link:administered-objects.html#aeohh[Reliability And Flow Control]
+*** link:administered-objects.html#gctlb[Queue Browser and Server
+Sessions]
+*** link:administered-objects.html#aeohj[Standard Message Properties]
+*** link:administered-objects.html#aeohk[Message Header Overrides]
+
+** link:administered-objects.html#aeohl[Destination Attributes]
+* link:administered-objects.html#aeohm[Using the Object Manager Utility]
+
+** link:administered-objects.html#gkvxo[Connecting to a Secured LDAP
+Server (ldaps)]
+
+** link:administered-objects.html#aeohn[Adding Administered Objects]
+*** link:administered-objects.html#aeoho[Adding a Connection Factory]
+*** link:administered-objects.html#aeohp[Adding a Destination]
+
+** link:administered-objects.html#aeohq[Deleting Administered Objects]
+
+** link:administered-objects.html#aeohr[Listing Administered Objects]
+
+** link:administered-objects.html#aeohs[Viewing Administered Object
+Information]
+
+** link:administered-objects.html#aeoht[Modifying Administered Object
+Attributes]
+
+** link:administered-objects.html#aeohu[Using Command Files]
+
+[[configuring-and-managing-bridge-services]]
+link:bridge-services.html#gjdnl[12 Configuring and Managing Bridge Services]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:bridge-services.html#gjdlj[The Bridge Service Manager]
+
+** link:bridge-services.html#gjlig[Bridge-Related Broker Properties]
+*** link:bridge-services.html#gjzqh[To Enable the Bridge Service Manager]
+
+** link:bridge-services.html#gjlji[Bridge Manager Utility]
+
+** link:bridge-services.html#gjzqa[Logging of Bridge Services]
+* link:bridge-services.html#gjdlg[Configuring and Managing JMS Bridge
+Services]
+
+** link:bridge-services.html#gjlqp[JMS Bridge Components]
+
+** link:bridge-services.html#gjlrd[JMS Bridge Features]
+*** link:bridge-services.html#gjlsk[Pooled, Shared, and Dedicated
+Connections]
+*** link:bridge-services.html#gjlrv[Transactional Message Transfer]
+*** link:bridge-services.html#gjlsf[JMS Bridges in High Availability (HA)
+Broker Clusters]
+*** link:bridge-services.html#gjlsh[Message Transformation During Message
+Delivery]
+*** link:bridge-services.html#gjlry[JMSReplyTo Header Processing]
+*** link:bridge-services.html#gjlrk[Dead Message Queue (DMQ) Processing]
+
+** link:bridge-services.html#gjlrr[Message Processing Sequence Across a
+Link in a JMS Bridge]
+
+** link:bridge-services.html#gjlro[Configuring a JMS Bridge]
+*** link:bridge-services.html#gjlrw[Specifying the Broker Properties for
+a JMS Bridge]
+*** link:bridge-services.html#gjlse[Creating the XML Configuration File
+for a JMS Bridge]
+
+** link:bridge-services.html#gjlrp[Starting and Stopping JMS Bridges]
+*** link:bridge-services.html#sthref66[To Configure a JMS Bridge to Start
+at Broker Startup]
+*** link:bridge-services.html#sthref67[To Start a JMS Bridge Manually]
+*** link:bridge-services.html#sthref68[To Stop a JMS Bridge Manually]
+
+** link:bridge-services.html#gjmig[Starting and Stopping Links in a JMS
+Bridge]
+*** link:bridge-services.html#sthref69[To Stop a Link Manually]
+*** link:bridge-services.html#sthref70[To Start a Link Manually]
+* link:bridge-services.html#gjdkc[Configuring and Managing STOMP Bridge
+Services]
+
+** link:bridge-services.html#gjmne[Configuring the STOMP Bridge]
+
+** link:bridge-services.html#gjmnw[Starting and Stopping the STOMP
+Bridge]
+*** link:bridge-services.html#sthref72[To Activate the STOMP Bridge]
+*** link:bridge-services.html#sthref73[To Stop the STOMP Bridge Manually]
+*** link:bridge-services.html#sthref74[To Start the STOMP Bridge
+Manually]
+
+** link:bridge-services.html#gjmmg[Message Processing Sequence Across the
+STOMP Bridge]
+*** link:bridge-services.html#gjmph[Message Transformation During Message
+Processing]
+
+** link:bridge-services.html#gjmnu[STOMP Protocol Features and the STOMP
+Bridge]
+
+[[monitoring-broker-operations]]
+link:monitoring.html#aeoik[13 Monitoring Broker Operations]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:monitoring.html#aeocy[Monitoring Services]
+* link:monitoring.html#aeoil[Introduction to Monitoring Tools]
+* link:monitoring.html#aeoim[Configuring and Using Broker Logging]
+
+** link:monitoring.html#aeoda[Logger Properties]
+
+** link:monitoring.html#aeoio[Log Message Format]
+
+** link:monitoring.html#aeoin[Default Logging Configuration]
+
+** link:monitoring.html#aeoip[Changing the Logging Configuration]
+*** link:monitoring.html#gbnku[To Change the Logger Configuration for a
+Broker]
+*** link:monitoring.html#aeoiq[Changing the Output Channel]
+*** link:monitoring.html#aeoir[Changing Log File Rollover Criteria]
+*** link:monitoring.html#aeois[Sending Metrics Data to Log Files]
+*** link:monitoring.html#aeoit[Logging Dead Messages]
+* link:monitoring.html#aeoiu[Using the Command Utility to Display Metrics
+Interactively]
+
+** link:monitoring.html#aeoiv[imqcmd metrics]
+*** link:monitoring.html#gbnlu[To Use the metrics Subcommand]
+
+** link:monitoring.html#aeoix[Metrics Outputs: imqcmd metrics]
+*** link:monitoring.html#aeoiy[Brokerwide Metrics]
+*** link:monitoring.html#aeoiz[Connection Service Metrics]
+*** link:monitoring.html#aeoja[Physical Destination Metrics]
+
+** link:monitoring.html#aeojb[imqcmd query]
+* link:monitoring.html#ggxey[Using the JMX Administration API]
+* link:monitoring.html#gfona[Using the Java ES Monitoring Console]
+* link:monitoring.html#aeojc[Using the Message-Based Monitoring API]
+
+** link:monitoring.html#aeojd[Setting Up Message-Based Monitoring]
+*** link:monitoring.html#gbnlh[To Set Up Message-based Monitoring]
+
+** link:monitoring.html#aeoje[Security and Access Considerations]
+
+** link:monitoring.html#aeojf[Metrics Outputs: Metrics Messages]
+
+[[analyzing-and-tuning-a-message-service]]
+link:tuning.html#aeojg[14 Analyzing and Tuning a Message Service]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:tuning.html#aeojh[About Performance]
+
+** link:tuning.html#aeoji[The Performance Tuning Process]
+
+** link:tuning.html#aeojj[Aspects of Performance]
+
+** link:tuning.html#aeojk[Benchmarks]
+
+** link:tuning.html#aeojl[Baseline Use Patterns]
+* link:tuning.html#aeojm[Factors Affecting Performance]
+
+** link:tuning.html#ggxdh[Message Delivery Steps]
+
+** link:tuning.html#aeojn[Application Design Factors Affecting
+Performance]
+*** link:tuning.html#aeojo[Delivery Mode (Persistent/Nonpersistent
+Messages)]
+*** link:tuning.html#aeojp[Use of Transactions]
+*** link:tuning.html#aeojq[Acknowledgment Mode]
+*** link:tuning.html#aeojr[Durable and Nondurable Subscriptions]
+*** link:tuning.html#aeojs[Use of Selectors (Message Filtering)]
+*** link:tuning.html#aeojt[Message Size]
+*** link:tuning.html#aeoju[Message Body Type]
+
+** link:tuning.html#aeojv[Message Service Factors Affecting Performance]
+*** link:tuning.html#aeojw[Hardware]
+*** link:tuning.html#aeojx[Operating System]
+*** link:tuning.html#aeojy[Java Virtual Machine (JVM)]
+*** link:tuning.html#aeojz[Connections]
+*** link:tuning.html#aeokc[Message Service Architecture]
+*** link:tuning.html#aeokd[Broker Limits and Behaviors]
+*** link:tuning.html#aeoke[Data Store Performance]
+*** link:tuning.html#aeokf[Client Runtime Configuration]
+* link:tuning.html#aeokk[Adjusting Configuration To Improve Performance]
+
+** link:tuning.html#aeokl[System Adjustments]
+*** link:tuning.html#aeokm[Solaris Tuning: CPU Utilization,
+Paging/Swapping/Disk I/O]
+*** link:tuning.html#aeokn[Java Virtual Machine Adjustments]
+*** link:tuning.html#aeoko[Tuning Transport Protocols]
+*** link:tuning.html#aeoks[Tuning the File-based Persistent Store]
+
+** link:tuning.html#aeokt[Broker Memory Management Adjustments]
+*** link:tuning.html#aeokv[Using Physical Destination Limits]
+*** link:tuning.html#aeokw[Using System-Wide Limits]
+
+** link:tuning.html#aeoky[Client Runtime Message Flow Adjustments]
+*** link:tuning.html#aeokz[Message Flow Metering]
+*** link:tuning.html#aeola[Message Flow Limits]
+
+** link:tuning.html#aeokx[Adjusting Multiple-Consumer Queue Delivery]
+
+[[troubleshooting]]
+link:troubleshooting.html#aeold[15 Troubleshooting]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:troubleshooting.html#aeole[A Client Cannot Establish a Connection]
+* link:troubleshooting.html#aeoln[Connection Throughput Is Too Slow]
+* link:troubleshooting.html#aeolt[A Client Cannot Create a Message
+Producer]
+* link:troubleshooting.html#aeolw[Message Production Is Delayed or
+Slowed]
+* link:troubleshooting.html#aeomb[Messages Are Backlogged]
+* link:troubleshooting.html#aeomi[Broker Throughput Is Sporadic]
+* link:troubleshooting.html#aeomm[Messages Are Not Reaching Consumers]
+* link:troubleshooting.html#aeomr[Dead Message Queue Contains Messages]
+
+** link:troubleshooting.html#ggxdi[To Inspect the Dead Message Queue]
+
+[[part-iii-reference]]
+link:part-reference.html#gbnvd[Part III Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[command-line-reference]]
+link:command-line-reference.html#aeonc[16 Command Line Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:command-line-reference.html#aeond[Command Line Syntax]
+* link:command-line-reference.html#aeone[Broker Utility]
+* link:command-line-reference.html#aeonf[Command Utility]
+
+** link:command-line-reference.html#aeonm[General Command Utility
+Options]
+
+** link:command-line-reference.html#aeong[Broker Management]
+
+** link:command-line-reference.html#aeonh[Connection Service Management]
+
+** link:command-line-reference.html#aeoni[Connection Management]
+
+** link:command-line-reference.html#aeonj[Physical Destination
+Management]
+
+** link:command-line-reference.html#aeonk[Durable Subscription
+Management]
+
+** link:command-line-reference.html#aeonl[Transaction Management]
+
+** link:command-line-reference.html#geodj[JMX Management]
+* link:command-line-reference.html#aeonn[Object Manager Utility]
+* link:command-line-reference.html#aeono[Database Manager Utility]
+* link:command-line-reference.html#aeonp[User Manager Utility]
+* link:command-line-reference.html#gjdli[Bridge Manager Utility]
+* link:command-line-reference.html#aeonq[Service Administrator Utility]
+* link:command-line-reference.html#aeonr[Key Tool Utility]
+
+[[broker-properties-reference]]
+link:broker-properties.html#aeons[17 Broker Properties Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:broker-properties.html#aeont[Connection Properties]
+* link:broker-properties.html#aeonu[Routing and Delivery Properties]
+* link:broker-properties.html#aeonv[Persistence Properties]
+
+** link:broker-properties.html#aeonw[File-Based Persistence Properties]
+
+** link:broker-properties.html#gjmud[File-Based Persistence Properties
+for Transaction Logging]
+
+** link:broker-properties.html#aeonx[JDBC-Based Persistence Properties]
+* link:broker-properties.html#aeony[Security Properties]
+* link:broker-properties.html#aeonz[Monitoring Properties]
+* link:broker-properties.html#aeooa[Cluster Configuration Properties]
+* link:broker-properties.html#gjdkt[Bridge Properties]
+* link:broker-properties.html#geofd[JMX Properties]
+* link:broker-properties.html#aeoob[Alphabetical List of Broker
+Properties]
+
+[[physical-destination-property-reference]]
+link:physical-destination-properties.html#aeooc[18 Physical Destination Property Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:physical-destination-properties.html#gbnms[Physical Destination
+Properties]
+
+[[administered-object-attribute-reference]]
+link:administered-object-attributes.html#aeood[19 Administered Object Attribute Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:administered-object-attributes.html#aeooe[Connection Factory
+Attributes]
+
+** link:administered-object-attributes.html#aeoof[Connection Handling]
+
+** link:administered-object-attributes.html#aeoog[Client Identification]
+
+** link:administered-object-attributes.html#aeooh[Reliability and Flow
+Control]
+
+** link:administered-object-attributes.html#aeooi[Queue Browser and
+Server Sessions]
+
+** link:administered-object-attributes.html#aeooj[Standard Message
+Properties]
+
+** link:administered-object-attributes.html#aeook[Message Header
+Overrides]
+* link:administered-object-attributes.html#aeool[Destination Attributes]
+
+[[jms-resource-adapter-property-reference]]
+link:jmsra-properties.html#aeoon[20 JMS Resource Adapter Property Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:jmsra-properties.html#gjzpg[About Shared Topic Subscriptions for
+Clustered Containers]
+
+** link:jmsra-properties.html#gkubs[Disabling Shared Subscriptions]
+
+** link:jmsra-properties.html#gkudu[Consumer Flow Control When Shared
+Subscriptions Are Used]
+* link:jmsra-properties.html#aeooo[ResourceAdapter JavaBean]
+* link:jmsra-properties.html#aeoop[ManagedConnectionFactory JavaBean]
+* link:jmsra-properties.html#aeooq[ActivationSpec JavaBean]
+
+[[metrics-information-reference]]
+link:metrics-information.html#aeoor[21 Metrics Information Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:metrics-information.html#aeoos[JVM Metrics]
+* link:metrics-information.html#aeoot[Brokerwide Metrics]
+* link:metrics-information.html#aeoou[Connection Service Metrics]
+* link:metrics-information.html#aeoov[Physical Destination Metrics]
+
+[[jes-monitoring-framework-reference]]
+link:java-es-monitoring-framework.html#gfomw[22 JES Monitoring Framework Reference]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:java-es-monitoring-framework.html#gfomt[Common Attributes]
+* link:java-es-monitoring-framework.html#gfond[Message Queue Product
+Information]
+* link:java-es-monitoring-framework.html#gfooc[Broker Information]
+* link:java-es-monitoring-framework.html#gfoop[Port Mapper Information]
+* link:java-es-monitoring-framework.html#gfopb[Connection Service
+Information]
+* link:java-es-monitoring-framework.html#gfomr[Destination Information]
+* link:java-es-monitoring-framework.html#gfont[Persistent Store
+Information]
+* link:java-es-monitoring-framework.html#gfomy[User Repository
+Information]
+
+[[part-iv-appendixes]]
+link:part-appendixes.html#gbnuj[Part IV Appendixes]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[a-distribution-specific-locations-of-message-queue-data]]
+link:data-locations.html#aeoow[A Distribution-Specific Locations of Message Queue Data]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:data-locations.html#ghrlu[Installations from an IPS image]
+* link:data-locations.html#aeoox[Installations of Previous Message Queue
+Versions from Solaris SVR4 Packages]
+* link:data-locations.html#aeooy[Installations of Previous Message Queue
+Versions from Linux RPMs]
+
+[[b-stability-of-message-queue-interfaces]]
+link:interface-stability.html#aeopa[B Stability of Message Queue Interfaces]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:interface-stability.html#gbnnc[Classification Scheme]
+* link:interface-stability.html#gfone[Interface Stability]
+
+[[c-httphttps-support]]
+link:http_https-support.html#aeopb[C HTTP/HTTPS Support]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:http_https-support.html#aeopc[HTTP/HTTPS Support Architecture]
+* link:http_https-support.html#aeopp[Enabling HTTP/HTTPS Support]
+
+** link:http_https-support.html#aeopq[Step 1 (HTTPS Only): Generating a
+Self-Signed Certificate for the Tunnel Servlet]
+
+** link:http_https-support.html#aeopr[Step 2 (HTTPS Only): Specifying the
+Key Store Location and Password]
+*** link:http_https-support.html#gbnqf[To Specify the Location and
+Password of the Certificate Key Store]
+
+** link:http_https-support.html#gfjuq[Step 3 (HTTPS Only): Validating and
+Installing the Server's Self-Signed Certificate]
+*** link:http_https-support.html#gfjwc[To Validate and Install the
+Server's Self-Signed Certificate]
+
+** link:http_https-support.html#aeops[Step 4 (HTTP and HTTPS): Deploying
+the Tunnel Servlet]
+*** link:http_https-support.html#gbnqb[To Deploy the HTTP or HTTPS Tunnel
+Servlet]
+*** link:http_https-support.html#gfjqh[Modifying the Application Server's
+Security Policy File]
+
+** link:http_https-support.html#aeopz[Step 5 (HTTP and HTTPS):
+Configuring the Connection Service]
+*** link:http_https-support.html#gbnqd[To Activate the `httpjms` or
+`httpsjms` Connection Service]
+
+** link:http_https-support.html#aeoqa[Step 6 (HTTP and HTTPS):
+Configuring a Connection]
+*** link:http_https-support.html#aeoqc[Installing a Root Certificate
+(HTTPS Only)]
+*** link:http_https-support.html#aeoqd[Configuring the Connection Factory
+(HTTP and HTTPS)]
+*** link:http_https-support.html#aeoqe[Using a Single Servlet to Access
+Multiple Brokers (HTTP and HTTPS)]
+*** link:http_https-support.html#aeoqf[Using an HTTP Proxy]
+* link:http_https-support.html#aeoqg[Troubleshooting]
+
+** link:http_https-support.html#aeoqh[Server or Broker Failure]
+
+** link:http_https-support.html#aeoqi[Client Failure to Connect Through
+the Tunnel Servlet]
+*** link:http_https-support.html#gbnpn[If a Client Cannot Connect]
+
+[[d-jmx-support]]
+link:jmx-support.html#geoel[D JMX Support]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:jmx-support.html#ggvry[JMX Connection Infrastructure]
+
+** link:jmx-support.html#ghbqo[MBean Access Mechanism]
+
+** link:jmx-support.html#ghbrs[The JMX Service URL]
+
+** link:jmx-support.html#ghbrb[The Admin Connection Factory]
+* link:jmx-support.html#ggvud[JMX Configuration]
+
+** link:jmx-support.html#ggvsp[RMI Registry Configuration]
+*** link:jmx-support.html#ggvvp[Static JMX Service URL: Using an RMI
+Registry]
+*** link:jmx-support.html#ggvvt[Dynamic JMX Service URL: Not Using an RMI
+Registry]
+
+** link:jmx-support.html#ggvun[SSL-Based JMX Connections]
+*** link:jmx-support.html#ggvxb[Broker Side SSL Configuration]
+*** link:jmx-support.html#ggvwc[JMX Client Side SSL Configuration]
+
+** link:jmx-support.html#ggvxj[JMX Connections Through a Firewall]
+
+[[e-frequently-used-command-utility-commands]]
+link:frequent-commands.html#aeoqj[E Frequently Used Command Utility Commands]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:frequent-commands.html#aeoqk[Syntax]
+* link:frequent-commands.html#aeoql[Broker and Cluster Management]
+
+** link:frequent-commands.html#aeoqm[Broker Configuration Properties
+(`-o` option)]
+* link:frequent-commands.html#aeoqn[Service and Connection Management]
+* link:frequent-commands.html#aeoqo[Durable Subscriber Management]
+* link:frequent-commands.html#aeoqp[Transaction Management]
+* link:frequent-commands.html#aeoqq[Destination Management]
+
+** link:frequent-commands.html#aeoqr[Destination Configuration Properties
+(`-o` option)]
+* link:frequent-commands.html#aeoqs[Metrics]
+
+

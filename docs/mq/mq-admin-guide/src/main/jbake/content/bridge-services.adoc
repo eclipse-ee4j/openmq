@@ -1,0 +1,1692 @@
+type=page
+status=published
+title=Configuring and Managing Bridge Services
+next=monitoring.html
+prev=administered-objects.html
+~~~~~~
+Configuring and Managing Bridge Services
+========================================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00043]][[gjdnl]]
+
+
+[[configuring-and-managing-bridge-services]]
+12 Configuring and Managing Bridge Services
+-------------------------------------------
+
+Message-Oriented Middleware (MOM) systems use a broad spectrum of
+technologies and standards to provide messaging services. Often, these
+technologies and standards are incompatible, leading to MOM systems that
+cannot communicate with each other in a larger enterprise application
+context.
+
+To alleviate this inability to communicate, Message Queue incorporates
+the Bridge Service Manager, which supports individual bridge services of
+various types. Each type of bridge service provides connectivity at the
+broker level to a MOM technology or standard that would otherwise be
+unavailable in Message Queue.
+
+This chapter provides information about the administrative components of
+the Bridge Service Manager, and shows how to configure and manage the
+two types of bridge services currently available:
+
+* link:#gjdlj[The Bridge Service Manager]
+* link:#gjdlg[Configuring and Managing JMS Bridge Services]
+* link:#gjdkc[Configuring and Managing STOMP Bridge Services]
+
+[[gjdlj]][[GMADG00258]][[the-bridge-service-manager]]
+
+The Bridge Service Manager
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue Bridge Service Manager is an application that runs in
+same JVM as a broker to manage the bridges configured for the broker.
+Two administrative components control operation of the Bridge Service
+Manager:
+
+* Bridge-related broker properties
+* The Bridge Manager utility (`imqbridgermgr`)
+
+The following sections introduce these two components.
+
+[[gjlig]][[GMADG00577]][[bridge-related-broker-properties]]
+
+Bridge-Related Broker Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The operation of the Bridge Service Manager is in part controlled by
+several broker properties. These broker properties, all of which begin
+with `imq.bridge`, are listed in tables under
+link:broker-properties.html#gjdkt[Bridge Properties]. Some of the
+properties apply to all bridges configured for the broker, while others
+apply only to a specific bridge. The properties that apply to a specific
+bridge all begin with `imq.bridge.`bridgeName, where bridgeName is:
+
+* The same as the type of the bridge for bridge services that support
+only one bridge instance per broker, such as the STOMP bridge service
+* A name you specify for a bridge instance for bridge services that
+support multiple bridge instances per broker, such as the JMS bridge
+service
+
+Of all the bridge-related broker properties, the two most important are
+`imq.bridge.enabled` and `imq.bridge.activelist`:
+
+* The `imq.bridge.enabled` property controls whether the Bridge Service
+Manager is enabled on the broker.
+* The `imq.bridge.activelist` property contains a comma-separated list
+bridges (by name) to be loaded when the broker starts.
+
+[[gjzqh]][[GMADG00196]][[to-enable-the-bridge-service-manager]]
+
+To Enable the Bridge Service Manager
+++++++++++++++++++++++++++++++++++++
+
+1.  Set the `imq.bridge.enabled` broker property to `true`.
+2.  Set the `imq.bridge.admin.user` broker property to the user name of
+the admin user.
+3.  Set the `imq.bridge.admin.password` broker property to the password
+of the admin user. +
+Alternatively, you can specify the password using the `-passfile` option
+when you use the `imqbrokerd` command to start the broker hosting the
+bridge service manager.
+4.  Set the `imq.bridge.activelist` broker property to a comma-separated
+list of bridges to instantiate at broker startup.
+
+[[gjlji]][[GMADG00578]][[bridge-manager-utility]]
+
+Bridge Manager Utility
+^^^^^^^^^^^^^^^^^^^^^^
+
+The Bridge Manager utility (`imqbridgemgr`) is the interface to the
+bridge management functions of the Bridge Service Manager. It provides
+commands to:
+
+* Stop and start bridges
+* Pause and resume bridges
+* List configured bridges
+* Manage type-dependent subcomponents of bridges, such as the links
+within a JMS bridge service
+
+The `imqbridgemgr` utility uses the same
+link:command-line-reference.html#aeond[Command Line Syntax] as the other
+Message Queue utilities:
+
+[source,oac_no_warn]
+----
+imqbridgemgr subcommand commandArgument [ options ]
+----
+
+For example, the following command lists all bridges of type JMS on the
+broker localhost:7373:
+
+[source,oac_no_warn]
+----
+imqbridgemgr list bridge -t jms -b localhost:7373
+----
+
+For the complete set of subcommands, command arguments, and options
+supported by the `imqbridgemgr` utility, see
+link:command-line-reference.html#gjdli[Bridge Manager Utility].
+
+[[gjzqa]][[GMADG00579]][[logging-of-bridge-services]]
+
+Logging of Bridge Services
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each bridge managed by the Bridge Service Manager for a broker has its
+own log file stored in the
+`IMQ_VARHOME/instances/`broker-name`/bridges/`bridge-name`/` directory.
+
+The JMS and STOMP bridge services use the Java logging facility, which
+can be configured by the Java logging configuration file. The logging
+level for a bridge can be controlled by setting the
+`imq.bridge.`bridge-name`.level` property in the Java logging
+configuration file. Then, the Java system property
+`java.util.logging.config.file` can be set to the Java logging
+configuration file when the broker is started; as in:
+
+[source,oac_no_warn]
+----
+imqbrokerd -Djava.util.logging.config.file=config-file
+----
+
+[[gjdlg]][[GMADG00259]][[configuring-and-managing-jms-bridge-services]]
+
+Configuring and Managing JMS Bridge Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Because the JMS specification does not dictate the communication
+protocol between brokers and clients, each JMS provider (including
+Message Queue) has defined and uses its own propriety protocol. This
+situation has led to non-interoperability across JMS providers.
+
+The JMS bridge service in Message Queue 5.0 closes this gap by enabling
+a Message Queue broker to map its destinations to destinations in
+external JMS providers. This mapping effectively allows the Message
+Queue broker to communicate with clients of the external JMS provider.
+
+The JMS bridge service supports mapping destinations to external JMS
+providers that:
+
+* Are JMS 1.1 compliant
+* Support JNDI administrative objects
+* Use connection factories of type `javax.jms.ConnectionFactory` or
+`javax.jms.XAConnectionFactory`
+* Support the XA interfaces as a resource manager for transacted mapping
+
+As an administrative and management convenience, the JMS bridge service
+supports the creation of any number of JMS bridges in a broker. Each JMS
+bridge in the broker is identified by a unique name, has its own
+configuration, and is managed separately from other JMS bridges in the
+broker.
+
+The following subsections provide information about JMS bridges and how
+to configure and manage them:
+
+* link:#gjlqp[JMS Bridge Components]
+* link:#gjlrd[JMS Bridge Features]
+* link:#gjlrr[Message Processing Sequence Across a Link in a JMS Bridge]
+* link:#gjlro[Configuring a JMS Bridge]
+* link:#gjlrp[Starting and Stopping JMS Bridges]
+* link:#gjmig[Starting and Stopping Links in a JMS Bridge]
+
+[[gjlqp]][[GMADG00580]][[jms-bridge-components]]
+
+JMS Bridge Components
+^^^^^^^^^^^^^^^^^^^^^
+
+A JMS bridge consists of two primary components:
+
+* One or more links, each of which maps between a destination in the
+Message Queue broker and a destination in an external JMS provider or in
+another Message Queue broker
+* A default Dead Message Queue (DMQ) where undeliverable messages are
+sent. Additional, special-purpose DMQs can also be specified.
+
+To provide destination mapping, each link consists of:
+
+* A source: the destination from which the JMS bridge receives messages.
+The source consists of a connection factory for creating connections to
+a JMS provider and a destination in that provider.
+* A target: the destination to which the JMS bridge forwards messages
+received from the source. The target consists of a connection factory
+for creating connections to a JMS provider and a destination in that
+provider. Additionally, a target can optionally specify a message
+transformer that alters messages from the source before forwarding them
+to the target destination.
+
+Links are unidirectional. Links that have an external JMS provider or
+another Message Queue broker as their source are called inbound links,
+and links that have the Message Queue broker as their source are called
+outbound links.
+
+To configure these components, you specify several
+`imq.bridge.`bridgeName broker properties, and you create an XML
+configuration file that specifies the links, sources, targets,
+connection factories, destinations, and DMQs in the bridge. This XML
+configuration file must conform to the JMS bridge DTD.
+
+[[gjlrd]][[GMADG00581]][[jms-bridge-features]]
+
+JMS Bridge Features
+^^^^^^^^^^^^^^^^^^^
+
+To provide flexible, high-performing message transfer between mapped
+destinations, a JMS bridge offers these features:
+
+* link:#gjlsk[Pooled, Shared, and Dedicated Connections]
+* link:#gjlrv[Transactional Message Transfer]
+* link:#gjlsf[JMS Bridges in High Availability (HA) Broker Clusters]
+* link:#gjlsh[Message Transformation During Message Delivery]
+* link:#gjlry[JMSReplyTo Header Processing]
+* link:#gjlrk[Dead Message Queue (DMQ) Processing]
+
+[[gjlsk]][[GMADG00436]][[pooled-shared-and-dedicated-connections]]
+
+Pooled, Shared, and Dedicated Connections
++++++++++++++++++++++++++++++++++++++++++
+
+A JMS bridge uses the connection factories configured for link sources,
+link targets, and DMQs to create connections to the Message Queue broker
+and the external JMS provider. When making connections, the JMS bridge
+follows these rules to determine whether to use a pooled connection, a
+shared connection, or a dedicated connection:
+
+* For link source connections, the JMS bridge always uses a dedicated
+connection.
+* For link target and DMQ connections, the JMS bridge uses:
+
+** A pooled connection if the link target's or DMQ's `stay-connected`
+attribute is `false` and the connection factory has no JMS client
+identifier configured.
+
+** A dedicated connection if the link target's or DMQ's `stay-connected`
+attribute is `true` or if the link target's or DMQ's `clientid`
+attribute is set
+
+** A shared connection in all other cases
+
+[[gjlrv]][[GMADG00437]][[transactional-message-transfer]]
+
+Transactional Message Transfer
+++++++++++++++++++++++++++++++
+
+Each JMS bridge includes a built-in XA transaction coordinator that
+enables its links to be configured as "transacted" such that message
+transfer from the source to the target is done in a XA distributed
+transaction.
+
+For a link to be configured as transacted, both the link source and link
+target must specify connection factories of type
+`javax.jms.XAConnectionFactory`.
+
+The built-in XA transaction coordinator logs transaction records using
+the same type of store as the Message Queue broker in which the JMS
+bridge resides. For file-based transaction logging, the transaction log
+for a JMS bridge is located at:
+
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/brokerInstance/bridges/bridgeName/txlog.bridgeNane
+----
+
+For JDBC-based transaction logging, the built-in XA transaction
+coordinator uses the same JDBC store as the Message Queue broker in
+which the JMS bridge resides.
+
+[[GMADG665]][[sthref46]]
+
+
+[[resource-manager-registration-and-the-built-in-xa-transaction-coordinator]]
+Resource Manager Registration and The Built-In XA Transaction
+Coordinator
+
+When a JMS bridge is started, it registers all its Resource Managers
+(RMs) with the built-in XA transaction coordinator so that the
+coordinator can identify specific RMs during recovery.
+
+For connection factories, the JMS bridge only registers the factory as
+an RM if the factory's `multi-rm` attribute value is `false`. A
+connection factory with a `multi-rm` attribute value of `true` should
+have each of its RMs identified by a connection factory whose
+`multi-rm`attribute value of `false` in order to participate in
+transactional message transfer. Additionally, the JMS bridge uses a
+connection factory's `ref-name` attribute value as part of its RM name
+when registering RMs with the built-in XA transaction coordinator, so
+this attribute should not be changed between restarts of the bridge if
+transaction recovery is desired between restarts.
+
+[[gjlsf]][[GMADG00438]][[jms-bridges-in-high-availability-ha-broker-clusters]]
+
+JMS Bridges in High Availability (HA) Broker Clusters
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Message Queue supports JMS bridges in HA broker clusters, but some
+special constraints apply due to the inherent nature of HA broker
+clusters:
+
+* Each JMS bridge must have a name that is unique across all the JMS
+bridges in all the brokers in the cluster.
+* Each JMS bridge must have the same bridge configuration across all the
+brokers in the cluster.
+* The `imq.bridge.enabled` broker property must have the same value
+across all brokers in the cluster.
+* Before broker startup, the `imq.bridge.activelist` broker property for
+each broker lists only those JMS bridges that are to be owned by that
+broker.
+
+To ensure that bridges in the cluster have the same configuration across
+all brokers in the cluster, all bridge-related broker properties except
+for `imq.bridge.activelist` should be specified in the centralized
+cluster properties file defined by the `imq.cluster.url` broker
+property.
+
+A table in the cluster's HA store is used to maintain a consistent
+record of JMS bridge ownership by the brokers in the cluster.
+
+During broker startup, the JMS bridge service compares the broker's
+`imq.bridge.activelist` property value to this table's entries before
+starting any JMS bridges, with the following consequences:
+
+* If a JMS bridge named in `imq.bridge.activelist` does not appear in
+the table, it is added to the table and associated with the broker.
+* If a JMS bridge name in `imq.bridge.activelist` does appear in the
+table, and the table entry already associates the bridge with a
+different broker, the bridge name is removed from
+`imq.bridge.activelist`.
+* If an entry in the table associates a JMS bridge with the broker, and
+that bridge's name is not in `imq.bridge.activelist`, the bridge name is
+added to `imq.bridge.activelist`.
+
+[[gjlsh]][[GMADG00439]][[message-transformation-during-message-delivery]]
+
+Message Transformation During Message Delivery
+++++++++++++++++++++++++++++++++++++++++++++++
+
+A link target or a DMQ can specify a message transformer to process the
+message before it is delivered to the target destination or DMQ
+destination. This message transformer must be a Java class that extends
+the Message Queue bridge
+`com.sun.messaging.bridge.service.MessageTransformer` abstract class and
+has `javax.jms.Message` as its formal type parameters. To specify a
+message transformer, set the `message-transformer-class` attribute of a
+link target or a DMQ to the fully qualified class name of the Java
+class.
+
+During message transfer processing, the JMS message to be transferred to
+a target, plus any `property` subelements of the link's `target` element
+or the `dmq` element, are passed to the message transformer's
+`MessageTransformer.transform()` method, and the returned JMS message is
+sent to the target destination.
+
+[[gjlry]][[GMADG00440]][[jmsreplyto-header-processing]]
+
+JMSReplyTo Header Processing
+++++++++++++++++++++++++++++
+
+In a JMS message, the `JMSReplyTo` header value is provider dependent.
+Therefore, unless both the source provider and target provider are
+Message Queue, the JMS bridge sets an existing `JMSReplyTo` header to a
+null value before passing the message to a link target or, if specified,
+the message transformer for the link target.
+
+This default behavior can be overridden by setting the `retain-replyto`
+attribute of the link's `target` element to `true`. Overriding the
+default behavior is useful when:
+
+* The message transformer for a link target handles processing of the
+`JMSReplyTo` header.
+* Both the link source and link target have the same JMS provider, and
+clients of the target provider instance need to send reply messages back
+across the JMS bridge to the `JMSReplyTo` destination in the source
+provider instance. To successfully implement this case:
+
+** The `JMSReplyTo` destination must exist (or be able to be
+auto-created) in the target provider instance.
+
+** A JMS bridge link must be defined with its source set to the
+`JMSReplyTo` destination in the target provider instance and its target
+set to the `JMSReplyTo` destination in the source provider instance.
+
+[[gjlrk]][[GMADG00441]][[dead-message-queue-dmq-processing]]
+
+Dead Message Queue (DMQ) Processing
++++++++++++++++++++++++++++++++++++
+
+Each JMS bridge includes a built-in Dead Message Queue (DMQ) named
+`built-in-dmq`. This DMQ is a designated Queue destination named
+`imq.bridge.jms.dmq` in the broker hosting the JMS bridge. You can also
+configure additional DMQs for the JMS bridge, in which case the DMQ can
+use any JMS destination in any configured JMS provider.
+
+
+[NOTE]
+=======================================================================
+
+In a production environment, the built-in DMQ, `imq.bridge.jms.dmq`,
+should be administratively created and have its access controls set
+appropriately before starting a broker that uses JMS bridge services.
+
+=======================================================================
+
+
+When a DMQ uses Message Queue as the JMS provider, it can be configured
+such that messages sent to it will automatically be transferred to the
+Message Queue broker's DMQ. To do so, set physical destination
+properties of the JMS bridge's DMQ as follows:
+
+[source,oac_no_warn]
+----
+useDMQ=true
+limitBehavior=REMOVE_OLDEST
+maxNumMsgs=0
+----
+
+When a message is sent to the DMQ, the JMS bridge follows this sequence
+with the built-in DMQ first:
+
+1.  [[CHDHHEAD]] +
+The bridge creates a new DMQ `javax.jms.ObjectMessage` object and sets
+the properties listed in link:#gjmjg[Table 12-1] to the `ObjectMessage`.
+2.  [[CHDGIJGJ]] +
+If the DMQ has defined a message transformer, the original message is
+passed to the transformer's `MessageTransformer.transform()` method.
+3.  The body of the `javax.jms.ObjectMessage` is set to the transformed
+message (or original message if no message transformer is defined). If
+this action fails (usually because the message is not serializable), the
+body of the `ObjectMessage` is instead set to the `toString()` value of
+the original message.
+4.  [[CHDGGAHA]] +
+The `javax.jms.ObjectMessage` is sent (up to `send-attempts` times) to
+the DMQ's destination with a `timeToLive` value based on the DMQ's
+`time-to-live-in-millis` attribute and with the same `JMSDeliveryMode`
+and `JMSPriority` as the original message.
+5.  If sending the message fails, the bridge repeats
+Steps link:#CHDGIJGJ[2] through link:#CHDGGAHA[4] for each DMQ defined
+in the bridge's XML configuration file in the order they appear in the
+file, stopping when a send attempt succeeds, unless it is the built-in
+DMQ.
+6.  If the message can't be sent to any DMQ, a log message is generated,
+containing the properties and headers of the original message and the
+properties set in Step link:#CHDHHEAD[1].
+
+[[GMADG666]][[sthref47]][[gjmjg]]
+
+
+Table 12-1 DMQ Message Propeties
+
+[width="172%",cols="28%,46%,26%",options="header",]
+|=======================================================================
+|Property |Type |Description
+|`JMS_SUN_JMSBRIDGE_DMQ_BODY_TRUNCATED` |String |If unable to set the
+original message or the transformed message (if the DMQ has a message
+transformer) to the body of the DMQ `ObjectMessage`. In that case the
+message's `toString()` is set to the body of the DMQ `ObjectMessage`.
+
+|`JMS_SUN_JMSBRIDGE_DMQ_EXCEPTION` |String |The `Exception.getMessage()`
+if exception occurred or detailed comments on the failure; null if none.
+
+|`JMS_SUN_JMSBRIDGE_DMQ_REASON` |String |One of: `MESSAGE_EXPIRED`,
+`SEND_FAILURE`, `ACK_FAILURE`, `TRANSFORM_FAILURE`, `COMMIT_FAILURE`.
+
+|`JMS_SUN_JMSBRIDGE_DMQ_TIMESTAMP` |String |The timestamp when the JMS
+bridge sends the message to the DMQ.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_CORRELATIONID` |String |The original
+message's `getJMSCorrelationID()`.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_DESTINATION` |String |The original message's
+source destination name.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_JMSTYPE` |String |The original message's
+`getJMSType()`.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_MESSAGEID` |String |The orginal message's
+`getJMSMessageID()`, or null if not available.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_PROVIDER` |String |The
+`ConnectionMetaData.getJMSProviderName` of the connection the original
+message was received on; if not available, the source connection
+factory's `getClass().getName()`.
+
+|`JMS_SUN_JMSBRIDGE_SOURCE_TIMESTAMP` |Long |The original message's
+`getJMSTimestamp()`.
+
+|`JMS_SUN_JMSBRIDGE_TARGET_DESTINATION` |String |The name of the target
+destination where the original message was intended to send to.
+
+|`JMS_SUN_JMSBRIDGE_TARGET_PROVIDER` |String |The
+`ConnectionMetaData.getJMSProviderName` of the connection the original
+message was intended to send on; if not available, the target connection
+factory's `getClass().getName()`.
+|=======================================================================
+
+
+[[gjlrr]][[GMADG00582]][[message-processing-sequence-across-a-link-in-a-jms-bridge]]
+
+Message Processing Sequence Across a Link in a JMS Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A JMS bridge link receives messages in the order sent by the link's
+source JMS provider and transfer them in the same order to the link's
+target JMS provider. A link follows this sequence to transfer each
+message:
+
+1.  The link receives a JMS message from its source.
+2.  The link checks the `JMSExpiration` header to determine whether the
+message has expired. If it has, a log message is generated, the JMS
+message is sent to the DMQ, and no further action is taken.
+3.  If the message has a `JMSReplyTo` header and the link target's
+`retain-replyto` attribute is `false`, the `JMSReplyTo` header value is
+set to null.
+4.  If the link target has defined a message transformer, the
+transformer's `MessageTransformer.transform()` method is called. If the
+call fails or if the message transformer returns a null value, a log
+message is generated and then processing continues as follows:
+* If the target's `consume-no-transfer-on-transform-error` XML attribute
+is `true`, the untransformed message is sent to the DMQ, consumed from
+the source, but not sent to the target.
+* If the target's `consume-no-transfer-on-transform-error` XML attribute
+is `false`, the link is stopped and the message is neither consumed from
+the source nor sent to the target.
+5.  If the `message-transfer-tag-bridge-name` attribute of the
+`jmsbridge` element is `true`, the `JMS_SUN_JMSBRIDGE_NAME` property is
+added to the message and set to the name of the bridge.
+6.  The message is sent to the link target's destination with a
+`timeToLive` value based on the `JMSExpiration` header and current GMT
+time and with the same `JMSDeliveryMode` and `JMSPriority` values as the
+original message. If sending to the link target's destination fails and
+the link is not transacted, a log message is generated, the JMS message
+is sent to the DMQ, and processing continues.
+7.  The source message is acknowledged using JMS `CLIENT_ACKNOWLEDGE` if
+the link is not transacted. If the acknowledgement fails, a log message
+is generated and the JMS message is sent to the DMQ.
+8.  If the message processing was successful, an INFO log message is
+generated. This log message can be suppressed by setting to `false` the
+`log-message-transfer` attribute of the `jmsbridge` element in the
+bridge's XML configuration file.
+
+Message processing for messages across transacted links follows the same
+processing sequence, except JTA interfaces are used to coordinate the
+source and target resource managers to transfer the message in an XA
+distributed transaction. For transacted links, failure to send the
+message to the link target's destination does not cause the JMS message
+to be sent to the DMQ; instead, the transaction is rolled back. However,
+if the attempt to commit the transaction fails, a log message is
+generated and the JMS message is sent to the DMQ.
+
+The quality of message transfer under failures depends on whether the
+link transferring the message is transacted:
+
+* Transacted links: `once-only-once`
+* Non-transacted links: `at-least-once`
+
+[[gjlro]][[GMADG00583]][[configuring-a-jms-bridge]]
+
+Configuring a JMS Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To configure a JMS bridge, you specify several `imq.bridge.`bridgeName
+broker properties, where bridgeName is a name you choose for the JMS
+bridge. Additionally, you create an XML configuration file that
+specifies the links, sources, targets, connection factories,
+destinations, and DMQs in the bridge. The url of this configuration file
+is provided as the value of the `imq.bridge.`bridgeName`.xml` property
+
+[[gjlrw]][[GMADG00442]][[specifying-the-broker-properties-for-a-jms-bridge]]
+
+Specifying the Broker Properties for a JMS Bridge
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+link:#gjlsx[Table 12-2] lists the broker properties you can specify for
+a JMS bridge. In this table, name is the name of the JMS bridge, which
+must be unique across all bridges in the broker.
+
+[[GMADG667]][[sthref48]][[gjlsx]]
+
+
+Table 12-2 Broker Properties for a JMS Bridge
+
+[width="244%",cols="16%,32%,32%,20%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.bridge.`name`.type` |String |None |The bridge type of the bridge
+named name. For JMS bridges, specify a value of `JMS` or `jms`.
+
+|`imq.bridge.`name`.xmlurl` |String |None a|
+The URL where the XML configuration file for the JMS bridge name is
+stored.
+
+Examples:
+
+* `http://webserver/imq/jmsbridge1.config.xml` +
+(for a file on a Web server)
+* `file:/net/fileserver/imq/jmsbridge1.config.xml` +
+(for a file on a shared drive)
+
+|`imq.bridge.`name`.autostart` |Boolean |`true` |Should the JMS bridge
+name be automatically started when the broker is started?
+
+|`imq.bridge.`name`.logfile.limit` |Integer |`0` a|
+The approximate maximum number of bytes the JMS bridge name writes to
+any one log file.
+
+A value of `0` (zero) indicates that there is no maximum limit.
+
+|`imq.bridge.`name`.logfile.count` |Integer |`1` |The number of log
+files the JMS bridge name cycles through.
+
+a|
+`imq.bridge.tm.props`
+
+`imq.bridge.`name`.tm.props`
+
+ |String |None a|
+Each of these properties specifies a list of key-value pairs for the
+built-in transaction coordinator for the JMS bridge name.
+
+The list consists of one or more key`=`value pairs separated by commas.
+
+When the `imq.persist.store` is `file`, the built-in transaction
+coordinator supports these keys: `txlogSize`, `txlogSync`, and
+`txlogMmap`.
+
+If the same key appears in both properties, the value specified in
+`imq.bridge.`name`.tm.props` takes precedence.
+
+|=======================================================================
+
+
+[[gjlse]][[GMADG00443]][[creating-the-xml-configuration-file-for-a-jms-bridge]]
+
+Creating the XML Configuration File for a JMS Bridge
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+As mentioned earlier, the XML configuration file for a JMS bridge
+specifies the following components of the bridge:
+
+* Links
+* Sources
+* Targets
+* Connection factories
+* Destinations
+* DMQs
+
+The configuration file must conform to the JMS bridge DTD, which is
+stored at:
+
+[source,oac_no_warn]
+----
+IMQ_HOME/lib/dtd/sun_jmsbridge_Version.dtd
+----
+
+The basic structure of configuration file is:
+
+[source,oac_no_warn]
+----
+<jmsbridge name=bridgeName otherAttributes>
+    <link name=linkName otherAttributes>
+        [ <description>linkDescription</description> ]
+        <source connection-factory-ref=connFactoryRef destination-ref=destRef otherAttributes>
+            [ <description>sourceDescription</description>
+        </source>
+        <target connection-factory-ref=connFactoryRef destination-ref=destRef otherAttributes>
+            [ <description>targetDescription</description> ]
+            [ <property name=propName value=propValue /> ] ...
+        </target>
+    </link> 
+    <dmq name=dmqName otherAttributes> /* use name="built-in-dmq" for the built-in DMQ */
+        [ <description>dmqDescription</description> ]
+        [ <property name=propName value=propValue /> ] ...
+    </dmq> 
+    <connection-factory ref-name=connFactoryRef otherAttributes>
+        [ <description>connFactoryDescription</description> ]
+        [ <property name=propName value=propValue /> ] ...
+    </connection-factory> 
+    <destination ref-name=destRef otherAttributes>
+        [ <description>destDescription</description> ]
+        [ <property name=propName value=propValue /> ] ...
+    </destination> ...
+</jmsbridge>
+----
+
+From this abbreviated structure for the bridge XML configuration file,
+note that `source` and `target` are subelements of `link`, while
+`connection-factory` and `destination` are peer elements to `link`, not
+subelements of `source` and `target`. Connection factories and
+destinations are associated with sources and targets by matching
+`connection-factory` `ref-name` and `destination` `ref-name` attributes
+values to `source` and `target` `connection-factory-ref` and
+`destination-ref` attribute values, respectively.
+
+As a result of this association by name-matching instead of by
+subelement inclusion, you can use the same connection factories and
+destinations across sources and targets in multiple links, thus
+streamlining the configuration file and making it more manageable.
+
+The following subsections describe the attributes you can specify for
+the elements in the JMS bridge XML configuration file.
+
+[[GMADG668]][[sthref49]]
+
+
+[[jmsbridge-attributes]]
+`jmsbridge` Attributes
+
+link:#gjlub[Table 12-3] lists the attributes for the `jmsbridge` element
+in the JMS Bridge XML configuration file.
+
+[[GMADG669]][[sthref50]][[gjlub]]
+
+
+Table 12-3 jmsbridge Attributes
+
+[width="172%",cols="24%,46%,30%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`name` |String a|
+Unique name for this JMS bridge.
+
+Default value: no default
+
+|`log-message-transfer`link:#gkbfs[^Foot 1 ^] |Boolean a|
+Should each successful message transfer generate an INFO level log
+message?
+
+Default value: `true`
+
+|`message-transfer-tag-bridge-name` |Boolean a|
+Should the `JMS_SUN_JMSBRIDGE_NAME` property be defined and set to the
+name of the bridge for each message before transferring to the link
+target?
+
+Default value: `false`
+
+|=======================================================================
+
+
+^Footnote 1 ^First available in Message Queue 4.4.2
+
+[[GMADG670]][[sthref51]]
+
+
+[[link-attributes]]
+`link` Attributes
+
+link:#gjlto[Table 12-4] lists the attributes for the `link` element in
+the JMS Bridge XML configuration file.
+
+[[GMADG671]][[sthref52]][[gjlto]]
+
+
+Table 12-4 link Attributes
+
+[width="172%",cols="9%,46%,45%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`enabled` |Boolean a|
+If `false`, the link will not be started
+
+Default value: `true`
+
+|`name` |String a|
+Unique identifier for this link
+
+Default value: no default
+
+|`transacted` |Boolean a|
+If `true`, each message transfer from source to target will be done in a
+XA distributed transaction. The connection factories specified by the
+source and target must be `javax.jms.XAConnectionFactory` objects.
+
+If `false`, `CLIENT_ACKNOWLEDGE` mode will be used on the source The
+connection factories specified by the source and target must be
+`javax.jms.ConnectionFactory` objects.
+
+Default value: `true`
+
+|=======================================================================
+
+
+[[GMADG672]][[sthref53]]
+
+
+[[source-attributes]]
+`source` Attributes
+
+link:#gjlte[Table 12-5] lists the attributes for the `source` element in
+the JMS Bridge XML configuration file.
+
+[[GMADG673]][[sthref54]][[gjlte]]
+
+
+Table 12-5 source Attributes
+
+[width="163%",cols="18%,42%,40%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`clientid` |String a|
+A JMS client identifier for the message consumer connection
+
+Default value: not set
+
+|`connection-factory-ref` |String a|
+The `ref-name` attribute value of the `connection-factory` element to
+associate with this source.
+
+Default value: no default
+
+|`destination-ref` |String a|
+The `ref-name` attribute value of the `destination` element to associate
+with this source.
+
+Default value: no default
+
+|`durable-sub` |String a|
+A JMS durable subscription name.
+
+This attribute is ignored if the source's destination is not a
+`javax.jms.Topic` object.
+
+Default value: not set
+
+|`selector` |String a|
+A JMS selector for the message consumer
+
+Default value: not set
+
+|=======================================================================
+
+
+[[GMADG674]][[sthref55]]
+
+
+[[target-attributes]]
+`target` Attributes
+
+link:#gjlso[Table 12-6] lists the attributes for the `target` element in
+the JMS Bridge XML configuration file.
+
+[[GMADG675]][[sthref56]][[gjlso]]
+
+
+Table 12-6 target Attributes
+
+[width="172%",cols="28%,46%,26%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`clientid` |String a|
+A JMS client identifier for the message producer connection; if set, use
+a dedicated connection.
+
+Default value: not set
+
+|`connection-factory-ref` |String a|
+The `ref-name` attribute value of the `connection-factory` element to
+associate with this target.
+
+Default value: no default
+
+|`consume-no-transfer-on-transform-error` |Boolean a|
+Controls processing when the message transformer's
+`MessageTransformer.transform()` method returns a null value or throws
+`java.lang.Throwable`:
+
+* If `true`, the message is sent to the DMQ and consumed from the source
+but not sent to the target.
+* If `false`, the link is stopped, and the message is neither consumed
+from the source nor transferred to the target.
+
+Default value: `false`
+
+|`destination-ref` |String a|
+The `ref-name` attribute value of the `destination` element to associate
+with this target.
+
+The value `AS_SOURCE` is also supported. This value causes the target
+destination name and type to be set to the source message's
+`javax.jms.Message.getJMSDestination()`, unless overridden by the
+message transformer's `MessageTransformer.branchTo()`.
+
+Default value: no default
+
+|`message-transformer-class` |String a|
+A fully qualified class name that extends the Message Queue bridge
+`MessageTransformer` class. For more information, see
+link:#gjlsh[Message Transformation During Message Delivery]. Place this
+class under the `IMQ_HOME/lib/ext` directory.
+
+Default value: not set
+
+|`retain-replyto` |Boolean a|
+Should the value of the source message's `JMSReplyTo` header (if
+specified) be retained? For more information, see link:#gjlry[JMSReplyTo
+Header Processing].
+
+Default value: `false`
+
+|`stay-connected` |Boolean a|
+If `true`, the message producer connection will stay connected, and be
+dedicated.
+
+Default value: `true`
+
+|=======================================================================
+
+
+[[GMADG676]][[sthref57]]
+
+
+[[dmq-attributes]]
+`dmq` Attributes
+
+link:#gjltt[Table 12-7] lists the attributes for the `dmq` element in
+the JMS Bridge XML configuration file.
+
+[[GMADG677]][[sthref58]][[gjltt]]
+
+
+Table 12-7 dmq Attributes
+
+[width="172%",cols="24%,46%,30%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`client-id` |String a|
+JMS client identifier for the DMQ producer connection. If set, the
+connection will be dedicated.
+
+Default value: not set
+
+|`connection-factory-ref`link:#gjmjw[^Foot 1 ^] |String a|
+The `ref-name` attribute value of the `connection-factory` element to
+associate with this DMQ. This connection factory must be a
+`javax.jms.ConnectionFactory` object.
+
+Default value: no default
+
+|`destination-ref`link:#sthref59[^Footref 1^] |String a|
+The `ref-name` attribute value of the `destination` element to associate
+with this DMQ.
+
+Default value: no default
+
+|`enabled`link:#sthref60[^Footref 1^] |Boolean a|
+Is this DMQ is enabled?
+
+Default value: `true`
+
+|`message-transformer-class` |String a|
+A fully qualified class name that extends the Message Queue bridge
+`MessageTransformer` class. For more information, see
+link:#gjlsh[Message Transformation During Message Delivery].
+
+Default value: not set
+
+|`name` |String a|
+The unique identifier of this DMQ.
+
+Default value: no default
+
+|`send-attempt-interval-in-seconds` |Integer a|
+How long to wait before attempting to resend an undeliverable message to
+this DMQ.
+
+Default value: `5`
+
+|`send-attempts` |Integer a|
+The number of attempts to send (or resend) an undeliverable message to
+this DMQ.
+
+Default value: `3`
+
+|`stay-connected`link:#sthref61[^Footref 1^] |Boolean a|
+If true, the DMQ producer connection will stay connected and be
+dedicated.
+
+Default value: `true`
+
+|`time-to-live-in-millis` |Integer a|
+Time-to-live in milliseconds for messages going to this DMQ. The value
+`0` means forever.
+
+Default value: `0`
+
+|=======================================================================
+
+
+^Footnote 1 ^This attribute is ignored for the built-in DMQ,
+`built-in-dmq`
+
+[[GMADG678]][[sthref62]]
+
+
+[[connection-factory-attributes]]
+`connection-factory` Attributes
+
+link:#gjlsu[Table 12-8] lists the attributes for the
+`connection-factory` element in the JMS Bridge XML configuration file.
+
+[[GMADG679]][[sthref63]][[gjlsu]]
+
+
+Table 12-8 connection-factory Attributes
+
+[width="172%",cols="25%,46%,29%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`connect-attempt-interval-in-seconds` |Integer a|
+How long to wait before each connect attempt.
+
+Default value: `5`
+
+|`connect-attempts` |Integer a|
+The number of attempts for connecting. The value `-1` means retry
+forever
+
+Default value: `-1`
+
+|`idle-timeout-in-seconds` |Integer a|
+Close a connection if it is idle for more than this long. The value `0`
+indicates no idle timeout. This attribute is ignored for sources and for
+targets and DMQs that have their `stay-connected` attribute set to
+`true`.
+
+Default value: `1800`
+
+|`lookup-name` |String a|
+JNDI lookup name. If specified, the JNDI environment properties must
+specified as `property` subelements of this `connection-factory`
+element. The object returned by the lookup must be either
+`javax.jms.ConnectionFactory` or `javax.jms.XAConnectionFactory` type
+
+If not specified, a default connection factory to the Message Queue
+broker hosting the bridge is created with the properties in the
+`property` subelements.
+
+Default value: not set
+
+|`multi-rm` |Boolean a|
+Set to `true` if this connection factory will potentially create XA
+connections to more than one XA resource manager (that is,
+`XAResource.isSame()` is `false` among them). Also, add separate
+`connection-factory` for each such resource manager so that they will be
+registered separately to the built-in XA transaction coordinator.
+
+Default value: `false`
+
+|`password` |String a|
+The password for the user specified in `username`.
+
+Default value: not set
+
+|`ref-name` |String a|
+Unique name for this connection factory.
+
+Default value: no default
+
+|`username` |String a|
+The user name to be used to create connections from this connection
+factory. If this attribute is set, the `password` attribute must also be
+set.
+
+If not set, connections are created using the no-argument
+`createConnection()` method of the connection factory.
+
+Default value: not set
+
+|=======================================================================
+
+
+[[GMADG680]][[sthref64]]
+
+
+[[destination-attributes]]
+`destination` Attributes
+
+link:#gjlsp[Table 12-9] lists the attributes for the `destination`
+element in the JMS Bridge XML configuration file.
+
+[[GMADG681]][[sthref65]][[gjlsp]]
+
+
+Table 12-9 destination Attributes
+
+[width="100%",cols="14%,10%,76%",options="header",]
+|=======================================================================
+|Attribute |Type |Description
+|`lookup-name` |String a|
+JNDI lookup name for the destination. If specified, the JNDI environment
+properties must specified as `property` subelements of this
+`destination` element.
+
+Default value: not set
+
+|`name` |String a|
+The JMS destination name of this destination. This attribute is ignored
+if `lookup-name` is specified.
+
+Default value: not set
+
+|`ref-name` |String a|
+Unique name for this destination.
+
+Default value: no default
+
+|`type` |`queue` or `topic` a|
+The JMS destination type of this destination. This attribute is ignored
+if `lookup-name` is specified
+
+Default value: `queue`
+
+|=======================================================================
+
+
+[[gjlrp]][[GMADG00584]][[starting-and-stopping-jms-bridges]]
+
+Starting and Stopping JMS Bridges
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+JMS bridges can be started automatically when the broker hosting the
+bridge starts, or manually using the `imqbridgemgr` utility. Similarly,
+JMS bridges are stopped automatically when the broker hosting the bridge
+is shut down, or manually using the `imqbridgemgr` utility.
+
+When a JMS bridge is started, the JMS bridge manager performs these
+tasks:
+
+1.  Parse and validate the bridge's XML configuration file.
+2.  Initialize all links and DMQs that have their `enabled` attribute
+set to `true`.
+3.  If any enabled links have their `transacted` attribute set to
+`true`:
+1.  Initialize the built-in XA transaction coordinator.
+2.  Register resource managers (RMs) for all potential XA connection
+factories.
+3.  Perform XA recovery for available RMs.
+4.  Create connection pools and shared connections as needed.
+5.  Ensure that all DMQs are ready.
+6.  Start all enabled links.
+
+When a JMS bridge is stopped, the JMS bridge manager performs these
+tasks:
+
+1.  Stop all started and paused links.
+2.  Wait until all pooled connections are returned to their respective
+pools and until all references to shared connections are returned.
+3.  Close all connection pools and shared connections. This effectively
+causes all physical connections to JMS providers to close.
+
+[[GMADG682]][[sthref66]]
+
+
+[[to-configure-a-jms-bridge-to-start-at-broker-startup]]
+To Configure a JMS Bridge to Start at Broker Startup
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Follow these steps to configure a JMS bridge so that it starts
+automatically when the broker hosting it is started.
+
+1.  Confirm that the bridge service manager is enabled. +
+See link:#gjzqh[To Enable the Bridge Service Manager] for instructions.
+2.  Add the name of the bridge to the `imq.bridge.activelist` broker
+property.
+3.  Confirm that the `imq.bridge.`bridgeName`.autostart` broker property
+is set to `true`.
+
+[[GMADG683]][[sthref67]]
+
+
+[[to-start-a-jms-bridge-manually]]
+To Start a JMS Bridge Manually
+++++++++++++++++++++++++++++++
+
+1.  Enter the `imqbridgemgr` `start` `bridge` command, specifying the
+bridge name and the broker. +
+For example, to start the bridge `mq2external` hosted by the broker
+running on `myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr start bridge -bn mq2external -b myhost:8886
+----
+
+[[GMADG684]][[sthref68]]
+
+
+[[to-stop-a-jms-bridge-manually]]
+To Stop a JMS Bridge Manually
++++++++++++++++++++++++++++++
+
+1.  Enter the `imqbridgemgr` `stop` `bridge` command, specifying the
+bridge name and the broker. +
+For example, to stop the bridge `mq2external` hosted by the broker
+running on `myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr stop bridge -bn mq2external -b myhost:8886
+----
+
+[[gjmig]][[GMADG00585]][[starting-and-stopping-links-in-a-jms-bridge]]
+
+Starting and Stopping Links in a JMS Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Links in a JMS bridge are started automatically when the bridge starts.
+Similarly, links are stopped automatically when the bridge is stopped.
+Additionally, once a JMS bridge is started, any of its links can be
+paused, resumed, stopped or restarted manually using the `imqbridgemgr`
+utility.
+
+[[GMADG685]][[sthref69]]
+
+
+[[to-stop-a-link-manually]]
+To Stop a Link Manually
++++++++++++++++++++++++
+
+1.  Enter the `imqbridgemgr` `stop` `link` command, specifying the link
+name, the bridge name, and the broker. +
+For example, to stop the link `link1` in the bridge `mq2external` hosted
+by the broker running on `myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr stop link  -ln link1 -bn mq2external -b myhost:8886
+----
+
+[[GMADG686]][[sthref70]]
+
+
+[[to-start-a-link-manually]]
+To Start a Link Manually
+++++++++++++++++++++++++
+
+A link cannot be started manually unless it is enabled; that is, the
+`enabled` attribute of its `link` element in the bridge's XML
+configuration file is set to `true`.
+
+1.  Enter the `imqbridgemgr` `start` `link` command, specifying the link
+name, the bridge name, and the broker. +
+For example, to start the link `link1` in the bridge `mq2external`
+hosted by the broker running on `myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr start link  -ln link1 -bn mq2external -b myhost:8886
+----
+
+[[gjdkc]][[GMADG00260]][[configuring-and-managing-stomp-bridge-services]]
+
+Configuring and Managing STOMP Bridge Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The STOMP (Streaming Text Oriented Messaging Protocol) open source
+project at `http://docs.codehaus.org/display/STOMP/Home` defines a
+simple wire protocol that clients written in any language can use to
+communicate with any messaging provider that supports the STOMP
+protocol.
+
+Message Queue 5.0 provides support for the STOMP protocol through the
+STOMP bridge service. This service enables a Message Queue broker to
+communicate with STOMP clients.
+
+The STOMP bridge service provides the features needed to fully integrate
+STOMP messaging into the JMS messaging environment of Message Queue:
+
+* Registration with the Message Queue Port Mapper service so that STOMP
+clients can discover the service dynamically
+* Support for TCP and SSL/TLS connections, including SSL/TLS connections
+requiring client authentication
+* Automatic conversion of STOMP frame messages to and from JMS
+`BytesMessage` and `TextMessage` types
+* Extensible message handling and transformation (by defining a custom
+message transformer)
+* Support for the full STOMP protocol, including the STOMP JMS bindings
+
+The following subsections provide information about the STOMP bridge and
+how to configure and manage it:
+
+* link:#gjmne[Configuring the STOMP Bridge]
+* link:#gjmnw[Starting and Stopping the STOMP Bridge]
+* link:#gjmmg[Message Processing Sequence Across the STOMP Bridge]
+* link:#gjmnu[STOMP Protocol Features and the STOMP Bridge]
+
+[[gjmne]][[GMADG00586]][[configuring-the-stomp-bridge]]
+
+Configuring the STOMP Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To configure the STOMP bridge, you specify several `imq.bridge.stomp`
+broker properties in the broker hosting the bridge. These properties,
+which control the various features of the STOMP bridge, are listed in
+link:#gjmnp[Table 12-10].
+
+[[GMADG687]][[sthref71]][[gjmnp]]
+
+
+Table 12-10 Broker Properties for the STOMP Bridge Service
+
+[width="244%",cols="21%,32%,32%,15%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imq.bridge.stomp.hostname` |String |None a|
+Host name or IP address for the STOMP bridge service
+
+If specified, overrides `imq.hostname` (see
+link:broker-properties.html#gbnni[Table 17-1]) for the STOMP bridge
+service.
+
+|`imq.bridge.stomp.tcp.enabled` |Boolean |`true` |Does the STOMP bridge
+accept TCP connections?
+
+|`imq.bridge.stomp.tcp.port` |Integer |`7672` |The port on which the
+STOMP bridge listens for TCP connections, provided that
+`imq.bridge.stomp.tcp.enabled` is `true`.
+
+|`imq.bridge.stomp.tls.enabled` |Boolean |`false` a|
+Does the STOMP bridge accept SSL/TLS connections?
+
+If `true`, a keystore must be created using the `imqkeytool` utility
+before starting the broker.
+
+|`imq.bridge.stomp.tls.port` |Integer |`7673` |The port on which the
+STOMP bridge listens for SSL/TLS connections, provided that
+`imq.bridge.stomp.tls.enabled` is `true`.
+
+|`imq.bridge.stomp.tls.requireClientAuth` |Boolean |`false` |Do SSL/TLS
+connections require client authentication?
+
+|`imq.bridge.stomp.consumerFlowLimit` |Integer |`1000` |The maximum
+number of unacknowledged messages that the STOMP bridge will deliver on
+a transacted STOMP subscription. The STOMP client must then acknowledge
+the messages and commit the transaction.
+
+|`imq.bridge.stomp.messageTransformer` |String |None |The fully
+qualified class name of a class that extends the Message Queue bridge
+`MessageTransformer` abstract class (with formal type parameters as
+`javax.jms.Message`). Place this class under the `IMQ_HOME/lib/ext`
+directory.
+
+|`imq.bridge.stomp.logfile.limit` |Integer |`0` a|
+The approximate maximum number of bytes the STOMP bridge writes to any
+one log file.
+
+A value of `0` (zero) indicates that there is no maximum limit.
+
+|`imq.bridge.stomp.logfile.count` |Integer |`1` |The number of log files
+the STOMP bridge cycles through.
+|=======================================================================
+
+
+[[gjmnw]][[GMADG00587]][[starting-and-stopping-the-stomp-bridge]]
+
+Starting and Stopping the STOMP Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The STOMP bridge is started automatically when the broker hosting the
+bridge starts. Similarly, the STOMP bridge is stopped automatically when
+the broker hosting it is stopped. The STOMP bridge can be stopped and
+restarted manually using the `imqbridgemgr` utility.
+
+[[GMADG688]][[sthref72]]
+
+
+[[to-activate-the-stomp-bridge]]
+To Activate the STOMP Bridge
+++++++++++++++++++++++++++++
+
+1.  Confirm that the bridge service manager is enabled. +
+See link:#gjzqh[To Enable the Bridge Service Manager] for instructions.
+2.  Add the name `stomp` to the list of bridge names in the
+`imq.bridge.activelist` broker property.
+
+[[GMADG689]][[sthref73]]
+
+
+[[to-stop-the-stomp-bridge-manually]]
+To Stop the STOMP Bridge Manually
++++++++++++++++++++++++++++++++++
+
+1.  Enter the `imqbridgemgr` `stop` `bridge` command, specifying the
+bridge type and the broker. +
+For example, to stop the STOMP bridge hosted by the broker running on
+`myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr stop bridge -t STOMP -b myhost:8886
+----
+
+[[GMADG690]][[sthref74]]
+
+
+[[to-start-the-stomp-bridge-manually]]
+To Start the STOMP Bridge Manually
+++++++++++++++++++++++++++++++++++
+
+1.  Enter the `imqbridgemgr` `start` `bridge` command, specifying the
+bridge type and the broker. +
+For example, to start the STOMP bridge hosted by the broker running on
+`myhost:8886`, enter this command: +
+[source,oac_no_warn]
+----
+imqbridgemgr start bridge -t STOMP -b myhost:8886
+----
+
+[[gjmmg]][[GMADG00588]][[message-processing-sequence-across-the-stomp-bridge]]
+
+Message Processing Sequence Across the STOMP Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The STOMP bridge processes messages differently depending on whether the
+message is a STOMP frame message being received from a STOMP client or a
+JMS message being sent to a STOMP client.
+
+For STOMP frame messages received from a STOMP client, the STOMP bridge
+performs these tasks:
+
+1.  Convert the STOMP frame message to a JMS `BytesMessage` if the
+`content-length` header is present; otherwise, convert it to a JMS
+`TextMessage` using UTF-8 as the message encoding.
+2.  If a custom message transformer is defined for the bridge, pass the
+JMS message to the transformer's `MessageTransformer.transform()`
+method.
+3.  Send the message to its destination.
+
+For JMS messages sent to a STOMP client, the STOMP bridge performs these
+tasks:
+
+1.  If a custom message transformer is defined for the bridge, pass the
+JMS message to the transformer's `MessageTransformer.transform()`
+method.
+2.  If the transformed message (or original message when no custom
+transformer is defined) is not a JMS `TextMessage` or JMS `BytesMessage`
+message, close the STOMP connection and stop processing the message.
+3.  Convert the JMS message to a STOMP frame message, using UTF-8
+encoding for all headers and for the message body of a JMS TextMessage
+message.
+4.  Send the message to the STOMP client.
+
+[[gjmph]][[GMADG00444]][[message-transformation-during-message-processing]]
+
+Message Transformation During Message Processing
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+The message transformation between STOMP frame messages and JMS messages
+that the STOMP bridge automatically provides is sufficient in most
+applications. However, if you need to perform special processing or to
+send JMS message types other than `BytesMessage` or `TextMessage` to
+STOMP clients, you can define a custom message transformer for the STOMP
+bridge.
+
+This custom message transformer is a Java class that extends the Message
+Queue Bridge `MessageTransformer` abstract class by implementing the
+class's `transform()` method. Then, place the class file in the
+`IMQ_HOME/lib/ext` directory and set the
+`imq.bridge.stomp.messageTransformer` broker property of the broker
+hosting the STOMP bridge to the fully qualified class name of the class.
+
+When implementing the `transform()` method, keep these points in mind:
+
+* The formal parameters T and S must be of type `javax.jms.Message`.
+* "The source and target arguments will be either `"STOMP"` and
+`"SUN_MQ"` or `"SUN_MQ"` and `"STOMP"`, respectively.
+* A source argument value of `"STOMP"` indicates that the message
+argument is from a STOMP client SEND frame received by the STOMP bridge.
+* A source argument value of `"SUN_MQ"` indicates that the message
+argument is from a Message Queue destination.
+* The readOnly argument will be `false` if the source argument is
+`"STOMP"` and `true` if the source argument is `"SUN_MQ"`.
+* If the source argument is `"STOMP"`, the properties argument contains,
+as key/value pairs, any arbitrary user headers that the STOMP bridge was
+unable to convert to JMS message properties in the message argument.
+Otherwise, the properties argument is null.
+* The charsetName argument should be ignored unless the source argument
+is `"STOMP"` and the message argument is a JMS `BytesMessage` message.
+This combination of argument values indicates that the message is from a
+STOMP client and has already been converted to a `BytesMessage` message.
+* The returned message must be in write-only mode if the source argument
+is `"STOMP"` and in read-only mode if the source argument is `"SUN_MQ"`.
+
+[[gjmnu]][[GMADG00589]][[stomp-protocol-features-and-the-stomp-bridge]]
+
+STOMP Protocol Features and the STOMP Bridge
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The STOMP bridge supports the full STOMP protocol, including all
+additional STOMP headers for the STOMP JMS bindings, as listed at
+`http://docs.codehaus.org/display/STOMP/Stomp+JMS`.
+
+The following table clarifies how the STOMP bridge handles certain
+command and header combinations that might be otherwise be subject to
+multiple interpretations.
+
+[[GMADG691]][[sthref75]][[gjmmq]]
+
+
+Table 12-11 STOMP Bridge Handling of Selected Command/Header
+Combinations
+
+[width="100%",cols="15%,28%,57%",options="header",]
+|=======================================================================
+|STOMP Frame Command |STOMP Frame Header |Handling by the STOMP Bridge
+|`CONNECT` a|
+`login`
+
+`passcode`
+
+ |The STOMP bridge requires these headers to be specified; otherwise, it
+returns an `ERROR` frame.
+
+a|
+`SEND`
+
+`SUBSCRIBE`
+
+`UNSUBSCRIBE`
+
+`MESSAGE`
+
+ |`destination` a|
+MQ STOMP bridge interprets prefixes in `destination` header values as
+follows:
+
+* `/queue/`: the prefix is followed by the name of a Queue
+* `/topic/`: the prefix is followed by the name of a Topic
+* `/temp-queue/`: the prefix is followed by the name of a TemporaryQueue
+* `/temp-topic/`: the prefix is followed by the name of a TemporaryTopic
+
+Note that the following two prefixes are reserved to be used only for
+send reply messages to a `MESSAGE` frame's `replyto` destination, and
+should only be used in the same `CONNECT` session in which the `MESSAGE`
+is received.
+
+* `/temp-queue/temporary_destination://queue/`
+* `/temp-topic/temporary_destination://topic/`
+
+|`SEND` a|
+`expires`
+
+`priority`
+
+`persistent`
+
+ |When these headers are not specified for `SEND`, the message will be
+sent with the same default values as for a Message Queue Java client.
+
+|`SEND` |user specific headers |On `SEND`, a user can specify additional
+headers beyond the ones specified in the STOMP protocol and STOMP JMS
+Bindings. These headers are transformed to String properties of the
+converted JMS message. Therefore, the keys for these headers must be
+valid JMS property names. If any are not, and a custom message
+transformer is specified for STOMP bridge, the invalid ones are passed
+in the properties argument to the transformer's `transform()` method.
+
+|`SUBSCRIBE` |`selector` |Supported as described in the STOMP JMS
+Bindings on `SUBSCRIBE`.
+
+|`SUBSCRIBE` |`id` a|
+A STOMP client should always specify an `id` header for `SUBSCRIBE`. If
+no "id" header is specified, the STOMP bridge assigns it a default value
+of `/subscription-to/`STOMP-destination-name.
+
+All `SUBSCRIBE` `id` values must be unique in the scope of the STOMP
+client connection to the STOMP bridge; otherwise, an `ERROR` frame will
+be returned.
+
+|`SUBSCRIBE` |`transaction` |For a STOMP subscription to receive
+messages in a transaction, the `SUBSCRIBE` frame must specify a
+`transaction` header with a transaction identifier whose transaction
+state is started. If the transaction does not exist, an `ERROR` frame is
+returned. After the transaction completes (using either `COMMIT` or
+`ABORT`), message delivery to the transacted subscription is paused
+until the next transaction `BEGIN`.
+
+|`ABORT` |`transaction` |For transacted subscriptions, aborting a
+transaction will cause the STOMP bridge to stop message delivery to all
+transacted subscriptions in the `CONNECT` session. Then, upon the next
+`BEGIN`, the STOMP bridge restarts the message delivery sequence to all
+the transacted subscriptions in the `CONNECT` session, including all
+unconsumed messages that had been previously delivered.
+
+|`SUBSCRIBE` |`ack` |For STOMP `ack:auto` (the default), a subscribed
+message is considered acknowledged as soon as it is sent to the STOMP
+client.
+
+|`UNSUBSCRIBE` |`durable-subscriber-name` a|
+Unsubscribes a durable subscription, with these provisions:
+
+* `destination` and `id` headers, if specfied, are ignored.
+* An `ERROR` frame is returned if the connection (`CONNECT`) has no
+`client-id`.
+
+If an active subscriber with the durable name exists on the connection,
+it is first closed, and then the durable subscriber is unsubscribed.
+
+|`BEGIN` |`transaction` a|
+Transactions are at STOMP `CONNECT` session level. Nested transactions
+are not supported. On attempts to start a nested transaction, an `ERROR`
+frame is returned.
+
+The transaction identifier will also be used for `SUBSCRIBE` frame to
+create a transacted subscription.
+
+|`ACK` |`subscription` a|
+`ACK` should always specify a `subscription` header specifying the
+subscription id that the message to be acked was delivered to.
+
+If a subcriber id is not specified, the STOMP bridge default
+subscription id prefix is used to find the first matching subscription
+id with the prefix to ack the message.
+
+If the subscription for the specified subscription id was not created as
+transacted, and a `transaction` header is specified for the `ACK`, an
+`ERROR` frame is returned;
+
+`ACK` on a message ID, if found, will `ACK` all earlier messages
+delivered to the subscription in addition to the message with the given
+message ID.
+
+|`ACK` |`transaction` |For transacted subscription, an `ACK` for a
+message ID automatically `ACK`s all ealier messages sent to the
+transacted subscription in addition to the message with the given
+message ID. For transacted subscription, a message is considered
+consumed only when it is explicitly or implicitly `ACK`ed in a
+transaction and there is a subsequent successful `COMMIT` on that
+transaction. If the `transaction` header is not specified but the
+`subscription` header is specified and the subscription is a transacted
+subscription, the message is `ACK`ed in the current transaction if there
+is a current transaction. If there is no current transaction, an `ERROR`
+frame is returned.
+
+a|
+`MESSAGE`
+
+`ERROR`
+
+ |`content-length` |The STOMP bridge always sets the `content-length`
+header for `MESSAGE` and `ERROR` frames sent to STOMP clients.
+
+a|
+`SEND`
+
+`MESSAGE`
+
+ |`reply-to` a|
+The STOMP bridge permits `SEND` from different STOMP `CONNECT` sessions
+as well as from the same `CONNECT` session to send reply messages to a
+STOMP `reply-to` header of temporary destination:
+
+* In the same `CONNECT` session, when `SUBSCRIBE` and `SEND` reply, use
+the same temporary destination string that is used in the `SEND`'s
+`reply-to` header.
+* In a different `CONNECT` session, upon receiving a `MESSAGE` with a
+`reply-to` header of a temporary destination, use the same temporary
+destination string in the `MESSAGE`'s `reply-to` header to `SEND` a
+reply to the `reply-to` temporary destination. This technique can also
+be used for sending the reply message when in the same `CONNECT`
+session.
+
+|=======================================================================
+
+
+

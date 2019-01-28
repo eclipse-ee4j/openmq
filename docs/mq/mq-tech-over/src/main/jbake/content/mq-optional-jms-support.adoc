@@ -1,0 +1,727 @@
+type=page
+status=published
+title=Message Queue Features
+next=glossary.html
+prev=mq-features.html
+~~~~~~
+Message Queue Features
+======================
+
+[[GMTOV00031]][[aerdz]]
+
+
+[[b-message-queue-features]]
+B Message Queue Features
+------------------------
+
+The Message Queue service fully implements the JMS specification for
+reliable, asynchronous message delivery. For information about JMS
+compliance-related issues, see link:mq-features.html#aerdy[Message Queue
+Implementation of Optional JMS Functionality].
+
+Message Queue has additional capabilities and features that exceed JMS
+requirements. You can use these features to integrate and monitor
+systems consisting of large numbers of distributed components exchanging
+many thousands of messages in round-the-clock, mission-critical
+operations.
+
+This book has introduced these enterprise-strength features in the
+process of describing the Message Queue service. For your convenience,
+this appendix provides an alphabetical summary of Message Queue
+features: each feature is briefly described, the work required to use
+the feature is summarized, and references are provided to sections in
+this book that introduce these features and to the specific documents in
+the Message Queue documentation set that describe these features in
+detail.
+
+[[gbpfj]][[GMTOV00074]][[feature-list]]
+
+Feature List
+~~~~~~~~~~~~
+
+[[GMTOV163]][[sthref39]][[gbpgb]]
+
+
+Table B-1 Message Queue Features
+
+[width="100%",cols="23%,77%",options="header",]
+|=======================================================================
+|Feature |Description and Reference
+|Administration tools a|
+The Message Queue service includes GUI and command line tools for
+managing destinations, transactions, durable subscriptions, administered
+object stores, user repositories, JDBC-compliant data stores, and server
+certificates.
+
+Also see the JMX-based administration feature described in this table.
+
+Reference
+
+link:brokers.html#aerdd[Built-in Administration Tools]
+
+"link:../mq-admin-guide/admin-tasks-and-tools.html#GMADG00032[Administrative Tasks and Tools]" in Open Message Queue
+Administration Guide
+
+|Authentication a|
+Authenticate users seeking a connection to the broker.
+
+The Message Queue service allows users to connect to the broker by
+validating their name and password against values stored in a user
+repository. The repository can be a flat-file repository shipped with
+Message Queue or an LDAP repository (LDAP v2 or v3 protocol).
+
+To Use
+
+1.  Create a user repository or use the default instance.
+2.  Use the `imqusermgr` tool to populate the repository.
+
+JAAS-Based Authentication
+
+Application clients can also use authentication services based on the
+Java Authentication and Authorization Service (JAAS), which allows you
+to plug in a variety of services into the broker to authenticate Message
+Queue clients. The JAAS API is a core API in J2SE and therefore it is an
+integral part of Message Queue's runtime environment.
+
+To Use
+
+1.  The JAAS provider supplies a login module class that implements the
+authentication service.
+2.  Obtain JAAS configuration file and specify its location using a
+system property.
+3.  Configure broker properties that relate to JAAS support.
+
+Reference
+
+link:brokers.html#aercw[Authentication and Authorization]
+
+"link:../mq-admin-guide/security-services.html#GMADG00040[Configuring and Managing Security Services]" in Open
+Message Queue Administration Guide
+
+|Authorization a|
+Authorize users to perform specific operations.
+
+The Message Queue service allows you to create an access control
+properties file that specifies the operations users and groups of users
+can perform. The broker checks this file when a client seeks to create a
+connection, create a producer, create a consumer, or browse a queue.
+
+To Use
+
+Edit the access control properties file that is automatically created
+for the broker instance.
+
+Reference
+
+link:brokers.html#aercw[Authentication and Authorization]
+
+"link:../mq-admin-guide/security-services.html#GMADG00040[Configuring and Managing Security Services]" in Open
+Message Queue Administration Guide
+
+|Automatic reconnect a|
+The administrator sets connection attributes on the connection factory
+administered object to enable automatic reconnection in the event of
+connection or broker failure. Reconnection can be to the same broker or
+to another broker in a cluster if a cluster is used. You can specify how
+many times to try reconnection and the interval between attempts. You
+can also specify how often to iterate through a list of brokers and
+whether to iterate through the list in a specific order.
+
+Reference
+
+link:brokers.html#aerci[Connection Services]
+
+"link:../mq-admin-guide/administered-objects.html#GMADG00042[Managing Administered Objects]" in Open Message Queue
+Administration Guide
+
+|Broker clusters a|
+The administrator can balance client connections and message delivery
+across a number of broker instances by grouping those instances into a
+broker cluster. The Message Queue service supports two kinds of
+clusters: conventional clusters and high availability clusters
+
+To Use Conventional Clusters
+
+1.  Specify cluster configuration properties for each broker in the
+cluster. Specify properties that are the same for all brokers using a
+cluster configuration file.
+2.  If there is a master broker, start the master broker
+3.  Start the other brokers in the cluster.
+
+To Use Enhanced Clusters
+
+1.  Specify cluster configuration properties for each broker in the
+cluster (including JDBC-related properties). Specify properties that are
+the same for all brokers using a cluster configuration file.
+2.  Install your JDBC driver's `.jar` file in the appropriate directory
+location.
+3.  Use the `imqdbmgr` tool to create the database schema for the highly
+available data store.
+4.  Start the brokers in the cluster.
+
+Reference
+
+link:broker-clusters.html#aerdj[Broker Clusters]
+
+"link:../mq-admin-guide/broker-clusters.html#GMADG00041[Configuring and Managing Broker Clusters]" in Open
+Message Queue Administration Guide
+
+|Broker configuration a|
+The administrator can set broker properties to tune Message Queue
+service performance. This includes routing services, persistence
+services, security, monitoring, and administered object management.
+
+Reference
+
+link:brokers.html#aercg[The Message Queue Broker]
+
+"link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]" in Open Message Queue
+Administration Guide
+
+|C client support, including support for distributed transactions. a|
+C clients can use Message Queue messaging services to send and receive
+messages. The C API enables legacy C applications and C++ applications
+to participate in JMS-based messaging.
+
+Message Queue's C API is supported by a C client runtime that supports
+most of the standard JMS functionality, with the exception of the
+following: the use of administered objects; map, stream, or object
+message body types; distributed transactions; and queue browsers. The C
+client runtime also does not support most of Message Queue's enterprise
+features.The Message Queue C-API supports the XA interface (between a
+distributed transaction manager and Message Queue as a XA-compliant
+resource manager), allowing Message Queue C-API clients running in a
+distributed transaction processing environment (such as BEA Tuxedo) to
+participate in distributed transactions.
+
+Reference
+
+link:client-programming-model.html#aercf[Java and C Clients]
+
+link:../mq-dev-guide-c/toc.html#GMCCG[Open Message Queue Developer's Guide for C Clients]
+
+|Client runtime logging a|
+Java clients can use all the J2SE 1.4 logging facilities to configure
+how the Message Queue client runtime outputs its logging information.
+Clients can choose to log the following events: changes in connection
+state and miscellaneous connection activities, session-related events,
+the creation of producers, consumers, and destinations, and the
+consumption and production of messages.
+
+Java clients can configure logging programmatically or by using
+configuration files.
+
+Reference
+
+"link:../mq-dev-guide-java/client-design-and-features.html#GMJVG00108[Client Runtime Logging]" in Open Message Queue
+Developer's Guide for Java Clients
+
+|Compressed messages a|
+Java clients can set a message property to have the client runtime
+compress a message being sent. The runtime on the consumer side
+decompresses the message before it delivers it to the consumer.
+Additional properties are provided that you can use to determine whether
+compressing messages would actually improve performance.
+
+Reference
+
+link:client-programming-model.html#aerbs[Message Body]
+
+"link:../mq-dev-guide-java/client-design-and-features.html#GMJVG00209[Managing Message Size]" in Open Message Queue
+Developer's Guide for Java Clients
+
+|Configurable persistence a|
+The administrator can configure the broker to use the file-based
+persistent store provided with Message Queue or a JDBC-compliant
+database, such as Oracle 8i.
+
+To Use
+
+Set broker properties that relate to file-system persistent storage or
+JDBC-compliant storage.
+
+Reference
+
+link:brokers.html#aercs[Persistence Services]
+
+"link:../mq-admin-guide/persistence-services.html#GMADG00039[Configuring Persistence Services]" in Open Message
+Queue Administration Guide
+
+|Configurable physical destinations a|
+The administrator can define some messaging behavior by setting physical
+destination properties when creating destinations. The following
+behavior can be configured for any destination: the maximum number of
+unconsumed messages or the maximum amount of memory allowed for such
+messages, which messages the broker should reject when memory limits are
+reached, the maximum number of producers and consumers, the maximum
+message size, the maximum number of messages delivered in a single
+batch, whether the destination can deliver only to local consumers, and
+whether dead messages on the destination can be moved to the dead
+message queue.
+
+Reference
+
+link:brokers.html#aercl[Message Delivery Services]
+
+"link:../mq-admin-guide/message-delivery.html#GMADG00238[Configuring and Managing Physical Destinations]" in
+Open Message Queue Administration Guide
+
+|Connection event notification a|
+Java clients can listen for connection events (like closure or
+reconnection) and take appropriate action based on the notification type
+and the connection state.
+
+To Use
+
+1.  Use the event notification API to create an event listener.
+2.  Add code to the client application that will take appropriate action
+depending on the events captured by the event listener.
+
+Reference
+
+"link:../mq-dev-guide-java/client-design-and-features.html#GMJVG00102[Connection Event Notification]" in Open Message Queue
+Developer's Guide for Java Clients
+
+|Connection ping a|
+The administrator can set a connection factory attribute to specify the
+frequency of a ping operation from the client runtime to the broker.
+This allows the client to preemptively detect a failed connection.
+
+Reference
+
+link:brokers.html#aerci[Connection Services]
+
+"link:../mq-admin-guide/connection-services.html#GMADG00235[Configuring Connection Services]" in Open Message
+Queue Administration Guide
+
+|Dead message queue a|
+The Message Queue message service creates the dead message queue to hold
+messages that have expired or that the broker could not process. You can
+examine the contents of the queue to monitor, tune, or troubleshoot
+system performance.
+
+Reference
+
+link:brokers.html#ggtpb[Physical Destinations]
+
+"link:../mq-admin-guide/message-delivery.html#GMADG00538[Using the Dead Message Queue]" and
+"link:../mq-admin-guide/message-delivery.html#GMADG00238[Configuring and Managing Physical Destinations]" in
+Open Message Queue Administration Guide
+
+|HTTP connections a|
+Java clients can create HTTP connections to the broker.
+
+HTTP transport allows messages to be delivered through firewalls.
+Message Queue implements HTTP support using an HTTP tunnel servlet that
+runs in a web server environment. Messages produced by a client are
+wrapped by the client runtime as HTTP requests and delivered over HTTP
+through a firewall to the tunnel servlet. The tunnel servlet extracts
+the JMS message from the HTTP request and delivers the message over
+TCP/IP to the broker.
+
+To Use
+
+1.  Deploy HTTP tunnel servlet on a web server.
+2.  Configure broker's `httpjms` connection service and start the
+broker.
+3.  Configure HTTP connection.
+4.  Obtain an HTTP connection to the broker. (Java clients only.)
+
+Reference
+
+link:brokers.html#aerci[Connection Services]
+
+"link:../mq-admin-guide/http_https-support.html#GMADG00056[HTTP/HTTPS Support]" in Open Message Queue
+Administration Guide
+
+|Interactive monitoring a|
+The administrator can use the `imqcmd metrics` command to monitor a
+broker remotely. Monitored data includes JVM metrics, broker message
+flow, connections, connection resources, messages, destination message
+flow, destination consumers, destination resource use.
+
+Reference
+
+link:brokers.html#aercy[Monitoring Services]
+
+"link:../mq-admin-guide/monitoring.html#GMADG00044[Monitoring Broker Operations]" in Open Message Queue
+Administration Guide
+
+|Java EE resource adapters a|
+Message Queue provides a resource adapter that can be plugged into a
+Java EE-compliant application server. By using Message Queue as a JMS
+provider, an application server meets the Java EE requirement that
+distributed components running in the application server be able to
+interact using reliable, asynchronous message.
+
+To Use
+
+Configure the adapter by setting adapter attributes.
+
+Reference
+
+link:mq-and-java-ee.html#aerdw[Java EE Application Server Support]
+
+"link:../mq-admin-guide/jmsra-properties.html#GMADG00051[JMS Resource Adapter Property Reference]" in Open
+Message Queue Administration Guide
+
+|Java ES Monitoring Framework support a|
+The Java ES Monitoring Framework allows administrators to use the same
+interface to manage any and all Java ES components. If you are using
+Message Queue with other Java ES components, it might be more convenient
+to manage these from a single console. Administrators can use the Sun
+Java System Monitoring Console to view performance statistics, create
+rules to monitor automatically, and acknowledge alarms. To enable Java
+ES monitoring, you must do the following:
+
+* Install and configure the components in your deployment; for example,
+Message Queue and the application server.
+* Enable and configure the Monitoring Framework for all your monitored
+components.
+* Install the Monitoring Console on a separate host, start the master
+agent, and then start the web server.
+
+For information, see the Sun Java Enterprise System Monitoring Guide.
+
+|JMS Bridge Service a|
+The JMS bridge service enables a Message Queue broker to map its
+destinations to destinations in external JMS providers, effectively
+allowing the Message Queue broker to communicate with clients of the
+external JMS provider. The JMS bridge service supports any number of
+uniquely named JMS bridges in a broker. Each bridge consists of two
+primary components:
+
+* One or more links that each map a destination in the Message Queue
+broker to a destination in an external JMS provider or in another
+Message Queue broker. To provide destination mapping, each link consists
+of a source that specifies the destination from which the JMS bridge
+receives messages and a target that specifies the destination to which
+the JMS bridge forwards messages received from the source.
+* A built-in Dead Message Queue where undeliverable messages are sent.
+Additional, special-purpose DMQs can also be specified.
+
+Reference
+
+"link:../mq-admin-guide/bridge-services.html#GMADG00259[Configuring and Managing JMS Bridge Services]" in Open
+Message Queue Administration Guide
+
+|JMX-Based Administration a|
+Java clients can use the JMX API to monitor and manage broker resources:
+the broker, services, connections, destinations, consumers, producers,
+and so on. You can use JMX-based administration in different ways to
+monitor application performance, to configure and monitor broker
+services, to automate tasks, or to write custom tools.
+
+Reference
+
+link:brokers.html#gemjx[JMX-Based Administration]
+
+"link:../mq-admin-guide/jmx-support.html#GMADG00057[JMX Support]" in Open Message Queue Administration
+Guide
+
+link:../mq-dev-guide-jmx/toc.html#GMJMG[Open Message Queue Developer's Guide for JMX Clients]
+
+|JNDI service provider support a|
+Clients can look up administered objects using the JNDI API.
+
+Administrators can use the `imqobjmgr` utility to add, list, update, and
+delete administered objects in an object store accessible using JNDI.
+
+Reference
+
+link:brokers.html#aerdd[Built-in Administration Tools]
+
+"link:../mq-admin-guide/administered-objects.html#GMADG00042[Managing Administered Objects]" in Open Message Queue
+Administration Guide
+
+|LDAP Server support a|
+An administrator can use an LDAP server as a Message Queue administered
+object store and as a user repository (needed for authentication). By
+default Message Queue provides file-based storage for this data.
+
+To Use as an Administered Object Store
+
+1.  Use the tools provided by the LDAP vendor to set up the LDAP server.
+2.  Set the LDAP-related broker properties to define the initial context
+and the location of the object store.
+3.  Set the LDAP-related broker properties that relate to securing the
+LDAP server operations.
+
+Reference
+
+"link:../mq-admin-guide/security-services.html#GMADG00040[Configuring and Managing Security Services]" in Open
+Message Queue Administration Guide
+
+|Memory resource management a|
+The administrator can configure the following behavior:
+
+1.  Set properties on a destination to specify the maximum number of
+producers, the maximum number of messages, and the maximum size of any
+one message.
+2.  Set properties on a destination to control message flow.
+3.  Set properties on a destination to manage message flow for each
+destination.
+4.  Set properties on the broker to specify message limits on all
+destinations for that broker.
+5.  Set properties on the broker to specify thresholds of available
+system memory at which the broker takes action to prevent memory
+overload. The action taken depends on the state of memory resources.
+
+Reference
+
+link:brokers.html#aercl[Message Delivery Services]
+
+"link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]" in Open Message Queue
+Administration Guide
+
+|Message compression a|
+The developer can set a message header property to have the client
+runtime compress a message before sending it. The client runtime on the
+consumer side decompresses the message before delivering it to the
+consumer.
+
+Reference
+
+link:client-programming-model.html#aerbr[Message Properties]
+
+"link:../mq-dev-guide-java/client-design-and-features.html#GMJVG00149[Message Compression]" in Open Message Queue
+Developer's Guide for Java Clients
+
+|Message flow control to clients a|
+The administrator or the developer can configure a connection to specify
+various flow limits and metering schemes to minimize the collision of
+payload and control messages, and thereby to maximize message
+throughput.
+
+To Use
+
+Set the flow-control attributes for the connection factory administered
+object (administrator), or set the flow-control properties for the
+connection factory (developer).
+
+Reference
+
+link:client-programming-model.html#aerbn[Connection]
+
+"link:../mq-admin-guide/connection-services.html#GMADG00235[Configuring Connection Services]" and
+"link:../mq-admin-guide/administered-objects.html#GMADG00568[Connection Factory Attributes]" in Open Message Queue
+Administration Guide
+
+|Message-based monitoring API a|
+Java clients can use a monitoring API to create custom monitoring
+applications. A monitoring application is a consumer that retrieves
+metrics messages from special metrics topic destinations.
+
+To Use
+
+1.  Write a metrics monitoring client.
+2.  Set broker properties to configure the broker's metrics message
+producer.
+3.  Set access controls on metrics topic destinations.
+4.  Start the monitoring client.
+
+Reference
+
+link:brokers.html#aercy[Monitoring Services]
+
+"link:../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015[Using the Metrics Monitoring API]" in Open Message
+Queue Developer's Guide for Java Clients
+
+"link:../mq-admin-guide/monitoring.html#GMADG00044[Monitoring Broker Operations]" in Open Message Queue
+Administration Guide
+
+|Multiple destinations for publishers and subscribers a|
+Publishers can publish messages to multiple topic destinations and
+subscribers can consume messages from multiple topic destinations by
+using a destination name that includes wildcard characters, representing
+multiple destinations. Using such symbolic names allows administrators
+to create additional topic destinations, as needed, consistent with the
+wildcard naming scheme. Publishers and subscribers automatically publish
+to and consume from the added destinations. (Wildcard destination
+consumers are more common than publishers.)
+
+Reference
+
+"link:../mq-admin-guide/message-delivery.html#GMADG00069[Supported Topic Destination Names]" in Open Message
+Queue Administration Guide
+
+|Queue delivery to multiple consumers a|
+Clients can register more than one consumer for a given queue.
+
+The administrator can specify the maximum number of active consumers and
+the maximum number of backup consumers for the queue. The broker
+distributes messages to the registered consumers, balancing the load
+among them in order to allow the system to scale.
+
+To Use
+
+Set physical destination properties `maxNumActiveConsumers` and
+`maxNumBackupConsumers`.
+
+Reference
+
+link:client-programming-model.html#aerbj[Point-To-Point Messaging]
+
+"link:../mq-admin-guide/physical-destination-properties.html#GMADG00049[Physical Destination Property Reference]" in Open
+Message Queue Administration Guide
+
+|Reliable data persistence a|
+To obtain absolute reliability you can require that the operating system
+write the data synchronously to the persistent store by setting the
+`imq.persist.file.sync.enabled` property to true. This eliminates
+possible data loss due to system crashes, but at the expense of
+performance. Note that although the data is not lost, it is not
+available to any other broker (in a cluster) because data is not
+currently shared by clustered brokers. When the system comes back up,
+the broker can reliably resume operations.
+
+Reference
+
+link:brokers.html#aercs[Persistence Services]
+
+"link:../mq-admin-guide/broker-properties.html#GMADG00290[Persistence Properties]" in Open Message Queue
+Administration Guide
+
+|Schema validation of XML messages a|
+Enables validation of the content of a text (not object) XML message
+against an XML schema at the point the message is sent to the broker.
+The location of the XML schema (XSD) is specified as a property of a
+Message Queue destination. If no XSD location is specified, the DTD
+declaration within the XML document is used to perform DTD validation.
+(XSD validation, which includes data type and value range validation, is
+more rigorous than DTD validation.)
+
+Reference
+
+"link:../mq-admin-guide/physical-destination-properties.html#GMADG00297[Physical Destination Properties]" in Open Message
+Queue Administration Guide
+
+|Secure connections a|
+Clients can secure transmission of messages using the Secure Socket
+Layer (SSL) standard over TCP/IP and HTTP transports. These SSL-based
+connection services allow for the encryption of messages sent between
+clients and broker.
+
+SSL support is based on self-signed server certificates. Message Queue
+provides a utility that generates a private/public key pair and embeds
+the public key in a self-signed certificate. This certificate is passed
+to any client requesting a connection to the broker, and the client uses
+the certificate to set up an encrypted connection.
+
+To Use
+
+1.  Generate a self-signed or signed certificate.
+2.  Enable the secure service.
+3.  Start the broker.
+4.  Configure client security connection properties and run the client.
+
+Reference
+
+link:brokers.html#aercv[Security Services]
+
+"link:../mq-admin-guide/security-services.html#GMADG00040[Configuring and Managing Security Services]" in Open
+Message Queue Administration Guide
+
+"link:../mq-dev-guide-c/using-the-c-api.html#GMCCG00311[Working With Secure Connections]" in Open Message
+Queue Developer's Guide for C Clients
+
+|Simple Object Access Protocol (SOAP) support a|
+Clients can receive SOAP (XML) messages and they can wrap them as JMS
+messages and use Message Queue to exchange them as they would a JMS
+message.
+
+Clients can use a special servlet to receive SOAP messages; they can use
+a utility class to wrap a SOAP message as a JMS message; they can use
+another utility class to extract the SOAP message from the JMS message.
+Clients can use standard SOAP with Attachments API for Java (SAAJ)
+libraries to assemble and disassemble a SOAP message.
+
+Reference
+
+link:client-programming-model.html#aerce[Working with SOAP Messages]
+
+"link:../mq-dev-guide-java/soap-messages.html#GMJVG00016[Working with SOAP Messages]" in Open Message Queue
+Developer's Guide for Java Clients
+
+|STOMP Bridge Service a|
+The STOMP bridge service enables a Message Queue broker to communicate
+with clients that use the Streaming Text Oriented Messaging Protocol
+defined by the `http://stomp.codehaus.org` open source project.
+
+The STOMP bridge service provides the features need to fully integrate
+STOMP messaging into the JMS messaging environment of Message Queue:
+
+* Registration with the Message Queue Port Mapper service so that STOMP
+clients can discover the service dynamically
+* Support for TCP and SSL/TLS connections, including those requiring
+client authentication
+* Automatic conversion of STOMP frame messages to and from JMS
+`BytesMessage` and `TextMessage` types
+* Support for the full STOMP protocol, including the STOMP JMS bindings
+
+Reference
+
+"link:../mq-admin-guide/bridge-services.html#GMADG00260[Configuring and Managing STOMP Bridge Services]" in
+Open Message Queue Administration Guide
+
+|Thread management a|
+The administrator can specify the maximum and minimum number of threads
+assigned to any specific connection service. The administrator can also
+determine whether a connection service could increase throughput by
+using a shared thread model, which allows threads dedicated to idle
+connections to be used by other connections.
+
+To Use
+
+Set connection service thread-related properties.
+
+Reference
+
+link:brokers.html#aerck[Thread Pool Management]
+
+"link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]" in Open Message Queue
+Administration Guide
+
+|Tunable performance a|
+The administrator can set broker properties to adjust memory usage,
+threading resources, message flow, connection services, reliability
+parameters, and other elements that affect message throughput and system
+performance.
+
+Reference
+
+link:brokers.html#aercy[Monitoring Services]
+
+"link:../mq-admin-guide/monitoring.html#GMADG00261[Monitoring Services]" and "olink:GMADG00045[Analyzing
+and Tuning a Message Service]" in Open Message Queue Administration
+Guide
+
+|Universal Message Service (UMS) a|
+Message Queue includes a universal messaging service (UMS) and messaging
+API that provides access to Message Queue from any http-enabled device.
+As a result, almost any application can communicate with any other
+application and benefit from the reliability and guaranteed delivery of
+JMS messaging. In addition, the UMS provides enhanced scalability for
+JMS messaging, allowing the number of messaging clients to reach
+internet-scale proportions.
+
+The simple, language-independent, protocol-based UMS API supports both
+web-based and non-web-based applications, and can be used with both
+scripting and programming languages. The API is offered in two styles: a
+simple messaging API that uses a Representational State Transfer
+(REST)-style protocol, and an XML messaging API that embeds the protocol
+in a SOAP message header. In both cases, however, the API requires only
+a single http request to send or receive a message.
+
+Reference
+
+"link:../mq-release-notes/release-notes.html#GMRLN00042[Universal Message Service (UMS)]" in Open Message
+Queue Release Notes
+
+Documentation of UMS on Open MQ web site:
+`http://mq.java.net/4.3-content/ums/umsIntro.html`
+
+|=======================================================================
+
+
+

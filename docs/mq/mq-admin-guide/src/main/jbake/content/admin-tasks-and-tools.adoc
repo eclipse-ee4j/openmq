@@ -1,0 +1,297 @@
+type=page
+status=published
+title=Administrative Tasks and Tools
+next=quick-start.html
+prev=part-introduction.html
+~~~~~~
+Administrative Tasks and Tools
+==============================
+
+[[GMADG00032]][[aeoap]]
+
+
+[[administrative-tasks-and-tools]]
+1 Administrative Tasks and Tools
+--------------------------------
+
+This chapter provides an overview of Open Message Queue administrative
+tasks and the tools for performing them, focusing on common features of
+the command line administration utilities. It consists of the following
+sections:
+
+* link:#aeoaq[Administrative Tasks]
+* link:#aeoav[Administration Tools]
+
+[[aeoaq]][[GMADG00217]][[administrative-tasks]]
+
+Administrative Tasks
+~~~~~~~~~~~~~~~~~~~~
+
+The typical administrative tasks to be performed depend on the nature of
+the environment in which you are running Message Queue. The demands of a
+software development environment in which Message Queue applications are
+being developed and tested are different from those of a production
+environment in which such applications are deployed to accomplish useful
+work. The following sections summarize the typical administrative
+requirements of these two different types of environment.
+
+[[aeoar]][[GMADG00492]][[administration-in-a-development-environment]]
+
+Administration in a Development Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In a development environment, the emphasis is on flexibility. The
+Message Queue message service is needed principally for testing
+applications under development. Administration is generally minimal,
+with programmers often administering their own systems. Such
+environments are typically distinguished by the following
+characteristics:
+
+* Simple startup of brokers for use in testing
+* Administered objects instantiated in client code rather than created
+administratively
+* Auto-created destinations
+* File-system object store
+* File-based persistence
+* File-based user repository
+* No master broker in multiple-broker clusters
+
+[[aeoas]][[GMADG00493]][[administration-in-a-production-environment]]
+
+Administration in a Production Environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+In a production environment in which applications must be reliably
+deployed and run, administration is more important. Administrative tasks
+to be performed depend on the complexity of the messaging system and of
+the applications it must support. Such tasks can be classified into two
+general categories: setup operations and maintenance operations.
+
+[[aeoat]][[GMADG00392]][[setup-operations]]
+
+Setup Operations
+++++++++++++++++
+
+Administrative setup operations in a production environment typically
+include some or all of the following:
+
+Administrator security
+
+* Setting the password for the default administrative user (`admin`)
+(link:security-services.html#gewbm[Changing a User's Password])
+* Controlling individual or group access to the administrative
+connection service (link:security-services.html#aeofy[Authorization Rules
+for Connection Services]) and the dead message queue
+(link:security-services.html#aeofz[Authorization Rules for Physical
+Destinations])
+* Regulating administrative group access to a file-based or Lightweight
+Directory Access Protocol (LDAP) user repository
+(link:security-services.html#aeofm[User Groups and Status],
+link:security-services.html#aeofr[Using an LDAP User Repository])
+
+General security
+
+* Managing the contents of a file-based user repository
+(link:security-services.html#aeofj[Using the User Manager Utility]) or
+configuring the broker to use an existing LDAP user repository
+(link:security-services.html#aeofr[Using an LDAP User Repository])
+* Controlling the operations that individual users or groups are
+authorized to perform (link:security-services.html#aeofu[User
+Authorization])
+* Setting up encryption services using the Secure Socket Layer (SSL)
+(link:security-services.html#aeogb[Message Encryption])
+
+Administered objects
+
+* Setting up and configuring an LDAP object store (
+link:administered-objects.html#aeogw[LDAP Server Object Stores])
+* Creating connection factories and destinations (
+link:administered-objects.html#aeohn[Adding Administered Objects])
+
+Broker clusters
+
+* Creating a cluster configuration file
+(link:broker-clusters.html#gejlk[The Cluster Configuration File])
+* Designating a master broker (link:broker-clusters.html#aeoih[Managing a
+Conventional Cluster's Configuration Change Record])
+
+Persistence
+
+* Configuring a broker to use a persistent store
+(link:persistence-services.html#gheas[Configuring Persistence Services]).
+
+Memory management
+
+* Setting a destination's configuration properties to optimize its
+memory usage (link:message-delivery.html#aeoes[Updating Physical
+Destination Properties],
+link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference])
+
+[[aeoau]][[GMADG00393]][[maintenance-operations]]
+
+Maintenance Operations
+++++++++++++++++++++++
+
+Because application performance, reliability, and security are at a
+premium in production environments, message service resources must be
+tightly monitored and controlled through ongoing administrative
+maintenance operations, including the following:
+
+Broker administration and tuning
+
+* Using broker metrics to tune and reconfigure a broker (
+link:tuning.html#aeojg[Analyzing and Tuning a Message Service])
+* Managing broker memory resources
+(link:message-delivery.html#aeocq[Managing Broker System-Wide Memory])
+* Creating and managing broker clusters to balance message load
+(link:broker-clusters.html#aeohv[Configuring and Managing Broker
+Clusters])
+* Recovering failed brokers
+(link:starting-brokers-and-clients.html#aeoby[Starting Brokers]).
+
+Administered objects
+
+* Adjusting connection factory attributes to ensure the correct behavior
+of client applications (link:administered-objects.html#aeogz[Connection
+Factory Attributes])
+* Monitoring and managing physical destinations (
+link:message-delivery.html#gheav[Configuring and Managing Physical
+Destinations])
+* Controlling user access to destinations (
+link:security-services.html#aeofz[Authorization Rules for Physical
+Destinations])
+
+Client management
+
+* Monitoring and managing durable subscriptions (see
+link:message-delivery.html#aeoek[Managing Durable Subscriptions]).
+* Monitoring and managing transactions (see
+link:message-delivery.html#aeoel[Managing Transactions]).
+
+[[aeoav]][[GMADG00218]][[administration-tools]]
+
+Administration Tools
+~~~~~~~~~~~~~~~~~~~~
+
+This section describes the tools you use to configure and manageMessage
+Queue broker services. The tools fall into two categories:
+
+* link:#ggwcf[Built-in Administration Tools]
+* link:#ggwao[JMX-Based Administration]
+
+[[ggwcf]][[GMADG00494]][[built-in-administration-tools]]
+
+Built-in Administration Tools
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue's built-in administration tools include both command line
+and GUI tools:
+
+* link:#aeoaw[Command Line Utilities]
+* link:#aeoax[Administration Console]
+
+[[aeoaw]][[GMADG00394]][[command-line-utilities]]
+
+Command Line Utilities
+++++++++++++++++++++++
+
+All Message Queue utilities are accessible via a command line interface.
+Utility commands share common formats, syntax conventions, and options.
+These utilities allow you to perform various administrative tasks, as
+noted below, and therefore can require different administrative
+permissions:
+
+* The Broker utility (`imqbrokerd`) starts up brokers and specifies
+their configuration properties, including connecting them together into
+a cluster. Permissions: User account that initially started the broker.
+* The Command utility (`imqcmd`) controls brokers and their resources
+and manages physical destinations. Permissions: Message Queue admin user
+account.
+* The Object Manager utility (`imqobjmgr`) manages provider-independent
+administered objects in an object store accessible via the Java Naming
+and Directory Interface (JNDI). Permissions: Object store (flat-file or
+LDAP server) access account.
+* The Database Manager utility (`imqdbmgr`) creates and manages
+databases for persistent storage that conform to the Java Database
+Connectivity (JDBC) standard. Permissions: JDBC database manager
+account.
+* The User Manager utility (`imqusermgr`) populates a file-based user
+repository for user authentication and authorization. Permissions: user
+account that initially started the broker.
+* The Service Administrator utility ( `imqsvcadmin`) installs and
+manages a broker as a Windows service. Permissions: Administrator.
+* The Key Tool utility (`imqkeytool`) generates self-signed certificates
+for Secure Socket Layer (SSL) authentication. Permissions: root user
+(Solaris and Linux platforms) or Administrator (Windows platform).
+
+The executable files for the above command line utilities are in the
+`IMQ_HOME/bin` directory.
+
+See link:command-line-reference.html#aeonc[Command Line Reference] for
+detailed information on the use of these utilities.
+
+[[aeoax]][[GMADG00395]][[administration-console]]
+
+Administration Console
+++++++++++++++++++++++
+
+The Message Queue Administration Console combines some of the
+capabilities of the Command and Object Manager utilities. You can use it
+to perform the following tasks:
+
+* Connect to and control a broker remotely
+* Create and manage physical destinations
+* Create and manage administered objects in a JNDI object store
+
+However, you cannot use the Administration Console to perform such tasks
+as starting up a broker, creating broker clusters, managing a JDBC
+database or a user repository, installing a broker as a Windows service,
+or generating SSL certificates. For these, you need the other command
+line utilities (Broker, Database Manager, User Manager, Service
+Administrator, and Key Tool), which cannot operate remotely and must be
+run on the same host as the broker they manage (see link:#gbngk[Figure
+1-1]).
+
+[[GMADG00001]][[gbngk]]
+
+
+.*Figure 1-1 Local and Remote Administration Utilities*
+image:img/adm_local-remote.png[
+"Diagram showing that imqcmd and imqobjmgr reside on remote host, while
+all other utilities must reside on the broker's host."]
+
+
+See link:quick-start.html#aeoay[Quick-Start Tutorial] for a brief,
+hands-on introduction to the Administration Console. More detailed
+information on its use is available through its own help facility.
+
+[[ggwao]][[GMADG00495]][[jmx-based-administration]]
+
+JMX-Based Administration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+To serve customers who need a standard programmatic means to monitor and
+access the broker, Message Queue also supports the Java Management
+Extensions (JMX) architecture, which allows a Java application to manage
+broker resources programmatically.
+
+* Resources include everything that you can manipulate using the Command
+utility (`imqcmd`) and the Message Queue Admin Console: the broker,
+connection services, connections, destinations, durable subscribers,
+transactions, and so on.
+* Management includes the ability to dynamically configure and monitor
+resources, and the ability to obtain notifications about state changes
+and error conditions.
+
+JMX is the Java standard for building management applications. Message
+Queue is based on the JMX 1.2 specification, which is part of JDK 1.5.
+
+For information on the broker's JMX infrastructure and how to configure
+the broker to support JMX client applications, see
+link:jmx-support.html#geoel[JMX Support].
+
+To manage a Message Queue broker using the JMX architecture, see the
+link:../mq-dev-guide-jmx/toc.html#GMJMG[Open Message Queue Developer's Guide for JMX Clients].
+
+

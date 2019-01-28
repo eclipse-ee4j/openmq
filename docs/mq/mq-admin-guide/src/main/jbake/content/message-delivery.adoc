@@ -1,0 +1,1283 @@
+type=page
+status=published
+title=Managing Message Delivery
+next=persistence-services.html
+prev=connection-services.html
+~~~~~~
+Managing Message Delivery
+=========================
+
+[[GMADG00038]][[ghebf]]
+
+
+[[managing-message-delivery]]
+7 Managing Message Delivery
+---------------------------
+
+A Message Queue message is routed to its consumer clients by way of a
+physical destination on a message broker. The broker manages the memory
+and persistent storage associated with the physical destination and
+configures its behavior. The broker also manages memory at a system-wide
+level, to assure that sufficient resources are available to support all
+destinations.
+
+Message delivery also involves the maintenance of state information
+needed by the broker to route messages to consumers and to track
+acknowledgements and transactions.
+
+This chapter provides information needed to manage message delivery, and
+includes the following topics:
+
+* link:#gheav[Configuring and Managing Physical Destinations]
+* link:#aeocq[Managing Broker System-Wide Memory]
+* link:#aeoek[Managing Durable Subscriptions]
+* link:#aeoel[Managing Transactions]
+
+[[gheav]][[GMADG00238]][[configuring-and-managing-physical-destinations]]
+
+Configuring and Managing Physical Destinations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section describes how to use the Message Queue Command utility
+(`imqcmd`) to manage physical destinations. It includes discussion of a
+specialized physical destination managed by the broker, the dead message
+queue, whose properties differ somewhat from those of other
+destinations.
+
+
+[NOTE]
+=======================================================================
+
+In a broker cluster, you create a physical destination on one broker and
+the cluster propagates it to all the others. Because the brokers
+cooperate to route messages across the cluster, client applications can
+consume messages from destinations on any broker in the cluster. However
+the persistence and acknowledgment of a message is managed only by the
+broker to which a message was originally produced.
+
+=======================================================================
+
+
+This section covers the following topics regarding the management of
+physical destinations:
+
+* link:#aeoen[Command Utility Subcommands for Physical Destination
+Management]
+* link:#aeoep[Creating and Destroying Physical Destinations]
+* link:#aeoet[Pausing and Resuming a Physical Destination]
+* link:#aeoeu[Purging a Physical Destination]
+* link:#aeoes[Updating Physical Destination Properties]
+* link:#aeoer[Viewing Physical Destination Information]
+* link:#aeoew[Managing Physical Destination Disk Utilization]
+* link:#aeoez[Using the Dead Message Queue]
+
+
+[NOTE]
+=======================================================================
+
+For provider independence and portability, client applications typically
+use destination administered objects to interact with physical
+destinations. link:administered-objects.html#aeogu[Managing Administered
+Objects] describes how to configure such administered objects for use by
+client applications. For a general conceptual introduction to physical
+destinations, see the Open Message Queue Technical Overview.
+
+=======================================================================
+
+
+[[aeoen]][[GMADG00531]][[command-utility-subcommands-for-physical-destination-management]]
+
+Command Utility Subcommands for Physical Destination Management
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Message Queue Command utility (`imqcmd`) enables you to manage
+physical destinations interactively from the command line. See
+link:command-line-reference.html#aeonc[Command Line Reference] for
+general reference information about the syntax, subcommands, and options
+of the `imqcmd` command, and
+link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference] for specific information on the configuration
+properties used to specify physical destination behavior.
+
+link:#gbnkm[Table 7-1] lists the `imqcmd` subcommands for physical
+destination management. For full reference information about these
+subcommands, see link:command-line-reference.html#gbnky[Table 16-7].
+
+[[GMADG650]][[sthref22]][[gbnkm]]
+
+
+Table 7-1 Physical Destination Subcommands for the Command Utility
+
+[width="100%",cols="19%,81%",options="header",]
+|==============================================================
+|Subcommand |Description
+|`create dst` |Create physical destination
+|`destroy dst` |Destroy physical destination
+|`pause dst` |Pause message delivery for physical destination
+|`resume dst` |Resume message delivery for physical destination
+|`purge dst` |Purge all messages from physical destination
+|`compact dst` |Compact physical destination
+|`update dst` |Set physical destination properties
+|`list dst` |List physical destinations
+|`query dst` |List physical destination property values
+|`metrics dst` |Display physical destination metrics
+|==============================================================
+
+
+[[aeoep]][[GMADG00532]][[creating-and-destroying-physical-destinations]]
+
+Creating and Destroying Physical Destinations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `create` `dst` creates a new physical
+destination:
+
+[source,oac_no_warn]
+----
+imqcmd create dst  -t destType  -n destName
+                      [ [-o property=value] … ]
+----
+
+You supply the destination type (`q` for a queue or `t` for a topic) and
+the name of the destination.
+
+[[ghcfr]][[GMADG00399]][[naming-destinations]]
+
+Naming Destinations
++++++++++++++++++++
+
+Destination names must conform to the rules described below for queue
+and topic destinations.
+
+[[ghcft]][[GMADG00068]][[supported-queue-destination-names]]
+
+Supported Queue Destination Names
+
+Queue destination names must conform to the following rules:
+
+* It must contain only alphabetic characters (`A`-`Z`, `a`-`z`), digit
+characters (`0`-`9`), underscores (`_`), and dollar signs (`$`).
+* It must not contain spaces.
+* It must begin with an alphabetic character (`A`-`Z`, `a`-`z`), an
+underscore (`_`), or a dollar sign (`$`).
+* It must not begin with the characters `mq`.
+
+For example, the following command creates a queue destination named
+`XQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd create dst  -t q  -n XQueue
+----
+
+[[ghcda]][[GMADG00069]][[supported-topic-destination-names]]
+
+Supported Topic Destination Names
+
+Topic destination names must conform to the same rules as queue
+destinations, as specified in link:#ghcft[Supported Queue Destination
+Names], except that Message Queue also supports, in addition, topic
+destination names that include wildcard characters, representing
+multiple destinations. These symbolic names allow publishers to publish
+messages to multiple topics and subscribers to consume messages from
+multiple topics. Using symbolic names, you can create destinations, as
+needed, consistent with the wildcard naming scheme. Publishers and
+subscribers automatically publish to and consume from any added
+destinations that match the symbolic names. (Wildcard topic subscribers
+are more common than publishers.)
+
+The format of a symbolic topic destination name consists of multiple
+segments, in which wildcard characters (`*`, `**`, `>`) can represent
+one or more segments of the name. For example, suppose you have a topic
+destination naming scheme as follows:
+
+size.color.shape
+
+where the topic name segments can have the following values:
+
+* size: `large`, `medium`, `small`, ...
+* color: `red`, `green`, `blue`, ...
+* shape: `circle`, `triangle`, `square`, ...
+
+Message Queue supports the following wildcard characters:
+
+* `*` matches a single segment
+* `**` matches one or more segments
+* `>` matches any number of segments and must not be proceeded by '.'
+
+You can therefore indicate multiple topic destinations as follows:
+
+`large.*.circle` would represent:
+
+[source,oac_no_warn]
+----
+large.red.circle
+large.green.circle
+...
+----
+
+`**.square` would represent all names ending in `.square`, for example:
+
+[source,oac_no_warn]
+----
+small.green.square
+medium.blue.square
+...
+----
+
+`small>` would represent the destination `small` and all destination
+names starting with `small.`, for example:
+
+[source,oac_no_warn]
+----
+small
+small.blue.circle
+small.red.square
+...
+----
+
+It would not, for example, match `smallyellow`.
+
+To use this multiple destination feature, you create topic destinations
+using a naming scheme similar to that described above. For example, the
+following command creates a topic destination named
+`large.green.circle`:
+
+[source,oac_no_warn]
+----
+imqcmd create dst  -t t  -n large.green.circle
+----
+
+Client applications can then create wildcard publishers or wildcard
+consumers using symbolic destination names.
+
+
+[NOTE]
+=======================================================================
+
+Oracle recommends storing and looking up Topic objects in JNDI. It is
+the topic name which contains the wildcard, not the JNDI name
+
+=======================================================================
+
+
+For example:
+
+[[GMADG00107]][[ghcfy]]
+
+
+Example 7-1 Wildcard Publisher
+
+[source,oac_no_warn]
+----
+...
+String topicName = "large.*.circle";
+Topic t = session.createTopic(topicName) 
+TopicPublisher myPublisher = mySession.createPublisher(t)
+myPublisher.send(myMessage);
+...
+----
+
+In this example, the broker will place a copy of the message in any
+destination that matches the symbolic name `large.*.circle`
+
+[[GMADG00108]][[ghccr]]
+
+
+Example 7-2 Wildcard Subscriber
+
+[source,oac_no_warn]
+----
+...
+String topicName = "**.square";
+Topic t = session.createTopic(topicName);
+TopicSubscriber mySubscriber = mySession.createSubscriber(t);
+Message m = mySubscriber.receive();
+...
+----
+
+In this example, a subscriber will be created if there is at least one
+destination that matches the symbolic name `**.square` and will receive
+messages from all destinations that match that symbolic name. If there
+are no destinations matching the symbolic name, the subscriber will not
+be registered with the broker until such a destination exists.
+
+If you create additional destinations that match a symbolic name, then
+wildcard publishers created using that symbolic name will subsequently
+publish to that destination and wildcard subscribers created using that
+symbolic name will subsequently receive messages from that destination.
+
+In addition, Message Queue administration tools, in addition to
+reporting the total number of publishers (producers) and subscribers
+(consumers) for a topic destination, will also report the number of
+publishers that are wildcard publishers (including their corresponding
+symbolic destination names) and the number of subscribers that are
+wildcard subscribers (including their symbolic destination names), if
+any. See link:#aeoer[Viewing Physical Destination Information].
+
+[[ghcgy]][[GMADG00400]][[setting-property-values]]
+
+Setting Property Values
++++++++++++++++++++++++
+
+The `imqcmd` `create` `dst` command may also optionally include any
+property values you wish to set for the destination, specified with the
+`-o` option. For example, the following command creates a topic
+destination named `hotTopic` with a maximum message length of 5000
+bytes:
+
+[source,oac_no_warn]
+----
+imqcmd create dst  -t t  -n hotTopic  -o maxBytesPerMsg=5000
+----
+
+See link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference] for reference information about the physical
+destination properties that can be set with this option. (For
+auto-created destinations, you set default property values in the
+broker's instance configuration file; see
+link:broker-properties.html#gbnof[Table 17-3] for information on these
+properties.)
+
+[[ghcee]][[GMADG00401]][[destroying-destinations]]
+
+Destroying Destinations
++++++++++++++++++++++++
+
+To destroy a physical destination, use the `imqcmd` `destroy` `dst`
+subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd destroy dest  -t destType  -n destName
+----
+
+This purges all messages at the specified destination and removes it
+from the broker; the operation is not reversible.
+
+For example, the following command destroys the queue destination named
+`curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd destroy dest  -t q  -n curlyQueue  -u admin
+----
+
+
+[NOTE]
+=========================================
+
+You cannot destroy the dead message queue.
+
+=========================================
+
+
+[[aeoet]][[GMADG00533]][[pausing-and-resuming-a-physical-destination]]
+
+Pausing and Resuming a Physical Destination
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Pausing a physical destination temporarily suspends the delivery of
+messages from producers to the destination, from the destination to
+consumers, or both. This can be useful, for instance, to prevent
+destinations from being overwhelmed when messages are being produced
+much faster than they are consumed. You must also pause a physical
+destination before compacting it (see link:#aeoew[Managing Physical
+Destination Disk Utilization]).
+
+To pause the delivery of messages to or from a physical destination, use
+the `imqcmd` `pause` `dst` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd pause dest  [-t destType  -n destName]
+[-pst pauseType]
+----
+
+If you omit the destination type and name (`-t` and `-n` options), all
+physical destinations will be paused. The pause type (`-pst`) specifies
+what type of message delivery to pause:
+
+`PRODUCERS`::
+  Pause delivery from message producers to the destination
+`CONSUMERS`::
+  Pause delivery from the destination to message consumers
+`ALL`::
+  Pause all message delivery (both producers and consumers)
+
+If no pause type is specified, all message delivery will be paused.
+
+For example, the following command pauses delivery from message
+producers to the queue destination `curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd pause dst  -t q  -n curlyQueue  -pst PRODUCERS  -u admin
+----
+
+The following command pauses delivery to message consumers from the
+topic destination `hotTopic`:
+
+[source,oac_no_warn]
+----
+imqcmd pause dst  -t t  -n hotTopic  -pst CONSUMERS  -u admin
+----
+
+This command pauses all message delivery to and from all physical
+destinations:
+
+[source,oac_no_warn]
+----
+imqcmd pause dst  -u admin 
+----
+
+
+[NOTE]
+=======================================================================
+
+In a broker cluster, since each broker in the cluster has its own
+instance of each physical destination, you must pause each such instance
+individually.
+
+=======================================================================
+
+
+The `imqcmd` `resume` `dst` subcommand resumes delivery to a paused
+destination:
+
+[source,oac_no_warn]
+----
+imqcmd resume dest  [-t destType  -n destName]
+----
+
+For example, the following command resumes message delivery to the queue
+destination `curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd resume dst  -t q  -n curlyQueue  -u admin
+----
+
+If no destination type and name are specified, all destinations are
+resumed. This command resumes delivery to all physical destinations:
+
+[source,oac_no_warn]
+----
+imqcmd resume dst  -u admin 
+----
+
+[[aeoeu]][[GMADG00534]][[purging-a-physical-destination]]
+
+Purging a Physical Destination
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Purging a physical destination deletes all messages it is currently
+holding. You might want to do this when a destination's accumulated
+messages are taking up too much of the system's resources, such as when
+a queue is receiving messages but has no registered consumers to which
+to deliver them, or when a topic's durable subscribers remain inactive
+for long periods of time.
+
+To purge a physical destination, use the `imqcmd` `purge` `dst`
+subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd purge dst  -t destType  -n destName
+----
+
+For example, the following command purges all accumulated messages from
+the topic destination `hotTopic`:
+
+[source,oac_no_warn]
+----
+imqcmd purge dst  -t t  -n hotTopic  -u admin
+----
+
+
+[NOTE]
+=======================================================================
+
+In a broker cluster, since each broker in the cluster has its own
+instance of each physical destination, you must purge each such instance
+individually.
+
+=======================================================================
+
+
+
+[TIP]
+=======================================================================
+
+When restarting a broker that has been shut down, you can use the Broker
+utility's `-reset messages` option to clear out its stale messages: for
+example,
+
+[source,oac_no_warn]
+----
+imqbrokerd -reset messages  -u admin
+----
+
+This saves you the trouble of purging physical destinations after
+restarting the broker.
+
+=======================================================================
+
+
+[[aeoes]][[GMADG00535]][[updating-physical-destination-properties]]
+
+Updating Physical Destination Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The subcommand `imqcmd` `update` `dst` changes the values of specified
+properties of a physical destination:
+
+[source,oac_no_warn]
+----
+imqcmd update dst  -t destType  -n destName
+-o property1=value1  [ [-o property2=value2] … ]
+----
+
+The properties to be updated can include any of those listed in
+link:physical-destination-properties.html#gbnne[Table 18-1] (with the
+exception of the `isLocalOnly` property, which cannot be changed once
+the destination has been created). For example, the following command
+changes the `maxBytesPerMsg` property of the queue destination
+`curlyQueue` to `1000` and the `maxNumMsgs` property to `2000`:
+
+[source,oac_no_warn]
+----
+imqcmd update dst  -t q  -n curlyQueue  -u admin
+-o maxBytesPerMsg=1000
+-o maxNumMsgs=2000
+----
+
+
+[NOTE]
+=======================================================================
+
+The type of a physical destination is not an updatable property; you
+cannot use the `imqcmd` `update` `dst` subcommand to change a queue to a
+topic or a topic to a queue.
+
+=======================================================================
+
+
+[[aeoer]][[GMADG00536]][[viewing-physical-destination-information]]
+
+Viewing Physical Destination Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To list the physical destinations on a broker, use the `imqcmd` `list`
+`dst` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd list dst  -b hostName:portNumber  [-t destType][-tmp]
+----
+
+This lists all physical destinations on the broker identified by
+hostName and portNumber of the type (queue or topic) specified by
+destType. If the `-t` option is omitted, both queues and topics are
+listed. For example, the following command lists all physical
+destinations on the broker running on host `myHost` at port number
+`4545`:
+
+[source,oac_no_warn]
+----
+imqcmd list dst  -b myHost:4545 
+----
+
+
+[NOTE]
+=======================================================================
+
+The list of queue destinations always includes the dead message queue
+(`mq.sys.dmq`) in addition to any other queue destinations currently
+existing on the broker.
+
+=======================================================================
+
+
+If you specify the `-tmp` option, temporary destinations are listed as
+well. These are destinations created by clients, normally for the
+purpose of receiving replies to messages sent to other clients.
+
+The `imqcmd` `query` `dst` subcommand displays information about a
+single physical destination:
+
+[source,oac_no_warn]
+----
+imq query dst  -t destType  -n destName
+----
+
+For example, the following command displays information about the queue
+destination `curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd query dst  -t q  -n curlyQueue  -u admin
+----
+
+link:#gfbec[Example 7-3] shows an example of the resulting output. You
+can use the `imqcmd` `update` `dst` subcommand (see link:#aeoes[Updating
+Physical Destination Properties]) to change the value of any of the
+properties listed.
+
+[[GMADG00109]][[gfbec]]
+
+
+Example 7-3 Physical Destination Information Listing
+
+[source,oac_no_warn]
+----
+------------------------------------
+Destination Name    Destination Type
+------------------------------------
+large.green.circle    Topic
+
+On the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Destination Name                        large.green.circle
+Destination Type                        Topic
+Destination State                       RUNNING
+Created Administratively                true
+
+Current Number of Messages                
+   Actual                               0
+   Remote                               0
+   In Delay Delivery                    0
+   Held in Transaction                  0
+Current Message Bytes                     
+   Actual                               0
+   Remote                               0
+   Held in Transaction                  0
+Current Number of Producers             0
+Current Number of Producer Wildcards    0
+Current Number of Consumers             1
+Current Number of Consumer Wildcards    1
+   large.*.circle  (1)                                                               
+
+Max Number of Messages                  unlimited (-1)
+Max Total Message Bytes                 unlimited (-1)
+Max Bytes per Message                   unlimited (-1)
+Max Number of Producers                 100
+                                      
+Limit Behavior                          REJECT_NEWEST
+Consumer Flow Limit                     1000
+Is Local Destination                    false
+Use Dead Message Queue                  true
+XML schema validation enabled           false
+XML schema URI List                     -
+Reload XML schema on failure            false
+----
+
+For destinations in a broker cluster, it is often helpful to know how
+many messages in a destination are local (produced to the local broker)
+and how many are remote (produced to a remote broker). Hence,
+`imqcmd query dst` reports, in addition to the number and total message
+bytes of messages in the destination, the number and total bytes of
+messages that are sent to the destination from remote brokers in the
+cluster.
+
+For topic destinations, `imqcmd query dst` reports the number of
+publishers that are wildcard publishers (including their corresponding
+symbolic destination names) and the number of subscribers that are
+wildcard subscribers (including their symbolic destination names), if
+any.
+
+To display metrics information about a physical destination, use the
+`imqcmd` `metrics` `dst` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd metrics dst   -t destType  -n destName
+[-m metricType]
+[-int interval]
+[-msp numSamples]
+----
+
+The `-m` option specifies the type of metric information to display:
+
+* `ttl` (default): Messages and packets flowing into and out of the
+destination and residing in memory
+* `rts`: Rate of flow of messages and packets into and out of the
+destination per second, along with other rate information
+* `con`: Metrics related to message consumers
+* `dsk`: Disk usage
+
+The `-int` and `-msp` options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.
+
+For example, the following command displays cumulative totals for
+messages and packets handled by the queue destination `curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd metrics dst  -t q  -n curlyQueue  -m ttl  -u admin
+----
+
+link:#gfbcv[Example 7-4] shows an example of the resulting output.
+
+[[GMADG00110]][[gfbcv]]
+
+
+Example 7-4 Physical Destination Metrics Listing
+
+[source,oac_no_warn]
+----
+
+-----------------------------------------------------------------------------------
+   Msgs        Msg Bytes          Msg Count         Total Msg Bytes (k)     Largest
+ In   Out     In       Out    Current  Peak  Avg  Current   Peak     Avg    Msg (k)
+-----------------------------------------------------------------------------------
+3128  3066  1170102  1122340    128    409   29     46      145      10       < 1
+4858  4225  1863159  1635458    144    201   33     53      181      42       < 1
+2057  1763   820804   747200     84    377   16     71      122      79       < 1
+----
+
+For a more detailed description of the use of the Command utility to
+report physical destination metrics, see
+link:metrics-information.html#aeoov[Physical Destination Metrics].
+
+[[aeoew]][[GMADG00537]][[managing-physical-destination-disk-utilization]]
+
+Managing Physical Destination Disk Utilization
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Because of the way message storage is structured in a file-based
+persistent data store (see
+link:persistence-services.html#aeocs[File-Based Persistence Properties]),
+disk space can become fragmented over time, resulting in inefficient
+utilization of the available resources. Message Queue's Command utility
+(`imqcmd`) provides subcommands for monitoring disk utilization by
+physical destinations and for reclaiming unused disk space when
+utilization drops.
+
+To monitor a physical destination's disk utilization, use the `imqcmd`
+`metrics` `dst` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd metrics dst  -m dsk  -t destType  -n destMame
+----
+
+This displays the total number of bytes of disk space reserved for the
+destination's use, the number of bytes currently in use to hold active
+messages, and the percentage of available space in use (the disk
+utilization ratio). For example, the following command displays disk
+utilization information for the queue destination `curlyQueue`:
+
+[source,oac_no_warn]
+----
+imqcmd metrics dst  -m dsk  -t q  -n curlyQueue  -u admin
+----
+
+link:#gfbdk[Example 7-5] shows an example of the resulting output.
+
+[[GMADG00111]][[gfbdk]]
+
+
+Example 7-5 Destination Disk Utilization Listing
+
+[source,oac_no_warn]
+----
+
+--------------------------------------
+Reserved   Used      Utilization Ratio
+--------------------------------------
+804096     675533    84
+1793024    1636222   91
+2544640    2243808   88
+----
+
+The disk utilization pattern depends on the characteristics of the
+messaging application using a particular physical destination. Depending
+on the flow of messages into and out of the destination and their
+relative size, the amount of disk space reserved might grow over time.
+If messages are produced at a higher rate than they are consumed, free
+records should generally be reused and the utilization ratio should be
+on the high side. By contrast, if the rate of message production is
+comparable to or lower than the consumption rate, the utilization ratio
+will likely be low.
+
+As a rule, you want the reserved disk space to stabilize and the
+utilization ratio to remain high. If the system reaches a steady state
+in which the amount of reserved disk space remains more or less constant
+with utilization above 75%, there is generally no need to reclaim unused
+disk space. If the reserved space stabilizes at a utilization rate below
+50%, you can use the `imqcmd` `compact` `dst` subcommand to reclaim the
+disk space occupied by free records:
+
+[source,oac_no_warn]
+----
+compact dst  [-t destType  -n destName]
+----
+
+This compacts the file-based data store for the designated physical
+destination. If no destination type and name are specified, all physical
+destinations are compacted.
+
+You must pause a destination (with the `imqcmd` `pause` subcommand)
+before compacting it, and resume it (with `imqcmd` `resume`) afterward
+(see link:#aeoet[Pausing and Resuming a Physical Destination]):
+
+[source,oac_no_warn]
+----
+imqcmd pause dst    -t q  -n curlyQueue  -u admin
+imqcmd compact dst  -t q  -n curlyQueue  -u admin
+imqcmd resume dst   -t q  -n curlyQueue  -u admin
+----
+
+
+[TIP]
+=======================================================================
+
+If a destination's reserved disk space continues to increase over time,
+try reconfiguring its `maxNumMsgs`, `maxBytesPerMsg`,
+`maxTotalMsgBytes`, and `limitBehavior` properties (see
+link:physical-destination-properties.html#gbnms[Physical Destination
+Properties]).
+
+=======================================================================
+
+
+[[aeoez]][[GMADG00538]][[using-the-dead-message-queue]]
+
+Using the Dead Message Queue
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The dead message queue, `mq.sys.dmq`, is a system-created physical
+destination that holds the dead messages of a broker's physical
+destinations. The dead message queue is a tool for monitoring, tuning
+system efficiency, and troubleshooting. For a definition of the term
+dead message and a more detailed introduction to the dead message queue,
+see the Open Message Queue Technical Overview.
+
+The broker automatically creates a dead message queue when it starts.
+The broker places messages on the queue if it cannot process them or if
+their time-to-live has expired. In addition, other physical destinations
+can use the dead message queue to hold discarded messages. This can
+provide information that is useful for troubleshooting the system.
+
+[[aeofb]][[GMADG00402]][[managing-the-dead-message-queue]]
+
+Managing the Dead Message Queue
++++++++++++++++++++++++++++++++
+
+The physical destination configuration property `useDMQ` controls a
+destination's use of the dead message queue. Physical destinations are
+configured to use the dead message queue by default; to disable a
+destination from using it, set the destination's `useDMQ` property to
+`false`:
+
+[source,oac_no_warn]
+----
+imqcmd update dst  -t q  -n curlyQueue  -o useDMQ=false
+----
+
+You can enable or disable the use of the dead message queue for all
+auto-created physical destinations on a broker by setting the broker's
+`imq.autocreate.destination.useDMQ` broker property:
+
+[source,oac_no_warn]
+----
+imqcmd update bkr  -o imq.autocreate.destination.useDMQ=false 
+----
+
+You can manage the dead message queue with the Message Queue Command
+utility (`imqcmd`) just as you manage other queues, but with some
+differences. For example, because the dead message queue is
+system-created, you cannot create, pause, or destroy it. Also, as shown
+in link:#gbnke[Table 7-2], default values for the dead message queue's
+configuration properties sometimes differ from those of ordinary queues.
+
+[[GMADG651]][[sthref23]][[gbnke]]
+
+
+Table 7-2 Dead Message Queue Treatment of Physical Destination
+Properties
+
+[width="100%",cols="33%,67%",options="header",]
+|=======================================================================
+|Property |Variant Treatment by Dead Message Queue
+|`maxNumMsgs` |Default value is `1000`, rather than `-1` (unlimited) as
+for ordinary queues.
+
+|`maxTotalMsgBytes` |Default value is `10m` (10 megabytes), rather than
+`-1` (unlimited) as for ordinary queues.
+
+|`limitBehavior` a|
+Default value is `REMOVE_OLDEST`, rather than `REJECT_NEWEST` as for
+ordinary queues.
+
+`FLOW_CONTROL` is not supported for the dead message queue.
+
+|`maxNumProducers` |Does not apply to the dead message queue.
+
+|`isLocalOnly` |Permanently set to `false` in broker clusters; the dead
+message queue in a cluster is always a global physical destination.
+
+|`localDeliveryPreferred` |Does not apply to the dead message queue.
+|=======================================================================
+
+
+
+[TIP]
+=======================================================================
+
+By default, the dead message queue stores entire messages. If you do not
+plan to restore dead messages, you can reduce the size of the dead
+message queue by setting the broker's `imq.destination.DMQ.truncateBody`
+property to `true`:
+
+[source,oac_no_warn]
+----
+imqcmd update bkr  -o imq.destination.DMQ.truncateBody=true 
+----
+
+This will discard the body of all messages and retain only the headers
+and property data.
+
+=======================================================================
+
+
+[[aeofe]][[GMADG00403]][[enabling-dead-message-logging]]
+
+Enabling Dead Message Logging
++++++++++++++++++++++++++++++
+
+The broker configuration property `logDeadMsgs` controls the logging of
+events related to the dead message queue. When dead message logging is
+enabled, the broker will log the following events:
+
+* A message is moved to the dead message queue.
+* A message is discarded from the dead message queue (or from any
+physical destination that does not use the dead message queue).
+* A physical destination reaches its limits.
+
+Dead message logging is disabled by default. The following command
+enables it:
+
+[source,oac_no_warn]
+----
+imqcmd update bkr  -o imq.destination.logDeadMsgs=true 
+----
+
+
+[NOTE]
+=======================================================================
+
+Dead message logging applies to all physical destinations that use the
+dead message queue. You cannot enable or disable logging for an
+individual physical destination.
+
+=======================================================================
+
+
+[[aeocq]][[GMADG00239]][[managing-broker-system-wide-memory]]
+
+Managing Broker System-Wide Memory
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once clients are connected to the broker, the routing and delivery of
+messages can proceed. In this phase, the broker is responsible for
+creating and managing different types of physical destinations, ensuring
+a smooth flow of messages, and using resources efficiently. You can use
+the broker configuration properties described under
+link:broker-properties.html#aeonu[Routing and Delivery Properties] to
+manage these tasks in a way that suits your application's needs.
+
+The performance and stability of a broker depend on the system resources
+(such as memory) available and how efficiently they are utilized. You
+can set configuration properties to prevent the broker from becoming
+overwhelmed by incoming messages or running out of memory. These
+properties function at three different levels to keep the message
+service operating as resources become scarce:
+
+* Systemwide message limits apply collectively to all physical
+destinations on the system. These include the maximum number of messages
+held by a broker (`imq.system.max_count`) and the maximum total number
+of bytes occupied by such messages (`imq.system.max_size`). If either of
+these limits is reached, the broker will reject any new messages until
+the pending messages fall below the limit. There is also a limit on the
+maximum size of an individual message (`imq.message.max_size`) and a
+time interval at which expired messages are removed
+(`imq.message.expiration.interval`).
+* Individual destination limits regulate the flow of messages to a
+specific physical destination. The configuration properties controlling
+these limits are described in
+link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference]. They include limits on the number and size of
+messages the destination will hold, the number of message producers and
+consumers that can be created for it, and the number of messages that
+can be batched together for delivery to the destination. +
+The destination can be configured to respond to memory limits by slowing
+down the delivery of message by message producers, by rejecting new
+incoming messages, or by throwing out the oldest or lowest-priority
+existing messages. Messages deleted from the destination in this way may
+optionally be moved to the dead message queue rather than discarded
+outright; the broker property `imq.destination.DMQ.truncateBody`
+controls whether the entire message body is saved in the dead message
+queue, or only the header and property data. +
+As a convenience during application development and testing, you can
+configure a message broker to create new physical destinations
+automatically whenever a message producer or consumer attempts to access
+a nonexistent destination. The broker properties summarized in
+link:broker-properties.html#gbnof[Table 17-3] parallel the ones just
+described, but apply to such auto-created destinations instead of
+administratively created ones.
+* System memory thresholds define levels of memory usage at which the
+broker takes increasingly serious action to prevent memory overload.
+Four such usage levels are defined:
+
+** Green: Plenty of memory is available.
+
+** Yellow: Broker memory is beginning to run low.
+
+** Orange: The broker is low on memory.
+
+** Red: The broker is out of memory. +
+The memory utilization percentages defining these levels are specified
+by the broker properties `imq.green.threshold`, `imq.yellow.threshold` ,
+`imq.orange.threshold`, and `imq.red.threshold` , respectively; the
+default values are 0% for green, 80% for yellow, 90% for orange, and 98%
+for red. +
+As memory usage advances from one level to the next, the broker responds
+progressively, first by swapping messages out of active memory into
+persistent storage and then by throttling back producers of
+nonpersistent messages, eventually stopping the flow of messages into
+the broker. (Both of these measures degrade broker performance.) The
+throttling back of message production is done by limiting the size of
+each batch delivered to the number of messages specified by the
+properties `imq.`resourceState `.count`, where resourceState is `green`
+, `yellow`, `orange`, or `red` , respectively.
+
+The triggering of these system memory thresholds is a sign that
+systemwide and destination message limits are set too high. Because the
+memory thresholds cannot always catch potential memory overloads in
+time, you should not rely on them to control memory usage, but rather
+reconfigure the system-wide and destination limits to optimize memory
+resources.
+
+[[aeoek]][[GMADG00240]][[managing-durable-subscriptions]]
+
+Managing Durable Subscriptions
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue clients subscribing to a topic destination can register as
+durable subscribers. The corresponding durable subscription has a
+unique, persistent identity and requires the broker to retain messages
+addressed to it even when its message consumer (the durable subscriber)
+becomes inactive. Ordinarily, the broker may delete a message held for a
+durable subscriber only when the message expires.
+
+The Message Queue Command utility provides subcommands for managing a
+broker's durable subscriptions in the following ways:
+
+* Listing durable subscriptions
+* Purging all messages for a durable subscription
+* Destroying a durable subscription
+
+To list durable subscriptions for a specified physical destination, use
+the `imqcmd` `list` `dur` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd list dur  -d topicName
+----
+
+For example, the following command lists all durable subscriptions to
+the topic `SPQuotes` on the default broker (host `localhost` at port
+`7676`):
+
+[source,oac_no_warn]
+----
+imqcmd list dur  -d SPQuotes 
+----
+
+The resulting output lists the name of each durable subscription to the
+topic, the client identifier to which it belongs, its current state
+(active or inactive), and the number of messages currently queued to it.
+link:#genoo[Example 7-6] shows an example.
+
+[[GMADG00112]][[genoo]]
+
+
+Example 7-6 Durable Subscription Information Listing
+
+[source,oac_no_warn]
+----
+
+Name        Client ID       Number of   Durable Sub
+                            Messages      State
+----------------------------------------------------------------
+myDurable   myClientID       1           INACTIVE
+----
+
+The `imqcmd` `purge` `dur` subcommand purges all messages for a
+specified durable subscriber and client identifier:
+
+[source,oac_no_warn]
+----
+imqcmd purge dur  -n subscriberName
+                     -c clientID
+----
+
+For example, the following command purges all messages for the durable
+subscription listed in link:#genoo[Example 7-6]:
+
+[source,oac_no_warn]
+----
+imqcmd purge dur  -n myCurable  -c myClientID
+----
+
+The `imqcmd` `destroy` `dur` subcommand destroys a durable subscription,
+specified by its subscriber name and client identifier:
+
+[source,oac_no_warn]
+----
+imqcmd destroy dur  -n subscriberName
+                       -c clientID
+----
+
+For example, the following command destroys the durable subscription
+listed in link:#genoo[Example 7-6]:
+
+[source,oac_no_warn]
+----
+imqcmd destroy dur  -n myCurable  -c myClientID
+----
+
+[[aeoel]][[GMADG00241]][[managing-transactions]]
+
+Managing Transactions
+~~~~~~~~~~~~~~~~~~~~~
+
+All transactions initiated by client applications are tracked by the
+broker. These can be local Message Queue transactions or distributed
+transactions managed by a distributed transaction manager.
+
+Each transaction is identified by a unique 64-bit Message Queue
+transaction identifier. Distributed transactions also have a distributed
+transaction identifier (XID), up to 128 bytes long, assigned by the
+distributed transaction manager. Message Queue maintains the association
+between its own transaction identifiers and the corresponding XIDs.
+
+The `imqcmd` `list` `txn` subcommand lists the transactions being
+tracked by a broker:
+
+[source,oac_no_warn]
+----
+imqcmd list txn
+----
+
+This lists all transactions on the broker, both local and distributed.
+For each transaction, it shows the transaction ID, state, user name,
+number of messages and acknowledgments, and creation time.
+link:#genop[Example 7-7] shows an example of the resulting output.
+
+[[GMADG00113]][[genop]]
+
+
+Example 7-7 Broker Transactions Listing
+
+[source,oac_no_warn]
+----
+
+---------------------------------------------------------------
+Transaction ID  State    User name   # Msgs/   Creation time
+                                     # Acks
+---------------------------------------------------------------
+
+64248349708800  PREPARED  guest      4/0      1/30/02 10:08:31 AM
+64248371287808  PREPARED  guest      0/4      1/30/02 10:09:55 AM
+----
+
+To display detailed information about a single transaction, obtain the
+transaction identifier from `imqcmd` `list` `txn` and pass it to the
+`imqcmd` `query` `txn` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd query txn  -n transactionID
+----
+
+This displays the same information as `imqcmd` `list` `txn`, along with
+the client identifier, connection identification, and distributed
+transaction identifier (XID). For example, the command
+
+[source,oac_no_warn]
+----
+imqcmd query txn  -n 64248349708800 
+----
+
+produces output like that shown in link:#genpb[Example 7-8].
+
+[[GMADG00114]][[genpb]]
+
+
+Example 7-8 Transaction Information Listing
+
+[source,oac_no_warn]
+----
+Client ID
+Connection                 guest@192.18.116.219:62209->jms:62195
+Creation time              1/30/02 10:08:31 AM
+Number of acknowledgments  0
+Number of messages         4
+State                      PREPARED
+Transaction ID             64248349708800
+User name                  guest
+XID                        6469706F6C7369646577696E6465723130313234313431313030373230
+----
+
+If a broker fails, it is possible that a distributed transaction could
+be left in the `PREPARED` state without ever having been committed.
+Until such a transaction is committed, its messages will not be
+delivered and its acknowledgments will not be processed. Hence, as an
+administrator, you might need to monitor such transactions and commit
+them or roll them back manually. For example, if the broker's
+`imq.transaction.autorollback` property (see
+link:broker-properties.html#gbnod[Table 17-2]) is set to `false`, you
+must manually commit or roll back non-distributed transactions and
+unrecoverable distributed transactions found in the `PREPARED` state at
+broker startup, using the Command utility's `commit` `txn` or `rollback`
+`txn` subcommand:
+
+[source,oac_no_warn]
+----
+imqcmd commit txn  -n transactionID
+imqcmd rollback txn  -n transactionID
+----
+
+For example, the following command commits the transaction listed in
+link:#genpb[Example 7-8]:
+
+[source,oac_no_warn]
+----
+imqcmd commit txn  -n64248349708800 
+----
+
+
+[NOTE]
+=======================================================================
+
+Only transactions in the PREPARED state can be committed . However,
+transaction in the `STARTED`, `FAILED`, `INCOMPLETE`, `COMPLETE`, and
+`PREPARED` states can be rolled back. You should do so only if you know
+that the transaction has been left in this state by a failure and is not
+in the process of being committed by the distributed transaction
+manager.
+
+=======================================================================
+
+
+

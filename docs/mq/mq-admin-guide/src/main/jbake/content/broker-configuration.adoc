@@ -1,0 +1,225 @@
+type=page
+status=published
+title=Configuring a Broker
+next=broker-management.html
+prev=starting-brokers-and-clients.html
+~~~~~~
+Configuring a Broker
+====================
+
+[[GMADG00035]][[aeocl]]
+
+
+[[configuring-a-broker]]
+4 Configuring a Broker
+----------------------
+
+A broker's configuration is governed by a set of configuration files and
+by the options passed to the `imqbrokerd` command at startup. This
+chapter describes the available configuration properties and how to use
+them to configure a broker.
+
+The chapter contains the following sections:
+
+* link:#aeocm[Broker Services]
+* link:#aeodc[Setting Broker Configuration Properties]
+
+For full reference information about broker configuration properties,
+see link:broker-properties.html#aeons[Broker Properties Reference].
+
+[[aeocm]][[GMADG00230]][[broker-services]]
+
+Broker Services
+~~~~~~~~~~~~~~~
+
+Broker configuration properties are logically divided into categories
+that depend on the services or broker components they affect:
+
+* Connection services manage the physical connections between a broker
+and its clients that provide transport for incoming and outgoing
+messages. For a discussion of properties associated with connection
+services, see link:connection-services.html#aeocn[Configuring Connection
+Services].
+* Message delivery services route and deliver JMS payload messages, as
+well as control messages used by the message service to support reliable
+delivery. For a discussion of properties associated with message
+delivery services, including physical destinations, see
+link:message-delivery.html#ghebf[Managing Message Delivery].
+* Persistence services manage the writing and retrieval of data, such as
+messages and state information, to and from persistent storage. For a
+discussion of properties associated with persistence services, see
+link:persistence-services.html#gheas[Configuring Persistence Services].
+* Security services authenticate users connecting to the broker and
+authorize their actions. For a discussion of properties associated with
+authentication and authorization services, as well as encryption
+configuration, see link:security-services.html#aeoff[Configuring and
+Managing Security Services].
+* Clustering services support the grouping of brokers into a cluster to
+achieve scalability and availability. For a discussion of properties
+associated with broker clusters, see
+link:broker-clusters.html#aeohv[Configuring and Managing Broker
+Clusters].
+* Monitoring services generate metric and diagnostic information about
+the broker's performance. For a discussion of properties associated with
+monitoring and managing a broker, see
+link:monitoring.html#aeoik[Monitoring Broker Operations].
+
+[[aeodc]][[GMADG00231]][[setting-broker-configuration-properties]]
+
+Setting Broker Configuration Properties
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You can specify a broker's configuration properties in either of two
+ways:
+
+* Edit the broker's configuration file.
+* Supply the property values directly from the command line.
+
+The following sections describe these two methods of configuring a
+broker.
+
+[[aeodd]][[GMADG00514]][[modifying-configuration-files]]
+
+Modifying Configuration Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Broker configuration files contain property settings for configuring a
+broker. Message Queue maintains the following broker configuration
+files:
+
+* A default configuration file
+(`IMQ_HOME/lib/props/broker/default.properties`) that is loaded on
+startup. This file is not editable, but you can read it to determine
+default settings and find the exact names of properties you want to
+change.
+* An installation configuration file
+(`IMQ_HOME/lib/props/broker/install.properties`) containing any
+properties specified when Message Queue was installed. This file cannot
+be edited after installation.
+* A separate instance configuration file
+(`IMQ_VARHOME/instances/`instanceName`/props/config.properties`) for
+each individual broker instance.
+
+In addition, if you connect broker instances in a cluster, you may need
+to use a cluster configuration file (`cluster.properties`) to specify
+configuration information for the cluster; see
+link:broker-properties.html#aeooa[Cluster Configuration Properties] for
+more information.
+
+Also, Message Queue makes use of en environment configuration file,
+`imqenv.conf`, which is used to provide the locations of external files
+needed by Message Queue, such as the default Java SE location and the
+locations of database drivers, JAAS login modules, and so forth.
+
+At startup, the broker merges property values from the various
+configuration files. As shown in link:#gbnjd[Figure 4-1], the files form
+a hierarchy in which values specified in the instance configuration file
+override those in the installation configuration file, which in turn
+override those in the default configuration file. At the top of the
+hierarchy, you can manually override any property values specified in
+the configuration files by using command line options to the
+`imqbrokerd` command.
+
+[[GMADG00017]][[gbnjd]]
+
+
+.*Figure 4-1 Broker Configuration Files*
+image:img/adm_configfiles.png[
+"Diagram showing command line options override config.properties options,
+which override install.properties options, which override default
+options."]
+
+
+The first time you run a broker, an instance configuration file is
+created containing configuration properties for that particular broker
+instance. The instance configuration file is named `config.properties`
+and is located in a directory identified by the name of the broker
+instance to which it belongs:
+
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/instanceName/props/config.properties
+----
+
+If the file does not yet exist, you must use the `-name` option when
+starting the broker (see link:command-line-reference.html#aeone[Broker
+Utility]) to specify an instance name that Message Queue can use to
+create the file.
+
+
+[NOTE]
+=======================================================================
+
+The `instances/`instanceName directory and the instance configuration
+file are owned by the user who initially started the corresponding
+broker instance by using the `imqbrokerd -name` brokerName option. The
+broker instance must always be restarted by that same user.
+
+=======================================================================
+
+
+The instance configuration file is maintained by the broker instance and
+is modified when you make configuration changes using Message Queue
+administration utilities. You can also edit an instance configuration
+file by hand. To do so, you must be the owner of the
+`instances/`instanceName directory or log in as the root user to change
+the directory's access privileges.
+
+The broker reads its instance configuration file only at startup. To
+effect any changes to the broker's configuration, you must shut down the
+broker and then restart it. Property definitions in the
+`config.properties` file (or any configuration file) use the following
+syntax:
+
+[source,oac_no_warn]
+----
+propertyName=value [ [,value1] … ]
+----
+
+For example, the following entry specifies that the broker will hold up
+to 50,000 messages in memory and persistent storage before rejecting
+additional messages:
+
+[source,oac_no_warn]
+----
+imq.system.max_count=50000
+----
+
+The following entry specifies that a new log file will be created once a
+day (every 86,400 seconds):
+
+[source,oac_no_warn]
+----
+imq.log.file.rolloversecs=86400
+----
+
+See link:#aeocm[Broker Services] and
+link:broker-properties.html#aeons[Broker Properties Reference] for
+information on the available broker configuration properties and their
+default values.
+
+[[aeodf]][[GMADG00515]][[setting-configuration-properties-from-the-command-line]]
+
+Setting Configuration Properties from the Command Line
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can enter broker configuration properties from the command line when
+you start a broker, or afterward.
+
+At startup time, you use the Broker utility (`imqbrokerd`) to start a
+broker instance. Using the command's `-D` option, you can specify any
+broker configuration property and its value; see
+link:starting-brokers-and-clients.html#aeoby[Starting Brokers] and
+link:command-line-reference.html#aeone[Broker Utility] for more
+information. If you start the broker as a Windows service, using the
+Service Administrator utility (`imqsvcadmin`), you use the `-args`
+option to specify startup configuration properties; see
+link:command-line-reference.html#aeonq[Service Administrator Utility].
+
+You can also change certain broker configuration properties while a
+broker is running. To modify the configuration of a running broker, you
+use the Command utility's `imqcmd` `update` `bkr` command; see
+link:broker-management.html#aeodx[Updating Broker Properties] and
+link:command-line-reference.html#aeong[Broker Management].
+
+

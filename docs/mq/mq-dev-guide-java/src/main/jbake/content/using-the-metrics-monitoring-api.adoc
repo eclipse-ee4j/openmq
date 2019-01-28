@@ -1,0 +1,1121 @@
+type=page
+status=published
+title=Using the Metrics Monitoring API
+next=soap-messages.html
+prev=using-the-java-api.html
+~~~~~~
+Using the Metrics Monitoring API
+================================
+
+[[GMJVG00015]][[aeqej]]
+
+
+[[using-the-metrics-monitoring-api]]
+5 Using the Metrics Monitoring API
+----------------------------------
+
+Message Queue provides several ways of obtaining metrics data as a means
+of monitoring and tuning performance. One of these methods,
+message-based monitoring, allows metrics data to be accessed
+programmatically and then to be processed in whatever way suits the
+consuming client. Using this method, a client subscribes to one or more
+metrics destinations and then consumes and processes messages produced
+by the broker to those destinations. Message-based monitoring is the
+most customized solution to metrics gathering, but it does require the
+effort of writing a consuming client that retrieves and processes
+metrics messages.
+
+The methods for obtaining metrics data are described in
+"link:../mq-admin-guide/monitoring.html#GMADG00044[Monitoring Broker Operations]" in Open Message Queue
+Administration Guide, which also discusses the relative merits of each
+method and the set of data that is captured by each. Before you decide
+to used message-based monitoring, you should consult this guide to make
+sure that you will be able to obtain the information you need using this
+method.
+
+Message-based monitoring is enabled by the combined efforts of
+administrators and programmers. The administrator is responsible for
+configuring the broker so that it produces the messages of interest at a
+specified interval and that it persists these messages for a set time.
+The programmer is responsible for selecting the data to be produced and
+for creating the client that will consume and process the data.
+
+This chapter focuses on the work the programmer must do to implement a
+message-based monitoring client. It includes the following sections:
+
+* link:#aeqek[Monitoring Overview]
+* link:#aeqen[Creating a Metrics-Monitoring Client]
+* link:#aeqeo[Format of Metrics Messages]
+* link:#aeqet[Metrics Monitoring Client Code Examples]
+
+[[aeqek]][[GMJVG00109]][[monitoring-overview]]
+
+Monitoring Overview
+~~~~~~~~~~~~~~~~~~~
+
+Message Queue includes an internal client that is enabled by default to
+produce different types of metrics messages. Production is actually
+enabled when a client subscribes to a topic destination whose name
+matches one of the metrics message types. For example, if a client
+subscribes to the topic `mq.metrics.jvm`, the client receives
+information about JMV memory usage.
+
+The metrics topic destinations (metric message types) are described in
+link:#gbovu[Table 5-1].
+
+[[GMJVG334]][[sthref54]][[gbovu]]
+
+
+Table 5-1 Metrics Topic Destinations
+
+[width="100%",cols="45%,55%",options="header",]
+|=======================================================================
+|Topic Destination Name |Type of Metrics Messages
+|`mq.metrics.broker` |Broker metrics: information on connections,
+message flow, and volume of messages in the broker.
+
+|`mq.metrics.jvm` |Java Virtual Machine metrics: information on memory
+usage in the JVM.
+
+|`mq.metrics.destination_list` |A list of all destinations on the
+broker, and their types.
+
+|`mq.metrics.destination.queue.`dn |Destination metrics for a queue of
+the specified name. Metrics data includes number of consumers, message
+flow or volume, disk usage, and more. Specify the destination name for
+the dn variable.
+
+|`mq.metrics.destination.topic.`dn |Destination metrics for a topic of
+the specified name. Metrics data includes number of consumers, message
+flow or volume, disk usage, and more. Specify the destination name for
+the dn variable.
+|=======================================================================
+
+
+A metrics message that is produced to one of the destinations listed in
+link:#gbovu[Table 5-1] is a normal JMS message; its header and body are
+defined to hold the following information:
+
+* The message header has several properties, one that specifies the
+metrics message type, one that records the time the message was produced
+(timestamp), and a collection of properties identifying the broker that
+sent the metric message (broker host, port, and address/URL).
+* The message body contains name-value pairs that vary with the message
+type. +
+The section link:#aeqeo[Format of Metrics Messages] provides complete
+information about the types of metrics messages and their content
+(name-value pairs).
+
+To receive metrics messages, the consuming client must be subscribed to
+the destination of interest. Otherwise, consuming a metrics message is
+exactly the same as consuming any JMS message. The message can be
+consumed synchronously or asynchronously, and then processed as needed
+by the client.
+
+Message-based monitoring is concerned solely with obtaining metrics
+information. It does not include methods that you can call to work with
+physical destinations, configure or update the broker, or shutdown and
+restart the broker.
+
+[[aeqel]][[GMJVG00236]][[administrative-tasks]]
+
+Administrative Tasks
+^^^^^^^^^^^^^^^^^^^^
+
+By default the Message Queue metrics-message producing client is enabled
+to produce nonpersistent messages every sixty seconds. The messages are
+allowed to remain in their respective destinations for 5 minutes before
+being automatically deleted. To persist metrics messages, to change the
+interval at which they are produced, or to change their time-to-live
+interval, the administrator must set the following properties in the
+`config.properties` file: `imq.metrics.topic.persist` ,
+`imq.metrics.topic.interval`, and `imq.metrics.topic.timetolive` .
+
+In addition, the administrator might want to set access controls on the
+metrics destinations. This restricts access to sensitive metrics data
+and helps limit the impact of metrics subscriptions on overall
+performance. For more information about administrative tasks in enabling
+message-based monitoring and access control, see "link:../mq-admin-guide/monitoring.html#GMADG00267[Using
+the Message-Based Monitoring API]" in Open Message Queue Administration
+Guide.
+
+[[aeqem]][[GMJVG00237]][[implementation-summary]]
+
+Implementation Summary
+^^^^^^^^^^^^^^^^^^^^^^
+
+The following task list summarizes the steps required to implement
+message based monitoring:
+
+[[gbowb]][[GMJVG00073]][[to-implement-message-based-monitoring]]
+
+To Implement Message-Based Monitoring
++++++++++++++++++++++++++++++++++++++
+
+1.  The developer designs and writes a client that subscribes to one or
+more metrics destinations.
+2.  The administrator sets those metrics-related broker properties whose
+default values are not satisfactory.
+3.  (Optional) The administrator sets entries in the
+`access.control.properties` file to restrict access to metrics
+information.
+4.  The developer or the administrator starts the metrics monitoring
+client. +
+When consumers subscribe to a metrics topic, the topic's physical
+destination is automatically created. After the metrics topic has been
+created, the broker's metrics message producer begins to send metrics
+messages to the appropriate destination.
+
+[[aeqen]][[GMJVG00110]][[creating-a-metrics-monitoring-client]]
+
+Creating a Metrics-Monitoring Client
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+You create a metrics monitoring client in the same way that you would
+write any JMS client, except that the client must subscribe to one or
+more special metrics message topic and must be ready to receive and
+process messages of a specific type and format.
+
+No hierarchical naming scheme is implied in the metrics-message names.
+You can't use a wildcard character (`*`) to identify multiple
+destination names.
+
+A client that monitors broker metrics must perform the following basic
+tasks:
+
+[[gbouy]][[GMJVG00074]][[to-monitor-broker-metrics]]
+
+To Monitor Broker Metrics
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Create a `TopicConnectionFactory` object.
+2.  Create a `TopicConnection` to the Message Queue service.
+3.  Create a `TopicSession`.
+4.  Create a metrics `Topic` destination object.
+5.  Create a `TopicSubscriber`.
+6.  Register as an asynchronous listener to the topic, or invoke the
+synchronous `receive()` method to wait for incoming metrics messages.
+7.  Process metrics messages that are received. +
+In general, you would use JNDI lookups of administered objects to make
+your client code provider-independent. However, the metrics-message
+production is specific to Message Queue, there is no compelling reason
+to use JNDI lookups. You can simply instantiate these administered
+objects directly in your client code. This is especially true for a
+metrics destination for which an administrator would not normally create
+an administered object. +
+Notice that the code examples in this chapter instantiate all the
+relevant administered objects directly. +
+You can use the following code to extract the type ( `String`) or
+timestamp (`long`) properties in the message header from the message: +
+[source,oac_no_warn]
+----
+MapMessage mapMsg;
+/*
+* mapMsg is the metrics message received
+*/
+String type = mapMsg.getStringProperty("type");
+long timestamp = mapMsg.getLongProperty("timestamp");
+----
+You use the appropriate get method in the class `javax.jms.MapMessage`
+to extract the name-value pairs. The get method you use depends on the
+value type. Three examples follow: +
+[source,oac_no_warn]
+----
+long value1 = mapMsg.getLong("numMsgsIn");
+long value2 = mapMsg.getLong("numMsgsOut");
+int value3 = mapMsg.getInt("diskUtilizationRatio");
+----
+
+[[aeqeo]][[GMJVG00111]][[format-of-metrics-messages]]
+
+Format of Metrics Messages
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In order to consume and process a metrics messages, you must know its
+type and format. This section describes the general format of metrics
+messages and provides detailed information on the format of each type of
+metrics message.
+
+Metrics messages are of type `MapMessage`. (A type of message whose body
+contains a set of name-value pairs. The order of entries is not
+defined.)
+
+* The message header has properties that are useful to applications. The
+`type` property identifies the type of metric message (and therefore its
+contents). It is useful if the same subscriber processes more than one
+type of metrics message for example, messages from the topics
+`mq.metrics.broker` and `mq.metrics.jvm`. The `timestamp` property
+indicates when the metric sample was taken and is useful for calculating
+rates or drawing graphs. The `brokerHost`, `brokerPort`, and
+`brokerAddress` properties identify the broker that sent the metric
+message and are useful when a single application needs to process metric
+messages from different brokers.
+* The body of the message contains name-value pairs, and the data values
+depend on the type of metrics message. The following subsections
+describe the format of each metrics message type.
+
+Note that the names of name-value pairs (used in code to extract data)
+are case-sensitive and must be coded exactly as shown. For example,
+`NumMsgsOut` is incorrect; `numMsgsOut` is correct.
+
+[[aeqep]][[GMJVG00238]][[broker-metrics]]
+
+Broker Metrics
+^^^^^^^^^^^^^^
+
+The messages you receive when you subscribe to the topic
+`mq.metrics.broker` have the type property set to `mq.metrics.broker` in
+the message header and have the data listed in link:#gbowa[Table 5-2] in
+the message body.
+
+[[GMJVG335]][[sthref55]][[gbowa]]
+
+
+Table 5-2 Data in the Body of a Broker Metrics Message
+
+[width="100%",cols="20%,14%,66%",options="header",]
+|=======================================================================
+|Metric Name |Value Type |Description
+a|
+[source,oac_no_warn]
+----
+numConnections
+----
+
+ |long |Current number of connections to the broker
+
+a|
+[source,oac_no_warn]
+----
+numMsgsIn 
+----
+
+ |long |Number of JMS messages that have flowed into the broker since it
+was last started
+
+a|
+[source,oac_no_warn]
+----
+numMsgsOut
+----
+
+ |long |Number of JMS messages that have flowed out of the broker since
+it was last started
+
+a|
+[source,oac_no_warn]
+----
+numMsgs
+----
+
+ |long |Current number of JMS messages stored in broker memory and
+persistent store
+
+a|
+[source,oac_no_warn]
+----
+msgBytesIn
+----
+
+ |long |Number of JMS message bytes that have flowed into the broker
+since it was last started
+
+a|
+[source,oac_no_warn]
+----
+msgBytesOut
+----
+
+ |long |Number of JMS message bytes that have flowed out of the broker
+since it was last started
+
+a|
+[source,oac_no_warn]
+----
+totalMsgBytes
+----
+
+ |long |Current number of JMS message bytes stored in broker memory and
+persistent store
+
+a|
+[source,oac_no_warn]
+----
+numPktsIn
+----
+
+ |long |Number of packets that have flowed into the broker since it was
+last started; this includes both JMS messages and control messages
+
+a|
+[source,oac_no_warn]
+----
+numPktsOut
+----
+
+ |long |Number of packets that have flowed out of the broker since it
+was last started; this includes both JMS messages and control messages
+
+a|
+[source,oac_no_warn]
+----
+pktBytesIn 
+----
+
+ |long |Number of packet bytes that have flowed into the broker since it
+was last started; this includes both JMS messages and control messages
+
+a|
+[source,oac_no_warn]
+----
+pktBytesOut
+----
+
+ |long |Number of packet bytes that have flowed out of the broker since
+it was last started; this includes both JMS messages and control
+messages
+
+a|
+[source,oac_no_warn]
+----
+numDestinations
+----
+
+ |long |Current number of destinations in the broker
+|=======================================================================
+
+
+[[aeqeq]][[GMJVG00159]][[jvm-metrics]]
+
+JVM Metrics
++++++++++++
+
+The messages you receive when you subscribe to the topic
+`mq.metrics.jvm` have the type property set to `mq.metrics.jvm` in the
+message header and have the data listed in link:#gbovt[Table 5-3] in the
+message body.
+
+[[GMJVG336]][[sthref56]][[gbovt]]
+
+
+Table 5-3 Data in the Body of a JVM Metrics Message
+
+[width="100%",cols="21%,16%,63%",options="header",]
+|==============================================================
+|Metric Name |Value Type |Description
+a|
+[source,oac_no_warn]
+----
+freeMemory
+----
+
+ |long |Amount of free memory available for use in the JVM heap
+a|
+[source,oac_no_warn]
+----
+maxMemory
+----
+
+ |long |Maximum size to which the JVM heap can grow
+a|
+[source,oac_no_warn]
+----
+totalMemory
+----
+
+ |long |Total memory in the JVM heap
+|==============================================================
+
+
+[[aeqer]][[GMJVG00160]][[destination-list-metrics]]
+
+Destination-List Metrics
+++++++++++++++++++++++++
+
+The messages you receive when you subscribe to a topic named
+`mq.metrics.destination_list` have the `type` property set to
+`mq.metrics.destination_list` in the message header.
+
+The message body contains a list of map names. Each destination on the
+broker is specified by a unique map name (a name-value pair) in the
+message body. The type of the name-value pair is `hashtable`.
+
+The name (in the name-value pair) depends on whether the destination is
+a queue or a topic, and is constructed as follows:
+
+* `mq.metrics.destination.queue.`monitored_destination_name
+* `mq.metrics.destination.topic.`monitored_destination_name
+
+The value (in the name-value pair) is an object of type
+`java.util.Hashtable` . This hashtable contains the key-value pairs
+described in link:#gbovg[Table 5-4].
+
+[[GMJVG337]][[sthref57]][[gbovg]]
+
+
+Table 5-4 Value of a Name-Value Pair
+
+[width="100%",cols="31%,23%,46%",options="header",]
+|=====================================================
+|Key (String) |Value type |Value or Description
+|`name` |String |Destination name
+|`type` |String |Destination type (`queue` or `topic`)
+|`isTemporary` |Boolean |Is destination temporary?
+|=====================================================
+
+
+Notice that the destination name and type could be extracted directly
+from the metrics topic destination name, but the hashtable includes it
+for your convenience.
+
+By enumerating through the map names and extracting the hashtable
+described in link:#gbovg[Table 5-4], you can form a complete list of
+destination names and some of their characteristics.
+
+The destination list does not include the following kinds of
+destinations:
+
+* Destinations that are used by Message Queue administration tools
+* Destinations that the Message Queue broker creates for internal use
+
+[[aeqes]][[GMJVG00161]][[destination-metrics]]
+
+Destination Metrics
++++++++++++++++++++
+
+The messages you receive when you subscribe to the topic
+`mq.metrics.destination.queue.`monitored_destination_name have the type
+property `mq.metrics.destination.queue.`monitored_destination_name set
+in the message header. The messages you receive when you subscribe to
+the topic `mq.metrics.destination.topic.`monitored_destination_name have
+the type property `mq.metrics.destination.topic.`
+monitored_destination_name set in the message header. Either of these
+messages has the data listed in link:#gbovq[Table 5-5] in the message
+body.
+
+[[GMJVG338]][[sthref58]][[gbovq]]
+
+
+Table 5-5 Data in the Body of a Destination Metrics Message
+
+[width="100%",cols="30%,14%,56%",options="header",]
+|=======================================================================
+|Metric Name |Value Type |Description
+a|
+[source,oac_no_warn]
+----
+numActiveConsumers
+----
+
+ |long |Current number of active consumers
+
+a|
+[source,oac_no_warn]
+----
+avgNumActiveConsumers 
+----
+
+ |long |Average number of active consumers since the broker was last
+started
+
+a|
+[source,oac_no_warn]
+----
+peakNumActiveConsumers 
+----
+
+ |long |Peak number of active consumers since the broker was last
+started
+
+a|
+[source,oac_no_warn]
+----
+numBackupConsumers 
+----
+
+ |long |Current number of backup consumers (applies only to queues)
+
+a|
+[source,oac_no_warn]
+----
+avgNumBackupConsumers
+----
+
+ |long |Average number of backup consumers since the broker was last
+started (applies only to queues)
+
+a|
+[source,oac_no_warn]
+----
+peakNumBackupConsumers
+----
+
+ |long |Peak number of backup consumers since the broker was last
+started (applies only to queues)
+
+a|
+[source,oac_no_warn]
+----
+numMsgsIn
+----
+
+ |long |Number of JMS messages that have flowed into this destination
+since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+numMsgsOut 
+----
+
+ |long |Number of JMS messages that have flowed out of this destination
+since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+numMsgs
+----
+
+ |long |Number of JMS messages currently stored in destination memory
+and persistent store
+
+a|
+[source,oac_no_warn]
+----
+avgNumMsgs
+----
+
+ |long |Average number of JMS messages stored in destination memory and
+persistent store since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+peakNumMsgs 
+----
+
+ |long |Peak number of JMS messages stored in destination memory and
+persistent store since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+msgBytesIn
+----
+
+ |long |Number of JMS message bytes that have flowed into this
+destination since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+msgBytesOut
+----
+
+ |long |Number of JMS message bytes that have flowed out of this
+destination since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+totalMsgBytes
+----
+
+ |long |Current number of JMS message bytes stored in destination memory
+and persistent store
+
+a|
+[source,oac_no_warn]
+----
+avgTotalMsgBytes
+----
+
+ |long |Average number of JMS message bytes stored in destination memory
+and persistent store since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+peakTotalMsgBytes
+----
+
+ |long |Peak number of JMS message bytes stored in destination memory
+and persistent store since the broker was last started
+
+a|
+[source,oac_no_warn]
+----
+peakMsgBytes
+----
+
+ |long |Peak number of JMS message bytes in a single message since the
+broker was last started
+
+a|
+[source,oac_no_warn]
+----
+diskReserved
+----
+
+ |long |Disk space (in bytes) used by all message records (active and
+free) in the destination file-based store
+
+a|
+[source,oac_no_warn]
+----
+diskUsed
+----
+
+ |long |Disk space (in bytes) used by active message records in
+destination file-based store
+
+a|
+[source,oac_no_warn]
+----
+diskUtilizationRatio
+----
+
+ |int |Quotient of used disk space over reserved disk space. The higher
+the ratio, the more the disk space is being used to hold active messages
+|=======================================================================
+
+
+[[aeqet]][[GMJVG00112]][[metrics-monitoring-client-code-examples]]
+
+Metrics Monitoring Client Code Examples
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Several complete monitoring example applications (including source code
+and full documentation) are provided when you install Message Queue.
+You'll find the examples in your IMQ home directory under
+`/demo/monitoring`. Before you can run these clients, you must set up
+your environment (for example, the `CLASSPATH` environment variable).
+For details, see link:overview.html#aeqar[Setting Up Your Environment].
+
+Next are brief descriptions of three examples—Broker Metrics,
+Destination List Metrics, and Destination Metrics—with annotated code
+examples from each.
+
+These examples use the utility classes `MetricsPrinter` and
+`MultiColumnPrinter` to print formatted and aligned columns of text
+output. However, rather than explaining how those utility classes are
+used, the following code examples focus on how to subscribe to the
+metrics topic and how to extract information from the metrics messages
+received.
+
+Notice that in the source files, the code for subscribing to metrics
+topics and processing messages is actually spread across various
+methods. However, for the sake of clarity, the examples are shown here
+as though they were contiguous blocks of code.
+
+[[aeqeu]][[GMJVG00239]][[a-broker-metrics-example]]
+
+A Broker Metrics Example
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The source file for this code example is `BrokerMetrics.java`. This
+metrics monitoring client subscribes to the topic `mq.metrics.broker`
+and prints broker-related metrics to the standard output.
+
+link:#gbovc[Example 5-1] shows how to subscribe to `mq.metrics.broker`.
+
+[[GMJVG00051]][[gbovc]]
+
+
+Example 5-1 Example of Subscribing to a Broker Metrics Topic
+
+[source,oac_no_warn]
+----
+com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+    TopicConnection             metricConnection;
+    TopicSession                metricSession;
+    TopicSubscriber             metricSubscriber;
+    Topic                       metricTopic;
+
+    metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+
+    metricConnection = metricConnectionFactory.createTopicConnection();
+    metricConnection.start();
+
+    metricSession = metricConnection.createTopicSession(false,
+                      Session.AUTO_ACKNOWLEDGE);
+
+    metricTopic = metricSession.createTopic("mq.metrics.broker");
+
+    metricSubscriber = metricSession.createSubscriber(metricTopic);
+    metricSubscriber.setMessageListener(this);
+            
+----
+
+The incoming message is processed in the `onMessage()` and `doTotals()`
+methods, as shown in link:#gbowg[Example 5-2].
+
+[[GMJVG00052]][[gbowg]]
+
+
+Example 5-2 Example of Processing a Broker Metrics Message
+
+[source,oac_no_warn]
+----
+public void onMessage(Message m)  {
+    try  {
+            MapMessage mapMsg = (MapMessage)m;
+            String type = mapMsg.getStringProperty("type");
+
+            if (type.equals("mq.metrics.broker"))  {
+                if (showTotals)  {
+                        doTotals(mapMsg);
+            ...
+            }
+}
+
+private void doTotals(MapMessage mapMsg)  {
+    try  {
+            String oneRow[] = new String[ 8 ];
+            int i = 0;
+
+            /*
+            * Extract broker metrics
+            */
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numPktsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numPktsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("pktBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("pktBytesOut"));
+            ...
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}
+            
+----
+
+Notice how the metrics type is extracted, using the
+`getStringProperty()` method, and is checked. If you use the
+`onMessage()` method to process metrics messages of different types, you
+can use the `type` property to distinguish between different incoming
+metrics messages.
+
+Also notice how various pieces of information on the broker are
+extracted, using the `getLong()` method of `mapMsg`.
+
+Run this example monitoring client with the following command:
+
+[source,oac_no_warn]
+----
+java BrokerMetrics
+----
+
+The output looks like the following:
+
+[source,oac_no_warn]
+----
+----------------------------------------------------------------
+Msgs            Msg Bytes         Pkts               Pkt     Bytes
+In      Out     In        Out     In        Out      In        Out
+--------------------------------------------------------------------
+0       0        0        0       6         5        888       802
+0       1        0        633     7         8        1004      1669
+----
+
+[[aeqev]][[GMJVG00162]][[a-destination-list-metrics-example]]
+
+A Destination List Metrics Example
+++++++++++++++++++++++++++++++++++
+
+The source file for this code example is `DestListMetrics.java`. This
+client application monitors the list of destinations on a broker by
+subscribing to the topic `mq.metrics.destination_list`. The messages
+that arrive contain information describing the destinations that
+currently exist on the broker, such as destination name, destination
+type, and whether the destination is temporary.
+
+link:#gbowo[Example 5-3] shows how to subscribe to
+`mq.metrics.destination_list`.
+
+[[GMJVG00053]][[gbowo]]
+
+
+Example 5-3 Example of Subscribing to the Destination List Metrics Topic
+
+[source,oac_no_warn]
+----
+com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+TopicConnection              metricConnection;
+TopicSession                 metricSession;
+TopicSubscriber              metricSubscriber;
+Topic                        metricTopic;
+String                       metricTopicName = null;
+
+metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+metricConnection = metricConnectionFactory.createTopicConnection();
+metricConnection.start();
+
+metricSession = metricConnection.createTopicSession(false,
+                    Session.AUTO_ACKNOWLEDGE);
+
+metricTopicName = "mq.metrics.destination_list";
+metricTopic = metricSession.createTopic(metricTopicName);
+
+metricSubscriber = metricSession.createSubscriber(metricTopic);
+metricSubscriber.setMessageListener(this);
+               
+----
+
+The incoming message is processed in the `onMessage()` method, as shown
+in link:#gbowi[Example 5-4]:
+
+[[GMJVG00054]][[gbowi]]
+
+
+Example 5-4 Example of Processing a Destination List Metrics Message
+
+[source,oac_no_warn]
+----
+public void onMessage(Message m)  {
+    try{
+         MapMessage mapMsg = (MapMessage)m;
+         String type = mapMsg.getStringProperty("type");
+
+         if (type.equals(metricTopicName))  {
+             String oneRow[] = new String[ 3 ];
+
+             /*
+             * Extract metrics
+             */
+             for (Enumeration e = mapMsg.getMapNames();
+                  e.hasMoreElements();) {
+
+                  String metricDestName = (String)e.nextElement();
+                  Hashtable destValues =
+                                (Hashtable)mapMsg.getObject(metricDestName);
+                  int i = 0;
+
+                  oneRow[i++] = (destValues.get("name")).toString();
+                  oneRow[i++] = (destValues.get("type")).toString();
+                  oneRow[i++] = (destValues.get("isTemporary")).toString();
+
+                  mp.add(oneRow);
+             }
+
+             mp.print();
+             System.out.println("");
+
+             mp.clear();
+         } else  {
+                System.err.println("Msg received:
+                        not destination list metric type");
+            }
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}               
+----
+
+Notice how the metrics type is extracted and checked, and how the list
+of destinations is extracted. By iterating through the map names in
+`mapMsg` and extracting the corresponding value (a hashtable), you can
+construct a list of all the destinations and their related information.
+
+As discussed in link:#aeqeo[Format of Metrics Messages], these map names
+are metrics topic names having one of two forms:
+
+[source,oac_no_warn]
+----
+mq.metrics.destination.queue.monitored_destination_name
+
+mq.metrics.destination.topic.monitored_destination_name
+----
+
+(The map names can also be used to monitor a destination, but that is
+not done in this particular example.)
+
+Notice that from each extracted hashtable, the information on each
+destination is extracted using the keys `name`, `type`, and
+`isTemporary`. The extraction code from the previous code example is
+reiterated here for your convenience.
+
+[[GMJVG00055]][[gbous]]
+
+
+Example 5-5 Example of Extracting Destination Information From a Hash
+Table
+
+[source,oac_no_warn]
+----
+  String metricDestName = (String)e.nextElement();
+        Hashtable destValues = (Hashtable)mapMsg.getObject(metricDestName);
+        int i = 0;
+
+        oneRow[i++] = (destValues.get("name")).toString();
+        oneRow[i++] = (destValues.get("type")).toString();
+        oneRow[i++] = (destValues.get("isTemporary")).toString();
+               
+----
+
+Run this example monitoring client with the following command:
+
+[source,oac_no_warn]
+----
+java DestListMetrics
+----
+
+The output looks like the following:
+
+[source,oac_no_warn]
+----
+---------------------------------------------------
+Destination Name       Type          IsTemporary
+---------------------------------------------------
+SimpleQueue            queue          false
+fooQueue               queue          false
+topic1                 topic          false
+   
+----
+
+[[aeqew]][[GMJVG00163]][[a-destination-metrics-example]]
+
+A Destination Metrics Example
++++++++++++++++++++++++++++++
+
+The source file for this code example is `DestMetrics.java`. This client
+application monitors a specific destination on a broker. It accepts the
+destination type and name as parameters, and it constructs a metrics
+topic name of the form
+`mq.metrics.destination.queue.`monitored_destination_name or
+`mq.metrics.destination.topic.`monitored_destination_name .
+
+link:#gbovz[Example 5-6] shows how to subscribe to the metrics topic for
+monitoring a specified destination.
+
+[[GMJVG00056]][[gbovz]]
+
+
+Example 5-6 Example of Subscribing to a Destination Metrics Topic
+
+[source,oac_no_warn]
+----
+com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+TopicConnection             metricConnection;
+TopicSession                metricSession;
+TopicSubscriber             metricSubscriber;
+Topic                       metricTopic;
+String                      metricTopicName = null;
+String                      destName = null,
+                            destType = null;
+
+for (int i = 0; i < args.length; ++i)  {
+    ...
+    } else if (args[i].equals("-n"))  {
+            destName = args[i+1];
+    } else if (args[i].equals("-t"))  {
+            destType = args[i+1];
+    }
+}
+
+metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+
+metricConnection = metricConnectionFactory.createTopicConnection();
+metricConnection.start();
+
+metricSession = metricConnection.createTopicSession(false,
+                   Session.AUTO_ACKNOWLEDGE);
+
+if (destType.equals("q"))  {
+    metricTopicName = "mq.metrics.destination.queue." + destName;
+} else  {
+    metricTopicName = "mq.metrics.destination.topic." + destName;
+}
+
+metricTopic = metricSession.createTopic(metricTopicName);
+
+metricSubscriber = metricSession.createSubscriber(metricTopic);
+metricSubscriber.setMessageListener(this);
+----
+
+The incoming message is processed in the `onMessage()` method, as shown
+in link:#gbovo[Example 5-7]:
+
+[[GMJVG00057]][[gbovo]]
+
+
+Example 5-7 Example of Processing a Destination Metrics Message
+
+[source,oac_no_warn]
+----
+public void onMessage(Message m)  {
+   try {
+        MapMessage mapMsg = (MapMessage)m;
+        String type = mapMsg.getStringProperty("type");
+
+        if (type.equals(metricTopicName))  {
+            String oneRow[] = new String[ 11 ];
+            int i = 0;
+
+            /*
+            * Extract destination metrics
+            */
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesOut"));
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgs"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("peakNumMsgs"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("avgNumMsgs"));
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("totalMsgBytes")/1024);
+            oneRow[i++] = Long.toString
+                                   (mapMsg.getLong("peakTotalMsgBytes")/1024);
+            oneRow[i++] = Long.toString
+                                   (mapMsg.getLong("avgTotalMsgBytes")/1024);
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("peakMsgBytes")/1024);
+
+            mp.add(oneRow);
+            ...
+            }
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}               
+----
+
+Notice how the metrics type is extracted, using the
+`getStringProperty()` method as in the previous examples, and is
+checked. Also notice how various destination data are extracted, using
+the `getLong()` method of `mapMsg`.
+
+You can run this example monitoring client with one of the following
+commands:
+
+[source,oac_no_warn]
+----
+java DestMetrics -t t -n topic_name
+java DestMetrics -t q -n queue_name
+----
+
+Using a queue named `SimpleQueue` as an example, the command would be:
+
+[source,oac_no_warn]
+----
+java DestMetrics -t q -n SimpleQueue
+----
+
+The output looks like the following:
+
+[source,oac_no_warn]
+----
+
+------------------------------------------------------------------------------
+Msgs       Msg   Bytes  Msg Count        Tot Msg Bytes(k)    Largest Msg
+In   Out   In    Out    Curr  Peak  Avg  Curr  Peak  Avg     (k)
+------------------------------------------------------------------------------
+500   0   318000  0     500   500   250  310   310   155      0
+----
+
+

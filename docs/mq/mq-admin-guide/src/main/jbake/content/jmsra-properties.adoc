@@ -1,0 +1,529 @@
+type=page
+status=published
+title=JMS Resource Adapter Property Reference
+next=metrics-information.html
+prev=administered-object-attributes.html
+~~~~~~
+JMS Resource Adapter Property Reference
+=======================================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00051]][[aeoon]]
+
+
+[[jms-resource-adapter-property-reference]]
+20 JMS Resource Adapter Property Reference
+------------------------------------------
+
+This chapter describes the configuration properties of the Message Queue
+JMS Resource Adapter (JMS RA), which enables you to integrate Message
+Queue with any Java EE application server by means of the standard Java
+EE connector architecture (JCA). When plugged into an application
+server, the Resource Adapter allows applications deployed in that
+application server to use Message Queue to send and receive JMS
+messages.
+
+The Message Queue JMS Resource Adapter exposes its configuration
+properties through three JavaBean components:
+
+* The `ResourceAdapter` JavaBean (link:#aeooo[ResourceAdapter JavaBean])
+affects the behavior of the Resource Adapter as a whole.
+* The `ManagedConnectionFactory` JavaBean
+(link:#aeoop[ManagedConnectionFactory JavaBean]) affects connections
+created by the Resource Adapter for use by message-driven beans (MDBs).
+* The `ActivationSpec` JavaBean (link:#aeooq[ActivationSpec JavaBean])
+affects message endpoints that represent MDBs in their interactions with
+the messaging system.
+
+To set property values for these entities, you use the tools provided by
+your application server for configuration and deployment of the Resource
+Adapter and for deployment of MDBs.
+
+This chapter lists and describes the configuration properties of the
+Message Queue JMS Resource Adapter. It contains the following sections:
+
+* link:#gjzpg[About Shared Topic Subscriptions for Clustered Containers]
+* link:#aeooo[ResourceAdapter JavaBean]
+* link:#aeoop[ManagedConnectionFactory JavaBean]
+* link:#aeooq[ActivationSpec JavaBean]
+
+[[gjzpg]][[GMADG00300]][[about-shared-topic-subscriptions-for-clustered-containers]]
+
+About Shared Topic Subscriptions for Clustered Containers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue JMS Resource Adapter provides a special feature called
+shared subscriptions for containers that support clustering, such as
+GlassFish Server. This feature enables clustered containers to share the
+load of processing messages for topic subscriptions across the instances
+of a cluster.
+
+When this feature is enabled, the following behaviors apply:
+
+* Attempts by multiple connections to use the same client id do not
+result in an exception, provided that the connections are from different
+instances in the cluster.
+* Two or more subscriptions on the same topic with the same client id
+and (if the subscription is durable) the same durable subscription name
+are considered "shared"; that is, they are treated as a single
+subscription, with each message being sent to only one of the
+participating subscriptions.
+
+The sharing of subscriptions relies on client id being set, not only for
+durable subscriptions (which always require client id) but for
+non-durable subscriptions (which do not normally require client id). If
+the subscription is being created by the resource adapter for use by a
+message-driven bean (MDB), and client id is not set, then the resource
+adapter will set the client id to the name of the MDB. However if the
+subscription is being created programmatically using the JMS API, and
+client id is not set, then an exception will be thrown.
+
+Note that, in the EJB or web container, applications that create a
+connection using a connection factory are not permitted to set client id
+on the newly created connection, but must set it on the connection
+factory instead. This restriction is imposed by the EJB specification,
+though it applies to web components as well. There is no such
+restrictions in the application client container.
+
+[[gkubs]][[GMADG00628]][[disabling-shared-subscriptions]]
+
+Disabling Shared Subscriptions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, the shared subscriptions feature is enabled. In some
+applications that use non-durable subscriptions, however, the shared
+behavior is not desired. In such cases, disable the shared subscriptions
+feature by setting the `useSharedSubscriptionInClusteredContainer`
+property to `false` on either the `ActivationSpec` or
+`ManagedConnectionFactory`, as appropriate:
+
+* For an MDB, set the `ActivationSpec` property
+`useSharedSubscriptionInClusteredContainer` to `false`. Do this in
+exactly the same way as with other `ActivationSpec` properties, using
+annotations in the MDB itself or in the deployment descriptor
+`ejb-jar.xml` or `glassfish-ejb-jar.xml`. Alternatively, if the
+`glassfish-ejb-jar.xml` deployment descriptor specifies a connection
+factory using the `<mdb-connection-factory>` element, then the property
+can be configured on the connection factory instead, as described in the
+next item.
+* For GlassFish applications creating a non-durable subscription using
+the JMS API rather than using an MDB, set the connection factory
+property `useSharedSubscriptionInClusteredContainer` to `false` using
+the GlassFish Administration Console, the GlassFish `asadmin` command or
+the resource descriptor `glassfish-resources.xml`.
+
+Only set `useSharedSubscriptionInClusteredContainer` to `false` for
+non-durable subscriptions.
+
+[[gkudu]][[GMADG00629]][[consumer-flow-control-when-shared-subscriptions-are-used]]
+
+Consumer Flow Control When Shared Subscriptions Are Used
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When shared subscriptions are being used, then consumer flow control
+operates slightly differently than is described in
+link:tuning.html#aeoky[Client Runtime Message Flow Adjustments].
+
+With a normal topic subscription, the maximum number of messages that
+can be held pending for any single subscriber, waiting to be consumed,
+is defined by the broker property
+`imq.autocreate.topic.consumerFlowLimit` for auto-created topics, or the
+destination property `consumerFlowLimit` for administratively-created
+topics. Both properties have a default value of 1000. This can be
+overridden on a per-connection basis by setting the connection factory
+property `imqConsumerFlowLimit` to a lower value than that defined for
+the topic.
+
+When the subscription is shared, however, different logic applies. In
+this case, the limit is defined by the broker property
+`imq.autocreate.topic.sharedConsumerFlowLimit` for auto-created topics
+or the broker property `imq.admincreate.topic.sharedConsumerFlowLimit`
+for all administratively-created topics. It is not possible to set this
+limit on individual administratively-created topics. Both properties
+have a default value of 5. This can be overridden on a per-connection
+basis by setting the connection factory property `imqConsumerFlowLimit`
+to a lower value than that defined for the topic. Note that, as with all
+connection factory properties, this is specified using the `options`
+property of the managed connection factory.
+
+[[aeooo]][[GMADG00301]][[resourceadapter-javabean]]
+
+ResourceAdapter JavaBean
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The `ResourceAdapter` configuration configures the default JMS Resource
+Adapter behavior. link:#gbnny[Table 20-1] lists and describes the
+properties with which you can configure this JavaBean.
+
+[[GMADG792]][[sthref227]][[gbnny]]
+
+
+Table 20-1 Resource Adapter Properties
+
+[width="100%",cols="35%,10%,25%,30%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`connectionURL`link:#foot-oneorotherrequired[^Foot 1 ^] |String
+|`mq://localhost:7676/jms` |Message service address for connecting to
+the Message Queue service
+
+|`brokerInstanceName` |String |`imqbroker` |Name of broker instance
+
+|`brokerPort` |Integer |`7676` |Port number for connecting to broker
+
+|`brokerBindAddress` |String |Null a|
+Address to which broker binds on host machine
+
+If null, the broker will bind to all addresses on the host machine.
+
+|`userName`link:#foot-required[^Foot 2 ^] |String |`guest` |Default user
+name for connecting to Message Queue service
+
+|`password`link:#sthref228[^Footref 2^] |String |`guest` |Default
+password for connecting to Message Queue service
+
+|`addressListBehavior` |String |`PRIORITY` a|
+Order in which to attempt connection to Message Queue service:
+
+* `PRIORITY`: Order specified in address list
+* `RANDOM`: Random order
+
+Note: Reconnection attempts after a connection failure start with the
+broker whose connection failed and proceed sequentially through the
+address list, regardless of the value set for this property.
+
+|`addressListIterations` |Integer |`1` |Number of times to iterate
+through address list attempting to establish or reestablish a connection
+
+|`reconnectEnabled` |Boolean |`false` |Attempt to reestablish a lost
+connection?
+
+|`reconnectAttempts` |Integer |`6` |Number of times to attempt
+reconnection to each address in address list before moving on to next
+
+|`reconnectInterval` |Long integer |`30000` |Interval, in milliseconds,
+between reconnection attempts
+
+|`brokerEnableHA` |Boolean |`false` |Enable high availability?
+
+|`clusterID` |String |None a|
+Cluster identifier
+
+If specified, only brokers with the same cluster identifier can be
+clustered together. In the event of broker failure, client connections
+will fail over only to brokers with the same cluster identifier as the
+original broker. If not specified, client connections can fail over to
+any other broker with an unspecified cluster identifier.
+
+For standalone brokers (those not belonging to a cluster), this property
+is ignored.
+
+The identifier may contain only alphabetic letters (`A`-`Z`, `a`-`z`),
+numeric digits (`0`-`9`), and the underscore character (`_`).
+
+|`brokerID` |String |None a|
+Broker identifier
+
+For brokers using a JDBC-based persistent data store, this string is
+appended to the names of all database tables to make them unique in the
+case where more than one broker instance is using the same database. For
+brokers using a file-based data store, this property is ignored.
+
+In an enhanced cluster, each broker must have a unique broker
+identifier.
+
+The identifier may contain only alphabetic letters (`A`-`Z`, `a`-`z`),
+numeric digits (`0`-`9`), and the underscore character (`_`).
+
+|=======================================================================
+
+
+^Footnote 1 ^Must be specified
+
+^Footnote 2 ^Required
+
+[[aeoop]][[GMADG00302]][[managedconnectionfactory-javabean]]
+
+ManagedConnectionFactory JavaBean
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A managed connection factory is used to create connections managed by
+the resource adapter. link:#gbnnp[Table 20-2] shows the properties of
+the `ManagedConnectionFactory` JavaBean; if set, these properties
+override the corresponding properties of the `ResourceAdapter` JavaBean.
+
+[[GMADG793]][[sthref229]][[gbnnp]]
+
+
+Table 20-2 Managed Connection Factory Properties
+
+[width="100%",cols="40%,10%,20%,30%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`addressList` |String |Value of `connectionURL` property of
+`ResourceAdapter` JavaBean (see link:#gbnny[Table 20-1]) |List of
+message service addresses for connecting to Message Queue service
+
+|`userName`link:#foot-optional3[^Foot 1 ^] |String |`guest` |User name
+for connecting to Message Queue service
+
+|`password`link:#sthref230[^Footref 1^] |String |`guest` |Password for
+connecting to Message Queue service
+
+|`clientID` |String |None |Client identifier for connections to Message
+Queue service
+
+|`addressListBehavior` |String |`PRIORITY` a|
+Order in which to attempt connection to Message Queue service:
+
+* `PRIORITY`: Order specified in address list
+* `RANDOM`: Random order
+
+Note: Reconnection attempts after a connection failure start with the
+broker whose connection failed and proceed sequentially through the
+address list, regardless of the value set for this property.
+
+|`addressListIterations` |Integer |`1` |Number of times to iterate
+through address list attempting to establish or reestablish a connection
+
+|`reconnectEnabled` |Boolean |`false` |Attempt to reestablish a lost
+connection?
+
+|`reconnectAttempts` |Integer |`6` |Number of times to attempt
+reconnection to each address in address list before moving on to next
+
+|`reconnectInterval` |Long integer |`30000` |Interval, in milliseconds,
+between reconnection attempts
+
+|`options`link:#sthref231[^Footref 1^] |String |None a|
+A list of additional connection factory properties to be used when
+creating connections to a Message Queue broker.
+
+When specified, the value of `options` must be a comma-separated list of
+connection factory properties and their values, in the form:
+
+[source,oac_no_warn]
+----
+propertyName=value
+----
+
+If value contains a comma or an equals sign, precede the symbol with a
+backslash (`\`) or enclose the entire value in quotes; for example:
+
+[source,oac_no_warn]
+----
+prop1=comma\,val,prop2="equals=val"
+----
+
+The `options` property cannot specify properties that are configured
+internally or that have their own setter methods, specifically:
+`imqReconnectEnabled`, `imqReconnectAttempts`, `imqReconnectInterval`,
+`imqDefaultUsername`, `imqDefaultPassword`, `imqAddressList`,
+`imqAddressListIterations`. Any values specified in `options` for these
+properties are ignored.
+
+|`useSharedSubscriptionInClusteredContainer` |Boolean |`true` a|
+Controls whether topic subscriptions created using this
+ManagedConnectionFactory will be shared when running in a clustered
+container, as described in link:#gjzpg[About Shared Topic Subscriptions
+for Clustered Containers].
+
+Set to `true` (the default) to share subscriptions. The `clientID`
+property must also be set, even if the subscription is nondurable.
+
+Set to `false` to not share subscriptions. This setting should only be
+used for nondurable subscriptions. The `clientID` property does not need
+to be set.
+
+|=======================================================================
+
+
+^Footnote 1 ^Optional
+
+[[aeooq]][[GMADG00303]][[activationspec-javabean]]
+
+ActivationSpec JavaBean
+~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnnj[Table 20-3] shows the configurable properties of the
+`ActivationSpec` JavaBean. These properties are used by the application
+server when instructing the Resource Adapter to activate a message
+endpoint and associate it with a message-driven bean.
+
+[[GMADG794]][[sthref232]][[gbnnj]]
+
+
+Table 20-3 ActivationSpec Properties
+
+[width="100%",cols="40%,10%,20%,30%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`addressList`link:#foot-optional4[^Foot 1 ^]^,^link:#foot-ra-specific[^Foot 2 ^]
+|String |Value of `connectionURL` property of `ResourceAdapter` JavaBean
+(see link:#gbnny[Table 20-1]) |Message service address for connecting to
+Message Queue service
+
+|`userName`link:#sthref233[^Footref 1^] ^,^link:#sthref234[^Footref 2^]
+|String |Inherited from `ResourceAdapter` JavaBean (see
+link:#gbnny[Table 20-1]) |User name for connecting to Message Queue
+service.
+
+|`password`link:#sthref235[^Footref 1^] ^,^link:#sthref236[^Footref 2^]
+|String |Inherited from `ResourceAdapter` JavaBean (see
+link:#gbnny[Table 20-1]) |Password for connecting to Message Queue
+service.
+
+|`clientId`link:#foot-ejb-j2ee-ca[^Foot 3 ^] |String |None a|
+Client ID for connections to Message Queue service
+
+This property must be set if `subscriptionDurability` is set to
+`Durable`.
+
+|`addressListBehavior`link:#sthref237[^Footref 1^]^,^link:#sthref238[^Footref 2^]
+|String |Inherited from `ResourceAdapter` JavaBean (see
+link:#gbnny[Table 20-1]) a|
+Order in which to attempt connection or reconnection to Message Queue
+service:
+
+PRIORITY: order specified in address list
+
+RANDOM: Random order
+
+|`addressListIterations`link:#sthref239[^Footref 1^]^,^link:#sthref240[^Footref 2^]
+|Integer |Inherited from `ResourceAdapter` JavaBean (see
+link:#gbnny[Table 20-1]) a|
+Number of times to iterate through addressList attempting to establish
+or reestablish a connection.
+
+When this limit is reached an exception will be thrown and a new
+connection attempt will begin, with no limit.
+
+|`reconnectAttempts`link:#sthref241[^Footref 1^]
+^,^link:#sthref242[^Footref 2^] |Integer |Inherited from
+`ResourceAdapter` JavaBean (see link:#gbnny[Table 20-1]) |Number of
+times to attempt connection or reconnection to each address in
+addressList before moving on to next.
+
+|`reconnectInterval1`link:#sthref243[^Footref 1^]^,^link:#sthref244[^Footref 2^]
+|Integer |Inherited from `ResourceAdapter` JavaBean (see
+link:#gbnny[Table 20-1]) |Interval, in milliseconds, between
+reconnection attempts
+
+|`destination`link:#sthref245[^Footref 3^] |String |None a|
+Name of destination from which to consume messages
+
+The value must be that of the `destinationName` property for a Message
+Queue destination administered object.
+
+|`destinationType`link:#sthref246[^Footref 3^] |String |None a|
+Type of destination specified by `destination` property:
+
+* `javax.jms.Queue`: Queue destination
+* `javax.jms.Topic`: Topic destination
+
+|`messageSelector`link:#sthref247[^Footref 1^]^,^link:#sthref248[^Footref 3^]
+|String |None |Message selector for filtering messages delivered to
+consumer
+
+|`subscriptionName`link:#sthref249[^Footref 3^] |String |None a|
+Name for durable subscriptions
+
+This property must be set if `subscriptionDurability` is set to
+`Durable`.
+
+|`subscriptionDurability`link:#sthref250[^Footref 3^] |String
+|`NonDurable` a|
+Durability of consumer for topic destination:
+
+* `Durable`: Durable consumer
+* `NonDurable`: Nondurable consumer
+
+This property is valid only if `destinationType` is set to
+`javax.jms.Topic`, and is optional for nondurable subscriptions and
+required for durable ones. If set to `Durable`, the `clientID` and
+`subscriptionName` properties must also be set.
+
+|`acknowledgeMode`link:#sthref251[^Footref 1^]^,^link:#sthref252[^Footref 3^]
+|String |`Auto-acknowledge` a|
+Acknowledgment mode:
+
+* `Auto-acknowledge`: Auto-acknowledge mode
+* `Dups-ok-acknowledge`: Dups-OK-acknowledge mode
+
+|`customAcknowledgeMode` |String |None a|
+Acknowledgment mode for MDB message consumption
+
+Valid values are `No_acknowledge` or null.
+
+You can use no-acknowledge mode only for a nontransacted, nondurable
+topic subscription; if you use this setting with a transacted
+subscription or a durable subscription, subscription activation will
+fail.
+
+|`endpointExceptionRedeliveryAttempts` |Integer |`6` |Number of times to
+redeliver a message when MDB throws an exception during message delivery
+
+|`endpointExceptionRedeliveryInterval` |integer |500 |The amount of
+time, in milliseconds, to wait before the next redelivery attempt.
+
+|`sendUndeliverableMsgsToDMQ` |Boolean |`true` a|
+Place message in dead message queue when MDB throws a runtime exception
+and number of redelivery attempts exceeds the value of
+`endpointExceptionRedeliveryAttempts`?
+
+If `false`, the Message Queue broker will attempt redelivery of the
+message to any valid consumer, including the same MDB.
+
+|`options`link:#sthref253[^Footref 1^] |String |None a|
+A list of additional connection factory properties to be used when
+creating connections to a Message Queue broker.
+
+When specified, the value of `options` must be a comma-separated list of
+connection factory properties and their values, in the form:
+
+[source,oac_no_warn]
+----
+propertyName=value
+----
+
+If value contains a comma or an equals sign, precede the symbol with a
+backslash (`\`) or enclose the entire value in quotes; for example:
+
+[source,oac_no_warn]
+----
+prop1=comma\,val,prop2="equals=val"
+----
+
+The `options` property cannot be used to specify properties that are
+configured internally or that have their own setter methods,
+specifically: `imqReconnectEnabled`, `imqReconnectAttempts`,
+`imqReconnectInterval`, `imqDefaultUsername`, `imqDefaultPassword`,
+`imqAddressList`, `imqAddressListIterations`, `imqAddressListBehavior`.
+Any values specified in `options` for these properties are ignored.
+
+|`useSharedSubscriptionInClusteredContainer` |Boolean |`true` a|
+Controls whether topic subscriptions created using this ActivationSpec
+will be shared when running in a clustered container, as described in
+link:#gjzpg[About Shared Topic Subscriptions for Clustered Containers].
+
+Set to `true` (the default) to share subscriptions.
+
+Set to `false` to not share subscriptions. This setting should only be
+used for nondurable subscriptions.
+
+|=======================================================================
+
+
+^Footnote 1 ^Optional
+
+^Footnote 2 ^Property specific to Message Queue JMS Resource Adapter
+
+^Footnote 3 ^Standard Enterprise JavaBean (EJB) and Java EE Connector
+Architecture (CA) property
+
+Note that there is no `reconnectEnabled` property for the
+`ActivationSpec` JavaBean.
+
+

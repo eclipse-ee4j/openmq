@@ -1,0 +1,125 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Release Notes, Release 5.1.3
+next=title.html
+~~~~~~
+Eclipse Open Message Queue Release Notes, Release 5.1.3
+=======================================================
+
+[[contents]]
+Contents
+--------
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+[[release-notes]]
+link:release-notes.html#aemaa[1 Release Notes]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:release-notes.html#aemab[Release Notes Revision History]
+* link:release-notes.html#CHDFAIFD[About Message Queue 5.1.3]
+* link:release-notes.html#CHDCIIHC[Bugs Fixed in Message Queue 5.1.3]
+* link:release-notes.html#ggrur[About Message Queue 5.1.3]
+* link:release-notes.html#aenav[Message Queue 5.1.3 Supported Platforms and
+Components]
+
+** link:release-notes.html#ggrwc[Platform Support]
+
+** link:release-notes.html#ggrvt[System Virtualization Support]
+
+** link:release-notes.html#ggrwj[Optional Support Components]
+* link:release-notes.html#CHDBGAHA[New Features in Message Queue 5.1.3]
+* link:release-notes.html#gkaid[Bugs Fixed in Message Queue 5.1.3]
+* link:release-notes.html#CHDIACCI[Installation]
+* link:release-notes.html#aemaq[Compatibility Considerations]
+* link:release-notes.html#ggsjx[Features to be Deprecated in a Future
+Release]
+* link:release-notes.html#aembi[Known Issues and Limitations]
+
+** link:release-notes.html#gcblj[Deprecated Password Option]
+
+** link:release-notes.html#CHDFBIFH[Administration/Configuration Issues]
+
+** link:release-notes.html#aembn[Broker Issues]
+
+** link:release-notes.html#aembl[Broker Clusters]
+
+** link:release-notes.html#gfbsc[SOAP Support]
+* link:release-notes.html#aembo[Redistributable Files]
+* link:release-notes.html#aembu[Additional Resources]
+* link:release-notes.html#CHDDFDAJ[New Features in Previous Message Queue
+5.1.3]
+
+** link:release-notes.html#sthref11[Support for JMS 2.0 Features and
+Enhancements]
+
+** link:release-notes.html#sthref12[Additional Message Queue 5.0
+Enhancements]
+* link:release-notes.html#ggrut[New Features in Previous Message Queue 4
+Releases]
+
+** link:release-notes.html#CHDGEGAB[New Features in Message Queue 4.5]
+
+** link:release-notes.html#gktmu[New Features in Message Queue 4.4.2]
+
+** link:release-notes.html#gjkti[New Features in Message Queue
+4.4 Update 1]
+*** link:release-notes.html#gjkyf[New Installation Program]
+*** link:release-notes.html#gjkxr[Transaction Log Support for Clusters]
+*** link:release-notes.html#gjkvs[In-Process Broker]
+
+** link:release-notes.html#gired[New Features in Message Queue 4.4]
+*** link:release-notes.html#gjdmj[JMS Bridge Service]
+*** link:release-notes.html#gjdnz[STOMP Bridge Service]
+*** link:release-notes.html#gjdko[Additional Enhancements]
+
+** link:release-notes.html#ghlkj[New Features in Message Queue 4.3]
+*** link:release-notes.html#ghlir[Universal Message Service (UMS)]
+*** link:release-notes.html#ghlll[AIX Platform Support]
+*** link:release-notes.html#ghlla[New Zip-Based Installer]
+*** link:release-notes.html#ghllg[Extended Platform Support]
+*** link:release-notes.html#ghvdy[Additional Enhancements]
+
+** link:release-notes.html#gglhf[New Features in Message Queue 4.2]
+*** link:release-notes.html#gglfu[Multiple Destinations for a Publisher
+or Subscriber]
+*** link:release-notes.html#gjkas[Schema Validation of XML Payload
+Messages]
+*** link:release-notes.html#gglha[C-API Support for Distributed
+Transactions]
+*** link:release-notes.html#gglhj[Installer Support for Sun Connection
+Registration]
+*** link:release-notes.html#ggxye[Support for MySQL Database]
+*** link:release-notes.html#ghlpr[Additional Enhancements]
+
+** link:release-notes.html#gefnq[New Features in Message Queue 4.1]
+*** link:release-notes.html#ggltx[High-Availability Broker Clusters]
+*** link:release-notes.html#gglrw[JAAS Support]
+*** link:release-notes.html#gglui[Persistent Data Store Format Change]
+*** link:release-notes.html#gglst[Broker Environment Configuration]
+*** link:release-notes.html#gglsg[Java ES Monitoring Framework Support]
+*** link:release-notes.html#gglrx[Enhanced Transaction Management]
+*** link:release-notes.html#ggluh[Fixed Ports for C Client Connections]
+
+** link:release-notes.html#aemac[New Features in Message Queue 4.0]
+*** link:release-notes.html#ggltn[Support for JMX Administration API]
+*** link:release-notes.html#gglug[Client Runtime Logging]
+*** link:release-notes.html#ggluw[Connection Event Notification API]
+*** link:release-notes.html#ggluv[Broker Administration Enhancements]
+*** link:release-notes.html#ggltd[Displaying Information About a
+JDBC-Based Data Store]
+*** link:release-notes.html#gglse[JDBC Provider Support]
+*** link:release-notes.html#ggluc[Persistent Data Store Format Changes]
+*** link:release-notes.html#ggltz[Additional Message Properties]
+*** link:release-notes.html#ggluj[SSL Support]
+
+

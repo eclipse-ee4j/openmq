@@ -1,0 +1,1109 @@
+type=page
+status=published
+title=Managing Administered Objects
+next=bridge-services.html
+prev=broker-clusters.html
+~~~~~~
+Managing Administered Objects
+=============================
+
+[[GMADG00042]][[aeogu]]
+
+
+[[managing-administered-objects]]
+11 Managing Administered Objects
+--------------------------------
+
+Administered objects encapsulate provider-specific configuration and
+naming information, enabling the development of client applications that
+are portable from one JMS provider to another. A Message Queue
+administrator typically creates administered objects for client
+applications to use in obtaining broker connections for sending and
+receiving messages.
+
+This chapter tells how to use the Object Manager utility (`imqobjmgr`)
+to create and manage administered objects. It contains the following
+sections:
+
+* link:#aeogv[Object Stores]
+* link:#aeogy[Administered Object Attributes]
+* link:#aeohm[Using the Object Manager Utility]
+
+[[aeogv]][[GMADG00255]][[object-stores]]
+
+Object Stores
+~~~~~~~~~~~~~
+
+Administered objects are placed in a readily available object store
+where they can be accessed by client applications by means of the Java
+Naming and Directory Interface (JNDI). There are two types of object
+store you can use: a standard Lightweight Directory Access Protocol
+(LDAP) directory server or a directory in the local file system.
+
+[[aeogw]][[GMADG00566]][[ldap-server-object-stores]]
+
+LDAP Server Object Stores
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+An LDAP server is the recommended object store for production messaging
+systems. LDAP servers are designed for use in distributed systems and
+provide security features that are useful in production environments.
+
+LDAP implementations are available from a number of vendors. To manage
+an object store on an LDAP server with Message Queue administration
+tools, you may first need to configure the server to store Java objects
+and perform JNDI lookups; see the documentation provided with your LDAP
+implementation for details.
+
+To use an LDAP server as your object store, you must specify the
+attributes shown in link:#gbnjp[Table 11-1]. These attributes fall into
+the following categories:
+
+* Initial context. The `java.naming.factory.initial` attribute specifies
+the initial context for JNDI lookups on the server. The value of this
+attribute is fixed for a given LDAP object store.
+* Location. The `java.naming.provider.url` attribute specifies the URL
+and directory path for the LDAP server. You must verify that the
+specified directory path exists.
+* Security. The `java.naming.security.principal`,
+`java.naming.security.credentials`, and
+`java.naming.security.authentication` attributes govern the
+authentication of callers attempting to access the object store. The
+exact format and values of these attributes depend on the LDAP service
+provider; see the documentation provided with your LDAP implementation
+for details and to determine whether security information is required on
+all operations or only on those that change the stored data.
+
+[[GMADG663]][[sthref44]][[gbnjp]]
+
+
+Table 11-1 LDAP Object Store Attributes
+
+[width="100%",cols="43%,57%",options="header",]
+|=======================================================================
+|Attribute |Description
+|`java.naming.factory.initial` a|
+Initial context for JNDI lookup
+
+Example:
+
+* `com.sun.jndi.ldap.LdapCtxFactory`
+
+|`java.naming.provider.url` a|
+Server URL and directory path
+
+Example:
+
+* `ldap://myD.com:389/ou=mq1,o=App`
+
+where administered objects are stored in the directory `/App/mq1`.
+
+|`java.naming.security.principal` a|
+Identity of the principal for authenticating callers
+
+The format of this attribute depends on the authentication scheme: for
+example,
+
+* `uid=homerSimpson,ou=People,o=mq`
+
+If this attribute is unspecified, the behavior is determined by the LDAP
+service provider.
+
+|`java.naming.security.credentials` a|
+Credentials of the authentication principal
+
+The value of this attribute depends on the authentication scheme: for
+example, it might be a hashed password, a clear-text password, a key, or
+a certificate.
+
+If this property is unspecified, the behavior is determined by the LDAP
+service provider.
+
+|`java.naming.security.authentication` a|
+Security level for authentication:
+
+* `none`: No security
+* `simple`: Simple security
+* `strong`: Strong security
+
+For example, if you specify `simple`, you will be prompted for any
+missing principal or credential values. This will allow you a more
+secure way of providing identifying information.
+
+If this property is unspecified, the behavior is determined by the LDAP
+service provider.
+
+|=======================================================================
+
+
+[[aeogx]][[GMADG00567]][[file-system-object-stores]]
+
+File-System Object Stores
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue also supports the use of a directory in the local file
+system as an object store for administered objects. While this approach
+is not recommended for production systems, it has the advantage of being
+very easy to use in development environments. Note, however, that for a
+directory to be used as a centralized object store for clients deployed
+across multiple computer nodes, all of those clients must have access to
+the directory. In addition, any user with access to the directory can
+use Message Queue administration tools to create and manage administered
+objects.
+
+To use a file-system directory as your object store, you must specify
+the attributes shown in link:#gbnkn[Table 11-2]. These attributes have
+the same general meanings described above for LDAP object stores; in
+particular, the `java.naming.provider.url` attribute specifies the
+directory path of the directory holding the object store. This directory
+must exist and have the proper access permissions for the user of
+Message Queue administration tools as well as the users of the client
+applications that will access the store.
+
+[[GMADG664]][[sthref45]][[gbnkn]]
+
+
+Table 11-2 File-system Object Store Attributes
+
+[width="100%",cols="40%,60%",options="header",]
+|=============================================
+|Attribute |Description
+|`java.naming.factory.initial` a|
+Initial context for JNDI lookup
+
+Example:
+
+* `com.sun.jndi.fscontext.RefFSContextFactory`
+
+|`java.naming.provider.url` a|
+Directory path
+
+Example:
+
+* `file:///C:/myapp/mqobjs`
+
+|=============================================
+
+
+[[aeogy]][[GMADG00256]][[administered-object-attributes]]
+
+Administered Object Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue administered objects are of two basic kinds:
+
+* Connection factories are used by client applications to create
+connections to brokers.
+* Destinations represent locations on a broker with which client
+applications can exchange (send and retrieve) messages.
+
+Each type of administered object has certain attributes that determine
+the object's properties and behavior. This section describes how to use
+the Object Manager command line utility (`imqobjmgr`) to set these
+attributes; you can also set them with the GUI Administration Console,
+as described in link:quick-start.html#aeobo[Working With Administered
+Objects].
+
+[[aeogz]][[GMADG00568]][[connection-factory-attributes]]
+
+Connection Factory Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Client applications use connection factory administered objects to
+create connections with which to exchange messages with a broker. A
+connection factory's attributes define the properties of all connections
+it creates. Once a connection has been created, its properties cannot be
+changed; thus the only way to configure a connection's properties is by
+setting the attributes of the connection factory used to create it.
+
+Message Queue defines two classes of connection factory objects:
+
+* `ConnectionFactory` objects support normal messaging and
+nondistributed transactions.
+* `XAConnectionFactory` objects support distributed transactions.
+
+Both classes share the same configuration attributes, which you can use
+to optimize resources, performance, and message throughput. These
+attributes are listed and described in detail in
+link:administered-object-attributes.html#aeood[Administered Object
+Attribute Reference] and are discussed in the following sections below:
+
+* link:#aeoha[Connection Handling]
+* link:#aeohe[Client Identification]
+* link:#aeohh[Reliability And Flow Control]
+* link:#gctlb[Queue Browser and Server Sessions]
+* link:#aeohj[Standard Message Properties]
+* link:#aeohk[Message Header Overrides]
+
+[[aeoha]][[GMADG00428]][[connection-handling]]
+
+Connection Handling
++++++++++++++++++++
+
+Connection handling attributes specify the broker address to which to
+connect and, if required, how to detect connection failure and attempt
+reconnection. They are summarized in
+link:administered-object-attributes.html#gbnnx[Table 19-1].
+
+[[aeohb]][[GMADG00086]][[broker-address-list]]
+
+Broker Address List
+
+The most important connection handling attribute is `imqAddressList`,
+which specifies the broker or brokers to which to establish a
+connection. The value of this attribute is a string containing a broker
+address or (in the case of a broker cluster) multiple addresses
+separated by commas. Broker addresses can use a variety of addressing
+schemes, depending on the connection service to be used (see
+link:connection-services.html#aeocn[Configuring Connection Services]) and
+the method of establishing a connection:
+
+* `mq` uses the broker's Port Mapper to assign a port dynamically for
+either the `jms` or `ssljms` connection service.
+* `mqtcp` bypasses the Port Mapper and connects directly to a specified
+port, using the `jms` connection service.
+* `mqssl` makes a Secure Socket Layer (SSL ) connection to a specified
+port, using the `ssljms` connection service.
+* `http` makes a Hypertext Transport Protocol (HTTP) connection to a
+Message Queue tunnel servlet at a specified URL, using the `httpjms`
+connection service.
+* `https` makes a Secure Hypertext Transport Protocol (HTTPS) connection
+to a Message Queue tunnel servlet at a specified URL, using the
+`httpsjms` connection service.
+
+These addressing schemes are summarized in
+link:administered-object-attributes.html#gbnnt[Table 19-2].
+
+The general format for each broker address is
+
+[source,oac_no_warn]
+----
+scheme:// address
+----
+
+where scheme is one of the addressing schemes listed above and address
+denotes the broker address itself. The exact syntax for specifying the
+address varies depending on the addressing scheme, as shown in the
+"Description" column of
+link:administered-object-attributes.html#gbnnt[Table 19-2].
+link:administered-object-attributes.html#gbnna[Table 19-3] shows examples
+of the various address formats.
+
+In a multiple-broker cluster environment, the address list can contain
+more than one broker address. If the first connection attempt fails, the
+Message Queue client runtime will attempt to connect to another address
+in the list, and so on until the list is exhausted. Two additional
+connection factory attributes control the way this is done:
+
+* `imqAddressListBehavior` specifies the order in which to try the
+specified addresses. If this attribute is set to the string `PRIORITY`,
+addresses will be tried in the order in which they appear in the address
+list. If the attribute value is `RANDOM`, the addresses will instead be
+tried in random order; this is useful, for instance, when many Message
+Queue clients are sharing the same connection factory object, to prevent
+them from all attempting to connect to the same broker address.
+* `imqAddressListIterations` specifies how many times to cycle through
+the list before giving up and reporting failure. A value of `-1` denotes
+an unlimited number of iterations: the client runtime will keep trying
+until it succeeds in establishing a connection or until the end of time,
+whichever occurs first. +
+
+[NOTE]
+=======================================================================
+
+Because enhanced clusters are self-configuring (see
+link:broker-clusters.html#gejkw[Cluster Configuration Properties] and
+link:broker-clusters.html#gebmt[Connecting Brokers into an Enhanced
+Cluster]), their membership can change over time as brokers enter and
+leave the cluster. In this type of cluster, the value of each member
+broker's `imqAddressList` attribute is updated dynamically so that it
+always reflects the cluster's current membership.
+
+=======================================================================
+
+
+[[aeohc]][[GMADG00087]][[automatic-reconnection]]
+
+Automatic Reconnection
+
+By setting certain connection factory attributes, you can configure a
+client to reconnect automatically to a broker in the event of a failed
+connection. For standalone brokers or those belonging to a conventional
+broker cluster (see "link:../mq-tech-over/broker-clusters.html#GMTOV00067[Conventional Clusters]" in Open
+Message Queue Technical Overview), you enable this behavior by setting
+the connection factory's `imqReconnectEnabled` attribute to `true`. The
+`imqReconnectAttempts` attribute controls the number of reconnection
+attempts to a given broker address; `imqReconnectInterval` specifies the
+interval, in milliseconds, to wait between attempts.
+
+If the broker is part of a conventional cluster, the failed connection
+can be restored not only on the original broker, but also on a different
+one in the cluster. If reconnection to the original broker fails, the
+client runtime will try the other addresses in the connection factory's
+broker address list (`imqAddressList`). The `imqAddressListBehavior` and
+`imqAddressListIterations` attributes control the order in which
+addresses are tried and the number of iterations through the list, as
+described in the preceding section. Each address is tried repeatedly at
+intervals of `imqReconnectInterval` milliseconds, up to the maximum
+number of attempts specified by `imqReconnectAttempts`.
+
+Note, however, that in a conventional cluster, such automatic
+reconnection only provides connection failover and not data failover:
+persistent messages and other state information held by a failed or
+disconnected broker can be lost when the client is reconnected to a
+different broker instance. While attempting to reestablish a connection,
+Message Queue does maintain objects (such as sessions, message
+consumers, and message producers) provided by the client runtime.
+Temporary destinations are also maintained for a time when a connection
+fails, because clients might reconnect and access them again; after
+giving clients time to reconnect and use these destinations, the broker
+will delete them. In circumstances where the client-side state cannot be
+fully restored on the broker on reconnection (for instance, when using
+transacted sessions, which exist only for the duration of a connection),
+automatic reconnection will not take place and the connection's
+exception handler will be called instead. It is then up to the client
+application to catch the exception, reconnect, and restore state.
+
+By contrast, in an enhanced cluster (see "link:../mq-tech-over/broker-clusters.html#GMTOV00068[Enhanced
+Clusters]" in Open Message Queue Technical Overview), another broker can
+take over a failed broker's persistent state and proceed to deliver its
+pending messages without interruption of service. In this type of
+cluster, automatic reconnection is always enabled. The connection
+factory's `imqReconnectEnabled`, `imqAddressList`, and
+`imqAddressListIterations` attributes are ignored. The client runtime is
+automatically redirected to the failover broker. Because there might be
+a short time lag during which the failover broker takes over from the
+failed broker, the `imqReconnectAttempts` connection factory attribute
+should be set to a value of `-1` (client runtime continues connect
+attempts until successful).
+
+Automatic reconnection supports all client acknowledgment modes for
+message consumption. Once a connection has been reestablished, the
+broker will redeliver all unacknowledged messages it had previously
+delivered, marking them with a `Redeliver` flag. Client applications can
+use this flag to determine whether a message has already been consumed
+but not yet acknowledged. (In the case of nondurable subscribers,
+however, the broker does not hold messages once their connections have
+been closed. Thus any messages produced for such subscribers while the
+connection is down cannot be delivered after reconnection and will be
+lost.) Message production is blocked while automatic reconnection is in
+progress; message producers cannot send messages to the broker until
+after the connection has been reestablished.
+
+[[aeohd]][[GMADG00088]][[periodic-testing-pinging-of-connections]]
+
+Periodic Testing (Pinging) of Connections
+
+The Message Queue client runtime can be configured to periodically test,
+or "ping," a connection, allowing connection failures to be detected
+preemptively before an attempted message transmission fails. Such
+testing is particularly important for client applications that only
+consume messages and do not produce them, since such applications cannot
+otherwise detect when a connection has failed. Clients that produce
+messages only infrequently can also benefit from this feature.
+
+The connection factory attribute `imqPingInterval` specifies the
+frequency, in seconds, with which to ping a connection. By default, this
+interval is set to 30 seconds; a value of `-1` disables the ping
+operation.
+
+The response to an unsuccessful ping varies from one operating-system
+platform to another. On some platforms, an exception is immediately
+thrown to the client application's exception listener. (If the client
+does not have an exception listener, its next attempt to use the
+connection will fail.) Other platforms may continue trying to establish
+a connection to the broker, buffering successive pings until one
+succeeds or the buffer overflows.
+
+[[aeohe]][[GMADG00429]][[client-identification]]
+
+Client Identification
++++++++++++++++++++++
+
+The connection factory attributes listed in
+link:administered-object-attributes.html#gbnnu[Table 19-4] support client
+authentication and the setting of client identifiers for durable
+subscribers.
+
+[[aeohf]][[GMADG00089]][[client-authentication]]
+
+Client Authentication
+
+All attempts to connect to a broker must be authenticated by user name
+and password against a user repository maintained by the message
+service. The connection factory attributes `imqDefaultUsername` and
+`imqDefaultPassword` specify a default user name and password to be used
+if the client does not supply them explicitly when creating a
+connection.
+
+As a convenience for developers who do not wish to bother populating a
+user repository during application development and testing, Message
+Queue provides a guest user account with user name and password both
+equal to `guest`. This is also the default value for the
+`imqDefaultUsername` and `imqDefaultPassword` attributes, so that if
+they are not specified explicitly, clients can always obtain a
+connection under the guest account. In a production environment, access
+to broker connections should be restricted to users who are explicitly
+registered in the user repository.
+
+[[aeohg]][[GMADG00090]][[client-identifier]]
+
+Client Identifier
+
+A connection canprovide a unique client identifier whenever the broker
+must maintain a persistent state on behalf of a client. Message Queue
+uses such client identifiers to keep track of durable subscribers to a
+topic destination. When a durable subscriber becomes inactive, the
+broker retains all incoming messages for the topic and delivers them
+when the subscriber becomes active again. The broker identifies the
+subscriber by means of its client identifier.
+
+While it is possible for a client application to set its own client
+identifier programmatically using the connection object's `setClientID`
+method, this makes it difficult to coordinate client identifiers to
+ensure that each is unique. It is generally better to have Message Queue
+automatically assign a unique identifier when creating a connection on
+behalf of a client. This can be done by setting the connection factory's
+`imqConfiguredClientID` attribute to a value of the form
+
+[source,oac_no_warn]
+----
+${u}factoryID
+----
+
+The characters `${u}` must be the first four characters of the attribute
+value. (Any character other than `u` between the braces will cause an
+exception to be thrown on connection creation; in any other position,
+these characters have no special meaning and will be treated as plain
+text.) The value for factoryID is a character string uniquely associated
+with this connection factory object.
+
+When creating a connection for a particular client, Message Queue will
+construct a client identifier by replacing the characters `${u}` with
+`${u:`userName`}`, where userName is the user name authenticated for the
+connection. This ensures that connections created by a given connection
+factory, although identical in all other respects, will each have their
+own unique client identifier. For example, if the user name is `Calvin`
+and the string specified for the connection factory's
+`imqConfiguredClientID` attribute is `${u}Hobbes`, the client identifier
+assigned will be `${u:Calvin}Hobbes`.
+
+
+[NOTE]
+=======================================================================
+
+This scheme will not work if two clients both attempt to obtain
+connections using the default user name `guest`, since each would have a
+client identifier with the same `${u}` component. In this case, only the
+first client to request a connection will get one; the second client's
+connection attempt will fail, because Message Queue cannot create two
+connections with the same client identifier.
+
+=======================================================================
+
+
+Even if you specify a client identifier with `imqConfiguredClientID`,
+client applications can override this setting with the connection method
+`setClientID`. You can prevent this by setting the connection factory's
+`imqDisableSetClientID` attribute to `true`. Note that for an
+application that uses durable subscribers, the client identifier must be
+set one way or the other: either administratively with
+`imqConfiguredClientID` or programmatically with `setClientID`.
+
+[[aeohh]][[GMADG00430]][[reliability-and-flow-control]]
+
+Reliability And Flow Control
+++++++++++++++++++++++++++++
+
+Because "payload" messages sent and received by clients and control
+messages (such as broker acknowledgments) used by Message Queue itself
+pass over the same client-broker connection, excessive levels of payload
+traffic can interfere with the delivery of control messages. To help
+alleviate this problem, the connection factory attributes listed in
+link:administered-object-attributes.html#gbnob[Table 19-5] allow you to
+manage the relative flow of the two types of message. These attributes
+fall into four categories:
+
+* Acknowledgment timeout specifies the maximum time (`imqAckTimeout`) to
+wait for a broker acknowledgment before throwing an exception.
+* Connection flow metering limits the transmission of payload messages
+to batches of a specified size (`imqConnectionFlowCount`), ensuring
+periodic opportunities to deliver any accumulated control messages.
+* Connection flow control limits the number of payload messages
+(`imqConnectionFlowLimit`) that can be held pending on a connection,
+waiting to be consumed. When the limit is reached, delivery of payload
+messages to the connection is suspended until the number of messages
+awaiting consumption falls below the limit. Use of this feature is
+controlled by a boolean flag (`imqConnectionFlowLimitEnabled`).
+* Consumer flow control limits the number of payload messages
+(`imqConsumerFlowLimit`) that can be held pending for any single
+consumer, waiting to be consumed. (This limit can also be specified as a
+property of a specific queue destination, `consumerFlowLimit`.) When the
+limit is reached, delivery of payload messages to the consumer is
+suspended until the number of messages awaiting consumption, as a
+percentage of `imqConsumerFlowLimit`, falls below the limit specified by
+the `imqConsumerFlowThreshold` attribute. This helps improve load
+balancing among multiple consumers by preventing any one consumer from
+starving others on the same connection. +
+When the JMS resource adapter, jmsra, is used to consume messages in a
+GlassFish Server cluster, this behavior is defined using different
+properties, as described in link:jmsra-properties.html#gjzpg[About Shared
+Topic Subscriptions for Clustered Containers].
+
+The use of any of these flow control techniques entails a trade-off
+between reliability and throughput; see link:tuning.html#aeoky[Client
+Runtime Message Flow Adjustments] for further discussion.
+
+[[gctlb]][[GMADG00431]][[queue-browser-and-server-sessions]]
+
+Queue Browser and Server Sessions
++++++++++++++++++++++++++++++++++
+
+link:administered-object-attributes.html#gbnoh[Table 19-6] lists
+connection factory attributes affecting client queue browsing and server
+sessions. The `imqQueueBrowserMaxMessagesPerRetrieve` attribute
+specifies the maximum number of messages to retrieve at one time when
+browsing the contents of a queue destination;
+`imqQueueBrowserRetrieveTimeout` gives the maximum waiting time for
+retrieving them. (Note that `imqQueueBrowserMaxMessagesPerRetrieve` does
+not affect the total number of messages browsed, only the way they are
+batched for delivery to the client runtime: fewer but larger batches or
+more but smaller ones. Changing the attribute's value may affect
+performance, but will not affect the total amount of data retrieved; the
+client application will always receive all messages in the queue.) The
+boolean attribute `imqLoadMaxToServerSession` governs the behavior of
+connection consumers in an application server session: if the value of
+this attribute is `true`, the client will load up to the maximum number
+of messages into a server session; if `false`, it will load only a
+single message at a time.
+
+[[aeohj]][[GMADG00432]][[standard-message-properties]]
+
+Standard Message Properties
++++++++++++++++++++++++++++
+
+The Java Message Service Specification defines certain standard message
+properties, which JMS providers (such as Message Queue) may optionally
+choose to support. By convention, the names of all such standard
+properties begin with the letters `JMSX`. The connection factory
+attributes listed in link:administered-object-attributes.html#gbnng[Table
+19-7] control whether the Message Queue client runtime sets certain of
+these standard properties. For produced messages, these include the
+following:
+
+`JMSXUserID`::
+  Identity of the user sending the message
+`JMSXAppID`::
+  Identity of the application sending the message
+`JMSXProducerTXID`::
+  Transaction identifier of the transaction within which the message was
+  produced
+
+For consumed messages, they include
+
+`JMSXConsumerTXID`::
+  Transaction identifier of the transaction within which the message was
+  consumed
+`JMSXRcvTimestamp`::
+  Time the message was delivered to the consumer
+
+[[aeohk]][[GMADG00433]][[message-header-overrides]]
+
+Message Header Overrides
+++++++++++++++++++++++++
+
+You can use the connection factory attributes listed in
+link:administered-object-attributes.html#gbnnd[Table 19-8] to override
+the values set by a client for certain JMS message header fields. The
+settings you specify will be used for all messages produced by
+connections obtained from that connection factory. Header fields that
+you can override in this way are
+
+`JMSDeliveryMode`::
+  Delivery mode (persistent or nonpersistent)
+`JMSExpiration`::
+  Expiration time
+`JMSPriority`::
+  Priority level
+
+There are two attributes for each of these fields: one boolean, to
+control whether the field can be overridden, and another to specify its
+value. For instance, the attributes for setting the priority level are
+`imqOverrideJMSPriority` and `imqJMSPriority`. There is also an
+additional attribute, `imqOverrideJMSHeadersToTemporaryDestinations`,
+that controls whether override values apply to temporary destinations.
+
+
+[NOTE]
+=======================================================================
+
+Because overriding message headers may interfere with the needs of
+specific applications, these attributes should only be used in
+consultation with an application's designers or users.
+
+=======================================================================
+
+
+[[aeohl]][[GMADG00569]][[destination-attributes]]
+
+Destination Attributes
+^^^^^^^^^^^^^^^^^^^^^^
+
+The destination administered object that identifies a physical queue or
+topic destination has only two attributes, listed in
+link:administered-object-attributes.html#gbnog[Table 19-9]. The important
+one is `imqDestinationName`, which gives the name of the physical
+destination that this administered object represents; this is the name
+that was specified with the `-n` option to the `imqcmd` `create` `dst`
+command that created the physical destination. (Note that there is not
+necessarily a one-to-one relationship between destination administered
+objects and the physical destinations they represent: a single physical
+destination can be referenced by more than one administered object, or
+by none at all.) There is also an optional descriptive string,
+`imqDestinationDescription`, which you can use to help identify the
+destination object and distinguish it from others you may have created.
+
+[[aeohm]][[GMADG00257]][[using-the-object-manager-utility]]
+
+Using the Object Manager Utility
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue Object Manager utility (`imqobjmgr`) allows you to
+create and manage administered objects. The `imqobjmgr` command provides
+the following subcommands for performing various operations on
+administered objects:
+
+`add`::
+  Add an administered object to an object store
+`delete`::
+  Delete an administered object from an object store
+`list`::
+  List existing administered objects in an object store
+`query`::
+  Display information about an administered object
+`update`::
+  Modify the attributes of an administered object
+
+See link:command-line-reference.html#aeonn[Object Manager Utility] for
+reference information about the syntax, subcommands, and options of the
+`imqobjmgr` command.
+
+Most Object Manager operations require you to specify the following
+information as options to the `imqobjmgr` command:
+
+* The JNDI lookup name (`-l`) of the administered object +
+This is the logical name by which client applications can look up the
+administered object in the object store, using the Java Naming and
+Directory Interface.
+* The attributes of the JNDI object store (`-j`) +
+See link:#aeogv[Object Stores] for information on the possible
+attributes and their values.
+* The type (`-t`) of the administered object +
+Possible types include the following:::
+`q`::
+  Queue destination
+`t`::
+  Topic destination
+`cf`::
+  Connection factory
+`qf`::
+  Queue connection factory
+`tf`::
+  Topic connection factory
+`xcf`::
+  Connection factory for distributed transactions
+`xqf`::
+  Queue connection factory for distributed transactions
+`xtf`::
+  Topic connection factory for distributed transactions
+* The attributes (`-o`) of the administered object +
+See link:#aeogy[Administered Object Attributes] for information on the
+possible attributes and their values.
+
+[[gkvxo]][[GMADG00570]][[connecting-to-a-secured-ldap-server-ldaps]]
+
+Connecting to a Secured LDAP Server (ldaps)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+When using `imqobjmgr` utility to connect to a secured LDAP server that
+uses the ldaps protocol, you might first have to install the LDAP
+server's certificate in the JDK keystore. To perform this task, use the
+Java SE `keytool` utility; for example:
+
+[source,oac_no_warn]
+----
+keytool -import -keystore IMQ_JAVAHOME/lib/security/jssecacerts -alias "ldaps cert" -file certFile
+----
+
+where certFile is the certificate file from the LDAP server.
+
+Then, when you run the `imqobjmgr` utility, make sure to specify the
+same Java installation where the certificate was imported; for example:
+
+[source,oac_no_warn]
+----
+imqobjmgr -javahome IMQ_JAVAHOME ...
+----
+
+[[aeohn]][[GMADG00571]][[adding-administered-objects]]
+
+Adding Administered Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `imqobjmgr` command's `add` subcommand adds administered objects for
+connection factories and topic or queue destinations to the object
+store. Administered objects stored in an LDAP object store must have
+lookup names beginning with the prefix `cn=`; lookup names in a
+file-system object store need not begin with any particular prefix, but
+must not include the slash character (`/`).
+
+
+[NOTE]
+=======================================================================
+
+The Object Manager lists and displays only Message Queue administered
+objects. If an object store contains a non-Message Queue object with the
+same lookup name as an administered object that you wish to add, you
+will receive an error when you attempt the add operation.
+
+=======================================================================
+
+
+[[aeoho]][[GMADG00434]][[adding-a-connection-factory]]
+
+Adding a Connection Factory
++++++++++++++++++++++++++++
+
+To enable client applications to create broker connections, add a
+connection factory administered object for the type of connection to be
+created: a queue connection factory or a topic connection factory, as
+the case may be. link:#gbnjs[Example 11-1] shows a command to add a
+queue connection factory (administered object type `qf`) to an LDAP
+object store. The object has lookup name `cn=myQCF` and connects to a
+broker running on host `myHost` at port number `7272`, using the `jms`
+connection service.
+
+[[GMADG00124]][[gbnjs]]
+
+
+Example 11-1 Adding a Connection Factory
+
+[source,oac_no_warn]
+----
+
+imqobjmgr add
+   -l "cn=myQCF"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t qf
+   -o "imqAddressList=mq://myHost:7272/jms"
+----
+
+[[aeohp]][[GMADG00435]][[adding-a-destination]]
+
+Adding a Destination
+++++++++++++++++++++
+
+When creating an administered object representing a destination, it is
+good practice to create the physical destination first, before adding
+the administered object to the object store. Use the Command utility
+(`imqcmd`) to create the physical destination, as described in
+link:message-delivery.html#aeoep[Creating and Destroying Physical
+Destinations].
+
+The command shown in link:#gbnkl[Example 11-2] adds an administered
+object to an LDAP object store representing a topic destination with
+lookup name `myTopic` and physical destination name `physTopic`. The
+command for adding a queue destination would be similar, except that the
+administered object type (`-t` option) would be `q` (for "queue
+destination") instead of `t` (for "topic destination").
+
+[[GMADG00125]][[gbnkl]]
+
+
+Example 11-2 Adding a Destination to an LDAP Object Store
+
+[source,oac_no_warn]
+----
+
+imqobjmgr add
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t t
+   -o "imqDestinationName=physTopic"
+----
+
+link:#gbnkg[Example 11-3] shows the same command, but with the
+administered object stored in a Solaris file system instead of an LDAP
+server.
+
+[[GMADG00126]][[gbnkg]]
+
+
+Example 11-3 Adding a Destination to a File-System Object Store
+
+[source,oac_no_warn]
+----
+
+imqobjmgr add
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory"
+   -j "java.naming.provider.url=file:///home/foo/imq_admin_objects"
+   -t t
+   -o "imqDestinationName=physTopic"
+----
+
+[[aeohq]][[GMADG00572]][[deleting-administered-objects]]
+
+Deleting Administered Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To delete an administered object from the object store, use the
+`imqobjmgr` `delete` subcommand, specifying the lookup name, type, and
+location of the object to be deleted. The command shown in
+link:#gbnkq[Example 11-4] deletes the object that was added in
+link:#aeohp[Adding a Destination] above.
+
+[[GMADG00127]][[gbnkq]]
+
+
+Example 11-4 Deleting an Administered Object
+
+[source,oac_no_warn]
+----
+imqobjmgr delete
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t t
+----
+
+[[aeohr]][[GMADG00573]][[listing-administered-objects]]
+
+Listing Administered Objects
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can use the `imqobjmgr` `list` subcommand to get a list of all
+administered objects in an object store or those of a specific type.
+link:#gbnjf[Example 11-5] shows how to list all administered objects on
+an LDAP server.
+
+[[GMADG00128]][[gbnjf]]
+
+
+Example 11-5 Listing All Administered Objects
+
+[source,oac_no_warn]
+----
+
+imqobjmgr list
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+----
+
+link:#gbnlk[Example 11-6] lists all queue destinations (type `q`).
+
+[[GMADG00129]][[gbnlk]]
+
+
+Example 11-6 Listing Administered Objects of a Specific Type
+
+[source,oac_no_warn]
+----
+
+imqobjmgr list
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t q
+----
+
+[[aeohs]][[GMADG00574]][[viewing-administered-object-information]]
+
+Viewing Administered Object Information
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The `imqobjmgr` `query` subcommand displays information about a
+specified administered object, identified by its lookup name and the
+attributes of the object store containing it. link:#gbnmc[Example 11-7]
+displays information about an object whose lookup name is `cn=myTopic`.
+
+[[GMADG00130]][[gbnmc]]
+
+
+Example 11-7 Viewing Administered Object Information
+
+[source,oac_no_warn]
+----
+
+imqobjmgr query
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+----
+
+[[aeoht]][[GMADG00575]][[modifying-administered-object-attributes]]
+
+Modifying Administered Object Attributes
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To modify the attributes of an administered object, use the `imqobjmgr`
+`update` subcommand. You supply the object's lookup name and location,
+and use the `-o` option to specify the new attribute values.
+
+link:#gbnlv[Example 11-8] changes the value of the
+`imqReconnectAttempts` attribute for the queue connection factory that
+was added to the object store in link:#gbnjs[Example 11-1].
+
+[[GMADG00131]][[gbnlv]]
+
+
+Example 11-8 Modifying an Administered Object's Attributes
+
+[source,oac_no_warn]
+----
+
+imqobjmgr update
+   -l "cn=myQCF"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t qf
+   -o "imqReconnectAttempts=3"
+----
+
+[[aeohu]][[GMADG00576]][[using-command-files]]
+
+Using Command Files
+^^^^^^^^^^^^^^^^^^^
+
+The `-i` option to the `imqobjmgr` command allows you to specify the
+name of a command file that uses Java property file syntax to represent
+all or part of the subcommand clause. This feature is especially useful
+for specifying object store attributes, which typically require a lot of
+typing and are likely to be the same across multiple invocations of
+`imqobjmgr`. Using a command file can also allow you to avoid exceeding
+the maximum number of characters allowed for the command line.
+
+link:#gbnmi[Example 11-9] shows the general syntax for an Object Manager
+command file. Note that the `version` property is not a command line
+option: it refers to the version of the command file itself (not that of
+the Message Queue product) and must be set to the value `2.0`.
+
+[[GMADG00132]][[gbnmi]]
+
+
+Example 11-9 Object Manager Command File Syntax
+
+[source,oac_no_warn]
+----
+
+version=2.0
+cmdtype=[ add | delete | list | query | update ]
+obj.lookupName=lookup name
+objstore.attrs.objStoreAttrName1=value1
+objstore.attrs.objStoreAttrName2=value2
+   . . .
+objstore.attrs.objStoreAttrNameN=valueN
+obj.type=[ q | t | cf | qf | tf | xcf | xqf | xtf | e ]
+obj.attrs.objAttrName1=value1
+obj.attrs.objAttrName2=value2
+   . . .
+obj.attrs.objAttrNameN=valueN
+----
+
+As an example, consider the Object Manager command shown earlier in
+link:#gbnjs[Example 11-1], which adds a queue connection factory to an
+LDAP object store. This command can be encapsulated in a command file as
+shown in link:#gbnma[Example 11-10]. If the command file is named
+`MyCmdFile`, you can then execute the command with the command line
+
+[source,oac_no_warn]
+----
+imqobjmgr  -i MyCmdFile 
+----
+
+[[GMADG00133]][[gbnma]]
+
+
+Example 11-10 Example Command File
+
+[source,oac_no_warn]
+----
+
+version=2.0
+cmdtype=add
+obj.lookupName=cn=myQCF
+objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+objstore.attrs.java.naming.provider.url=ldap://mydomain.com:389/o=imq
+objstore.attrs.java.naming.security.principal=uid=homerSimpson,ou=People,o=imq
+objstore.attrs.java.naming.security.credentials=doh
+objstore.attrs.java.naming.security.authentication=simple
+obj.type=qf
+obj.attrs.imqAddressList=mq://myHost:7272/jms
+----
+
+A command file can also be used to specify only part of the `imqobjmgr`
+subcommand clause, with the remainder supplied directly on the command
+line. For example, the command file shown in link:#gbnll[Example 11-11]
+specifies only the attribute values for an LDAP object store.
+
+[[GMADG00134]][[gbnll]]
+
+
+Example 11-11 Partial Command File
+
+[source,oac_no_warn]
+----
+
+version=2.0
+objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+objstore.attrs.java.naming.provider.url=ldap://mydomain.com:389/o=imq
+objstore.attrs.java.naming.security.principal=uid=homerSimpson,ou=People,o=imq
+objstore.attrs.java.naming.security.credentials=doh
+objstore.attrs.java.naming.security.authentication=simple
+----
+
+You could then use this command file to specify the object store in an
+`imqobjmgr` command while supplying the remaining options explicitly, as
+shown in link:#gbnmg[Example 11-12].
+
+[[GMADG00135]][[gbnmg]]
+
+
+Example 11-12 Using a Partial Command File
+
+[source,oac_no_warn]
+----
+
+imqobjmgr add
+   -l "cn=myQCF"
+   -i MyCmdFile
+   -t qf
+   -o "imqAddressList=mq://myHost:7272/jms"
+----
+
+Additional examples of command files can be found in the
+`IMQ_HOME/examples/imqobjmgr` directory.
+
+

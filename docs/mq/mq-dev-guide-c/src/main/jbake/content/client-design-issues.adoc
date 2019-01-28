@@ -1,0 +1,735 @@
+type=page
+status=published
+title=Client Design Issues
+next=reference.html
+prev=using-the-c-api.html
+~~~~~~
+Client Design Issues
+====================
+
+[[GMCCG00004]][[aelcp]]
+
+
+[[client-design-issues]]
+3 Client Design Issues
+----------------------
+
+This chapter describes a number of messaging issues that impact Message
+Queue C client design. It covers the following topics:
+
+* link:#aelcq[Producers and Consumers]
+* link:#aelcr[Using Selectors Efficiently]
+* link:#aelcs[Determining Message Order and Priority]
+* link:#aelct[Managing Threads]
+* link:#aelcy[Managing Physical Destination Limits]
+* link:#aelcz[Managing the Dead Message Queue]
+* link:#aelda[Factors Affecting Performance]
+
+This chapter does not discuss the particulars of the C-API and how to
+use the data types and functions it defines to create messaging clients.
+For this information, see link:using-the-c-api.html#aelba[Using the C
+API].
+
+[[aelcq]][[GMCCG00049]][[producers-and-consumers]]
+
+Producers and Consumers
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Aside from the reliability your client requires, the design decisions
+that relate to producers and consumers include the following:
+
+* Do you want to use a point-to-point or a publish/subscribe domain? +
+There are some interesting permutations here. There are times when you
+would want to use publish/subscribe even when you have only one
+subscriber. Performance considerations might make the point-to-point
+model more efficient than the publish/subscribe model, when the work of
+sorting messages between subscribers is too costly. Sometimes these
+decisions cannot be made in the abstract, but different prototypes must
+be developed and tested.
+* Are you using an asynchronous message consumer that does not get
+called often or a producer that is seldom used? +
+You might need to adjust the `MQ_PING_INTERVAL_PROPERTY` when you create
+your connection, so that your client gets an exception if the connection
+should fail. For more information see
+link:using-the-c-api.html#aelbi[Connection Handling].
+* Are you using a synchronous consumer in a distributed application? +
+You might need to allow a small time interval between connecting and
+calling the `MQReceiveMessageNoWait` function in order not to miss a
+pending message. For more information, see usage information in the
+section link:reference.html#aelfo[MQReceiveMessageNoWait].
+
+[[aelcr]][[GMCCG00050]][[using-selectors-efficiently]]
+
+Using Selectors Efficiently
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The use of selectors can have a significant impact on the performance of
+your application. It's difficult to put an exact cost on the expense of
+using selectors since it varies with the complexity of the selector
+expression, but the more you can do to eliminate or simplify selectors
+the better.
+
+One way to eliminate (or simplify) selectors is to use multiple
+destinations to sort messages. This has the additional benefit of
+spreading the message load over more than one producer, which can
+improve the scalability of your application. For those cases when it is
+not possible to do that, here are some techniques that you can use to
+improve the performance of your application when using selectors:
+
+* Have consumers share selectors. As of version 3.5 of Message Queue,
+message consumers with identical selectors "share" that selector in the
+broker, which can significantly improve performance. So if there is a
+way to structure your application to have some selector sharing,
+consider doing so.
+* Use `IN` instead of multiple string comparisons. For example,
+expression number 1 is much more efficient than expression number 2,
+especially if expression 2 usually evaluates to false. +
+[source,oac_no_warn]
+----
+color IN ('red', 'green', 'white') \\ Expression 1
+
+color = 'red' OR color = 'green' OR color = 'white' \\Expression 2
+----
+* Use `BETWEEN` instead of multiple integer comparisons. For example,
+expression 1 is more efficient than expression 2, especially if
+expression 2 usually evaluates to true. +
+[source,oac_no_warn]
+----
+size BETWEEN 6 AND 10 \\Expression 1 
+
+size>= 6 AND size <= 10 \\Expression 2
+----
+* Order the selector expression so that MQ can short circuit the
+evaluation. The short circuiting of selector evaluation was added in MQ
+3.5 and can easily double or triple performance when using selectors
+depending on the complexity of the expression.
+
+** If you have two expressions joined by an `OR`, put the expression
+that is most likely to evaluate to `TRUE` first.
+
+** If you have two expressions joined by an `AND`, put the expression
+that is most likely to evaluate to `FALSE` first. +
+For example, if `size` is usually greater than 6, but color is rarely
+`red` you would want the order of an `OR` expression to be the
+following. +
+[source,oac_no_warn]
+----
+size> 6 OR color = 'red'
+----
+If you are using `AND`, use the following order. +
+[source,oac_no_warn]
+----
+color = 'red' AND size> 6
+----
+
+[[aelcs]][[GMCCG00051]][[determining-message-order-and-priority]]
+
+Determining Message Order and Priority
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+In general, all messages sent to a destination by a single session are
+guaranteed to be delivered to a consumer in the order they were sent.
+However, if they are assigned different priorities, a messaging system
+will attempt to deliver higher priority messages first.
+
+Beyond this, the ordering of messages consumed by a client can have only
+a rough relationship to the order in which they were produced. This is
+because the delivery of messages to a number of destinations and the
+delivery from those destinations can depend on a number of issues that
+affect timing, such as the order in which the messages are sent, the
+sessions from which they are sent, whether the messages are persistent,
+the lifetime of the messages, the priority of the messages, the message
+delivery policy of queue destinations, and message service availability.
+
+[[aelct]][[GMCCG00052]][[managing-threads]]
+
+Managing Threads
+~~~~~~~~~~~~~~~~
+
+This section addresses a number of thread management issues that you
+should be aware of in designing and programming a Message Queue C
+client. It covers the following topics:'
+
+* link:#aelcu[Message Queue C Runtime Thread Model]
+* link:#aelcv[Concurrent Use of Handles]
+* link:#aelcw[Single-Threaded Session Control]
+* link:#aelcx[Connection Exceptions]
+
+[[aelcu]][[GMCCG00322]][[message-queue-c-runtime-thread-model]]
+
+Message Queue C Runtime Thread Model
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Message Queue C-API library creates the threads needed to provide
+runtime support for a Message Queue C client. It uses NSPR (Netscape
+Portable Runtime) `GLOBAL` threads. NSPR `GLOBAL` threads are fully
+compatible with native threads on each supported platform.
+link:#aelcu[Message Queue C Runtime Thread Model] shows the thread model
+that the NSPR `GLOBAL` threads map to on each platform. For more
+information on NSPR, see
+
+`http://www.mozilla.org/projects/nspr/`
+
+[[GMCCG436]][[sthref20]][[gblxl]]
+
+
+Table 3-1 Thread Model for NSPR GLOBAL Threads
+
+[width="100%",cols="14%,86%",options="header",]
+|=======================================================================
+|Platform |Thread Model
+|Solaris |pthreads
+
+|Linux |pthreads
+
+|AIX |pthreads
+
+|Windows |Win32 threads (from Microsoft Visual C++ runtime library
+`msvcrt`)
+|=======================================================================
+
+
+[[aelcv]][[GMCCG00323]][[concurrent-use-of-handles]]
+
+Concurrent Use of Handles
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gblyq[Table 3-2] lists the handles (objects) used in a C client
+program and specifies which of these may be used concurrently and which
+can only be used by one logical thread at a time.
+
+[[GMCCG437]][[sthref21]][[gblyq]]
+
+
+Table 3-2 Handles and Concurrency
+
+[width="100%",cols="46%,54%",options="header",]
+|===============================
+|Handle |Supports Concurrent Use
+|`MQDestinationHandle` |YES
+|`MQConnectionHandle` |YES
+|`MQSessionHandle` |NO
+|`MQProducerHandle` |NO
+|`MQConsumerHandle` |NO
+|`MQMessageHandle` |NO
+|`MQPropertiesHandle` |NO
+|===============================
+
+
+[[aelcw]][[GMCCG00324]][[single-threaded-session-control]]
+
+Single-Threaded Session Control
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A session is a single-threaded context for producing and consuming
+messages. Multiple threads should not use the same session concurrently
+nor use the objects it creates concurrently. The only exception to this
+occurs during the orderly shutdown of the session or its connection when
+the client calls the `MQCloseSession` or the `MQCloseConnection`
+function. Follow these guidelines in designing your client:
+
+* If a client wants to have one thread producing messages and other
+threads consuming messages, the client should use a separate session for
+its producing thread.
+* Do not create an asynchronous message consumer while the connection is
+in started mode.
+* A session created with `MQ_SESION_ASYNC_RECEIVE` mode uses a single
+thread to run all its consumers' `MQMessageListenerFunc` callback
+functions. Clients that want concurrent delivery should use multiple
+sessions.
+* Do not call the `MQStopConnection`, `MQCloseSession` , or the
+`MQCloseConnection` functions from a `MQMessageListenerFunc` callback
+function. (These calls will not return until delivery of messages has
+stopped.)
+* Call the `MQFreeConnection` function after `MQCloseConnection` and all
+of the application threads associated with a connection and its
+sessions, producers, and consumers have returned.
+
+The Message Queue C runtime library provides one thread to a session in
+`MQ_SESSION_ASYNC_RECEIVE` mode for asynchronous message delivery to its
+consumers. When the connection is started, all its sessions that have
+created asynchronous consumers are dedicated to the thread of control
+that delivers messages. Client code should not use such a session from
+another thread of control. The only exception to this is the use of
+`MQCloseSession` and `MQCloseConnection`.
+
+[[aelcx]][[GMCCG00325]][[connection-exceptions]]
+
+Connection Exceptions
+^^^^^^^^^^^^^^^^^^^^^
+
+When a connection exception occurs, the Message Queue C library thread
+that is provided to the connection calls its
+`MQConnectionExceptionListenerFunc` callback if one exists. If an
+`MQConnectionExceptionListenerFunc` callback is used for multiple
+connections, it can potentially be called concurrently from different
+connection threads.
+
+You should not call the `MQCloseConnection` function in an
+`MQConnectionExceptionListenerFunc` callback. Instead the callback
+function should notify another thread to call `MQCloseConnection` and
+return.
+
+[[aelcy]][[GMCCG00053]][[managing-physical-destination-limits]]
+
+Managing Physical Destination Limits
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When creating a topic or queue destination, the administrator can
+specify how the broker should behave when certain memory limits are
+reached. Specifically, when the number of messages reaching a physical
+destination exceeds the number specified with the `maxNumMsgs` property
+or when the total amount of memory allowed for messages exceeds the
+number specified with the `maxTotalMsgBytes` property, the broker takes
+one of the following actions, depending on the setting of the
+`limitBehavior` property:
+
+* Slows message producers (`FLOW_CONTROL`)
+* Throws out the oldest message in memory (`REMOVE_OLDEST`)
+* Throws out the lowest priority message in memory
+(`REMOVE_LOW_PRIORITY`)
+* Rejects the newest messages (`REJECT_NEWEST`)
+
+If the default value `REJECT_NEWEST` is specified for the
+`limitBehavior` property, the broker throws out the newest messages
+received when memory limits are exceeded. If the message discarded is a
+persistent message, the producing client gets an error which you should
+handle by re-sending the message later.
+
+If any of the other values is selected for the `limitBehavior` property
+or if the message is not persistent (or persistent and
+`MQ_ACK_ON_PRODUCE_PROPERTY` is false), the application client is not
+notified if a message is discarded. Application clients should let the
+administrator know how they prefer this property to be set for best
+performance and reliability.
+
+[[aelcz]][[GMCCG00054]][[managing-the-dead-message-queue]]
+
+Managing the Dead Message Queue
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a message is deemed undeliverable, it is automatically placed on a
+special queue called the dead message queue. A message placed on this
+queue retains all of its original headers (including its original
+destination) and information is added to the message's properties to
+explain why it became a dead message. For a description of the
+destination properties and of the broker properties that control the
+system's use of the dead message queue, see "link:../mq-admin-guide/message-delivery.html#GMADG00538[Using the
+Dead Message Queue]" in Open Message Queue Administration Guide.
+
+This section describes the message properties that you can set or
+examine programmatically to determine the following:
+
+* Whether a dead message can be sent to the dead message queue.
+* Whether the broker should log information when a message is destroyed
+or moved to the dead message queue.
+* Whether the body of the message should also be stored when the message
+is placed on the dead message queue.
+* Why the message was placed on the dead message queue and any ancillary
+information.
+
+(Message Queue 5.0 clients can set properties related to the dead
+message queue on messages and send those messages to clients compiled
+against Message Queue 3.5x or earlier versions. However clients
+receiving such messages cannot examine these properties without
+recompiling against Message Queue 5.0 libraries.)
+
+The dead message queue is automatically created by the system and called
+`mq.sys.dmq.` You can write a Java program that uses the metrics
+monitoring API, described in "link:../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015[Using the Metrics
+Monitoring API]" in Open Message Queue Developer's Guide for Java
+Clients. or the JMX API, described in the link:../mq-dev-guide-jmx/toc.html#GMJMG[Open Message Queue
+Developer's Guide for JMX Clients], to determine whether that queue is
+growing, to examine messages on that queue, and so on.
+
+You can set the properties described in link:#gblxz[Table 3-3] for any
+message to control how the broker should handle that message if it deems
+it to be undeliverable. Note that these message properties are needed
+only to override default destination, or default broker-based behavior.
+
+[[GMCCG438]][[sthref22]][[gblxz]]
+
+
+Table 3-3 Message Properties Relating to Dead Message Queue
+
+[width="100%",cols="41%,10%,49%",options="header",]
+|=======================================================================
+|Property |Type |Description
+|`JMS_SUN_PRESERVE_UNDELIVERED` |Boolean a|
+For a dead message, the default value of unset, specifies that the
+message should be handled as specified by the `useDMQ` property of the
+destination to which the message was sent.
+
+A value of `true` overrides the setting of the `useDMQ` property and
+sends the dead message to the dead message queue,.
+
+A value of `false` overrides the setting of the `useDMQ` property and
+prevents the dead message from being placed in the dead message queue.
+
+|`JMS_SUN_LOG_DEAD_MESSAGES` |Boolean a|
+The default value of unset, will behave as specified by the broker
+configuration property `imq.destination.logDeadMsgs`.
+
+A value of `true` overrides the setting of the
+`imq.destination.logDeadMsgs` broker property and specifies that the
+broker should log the action of removing a message or moving it to the
+dead message queue.
+
+A value of `false` overrides the setting of the
+`imq.destination.logDeadMsgs` broker property and specifies that the
+broker should not log these actions.
+
+|`JMS_SUN_TRUNCATE_MSG_BODY` |Boolean a|
+The default value of unset, will behave as specified by the broker
+property `imq.destination.DMQ.truncateBody`.
+
+A value of `true` overrides the setting of the
+`imq.destination.DMQ.truncateBody` property and specifies that the body
+of the message should be discarded when the message is placed in the
+dead message queue.
+
+A value of `false` overrides the setting of the
+`imq.destination.DMQ.truncateBody` property and specifies that the body
+of the message should be stored along with the message header and
+properties when the message is placed in the dead message queue.
+
+|=======================================================================
+
+
+The properties described in link:#gblyf[Table 3-4] are set by the client
+runtime for a message placed in the dead message queue.
+
+[[GMCCG439]][[sthref23]][[gblyf]]
+
+
+Table 3-4 Dead Message Properties
+
+[width="100%",cols="48%,10%,42%",options="header",]
+|=======================================================================
+|Property |Type |Description
+|`JMS_SUN_DMQ_DELIVERY_COUNT` |Integer |Specifies the most number of
+times the message was delivered to a given consumer. This value is set
+only for `ERROR` or `UNDELIVERABLE` messages.
+
+|`JMS_SUN_DMQ_UNDELIVERED_TIMESTAMP` |Long |Specifies the time (in
+milliseconds) when the message was placed on the dead message queue.
+
+|`JMS_SUN_DMQ_UNDELIVERED_REASON` |String a|
+Specifies one of the following values to indicate the reason why the
+message was placed on the dead message queue:
+
+* `OLDEST`
+* `LOW_PRIORITY`
+* `EXPIRED`
+* `UNDELIVERABLE`
+* `ERROR`
+
+If the message was marked dead for multiple reasons, for example it was
+undeliverable and expired, only one reason will be specified by this
+property.
+
+The `ERROR` value is returned when a message cannot be delivered due to
+an internal error; this is an unusual condition. In this case, the
+sender should just resend the message.
+
+|`JMS_SUN_DMQ_PRODUCING_BROKER` |String |For message traffic in broker
+clusters: specifies the name and port number of the broker that sent the
+message. A null value indicates that it was the local broker.
+
+|`JMS_SUN_DMQ_DEAD_BROKER` |String |For message traffic in broker
+clusters: specifies the name and port number of the broker that placed
+the message on the dead message queue. A null value indicates that it
+was the local broker.
+
+|`JMS_SUN_DMQ_UNDELIVERED_EXCEPTION` |String |Specifies the name of the
+exception (if the message was dead because of an exception) on either
+the client or the broker.
+
+|`JMS_SUN_DMQ_UNDELIVERED_COMMENTS` |String |An optional comment
+provided when the message is marked dead.
+
+|`JMS_SUN_DMQ_BODY_TRUNCATED` |Boolean |A value of `true` indicates that
+the message body was not stored. A value of `false` indicates that the
+message body was stored.
+|=======================================================================
+
+
+[[aelda]][[GMCCG00055]][[factors-affecting-performance]]
+
+Factors Affecting Performance
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Application design decisions can have a significant effect on overall
+messaging performance. In general, the more reliable the delivery of
+messages, the more overhead and bandwidth are required to achieve it.
+The trade-off between reliability and performance is a significant
+design consideration. You can maximize performance and throughput by
+choosing to produce and consume non-persistent messages. On the other
+hand, you can maximize reliability by producing and consuming persistent
+messages using a transacted session. Between these extremes are a number
+of options, depending on the needs of your application. This section
+describes how these options or factors affect performance. They include
+the following:
+
+* link:#aeldb[Delivery Mode (Persistent/Non-persistent)]
+* link:#aeldc[Use of Transactions]
+* link:#aeldd[Acknowledgement Mode]
+* link:#aelde[Durable and Non-Durable Subscriptions]
+* link:#aeldf[Use of Selectors (Message Filtering)]
+* link:#aeldg[Message Size]
+* link:#aeldh[Message Type].
+
+link:#gblzp[Table 3-5] summarizes how application design factors affect
+messaging performance. The table shows two scenarios (a high
+reliability, low performance scenario and a high performance, low
+reliability scenario) and the choice of application design factors that
+characterizes each. Between these extremes, there are many choices and
+trade-offs that affect both reliability and performance.
+
+[[GMCCG440]][[sthref24]][[gblzp]]
+
+
+Table 3-5 Comparison of High Reliability and High Performance Scenarios
+
+[width="100%",cols="30%,36%,34%",options="header",]
+|=======================================================================
+|Application Design Factor |High ReliabilityLow Performance Scenario
+|High PerformanceLow Reliability Scenario
+|Delivery mode |Persistent messages |Non-persistent messages
+
+|Use of transactions |Transacted sessions |No transactions
+
+|Acknowledgement mode |`AUTO_ACKNOWLEDGE` or `CLIENT_ACKNOWLEDGE`
+|`DUPS_OK_ACKNOWLEDGE`
+
+|Durable/non-durable subscriptions |Durable subscriptions |Non-durable
+subscriptions
+
+|Use of selectors |Message filtering |No message filtering
+
+|Message size |Small messages |Large messages
+
+|Message body type |Complex body types |Simple body types
+|=======================================================================
+
+
+
+[NOTE]
+=======================================================================
+
+In the discussion that follows, performance data was generated on a
+two-CPU, 1002 Mhz, Solaris 8 system, using file-based persistence. The
+performance test first warmed up the Message Queue broker, allowing the
+Just-In-Time compiler to optimize the system and the persistent database
+to be primed.
+
+Once the broker was warmed up, a single producer and a single consumer
+were created, and messages were produced for 30 seconds. The time
+required for the consumer to receive all produced messages was recorded,
+and a throughput rate (messages per second) was calculated. This
+scenario was repeated for different combinations of the application
+design factors shown in link:#aelda[Factors Affecting Performance].
+
+=======================================================================
+
+
+[[aeldb]][[GMCCG00326]][[delivery-mode-persistentnon-persistent]]
+
+Delivery Mode (Persistent/Non-persistent)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Persistent messages guarantee message delivery in case of message server
+failure. The broker stores these message in a persistent store until all
+intended consumers acknowledge they have consumed the message.
+
+Broker processing of persistent messages is slower than for
+non-persistent messages for the following reasons:
+
+* A broker must reliably store a persistent message so that it will not
+be lost should the broker fail.
+* The broker must confirm receipt of each persistent message it
+receives. Delivery to the broker is guaranteed once the method producing
+the message returns without an exception.
+* Depending on the client acknowledgment mode, the broker might need to
+confirm a consuming client's acknowledgement of a persistent message.
+
+The differences in performance for persistent and non-persistent modes
+can be significant--about 25% faster for non-persistent messages.
+
+[[aeldc]][[GMCCG00327]][[use-of-transactions]]
+
+Use of Transactions
+^^^^^^^^^^^^^^^^^^^
+
+A transaction guarantees that all messages produced or consumed within
+the scope of the transaction will be either processed (committed) or not
+processed (rolled back) as a unit. In general, the overhead of both
+local and distributed transaction processing dwarfs all other
+performance differentiators.
+
+A message produced or consumed within a transaction is slower than those
+produced or consumed outside of a transaction for the following reasons:
+
+* Additional information must be stored with each produced message.
+* In some situations, messages in a transaction are stored when normally
+they would not be. For example, a persistent message delivered to a
+topic destination with no subscriptions would normally be deleted,
+however, at the time the transaction is begun, information about
+subscriptions is not available.
+* Information on the consumption and acknowledgement of messages within
+a transaction must be stored and processed when the transaction is
+committed.
+
+[[aeldd]][[GMCCG00328]][[acknowledgement-mode]]
+
+Acknowledgement Mode
+^^^^^^^^^^^^^^^^^^^^
+
+Other than using transactions, you can ensure reliable delivery by
+having the client acknowledge receiving a message. If a session is
+closed without the client acknowledging the message or if the message
+server fails before the acknowledgment is processed, the broker
+redelivers that message, setting the `MQ_REDELIVERED_HEADER_PROPERTY`
+message header.
+
+For a non-transacted session, the client can choose one of three
+acknowledgement modes, each of which has its own performance
+characteristics:
+
+* `AUTO_ACKNOWLEDGE`. The system automatically acknowledges a message
+once the consumer has processed it. This mode guarantees at most one
+redelivered message after a provider failure.
+* `CLIENT_ACKNOWLEDGE`. The application controls the point at which
+messages are acknowledged. All messages that have been received in the
+same session up to the message where the acknowledge function is called
+upon are acknowledged. If the message server fails while processing a
+set of acknowledgments, one or more messages in that group might be
+redelivered. +
+Note that this behavior models the JMS 1.0.2 specification rather than
+the JMS 1.1 specification +
+(Using `CLIENT_ACKNOWLEDGE` mode is similar to using transactions,
+except there is no guarantee that all acknowledgments will be processed
+together if a provider fails during processing.)
+* `DUPS_OK_ACKNOWLEDGE`. This mode instructs the system to acknowledge
+messages in a lazy manner. Multiple messages can be redelivered after a
+provider failure.
+
+Performance is impacted by acknowledgement mode for the following
+reasons:
+
+* Extra control messages between broker and client are required in
+`AUTO_ACKNOWLEDGE` and `CLIENT_ACKNOWLEDGE` modes. The additional
+control messages add processing overhead and can interfere with JMS
+payload messages, causing processing delays.
+* In `AUTO_ACKNOWLEDGE` and `CLIENT_ACKNOWLEDGE` modes, the client must
+wait until the broker confirms that it has processed the client's
+acknowledgment before the client can consume more messages. (This broker
+confirmation guarantees that the broker will not inadvertently redeliver
+these messages.)
+* The Message Queue persistent store must be updated with the
+acknowledgement information for all persistent messages received by
+consumers, thereby decreasing performance.
+
+In general, our tests show about a 7% difference in performance between
+pesistent and nonpersistent messages, no matter which acknowledgment
+mode is used. That is, while persistence is a significant factor
+affecting performance, acknowledgment mode is not.
+
+[[aelde]][[GMCCG00329]][[durable-and-non-durable-subscriptions]]
+
+Durable and Non-Durable Subscriptions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Subscribers to a topic destination have either durable or non-durable
+subscriptions. Durable subscriptions provide increased reliability at
+the cost of slower throughput for the following reasons:
+
+* The Message Queue message server must persistently store the list of
+messages assigned to each durable subscription so that should a message
+server fail, the list is available after recovery.
+* Persistent messages for durable subscriptions are stored persistently,
+so that should a message server fail, the messages can still be
+delivered after recovery, when the corresponding consumer becomes
+active. By contrast, persistent messages for non-durable subscriptions
+are not stored persistently (should a message server fail, the
+corresponding consumer connection is lost and the message would never be
+delivered).
+
+For nonpersistent messages, performance is about the same for durable
+and non durable subscriptions. For persistent messages, performance is
+about 20% lower for durable subscriptions than for nondurable
+subscriptions.
+
+[[aeldf]][[GMCCG00330]][[use-of-selectors-message-filtering]]
+
+Use of Selectors (Message Filtering)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Application developers can have the messaging provider sort messages
+according to criteria specified in the message selector associated with
+a consumer and deliver to that consumer only those messages whose
+property value matches the message selector. For example, if an
+application creates a subscriber to the topic `WidgetOrders` and
+specifies the expression `NumberOfOrders>1000` for the message selector,
+messages with a `NumberOfOrders` property value of `1001` or more are
+delivered to that subscriber.
+
+Creating consumers with selectors lowers performance (as compared to
+using multiple destinations) because additional processing is required
+to handle each message. When a selector is used, it must be parsed so
+that it can be matched against future messages. Additionally, the
+message properties of each message must be retrieved and compared
+against the selector as each message is routed. However, using selectors
+provides more flexibility in a messaging application and may lower
+resource requirements at the expense of speed.
+
+In our tests, performance results were affected by the use of selectors
+only in the case of nondurable subscribers, which ran about 33% faster
+without selectors. For durable subscribers and for queue consumers,
+performance was not affected by the use of selectors. For more
+information on using selectors, see link:#aelcr[Using Selectors
+Efficiently]
+
+[[aeldg]][[GMCCG00331]][[message-size]]
+
+Message Size
+^^^^^^^^^^^^
+
+Message size affects performance because more data must be passed from
+producing client to broker and from broker to consuming client, and
+because for persistent messages a larger message must be stored.
+
+However, by batching smaller messages into a single message, the routing
+and processing of individual messages can be minimized, providing an
+overall performance gain. In this case, information about the state of
+individual messages is lost.
+
+In our tests we compared performance for persistent and non-persistent
+1k, 10k, and 100k messages. We found that 100k messages were processed
+two to three times faster than 10k messages, and 10k messages were
+processed five to six times faster than 1k messages. For both persistent
+and non-persistent messages, the size of the message affected the
+processing rate much more than its delivery mode. For 1k messages,
+non-persistent messages were almost twice as fast; for 10k messages,
+non-persistent messages were about 33% faster; for 100k messages, non
+persistent messages were about 5% faster. In our tests all messages were
+sent to a queue destination and used the `AUTO_ACKNOWLEDGE`
+acknowledgement mode.
+
+[[aeldh]][[GMCCG00332]][[message-type]]
+
+Message Type
+^^^^^^^^^^^^
+
+The C API supports three message types:
+
+* `MQ_BYTES_MESSAGE`, which contains a set of bytes in a format
+determined by the application
+* `MQ_TEXT_MESSAGE`, which is a simple `MQString`
+* `MQ_MESSAGE`, which contains a header and properties but no body
+
+Since performance varies with the complexity of the data, text messages
+are slightly more expensive to send than byte messages, and messages
+that have no body are the fastest.
+
+

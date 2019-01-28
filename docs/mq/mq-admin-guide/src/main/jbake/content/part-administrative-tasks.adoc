@@ -1,0 +1,42 @@
+type=page
+status=published
+title=Administrative Tasks
+next=starting-brokers-and-clients.html
+prev=quick-start.html
+~~~~~~
+Administrative Tasks
+====================
+
+[[gcrli]][[GMADG00142]][[part-ii]]
+
+Part II +
+---------
+
+[[administrative-tasks]]
+Administrative Tasks
+--------------------
+
+* link:starting-brokers-and-clients.html#aeobu[Chapter 3, "Starting
+Brokers and Clients"]
+* link:broker-configuration.html#aeocl[Chapter 4, "Configuring a Broker"]
+* link:broker-management.html#aeodm[Chapter 5, "Managing a Broker"]
+* link:connection-services.html#gheau[Chapter 6, "Configuring and
+Managing Connection Services"]
+* link:message-delivery.html#ghebf[Chapter 7, "Managing Message
+Delivery"]
+* link:persistence-services.html#gheas[Chapter 8, "Configuring
+Persistence Services"]
+* link:security-services.html#aeoff[Chapter 9, "Configuring and Managing
+Security Services"]
+* link:broker-clusters.html#aeohv[Chapter 10, "Configuring and Managing
+Broker Clusters"]
+* link:administered-objects.html#aeogu[Chapter 11, "Managing Administered
+Objects"]
+* link:bridge-services.html#gjdnl[Chapter 12, "Configuring and Managing
+Bridge Services"]
+* link:monitoring.html#aeoik[Chapter 13, "Monitoring Broker Operations"]
+* link:tuning.html#aeojg[Chapter 14, "Analyzing and Tuning a Message
+Service"]
+* link:troubleshooting.html#aeold[Chapter 15, "Troubleshooting"]
+
+
