@@ -1,0 +1,1390 @@
+type=page
+status=published
+title=Alphabetical Reference
+prev=mbean-reference.html
+~~~~~~
+Alphabetical Reference
+======================
+
+[[GMJMG00005]][[gcoee]]
+
+
+[[a-alphabetical-reference]]
+A Alphabetical Reference
+------------------------
+
+link:#gcodk[Table A-1] is an alphabetical list of Message Queue JMX
+MBean attributes, with cross-references to the relevant tables in this
+manual.
+
+[[GMJMG299]][[sthref124]][[gcodk]]
+
+
+Table A-1 Alphabetical List of MBean Attributes
+
+[width="100%",cols="52%,35%,13%",options="header",]
+|=======================================================================
+|Attribute |MBean |Reference
+|`AutoCreateQueueMaxNumActiveConsumers` |Destination Manager
+Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`AutoCreateQueueMaxNumBackupConsumers` |Destination Manager
+Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`AutoCreateQueues` |Destination Manager Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`AutoCreateTopics` |Destination Manager Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`AvgNumActiveConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`AvgNumBackupConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`AvgNumConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`AvgNumMsgs` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`AvgTotalMsgBytes` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`BrokerID` a|
+Broker Configuration
+
+Broker Monitor
+
+ a|
+link:mbean-reference.html#gbaaa[Table 3-1]
+
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`ClientID` |Connection Monitor a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+
+|`ClientPlatform` |Connection Monitor a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+
+|`ClusterID` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabo[Table 3-74]
+
+link:mbean-reference.html#gbadk[Table 3-79]
+
+
+|`ConfigFileURL` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabo[Table 3-74]
+
+link:mbean-reference.html#gbadk[Table 3-79]
+
+
+|`ConnectionID` a|
+Connection Configuration
+
+Connection Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbaay[Table 3-23]
+
+link:mbean-reference.html#gbact[Table 3-24]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`ConsumerFlowLimit` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`CreatedByAdmin` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`DiskReserved` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`DiskUsed` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`DiskUtilizationRatio` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`DMQTruncateBody` |Destination Manager Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`Embedded` |Broker Monitor a|
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`FreeMemory` |JVM Monitor a|
+link:mbean-reference.html#gbadq[Table 3-90]
+
+
+|`HighlyAvailable` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabo[Table 3-74]
+
+link:mbean-reference.html#gbadk[Table 3-79]
+
+
+|`Host` |Connection Monitor a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+
+|`InitMemory` |JVM Monitor a|
+link:mbean-reference.html#gbadq[Table 3-90]
+
+
+|`InstanceName` a|
+Broker Configuration
+
+Broker Monitor
+
+ a|
+link:mbean-reference.html#gbaaa[Table 3-1]
+
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`Level` |Log Configuration a|
+link:mbean-reference.html#gbabr[Table 3-85]
+
+
+|`LimitBehavior` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`LocalBrokerInfo` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabo[Table 3-74]
+
+link:mbean-reference.html#gbadk[Table 3-79]
+
+
+|`LocalDeliveryPreferred` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`LocalOnly` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`LogDeadMsgs` |Destination Manager Configuration a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`MasterBrokerInfo` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabo[Table 3-74]
+
+link:mbean-reference.html#gbadk[Table 3-79]
+
+
+|`MaxBytesPerMsg` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`MaxMemory` |JVM Monitor a|
+link:mbean-reference.html#gbadq[Table 3-90]
+
+
+|`MaxNumActiveConsumers` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`MaxNumBackupConsumers` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`MaxNumMsgs` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`MaxNumProducers` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`MaxThreads` a|
+Service Configuration
+
+Service Manager Configuration
+
+ a|
+link:mbean-reference.html#gbaav[Table 3-8]
+
+link:mbean-reference.html#gbaad[Table 3-17]
+
+
+|`MaxTotalMsgBytes` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+
+|`MinThreads` a|
+Service Configuration
+
+Service Manager Configuration
+
+ a|
+link:mbean-reference.html#gbaav[Table 3-8]
+
+link:mbean-reference.html#gbaad[Table 3-17]
+
+
+|`MsgBytesIn` a|
+Destination Monitor
+
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`MsgBytesOut` a|
+Destination Monitor
+
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`Name` a|
+Destination Configuration
+
+Destination Monitor
+
+Service Configuration
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaav[Table 3-8]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NextMessageID` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumActiveConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumActiveThreads` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumBackupConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumConnections` a|
+Connection Manager Configuration
+
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaag[Table 3-26]
+
+link:mbean-reference.html#gbacb[Table 3-28]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumConnectionsOpened` a|
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacb[Table 3-28]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumConnectionsRejected` a|
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacb[Table 3-28]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumConsumers` a|
+Connection Monitor
+
+Consumer Manager Configuration
+
+Consumer Manager Monitor
+
+Destination Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+link:mbean-reference.html#gbaam[Table 3-59]
+
+link:mbean-reference.html#gbach[Table 3-61]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumDestinations` a|
+Destination Manager Configuration
+
+Destination Manager Monitor
+
+ a|
+link:mbean-reference.html#gbaaj[Table 3-44]
+
+link:mbean-reference.html#gbace[Table 3-49]
+
+
+|`NumMsgs` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbace[Table 3-49]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumMsgsHeldInTransaction` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumMsgsIn` a|
+Destination Monitor
+
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumMsgsInDMQ` |Destination Manager Monitor a|
+link:mbean-reference.html#gbace[Table 3-49]
+
+
+|`NumMsgsOut` a|
+Destination Monitor
+
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumMsgsPendingAcks` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumMsgsRemote` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumPktsIn` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumPktsOut` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumProducers` a|
+Connection Monitor
+
+Destination Monitor
+
+Producer Manager Configuration
+
+Producer Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbaap[Table 3-53]
+
+link:mbean-reference.html#gback[Table 3-55]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`NumServices` |Service Manager Monitor a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+
+|`NumTransactions` a|
+Transaction Manager Configuration
+
+Transaction Manager Monitor
+
+ a|
+link:mbean-reference.html#gbaas[Table 3-66]
+
+link:mbean-reference.html#gbacn[Table 3-68]
+
+
+|`NumTransactionsCommitted` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbacn[Table 3-68]
+
+
+|`NumTransactionsRollback` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbacn[Table 3-68]
+
+
+|`NumWildcards` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumWildcardConsumers` a|
+Consumer Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbach[Table 3-61]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`NumWildcardProducers` a|
+Producer Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gback[Table 3-55]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakMsgBytes` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakNumActiveConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakNumBackupConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakNumConsumers` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakNumMsgs` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PeakTotalMsgBytes` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`PktBytesIn` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`PktBytesOut` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaby[Table 3-19]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`Port` a|
+Broker Configuration
+
+Broker Monitor
+
+Connection Monitor
+
+Service Configuration
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaaa[Table 3-1]
+
+link:mbean-reference.html#gbabu[Table 3-4]
+
+link:mbean-reference.html#gbact[Table 3-24]
+
+link:mbean-reference.html#gbaav[Table 3-8]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`ResourceState` |Broker Monitor a|
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`ReloadXMLSchemaOn Failure` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`ResourceState` |Broker Monitor a|
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`RolloverBytes` |Log Configuration a|
+link:mbean-reference.html#gbabr[Table 3-85]
+
+
+|`RolloverSecs` |Log Configuration a|
+link:mbean-reference.html#gbabr[Table 3-85]
+
+
+|`ServiceName` |Connection Monitor a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+
+|`State` a|
+Destination Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`StateLabel` a|
+Destination Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+link:mbean-reference.html#gbacq[Table 3-12]
+
+
+|`Temporary` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`ThreadPoolModel` |Service Configuration a|
+link:mbean-reference.html#gbaav[Table 3-8]
+
+
+|`TotalMemory` |JVM Monitor a|
+link:mbean-reference.html#gbadq[Table 3-90]
+
+
+|`TotalMsgBytes` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbace[Table 3-49]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`TotalMsgBytesRemote` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`TotalMsgBytesHeldInTransaction` |Destination Monitor a|
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`TotalMsgBytesInDMQ` |Destination Manager Monitor a|
+link:mbean-reference.html#gbace[Table 3-49]
+
+
+|`Type` a|
+Destination Configuration
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+link:mbean-reference.html#gbacw[Table 3-38]
+
+
+|`UseDMQ` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`User` |Connection Monitor a|
+link:mbean-reference.html#gbact[Table 3-24]
+
+
+|`ValidateXMLSchemaEnabled` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|`Version` a|
+Broker Configuration
+
+Broker Monitor
+
+ a|
+link:mbean-reference.html#gbaaa[Table 3-1]
+
+link:mbean-reference.html#gbabu[Table 3-4]
+
+
+|`XMLSchemaURIList` |Destination Configuration a|
+link:mbean-reference.html#gbabb[Table 3-32]
+
+
+|=======================================================================
+
+
+link:#gcocr[Table A-2] is an alphabetical list of Message Queue JMX
+MBean operations, with cross-references to the relevant tables in this
+manual.
+
+[[GMJMG300]][[sthref125]][[gcocr]]
+
+
+Table A-2 Alphabetical List of MBean Operations
+
+[width="100%",cols="35%,52%,13%",options="header",]
+|========================================================
+|Operation |MBean |Reference
+|`commit` |Transaction Manager Configuration a|
+link:mbean-reference.html#gbaat[Table 3-67]
+
+
+|`compact` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabc[Table 3-35]
+
+link:mbean-reference.html#gbaak[Table 3-45]
+
+
+|`create` |Destination Manager Configuration a|
+link:mbean-reference.html#gbaak[Table 3-45]
+
+
+|`destroy` a|
+Connection Manager Configuration
+
+Destination Manager Configuration
+
+ a|
+link:mbean-reference.html#gbaah[Table 3-27]
+
+link:mbean-reference.html#gbaak[Table 3-45]
+
+
+|`getActiveConsumerIDs` |Destination Monitor a|
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getBackupConsumerIDs` |Destination Monitor a|
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getBrokerAddresses` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+link:mbean-reference.html#gbadl[Table 3-80]
+
+
+|`getBrokerIDs` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+link:mbean-reference.html#gbadl[Table 3-80]
+
+
+|`getBrokerInfo` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+link:mbean-reference.html#gbadl[Table 3-80]
+
+
+|`getBrokerInfoByAddress` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+link:mbean-reference.html#gbadl[Table 3-80]
+
+
+|`getBrokerInfoByID` a|
+Cluster Configuration
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+link:mbean-reference.html#gbadl[Table 3-80]
+
+
+|`getConnection` |Destination Monitor a|
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getConnections` a|
+Connection Manager Configuration
+
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaah[Table 3-27]
+
+link:mbean-reference.html#gbacc[Table 3-29]
+
+link:mbean-reference.html#gbacr[Table 3-14]
+
+
+|`getConsumerIDs` a|
+Connection Monitor
+
+Consumer Manager Configuration
+
+Consumer Manager Monitor
+
+Destination Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacu[Table 3-25]
+
+link:mbean-reference.html#gbaan[Table 3-60]
+
+link:mbean-reference.html#gbaci[Table 3-62]
+
+link:mbean-reference.html#gbacx[Table 3-41]
+
+link:mbean-reference.html#gbacr[Table 3-14]
+
+
+|`getConsumerInfo` |Consumer Manager Monitor a|
+link:mbean-reference.html#gbaci[Table 3-62]
+
+
+|`getConsumerInfoByID` |Consumer Manager Monitor a|
+link:mbean-reference.html#gbaci[Table 3-62]
+
+
+|`getConsumerWildcards` a|
+Consumer Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbaci[Table 3-62]
+
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getDestinations` a|
+Destination Manager Configuration
+
+Destination Manager Monitor
+
+ a|
+link:mbean-reference.html#gbaak[Table 3-45]
+
+link:mbean-reference.html#gbacf[Table 3-50]
+
+
+|`getNumWildcardConsumers` a|
+Consumer Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbaci[Table 3-62]
+
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getNumWildcardProducers` a|
+Producer Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbacl[Table 3-56]
+
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`getProducerIDs` a|
+Connection Monitor
+
+Destination Monitor
+
+Producer Manager Configuration
+
+Producer Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacu[Table 3-25]
+
+link:mbean-reference.html#gbacx[Table 3-41]
+
+link:mbean-reference.html#gbaaq[Table 3-54]
+
+link:mbean-reference.html#gbacl[Table 3-56]
+
+link:mbean-reference.html#gbacr[Table 3-14]
+
+
+|`getProducerInfo` |Producer Manager Monitor a|
+link:mbean-reference.html#gbacl[Table 3-56]
+
+
+|`getProducerInfoByID` |Producer Manager Monitor a|
+link:mbean-reference.html#gbacl[Table 3-56]
+
+
+|`getProducerWildcards` a|
+Destination Monitor
+
+Producer Manager
+
+ a|
+link:mbean-reference.html#gbacx[Table 3-41]
+
+link:mbean-reference.html#gbacl[Table 3-56]
+
+
+|`getProperty` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`getService` |Connection Monitor a|
+link:mbean-reference.html#gbacu[Table 3-25]
+
+
+|`getServices` a|
+Service Manager Configuration
+
+Service Manager Monitor
+
+ a|
+link:mbean-reference.html#gbaae[Table 3-18]
+
+link:mbean-reference.html#gbabz[Table 3-20]
+
+
+|`getTemporaryDestinations` |Connection Monitor a|
+link:mbean-reference.html#gbacu[Table 3-25]
+
+
+|`getTransactionIDs` a|
+Transaction Manager Configuration
+
+Transaction Manager Monitor
+
+ a|
+link:mbean-reference.html#gbaat[Table 3-67]
+
+link:mbean-reference.html#gbaco[Table 3-69]
+
+
+|`getTransactionInfo` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbaco[Table 3-69]
+
+
+|`getTransactionInfoByID` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbaco[Table 3-69]
+
+
+|`getWildcards` |Destination Monitor a|
+link:mbean-reference.html#gbacx[Table 3-41]
+
+
+|`pause` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+Service Configuration
+
+Service Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabc[Table 3-35]
+
+link:mbean-reference.html#gbaak[Table 3-45]
+
+link:mbean-reference.html#gbaaw[Table 3-9]
+
+link:mbean-reference.html#gbaae[Table 3-18]
+
+
+|`purge` a|
+Consumer Manager Configuration
+
+Destination Configuration
+
+ a|
+link:mbean-reference.html#gbaan[Table 3-60]
+
+link:mbean-reference.html#gbabc[Table 3-35]
+
+
+|`quiesce` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`reload` |Cluster Configuration a|
+link:mbean-reference.html#gbabp[Table 3-75]
+
+
+|`resetMetrics` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`restart` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`resume` a|
+Destination Configuration
+
+Destination Manager Configuration
+
+Service Configuration
+
+Service Manager Configuration
+
+ a|
+link:mbean-reference.html#gbabc[Table 3-35]
+
+link:mbean-reference.html#gbaak[Table 3-45]
+
+link:mbean-reference.html#gbaaw[Table 3-9]
+
+link:mbean-reference.html#gbaae[Table 3-18]
+
+
+|`rollback` |Transaction Manager Configuration a|
+link:mbean-reference.html#gbaat[Table 3-67]
+
+
+|`shutdown` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`takeover` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|`unquiesce` |Broker Configuration a|
+link:mbean-reference.html#gbaab[Table 3-2]
+
+
+|========================================================
+
+
+link:#gcodj[Table A-3] is an alphabetical list of Message Queue JMX
+MBean notifications, with cross-references to the relevant tables in
+this manual.
+
+[[GMJMG301]][[sthref126]][[gcodj]]
+
+
+Table A-3 Alphabetical List of MBean Notifications
+
+[width="100%",cols="45%,42%,13%",options="header",]
+|=========================================================
+|Notification |MBean |Reference
+|`jmx.attribute.change` a|
+Broker Configuration
+
+Cluster Configuration
+
+Destination Configuration
+
+Destination Manager Configuration
+
+Log Configuration
+
+Service Configuration
+
+ a|
+link:mbean-reference.html#gbaac[Table 3-3]
+
+link:mbean-reference.html#gbabq[Table 3-78]
+
+link:mbean-reference.html#gbabd[Table 3-37]
+
+link:mbean-reference.html#gbaal[Table 3-48]
+
+link:mbean-reference.html#gbabt[Table 3-87]
+
+link:mbean-reference.html#gbaax[Table 3-10]
+
+
+|`mq.broker.quiesce.complete` |Broker Monitor a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+
+|`mq.broker.quiesce.start` |Broker Monitor a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+
+|`mq.broker.resource.state.change` |Broker Monitor a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+
+|`mq.broker.shutdown.start` |Broker Monitor a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+
+|`mq.broker.takeover.complete` a|
+Broker Monitor
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+link:mbean-reference.html#gbadm[Table 3-83]
+
+
+|`mq.broker.takeover.fail` a|
+Broker Monitor
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+link:mbean-reference.html#gbadm[Table 3-83]
+
+
+|`mq.broker.takeover.start` a|
+Broker Monitor
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+link:mbean-reference.html#gbadm[Table 3-83]
+
+
+|`mq.cluster.broker.down` |Cluster Monitor a|
+link:mbean-reference.html#gbadm[Table 3-83]
+
+
+|`mq.cluster.broker.join` a|
+Broker Monitor
+
+Cluster Monitor
+
+ a|
+link:mbean-reference.html#gbabx[Table 3-5]
+
+link:mbean-reference.html#gbadm[Table 3-83]
+
+
+|`mq.connection.close` a|
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacd[Table 3-30]
+
+link:mbean-reference.html#gbacs[Table 3-15]
+
+
+|`mq.connection.open` a|
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacd[Table 3-30]
+
+link:mbean-reference.html#gbacs[Table 3-15]
+
+
+|`mq.connection.reject` a|
+Connection Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbacd[Table 3-30]
+
+link:mbean-reference.html#gbacs[Table 3-15]
+
+
+|`mq.destination.compact` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+link:mbean-reference.html#gbacy[Table 3-42]
+
+
+|`mq.destination.create` |Destination Manager Monitor a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+
+|`mq.destination.destroy` |Destination Manager Monitor a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+
+|`mq.destination.pause` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+link:mbean-reference.html#gbacy[Table 3-42]
+
+
+|`mq.destination.purge` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+link:mbean-reference.html#gbacy[Table 3-42]
+
+
+|`mq.destination.resume` a|
+Destination Manager Monitor
+
+Destination Monitor
+
+ a|
+link:mbean-reference.html#gbacg[Table 3-51]
+
+link:mbean-reference.html#gbacy[Table 3-42]
+
+
+|`mq.log.level.ERROR` |Log Monitor a|
+link:mbean-reference.html#gbadp[Table 3-88]
+
+
+|`mq.log.level.INFO` |Log Monitor a|
+link:mbean-reference.html#gbadp[Table 3-88]
+
+
+|`mq.log.level.WARNING` |Log Monitor a|
+link:mbean-reference.html#gbadp[Table 3-88]
+
+
+|`mq.service.pause` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaca[Table 3-21]
+
+link:mbean-reference.html#gbacs[Table 3-15]
+
+
+|`mq.service.resume` a|
+Service Manager Monitor
+
+Service Monitor
+
+ a|
+link:mbean-reference.html#gbaca[Table 3-21]
+
+link:mbean-reference.html#gbacs[Table 3-15]
+
+
+|`mq.transaction.commit` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbacp[Table 3-72]
+
+
+|`mq.transaction.prepare` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbacp[Table 3-72]
+
+
+|`mq.transaction.rollback` |Transaction Manager Monitor a|
+link:mbean-reference.html#gbacp[Table 3-72]
+
+
+|=========================================================
+
+
+

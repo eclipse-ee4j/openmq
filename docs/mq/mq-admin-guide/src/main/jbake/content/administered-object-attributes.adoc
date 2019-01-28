@@ -1,0 +1,589 @@
+type=page
+status=published
+title=Administered Object Attribute Reference
+next=jmsra-properties.html
+prev=physical-destination-properties.html
+~~~~~~
+Administered Object Attribute Reference
+=======================================
+
+[[GMADG00050]][[aeood]]
+
+
+[[administered-object-attribute-reference]]
+19 Administered Object Attribute Reference
+------------------------------------------
+
+This chapter provides reference information about the attributes of
+administered objects. It consists of the following sections:
+
+* link:#aeooe[Connection Factory Attributes]
+* link:#aeool[Destination Attributes]
+
+[[aeooe]][[GMADG00298]][[connection-factory-attributes]]
+
+Connection Factory Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The attributes of a connection factory object are grouped into
+categories described in the following sections below:
+
+* link:#aeoof[Connection Handling]
+* link:#aeoog[Client Identification]
+* link:#aeooh[Reliability and Flow Control]
+* link:#aeooi[Queue Browser and Server Sessions]
+* link:#aeooj[Standard Message Properties]
+* link:#aeook[Message Header Overrides]
+
+[[aeoof]][[GMADG00622]][[connection-handling]]
+
+Connection Handling
+^^^^^^^^^^^^^^^^^^^
+
+link:#gbnnx[Table 19-1] lists the connection factory attributes for
+connection handling.
+
+[[GMADG783]][[sthref218]][[gbnnx]]
+
+
+Table 19-1 Connection Factory Attributes for Connection Handling
+
+[width="100%",cols="25%,10%,15%,50%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqAddressList` |String |An existing Message Queue 3.0 address, if
+any; if none, the first entry in link:#gbnnt[Table 19-2] a|
+List of broker addresses
+
+The list consists of one or more addresses, separated by commas. Each
+address specifies (or implies) the host name, port number, and
+connection service for a broker instance to which the client can
+connect. Address syntax varies depending on the connection service and
+port assignment method; see below for details.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+Note: In an enhanced broker cluster, the value of this attribute is
+updated dynamically as brokers enter and leave the cluster, so that it
+always reflects the cluster's current membership.
+
+|`imqAddressListBehavior` |String |`PRIORITY` a|
+Order in which to attempt connection to broker addresses:
+
+* `PRIORITY`: Order specified in address list
+* `RANDOM`: Random order
+
+Note: If many clients share the same connection factory, specify random
+connection order to prevent them from all attempting to connect to the
+same address.
+
+|`imqAddressListIterations` |Integer |`1` a|
+Number of times to iterate through address list attempting to establish
+or reestablish a connection
+
+A value of `-1` denotes an unlimited number of iterations.
+
+Note: In the event of broker failure in an enhanced broker cluster, this
+attribute is ignored and the Message Queue client runtime iterates
+through the address list indefinitely until it succeeds in reconnecting
+to a takeover broker. The effect is equivalent to an
+`imqAddressListIterations` value of `-1`, overriding any other explicit
+or default setting of this attribute. The only way for a client
+application to avoid this behavior is to close the connection explicitly
+on broker failure.
+
+|`imqPingInterval` |Integer |`30` a|
+Interval, in seconds, at which to test connection between client and
+broker
+
+A value of `0` or `-1` disables periodic testing of the connection.
+
+|`imqReconnectEnabled` |Boolean |`false` a|
+Attempt to reestablish a lost connection?
+
+Note: In the event of broker failure in an enhanced broker cluster, this
+attribute is ignored and automatic reconnection is always attempted. The
+effect is equivalent to an `imqReconnectEnabled` value of `true`,
+overriding any other explicit or default setting of this attribute. The
+only way for a client application to avoid this behavior is to close the
+connection explicitly on broker failure.
+
+|`imqReconnectAttempts` |Integer |`0` a|
+Number of times to attempt connection (or reconnection) to each address
+in address list before moving on to next
+
+A value of `-1` denotes an unlimited number of connection attempts:
+attempt repeatedly to connect to first address until successful. For
+example, in an enhanced broker cluster, this value will allow for
+connection to the failover broker.
+
+|`imqReconnectInterval` |Long integer |`3000` a|
+Interval, in milliseconds, between reconnection attempts
+
+This value applies both for successive attempts on a given address and
+for successive addresses in the list.
+
+Note: Too small a value may give the broker insufficient recovery time;
+too large a value may cause unacceptable connection delays.
+
+|`imqSocketConnectTimeout` |Long integer |`0` a|
+Socket timeout, in milliseconds, used when a TCP connection is made to
+the broker
+
+This value applies when connecting to the port mapper as well as when
+connecting to the required service.
+
+The timeout value `0` (zero) denotes an infinite timeout, in which case
+the connection will block until it is established or an error occurs.
+
+|`imqSSLIsHostTrusted` |Boolean |`false` a|
+Trust any certificate presented by broker?
+
+If `false`, the Message Queue client runtime will validate all
+certificates presented to it. Validation will fail if the signer of the
+certificate is not in the client's trust store.
+
+If `true`, validation of certificates is skipped. This can be useful,
+for instance, during software testing when a self-signed certificate is
+used.
+
+NOTE: To use signed certificates from a certification authority, set
+this attribute to `false`.
+
+|=======================================================================
+
+
+The value of the `imqAddressList` attribute is a comma-separated string
+specifying one or more broker addresses to which to connect. The general
+syntax for each address is as follows:
+
+[source,oac_no_warn]
+----
+scheme:// address
+----
+
+where scheme identifies one of the addressing schemes shown in the first
+column of link:#gbnnt[Table 19-2] and address denotes the broker address
+itself. The exact syntax for specifying the address depends on the
+addressing scheme, as shown in the last column of the table.
+
+[[GMADG784]][[sthref219]][[gbnnt]]
+
+
+Table 19-2 Message Broker Addressing Schemes
+
+[width="163%",cols="44%,6%,28%,22%",options="header",]
+|=======================================================================
+|Scheme |Service |Syntax |Description
+|`mq` |`jms` or `ssljms` |[hostName][`:`portNumber][`/`serviceName] a|
+Assign port dynamically for `jms` or `ssljms` connection service
+
+The address list entry specifies the host name and port number for the
+Message Queue Port Mapper. The Port Mapper itself dynamically assigns a
+port to be used for the connection.
+
+Default values:
+
+* hostName = `localhost`
+* portNumber = `7676`
+* serviceName = `jms`
+
+For the `ssljms` connection service, all variables must be specified
+explicitly.
+
+Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to http://www.ietf.org/rfc/rfc2732.txt[RFC2732], Format for
+Literal IPv6 Addresses in URL's.
+
+|`mqtcp` |`jms` |hostName`:`portNumber`/jms` a|
+Connect to specified port using `jms` connection service
+
+Bypasses the Port Mapper and makes a TCP connection directly to the
+specified host name and port number.
+
+|`mqssl` |`ssljms` |hostName`:`portNumber`/ssljms` a|
+Connect to specified port using `ssljms` connection service
+
+Bypasses the Port Mapper and makes a secure SSL connection directly to
+the specified host name and port number.
+
+|`http` |`httpjms` a|
+`http://`hostName`:`portNumber`/`contextRoot`/tunnel`
+
+If multiple broker instances use the same tunnel servlet, the following
+syntax connects to a specific broker instance rather than a randomly
+selected one:
+
+`http://`hostName`:`portNumber`/`contextRoot`/tunnel?`
+
+* `ServerName=`hostName`:`instanceName
+
+ a|
+Connect to specified port using `httpjms` connection service
+
+Makes an HTTP connection to a Message Queue tunnel servlet at the
+specified URL. The broker must be configured to access the HTTP tunnel
+servlet.
+
+|`https` |`httpsjms` a|
+`https://`hostName`:`portNumber`/`contextRoot`/tunnel`
+
+If multiple broker instances use the same tunnel servlet, the following
+syntax connects to a specific broker instance rather than a randomly
+selected one:
+
+`https://`hostName`:`portNumber`/`contextRoot`/tunnel?`
+
+* `ServerName=`hostName`:`instanceName
+
+ a|
+Connect to specified port using `httpsjms` connection service
+
+Makes a secure HTTPS connection to a Message Queue tunnel servlet at the
+specified URL. The broker must be configured to access the HTTPS tunnel
+servlet.
+
+|=======================================================================
+
+
+[[GMADG785]][[sthref220]][[gbnna]]
+
+
+Table 19-3 Message Broker Address Examples
+
+[width="100%",cols="18%,18%,28%,36%",options="header",]
+|=======================================================================
+|Service |Broker Host |Port |Example Address
+|Not specified |Not specified |Not specified |No address
+(`mq://localHost:7676/jms`)
+
+|Not specified |Specified host |Not specified |`myBkrHost`
+(`mq://myBkrHost:7676/jms`)
+
+|Not specified |Not specified |Specified Port Mapper port |`1012`
+(`mq://localHost:1012/jms`)
+
+|`ssljms` |Local host |Standard Port Mapper port
+|`mq://localHost:7676/ssljms`
+
+|`ssljms` |Specified host |Standard Port Mapper port
+|`mq://myBkrHost:7676/ssljms`
+
+|`ssljms` |Specified host |Specified Port Mapper port
+|`mq://myBkrHost:1012/ssljms`
+
+|`jms` |Local host |Specified service port |`mqtcp://localhost:1032/jms`
+
+|`ssljms` |Specified host |Specified service port
+|`mqssl://myBkrHost:1034/ssljms`
+
+|`httpjms` |Not applicable |Not applicable
+|`http://websrvr1:8085/imq/tunnel`
+
+|`httpsjms` |Not applicable |Not applicable
+|`https://websrvr2:8090/imq/tunnel`
+|=======================================================================
+
+
+[[aeoog]][[GMADG00623]][[client-identification]]
+
+Client Identification
+^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnnu[Table 19-4] lists the connection factory attributes for
+client identification.
+
+[[GMADG786]][[sthref221]][[gbnnu]]
+
+
+Table 19-4 Connection Factory Attributes for Client Identification
+
+[width="100%",cols="30%,10%,10%,50%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqDefaultUsername` |String |`guest` |Default user name for
+authenticating with broker
+
+|`imqDefaultPassword` |String |`guest` |Default password for
+authenticating with broker
+
+|`imqConfiguredClientID` |String |`null` |Administratively configured
+client identifier
+
+|`imqDisableSetClientID` |Boolean |`false` |Prevent client from changing
+client identifier using `setClientID` method?
+|=======================================================================
+
+
+[[aeooh]][[GMADG00624]][[reliability-and-flow-control]]
+
+Reliability and Flow Control
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnob[Table 19-5] lists the connection factory attributes for
+reliability and flow control.
+
+[[GMADG787]][[sthref222]][[gbnob]]
+
+
+Table 19-5 Connection Factory Attributes for Reliability and Flow
+Control
+
+[width="100%",cols="30%,10%,10%,50%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqAbortOnPingAckTimeout` |Boolean |`false` a|
+Should the connection to the broker be aborted when `imqPingAckTimeout`
+milliseconds have passed?
+
+If the connection is aborted, the Message Queue Client Runtime operates
+as though the connection to the broker were broken.
+
+|`imqAckTimeout` |String |`0` a|
+Maximum time, in milliseconds, to wait for broker acknowledgment before
+throwing an exception
+
+A value of `0` denotes no timeout (wait indefinitely).
+
+Note: In some situations, too low a value can cause premature timeout:
+for example, initial authentication of a user against an LDAP user
+repository using a secure (SSL) connection can take more than 30
+seconds.
+
+|`imqAsyncSendCompletionWaitTimeout` |Long |180000 |The minimum amount
+of time, in milliseconds, that a MQ client waits for an asynchronous
+send to complete before calling `CompletionListener.onException`.
+
+|`imqConnectionFlowCount` |Integer |`100` a|
+Number of payload messages in a metered batch
+
+Delivery of payload messages to the client is temporarily suspended
+after this number of messages, allowing any accumulated control messages
+to be delivered. Payload message delivery is resumed on notification by
+the client runtime, and continues until the count is again reached.
+
+A value of `0` disables metering of message delivery and may cause
+Message Queue control messages to be blocked by heavy payload message
+traffic.
+
+|`imqConnectionFlowLimitEnabled` |Boolean |`false` |Limit message flow
+at connection level?
+
+|`imqConnectionFlowLimit` |Integer |`1000` a|
+Maximum number of messages per connection to deliver and buffer for
+consumption
+
+Message delivery on a connection stops when the number of unconsumed
+payload messages pending (subject to flow metering governed by
+`imqConnectionFlowCount`) exceeds this limit. Delivery resumes only when
+the number of pending messages falls below the limit. This prevents the
+client from being overwhelmed with pending messages that might cause it
+to run out of memory.
+
+This attribute is ignored if `imqConnectionFlowLimitEnabled` is `false`.
+
+|`imqConsumerFlowLimitPrefetch` |Boolean |`true` a|
+Is message prefetching and buffering as specified by
+`imqConsumerFlowLimit` and `imqConsumerFlowThreshold` enabled?
+
+When set to `false`, message prefetching and buffering is disabled, and
+each consumer is delivered one message at a time, which can give rise to
+a number of performance issues.
+
+This property should be set to `false` only when business logic demands
+that each consumer have only one message at a time.
+
+|`imqConsumerFlowLimit` |Integer |`1000` a|
+Maximum number of messages per consumer to deliver and buffer for
+consumption
+
+Message delivery to a given consumer stops when the number of unconsumed
+payload messages pending for that consumer exceeds this limit. Delivery
+resumes only when the number of pending messages for the consumer falls
+below the percentage specified by `imqConsumerFlowThreshold`. This can
+be used to improve load balancing among multiple consumers and prevent
+any single consumer from starving others on the same connection.
+
+A value of `0` or `-1` denotes an unlimited number of messages.
+
+This limit can be overridden by a lower value set for a queue's own
+`consumerFlowLimit` attribute (see
+link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference]). Note also that message delivery to all consumers
+on a connection is subject to the overall limit specified by
+`imqConnectionFlowLimit`.
+
+|`imqConsumerFlowThreshold` |Integer |`50` |Number of messages per
+consumer buffered in the client runtime, as a percentage of
+`imqConsumerFlowLimit`, below which to resume message delivery
+
+|`imqPingAckTimeout` |Integer |`0` a|
+Maximum time, in milliseconds, to wait for a ping reply or any data sent
+from the broker since its last ping reply or data sent.
+
+A value of `0` denotes no timeout (wait indefinitely).
+
+This value is ignored if the `imqAbortOnPingAckTimeout` attribute is set
+to `false`.
+
+|=======================================================================
+
+
+[[aeooi]][[GMADG00625]][[queue-browser-and-server-sessions]]
+
+Queue Browser and Server Sessions
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnoh[Table 19-6] lists the connection factory attributes for
+queue browsing and server sessions.
+
+[[GMADG788]][[sthref223]][[gbnoh]]
+
+
+Table 19-6 Connection Factory Attributes for Queue Browser and Server
+Sessions
+
+[width="163%",cols="23%,7%,42%,28%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqQueueBrowserMaxMessagesPerRetrieve` |Integer |`1000` a|
+Maximum number of messages to retrieve at one time when browsing
+contents of a queue destination
+
+Note: This attribute does not affect the total number of messages
+browsed, only the way they are chunked for delivery to the client
+runtime (fewer but larger chunks or more but smaller ones). The client
+application will always receive all messages in the queue. Changing the
+attribute's value may affect performance, but will not affect the total
+amount of data retrieved.
+
+|`imqQueueBrowserRetrieveTimeout` |Long integer |`60000` |Maximum time,
+in milliseconds, to wait to retrieve messages, when browsing contents of
+a queue destination, before throwing an exception
+
+|`imqLoadMaxToServerSession` |Boolean |`true` a|
+Load up to maximum number of messages into a server session?
+
+If `false`, the client will load only a single message at a time.
+
+This attribute applies only to JMS application server facilities.
+
+|=======================================================================
+
+
+[[aeooj]][[GMADG00626]][[standard-message-properties]]
+
+Standard Message Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The connection factory attributes listed in link:#gbnng[Table 19-7]
+control whether the Message Queue client runtime sets certain standard
+message properties defined in the Java Message Service Specification.
+
+[[GMADG789]][[sthref224]][[gbnng]]
+
+
+Table 19-7 Connection Factory Attributes for Standard Message Properties
+
+[width="100%",cols="30%,10%,10%,50%",options="header",]
+|=======================================================================
+|Property |Type |Default Value |Description
+|`imqSetJMSXUserID` |Boolean |`false` |Set `JMSXUserID` property
+(identity of user sending message) for produced messages?
+
+|`imqSetJMSXAppID` |Boolean |`false` |Set `JMSXAppID` property (identity
+of application sending message) for produced messages?
+
+|`imqSetJMSXProducerTXID` |Boolean |`false` |Set `JMSXProducerTXID`
+property (transaction identifier of transaction within which message was
+produced) for produced messages?
+
+|`imqSetJMSXConsumerTXID` |Boolean |`false` |Set `JMSXConsumerTXID`
+property (transaction identifier of transaction within which message was
+consumed) for consumed messages?
+
+|`imqSetJMSXRcvTimestamp` |Boolean |`false` |Set `JMSXRcvTimestamp`
+property (time message delivered to consumer) for consumed messages?
+|=======================================================================
+
+
+[[aeook]][[GMADG00627]][[message-header-overrides]]
+
+Message Header Overrides
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#gbnnd[Table 19-8] lists the connection factory attributes for
+overriding JMS message header fields.
+
+[[GMADG790]][[sthref225]][[gbnnd]]
+
+
+Table 19-8 Connection Factory Attributes for Message Header Overrides
+
+[width="100%",cols="43%,10%,10%,37%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqOverrideJMSDeliveryMode` |Boolean |`false` |Allow client-set
+delivery mode to be overridden?
+
+|`imqJMSDeliveryMode` |Integer |`2` a|
+Overriding value of delivery mode:
+
+`1` Nonpersistent
+
+`2` Persistent
+
+|`imqOverrideJMSExpiration` |Boolean |`false` |Allow client-set
+expiration time to be overridden?
+
+|`imqJMSExpiration` |Long integer |`0` a|
+Overriding value of expiration time, in milliseconds
+
+A value of `0` denotes an unlimited expiration time (message never
+expires).
+
+|`imqOverrideJMSPriority` |Boolean |`false` |Allow client-set priority
+level to be overridden?
+
+|`imqJMSPriority` |Integer |`4` (normal) |Overriding value of priority
+level (`0` to `9`)
+
+|`imqOverrideJMSHeadersToTemporaryDestinations` |Boolean |`false` |Apply
+overrides to temporary destinations?
+|=======================================================================
+
+
+[[aeool]][[GMADG00299]][[destination-attributes]]
+
+Destination Attributes
+~~~~~~~~~~~~~~~~~~~~~~
+
+link:#gbnog[Table 19-9] lists the attributes that can be set for a
+destination administered object.
+
+[[GMADG791]][[sthref226]][[gbnog]]
+
+
+Table 19-9 Destination Attributes
+
+[width="163%",cols="17%,42%,17%,24%",options="header",]
+|=======================================================================
+|Attribute |Type |Default Value |Description
+|`imqDestinationName` |String |`Untitled_Destination_Object` a|
+Name of physical destination
+
+The destination name may contain only alphanumeric characters (no
+spaces) and must begin with an alphabetic character or the underscore
+(`_`) or dollar sign (`$`) character. It may not begin with the
+characters `mq`.
+
+|`imqDestinationDescription` |String |None |Descriptive string for
+destination
+|=======================================================================
+
+
+

@@ -1,0 +1,499 @@
+type=page
+status=published
+title=Introduction to JMX Programming for Message Queue Clients
+next=using-the-jmx-api.html
+prev=preface.html
+~~~~~~
+Introduction to JMX Programming for Message Queue Clients
+=========================================================
+
+[[GMJMG00002]][[gcgvu]]
+
+
+[[introduction-to-jmx-programming-for-message-queue-clients]]
+1 Introduction to JMX Programming for Message Queue Clients
+-----------------------------------------------------------
+
+While Message Queue's Administration Console and command line
+administration utilities allow an administrator to interactively
+configure and monitor Message Queue resources (such as brokers,
+connections, and destinations), these tools are not accessible from
+within a running client application.
+
+To provide programmatic access to such administrative functions, Message
+Queue also incorporates an application programming interface based on
+the Java Management Extensions (JMX). Client applications can use this
+JMX API to programmatically perform the configuration and monitoring
+operations that are available interactively through the Administration
+Console and command line utilities.
+
+You can use Message Queue's JMX API in your client applications for a
+variety of purposes:
+
+* To optimize performance by monitoring the usage of brokers and other
+Message Queue resources and reconfiguring their parameters based on the
+results
+* To automate regular maintenance tasks, rolling upgrades, and so forth
+* To write your own utility applications to replace or enhance standard
+Message Queue tools such as the Broker utility (`imqbrokerd`) and
+Command utility (`imqcmd`)
+
+In addition, since JMX is the Java standard for building management
+applications and is widely used for managing J2EE infrastructure, you
+can use it to incorporate your Message Queue client as part of a larger
+J2EE deployment using a standard management framework throughout.
+
+[[gchbn]][[GMJMG00026]][[jmx-architecture]]
+
+JMX Architecture
+~~~~~~~~~~~~~~~~
+
+The JMX Specification defines an architecture for the instrumentation
+and programmatic management of distributed resources. This architecture
+is based on the notion of a managed bean, or MBean: a Java object,
+similar to a JavaBean, representing a resource to be managed. Message
+Queue MBeans may be associated with individual resources such as
+brokers, connections, or destinations, or with whole categories of
+resources, such as the set of all destinations on a broker. There are
+separate configuration MBeans and monitor MBeans for setting a
+resource's configuration properties and monitoring its runtime state.
+
+Each MBean is identified by an object name, an instance of the JMX class
+`ObjectName` conforming to the syntax and conventions defined in the JMX
+Specification. Object names for Message Queue MBeans are either defined
+as static constants or returned by static methods in the Message Queue
+utility class `MQObjectName`; see link:#gchri[Object Names] for further
+information.
+
+An MBean provides access to its underlying resource through a management
+interface consisting of the following:
+
+* Attributes holding data values representing static or dynamic
+properties of the resource
+* Operations that can be invoked to perform actions on the resource
+* Notifications informing the client application of state changes or
+other significant events affecting the resource
+
+Client applications obtain MBeans through an MBean server, which serves
+as a container and registry for MBeans. Each Message Queue broker
+process contains an MBean server, accessed by means of a JMX connector.
+The JMX connector is used to obtain an MBean server connection, which in
+turn provides access to individual MBeans on the server. Configuring or
+monitoring a Message Queue resource with JMX requires the following
+steps:
+
+1.  Obtain a JMX connector.
+2.  Get an MBean server connection from the JMX connector.
+3.  Construct an object name identifying the particular MBean you wish
+to operate on.
+4.  Pass the object name to the appropriate methods of the MBean server
+connection to access the MBean's attributes, operations, and
+notifications.
+5.  Close the MBean server connection.
+
+See link:using-the-jmx-api.html#gdrru[Using the JMX API] for code
+examples illustrating the technique for various MBean operations.
+
+[[gdrsi]][[GMJMG00027]][[message-queue-mbeans]]
+
+Message Queue MBeans
+~~~~~~~~~~~~~~~~~~~~
+
+Message Queue's JMX functionality is exposed through MBeans associated
+with various Message Queue resources. These MBeans are of two kinds:
+resource MBeans and manager MBeans. The attributes, operations, and
+notifications available for each type of MBean are described in detail
+in link:mbean-reference.html#gcakw[Message Queue MBean Reference].
+
+[[gchdy]][[GMJMG00166]][[resource-mbeans]]
+
+Resource MBeans
+^^^^^^^^^^^^^^^
+
+Resource MBeans are associated with individual Message Queue resources
+of the following types:
+
+* Message brokers
+* Connection services
+* Connections
+* Destinations
+* Broker clusters
+* Logging
+* The Java Virtual Machine (JVM)
+
+Configuration and monitoring functions are implemented by separate
+MBeans. Each managed resource is associated with a configuration MBean
+for setting the resource's configuration and a monitor MBean for
+gathering (typically transient) information about its runtime state. For
+instance, there is a destination configuration MBean for configuring a
+destination and a destination monitor MBean for obtaining runtime
+information about it. In general, each instance of a managed resource
+has its own pair of MBeans: thus there is a separate destination
+configuration MBean and destination monitor MBean for each individual
+destination. (In the case of the Java Virtual Machine, there is only a
+JVM monitor MBean with no corresponding configuration MBean.)
+
+Configuration MBeans are used to perform such tasks as the following:
+
+* Set a broker's port number
+* Set a broker's maximum message size
+* Pause a connection service
+* Set the maximum number of threads for a connection service
+* Purge all messages from a destination
+* Set the level of logging information to be written to an output
+channel
+
+Monitor MBeans are used to obtain runtime information such as the
+following:
+
+* The current number of connections on a service
+* The cumulative number of messages received by a destination since the
+broker was started
+* The current state (running or paused) of a queue destination
+* The current number of message producers for a topic destination
+* The host name and port number of a cluster's master broker
+* The current JVM heap size
+
+[[gchdx]][[GMJMG00167]][[manager-mbeans]]
+
+Manager MBeans
+^^^^^^^^^^^^^^
+
+In addition to the resource MBeans associated with individual resources,
+there are also manager MBeans for managing some whole categories of
+resources. These manager MBeans also come in pairs—one for configuration
+and one for monitoring—for the following resource categories:
+
+* Connection services
+* Connections
+* Destinations
+* Message producers
+* Message consumers
+* Transactions
+
+Unlike individual resource MBeans, a broker has only one pair of manager
+MBeans for each whole category of resources: for instance, a single
+destination manager configuration MBean and a single destination manager
+monitor MBean. For some categories (connection services, connections,
+destinations), the manager MBeans exist in addition to the ones for
+individual resources, and are used to manage the collection of resource
+MBeans within the category or to perform global tasks that are beyond
+the scope of individual resource MBeans. Thus, for instance, there is a
+connection manager configuration MBean and a connection manager monitor
+MBean in addition to the connection configuration and connection monitor
+MBeans associated with individual connections. Manager MBeans of this
+type are used to perform tasks such as the following:
+
+* Get the object names of the connection service monitor MBeans for all
+available connection services
+* Get the total number of current connections
+* Destroy a connection
+* Create or destroy a destination
+* Enable or disable auto-creation of destinations
+* Pause message delivery for all destinations
+
+In other cases (message producers, message consumers, transactions),
+there are no MBeans associated with individual resources and all of the
+resources in the category are managed through the manager MBeans
+themselves. The manager MBeans for these categories can be used for such
+tasks as the following:
+
+* Get the destination name associated with a message producer
+* Purge all messages from a durable subscriber
+* Commit or roll back a transaction
+
+[[gchri]][[GMJMG00168]][[object-names]]
+
+Object Names
+^^^^^^^^^^^^
+
+Each individual MBean is designated by an object name belonging to the
+JMX class `ObjectName`, which encapsulates a string identifying the
+MBean. For Message Queue MBeans, the encapsulated name string has the
+following syntax:
+
+`com.sun.messaging.jms.server:`property`=`value`[,`property`=`value`]*`
+
+link:#gcibm[Table 1-1] shows the possible properties.
+
+[[GMJMG302]][[sthref3]][[gcibm]]
+
+
+Table 1-1 Object Name Properties
+
+[width="100%",cols="15%,30%,55%",options="header",]
+|=======================================================================
+|Property |Description |Values
+|`type` |MBean type |See link:#gcitt[Table 1-2].
+
+|`subtype` |MBean subtype |See link:#gcitc[Table 1-3].
+
+|`desttype` a|
+Destination type
+
+Applies only to MBeans of the following types:
+
+* Destination configuration
+* Destination monitor
+
+ |See link:#gcicz[Table 1-4].
+
+|`name` a|
+Resource name
+
+Applies only to MBeans of the following types:
+
+* Service configuration
+* Service monitor
+* Destination configuration
+* Destination monitor
+
+ a|
+For service configuration and service monitor MBeans, see
+link:#gcitf[Table 1-5].
+
+For destination configuration and destination monitor MBeans, the
+destination name.
+
+Examples:
+
+* `myTopic`
+* `temporary_destination://queue/129.145.180.99/63008/1`
+
+|`id` a|
+Resource identifier
+
+Applies only to MBeans of the following types:
+
+* Connection configuration
+* Connection monitor
+
+ a|
+Example:
+
+`7853717387765338368`
+
+|=======================================================================
+
+
+link:#gcitt[Table 1-2] shows the possible values for the object name's
+`type` property.
+
+[[GMJMG303]][[sthref4]][[gcitt]]
+
+
+Table 1-2 Message Queue MBean Types
+
+[width="100%",cols="50%,50%",options="header",]
+|==================================================
+|Value |Description
+|`Broker` |Broker resource MBean
+|`Service` |Connection service resource MBean
+|`ServiceManager` |Connection service manager MBean
+|`Connection` |Connection resource MBean
+|`ConnectionManager` |Connection manager MBean
+|`Destination` |Destination resource MBean
+|`DestinationManager` |Destination manager MBean
+|`ProducerManager` |Message producer manager MBean
+|`ConsumerManager` |Message consumer manager MBean
+|`TransactionManager` |Transaction manager MBean
+|`Cluster` |Broker cluster resource MBean
+|`Log` |Logging resource MBean
+|`JVM` |JVM resource MBean
+|==================================================
+
+
+link:#gcitc[Table 1-3] shows the possible values for the object name's
+`subtype` property.
+
+[[GMJMG304]][[sthref5]][[gcitc]]
+
+
+Table 1-3 Message Queue MBean Subtypes
+
+[width="100%",cols="50%,50%",options="header",]
+|=============================
+|Value |Description
+|`Config` |Configuration MBean
+|`Monitor` |Monitor MBean
+|=============================
+
+
+For destination configuration and destination monitor MBeans, the object
+name's `desttype` property specifies whether the destination is a
+point-to-point queue or a publish/subscribe topic. link:#gcicz[Table
+1-4] shows the possible values, which are defined for convenience as
+static constants in the utility class `DestinationType`.
+
+[[GMJMG305]][[sthref6]][[gcicz]]
+
+
+Table 1-4 Destination Types
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+For service configuration and service monitor MBeans, the object name's
+`name` property identifies the connection service with which the MBean
+is associated. link:#gcitf[Table 1-5] shows the possible values.
+
+[[GMJMG306]][[sthref7]][[gcitf]]
+
+
+Table 1-5 Connection Service Names
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|==============================================
+|Service Name |Service Type |Protocol Type
+|`jms` |Normal |TCP
+|`ssljms` |Normal |TLS (SSL-based security)
+|`httpjms` |Normal |HTTP
+|`httpsjms` |Normal |HTTPS (SSL-based security)
+|`admin` |Admin |TCP
+|`ssladmin` |Admin |TLS (SSL-based security)
+|==============================================
+
+
+link:#gellq[Table 1-6] shows some example object names.
+
+[[GMJMG307]][[sthref8]][[gellq]]
+
+
+Table 1-6 Example Object Names
+
+[width="100%",cols="13%,87%",options="header",]
+|=======================================================================
+|MBean type |Object Name
+|Broker configuration
+|`com.sun.messaging.jms.server:type=Broker,subtype=Config`
+
+|Service manager monitor
+|`com.sun.messaging.jms.server:type=ServiceManager,subtype=Monitor`
+
+|Connection configuration
+|`com.sun.messaging.jms.server:type=Connection,subtype=Config,id=7853717387765338368`
+
+|Destination monitor
+|`com.sun.messaging.jms.server:type=Destination,subtype=Monitor,desttype=t,name="MyQueue"`
+|=======================================================================
+
+
+The object names for each type of Message Queue MBean are given in the
+relevant sections of link:mbean-reference.html#gcakw[Message Queue MBean
+Reference]. All such names are either defined as static constants or
+returned by static methods in the utility class `MQObjectName` (see
+link:#gcidq[Table 1-7]). For instance, the constant
+
+[source,oac_no_warn]
+----
+MQObjectName.BROKER_CONFIG_MBEAN_NAME 
+----
+
+is defined as a string representing the object name for a broker
+configuration MBean, and the method call
+
+[source,oac_no_warn]
+----
+MQObjectName. createDestinationMonitor(DestinationType .TOPIC, "MyQueue");
+----
+
+returns the destination monitor MBean object name shown in
+link:#gellq[Table 1-6]. Note that, whereas methods such as
+`createDestinationMonitor` return an actual object name (that is, an
+object of class `ObjectName`) that can be assigned directly to a
+variable of that type
+
+[source,oac_no_warn]
+----
+ObjectNamedestMonitorName 
+= MQObjectName. createDestinationMonitor(DestinationType .TOPIC, "Dest");
+----
+
+constants like `BROKER_CONFIG_MBEAN_NAME` instead represent an ordinary
+string (class `String`) that must then be converted into the
+corresponding object name itself:
+
+[source,oac_no_warn]
+----
+ObjectNamebrokerConfigName 
+= new ObjectName(MQObjectName.BROKER_CONFIG_MBEAN_NAME);
+----
+
+[[GMJMG308]][[sthref9]][[gcidq]]
+
+
+Table 1-7 Utility Constants and Methods for Object Names
+
+[width="100%",cols="32%,68%",options="header",]
+|=======================================================================
+|MBean Type |Utility Constant or Method
+|Broker configuration |`MQObjectName``.``BROKER_CONFIG_MBEAN_NAME`
+
+|Broker monitor |`MQObjectName``.``BROKER_MONITOR_MBEAN_NAME`
+
+|Service configuration |`MQObjectName``.``createServiceConfig`
+
+|Service monitor |`MQObjectName``.``createServiceMonitor`
+
+|Service manager configuration
+|`MQObjectName``.``SERVICE_MANAGER_CONFIG_MBEAN_NAME`
+
+|Service manager monitor
+|`MQObjectName``.``SERVICE_MANAGER_MONITOR_MBEAN_NAME`
+
+|Connection configuration |`MQObjectName``.``createConnectionConfig`
+
+|Connection monitor |`MQObjectName``.` `createConnectionMonitor`
+
+|Connection manager configuration
+|`MQObjectName``.``CONNECTION_MANAGER_CONFIG_MBEAN_NAME`
+
+|Connection manager monitor
+|`MQObjectName``.``CONNECTION_MANAGER_MONITOR_MBEAN_NAME`
+
+|Destination configuration |`MQObjectName``.` `createDestinationConfig`
+
+|Destination monitor |`MQObjectName``.` `createDestinationMonitor`
+
+|Destination manager configuration
+|`MQObjectName``.``DESTINATION_MANAGER_CONFIG_MBEAN_NAME`
+
+|Destination manager monitor
+|`MQObjectName``.``DESTINATION_MANAGER_MONITOR_MBEAN_NAME`
+
+|Producer manager configuration
+|`MQObjectName``.``PRODUCER_MANAGER_CONFIG_MBEAN_NAME`
+
+|Producer manager monitor
+|`MQObjectName``.``PRODUCER_MANAGER_MONITOR_MBEAN_NAME`
+
+|Consumer manager configuration
+|`MQObjectName``.``CONSUMER_MANAGER_CONFIG_MBEAN_NAME`
+
+|Consumer manager monitor
+|`MQObjectName``.``CONSUMER_MANAGER_MONITOR_MBEAN_NAME`
+
+|Transaction manager configuration
+|`MQObjectName``.``TRANSACTION_MANAGER_CONFIG_MBEAN_NAME`
+
+|Transaction manager monitor
+|`MQObjectName``.``TRANSACTION_MANAGER_MONITOR_MBEAN_NAME`
+
+|Cluster configuration |`MQObjectName``.``CLUSTER_CONFIG_MBEAN_NAME`
+
+|Cluster monitor |`MQObjectName``.``CLUSTER_MONITOR_MBEAN_NAME`
+
+|Log configuration |`MQObjectName``.``LOG_CONFIG_MBEAN_NAME`
+
+|Log monitor |`MQObjectName``.``LOG_MONITOR_MBEAN_NAME`
+
+|JVM monitor |`MQObjectName``.``JVM_MONITOR_MBEAN_NAME`
+|=======================================================================
+
+
+

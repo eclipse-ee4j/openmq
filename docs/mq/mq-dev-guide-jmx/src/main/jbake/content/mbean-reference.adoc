@@ -1,0 +1,4271 @@
+type=page
+status=published
+title=Message Queue MBean Reference
+next=alphabetical-reference.html
+prev=using-the-jmx-api.html
+~~~~~~
+Message Queue MBean Reference
+=============================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMJMG00004]][[gcakw]]
+
+
+[[message-queue-mbean-reference]]
+3 Message Queue MBean Reference
+-------------------------------
+
+This chapter describes the JMX MBeans that allow you to configure and
+monitor a Message Queue broker. It consists of the following sections:
+
+* link:#gbxrr[Brokers]
+* link:#gbxsd[Connection Services]
+* link:#gbxsg[Connections]
+* link:#gbxrq[Destinations]
+* link:#gbxrt[Message Producers]
+* link:#gbxrw[Message Consumers]
+* link:#gbxro[Transactions]
+* link:#gbxsf[Broker Clusters]
+* link:#gbxsb[Logging]
+* link:#gbxrj[Java Virtual Machine]
+
+[[gbxrr]][[GMJMG00032]][[brokers]]
+
+Brokers
+~~~~~~~
+
+This section describes the MBeans used for managing brokers:
+
+* The broker configuration MBean configures a broker.
+* The broker monitor MBean monitors a broker.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcalt]][[GMJMG00174]][[broker-configuration]]
+
+Broker Configuration
+^^^^^^^^^^^^^^^^^^^^
+
+The broker configuration MBean is used for configuring a broker. There
+is one such MBean for each broker.
+
+[[gciqr]][[GMJMG00073]][[object-name]]
+
+Object Name
++++++++++++
+
+The broker configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Broker,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`BROKER_CONFIG_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gciny]][[GMJMG00074]][[attributes]]
+
+Attributes
+++++++++++
+
+The broker configuration MBean has the attributes shown in
+link:#gbaaa[Table 3-1]. The names of these attributes are defined as
+static constants in the utility class `BrokerAttributes`.
+
+[[GMJMG209]][[sthref11]][[gbaaa]]
+
+
+Table 3-1 Broker Configuration Attributes
+
+[width="100%",cols="15%,10%,10%,65%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`BrokerID` |`String` |No a|
+Broker identifier
+
+Must be a unique alphanumeric string of no more than n - 13 characters,
+where n is the maximum table name length allowed by the database. No two
+running brokers may have the same broker identifier.
+
+For brokers using a JDBC-based persistent data store, this string is
+appended to the names of all database tables to make them unique in the
+case where more than one broker instance is using the same database. If
+a database is not used as the persistent data store, the value of this
+attribute is `null`.
+
+Note: For high-availability brokers, database table names use the
+`ClusterID` attribute (see link:#gbabo[Table 3-74]) instead.
+
+|`Version` |`String` |No |Broker version
+
+|`InstanceName` |`String` |No a|
+Broker instance name
+
+Example:
+
+`imqbroker`
+
+|`Port` |`Integer` |Yes |Port number of Port Mapper
+|=======================================================================
+
+
+[[gcimu]][[GMJMG00075]][[operations]]
+
+Operations
+++++++++++
+
+The broker configuration MBean supports the operations shown in
+link:#gbaab[Table 3-2]. The names of these operations are defined as
+static constants in the utility class `BrokerOperations`.
+
+[[GMJMG210]][[sthref12]][[gbaab]]
+
+
+Table 3-2 Broker Configuration Operations
+
+[width="172%",cols="11%,8%,46%,35%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`shutdown` a|
+nofailover (`Boolean`)
+
+time (`Long`)
+
+ |None a|
+Shut down broker
+
+If nofailover is `false` or `null`, another broker will attempt to take
+over for this broker when it shuts down; this applies only to brokers in
+a high-availability (HA) cluster. If nofailover is `true`, no such
+takeover attempt will occur.
+
+The time parameter specifies the interval, in seconds, before the broker
+actually shuts down; for immediate shutdown, specify `0` or `null`.
+
+|`shutdown` |None |None a|
+Shut down broker immediately
+
+If the broker is part of a high-availability (HA) cluster, another
+broker will attempt to take over for it.
+
+Equivalent to `shutdown``(``Boolean``.``FALSE``, new` `Long``(``0``))`.
+
+|`restart` |None |None |Restart broker
+
+|`quiesce` |None |None a|
+Quiesce broker
+
+The broker will refuse any new connections; existing connections will
+continue to be served.
+
+|`unquiesce` |None |None a|
+Unquiesce broker
+
+The broker will again accept new connections.
+
+|`takeover`link:#foot-haonly1[^Foot 1 ^] |brokerID (`String`) |None a|
+Initiate takeover from specified broker
+
+The desired broker is designated by its broker identifier (brokerID).
+
+|`getProperty` |propertyName (`String`) |`String` a|
+Get value of configuration property
+
+The desired property is designated by its name (propertyName)
+
+|`resetMetrics` |None |None a|
+Reset metrics
+
+Resets to zero all metrics in monitor MBeans that track cumulative,
+peak, or average counts. The following attributes are affected:
+
+| + | + | + a|
+Service monitor
+
+* `NumConnectionsOpened`
+* `NumConnectionsRejected`
+* `NumMsgsIn`
+* `NumMsgsOut`
+* `MsgBytesIn`
+* `MsgBytesOut`
+* `NumPktsIn`
+* `NumPktsOut`
+* `PktBytesIn`
+* `PktBytesOut`
+
+| + | + | + a|
+Service manager monitor
+
+* `NumMsgsIn`
+* `NumMsgsOut`
+* `MsgBytesIn`
+* `MsgBytesOut`
+* `NumPktsIn`
+* `NumPktsOut`
+* `PktBytesIn`
+* `PktBytesOut`
+
+| + | + | + a|
+Connection manager monitor
+
+* `NumConnectionsOpened`
+* `NumConnectionsRejected`
+
+| + | + | + a|
+Destination monitor
+
+* `PeakNumConsumers`
+* `AvgNumConsumers`
+* `PeakNumActiveConsumers`
+* `AvgNumActiveConsumers`
+* `PeakNumBackupConsumers`
+* `AvgNumBackupConsumers`
+* `PeakNumMsgs`
+* `AvgNumMsgs`
+* `NumMsgsIn`
+* `NumMsgsOut`
+* `MsgBytesIn`
+* `MsgBytesOut`
+* `PeakMsgBytes`
+* `PeakTotalMsgBytes`
+* `AvgTotalMsgBytes`
+
+| + | + | + a|
+Transaction manager monitor
+
+* `NumTransactionsCommitted`
+* `NumTransactionsRollback`
+
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+[[gcioc]][[GMJMG00076]][[notification]]
+
+Notification
+++++++++++++
+
+The broker configuration MBean supports the notification shown in
+link:#gbaac[Table 3-3].
+
+[[GMJMG211]][[sthref13]][[gbaac]]
+
+
+Table 3-3 Broker Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gciiw]][[GMJMG00175]][[broker-monitor]]
+
+Broker Monitor
+^^^^^^^^^^^^^^
+
+The broker monitor MBean is used for monitoring a broker. There is one
+such MBean for each broker.
+
+[[gcioy]][[GMJMG00077]][[object-name-1]]
+
+Object Name
++++++++++++
+
+The broker monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Broker,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`BROKER_MONITOR_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gciom]][[GMJMG00078]][[attributes-1]]
+
+Attributes
+++++++++++
+
+The broker monitor MBean has the attributes shown in link:#gbabu[Table
+3-4]. The names of these attributes are defined as static constants in
+the utility class `BrokerAttributes`.
+
+[[GMJMG212]][[sthref14]][[gbabu]]
+
+
+Table 3-4 Broker Monitor Attributes
+
+[width="100%",cols="17%,10%,10%,63%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`BrokerID` |`String` |No a|
+Broker identifier
+
+Must be a unique alphanumeric string of no more than n - 13 characters,
+where n is the maximum table name length allowed by the database. No two
+running brokers may have the same broker identifier.
+
+For brokers using a JDBC-based persistent data store, this string is
+appended to the names of all database tables to make them unique in the
+case where more than one broker instance is using the same database. If
+a database is not used as the persistent data store, the value of this
+attribute is `null`.
+
+Note: For high-availability brokers, database table names use the
+`ClusterID` attribute (see link:#gbadk[Table 3-79]) instead.
+
+|`Version` |`String` |No |Broker version
+
+|`InstanceName` |`String` |No |Broker instance name
+
+|`Port` |`Integer` |No |Port number of Port Mapper
+
+|`ResourceState` |`String` |No a|
+Current broker resource state:
+
+* `green`: < 80% memory utilization
+* `yellow`: 80-90% memory utilization
+* `orange`: 90-98% memory utilization
+* `red`:> 98% memory utilization
+
+Note: The threshold values shown are the default thresholds for
+triggering the various states; these can be changed by setting the
+broker configuration properties
+
+* `imq.green.threshold`
+* `imq.yellow.threshold`
+* `imq.orange.threshold`
+* `imq.red.threshold`
+
+|`Embedded` |`Boolean` |No |Is broker embedded (started from within
+another process)?
+|=======================================================================
+
+
+[[gciof]][[GMJMG00079]][[notifications]]
+
+Notifications
++++++++++++++
+
+The broker monitor MBean supports the notifications shown in
+link:#gbabx[Table 3-5]. These notifications are instances of the Message
+Queue JMX classes `BrokerNotification` and `ClusterNotification`, and
+their names are defined as static constants in those classes.
+
+[[GMJMG213]][[sthref15]][[gbabx]]
+
+
+Table 3-5 Broker Monitor Notifications
+
+[width="100%",cols="38%,42%,20%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.broker.shutdown.start`
+|`BrokerNotification``.``BROKER_SHUTDOWN_START` |Broker has begun
+shutting down
+
+|`mq.broker.quiesce.start`
+|`BrokerNotification``.``BROKER_QUIESCE_START` |Broker has begun
+quiescing
+
+|`mq.broker.quiesce.complete`
+|`BrokerNotification``.``BROKER_QUIESCE_COMPLETE` |Broker has finished
+quiescing
+
+|`mq.broker.takeover.start`link:#foot-haonly2[^Foot 1 ^]
+|`BrokerNotification``.``BROKER_TAKEOVER_START` |Broker has begun taking
+over persistent data store from another broker
+
+|`mq.broker.takeover.complete`link:#sthref16[^Footref 1^]
+|`BrokerNotification``.``BROKER_TAKEOVER_COMPLETE` |Broker has finished
+taking over persistent data store from another broker
+
+|`mq.broker.takeover.fail`link:#sthref17[^Footref 1^]
+|`BrokerNotification``.``BROKER_TAKEOVER_FAIL` |Attempted takeover has
+failed
+
+|`mq.broker.resource.state.change`
+|`BrokerNotification``.``BROKER_RESOURCE_STATE_CHANGE` |Broker's
+resource state has changed
+
+|`mq.cluster.broker.join` |`ClusterNotification``.``CLUSTER_BROKER_JOIN`
+|Broker has joined a cluster
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+link:#gcmzt[Table 3-6] shows the methods defined in class
+`BrokerNotification` for obtaining details about a broker monitor
+notification. See link:#gcmzm[Table 3-84] for the corresponding methods
+of class `ClusterNotification`.
+
+[[GMJMG214]][[sthref18]][[gcmzt]]
+
+
+Table 3-6 Data Retrieval Methods for Broker Monitor Notifications
+
+[width="100%",cols="24%,14%,62%",options="header",]
+|=======================================================================
+|Method |Result Type |Description
+|`getBrokerID` |`String` |Broker identifier
+
+|`getBrokerAddress` |`String` a|
+Broker address, in the form hostName`:`portNumber
+
+Example:
+
+`host1:3000`
+
+|`getFailedBrokerID`link:#foot-haonly3[^Foot 1 ^] |`String` |Broker
+identifier of broker being taken over
+
+|`getOldResourceState` |`String` a|
+Broker's previous resource state:
+
+* `green`: < 80% memory utilization
+* `yellow`: 80-90% memory utilization
+* `orange`: 90-98% memory utilization
+* `red`:> 98% memory utilization
+
+Note: The threshold values shown are the default thresholds for
+triggering the various states; these can be changed by setting the
+broker configuration properties
+
+* `imq.green.threshold`
+* `imq.yellow.threshold`
+* `imq.orange.threshold`
+* `imq.red.threshold`
+
+|`getNewResourceState` |`String` |Broker's new resource state (see
+`getOldResourceState`, above, for possible values)
+
+|`getHeapMemoryUsage` |`MemoryUsage` a|
+Broker's current heap memory usage
+
+The value returned is an object of class `MemoryUsage` (defined in the
+package `java.lang.management`).
+
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+[[gbxsd]][[GMJMG00033]][[connection-services]]
+
+Connection Services
+~~~~~~~~~~~~~~~~~~~
+
+This section describes the MBeans used for managing connection services:
+
+* The service configuration MBean configures a connection service.
+* The service monitor MBean monitors a connection service.
+* The service manager configuration MBean manages service configuration
+MBeans.
+* The service manager monitor MBean manages service monitor MBeans.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcams]][[GMJMG00176]][[service-configuration]]
+
+Service Configuration
+^^^^^^^^^^^^^^^^^^^^^
+
+The service configuration MBean is used for configuring a connection
+service. There is one such MBean for each service.
+
+[[gciqv]][[GMJMG00080]][[object-name-2]]
+
+Object Name
++++++++++++
+
+The service configuration MBean has an object name of the following
+form:
+
+`com.sun.messaging.jms.server:type=Service,subtype=Config,name=`serviceName
+
+where serviceName is the name of the connection service (see
+link:#gciql[Table 3-7]). The utility class `MQObjectName` provides a
+static method, `createServiceConfig`, for constructing object names of
+this form.
+
+[[GMJMG215]][[sthref19]][[gciql]]
+
+
+Table 3-7 Connection Service Names for Service Configuration MBeans
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|==============================================
+|Service Name |Service Type |Protocol Type
+|`jms` |Normal |TCP
+|`ssljms` |Normal |TLS (SSL-based security)
+|`httpjms` |Normal |HTTP
+|`httpsjms` |Normal |HTTPS (SSL-based security)
+|`admin` |Admin |TCP
+|`ssladmin` |Admin |TLS (SSL-based security)
+|==============================================
+
+
+[[gcino]][[GMJMG00081]][[attributes-2]]
+
+Attributes
+++++++++++
+
+The service configuration MBean has the attributes shown in
+link:#gbaav[Table 3-8]. The names of these attributes are defined as
+static constants in the utility class `ServiceAttributes`.
+
+[[GMJMG216]][[sthref20]][[gbaav]]
+
+
+Table 3-8 Service Configuration Attributes
+
+[width="100%",cols="19%,10%,10%,61%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`Name` |`String` |No a|
+Service name
+
+See link:#gciql[Table 3-7] for possible values.
+
+|`Port` |`Integer` |Yes a|
+Port number (`jms`, `ssljms`, `admin`, and `ssladmin` services only)
+
+A value of `0` specifies that the port is to be dynamically allocated by
+the Port Mapper; to learn the actual port currently used by the service,
+use the `Port` attribute of the service monitor MBean.
+
+|`MinThreads` |`Integer` |Yes a|
+Minimum number of threads assigned to service
+
+Must be greater than `0`.
+
+|`MaxThreads` |`Integer` |Yes a|
+Maximum number of threads assigned to service
+
+Must be greater than or equal to `MinThreads`.
+
+|`ThreadPoolModel` |`String` |No a|
+Threading model for thread pool management:
+
+* `dedicated`: Two dedicated threads per connection, one for incoming
+and one for outgoing messages
+* `shared`: Connections processed by shared thread when sending or
+receiving messages (`jms` and `admin` services only)
+
+|=======================================================================
+
+
+[[gcinw]][[GMJMG00082]][[operations-1]]
+
+Operations
+++++++++++
+
+The service configuration MBean supports the operations shown in
+link:#gbaaw[Table 3-9]. The names of these operations are defined as
+static constants in the utility class `ServiceOperations`.
+
+[[GMJMG217]][[sthref21]][[gbaaw]]
+
+
+Table 3-9 Service Configuration Operations
+
+[width="181%",cols="51%,6%,7%,36%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`pause` |None |None |Pause service (`jms`, `ssljms`, `httpjms`, and
+`httpsjms` services only)
+
+|`resume` |None |None |Resume service (`jms`, `ssljms`, `httpjms`, and
+`httpsjms` services only)
+|=======================================================================
+
+
+[[gcimo]][[GMJMG00083]][[notification-1]]
+
+Notification
+++++++++++++
+
+The service configuration MBean supports the notification shown in
+link:#gbaax[Table 3-10].
+
+[[GMJMG218]][[sthref22]][[gbaax]]
+
+
+Table 3-10 Service Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gcamu]][[GMJMG00177]][[service-monitor]]
+
+Service Monitor
+^^^^^^^^^^^^^^^
+
+The service monitor MBean is used for monitoring a connection service.
+There is one such MBean for each service.
+
+[[gcisp]][[GMJMG00084]][[object-name-3]]
+
+Object Name
++++++++++++
+
+The service monitor MBean has an object name of the following form:
+
+`com.sun.messaging.jms.server:type=Service,subtype=Monitor,name=`serviceName
+
+where serviceName is the name of the connection service (see
+link:#gcipq[Table 3-11]). The utility class `MQObjectName` provides a
+static method, `createServiceMonitor`, for constructing object names of
+this form.
+
+[[GMJMG219]][[sthref23]][[gcipq]]
+
+
+Table 3-11 Connection Service Names for Service Monitor MBeans
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|==============================================
+|Service Name |Service Type |Protocol Type
+|`jms` |Normal |TCP
+|`ssljms` |Normal |TLS (SSL-based security)
+|`httpjms` |Normal |HTTP
+|`httpsjms` |Normal |HTTPS (SSL-based security)
+|`admin` |Admin |TCP
+|`ssladmin` |Admin |TLS (SSL-based security)
+|==============================================
+
+
+[[gcinf]][[GMJMG00085]][[attributes-3]]
+
+Attributes
+++++++++++
+
+The service monitor MBean has the attributes shown in link:#gbacq[Table
+3-12]. The names of these attributes are defined as static constants in
+the utility class `ServiceAttributes`.
+
+[[GMJMG220]][[sthref24]][[gbacq]]
+
+
+Table 3-12 Service Monitor Attributes
+
+[width="100%",cols="27%,10%,10%,53%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`Name` |`String` |No a|
+Service name
+
+See link:#gcipq[Table 3-11] for possible values.
+
+|`Port` |`Integer` |No |Port number currently used by service
+
+|`State` |`Integer` |No a|
+Current state
+
+See link:#gcikq[Table 3-13] for possible values.
+
+|`StateLabel` |`String` |No a|
+String representation of current state:
+
+Useful for displaying the state in human-readable form, such as in the
+Java Monitoring and Management Console (`jconsole`).
+
+See link:#gcikq[Table 3-13] for possible values.
+
+|`NumConnections` |`Integer` |No |Current number of connections
+
+|`NumConnectionsOpened` |`Long` |No |Cumulative number of connections
+opened since broker started
+
+|`NumConnectionsRejected` |`Long` |No |Cumulative number of connections
+rejected since broker started
+
+|`NumActiveThreads` |`Integer` |No |Current number of threads actively
+handling connections
+
+|`NumProducers` |`Integer` |No |Current number of message producers
+
+|`NumConsumers` |`Integer` |No |Current number of message consumers
+
+|`NumMsgsIn` |`Long` |No |Cumulative number of messages received since
+broker started
+
+|`NumMsgsOut` |`Long` |No |Cumulative number of messages sent since
+broker started
+
+|`MsgBytesIn` |`Long` |No |Cumulative size in bytes of messages received
+since broker started
+
+|`MsgBytesOut` |`Long` |No |Cumulative size in bytes of messages sent
+since broker started
+
+|`NumPktsIn` |`Long` |No |Cumulative number of packets received since
+broker started
+
+|`NumPktsOut` |`Long` |No |Cumulative number of packets sent since
+broker started
+
+|`PktBytesIn` |`Long` |No |Cumulative size in bytes of packets received
+since broker started
+
+|`PktBytesOut` |`Long` |No |Cumulative size in bytes of packets sent
+since broker started
+|=======================================================================
+
+
+link:#gcikq[Table 3-13] shows the possible values for the `State` and
+`StateLabel` attributes. These values are defined as static constants in
+the utility class `ServiceState`.
+
+[[GMJMG221]][[sthref25]][[gcikq]]
+
+
+Table 3-13 Connection Service State Values
+
+[width="99%",cols="10%,35%,20%,35%",options="header",]
+|==================================================================
+|Value |Utility Constant |String Representation |Meaning
+|`0` |`ServiceState``.``RUNNING` |`RUNNING` |Service running
+|`1` |`ServiceState``.``PAUSED` |`PAUSED` |Service paused
+|`2` |`ServiceState``.``QUIESCED` |`QUIESCED` |Service quiesced
+|`-1` |`ServiceState``.``UNKNOWN` |`UNKNOWN` |Service state unknown
+|==================================================================
+
+
+[[gcing]][[GMJMG00086]][[operations-2]]
+
+Operations
+++++++++++
+
+The service monitor MBean supports the operations shown in
+link:#gbacr[Table 3-14]. The names of these operations are defined as
+static constants in the utility class `ServiceOperations`.
+
+[[GMJMG222]][[sthref26]][[gbacr]]
+
+
+Table 3-14 Service Monitor Operations
+
+[width="100%",cols="18%,12%,15%,55%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConnections` |None |`ObjectName``[]` |Object names of connection
+monitor MBeans for all current connections
+
+|`getProducerIDs` |None |`String``[]` |Producer identifiers of all
+current message producers
+
+|`getConsumerIDs` |None |`String``[]` |Consumer identifiers of all
+current message consumers
+|=======================================================================
+
+
+[[gcinx]][[GMJMG00087]][[notifications-1]]
+
+Notifications
++++++++++++++
+
+The service monitor MBean supports the notifications shown in
+link:#gbacs[Table 3-15]. These notifications are instances of the
+Message Queue JMX classes `ServiceNotification` and
+`ConnectionNotification`, and their names are defined as static
+constants in those classes.
+
+[[GMJMG223]][[sthref27]][[gbacs]]
+
+
+Table 3-15 Service Monitor Notifications
+
+[width="100%",cols="27%,53%,20%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.service.pause` |`ServiceNotification``.``SERVICE_PAUSE` |Service
+paused
+
+|`mq.service.resume` |`ServiceNotification``.``SERVICE_RESUME` |Service
+resumed
+
+|`mq.connection.open` |`ConnectionNotification``.``CONNECTION_OPEN`
+|Connection opened
+
+|`mq.connection.reject` |`ConnectionNotification``.``CONNECTION_REJECT`
+|Connection rejected
+
+|`mq.connection.close` |`ConnectionNotification``.``CONNECTION_CLOSE`
+|Connection closed
+|=======================================================================
+
+
+link:#gcmzp[Table 3-16] shows the method defined in class
+`ServiceNotification` for obtaining details about a service monitor
+notification. See link:#gcmzb[Table 3-31] for the corresponding methods
+of class `ConnectionNotification`.
+
+[[GMJMG224]][[sthref28]][[gcmzp]]
+
+
+Table 3-16 Data Retrieval Method for Service Monitor Notifications
+
+[width="100%",cols="23%,18%,59%",options="header",]
+|===============================================
+|Method |Result Type |Description
+|`getServiceName` |`String` a|
+Service name
+
+See link:#gcipq[Table 3-11] for possible values.
+
+|===============================================
+
+
+[[gcana]][[GMJMG00178]][[service-manager-configuration]]
+
+Service Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single service manager configuration MBean, used for
+managing all of the broker's service configuration MBeans.
+
+[[gcira]][[GMJMG00088]][[object-name-4]]
+
+Object Name
++++++++++++
+
+The service manager configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ServiceManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`SERVICE_MANAGER_CONFIG_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gcinz]][[GMJMG00089]][[attributes-4]]
+
+Attributes
+++++++++++
+
+The service manager configuration MBean has the attributes shown in
+link:#gbaad[Table 3-17]. The names of these attributes are defined as
+static constants in the utility class `ServiceAttributes`.
+
+[[GMJMG225]][[sthref29]][[gbaad]]
+
+
+Table 3-17 Service Manager Configuration Attributes
+
+[width="100%",cols="20%,15%,15%,50%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`MinThreads` |`Integer` |No |Total minimum number of threads for all
+active services
+
+|`MaxThreads` |`Integer` |No |Total maximum number of threads for all
+active services
+|=======================================================================
+
+
+[[gcinm]][[GMJMG00090]][[operations-3]]
+
+Operations
+++++++++++
+
+The service manager configuration MBean supports the operations shown in
+link:#gbaae[Table 3-18]. The names of these operations are defined as
+static constants in the utility class `ServiceOperations`.
+
+[[GMJMG226]][[sthref30]][[gbaae]]
+
+
+Table 3-18 Service Manager Configuration Operations
+
+[width="100%",cols="16%,12%,15%,57%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getServices` |None |`ObjectName``[]` |Object names of service
+configuration MBeans for all services
+
+|`pause` |None |None |Pause all services except `admin` and `ssladmin`
+
+|`resume` |None |None |Resume all services
+|=======================================================================
+
+
+[[gcamc]][[GMJMG00179]][[service-manager-monitor]]
+
+Service Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single service manager monitor MBean, used for
+managing all of the broker's service monitor MBeans.
+
+[[gcisb]][[GMJMG00091]][[object-name-5]]
+
+Object Name
++++++++++++
+
+The service manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ServiceManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`SERVICE_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcimy]][[GMJMG00092]][[attributes-5]]
+
+Attributes
+++++++++++
+
+The service manager monitor MBean has the attributes shown in
+link:#gbaby[Table 3-19]. The names of these attributes are defined as
+static constants in the utility class `ServiceAttributes`.
+
+[[GMJMG227]][[sthref31]][[gbaby]]
+
+
+Table 3-19 Service Manager Monitor Attributes
+
+[width="100%",cols="20%,10%,10%,60%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumServices` |`Integer` |No |Number of connection services
+
+|`NumActiveThreads` |`Integer` |No |Total current number of threads
+actively handling connections for all services
+
+|`NumMsgsIn` |`Long` |No |Total cumulative number of messages received
+by all services since broker started
+
+|`NumMsgsOut` |`Long` |No |Total cumulative number of messages sent by
+all services since broker started
+
+|`MsgBytesIn` |`Long` |No |Total cumulative size in bytes of messages
+received by all services since broker started
+
+|`MsgBytesOut` |`Long` |No |Total cumulative size in bytes of messages
+sent by all services since broker started
+
+|`NumPktsIn` |`Long` |No |Total cumulative number of packets received by
+all services since broker started
+
+|`NumPktsOut` |`Long` |No |Total cumulative number of packets sent by
+all services since broker started
+
+|`PktBytesIn` |`Long` |No |Total cumulative size in bytes of packets
+received by all services since broker started
+
+|`PktBytesOut` |`Long` |No |Total cumulative size in bytes of packets
+sent by all services since broker started
+|=======================================================================
+
+
+[[gcint]][[GMJMG00093]][[operation]]
+
+Operation
++++++++++
+
+The service manager monitor MBean supports the operation shown in
+link:#gbabz[Table 3-20]. The name of this operation is defined as a
+static constant in the utility class `ServiceOperations`.
+
+[[GMJMG228]][[sthref32]][[gbabz]]
+
+
+Table 3-20 Service Manager Monitor Operation
+
+[width="100%",cols="14%,12%,15%,59%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getServices` |None |`ObjectName``[]` |Object names of all service
+monitor MBeans
+|=======================================================================
+
+
+[[gcioi]][[GMJMG00094]][[notifications-2]]
+
+Notifications
++++++++++++++
+
+The service manager monitor MBean supports the notifications shown in
+link:#gbaca[Table 3-21]. These notifications are instances of the
+Message Queue JMX class `ServiceNotification`, and their names are
+defined as static constants in that class.
+
+[[GMJMG229]][[sthref33]][[gbaca]]
+
+
+Table 3-21 Service Manager Monitor Notifications
+
+[width="100%",cols="25%,45%,30%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.service.pause` |`ServiceNotification``.``SERVICE_PAUSE` |Service
+paused
+
+|`mq.service.resume` |`ServiceNotification``.``SERVICE_RESUME` |Service
+resumed
+|=======================================================================
+
+
+link:#gcmzs[Table 3-22] shows the method defined in class
+`ServiceNotification` for obtaining details about a service manager
+monitor notification.
+
+[[GMJMG230]][[sthref34]][[gcmzs]]
+
+
+Table 3-22 Data Retrieval Method for Service Manager Monitor
+Notifications
+
+[width="100%",cols="23%,18%,59%",options="header",]
+|===============================================
+|Method |Result Type |Description
+|`getServiceName` |`String` a|
+Service name
+
+See link:#gcipq[Table 3-11] for possible values.
+
+|===============================================
+
+
+[[gbxsg]][[GMJMG00034]][[connections]]
+
+Connections
+~~~~~~~~~~~
+
+This section describes the MBeans used for managing connections:
+
+* The connection configuration MBean configures a connection.
+* The connection monitor MBean monitors a connection.
+* The connection manager configuration MBean manages connection
+configuration MBeans.
+* The connection manager monitor MBean manages connection monitor
+MBeans.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcama]][[GMJMG00180]][[connection-configuration]]
+
+Connection Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The connection configuration MBean is used for configuring a connection.
+There is one such MBean for each connection.
+
+[[gcire]][[GMJMG00095]][[object-name-6]]
+
+Object Name
++++++++++++
+
+The connection configuration MBean has an object name of the following
+form:
+
+`com.sun.messaging.jms.server:type=Connection,subtype=Config,id=`connectionID
+
+where connectionID is the connection identifier. For example:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Connection,subtype=Config,
+id=7853717387765338368
+----
+
+The utility class `MQObjectName` provides a static method,
+`createConnectionConfig`, for constructing object names of this form.
+
+[[gcinq]][[GMJMG00096]][[attribute]]
+
+Attribute
++++++++++
+
+The connection configuration MBean has the attribute shown in
+link:#gbaay[Table 3-23]. The name of this attribute is defined as a
+static constant in the utility class `ConnectionAttributes`.
+
+[[GMJMG231]][[sthref35]][[gbaay]]
+
+
+Table 3-23 Connection Configuration Attribute
+
+[width="100%",cols="20%,20%,10%,50%",options="header",]
+|===================================================
+|Name |Type |Settable? |Description
+|`ConnectionID` |`String` |No |Connection identifier
+|===================================================
+
+
+[[gcaml]][[GMJMG00181]][[connection-monitor]]
+
+Connection Monitor
+^^^^^^^^^^^^^^^^^^
+
+The connection monitor MBean is used for monitoring a connection. There
+is one such MBean for each connection.
+
+[[gcisk]][[GMJMG00097]][[object-name-7]]
+
+Object Name
++++++++++++
+
+The connection monitor MBean has an object name of the following form:
+
+`com.sun.messaging.jms.server:type=Connection,subtype=Monitor,id=`connectionID
+
+where connectionID is the connection identifier. For example:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Connection,subtype=Monitor,
+id=7853717387765338368
+----
+
+The utility class `MQObjectName` provides a static method,
+`createConnectionMonitor`, for constructing object names of this form.
+
+[[gciog]][[GMJMG00098]][[attributes-6]]
+
+Attributes
+++++++++++
+
+The connection monitor MBean has the attributes shown in
+link:#gbact[Table 3-24]. The names of these attributes are defined as
+static constants in the utility class `ConnectionAttributes`.
+
+[[GMJMG232]][[sthref36]][[gbact]]
+
+
+Table 3-24 Connection Monitor Attributes
+
+[width="100%",cols="18%,10%,10%,62%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`ConnectionID` |`String` |No |Connection identifier
+
+|`Host` |`String` |No |Host from which connection was made
+
+|`Port` |`Integer` |No |Port number
+
+|`ServiceName` |`String` |No |Connection service name
+
+|`User` |`String` |No |User name
+
+|`ClientID` |`String` |No |Client identifier
+
+|`ClientPlatform` |`String` |No |String describing client platform
+
+|`NumProducers` |`Integer` |No |Current number of associated message
+producers
+
+|`NumConsumers` |`Integer` |No |Current number of associated message
+consumers
+|=======================================================================
+
+
+[[gciol]][[GMJMG00099]][[operations-4]]
+
+Operations
+++++++++++
+
+The connection monitor MBean supports the operations shown in
+link:#gbacu[Table 3-25]. The names of these operations are defined as
+static constants in the utility class `ConnectionOperations`.
+
+[[GMJMG233]][[sthref37]][[gbacu]]
+
+
+Table 3-25 Connection Monitor Operations
+
+[width="100%",cols="30%,12%,15%,43%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getService` |None |`ObjectName` |Object name of service monitor MBean
+for associated connection service
+
+|`getTemporaryDestinations` |None |`ObjectName``[]` |Object names of
+destination monitor MBeans for all associated temporary destinations
+
+|`getProducerIDs` |None |`String``[]` |Producer identifiers of all
+associated message producers
+
+|`getConsumerIDs` |None |`String``[]` |Consumer identifiers of all
+associated message consumers
+|=======================================================================
+
+
+[[gcanj]][[GMJMG00182]][[connection-manager-configuration]]
+
+Connection Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single connection manager configuration MBean, used
+for managing all of the broker's connection configuration MBeans.
+
+[[gcisa]][[GMJMG00100]][[object-name-8]]
+
+Object Name
++++++++++++
+
+The connection manager configuration MBean has the following object
+name:
+
+`com.sun.messaging.jms.server:type=ConnectionManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`CONNECTION_MANAGER_CONFIG_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcink]][[GMJMG00101]][[attribute-1]]
+
+Attribute
++++++++++
+
+The connection manager configuration MBean has the attribute shown in
+link:#gbaag[Table 3-26]. The name of this attribute is defined as a
+static constant in the utility class `ConnectionAttributes`.
+
+[[GMJMG234]][[sthref38]][[gbaag]]
+
+
+Table 3-26 Connection Manager Configuration Attribute
+
+[width="100%",cols="18%,10%,10%,62%",options="header",]
+|==============================================================
+|Name |Type |Settable? |Description
+|`NumConnections` |`Integer` |No |Number of current connections
+|==============================================================
+
+
+[[gcimz]][[GMJMG00102]][[operations-5]]
+
+Operations
+++++++++++
+
+The connection manager configuration MBean supports the operations shown
+in link:#gbaah[Table 3-27]. The names of these operations are defined as
+static constants in the utility class `ConnectionOperations`.
+
+[[GMJMG235]][[sthref39]][[gbaah]]
+
+
+Table 3-27 Connection Manager Configuration Operations
+
+[width="100%",cols="19%,19%,15%,47%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConnections` |None |`ObjectName``[]` |Object names of connection
+configuration MBeans for all current connections
+
+|`destroy` |connectionID (`Long`) |None a|
+Destroy connection
+
+The desired connection is designated by its connection identifier
+(connectionID).
+
+|=======================================================================
+
+
+[[gcamo]][[GMJMG00183]][[connection-manager-monitor]]
+
+Connection Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single connection manager monitor MBean, used for
+managing all of the broker's connection monitor MBeans.
+
+[[gcirt]][[GMJMG00103]][[object-name-9]]
+
+Object Name
++++++++++++
+
+The connection manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ConnectionManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`CONNECTION_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gciod]][[GMJMG00104]][[attributes-7]]
+
+Attributes
+++++++++++
+
+The connection manager monitor MBean has the attributes shown in
+link:#gbacb[Table 3-28]. The names of these attributes are defined as
+static constants in the utility class `ConnectionAttributes`.
+
+[[GMJMG236]][[sthref40]][[gbacb]]
+
+
+Table 3-28 Connection Manager Monitor Attributes
+
+[width="100%",cols="27%,10%,10%,53%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumConnections` |`Integer` |No |Current number of connections
+
+|`NumConnectionsOpened` |`Long` |No |Cumulative number of connections
+opened since broker started
+
+|`NumConnectionsRejected` |`Long` |No |Cumulative number of connections
+rejected since broker started
+|=======================================================================
+
+
+[[gcina]][[GMJMG00105]][[operation-1]]
+
+Operation
++++++++++
+
+The connection manager monitor MBean supports the operation shown in
+link:#gbacc[Table 3-29]. The name of this operation is defined as a
+static constant in the utility class `ConnectionOperations`.
+
+[[GMJMG237]][[sthref41]][[gbacc]]
+
+
+Table 3-29 Connection Manager Monitor Operation
+
+[width="100%",cols="18%,12%,15%,55%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConnections` |None |`ObjectName``[]` |Object names of connection
+monitor MBeans for all current connections
+|=======================================================================
+
+
+[[gcinc]][[GMJMG00106]][[notifications-3]]
+
+Notifications
++++++++++++++
+
+The connection manager monitor MBean supports the notifications shown in
+link:#gbacd[Table 3-30]. These notifications are instances of the
+Message Queue JMX class `ConnectionNotification`, and their names are
+defined as static constants in that class.
+
+[[GMJMG238]][[sthref42]][[gbacd]]
+
+
+Table 3-30 Connection Manager Monitor Notifications
+
+[width="100%",cols="25%,50%,25%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.connection.open` |`ConnectionNotification``.``CONNECTION_OPEN`
+|Connection opened
+
+|`mq.connection.reject` |`ConnectionNotification``.``CONNECTION_REJECT`
+|Connection rejected
+
+|`mq.connection.close` |`ConnectionNotification``.``CONNECTION_CLOSE`
+|Connection closed
+|=======================================================================
+
+
+link:#gcmzb[Table 3-31] shows the methods defined in class
+`ConnectionNotification` for obtaining details about a connection
+manager monitor notification.
+
+[[GMJMG239]][[sthref43]][[gcmzb]]
+
+
+Table 3-31 Data Retrieval Methods for Connection Manager Monitor
+Notifications
+
+[width="100%",cols="23%,18%,59%",options="header",]
+|==============================================================
+|Method |Result Type |Description
+|`getConnectionID` |`String` |Connection identifier
+|`getRemoteHost` |`String` |Host from which connection was made
+|`getServiceName` |`String` |Connection service name
+|`getUserName` |`String` |User name
+|==============================================================
+
+
+[[gbxrq]][[GMJMG00035]][[destinations]]
+
+Destinations
+~~~~~~~~~~~~
+
+This section describes the MBeans used for managing destinations:
+
+* The destination configuration MBean configures a destination.
+* The destination monitor MBean monitors a destination.
+* The destination manager configuration MBean manages destination
+configuration MBeans.
+* The destination manager monitor MBean manages destination monitor
+MBeans.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcamj]][[GMJMG00184]][[destination-configuration]]
+
+Destination Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The destination configuration MBean is used for configuring a
+destination. There is one such MBean for each destination.
+
+[[gcirp]][[GMJMG00107]][[object-name-10]]
+
+Object Name
++++++++++++
+
+The destination configuration MBean has an object name of the following
+form:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Destination,subtype=Config,
+desttype=destinationType,name=destinationName
+----
+
+where destinationType is one of the destination types shown in
+link:#gcimr[Table 3-33] and destinationName is the name of the
+destination. For example:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Destination,subtype=Config,desttype=t,
+name="Dest"
+----
+
+The utility class `MQObjectName` provides a static method,
+`createDestinationConfig`, for constructing object names of this form.
+
+[[gcinr]][[GMJMG00108]][[attributes-8]]
+
+Attributes
+++++++++++
+
+The destination configuration MBean has the attributes shown in
+link:#gbabb[Table 3-32]. The names of these attributes are defined as
+static constants in the utility class `DestinationAttributes`.
+
+[[GMJMG240]][[sthref44]][[gbabb]]
+
+
+Table 3-32 Destination Configuration Attributes
+
+[width="100%",cols="29%,10%,10%,51%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`Name` |`String` |No |Destination name
+
+|`Type` |`String` |No a|
+Destination type
+
+See link:#gcimr[Table 3-33] for possible values.
+
+|`MaxNumMsgs` |`Long` |Yes a|
+Maximum number of unconsumed messages
+
+A value of `-1` denotes an unlimited number of messages.
+
+|`MaxBytesPerMsg` |`Long` |Yes a|
+Maximum size, in bytes, of any single message
+
+Rejection of a persistent message is reported to the producing client
+with an exception; no notice is sent for nonpersistent messages.
+
+A value of `-1` denotes an unlimited message size.
+
+|`MaxTotalMsgBytes` |`Long` |Yes |Maximum total memory, in bytes, for
+unconsumed messages
+
+|`LimitBehavior` |`String` |Yes a|
+Broker behavior when memory-limit threshold reached
+
+See link:#gciuf[Table 3-34] for possible values.
+
+If the value is `REMOVE_OLDEST` or `REMOVE_LOW_PRIORITY` and the
+`UseDMQ` attribute is `true`, excess messages are moved to the dead
+message queue.
+
+|`MaxNumProducers` |`Integer` |Yes a|
+Maximum number of associated message producers
+
+When this limit is reached, no new producers can be created. A value of
+`-1` denotes an unlimited number of producers.
+
+|`MaxNumActiveConsumers`link:#foot-queueonly1[^Foot 1 ^] |`Integer` |Yes
+a|
+Maximum number of associated active message consumers in load-balanced
+delivery
+
+A value of `-1` denotes an unlimited number of consumers.
+
+|`MaxNumBackupConsumers`link:#sthref45[^Footref 1^] |`Integer` |Yes a|
+Maximum number of associated backup message consumers in load-balanced
+delivery
+
+A value of `-1` denotes an unlimited number of consumers.
+
+|`ConsumerFlowLimit` |`Long` |Yes a|
+Maximum number of messages delivered to consumer in a single batch
+
+In load-balanced queue delivery, this is the initial number of queued
+messages routed to active consumers before load balancing begins. A
+destination consumer can override this limit by specifying a lower value
+on a connection.
+
+A value of `-1` denotes an unlimited number of consumers.
+
+|`LocalOnly` |`Boolean` |No a|
+Local delivery only?
+
+This property applies only to destinations in broker clusters, and
+cannot be changed once the destination has been created. If `true`, the
+destination is not replicated on other brokers and is limited to
+delivering messages only to local consumers (those connected to the
+broker on which the destination is created).
+
+|`LocalDeliveryPreferred`link:#sthref46[^Footref 1^] |`Boolean` |Yes a|
+Local delivery preferred?
+
+This property applies only to load-balanced delivery in broker clusters.
+If `true`, messages will be delivered to remote consumers only if there
+are no associated consumers on the local broker. The destination must
+not be restricted to local-only delivery (`LocalOnly` must be `false`).
+
+|`UseDMQ` |`Boolean` |Yes a|
+Send dead messages to dead message queue?
+
+If `false`, dead messages will simply be discarded.
+
+|`ValidateXMLSchemaEnabled` |`Boolean` |Yes a|
+XML schema validation is enabled?
+
+If set to `false` or not set, then XML schema validation is not enabled
+for the destination.
+
+|`XMLSchemaURIList` |`String` |Yes a|
+Space separated list of XML schema document (XSD) URI strings
+
+The URIs point to the location of one or more XSDs to use for XML schema
+validation, if enabled.
+
+Use double quotes around this value if multiple URIs are specified.
+
+Example:
+
+"`http://foo/flap.xsd http://test.com/test.xsd`"
+
+If this property is not set or null and XML validation is enabled, XML
+validation is performed using a DTD specified in the XML document.
+
+|`ReloadXMLSchemaOnFailure` |`Boolean` |Yes a|
+Reload XML schema on failure enabled?
+
+If set to false or not set, then the schema is not reloaded if
+validation fails.
+
+|=======================================================================
+
+
+^Footnote 1 ^Queue destinations only
+
+link:#gcimr[Table 3-33] shows the possible values for the `Type`
+attribute. These values are defined as static constants in the utility
+class `DestinationType`.
+
+[[GMJMG241]][[sthref47]][[gcimr]]
+
+
+Table 3-33 Destination Configuration Type Values
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+link:#gciuf[Table 3-34] shows the possible values for the
+`LimitBehavior` attribute. These values are defined as static constants
+in the utility class `DestinationLimitBehavior`.
+
+[[GMJMG242]][[sthref48]][[gciuf]]
+
+
+Table 3-34 Destination Limit Behaviors
+
+[width="100%",cols="24%,45%,31%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`FLOW_CONTROL` |`DestinationLimitBehavior``.``FLOW_CONTROL` |Slow down
+producers
+
+|`REMOVE_OLDEST` |`DestinationLimitBehavior``.``REMOVE_OLDEST` |Throw
+out oldest messages
+
+|`REMOVE_LOW_PRIORITY`
+|`DestinationLimitBehavior``.``REMOVE_LOW_PRIORITY` |Throw out
+lowest-priority messages according to age; no notice to producing client
+
+|`REJECT_NEWEST` |`DestinationLimitBehavior``.``REJECT_NEWEST` |Reject
+newest messages; notify producing client with an exception only if
+message is persistent
+|=======================================================================
+
+
+[[gcimw]][[GMJMG00109]][[operations-6]]
+
+Operations
+++++++++++
+
+The destination configuration MBean supports the operations shown in
+link:#gbabc[Table 3-35]. The names of these operations are defined as
+static constants in the utility class `DestinationOperations`.
+
+[[GMJMG243]][[sthref49]][[gbabc]]
+
+
+Table 3-35 Destination Configuration Operations
+
+[width="100%",cols="11%,20%,12%,57%",options="header",]
+|============================================================
+|Name |Parameters |Result Type |Description
+|`pause` |pauseType (`String`) |None a|
+Pause message delivery
+
+See link:#gcitd[Table 3-36] for possible values of pauseType.
+
+|`pause` |None |None a|
+Pause all message delivery
+
+Equivalent to `pause``(``DestinationPauseType``.``ALL``)`.
+
+|`resume` |None |None |Resume message delivery
+|`purge` |None |None |Purge all messages
+|`compact`link:#foot-filebasedonly1[^Foot 1 ^] |None |None a|
+Compact persistent data store
+
+Note: Only a paused destination can be compacted.
+
+|============================================================
+
+
+^Footnote 1 ^File-based persistence only
+
+link:#gcitd[Table 3-36] shows the possible values for the `pause`
+operation's pauseType parameter. These values are defined as static
+constants in the utility class `DestinationPauseType`.
+
+[[GMJMG244]][[sthref50]][[gcitd]]
+
+
+Table 3-36 Destination Pause Types
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`PRODUCERS` |`DestinationPauseType``.``PRODUCERS` |Pause delivery from
+associated message producers
+
+|`CONSUMERS` |`DestinationPauseType``.``CONSUMERS` |Pause delivery to
+associated message consumers
+
+|`ALL` |`DestinationPauseType``.``ALL` |Pause all message delivery
+|=======================================================================
+
+
+[[gciob]][[GMJMG00110]][[notification-2]]
+
+Notification
+++++++++++++
+
+The destination configuration MBean supports the notification shown in
+link:#gbabd[Table 3-37].
+
+[[GMJMG245]][[sthref51]][[gbabd]]
+
+
+Table 3-37 Destination Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gcalx]][[GMJMG00185]][[destination-monitor]]
+
+Destination Monitor
+^^^^^^^^^^^^^^^^^^^
+
+The destination monitor MBean is used for monitoring a destination.
+There is one such MBean for each destination.
+
+[[gciqt]][[GMJMG00111]][[object-name-11]]
+
+Object Name
++++++++++++
+
+The destination monitor MBean has an object name of the following form:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Destination,subtype=Monitor,
+desttype=destinationType,name=destinationName
+----
+
+where destinationType is one of the destination types shown in
+link:#gcipv[Table 3-39] and destinationName is the name of the
+destination. For example:
+
+[source,oac_no_warn]
+----
+com.sun.messaging.jms.server:type=Destination,subtype=Monitor,desttype=t,
+name="Dest"
+----
+
+The utility class `MQObjectName` provides a static method,
+`createDestinationMonitor`, for constructing object names of this form.
+
+[[gcims]][[GMJMG00112]][[attributes-9]]
+
+Attributes
+++++++++++
+
+The destination monitor MBean has the attributes shown in
+link:#gbacw[Table 3-38]. The names of these attributes are defined as
+static constants in the utility class `DestinationAttributes`.
+
+[[GMJMG246]][[sthref52]][[gbacw]]
+
+
+Table 3-38 Destination Monitor Attributes
+
+[width="100%",cols="36%,10%,10%,44%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`Name` |`String` |No |Destination name
+
+|`Type` |`String` |No a|
+Destination type
+
+See link:#gcipv[Table 3-39] for possible values.
+
+|`CreatedByAdmin` |`Boolean` |No |Administrator-created destination?
+
+|`Temporary` |`Boolean` |No |Temporary destination?
+
+|`ConnectionID`link:#foot-temponly1[^Foot 1 ^] |`String` |No |Connection
+identifier
+
+|`State` |`Integer` |No a|
+Current state
+
+See link:#gcitj[Table 3-40] for possible values.
+
+|`StateLabel` |`String` |No a|
+String representation of current state:
+
+Useful for displaying the state in human-readable form, such as in the
+Java Monitoring and Management Console (`jconsole`).
+
+See link:#gcitj[Table 3-40] for possible values.
+
+|`NumProducers` |`Integer` |No |Current number of associated message
+producers
+
+|`NumConsumers` |`Integer` |No a|
+Current number of associated message consumers
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`NumActiveConsumers`.
+
+|`NumMsgsInDelayDelivery` |`Integer` |No |Current Number of messages in
+the destination with a delivery delay waiting for the delivery time
+arrival.
+
+|`NumWildcardProducers` |`Integer` |No a|
+Current number of wildcard message producers associated with the
+destination
+
+For topic destinations only.
+
+|`NumWildcardConsumers` |`Integer` |No a|
+Current number of wildcard message consumers associated with the
+destination
+
+For topic destinations only.
+
+|`NumWildcards` |`Integer` |No a|
+Current number of wildcard message producers and wildcard message
+consumers associated with the destination
+
+For topic destinations only.
+
+|`PeakNumConsumers` |`Integer` |No a|
+Peak number of associated message consumers since broker started
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`PeakNumActiveConsumers`.
+
+|`AvgNumConsumers` |`Integer` |No a|
+Average number of associated message consumers since broker started
+
+For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`AvgNumActiveConsumers`.
+
+|`NumActiveConsumers` |`Integer` |No a|
+Current number of associated active message consumers
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`NumConsumers`.
+
+|`PeakNumActiveConsumers` |`Integer` |No a|
+Peak number of associated active message consumers since broker started
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`PeakNumConsumers`.
+
+|`AvgNumActiveConsumers` |`Integer` |No a|
+Average number of associated active message consumers since broker
+started
+
+For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to
+`AvgNumConsumers`.
+
+|`NumBackupConsumers`link:#foot-queueonly2[^Foot 2 ^] |`Integer` |No
+|Current number of associated backup message consumers
+
+|`PeakNumBackupConsumers`link:#sthref53[^Footref 2^] |`Integer` |No
+|Peak number of associated backup message consumers since broker started
+
+|`AvgNumBackupConsumers`link:#sthref54[^Footref 2^] |`Integer` |No
+|Average number of associated backup message consumers since broker
+started
+
+|`NumMsgs` |`Long` |No a|
+Current number of messages stored in memory and persistent store
+
+Does not include messages held in transactions.
+
+|`NumMsgsRemote` |`Long` |No |Current number of messages stored in
+memory and persistent store that were produced to a remote broker in a
+cluster. This number does not include messages included in transactions.
+
+|`NumMsgsPendingAcks` |`Long` |No |Current number of messages being held
+in memory and persistent store pending acknowledgment
+
+|`NumMsgsHeldInTransaction` |`Long` |No |Current number of messages
+being held in memory and persistent store in uncommitted transactions
+
+|`NextMessageID` |`String` |No |JMS Message ID of the next message to be
+delivered to any consumer
+
+|`PeakNumMsgs` |`Long` |No |Peak number of messages stored in memory and
+persistent store since broker started
+
+|`AvgNumMsgs` |`Long` |No |Average number of messages stored in memory
+and persistent store since broker started
+
+|`NumMsgsIn` |`Long` |No |Cumulative number of messages received since
+broker started
+
+|`NumMsgsOut` |`Long` |No |Cumulative number of messages sent since
+broker started
+
+|`MsgBytesIn` |`Long` |No |Cumulative size in bytes of messages received
+since broker started
+
+|`MsgBytesOut` |`Long` |No |Cumulative size in bytes of messages sent
+since broker started
+
+|`PeakMsgBytes` |`Long` |No |Size in bytes of largest single message
+received since broker started
+
+|`TotalMsgBytes` |`Long` |No a|
+Current total size in bytes of messages stored in memory and persistent
+store
+
+Does not include messages held in transactions.
+
+|`TotalMsgBytesRemote` |`Long` |No |Current total size in bytes of
+messages stored in memory and persistent store that were produced to a
+remote broker in a cluster. This value does not include messages
+included in transactions.
+
+|`TotalMsgBytesHeldInTransaction` |`Long` |No |Current total size in
+bytes of messages being held in memory and persistent store in
+uncommitted transactions
+
+|`PeakTotalMsgBytes` |`Long` |No |Peak total size in bytes of messages
+stored in memory and persistent store since broker started
+
+|`AvgTotalMsgBytes` |`Long` |No |Average total size in bytes of messages
+stored in memory and persistent store since broker started
+
+|`DiskReserved`link:#foot-filebasedonly2[^Foot 3 ^] |`Long` |No |Amount
+of disk space, in bytes, reserved for destination
+
+|`DiskUsed`link:#sthref55[^Footref 3^] |`Long` |No |Amount of disk
+space, in bytes, currently in use by destination
+
+|`DiskUtilizationRatio`link:#sthref56[^Footref 3^] |`Integer` |No |Ratio
+of disk space currently in use to disk space reserved for destination
+|=======================================================================
+
+
+^Footnote 1 ^Temporary destinations only
+
+^Footnote 2 ^Queue destinations only
+
+^Footnote 3 ^File-based persistence only
+
+link:#gcipv[Table 3-39] shows the possible values for the `Type`
+attribute. These values are defined as static constants in the utility
+class `DestinationType`.
+
+[[GMJMG247]][[sthref57]][[gcipv]]
+
+
+Table 3-39 Destination Monitor Type Values
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+link:#gcitj[Table 3-40] shows the possible values for the `State` and
+`StateLabel` attributes. These values are defined as static constants in
+the utility class `DestinationState`.
+
+[[GMJMG248]][[sthref58]][[gcitj]]
+
+
+Table 3-40 Destination State Values
+
+[width="100%",cols="10%,40%,20%,30%",options="header",]
+|=======================================================================
+|Value |Utility Constant |String Representation |Meaning
+|`0` |`DestinationState``.``RUNNING` |`RUNNING` |Destination running
+
+|`1` |`DestinationState``.``CONSUMERS_PAUSED` |`CONSUMERS_PAUSED`
+|Message consumers paused
+
+|`2` |`DestinationState``.``PRODUCERS_PAUSED` |`PRODUCERS_PAUSED`
+|Message producers paused
+
+|`3` |`DestinationState``.``PAUSED` |`PAUSED` |Destination paused
+
+|`-1` |`DestinationState``.``UNKNOWN` |`UNKNOWN` |Destination state
+unknown
+|=======================================================================
+
+
+[[gcinv]][[GMJMG00113]][[operations-7]]
+
+Operations
+++++++++++
+
+The destination monitor MBean supports the operations shown in
+link:#gbacx[Table 3-41]. The names of these operations are defined as
+static constants in the utility class `DestinationOperations`.
+
+[[GMJMG249]][[sthref59]][[gbacx]]
+
+
+Table 3-41 Destination Monitor Operations
+
+[width="100%",cols="30%,15%,15%,40%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConnection`link:#foot-temponly2[^Foot 1 ^] |None |`ObjectName`
+|Object name of connection monitor MBean for connection
+
+|`getProducerIDs` |None |`String``[]` |Producer identifiers of all
+current associated message producers
+
+|`getConsumerIDs` |None |`String``[]` a|
+Consumer identifiers of all current associated message consumers
+
+For queue destinations, this operation returns both active and backup
+consumers. For topic destinations, it returns both nondurable and
+(active and inactive) durable subscribers.
+
+|`getActiveConsumerIDs` |None |`String``[]` a|
+Consumer identifiers of all current associated active message consumers
+
+For topic destinations, this operation returns both nondurable and
+(active and inactive) durable subscribers.
+
+|`getBackupConsumerIDs`link:#foot-queueonly3[^Foot 2 ^] |None
+|`String``[]` |Consumer identifiers of all current associated backup
+message consumers
+
+|`getConsumerWildcards` |none |`String[]` a|
+Wildcard strings used by current consumers associated with the
+destination
+
+For topic destinations only.
+
+|`getProducerWildcards` |none |`String[]` a|
+Wildcard strings used by current producers associated with the
+destination
+
+For topic destinations only.
+
+|`getWildcards` |none |`String[]` a|
+Wildcard strings used by current consumers and producers associated with
+the destination
+
+For topic destinations only.
+
+|`getNumWildcardConsumers` |wildcard-String |`Integer` a|
+Number of current consumers associated with the destination that are
+using the specified wildcard string
+
+For topic destinations only.
+
+|`getNumWildcardProducers` |wildcard-String |`Integer` a|
+Number of current producers associated with the destination that are
+using the specified wildcard string
+
+For topic destinations only.
+
+|=======================================================================
+
+
+^Footnote 1 ^Temporary destinations only
+
+^Footnote 2 ^Queue destinations only
+
+[[gcins]][[GMJMG00114]][[notifications-4]]
+
+Notifications
++++++++++++++
+
+The destination monitor MBean supports the notifications shown in
+link:#gbacy[Table 3-42]. These notifications are instances of the
+Message Queue JMX class `DestinationNotification`, and their names are
+defined as static constants in that class.
+
+[[GMJMG250]][[sthref60]][[gbacy]]
+
+
+Table 3-42 Destination Monitor Notifications
+
+[width="100%",cols="27%,49%,24%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.destination.pause` |`DestinationNotification``.``DESTINATION_PAUSE`
+|Destination paused
+
+|`mq.destination.resume`
+|`DestinationNotification``.``DESTINATION_RESUME` |Destination resumed
+
+|`mq.destination.compact`
+|`DestinationNotification``.``DESTINATION_COMPACT` |Destination
+compacted
+
+|`mq.destination.purge` |`DestinationNotification``.``DESTINATION_PURGE`
+|Destination purged
+|=======================================================================
+
+
+link:#gcmyz[Table 3-43] shows the methods defined in class
+`DestinationNotification` for obtaining details about a destination
+monitor notification.
+
+[[GMJMG251]][[sthref61]][[gcmyz]]
+
+
+Table 3-43 Data Retrieval Methods for Destination Monitor Notifications
+
+[width="100%",cols="25%,15%,60%",options="header",]
+|==================================================================
+|Method |Result Type |Description
+|`getDestinationName` |`String` |Destination name
+|`getDestinationType` |`String` a|
+Destination type
+
+See link:#gcipv[Table 3-39] for possible values.
+
+|`getCreatedByAdmin` |`Boolean` |Administrator-created destination?
+|`getPauseType` |`String` a|
+Pause type
+
+See link:#gcitd[Table 3-36] for possible values.
+
+|==================================================================
+
+
+[[gcaln]][[GMJMG00186]][[destination-manager-configuration]]
+
+Destination Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single destination manager configuration MBean, used
+for managing all of the broker's destination configuration MBeans.
+
+[[gcirz]][[GMJMG00115]][[object-name-12]]
+
+Object Name
++++++++++++
+
+The destination manager configuration MBean has the following object
+name:
+
+`com.sun.messaging.jms.server:type=DestinationManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`DESTINATION_MANAGER_CONFIG_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcinb]][[GMJMG00116]][[attributes-10]]
+
+Attributes
+++++++++++
+
+The destination manager configuration MBean has the attributes shown in
+link:#gbaaj[Table 3-44]. The names of these attributes are defined as
+static constants in the utility class `DestinationAttributes`.
+
+[[GMJMG252]][[sthref62]][[gbaaj]]
+
+
+Table 3-44 Destination Manager Configuration Attributes
+
+[width="181%",cols="27%,49%,5%,19%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`AutoCreateQueues` |`Boolean` |Yes |Allow auto-creation of queue
+destinations?
+
+|`AutoCreateTopics` |`Boolean` |Yes |Allow auto-creation of topic
+destinations?
+
+|`NumDestinations` |`Integer` |No |Current total number of destinations
+
+|`MaxNumMsgs` |`Long` |Yes a|
+Maximum total number of unconsumed messages
+
+A value of -1 denotes an unlimited number of messages.
+
+|`MaxBytesPerMsg` |`Long` |Yes a|
+Maximum size, in bytes, of any single message
+
+A value of -1 denotes an unlimited message size.
+
+|`MaxTotalMsgBytes` |`Long` |Yes a|
+Maximum total memory, in bytes, for unconsumed messages
+
+A value of -1 denotes an unlimited number of bytes.
+
+|`AutoCreateQueueMaxNumActiveConsumers`link:#foot-autocreateonly[^Foot 1 ^]
+|`Integer` |Yes a|
+Maximum total number of active message consumers in load-balanced
+delivery
+
+A value of -1 denotes an unlimited number of consumers.
+
+|`AutoCreateQueueMaxNumBackupConsumers`link:#sthref63[^Footref 1^]
+|`Integer` |Yes a|
+Maximum total number of backup message consumers in load-balanced
+delivery
+
+A value of -1 denotes an unlimited number of consumers.
+
+|`DMQTruncateBody` |`Boolean` |Yes a|
+Remove message body before storing in dead message queue?
+
+If true, only the message header and property data will be saved.
+
+|`LogDeadMsgs` |`Boolean` |Yes a|
+Log information about dead messages?
+
+If `true`, the following events will be logged:
+
+* A destination is full, having reached its maximum size or message
+count.
+* The broker discards a message for a reason other than an
+administrative command or delivery acknowledgment.
+* The broker moves a message to the dead message queue.
+
+|=======================================================================
+
+
+^Footnote 1 ^Auto-created queue destinations only
+
+[[gcimp]][[GMJMG00117]][[operations-8]]
+
+Operations
+++++++++++
+
+The destination manager configuration MBean supports the operations
+shown in link:#gbaak[Table 3-45]. The names of these operations are
+defined as static constants in the utility class
+`DestinationOperations`.
+
+[[GMJMG253]][[sthref64]][[gbaak]]
+
+
+Table 3-45 Destination Manager Configuration Operations
+
+[width="100%",cols="20%,20%,15%,45%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getDestinations` |None |`ObjectName``[]` |Object names of destination
+configuration MBeans for all current destinations
+
+|`create` a|
+destinationType (`String`)
+
+destinationName (`String`)
+
+destinationAttributes (`AttributeList`)
+
+ |None a|
+Create destination with specified type, name, and attributes
+
+The destinationType and destinationName parameters are required, but
+destinationAttributes may be null.
+
+See link:#gciud[Table 3-46] for possible values of destinationType.
+
+The destinationAttributes list may include any of the attributes listed
+in link:#gbabb[Table 3-32] except `Name` and `Type`. The names of these
+attributes are defined as static constants in the utility class
+`DestinationAttributes`.
+
+|`create` a|
+destinationType (`String`)
+
+destinationName (`String`)
+
+ |None a|
+Create destination with specified type and name
+
+Equivalent to `create``(`destinationType`,` destinationName`,`
+`null``)`.
+
+See link:#gciud[Table 3-46] for possible values of destinationType.
+
+|`destroy` a|
+destinationType (`String`)
+
+destinationName (`String`)
+
+ |None a|
+Destroy destination
+
+See link:#gciud[Table 3-46] for possible values of destinationType.
+
+|`pause` |pauseType (`String`) |None a|
+Pause message delivery for all destinations
+
+See link:#gcivu[Table 3-47] for possible values of pauseType.
+
+|`pause` |None |None a|
+Pause all message delivery for all destinations
+
+Equivalent to `pause``(``DestinationPauseType``.``ALL``)`.
+
+|`resume` |None |None |Resume message delivery for all destinations
+
+|`compact`link:#filebasedonly3[^Foot 1 ^] |None |None a|
+Compact all destinations
+
+Note: Only paused destinations can be compacted.
+
+|=======================================================================
+
+
+^Footnote 1 ^File-based persistence only
+
+link:#gciud[Table 3-46] shows the possible values for the `create` and
+`destroy` operations' destinationType parameters. These values are
+defined as static constants in the utility class `DestinationType`.
+
+[[GMJMG254]][[sthref65]][[gciud]]
+
+
+Table 3-46 Destination Manager Configuration Type Values
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+link:#gcivu[Table 3-47] shows the possible values for the `pause`
+operation's pauseType parameter. These values are defined as static
+constants in the utility class `DestinationPauseType`.
+
+[[GMJMG255]][[sthref66]][[gcivu]]
+
+
+Table 3-47 Destination Manager Pause Types
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`PRODUCERS` |`DestinationPauseType``.``PRODUCERS` |Pause delivery from
+associated message producers
+
+|`CONSUMERS` |`DestinationPauseType``.``CONSUMERS` |Pause delivery to
+associated message consumers
+
+|`ALL` |`DestinationPauseType``.``ALL` |Pause all delivery
+|=======================================================================
+
+
+[[gcioa]][[GMJMG00118]][[notification-3]]
+
+Notification
+++++++++++++
+
+The destination manager configuration MBean supports the notification
+shown in link:#gbaal[Table 3-48].
+
+[[GMJMG256]][[sthref67]][[gbaal]]
+
+
+Table 3-48 Destination Manager Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gcalp]][[GMJMG00187]][[destination-manager-monitor]]
+
+Destination Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single destination manager monitor MBean, used for
+managing all of the broker's destination monitor MBeans.
+
+[[gciqy]][[GMJMG00119]][[object-name-13]]
+
+Object Name
++++++++++++
+
+The destination manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=DestinationManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`DESTINATION_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcioo]][[GMJMG00120]][[attributes-11]]
+
+Attributes
+++++++++++
+
+The destination manager monitor MBean has the attributes shown in
+link:#gbace[Table 3-49]. The names of these attributes are defined as
+static constants in the utility class `DestinationAttributes`.
+
+[[GMJMG257]][[sthref68]][[gbace]]
+
+
+Table 3-49 Destination Manager Monitor Attributes
+
+[width="100%",cols="23%,10%,10%,57%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumDestinations` |`Integer` |No |Current total number of destinations
+
+|`NumMsgs` |`Long` |No a|
+Current total number of messages stored in memory and persistent store
+for all destinations
+
+Does not include messages held in transactions.
+
+|`TotalMsgBytes` |`Long` |No a|
+Current total size in bytes of messages stored in memory and persistent
+store for all destinations
+
+Does not include messages held in transactions.
+
+|`NumMsgsInDMQ` |`Long` |No |Current number of messages stored in memory
+and persistent store for dead message queue
+
+|`TotalMsgBytesInDMQ` |`Long` |No |Current total size in bytes of
+messages stored in memory and persistent store for dead message queue
+|=======================================================================
+
+
+[[gcini]][[GMJMG00121]][[operation-2]]
+
+Operation
++++++++++
+
+The destination manager monitor MBean supports the operation shown in
+link:#gbacf[Table 3-50]. The name of this operation is defined as a
+static constant in the utility class `DestinationOperations`.
+
+[[GMJMG258]][[sthref69]][[gbacf]]
+
+
+Table 3-50 Destination Manager Monitor Operation
+
+[width="100%",cols="20%,20%,20%,40%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getDestinations` |None |`ObjectName``[]` |Object names of destination
+monitor MBeans for all current destinations
+|=======================================================================
+
+
+[[gcinl]][[GMJMG00122]][[notifications-5]]
+
+Notifications
++++++++++++++
+
+The destination manager monitor MBean supports the notifications shown
+in link:#gbacg[Table 3-51]. These notifications are instances of the
+Message Queue JMX class `DestinationNotification`, and their names are
+defined as static constants in that class.
+
+[[GMJMG259]][[sthref70]][[gbacg]]
+
+
+Table 3-51 Destination Manager Monitor Notifications
+
+[width="100%",cols="30%,50%,20%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.destination.create`
+|`DestinationNotification``.``DESTINATION_CREATE` |Destination created
+
+|`mq.destination.destroy`
+|`DestinationNotification``.``DESTINATION_DESTROY` |Destination
+destroyed
+
+|`mq.destination.pause` |`DestinationNotification``.``DESTINATION_PAUSE`
+|Destination paused
+
+|`mq.destination.resume`
+|`DestinationNotification``.``DESTINATION_RESUME` |Destination resumed
+
+|`mq.destination.compact`
+|`DestinationNotification``.``DESTINATION_COMPACT` |Destination
+compacted
+
+|`mq.destination.purge` |`DestinationNotification``.``DESTINATION_PURGE`
+|Destination purged
+|=======================================================================
+
+
+link:#gcmzr[Table 3-52] shows the methods defined in class
+`DestinationNotification` for obtaining details about a destination
+manager monitor notification.
+
+[[GMJMG260]][[sthref71]][[gcmzr]]
+
+
+Table 3-52 Data Retrieval Methods for Destination Manager Monitor
+Notifications
+
+[width="100%",cols="25%,15%,60%",options="header",]
+|==================================================================
+|Method |Result Type |Description
+|`getDestinationName` |`String` |Destination name
+|`getDestinationType` |`String` a|
+Destination type
+
+See link:#gciud[Table 3-46] for possible values.
+
+|`getCreatedByAdmin` |`Boolean` |Administrator-created destination?
+|`getPauseType` |`String` a|
+Pause type
+
+See link:#gcivu[Table 3-47] for possible values.
+
+|==================================================================
+
+
+[[gbxrt]][[GMJMG00036]][[message-producers]]
+
+Message Producers
+~~~~~~~~~~~~~~~~~
+
+This section describes the MBeans used for managing message producers:
+
+* The producer manager configuration MBean configures message producers.
+* The producer manager monitor MBean monitors message producers.
+
+The following subsections describe each of these MBeans in detail.
+
+
+[NOTE]
+=======================================================================
+
+Notice that there are no resource MBeans associated with individual
+message producers; rather, all producers are managed through the
+broker's global producer manager configuration and producer manager
+monitor MBeans.
+
+=======================================================================
+
+
+[[gcamr]][[GMJMG00188]][[producer-manager-configuration]]
+
+Producer Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single producer manager configuration MBean, used for
+configuring all of the broker's message producers.
+
+[[gciru]][[GMJMG00123]][[object-name-14]]
+
+Object Name
++++++++++++
+
+The producer manager configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ProducerManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`PRODUCER_MANAGER_CONFIG_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcioq]][[GMJMG00124]][[attribute-2]]
+
+Attribute
++++++++++
+
+The producer manager configuration MBean has the attribute shown in
+link:#gbaap[Table 3-53]. The name of this attribute is defined as a
+static constant in the utility class `ProducerAttributes`.
+
+[[GMJMG261]][[sthref72]][[gbaap]]
+
+
+Table 3-53 Producer Manager Configuration Attribute
+
+[width="100%",cols="20%,15%,15%,50%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumProducers` |`Integer` |No |Current total number of message
+producers
+|=======================================================================
+
+
+[[gcisu]][[GMJMG00125]][[operation-3]]
+
+Operation
++++++++++
+
+The producer manager configuration MBean supports the operation shown in
+link:#gbaaq[Table 3-54]. The name of this operation is defined as a
+static constant in the utility class `ProducerOperations`.
+
+[[GMJMG262]][[sthref73]][[gbaaq]]
+
+
+Table 3-54 Producer Manager Configuration Operation
+
+[width="100%",cols="21%,13%,14%,52%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getProducerIDs` |None |`String``[]` |Producer identifiers of all
+current message producers
+|=======================================================================
+
+
+[[gcamd]][[GMJMG00189]][[producer-manager-monitor]]
+
+Producer Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single producer manager monitor MBean, used for
+monitoring all of the broker's message producers.
+
+[[gcirj]][[GMJMG00126]][[object-name-15]]
+
+Object Name
++++++++++++
+
+The producer manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ProducerManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`PRODUCER_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcite]][[GMJMG00127]][[attribute-3]]
+
+Attribute
++++++++++
+
+The producer manager monitor MBean has the attribute shown in
+link:#gback[Table 3-55]. The name of this attribute is defined as a
+static constant in the utility class `ProducerAttributes`.
+
+[[GMJMG263]][[sthref74]][[gback]]
+
+
+Table 3-55 Producer Manager Monitor Attribute
+
+[width="100%",cols="25%,10%,10%,55%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumProducers` |`Integer` |No |Current total number of message
+producers
+
+|`NumWildcardProducers` |`Integer` |No |Number of wildcard message
+producers associated with the broker
+|=======================================================================
+
+
+[[gcipo]][[GMJMG00128]][[operations-9]]
+
+Operations
+++++++++++
+
+The producer manager monitor MBean supports the operations shown in
+link:#gbacl[Table 3-56]. The names of these operations are defined as
+static constants in the utility class `ProducerOperations`.
+
+[[GMJMG264]][[sthref75]][[gbacl]]
+
+
+Table 3-56 Producer Manager Monitor Operations
+
+[width="100%",cols="28%,15%,19%,38%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getProducerIDs` |None |`String``[]` |Producer identifiers of all
+current message producers
+
+|`getProducerInfoByID` |producerID (`String`) |`CompositeData` a|
+Descriptive information about message producer
+
+The desired producer is designated by its producer identifier
+(producerID). The value returned is a JMX `CompositeData` object
+describing the producer; see link:#gbadc[Table 3-57] for lookup keys
+used with this object.
+
+|`getProducerInfo` |None |`CompositeData``[]` a|
+Descriptive information about all current message producers
+
+The value returned is an array of JMX `CompositeData` objects describing
+the producers; see link:#gbadc[Table 3-57] for lookup keys used with
+these objects.
+
+|`getProducerWildcards` |None |`String[]` |Wildcard strings used by
+current producers associated with the broker
+
+|`getNumWildcardProducers` |wildcard-String |`Integer` |Number of
+current producers associated with the broker that are using the
+specified wildcard string
+|=======================================================================
+
+
+The `getProducerInfoByID` and `getProducerInfo` operations return
+objects implementing the JMX interface `CompositeData`, which maps
+lookup keys to associated data values. The keys shown in
+link:#gbadc[Table 3-57] are defined as static constants in the utility
+class `ProducerInfo` for use with these objects.
+
+[[GMJMG265]][[sthref76]][[gbadc]]
+
+
+Table 3-57 Lookup Keys for Message Producer Information
+
+[width="100%",cols="20%,12%,68%",options="header",]
+|=======================================================================
+|Name |Value Type |Description
+|`ProducerID` |`String` |Producer identifier
+
+|`ServiceName` |`String` |Name of associated connection service
+
+|`ConnectionID` |`String` |Connection identifier of associated
+connection
+
+|`Host` |`String` |Connection's host name
+
+|`User` |`String` |Connection's user name
+
+|`DestinationName` |`String` |Name of associated destination
+
+|`DestinationNames` |`String[]` a|
+Destination names that match wildcards used by wildcard producers
+
+For topic destinations only.
+
+|`Wildcard` |`Boolean` a|
+Wildcard producer?
+
+For topic destinations only.
+
+|`DestinationType` |`String` a|
+Type of associated destination
+
+See link:#gciqc[Table 3-58] for possible values.
+
+|`FlowPaused` |`Boolean` |Message delivery paused?
+
+|`NumMsgs` |`Long` |Number of messages sent
+|=======================================================================
+
+
+link:#gciqc[Table 3-58] shows the possible values returned for the
+lookup key `DestinationType`. These values are defined as static
+constants in the utility class `DestinationType`.
+
+[[GMJMG266]][[sthref77]][[gciqc]]
+
+
+Table 3-58 Message Producer Destination Types
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+[[gbxrw]][[GMJMG00037]][[message-consumers]]
+
+Message Consumers
+~~~~~~~~~~~~~~~~~
+
+This section describes the MBeans used for managing message consumers:
+
+* The consumer manager configuration MBean configures message consumers.
+* The consumer manager monitor MBean monitors message consumers.
+
+The following subsections describe each of these MBeans in detail.
+
+
+[NOTE]
+=======================================================================
+
+Notice that there are no resource MBeans associated with individual
+message consumers; rather, all consumers are managed through the
+broker's global consumer manager configuration and consumer manager
+monitor MBeans.
+
+=======================================================================
+
+
+[[gcamy]][[GMJMG00190]][[consumer-manager-configuration]]
+
+Consumer Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single consumer manager configuration MBean, used for
+configuring all of the broker's message consumers.
+
+[[gciss]][[GMJMG00129]][[object-name-16]]
+
+Object Name
++++++++++++
+
+The consumer manager configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ConsumerManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`CONSUMER_MANAGER_CONFIG_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcipj]][[GMJMG00130]][[attribute-4]]
+
+Attribute
++++++++++
+
+The consumer manager configuration MBean has the attribute shown in
+link:#gbaam[Table 3-59]. The name of this attribute is defined as a
+static constant in the utility class `ConsumerAttributes`.
+
+[[GMJMG267]][[sthref78]][[gbaam]]
+
+
+Table 3-59 Consumer Manager Configuration Attribute
+
+[width="100%",cols="20%,15%,15%,50%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumConsumers` |`Integer` |No |Current total number of message
+consumers
+|=======================================================================
+
+
+[[gcipd]][[GMJMG00131]][[operations-10]]
+
+Operations
+++++++++++
+
+The consumer manager configuration MBean supports the operations shown
+in link:#gbaan[Table 3-60]. The names of these operations are defined as
+static constants in the utility class `ConsumerOperations`.
+
+[[GMJMG268]][[sthref79]][[gbaan]]
+
+
+Table 3-60 Consumer Manager Configuration Operations
+
+[width="100%",cols="20%,12%,12%,56%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConsumerIDs` |None |`String``[]` |Consumer identifiers of all
+current message consumers
+
+|`purge`link:#foot-durableonly1[^Foot 1 ^] |consumerID (`String`) |None
+a|
+Purge all messages
+
+The desired subscriber is designated by its consumer identifier
+(consumerID).
+
+The subscriber itself is not destroyed.
+
+|=======================================================================
+
+
+^Footnote 1 ^Durable topic subscribers only
+
+[[gcand]][[GMJMG00191]][[consumer-manager-monitor]]
+
+Consumer Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single consumer manager monitor MBean, used for
+monitoring all of the broker's message consumers.
+
+[[gcisj]][[GMJMG00132]][[object-name-17]]
+
+Object Name
++++++++++++
+
+The consumer manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=ConsumerManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`CONSUMER_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gciqg]][[GMJMG00133]][[attribute-5]]
+
+Attribute
++++++++++
+
+The consumer manager monitor MBean has the attribute shown in
+link:#gbach[Table 3-61]. The name of this attribute is defined as a
+static constant in the utility class `ConsumerAttributes`.
+
+[[GMJMG269]][[sthref80]][[gbach]]
+
+
+Table 3-61 Consumer Manager Monitor Attribute
+
+[width="100%",cols="25%,10%,10%,55%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumConsumers` |`Integer` |No |Current total number of message
+consumers
+
+|`NumWildcardConsumers` |`Integer` |No |Number of wildcard message
+consumers associated with the broker
+|=======================================================================
+
+
+[[gcios]][[GMJMG00134]][[operations-11]]
+
+Operations
+++++++++++
+
+The consumer manager monitor MBean supports the operations shown in
+link:#gbaci[Table 3-62]. The names of these operations are defined as
+static constants in the utility class `ConsumerOperations`.
+
+[[GMJMG270]][[sthref81]][[gbaci]]
+
+
+Table 3-62 Consumer Manager Monitor Operations
+
+[width="99%",cols="29%,15%,19%,37%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getConsumerIDs` |None |`String``[]` |Consumer identifiers of all
+current message consumers
+
+|`getConsumerInfoByID` |consumerID (`String`) |`CompositeData` a|
+Descriptive information about message consumer
+
+The desired consumer is designated by its consumer identifier
+(consumerID). The value returned is a JMX `CompositeData` object
+describing the consumer; see link:#gbacz[Table 3-63] for lookup keys
+used with this object.
+
+|`getConsumerInfo` |None |`CompositeData``[]` a|
+Descriptive information about all current message consumers
+
+The value returned is an array of JMX `CompositeData` objects describing
+the consumers; see link:#gbacz[Table 3-63] for lookup keys used with
+these objects.
+
+|`getConsumerWildcards` |none |`String[]` |Wildcard strings used by
+current consumers associated with the broker
+
+|`getNumWildcardConsumers` |wildcard-String |`Integer` |Number of
+current consumers associated with the broker that are using the
+specified wildcard string
+|=======================================================================
+
+
+The `getConsumerInfoByID` and `getConsumerInfo` operations return
+objects implementing the JMX interface `CompositeData`, which maps
+lookup keys to associated data values. The keys shown in
+link:#gbacz[Table 3-63] are defined as static constants in the utility
+class `ConsumerInfo` for use with these objects.
+
+[[GMJMG271]][[sthref82]][[gbacz]]
+
+
+Table 3-63 Lookup Keys for Message Consumer Information
+
+[width="100%",cols="25%,12%,63%",options="header",]
+|=======================================================================
+|Name |Value Type |Description
+|`ConsumerID` |`String` |Consumer identifier
+
+|`Selector` |`String` |Message selector
+
+|`ServiceName` |`String` |Name of associated connection service
+
+|`ConnectionID` |`String` |Connection identifier of associated
+connection
+
+|`Host` |`String` |Connection's host name
+
+|`User` |`String` |Connection's user name
+
+|`DestinationName` |`String` |Name of associated destination
+
+|`DestinationNames` |`String[]` a|
+Destination names that match wildcards used by wildcard consumers
+
+For topic destinations only.
+
+|`Wildcard` |`Boolean` a|
+Wildcard consumer?
+
+For topic destinations only.
+
+|`DestinationType` |`String` a|
+Type of associated destination
+
+See link:#gcipr[Table 3-64] for possible values.
+
+|`AcknowledgeMode` |`Integer` a|
+Acknowledgment mode of associated session
+
+See link:#gcivw[Table 3-65] for possible values.
+
+|`AcknowledgeModeLabel` |`String` a|
+String representation of acknowledgment mode
+
+Useful for displaying the acknowledgment mode in human-readable form,
+such as in the Java Monitoring and Management Console (`jconsole`).
+
+See link:#gcivw[Table 3-65] for possible values.
+
+|`Durable` |`Boolean` |Durable topic subscriber?
+
+|`DurableName`link:#foot-durableonly2[^Foot 1 ^] |`String` |Subscription
+name
+
+|`ClientID`link:#sthref83[^Footref 1^] |`String` |Client identifier
+
+|`DurableActive`link:#sthref84[^Footref 1^] |`Boolean` |Subscriber
+active?
+
+|`FlowPaused` |`Boolean` |Message delivery paused?
+
+|`NumMsgs` |`Long` |Cumulative number of messages that have been
+dispatched to consumer (includes messages that have been delivered and
+those waiting to be delivered)
+
+|`NumMsgsPending` |`Long` |Current number of messages that have been
+dispatched to consumer and are being held in broker memory and
+persistent store (includes messages that have been delivered and those
+waiting to be delivered)
+
+|`NumMsgsPendingAcks` |`Long` |Current number of messages that have been
+delivered to consumer and are being held in broker memory and persistent
+store pending acknowledgment
+
+|`NextMessageID` |`Long` |JMS Message ID of the next message to be
+delivered to consumer
+
+|`LastAckTime` |`Long` |Time of last acknowledgment, in standard Java
+format (milliseconds since January 1, 1970, 00:00:00 UTC)
+|=======================================================================
+
+
+^Footnote 1 ^Durable topic subscribers only
+
+link:#gcipr[Table 3-64] shows the possible values returned for the
+lookup key `DestinationType`. These values are defined as static
+constants in the utility class `DestinationType`.
+
+[[GMJMG272]][[sthref85]][[gcipr]]
+
+
+Table 3-64 Message Consumer Destination Types
+
+[width="100%",cols="20%,40%,40%",options="header",]
+|=======================================================================
+|Value |Utility Constant |Meaning
+|`q` |`DestinationType``.``QUEUE` |Queue (point-to-point) destination
+|`t` |`DestinationType``.``TOPIC` |Topic (publish/subscribe) destination
+|=======================================================================
+
+
+link:#gcivw[Table 3-65] shows the possible values returned for the
+lookup keys `AcknowledgeMode` and `AcknowledgeModeLabel`. Four of these
+values are defined as static constants in the standard JMS interface
+`javax.jms.Session`; the fifth (`NO_ACKNOWLEDGE`) is defined in the
+extended Message Queue version of the interface,
+`com.sun.messaging.jms.Session`.
+
+[[GMJMG273]][[sthref86]][[gcivw]]
+
+
+Table 3-65 Acknowledgment Modes
+
+[width="163%",cols="45%,26%,14%,15%",options="header",]
+|=======================================================================
+|Value |Utility Constant |String Representation |Meaning
+|`1` |`javax.jms.Session``.``AUTO_ACKNOWLEDGE` |`AUTO_ACKNOWLEDGE`
+|Auto-acknowledge mode
+
+|`2` |`javax.jms.Session``.``CLIENT_ACKNOWLEDGE` |`CLIENT_ACKNOWLEDGE`
+|Client-acknowledge mode
+
+|`3` |`javax.jms.Session``.``DUPS_OK_ACKNOWLEDGE` |`DUPS_OK_ACKNOWLEDGE`
+|Dups-OK-acknowledge mode
+
+|`32768` |`com.sun.messaging.jms.Session``.``NO_ACKNOWLEDGE`
+|`NO_ACKNOWLEDGE` |No-acknowledge mode
+
+|`0` |`javax.jms.Session``.``SESSION_TRANSACTED` |`SESSION_TRANSACTED`
+|Session is transacted (acknowledgment mode ignored)
+|=======================================================================
+
+
+[[gbxro]][[GMJMG00038]][[transactions]]
+
+Transactions
+~~~~~~~~~~~~
+
+This section describes the MBeans used for managing transactions:
+
+* The transaction manager configuration MBean configures transactions.
+* The transaction manager monitor MBean monitors transactions.
+
+The following subsections describe each of these MBeans in detail.
+
+
+[NOTE]
+=======================================================================
+
+Notice that there are no resource MBeans associated with individual
+transactions; rather, all transactions are managed through the broker's
+global transaction manager configuration and transaction manager monitor
+MBeans.
+
+=======================================================================
+
+
+[[gcamg]][[GMJMG00192]][[transaction-manager-configuration]]
+
+Transaction Manager Configuration
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single transaction manager configuration MBean, used
+for configuring all of the broker's transactions.
+
+[[gciry]][[GMJMG00135]][[object-name-18]]
+
+Object Name
++++++++++++
+
+The transaction manager configuration MBean has the following object
+name:
+
+`com.sun.messaging.jms.server:type=TransactionManager,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`TRANSACTION_MANAGER_CONFIG_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcior]][[GMJMG00136]][[attribute-6]]
+
+Attribute
++++++++++
+
+The transaction manager configuration MBean has the attribute shown in
+link:#gbaas[Table 3-66]. The name of this attribute is defined as a
+static constant in the utility class `TransactionAttributes`.
+
+[[GMJMG274]][[sthref87]][[gbaas]]
+
+
+Table 3-66 Transaction Manager Configuration Attribute
+
+[width="100%",cols="26%,13%,14%,47%",options="header",]
+|=====================================================================
+|Name |Type |Settable? |Description
+|`NumTransactions` |`Integer` |No |Current number of open transactions
+|=====================================================================
+
+
+[[gciox]][[GMJMG00137]][[operations-12]]
+
+Operations
+++++++++++
+
+The transaction manager configuration MBean supports the operations
+shown in link:#gbaat[Table 3-67]. The names of these operations are
+defined as static constants in the utility class
+`TransactionOperations`.
+
+[[GMJMG275]][[sthref88]][[gbaat]]
+
+
+Table 3-67 Transaction Manager Configuration Operations
+
+[width="100%",cols="22%,13%,12%,53%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getTransactionIDs` |None |`String``[]` |Transaction identifiers of all
+current open transactions
+
+|`commit` |transactionID (`String`) |None a|
+Commit transaction
+
+The desired transaction is designated by its transaction identifier
+(transactionID).
+
+|`rollback` |transactionID (`String`) |None a|
+Roll back transaction
+
+The desired transaction is designated by its transaction identifier
+(transactionID).
+
+|=======================================================================
+
+
+[[gcanc]][[GMJMG00193]][[transaction-manager-monitor]]
+
+Transaction Manager Monitor
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has a single transaction manager monitor MBean, used for
+monitoring all of the broker's transactions.
+
+[[gciqs]][[GMJMG00138]][[object-name-19]]
+
+Object Name
++++++++++++
+
+The transaction manager monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=TransactionManager,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`TRANSACTION_MANAGER_MONITOR_MBEAN_NAME` in the utility class
+`MQObjectName`.
+
+[[gcipz]][[GMJMG00139]][[attributes-12]]
+
+Attributes
+++++++++++
+
+The transaction manager monitor MBean has the attributes shown in
+link:#gbacn[Table 3-68]. The names of these attributes are defined as
+static constants in the utility class `TransactionAttributes`.
+
+[[GMJMG276]][[sthref89]][[gbacn]]
+
+
+Table 3-68 Transaction Manager Monitor Attributes
+
+[width="100%",cols="29%,10%,10%,51%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`NumTransactions` |`Integer` |No |Current number of open transactions
+
+|`NumTransactionsCommitted` |`Long` |No |Cumulative number of
+transactions committed since broker started
+
+|`NumTransactionsRollback` |`Long` |No |Cumulative number of
+transactions rolled back since broker started
+|=======================================================================
+
+
+[[gciqb]][[GMJMG00140]][[operations-13]]
+
+Operations
+++++++++++
+
+The transaction manager monitor MBean supports the operations shown in
+link:#gbaco[Table 3-69]. The names of these operations are defined as
+static constants in the utility class `TransactionOperations`.
+
+[[GMJMG277]][[sthref90]][[gbaco]]
+
+
+Table 3-69 Transaction Manager Monitor Operations
+
+[width="100%",cols="28%,13%,19%,40%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getTransactionIDs` |None |`String``[]` |Transaction identifiers of all
+current open transactions
+
+|`getTransactionInfoByID` |transactionID (`String`) |`CompositeData` a|
+Descriptive information about transaction
+
+The desired transaction is designated by its transaction identifier
+(transactionID). The value returned is a JMX `CompositeData` object
+describing the transaction; see link:#gbadg[Table 3-70] for lookup keys
+used with this object.
+
+|`getTransactionInfo` |None |`CompositeData``[]` a|
+Descriptive information about all current open transactions
+
+The value returned is an array of JMX `CompositeData` objects describing
+the transactions; see link:#gbadg[Table 3-70] for lookup keys used with
+these objects.
+
+|=======================================================================
+
+
+The `getTransactionInfoByID` and `getTransactionInfo` operations return
+objects implementing the JMX interface `CompositeData`, which maps
+lookup keys to associated data values. The keys shown in
+link:#gbadg[Table 3-70] are defined as static constants in the utility
+class `TransactionInfo` for use with these objects.
+
+[[GMJMG278]][[sthref91]][[gbadg]]
+
+
+Table 3-70 Lookup Keys for Transaction Information
+
+[width="100%",cols="20%,12%,68%",options="header",]
+|=======================================================================
+|Name |Value Type |Description
+|`TransactionID` |`String` |Transaction identifier
+
+|`XID`link:#foot-distribonly1[^Foot 1 ^] |`String` |Distributed
+transaction identifier (XID)
+
+|`User` |`String` |User name
+
+|`ClientID` |`String` |Client identifier
+
+|`ConnectionString` |`String` |Connection string
+
+|`CreationTime` |`Long` |Time created, in standard Java format
+(milliseconds since January 1, 1970, 00:00:00 UTC)
+
+|`State` |`Integer` a|
+Current state
+
+See link:#gciwd[Table 3-71] for possible values.
+
+|`StateLabel` |`String` a|
+String representation of current state
+
+Useful for displaying the state in human-readable form, such as in the
+Java Monitoring and Management Console (`jconsole`).
+
+See link:#gciwd[Table 3-71] for possible values.
+
+|`NumMsgs` |`Long` |Number of messages
+
+|`NumAcks` |`Long` |Number of acknowledgments
+|=======================================================================
+
+
+^Footnote 1 ^Distributed transactions only
+
+link:#gciwd[Table 3-71] shows the possible values returned for the
+lookup keys `State` and `StateLabel`. These values are defined as static
+constants in the utility class `TransactionState`.
+
+[[GMJMG279]][[sthref92]][[gciwd]]
+
+
+Table 3-71 Transaction State Values
+
+[width="163%",cols="44%,22%,15%,19%",options="header",]
+|=======================================================================
+|Value |Utility Constant |String Representation |Meaning
+|`0` |`TransactionState``.``CREATED` |`CREATED` |Transaction created
+
+|`1` |`TransactionState``.``STARTED` |`STARTED` |Transaction started
+
+|`2` |`TransactionState``.``FAILED` |`FAILED` |Transaction has failed
+
+|`3` |`TransactionState``.``INCOMPLETE` |`INCOMPLETE` |Transaction
+incomplete
+
+|`4` |`TransactionState``.``COMPLETE` |`COMPLETE` |Transaction complete
+
+|`5` |`TransactionState``.``PREPARED` |`PREPARED` |Transaction in
+prepared statelink:#foot-distribonly2[^Foot 1 ^]
+
+|`6` |`TransactionState``.``COMMITTED` |`COMMITTED` |Transaction
+committed
+
+|`7` |`TransactionState``.``ROLLEDBACK` |`ROLLEDBACK` |Transaction
+rolled back
+
+|`8` |`TransactionState``.``TIMED_OUT` |`TIMED_OUT` |Transaction has
+timed out
+
+|`-1` |`TransactionState``.``UNKNOWN` |`UNKNOWN` |Transaction state
+unknown
+|=======================================================================
+
+
+^Footnote 1 ^Distributed transactions only
+
+[[gciqf]][[GMJMG00141]][[notifications-6]]
+
+Notifications
++++++++++++++
+
+The transaction manager monitor MBean supports the notifications shown
+in link:#gbacp[Table 3-72]. These notifications are instances of the
+Message Queue JMX class `TransactionNotification`, and their names are
+defined as static constants in that class.
+
+[[GMJMG280]][[sthref93]][[gbacp]]
+
+
+Table 3-72 Transaction Manager Monitor Notifications
+
+[width="100%",cols="28%,53%,19%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.transaction.prepare`link:#foot-distribonly3[^Foot 1 ^]
+|`TransactionNotification``.``TRANSACTION_PREPARE` |Transaction has
+entered prepared state
+
+|`mq.transaction.commit`
+|`TransactionNotification``.``TRANSACTION_COMMIT` |Transaction committed
+
+|`mq.transaction.rollback`
+|`TransactionNotification``.``TRANSACTION_ROLLBACK` |Transaction rolled
+back
+|=======================================================================
+
+
+^Footnote 1 ^Distributed transactions only
+
+link:#gcmzn[Table 3-73] shows the method defined in class
+`TransactionNotification` for obtaining details about a transaction
+manager monitor notification.
+
+[[GMJMG281]][[sthref94]][[gcmzn]]
+
+
+Table 3-73 Data Retrieval Method for Transaction Manager Monitor
+Notifications
+
+[width="100%",cols="23%,18%,59%",options="header",]
+|====================================================
+|Method |Result Type |Description
+|`getTransactionID` |`String` |Transaction identifier
+|====================================================
+
+
+[[gbxsf]][[GMJMG00039]][[broker-clusters]]
+
+Broker Clusters
+~~~~~~~~~~~~~~~
+
+This section describes the MBeans used for managing broker clusters:
+
+* The cluster configuration MBean configures a broker's cluster-related
+properties.
+* The cluster monitor MBean monitors the brokers in a cluster.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcamw]][[GMJMG00194]][[cluster-configuration]]
+
+Cluster Configuration
+^^^^^^^^^^^^^^^^^^^^^
+
+The cluster configuration MBean is used for configuring a broker's
+cluster-related properties. There is one such MBean for each broker.
+
+[[gcirs]][[GMJMG00142]][[object-name-20]]
+
+Object Name
++++++++++++
+
+The cluster configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Cluster,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`CLUSTER_CONFIG_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gciqq]][[GMJMG00143]][[attributes-13]]
+
+Attributes
+++++++++++
+
+The cluster configuration MBean has the attributes shown in
+link:#gbabo[Table 3-74]. The names of these attributes are defined as
+static constants in the utility class `ClusterAttributes`.
+
+[[GMJMG282]][[sthref95]][[gbabo]]
+
+
+Table 3-74 Cluster Configuration Attributes
+
+[width="100%",cols="39%,17%,10%,34%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`HighlyAvailable` |`Boolean` |No |High-availability (HA) cluster?
+
+|`ClusterID`link:#foot-haonly4[^Foot 1 ^] |`String` |No a|
+Cluster identifier
+
+Must be a unique alphanumeric string of no more than n - 13 characters,
+where n is the maximum table name length allowed by the database. No two
+running clusters may have the same cluster identifier.
+
+This string is appended to the names of all database tables in the
+cluster's shared persistent store.
+
+Note: For brokers belonging to an HA cluster, this attribute is used in
+database table names in place of `BrokerID` (see link:#gbaaa[Table
+3-1]).
+
+|`ConfigFileURL`link:#foot-convonly1[^Foot 2 ^] |`String` |Yes |URL of
+cluster configuration file
+
+|`LocalBrokerInfo` |`CompositeData` |No a|
+Descriptive information about local broker
+
+The value returned is a JMX `CompositeData` object describing the
+broker; see link:#gbabn[Table 3-76] for lookup keys used with this
+object.
+
+|`MasterBrokerInfo`link:#sthref96[^Footref 2^] |`CompositeData` |No a|
+Descriptive information about master broker
+
+The value returned is a JMX `CompositeData` object describing the master
+broker; see link:#gbabn[Table 3-76] for lookup keys used with this
+object.
+
+|`UseSharedDatabaseForConfigRecord`link:#sthref97[^Footref 2^]
+|`Boolean` |No |Does conventional cluster use a shared JDBC data store
+instead of a master broker for the cluster configuration change record?
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+^Footnote 2 ^Conventional clusters only
+
+[[gciqj]][[GMJMG00144]][[operations-14]]
+
+Operations
+++++++++++
+
+The cluster configuration MBean supports the operations shown in
+link:#gbabp[Table 3-75]. The names of these operations are defined as
+static constants in the utility class `ClusterOperations`.
+
+[[GMJMG283]][[sthref98]][[gbabp]]
+
+
+Table 3-75 Cluster Configuration Operations
+
+[width="100%",cols="28%,17%,19%,36%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getBrokerAddresses` |None |`String``[]` a|
+Addresses of brokers in cluster
+
+Each address specifies the host name and Port Mapper port number of a
+broker in the cluster, in the form hostName`:`portNumber.
+
+Example:
+
+`host1:3000`
+
+For conventional clusters, the list includes all brokers specified by
+the broker property `imq.cluster.brokerlist`. For HA clusters, it
+includes all active and inactive brokers in the cluster table stored in
+the HA database.
+
+|`getBrokerIDs`link:#foot-haonly5[^Foot 1 ^] |None |`String``[]` a|
+Broker identifiers of brokers in cluster
+
+The list includes all active and inactive brokers in the cluster table
+stored in the HA database.
+
+|`getBrokerInfoByAddress` |brokerAddress (`String`) |`CompositeData` a|
+Descriptive information about broker
+
+The desired broker is designated by its host name and Port Mapper port
+number (brokerAddress), in the form hostName`:`portNumber. The value
+returned is a JMX `CompositeData` object describing the broker; see
+link:#gbabn[Table 3-76] for lookup keys used with this object.
+
+|`getBrokerInfoByID`link:#sthref99[^Footref 1^] |brokerID (`String`)
+|`CompositeData` a|
+Descriptive information about broker
+
+The desired broker is designated by its broker identifier (brokerID).
+The value returned is a JMX `CompositeData` object describing the
+broker; see link:#gbabn[Table 3-76] for lookup keys used with this
+object. For conventional clusters, the operation returns `null`.
+
+|`getBrokerInfo` |None |`CompositeData``[]` a|
+Descriptive information about all brokers in cluster
+
+The value returned is an array of JMX `CompositeData` objects describing
+the brokers; see link:#gbabn[Table 3-76] for lookup keys used with these
+objects.
+
+For conventional clusters, the array includes all brokers specified by
+the broker property `imq.cluster.brokerlist`. For HA clusters, it
+includes all active and inactive brokers in the cluster table stored in
+the HA database.
+
+|`reload`link:#foot-convonly2[^Foot 2 ^] |None |None |Reload cluster
+configuration file
+
+|`changeMasterBroker`link:#sthref100[^Footref 2^] |oldMasterBroker
+(`String`), newMasterBroker (`String`) |`CompositeData` a|
+Specify a change of master broker from oldMasterBroker to
+newMasterBroker, where both arguments are in imq.cluster.masterbroker
+format (host:port).
+
+The value returned is a JMX `CompositeData` object containing
+information about the success or failure of the operation; see
+link:#gkvxv[Table 3-77] for lookup keys used with this object.
+
+This operation can only be performed on the broker that is the current
+master broker. If it is performed on any other broker it will have no
+effect and the `CompositeData` object returned will contain details of
+the error.
+
+This operation must not be performed on a broker whose lifecycle is
+being managed by GlassFish Server. In this case GlassFish Server tools
+must be used instead.
+
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+^Footnote 2 ^Conventional clusters only
+
+The `LocalBrokerInfo` and `MasterBrokerInfo` attributes and the
+`getBrokerInfoByAddress`, `getBrokerInfoByID`, and `getBrokerInfo`
+operations return objects implementing the JMX interface
+`CompositeData`, which maps lookup keys to associated data values. The
+keys shown in link:#gbabn[Table 3-76] are defined as static constants in
+the utility class `BrokerClusterInfo` for use with these objects.
+
+[[GMJMG284]][[sthref101]][[gbabn]]
+
+
+Table 3-76 Lookup Keys for Cluster Configuration Information
+
+[width="100%",cols="14%,18%,68%",options="header",]
+|==============================================================
+|Key |Value Type |Description
+|`Address` |`String` a|
+Broker address, in the form hostName`:`portNumber
+
+Example:
+
+`host1:3000`
+
+|`ID`link:#foot-haonly6[^Foot 1 ^] |`String` |Broker identifier
+|==============================================================
+
+
+^Footnote 1 ^HA clusters only
+
+The `changeMasterBroker` operation returns an object implementing the
+JMX interface `CompositeData`, which maps lookup keys to associated data
+values. The keys shown in link:#gkvxv[Table 3-77] are defined as static
+constants in the utility class `ChangeMasterBrokerResultInfo` for use
+with this object.
+
+[[GMJMG285]][[sthref102]][[gkvxv]]
+
+
+Table 3-77 Lookup Keys for `changeMasterBroker`
+
+[width="100%",cols="17%,12%,71%",options="header",]
+|=======================================================================
+|Key |Value Type |Description
+|`Success` |`Boolean` |Whether an error occurred when performing the
+`changeMasterBroker` operation. If an error occurred, the `StatusCode`
+and `DetailMessage` keys contain more information.
+
+|`StatusCode` |`Integer` |A status code set when an error occurred. The
+`DetailMessage` key contains more information.
+
+|`DetailMessage` |`String` |An error message set when an error occurs.
+The possible errors, and the actions that should be taken to resolve
+them, are the same as for the `imqcmd changemaster` command, as
+described in "link:../mq-admin-guide/broker-clusters.html#GMADG00182[To Change the Master Broker Dynamically
+While the Cluster Is Running]" in Open Message Queue Administration
+Guide.
+|=======================================================================
+
+
+[[gcipf]][[GMJMG00145]][[notification-4]]
+
+Notification
+++++++++++++
+
+The cluster configuration MBean supports the notification shown in
+link:#gbabq[Table 3-78].
+
+[[GMJMG286]][[sthref103]][[gbabq]]
+
+
+Table 3-78 Cluster Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gcanl]][[GMJMG00195]][[cluster-monitor]]
+
+Cluster Monitor
+^^^^^^^^^^^^^^^
+
+The cluster monitor MBean is used for monitoring the brokers in a
+cluster. There is one such MBean for each broker.
+
+[[gcirv]][[GMJMG00146]][[object-name-21]]
+
+Object Name
++++++++++++
+
+The cluster monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Cluster,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`CLUSTER_MONITOR_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gcipu]][[GMJMG00147]][[attributes-14]]
+
+Attributes
+++++++++++
+
+The cluster monitor MBean has the attributes shown in link:#gbadk[Table
+3-79]. The names of these attributes are defined as static constants in
+the utility class `ClusterAttributes`.
+
+[[GMJMG287]][[sthref104]][[gbadk]]
+
+
+Table 3-79 Cluster Monitor Attributes
+
+[width="100%",cols="39%,17%,10%,34%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`HighlyAvailable` |`Boolean` |No |High-availability (HA) cluster?
+
+|`ClusterID`link:#foot-haonly7[^Foot 1 ^] |`String` |No a|
+Cluster identifier
+
+Must be a unique alphanumeric string of no more than n - 13 characters,
+where n is the maximum table name length allowed by the database. No two
+running clusters may have the same cluster identifier.
+
+This string is appended to the names of all database tables in the
+cluster's shared persistent store.
+
+Note: For brokers belonging to an HA cluster, this attribute is used in
+database table names in place of `BrokerID` (see link:#gbabu[Table
+3-4]).
+
+|`ConfigFileURL`link:#foot-convonly3[^Foot 2 ^] |`String` |Yes |URL of
+cluster configuration file
+
+|`LocalBrokerInfo` |`CompositeData` |No a|
+Descriptive information about local broker
+
+The value returned is a JMX `CompositeData` object describing the
+broker; see link:#gbadj[Table 3-81] for lookup keys used with this
+object.
+
+|`MasterBrokerInfo`link:#sthref105[^Footref 2^] |`CompositeData` |No a|
+Descriptive information about master broker
+
+The value returned is a JMX `CompositeData` object describing the master
+broker; see link:#gbadj[Table 3-81] for lookup keys used with this
+object.
+
+|`UseSharedDatabaseForConfigRecord`link:#sthref106[^Footref 2^]
+|`Boolean` |No |Does conventional cluster use a shared JDBC data store
+instead of a master broker for the cluster configuration change record?
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+^Footnote 2 ^Conventional clusters only
+
+[[gciqk]][[GMJMG00148]][[operations-15]]
+
+Operations
+++++++++++
+
+The cluster monitor MBean supports the operations shown in
+link:#gbadl[Table 3-80]. The names of these operations are defined as
+static constants in the utility class `ClusterOperations`.
+
+[[GMJMG288]][[sthref107]][[gbadl]]
+
+
+Table 3-80 Cluster Monitor Operations
+
+[width="100%",cols="27%,14%,19%,40%",options="header",]
+|=======================================================================
+|Name |Parameters |Result Type |Description
+|`getBrokerAddresses` |None |`String``[]` a|
+Addresses of brokers in cluster
+
+Each address specifies the host name and Port Mapper port number of a
+broker in the cluster, in the form hostName`:`portNumber.
+
+Example:
+
+`host1:3000`
+
+For conventional clusters, the list includes all brokers specified by
+the broker property `imq.cluster.brokerlist`. For HA clusters, it
+includes all active and inactive brokers in the cluster table stored in
+the HA database.
+
+|`getBrokerIDs`link:#foot-haonly8[^Foot 1 ^] |None |`String``[]` a|
+Broker identifiers of brokers in cluster
+
+The list includes all active and inactive brokers in the cluster table
+stored in the HA database.
+
+|`getBrokerInfoByAddress` |brokerAddress (`String`) |`CompositeData` a|
+Descriptive information about broker
+
+The desired broker is designated by its host name and Port Mapper port
+number (brokerAddress), in the form hostName`:`portNumber. The value
+returned is a JMX `CompositeData` object describing the broker;
+seelink:#gbadj[Table 3-81] for lookup keys used with this object.
+
+|`getBrokerInfoByID`link:#sthref108[^Footref 1^] |brokerID (`String`)
+|`CompositeData` a|
+Descriptive information about broker
+
+The desired broker is designated by its broker identifier (brokerID).
+The value returned is a JMX `CompositeData` object describing the
+broker; seelink:#gbadj[Table 3-81] for lookup keys used with this
+object. For conventional clusters, the operation returns `null`.
+
+|`getBrokerInfo` |None |`CompositeData``[]` a|
+Descriptive information about all brokers in cluster
+
+The value returned is an array of JMX `CompositeData` objects describing
+the brokers; see link:#gbadj[Table 3-81] for lookup keys used with these
+objects.
+
+For conventional clusters, the array includes all brokers specified by
+the broker property `imq.cluster.brokerlist`. For HA clusters, it
+includes all active and inactive brokers in the cluster table stored in
+the HA database.
+
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+The `LocalBrokerInfo` and `MasterBrokerInfo` attributes and the
+`getBrokerInfoByAddress`, `getBrokerInfoByID`, and `getBrokerInfo`
+operations return objects implementing the JMX interface
+`CompositeData`, which maps lookup keys to associated data values. The
+keys shown in link:#gbadj[Table 3-81] are defined as static constants in
+the utility class `BrokerClusterInfo` for use with these objects.
+
+[[GMJMG289]][[sthref109]][[gbadj]]
+
+
+Table 3-81 Lookup Keys for Cluster Monitor Information
+
+[width="100%",cols="21%,12%,67%",options="header",]
+|=======================================================================
+|Key |Value Type |Description
+|`Address` |`String` a|
+Broker address, in the form hostName`:`portNumber
+
+Example:
+
+`host1:3000`
+
+|`ID`link:#foot-haonly9[^Foot 1 ^] |`String` |Broker identifier
+
+|`State` |`Integer` a|
+Current state of broker
+
+See link:#gcixh[Table 3-82] for possible values.
+
+|`StateLabel` |`String` a|
+String representation of current broker state
+
+Useful for displaying the state in human-readable form, such as in the
+Java Monitoring and Management Console (`jconsole`).
+
+See link:#gcixh[Table 3-82] for possible values.
+
+|`TakeoverBrokerID`link:#sthref110[^Footref 1^] |`String` |Broker
+identifier of broker that has taken over this broker's persistent data
+store
+
+|`NumMsgs`link:#sthref111[^Footref 1^] |`Long` |Current number of
+messages stored in memory and persistent store
+
+|`StatusTimestamp`link:#sthref112[^Footref 1^] |`Long` a|
+Time of last status update, in standard Java format (milliseconds since
+January 1, 1970, 00:00:00 UTC)
+
+Used to determine whether a broker is running.
+
+The interval at which a broker updates its status can be configured with
+the broker property `imq.cluster.monitor.interval`.
+
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+link:#gcixh[Table 3-82] shows the possible values returned for the
+lookup keys `State` and `StateLabel`. These values are defined as static
+constants in the utility class `BrokerState`.
+
+[[GMJMG290]][[sthref113]][[gcixh]]
+
+
+Table 3-82 Broker State Values
+
+[width="154%",cols="41%,22%,12%,25%",options="header",]
+|=======================================================================
+|Value |Utility Constant |String Representation |Meaning
+|`0` |`BrokerState``.``OPERATING` |`OPERATING` |Broker is operating
+
+|`1` |`BrokerState``.``TAKEOVER_STARTED` |`TAKEOVER_STARTED` |Broker has
+begun taking over persistent data store from another broker
+
+|`2` |`BrokerState``.``TAKEOVER_COMPLETE` |`TAKEOVER_COMPLETE` |Broker
+has finished taking over persistent data store from another broker
+
+|`3` |`BrokerState``.``TAKEOVER_FAILED` |`TAKEOVER_FAILED` |Attempted
+takeover has failed
+
+|`4` |`BrokerState``.``QUIESCE_STARTED` |`QUIESCE_STARTED` |Broker has
+begun quiescing
+
+|`5` |`BrokerState``.``QUIESCE_COMPLETE` |`QUIESCE_COMPLETE` |Broker has
+finished quiescing
+
+|`6` |`BrokerState``.``SHUTDOWN_STARTED` |`SHUTDOWN_STARTED` |Broker has
+begun shutting down
+
+|`7` |`BrokerState``.``BROKER_DOWN` |`BROKER_DOWN` |Broker is down
+
+|`-1` |`BrokerState``.``UNKNOWN` |`UNKNOWN` |Broker state unknown
+|=======================================================================
+
+
+[[gcipe]][[GMJMG00149]][[notifications-7]]
+
+Notifications
++++++++++++++
+
+The cluster monitor MBean supports the notifications shown in
+link:#gbadm[Table 3-83]. These notifications are instances of the
+Message Queue JMX classes `ClusterNotification` and
+`BrokerNotification`, and their names are defined as static constants in
+those classes.
+
+[[GMJMG291]][[sthref114]][[gbadm]]
+
+
+Table 3-83 Cluster Monitor Notifications
+
+[width="100%",cols="33%,35%,32%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.cluster.broker.join` |`ClusterNotification``.``CLUSTER_BROKER_JOIN`
+|A broker has joined the cluster
+
+|`mq.cluster.broker.down` |`ClusterNotification``.``CLUSTER_BROKER_DOWN`
+|A broker in the cluster has shut down or crashed
+
+|`mq.broker.takeover.start`link:#foot-haonly10[^Foot 1 ^]
+|`BrokerNotification``.``BROKER_TAKEOVER_START` |A broker has begun
+taking over persistent data store from another broker
+
+|`mq.broker.takeover.complete`link:#sthref115[^Footref 1^]
+|`BrokerNotification``.``BROKER_TAKEOVER_COMPLETE` |A broker has
+finished taking over persistent data store from another broker
+
+|`mq.broker.takeover.fail`link:#sthref116[^Footref 1^]
+|`BrokerNotification``.``BROKER_TAKEOVER_FAIL` |An attempted takeover
+has failed
+|=======================================================================
+
+
+^Footnote 1 ^HA clusters only
+
+link:#gcmzm[Table 3-84] shows the methods defined in class
+`ClusterNotification` for obtaining details about a cluster monitor
+notification. See link:#gcmzt[Table 3-6] for the corresponding methods
+of class `BrokerNotification`.
+
+[[GMJMG292]][[sthref117]][[gcmzm]]
+
+
+Table 3-84 Data Retrieval Methods for Cluster Monitor Notifications
+
+[width="100%",cols="25%,15%,60%",options="header",]
+|=======================================================================
+|Method |Result Type |Description
+|`isHighlyAvailable` |`Boolean` |High-availability (HA) cluster?
+
+|`getClusterID` |`String` |Cluster identifier
+
+|`getBrokerID` |`String` |Broker identifier of affected broker
+
+|`getBrokerAddress` |`String` a|
+Address of affected broker, in the form hostName`:`portNumber
+
+Example:
+
+`host1:3000`
+
+|`isMasterBroker`link:#foot-convonly4[^Foot 1 ^] |`Boolean` |Master
+broker affected?
+|=======================================================================
+
+
+^Footnote 1 ^Conventional clusters only
+
+[[gbxsb]][[GMJMG00040]][[logging]]
+
+Logging
+~~~~~~~
+
+This section describes the MBeans used for logging Message Queue
+operations:
+
+* The log configuration MBean configures Message Queue logging.
+* The log monitor MBean monitors Message Queue logging.
+
+The following subsections describe each of these MBeans in detail.
+
+[[gcalw]][[GMJMG00196]][[log-configuration]]
+
+Log Configuration
+^^^^^^^^^^^^^^^^^
+
+Each broker has a single log configuration MBean, used for configuring
+Message Queue logging.
+
+[[gciqz]][[GMJMG00150]][[object-name-22]]
+
+Object Name
++++++++++++
+
+The log configuration MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Log,subtype=Config`
+
+A string representing this object name is defined as a static constant
+`LOG_CONFIG_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gciov]][[GMJMG00151]][[attributes-15]]
+
+Attributes
+++++++++++
+
+The log configuration MBean has the attributes shown in
+link:#gbabr[Table 3-85]. The names of these attributes are defined as
+static constants in the utility class `LogAttributes`.
+
+[[GMJMG293]][[sthref118]][[gbabr]]
+
+
+Table 3-85 Log Configuration Attributes
+
+[width="172%",cols="12%,46%,5%,37%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`Level` |`String` |Yes a|
+Logging level
+
+Specifies the categories of logging information that can be written to
+an output channel. See link:#gcixr[Table 3-86] for possible values.
+
+|`RolloverBytes` |`Long` |Yes a|
+File length, in bytes, at which output rolls over to a new log file
+
+A value of `-1` denotes an unlimited number of bytes (no rollover based
+on file length).
+
+|`RolloverSecs` |`Long` |Yes a|
+Age of file, in seconds, at which output rolls over to a new log file
+
+A value of `-1` denotes an unlimited number of seconds (no rollover
+based on file age).
+
+|=======================================================================
+
+
+link:#gcixr[Table 3-86] shows the possible values for the `Level`
+attribute. Each level includes those above it (for example, `WARNING`
+includes `ERROR`). These values are defined as static constants in the
+utility class `LogLevel`.
+
+[[GMJMG294]][[sthref119]][[gcixr]]
+
+
+Table 3-86 Log Configuration Logging Levels
+
+[width="100%",cols="34%,33%,33%",options="header",]
+|========================================================
+|Name |Utility Constant |Meaning
+|`NONE` |`LogLevel``.``NONE` |No logging
+|`ERROR` |`LogLevel``.``ERROR` |Log error messages
+|`WARNING` |`LogLevel``.``WARNING` |Log warning messages
+|`INFO` |`LogLevel``.``INFO` |Log informational messages
+|`UNKNOWN` |`LogLevel``.``UNKNOWN` |Logging level unknown
+|========================================================
+
+
+[[gciqp]][[GMJMG00152]][[notification-5]]
+
+Notification
+++++++++++++
+
+The log configuration MBean supports the notification shown in
+link:#gbabt[Table 3-87].
+
+[[GMJMG295]][[sthref120]][[gbabt]]
+
+
+Table 3-87 Log Configuration Notification
+
+[width="100%",cols="40%,60%",options="header",]
+|===============================================
+|Name |Description
+|`jmx.attribute.change` |Attribute value changed
+|===============================================
+
+
+[[gcane]][[GMJMG00197]][[log-monitor]]
+
+Log Monitor
+^^^^^^^^^^^
+
+Each broker has a single log monitor MBean, used for monitoring Message
+Queue logging.
+
+[[gcist]][[GMJMG00153]][[object-name-23]]
+
+Object Name
++++++++++++
+
+The log monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=Log,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`LOG_MONITOR_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gcipt]][[GMJMG00154]][[notifications-8]]
+
+Notifications
++++++++++++++
+
+The log monitor MBean supports the notifications shown in
+link:#gbadp[Table 3-88]. These notifications are instances of the
+Message Queue JMX class `LogNotification`, and their names are defined
+as static utility constants in that class.
+
+
+[NOTE]
+=======================================================================
+
+A notification listener registered for a particular logging level will
+receive notifications only for that level and not for those above or
+below it: for example, a listener registered for the notification
+`mq.log.level.WARNING` will be notified only of `WARNING` messages and
+not `ERROR` or `INFO`. To receive notifications for more than one
+logging level, the listener must be explicitly registered for each level
+separately.
+
+=======================================================================
+
+
+[[GMJMG296]][[sthref121]][[gbadp]]
+
+
+Table 3-88 Log Monitor Notifications
+
+[width="100%",cols="30%,40%,30%",options="header",]
+|=======================================================================
+|Name |Utility Constant |Description
+|`mq.log.level.ERROR` |`LogNotification``.``LOG_LEVEL_ERROR` |Error
+message logged
+
+|`mq.log.level.WARNING` |`LogNotification``.``LOG_LEVEL_WARNING`
+|Warning message logged
+
+|`mq.log.level.INFO` |`LogNotification``.``LOG_LEVEL_INFO`
+|Informational message logged
+|=======================================================================
+
+
+link:#gcmzu[Table 3-89] shows the methods defined in class
+`LogNotification` for obtaining details about a log monitor
+notification.
+
+[[GMJMG297]][[sthref122]][[gcmzu]]
+
+
+Table 3-89 Data Retrieval Methods for Log Monitor Notifications
+
+[width="100%",cols="20%,20%,60%",options="header",]
+|===============================================
+|Method |Result Type |Description
+|`getLevel` |`String` a|
+Logging level of logged message
+
+See link:#gcixr[Table 3-86] for possible values.
+
+|`getMessage` |`String` |Body of logged message
+|===============================================
+
+
+[[gbxrj]][[GMJMG00041]][[java-virtual-machine]]
+
+Java Virtual Machine
+~~~~~~~~~~~~~~~~~~~~
+
+This section describes the MBean used for monitoring the Java Virtual
+Machine (JVM). The following subsection describes this MBean in detail.
+
+[[gcani]][[GMJMG00198]][[jvm-monitor]]
+
+JVM Monitor
+^^^^^^^^^^^
+
+Each broker has a single JVM monitor MBean, used for monitoring the Java
+Virtual Machine (JVM).
+
+
+[NOTE]
+=======================================================================
+
+This MBean is useful only with the Java Development Kit (JDK ) version
+1.4 or lower. JDK version 1.5 includes built-in MBeans that provide more
+detailed information on the state of the JVM.
+
+=======================================================================
+
+
+[[gcirn]][[GMJMG00155]][[object-name-24]]
+
+Object Name
++++++++++++
+
+The JVM monitor MBean has the following object name:
+
+`com.sun.messaging.jms.server:type=JVM,subtype=Monitor`
+
+A string representing this object name is defined as a static constant
+`JVM_MONITOR_MBEAN_NAME` in the utility class `MQObjectName`.
+
+[[gcipk]][[GMJMG00156]][[attributes-16]]
+
+Attributes
+++++++++++
+
+The JVM monitor MBean has the attributes shown in link:#gbadq[Table
+3-90]. The names of these attributes are defined as static constants in
+the utility class `JVMAttributes`.
+
+[[GMJMG298]][[sthref123]][[gbadq]]
+
+
+Table 3-90 JVM Monitor Attributes
+
+[width="154%",cols="11%,38%,6%,45%",options="header",]
+|=======================================================================
+|Name |Type |Settable? |Description
+|`TotalMemory` |`Long` |No |Current total memory, in bytes
+
+|`InitMemory` |`Long` |No |Initial heap size at JVM startup, in bytes
+
+|`FreeMemory` |`Long` |No |Amount of memory currently available for use,
+in bytes
+
+|`MaxMemory` |`Long` |No a|
+Maximum allowable heap size, in bytes
+
+Any memory allocation attempt that would exceed this limit will cause an
+`OutOfMemoryError` exception to be thrown.
+
+|=======================================================================
+
+
+

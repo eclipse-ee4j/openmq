@@ -1,0 +1,336 @@
+type=page
+status=published
+title=Glossary
+prev=mq-optional-jms-support.html
+~~~~~~
+Glossary
+========
+
+[[GMTOV00032]][[aerea]]
+
+
+[[glossary]]
+Glossary
+--------
+
+This glossary provides information about terms and concepts you might
+encounter while using Message Queue.
+
+[[GMTOV164]][[sthref40]]
+
+
+acknowledgement
+
+Control messages exchanged between clients and broker to ensure reliable
+delivery. There are two general types of acknowledgement: client
+acknowledgements and broker acknowledgements.
+
+[[GMTOV165]][[sthref41]]
+
+
+administered objects
+
+A pre-configured object—a connection factory or a destination—that
+encapsulates provider-specific implementation details, and is created by
+an administrator for use by one or more JMS clients. The use of
+administered objects allows JMS clients to be provider-independent.
+Administered objects are placed in a JNDI name space by and are accessed
+by JMS clients using JNDI lookups.
+
+[[GMTOV166]][[sthref42]]
+
+
+asynchronous messaging
+
+An exchange of messages in which the sending of a message does not
+depend upon the readiness of the consumer to receive it. In other words,
+the sender of a message need not wait for the sending method to return
+before it continues with other work. If a message consumer is busy or
+offline, the message is sent and subsequently received when the consumer
+is ready.
+
+[[GMTOV167]][[sthref43]]
+
+
+authentication
+
+The process by which only verified users are allowed to set up a
+connection to a broker.
+
+[[GMTOV168]][[sthref44]]
+
+
+authorization
+
+The process by which a message service determines whether a user can
+access message service resources, such as connection services or
+destinations, to perform specific operations supported by the message
+service.
+
+[[GMTOV169]][[sthref45]]
+
+
+broker
+
+The Message Queue entity that manages message routing, delivery,
+persistence, security, and logging, and that provides an interface for
+monitoring and tuning performance and resource use.
+
+[[GMTOV170]][[sthref46]]
+
+
+client
+
+An application (or software component) that interacts with other clients
+using a message service to exchange messages. The client can be a
+producing client, a consuming client, or both.
+
+[[GMTOV171]][[sthref47]]
+
+
+client identifier
+
+An identifier that associates a connection and its objects with a state
+maintained by the Message Queue broker on behalf of the client.
+
+[[GMTOV172]][[sthref48]]
+
+
+client runtime
+
+Message Queue software that provides messaging clients with an interface
+to the Message Queue message service. The client runtime supports all
+operations needed for clients to send messages to destinations and to
+receive messages from destinations.
+
+[[GMTOV173]][[sthref49]]
+
+
+cluster
+
+Two or more interconnected brokers that work in concert to provide
+scalable messaging services. In the event of failover and reconnection,
+conventional clusters provide service availability; enhanced clusters
+provide service and data availability.
+
+[[GMTOV174]][[sthref50]]
+
+
+cluster connection service
+
+A private protocol that enables brokers in a cluster to provide
+reliable, synchronized service.
+
+[[GMTOV175]][[sthref51]]
+
+
+connection
+
+A communication channel between a client and a broker used to pass both
+payload messages and control messages.
+
+[[GMTOV176]][[sthref52]]
+
+
+connection factory
+
+The administered object the client uses to create a connection to a
+broker. This can be a `ConnectionFactory` object, a
+`QueueConnectionFactory` object or a `TopicConnectionFactory` object.
+
+[[GMTOV177]][[sthref53]]
+
+
+consumer
+
+An object (`MessageConsumer`) created by a session that is used for
+receiving messages sent from a destination. In the point-to-point
+delivery model, the consumer is a receiver or browser (`QueueReceiver`
+or `QueueBrowser`); in the publish/subscribe delivery model, the
+consumer is a subscriber (`TopicSubscriber`).
+
+[[GMTOV178]][[sthref54]]
+
+
+data store
+
+A database where information (durable subscriptions, data about
+destinations, persistent messages, auditing data) needed by the broker
+is permanently stored.
+
+[[GMTOV179]][[sthref55]]
+
+
+dead message
+
+A message that is removed from the system for a reason other than normal
+processing or explicit administrator action. A message might be
+considered dead because it has expired, because it has been removed from
+a destination due to memory limit overruns, or because of failed
+delivery attempts. You can choose to store dead messages on the dead
+message queue.
+
+[[GMTOV180]][[sthref56]]
+
+
+dead message queue
+
+A specialized destination created automatically at broker startup that
+is used to store dead messages for diagnostic purposes.
+
+[[GMTOV181]][[sthref57]]
+
+
+delivery mode
+
+An indicator of the reliability of messaging: whether messages are
+guaranteed to be delivered and successfully consumed once and only once
+(persistent delivery mode) or guaranteed to be delivered at most once
+(non-persistent delivery mode).
+
+[[GMTOV182]][[sthref58]]
+
+
+delivery model
+
+The model by which messages are delivered: either point-to-point or
+publish/subscribe. In JMS there are separate programming domains for
+each, using specific client runtime objects and specific destination
+types (queue or topic), as well as a unified programming domain.
+
+[[GMTOV183]][[sthref59]]
+
+
+destination
+
+The physical destination in a Message Queue broker to which produced
+messages are delivered for routing and subsequent delivery to consumers.
+This physical destination is identified and encapsulated by an
+administered object that a client uses to specify the destination for
+which it is producing messages and/or from which it is consuming
+messages.
+
+[[GMTOV184]][[sthref60]]
+
+
+domain
+
+A set of objects used by JMS clients to program JMS messaging
+operations. There are two programming domains: one for the
+point-to-point delivery model and one for the publish/subscribe delivery
+model.
+
+[[GMTOV185]][[sthref61]]
+
+
+encryption
+
+A mechanism for protecting messages from being tampered with during
+delivery over a connection.
+
+[[GMTOV186]][[sthref62]]
+
+
+group
+
+The group to which the user of a Message Queue client belongs for
+purposes of authorizing access to connections, destinations, and
+specific operations.
+
+[[GMTOV187]][[sthref63]]
+
+
+JMS provider
+
+A product that implements the JMS interfaces for a messaging system and
+adds the administrative and control functions needed to configure and
+manage that system.
+
+[[GMTOV188]][[sthref64]]
+
+
+message service
+
+A middleware service that provides asynchronous, reliable exchange of
+messages between distributed components or applications. It includes a
+broker, the client runtime, the several data stores needed by the broker
+to carry out its functions, and the administrative tools needed to
+configure and monitor the broker and to tune performance.
+
+[[GMTOV189]][[sthref65]]
+
+
+messages
+
+Asynchronous requests, reports, or events that are consumed by messaging
+clients. A message has a header (to which additional fields can be
+added) and a body. The message header specifies standard fields and
+optional properties. The message body contains the data that is being
+transmitted.
+
+[[GMTOV190]][[sthref66]]
+
+
+messaging
+
+A system of asynchronous requests, reports, or events used by enterprise
+applications that allows loosely coupled applications to transfer
+information reliably and securely.
+
+[[GMTOV191]][[sthref67]]
+
+
+producer
+
+An object `(MessageProducer)` created by a session that is used for
+sending messages to a destination. In the point-to-point delivery model,
+a producer is a sender (`QueueSender`); in the publish/subscribe
+delivery model, a producer is a publisher (`TopicPublisher`).
+
+[[GMTOV192]][[sthref68]]
+
+
+queue
+
+An object created by an administrator to implement the point-to-point
+delivery model. A queue is always available to hold messages even when
+the client that consumes its messages is inactive. A queue is used as an
+intermediary holding place between producers and consumers.
+
+[[GMTOV193]][[sthref69]]
+
+
+selector
+
+A message header property used to sort and route messages. A message
+service performs message filtering and routing based on criteria placed
+in message selectors.
+
+[[GMTOV194]][[sthref70]]
+
+
+session
+
+A single threaded context for sending and receiving messages. This can
+be a queue session or a topic session.
+
+[[GMTOV195]][[sthref71]]
+
+
+topic
+
+An object created by an administrator to implement the publish/subscribe
+delivery model. A topic may be viewed as node in a content hierarchy
+that is responsible for gathering and distributing messages addressed to
+it. By using a topic as an intermediary, message publishers are kept
+separate from message subscribers.
+
+[[GMTOV196]][[sthref72]]
+
+
+transaction
+
+An atomic unit of work that must either be completed or entirely rolled
+back.
+
+

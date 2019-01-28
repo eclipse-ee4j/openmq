@@ -1,0 +1,980 @@
+type=page
+status=published
+title=Quick-Start Tutorial
+next=part-administrative-tasks.html
+prev=admin-tasks-and-tools.html
+~~~~~~
+Quick-Start Tutorial
+====================
+
+[[GMADG00033]][[aeoay]]
+
+
+[[quick-start-tutorial]]
+2 Quick-Start Tutorial
+----------------------
+
+This quick-start tutorial provides a brief introduction to Message Queue
+administration by guiding you through some basic administrative tasks
+using the Message Queue Administration Console, a graphical interface
+for administering a message broker and object store. The chapter
+consists of the following sections:
+
+* link:#aeoaz[Starting the Administration Console]
+* link:#aeoba[Administration Console Online Help]
+* link:#aeobb[Working With Brokers]
+* link:#aeobg[Working With Physical Destinations]
+* link:#aeobl[Working With Object Stores]
+* link:#aeobo[Working With Administered Objects]
+* link:#aeobt[Running the Sample Application]
+
+The tutorial sets up the physical destinations and administered objects
+needed to run a simple JMS-compliant application,
+`HelloWorldMessageJNDI`. The application is available in the
+`helloworld` subdirectory of the example applications directory,
+`IMQ_HOME/examples`. In the last part of the tutorial, you will run this
+application.
+
+
+[NOTE]
+=======================================================================
+
+You must have the Message Queue product installed in order to follow the
+tutorial.
+
+=======================================================================
+
+
+The tutorial is only a basic introduction; it is not a substitute for
+reading the documentation. By following the steps described in the
+tutorial, you will learn how to
+
+* Start a Message Queue broker
+* Connect to a broker and use the Administration Console to manage it
+* Create physical destinations on the broker
+* Create an object store and use the Administration Console to connect
+to it
+* Add administered objects to the object store and view their properties
+
+
+[NOTE]
+=======================================================================
+
+The instructions given in this tutorial are specific to the Windows
+platform. Where necessary, supplemental notes are added for users of
+other platforms.
+
+=======================================================================
+
+
+Some administrative tasks cannot be accomplished using the
+Administration Console. You must use command line utilities to perform
+such tasks as the following:
+
+* Start up a broker
+* Create a broker cluster
+* Configure certain physical destination properties
+* Manage a JDBC database for persistent storage
+* Manage a user repository
+* Install a broker as a Windows service
+* Generate SSL certificates
+
+All of these tasks are covered in later chapters of this manual.
+
+[[aeoaz]][[GMADG00219]][[starting-the-administration-console]]
+
+Starting the Administration Console
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To start the Administration Console, enter the command:
+
+[source,oac_no_warn]
+----
+IMQ_HOME/bin/imqadmin
+----
+
+You may need to wait a few seconds before the Administration Console
+window is displayed (see link:#gbngn[Figure 2-1]).
+
+[[GMADG00002]][[gbngn]]
+
+
+.*Figure 2-1 Administration Console Window*
+image:img/startupscreen.png[
+"Startup screen for Sun Java System Message Queue. Tree view in left
+pane; contents in right pane."]
+
+
+Take a few seconds to examine the Administration Console window. It has
+a menu bar at the top, a tool bar just below it, a navigation pane to
+the left, a result pane to the right (now displaying graphics
+identifying the Message Queue product), and a status pane at the bottom.
+
+
+[NOTE]
+=======================================================================
+
+As you work with the Administration Console, you can use the Refresh
+command on the View menu to update the visual display of any element or
+group of elements, such as a list of brokers or object stores.
+
+=======================================================================
+
+
+[[aeoba]][[GMADG00220]][[administration-console-online-help]]
+
+Administration Console Online Help
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Administration Console provides a help facility containing complete
+information about how to use the Console to perform administrative
+tasks. To use the help facility, pull down the Help menu at the right
+end of the menu bar and choose Overview. The Administration Console's
+Help window (link:#gbnhm[Figure 2-2]) will be displayed.
+
+[[GMADG00003]][[gbnhm]]
+
+
+.*Figure 2-2 Administration Console Help Window*
+image:img/helpoverview.png[
+"Message Queue Administration Console help window. Tree view of available
+help topics on left: help topic content window on right."]
+
+
+The Help window's navigation pane, on the left, organizes topics into
+three areas: Message Queue Administration Console, Message Queue Object
+Store Management, and Message Queue Broker Management. Within each area
+are files and folders. The folders provide help for dialog boxes
+containing multiple tabs, the files for simple dialog boxes or
+individual tabs. When you select an item in the navigation pane, the
+result pane to the right shows the contents of that item. With the
+Overview item chosen, the result pane displays a skeletal view of the
+Administration Console window identifying each of the window's panes, as
+shown in the figure.
+
+Your first task with the Administration Console will be to create a
+reference to a broker. Before you start, however, check the Help window
+for information. Click the Add Broker item in the Help window's
+navigation pane; the contents of the result pane will change to show
+text explaining what it means to add a broker and describing the use of
+each field in the Add Broker dialog box. Read through the help text,
+then close the Help window.
+
+[[aeobb]][[GMADG00221]][[working-with-brokers]]
+
+Working With Brokers
+~~~~~~~~~~~~~~~~~~~~
+
+This section describes how to use the Administration Console to connect
+to and manage message brokers.
+
+[[aeobc]][[GMADG00496]][[starting-a-broker]]
+
+Starting a Broker
+^^^^^^^^^^^^^^^^^
+
+You cannot start a broker using the Administration Console. Instead,
+enter the command:
+
+[source,oac_no_warn]
+----
+IMQ_HOME/bin/imqbrokerd
+----
+
+If you used the Windows Start menu, the command window will appear,
+indicating that the broker is ready by displaying lines like the
+following:
+
+[source,oac_no_warn]
+----
+Loading persistent data...    Broker "imqbroker@stan:7676 ready.
+----
+
+Reactivate the Administration Console window. You are now ready to add
+the broker to the Console and connect to it. You do not have to start
+the broker before adding a reference to it in the Administration
+Console, but you must start it before you can connect to it.
+
+[[aeobd]][[GMADG00497]][[adding-a-broker-to-the-administration-console]]
+
+Adding a Broker to the Administration Console
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Adding a broker creates a reference to that broker in the Administration
+Console. After adding the broker, you can connect to it.
+
+[[gbngl]][[GMADG00145]][[to-add-a-broker-to-the-administration-console]]
+
+To Add a Broker to the Administration Console
++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Click on the Brokers item in the Administration Console window's
+navigation pane and choose Add Broker from the Actions menu. +
+Alternatively, you can right-click on Brokers and choose Add Broker from
+the pop-up context menu. In either case, the Add Broker dialog box
+(link:#gbnid[Figure 2-3]) will appear. +
+[[GMADG00004]][[gbnid]]
+
+
+.*Figure 2-3 Add Broker Dialog Box*
+image:img/addbrokerdlog.png[
+"Add Broker dialog. Buttons from left to right: OK, Reset to Defaults,
+Cancel, Help."]
+
+2.  Enter a name for the broker in the Broker Label field. +
+This provides a label that identifies the broker in the Administration
+Console. +
+Note the default host name (`localhost`) and primary port ( `7676`)
+specified in the dialog box. These are the values you must specify
+later, when you configure the connection factory that the client will
+use to create connections to this broker. +
+For this exercise, type the name `MyBroker` into the Broker Label field.
+Leave the Password field blank; your password will be more secure if you
+specify it at connection time.
+3.  Click OK to add the broker and dismiss the dialog box. +
+The new broker will appear under Brokers in the navigation pane, as
+shown in link:#gbngo[Figure 2-4]. The red X over the broker's icon
+indicates that it is not currently connected to the Administration
+Console. +
+[[GMADG00005]][[gbngo]]
+
+
+.*Figure 2-4 Broker Displayed in Administration Console Window*
+image:img/brokers.png[
+"Message Queue Administration Console window. Broker selected in tree
+view."]
+
+Once you have added a broker, you can use the Properties command on the
+Actions menu (or the pop-up context menu) to display a Broker Properties
+dialog box, similar to the Add Broker dialog shown in link:#aeobd[Adding
+a Broker to the Administration Console], to view or modify any of its
+properties.
+
+[[aeobe]][[GMADG00498]][[connecting-to-a-broker]]
+
+Connecting to a Broker
+^^^^^^^^^^^^^^^^^^^^^^
+
+Now that you have added a broker to the Administration Console, you can
+proceed to connect to it.
+
+[[gbngw]][[GMADG00146]][[to-connect-to-a-broker]]
+
+To Connect to a Broker
+++++++++++++++++++++++
+
+1.  Click on the broker's name in the Administration Console window's
+navigation pane and choose Connect to Broker from the Actions menu. +
+Alternatively, you can right-click on the broker's name and choose
+Connect to Broker from the pop-up context menu. In either case, the
+Connect to Broker dialog box ( link:#gbngp[Figure 2-5]) will appear. +
+[[GMADG00006]][[gbngp]]
+
+
+.*Figure 2-5 Connect to Broker Dialog Box*
+image:img/connectbkrdlog.png[
+"Connect to Broker dialog. Buttons from left to right: OK, Cancel, Help."]
+
+2.  Enter the user name and password with which to connect to the
+broker. +
+The dialog box initially displays the default user name, `admin` . In a
+real-world environment, you should establish secure user names and
+passwords as soon as possible (see link:security-services.html#aeofg[User
+Authentication]); for this exercise, simply use the default value. +
+The password associated with the default user name is also `admin`; type
+it into the Password field in the dialog box. This will connect you to
+the broker with administrative privileges.
+3.  Click OK to connect to the broker and dismiss the dialog box. +
+Once you have connected to the broker, you can use the commands on the
+Actions menu (or the context menu) to perform the following operations
+on a selected broker:
+* Pause Broker temporarily suspends the operation of a running broker.
+* Resume Broker resumes the operation of a paused broker.
+* Restart Broker reinitializes and restarts a broker.
+* Shut Down Broker terminates the operation of a broker.
+* Query/Update Broker displays or modifies a broker's configuration
+properties.
+* Disconnect from Broker terminates the connection between a broker and
+the Administration Console.
+
+[[aeobf]][[GMADG00499]][[viewing-connection-services]]
+
+Viewing Connection Services
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A broker is distinguished by the connection services it provides and the
+physical destinations it supports.
+
+[[gbnhr]][[GMADG00147]][[to-view-available-connection-services]]
+
+To View Available Connection Services
++++++++++++++++++++++++++++++++++++++
+
+1.  Select Services under the broker's name in the Administration
+Console window's navigation pane. +
+A list of the available services will appear in the result pane (see
+link:#gbnie[Figure 2-6]), showing the name, port number, and current
+state of each service. +
+[[GMADG00007]][[gbnie]]
+
+
+.*Figure 2-6 Viewing Connection Services*
+image:img/services.png[
+"Message Queue Administration Console window. Broker services node
+selected. Contents of node displayed in the contents pane."]
+
+2.  Select a service by clicking on its name in the result pane. +
+For this exercise, select the name `jms`.
+3.  Choose Properties from the Actions menu. +
+The Service Properties dialog box (link:#gbnja[Figure 2-7]) will appear.
+You can use this dialog box to assign the service a static port number
+and to change the minimum and maximum number of threads allocated for
+it. +
+[[GMADG00008]][[gbnja]]
+
+
+.*Figure 2-7 Service Properties Dialog Box*
+image:img/jmsservpropsdlog.png[
+"Service Properties dialog. Buttons from left to right: OK, Cancel, Help."]
+
+For this exercise, do not change any of the connection service's
+properties.
+4.  Click OK to accept the new property values and dismiss the dialog
+box. +
+The Actions menu also contains commands for pausing and resuming a
+service. If you select the admin service and pull down the Actions menu,
+however, you will see that the Pause Service command is disabled. This
+is because the admin service is the Administration Console's link to the
+broker: if you paused it, you would no longer be able to access the
+broker.
+
+[[aeobg]][[GMADG00222]][[working-with-physical-destinations]]
+
+Working With Physical Destinations
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+A physical destination is a location on a message broker where messages
+received from a message producer are held for later delivery to one or
+more message consumers. Destinations are of two kinds, depending on the
+messaging domain in use: queues (point-to-point domain) and topics
+(publish/subscribe domain). See the Open Message Queue Technical
+Overview for further discussion of messaging domains and the
+destinations associated with them.
+
+[[aeobh]][[GMADG00500]][[creating-a-physical-destination]]
+
+Creating a Physical Destination
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+By default, message brokers are configured to create new physical
+destinations automatically whenever a message producer or consumer
+attempts to access a nonexistent destination. Such auto-created
+destinations are convenient to use while testing client code in a
+software development environment. In a production setting, however, it
+is advisable to disable the automatic creation of destinations and
+instead require all destinations to be created explicitly by an
+administrator. The following procedure shows how to add such an
+admin-created destination to a broker.
+
+[[gbnio]][[GMADG00148]][[to-add-a-physical-destination-to-a-broker]]
+
+To Add a Physical Destination to a Broker
++++++++++++++++++++++++++++++++++++++++++
+
+1.  Click on the Destinations item under the broker's name in the
+Administration Console window's navigation pane and choose Add Broker
+Destination from the Actions menu. +
+Alternatively, you can right-click on Destinations and choose Add Broker
+Destination from the pop-up context menu. In either case, the Add Broker
+Destination dialog box (link:#gbnim[Figure 2-8]) will appear. +
+[[GMADG00009]][[gbnim]]
+
+
+.*Figure 2-8 Add Broker Destination Dialog Box*
+image:img/addphysdestdlog.png[
+"Add Broker Destination Dialog. Buttons from left to right: OK, Reset To
+Defaults, Cancel, Help."]
+
+2.  Enter a name for the physical destination in the Destination Name
+field. +
+Note the name that you assign to the destination; you will need it later
+when you create an administered object corresponding to this physical
+destination. +
+For this exercise, type in the name `MyQueueDest`.
+3.  Select the Queue or Topic radio button to specify the type of
+destination to create. +
+For this exercise, select Queue if it is not already selected.
+4.  Click OK to add the physical destination and dismiss the dialog box. +
+The new destination will appear in the result pane.
+
+[[aeobi]][[GMADG00501]][[viewing-physical-destination-properties]]
+
+Viewing Physical Destination Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can use the Properties command on the Administration Console's
+Actions menu to view or modify the properties of a physical destination.
+
+[[gbniy]][[GMADG00149]][[to-view-or-modify-the-properties-of-a-physical-destination]]
+
+To View or Modify the Properties of a Physical Destination
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Select Destinations under the broker's name in the Administration
+Console window's navigation pane. +
+A list of the available physical destinations will appear in the result
+pane, showing the name, type, and current state of each destination.
+2.  Select a physical destination by clicking on its name in the result
+pane.
+3.  Choose Properties from the Actions menu. +
+The Broker Destination Properties dialog box (link:#gbniq[Figure 2-9])
+will appear, showing current status and configuration information about
+the selected physical destination. You can use this dialog box to change
+various configuration properties, such as the maximum number of
+messages, producers, and consumers that the destination can accommodate. +
+[[GMADG00010]][[gbniq]]
+
+
+.*Figure 2-9 Broker Destination Properties Dialog Box*
+image:img/physdestpropsdlog.png[
+"Broker Destinations Properties dialog. Buttons from left to right: OK,
+Cancel, Help."]
+
+For this exercise, do not change any of the destination's properties. +
+For topic destinations, the Broker Destination Properties dialog box
+contains an additional tab, Durable Subscriptions. Clicking on this tab
+displays information for Durable Subscriptions, such as the Subscription
+Name, Client ID, and Number of Messages. +
+You can use the Durable Subscriptions panel's Purge and Delete buttons
+to
+* Purge all pending messages associated with a durable subscription
+* Remove a durable subscription from the topic +
+The Durable Subscriptions tab is disabled for queue destinations.
+4.  Click OK to accept the new property values and dismiss the dialog
+box.
+
+[[aeobj]][[GMADG00502]][[purging-messages-from-a-physical-destination]]
+
+Purging Messages From a Physical Destination
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Purging messages from a physical destination removes all pending
+messages associated with the destination, leaving the destination empty.
+
+[[gbnil]][[GMADG00150]][[to-purge-messages-from-a-physical-destination]]
+
+To Purge Messages From a Physical Destination
++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Select Destinations under the broker's name in the Administration
+Console window's navigation pane. +
+A list of the available physical destinations will appear in the result
+pane, showing the name, type, and current state of each destination.
+2.  Select a destination by clicking on its name in the result pane.
+3.  Choose Purge Messages from the Actions menu. +
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.
+4.  Click Yes to confirm the operation and dismiss the confirmation
+dialog.
+
+[[aeobk]][[GMADG00503]][[deleting-a-physical-destination]]
+
+Deleting a Physical Destination
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Deleting a destination purges all of its messages and then destroys the
+destination itself, removing it permanently from the broker to which it
+belongs.
+
+[[gbnij]][[GMADG00151]][[to-delete-a-physical-destination]]
+
+To Delete a Physical Destination
+++++++++++++++++++++++++++++++++
+
+1.  Select Destinations under the broker's name in the Administration
+Console window's navigation pane. +
+A list of the available destinations will appear in the result pane,
+showing the name, type, and current state of each destination.
+2.  Select a destination by clicking on its name in the result pane.
+3.  Choose Delete from the Edit menu. +
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.
+4.  Click Yes to confirm the operation and dismiss the confirmation
+dialog. +
+For this exercise, do not delete the destination `MyQueueDest` that you
+created earlier; instead, click No to dismiss the confirmation dialog
+without performing the delete operation.
+
+[[aeobl]][[GMADG00223]][[working-with-object-stores]]
+
+Working With Object Stores
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+An object store is used to store Message Queue administered objects,
+which encapsulate implementation and configuration information specific
+to a particular Message Queue provider. An object store can be either a
+Lightweight Directory Access Protocol (LDAP) directory server or a
+directory in the local file system.
+
+Although it is possible to instantiate and configure administered
+objects directly from within a client application's code, it is
+generally preferable to have an administrator create and configure these
+objects and store them in an object store, where client applications can
+access them using the Java Naming and Directory Interface (JNDI). This
+allows the client code itself to remain provider-independent.
+
+[[aeobm]][[GMADG00504]][[adding-an-object-store]]
+
+Adding an Object Store
+^^^^^^^^^^^^^^^^^^^^^^
+
+Although the Administration Console allows you to manage an object
+store, you cannot use it to create one; the LDAP server or file-system
+directory that will serve as the object store must already exist ahead
+of time. You can then add this existing object store to the
+Administration Console, creating a reference to it that you can use to
+operate on it from within the Console.
+
+
+[NOTE]
+=======================================================================
+
+The sample application used in this chapter assumes that the object
+store is held in a directory named `Temp` on the C drive. If you do not
+already have a folder named `Temp` on your C drive, create one before
+proceeding with the following exercise. (On non-Windows platforms, you
+can use the `/tmp` directory, which should already exist.)
+
+=======================================================================
+
+
+[[gbnip]][[GMADG00152]][[to-add-an-object-store-to-the-administration-console]]
+
+To Add an Object Store to the Administration Console
+++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Click on the Object Stores item in the Administration Console
+window's navigation pane and choose Add Object Store from the Actions
+menu. +
+Alternatively, you can right-click on Object Stores and choose Add
+Object Store from the pop-up context menu. In either case, the Add
+Object Store dialog box (link:#gbnis[Figure 2-10]) will appear. +
+[[GMADG00012]][[gbnis]]
+
+
+.*Figure 2-10 Add Object Store Dialog Box*
+image:img/addobjstoredlog.png[
+"Add Object Store dialog. Buttons from left to right: OK, Clear, Cancel,
+Help."]
+
+2.  Enter a name for the object store in the Object Store Label field. +
+This provides a label that identifies the object store in the
+Administration Console. +
+For this exercise, type in the name `MyObjectStore`.
+3.  Enter the JNDI attribute values to be used for looking up
+administered objects:
+1.  Select the name of the attribute you wish to specify from the Name
+pull-down menu.
+2.  Type the value of the attribute into the Value field.
+3.  Click the Add button to add the specified attribute value. +
+The property and its value will appear in the property summary pane. +
+Repeat steps link:#aeobm[Adding an Object Store] to link:#aeobm[Adding
+an Object Store] for as many attributes as you need to set. +
+For this exercise, set the `java.naming.factory.initial` attribute to +
+[source,oac_no_warn]
+----
+com.sun.jndi.fscontext.RefFSContextFactory
+----
+and the `java.naming.provider.url` attribute to +
+[source,oac_no_warn]
+----
+file:///C:/Temp
+----
+(or `file:///tmp` on the Solaris or Linux platforms). These are the only
+attributes you need to set for a file-system object store; see
+link:administered-objects.html#aeogw[LDAP Server Object Stores] for
+information on the attribute values needed for an LDAP store.
+4.  Click OK to add the object store and dismiss the dialog box. +
+The new object store will appear under Object Stores in the navigation
+pane, as shown in link:#gbnix[Figure 2-11]. The red X over the object
+store's icon indicates that it is not currently connected to the
+Administration Console. +
+[[GMADG00013]][[gbnix]]
+
+
+.*Figure 2-11 Object Store Displayed in Administration Console Window*
+image:img/adminobjects.png[
+"Message Queue Administration Console window. Object store node selected
+in tree view pane."]
+
+When you click on the object store in the navigation pane, its contents
+are listed in the result pane. Since you have not yet added any
+administered objects to the object store, the Count column shows 0 for
+both destinations and connection factories. +
+Once you have added an object store, you can use the Properties command
+on the Actions menu (or the pop-up context menu) to display an Object
+Store Properties dialog box, similar to the Add Object Store dialog
+shown in link:#gbnis[Figure 2-10], to view or modify any of its
+properties.
+
+[[aeobn]][[GMADG00505]][[connecting-to-an-object-store]]
+
+Connecting to an Object Store
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Now that you have added an object store to the Administration Console,
+you must connect to it in order to add administered objects to it.
+
+[[gbnin]][[GMADG00153]][[to-connect-to-an-object-store]]
+
+To Connect to an Object Store
++++++++++++++++++++++++++++++
+
+1.  Click on the object store's name in the Administration Console
+window's navigation pane and choose Connect to Object Store from the
+Actions menu. +
+Alternatively, you can right-click on the object store's name and choose
+Connect to Object Store from the pop-up context menu. In either case,
+the red X will disappear from the object store's icon, indicating that
+it is now connected to the Administration Console.
+
+[[aeobo]][[GMADG00224]][[working-with-administered-objects]]
+
+Working With Administered Objects
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Once you have connected an object store to the Administration Console,
+you can proceed to add administered objects (connection factories and
+destinations) to it. This section describes how.
+
+
+[NOTE]
+=======================================================================
+
+The Administration Console displays only Message Queue administered
+objects. If an object store contains a non-Message Queue object with the
+same lookup name as an administered object that you want to add, you
+will receive an error when you attempt the add operation.
+
+=======================================================================
+
+
+[[aeobp]][[GMADG00506]][[adding-a-connection-factory]]
+
+Adding a Connection Factory
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Connection factories are used by client applications to create
+connections to a broker. By configuring a connection factory, you can
+control the properties of the connections it creates.
+
+[[gbniv]][[GMADG00154]][[to-add-a-connection-factory-to-an-object-store]]
+
+To Add a Connection Factory to an Object Store
+++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Make sure the object store is connected to the Administration
+Console (see link:#aeobn[Connecting to an Object Store]).
+2.  Click on the Connection Factories item under the object store's name
+in the Administration Console window's navigation pane and choose Add
+Connection Factory Object from the Actions menu. +
+Alternatively, you can right-click on Connection Factories and choose
+Add Connection Factory Object from the pop-up context menu. In either
+case, the Add Connection Factory Object dialog box ( link:#gbnik[Figure
+2-12]) will appear. +
+[[GMADG00014]][[gbnik]]
+
+
+.*Figure 2-12 Add Connection Factory Object Dialog Box*
+image:img/addcfadminobjdlog.png[
+"Add Connection Factory Object dialog; Connection Handling tab shown.
+Buttons from left to right: OK, Reset to Defaults, Cancel, Help."]
+
+3.  Enter a name for the connection factory in the Lookup Name field. +
+This is the name that client applications will use when looking up the
+connection factory with JNDI. +
+For this exercise, type in the name `MyQueueConnectionFactory` .
+4.  Choose the type of connection factory you wish to create from the
+Factory Type pull-down menu. +
+For this exercise, choose QueueConnectionFactory.
+5.  Click the Connection Handling tab. +
+The Connection Handling panel will appear, as shown in
+link:#gbnik[Figure 2-12].
+6.  Fill in the Message Server Address List field with the address(es)
+of the broker(s) to which this connection factory will create
+connections. +
+The address list may consist of a single broker or (in the case of a
+broker cluster) multiple brokers. For each broker, it specifies
+information such as the broker's connection service, host name, and port
+number. The exact nature and syntax of the information to be specified
+varies, depending on the connection service to be used; see
+link:administered-object-attributes.html#aeoof[Connection Handling] for
+specifics. +
+For this exercise, there is no need to type anything into the Message
+Server Address List field, since the sample application
+`HelloWorldMessageJNDI` expects the connection factory to use the
+standard address list attributes to which it is automatically configured
+by default (connection service `jms` , host name `localhost`, and port
+number `7676` ).
+7.  Configure any other attributes of the connection factory as needed. +
+The Add Connection Factory Object dialog box contains a number of other
+panels besides Connection Handling, which can be used to configure
+various attributes for a connection factory. +
+For this exercise, do not change any of the other attribute settings.
+You may find it instructive, however, to click through the other tabs to
+get an idea of the kinds of configuration information that can be
+specified. Use the Help button to learn more about the contents of these
+other configuration panels.
+8.  If appropriate, click the Read-Only checkbox. +
+This locks the connection factory object's configuration attributes to
+the values they were given at creation time. A read-only administered
+object's attributes cannot be overridden, whether programmatically from
+client code or administratively from the command line. +
+For this exercise, do not check Read-Only.
+9.  Click OK to create the connection factory, add it to the object
+store, and dismiss the dialog box. +
+The new connection factory will appear in the result pane.
+
+[[aeobq]][[GMADG00507]][[adding-a-destination]]
+
+Adding a Destination
+^^^^^^^^^^^^^^^^^^^^
+
+A destination administered object represents a physical destination on a
+broker, enabling clients to send messages to that physical destination
+independently of provider-specific configurations and naming syntax.
+When a client sends a message addressed via the administered object, the
+broker will deliver the message to the corresponding physical
+destination, if it exists. If no such physical destination exists, the
+broker will create one automatically if auto-creation is enabled, as
+described under link:#aeobh[Creating a Physical Destination], and
+deliver the message to it; otherwise, it will generate an error
+signaling that the message cannot be delivered.
+
+The following procedure describes how to add a destination administered
+object to the object store corresponding to an existing physical
+destination.
+
+[[gbnit]][[GMADG00155]][[to-add-a-destination-to-an-object-store]]
+
+To Add a Destination to an Object Store
++++++++++++++++++++++++++++++++++++++++
+
+1.  Make sure the object store is connected to the Administration
+Console (see link:#aeobn[Connecting to an Object Store]).
+2.  Click on the Destinations item under the object store's name in the
+Administration Console window's navigation pane and choose Add
+Destination Object from the Actions menu. +
+Alternatively, you can right-click on Destinations and choose Add
+Destination Object from the pop-up context menu. In either case, the Add
+Destination Object dialog box (link:#gbnih[Figure 2-13]) will appear. +
+[[GMADG00015]][[gbnih]]
+
+
+.*Figure 2-13 Add Destination Object Dialog Box*
+image:img/addqueueadminobjdlog.png[
+"Add Destination Object dialog. Buttons from left to right: OK, Reset to
+Defaults, Cancel, Help."]
+
+3.  Enter a name for the destination administered object in the Lookup
+Name field. +
+This is the name that client applications will use when looking up the
+destination with JNDI. +
+For this exercise, type in the name `MyQueue`.
+4.  Select the Queue or Topic radio button to specify the type of
+destination object to create. +
+For this exercise, select Queue if it is not already selected.
+5.  Enter the name of the corresponding physical destination in the
+Destination Name field. +
+This is the name you specified when you added the physical destination
+to the broker (see link:#aeobg[Working With Physical Destinations]). +
+For this exercise, type in the name `MyQueueDest`.
+6.  Optionally, enter a brief description of the destination in the
+Destination Description field. +
+The contents of this field are intended strictly for human consumption
+and have no effect on client operations. +
+For this exercise, you can either delete the contents of the Destination
+Description field or type in some descriptive text such as +
+[source,oac_no_warn]
+----
+Example destination for MQ Admin Guide tutorial
+----
+7.  If appropriate, click the Read-Only checkbox. +
+This locks the destination object's configuration attributes to the
+values they were given at creation time. A read-only administered
+object's attributes cannot be overridden, whether programmatically from
+client code or administratively from the command line. +
+For this exercise, do not check Read-Only.
+8.  Click OK to create the destination object, add it to the object
+store, and dismiss the dialog box. +
+The new destination object will appear in the result pane, as shown in
+link:#gbnii[Figure 2-14]. +
+[[GMADG00016]][[gbnii]]
+
+
+.*Figure 2-14 Destination Object Displayed in Administration Console Window*
+image:img/destadminobjects.png[
+"Message Queue Administration Console window. Destinations selected in
+tree view. Destination objects displayed in contents pane."]
+
+
+[[aeobr]][[GMADG00508]][[viewing-administered-object-properties]]
+
+Viewing Administered Object Properties
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can use the Properties command on the Administration Console's
+Actions menu to view or modify the properties of an administered object.
+
+[[gbniw]][[GMADG00156]][[to-view-or-modify-the-properties-of-an-administered-object]]
+
+To View or Modify the Properties of an Administered Object
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+1.  Select Connection Factories or Destinations under the object store's
+name in the Administration Console window's navigation pane. +
+A list of the available connection factory or destination administered
+objects will appear in the result pane, showing the lookup name and type
+of each (as well as the destination name in the case of destination
+administered objects).
+2.  Select an administered object by clicking on its name in the result
+pane.
+3.  Choose Properties from the Actions menu. +
+The Connection Factory Object Properties or Destination Object
+Properties dialog box will appear, similar to the Add Connection Factory
+Object (link:#gbnik[Figure 2-12]) or Add Destination Object
+(link:#gbnih[Figure 2-13]) dialog. You can use this dialog box to change
+the selected object's configuration attributes. Note, however, that you
+cannot change the object's lookup name; the only way to do this is the
+delete the object and then add a new administered object with the
+desired lookup name.
+4.  Click OK to accept the new attribute values and dismiss the dialog
+box.
+
+[[aeobs]][[GMADG00509]][[deleting-an-administered-object]]
+
+Deleting an Administered Object
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Deleting an administered object removes it permanently from the object
+store to which it belongs.
+
+[[gbniu]][[GMADG00157]][[to-delete-an-administered-object]]
+
+To Delete an Administered Object
+++++++++++++++++++++++++++++++++
+
+1.  Select Connection Factories or Destinations under the object store's
+name in the Administration Console window's navigation pane. +
+A list of the available connection factory or destination administered
+objects will appear in the result pane, showing the lookup name and type
+of each (as well as the destination name in the case of destination
+administered objects).
+2.  Select an administered object by clicking on its name in the result
+pane.
+3.  Choose Delete from the Edit menu. +
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.
+4.  Click Yes to confirm the operation and dismiss the confirmation
+dialog. +
+For this exercise, do not delete the administered objects `MyQueue` or
+`MyQueueConnectionFactory` that you created earlier; instead, click No
+to dismiss the confirmation dialog without performing the delete
+operation.
+
+[[aeobt]][[GMADG00225]][[running-the-sample-application]]
+
+Running the Sample Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The sample application `HelloWorldMessageJNDI` is provided for use with
+this tutorial. It uses the physical destination and administered objects
+that you created:
+
+* A queue physical destination named `MyQueueDest`
+* A queue connection factory administered object with JNDI lookup name
+`MyQueueConnectionFactory`
+* A queue administered object with JNDI lookup name `MyQueue`
+
+The code creates a simple queue sender and receiver, and sends and
+receives a `Hello` `World` message.
+
+Before running the application, open the source file
+`HelloWorldMessageJNDI.java` and read through the code. The program is
+short and amply documented; you should have little trouble understanding
+how it works.
+
+[[gbniz]][[GMADG00158]][[to-run-the-sample-application]]
+
+To Run the Sample Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Make the directory containing the `HelloWorldmessageJNDI`
+application your current directory: +
+[source,oac_no_warn]
+----
+cd IMQ_HOME/examples/helloworld/helloworldmessagejndi
+----
+You should find the file `HelloWorldMessageJNDI.class` present. (If you
+make changes to the application, you must recompile it using the
+procedure for compiling a client application given in the Open Message
+Queue Developer's Guide for Java Clients.)
+2.  Set the `CLASSPATH` variable to include the current directory
+containing the file `HelloWorldMessageJNDI.class`, as well as the
+following `.jar` files that are included in the Message Queue product:
+* `jms.jar`
+* `imq.jar`
+* `jndi.jar`
+* `fscontext.jar` +
+See the Open Message Queue Developer's Guide for Java Clients for
+information on setting the `CLASSPATH` variable. +
+
+[NOTE]
+=======================================================================
+
+The file `jndi.jar` is bundled with JDK 1.4. You need not add this file
+to your `CLASSPATH` unless you are using an earlier version of the JDK.
+
+=======================================================================
+
+3.  Run the `HelloWorldMessageJNDI` application by executing one of the
+following commands (depending on the platform you're using):
+* On Solaris or Linux: +
+[source,oac_no_warn]
+----
+% java HelloWorldMessageJNDI file:///tmp 
+----
+* On Windows: +
+[source,oac_no_warn]
+----
+java HelloWorldMessageJNDI
+----
+If the application runs successfully, you should see the output shown in
+link:#gecip[Example 2-1].
+
+[[GMADG00098]][[gecip]]
+
+
+Example 2-1 Output from Sample Application
+
+[source,oac_no_warn]
+----
+java HelloWorldMessageJNDI
+Using file:///C:/Temp for Context.PROVIDER_URL
+
+
+Looking up Queue Connection Factory object with lookup name:
+MyQueueConnectionFactory
+Queue Connection Factory object found.
+Looking up Queue object with lookup name: MyQueue
+Queue object found.
+
+
+Creating connection to broker.
+Connection to broker created.
+
+Publishing a message to Queue: MyQueueDest
+Received the following message: Hello World
+----
+
+

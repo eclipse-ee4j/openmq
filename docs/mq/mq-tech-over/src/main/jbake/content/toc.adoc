@@ -1,0 +1,212 @@
+type=page
+status=published
+title=Eclipse Open Message Queue Technical Overview, Release 5.1.3
+next=lof.html
+~~~~~~
+Eclipse Open Message Queue Technical Overview, Release 5.1.3
+============================================================
+
+[[contents]]
+Contents
+--------
+
+[[list-of-figures]]
+link:lof.html[List of Figures]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[list-of-tables]]
+link:lot.html[List of Tables]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[title-and-copyright-information]]
+link:title.html[Title and Copyright Information]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[preface]]
+link:preface.html#gblyo[Preface]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:preface.html#gblyj[Who Should Use This Book]
+* link:preface.html#gblxf[Before You Read This Book]
+* link:preface.html#gblxh[How This Book Is Organized]
+* link:preface.html#ghode[Documentation Conventions]
+* link:preface.html#gbqah[Related Documentation]
+
+[[messaging-systems-an-introduction]]
+link:messaging-systems-introduction.html#aerap[1 Messaging Systems: An Introduction]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:messaging-systems-introduction.html#aeraq[Message-Oriented
+Middleware (MOM)]
+* link:messaging-systems-introduction.html#aerar[JMS as a MOM Standard]
+
+** link:messaging-systems-introduction.html#aeras[JMS Messaging Objects
+and Domains]
+
+** link:messaging-systems-introduction.html#aerat[Administered Objects]
+* link:messaging-systems-introduction.html#aerau[Message Queue: Elements
+and Features]
+
+** link:messaging-systems-introduction.html#aerav[The Message Queue
+Service]
+*** link:messaging-systems-introduction.html#ggsby[The Broker]
+*** link:messaging-systems-introduction.html#ggscs[Client Runtime
+Support]
+*** link:messaging-systems-introduction.html#ghzmi[Universal Message
+Service (UMS)]
+*** link:messaging-systems-introduction.html#ggsbs[Administration]
+*** link:messaging-systems-introduction.html#ggsbb[Broker Clusters:
+Scalability and Availability]
+
+** link:messaging-systems-introduction.html#aerbd[Message Queue as an
+Enabling Technology]
+
+** link:messaging-systems-introduction.html#aerbf[Message Queue Feature
+Summary]
+
+[[client-programming-model]]
+link:client-programming-model.html#aerbg[2 Client Programming Model]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:client-programming-model.html#aerbi[Messaging Domains]
+
+** link:client-programming-model.html#aerbj[Point-To-Point Messaging]
+
+** link:client-programming-model.html#aerbk[Publish/Subscribe Messaging]
+
+** link:client-programming-model.html#aerbl[Understanding the JMS API]
+* link:client-programming-model.html#aerbm[Programming Objects]
+
+** link:client-programming-model.html#sthref14[Simplified API Programming
+Objects]
+
+** link:client-programming-model.html#sthref17[Classic API Programming
+Objects]
+
+** link:client-programming-model.html#sthref20[JMS Programming Objects]
+*** link:client-programming-model.html#sthref21[ConnectionFactory]
+*** link:client-programming-model.html#aerbn[Connection]
+*** link:client-programming-model.html#sthref22[JMSContext]
+*** link:client-programming-model.html#aerbo[Session]
+*** link:client-programming-model.html#aerbp[Message]
+* link:client-programming-model.html#aerbt[Producing a Message]
+* link:client-programming-model.html#aerbu[Consuming a Message]
+
+** link:client-programming-model.html#aerbv[Synchronous and Asynchronous
+Consumers]
+
+** link:client-programming-model.html#aerbw[Using Selectors to Filter
+Messages]
+
+** link:client-programming-model.html#aerbx[Using Durable Subscribers]
+* link:client-programming-model.html#aerby[The Request-Reply Pattern]
+* link:client-programming-model.html#aerbz[Reliable Message Delivery]
+
+** link:client-programming-model.html#aerca[Acknowledgements]
+
+** link:client-programming-model.html#aercb[Transactions]
+*** link:client-programming-model.html#ghgbu[Local Transactions]
+*** link:client-programming-model.html#ghgak[Distributed Transactions]
+
+** link:client-programming-model.html#aercc[Persistent Storage]
+* link:client-programming-model.html#aercd[A Message's Journey Through
+the System]
+
+** link:client-programming-model.html#gbpdi[Message Production]
+
+** link:client-programming-model.html#gbpct[Message Handling and Routing]
+
+** link:client-programming-model.html#gbpdz[Message Consumption]
+
+** link:client-programming-model.html#gbpcw[Message End-of-Life]
+* link:client-programming-model.html#aerbh[Design and Performance]
+* link:client-programming-model.html#aerce[Working with SOAP Messages]
+* link:client-programming-model.html#aercf[Java and C Clients]
+
+[[the-message-queue-broker]]
+link:brokers.html#aercg[3 The Message Queue Broker]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:brokers.html#aerch[Broker Services]
+
+** link:brokers.html#aerci[Connection Services]
+*** link:brokers.html#aercj[Port Mapper Service]
+*** link:brokers.html#aerck[Thread Pool Management]
+
+** link:brokers.html#aercl[Message Delivery Services]
+*** link:brokers.html#ggtpb[Physical Destinations]
+*** link:brokers.html#aerco[Managing Memory]
+
+** link:brokers.html#aercs[Persistence Services]
+*** link:brokers.html#aerct[File-Based Persistence]
+*** link:brokers.html#aercu[JDBC-Based Persistence]
+
+** link:brokers.html#aercv[Security Services]
+*** link:brokers.html#aercw[Authentication and Authorization]
+*** link:brokers.html#gemjg[JAAS-Based Authentication]
+*** link:brokers.html#aercx[Encryption]
+
+** link:brokers.html#gjdnq[Bridge Services]
+*** link:brokers.html#gjdod[JMS Bridge Service]
+*** link:brokers.html#gjdmw[STOMP Bridge Service]
+
+** link:brokers.html#aercy[Monitoring Services]
+*** link:brokers.html#aercz[Metrics Generator]
+*** link:brokers.html#aerda[Logger]
+*** link:brokers.html#aerdb[Metrics Message Producer]
+*** link:brokers.html#ggsnk[JMX MBeans]
+*** link:brokers.html#gezee[Java ES Monitoring Framework Support]
+* link:brokers.html#aerdc[Administration Tools]
+
+** link:brokers.html#aerdd[Built-in Administration Tools]
+
+** link:brokers.html#gemjx[JMX-Based Administration]
+* link:brokers.html#ggspx[Administration Tasks]
+
+** link:brokers.html#aerde[Supporting a Development Environment]
+
+** link:brokers.html#aerdf[Supporting a Production Environment]
+*** link:brokers.html#aerdg[Setup Operations]
+*** link:brokers.html#aerdh[Maintenance Operations]
+
+[[broker-clusters]]
+link:broker-clusters.html#aerdj[4 Broker Clusters]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:broker-clusters.html#ggsth[Cluster Models]
+* link:broker-clusters.html#ggssc[Cluster Message Delivery]
+
+** link:broker-clusters.html#ggyex[Propagation of Information Across a
+Cluster]
+
+** link:broker-clusters.html#ggyew[Message Delivery Mechanisms]
+* link:broker-clusters.html#ggsuc[Conventional Clusters]
+* link:broker-clusters.html#ggsxf[Enhanced Clusters]
+* link:broker-clusters.html#gepsh[Cluster Models Compared]
+* link:broker-clusters.html#aerds[Cluster Configuration]
+
+[[message-queue-and-java-ee]]
+link:mq-and-java-ee.html#aerdu[5 Message Queue and Java EE]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:mq-and-java-ee.html#aerdv[JMS/Java EE Programming: Message-Driven
+Beans]
+* link:mq-and-java-ee.html#aerdw[Java EE Application Server Support]
+
+[[a-message-queue-implementation-of-optional-jms-functionality]]
+link:mq-features.html#aerdy[A Message Queue Implementation of Optional JMS Functionality]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:mq-features.html#gbpeu[Optional Features]
+
+[[b-message-queue-features]]
+link:mq-optional-jms-support.html#aerdz[B Message Queue Features]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+* link:mq-optional-jms-support.html#gbpfj[Feature List]
+
+[[glossary]]
+link:glossary.html#aerea[Glossary]
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+

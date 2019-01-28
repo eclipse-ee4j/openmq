@@ -1,0 +1,562 @@
+type=page
+status=published
+title=Starting Brokers and Clients
+next=broker-configuration.html
+prev=part-administrative-tasks.html
+~~~~~~
+Starting Brokers and Clients
+============================
+
+[[GMADG00034]][[aeobu]]
+
+
+[[starting-brokers-and-clients]]
+3 Starting Brokers and Clients
+------------------------------
+
+After installing Message Queue and performing some preparatory steps,
+you can begin starting brokers and clients. A broker's configuration is
+governed by a set of configuration files, which can be overridden by
+command line options passed to the Broker utility (`imqbrokerd`); see
+link:broker-configuration.html#aeocl[Configuring a Broker] for more
+information.
+
+This chapter contains the following sections:
+
+* link:#aeobv[Preparing System Resources]
+* link:#aeoby[Starting Brokers]
+* link:#aeoch[Deleting a Broker Instance]
+* link:#aeock[Starting Clients]
+
+[[aeobv]][[GMADG00226]][[preparing-system-resources]]
+
+Preparing System Resources
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Before starting a broker, there are two preliminary system-level tasks
+to perform: synchronizing system clocks and (on the Solaris or Linux
+platform) setting the file descriptor limit. The following sections
+describe these tasks.
+
+[[aeobw]][[GMADG00510]][[synchronizing-system-clocks]]
+
+Synchronizing System Clocks
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Before starting any brokers or clients, it is important to synchronize
+the clocks on all hosts that will interact with the Message Queue
+system. Synchronization is particularly crucial if you are using message
+expiration (time-to-live). Time stamps from clocks that are not
+synchronized could prevent message expiration from working as expected
+and prevent the delivery of messages. Synchronization is also crucial
+for broker clusters.
+
+Configure your systems to run a time synchronization protocol, such as
+Simple Network Time Protocol (SNTP). Time synchronization is generally
+supported by the `xntpd` daemon on Solaris and Linux, and by the
+`W32Time` service on Windows. (See your operating system documentation
+for information about configuring this service.) After the broker is
+running, avoid setting the system clock backward.
+
+[[aeobx]][[GMADG00511]][[setting-the-file-descriptor-limit]]
+
+Setting the File Descriptor Limit
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+On the Solaris and Linux platforms, the shell in which a client or
+broker is running places a soft limit on the number of file descriptors
+that a process can use. In Message Queue, each connection a client
+makes, or a broker accepts, uses one of these file descriptors. Each
+physical destination that has persistent messages also uses a file
+descriptor.
+
+As a result, the file descriptor limit constrains the number of
+connections a broker or client can have. By default, the maximum is 256
+connections on Solaris or 1024 on Linux. (In practice, the connection
+limit is actually lower than this because of the use of file descriptors
+for persistent data storage.) If you need more connections than this,
+you must raise the file descriptor limit in each shell in which a client
+or broker will be executing. For information on how to do this, see the
+`man` page for the `ulimit` command.
+
+[[aeoby]][[GMADG00227]][[starting-brokers]]
+
+Starting Brokers
+~~~~~~~~~~~~~~~~
+
+You can start a broker either interactively, using the Message Queue
+command line utilities or the Windows Start menu, or by arranging for it
+to start automatically at system startup. The following sections
+describe how.
+
+[[aeobz]][[GMADG00512]][[starting-brokers-interactively]]
+
+Starting Brokers Interactively
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You can start a broker interactively from the command line, using the
+Broker utility (`imqbrokerd`). (Alternatively, on Windows, you can start
+a broker from the Start menu.) You cannot use the Administration Console
+(`imqadmin`) or the Command utility (`imqcmd`) to start a broker; the
+broker must already be running before you can use these tools.
+
+On the Solaris and Linux platforms, a broker instance must always be
+started by the same user who initially started it. Each broker instance
+has its own set of configuration properties and file-based persistent
+data store. When the broker instance first starts, Message Queue uses
+the user's file creation mode mask (`umask`) to set permissions on
+directories containing the configuration information and persistent data
+for that broker instance.
+
+A broker instance has the instance name `imqbroker` by default. To start
+a broker from the command line with this name and the default
+configuration, simply use the command
+
+[source,oac_no_warn]
+----
+imqbrokerd
+----
+
+This starts a broker instance named `imqbroker` on the local machine,
+with the Port Mapper at the default port of `7676` (see
+link:connection-services.html#aeoco[Port Mapper]).
+
+To specify an instance name other than the default, use the`-name`
+option to the `imqbrokerd` command. The following command starts a
+broker with the instance name `myBroker`:
+
+[source,oac_no_warn]
+----
+imqbrokerd  -name myBroker 
+----
+
+Other options are available on the `imqbrokerd` command line to control
+various aspects of the broker's operation. See
+link:command-line-reference.html#aeone[Broker Utility] for complete
+information on the syntax, subcommands, and options of the `imqbrokerd`
+command. For a quick summary of this information, enter the following
+command:
+
+[source,oac_no_warn]
+----
+imqbrokerd  -help
+----
+
+For example, the following command uses the`-tty` option to send errors
+and warnings to the command window (standard output):
+
+[source,oac_no_warn]
+----
+imqbrokerd  -name myBroker  -tty
+----
+
+You can also use the `-D` option on the command line to override the
+values of properties specified in the broker's instance configuration
+file (`config.properties`). The instance configuration file is described
+under link:broker-configuration.html#aeodd[Modifying Configuration
+Files]. The following example sets a broker's `imq.jms.max_threads`
+property, raising the maximum number of threads available to the `jms`
+connection service to 2000:
+
+[source,oac_no_warn]
+----
+imqbrokerd  -name myBroker  -Dimq.jms.max_threads=2000
+----
+
+[[aeoca]][[GMADG00513]][[starting-brokers-automatically]]
+
+Starting Brokers Automatically
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Instead of starting a broker explicitly from the command line, you can
+set it up to start automatically at system startup. How you do this
+depends on the platform (Solaris, Linux, or Windows) on which you are
+running the broker:
+
+* link:#ggwew[Automatic Broker Startup on the Solaris Platforms]
+* link:#aeocb[Automatic Broker Startup on the Linux Platform]
+* link:#aeocc[Automatic Broker Startup on Windows]
+
+[[ggwew]][[GMADG00396]][[automatic-broker-startup-on-the-solaris-platforms]]
+
+Automatic Broker Startup on the Solaris Platforms
++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The method for enabling automatic startup on the Solaris 10 platforms is
+different from that for Solaris 9. Both are described below.
+
+[[ggwbk]][[GMADG00061]][[automatic-broker-startup-on-the-solaris-9-platform]]
+
+Automatic Broker Startup on the Solaris 9 Platform
+
+On Solaris 9 operating system, scripts that enable automatic startup are
+placed in the `/etc/rc*` directory tree during Message Queue
+installation. To enable the use of these scripts, you must edit the
+configuration file `imqbrokerd.conf` (located in the `IMQ_HOME/etc/`
+directory) as follows:
+
+* To start the broker automatically at system startup, set the
+`AUTOSTART` property to `YES`.
+* To have the broker restart automatically after an abnormal exit, set
+the `RESTART` property to `YES`.
+* To set startup command line arguments for the broker, specify one or
+more values for the `ARGS` property.
+
+To disable automatic broker startup at system startup, edit the
+configuration file `/etc/imq/imqbrokerd.conf` and set the `AUTOSTART`
+property to `NO`.
+
+[[ggwax]][[GMADG00062]][[automatic-broker-startup-on-the-solaris-10-platform]]
+
+Automatic Broker Startup on the Solaris 10 Platform
+
+Rather than using an `rc` file to implement automatic broker startup
+when a computer reboots, the following procedure makes use of the
+Solaris 10 Service Management Facility (SMF).
+
+For more information on using the Service Management Facility, please
+refer to Solaris 10 documentation.
+
+[[ggwev]][[GMADG00159]][[to-implement-automatic-broker-startup-on-solaris-10-os]]
+
+To Implement Automatic Broker Startup on Solaris 10 OS
+
+1.  Copy and change permissions on the `mqbroker` startup script. +
+`# cp /var/svc/manifest/application/sun/mq/mqbroker /lib/svc/method` +
+`# chmod 555 /lib/svc/method/mqbroker`
+2.  Import the `mqbroker` service into the SMF repository. +
+`# svccfg import /var/svc/manifest/application/sun/mq/mqbroker.xml`
+3.  Verify that the import was successful by checking the state of the
+`mqbroker` service. +
+`# svcs mqbroker` +
+Output resembles the following: +
+[source,oac_no_warn]
+----
+STATE STIME FMRI
+disabled 16:22:50 svc:/application/sun/mq/mqbroker:default
+----
+The service is initially shown as disabled.
+4.  Eanable the `mqbroker` service. +
+`# svcadm enable svc:/application/sun/mq/mqbroker:default` +
+Enabling the mqbroker service will start the `imqbrokerd` process. A
+reboot will subsequently restart the broker.
+5.  Configure the `mqbroker` service to pass any desired arguments to
+the `imqbrokerd` command. +
+The `options/broker_args` property is used to pass arguments
+to`imqbrokerd`. For example to add `-loglevel DEBUGHIGH`, do the
+following: +
+[source,oac_no_warn]
+----
+# svccfg
+svc:> select svc:/application/sun/mq/mqbroker
+svc:/application/sun/mq/mqbroker> setprop options/broker_args="-loglevel DEBUGHIGH"
+svc:/application/sun/mq/mqbroker> exit
+----
+
+[[ghati]][[GMADG00160]][[to-disable-automatic-broker-startup-on-solaris-10-os]]
+
+To Disable Automatic Broker Startup on Solaris 10 OS
+
+1.  Disable the `mqbroker` service. +
+`# svcadm disable svc:/application/sun/mq/mqbroker:default` +
+A subsequent reboot will not restart the broker.
+
+[[aeocb]][[GMADG00397]][[automatic-broker-startup-on-the-linux-platform]]
+
+Automatic Broker Startup on the Linux Platform
+++++++++++++++++++++++++++++++++++++++++++++++
+
+On Linux systems, scripts that enable automatic startup are placed in
+the `/etc/rc*` directory tree during Message Queue installation. To
+enable the use of these scripts, you must edit the configuration file
+`imqbrokerd.conf` (located in the `IMQ_HOME/etc/` directory) as follows:
+
+* To start the broker automatically at system startup, set the
+`AUTOSTART` property to `YES`.
+* To have the broker restart automatically after an abnormal exit, set
+the `RESTART` property to `YES`.
+* To set startup command line arguments for the broker, specify one or
+more values for the `ARGS` property.
+
+To disable automatic broker startup at system startup, edit the
+configuration file `/etc/opt/sun/mq/imqbrokerd.conf` and set the
+`AUTOSTART` property to `NO`.
+
+[[aeocc]][[GMADG00398]][[automatic-broker-startup-on-windows]]
+
+Automatic Broker Startup on Windows
++++++++++++++++++++++++++++++++++++
+
+To start a broker automatically at Windows system startup, you must
+define the broker as a Windows service. The broker will then start at
+system startup time and run in the background until system shutdown.
+Consequently, you will not need to use the Message Queue Broker utility
+(`imqbrokerd`) unless you want to start an additional broker.
+
+A system can have no more than one broker running as a Windows service.
+The Windows Task Manager lists such a broker as two executable
+processes:
+
+* The native Windows service wrapper, `imqbrokersvc.exe`
+* The Java runtime that is running the broker
+
+You can install a broker as a service when you install Message Queue on
+a Windows system. After installation, you can use the Service
+Administrator utility (`imqsvcadmin`) to perform the following
+operations:
+
+* Add a broker as a Windows service
+* Determine the startup options for the broker service
+* Disable a broker from running as a Windows service
+
+To pass startup options to the broker, use the `-args` option to the
+`imqsvcadmin` command. This works the same way as the `imqbrokerd`
+command's `-D` option, as described under link:#aeoby[Starting Brokers].
+Use the Command utility (`imqcmd`) to control broker operations as
+usual.
+
+See link:command-line-reference.html#aeonq[Service Administrator Utility]
+for complete information on the syntax, subcommands, and options of the
+`imqsvcadmin` command.
+
+[[aeocd]][[GMADG00063]][[reconfiguring-the-broker-service]]
+
+Reconfiguring the Broker Service
+
+The procedure for reconfiguring a broker installed as a Windows service
+is as follows:
+
+[[gbnki]][[GMADG00161]][[to-reconfigure-a-broker-running-as-a-windows-service]]
+
+To Reconfigure a Broker Running as a Windows Service
+
+1.  Stop the service:
+1.  From the Settings submenu of the Windows Start menu, choose Control
+Panel.
+2.  Open the Administrative Tools control panel.
+3.  Run the Services tool by selecting its icon and choosing Open from
+the File menu or the pop-up context menu, or simply by double-clicking
+the icon.
+4.  Under Services (Local), select the Message Queue Broker service and
+choose Properties from the Action menu. +
+Alternatively, you can right-click on Message Queue Broker and choose
+Properties from the pop-up context menu, or simply double-click on
+Message Queue Broker. In either case, the Message Queue Broker
+Properties dialog box will appear.
+5.  Under the General tab in the Properties dialog, click Stop to stop
+the broker service.
+2.  Remove the service. +
+On the command line, enter the command +
+[source,oac_no_warn]
+----
+imqsvcadmin remove
+----
+3.  Reinstall the service, specifying different broker startup options
+with the `-args` option or different Java version arguments with the
+`-vmargs` option. +
+For example, to change the service's host name and port number to
+`broker1` and `7878`, you could use the command +
+[source,oac_no_warn]
+----
+imqsvcadmin install  -args "-name broker1  -port 7878"
+----
+
+[[aeoce]][[GMADG00064]][[using-an-alternative-java-runtime]]
+
+Using an Alternative Java Runtime
+
+You can use either the `imqsvcadmin` command's `-javahome` or `-jrehome`
+option to specify the location of an alternative Java runtime. (You can
+also specify these options in the Start Parameters field under the
+General tab in the service's Properties dialog window.)
+
+
+[NOTE]
+=======================================================================
+
+The Start Parameters field treats the backslash character (`\`) as an
+escape character, so you must type it twice when using it as a path
+delimiter: for example,
+
+[source,oac_no_warn]
+----
+-javahome c:\\j2sdk1.4.0
+----
+
+=======================================================================
+
+
+[[aeocf]][[GMADG00065]][[displaying-broker-service-startup-options]]
+
+Displaying Broker Service Startup Options
+
+To determine the startup options for the broker service, use the
+`imqsvcadmin query` command, as shown in link:#gbnji[Example 3-1].
+
+[[GMADG00099]][[gbnji]]
+
+
+Example 3-1 Displaying Broker Service Startup Options
+
+[source,oac_no_warn]
+----
+imqsvcadmin query
+
+Service Message Queue Broker is installed.
+Display Name: Message Queue Broker
+Start Type: Automatic
+Binary location: C:\Sun\MessageQueue\bin\imqbrokersvc.exe
+JavaHome: c:\j2sdk1.4.0
+Broker Args: -name broker1 -port 7878
+----
+
+[[ghard]][[GMADG00066]][[disabling-a-broker-from-running-as-a-windows-service]]
+
+Disabling a Broker From Running as a Windows Service
+
+To disable a broker from running as a Windows service, use the command
+
+[source,oac_no_warn]
+----
+imqcmd shutdown bkr
+----
+
+to shut down the broker, followed by
+
+[source,oac_no_warn]
+----
+imqsvcadmin remove
+----
+
+to remove the service.
+
+Alternatively, you can use the Windows Services tool, reached via the
+Administrative Tools control panel, to stop and remove the broker
+service.
+
+Restart your computer after disabling the broker service.
+
+[[aeocg]][[GMADG00067]][[troubleshooting-service-startup-problems]]
+
+Troubleshooting Service Startup Problems
+
+If you get an error when you try to start a broker as a Windows service,
+you can view error events that were logged:
+
+[[gbnkh]][[GMADG00162]][[to-see-logged-service-error-events]]
+
+To See Logged Service Error Events
+
+1.  Open the Windows Administrative Tools control panel.
+2.  Start the Event Viewer tool.
+3.  Select the Application event log.
+4.  Choose Refresh from the Action menu to display any error events.
+
+[[aeoch]][[GMADG00228]][[deleting-a-broker-instance]]
+
+Deleting a Broker Instance
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+To delete a broker instance, use the `imqbrokerd` command with the
+`-remove` option:
+
+[source,oac_no_warn]
+----
+imqbrokerd  [options…]-remove instance
+----
+
+For example, if the name of the broker is `myBroker`, the command would
+be
+
+[source,oac_no_warn]
+----
+imqbrokerd  -name myBroker  -remove instance
+----
+
+The command deletes the entire instance directory for the specified
+broker.
+
+See link:command-line-reference.html#aeone[Broker Utility] for complete
+information on the syntax, subcommands, and options of the `imqbrokerd`
+command. For a quick summary of this information, enter the command
+
+[source,oac_no_warn]
+----
+imqbrokerd  -help
+----
+
+[[aeock]][[GMADG00229]][[starting-clients]]
+
+Starting Clients
+~~~~~~~~~~~~~~~~
+
+Before starting a client application, obtain information from the
+application developer about how to set up the system. If you are
+starting Java client applications, you must set the `CLASSPATH` variable
+appropriately and make sure you have the correct `.jar` files installed.
+The Open Message Queue Developer's Guide for Java Clients contains
+information about generic steps for setting up the system, but your
+developer may have additional information to provide.
+
+To start a Java client application, use the following command line
+format:
+
+[source,oac_no_warn]
+----
+java clientAppName
+----
+
+To start a C client application, use the format supplied by the
+application developer (see "link:../mq-dev-guide-c/introduction.html#GMCCG00037[Building and Running C
+Clients]" in Open Message Queue Developer's Guide for C Clients).
+
+The application's documentation should provide information on attribute
+values that the application sets; you may want to override some of these
+from the command line. You may also want to specify attributes on the
+command line for any Java client that uses a Java Naming and Directory
+Interface (JNDI) lookup to find its connection factory. If the lookup
+returns a connection factory that is older than the application, the
+connection factory may lack support for more recent attributes. In such
+cases, Message Queue sets those attributes to default values; if
+necessary, you can use the command line to override these default
+values.
+
+To specify attribute values from the command line for a Java
+application, use the following syntax:
+
+[source,oac_no_warn]
+----
+java  [ [-Dattribute=value] … ]clientAppName
+----
+
+The value for attribute must be a connection factory administered object
+attribute, as described in
+link:administered-object-attributes.html#aeood[Administered Object
+Attribute Reference]. If there is a space in the value, put quotation
+marks around the
+
+[source,oac_no_warn]
+----
+attribute=value
+----
+
+part of the command line.
+
+The following example starts a client application named MyMQClient ,
+connecting to a broker on the host `OtherHost` at port `7677`:
+
+[source,oac_no_warn]
+----
+java  -DimqAddressList=mq://OtherHost:7677/jms  MyMQClient
+----
+
+The host name and port specified on the command line override any others
+set by the application itself.
+
+In some cases, you cannot use the command line to specify attribute
+values. An administrator can set an administered object to allow read
+access only, or an application developer can code the client application
+to do so. Communication with the application developer is necessary to
+understand the best way to start the client program.
+
+

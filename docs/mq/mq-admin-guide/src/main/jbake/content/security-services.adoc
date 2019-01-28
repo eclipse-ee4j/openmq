@@ -1,0 +1,2260 @@
+type=page
+status=published
+title=Configuring and Managing Security Services
+next=broker-clusters.html
+prev=persistence-services.html
+~~~~~~
+Configuring and Managing Security Services
+==========================================
+
+The script content on this page is for navigation purposes only and does
+not alter the content in any way.
+
+[[GMADG00040]][[aeoff]]
+
+
+[[configuring-and-managing-security-services]]
+9 Configuring and Managing Security Services
+--------------------------------------------
+
+This chapter describes Message Queue's facilities for security-related
+administration tasks, such as configuring user authentication, defining
+access control, configuring a Secure Socket Layer (SSL) connection
+service to encrypt client-broker communication, and setting up a
+password file for administrator account passwords. In addition to
+Message Queue's own built-in authentication mechanisms, you can also
+plug in a preferred external service based on the Java Authentication
+and Authorization Service (JAAS) API.
+
+This chapter includes the following sections:
+
+* link:#aeocu[Introduction to Security Services]
+* link:#aeofg[User Authentication]
+* link:#aeofu[User Authorization]
+* link:#aeogb[Message Encryption]
+* link:#aeogq[Password Files]
+* link:#gcuhq[Connecting Through a Firewall]
+* link:#aeogt[Audit Logging with the Solaris BSM Audit Log]
+
+[[aeocu]][[GMADG00246]][[introduction-to-security-services]]
+
+Introduction to Security Services
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue provides security services for user access control
+(authentication and authorization) and for encryption:
+
+* Authentication ensures that only verified users can establish a
+connection to a broker.
+* Authorization specifies which users or groups have the right to access
+resources and to perform specific operations.
+* Encryption protects messages from being tampered with during delivery
+over a connection.
+
+As a Message Queue administrator, you are responsible for setting up the
+information the broker needs to authenticate users and authorize their
+actions. The broker properties pertaining to security services are
+listed under link:broker-properties.html#aeony[Security Properties]. The
+boolean property `imq.accesscontrol.enabled` acts as a master switch
+that controls whether access control is applied on a brokerwide basis;
+for finer control, you can override this setting for a particular
+connection service by setting the `imq.`serviceName
+`.accesscontrol.enabled` property, where serviceName is the name of the
+connection service, as shown in link:connection-services.html#gbnjw[Table
+6-1]: for example, `imq.httpjms.accesscontrol.enabled`.
+
+The following figure shows the components used by the broker to provide
+authentication and authorization services. These services depend on a
+user repository containing information about the users of the messaging
+system: their names, passwords, and group memberships. In addition, to
+authorize specific operations for a user or group, the broker consults
+an access control file that specifies which operations a user or group
+can perform. You can designate a single access control file for the
+broker as a whole, using the configuration property
+`imq.accesscontrol.file.filename`, or for a single connection service
+with `imq`.serviceName. `accesscontrol.file.filename`.
+
+[[GMADG00020]][[ggydo]]
+
+
+.*Figure 9-1 Security Support*
+image:img/adm_secmanager.png[
+"Diagram showing broker's security services using authentication modules
+and an access control file."]
+
+
+As link:#ggydo[Figure 9-1] shows, you can store user data in a flat file
+user repository that is provided with the Message Queue service, you can
+access an existing LDAP repository, or you can plug in a Java
+Authentication and Authorization Service (JAAS) module.
+
+* If you choose a flat-file repository, you must use the `imqusermgr`
+utility to manage the repository. This option is easy to use and
+built-in.
+* If you want to use an existing LDAP server, you use the tools provided
+by the LDAP vendor to populate and manage the user repository. You must
+also set properties in the broker instance configuration file to enable
+the broker to query the LDAP server for information about users and
+groups. +
+The LDAP option is better if scalability is important or if you need the
+repository to be shared by different brokers. This might be the case if
+you are using broker clusters.
+* If you want to plug-in an existing JAAS authentication service, you
+need to set the corresponding properties in the broker instance
+configuration file.
+
+The broker's `imq.authentication.basic.user_repository` property
+specifies which type of repository to use. In general, an LDAP
+repository or JAAS authentication service is preferable if scalability
+is important or if you need the repository to be shared by different
+brokers (if you are using broker clusters, for instance). See
+link:#aeofg[User Authentication] for more information on setting up a
+flat-file user repository, LDAP access, or JAAS authentication service.
+
+[[aeocv]][[GMADG00546]][[authentication]]
+
+Authentication
+^^^^^^^^^^^^^^
+
+A client requesting a connection to a broker must supply a user name and
+password, which the broker compares with those stored in the user
+repository. Passwords transmitted from client to broker are encoded
+using either base-64 encoding (for flat-file repositories) or message
+digest (MD5) hashing (for LDAP repositories). The choice is controlled
+by the `imq.authentication.type` property for the broker as a whole, or
+by `imq`.serviceName. `authentication.type` for a specific connection
+service. The `imq.authentication.client.response.timeout` property sets
+a timeout interval for authentication requests.
+
+As described under link:#aeogq[Password Files], you can choose to put
+your passwords in a password file instead of being prompted for them
+interactively. The boolean broker property `imq`.`passfile.enabled`
+controls this option. If this property is true, the
+`imq.passfile.dirpath` and `imq.passfile.name` properties give the
+directory path and file name for the password file. The
+`imq.imqcmd.password` property (which can be embedded in the password
+file) specifies the password for authenticating an administrative user
+to use the Command utility (`imqcmd`) for managing brokers, connection
+services, connections, physical destinations, durable subscriptions, and
+transactions.
+
+If you are using an LDAP-based user repository, there are a whole range
+of broker properties available for configuring various aspects of the
+LDAP lookup. The address (host name and port number) of the LDAP server
+itself is specified by `imq.user_repository.ldap.server`. The
+`imq.user_repository.ldap.principal` property gives the distinguished
+name for binding to the LDAP repository, while
+`imq.user_repository.ldap.password` supplies the associated password.
+Other properties specify the directory bases and optional JNDI filters
+for individual user and group searches, the provider-specific attribute
+identifiers for user and group names, and so forth; see
+link:broker-properties.html#aeony[Security Properties] for details.
+
+[[aeocw]][[GMADG00547]][[authorization]]
+
+Authorization
+^^^^^^^^^^^^^
+
+Once authenticated, a user can be authorized to perform various Message
+Queue-related activities. As a Message Queue administrator, you can
+define user groups and assign individual users membership in them. The
+default access control file explicitly refers to only one group, `admin`
+(see link:#aeofm[User Groups and Status]). A user in this group has
+connection permission for the `admin` connection service, which allows
+the user to perform administrative functions such as creating
+destinations and monitoring and controlling a broker. A user in any
+other group that you define cannot, by default, get an `admin` service
+connection.
+
+When a user attempts to perform an operation, the broker checks the
+user's name and group membership (from the user repository) against
+those specified for access to that operation (in the access control
+file). The access control file specifies permissions to users or groups
+for the following operations:
+
+* Connecting to a broker
+* Accessing destinations: creating a consumer, a producer, or a queue
+browser for any given destination or for all destinations
+* Auto-creating destinations
+
+For information on configuring authorization, see link:#aeofu[User
+Authorization].
+
+[[aeocx]][[GMADG00548]][[encryption]]
+
+Encryption
+^^^^^^^^^^
+
+To encrypt messages sent between clients and broker, you need to use a
+connection service based on the Secure Socket Layer (SSL) standard. SSL
+provides security at the connection level by establishing an encrypted
+connection between an SSL-enabled broker and client.
+
+To use an SSL-based Message Queue connection service, you generate a
+public/private key pair using the Message Queue Key Tool utility
+(`imqkeytool`). This utility embeds the public key in a self-signed
+certificate and places it in a Message Queue key store. The key store is
+itself password-protected; to unlock it, you must provide a key store
+password at startup time, specified by the `imq.keystore.password`
+property. Once the key store is unlocked, a broker can pass the
+certificate to any client requesting a connection. The client then uses
+the certificate to set up an encrypted connection to the broker.
+
+For information on configuring encryption, see link:#aeogb[Message
+Encryption].
+
+[[aeofg]][[GMADG00247]][[user-authentication]]
+
+User Authentication
+~~~~~~~~~~~~~~~~~~~
+
+Users attempting to connect to a Message Queue message broker must
+provide a user name and password for authentication. The broker will
+grant the connection only if the name and password match those in a
+broker-specific user repository listing the authorized users and their
+passwords. Each broker instance can have its own user repository, which
+you as an administrator are responsible for maintaining. This section
+tells how to create, populate, and manage the user repository.
+
+Message Queue can support any of three types of authentication
+mechanism:
+
+* A flat-file repository that is shipped with Message Queue. This type
+of repository is very easy to populate and manage, using the Message
+Queue User Manager utility (`imqusermgr`). See link:#aeofh[Using a
+Flat-File User Repository].
+* A Lightweight Directory Access Protocol (LDAP) server. This could be a
+new or existing LDAP directory server using the LDAP v2 or v3 protocol.
+You use the tools provided by the LDAP vendor to populate and manage the
+user repository. This type of repository is not as easy to use as the
+flat-file repository, but it is more scalable and therefore better for
+production environments. See link:#aeofr[Using an LDAP User Repository].
+* An external authentication mechanism plugged into Message Queue by
+means of the Java Authentication and Authorization Service (JAAS) API.
+See link:#gepfq[Using JAAS-Based Authentication].
+
+[[aeofh]][[GMADG00549]][[using-a-flat-file-user-repository]]
+
+Using a Flat-File User Repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Message Queue provides a built-in flat-file user repository and a
+command line tool, the User Manager utility (`imqusermgr`), for
+populating and managing it. Each broker has its own flat-file user
+repository, created automatically when you start the broker. By default,
+the user repository resides in a file named `passwd`, in a directory
+identified by the name of the broker instance with which the repository
+is associated:
+
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/instanceName/etc/passwd
+----
+
+If you have changed these file name or directory defaults using the
+`imq.user_repository.file.filename` or
+`imq.user_repository.file.dirpath` broker properties, you must use the
+`-D` option to specify the non-default values when running `imqusermgr`
+if you did not specify the values in the broker properties file. For
+example, if `imq.user_repository.file.dirpath` is specified in a cluster
+configuration file, start `imqusermgr` using the form:
+
+[source,oac_no_warn]
+----
+imqusermgr -Dimq.cluster.url=location-of-cluster-properties-file ...
+----
+
+As another example, if `imq.user_repository.file.filename` is specified
+on the `imqbrokerd` command line to start the broker, start `imqusermgr`
+using the form:
+
+[source,oac_no_warn]
+----
+imqusermgr -Dimq.user_repository.file.filename=filename-used-in-imqbrokerd-command ...
+----
+
+[[aeofm]][[GMADG00404]][[user-groups-and-status]]
+
+User Groups and Status
+++++++++++++++++++++++
+
+Each user in the repository can be assigned to a user group, which
+defines the default access privileges granted to all of its members. You
+can then specify authorization rules to further restrict these access
+privileges for specific users, as described in link:#aeofu[User
+Authorization]. A user's group is assigned when the user entry is first
+created, and cannot be changed thereafter. The only way to reassign a
+user to a different group is to delete the original user entry and add
+another entry specifying the new group.
+
+The flat-file user repository provides three predefined groups:
+
+`admin`::
+  For broker administrators. By default, users in this group are granted
+  the access privileges needed to configure, administer, and manage
+  message brokers.
+`user`::
+  For normal (non-administrative) client users. Newly created user
+  entries are assigned to this group unless otherwise specified. By
+  default, users in this group can connect to all Message Queue
+  connection services of type `NORMAL`, produce messages to or consume
+  messages from all physical destinations, and browse messages in any
+  queue.
+`anonymous`::
+  For Message Queue clients that do not wish to use a user name known to
+  the broker (for instance, because they do not know of a real user name
+  to use). This group is analogous to the anonymous account provided by
+  most FTPservers. No more than one user at a time can be assigned to
+  this group. You should restrict the access privileges of this group in
+  comparison to the `user` group, or remove users from the group at
+  deployment time.
+
+You cannot rename or delete these predefined groups or create new ones.
+
+In addition to its group, each user entry in the repository has a user
+status: either active or inactive . New user entries added to the
+repository are marked active by default. Changing a user's status to
+inactive rescinds all of that user's access privileges, making the user
+unable to open new broker connections. Such inactive entries are
+retained in the user repository, however, and can be reactivated at a
+later time. If you attempt to add a new user with the same name as an
+inactive user already in the repository, the operation will fail; you
+must either delete the inactive user entry or give the new user a
+different name.
+
+To allow the broker to be used immediately after installation without
+further intervention by the administrator, the flat-file user repository
+is created with two initial entries, summarized in link:#gbnkj[Table
+9-1]:
+
+* The `admin` entry (user name and password `admin`/`admin`) enables you
+to administer the broker with Command utility (`imqcmd`) commands.
+Immediately on installation, you should update this initial entry to
+change its password (see link:#gewbm[Changing a User's Password]).
+* The `guest` entry allows clients to connect to the broker using a
+default user name and password (`guest`/`guest`).
+
+You can then proceed to add any additional user entries you need for
+individual users of your message service.
+
+[[GMADG652]][[sthref26]][[gbnkj]]
+
+
+Table 9-1 Initial Entries in Flat-File User Repository
+
+[width="100%",cols="16%,14%,16%,54%",options="header",]
+|=====================================
+|User Name |Password |Group |Status
+|`admin` |`admin` |`admin` |Active
+|`guest` |`guest` |`anonymous` |Active
+|=====================================
+
+
+[[aeofj]][[GMADG00405]][[using-the-user-manager-utility]]
+
+Using the User Manager Utility
+++++++++++++++++++++++++++++++
+
+The Message Queue User Manager utility (`imqusermgr`) enables you to
+populate or edit a flat-file user repository.
+Seelink:command-line-reference.html#aeonp[User Manager Utility] for
+general reference information about the syntax, subcommands, and options
+of the `imqusermgr` command.
+
+[[gewcl]][[GMADG00070]][[user-manager-preliminaries]]
+
+User Manager Preliminaries
+
+Before using the User Manager, keep the following things in mind:
+
+* The `imqusermgr` command must be run on the host where the broker is
+installed.
+* If a broker-specific user repository does not yet exist, you must
+start up the corresponding broker instance to create it.
+* You must have appropriate permissions to write to the repository; in
+particular, on Solaris and Linux platforms, you must be logged in as the
+root user or the user who first created the broker instance.
+
+[[aeofl]][[GMADG00071]][[subcommands-and-general-options]]
+
+Subcommands and General Options
+
+link:#gewca[Table 9-2] lists the subcommands of the `imqusermgr`
+command. For full reference information about these subcommands, see
+link:command-line-reference.html#gbnmr[Table 16-15].
+
+[[GMADG653]][[sthref27]][[gewca]]
+
+
+Table 9-2 User Manager Subcommands
+
+[width="100%",cols="19%,81%",options="header",]
+|========================================================
+|Subcommand |Description
+|`add` |Add user and password to repository
+|`delete` |Delete user from repository
+|`update` |Set user's password or active status (or both)
+|`list` |Display user information
+|========================================================
+
+
+The general options listed in link:#gbnje[Table 9-3] apply to all
+subcommands of the `imqusermgr` command.
+
+[[GMADG654]][[sthref28]][[gbnje]]
+
+
+Table 9-3 General User Manager Options
+
+[width="100%",cols="27%,73%",options="header",]
+|=======================================================================
+|Option |Description
+|`-D` brokerProperty`=`value |Specify a broker property value when
+starting `imqusermgr`.
+
+|`-f` |Perform action without user confirmation
+
+|`-s` |Silent mode (no output displayed)
+
+|`-v` |Display version informationlink:#foot-othersignored1[^Foot 1 ^]
+
+|`-h` |Display usage helplink:#sthref29[^Footref 1^]
+|=======================================================================
+
+
+^Footnote 1 ^Any other options specified on the command line are
+ignored.
+
+[[gewcp]][[GMADG00072]][[displaying-the-product-version]]
+
+Displaying the Product Version
+
+To display the Message Queue product version, use the `-v` option. For
+example:
+
+[source,oac_no_warn]
+----
+imqusermgr  -v
+----
+
+If you enter an `imqusermgr` command line containing the `-v` option in
+addition to a subcommand or other options, the User Manager utility
+processes only the `-v` option. All other items on the command line are
+ignored.
+
+[[gewat]][[GMADG00073]][[displaying-help]]
+
+Displaying Help
+
+To display help on the `imqusermgr` command, use the `-h` option, and do
+not use a subcommand. You cannot get help about specific subcommands.
+
+For example, the following command displays help about `imqusermgr`:
+
+[source,oac_no_warn]
+----
+imqusermgr  -h
+----
+
+If you enter an `imqusermgr` command line containing the `-h` option in
+addition to a subcommand or other options, the Command utility processes
+only the `-h` option. All other items on the command line are ignored.
+
+[[gewbc]][[GMADG00074]][[adding-a-user-to-the-repository]]
+
+Adding a User to the Repository
+
+The subcommand `imqusermgr` `add` adds an entry to the user repository,
+consisting of a user name and password:
+
+[source,oac_no_warn]
+----
+imqusermgr add  [-i brokerName]
+-u userName  -p password
+                   [-g group]
+----
+
+The `-u` and `-p` options specify the user name and password,
+respectively, for the new entry. These must conform to the following
+conventions:
+
+* All user names and passwords must be at least one character long.
+Their maximum length is limited only by command shell restrictions on
+the maximum number of characters that can be entered on a command line.
+* A user name cannot contain an asterisk (`*`), a comma (`,`), a colon
+(`:`), or a new-line or carriage-return character.
+* If a user name or password contains a space, the entire name or
+password must be enclosed in quotation marks (`" "`).
+
+The optional `-g` option specifies the group (`admin`, `user`, or
+`anonymous`) to which the new user belongs; if no group is specified,
+the user is assigned to the `user` group by default. If the broker name
+(`-i` option) is omitted, the default broker `imqbroker` is assumed.
+
+For example, the following command creates a user entry on broker
+`imqbroker` for a user named `AliBaba`, with password `Sesame`, in the
+`admin` group:
+
+[source,oac_no_warn]
+----
+imqusermgr add  -u AliBaba  -p Sesame  -g admin
+----
+
+[[gewcb]][[GMADG00075]][[deleting-a-user-from-the-repository]]
+
+Deleting a User From the Repository
+
+The subcommand `imqusermgr` `delete` deletes a user entry from the
+repository:
+
+[source,oac_no_warn]
+----
+imqusermgr delete  [-i brokerName]
+-u userName
+----
+
+The `-u` option specifies the user name of the entry to be deleted. If
+the broker name (`-i` option) is omitted, the default broker `imqbroker`
+is assumed.
+
+For example, the following command deletes the user named `AliBaba` from
+the user repository on broker `imqbroker`:
+
+[source,oac_no_warn]
+----
+imqusermgr delete  -u AliBaba 
+----
+
+[[gewbm]][[GMADG00076]][[changing-a-users-password]]
+
+Changing a User's Password
+
+You can use the subcommand `imqusermgr` `update` to change a user's
+password:
+
+[source,oac_no_warn]
+----
+imqusermgr update  [-i brokerName]
+-u userName  -p password
+----
+
+The `-u` identifies the user; `-p` specifies the new password. If the
+broker name (`-i` option) is omitted, the default broker `imqbroker` is
+assumed.
+
+For example, the following command changes the password for user
+`AliBaba` to `Shazam` on broker `imqbroker`:
+
+[source,oac_no_warn]
+----
+imqusermgr update  -u AliBaba  -p Shazam
+----
+
+
+[NOTE]
+=======================================================================
+
+For the sake of security, you should change the password of the `admin`
+user from its initial default value (`admin`) to one that is known only
+to you. The following command changes the default administrator password
+for broker `mybroker` to `veeblefetzer`:
+
+[source,oac_no_warn]
+----
+imqusermgr update  -i mybroker  -u admin  -p veeblefetzer
+----
+
+You can quickly confirm that this change is in effect by running any of
+the command line tools when the broker is running. For example, the
+following command will prompt you for a password:
+
+[source,oac_no_warn]
+----
+imqcmd list svc  mybroker  -u admin
+----
+
+Entering the new password (`veeblefetzer`) should work; the old password
+should fail.
+
+After changing the password, you should supply the new password whenever
+you use any of the Message Queue administration tools, including the
+Administration Console.
+
+=======================================================================
+
+
+[[gewba]][[GMADG00077]][[activating-or-deactivating-a-user]]
+
+Activating or Deactivating a User
+
+The `imqusermgr` `update` subcommand can also be used to change a user's
+active status:
+
+[source,oac_no_warn]
+----
+imqusermgr update  [-i brokerName]
+-u userName  -a activeStatus
+----
+
+The `-u` identifies the user; `-a` is a boolean value specifying the
+user's new status as active (`true`) or inactive (`false`). If the
+broker name (`-i` option) is omitted, the default broker `imqbroker` is
+assumed.
+
+For example, the following command sets user `AliBaba`'s status to
+inactive on broker `imqbroker`:
+
+[source,oac_no_warn]
+----
+imqusermgr update  -u AliBaba  -a false
+----
+
+This renders `AliBabe` unable to open new broker connections.
+
+You can combine the `-p` (password) and `-a` (active status) options in
+the same `imqusermgr` `update` command. The options may appear in either
+order: for example, both of the following commands activate the user
+entry for `AliBaba` and set the password to `plugh`:
+
+[source,oac_no_warn]
+----
+imqusermgr update  -u AliBaba  -p plugh  -a true
+imqusermgr update  -u AliBaba  -a true  -p plugh
+----
+
+[[aeofp]][[GMADG00078]][[viewing-user-information]]
+
+Viewing User Information
+
+The `imqusermgr` `list` command displays information about a user in the
+user repository:
+
+[source,oac_no_warn]
+----
+imqusermgr list  [-i brokerName]
+[-u userName]
+----
+
+The command
+
+[source,oac_no_warn]
+----
+imqusermgr list  -u AliBaba 
+----
+
+displays information about user `AliBabe`, as shown in
+link:#gewbt[Example 9-1].
+
+[[GMADG00116]][[gewbt]]
+
+
+Example 9-1 Viewing Information for a Single User
+
+[source,oac_no_warn]
+----
+
+User repository for broker instance: imqbroker
+----------------------------------
+User Name    Group    Active State
+----------------------------------
+AliBaba      admin    true
+----
+
+If you omit the `-u` option
+
+[source,oac_no_warn]
+----
+imqusermgr list
+----
+
+the command lists information about all users in the repository, as in
+link:#gewck[Example 9-2].
+
+[[GMADG00117]][[gewck]]
+
+
+Example 9-2 Viewing Information for All Users
+
+[source,oac_no_warn]
+----
+
+User repository for broker instance: imqbroker
+--------------------------------------
+User Name    Group        Active State
+--------------------------------------
+admin        admin        true
+guest        anonymous    true
+AliBaba      admin        true
+testuser1    user         true
+testuser2    user         true
+testuser3    user         true
+testuser4    user         false
+testuser5    user         false
+----
+
+[[aeofr]][[GMADG00550]][[using-an-ldap-user-repository]]
+
+Using an LDAP User Repository
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+You configure a broker to use an LDAP directory server by setting the
+values for certain configuration properties in the broker's instance
+configuration file (`config.properties`). These properties enable the
+broker instance to query the LDAP server for information about users and
+groups when a user attempts to connect to the broker or perform
+messaging operations.
+
+* The `imq.authentication.basic.user_repository` property specifies the
+kind of user authentication the broker is to use. By default, this
+property is set to `file`, for a flat-file user repository. For LDAP
+authentication, set it to `ldap` instead: +
+[source,oac_no_warn]
+----
+imq.authentication.basic.user_repository =ldap
+----
+* The `imq.authentication.type` property controls the type of encoding
+used when passing a password between client and broker. By default, this
+property is set to `digest`, denoting MD5 encoding, the form used by
+flat-file user repositories. For LDAP authentication, set it to `basic`
+instead: +
+[source,oac_no_warn]
+----
+imq.authentication.type=basic
+----
+This denotes base-64 encoding, the form used by LDAP user repositories.
+* The following properties control various aspects of LDAP access. See
+link:broker-properties.html#gewfp[Table 17-11] for more detailed
+information: +
+`imq.user_repository.ldap.server` +
+`imq.user_repository.ldap.principal` +
+`imq.user_repository.ldap.password` +
+`imq.user_repository.ldap.`propertyName +
+`imq.user_repository.ldap.base` +
+`imq.user_repository.ldap.uidattr` +
+`imq.user_repository.ldap.usrfilter` +
+`imq.user_repository.ldap.grpsearch` +
+`imq.user_repository.ldap.grpbase` +
+`imq.user_repository.ldap.gidattr` +
+`imq.user_repository.ldap.memattr` +
+`imq.user_repository.ldap.grpfilter` +
+`imq.user_repository.ldap.timeout` +
+`imq.user_repository.ldap.ssl.enabled`
+* The `imq.user_repository.ldap.userformat` property, if set to a value
+of `dn`, specifies that the login username for authentication be in DN
+username format (for example:
+`uid=mquser,ou=People,dc=red,dc=sun,dc=com`). In this case, the broker
+extracts the value of the `imq.user.repository.lpdap.uidatr` attribute
+from the DN username, and uses this value as the user name in access
+control operations (see link:#aeofu[User Authorization]).
+* If you want the broker to use a secure, encrypted SSL (Secure Socket
+Layer) connection for communicating with the LDAP server, set the
+broker's `imq.user_repository.ldap.ssl.enabled` property to `true` +
+[source,oac_no_warn]
+----
+imq.user_repository.ldap.ssl.enabled =true
+----
+and the `imq.user_repository.ldap.server` property to the port used by
+the LDAP server for SSL communication: for example, +
+[source,oac_no_warn]
+----
+imq.user_repository.ldap.server=myhost:7878
+----
+You will also need to activate SSL communication in the LDAP server.
+
+In addition, you may need to edit the user and group names in the
+broker's access control file to match those defined in the LDAP user
+repository; see link:#aeofu[User Authorization] for more information.
+
+For example, to create administrative users, you use the access control
+file to specify those users and groups in the LDAP directory that can
+create `ADMIN` connections.
+
+Any user or group that can create an `ADMIN` connection can issue
+administrative commands.
+
+[[gbnkk]][[GMADG00165]][[to-set-up-an-administrative-user]]
+
+To Set Up an Administrative User
+++++++++++++++++++++++++++++++++
+
+The following procedure makes use of a broker's access control file,
+which is described in link:#aeofu[User Authorization].
+
+1.  Enable the use of the access control file by setting the broker
+property `imq.accesscontrol.enabled` to `true`, which is the default
+value. +
+The `imq.accesscontrol.enabled` property enables use of the access
+control file.
+2.  Open the access control file,
+`IMQ_VARHOME/instances/`instanceName`/etc/accesscontrol.properties`. +
+The file contains an entry such as the following: +
+[source,oac_no_warn]
+----
+service connection access control
+##################################
+connection.NORMAL.allow.user=*
+connection.ADMIN.allow.group=admin
+----
+The entries listed are examples. Note that the `admin` group exists by
+default in the file-based user repository but does not exist by default
+in the LDAP directory.
+3.  To grant Message Queue administrator privileges to users, enter the
+user names as follows: +
+[source,oac_no_warn]
+----
+connection.ADMIN.allow.user= userName[[,userName2] …]
+----
+The users must be defined in the LDAP directory.
+4.  To grant Message Queue administrator privileges to groups, enter the
+group names as follows: +
+[source,oac_no_warn]
+----
+connection.ADMIN.allow.group= groupName[[,groupName2] …]
+----
+The groups must be defined in the LDAP directory.
+
+[[gepfq]][[GMADG00551]][[using-jaas-based-authentication]]
+
+Using JAAS-Based Authentication
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+The Java Authentication and Authorization Service (JAAS) API allows you
+to plug an external authentication mechanism into Message Queue. This
+section describes the information that the Message Queue message broker
+makes available to a JAAS-compliant authentication service and explains
+how to configure the broker to use such a service. The following sources
+provide further information on JAAS:
+
+* For complete information about the JAAS API , see the
+http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/JAASRefGuide.html[Java
+Authentication and Authorization Service (JAAS) Reference Guide].
+* For information about writing a JAAS login module, see the
+http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/JAASLMDevGuide.html[Java
+Authentication and Authorization Service (JAAS) LoginModule Developer's
+Guide].
+
+JAAS is a core API in Java 2 Standard Edition (J2SE), and is therefore
+an integral part of Message Queue's runtime environment. It defines an
+abstraction layer between an application and an authentication
+mechanism, allowing the desired mechanism to be plugged in with no
+change to application code. In the case of the Message Queue service,
+the abstraction layer lies between the broker (application) and an
+authentication provider. By setting a few broker properties, it is
+possible to plug in any JAAS-compliant authentication service and to
+upgrade this service with no disruption or change to broker code.
+
+
+[NOTE]
+=======================================================================
+
+You cannot use the Java Management Extensions (JMX) API to change
+JAAS-related broker properties. However, once JAAS-based authentication
+is configured, JMX client applications (like other clients) can be
+authenticated using this mechanism.
+
+=======================================================================
+
+
+[[gephn]][[GMADG00406]][[elements-of-jaas]]
+
+Elements of JAAS
+++++++++++++++++
+
+link:#gepft[Figure 9-2] shows the basic elements of JAAS: a JAAS client,
+a JAAS-compliant authentication service, and a JAAS configuration file.
+
+* The JAAS client is an application wishing to perform authentication
+using a JAAS-compliant authentication service. The JAAS client
+communicates with the authentication service using one or more login
+modules and is responsible for providing a callback handler that the
+login module can call to obtain the user name, password, and other
+information needed for authentication.
+* The JAAS-compliant authentication service consists of one or more
+login modules along with logic to perform the needed authentication. The
+login module (`LoginModule`) may include the authentication logic
+itself, or it may use a private protocol or API to communicate with an
+external security service that provides the logic.
+* The JAAS configuration file is a text file that the JAAS client uses
+to locate the login module(s) to be used.
+
+[[GMADG00021]][[gepft]]
+
+
+.*Figure 9-2 JAAS Elements*
+image:img/to_jaaselements.png[
+"This figure shows the elements required for JAAS-compliant
+authentication. The text that introduces the figure explains its
+contents."]
+
+
+[[gepfs]][[GMADG00407]][[jaas-and-message-queue]]
+
+JAAS and Message Queue
+++++++++++++++++++++++
+
+link:#gepgx[Figure 9-3] shows how JAAS is used by the Message Queue
+broker. It shows a more complex implementation of the JAAS model shown
+in link:#gepft[Figure 9-2].
+
+[[GMADG00022]][[gepgx]]
+
+
+.*Figure 9-3 How Message Queue Uses JAAS*
+image:img/to_myjaas.png[
+"The figure shows how JAAS-compliant authentication is used with Message
+Queue. The text that follows the figure explains its contents."]
+
+
+The authentication service layer, consisting of one or more login
+modules (if needed) and corresponding authentication logic, is separate
+from the broker. The login modules run in the same Java virtual machine
+as the broker. The broker is represented to the login module as a login
+context, and communicates with the login module by means of a callback
+handler that is part of the broker runtime code.
+
+The authentication service also supplies a JAAS configuration file
+containing entries that reference the login modules. The configuration
+file specifies the order in which the login modules (if more than one)
+are to be used and any conditions for their use. When the broker starts
+up, it locates the configuration file by consulting either the Java
+system property `java.security.auth.login.config` or the Java security
+properties file. The broker then selects an entry in the JAAS
+configuration file according to the value of the broker property
+`imq.user_repository.jaas.name`. That entry specifies which login
+module(s) will be used for authentication. The classes for the login
+modules are found in the Message Queue external resource files
+directory, `IMQ_HOMElib/ext`.
+
+The relation between the configuration file, the login module, and the
+broker is shown in the following figure. link:#ghezq[Figure 9-4].
+
+[[GMADG00023]][[ghezq]]
+
+
+.*Figure 9-4 Setting Up JAAS Support*
+image:img/adm_jaasfiles.png[
+"This figure shows the relationship between JAAS-related files. The text
+preceding the figure explains its content."]
+
+
+The fact that the broker uses a JAAS plug-in authentication service
+remains completely transparent to the Message Queue client. The client
+continues to connect to the broker as it did before, passing a user name
+and password. In turn, the broker uses a callback handler to pass login
+information to the authentication service, and the service uses the
+information to authenticate the user and return the results. If
+authentication succeeds, the broker grants the connection; if it fails,
+the client runtime returns a JMS security exception that the client must
+handle.
+
+After the Message Queue client is authenticated, if there is further
+authorization to be done, the broker proceeds as it normally would,
+consulting the access control file to determine whether the
+authenticated client is authorized to perform the actions it undertakes:
+accessing a destination, consuming a message, browsing a queue, and so
+on.
+
+[[gepgd]][[GMADG00408]][[setting-up-jaas-compliant-authentication]]
+
+Setting up JAAS-Compliant Authentication
+++++++++++++++++++++++++++++++++++++++++
+
+Setting up JAAS-compliant authentication involves setting broker and
+system properties to select this type of authentication, to specify the
+location of the configuration file, and to specify the entries to the
+login modules that are going to be used.
+
+To set up JAAS support for Message Queue, you perform the following
+general steps. (These steps assume you are creating your own
+authentication service.)
+
+1.  [[CJADHCIJ]] +
+Create one or more login module classes that implement the
+authentication service. The JAAS callback types that the broker supports
+are listed below.::
+`javax.security.auth.callback.LanguageCallback`::
+  The broker uses this callback to pass the authentication service the
+  locale in which the broker is running. This value can be used for
+  localization.
+`javax.security.auth.callback.NameCallback`::
+  The broker uses this callback to pass to the authentication service
+  the user name specified by the Message Queue client when the
+  connection was requested.
+`javax.security.auth.callback.TextInputCallback`::
+  The broker uses this callback to pass the value of the following
+  information to the login module (authentication service) when
+  requested through the TextInputCallback.getPrompt() with the following
+  strings: +
+  * `imq.authentication.type`: The broker authentication type in effect
+  at runtime
+  * `imq.accesscontrol.type`: The broker access control type in effect
+  at runtime
+  * `imq.authentication.clientip`: The client IP address (null if
+  unavailable)
+  * `imq.servicename`: The name of the connection service (`jms`,
+  `ssljms`, `admin`, or `ssladmin`) being used by the client
+  * `imq.servicetype`: The type of the connection service (`NORMAL` or
+  `ADMIN`) being used by the client
+`javax.security.auth.callback.PasswordCallback`::
+  The broker uses this callback to pass to the authentication service
+  the password specified by the Message Queue client when the connection
+  was requested.
+`javax.security.auth.callback.TextOutputCallback`::
+  The broker handles this callback to provide logging service to the
+  authentication service by logging the text output to the broker's log
+  file. The callback's `MessageType` `ERROR,` `INFORMATION,` `WARNING`
+  are mapped to the broker logging levels `ERROR,` `INFO,` `WARNING`
+  respectively.
+2.  Create a JAAS configuration file with entries that reference the
+login module classes created in Step link:#CJADHCIJ[1] and specify the
+location of this file.
+3.  [[CJAFEHAC]] +
+Note the name of the entry in the JAAS configuration file (that
+references the login module implementation classes).
+4.  Archive the classes that implement the login modules to a jar file,
+and place the jar file in the Message Queue `lib/ext` directory.
+5.  Set the broker configuration properties that relate to JAAS support.
+These are described in link:#gepge[Table 9-4].
+6.  Set the following system property (to specify the location of the
+JAAS configuration file). +
+`java.security.auth.login.config=`JAAS_Config_File_Location +
+For example, you can specify the location when you start the broker. +
+`imqbrokerd -Djava.security.auth.login.config=`JAAS_Config_File_Location +
+There are other ways to specify the location of the JAAS configuration
+file. For additional information, see +
+`http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/tutorials/LoginConfigFile.html`
+
+The following table lists the broker properties that need to be set to
+set up JAAS support.
+
+[[GMADG655]][[sthref33]][[gepge]]
+
+
+Table 9-4 Broker Properties for JAAS Support
+
+[width="100%",cols="53%,47%",options="header",]
+|=======================================================================
+|Property |Description
+|`imq.authentication.type` |Set to `basic` to indicate Base-64 password
+encoding. This is the only permissible value for JAAS authentication.
+
+|`imq.authentication.basic.user_repository` |Set to `jaas` to specify
+JAAS authentication.
+
+|`imq.user_repository.jaas.name` |Set to the name of the desired entry
+(in the JAAS configuration file) that references the login modules you
+want to use as the authentication mechanism. This is the name you noted
+inStep link:#CJAFEHAC[3].
+
+|`imq.user_repository.jaas.userPrincipalClass` |This property, used by
+Message Queue access control, specifies the `java.security.Principal`
+implementation class in the login module(s) that the broker uses to
+extract the Principal name to represent the user entity in the Message
+Queue access control file. If, it is not specified, the user name passed
+from the Message Queue client when a connection was requested is used
+instead.
+
+|`imq.user_repository.jaas.groupPrincipalClass` |This property, used by
+Message Queue access control, specifies the `java.security.Principal`
+implementation class in the login module(s) that the broker uses to
+extract the Principal name to represent the group entity in the Message
+Queue access control file. If, it is not specified, the group rules, if
+any, in the Message Queue access control file are ignored.
+|=======================================================================
+
+
+[[aeofu]][[GMADG00248]][[user-authorization]]
+
+User Authorization
+~~~~~~~~~~~~~~~~~~
+
+An access control file contains rules that specify which users (or
+groups of users) are authorized to perform certain operations on a
+message broker. These operations include the following:
+
+* Creating a connection
+* Creating a message producer for a physical destination
+* Creating a message consumer for a physical destination
+* Browsing a queue destination
+* Auto-creating a physical destination
+
+If access control is enabled (that is, if the broker's
+`imq.accesscontrol.enabled` configuration property is set to `true`, the
+broker will consult its access control file whenever a client attempts
+one of these operations, to verify whether the user generating the
+request (or a group to which the user belongs) is authorized to perform
+the operation. By editing this file, you can restrict access to these
+operations to particular users and groups. Changes take effect
+immediately; there is no need to restart the broker after editing the
+file.
+
+[[aeofv]][[GMADG00552]][[access-control-file-syntax]]
+
+Access Control File Syntax
+^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Each broker has it own access control file, created automatically when
+the broker is started. The file is named `accesscontrol.properties` and
+is located at `IMQ_VARHOME/instances/`instanceName`/etc`.
+
+The file is formatted as a Java properties file. It starts with a
+`version` property defining the version of the file:
+
+[source,oac_no_warn]
+----
+version=JMQFileAccessControlModel/100 
+----
+
+This is followed by three sections specifying the access control for
+three categories of operations:
+
+* Creating connections
+* Creating message producers or consumers, or browsing a queue
+destination
+* Auto-creating physical destinations
+
+Each of these sections consists of a sequence of authorization rules
+specifying which users or groups are authorized to perform which
+specific operations. These rules have the following syntax:
+
+[source,oac_no_warn]
+----
+resourceType.resourceVariant.operation.access.principalType=principals
+----
+
+link:#gbnjc[Table 9-5] describes the various elements.
+
+[[GMADG656]][[sthref34]][[gbnjc]]
+
+
+Table 9-5 Authorization Rule Elements
+
+[width="100%",cols="17%,83%",options="header",]
+|=======================================================================
+|Element |Description
+|resourceType a|
+Type of resource to which the rule applies:
+
+* `connection`: Connections
+* `queue`: Queue destinations
+* `topic`: Topic destinations
+
+|resourceVariant a|
+Specific resource (connection service type or destination) to which the
+rule applies
+
+An asterisk (`*`) may be used as a wild-card character to denote all
+resources of a given type: for example, a rule beginning with `queue.*`
+applies to all queue destinations.
+
+|operation a|
+Operation to which the rule applies
+
+This syntax element is not used for resourceType=`connection`.
+
+|access a|
+Level of access authorized:
+
+* `allow`: Authorize user to perform operation
+* `deny`: Prohibit user from performing operation
+
+|principalType a|
+Type of principal (user or group) to which the rule applies:
+
+* `user`: Individual user
+* `group`: User group
+
+|principals a|
+List of principals (users or groups) to whom the rule applies, separated
+by commas
+
+An asterisk (`*`) may be used as a wild-card character to denote all
+users or all groups: for example, a rule ending with `user=*` applies to
+all users.
+
+|=======================================================================
+
+
+[[GMADG00118]][[ggwbx]]
+
+
+Example 9-3 Example 1
+
+Rule: `queue.q1.consume.allow.user=*`
+
+Description: allows all users to consume messages from the queue
+destination `q1`.
+
+[[GMADG00119]][[ggwam]]
+
+
+Example 9-4 Example 2
+
+Rule: `queue.*.consume.allow.user=Snoopy`
+
+Description: allows user `Snoopy` to consume messages from all queue
+destinations.
+
+[[GMADG00120]][[ggwbv]]
+
+
+Example 9-5 Example 3
+
+Rule: `topic.t1.produce.deny.user=Snoopy`
+
+Description: prevents `Snoopy` from producing messages to the topic
+destination `t1`
+
+
+[NOTE]
+=======================================================================
+
+You can use Unicode escape (`\\u`XXXX) notation to specify non-ASCII
+user, group, or destination names. If you have edited and saved the
+access control file with these names in a non-ASCII encoding, you can
+use the Java `native2ascii` tool to convert the file to ASCII. See the
+http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp[Java
+Internationalization FAQ] for more information.
+
+=======================================================================
+
+
+[[aeofx]][[GMADG00553]][[application-of-authorization-rules]]
+
+Application of Authorization Rules
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Authorization rules in the access control file are applied according to
+the following principles:
+
+* Any operation not explicitly authorized through an authorization rule
+is implicitly prohibited. For example, if the access control file
+contains no authorization rules, all users are denied access to all
+operations.
+* Authorization rules for specific users override those applying
+generically to all users. For example, the rules +
+[source,oac_no_warn]
+----
+queue.q1.produce.allow.user=*
+queue.q1.produce.deny.user=Snoopy
+----
+authorize all users except `Snoopy` to send messages to queue
+destination `q1`.
+* Authorization rules for a specific user override those for any group
+to which the user belongs. For example, if user `Snoopy` is a member of
+group `user`, the rules +
+[source,oac_no_warn]
+----
+queue.q1.consume.allow.group=user
+queue.q1.consume.deny.user=Snoopy
+----
+authorize all members of `user` except `Snoopy` to receive messages from
+queue destination `q1`.
+* Authorization rules applying generically to all users override those
+applying to all groups. For example, the rules +
+[source,oac_no_warn]
+----
+topic.t1.produce.deny.group=*
+topic.t1.produce.allow.user=*
+----
+authorize all users to publish messages to topic destination `t1`,
+overriding the rule denying such access to all groups.
+* Authorization rules for specific resources override those applying
+generically to all resources of a given type. For example, the rules +
+[source,oac_no_warn]
+----
+topic.*.consume.allow.user=Snoopy
+topic.t1.consume.deny.user=Snoopy
+----
+authorize `Snoopy` to subscribe to all topic destinations except `t1`.
+* Authorization rules authorizing and denying access to the same
+resource and operation for the same user or group cancel each other out,
+resulting in authorization being denied. For example, the rules +
+[source,oac_no_warn]
+----
+queue.q1.browse.deny.user=Snoopy
+queue.q1.browse.allow.user=Snoopy
+----
+prevent `Snoopy` from browsing queue `q1`. The rules +
+[source,oac_no_warn]
+----
+topic.t1.consume.deny.group=user
+topic.t1.consume.allow.group=user
+----
+prevent all members of group `user` from subscribing to topic `t1`.
+* When multiple authorization rules are specified for the same resource,
+operation, and principal type, only the last rule applies. The rules +
+[source,oac_no_warn]
+----
+queue.q1.browse.allow.user=Snoopy,Linus
+queue.q1.browse.allow.user=Snoopy
+----
+authorize user `Snoopy`, but not `Linus`, to browse queue destination
+`q1`.
+
+[[aeofy]][[GMADG00554]][[authorization-rules-for-connection-services]]
+
+Authorization Rules for Connection Services
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Authorization rules with the resource type `connection` control access
+to the broker's connection services. The rule's resourceVariant element
+specifies the service type of the connection services to which the rule
+applies, as shown in link:connection-services.html#gbnjw[Table 6-1]; the
+only possible values are `NORMAL` or `ADMIN`. There is no operation
+element.
+
+The default access control file contains the rules
+
+[source,oac_no_warn]
+----
+connection.NORMAL.allow.user=*
+connection.ADMIN.allow.group=admin
+----
+
+giving all users access to `NORMAL` connection services (`jms`,
+`ssljms`, `httpjms`, and `httpsjms`) and those in the `admin` group
+access to `ADMIN` connection services (`admin` and `ssladmin`). You can
+then add additional authorization rules to restrict the connection
+access privileges of specific users: for example, the rule
+
+[source,oac_no_warn]
+----
+connection.NORMAL.deny.user=Snoopy
+----
+
+denies user `Snoopy` access privileges for connection services of type
+`NORMAL`.
+
+If you are using a file-based user repository, the `admin` user group is
+created by the User Manager utility. If access control is disabled
+(`imq.accesscontrol.enabled` = `false`), all users in the `admin` group
+automatically have connection privileges for `ADMIN` connection
+services. If access control is enabled, access to these services is
+controlled by the authorization rules in the access control file.
+
+If you are using an LDAP user repository, you must define your own user
+groups in the LDAP directory, using the tools provided by your LDAP
+vendor. You can either define a group named `admin`, which will then be
+governed by the default authorization rule shown above, or edit the
+access control file to refer to one or more other groups that you have
+defined in the LDAP directory. You must also explicitly enable access
+control by setting the broker's `imq.accesscontrol.enabled` property to
+`true`.
+
+[[aeofz]][[GMADG00555]][[authorization-rules-for-physical-destinations]]
+
+Authorization Rules for Physical Destinations
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Access to specific physical destinations on the broker is controlled by
+authorization rules with a resource type of `queue` or `topic`, as the
+case may be. These rules regulate access to the following operations:
+
+* Sending messages to a queue: produce operation
+* Receiving messages from a queue: consume operation
+* Publishing messages to a topic: produce operation
+* Subscribing to and consuming messages from a topic: consume operation
+* Browsing a queue: browse operation
+
+By default, all users and groups are authorized to perform all of these
+operations on any physical destination. You can change this by editing
+the default authorization rules in the access control properties file or
+overriding them with more specific rules of your own. For example, the
+rule
+
+[source,oac_no_warn]
+----
+topic.Admissions.consume.deny.group=user
+----
+
+denies all members of the `user` group the ability to subscribe to the
+topic `Admissions`.
+
+[[gjmsn]][[GMADG00409]][[authorization-rules-for-auto-created-physical-destinations]]
+
+Authorization Rules for Auto-Created Physical Destinations
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+When a client creates a message producer or consumer for a physical
+destination that does not already exist, the broker will auto-create the
+destination (provided that the broker's `imq.autocreate.queue` or
+`imq.autocreate.topic` property is set to `true`).
+
+The final section of the access control file controls the ability of
+users and groups to auto-create destinations, and to access any
+auto-created destinations. This is governed by authorization rules with
+a resourceType of `queue` or `topic` and an operation element of
+`create`. the resourceVariant element is omitted, since these rules
+apply to all auto-created queues or all auto-created topics, rather than
+any specific destination.
+
+The default access control file contains the rules
+
+[source,oac_no_warn]
+----
+queue.create.allow.user=*
+topic.create.allow.user=*
+----
+
+authorizing all users to have physical destinations auto-created for
+them by the broker, and to have access to any auto-created destinations.
+You can edit the file to restrict such authorization for specific users.
+For example, the rule
+
+[source,oac_no_warn]
+----
+topic.create.deny.user=Snoopy
+----
+
+denies user `Snoopy` the ability to auto-create topic destinations or to
+access any auto-created topic destinations.
+
+
+[NOTE]
+=======================================================================
+
+The effect of such auto-creation rules must be congruent with that of
+other physical destination access rules. For example, if you change the
+destination authorization rule to prohibit any user from sending a
+message to a queue, but enable the auto-creation of queue destinations,
+the broker will create the physical destination if it does not exist,
+but will not deliver a message to it.
+
+=======================================================================
+
+
+[[aeogb]][[GMADG00249]][[message-encryption]]
+
+Message Encryption
+~~~~~~~~~~~~~~~~~~
+
+This section explains how to set up a connection service based on the
+Secure Socket Layer (SSL) standard, which enables delivery of encrypted
+messages over the connection. Message Queue supports the following
+SSL-based connection services:
+
+* The `ssljms` service delivers secure, encrypted messages between a
+client and a broker, using the TCP/IP transport protocol.
+* The `httpsjms` service delivers secure, encrypted messages between a
+client and a broker, using an HTTPS tunnel servlet with the HTTP
+transport protocol.
+* The `ssladmin` service creates a secure, encrypted connection between
+the Message Queue Command utility (`imqcmd`) and a broker, using the
+TCP/ IP transport protocol. Encrypted connections are not supported for
+the Administration Console (`imqadmin`).
+* The `cluster` connection service is used internally to provide secure,
+encrypted communication between brokers in a cluster, using the TCP/IP
+transport protocol.
+* A JMX connector that supports secure, encrypted communication between
+a JMX client and a broker's MBean server using the RMI transport
+protocol over TCP.
+
+The remainder of this section describes how to set up secure connections
+over TCP/IP, using the `ssljms`, `ssladmin`, and `cluster` connection
+services. For information on setting up secure connections over HTTP
+with the `httpsjms` service, see
+link:http_https-support.html#aeopb[HTTP/HTTPS Support].
+
+[[aeogd]][[GMADG00556]][[using-self-signed-certificates]]
+
+Using Self-Signed Certificates
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+To use an SSL-based connection service over TCP /IP, you generate a
+public/private key pair using the Key Tool utility (`imqkeytool`). This
+utility embeds the public key in a self-signed certificate that is
+passed to any client requesting a connection to the broker, and the
+client uses the certificate to set up an encrypted connection. This
+section describes how to set up an SSL-based service using such
+self-signed certificates.
+
+For a stronger level of authentication, you can use signed certificates
+verified by a certification authority. The use of signed certificates
+involves some additional steps beyond those needed for self-signed
+certificates: you must first perform the procedures described in this
+section and then perform the additional steps in link:#aeogk[Using
+Signed Certificates].
+
+Message Queue's support for SSL with self-signed certificates is
+oriented toward securing on-the-wire data, on the assumption that the
+client is communicating with a known and trusted server. Configuring SSL
+with self-signed certificates requires configuration on both the broker
+and client:
+
+* link:#ggwkm[Setting Up an SSL-Based Connection Service Using
+Self-Signed Certificates]
+* link:#aeogh[Configuring and Running an SSL-Based Client Using
+Self-Signed Certificates]
+
+[[ggwkm]][[GMADG00410]][[setting-up-an-ssl-based-connection-service-using-self-signed-certificates]]
+
+Setting Up an SSL-Based Connection Service Using Self-Signed Certificates
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The following sequence of procedures are needed to set up an SSL-based
+connection service for using self-signed certificates:
+
+
+[NOTE]
+=======================================================================
+
+Starting with release 4.0, the default value for the client connection
+factory property `imqSSLIsHostTrusted` is `false`. If your application
+depends on the prior default value of `true`, you need to reconfigure
+and to set the property explicitly to `true`. In particular, old or new
+clients using self-signed certificates should set this property to true;
+for example:
+
+[source,oac_no_warn]
+----
+java -DimqConnectionType=TLS -DimqSSLIsHostTrusted=true MyApp
+----
+
+The administration tool `imqcmd` is also affected by this change. In
+addition to using the `-secure` option to specify that it uses a
+SSL-based `admin` connection service, the `imqSSLIsHostTrusted` should
+be set to `true` when connecting to a broker configured with a
+self-signed certificate. You can do this as follows:
+
+[source,oac_no_warn]
+----
+imqcmd list svc -secure -DimqSSLIsHostTrusted=true
+----
+
+Alternatively, you can import the broker's self-signed certificate into
+the client runtime trust store. Use the procedure in link:#gbnjz[To
+Install a Signed Certificate].
+
+=======================================================================
+
+
+1.  Generate a self-signed certificate.
+2.  Enable the desired SSL-based connection services in the broker.
+These can include the `ssljms`, `ssladmin`, or `cluster` connection
+services.
+3.  Start the broker.
+
+[[ggwgc]][[GMADG00166]][[to-generate-a-self-signed-certificate]]
+
+To Generate a Self-Signed Certificate
+
+Run the Key Tool utility (`imqkeytool`) to generate a self-signed
+certificate for the broker. (On Solaris and Linux operating systems, you
+may need to run the utility as the root user in order to have permission
+to create the keystore file.) The same certificate can be used for all
+SSL-based connection services (`ssljms`, `ssladmin`, `cluster`
+connection services, and the `ssljmxrmi` connector).
+
+1.  Enter the following at the command prompt: +
+`imqkeytool` `broker` +
+The Key Tool utility prompts you for a key store password:
+2.  At the prompt type a keystore password. +
+The Keystore utility prompts you for identifying information from which
+to construct an X.500 distinguished name. The following table shows the
+prompts and the values to be provided for each. Values are
+case-insensitive and can include spaces. +
+[width="100%",cols="25%,25%,25%,25%",options="header",]
+|=======================================================================
+|Prompt |X.500 Attribute |Description |Example
+|`What is your first and last name?` |commonName (CN) |Fully qualified
+name of server running the broker |`mqserver.sun.com`
+
+|`What is the name of your organizational unit?` |organizationalUnit
+(OU) |Name of department or division |`purchasing`
+
+|`What is the name of your organization?` |organizationName (ON) |Name
+of larger organization, such as a company or government entity
+|`Acme Widgets, Inc.`
+
+|`What is the name of your city or locality?` |localityName (L) |Name of
+city or locality |`San Francisco`
+
+|`What is the name of your state or province?` |stateName (ST) |Full
+(unabbreviated) name of state or province |`California`
+
+|`What is the two-letter country code for this unit?` |country (C)
+|Standard two-letter country code |`US`
+|=======================================================================
+
+The Key Tool utility displays the information you entered for
+confirmation. For example, +
+[source,oac_no_warn]
+----
+   Is CN=mqserver.sun.com, OU=purchasing, ON=Acme Widgets, Inc.,
+   L=San Francisco, ST=California, C=US correct?
+----
+3.  Accept the current values and proceed by typing `yes`. +
+To reenter values, accept the default or enter `no`. After you confirm,
+the utility pauses while it generates a key pair. +
+The utility asks for a password to lock the key pair (key password).
+4.  Press return. +
+This will set the same password for both the key password and the
+keystore password. +
+
+[CAUTION]
+=======================================================================
+
+Be sure to remember the password you specify. You must provide this
+password when you start the broker, to allow the broker to open the
+keystore file. You can store the keystore password in a password file
+(see link:#aeogq[Password Files]).
+
+=======================================================================
+
+The Key Tool utility generates a self-signed certificate and places it
+in Message Queue's keystore file. The keystore file is located in
+`IMQ_HOME/etc` by default. +
+The following are the configurable properties for the Message Queue
+keystore for SSL-based connection services:::
+`imq.keystore.file.dirpath`::
+  Path to directory containing keystore file
+`imq.keystore.file.name`::
+  Name of key store file
+`imq.keystore.password`::
+  Ke store password (to be used only in a password file) +
+In some circumstances, you may need to regenerate a key pair in order to
+solve certain problems: for example, if you forget the key store
+password or if the SSL-based service fails to initialize when you start
+a broker and you get the exception: +
+[source,oac_no_warn]
+----
+java.security.UnrecoverableKeyException: Cannot recover key 
+----
+(This exception may result if you provided a key password different from
+the keystore password when you generated the self-signed certificate.)
+
+[[ggwhw]][[GMADG00167]][[to-regenerate-a-key-pair]]
+
+To Regenerate a Key Pair
+
+1.  Remove the broker's keystore file. +
+The file is located in `IMQ_HOME/etc` by default.
+2.  Run `imqkeytool` again. +
+The command will generate a new key pair, as described above.
+
+[[gbnko]][[GMADG00168]][[to-enable-an-ssl-based-connection-service-in-the-broker]]
+
+To Enable an SSL-Based Connection Service in the Broker
+
+To enable an SSL-based connection service in the broker, you need to add
+the corresponding service or services to the `imq.service.activelist`
+property.
+
+1.  Open the broker's instance configuration file: +
+[source,oac_no_warn]
+----
+IMQ_VARHOME/instances/instanceName/props/config.properties
+----
+2.  Add an entry (if one does not already exist) for the
+`imq.service.activelist` property and include the desired SSL-based
+service(s) in the list. +
+By default, the property includes the `jms` and `admin` connection
+services. Add the SSL-based service or services you wish to activate
+(`ssljms`, `ssladmin`, or both): +
+[source,oac_no_warn]
+----
+imq.service.activelist=jms,admin,ssljms,ssladmin
+----
+::
+
+[NOTE]
+=======================================================================
+
+The SSL-based `cluster` connection service is enabled using the
+`imq.cluster.transport` property rather than the
+`imq.service.activelist` property (see
+link:broker-clusters.html#ggumd[Cluster Connection Service Properties]).
+To enable SSL for RMI-based JMX connectors, see
+link:jmx-support.html#ggvun[SSL-Based JMX Connections].
+
+=======================================================================
+
+3.  Save and close the instance configuration file.
+
+[[ggwjv]][[GMADG00169]][[to-start-the-broker]]
+
+To Start the Broker
+
+Start the broker, providing the key store password.
+
+
+[NOTE]
+=======================================================================
+
+When you start a broker or client with SSL, you may notice a sharp
+increase in CPU usage for a few seconds. This is because the JSSE (Java
+Secure Socket Extension) method `java.security.SecureRandom`, which
+Message Queue uses to generate random numbers, takes a significant
+amount of time to create the initial random number seed. Once the seed
+is created, the CPU usage level will drop to normal.
+
+=======================================================================
+
+
+1.  Start the broker, providing the keystore password. +
+Put the keystore password in a password file, as described in
+link:#aeogq[Password Files] and set the `imq.passfile.enabled` property
+to `true`. You can now do one of the following:
+* Pass the location of the password file to the `imqbrokerd` command: +
+`imqbrokerd -passfile /`passfileDirectory`/`passfileName
+* Start the broker without the `-passfile` option, but specify the
+location of the password file using the following two broker
+configuration properties: +
+`imq.passfile.dirpath=/`passfileDirectory +
+`imq.passfile.name=/`passfileName
+2.  If you are not using a password file, enter the keystore password at
+the prompt. +
+`imqbrokerd` +
+You are prompted for the keystore passwrd.
+
+[[aeogh]][[GMADG00411]][[configuring-and-running-an-ssl-based-client-using-self-signed-certificates]]
+
+Configuring and Running an SSL-Based Client Using Self-Signed Certificates
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+The procedure for configuring a client to use an SSL-based connection
+service differs depending on whether it is an application client (using
+the `ssljms` connection service) or a Message Queue administrative
+client such as `imqcmd` (using the `ssladmin` connection service.)
+
+[[gctub]][[GMADG00079]][[application-clients]]
+
+Application Clients
+
+For application clients, you must make sure the client has the following
+`.jar` files specified in its `CLASSPATH` variable:
+
+`imq.jar` +
+`jms.jar`
+
+Once the `CLASSPATH` files are properly specified, one way to start the
+client and connect to the broker's `ssljms` connection service is by
+entering a command like the following:
+
+[source,oac_no_warn]
+----
+java  -DimqConnectionType=TLS clientAppName
+----
+
+This tells the connection to use an SSL-based connection service.
+
+[[aeogj]][[GMADG00080]][[administrative-clients]]
+
+Administrative Clients
+
+For administrative clients, you can establish a secure connection by
+including the `-secure` option when you invoke the `imqcmd` command: for
+example,
+
+[source,oac_no_warn]
+----
+imqcmd list svc  -b hostName:portNumber  -u userName  -secure
+----
+
+where userName is a valid `ADMIN` entry in the Message Queue user
+repository. The command will prompt you for the password.
+
+Listing the connection services is a way to verify that the `ssladmin`
+service is running and that you can successfully make a secure
+administrative connection, as shown in link:#gevuc[Example 9-6].
+
+[[GMADG00121]][[gevuc]]
+
+
+Example 9-6 Connection Services Listing
+
+[source,oac_no_warn]
+----
+Listing all the services on the broker specified by:
+
+Host                 Primary Port
+localhost            7676
+
+Service Name     Port Number       Service State
+admin            33984 (dynamic)   RUNNING
+httpjms          -                 UNKNOWN
+httpsjms         -                 UNKNOWN
+jms              33983 (dynamic)   RUNNING
+ssladmin         35988 (dynamic)   RUNNING
+ssljms           dynamic           UNKNOWN
+
+Successfully listed services.
+----
+
+[[aeogk]][[GMADG00557]][[using-signed-certificates]]
+
+Using Signed Certificates
+^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Signed certificates provide a stronger level of server authentication
+than self-signed certificates. You can implement signed certificates
+only between a client and broker, and currently not between multiple
+brokers in a cluster. This requires the following extra procedures in
+addition to the ones described in link:#aeogd[Using Self-Signed
+Certificates]. Using signed certificates requires configuration on both
+the broker and client:
+
+* link:#aeogl[Obtaining and Installing a Signed Certificate]
+* link:#aeogm[Configuring the Client to Require Signed Certificates]
+
+[[aeogl]][[GMADG00412]][[obtaining-and-installing-a-signed-certificate]]
+
+Obtaining and Installing a Signed Certificate
++++++++++++++++++++++++++++++++++++++++++++++
+
+The following procedures explain how to obtain and install a signed
+certificate.
+
+[[gbnjh]][[GMADG00170]][[to-obtain-a-signed-certificate]]
+
+To Obtain a Signed Certificate
+
+1.  Use the J2SE `keytool` command to generate a certificate signing
+request (CSR) for the self-signed certificate you generated in the
+preceding section. +
+Information about the `keytool` command can be found at
+* `http://download.oracle.com/javase/1.5.0/docs/tooldocs/solaris/keytool.html` +
+Here is an example: +
+[source,oac_no_warn]
+----
+keytool  -certreq  -keyalg RSA  -alias imq  -file certreq.csr
+-keystore /etc/imq/keystore  -storepass  myStorePassword
+----
+This generates a CSR encapsulating the certificate in the specified file
+(`certreq.csr` in the example).
+2.  Use the CSR to generate or request a signed certificate. +
+You can do this by either of the following methods:
+* Have the certificate signed by a well known certification authority
+(CA), such as Thawte or Verisign. See your CA's documentation for more
+information on how to do this.
+* Sign the certificate yourself, using an SSL signing software package. +
+The resulting signed certificate is a sequence of ASCII characters. If
+you receive the signed certificate from a CA, it may arrive as an e-mail
+attachment or in the text of a message.
+3.  Save the signed certificate in a file. +
+The instructions below use the example name `broker.cer` to represent
+the broker certificate.
+
+[[gbnjz]][[GMADG00171]][[to-install-a-signed-certificate]]
+
+To Install a Signed Certificate
+
+1.  Check whether J2SE supports your certification authority by default. +
+The following command lists the root CAs in the system key store: +
+[source,oac_no_warn]
+----
+keytool  -v  -list  -keystore $JAVA_HOME/lib/security/cacerts
+----
+If your CA is listed, skip the next step.
+2.  If your certification authority is not supported in J2SE, import the
+CA's root certificate into the Message Queue key store. +
+Here is an example: +
+[source,oac_no_warn]
+----
+keytool  -import  -alias ca  -file ca.cer  -noprompt  -trustcacerts
+-keystore /etc/imq/keystore  -storepass  myStorePassword
+----
+where `ca.cer` is the file containing the root certificate obtained from
+the CA. +
+If you are using a CA test certificate, you probably need to import the
+test CA root certificate. Your CA should have instructions on how to
+obtain a copy.
+3.  Import the signed certificate into the key store to replace the
+original self-signed certificate. +
+Here is an example: +
+[source,oac_no_warn]
+----
+keytool  -import  -alias imq  -file broker.cer  -noprompt  -trustcacerts
+-keystore /etc/imq/keystore  -storepass  myStorePassword
+----
+where `broker.cer` is the file containing the signed certificate that
+you received from the CA. +
+The Message Queue key store now contains a signed certificate to use for
+SSL connections.
+
+[[aeogm]][[GMADG00413]][[configuring-the-client-to-require-signed-certificates]]
+
+Configuring the Client to Require Signed Certificates
++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+You must now configure the Message Queue client runtime to require
+signed certificates, and ensure that it trusts the certification
+authority that signed the certificate.
+
+
+[NOTE]
+=======================================================================
+
+By default, starting with release 4.0, the connection factory object
+that the client will be using to establish broker connections has its
+`imqSSLIsHostTrusted` attribute set to `false`, meaning that the client
+runtime will attempt to validate all certificates. Validation will fail
+if the signer of the certificate is not in the client's trust store.
+
+=======================================================================
+
+
+[[gbnjn]][[GMADG00172]][[to-configure-the-client-runtime-to-require-signed-certificates]]
+
+To Configure the Client Runtime to Require Signed Certificates
+
+1.  Verify whether the signing authority is registered in the client's
+trust store. +
+To test whether the client will accept certificates signed by your
+certification authority, try to establish an SSL connection, as
+described above under link:#aeogh[Configuring and Running an SSL-Based
+Client Using Self-Signed Certificates]. If the CA is in the client's
+trust store, the connection will succeed and you can skip the next step.
+If the connection fails with a certificate validation error, go on to
+the next step.
+2.  Install the signing CA's root certificate in the client's trust
+store. +
+The client searches the key store files `cacerts` and `jssecacerts` by
+default, so no further configuration is necessary if you install the
+certificate in either of those files. The following example installs a
+test root certificate from the Verisign certification authority from a
+file named `testrootca.cer` into the default system certificate file,
+`cacerts`. The example assumes that J2SE is installed in the directory
+`$JAVA_HOME/usr/j2se`: +
+[source,oac_no_warn]
+----
+keytool  -import  -keystore /usr/j2se/jre/lib/security/cacerts 
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword 
+----
+An alternative (and recommended) option is to install the root
+certificate into the alternative system certificate file, `jssecacerts`: +
+[source,oac_no_warn]
+----
+keytool  -import  -keystore /usr/j2se/jre/lib/security/jssecacerts 
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword 
+----
+A third possibility is to install the root certificate into some other
+key store file and configure the client to use that as its trust store.
+The following example installs into the file `/home/smith/.keystore`: +
+[source,oac_no_warn]
+----
+keytool  -import  -keystore /home/smith/.keystore 
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword 
+----
+Since the client does not search this key store by default, you must
+explicitly provide its location to the client to use as a trust store.
+You do this by setting the Java system property
+`javax.net.ssl.trustStore` once the client is running: +
+[source,oac_no_warn]
+----
+javax.net.ssl.trustStore=/home/smith/.keystore 
+----
+
+[[aeogq]][[GMADG00250]][[password-files]]
+
+Password Files
+~~~~~~~~~~~~~~
+
+Several types of command require passwords. In link:#gbnjx[Table 9-6],
+the first column lists the commands that require passwords and the
+second column lists the reason that passwords are needed.
+
+[[GMADG657]][[sthref35]][[gbnjx]]
+
+
+Table 9-6 Commands That Use Passwords
+
+[width="100%",cols="17%,34%,49%",options="header",]
+|=======================================================================
+|Command |Description |Purpose of Password
+|`imqbrokerd` |Start broker |Access a JDBC-based persistent data store,
+an SSL certificate key store, or an LDAP user repository
+
+|`imqcmd` |Manage broker |Authenticate an administrative user who is
+authorized to use the command
+
+|`imqdbmgr` |Manage JDBC-based data store |Access the data store
+|=======================================================================
+
+
+You can specify these passwords in a password file and use the
+`-passfile` option to specify the name of the file. This is the format
+for the `-passfile` option:
+
+[source,oac_no_warn]
+----
+imqbrokerd  -passfile filePath
+----
+
+
+[NOTE]
+=======================================================================
+
+In previous versions of Message Queue, you could use the `-p`,
+`-password`, `-dbpassword`, and `-ldappassword` options to specify
+passwords on the command line. As of Message Queue 4.0, these options
+are deprecated and are no longer supported; you must use a password file
+instead.
+
+=======================================================================
+
+
+[[aeogr]][[GMADG00558]][[security-considerations-for-passwords-and-password-files]]
+
+Security Considerations for Passwords and Password Files
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Typing a password interactively, in response to a prompt, is the most
+secure method of specifying a password (provided that your monitor is
+not visible to other people). You can also specify a password file on
+the command line. For non-interactive use of commands, however, you must
+use a password file.
+
+A password file that contains clear passwords should be obfusticated
+using `imqusermgr encode`. An obfusticated password file must be stored
+in location that allows you to set directory and file permissions to
+protect them from unauthorized access. Set the permissions so that they
+limit the users who can view the file, but provide read access to the
+user who starts the broker.
+
+
+[NOTE]
+=======================================================================
+
+Oracle recommends using `imqusermgr encode` to obfuscate passfiles. See
+link:#CJAIJHAJ[Secure Password Files].
+
+=======================================================================
+
+
+[[aeogs]][[GMADG00559]][[password-file-contents]]
+
+Password File Contents
+^^^^^^^^^^^^^^^^^^^^^^
+
+A password file is a simple text file containing a set of properties and
+values. Each value is a password used by a command. link:#gbnkc[Table
+9-7] shows the types of passwords that a password file can contain.
+
+[[GMADG658]][[sthref36]][[gbnkc]]
+
+
+Table 9-7 Passwords in a Password File
+
+[width="100%",cols="40%,14%,46%",options="header",]
+|=======================================================================
+|Password |Affected Commands |Description
+|`imq.imqcmd.password` |`imqcmd` |Administrator password for Message
+Queue Command utility (authenticated for each command)
+
+|`imq.keystore.password` |`imqbrokerd` |Key store password for SSL-based
+services
+
+|`imq.persist.jdbc.password` |`imqbrokerd` `imqdbmgr` |Password for
+opening a database connection, if required
+
+|`imq.user_repository.ldap.password` |`imqbrokerd` |Password associated
+with the distinguished name assigned to a broker for binding to a
+configured LDAP user repository
+|=======================================================================
+
+
+A sample password file, `IMQ_HOME/etc/passfile.sample`, is provided as
+part of your Message Queue installation.
+
+[[CJAIJHAJ]][[GMADG819]][[secure-password-files]]
+
+Secure Password Files
+^^^^^^^^^^^^^^^^^^^^^
+
+As of Message Queue 5.0, Oracle provides User Manager utility
+(`imqusermgr`) commands to obfuscate (convert to an unreadable format)
+password files (passfiles).
+
+[[CJAJGGBD]][[GMADG820]][[obfuscate-a-passfile]]
+
+Obfuscate a Passfile
+++++++++++++++++++++
+
+To obfuscate a password file:
+
+1.  Place all password property name`=`value pairs in a password file.
+See link:#aeogs[Password File Contents].
+2.  Use `imqusermgr encode` to obfuscate the password file to a new
+password file. See link:command-line-reference.html#aeonp[User Manager
+Utility]. +
+For example:
+`imqusermgr encode -src IMQ_HOME/etc/passfile.clear -target IMQ_HOME/etc/passfile.secure`
+3.  Use the new password file for commands that require those passwords.
+For example: +
+[source,oac_no_warn]
+----
+imqbrokerd  -passfile IMQ_HOME/etc/passfile.secure
+----
+
+[[GMADG821]][[sthref37]]
+
+
+[[add-a-password-to-a-password-file]]
+Add a Password to a Password File
++++++++++++++++++++++++++++++++++
+
+To add a new password to an existing password file:
+
+1.  Add the new name`=`value pair to an existing passfile (clear text or
+obfuscated).
+2.  Use `imqusermgr encode` to obfuscate the password file. See
+link:#CJAJGGBD[Obfuscate a Passfile].
+
+[[GMADG822]][[sthref38]]
+
+
+[[delete-a-password-from-a-password-file]]
+Delete a Password from a Password File
+++++++++++++++++++++++++++++++++++++++
+
+To delete an existing password from a passfile (clear text or
+obfuscated), delete the line containing the password and save the
+passfile.
+
+[[GMADG823]][[sthref39]]
+
+
+[[change-a-password-in-a-password-file]]
+Change a Password in a Password File
+++++++++++++++++++++++++++++++++++++
+
+To change a password in an obfuscated passfile:
+
+1.  Delete the existing password from the passfile (clear text or
+obfuscated).
+2.  Add a new line containing the new password.
+3.  Use `imqusermgr encode` to obfuscate the password file. See
+link:#CJAJGGBD[Obfuscate a Passfile].
+
+[[GMADG824]][[sthref40]]
+
+
+[[deobfuscate-a-password-file]]
+Deobfuscate a Password File
++++++++++++++++++++++++++++
+
+To convert an obfuscated passfile to clear text, use
+`imqusermgr decode`. See link:command-line-reference.html#aeonp[User
+Manager Utility].For example:
+
+`imqusermgr decode -src IMQ_HOME/etc/passfile.secure -target IMQ_HOME/etc/passfile.clear`
+
+[[GMADG825]][[sthref41]]
+
+
+[[upgrading-clear-text-password-files]]
+Upgrading Clear Text Password Files
++++++++++++++++++++++++++++++++++++
+
+Although using clear text passfiles is still supported in this release
+of Message Queue, Oracle recommends existing clear text passfiles be
+obfuscated by running `imqusermge encode`. See
+link:command-line-reference.html#aeonp[User Manager Utility].
+
+A broker logs a warning message when a clear text password is found in a
+password file.
+
+[[gcuhq]][[GMADG00251]][[connecting-through-a-firewall]]
+
+Connecting Through a Firewall
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When a client application is separated from the broker by a firewall,
+special measures are needed in order to establish a connection. One
+approach is to use the `httpjms` or `httpsjms` connection service, which
+can "tunnel" through the firewall; see
+link:http_https-support.html#aeopb[HTTP/HTTPS Support] for details. HTTP
+connections are slower than other connection services, however; a faster
+alternative is to bypass the Message Queue Port Mapper and explicitly
+assign a static port address to the desired connection service, and then
+open that specific port in the firewall. This approach can be used to
+connect through a firewall using the `jms` or `ssljms` connection
+service (or, in unusual cases, `admin` or `ssladmin`).
+
+[[GMADG659]][[sthref42]][[gcuhp]]
+
+
+Table 9-8 Broker Configuration Properties for Static Port Addresses
+
+[width="100%",cols="25%,75%",options="header",]
+|==========================================
+|Connection Service |Configuration Property
+|`jms` |`imq.jms.tcp.port`
+|`ssljms` |`imq.ssljms.tls.port`
+|`admin` |`imq.admin.tcp.port`
+|`ssladmin` |`imq.ssladmin.tls.port`
+|==========================================
+
+
+[[gcugz]][[GMADG00173]][[to-enable-broker-connections-through-a-firewall]]
+
+To Enable Broker Connections Through a Firewall
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Assign a static port address to the connection service you wish to
+use. +
+To bypass the Port Mapper and assign a static port number directly to a
+connection service, set the broker configuration property
+`imq.`serviceName`.`protocolType`.port`, where serviceName is the name
+of the connection service andprotocolType is its protocol type (see
+link:#gcuhp[Table 9-8]). As with all broker configuration properties,
+you can specify this property either in the broker's instance
+configuration file or from the command line when starting the broker.
+For example, to assign port number `10234` to the `jms` connection
+service, either include the line +
+[source,oac_no_warn]
+----
+imq.jms.tcp.port=10234
+----
+in the configuration file or start the broker with the command +
+[source,oac_no_warn]
+----
+imqbrokerd  -name brokerName  -Dimq.jms.tcp.port=10234
+----
+where brokerName is the name of the broker to be started.
+2.  Configure the firewall to allow connections to the port number you
+assigned to the connection service. +
+You must also allow connections through the firewall to Message Queue's
+Port Mapper port (normally `7676`, unless you have reassigned it to some
+other port). In the example above, for instance, you would need to open
+the firewall for ports `10234` and `7676`.
+
+[[aeogt]][[GMADG00252]][[audit-logging-with-the-solaris-bsm-audit-log]]
+
+Audit Logging with the Solaris BSM Audit Log
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Message Queue supports audit logging. When audit logging is enabled,
+Message Queue generates a record for the following types of events:
+
+* Startup, shutdown, restart, and removal of a broker instance
+* User authentication and authorization
+* Reset of a persistent store
+* Creation, purge, and destruction of a physical destination
+* Administrative destruction of a durable subscriber
+
+Message Queue supports logging audit records to the Message Queuebroker
+log file and to the Solaris BSM audit log:
+
+* To log audit records to the Message Queue broker log file, set the
+`imq.audit.enabled` broker property to `true` . All audit records in the
+broker log contain the keyword `AUDIT`.
+* To log audit records to the Solaris BSM audit log, set the
+`imq.audit.bsm.disabled` broker property to `false` . +
+
+[NOTE]
+=======================================================================
+
+To log audit records to the Solaris BSM audit log, you must run the
+broker as `root`, and `/usr/lib/audit/Audit.jar` must be in the broker
+classpath.
+
+=======================================================================
+
+
+

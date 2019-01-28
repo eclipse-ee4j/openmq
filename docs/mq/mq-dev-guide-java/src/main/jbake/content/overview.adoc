@@ -1,0 +1,832 @@
+type=page
+status=published
+title=Overview
+next=client-design-and-features.html
+prev=preface.html
+~~~~~~
+Overview
+========
+
+[[GMJVG00012]][[aeqaq]]
+
+
+[[overview]]
+1 Overview
+----------
+
+This chapter provides an overall introduction to Message Queue and a
+quick-start tutorial. It describes the procedures needed to create,
+compile, and run a simple example application. Before reading this
+chapter, you should be familiar with the concepts presented in the
+link:../mq-tech-over/toc.html#GMTOV[Open Message Queue Technical Overview].
+
+The chapter covers the following topics:
+
+* link:#aeqar[Setting Up Your Environment]
+* link:#aeqas[Starting and Testing a Message Broker]
+* link:#aeqat[Developing a Client Application]
+* link:#aeqau[Compiling and Running a Client Application]
+* link:#aeqav[Deploying a Client Application]
+* link:#aeqaw[Example Application Code]
+
+The minimum Java Development Kit (JDK) level required to compile and run
+Message Queue clients is 1.2. For the purpose of this tutorial it is
+sufficient to run the Message Queue message broker in a default
+configuration. For instructions on configuring a message broker, see
+"link:../mq-admin-guide/broker-configuration.html#GMADG00035[Configuring a Broker]" in Open Message Queue
+Administration Guide.
+
+[[aeqar]][[GMJVG00086]][[setting-up-your-environment]]
+
+Setting Up Your Environment
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue files that need to be used in conjunction with Message
+Queue Java clients can be found in the `IMQ_HOME/lib` directory. Message
+Queue Java clients need to be able to use several `.jar` files found in
+this directory when these clients are compiled and run.
+
+You need to set the `CLASSPATH` environment variable when compiling and
+running a JMS client.
+
+The value of `CLASSPATH` depends on the following factors:
+
+* The platform on which you compile or run
+* The JDK version you are using
+* Whether you are compiling or running a JMS application
+* Whether your application uses the Simple Object Access Protocol (SOAP)
+* Whether your application uses the SOAP/JMS transformer utilities
+
+The table below lists the `.jar` files you need to compile and run
+different kinds of code.
+
+[[GMJVG257]][[sthref3]][[gboui]]
+
+
+Table 1-1 `.jar` Files Needed in `CLASSPATH`
+
+[width="100%",cols="20%,23%,22%,35%",options="header",]
+|=======================================================================
+|Type of Code |To Compile |To Run |Remarks
+|JMS client |`jms.jar` `imq.jar` `jndi.jar` a|
+`jms.jar` `imq.jar` `jndi.jar`
+
+Directory containing compiled Java application or `'.'`
+
+ |See discussion of JNDI `.jar` files, following this table.
+
+|SOAP Client |`saaj-api.jar` `activation.jar` a|
+`saaj-api.jar`
+
+Directory containing compiled Java application or `'.'`
+
+ |See link:soap-messages.html#aeqex[Working with SOAP Messages]
+
+|SOAP Servlet |`jaxm-api.jar` `saaj-api.jar` `activation.jar` | +
+|GlassFish Server already includes these `.jar` files for SOAP servlet
+support.
+
+|Code using SOAP/JMS transformer utilities a|
+`imqxm.jar`
+
+`.jar` files for JMS and SOAP clients
+
+ |imqxm.jar |Also add the appropriate `.jar` files listed in this table
+for the kind of code you are writing.
+|=======================================================================
+
+
+A client application must be able to access the file `jndi.jar` even if
+the application does not use the Java Naming and Directory Interface
+(JNDI) directly to look up Message Queue administered objects. This is
+because JNDI is referenced by the `Destination` and `ConnectionFactory`
+classes.
+
+JNDI `.jar` files are bundled with JDK 1.4. Thus, if you are using this
+JDK, you do not have to add `jndi.jar` to your `CLASSPATH` setting.
+However, if you are using an earlier version of the JDK, you must
+include `jndi.jar` in your `CLASSPATH`.
+
+If you are using JNDI to look up Message Queue administered objects, you
+must also include the following files in your `CLASSPATH` setting:
+
+* If you are using the file-system service provider for JNDI (with any
+JDK version), you must include the file `fscontext.jar`.
+* If you are using the Lightweight Directory Access Protocol (LDAP)
+context
+
+** with JDK 1.2 or 1.3, include the files `ldabbp.jar`, and
+`fscontext.jar`.`ldap.jar`,
+
+** with JDK 1.4, all files are already bundled with this JDK.
+
+[[aeqas]][[GMJVG00087]][[starting-and-testing-a-message-broker]]
+
+Starting and Testing a Message Broker
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This tutorial assumes that you do not have a Message Queue message
+broker currently running. (If you run the broker as a UNIX startup
+process or Windows service, then it is already running and you can skip
+to link:#aeqat[Developing a Client Application].)
+
+[[gboup]][[GMJVG00064]][[to-start-a-broker]]
+
+To Start a Broker
+^^^^^^^^^^^^^^^^^
+
+1.  In a terminal window, change to `IMQ_HOME/bin`, the directory
+containing Message Queue executables.
+2.  Run the broker startup command (`imqbrokerd`) as follows: +
+[source,oac_no_warn]
+----
+imqbrokerd -tty
+----
+The `-tty` option causes all logged messages to be displayed to the
+terminal console (in addition to the log file). The broker will start
+and display a few messages before displaying the message +
+[source,oac_no_warn]
+----
+imqbroker@host:7676 ready
+----
+The broker is now ready and available for clients to use.
+
+[[gbott]][[GMJVG00065]][[to-test-a-broker]]
+
+To Test a Broker
+^^^^^^^^^^^^^^^^
+
+One simple way to check the broker startup is by using the Message Queue
+command utility (`imqcmd`) to display information about the broker:
+
+1.  In a separate terminal window, change to the directory containing
+Message Queue executables (see the table shown at the beginning of the
+section link:#gboup[To Start a Broker]).
+2.  Run `imqcmd` with the following arguments: +
+[source,oac_no_warn]
+----
+imqcmd query bkr -u admin
+----
+Supply the default password of `admin` when prompted to do so. The
+output displayed should be similar to that shown in the next example.
+
+[[GMJVG00037]][[gbotm]]
+
+
+Example 1-1 Output From Testing a Broker
+
+[source,oac_no_warn]
+----
+% imqcmd query bkr -u admin
+
+Querying the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Version                                            3.6
+Instance Name                                      imqbroker
+Primary Port                                       7676
+
+Current Number of Messages in System               0
+Current Total Message Bytes in System              0
+
+Max Number of Messages in System                   unlimited (-1)
+Max Total Message Bytes in System                  unlimited (-1)
+Max Message Size                                   70m
+
+
+Auto Create Queues                                 true
+Auto Create Topics                                 true
+Auto Created Queue Max Number of Active Consumers  1
+Auto Created Queue Max Number of Backup Consumers  0
+
+Cluster Broker List (active)                        
+Cluster Broker List (configured)                   
+Cluster Master Broker                               
+Cluster URL                                         
+
+Log Level                                          INFO
+Log Rollover Interval (seconds)                    604800
+Log Rollover Size (bytes)                          unlimited (-1)
+
+Successfully queried the broker.
+
+Current Number of Messages in System        0
+----
+
+[[aeqat]][[GMJVG00088]][[developing-a-client-application]]
+
+Developing a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section introduces the general procedures for interacting with the
+Message Queue API to produce and consume messages. The basic steps shown
+here are elaborated in greater detail in
+link:using-the-java-api.html#aeqax[The JMS Classic API] The procedures
+for producing and consuming messages have a number of steps in common,
+which need not be duplicated if the same client is performing both
+functions.
+
+[[gbotf]][[GMJVG00066]][[to-produce-messages]]
+
+To Produce Messages
+^^^^^^^^^^^^^^^^^^^
+
+1.  Get a connection factory. +
+A Message Queue `ConnectionFactory` object encapsulates all of the
+needed configuration properties for creating connections to the Message
+Queue message service. You can obtain such an object either by direct
+instantiation. +
+[source,oac_no_warn]
+----
+ConnectionFactory myFctry = new com.sun.messaging.ConnectionFactory();
+----
+or by looking up a predefined connection factory using the Java Naming
+and Directory Interface (JNDI). In the latter case, all of the
+connection factory's properties will have been preconfigured to the
+appropriate values by your Message Queue administrator. If you
+instantiate the factory object yourself, you may need to configure some
+of its properties explicitly: for instance, +
+[source,oac_no_warn]
+----
+myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+                      "localhost:7676, broker2:5000, broker3:9999");
+myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled, "true");
+----
+See link:using-the-java-api.html#aeqba[Obtaining a Connection Factory]
+for further discussion.
+2.  Create a connection. +
+A `Connection` object is an active connection to the Message Queue
+message service, created by the connection factory you obtained in
+link:#aeqat[Developing a Client Application]: +
+[source,oac_no_warn]
+----
+Connection myConnection = myFactory.createConnection();
+----
+See link:using-the-java-api.html#aeqbe[Using Connections] for further
+discussion.
+3.  Create a session for communicating with the message service. +
+A `Session` object represents a single-threaded context for producing
+and consuming messages. Every session exists within the context of a
+particular connection and is created by that connection's
+`createSession` method: +
+[source,oac_no_warn]
+----
+Session mySession = myConnection.createSession(false,
+                              Session.AUTO_ACKNOWLEDGE);
+----
+The first (boolean) argument specifies whether the session is
+transacted. The second argument is the acknowledgment mode, such as
+`AUTO_ACKNOWLEDGE`, `CLIENT_ACKNOWLEDGE`, or `DUPS_OK_ACKNOWLEDGE`;
+these are defined as static constants in the JMS `Session` interface.
+See link:using-the-java-api.html#aeqbk[Acknowledgment Modes] and
+link:using-the-java-api.html#gdydy[Transacted Sessions] for further
+discussion.
+4.  Get a destination to which to send messages. +
+A `Destination` object encapsulates provider-specific naming syntax and
+behavior for a message destination, which may be either aqueue or a
+point-to-point publish/subscribe topic (see
+link:using-the-java-api.html#aeqay[Messaging Domains]). You can obtain
+such an object by direct instantiation +
+[source,oac_no_warn]
+----
+Destination myDest = new com.sun.messaging.Queue("myDest");
+----
+or by looking up a predefined destination using the JNDI API. See
+link:using-the-java-api.html#aeqbf[Working With Destinations] for further
+discussion.
+5.  Create a message producer for sending messages to this destination. +
+A `MessageProducer` object is created by a session and associated with a
+particular destination: +
+[source,oac_no_warn]
+----
+MessageProducer myProducer = mySession.createProducer(myDest);
+----
+See link:using-the-java-api.html#aeqbx[Sending Messages] for further
+discussion.
+6.  Create a message. +
+A `Session` object provides methods for creating each of the six types
+of message defined by JMS: text, object, stream, map, bytes, and null
+messages. For instance, you can create a text message with the statement +
+[source,oac_no_warn]
+----
+TextMessage outMsg = mySession.createTextMessage();
+----
+See link:using-the-java-api.html#aeqbr[Composing Messages] for further
+discussion.
+7.  Set the message's content and properties. +
+Each type of message has its own methods for specifying the contents of
+the message body. For instance, you can set the content of a text
+message with the statement +
+[source,oac_no_warn]
+----
+outMsg.setText("Hello, World!");
+----
+You can also use the property mechanism to define custom message
+properties of your own: for instance, +
+[source,oac_no_warn]
+----
+outMsg.setStringProperty("MagicWord", "Shazam");
+----
+See link:using-the-java-api.html#aeqbm[Working With Messages] for further
+discussion.
+8.  Send the message. +
+The message producer's `send` method sends a message to the destination
+with which the producer is associated: +
+[source,oac_no_warn]
+----
+myProducer.send(outMsg);
+----
+See link:using-the-java-api.html#aeqbx[Sending Messages] for further
+discussion.
+9.  Close the session. +
+When there are no more messages to send, you should close the session +
+[source,oac_no_warn]
+----
+mySession.close();
+----
+allowing Message Queue to free any resources it may have associated with
+the session. See link:using-the-java-api.html#aeqbj[Working With
+Sessions] for further discussion.
+10. Close the connection. +
+When all sessions associated with a connection have been closed, you
+should close the connection by calling its `close` method: +
+[source,oac_no_warn]
+----
+myConnection.close();
+----
+See link:using-the-java-api.html#aeqbe[Using Connections] for further
+discussion.
+
+[[gboty]][[GMJVG00067]][[to-consume-messages]]
+
+To Consume Messages
+^^^^^^^^^^^^^^^^^^^
+
+1.  Get a connection factory. +
+A Message Queue `ConnectionFactory` object encapsulates all of the
+needed configuration properties for creating connections to the Message
+Queue message service. You can obtain such an object either by direct
+instantiation +
+[source,oac_no_warn]
+----
+ConnectionFactory myFctry = new com.sun.messaging.ConnectionFactory();
+----
+or by looking up a predefined connection factory using the Java Naming
+and Directory Interface (JNDI). In the latter case, all of the
+connection factory's properties will have been preconfigured to the
+appropriate values by your Message Queue administrator. If you
+instantiate the factory object yourself, you may need to configure some
+of its properties explicitly: for instance, +
+[source,oac_no_warn]
+----
+myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+                   "localhost:7676, broker2:5000, broker3:9999");
+myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled,"true");
+----
+See link:using-the-java-api.html#aeqba[Obtaining a Connection Factory]
+for further discussion.
+2.  Create a connection. +
+A `Connection` object is an active connection to the Message Queue
+message service, created by the connection factory you obtained in
+link:#aeqat[Developing a Client Application]: +
+[source,oac_no_warn]
+----
+Connection myConnection = myFactory.createConnection();
+----
+See link:using-the-java-api.html#aeqbe[Using Connections] for further
+discussion.
+3.  Create a session for communicating with the message service. +
+A `Session` object represents a single-threaded context for producing
+and consuming messages. Every session exists within the context of a
+particular connection and is created by that connection's
+`createSession` method: +
+[source,oac_no_warn]
+----
+Session mySession = myConnection.createSession(false,
+                              Session.AUTO_ACKNOWLEDGE);
+----
+The first (boolean) argument specifies whether the session is
+transacted. The second argument is the acknowledgment mode, such as
+`AUTO_ACKNOWLEDGE`, `CLIENT_ACKNOWLEDGE`, or `DUPS_OK_ACKNOWLEDGE`;
+these are defined as static constants in the JMS `Session` interface.
+See link:using-the-java-api.html#aeqbk[Acknowledgment Modes] and
+link:using-the-java-api.html#gdydy[Transacted Sessions] for further
+discussion.
+4.  Get a destination from which to receive messages. +
+A `Destination` object encapsulates provider-specific naming syntax and
+behavior for a message destination, which may be either a point-to-point
+queue or a publish/subscribe topic (see
+link:using-the-java-api.html#aeqay[Messaging Domains]). You can obtain
+such an object by direct instantiation +
+[source,oac_no_warn]
+----
+Destination myDest = new com.sun.messaging.Queue("myDest");
+----
+or by looking up a predefined destination using the JNDI API. See
+link:using-the-java-api.html#aeqbf[Working With Destinations] for further
+discussion.
+5.  Create a message consumer for receiving messages from this
+destination. +
+A `MessageConsumer` object is created by a session and associated with a
+particular destination: +
+[source,oac_no_warn]
+----
+MessageConsumer myConsumer = mySession.createConsumer(myDest);
+----
+See link:using-the-java-api.html#aeqby[Receiving Messages] for further
+discussion.
+6.  Start the connection. +
+In order for a connection's message consumers to begin receiving
+messages, you must start the connection by calling its `start` method: +
+[source,oac_no_warn]
+----
+myConnection.start();
+----
+See link:using-the-java-api.html#aeqbe[Using Connections] for further
+discussion.
+7.  Receive a message. +
+The message consumer's `receive` method requests a message from the
+destination with which the consumer is associated: +
+[source,oac_no_warn]
+----
+Message inMsg = myConsumer.receive();
+----
+This method is used for synchronous consumption of messages. You can
+also configure a message consumer to consume messages asynchronously, by
+creating a message listener and associating it with the consumer. See
+link:using-the-java-api.html#aeqby[Receiving Messages] for further
+discussion.
+8.  Retrieve the message's content and properties. +
+Each type of message has its own methods for extracting the contents of
+the message body. For instance, you can retrieve the content of a text
+message with the statements +
+[source,oac_no_warn]
+----
+TextMessage txtMsg  = (TextMessage) inMsg;
+String      msgText = txtMsg.getText();
+----
+In addition, you may need to retrieve some of the message's header
+fields: for instance, +
+[source,oac_no_warn]
+----
+msgPriority = inMsg.getJMSPriority();
+----
+You can also use message methods to retrieve custom message properties
+of your own: for instance, +
+[source,oac_no_warn]
+----
+magicWord = inMsg.getStringProperty("MagicWord");
+----
+See link:using-the-java-api.html#aeqch[Processing Messages] for further
+discussion.
+9.  Close the session. +
+When there are no more messages to consume, you should close the session +
+[source,oac_no_warn]
+----
+mySession.close();
+----
+allowing Message Queue to free any resources it may have associated with
+the session. See link:using-the-java-api.html#aeqbj[Working With
+Sessions] for further discussion.
+10. Close the connection. +
+When all sessions associated with a connection have been closed, you
+should close the connection by calling its `close` method: +
+[source,oac_no_warn]
+----
+myConnection.close();
+----
+See link:using-the-java-api.html#aeqbe[Using Connections] for further
+discussion.
+
+[[aeqau]][[GMJVG00089]][[compiling-and-running-a-client-application]]
+
+Compiling and Running a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+This section leads you through the steps needed to compile and run a
+simple example client application, `HelloWorldMessage`, that sends a
+message to a destination and then retrieves the same message from the
+destination. The code shown in link:#gbotc[Example 1-2] is adapted and
+simplified from an example program provided with the Message Queue
+installation: error checking and status reporting have been removed for
+the sake of conceptual clarity. You can find the complete original
+program in the `helloworld` directory in the following locations.
+
+* Solaris: `/usr/demo/imq/`
+* Linux: `opt/sun/mq/examples`
+* Windows: `IMQ_HOME/demo`
+
+[[GMJVG00038]][[gbotc]]
+
+
+Example 1-2 Simple Message Queue Client Application
+
+[source,oac_no_warn]
+----
+//  Import the JMS and JNDI API classes
+
+    import javax.jms.*;
+    import javax.naming.*;
+    import java.util.Hashtable;
+
+
+public class HelloWorldMessage
+  {
+    
+    /**
+      * Main method
+      *
+      *   Parameter args not used
+      *
+    */
+    
+    public static void main (String[] args)
+      {
+        try
+          { 
+            //  Get a connection factory.
+            //  
+            //  Create the environment for constructing the initial JNDI 
+                        //   naming context.
+                
+                Hashtable  env = new Hashtable();
+                
+                
+            //  Store the environment attributes that tell JNDI which
+            //  initial context
+            //  factory to use and where to find the provider.
+            //  (On Unix, use provider URL "file:///imq_admin_objects" 
+            // instead of"file:///C:/imq_admin_objects".)            
+                
+                env.put(Context.INITIAL_CONTEXT_FACTORY,
+                        "com.sun.jndi.fscontext.RefFSContextFactory");
+                env.put(Context.PROVIDER_URL,"file:///C:/imq_admin_objects");
+                
+                
+            //  Create the initial context.
+                
+                Context  ctx = new InitialContext(env);
+                
+                
+            //  Look up connection factory object in the JNDI object store.
+                
+                String  CF_LOOKUP_NAME = "MyConnectionFactory";
+                ConnectionFactory  myFactory =
+                          (ConnectionFactory) ctx.lookup(CF_LOOKUP_NAME);
+            
+            
+            //  Create a connection.
+                
+                Connection  myConnection = myFactory.createConnection();
+            
+            
+            //  Create a session.
+                
+                Session  mySession = myConnection.createSession(false,
+                                        Session.AUTO_ACKNOWLEDGE);
+            
+            
+            //  Look up the destination object in the JNDI object store.
+                
+                String  DEST_LOOKUP_NAME = "MyDest";
+                Destination  myDest = (Destination) ctx.lookup(DEST_LOOKUP_NAME);
+            
+            
+            //  Create a message producer.
+                
+                MessageProducer  myProducer = mySession.createProducer(myDest);
+            
+            
+            //  Create a message consumer.
+                
+                MessageConsumer  myConsumer = mySession.createConsumer(myDest);
+            
+            
+            //  Create a message.
+                
+                TextMessage  outMsg = mySession.createTextMessage("Hello, World!");
+            
+            
+            //  Send the message to the destination.
+                
+                System.out.println("Sending message: " + outMsg.getText());
+                myProducer.send(outMsg);
+            
+            
+            //  Start the connection.
+                
+                myConnection.start();
+            
+            
+            //  Receive a message from the destination.
+                
+                Message  inMsg = myConsumer.receive();
+            
+            
+            //  Retrieve the contents of the message.
+                
+                if (inMsg instanceof TextMessage)
+                  { TextMessage  txtMsg = (TextMessage) inMsg;
+                    System.out.println("Received message: " + 
+                                            txtMsg.getText());
+                  }
+            
+            
+            //  Close the session and the connection.
+                
+                mySession.close();
+                myConnection.close();
+            
+          }
+        
+        catch (Exception jmse)
+          { System.out.println("Exception occurred: " + jmse.toString() );
+            jmse.printStackTrace();
+          }
+        
+      }
+    
+  }
+----
+
+To compile and run Java clients in a Message Queue environment, it is
+recommended that you use the Java 2 SDK, Standard Edition, version 1.4
+or later. You can download the recommended SDK from the following
+location:
+
+`http://java.sun.com/j2se/1.5`
+
+Be sure to set your `CLASSPATH` environment variable correctly, as
+described in link:#aeqar[Setting Up Your Environment], before attempting
+to compile or run a client application.
+
+
+[NOTE]
+=======================================================================
+
+If you are using JDK 1.5, you will get compiler errors if you use the
+unqualified JMS `Queue` class along with the following import statement.
+
+[source,oac_no_warn]
+----
+import java.util.*
+----
+
+This is because the packages`java.util` and `javax.jms` both contain a
+class named `Queue`. To avoid the compilation errors, you must eliminate
+the ambiguity by either fully qualifying references to the JMS `Queue`
+class as `javax.jms.Queue` or correcting your import statements to refer
+to specific individual `java.util` classes.
+
+=======================================================================
+
+
+The following steps for compiling and running the `HelloWorldMessage`
+application are furnished strictly as an example. The program is shipped
+precompiled; you do not actually need to compile it yourself (unless, of
+course, you modify its source code).
+
+[[gbosw]][[GMJVG00068]][[to-compile-and-run-the-helloworldmessage-application]]
+
+To Compile and Run the HelloWorldMessage Application
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+1.  Make the directory containing the application your current
+directory. +
+The Message Queue example applications directory on Solaris is not
+writable by users, so copy the `HelloWorldMessage` application to a
+writable directory and make that directory your current directory.
+2.  Compile the `HelloWorldMessage` application: +
+[source,oac_no_warn]
+----
+javac HelloWorldMessage.java
+----
+This creates the file `HelloWorldMessage.class` in your current
+directory.
+3.  Run the `HelloWorldMessage` application: +
+[source,oac_no_warn]
+----
+java HelloWorldMessage
+----
+The program should display the following output: +
+[source,oac_no_warn]
+----
+    Sending Message: Hello, World!
+    Received Message: Hello, World!
+----
+
+[[aeqav]][[GMJVG00090]][[deploying-a-client-application]]
+
+Deploying a Client Application
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+When you are ready to deploy your client application, you should make
+sure your Message Queue administrator knows your application's needs.
+The checklist shown below summarizes the information required; consult
+with your administrator for specific details. In some cases, it may be
+useful to provide a range of values rather than a specific value. See
+"link:../mq-admin-guide/administered-objects.html#GMADG00042[Managing Administered Objects]" in Open Message Queue
+Administration Guide for details on configuration and on attribute names
+and default values for administered objects.
+
+* Administered Objects +
+Connection Factories:
+
+** Type
+
+** JNDI lookup name
+
+** Other attributes +
+Destinations:
+
+** Type (queue or topic)
+
+** JNDI lookup name
+
+** Physical destination name
+* Physical Destinations
+
+** Type
+
+** Name
+
+** Attributes
+
+** Maximum number of messages expected
+
+** Maximum size of messages expected
+
+** Maximum message bytes expected
+* Broker or Broker Cluster
+
+** Name
+
+** Port
+
+** Properties
+* Dead Message Queue
+
+** Place dead messages on dead message queue?
+
+** Log placement of messages on dead message queue?
+
+** Discard body of messages placed on the dead message queue?
+
+[[aeqaw]][[GMJVG00091]][[example-application-code]]
+
+Example Application Code
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The Message Queue installation includes example programs illustrating
+both JMS and JAXM messaging (see link:soap-messages.html#aeqex[Working
+with SOAP Messages]). They are located in the `IMQ_HOME/examples`
+directory.
+
+Each directory (except the `JMS` directory) contains a `README` file
+describing the source files included in that directory. The table below
+lists the directories of interest to Message Queue Java clients.
+
+[[GMJVG258]][[sthref4]][[gboun]]
+
+
+Table 1-2 Example Programs
+
+[width="100%",cols="18%,82%",options="header",]
+|=======================================================================
+|Directory |Contents
+|`helloworld` |Sample programs showing how to create and deploy a JMS
+client in Message Queue, including the steps required to create
+administered objects and to look up such objects with JNDI from within
+client code
+
+|`jms` |Sample programs demonstrating the use of the JMS API with
+Message Queue
+
+|`jaxm` |Sample programs demonstrating the use of SOAP messages in
+conjunction with JMS in Message Queue
+
+|`applications` a|
+Four subdirectories containing source code for the following:
+
+* A GUI application using the JMS API to implement a simple chat
+application
+* A GUI application using the Message Queue JMS monitoring API to obtain
+a list of queues from a Message Queue broker and browse their contents
+with a JMS queue browser
+* The Message Queue Ping demo program
+* The Message Queue Applet demo program
+
+|`monitoring` |Sample programs demonstrating the use of the JMS API to
+monitor a message broker
+
+|`jdbc` |Examples for plugging in a PointBase and an Oracle database
+
+|`imqobjmgr` |Examples of `imqobjmgr` command files
+|=======================================================================
+
+
+

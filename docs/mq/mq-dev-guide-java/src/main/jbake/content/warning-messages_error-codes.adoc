@@ -1,0 +1,823 @@
+type=page
+status=published
+title=Warning Messages and Client Error Codes
+prev=embedded-brokers.html
+~~~~~~
+Warning Messages and Client Error Codes
+=======================================
+
+[[GMJVG00018]][[aeqgo]]
+
+
+[[a-warning-messages-and-client-error-codes]]
+A Warning Messages and Client Error Codes
+-----------------------------------------
+
+This appendix provides reference information for warning messages and
+for error codes returned by the Message Queue client runtime when it
+raises a JMS exception.
+
+* A warning message is a message output when the Message Queue Java
+client runtime experiences a problem that should not occur under normal
+operating conditions. The message is displayed where the application
+displays its output. Usually, this is the window from which the
+application is started. link:#gboxa[Table A-1] lists Message Queue
+warning messages. +
+In general, a warning message does not cause message loss or affect
+reliability. issues. But when warning messages appear constantly on the
+application's console, the user should contact Message Queue technical
+support to diagnose the cause of the warning messages.
+* Error codes and messages are returned by the client runtime when it
+raises an exception. You can obtain the error code and its corresponding
+message using the `JMSException.getErrorCode()` method and the
+`JMSException.getMessage()` method. link:#gboxq[Table A-2] lists Message
+Queue error codes.
+
+Note that warning messages and error codes are not defined in the JMS
+specification, but are specific to each JMS provider. Applications that
+rely on these error codes in their programming logic are not portable
+across JMS providers.
+
+[[gboyb]][[GMJVG00122]][[warning-messages-and-error-codes]]
+
+Warning Messages and Error Codes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[[GMJVG342]][[sthref72]][[gboxa]]
+
+
+Table A-1 Message Queue Warning Message Codes
+
+[width="181%",cols="50%,50%",options="header",]
+|=======================================================================
+|Code |Message and Description
+|W2000 a|
+Message Warning: Received unknown packet: mq-packet-dump.
+
+Cause The Message Queue client runtime received an unrecognized Message
+Queue packet, where mq-packet-dump is replaced with the specific Message
+Queue packet dump that caused this warning message.
+
+The Message Queue broker may not be fully compatible with the client
+runtime version.
+
+|W2001 a|
+Message Warning: pkt not processed, no message consumer:mq-packet-dump.
+
+Cause The Message Queue client runtime received an unexpected Message
+Queue acknowledge message. The variable mq-packet-dump is replaced with
+the specific Message Queue packet dump that caused this warning message.
+
+|W2003 a|
+Message Warning: Broker not responding X for Y seconds. Still trying....
+
+Cause The Message Queue client runtime has not received a response from
+the broker for more than 2 minutes (default). In the actual message, the
+X variable is replaced with the Message Queue packet type that the
+client runtime is waiting for, and the Y variable is replaced with the
+number of seconds that the client runtime has been waiting for the
+packet.
+
+|=======================================================================
+
+
+link:#gboxq[Table A-2] lists the error codes in numerical order. For
+each code listed, it supplies the error message and a probable cause.
+
+Each error message returned has the following format:
+
+[source,oac_no_warn]
+----
+[Code]: "Message -cause Root-cause-exception-message 
+."
+----
+
+Message text provided for `-cause` is only appended to the message if
+there is an exception linked to the JMS exception. For example, a JMS
+exception with error code `C4003` returns the following error message:
+
+[source,oac_no_warn]
+----
+[C4003]: Error occurred on connection creation [localhost:7676]
+ - cause: java.net.ConnectException: Connection refused: connect
+----
+
+[[GMJVG343]][[sthref73]][[gboxq]]
+
+
+Table A-2 Message Queue Client Error Codes
+
+[width="181%",cols="50%,50%",options="header",]
+|=======================================================================
+|Code |Message and Description
+|C4000 a|
+Message Packet acknowledge failed.
+
+Cause The client runtime was not able to receive or process the expected
+acknowledgment sent from the broker.
+
+|C4001 a|
+Message Write packet failed.
+
+Cause The client runtime was not able to send information to the broker.
+This might be caused by an underlying network I/O failure or by the JMS
+connection being closed.
+
+|C4002 a|
+Message Read packet failed.
+
+Cause The client runtime was not able to process inbound message
+properly. This might be caused by an underlying network I/O failure.
+
+|C4003 a|
+Message Error occurred on connection creation [host, port].
+
+Cause The client runtime was not able to establish a connection to the
+broker with the specified host name and port number.
+
+|C4004 a|
+Message An error occurred on connection close.
+
+Cause The client runtime encountered one or more errors when closing the
+connection to the broker.
+
+|C4005 a|
+Message Get properties from packet failed.
+
+Cause The client runtime was not able to retrieve a property object from
+the Message Queue packet.
+
+|C4006 a|
+Message Set properties to packet failed.
+
+Cause The client runtime was not able to set a property object in the
+Message Queue packet.
+
+|C4007 a|
+Message Durable subscription \{0} in use.
+
+\{0} is replaced with the subscribed destination name.
+
+Cause The client runtime was not able to unsubscribe the durable
+subscriber because it is currently in use by another consumer.
+
+|C4008 a|
+Message Message in read-only mode.
+
+Cause An attempt was made to write to a JMS Message that is in read-only
+mode.
+
+|C4009 a|
+Message Message in write-only mode.
+
+Cause An attempt was made to read a JMS Message that is in write-only
+mode.
+
+|C4010 a|
+Message Read message failed.
+
+Cause The client runtime was not able to read the stream of bytes from a
+`BytesMessage` type message.
+
+|C4011 a|
+Message Write message failed.
+
+Cause The client runtime was not able to write the stream of bytes to a
+`BytesMessage` type message.
+
+|C4012 a|
+Message message failed.
+
+Cause The client runtime encountered an error when processing the
+`reset()` method for a `BytesMessage` or `StreamMessage` type message.
+
+|C4013 a|
+Message Unexpected end of stream when reading message.
+
+Cause The client runtime reached end-of-stream when processing the
+readXXX() method for a `BytesMessage` or `StreamMessage` type message.
+
+|C4014 a|
+Message Serialize message failed.
+
+Cause The client runtime encountered an error when processing the
+serialization of an object, such as
+`ObjectMessage.setObject(java.io.Serializable object)`.
+
+|C4015 a|
+Message Deserialize message failed.
+
+Cause The client runtime encountered an error when processing the
+deserialization of an object, for example, when processing the method
+`ObjectMessage.getObject()`.
+
+|C4016 a|
+Message Error occurred during message acknowledgment.
+
+Cause The client runtime encountered an error during the process of
+message acknowledgment in a session.
+
+|C4017 a|
+Message Invalid message format.
+
+Cause The client runtime encountered an error when processing a JMS
+Message; for example, during data type conversion.
+
+|C4018 a|
+Message Error occurred on request message redeliver.
+
+Cause The client runtime encountered an error when processing
+`recover()` or `rollback()` for the JMS session.
+
+|C4019 a|
+Message Destination not found: \{0}.
+
+\{0} is replaced with the destination name specified in the API
+parameter.
+
+Cause The client runtime was unable to process the API request due to an
+invalid destination specified in the API, for example, the call
+`MessageProducer.send (null, message)` raises `JMSException` with this
+error code and message.
+
+|C4020 a|
+Message Temporary destination belongs to a closed connection or another
+connection - \{0}.
+
+\{0} is replaced with the temporary destination name specified in the
+API parameter.
+
+Cause An attempt was made to use a temporary destination that is not
+valid for the message producer.
+
+|C4021 a|
+Message Consumer not found.
+
+Cause The Message Queue session could not find the message consumer for
+a message sent from the broker. The message consumer may have been
+closed by the application or by the client runtime before the message
+for the consumer was processed.
+
+|C4022 a|
+Message Selector invalid: \{0}.
+
+\{0} is replaced with the selector string specified in the API
+parameter.
+
+Cause The client runtime was unable to process the JMS API call because
+the specified selector is invalid.
+
+|C4023 a|
+Message Client unacknowledged messages over system defined limit.
+
+Cause The client runtime raises a `JMSException` with this error code
+and message if unacknowledged messages exceed the system defined limit
+in a `CLIENT_ACKNOWLEDGE` session.
+
+|C4024 a|
+Message The session is not transacted.
+
+Cause An attempt was made to use a transacted session API in a
+non-transacted session. For example, calling the methods `commit()` or
+`rollback` in a `AUTO_ACKNOWLEDGE` session.
+
+|C4025 a|
+Message Cannot call this method from a transacted session.
+
+Cause An attempt was made to call the `Session.recover()` method from a
+transacted session.
+
+|C4026 a|
+Message Client non-committed messages over system defined limit.
+
+Cause The client runtime raises a `JMSException` with this error code
+and message if non committed messages exceed the system-defined limit in
+a transacted session.
+
+|C4027 a|
+Message Invalid transaction ID: \{0}.
+
+\{0} is replaced with the internal transaction ID.
+
+Cause An attempt was made to commit or rollback a transacted session
+with a transaction ID that is no longer valid.
+
+|C4028 a|
+Message Transaction ID \{0} in use.
+
+\{0} is replaced with the internal transaction ID.
+
+Cause The internal transaction ID is already in use by the system. An
+application should not receive a `JMSException` with this error code
+under normal operations.
+
+|C4029 a|
+Message Invalid session for `ServerSession.`
+
+Cause An attempt was made to use an invalid JMS session for the
+`ServerSession` object, for example, no message listener was set for the
+session.
+
+|C4030 a|
+Message Illegal `maxMessages` value for `ServerSession:` \{0}.
+
+\{0} was replaced with `maxMessages` value used by the application.
+
+Cause The configured `maxMessages` value for `ServerSession` is less
+than 0.
+
+|C4031 a|
+Message `MessageConsumer` and `ServerSession` session conflict.
+
+Cause An attempt was made to create a message consumer for a session
+already used by a `ServerSession` object.
+
+|C4032 a|
+Message Can not use`receive()` when message listener was set.
+
+Cause An attempt was made to do a synchronous receive with an
+asynchronous message consumer.
+
+|C4033 a|
+Message Authentication type does not match: \{0} and \{1}.
+
+\{0} is replaced with the authentication type used by the client
+runtime. \{1} is replaced with the authentication type requested by the
+broker.
+
+Cause The authentication type requested by the broker does not match the
+authentication type in use by the client runtime.
+
+|C4034 a|
+Message Illegal authentication state.
+
+Cause The authentication handshake failed between the client runtime and
+the broker.
+
+|C4035 a|
+Message Received `AUTHENTICATE_REQUEST` status code `FORBIDDEN`.
+
+Cause The client runtime authentication to the broker failed.
+
+|C4036 a|
+Message A broker error occurred.
+
+Cause A generic error code indicating that the client's requested
+operation to the broker failed.
+
+|C4037 a|
+Message Broker unavailable or broker timeout.
+
+Cause The client runtime was unable to establish a connection to the
+broker.
+
+|C4038 a|
+Message [4038] - cause: \{0}
+
+\{0} is replaced with a root cause exception message.
+
+Cause The client runtime caught an exception thrown from the JVM. The
+client runtime throws `JMSException` with the "root cause exception" set
+as the linked exception.
+
+|C4039 a|
+Message Cannot delete destination.
+
+Cause The client runtime was unable to delete the specified temporary
+destination. See `TemporaryTopic.delete()` and `TemporaryQueue.delete()`
+API Javadoc for constraints on deleting a temporary destination.
+
+|C4040 a|
+Message Invalid ObjectProperty type.
+
+Cause An attempt was made to set a non-primitive Java object as a JMS
+message property. Please see `Message.setObjectProperty()` API Javadoc
+for valid object property types.
+
+|C4041 a|
+Message Reserved word used as property name - \{0}.
+
+\{0} is replaced with the property name.
+
+Cause An attempt was made to use a reserved word, defined in the JMS
+Message API Javadoc, as the message property name, for example, `NULL`,
+`TRUE`, `FALSE`.
+
+|C4042 a|
+Message Illegal first character of property name - \{0}
+
+\{0} is replaced with the illegal character.
+
+Cause An attempt was made to use a property name with an illegal first
+character. See JMS Message API Javadoc for valid property names.
+
+|C4043 a|
+Message Illegal character used in property name - \{0}
+
+\{0} is replaced with the illegal character used.
+
+Cause An attempt was made to use a property name containing an illegal
+character. See JMS Message API Javadoc for valid property names.
+
+|C4044 a|
+Message Browser timeout.
+
+Cause The queue browser was unable to return the next available message
+to the application within the system's predefined timeout period.
+
+|C4045 a|
+Message No more elements.
+
+Cause In `QueueBrowser`, the enumeration object has reached the end of
+element but `nextElement()` is called by the application.
+
+|C4046 a|
+Message Browser closed.
+
+Cause An attempt was made to use `QueueBrowser` methods on a closed
+`QueueBrowser` object.
+
+|C4047 a|
+Message Operation interrupted.
+
+Cause `ServerSession` was interrupted. The client runtime throws
+`RuntimeException` with the above exception message when it is
+interrupted in the `ServerSession`.
+
+|C4048 a|
+Message ServerSession is in progress.
+
+Cause Multiple threads attempted to operate on a server session
+concurrently.
+
+|C4049 a|
+Message Can not call Connection.close(), stop(), etc from message
+listener.
+
+Cause An attempt was made to call `Connection.close()`, `...stop()`, etc
+from a message listener.
+
+|C4050 a|
+Message Invalid destination name - \{0} .
+
+\{0} is replaced with the invalid destination name used
+
+Cause An attempt was made to use an invalid destination name, for
+example, `NULL`.
+
+|C4051 a|
+Message Invalid delivery parameter. \{0} : \{1}
+
+\{0} is replaced with delivery parameter name, such as
+"DeliveryMode".\{1} is replaced with delivery parameter value used by
+the application.
+
+Cause An attempt was made to use invalid JMS delivery parameters in the
+API, for example, values other than `DeliveryMode.NON_PERSISTENT` or
+`DeliveryMode.PERSISTENT` were used to specify the delivery mode.
+
+|C4052 a|
+Message Client ID is already in use - \{0}
+
+\{0} is replaced with the client ID that is already in use.
+
+Cause An attempt was made to set a client ID to a value that is already
+in use by the system.
+
+|C4053 a|
+Message Invalid client ID - \{0}
+
+\{0} is replaced with the client ID used by the application.
+
+Cause An attempt was made to use an invalid client ID, for example,
+`null` or empty client ID.
+
+|C4054 a|
+Message Can not set client ID, invalid state.
+
+Cause An attempt was made to set a connection's client ID at the wrong
+time or when it has been administratively configured.
+
+|C4055 a|
+Message Resource in conflict. Concurrent operations on a session.
+
+Cause An attempt was made to concurrently operate on a session with
+multiple threads.
+
+|C4056 a|
+Message Received goodbye message from broker.
+
+Cause A Message Queue client received a `GOOD_BYE` message from broker.
+
+|C4057 a|
+Message No username or password.
+
+Cause An attempt was made to use a null object as a user name or
+password for authentication.
+
+|C4058 a|
+Message Cannot acknowledge message for closed consumer.
+
+Cause An attempt was made to acknowledge message(s) for a closed
+consumer.
+
+|C4059 a|
+Message Cannot perform operation, session is closed.
+
+Cause An attempt was made to call a method on a closed session.
+
+|C4060 a|
+Message Login failed: \{0}
+
+\{0} message is replaced with user name.
+
+Cause Login with the specified user name failed.
+
+|C4061 a|
+Message Connection recovery failed, cannot recover connection.
+
+Cause The client runtime was unable to recover the connection due to
+internal error.
+
+|C4062 a|
+Message Cannot perform operation, connection is closed.
+
+Cause An attempt was made to call a method on a closed connection.
+
+|C4063 a|
+Message Cannot perform operation, consumer is closed.
+
+Cause An attempt was made to call a method on a closed message consumer.
+
+|C4064 a|
+Message Cannot perform operation, producer is closed.
+
+Cause An attempt was made to call a method on a closed message producer.
+
+|C4065 a|
+Message Incompatible broker version encountered. Client version
+\{0}.Broker version \{1}
+
+\{0} is replaced with client version number. \{1} is replaced with
+broker version number.
+
+Cause An attempt was made to connect to a broker that is not compatible
+with the client version.
+
+|C4066 a|
+Message Invalid or empty Durable Subscription Name was used: \{0}
+
+\{0} is replaced with the durable subscription name used by the
+application.
+
+Cause An attempt was made to use a null or empty string to specify the
+name of a durable subscription.
+
+|C4067 a|
+Message Invalid session acknowledgment mode: \{0}
+
+\{0} is replaced with the acknowledge mode used by the application.
+
+Cause An attempt was made to use a non-transacted session mode that is
+not defined in the JMS Session API.
+
+|C4068 a|
+Message Invalid Destination Classname: \{0}.
+
+\{0} is replaced with the name of the class name.
+
+Cause An attempt was made to create a message producer or message
+consumer with an invalid destination class type. The valid class type
+must be either `Queue` or `Topic`.
+
+|C4069 a|
+Message Cannot commit or rollback on an XASession.
+
+Cause The application tried to make a `session.commit()` or a
+`session.rollback()` call in an application server component whose
+transactions are being managed by the Transaction Manager using the
+XAResource. These calls are not allowed in this context.
+
+|C4070 a|
+Message Error when converting foreign message.
+
+Cause The client runtime encountered an error when processing a
+non-Message Queue JMS message.
+
+|C4071 a|
+Message Invalid method in this domain: \{0}
+
+\{0} is replaced with the method name used.
+
+Cause An attempt was made to use a method that does not belong to the
+current messaging domain. For example calling
+`TopicSession.createQueue()` will raise a `JMSException` with this error
+code and message.
+
+|C4072 a|
+Message Illegal property name - "" or null.
+
+Cause An attempt was made to use a null or empty string to specify a
+property name.
+
+|C4073 a|
+Message A JMS destination limit was reached. Too many
+Subscribers/Receivers for \{0} : \{1}
+
+\{0} is replaced with "Queue" or "Topic" \{1} is replaced with the
+destination name.
+
+Cause The client runtime was unable to create a message consumer for the
+specified domain and destination due to a broker resource constraint.
+
+|C4074 a|
+Message Transaction rolled back due to provider connection failover.
+
+Cause An attempt was made to call `Session.commit()` after connection
+failover occurred. The transaction is rolled back automatically.
+
+|C4075 a|
+Message Cannot acknowledge messages due to provider connection failover.
+Subsequent acknowledge calls will also fail until the application calls
+`session.recover()`.
+
+Cause As stated in the message.
+
+|C4076 a|
+Message Client does not have permission to create producer on
+destination: \{0} \{0} is replaced with the destination name that caused
+the exception.
+
+Cause The application client does not have permission to create a
+message producer with the specified destination.
+
+|C4077 a|
+Message Client is not authorized to create destination : \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause The application client does not have permission to create the
+specified destination.
+
+|C4078 a|
+Message Client is unauthorized to send to destination: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause The application client does not have permission to produce
+messages to the specified destination.
+
+|C4079 a|
+Message Client does not have permission to register a consumer on the
+destination: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause The application client does not have permission to create a
+message consumer with the specified destination name.
+
+|C4080 a|
+Message Client does not have permission to delete consumer: \{0}
+
+\{0} is replaced with the consumer ID for the consumer to be deleted.
+
+Cause The application does not have permission to remove the specified
+consumer from the broker.
+
+|C4081 a|
+Message Client does not have permission to unsubscribe: \{0}
+
+\{0} was replaced with the name of the subscriber to unsubscribe.
+
+Cause The client application does not have permission to unsubscribe the
+specified durable subscriber.
+
+|C4082 a|
+Message Client is not authorized to access destination: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause The application client is not authorized to access the specified
+destination.
+
+|C4083 a|
+Message Client does not have permission to browse destination: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause The application client does not have permission to browse the
+specified destination.
+
+|C4084 a|
+Message User authentication failed: \{0}
+
+\{0} is replaced with the user name.
+
+Cause User authentication failed.
+
+|C4085 a|
+Message Delete consumer failed. Consumer was not found: \{0}
+
+\{0} is replaced with name of the consumer that could not be found.
+
+Cause The attempt to close a message consumer failed because the broker
+was unable to find the specified consumer.
+
+|C4086 a|
+Message Unsubscribe failed. Subscriber was not found: \{0}
+
+\{0} is replaced with name of the durable subscriber.
+
+Cause An attempt was made to unsubscribe a durable subscriber with a
+name that does not exist in the system.
+
+|C4087 a|
+Message Set Client ID operation failed. Invalid Client ID: \{0}
+
+\{0} is replaced with the ClientID that caused the exception.
+
+Cause Client is unable to set Client ID on the broker and receives a
+`BAD_REQUEST` status from broker.
+
+|C4088 a|
+Message A JMS destination limit was reached. Too many producers for \{0}
+: \{1}
+
+\{0} is replaced with `Queue` or `Topic` \{1} is replaced with the
+destination name for which the limit was reached.
+
+Cause The client runtime was not able to create a message producer for
+the specified domain and destination due to limited broker resources.
+
+|C4089 a|
+Message Caught JVM Error: \{0}
+
+\{0} is replaced with root cause error message.
+
+Cause The client runtime caught an error thrown from the JVM; for
+example, `OutOfMemory` error.
+
+|C4090 a|
+Message Invalid port number. Broker is not available or may be
+paused:\{0}
+
+\{0} is replaced with "[host, port]" information.
+
+Cause The client runtime received an invalid port number (0) from the
+broker. Broker service for the request was not available or was paused.
+
+|C4091 a|
+Message Cannot call `Session.recover()` from a `NO_ACKNOWLEDGE` session.
+
+Cause The application attempts to call `Session.recover(`) from a
+`NO_ACKNOWLEDGE` session.
+
+|C4092 a|
+Message Broker does not support `Session.NO_ACKNOWLEDGE` mode, broker
+version: \{0}
+
+\{0} is replaced with the version number of the broker to which the
+Message Queue application is connected.
+
+Cause The application attempts to create a `NO_ACKNOWLEDGE` session to a
+broker with version # less than 3.6.
+
+|C4093 a|
+Message Received wrong packet type. Expected: \{0}, but received: \{1}
+
+\{0} is replaced with the packet type that the Message Queue client
+runtime expected to receive from the broker. \{1} is replaced with the
+packet type that the Message Queue client runtime actually received from
+the broker.
+
+Cause The Message Queue client runtime received an unexpected Message
+Queue packet from broker.
+
+|C4094 a|
+Message The destination this message was sent to could not be found:
+\{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause: A destination to which a message was sent could not be found.
+
+|C4095 a|
+Message: Message exceeds the single message size limit for the broker or
+destination: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause: A message exceeds the single message size limit for the broker or
+destination.
+
+|C4096 a|
+Message: Destination is full and is rejecting new messages: \{0}
+
+\{0} is replaced with the destination name that caused the exception.
+
+Cause: A destination is full and is rejecting new messages.
+
+|=======================================================================
+
+
+

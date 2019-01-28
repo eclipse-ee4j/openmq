@@ -1,0 +1,244 @@
+type=page
+status=published
+title=Distribution-Specific Locations of Message Queue Data
+next=interface-stability.html
+prev=part-appendixes.html
+~~~~~~
+Distribution-Specific Locations of Message Queue Data
+=====================================================
+
+[[GMADG00054]][[aeoow]]
+
+
+[[a-distribution-specific-locations-of-message-queue-data]]
+A Distribution-Specific Locations of Message Queue Data
+-------------------------------------------------------
+
+Message Queue data is stored in different locations based on the
+distribution used to install Message Queue. The tables that follow show
+the location of various types of Message Queue data for the following
+types of installations:
+
+* link:#ghrlu[Installations from an IPS image]
+* link:#aeoox[Installations of Previous Message Queue Versions from
+Solaris SVR4 Packages]
+* link:#aeooy[Installations of Previous Message Queue Versions from
+Linux RPMs]
+
+In the tables, instanceName denotes the name of the broker instance with
+which the data is associated.
+
+[[ghrlu]][[GMADG00316]][[installations-from-an-ips-image]]
+
+Installations from an IPS image
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+link:#ghriv[Table A-1] shows the location of Message Queue data when
+Message Queue is installed from an IPS image, such as when the Message
+Queue installer is used. Locations denote the `IMQ_HOME` and
+`IMQ_VARHOME` directory variables defined in
+link:preface.html#gbqig[Directory Variable Conventions].
+
+[[GMADG807]][[sthref279]][[ghriv]]
+
+
+Table A-1 Message Queue Data Locations for Installations from an IPS
+Image
+
+[width="100%",cols="25%,75%",options="header",]
+|=======================================================================
+|Data Category |Location
+|Command line executable files |`IMQ_HOME/bin`
+
+|Broker instance configuration properties
+|`IMQ_VARHOME/instances/`instanceName`/props/config.properties`
+
+|Broker configuration file templates |`IMQ_HOME/lib/props/broker/`
+
+|Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)
+|`IMQ_VARHOME/instances/`instanceName`/fs370/`or a JDBC-accessible data
+store
+
+|Broker instance log file directory (default location)
+|`IMQ_VARHOME/instances/`instanceName`/log/`
+
+|Administered objects (object store) |Local directory of your choice or
+an LDAP server
+
+|Security: user repository
+|`IMQ_VARHOME/instances/`instanceName`/etc/passwd`or an LDAP server
+
+|Security: access control file (default location)
+|`IMQ_VARHOME/instances/`instanceName`/etc/accesscontrol.properties`
+
+|Security: password file directory (default location) |`IMQ_HOME/etc/`
+
+|Security: example password file |`IMQ_HOME/etc/passfile.sample`
+
+|Security: broker's key store file location |`IMQ_HOME/etc/`
+
+|JavaDoc API documentation |`IMQ_HOME/javadoc/index.html`
+
+|Example applications and configurations |`IMQ_HOME/examples/`
+
+|Java archive (`.jar`), Web archive (`.war`), and Resource Adapter
+archive (`.rar`) files |`IMQ_HOME/lib/`
+
+|External resource (`.jar`) files such as JDBC drivers, JAAS login
+modules, and so forth |`IMQ_HOME/lib/ext`
+
+|JMS Bridge DTD file |`IMQ_HOME/lib/dtd`
+|=======================================================================
+
+
+[[aeoox]][[GMADG00317]][[installations-of-previous-message-queue-versions-from-solaris-svr4-packages]]
+
+Installations of Previous Message Queue Versions from Solaris SVR4 Packages
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+[NOTE]
+=======================================================================
+
+Message Queue is no longer distributed as Solaris SVR4 packages. The
+following information is provided as a point of reference when upgrading
+from previous versions of Message Queue that were distributed as Solaris
+SVR4 packages.
+
+=======================================================================
+
+
+link:#gbnnw[Table A-2] shows the location of Message Queue data when
+Message Queue was installed from Solaris SVR4 packages.
+
+[[GMADG808]][[sthref280]][[gbnnw]]
+
+
+Table A-2 Message Queue Data Locations for Installations from Solaris
+SVR4 Packages
+
+[width="100%",cols="25%,75%",options="header",]
+|=======================================================================
+|Data Category |Location
+|Command line executable files |`/usr/bin`
+
+|Broker instance configuration properties
+|`/var/imq/instances/`instanceName`/props/config.properties`
+
+|Broker configuration file templates |`/usr/share/lib/imq/props/broker/`
+
+|Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)
+|`/var/imq/instances/`instanceName`/fs370`or a JDBC-accessible data
+store
+
+|Broker instance log file directory (default location)
+|`/var/imq/instances/`instanceName`/log/`
+
+|Administered objects (object store) |Local directory of your choice or
+an LDAP server
+
+|Security: user repository
+|`/var/imq/instances/`instanceName`/etc/passwd`or an LDAP server
+
+|Security: access control file (default location)
+|`/var/imq/instances/`instanceName`/etc/accesscontrol.properties`
+
+|Security: password file directory (default location)
+|`/var/imq/instances/`instanceName`/etc/`
+
+|Security: example password file |`/etc/imq/passfile.sample`
+
+|Security: broker's key store file location |`/etc/imq/`
+
+|JavaDoc API documentation |`/usr/share/javadoc/imq/index.html`
+
+|Example applications and configurations |`/usr/demo/imq/`
+
+|Java archive (`.jar`), Web archive (`.war`), and Resource Adapter
+archive (`.rar`) files |`/usr/share/lib/imq`
+
+|External resource (`.jar`) files such as JDBC drivers, JAAS login
+modules, and so forth |`/usr/share/lib/imq/ext`
+
+|JMS Bridge DTD file |`/usr/share/lib/imq/dtd`
+|=======================================================================
+
+
+[[aeooy]][[GMADG00318]][[installations-of-previous-message-queue-versions-from-linux-rpms]]
+
+Installations of Previous Message Queue Versions from Linux RPMs
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+[NOTE]
+=======================================================================
+
+Message Queue is no longer distributed as Linux RPMs. The following
+information is provided as a point of reference when upgrading from
+previous versions of Message Queue that were distributed as Linux RPMs.
+
+=======================================================================
+
+
+link:#gbnmx[Table A-3] shows the location of Message Queue data when
+Message Queue was installed from Linux RPMs.
+
+[[GMADG809]][[sthref281]][[gbnmx]]
+
+
+Table A-3 Message Queue Data Locations for Installations from Linux RPMs
+
+[width="100%",cols="25%,75%",options="header",]
+|=======================================================================
+|Data Category |Location
+|Command line executable files |`/opt/sun/mq/bin`
+
+|Broker instance configuration properties
+|`/var/opt/sun/mq/instances/`instanceName`/props/config.properties`
+
+|Broker configuration file templates
+|`/opt/sun/mq/private/share/lib/props/`
+
+|Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)
+|`/var/opt/sun/mq/instances/`instanceName`/fs370/`or a JDBC-accessible
+data store
+
+|Broker instance log file directory (default location)
+|`/var/opt/sun/mq/instances/`instanceName`/log/`
+
+|Administered objects (object store) |Local directory of your choice or
+an LDAP server
+
+|Security: user repository
+|`/var/opt/sun/mq/instances/`instanceName`/etc/passwd`or an LDAP server
+
+|Security: access control file (default location)
+|`/var/opt/sun/mq/instances/`instanceName`/etc/accesscontrol.properties`
+
+|Security: password file directory (default location)
+|`/var/opt/sun/mq/instances/`instanceName`/etc/`
+
+|Security: example password file |`/etc/opt/sun/mq/passfile.sample`
+
+|Security: broker's key store file location |`/etc/opt/sun/mq/`
+
+|JavaDoc API documentation |`/opt/sun/mq/javadoc/index.html`
+
+|Example applications and configurations |`/opt/sun/mq/examples/`
+
+|Java archive (`.jar`), Web archive (`.war`), and Resource Adapter
+archive (`.rar`) files |`/opt/sun/mq/share/lib/`
+
+|External resource (`.jar`) files such as JDBC drivers, JAAS login
+modules, and so forth |`/opt/sun/mq/share/lib/ext`
+
+|Shared library (`.so`) files |`/opt/sun/mq/lib/`
+
+|JMS Bridge DTD file |/opt/sun/mq/share/lib/dtd
+|=======================================================================
+
+
+

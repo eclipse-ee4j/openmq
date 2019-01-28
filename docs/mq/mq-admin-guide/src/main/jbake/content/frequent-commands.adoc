@@ -1,0 +1,227 @@
+type=page
+status=published
+title=Frequently Used Command Utility Commands
+prev=jmx-support.html
+~~~~~~
+Frequently Used Command Utility Commands
+========================================
+
+[[GMADG00058]][[aeoqj]]
+
+
+[[e-frequently-used-command-utility-commands]]
+E Frequently Used Command Utility Commands
+------------------------------------------
+
+This appendix lists some frequently used Message Queue Command utility (
+`imqcmd`) commands. For a comprehensive list of command options and
+attributes available to you from the command line, refer to
+link:command-line-reference.html#aeonf[Command Utility] in
+link:command-line-reference.html#aeonf[Command Utility].
+
+[[aeoqk]][[GMADG00326]][[syntax]]
+
+Syntax
+~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd subcommand argument [
+options]
+imqcmd -h|H
+imqcmd -v
+----
+
+`-H` or `-h` provides comprehensive help. The `-v` subcommand provides
+version information.
+
+When you use `imqcmd`, the Command utility prompts you for a password.
+To avoid the prompt (and to increase security), you can use the
+`-passfile` pathToPassfile option to point the utility to a password
+file that contains the administrator user name and password.
+
+Example: `imqcmd query bkr -u` adminUserName `-passfile` pathToPassfile
+`-b` myServer`:7676`
+
+[[aeoql]][[GMADG00327]][[broker-and-cluster-management]]
+
+Broker and Cluster Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd query bkr
+imqcmd pause bkr
+imqcmd restart bkr
+imqcmd resume bkr
+imqcmd shutdown bkr -b myBroker:7676
+imqcmd update bkr -o "imq.system.max_count=1000"
+imqcmd reload cls
+----
+
+[[aeoqm]][[GMADG00644]][[broker-configuration-properties--o-option]]
+
+Broker Configuration Properties (`-o` option)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#aeoqm[Broker Configuration Properties (`-o` option)] lists
+frequently used broker configuration properties. For a full list of
+broker configuration properties and their descriptions, see
+link:broker-properties.html#aeons[Broker Properties Reference]
+
+[[GMADG815]][[sthref291]][[gbnqe]]
+
+
+Table E-1 Broker Configuration Properties ( `-o` option)
+
+[width="100%",cols="60%,40%",options="header",]
+|=======================================================================
+|Property |Notes
+|`imq.autocreate.queue` | +
+
+|`imq.autocreate.queue.maxNumActiveConsumers` |Specify `-1` for
+unlimited
+
+|`imq.autocreate.queue.maxNumBackupConsumers` |Specify `-1` for
+unlimited
+
+|`imq.autocreate.topic` | +
+
+|`imq.cluster.url` | +
+
+|`imq.destination.DMQ.truncateBody` | +
+
+|`imq.destination.logDeadMessages` | +
+
+|`imq.log.file.rolloverbytes` |Specify `-1` for unlimited
+
+|`imq.log.file.rolloversecs` |Specify `-1` for unlimited
+
+|`imq.log.level` |`NONE``ERROR``WARNING``INFO`
+
+|`imq.message.max_size` |Specify `-1` for unlimited
+
+|`imq.portmapper.port` | +
+
+|`imq.system.max_count` |Specify `-1` for unlimited
+
+|`imq.system.max_size` |Specify `-1` for unlimited
+|=======================================================================
+
+
+[[aeoqn]][[GMADG00328]][[service-and-connection-management]]
+
+Service and Connection Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd list svc
+imqcmd query svc
+imqcmd update svc -n jms -o "minThreads=200" -o "maxThreads=400" -o "port=8995"
+imqcmd pause svc -n jms
+imqcmd resume svc -n jms
+imqcmd list cxn -svn jms
+imqcmd query cxn -n 1234567890
+----
+
+[[aeoqo]][[GMADG00329]][[durable-subscriber-management]]
+
+Durable Subscriber Management
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd list dur -d MyTopic
+imqcmd destroy dur -n myDurSub -c "clientID-111.222.333.444"
+imqcmd purge dur -n myDurSub -c "clientID-111.222.333.444"
+----
+
+[[aeoqp]][[GMADG00330]][[transaction-management]]
+
+Transaction Management
+~~~~~~~~~~~~~~~~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd list txn
+imqcmd commit txn -n 1234567890
+imqcmd query txn -n 1234567890
+imqcmd rollback txn -n 1234567890
+----
+
+[[aeoqq]][[GMADG00331]][[destination-management]]
+
+Destination Management
+~~~~~~~~~~~~~~~~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd create dst -n MyQueue -t q -o "maxNumMsgs=1000" -o "maxNumProducers=5"
+imqcmd update dst -n MyTopic -t t -o "limitBehavior=FLOW_CONTROL| REMOVE_OLDEST|REJECT_NEWEST|REMOVE_LOW_PRIORITY"
+imqcmd compact dst -n MyQueue -t q
+imqcmd purge dst -n MyQueue -t q
+imqcmd pause dst -n MyQueue -t q -pst PRODUCERS|CONSUMERS|ALL
+imqcmd resume dst -n MyQueue -t q
+imqcmd destroy dst -n MyQueue -t q
+imqcmd query dst -n MyQueue -t q
+imqcmd list dst -tmp
+----
+
+[[aeoqr]][[GMADG00645]][[destination-configuration-properties--o-option]]
+
+Destination Configuration Properties (`-o` option)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+link:#aeoqr[Destination Configuration Properties (`-o` option)] lists
+frequently used destination configuration properties. For a full list of
+destination configuration properties and their descriptions, see
+link:physical-destination-properties.html#aeooc[Physical Destination
+Property Reference]
+
+[[GMADG816]][[sthref292]][[gbnph]]
+
+
+Table E-2 Destination Configuration Properties (`-o` option)
+
+[width="100%",cols="50%,50%",options="header",]
+|=======================================================================
+|Property |Notes
+|`consumerFlowLimit` |Specify `0` or `-1` for unlimited
+
+|`isLocalOnly` (create only) | +
+
+|`limitBehavior`
+|`FLOW_CONTROL``REMOVE_OLDEST``REJECT_NEWEST``REMOVE_LOW_PRIORITY`
+
+|`localDeliveryPreferred` (queue only) | +
+
+|`maxNumActiveConsumers` (queue only) |Specify `-1` for unlimited
+
+|`maxNumBackupConsumers` (queue only) |Specify `-1` for unlimited
+
+|`maxBytesPerMsg` |Specify `-1` for unlimited
+
+|`maxNumMsgs` |Specify `-1` for unlimited
+
+|`maxNumProducers` |Specify `-1` for unlimited
+
+|`maxTotalMsgBytes` |Specify `-1` for unlimited
+
+|`useDMQ` | +
+|=======================================================================
+
+
+[[aeoqs]][[GMADG00332]][[metrics]]
+
+Metrics
+~~~~~~~
+
+[source,oac_no_warn]
+----
+imqcmd metrics bkr -m cxn|rts|ttl -int 5 -msp 20
+imqcmd metrics svc -m cxn|rts|ttl
+imqcmd metrics dst -m con|dsk|rts|ttl
+----
+
+
