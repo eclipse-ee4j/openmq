@@ -1,0 +1,558 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Administrative Tasks and Tools</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Administrative Tasks and Tools</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="part-introduction.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="quick-start.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00032"></a><a id="aeoap"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="administrative-tasks-and-tools">1 Administrative Tasks and Tools</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter provides an overview of Open Message Queue administrative
+tasks and the tools for performing them, focusing on common features of
+the command line administration utilities. It consists of the following
+sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoaq">Administrative Tasks</a></p>
+</li>
+<li>
+<p><a href="#aeoav">Administration Tools</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoaq"></a><a id="GMADG00217"></a><a id="administrative-tasks"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_administrative_tasks">Administrative Tasks</h3>
+<div class="paragraph">
+<p>The typical administrative tasks to be performed depend on the nature of
+the environment in which you are running Message Queue. The demands of a
+software development environment in which Message Queue applications are
+being developed and tested are different from those of a production
+environment in which such applications are deployed to accomplish useful
+work. The following sections summarize the typical administrative
+requirements of these two different types of environment.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoar"></a><a id="GMADG00492"></a><a id="administration-in-a-development-environment"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_administration_in_a_development_environment">Administration in a Development Environment</h4>
+<div class="paragraph">
+<p>In a development environment, the emphasis is on flexibility. The
+Message Queue message service is needed principally for testing
+applications under development. Administration is generally minimal,
+with programmers often administering their own systems. Such
+environments are typically distinguished by the following
+characteristics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Simple startup of brokers for use in testing</p>
+</li>
+<li>
+<p>Administered objects instantiated in client code rather than created
+administratively</p>
+</li>
+<li>
+<p>Auto-created destinations</p>
+</li>
+<li>
+<p>File-system object store</p>
+</li>
+<li>
+<p>File-based persistence</p>
+</li>
+<li>
+<p>File-based user repository</p>
+</li>
+<li>
+<p>No master broker in multiple-broker clusters</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoas"></a><a id="GMADG00493"></a><a id="administration-in-a-production-environment"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_administration_in_a_production_environment">Administration in a Production Environment</h4>
+<div class="paragraph">
+<p>In a production environment in which applications must be reliably
+deployed and run, administration is more important. Administrative tasks
+to be performed depend on the complexity of the messaging system and of
+the applications it must support. Such tasks can be classified into two
+general categories: setup operations and maintenance operations.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoat"></a><a id="GMADG00392"></a><a id="setup-operations"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_setup_operations">Setup Operations</h5>
+<div class="paragraph">
+<p>Administrative setup operations in a production environment typically
+include some or all of the following:</p>
+</div>
+<div class="paragraph">
+<p>Administrator security</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Setting the password for the default administrative user (<code>admin</code>)
+(<a href="security-services.html#gewbm">Changing a User&#8217;s Password</a>)</p>
+</li>
+<li>
+<p>Controlling individual or group access to the administrative
+connection service (<a href="security-services.html#aeofy">Authorization Rules
+for Connection Services</a>) and the dead message queue
+(<a href="security-services.html#aeofz">Authorization Rules for Physical
+Destinations</a>)</p>
+</li>
+<li>
+<p>Regulating administrative group access to a file-based or Lightweight
+Directory Access Protocol (LDAP) user repository
+(<a href="security-services.html#aeofm">User Groups and Status</a>,
+<a href="security-services.html#aeofr">Using an LDAP User Repository</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>General security</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Managing the contents of a file-based user repository
+(<a href="security-services.html#aeofj">Using the User Manager Utility</a>) or
+configuring the broker to use an existing LDAP user repository
+(<a href="security-services.html#aeofr">Using an LDAP User Repository</a>)</p>
+</li>
+<li>
+<p>Controlling the operations that individual users or groups are
+authorized to perform (<a href="security-services.html#aeofu">User
+Authorization</a>)</p>
+</li>
+<li>
+<p>Setting up encryption services using the Secure Socket Layer (SSL)
+(<a href="security-services.html#aeogb">Message Encryption</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Administered objects</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Setting up and configuring an LDAP object store (
+<a href="administered-objects.html#aeogw">LDAP Server Object Stores</a>)</p>
+</li>
+<li>
+<p>Creating connection factories and destinations (
+<a href="administered-objects.html#aeohn">Adding Administered Objects</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Broker clusters</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creating a cluster configuration file
+(<a href="broker-clusters.html#gejlk">The Cluster Configuration File</a>)</p>
+</li>
+<li>
+<p>Designating a master broker (<a href="broker-clusters.html#aeoih">Managing a
+Conventional Cluster&#8217;s Configuration Change Record</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Persistence</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuring a broker to use a persistent store
+(<a href="persistence-services.html#gheas">Configuring Persistence Services</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Memory management</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Setting a destination&#8217;s configuration properties to optimize its
+memory usage (<a href="message-delivery.html#aeoes">Updating Physical
+Destination Properties</a>,
+<a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoau"></a><a id="GMADG00393"></a><a id="maintenance-operations"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_maintenance_operations">Maintenance Operations</h5>
+<div class="paragraph">
+<p>Because application performance, reliability, and security are at a
+premium in production environments, message service resources must be
+tightly monitored and controlled through ongoing administrative
+maintenance operations, including the following:</p>
+</div>
+<div class="paragraph">
+<p>Broker administration and tuning</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Using broker metrics to tune and reconfigure a broker (
+<a href="tuning.html#aeojg">Analyzing and Tuning a Message Service</a>)</p>
+</li>
+<li>
+<p>Managing broker memory resources
+(<a href="message-delivery.html#aeocq">Managing Broker System-Wide Memory</a>)</p>
+</li>
+<li>
+<p>Creating and managing broker clusters to balance message load
+(<a href="broker-clusters.html#aeohv">Configuring and Managing Broker
+Clusters</a>)</p>
+</li>
+<li>
+<p>Recovering failed brokers
+(<a href="starting-brokers-and-clients.html#aeoby">Starting Brokers</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Administered objects</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adjusting connection factory attributes to ensure the correct behavior
+of client applications (<a href="administered-objects.html#aeogz">Connection
+Factory Attributes</a>)</p>
+</li>
+<li>
+<p>Monitoring and managing physical destinations (
+<a href="message-delivery.html#gheav">Configuring and Managing Physical
+Destinations</a>)</p>
+</li>
+<li>
+<p>Controlling user access to destinations (
+<a href="security-services.html#aeofz">Authorization Rules for Physical
+Destinations</a>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Client management</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Monitoring and managing durable subscriptions (see
+<a href="message-delivery.html#aeoek">Managing Durable Subscriptions</a>).</p>
+</li>
+<li>
+<p>Monitoring and managing transactions (see
+<a href="message-delivery.html#aeoel">Managing Transactions</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoav"></a><a id="GMADG00218"></a><a id="administration-tools"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_administration_tools">Administration Tools</h3>
+<div class="paragraph">
+<p>This section describes the tools you use to configure and manageMessage
+Queue broker services. The tools fall into two categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggwcf">Built-in Administration Tools</a></p>
+</li>
+<li>
+<p><a href="#ggwao">JMX-Based Administration</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggwcf"></a><a id="GMADG00494"></a><a id="built-in-administration-tools"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_built_in_administration_tools">Built-in Administration Tools</h4>
+<div class="paragraph">
+<p>Message Queue&#8217;s built-in administration tools include both command line
+and GUI tools:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoaw">Command Line Utilities</a></p>
+</li>
+<li>
+<p><a href="#aeoax">Administration Console</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoaw"></a><a id="GMADG00394"></a><a id="command-line-utilities"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_command_line_utilities">Command Line Utilities</h5>
+<div class="paragraph">
+<p>All Message Queue utilities are accessible via a command line interface.
+Utility commands share common formats, syntax conventions, and options.
+These utilities allow you to perform various administrative tasks, as
+noted below, and therefore can require different administrative
+permissions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Broker utility (<code>imqbrokerd</code>) starts up brokers and specifies
+their configuration properties, including connecting them together into
+a cluster. Permissions: User account that initially started the broker.</p>
+</li>
+<li>
+<p>The Command utility (<code>imqcmd</code>) controls brokers and their resources
+and manages physical destinations. Permissions: Message Queue admin user
+account.</p>
+</li>
+<li>
+<p>The Object Manager utility (<code>imqobjmgr</code>) manages provider-independent
+administered objects in an object store accessible via the Java Naming
+and Directory Interface (JNDI). Permissions: Object store (flat-file or
+LDAP server) access account.</p>
+</li>
+<li>
+<p>The Database Manager utility (<code>imqdbmgr</code>) creates and manages
+databases for persistent storage that conform to the Java Database
+Connectivity (JDBC) standard. Permissions: JDBC database manager
+account.</p>
+</li>
+<li>
+<p>The User Manager utility (<code>imqusermgr</code>) populates a file-based user
+repository for user authentication and authorization. Permissions: user
+account that initially started the broker.</p>
+</li>
+<li>
+<p>The Service Administrator utility ( <code>imqsvcadmin</code>) installs and
+manages a broker as a Windows service. Permissions: Administrator.</p>
+</li>
+<li>
+<p>The Key Tool utility (<code>imqkeytool</code>) generates self-signed certificates
+for Secure Socket Layer (SSL) authentication. Permissions: root user
+(Solaris and Linux platforms) or Administrator (Windows platform).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The executable files for the above command line utilities are in the
+<code>IMQ_HOME/bin</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="command-line-reference.html#aeonc">Command Line Reference</a> for
+detailed information on the use of these utilities.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoax"></a><a id="GMADG00395"></a><a id="administration-console"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_administration_console">Administration Console</h5>
+<div class="paragraph">
+<p>The Message Queue Administration Console combines some of the
+capabilities of the Command and Object Manager utilities. You can use it
+to perform the following tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connect to and control a broker remotely</p>
+</li>
+<li>
+<p>Create and manage physical destinations</p>
+</li>
+<li>
+<p>Create and manage administered objects in a JNDI object store</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, you cannot use the Administration Console to perform such tasks
+as starting up a broker, creating broker clusters, managing a JDBC
+database or a user repository, installing a broker as a Windows service,
+or generating SSL certificates. For these, you need the other command
+line utilities (Broker, Database Manager, User Manager, Service
+Administrator, and Key Tool), which cannot operate remotely and must be
+run on the same host as the broker they manage (see <a href="#gbngk">Figure
+1-1</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00001"></a><a id="gbngk"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-1 Local and Remote Administration Utilities</strong></div>
+<p><span class="image"><img src="img/adm_local-remote.png" alt="Diagram showing that imqcmd and imqobjmgr reside on remote host, while all other utilities must reside on the broker&#8217;s host."></span></p>
+</div>
+<div class="paragraph">
+<p>See <a href="quick-start.html#aeoay">Quick-Start Tutorial</a> for a brief,
+hands-on introduction to the Administration Console. More detailed
+information on its use is available through its own help facility.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggwao"></a><a id="GMADG00495"></a><a id="jmx-based-administration"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jmx_based_administration">JMX-Based Administration</h4>
+<div class="paragraph">
+<p>To serve customers who need a standard programmatic means to monitor and
+access the broker, Message Queue also supports the Java Management
+Extensions (JMX) architecture, which allows a Java application to manage
+broker resources programmatically.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Resources include everything that you can manipulate using the Command
+utility (<code>imqcmd</code>) and the Message Queue Admin Console: the broker,
+connection services, connections, destinations, durable subscribers,
+transactions, and so on.</p>
+</li>
+<li>
+<p>Management includes the ability to dynamically configure and monitor
+resources, and the ability to obtain notifications about state changes
+and error conditions.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>JMX is the Java standard for building management applications. Message
+Queue is based on the JMX 1.2 specification, which is part of JDK 1.5.</p>
+</div>
+<div class="paragraph">
+<p>For information on the broker&#8217;s JMX infrastructure and how to configure
+the broker to support JMX client applications, see
+<a href="jmx-support.html#geoel">JMX Support</a>.</p>
+</div>
+<div class="paragraph">
+<p>To manage a Message Queue broker using the JMX architecture, see the
+<a href="../mq-dev-guide-jmx/toc.html#GMJMG">Open Message Queue Developer&#8217;s Guide for JMX Clients</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="part-introduction.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="quick-start.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

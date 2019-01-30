@@ -1,0 +1,1239 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Overview</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Overview</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="preface.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-design-and-features.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00012"></a><a id="aeqaq"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="overview">1 Overview</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter provides an overall introduction to Message Queue and a
+quick-start tutorial. It describes the procedures needed to create,
+compile, and run a simple example application. Before reading this
+chapter, you should be familiar with the concepts presented in the
+<a href="../mq-tech-over/toc.html#GMTOV">Open Message Queue Technical Overview</a>.</p>
+</div>
+<div class="paragraph">
+<p>The chapter covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeqar">Setting Up Your Environment</a></p>
+</li>
+<li>
+<p><a href="#aeqas">Starting and Testing a Message Broker</a></p>
+</li>
+<li>
+<p><a href="#aeqat">Developing a Client Application</a></p>
+</li>
+<li>
+<p><a href="#aeqau">Compiling and Running a Client Application</a></p>
+</li>
+<li>
+<p><a href="#aeqav">Deploying a Client Application</a></p>
+</li>
+<li>
+<p><a href="#aeqaw">Example Application Code</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The minimum Java Development Kit (JDK) level required to compile and run
+Message Queue clients is 1.2. For the purpose of this tutorial it is
+sufficient to run the Message Queue message broker in a default
+configuration. For instructions on configuring a message broker, see
+"<a href="../mq-admin-guide/broker-configuration.html#GMADG00035">Configuring a Broker</a>" in Open Message Queue
+Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqar"></a><a id="GMJVG00086"></a><a id="setting-up-your-environment"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_setting_up_your_environment">Setting Up Your Environment</h3>
+<div class="paragraph">
+<p>The Message Queue files that need to be used in conjunction with Message
+Queue Java clients can be found in the <code>IMQ_HOME/lib</code> directory. Message
+Queue Java clients need to be able to use several <code>.jar</code> files found in
+this directory when these clients are compiled and run.</p>
+</div>
+<div class="paragraph">
+<p>You need to set the <code>CLASSPATH</code> environment variable when compiling and
+running a JMS client.</p>
+</div>
+<div class="paragraph">
+<p>The value of <code>CLASSPATH</code> depends on the following factors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The platform on which you compile or run</p>
+</li>
+<li>
+<p>The JDK version you are using</p>
+</li>
+<li>
+<p>Whether you are compiling or running a JMS application</p>
+</li>
+<li>
+<p>Whether your application uses the Simple Object Access Protocol (SOAP)</p>
+</li>
+<li>
+<p>Whether your application uses the SOAP/JMS transformer utilities</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The table below lists the <code>.jar</code> files you need to compile and run
+different kinds of code.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG257"></a><a id="sthref3"></a><a id="gboui"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-1 <code>.jar</code> Files Needed in <code>CLASSPATH</code></p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 23%;">
+<col style="width: 22%;">
+<col style="width: 35%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type of Code</th>
+<th class="tableblock halign-left valign-top">To Compile</th>
+<th class="tableblock halign-left valign-top">To Run</th>
+<th class="tableblock halign-left valign-top">Remarks</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms.jar</code> <code>imq.jar</code> <code>jndi.jar</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>jms.jar</code> <code>imq.jar</code> <code>jndi.jar</code></p>
+</div>
+<div class="paragraph">
+<p>Directory containing compiled Java application or <code>'.'</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See discussion of JNDI <code>.jar</code> files, following this table.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOAP Client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>saaj-api.jar</code> <code>activation.jar</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>saaj-api.jar</code></p>
+</div>
+<div class="paragraph">
+<p>Directory containing compiled Java application or <code>'.'</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="soap-messages.html#aeqex">Working with SOAP Messages</a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOAP Servlet</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jaxm-api.jar</code> <code>saaj-api.jar</code> <code>activation.jar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">GlassFish Server already includes these <code>.jar</code> files for SOAP servlet
+support.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Code using SOAP/JMS transformer utilities</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>imqxm.jar</code></p>
+</div>
+<div class="paragraph">
+<p><code>.jar</code> files for JMS and SOAP clients</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imqxm.jar</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Also add the appropriate <code>.jar</code> files listed in this table
+for the kind of code you are writing.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A client application must be able to access the file <code>jndi.jar</code> even if
+the application does not use the Java Naming and Directory Interface
+(JNDI) directly to look up Message Queue administered objects. This is
+because JNDI is referenced by the <code>Destination</code> and <code>ConnectionFactory</code>
+classes.</p>
+</div>
+<div class="paragraph">
+<p>JNDI <code>.jar</code> files are bundled with JDK 1.4. Thus, if you are using this
+JDK, you do not have to add <code>jndi.jar</code> to your <code>CLASSPATH</code> setting.
+However, if you are using an earlier version of the JDK, you must
+include <code>jndi.jar</code> in your <code>CLASSPATH</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you are using JNDI to look up Message Queue administered objects, you
+must also include the following files in your <code>CLASSPATH</code> setting:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you are using the file-system service provider for JNDI (with any
+JDK version), you must include the file <code>fscontext.jar</code>.</p>
+</li>
+<li>
+<p>If you are using the Lightweight Directory Access Protocol (LDAP)
+context</p>
+<div class="ulist">
+<ul>
+<li>
+<p>with JDK 1.2 or 1.3, include the files <code>ldabbp.jar</code>, and
+<code>fscontext.jar</code>.<code>ldap.jar</code>,</p>
+</li>
+<li>
+<p>with JDK 1.4, all files are already bundled with this JDK.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqas"></a><a id="GMJVG00087"></a><a id="starting-and-testing-a-message-broker"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_starting_and_testing_a_message_broker">Starting and Testing a Message Broker</h3>
+<div class="paragraph">
+<p>This tutorial assumes that you do not have a Message Queue message
+broker currently running. (If you run the broker as a UNIX startup
+process or Windows service, then it is already running and you can skip
+to <a href="#aeqat">Developing a Client Application</a>.)</p>
+</div>
+<div class="paragraph">
+<p><a id="gboup"></a><a id="GMJVG00064"></a><a id="to-start-a-broker"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_start_a_broker">To Start a Broker</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In a terminal window, change to <code>IMQ_HOME/bin</code>, the directory
+containing Message Queue executables.</p>
+</li>
+<li>
+<p>Run the broker startup command (<code>imqbrokerd</code>) as follows:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd -tty</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-tty</code> option causes all logged messages to be displayed to the
+terminal console (in addition to the log file). The broker will start
+and display a few messages before displaying the message<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbroker@host:7676 ready</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The broker is now ready and available for clients to use.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbott"></a><a id="GMJVG00065"></a><a id="to-test-a-broker"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_to_test_a_broker">To Test a Broker</h4>
+<div class="paragraph">
+<p>One simple way to check the broker startup is by using the Message Queue
+command utility (<code>imqcmd</code>) to display information about the broker:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In a separate terminal window, change to the directory containing
+Message Queue executables (see the table shown at the beginning of the
+section <a href="#gboup">To Start a Broker</a>).</p>
+</li>
+<li>
+<p>Run <code>imqcmd</code> with the following arguments:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd query bkr -u admin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Supply the default password of <code>admin</code> when prompted to do so. The
+output displayed should be similar to that shown in the next example.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00037"></a><a id="gbotm"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 1-1 Output From Testing a Broker</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">% imqcmd query bkr -u admin
+
+Querying the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Version                                            3.6
+Instance Name                                      imqbroker
+Primary Port                                       7676
+
+Current Number of Messages in System               0
+Current Total Message Bytes in System              0
+
+Max Number of Messages in System                   unlimited (-1)
+Max Total Message Bytes in System                  unlimited (-1)
+Max Message Size                                   70m
+
+
+Auto Create Queues                                 true
+Auto Create Topics                                 true
+Auto Created Queue Max Number of Active Consumers  1
+Auto Created Queue Max Number of Backup Consumers  0
+
+Cluster Broker List (active)
+Cluster Broker List (configured)
+Cluster Master Broker
+Cluster URL
+
+Log Level                                          INFO
+Log Rollover Interval (seconds)                    604800
+Log Rollover Size (bytes)                          unlimited (-1)
+
+Successfully queried the broker.
+
+Current Number of Messages in System        0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqat"></a><a id="GMJVG00088"></a><a id="developing-a-client-application"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_developing_a_client_application">Developing a Client Application</h3>
+<div class="paragraph">
+<p>This section introduces the general procedures for interacting with the
+Message Queue API to produce and consume messages. The basic steps shown
+here are elaborated in greater detail in
+<a href="using-the-java-api.html#aeqax">The JMS Classic API</a> The procedures
+for producing and consuming messages have a number of steps in common,
+which need not be duplicated if the same client is performing both
+functions.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbotf"></a><a id="GMJVG00066"></a><a id="to-produce-messages"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_produce_messages">To Produce Messages</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Get a connection factory.<br>
+A Message Queue <code>ConnectionFactory</code> object encapsulates all of the
+needed configuration properties for creating connections to the Message
+Queue message service. You can obtain such an object either by direct
+instantiation.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ConnectionFactory myFctry = new com.sun.messaging.ConnectionFactory();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or by looking up a predefined connection factory using the Java Naming
+and Directory Interface (JNDI). In the latter case, all of the
+connection factory&#8217;s properties will have been preconfigured to the
+appropriate values by your Message Queue administrator. If you
+instantiate the factory object yourself, you may need to configure some
+of its properties explicitly: for instance,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+                      "localhost:7676, broker2:5000, broker3:9999");
+myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled, "true");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqba">Obtaining a Connection Factory</a>
+for further discussion.
+2.  Create a connection.<br>
+A <code>Connection</code> object is an active connection to the Message Queue
+message service, created by the connection factory you obtained in
+<a href="#aeqat">Developing a Client Application</a>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbe">Using Connections</a> for further
+discussion.
+3.  Create a session for communicating with the message service.<br>
+A <code>Session</code> object represents a single-threaded context for producing
+and consuming messages. Every session exists within the context of a
+particular connection and is created by that connection&#8217;s
+<code>createSession</code> method:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
+                              Session.AUTO_ACKNOWLEDGE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first (boolean) argument specifies whether the session is
+transacted. The second argument is the acknowledgment mode, such as
+<code>AUTO_ACKNOWLEDGE</code>, <code>CLIENT_ACKNOWLEDGE</code>, or <code>DUPS_OK_ACKNOWLEDGE</code>;
+these are defined as static constants in the JMS <code>Session</code> interface.
+See <a href="using-the-java-api.html#aeqbk">Acknowledgment Modes</a> and
+<a href="using-the-java-api.html#gdydy">Transacted Sessions</a> for further
+discussion.
+4.  Get a destination to which to send messages.<br>
+A <code>Destination</code> object encapsulates provider-specific naming syntax and
+behavior for a message destination, which may be either aqueue or a
+point-to-point publish/subscribe topic (see
+<a href="using-the-java-api.html#aeqay">Messaging Domains</a>). You can obtain
+such an object by direct instantiation<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or by looking up a predefined destination using the JNDI API. See
+<a href="using-the-java-api.html#aeqbf">Working With Destinations</a> for further
+discussion.
+5.  Create a message producer for sending messages to this destination.<br>
+A <code>MessageProducer</code> object is created by a session and associated with a
+particular destination:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbx">Sending Messages</a> for further
+discussion.
+6.  Create a message.<br>
+A <code>Session</code> object provides methods for creating each of the six types
+of message defined by JMS: text, object, stream, map, bytes, and null
+messages. For instance, you can create a text message with the statement<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbr">Composing Messages</a> for further
+discussion.
+7.  Set the message&#8217;s content and properties.<br>
+Each type of message has its own methods for specifying the contents of
+the message body. For instance, you can set the content of a text
+message with the statement<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setText("Hello, World!");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also use the property mechanism to define custom message
+properties of your own: for instance,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setStringProperty("MagicWord", "Shazam");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbm">Working With Messages</a> for further
+discussion.
+8.  Send the message.<br>
+The message producer&#8217;s <code>send</code> method sends a message to the destination
+with which the producer is associated:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbx">Sending Messages</a> for further
+discussion.
+9.  Close the session.<br>
+When there are no more messages to send, you should close the session<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>allowing Message Queue to free any resources it may have associated with
+the session. See <a href="using-the-java-api.html#aeqbj">Working With
+Sessions</a> for further discussion.
+10. Close the connection.<br>
+When all sessions associated with a connection have been closed, you
+should close the connection by calling its <code>close</code> method:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbe">Using Connections</a> for further
+discussion.</p>
+</div>
+<div class="paragraph">
+<p><a id="gboty"></a><a id="GMJVG00067"></a><a id="to-consume-messages"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_to_consume_messages">To Consume Messages</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Get a connection factory.<br>
+A Message Queue <code>ConnectionFactory</code> object encapsulates all of the
+needed configuration properties for creating connections to the Message
+Queue message service. You can obtain such an object either by direct
+instantiation<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ConnectionFactory myFctry = new com.sun.messaging.ConnectionFactory();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or by looking up a predefined connection factory using the Java Naming
+and Directory Interface (JNDI). In the latter case, all of the
+connection factory&#8217;s properties will have been preconfigured to the
+appropriate values by your Message Queue administrator. If you
+instantiate the factory object yourself, you may need to configure some
+of its properties explicitly: for instance,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFctry.setProperty(ConnectionConfiguration.imqAddressList,
+                   "localhost:7676, broker2:5000, broker3:9999");
+myFctry.setProperty(ConnectionConfiguration.imqReconnectEnabled,"true");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqba">Obtaining a Connection Factory</a>
+for further discussion.
+2.  Create a connection.<br>
+A <code>Connection</code> object is an active connection to the Message Queue
+message service, created by the connection factory you obtained in
+<a href="#aeqat">Developing a Client Application</a>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbe">Using Connections</a> for further
+discussion.
+3.  Create a session for communicating with the message service.<br>
+A <code>Session</code> object represents a single-threaded context for producing
+and consuming messages. Every session exists within the context of a
+particular connection and is created by that connection&#8217;s
+<code>createSession</code> method:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session mySession = myConnection.createSession(false,
+                              Session.AUTO_ACKNOWLEDGE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first (boolean) argument specifies whether the session is
+transacted. The second argument is the acknowledgment mode, such as
+<code>AUTO_ACKNOWLEDGE</code>, <code>CLIENT_ACKNOWLEDGE</code>, or <code>DUPS_OK_ACKNOWLEDGE</code>;
+these are defined as static constants in the JMS <code>Session</code> interface.
+See <a href="using-the-java-api.html#aeqbk">Acknowledgment Modes</a> and
+<a href="using-the-java-api.html#gdydy">Transacted Sessions</a> for further
+discussion.
+4.  Get a destination from which to receive messages.<br>
+A <code>Destination</code> object encapsulates provider-specific naming syntax and
+behavior for a message destination, which may be either a point-to-point
+queue or a publish/subscribe topic (see
+<a href="using-the-java-api.html#aeqay">Messaging Domains</a>). You can obtain
+such an object by direct instantiation<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or by looking up a predefined destination using the JNDI API. See
+<a href="using-the-java-api.html#aeqbf">Working With Destinations</a> for further
+discussion.
+5.  Create a message consumer for receiving messages from this
+destination.<br>
+A <code>MessageConsumer</code> object is created by a session and associated with a
+particular destination:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqby">Receiving Messages</a> for further
+discussion.
+6.  Start the connection.<br>
+In order for a connection&#8217;s message consumers to begin receiving
+messages, you must start the connection by calling its <code>start</code> method:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbe">Using Connections</a> for further
+discussion.
+7.  Receive a message.<br>
+The message consumer&#8217;s <code>receive</code> method requests a message from the
+destination with which the consumer is associated:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This method is used for synchronous consumption of messages. You can
+also configure a message consumer to consume messages asynchronously, by
+creating a message listener and associating it with the consumer. See
+<a href="using-the-java-api.html#aeqby">Receiving Messages</a> for further
+discussion.
+8.  Retrieve the message&#8217;s content and properties.<br>
+Each type of message has its own methods for extracting the contents of
+the message body. For instance, you can retrieve the content of a text
+message with the statements<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage txtMsg  = (TextMessage) inMsg;
+String      msgText = txtMsg.getText();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In addition, you may need to retrieve some of the message&#8217;s header
+fields: for instance,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgPriority = inMsg.getJMSPriority();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also use message methods to retrieve custom message properties
+of your own: for instance,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">magicWord = inMsg.getStringProperty("MagicWord");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqch">Processing Messages</a> for further
+discussion.
+9.  Close the session.<br>
+When there are no more messages to consume, you should close the session<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>allowing Message Queue to free any resources it may have associated with
+the session. See <a href="using-the-java-api.html#aeqbj">Working With
+Sessions</a> for further discussion.
+10. Close the connection.<br>
+When all sessions associated with a connection have been closed, you
+should close the connection by calling its <code>close</code> method:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-java-api.html#aeqbe">Using Connections</a> for further
+discussion.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqau"></a><a id="GMJVG00089"></a><a id="compiling-and-running-a-client-application"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compiling_and_running_a_client_application">Compiling and Running a Client Application</h3>
+<div class="paragraph">
+<p>This section leads you through the steps needed to compile and run a
+simple example client application, <code>HelloWorldMessage</code>, that sends a
+message to a destination and then retrieves the same message from the
+destination. The code shown in <a href="#gbotc">Example 1-2</a> is adapted and
+simplified from an example program provided with the Message Queue
+installation: error checking and status reporting have been removed for
+the sake of conceptual clarity. You can find the complete original
+program in the <code>helloworld</code> directory in the following locations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Solaris: <code>/usr/demo/imq/</code></p>
+</li>
+<li>
+<p>Linux: <code>opt/sun/mq/examples</code></p>
+</li>
+<li>
+<p>Windows: <code>IMQ_HOME/demo</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00038"></a><a id="gbotc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 1-2 Simple Message Queue Client Application</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Import the JMS and JNDI API classes
+
+    import javax.jms.*;
+    import javax.naming.*;
+    import java.util.Hashtable;
+
+
+public class HelloWorldMessage
+  {
+
+    /**
+      * Main method
+      *
+      *   Parameter args not used
+      *
+    */
+
+    public static void main (String[] args)
+      {
+        try
+          {
+            //  Get a connection factory.
+            //
+            //  Create the environment for constructing the initial JNDI
+                        //   naming context.
+
+                Hashtable  env = new Hashtable();
+
+
+            //  Store the environment attributes that tell JNDI which
+            //  initial context
+            //  factory to use and where to find the provider.
+            //  (On Unix, use provider URL "file:///imq_admin_objects"
+            // instead of"file:///C:/imq_admin_objects".)
+
+                env.put(Context.INITIAL_CONTEXT_FACTORY,
+                        "com.sun.jndi.fscontext.RefFSContextFactory");
+                env.put(Context.PROVIDER_URL,"file:///C:/imq_admin_objects");
+
+
+            //  Create the initial context.
+
+                Context  ctx = new InitialContext(env);
+
+
+            //  Look up connection factory object in the JNDI object store.
+
+                String  CF_LOOKUP_NAME = "MyConnectionFactory";
+                ConnectionFactory  myFactory =
+                          (ConnectionFactory) ctx.lookup(CF_LOOKUP_NAME);
+
+
+            //  Create a connection.
+
+                Connection  myConnection = myFactory.createConnection();
+
+
+            //  Create a session.
+
+                Session  mySession = myConnection.createSession(false,
+                                        Session.AUTO_ACKNOWLEDGE);
+
+
+            //  Look up the destination object in the JNDI object store.
+
+                String  DEST_LOOKUP_NAME = "MyDest";
+                Destination  myDest = (Destination) ctx.lookup(DEST_LOOKUP_NAME);
+
+
+            //  Create a message producer.
+
+                MessageProducer  myProducer = mySession.createProducer(myDest);
+
+
+            //  Create a message consumer.
+
+                MessageConsumer  myConsumer = mySession.createConsumer(myDest);
+
+
+            //  Create a message.
+
+                TextMessage  outMsg = mySession.createTextMessage("Hello, World!");
+
+
+            //  Send the message to the destination.
+
+                System.out.println("Sending message: " + outMsg.getText());
+                myProducer.send(outMsg);
+
+
+            //  Start the connection.
+
+                myConnection.start();
+
+
+            //  Receive a message from the destination.
+
+                Message  inMsg = myConsumer.receive();
+
+
+            //  Retrieve the contents of the message.
+
+                if (inMsg instanceof TextMessage)
+                  { TextMessage  txtMsg = (TextMessage) inMsg;
+                    System.out.println("Received message: " +
+                                            txtMsg.getText());
+                  }
+
+
+            //  Close the session and the connection.
+
+                mySession.close();
+                myConnection.close();
+
+          }
+
+        catch (Exception jmse)
+          { System.out.println("Exception occurred: " + jmse.toString() );
+            jmse.printStackTrace();
+          }
+
+      }
+
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To compile and run Java clients in a Message Queue environment, it is
+recommended that you use the Java 2 SDK, Standard Edition, version 1.4
+or later. You can download the recommended SDK from the following
+location:</p>
+</div>
+<div class="paragraph">
+<p><code>http://java.sun.com/j2se/1.5</code></p>
+</div>
+<div class="paragraph">
+<p>Be sure to set your <code>CLASSPATH</code> environment variable correctly, as
+described in <a href="#aeqar">Setting Up Your Environment</a>, before attempting
+to compile or run a client application.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are using JDK 1.5, you will get compiler errors if you use the
+unqualified JMS <code>Queue</code> class along with the following import statement.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">import java.util.*</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is because the packages`java.util` and <code>javax.jms</code> both contain a
+class named <code>Queue</code>. To avoid the compilation errors, you must eliminate
+the ambiguity by either fully qualifying references to the JMS <code>Queue</code>
+class as <code>javax.jms.Queue</code> or correcting your import statements to refer
+to specific individual <code>java.util</code> classes.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The following steps for compiling and running the <code>HelloWorldMessage</code>
+application are furnished strictly as an example. The program is shipped
+precompiled; you do not actually need to compile it yourself (unless, of
+course, you modify its source code).</p>
+</div>
+<div class="paragraph">
+<p><a id="gbosw"></a><a id="GMJVG00068"></a><a id="to-compile-and-run-the-helloworldmessage-application"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_compile_and_run_the_helloworldmessage_application">To Compile and Run the HelloWorldMessage Application</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make the directory containing the application your current
+directory.<br>
+The Message Queue example applications directory on Solaris is not
+writable by users, so copy the <code>HelloWorldMessage</code> application to a
+writable directory and make that directory your current directory.</p>
+</li>
+<li>
+<p>Compile the <code>HelloWorldMessage</code> application:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>javac HelloWorldMessage.java</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates the file <code>HelloWorldMessage.class</code> in your current
+directory.
+3.  Run the <code>HelloWorldMessage</code> application:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java HelloWorldMessage</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The program should display the following output:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">    Sending Message: Hello, World!
+    Received Message: Hello, World!</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqav"></a><a id="GMJVG00090"></a><a id="deploying-a-client-application"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_deploying_a_client_application">Deploying a Client Application</h3>
+<div class="paragraph">
+<p>When you are ready to deploy your client application, you should make
+sure your Message Queue administrator knows your application&#8217;s needs.
+The checklist shown below summarizes the information required; consult
+with your administrator for specific details. In some cases, it may be
+useful to provide a range of values rather than a specific value. See
+"<a href="../mq-admin-guide/administered-objects.html#GMADG00042">Managing Administered Objects</a>" in Open Message Queue
+Administration Guide for details on configuration and on attribute names
+and default values for administered objects.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Administered Objects<br>
+Connection Factories:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Type</p>
+</li>
+<li>
+<p>JNDI lookup name</p>
+</li>
+<li>
+<p>Other attributes<br>
+Destinations:</p>
+</li>
+<li>
+<p>Type (queue or topic)</p>
+</li>
+<li>
+<p>JNDI lookup name</p>
+</li>
+<li>
+<p>Physical destination name</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Physical Destinations</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Type</p>
+</li>
+<li>
+<p>Name</p>
+</li>
+<li>
+<p>Attributes</p>
+</li>
+<li>
+<p>Maximum number of messages expected</p>
+</li>
+<li>
+<p>Maximum size of messages expected</p>
+</li>
+<li>
+<p>Maximum message bytes expected</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Broker or Broker Cluster</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Name</p>
+</li>
+<li>
+<p>Port</p>
+</li>
+<li>
+<p>Properties</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Dead Message Queue</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Place dead messages on dead message queue?</p>
+</li>
+<li>
+<p>Log placement of messages on dead message queue?</p>
+</li>
+<li>
+<p>Discard body of messages placed on the dead message queue?</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqaw"></a><a id="GMJVG00091"></a><a id="example-application-code"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_example_application_code">Example Application Code</h3>
+<div class="paragraph">
+<p>The Message Queue installation includes example programs illustrating
+both JMS and JAXM messaging (see <a href="soap-messages.html#aeqex">Working
+with SOAP Messages</a>). They are located in the <code>IMQ_HOME/examples</code>
+directory.</p>
+</div>
+<div class="paragraph">
+<p>Each directory (except the <code>JMS</code> directory) contains a <code>README</code> file
+describing the source files included in that directory. The table below
+lists the directories of interest to Message Queue Java clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG258"></a><a id="sthref4"></a><a id="gboun"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-2 Example Programs</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 18%;">
+<col style="width: 82%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Directory</th>
+<th class="tableblock halign-left valign-top">Contents</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>helloworld</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sample programs showing how to create and deploy a JMS
+client in Message Queue, including the steps required to create
+administered objects and to look up such objects with JNDI from within
+client code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sample programs demonstrating the use of the JMS API with
+Message Queue</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jaxm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sample programs demonstrating the use of SOAP messages in
+conjunction with JMS in Message Queue</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>applications</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Four subdirectories containing source code for the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A GUI application using the JMS API to implement a simple chat
+application</p>
+</li>
+<li>
+<p>A GUI application using the Message Queue JMS monitoring API to obtain
+a list of queues from a Message Queue broker and browse their contents
+with a JMS queue browser</p>
+</li>
+<li>
+<p>The Message Queue Ping demo program</p>
+</li>
+<li>
+<p>The Message Queue Applet demo program</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>monitoring</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sample programs demonstrating the use of the JMS API to
+monitor a message broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jdbc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Examples for plugging in a PointBase and an Oracle database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqobjmgr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Examples of <code>imqobjmgr</code> command files</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="preface.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-design-and-features.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

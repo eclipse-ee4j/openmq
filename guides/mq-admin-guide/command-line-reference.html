@@ -1,0 +1,3522 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Command Line Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Command Line Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="part-reference.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-properties.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00047"></a><a id="aeonc"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="command-line-reference">16 Command Line Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter provides reference information on the use of the Message
+Queue command line administration utilities. It consists of the
+following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeond">Command Line Syntax</a></p>
+</li>
+<li>
+<p><a href="#aeone">Broker Utility</a></p>
+</li>
+<li>
+<p><a href="#aeonf">Command Utility</a></p>
+</li>
+<li>
+<p><a href="#aeonn">Object Manager Utility</a></p>
+</li>
+<li>
+<p><a href="#aeono">Database Manager Utility</a></p>
+</li>
+<li>
+<p><a href="#aeonp">User Manager Utility</a></p>
+</li>
+<li>
+<p><a href="#gjdli">Bridge Manager Utility</a></p>
+</li>
+<li>
+<p><a href="#aeonq">Service Administrator Utility</a></p>
+</li>
+<li>
+<p><a href="#aeonr">Key Tool Utility</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeond"></a><a id="GMADG00279"></a><a id="command-line-syntax"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_command_line_syntax">Command Line Syntax</h3>
+<div class="paragraph">
+<p>Message Queue command line utilities are shell commands. The name of the
+utility is a command and its subcommands or options are arguments passed
+to that command. There is no need for separate commands to start or quit
+the utility.</p>
+</div>
+<div class="paragraph">
+<p>All the command line utilities share the following command syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">utilityName [subcommand] [commandArgument] [-optionName [optionArgument] ]...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where utilityName is one of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imqbrokerd</code> (Broker utility)</p>
+</li>
+<li>
+<p><code>imqcmd</code> (Command utility)</p>
+</li>
+<li>
+<p><code>imqobjmgr</code> (Object Manager utility)</p>
+</li>
+<li>
+<p><code>imqdbmgr</code> (Database Manager utility)</p>
+</li>
+<li>
+<p><code>imqusermgr</code> (User Manager utility)</p>
+</li>
+<li>
+<p><code>imqbridgemgr</code> (Bridge Manager utility)</p>
+</li>
+<li>
+<p><code>imqsvcadmin</code> (Service Administrator utility)</p>
+</li>
+<li>
+<p><code>imqkeytool</code> (Key Tool utility)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Subcommands and command-level arguments, if any, must precede all
+options and their arguments; the options themselves may appear in any
+order. All subcommands, command arguments, options, and option arguments
+are separated with spaces. If the value of an option argument contains a
+space, the entire value must be enclosed in quotation marks. (It is
+generally safest to enclose any attribute-value pair in quotation
+marks.)</p>
+</div>
+<div class="paragraph">
+<p>The following command, which starts the default broker, is an example of
+a command line with no subcommand clause:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here is a fuller example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmddestroy dst-t q-n myQueue-u admin-f-s</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command destroys a queue destination (destination type <code>q</code>) named
+<code>myQueue</code>. Authentication is performed on the user name <code>admin</code>; the
+command will prompt for a password. The command will be performed
+without prompting for confirmation (<code>-f</code> option) and in silent mode,
+without displaying any output (<code>-s</code> option).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeone"></a><a id="GMADG00280"></a><a id="broker-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_broker_utility">Broker Utility</h3>
+<div class="paragraph">
+<p>The Broker utility (<code>imqbrokerd</code>) starts a broker. Command line options
+override values in the broker configuration files, but only for the
+current broker session.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnla">Table 16-1</a> shows the options to the <code>imqbrokerd</code> command
+and the configuration properties, if any, overridden by each option.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG742"></a><a id="sthref88"></a><a id="gbnla"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-1 Broker Utility Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 31%;">
+<col style="width: 69%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-name instanceName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Instance name of broker</p>
+</div>
+<div class="paragraph">
+<p>Multiple broker instances running on the same host must have different
+instance names.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>imqbroker</code></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.instancename</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-port portNumber</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Port number for broker&#8217;s Port Mapper</p>
+</div>
+<div class="paragraph">
+<p>Message Queue clients use this port number to connect to the broker.
+Multiple broker instances running on the same host must have different
+Port Mapper port numbers.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>7676</code></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.portmapper.port</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-cluster broker1 [,broker2]...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Connect brokers into cluster<a href="#foot-clustersonly1"><sup>Foot 1 </sup></a></p>
+</div>
+<div class="paragraph">
+<p>The specified brokers are merged with the list in the
+<code>imq.cluster.brokerlist</code> property. Each broker argument has one of the
+forms</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hostName`:`portNumber</p>
+</li>
+<li>
+<p>hostName</p>
+</li>
+<li>
+<p>`:`portNumber</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If hostName is omitted, the default value is <code>localhost</code>; if portNumber
+is omitted, the default value is <code>7676</code>.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.cluster.brokerlist</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-Dproperty=value</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set configuration property</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeons">Broker Properties Reference</a> for
+information about broker configuration properties.</p>
+</div>
+<div class="paragraph">
+<p>Caution: Be careful to check the spelling and formatting of properties
+set with this option. Incorrect values will be ignored without
+notification or warning.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: Corresponding property in instance configuration
+file</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-reset props</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Reset configuration properties</p>
+</div>
+<div class="paragraph">
+<p>Replaces the broker&#8217;s existing instance configuration file
+<code>config.properties</code> with an empty file; all properties assume their
+default values.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-reset store</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Reset persistent data store</p>
+</div>
+<div class="paragraph">
+<p>Clears all persistent data from the data store (including persistent
+messages, durable subscriptions, and transaction information), allowing
+you to start the broker instance with a clean slate. To prevent the
+persistent store from being reset on subsequent restarts, restart the
+broker instance without the <code>-reset</code> option.</p>
+</div>
+<div class="paragraph">
+<p>To clear only persistent messages or durable subscriptions, use
+<code>-reset messages</code> or <code>-reset durables</code> instead.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-reset messages</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clear persistent messages from data store</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-reset durables</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clear durable subscriptions from data store</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-reset takeover-then-exit</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clear any takeover locks and then exit.</p>
+</div>
+<div class="paragraph">
+<p>If a broker fails before completing the takeover of another broker&#8217;s
+store, the failed broker retains a takeover lock even though it is not
+running. Use <code>-reset takeover-then-exit</code> to cause the failed broker to
+initiate startup, release the takeover lock, and then exit without
+actually starting up.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-backup fileName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Back up configuration change record to file<a href="#sthref89"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-clusters.html#aeoih">Managing a Conventional Cluster&#8217;s
+Configuration Change Record</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-restore fileName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Restore configuration change record from backup
+file<a href="#sthref90"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>The backup file must have been previously created using the <code>-backup</code>
+option.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-clusters.html#aeoih">Managing a Conventional Cluster&#8217;s
+Configuration Change Record</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-remove instance</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Remove broker instance<a href="#foot-usercon"><sup>Foot 2 </sup></a></p>
+</div>
+<div class="paragraph">
+<p>Deletes the instance configuration file, log files, persistent store,
+and other files and directories associated with the instance.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-dbuser userName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>User name for JDBC-based persistent data store</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.persist.jdbc.user</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-passfile filePath</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of password file</p>
+</div>
+<div class="paragraph">
+<p>Sets the broker&#8217;s <code>imq.passfile.enabled</code> property to <code>true</code>,
+<code>imq.passfile.dirpath</code> to the path containing the password file, and
+<code>imq.passfile.name</code> to the file name itself.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="security-services.html#aeogq">Password Files</a> for more
+information.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden:
+<code>imq.passfile.enabledimq.passfile.dirpathimq.passfile.name</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-shared</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Use shared thread pool model to implement <code>jms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>Execution threads will be shared among connections to increase the
+number of connections supported.</p>
+</div>
+<div class="paragraph">
+<p>Sets the broker&#8217;s <code>imq.jms.threadpool_model</code> property to <code>shared</code>.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.jms.threadpool_model</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of alternative Java runtime</p>
+</div>
+<div class="paragraph">
+<p>Default behavior: Use runtime installed on system or bundled with
+Message Queue.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-vmargs arg1 [arg2] ...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pass arguments to Java virtual machine</p>
+</div>
+<div class="paragraph">
+<p>Arguments are separated with spaces. To pass more than one argument, or
+an argument containing a space, enclose the argument list in quotation
+marks.</p>
+</div>
+<div class="paragraph">
+<p>VM arguments can be passed only from the command line; there is no
+associated configuration property in the instance configuration file.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-startRmiRegistry</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Start RMI registry at broker startup</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.jmx.rmiregistry.start</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-useRmiRegistry</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Use external RMI registry</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.jmx.rmiregistry.use</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-rmiRegistryPort</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Port number of RMI registry</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.jmx.rmiregistry.port</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-upgrade-store-nobackup</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Automatically remove old data store on upgrade to Message Queue 3.5 or
+3.5 SPx from an incompatible version<a href="#sthref91"><sup>Footref 2</sup></a></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-force</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Perform action without user confirmation</p>
+</div>
+<div class="paragraph">
+<p>This option applies only to the <code>-remove instance</code> and
+<code>-upgrade-store-nobackup</code> options, which normally require confirmation.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-loglevel level</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Logging level: <code>NONE</code>, <code>ERROR</code>, <code>WARNING</code> or <code>INFO</code>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>INFO</code></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.broker.log.level</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-metrics interval</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Logging interval for broker metrics, in seconds</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.metrics.interval</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-tty</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Log all messages to console</p>
+</div>
+<div class="paragraph">
+<p>Sets the broker&#8217;s <code>imq.log.console.output</code> property to <code>ALL</code>.</p>
+</div>
+<div class="paragraph">
+<p>If not specified, only error and warning messages will be logged.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.log.console.output</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-s</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-silent
+----</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Silent mode (no logging to console)</p>
+</div>
+<div class="paragraph">
+<p>Sets the broker&#8217;s <code>imq.log.console.output</code> property to <code>NONE</code>.</p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: <code>imq.log.console.output</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-version</code></pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display version information<a href="#foot-othersignored2"><sup>Foot 3 </sup></a></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-help
+----</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display usage help<a href="#sthref92"><sup>Footref 3</sup></a></p>
+</div>
+<div class="paragraph">
+<p>Properties overridden: None</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Applies only to broker clusters</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Requires user confirmation unless <code>-force</code> is also
+specified</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 3 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonf"></a><a id="GMADG00281"></a><a id="command-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_command_utility">Command Utility</h3>
+<div class="paragraph">
+<p>The Command utility (<code>imqcmd</code>) is used for managing brokers, connection
+services, connections, physical destinations, durable subscriptions, and
+transactions.</p>
+</div>
+<div class="paragraph">
+<p>All <code>imqcmd</code> commands must include a subcommand (except those using the
+<code>-v</code> or <code>-h</code> option to display product version information or usage
+help, respectively). The possible subcommands are listed in
+<a href="#gdyuu">Table 16-2</a> and described in detail in the corresponding
+sections below. In addition, each <code>imqcmd</code> subcommand supports the
+general options shown in <a href="#aeonm">General Command Utility Options</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>-u</code> userName option (and corresponding password) is required except
+when using the <code>-v</code> or <code>-h</code> option. Also if a subcommand accepts a
+broker address (<code>-b</code> option) and no host name or port number is
+specified, the values <code>localhost</code> and <code>7676</code> are assumed by default.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMADG743"></a><a id="sthref93"></a><a id="gdyuu"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-2 Command Utility Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeong">Broker Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>shutdown bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shut down broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>restart bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restart broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pause broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>quiesce bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quiesce broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unquiesce bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unquiesce broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>takeover bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initiate broker takeover</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set broker properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List broker property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List brokers in cluster</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metrics bkr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display broker metrics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reload cls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reload cluster configuration</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>changemaster cls</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Change the master broker in a conventional cluster
+with master broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeonh">Connection Service Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pause connection service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume connection service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set connection service properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List connection services available on broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List connection service property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metrics svc</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display connection service metrics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeoni">Connection Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List connections on broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display connection information</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeonj">Physical Destination Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pause message delivery for physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume message delivery for physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purge dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purge all messages from physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compact dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compact physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set physical destination properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List physical destinations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List physical destination property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metrics dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display physical destination metrics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeonk">Durable Subscription Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy dur</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy durable subscription</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purge dur</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purge all messages for durable subscription</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list dur</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List durable subscriptions for topics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#aeonl">Transaction Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit txn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Commit transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback txn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Roll back transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list txn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List transactions being tracked by broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query txn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display transaction information</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list dur</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List durable subscriptions for topic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="#geodj">JMX Management</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list jmx</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List JMX service URLs of JMX connectors</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeonm"></a><a id="GMADG00611"></a><a id="general-command-utility-options"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_general_command_utility_options">General Command Utility Options</h4>
+<div class="paragraph">
+<p>The additional options listed in <a href="#gbnmh">Table 16-3</a> can be applied
+to any subcommand of the <code>imqcmd</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG744"></a><a id="sthref94"></a><a id="gbnmh"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-3 General Command Utility Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 22%;">
+<col style="width: 78%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-secure</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use secure connection to broker with <code>ssladmin</code> connection service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-u userName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>User name for authentication</p>
+</div>
+<div class="paragraph">
+<p>If this option is omitted, the Command utility will prompt for it
+interactively.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-passfile path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of password file</p>
+</div>
+<div class="paragraph">
+<p>See <a href="security-services.html#aeogq">Password Files</a> for more
+information.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-D</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set connection-related system property that affects how <code>imqcmd</code> creates
+a connection to the broker. Not used to set broker configuration
+properties.</p>
+</div>
+<div class="paragraph">
+<p>Usually overrides connection factory attributes for <code>imqcmd</code> client
+runtime. For example, the option in the following command changes the
+default value of <code>imqSSLIsTrusted</code>:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list svc -secure -DimqSSLIsTrusted=true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-rtm timeoutInterval</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Initial timeout interval, in seconds</p>
+</div>
+<div class="paragraph">
+<p>This is the initial length of time that the Command utility will wait
+for a reply from the broker before retrying a request. Each subsequent
+retry will use a timeout interval that is a multiple of this initial
+interval.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>10</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-rtr numRetries</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of retries to attempt after a broker request times out</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>5</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of alternative Java runtime</p>
+</div>
+<div class="paragraph">
+<p>Default behavior: Use runtime installed on system or bundled with
+Message Queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-f</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Perform action without user confirmation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-s</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Silent mode (no output displayed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-v</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display version
+informationlink:#foot-othersignored3<sup class="^Foot 1 ^">,</sup><a href="#foot-nopassword"><sup>Foot 2 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage
+helplink:#sthref95<sup class="^Footref 1^">,</sup><a href="#sthref96"><sup>Footref 2</sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-H</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display expanded usage help, including attribute list and
+exampleslink:#sthref97<sup class="^Footref 1^">,</sup><a href="#sthref98"><sup>Footref 2</sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>User name and password not needed</p>
+</div>
+<div class="paragraph">
+<p><a id="aeong"></a><a id="GMADG00612"></a><a id="broker-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_broker_management">Broker Management</h4>
+<div class="paragraph">
+<p>The Command utility cannot be used to start a broker; use the Broker
+utility (<code>imqbrokerd</code>) instead. Once the broker is started, you can use
+the <code>imqcmd</code> subcommands listed in <a href="#gbnlm">Table 16-4</a> to manage and
+control it.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG745"></a><a id="sthref99"></a><a id="gbnlm"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-4 Command Utility Subcommands for Broker Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">shutdown bkr [-b hostName:portNumber]
+ [-time nSeconds]
+ [-nofailover]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Shut down broker</p>
+</div>
+<div class="paragraph">
+<p>The <code>-time</code> option specifies the interval, in seconds, to wait before
+shutting down the broker. (The broker will not block, but will return
+immediately from the delayed shutdown request.) During the shutdown
+interval, the broker will not accept any new <code>jms</code> connections; <code>admin</code>
+connections will be accepted, and existing <code>jms</code> connections will
+continue to operate. A broker belonging to an enhanced cluster will not
+attempt to take over for any other broker during the shutdown interval.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-nofailover</code> option indicates that no other broker is to take over
+the persistent data of the one being shut down.
+<a href="#clustersonly"><sup>Foot 1 </sup></a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">restart bkr [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Restart broker</p>
+</div>
+<div class="paragraph">
+<p>Shuts down the broker and then restarts it using the same options
+specified when it was originally started.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pause bkr [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pause broker</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-management.html#aeody">Pausing and Resuming a Broker</a> for
+more information.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">quiesce bkr [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Quiesce broker</p>
+</div>
+<div class="paragraph">
+<p>The broker will stop accepting new connections; existing connections
+will continue to operate.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">unquiesce bkr [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unquiesce broker</p>
+</div>
+<div class="paragraph">
+<p>The broker will resume accepting new connections, returning to normal
+operation.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resume bkr [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">takeover bkr
+ -n brokerID
+ [-f]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Initiate broker takeover <a href="#sthref100"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>Before taking over a broker, you should first shut it down manually
+using the <code>shutdown</code> <code>bkr</code> subcommand with the <code>-nofailover</code> option. If
+the specified broker appears to be still running, <code>takeover</code> <code>bkr</code> will
+display a confirmation message
+(<code>Do you want to take over for this broker?</code>). The <code>-f</code> option
+suppresses this message and initiates the takeover unconditionally.</p>
+</div>
+<div class="paragraph">
+<p>Note: The <code>takeover</code> <code>bkr</code> subcommand is intended only for use in
+failed-takeover situations. You should use it only as a last resort, and
+not as a general way of forcibly taking over a running broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">update bkr [-b hostName:portNumber]
+ -o property1=value1
+ [-o property2=value2]...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set broker properties</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeons">Broker Properties Reference</a> for
+information on broker properties.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query bkr
+ -b hostName:portNumber</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>List broker property values</p>
+</div>
+<div class="paragraph">
+<p>For brokers belonging to a cluster, also lists cluster properties such
+as broker list, master broker (for conventional clusters), and cluster
+identifier (for enhanced clusters).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list bkr</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List brokers in cluster</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics bkr [-b hostName:portNumber]
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display broker metrics</p>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metrics to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code>: Messages and packets flowing into and out of the broker</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the broker
+per second</p>
+</li>
+<li>
+<p><code>cxn</code>: Connections, virtual memory heap, and threads</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Default value: <code>ttl</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> option specifies the interval, in seconds, at which to
+display metrics. Default value: <code>5</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-msp</code> option specifies the number of samples to display. Default
+value: Unlimited (infinite).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">reload cls</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Reload cluster configuration<a href="#sthref101"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>Forces all persistent information to be brought up to date.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">changemaster cls
+ -o imq.cluster.masterbroker=newMaster</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Change the master broker in a conventional cluster with master broker.</p>
+</div>
+<div class="paragraph">
+<p>This command must be run on the current master broker.</p>
+</div>
+<div class="paragraph">
+<p>The value newMaster has the form hostName`:`portNumber, where hostName
+and portNumber are is its Port Mapper host name and port number,
+respectively.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Applies only to broker clusters</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonh"></a><a id="GMADG00613"></a><a id="connection-service-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connection_service_management">Connection Service Management</h4>
+<div class="paragraph">
+<p><a href="#gbnlz">Table 16-5</a> lists the <code>imqcmd</code> subcommands for managing
+connection services.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG746"></a><a id="sthref102"></a><a id="gbnlz"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-5 Command Utility Subcommands for Connection Service Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28.9999%;">
+<col style="width: 71.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pause svc -n serviceName
+ [-bhostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pause connection service</p>
+</div>
+<div class="paragraph">
+<p>The <code>admin</code> connection service cannot be paused.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resume svc -n serviceName
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume connection service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">update svc -n serviceName
+ [-b hostName:portNumber]
+ -o property1=value1
+ [-o property2=value2]...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set connection service properties</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeont">Connection Properties</a> for
+information on connection service properties.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list svc
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List connection services available on broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query svc -n serviceName
+ [-bhostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List connection service property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics svc -n serviceName
+ [-bhostName:portNumber]
+ [-mmetricType]
+ [-intinterval]
+ [-mspnumSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display connection service metrics</p>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metrics to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code>: Messages and packets flowing into and out of the broker by way
+of the specified connection service</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the broker
+per second by way of the specified connection service</p>
+</li>
+<li>
+<p><code>cxn</code>: Connections, virtual memory heap, and threads</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Default value: <code>ttl</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> option specifies the interval, in seconds, at which to
+display metrics. Default value: <code>5</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-msp</code> option specifies the number of samples to display. Default
+value: Unlimited (infinite).</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoni"></a><a id="GMADG00614"></a><a id="connection-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connection_management">Connection Management</h4>
+<div class="paragraph">
+<p><a href="#gbnml">Table 16-6</a> lists the <code>imqcmd</code> subcommands for managing
+connections.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG747"></a><a id="sthref103"></a><a id="gbnml"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-6 Command Utility Subcommands for Connection Service Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list cxn [-svn serviceName]
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>List connections on broker</p>
+</div>
+<div class="paragraph">
+<p>Lists all connections on the broker to the specified connection service.
+If no connection service is specified, all connections are listed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query cxn -n connectionID
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display connection information</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">destroy cxn -n connectionID
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy connection</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeonj"></a><a id="GMADG00615"></a><a id="physical-destination-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_physical_destination_management">Physical Destination Management</h4>
+<div class="paragraph">
+<p><a href="#gbnky">Table 16-7</a> lists the <code>imqcmd</code> subcommands for managing
+physical destinations. In all cases, the <code>-t</code> (destination type) option
+can take either of two values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>q</code>: Queue destination</p>
+</li>
+<li>
+<p><code>t</code>: Topic destination</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG748"></a><a id="sthref104"></a><a id="gbnky"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-7 Command Utility Subcommands for Physical Destination
+Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">create dst -t destType -n destName
+ [-o property=value]...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Create physical destination<a href="#foot-nomasterbroker1"><sup>Foot 1 </sup></a></p>
+</div>
+<div class="paragraph">
+<p>The destination name destName may contain only alphanumeric characters
+(no spaces) and must begin with an alphabetic character or the
+underscore (<code>_</code>) or dollar sign (<code>$</code>) character. It may not begin with
+the characters <code>mq</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">destroy dst -t destType -n destName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Destroy physical destination<a href="#sthref105"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>This operation cannot be applied to a system-created destination, such
+as a dead message queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pause dst [-t destType -n destName]
+ [-pst pauseType]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pause message delivery for physical destination</p>
+</div>
+<div class="paragraph">
+<p>Pauses message delivery for the physical destination specified by the
+<code>-t</code> and <code>-n</code> options. If these options are not specified, all
+destinations are paused.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-pst</code> option specifies the type of message delivery to be paused:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PRODUCERS</code>: Pause delivery from message producers</p>
+</li>
+<li>
+<p><code>CONSUMERS</code>: Pause delivery to message consumers</p>
+</li>
+<li>
+<p><code>ALL</code>: Pause all message delivery</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Default value: <code>ALL</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resume dst [-t destType -n destName]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Resume message delivery for physical destination</p>
+</div>
+<div class="paragraph">
+<p>Resumes message delivery for the physical destination specified by the
+<code>-t</code> and <code>-n</code> options. If these options are not specified, all
+destinations are resumed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">purge dst -t destType -n destName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purge all messages from physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">compact dst [-t destType -n destName]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Compact physical destination</p>
+</div>
+<div class="paragraph">
+<p>Compacts the file-based persistent data store for the physical
+destination specified by the <code>-t</code> and <code>-n</code> options. If these options are
+not specified, all destinations are compacted.</p>
+</div>
+<div class="paragraph">
+<p>A destination must be paused before it can be compacted.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">update dst -t destType -n destName
+ -o property1=value1
+ [-o property2=value2]...</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set physical destination properties</p>
+</div>
+<div class="paragraph">
+<p>See <a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a> for information on physical destination properties.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list dst [-tdestType]
+ [-tmp]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>List physical destinations</p>
+</div>
+<div class="paragraph">
+<p>Lists all physical destinations of the type specified by the <code>-t</code>
+option. If no destination type is specified, both queue and topic
+destinations are listed. If the <code>-tmp</code> option is specified, temporary
+destinations are listed as well.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query dst -t destType -n destName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List physical destination property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics dst -t destType -n destName
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display physical destination metrics</p>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metrics to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code>: Messages and packets flowing into and out of the destination
+and residing in memory</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the
+destination per second, along with other rate information</p>
+</li>
+<li>
+<p><code>con</code>: Metrics related to message consumers</p>
+</li>
+<li>
+<p><code>dsk</code>: Disk usage</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Default value: <code>ttl</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> option specifies the interval, in seconds, at which to
+display metrics. Default value: <code>5</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-msp</code> option specifies the number of samples to display. Default
+value: Unlimited (infinite).</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Cannot be performed in a broker cluster whose master broker
+is temporarily unavailable</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonk"></a><a id="GMADG00616"></a><a id="durable-subscription-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_durable_subscription_management">Durable Subscription Management</h4>
+<div class="paragraph">
+<p><a href="#gbnln">Table 16-8</a> lists the <code>imqcmd</code> subcommands for managing
+durable subscriptions.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG749"></a><a id="sthref106"></a><a id="gbnln"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-8 Command Utility Subcommands for Durable Subscription
+Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 44%;">
+<col style="width: 56%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">destroy dur -n subscriberName [-c clientID]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy durable subscription<a href="#foot-nomasterbroker2"><sup>Foot 1 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">purge dur -n subscriberName [-c clientID]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purge all messages for durable subscription</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list dur [-d topicName]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List durable subscriptions for the specified topic. If <code>-d</code> option is
+omitted then the command lists all durable subscriptions for all topics.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Cannot be performed in a conventional broker cluster whose
+master broker is temporarily unavailable</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonl"></a><a id="GMADG00617"></a><a id="transaction-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transaction_management">Transaction Management</h4>
+<div class="paragraph">
+<p><a href="#gbnli">Table 16-9</a> lists the <code>imqcmd</code> subcommands for managing
+local (non-distributed) Message Queue transactions. Distributed
+transactions are managed by a distributed transaction manager rather
+than <code>imqcmd</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG750"></a><a id="sthref107"></a><a id="gbnli"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-9 Command Utility Subcommands for Transaction Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 31%;">
+<col style="width: 69%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">commit txn -n transactionID</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Commit transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">rollback txn -n transactionID</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Roll back transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list txn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List transactions being tracked by broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query txn -n transactionID</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display transaction information</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="geodj"></a><a id="GMADG00618"></a><a id="jmx-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jmx_management">JMX Management</h4>
+<div class="paragraph">
+<p>The <code>imqcmd</code> subcommand shown in <a href="#geodr">Table 16-10</a> is used for
+administrative support of Java applications using the Java Management
+Extensions (JMX) application programming interface to configure and
+monitor Message Queue resources. See <a href="jmx-support.html#geoel">JMX
+Support</a> for further information on the broker&#8217;s JMX support.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG751"></a><a id="sthref108"></a><a id="geodr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-10 Command Utility Subcommand for JMX Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 10%;">
+<col style="width: 90%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list jmx</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List JMX service URLs of JMX connectors</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeonn"></a><a id="GMADG00282"></a><a id="object-manager-utility"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_object_manager_utility">Object Manager Utility</h3>
+<div class="paragraph">
+<p>The Object Manager utility (<code>imqobjmgr</code>) creates and manages Message
+Queue administered objects. <a href="#gbnlr">Table 16-11</a> lists the available
+subcommands.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG752"></a><a id="sthref109"></a><a id="gbnlr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-11 Object Manager Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">add</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add administered object to object store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">delete</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete administered object from object store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List administered objects in object store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display administered object information</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">update</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modify administered object</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gbnlb">Table 16-12</a> lists the options to the <code>imqobjmgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG753"></a><a id="sthref110"></a><a id="gbnlb"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-12 Object Manager Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 77%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-l lookupName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JNDI lookup name of administered object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-j attribute=value</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attributes of JNDI object store (see
+<a href="administered-objects.html#aeogv">Object Stores</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-t objectType</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Type of administered object:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>q</code>: Queue destination</p>
+</li>
+<li>
+<p><code>t</code>: Topic destination</p>
+</li>
+<li>
+<p><code>cf</code>: Connection factory</p>
+</li>
+<li>
+<p><code>qf</code>: Queue connection factory</p>
+</li>
+<li>
+<p><code>tf</code>: Topic connection factory</p>
+</li>
+<li>
+<p><code>xcf</code>: Connection factory for distributed transactions</p>
+</li>
+<li>
+<p><code>xqf</code>: Queue connection factory for distributed transactions</p>
+</li>
+<li>
+<p><code>xtf</code>: Topic connection factory for distributed transactions</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-o attribute=value</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attributes of administered object (see
+<a href="administered-objects.html#aeogy">Administered Object Attributes</a> and
+<a href="administered-object-attributes.html#aeood">Administered Object
+Attribute Reference</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-r readOnlyState</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Is administered object read-only?</p>
+</div>
+<div class="paragraph">
+<p>If <code>true</code>, client cannot modify object&#8217;s attributes.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>false</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-i fileName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of command file containing all or part of subcommand clause</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-pre</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Preview results without performing command</p>
+</div>
+<div class="paragraph">
+<p>This option is useful for checking the values of default attributes.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of alternative Java runtime</p>
+</div>
+<div class="paragraph">
+<p>Default behavior: Use runtime installed on system or bundled with
+Message Queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-f</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Perform action without user confirmation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-s</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Silent mode (no output displayed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-v</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display version information<a href="#foot-othersignored4"><sup>Foot 1 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage help<a href="#sthref111"><sup>Footref 1</sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-H</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display expanded usage help, including attribute list and
+examples<a href="#sthref112"><sup>Footref 1</sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeono"></a><a id="GMADG00283"></a><a id="database-manager-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_database_manager_utility">Database Manager Utility</h3>
+<div class="paragraph">
+<p>The Database Manager utility (<code>imqdbmgr</code>) sets up the database schema
+for a JDBC-based data store. You can also use it to delete Message Queue
+database tables that have become corrupted, change the database, display
+information about the database, convert a standalone database for use in
+an enhanced broker cluster, or back up and restore a highly-available
+database. <a href="#gbnmv">Table 16-13</a> lists the <code>imqdbmgr</code> subcommands.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When using a cluster configuration file to simplify management of the
+properties for a cluster of brokers, make sure to run <code>imqdbmgr</code> with
+the <code>-D</code> option to specify the location of the cluster configuration
+file; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqdbmgr -Dimq.cluster.url=location-of-cluster-configuration-file ...</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMADG754"></a><a id="sthref113"></a><a id="gbnmv"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-13 Database Manager Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 34%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">create all</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Create new database and persistent data store schema</p>
+</div>
+<div class="paragraph">
+<p>Used on embedded database systems. The broker property
+<code>imq.persist.jdbc.`vendorName</code>.createdburl` must be specified.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">create tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Create persistent data store schema for existing database</p>
+</div>
+<div class="paragraph">
+<p>Used on external database systems.</p>
+</div>
+<div class="paragraph">
+<p>For brokers belonging to an enhanced broker cluster (<code>imq.cluster.ha</code> =
+<code>true</code>), the schema created is for the cluster&#8217;s shared data store, in
+accordance with the database vendor identified by the broker&#8217;s
+<code>imq.persist.jdbc.dbVendor</code> property. If <code>imq.cluster.ha</code> = <code>false</code>, the
+schema is for the individual broker&#8217;s standalone data store. Since the
+two types of data store can coexist in the same database, they are
+distinguished by appending a suffix to all table names:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>C</code> clusterID: Shared data store</p>
+</li>
+<li>
+<p><code>S</code> brokerID: Standalone data store</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">delete tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete Message Queue database tables from current data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">delete oldtbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Delete Message Queue database tables from earlier-version data store</p>
+</div>
+<div class="paragraph">
+<p>Used after the data store has been automatically migrated to the current
+version of Message Queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">recreate tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Re-create persistent store schema</p>
+</div>
+<div class="paragraph">
+<p>Deletes all existing Message Queue database tables from the current
+persistent store and then re-creates the schema.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display information about the data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">upgrade hastore</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Upgrade standalone data store to shared data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">backup</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Back up JDBC-based data store to backup files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">restore</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restore JDBC-based data store from backup files</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">remove bkr</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Remove broker from shared data store</p>
+</div>
+<div class="paragraph">
+<p>The broker must not be running.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">remove jmsbridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Remove JMS bridge from the shared data store</p>
+</div>
+<div class="paragraph">
+<p>The broker hosting the JMS bridge must not be running.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">reset lck</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Reset data store lock</p>
+</div>
+<div class="paragraph">
+<p>Resets the lock so that the database can be used by other processes.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Subcommands for a Cluster&#8217;s Shared Configuration Change Table</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">create sharecc_tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create the shared database table for the cluster configuration change
+record</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">delete sharecc_tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete the shared database table for the cluster configuration change
+record</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">recreate sharecc_tbl</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Re-create the shared database table for the cluster configuration change
+record.</p>
+</div>
+<div class="paragraph">
+<p>Deletes existing shared database table and then re-creates it.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">backup sharecc_tbl-file filePath</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Back up the shared database table for the cluster configuration change
+record to a backup file</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">restore sharecc_tbl-file filePath</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Restore the shared database table for the cluster configuration change
+record from a backup file. The table must already exist.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gbnno">Table 16-14</a> lists the options to the <code>imqdbmgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG755"></a><a id="sthref114"></a><a id="gbnno"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-14 Database Manager Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 21%;">
+<col style="width: 79%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b instanceName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Instance name of broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-Dproperty=value</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set broker configuration property</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeonv">Persistence Properties</a> for
+information about persistence-related broker configuration properties.</p>
+</div>
+<div class="paragraph">
+<p>Caution: Be careful to check the spelling and formatting of properties
+set with this option. Incorrect values will be ignored without
+notification or warning.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-u userName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for authentication against the database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-passfile filePath</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of password file</p>
+</div>
+<div class="paragraph">
+<p>See <a href="security-services.html#aeogq">Password Files</a> for more
+information.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n brokerID</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Used with the <code>remove bkr</code> subcommand) Broker identifier of broker to
+be removed from shared data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n bridgeName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">(Used with the <code>remove jmsbridge</code> subcommand) Bridge name of the JMS
+bridge to be removed from shared data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-dir dirPath</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Backup directory for backing up or restoring JDBC-based data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-v</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display version information<a href="#foot-othersignored5"><sup>Foot 1 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage help<a href="#sthref115"><sup>Footref 1</sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonp"></a><a id="GMADG00284"></a><a id="user-manager-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_manager_utility">User Manager Utility</h3>
+<div class="paragraph">
+<p>The User Manager utility (<code>imqusermgr</code>) is used for populating or
+editing a flat-file user repository. The utility must be run on the same
+host where the broker is installed; if a broker-specific user repository
+does not yet exist, you must first start up the corresponding broker
+instance in order to create it. You will also need the appropriate
+permissions to write to the repository: on the Solaris or Linux
+platforms, this means you must be either the root user or the user who
+originally created the broker instance.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnmr">Table 16-15</a> lists the subcommands available with the
+<code>imqusermgr</code> command. In all cases, the <code>-i</code> option specifies the
+instance name of the broker to whose user repository the command
+applies; if not specified, the default name <code>imqbroker</code> is assumed.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG756"></a><a id="sthref116"></a><a id="gbnmr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-15 User Manager Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 35%;">
+<col style="width: 65%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">add [-i instanceName]
+ -u userName -p password
+ [-g  group]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Add user and password to repository</p>
+</div>
+<div class="paragraph">
+<p>The optional <code>-g</code> option specifies a group to which to assign this user:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>admin</code></p>
+</li>
+<li>
+<p><code>user</code></p>
+</li>
+<li>
+<p><code>anonymous</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>decode -src</code> <code>encodedPassfile</code></p>
+</div>
+<div class="paragraph">
+<p><code> -target</code> <code>unencodedPassfile</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Deobfuscates a passfile.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>-src</code> option takes a string, represented by <code>encodedPassfile</code>, to
+specify the path and file name of the source file to be deobfuscated.</p>
+</li>
+<li>
+<p>The <code>-target</code> option takes a string, represented by
+<code>unencodedPassfile</code>, to specify the path and file name of the resulting
+clear text file.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">delete [-i instanceName]
+ -u userName -target</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete user from repository</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>encode -src</code> <code>unencodedPassfile</code></p>
+</div>
+<div class="paragraph">
+<p><code>-target</code> <code>encodedPassfile</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Obfuscates a passfile.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>-src</code> option takes a string, represented by <code>unencodedPassfile</code>,
+to specify the path and file name of the source file to be obfuscated.</p>
+</li>
+<li>
+<p>The <code>-target</code> option takes a string, represented by <code>encodedPassfile</code>,
+to specify the path and file name of the resulting obfuscated file.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">update [-i instanceName]
+ -u userName -p password
+
+update [-i instanceName]
+ -u userName -a activeStatus
+
+update [-i instanceName]
+ -u userName -p password
+ -a activeStatus</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set user&#8217;s password or active status (or both)</p>
+</div>
+<div class="paragraph">
+<p>The <code>-a</code> option takes a boolean value specifying whether to make the
+user active (<code>true</code>) or inactive (<code>false</code>). An inactive status means
+that the user entry remains in the user repository, but the user will
+not be authenticated, even if using the correct password.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list [-i instanceName]
+ [-u userName]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display user information</p>
+</div>
+<div class="paragraph">
+<p>If no user name is specified, all users in the repository are listed.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition, the options listed in <a href="#gbnnn">Table 16-16</a> can be
+applied to any subcommand of the <code>imqusermgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG757"></a><a id="sthref117"></a><a id="gbnnn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-16 General User Manager Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28%;">
+<col style="width: 72%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-DbrokerProperty=value</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify a broker property value when starting <code>imqusermgr</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-f</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Perform action without user confirmation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-s</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Silent mode (no output displayed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-v</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display version information<a href="#foot-othersignored6"><sup>Foot 1 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage help<a href="#sthref118"><sup>Footref 1</sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjdli"></a><a id="GMADG00285"></a><a id="bridge-manager-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bridge_manager_utility">Bridge Manager Utility</h3>
+<div class="paragraph">
+<p>The Bridge Manager utility (<code>imqbridgemgr</code>) is used to manage the
+bridges configured for a broker, including the links within bridge types
+that support links. The basic syntax of <code>imqbridgemgr</code> is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbridgemgr subcommand commandArgument [ options ]
+imqbridgemgr -h | -help
+imqbridgemgr -H | -Help
+imqbridgemgr -v | -version</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gjlgu">Table 16-17</a> lists the <code>imqbridgemgr</code> subcommands for
+general bridge management, <a href="#gjlgv">Table 16-18</a> lists the
+<code>imqbridgemgr</code> subcommands for link management, which are applicable
+only to bridge types that support links, and <a href="#gjlhw">Table 16-19</a>
+lists the <code>imqbridgemgr</code> options.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG758"></a><a id="sthref119"></a><a id="gjlgu"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-17 Bridge Manager Subcommands for Bridge Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list bridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lists the bridges specified by the command options provided. For each
+bridge, the bridge name, type and state are displayed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pause bridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pauses the bridges specified by the command options provided if the
+bridge type supports this subcommand.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to pause a bridge that is stopped generates an error, and
+attempting to pause a bridge that is already paused has no effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resume bridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Resumes the bridges specified by the command options provided if the
+bridge type supports this subcommand.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to resume a bridge that is stopped generates an error, and
+attempting to resume a bridge that is already started has no effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">start bridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Starts the bridges specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to start a bridge that is paused causes the bridge to resume,
+and attempting to start a bridge that is already started has no effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">stop bridge</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Stops the bridges specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to stop a bridge that is paused causes the bridge to stop,
+and attempting to stop a bridge that is already stopped has no effect.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG759"></a><a id="sthref120"></a><a id="gjlgv"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-18 Bridge Manager Subcommands for Link Management</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">list link</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Lists the links specified by the command options provided. For each
+link, the link name, state, source, target, and transaction status are
+displayed.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pause link</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Pauses the link specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to pause a link that is stopped, in the process of stopping,
+or has never been started generates an error. Attempting to pause a link
+that is already paused or in the process of pausing has no effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resume link</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Resumes the link specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to resume a link that is stopped, in the process of stopping,
+or has never been started generates an error. Attempting to resume a
+link that is already started or in the process of starting has no
+effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">start link</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Starts the link specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to start a link that is paused causes the link to resume.
+Attempting to start a link that is in the process of pausing causes the
+link to complete pausing and then to resume. Attempting to start a link
+that is already started or in the process of starting has no effect.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">stop link</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Stops the link specified by the command options provided.</p>
+</div>
+<div class="paragraph">
+<p>Attempting to stop a link that has never been started generates an
+error. Attempting to stop a link that is in the process of starting
+causes the link to complete starting and then to stop. Attempting to
+stop a link that is paused causes the link to stop. Attempting to stop a
+link that is in the process of pausing causes the link to complete
+pausing and then to stop. Attempting to stop a link that is already
+stopped or in the process of stopping has no effect.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gjlhw">Table 16-19</a> lists the options to the <code>imqbridgemgr</code>
+command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG760"></a><a id="sthref121"></a><a id="gjlhw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-19 Bridge Manager Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The broker housing the bridge.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div>
+<div class="paragraph">
+<p>Default value: localhost:7676</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-bn bridgeName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the bridge.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-f</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Perform the action without user confirmation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of an alternative Java runtime.</p>
+</div>
+<div class="paragraph">
+<p>Default behavior: Use the runtime installed with Message Queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-ln linkName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the link.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-passfile path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location of password file</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-rtm timeoutInterval</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Initial timeout interval, in seconds</p>
+</div>
+<div class="paragraph">
+<p>This is the initial length of time that the Command utility will wait
+for a reply from the broker before retrying a request. Each subsequent
+retry will use a timeout interval that is a multiple of this initial
+interval.</p>
+</div>
+<div class="paragraph">
+<p>Default value: 10</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-rtr numRetries</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of retries to attempt after a broker request times out</p>
+</div>
+<div class="paragraph">
+<p>Default value: 5</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-s</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Silent mode (no output displayed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-secure</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use secure connection to broker with <code>ssladmin</code> connection service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-t bridgeType</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The type of the bridge: <code>JMS</code> or <code>STOMP</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-u userName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeonq"></a><a id="GMADG00286"></a><a id="service-administrator-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_service_administrator_utility">Service Administrator Utility</h3>
+<div class="paragraph">
+<p>The Service Administrator utility (<code>imqsvcadmin</code>) installs a broker as a
+Windows service. <a href="#gbnnq">Table 16-20</a> lists the available
+subcommands.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG761"></a><a id="sthref122"></a><a id="gbnnq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-20 Service Administrator Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">install</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Install service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">remove</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Display startup options</p>
+</div>
+<div class="paragraph">
+<p>Startup options can include whether the service is started manually or
+automatically, its location, the location of the Java runtime, and the
+values of arguments passed to the broker on startup (see
+<a href="#gbnmn">Table 16-21</a>).</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gbnmn">Table 16-21</a> lists the options to the <code>imqsvcadmin</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG762"></a><a id="sthref123"></a><a id="gbnmn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 16-21 Service Administrator Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 26%;">
+<col style="width: 74%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-javahome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Location of alternative Java runtime</p>
+</div>
+<div class="paragraph">
+<p>Default behavior: Use runtime installed on system or bundled with
+Message Queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-jrehome path</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Location of alternative Java Runtime Environment (JRE)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-vmargs arg1 [arg2]…</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Additional arguments to pass to Java Virtual Machine (JVM) running
+broker service<a href="#foot-startparams"><sup>Foot 1 </sup></a></p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqsvcadmin install</code> <code>vmargs "-Xms16m -Xmx128m"</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-args arg1 [arg2]…</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Additional command line arguments to pass to broker
+service<a href="#sthref124"><sup>Footref 1</sup></a></p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqsvcadmin install</code> <code>args</code> <code>&#8220;`passfile</code> <code>d:\\imqpassfile</code>&#8221;`</p>
+</div>
+<div class="paragraph">
+<p>See <a href="#aeone">Broker Utility</a> for information about broker command
+line arguments.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-h</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage help<a href="#foot-othersignored7"><sup>Foot 2 </sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>These arguments can also be specified in the Start
+Parameters field under the General tab in the service&#8217;s Properties
+window (reached by way of the Services tool in the Windows
+Administrative Tools control panel).</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p>Any information you specify using the <code>-javahome</code>, <code>-vmargs</code>, and
+<code>-args</code> options is stored in the Windows registry under the keys
+<code>JREHome</code>, <code>JVMArgs</code>, and <code>ServiceArgs</code> in the path</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Services\iMQ_Broker\Parameters</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeonr"></a><a id="GMADG00287"></a><a id="key-tool-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_key_tool_utility">Key Tool Utility</h3>
+<div class="paragraph">
+<p>The Key Tool utility (<code>imqkeytool</code>) generates a self-signed certificate
+for the broker, which can be used for the <code>ssljms</code>, <code>ssladmin</code>, or
+<code>cluster</code> connection service. The syntax is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqkeytool -broker</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>On UNIX systems, you might need to run the utility from the root user
+account.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="part-reference.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-properties.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

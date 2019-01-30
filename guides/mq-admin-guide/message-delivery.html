@@ -1,0 +1,1737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Managing Message Delivery</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Managing Message Delivery</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="connection-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="persistence-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00038"></a><a id="ghebf"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="managing-message-delivery">7 Managing Message Delivery</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A Message Queue message is routed to its consumer clients by way of a
+physical destination on a message broker. The broker manages the memory
+and persistent storage associated with the physical destination and
+configures its behavior. The broker also manages memory at a system-wide
+level, to assure that sufficient resources are available to support all
+destinations.</p>
+</div>
+<div class="paragraph">
+<p>Message delivery also involves the maintenance of state information
+needed by the broker to route messages to consumers and to track
+acknowledgements and transactions.</p>
+</div>
+<div class="paragraph">
+<p>This chapter provides information needed to manage message delivery, and
+includes the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gheav">Configuring and Managing Physical Destinations</a></p>
+</li>
+<li>
+<p><a href="#aeocq">Managing Broker System-Wide Memory</a></p>
+</li>
+<li>
+<p><a href="#aeoek">Managing Durable Subscriptions</a></p>
+</li>
+<li>
+<p><a href="#aeoel">Managing Transactions</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gheav"></a><a id="GMADG00238"></a><a id="configuring-and-managing-physical-destinations"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_configuring_and_managing_physical_destinations">Configuring and Managing Physical Destinations</h3>
+<div class="paragraph">
+<p>This section describes how to use the Message Queue Command utility
+(<code>imqcmd</code>) to manage physical destinations. It includes discussion of a
+specialized physical destination managed by the broker, the dead message
+queue, whose properties differ somewhat from those of other
+destinations.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a broker cluster, you create a physical destination on one broker and
+the cluster propagates it to all the others. Because the brokers
+cooperate to route messages across the cluster, client applications can
+consume messages from destinations on any broker in the cluster. However
+the persistence and acknowledgment of a message is managed only by the
+broker to which a message was originally produced.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This section covers the following topics regarding the management of
+physical destinations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoen">Command Utility Subcommands for Physical Destination
+Management</a></p>
+</li>
+<li>
+<p><a href="#aeoep">Creating and Destroying Physical Destinations</a></p>
+</li>
+<li>
+<p><a href="#aeoet">Pausing and Resuming a Physical Destination</a></p>
+</li>
+<li>
+<p><a href="#aeoeu">Purging a Physical Destination</a></p>
+</li>
+<li>
+<p><a href="#aeoes">Updating Physical Destination Properties</a></p>
+</li>
+<li>
+<p><a href="#aeoer">Viewing Physical Destination Information</a></p>
+</li>
+<li>
+<p><a href="#aeoew">Managing Physical Destination Disk Utilization</a></p>
+</li>
+<li>
+<p><a href="#aeoez">Using the Dead Message Queue</a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For provider independence and portability, client applications typically
+use destination administered objects to interact with physical
+destinations. <a href="administered-objects.html#aeogu">Managing Administered
+Objects</a> describes how to configure such administered objects for use by
+client applications. For a general conceptual introduction to physical
+destinations, see the Open Message Queue Technical Overview.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoen"></a><a id="GMADG00531"></a><a id="command-utility-subcommands-for-physical-destination-management"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_command_utility_subcommands_for_physical_destination_management">Command Utility Subcommands for Physical Destination Management</h4>
+<div class="paragraph">
+<p>The Message Queue Command utility (<code>imqcmd</code>) enables you to manage
+physical destinations interactively from the command line. See
+<a href="command-line-reference.html#aeonc">Command Line Reference</a> for
+general reference information about the syntax, subcommands, and options
+of the <code>imqcmd</code> command, and
+<a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a> for specific information on the configuration
+properties used to specify physical destination behavior.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnkm">Table 7-1</a> lists the <code>imqcmd</code> subcommands for physical
+destination management. For full reference information about these
+subcommands, see <a href="command-line-reference.html#gbnky">Table 16-7</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG650"></a><a id="sthref22"></a><a id="gbnkm"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 7-1 Physical Destination Subcommands for the Command Utility</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>create dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destroy dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destroy physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>pause dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Pause message delivery for physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>resume dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Resume message delivery for physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purge dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purge all messages from physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>compact dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compact physical destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set physical destination properties</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List physical destinations</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>query dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List physical destination property values</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>metrics dst</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display physical destination metrics</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoep"></a><a id="GMADG00532"></a><a id="creating-and-destroying-physical-destinations"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_and_destroying_physical_destinations">Creating and Destroying Physical Destinations</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>create</code> <code>dst</code> creates a new physical
+destination:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t destType  -n destName
+                      [ [-o property=value] … ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You supply the destination type (<code>q</code> for a queue or <code>t</code> for a topic) and
+the name of the destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghcfr"></a><a id="GMADG00399"></a><a id="naming-destinations"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_naming_destinations">Naming Destinations</h5>
+<div class="paragraph">
+<p>Destination names must conform to the rules described below for queue
+and topic destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghcft"></a><a id="GMADG00068"></a><a id="supported-queue-destination-names"></a></p>
+</div>
+<div class="paragraph">
+<p>Supported Queue Destination Names</p>
+</div>
+<div class="paragraph">
+<p>Queue destination names must conform to the following rules:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It must contain only alphabetic characters (<code>A</code>-<code>Z</code>, <code>a</code>-<code>z</code>), digit
+characters (<code>0</code>-<code>9</code>), underscores (<code>_</code>), and dollar signs (<code>$</code>).</p>
+</li>
+<li>
+<p>It must not contain spaces.</p>
+</li>
+<li>
+<p>It must begin with an alphabetic character (<code>A</code>-<code>Z</code>, <code>a</code>-<code>z</code>), an
+underscore (<code>_</code>), or a dollar sign (<code>$</code>).</p>
+</li>
+<li>
+<p>It must not begin with the characters <code>mq</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, the following command creates a queue destination named
+<code>XQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t q  -n XQueue</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="ghcda"></a><a id="GMADG00069"></a><a id="supported-topic-destination-names"></a></p>
+</div>
+<div class="paragraph">
+<p>Supported Topic Destination Names</p>
+</div>
+<div class="paragraph">
+<p>Topic destination names must conform to the same rules as queue
+destinations, as specified in <a href="#ghcft">Supported Queue Destination
+Names</a>, except that Message Queue also supports, in addition, topic
+destination names that include wildcard characters, representing
+multiple destinations. These symbolic names allow publishers to publish
+messages to multiple topics and subscribers to consume messages from
+multiple topics. Using symbolic names, you can create destinations, as
+needed, consistent with the wildcard naming scheme. Publishers and
+subscribers automatically publish to and consume from any added
+destinations that match the symbolic names. (Wildcard topic subscribers
+are more common than publishers.)</p>
+</div>
+<div class="paragraph">
+<p>The format of a symbolic topic destination name consists of multiple
+segments, in which wildcard characters (<code>*</code>, <code>**</code>, <code>&gt;</code>) can represent
+one or more segments of the name. For example, suppose you have a topic
+destination naming scheme as follows:</p>
+</div>
+<div class="paragraph">
+<p>size.color.shape</p>
+</div>
+<div class="paragraph">
+<p>where the topic name segments can have the following values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>size: <code>large</code>, <code>medium</code>, <code>small</code>, &#8230;&#8203;</p>
+</li>
+<li>
+<p>color: <code>red</code>, <code>green</code>, <code>blue</code>, &#8230;&#8203;</p>
+</li>
+<li>
+<p>shape: <code>circle</code>, <code>triangle</code>, <code>square</code>, &#8230;&#8203;</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Message Queue supports the following wildcard characters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>*</code> matches a single segment</p>
+</li>
+<li>
+<p><code>**</code> matches one or more segments</p>
+</li>
+<li>
+<p><code>&gt;</code> matches any number of segments and must not be proceeded by <em>.</em></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can therefore indicate multiple topic destinations as follows:</p>
+</div>
+<div class="paragraph">
+<p><code>large.*.circle</code> would represent:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">large.red.circle
+large.green.circle
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>**.square</code> would represent all names ending in <code>.square</code>, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">small.green.square
+medium.blue.square
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>small&gt;</code> would represent the destination <code>small</code> and all destination
+names starting with <code>small.</code>, for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">small
+small.blue.circle
+small.red.square
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It would not, for example, match <code>smallyellow</code>.</p>
+</div>
+<div class="paragraph">
+<p>To use this multiple destination feature, you create topic destinations
+using a naming scheme similar to that described above. For example, the
+following command creates a topic destination named
+<code>large.green.circle</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t t  -n large.green.circle</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Client applications can then create wildcard publishers or wildcard
+consumers using symbolic destination names.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Oracle recommends storing and looking up Topic objects in JNDI. It is
+the topic name which contains the wildcard, not the JNDI name</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00107"></a><a id="ghcfy"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-1 Wildcard Publisher</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
+String topicName = "large.*.circle";
+Topic t = session.createTopic(topicName)
+TopicPublisher myPublisher = mySession.createPublisher(t)
+myPublisher.send(myMessage);
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the broker will place a copy of the message in any
+destination that matches the symbolic name <code>large.*.circle</code></p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00108"></a><a id="ghccr"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-2 Wildcard Subscriber</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">...
+String topicName = "**.square";
+Topic t = session.createTopic(topicName);
+TopicSubscriber mySubscriber = mySession.createSubscriber(t);
+Message m = mySubscriber.receive();
+...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, a subscriber will be created if there is at least one
+destination that matches the symbolic name <code>**.square</code> and will receive
+messages from all destinations that match that symbolic name. If there
+are no destinations matching the symbolic name, the subscriber will not
+be registered with the broker until such a destination exists.</p>
+</div>
+<div class="paragraph">
+<p>If you create additional destinations that match a symbolic name, then
+wildcard publishers created using that symbolic name will subsequently
+publish to that destination and wildcard subscribers created using that
+symbolic name will subsequently receive messages from that destination.</p>
+</div>
+<div class="paragraph">
+<p>In addition, Message Queue administration tools, in addition to
+reporting the total number of publishers (producers) and subscribers
+(consumers) for a topic destination, will also report the number of
+publishers that are wildcard publishers (including their corresponding
+symbolic destination names) and the number of subscribers that are
+wildcard subscribers (including their symbolic destination names), if
+any. See <a href="#aeoer">Viewing Physical Destination Information</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghcgy"></a><a id="GMADG00400"></a><a id="setting-property-values"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_setting_property_values">Setting Property Values</h5>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>create</code> <code>dst</code> command may also optionally include any
+property values you wish to set for the destination, specified with the
+<code>-o</code> option. For example, the following command creates a topic
+destination named <code>hotTopic</code> with a maximum message length of 5000
+bytes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst  -t t  -n hotTopic  -o maxBytesPerMsg=5000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a> for reference information about the physical
+destination properties that can be set with this option. (For
+auto-created destinations, you set default property values in the
+broker&#8217;s instance configuration file; see
+<a href="broker-properties.html#gbnof">Table 17-3</a> for information on these
+properties.)</p>
+</div>
+<div class="paragraph">
+<p><a id="ghcee"></a><a id="GMADG00401"></a><a id="destroying-destinations"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_destroying_destinations">Destroying Destinations</h5>
+<div class="paragraph">
+<p>To destroy a physical destination, use the <code>imqcmd</code> <code>destroy</code> <code>dst</code>
+subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dest  -t destType  -n destName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This purges all messages at the specified destination and removes it
+from the broker; the operation is not reversible.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command destroys the queue destination named
+<code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dest  -t q  -n curlyQueue  -u admin</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You cannot destroy the dead message queue.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoet"></a><a id="GMADG00533"></a><a id="pausing-and-resuming-a-physical-destination"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pausing_and_resuming_a_physical_destination">Pausing and Resuming a Physical Destination</h4>
+<div class="paragraph">
+<p>Pausing a physical destination temporarily suspends the delivery of
+messages from producers to the destination, from the destination to
+consumers, or both. This can be useful, for instance, to prevent
+destinations from being overwhelmed when messages are being produced
+much faster than they are consumed. You must also pause a physical
+destination before compacting it (see <a href="#aeoew">Managing Physical
+Destination Disk Utilization</a>).</p>
+</div>
+<div class="paragraph">
+<p>To pause the delivery of messages to or from a physical destination, use
+the <code>imqcmd</code> <code>pause</code> <code>dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dest  [-t destType  -n destName]
+[-pst pauseType]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you omit the destination type and name (<code>-t</code> and <code>-n</code> options), all
+physical destinations will be paused. The pause type (<code>-pst</code>) specifies
+what type of message delivery to pause:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>PRODUCERS</code></dt>
+<dd>
+<p>Pause delivery from message producers to the destination</p>
+</dd>
+<dt class="hdlist1"><code>CONSUMERS</code></dt>
+<dd>
+<p>Pause delivery from the destination to message consumers</p>
+</dd>
+<dt class="hdlist1"><code>ALL</code></dt>
+<dd>
+<p>Pause all message delivery (both producers and consumers)</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>If no pause type is specified, all message delivery will be paused.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command pauses delivery from message
+producers to the queue destination <code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -t q  -n curlyQueue  -pst PRODUCERS  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following command pauses delivery to message consumers from the
+topic destination <code>hotTopic</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -t t  -n hotTopic  -pst CONSUMERS  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command pauses all message delivery to and from all physical
+destinations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst  -u admin</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a broker cluster, since each broker in the cluster has its own
+instance of each physical destination, you must pause each such instance
+individually.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>resume</code> <code>dst</code> subcommand resumes delivery to a paused
+destination:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dest  [-t destType  -n destName]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command resumes message delivery to the queue
+destination <code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dst  -t q  -n curlyQueue  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no destination type and name are specified, all destinations are
+resumed. This command resumes delivery to all physical destinations:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume dst  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoeu"></a><a id="GMADG00534"></a><a id="purging-a-physical-destination"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_purging_a_physical_destination">Purging a Physical Destination</h4>
+<div class="paragraph">
+<p>Purging a physical destination deletes all messages it is currently
+holding. You might want to do this when a destination&#8217;s accumulated
+messages are taking up too much of the system&#8217;s resources, such as when
+a queue is receiving messages but has no registered consumers to which
+to deliver them, or when a topic&#8217;s durable subscribers remain inactive
+for long periods of time.</p>
+</div>
+<div class="paragraph">
+<p>To purge a physical destination, use the <code>imqcmd</code> <code>purge</code> <code>dst</code>
+subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dst  -t destType  -n destName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command purges all accumulated messages from
+the topic destination <code>hotTopic</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dst  -t t  -n hotTopic  -u admin</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a broker cluster, since each broker in the cluster has its own
+instance of each physical destination, you must purge each such instance
+individually.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When restarting a broker that has been shut down, you can use the Broker
+utility&#8217;s <code>-reset messages</code> option to clear out its stale messages: for
+example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd -reset messages  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This saves you the trouble of purging physical destinations after
+restarting the broker.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoes"></a><a id="GMADG00535"></a><a id="updating-physical-destination-properties"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_updating_physical_destination_properties">Updating Physical Destination Properties</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>update</code> <code>dst</code> changes the values of specified
+properties of a physical destination:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t destType  -n destName
+-o property1=value1  [ [-o property2=value2] … ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The properties to be updated can include any of those listed in
+<a href="physical-destination-properties.html#gbnne">Table 18-1</a> (with the
+exception of the <code>isLocalOnly</code> property, which cannot be changed once
+the destination has been created). For example, the following command
+changes the <code>maxBytesPerMsg</code> property of the queue destination
+<code>curlyQueue</code> to <code>1000</code> and the <code>maxNumMsgs</code> property to <code>2000</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -u admin
+-o maxBytesPerMsg=1000
+-o maxNumMsgs=2000</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The type of a physical destination is not an updatable property; you
+cannot use the <code>imqcmd</code> <code>update</code> <code>dst</code> subcommand to change a queue to a
+topic or a topic to a queue.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoer"></a><a id="GMADG00536"></a><a id="viewing-physical-destination-information"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_physical_destination_information">Viewing Physical Destination Information</h4>
+<div class="paragraph">
+<p>To list the physical destinations on a broker, use the <code>imqcmd</code> <code>list</code>
+<code>dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dst  -b hostName:portNumber  [-t destType][-tmp]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This lists all physical destinations on the broker identified by
+hostName and portNumber of the type (queue or topic) specified by
+destType. If the <code>-t</code> option is omitted, both queues and topics are
+listed. For example, the following command lists all physical
+destinations on the broker running on host <code>myHost</code> at port number
+<code>4545</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dst  -b myHost:4545</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The list of queue destinations always includes the dead message queue
+(<code>mq.sys.dmq</code>) in addition to any other queue destinations currently
+existing on the broker.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If you specify the <code>-tmp</code> option, temporary destinations are listed as
+well. These are destinations created by clients, normally for the
+purpose of receiving replies to messages sent to other clients.</p>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>query</code> <code>dst</code> subcommand displays information about a
+single physical destination:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq query dst  -t destType  -n destName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays information about the queue
+destination <code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query dst  -t q  -n curlyQueue  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gfbec">Example 7-3</a> shows an example of the resulting output. You
+can use the <code>imqcmd</code> <code>update</code> <code>dst</code> subcommand (see <a href="#aeoes">Updating
+Physical Destination Properties</a>) to change the value of any of the
+properties listed.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00109"></a><a id="gfbec"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-3 Physical Destination Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------
+Destination Name    Destination Type
+------------------------------------
+large.green.circle    Topic
+
+On the broker specified by:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localhost    7676
+
+Destination Name                        large.green.circle
+Destination Type                        Topic
+Destination State                       RUNNING
+Created Administratively                true
+
+Current Number of Messages
+   Actual                               0
+   Remote                               0
+   In Delay Delivery                    0
+   Held in Transaction                  0
+Current Message Bytes
+   Actual                               0
+   Remote                               0
+   Held in Transaction                  0
+Current Number of Producers             0
+Current Number of Producer Wildcards    0
+Current Number of Consumers             1
+Current Number of Consumer Wildcards    1
+   large.*.circle  (1)
+
+Max Number of Messages                  unlimited (-1)
+Max Total Message Bytes                 unlimited (-1)
+Max Bytes per Message                   unlimited (-1)
+Max Number of Producers                 100
+
+Limit Behavior                          REJECT_NEWEST
+Consumer Flow Limit                     1000
+Is Local Destination                    false
+Use Dead Message Queue                  true
+XML schema validation enabled           false
+XML schema URI List                     -
+Reload XML schema on failure            false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For destinations in a broker cluster, it is often helpful to know how
+many messages in a destination are local (produced to the local broker)
+and how many are remote (produced to a remote broker). Hence,
+<code>imqcmd query dst</code> reports, in addition to the number and total message
+bytes of messages in the destination, the number and total bytes of
+messages that are sent to the destination from remote brokers in the
+cluster.</p>
+</div>
+<div class="paragraph">
+<p>For topic destinations, <code>imqcmd query dst</code> reports the number of
+publishers that are wildcard publishers (including their corresponding
+symbolic destination names) and the number of subscribers that are
+wildcard subscribers (including their symbolic destination names), if
+any.</p>
+</div>
+<div class="paragraph">
+<p>To display metrics information about a physical destination, use the
+<code>imqcmd</code> <code>metrics</code> <code>dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst   -t destType  -n destName
+[-m metricType]
+[-int interval]
+[-msp numSamples]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metric information to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code> (default): Messages and packets flowing into and out of the
+destination and residing in memory</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the
+destination per second, along with other rate information</p>
+</li>
+<li>
+<p><code>con</code>: Metrics related to message consumers</p>
+</li>
+<li>
+<p><code>dsk</code>: Disk usage</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> and <code>-msp</code> options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays cumulative totals for
+messages and packets handled by the queue destination <code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -t q  -n curlyQueue  -m ttl  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gfbcv">Example 7-4</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00110"></a><a id="gfbcv"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-4 Physical Destination Metrics Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-----------------------------------------------------------------------------------
+   Msgs        Msg Bytes          Msg Count         Total Msg Bytes (k)     Largest
+ In   Out     In       Out    Current  Peak  Avg  Current   Peak     Avg    Msg (k)
+-----------------------------------------------------------------------------------
+3128  3066  1170102  1122340    128    409   29     46      145      10       &lt; 1
+4858  4225  1863159  1635458    144    201   33     53      181      42       &lt; 1
+2057  1763   820804   747200     84    377   16     71      122      79       &lt; 1</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a more detailed description of the use of the Command utility to
+report physical destination metrics, see
+<a href="metrics-information.html#aeoov">Physical Destination Metrics</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoew"></a><a id="GMADG00537"></a><a id="managing-physical-destination-disk-utilization"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_managing_physical_destination_disk_utilization">Managing Physical Destination Disk Utilization</h4>
+<div class="paragraph">
+<p>Because of the way message storage is structured in a file-based
+persistent data store (see
+<a href="persistence-services.html#aeocs">File-Based Persistence Properties</a>),
+disk space can become fragmented over time, resulting in inefficient
+utilization of the available resources. Message Queue&#8217;s Command utility
+(<code>imqcmd</code>) provides subcommands for monitoring disk utilization by
+physical destinations and for reclaiming unused disk space when
+utilization drops.</p>
+</div>
+<div class="paragraph">
+<p>To monitor a physical destination&#8217;s disk utilization, use the <code>imqcmd</code>
+<code>metrics</code> <code>dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t destType  -n destMame</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This displays the total number of bytes of disk space reserved for the
+destination&#8217;s use, the number of bytes currently in use to hold active
+messages, and the percentage of available space in use (the disk
+utilization ratio). For example, the following command displays disk
+utilization information for the queue destination <code>curlyQueue</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst  -m dsk  -t q  -n curlyQueue  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gfbdk">Example 7-5</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00111"></a><a id="gfbdk"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-5 Destination Disk Utilization Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------
+Reserved   Used      Utilization Ratio
+--------------------------------------
+804096     675533    84
+1793024    1636222   91
+2544640    2243808   88</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The disk utilization pattern depends on the characteristics of the
+messaging application using a particular physical destination. Depending
+on the flow of messages into and out of the destination and their
+relative size, the amount of disk space reserved might grow over time.
+If messages are produced at a higher rate than they are consumed, free
+records should generally be reused and the utilization ratio should be
+on the high side. By contrast, if the rate of message production is
+comparable to or lower than the consumption rate, the utilization ratio
+will likely be low.</p>
+</div>
+<div class="paragraph">
+<p>As a rule, you want the reserved disk space to stabilize and the
+utilization ratio to remain high. If the system reaches a steady state
+in which the amount of reserved disk space remains more or less constant
+with utilization above 75%, there is generally no need to reclaim unused
+disk space. If the reserved space stabilizes at a utilization rate below
+50%, you can use the <code>imqcmd</code> <code>compact</code> <code>dst</code> subcommand to reclaim the
+disk space occupied by free records:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">compact dst  [-t destType  -n destName]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This compacts the file-based data store for the designated physical
+destination. If no destination type and name are specified, all physical
+destinations are compacted.</p>
+</div>
+<div class="paragraph">
+<p>You must pause a destination (with the <code>imqcmd</code> <code>pause</code> subcommand)
+before compacting it, and resume it (with <code>imqcmd</code> <code>resume</code>) afterward
+(see <a href="#aeoet">Pausing and Resuming a Physical Destination</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause dst    -t q  -n curlyQueue  -u admin
+imqcmd compact dst  -t q  -n curlyQueue  -u admin
+imqcmd resume dst   -t q  -n curlyQueue  -u admin</code></pre>
+</div>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If a destination&#8217;s reserved disk space continues to increase over time,
+try reconfiguring its <code>maxNumMsgs</code>, <code>maxBytesPerMsg</code>,
+<code>maxTotalMsgBytes</code>, and <code>limitBehavior</code> properties (see
+<a href="physical-destination-properties.html#gbnms">Physical Destination
+Properties</a>).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoez"></a><a id="GMADG00538"></a><a id="using-the-dead-message-queue"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_the_dead_message_queue">Using the Dead Message Queue</h4>
+<div class="paragraph">
+<p>The dead message queue, <code>mq.sys.dmq</code>, is a system-created physical
+destination that holds the dead messages of a broker&#8217;s physical
+destinations. The dead message queue is a tool for monitoring, tuning
+system efficiency, and troubleshooting. For a definition of the term
+dead message and a more detailed introduction to the dead message queue,
+see the Open Message Queue Technical Overview.</p>
+</div>
+<div class="paragraph">
+<p>The broker automatically creates a dead message queue when it starts.
+The broker places messages on the queue if it cannot process them or if
+their time-to-live has expired. In addition, other physical destinations
+can use the dead message queue to hold discarded messages. This can
+provide information that is useful for troubleshooting the system.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeofb"></a><a id="GMADG00402"></a><a id="managing-the-dead-message-queue"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_managing_the_dead_message_queue">Managing the Dead Message Queue</h5>
+<div class="paragraph">
+<p>The physical destination configuration property <code>useDMQ</code> controls a
+destination&#8217;s use of the dead message queue. Physical destinations are
+configured to use the dead message queue by default; to disable a
+destination from using it, set the destination&#8217;s <code>useDMQ</code> property to
+<code>false</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update dst  -t q  -n curlyQueue  -o useDMQ=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can enable or disable the use of the dead message queue for all
+auto-created physical destinations on a broker by setting the broker&#8217;s
+<code>imq.autocreate.destination.useDMQ</code> broker property:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.destination.useDMQ=false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can manage the dead message queue with the Message Queue Command
+utility (<code>imqcmd</code>) just as you manage other queues, but with some
+differences. For example, because the dead message queue is
+system-created, you cannot create, pause, or destroy it. Also, as shown
+in <a href="#gbnke">Table 7-2</a>, default values for the dead message queue&#8217;s
+configuration properties sometimes differ from those of ordinary queues.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG651"></a><a id="sthref23"></a><a id="gbnke"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 7-2 Dead Message Queue Treatment of Physical Destination
+Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 67%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Variant Treatment by Dead Message Queue</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default value is <code>1000</code>, rather than <code>-1</code> (unlimited) as
+for ordinary queues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxTotalMsgBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default value is <code>10m</code> (10 megabytes), rather than
+<code>-1</code> (unlimited) as for ordinary queues.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Default value is <code>REMOVE_OLDEST</code>, rather than <code>REJECT_NEWEST</code> as for
+ordinary queues.</p>
+</div>
+<div class="paragraph">
+<p><code>FLOW_CONTROL</code> is not supported for the dead message queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumProducers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Does not apply to the dead message queue.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLocalOnly</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Permanently set to <code>false</code> in broker clusters; the dead
+message queue in a cluster is always a global physical destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localDeliveryPreferred</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Does not apply to the dead message queue.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>By default, the dead message queue stores entire messages. If you do not
+plan to restore dead messages, you can reduce the size of the dead
+message queue by setting the broker&#8217;s <code>imq.destination.DMQ.truncateBody</code>
+property to <code>true</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.DMQ.truncateBody=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This will discard the body of all messages and retain only the headers
+and property data.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeofe"></a><a id="GMADG00403"></a><a id="enabling-dead-message-logging"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_enabling_dead_message_logging">Enabling Dead Message Logging</h5>
+<div class="paragraph">
+<p>The broker configuration property <code>logDeadMsgs</code> controls the logging of
+events related to the dead message queue. When dead message logging is
+enabled, the broker will log the following events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A message is moved to the dead message queue.</p>
+</li>
+<li>
+<p>A message is discarded from the dead message queue (or from any
+physical destination that does not use the dead message queue).</p>
+</li>
+<li>
+<p>A physical destination reaches its limits.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Dead message logging is disabled by default. The following command
+enables it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.destination.logDeadMsgs=true</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Dead message logging applies to all physical destinations that use the
+dead message queue. You cannot enable or disable logging for an
+individual physical destination.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeocq"></a><a id="GMADG00239"></a><a id="managing-broker-system-wide-memory"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_broker_system_wide_memory">Managing Broker System-Wide Memory</h3>
+<div class="paragraph">
+<p>Once clients are connected to the broker, the routing and delivery of
+messages can proceed. In this phase, the broker is responsible for
+creating and managing different types of physical destinations, ensuring
+a smooth flow of messages, and using resources efficiently. You can use
+the broker configuration properties described under
+<a href="broker-properties.html#aeonu">Routing and Delivery Properties</a> to
+manage these tasks in a way that suits your application&#8217;s needs.</p>
+</div>
+<div class="paragraph">
+<p>The performance and stability of a broker depend on the system resources
+(such as memory) available and how efficiently they are utilized. You
+can set configuration properties to prevent the broker from becoming
+overwhelmed by incoming messages or running out of memory. These
+properties function at three different levels to keep the message
+service operating as resources become scarce:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Systemwide message limits apply collectively to all physical
+destinations on the system. These include the maximum number of messages
+held by a broker (<code>imq.system.max_count</code>) and the maximum total number
+of bytes occupied by such messages (<code>imq.system.max_size</code>). If either of
+these limits is reached, the broker will reject any new messages until
+the pending messages fall below the limit. There is also a limit on the
+maximum size of an individual message (<code>imq.message.max_size</code>) and a
+time interval at which expired messages are removed
+(<code>imq.message.expiration.interval</code>).</p>
+</li>
+<li>
+<p>Individual destination limits regulate the flow of messages to a
+specific physical destination. The configuration properties controlling
+these limits are described in
+<a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a>. They include limits on the number and size of
+messages the destination will hold, the number of message producers and
+consumers that can be created for it, and the number of messages that
+can be batched together for delivery to the destination.<br>
+The destination can be configured to respond to memory limits by slowing
+down the delivery of message by message producers, by rejecting new
+incoming messages, or by throwing out the oldest or lowest-priority
+existing messages. Messages deleted from the destination in this way may
+optionally be moved to the dead message queue rather than discarded
+outright; the broker property <code>imq.destination.DMQ.truncateBody</code>
+controls whether the entire message body is saved in the dead message
+queue, or only the header and property data.<br>
+As a convenience during application development and testing, you can
+configure a message broker to create new physical destinations
+automatically whenever a message producer or consumer attempts to access
+a nonexistent destination. The broker properties summarized in
+<a href="broker-properties.html#gbnof">Table 17-3</a> parallel the ones just
+described, but apply to such auto-created destinations instead of
+administratively created ones.</p>
+</li>
+<li>
+<p>System memory thresholds define levels of memory usage at which the
+broker takes increasingly serious action to prevent memory overload.
+Four such usage levels are defined:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Green: Plenty of memory is available.</p>
+</li>
+<li>
+<p>Yellow: Broker memory is beginning to run low.</p>
+</li>
+<li>
+<p>Orange: The broker is low on memory.</p>
+</li>
+<li>
+<p>Red: The broker is out of memory.<br>
+The memory utilization percentages defining these levels are specified
+by the broker properties <code>imq.green.threshold</code>, <code>imq.yellow.threshold</code> ,
+<code>imq.orange.threshold</code>, and <code>imq.red.threshold</code> , respectively; the
+default values are 0% for green, 80% for yellow, 90% for orange, and 98%
+for red.<br>
+As memory usage advances from one level to the next, the broker responds
+progressively, first by swapping messages out of active memory into
+persistent storage and then by throttling back producers of
+nonpersistent messages, eventually stopping the flow of messages into
+the broker. (Both of these measures degrade broker performance.) The
+throttling back of message production is done by limiting the size of
+each batch delivered to the number of messages specified by the
+properties <code>imq.`resourceState `.count</code>, where resourceState is <code>green</code>
+, <code>yellow</code>, <code>orange</code>, or <code>red</code> , respectively.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The triggering of these system memory thresholds is a sign that
+systemwide and destination message limits are set too high. Because the
+memory thresholds cannot always catch potential memory overloads in
+time, you should not rely on them to control memory usage, but rather
+reconfigure the system-wide and destination limits to optimize memory
+resources.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoek"></a><a id="GMADG00240"></a><a id="managing-durable-subscriptions"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_durable_subscriptions">Managing Durable Subscriptions</h3>
+<div class="paragraph">
+<p>Message Queue clients subscribing to a topic destination can register as
+durable subscribers. The corresponding durable subscription has a
+unique, persistent identity and requires the broker to retain messages
+addressed to it even when its message consumer (the durable subscriber)
+becomes inactive. Ordinarily, the broker may delete a message held for a
+durable subscriber only when the message expires.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue Command utility provides subcommands for managing a
+broker&#8217;s durable subscriptions in the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Listing durable subscriptions</p>
+</li>
+<li>
+<p>Purging all messages for a durable subscription</p>
+</li>
+<li>
+<p>Destroying a durable subscription</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To list durable subscriptions for a specified physical destination, use
+the <code>imqcmd</code> <code>list</code> <code>dur</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur  -d topicName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command lists all durable subscriptions to
+the topic <code>SPQuotes</code> on the default broker (host <code>localhost</code> at port
+<code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur  -d SPQuotes</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting output lists the name of each durable subscription to the
+topic, the client identifier to which it belongs, its current state
+(active or inactive), and the number of messages currently queued to it.
+<a href="#genoo">Example 7-6</a> shows an example.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00112"></a><a id="genoo"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-6 Durable Subscription Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Name        Client ID       Number of   Durable Sub
+                            Messages      State
+----------------------------------------------------------------
+myDurable   myClientID       1           INACTIVE</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>purge</code> <code>dur</code> subcommand purges all messages for a
+specified durable subscriber and client identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dur  -n subscriberName
+                     -c clientID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command purges all messages for the durable
+subscription listed in <a href="#genoo">Example 7-6</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd purge dur  -n myCurable  -c myClientID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>destroy</code> <code>dur</code> subcommand destroys a durable subscription,
+specified by its subscriber name and client identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dur  -n subscriberName
+                       -c clientID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command destroys the durable subscription
+listed in <a href="#genoo">Example 7-6</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy dur  -n myCurable  -c myClientID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoel"></a><a id="GMADG00241"></a><a id="managing-transactions"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_transactions">Managing Transactions</h3>
+<div class="paragraph">
+<p>All transactions initiated by client applications are tracked by the
+broker. These can be local Message Queue transactions or distributed
+transactions managed by a distributed transaction manager.</p>
+</div>
+<div class="paragraph">
+<p>Each transaction is identified by a unique 64-bit Message Queue
+transaction identifier. Distributed transactions also have a distributed
+transaction identifier (XID), up to 128 bytes long, assigned by the
+distributed transaction manager. Message Queue maintains the association
+between its own transaction identifiers and the corresponding XIDs.</p>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>list</code> <code>txn</code> subcommand lists the transactions being
+tracked by a broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list txn</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This lists all transactions on the broker, both local and distributed.
+For each transaction, it shows the transaction ID, state, user name,
+number of messages and acknowledgments, and creation time.
+<a href="#genop">Example 7-7</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00113"></a><a id="genop"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-7 Broker Transactions Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">---------------------------------------------------------------
+Transaction ID  State    User name   # Msgs/   Creation time
+                                     # Acks
+---------------------------------------------------------------
+
+64248349708800  PREPARED  guest      4/0      1/30/02 10:08:31 AM
+64248371287808  PREPARED  guest      0/4      1/30/02 10:09:55 AM</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To display detailed information about a single transaction, obtain the
+transaction identifier from <code>imqcmd</code> <code>list</code> <code>txn</code> and pass it to the
+<code>imqcmd</code> <code>query</code> <code>txn</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query txn  -n transactionID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This displays the same information as <code>imqcmd</code> <code>list</code> <code>txn</code>, along with
+the client identifier, connection identification, and distributed
+transaction identifier (XID). For example, the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query txn  -n 64248349708800</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>produces output like that shown in <a href="#genpb">Example 7-8</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00114"></a><a id="genpb"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 7-8 Transaction Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Client ID
+Connection                 guest@192.18.116.219:62209-&gt;jms:62195
+Creation time              1/30/02 10:08:31 AM
+Number of acknowledgments  0
+Number of messages         4
+State                      PREPARED
+Transaction ID             64248349708800
+User name                  guest
+XID                        6469706F6C7369646577696E6465723130313234313431313030373230</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a broker fails, it is possible that a distributed transaction could
+be left in the <code>PREPARED</code> state without ever having been committed.
+Until such a transaction is committed, its messages will not be
+delivered and its acknowledgments will not be processed. Hence, as an
+administrator, you might need to monitor such transactions and commit
+them or roll them back manually. For example, if the broker&#8217;s
+<code>imq.transaction.autorollback</code> property (see
+<a href="broker-properties.html#gbnod">Table 17-2</a>) is set to <code>false</code>, you
+must manually commit or roll back non-distributed transactions and
+unrecoverable distributed transactions found in the <code>PREPARED</code> state at
+broker startup, using the Command utility&#8217;s <code>commit</code> <code>txn</code> or <code>rollback</code>
+<code>txn</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd commit txn  -n transactionID
+imqcmd rollback txn  -n transactionID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command commits the transaction listed in
+<a href="#genpb">Example 7-8</a>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd commit txn  -n64248349708800</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Only transactions in the PREPARED state can be committed . However,
+transaction in the <code>STARTED</code>, <code>FAILED</code>, <code>INCOMPLETE</code>, <code>COMPLETE</code>, and
+<code>PREPARED</code> states can be rolled back. You should do so only if you know
+that the transaction has been left in this state by a failure and is not
+in the process of being committed by the distributed transaction
+manager.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="connection-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="persistence-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

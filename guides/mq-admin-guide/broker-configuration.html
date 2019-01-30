@@ -1,0 +1,375 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring a Broker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring a Broker</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="starting-brokers-and-clients.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-management.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00035"></a><a id="aeocl"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-a-broker">4 Configuring a Broker</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>A broker&#8217;s configuration is governed by a set of configuration files and
+by the options passed to the <code>imqbrokerd</code> command at startup. This
+chapter describes the available configuration properties and how to use
+them to configure a broker.</p>
+</div>
+<div class="paragraph">
+<p>The chapter contains the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeocm">Broker Services</a></p>
+</li>
+<li>
+<p><a href="#aeodc">Setting Broker Configuration Properties</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For full reference information about broker configuration properties,
+see <a href="broker-properties.html#aeons">Broker Properties Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeocm"></a><a id="GMADG00230"></a><a id="broker-services"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_broker_services">Broker Services</h3>
+<div class="paragraph">
+<p>Broker configuration properties are logically divided into categories
+that depend on the services or broker components they affect:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connection services manage the physical connections between a broker
+and its clients that provide transport for incoming and outgoing
+messages. For a discussion of properties associated with connection
+services, see <a href="connection-services.html#aeocn">Configuring Connection
+Services</a>.</p>
+</li>
+<li>
+<p>Message delivery services route and deliver JMS payload messages, as
+well as control messages used by the message service to support reliable
+delivery. For a discussion of properties associated with message
+delivery services, including physical destinations, see
+<a href="message-delivery.html#ghebf">Managing Message Delivery</a>.</p>
+</li>
+<li>
+<p>Persistence services manage the writing and retrieval of data, such as
+messages and state information, to and from persistent storage. For a
+discussion of properties associated with persistence services, see
+<a href="persistence-services.html#gheas">Configuring Persistence Services</a>.</p>
+</li>
+<li>
+<p>Security services authenticate users connecting to the broker and
+authorize their actions. For a discussion of properties associated with
+authentication and authorization services, as well as encryption
+configuration, see <a href="security-services.html#aeoff">Configuring and
+Managing Security Services</a>.</p>
+</li>
+<li>
+<p>Clustering services support the grouping of brokers into a cluster to
+achieve scalability and availability. For a discussion of properties
+associated with broker clusters, see
+<a href="broker-clusters.html#aeohv">Configuring and Managing Broker
+Clusters</a>.</p>
+</li>
+<li>
+<p>Monitoring services generate metric and diagnostic information about
+the broker&#8217;s performance. For a discussion of properties associated with
+monitoring and managing a broker, see
+<a href="monitoring.html#aeoik">Monitoring Broker Operations</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeodc"></a><a id="GMADG00231"></a><a id="setting-broker-configuration-properties"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_setting_broker_configuration_properties">Setting Broker Configuration Properties</h3>
+<div class="paragraph">
+<p>You can specify a broker&#8217;s configuration properties in either of two
+ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Edit the broker&#8217;s configuration file.</p>
+</li>
+<li>
+<p>Supply the property values directly from the command line.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections describe these two methods of configuring a
+broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodd"></a><a id="GMADG00514"></a><a id="modifying-configuration-files"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_modifying_configuration_files">Modifying Configuration Files</h4>
+<div class="paragraph">
+<p>Broker configuration files contain property settings for configuring a
+broker. Message Queue maintains the following broker configuration
+files:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A default configuration file
+(<code>IMQ_HOME/lib/props/broker/default.properties</code>) that is loaded on
+startup. This file is not editable, but you can read it to determine
+default settings and find the exact names of properties you want to
+change.</p>
+</li>
+<li>
+<p>An installation configuration file
+(<code>IMQ_HOME/lib/props/broker/install.properties</code>) containing any
+properties specified when Message Queue was installed. This file cannot
+be edited after installation.</p>
+</li>
+<li>
+<p>A separate instance configuration file
+(<code>IMQ_VARHOME/instances/`instanceName</code>/props/config.properties`) for
+each individual broker instance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition, if you connect broker instances in a cluster, you may need
+to use a cluster configuration file (<code>cluster.properties</code>) to specify
+configuration information for the cluster; see
+<a href="broker-properties.html#aeooa">Cluster Configuration Properties</a> for
+more information.</p>
+</div>
+<div class="paragraph">
+<p>Also, Message Queue makes use of en environment configuration file,
+<code>imqenv.conf</code>, which is used to provide the locations of external files
+needed by Message Queue, such as the default Java SE location and the
+locations of database drivers, JAAS login modules, and so forth.</p>
+</div>
+<div class="paragraph">
+<p>At startup, the broker merges property values from the various
+configuration files. As shown in <a href="#gbnjd">Figure 4-1</a>, the files form
+a hierarchy in which values specified in the instance configuration file
+override those in the installation configuration file, which in turn
+override those in the default configuration file. At the top of the
+hierarchy, you can manually override any property values specified in
+the configuration files by using command line options to the
+<code>imqbrokerd</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00017"></a><a id="gbnjd"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 4-1 Broker Configuration Files</strong></div>
+<p><span class="image"><img src="img/adm_configfiles.png" alt="Diagram showing command line options override config.properties options, which override install.properties options, which override default options."></span></p>
+</div>
+<div class="paragraph">
+<p>The first time you run a broker, an instance configuration file is
+created containing configuration properties for that particular broker
+instance. The instance configuration file is named <code>config.properties</code>
+and is located in a directory identified by the name of the broker
+instance to which it belongs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/props/config.properties</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the file does not yet exist, you must use the <code>-name</code> option when
+starting the broker (see <a href="command-line-reference.html#aeone">Broker
+Utility</a>) to specify an instance name that Message Queue can use to
+create the file.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>instances/`instanceName directory and the instance configuration
+file are owned by the user who initially started the corresponding
+broker instance by using the `imqbrokerd -name</code> brokerName option. The
+broker instance must always be restarted by that same user.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The instance configuration file is maintained by the broker instance and
+is modified when you make configuration changes using Message Queue
+administration utilities. You can also edit an instance configuration
+file by hand. To do so, you must be the owner of the
+`instances/`instanceName directory or log in as the root user to change
+the directory&#8217;s access privileges.</p>
+</div>
+<div class="paragraph">
+<p>The broker reads its instance configuration file only at startup. To
+effect any changes to the broker&#8217;s configuration, you must shut down the
+broker and then restart it. Property definitions in the
+<code>config.properties</code> file (or any configuration file) use the following
+syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">propertyName=value [ [,value1] … ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following entry specifies that the broker will hold up
+to 50,000 messages in memory and persistent storage before rejecting
+additional messages:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.system.max_count=50000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following entry specifies that a new log file will be created once a
+day (every 86,400 seconds):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.log.file.rolloversecs=86400</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="#aeocm">Broker Services</a> and
+<a href="broker-properties.html#aeons">Broker Properties Reference</a> for
+information on the available broker configuration properties and their
+default values.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodf"></a><a id="GMADG00515"></a><a id="setting-configuration-properties-from-the-command-line"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_setting_configuration_properties_from_the_command_line">Setting Configuration Properties from the Command Line</h4>
+<div class="paragraph">
+<p>You can enter broker configuration properties from the command line when
+you start a broker, or afterward.</p>
+</div>
+<div class="paragraph">
+<p>At startup time, you use the Broker utility (<code>imqbrokerd</code>) to start a
+broker instance. Using the command&#8217;s <code>-D</code> option, you can specify any
+broker configuration property and its value; see
+<a href="starting-brokers-and-clients.html#aeoby">Starting Brokers</a> and
+<a href="command-line-reference.html#aeone">Broker Utility</a> for more
+information. If you start the broker as a Windows service, using the
+Service Administrator utility (<code>imqsvcadmin</code>), you use the <code>-args</code>
+option to specify startup configuration properties; see
+<a href="command-line-reference.html#aeonq">Service Administrator Utility</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can also change certain broker configuration properties while a
+broker is running. To modify the configuration of a running broker, you
+use the Command utility&#8217;s <code>imqcmd</code> <code>update</code> <code>bkr</code> command; see
+<a href="broker-management.html#aeodx">Updating Broker Properties</a> and
+<a href="command-line-reference.html#aeong">Broker Management</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="starting-brokers-and-clients.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-management.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

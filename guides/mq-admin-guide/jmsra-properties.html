@@ -1,0 +1,971 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JMS Resource Adapter Property Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>JMS Resource Adapter Property Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="administered-object-attributes.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="metrics-information.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00051"></a><a id="aeoon"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jms-resource-adapter-property-reference">20 JMS Resource Adapter Property Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the configuration properties of the Message Queue
+JMS Resource Adapter (JMS RA), which enables you to integrate Message
+Queue with any Java EE application server by means of the standard Java
+EE connector architecture (JCA). When plugged into an application
+server, the Resource Adapter allows applications deployed in that
+application server to use Message Queue to send and receive JMS
+messages.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue JMS Resource Adapter exposes its configuration
+properties through three JavaBean components:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>ResourceAdapter</code> JavaBean (<a href="#aeooo">ResourceAdapter JavaBean</a>)
+affects the behavior of the Resource Adapter as a whole.</p>
+</li>
+<li>
+<p>The <code>ManagedConnectionFactory</code> JavaBean
+(<a href="#aeoop">ManagedConnectionFactory JavaBean</a>) affects connections
+created by the Resource Adapter for use by message-driven beans (MDBs).</p>
+</li>
+<li>
+<p>The <code>ActivationSpec</code> JavaBean (<a href="#aeooq">ActivationSpec JavaBean</a>)
+affects message endpoints that represent MDBs in their interactions with
+the messaging system.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To set property values for these entities, you use the tools provided by
+your application server for configuration and deployment of the Resource
+Adapter and for deployment of MDBs.</p>
+</div>
+<div class="paragraph">
+<p>This chapter lists and describes the configuration properties of the
+Message Queue JMS Resource Adapter. It contains the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjzpg">About Shared Topic Subscriptions for Clustered Containers</a></p>
+</li>
+<li>
+<p><a href="#aeooo">ResourceAdapter JavaBean</a></p>
+</li>
+<li>
+<p><a href="#aeoop">ManagedConnectionFactory JavaBean</a></p>
+</li>
+<li>
+<p><a href="#aeooq">ActivationSpec JavaBean</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjzpg"></a><a id="GMADG00300"></a><a id="about-shared-topic-subscriptions-for-clustered-containers"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_about_shared_topic_subscriptions_for_clustered_containers">About Shared Topic Subscriptions for Clustered Containers</h3>
+<div class="paragraph">
+<p>The Message Queue JMS Resource Adapter provides a special feature called
+shared subscriptions for containers that support clustering, such as
+GlassFish Server. This feature enables clustered containers to share the
+load of processing messages for topic subscriptions across the instances
+of a cluster.</p>
+</div>
+<div class="paragraph">
+<p>When this feature is enabled, the following behaviors apply:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Attempts by multiple connections to use the same client id do not
+result in an exception, provided that the connections are from different
+instances in the cluster.</p>
+</li>
+<li>
+<p>Two or more subscriptions on the same topic with the same client id
+and (if the subscription is durable) the same durable subscription name
+are considered "shared"; that is, they are treated as a single
+subscription, with each message being sent to only one of the
+participating subscriptions.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The sharing of subscriptions relies on client id being set, not only for
+durable subscriptions (which always require client id) but for
+non-durable subscriptions (which do not normally require client id). If
+the subscription is being created by the resource adapter for use by a
+message-driven bean (MDB), and client id is not set, then the resource
+adapter will set the client id to the name of the MDB. However if the
+subscription is being created programmatically using the JMS API, and
+client id is not set, then an exception will be thrown.</p>
+</div>
+<div class="paragraph">
+<p>Note that, in the EJB or web container, applications that create a
+connection using a connection factory are not permitted to set client id
+on the newly created connection, but must set it on the connection
+factory instead. This restriction is imposed by the EJB specification,
+though it applies to web components as well. There is no such
+restrictions in the application client container.</p>
+</div>
+<div class="paragraph">
+<p><a id="gkubs"></a><a id="GMADG00628"></a><a id="disabling-shared-subscriptions"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_disabling_shared_subscriptions">Disabling Shared Subscriptions</h4>
+<div class="paragraph">
+<p>By default, the shared subscriptions feature is enabled. In some
+applications that use non-durable subscriptions, however, the shared
+behavior is not desired. In such cases, disable the shared subscriptions
+feature by setting the <code>useSharedSubscriptionInClusteredContainer</code>
+property to <code>false</code> on either the <code>ActivationSpec</code> or
+<code>ManagedConnectionFactory</code>, as appropriate:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For an MDB, set the <code>ActivationSpec</code> property
+<code>useSharedSubscriptionInClusteredContainer</code> to <code>false</code>. Do this in
+exactly the same way as with other <code>ActivationSpec</code> properties, using
+annotations in the MDB itself or in the deployment descriptor
+<code>ejb-jar.xml</code> or <code>glassfish-ejb-jar.xml</code>. Alternatively, if the
+<code>glassfish-ejb-jar.xml</code> deployment descriptor specifies a connection
+factory using the <code>&lt;mdb-connection-factory&gt;</code> element, then the property
+can be configured on the connection factory instead, as described in the
+next item.</p>
+</li>
+<li>
+<p>For GlassFish applications creating a non-durable subscription using
+the JMS API rather than using an MDB, set the connection factory
+property <code>useSharedSubscriptionInClusteredContainer</code> to <code>false</code> using
+the GlassFish Administration Console, the GlassFish <code>asadmin</code> command or
+the resource descriptor <code>glassfish-resources.xml</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Only set <code>useSharedSubscriptionInClusteredContainer</code> to <code>false</code> for
+non-durable subscriptions.</p>
+</div>
+<div class="paragraph">
+<p><a id="gkudu"></a><a id="GMADG00629"></a><a id="consumer-flow-control-when-shared-subscriptions-are-used"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_consumer_flow_control_when_shared_subscriptions_are_used">Consumer Flow Control When Shared Subscriptions Are Used</h4>
+<div class="paragraph">
+<p>When shared subscriptions are being used, then consumer flow control
+operates slightly differently than is described in
+<a href="tuning.html#aeoky">Client Runtime Message Flow Adjustments</a>.</p>
+</div>
+<div class="paragraph">
+<p>With a normal topic subscription, the maximum number of messages that
+can be held pending for any single subscriber, waiting to be consumed,
+is defined by the broker property
+<code>imq.autocreate.topic.consumerFlowLimit</code> for auto-created topics, or the
+destination property <code>consumerFlowLimit</code> for administratively-created
+topics. Both properties have a default value of 1000. This can be
+overridden on a per-connection basis by setting the connection factory
+property <code>imqConsumerFlowLimit</code> to a lower value than that defined for
+the topic.</p>
+</div>
+<div class="paragraph">
+<p>When the subscription is shared, however, different logic applies. In
+this case, the limit is defined by the broker property
+<code>imq.autocreate.topic.sharedConsumerFlowLimit</code> for auto-created topics
+or the broker property <code>imq.admincreate.topic.sharedConsumerFlowLimit</code>
+for all administratively-created topics. It is not possible to set this
+limit on individual administratively-created topics. Both properties
+have a default value of 5. This can be overridden on a per-connection
+basis by setting the connection factory property <code>imqConsumerFlowLimit</code>
+to a lower value than that defined for the topic. Note that, as with all
+connection factory properties, this is specified using the <code>options</code>
+property of the managed connection factory.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeooo"></a><a id="GMADG00301"></a><a id="resourceadapter-javabean"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_resourceadapter_javabean">ResourceAdapter JavaBean</h3>
+<div class="paragraph">
+<p>The <code>ResourceAdapter</code> configuration configures the default JMS Resource
+Adapter behavior. <a href="#gbnny">Table 20-1</a> lists and describes the
+properties with which you can configure this JavaBean.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG792"></a><a id="sthref227"></a><a id="gbnny"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 20-1 Resource Adapter Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 35%;">
+<col style="width: 10%;">
+<col style="width: 25%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`connectionURL`<a href="#foot-oneorotherrequired"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq://localhost:7676/jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message service address for connecting to
+the Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>brokerInstanceName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqbroker</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of broker instance</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>brokerPort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7676</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port number for connecting to broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>brokerBindAddress</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Null</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Address to which broker binds on host machine</p>
+</div>
+<div class="paragraph">
+<p>If null, the broker will bind to all addresses on the host machine.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`userName`<a href="#foot-required"><sup>Foot 2 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user
+name for connecting to Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`password`<a href="#sthref228"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default
+password for connecting to Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addressListBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIORITY</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Order in which to attempt connection to Message Queue service:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PRIORITY</code>: Order specified in address list</p>
+</li>
+<li>
+<p><code>RANDOM</code>: Random order</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: Reconnection attempts after a connection failure start with the
+broker whose connection failed and proceed sequentially through the
+address list, regardless of the value set for this property.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addressListIterations</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of times to iterate
+through address list attempting to establish or reestablish a connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectEnabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attempt to reestablish a lost
+connection?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectAttempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>6</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of times to attempt
+reconnection to each address in address list before moving on to next</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectInterval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval, in milliseconds,
+between reconnection attempts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>brokerEnableHA</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Enable high availability?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>clusterID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Cluster identifier</p>
+</div>
+<div class="paragraph">
+<p>If specified, only brokers with the same cluster identifier can be
+clustered together. In the event of broker failure, client connections
+will fail over only to brokers with the same cluster identifier as the
+original broker. If not specified, client connections can fail over to
+any other broker with an unspecified cluster identifier.</p>
+</div>
+<div class="paragraph">
+<p>For standalone brokers (those not belonging to a cluster), this property
+is ignored.</p>
+</div>
+<div class="paragraph">
+<p>The identifier may contain only alphabetic letters (<code>A</code>-<code>Z</code>, <code>a</code>-<code>z</code>),
+numeric digits (<code>0</code>-<code>9</code>), and the underscore character (<code>_</code>).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>brokerID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Broker identifier</p>
+</div>
+<div class="paragraph">
+<p>For brokers using a JDBC-based persistent data store, this string is
+appended to the names of all database tables to make them unique in the
+case where more than one broker instance is using the same database. For
+brokers using a file-based data store, this property is ignored.</p>
+</div>
+<div class="paragraph">
+<p>In an enhanced cluster, each broker must have a unique broker
+identifier.</p>
+</div>
+<div class="paragraph">
+<p>The identifier may contain only alphabetic letters (<code>A</code>-<code>Z</code>, <code>a</code>-<code>z</code>),
+numeric digits (<code>0</code>-<code>9</code>), and the underscore character (<code>_</code>).</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Must be specified</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Required</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoop"></a><a id="GMADG00302"></a><a id="managedconnectionfactory-javabean"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managedconnectionfactory_javabean">ManagedConnectionFactory JavaBean</h3>
+<div class="paragraph">
+<p>A managed connection factory is used to create connections managed by
+the resource adapter. <a href="#gbnnp">Table 20-2</a> shows the properties of
+the <code>ManagedConnectionFactory</code> JavaBean; if set, these properties
+override the corresponding properties of the <code>ResourceAdapter</code> JavaBean.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG793"></a><a id="sthref229"></a><a id="gbnnp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 20-2 Managed Connection Factory Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 10%;">
+<col style="width: 20%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addressList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of <code>connectionURL</code> property of
+<code>ResourceAdapter</code> JavaBean (see <a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of
+message service addresses for connecting to Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`userName`<a href="#foot-optional3"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name
+for connecting to Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`password`<a href="#sthref230"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for
+connecting to Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>clientID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client identifier for connections to Message
+Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addressListBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIORITY</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Order in which to attempt connection to Message Queue service:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PRIORITY</code>: Order specified in address list</p>
+</li>
+<li>
+<p><code>RANDOM</code>: Random order</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: Reconnection attempts after a connection failure start with the
+broker whose connection failed and proceed sequentially through the
+address list, regardless of the value set for this property.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>addressListIterations</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of times to iterate
+through address list attempting to establish or reestablish a connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectEnabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Attempt to reestablish a lost
+connection?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectAttempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>6</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of times to attempt
+reconnection to each address in address list before moving on to next</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reconnectInterval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval, in milliseconds,
+between reconnection attempts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`options`<a href="#sthref231"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A list of additional connection factory properties to be used when
+creating connections to a Message Queue broker.</p>
+</div>
+<div class="paragraph">
+<p>When specified, the value of <code>options</code> must be a comma-separated list of
+connection factory properties and their values, in the form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">propertyName=value</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If value contains a comma or an equals sign, precede the symbol with a
+backslash (<code>\</code>) or enclose the entire value in quotes; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">prop1=comma\,val,prop2="equals=val"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>options</code> property cannot specify properties that are configured
+internally or that have their own setter methods, specifically:
+<code>imqReconnectEnabled</code>, <code>imqReconnectAttempts</code>, <code>imqReconnectInterval</code>,
+<code>imqDefaultUsername</code>, <code>imqDefaultPassword</code>, <code>imqAddressList</code>,
+<code>imqAddressListIterations</code>. Any values specified in <code>options</code> for these
+properties are ignored.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>useSharedSubscriptionInClusteredContainer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Controls whether topic subscriptions created using this
+ManagedConnectionFactory will be shared when running in a clustered
+container, as described in <a href="#gjzpg">About Shared Topic Subscriptions
+for Clustered Containers</a>.</p>
+</div>
+<div class="paragraph">
+<p>Set to <code>true</code> (the default) to share subscriptions. The <code>clientID</code>
+property must also be set, even if the subscription is nondurable.</p>
+</div>
+<div class="paragraph">
+<p>Set to <code>false</code> to not share subscriptions. This setting should only be
+used for nondurable subscriptions. The <code>clientID</code> property does not need
+to be set.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Optional</p>
+</div>
+<div class="paragraph">
+<p><a id="aeooq"></a><a id="GMADG00303"></a><a id="activationspec-javabean"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_activationspec_javabean">ActivationSpec JavaBean</h3>
+<div class="paragraph">
+<p><a href="#gbnnj">Table 20-3</a> shows the configurable properties of the
+<code>ActivationSpec</code> JavaBean. These properties are used by the application
+server when instructing the Resource Adapter to activate a message
+endpoint and associate it with a message-driven bean.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG794"></a><a id="sthref232"></a><a id="gbnnj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 20-3 ActivationSpec Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 10%;">
+<col style="width: 20%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`addressList`link:#foot-optional4<sup class="^Foot 1 ^">,</sup><a href="#foot-ra-specific"><sup>Foot 2 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Value of <code>connectionURL</code> property of <code>ResourceAdapter</code> JavaBean
+(see <a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message service address for connecting to
+Message Queue service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`userName`<a href="#sthref233"><sup>Footref 1</sup></a> <sup>,</sup><a href="#sthref234"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from <code>ResourceAdapter</code> JavaBean (see
+<a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for connecting to Message Queue
+service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`password`<a href="#sthref235"><sup>Footref 1</sup></a> <sup>,</sup><a href="#sthref236"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from <code>ResourceAdapter</code> JavaBean (see
+<a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for connecting to Message Queue
+service.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`clientId`<a href="#foot-ejb-j2ee-ca"><sup>Foot 3 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Client ID for connections to Message Queue service</p>
+</div>
+<div class="paragraph">
+<p>This property must be set if <code>subscriptionDurability</code> is set to
+<code>Durable</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`addressListBehavior`link:#sthref237<sup class="^Footref 1^">,</sup><a href="#sthref238"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from <code>ResourceAdapter</code> JavaBean (see
+<a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Order in which to attempt connection or reconnection to Message Queue
+service:</p>
+</div>
+<div class="paragraph">
+<p>PRIORITY: order specified in address list</p>
+</div>
+<div class="paragraph">
+<p>RANDOM: Random order</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`addressListIterations`link:#sthref239<sup class="^Footref 1^">,</sup><a href="#sthref240"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from <code>ResourceAdapter</code> JavaBean (see
+<a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of times to iterate through addressList attempting to establish
+or reestablish a connection.</p>
+</div>
+<div class="paragraph">
+<p>When this limit is reached an exception will be thrown and a new
+connection attempt will begin, with no limit.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`reconnectAttempts`<a href="#sthref241"><sup>Footref 1</sup></a>
+<sup>,</sup><a href="#sthref242"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from
+<code>ResourceAdapter</code> JavaBean (see <a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of
+times to attempt connection or reconnection to each address in
+addressList before moving on to next.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`reconnectInterval1`link:#sthref243<sup class="^Footref 1^">,</sup><a href="#sthref244"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Inherited from <code>ResourceAdapter</code> JavaBean (see
+<a href="#gbnny">Table 20-1</a>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interval, in milliseconds, between
+reconnection attempts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`destination`<a href="#sthref245"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Name of destination from which to consume messages</p>
+</div>
+<div class="paragraph">
+<p>The value must be that of the <code>destinationName</code> property for a Message
+Queue destination administered object.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`destinationType`<a href="#sthref246"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Type of destination specified by <code>destination</code> property:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>javax.jms.Queue</code>: Queue destination</p>
+</li>
+<li>
+<p><code>javax.jms.Topic</code>: Topic destination</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`messageSelector`link:#sthref247<sup class="^Footref 1^">,</sup><a href="#sthref248"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message selector for filtering messages delivered to
+consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`subscriptionName`<a href="#sthref249"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Name for durable subscriptions</p>
+</div>
+<div class="paragraph">
+<p>This property must be set if <code>subscriptionDurability</code> is set to
+<code>Durable</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`subscriptionDurability`<a href="#sthref250"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NonDurable</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Durability of consumer for topic destination:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Durable</code>: Durable consumer</p>
+</li>
+<li>
+<p><code>NonDurable</code>: Nondurable consumer</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This property is valid only if <code>destinationType</code> is set to
+<code>javax.jms.Topic</code>, and is optional for nondurable subscriptions and
+required for durable ones. If set to <code>Durable</code>, the <code>clientID</code> and
+<code>subscriptionName</code> properties must also be set.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`acknowledgeMode`link:#sthref251<sup class="^Footref 1^">,</sup><a href="#sthref252"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Auto-acknowledge</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Acknowledgment mode:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Auto-acknowledge</code>: Auto-acknowledge mode</p>
+</li>
+<li>
+<p><code>Dups-ok-acknowledge</code>: Dups-OK-acknowledge mode</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>customAcknowledgeMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Acknowledgment mode for MDB message consumption</p>
+</div>
+<div class="paragraph">
+<p>Valid values are <code>No_acknowledge</code> or null.</p>
+</div>
+<div class="paragraph">
+<p>You can use no-acknowledge mode only for a nontransacted, nondurable
+topic subscription; if you use this setting with a transacted
+subscription or a durable subscription, subscription activation will
+fail.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endpointExceptionRedeliveryAttempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>6</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of times to
+redeliver a message when MDB throws an exception during message delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>endpointExceptionRedeliveryInterval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">500</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The amount of
+time, in milliseconds, to wait before the next redelivery attempt.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sendUndeliverableMsgsToDMQ</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Place message in dead message queue when MDB throws a runtime exception
+and number of redelivery attempts exceeds the value of
+<code>endpointExceptionRedeliveryAttempts</code>?</p>
+</div>
+<div class="paragraph">
+<p>If <code>false</code>, the Message Queue broker will attempt redelivery of the
+message to any valid consumer, including the same MDB.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`options`<a href="#sthref253"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A list of additional connection factory properties to be used when
+creating connections to a Message Queue broker.</p>
+</div>
+<div class="paragraph">
+<p>When specified, the value of <code>options</code> must be a comma-separated list of
+connection factory properties and their values, in the form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">propertyName=value</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If value contains a comma or an equals sign, precede the symbol with a
+backslash (<code>\</code>) or enclose the entire value in quotes; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">prop1=comma\,val,prop2="equals=val"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>options</code> property cannot be used to specify properties that are
+configured internally or that have their own setter methods,
+specifically: <code>imqReconnectEnabled</code>, <code>imqReconnectAttempts</code>,
+<code>imqReconnectInterval</code>, <code>imqDefaultUsername</code>, <code>imqDefaultPassword</code>,
+<code>imqAddressList</code>, <code>imqAddressListIterations</code>, <code>imqAddressListBehavior</code>.
+Any values specified in <code>options</code> for these properties are ignored.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>useSharedSubscriptionInClusteredContainer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Controls whether topic subscriptions created using this ActivationSpec
+will be shared when running in a clustered container, as described in
+<a href="#gjzpg">About Shared Topic Subscriptions for Clustered Containers</a>.</p>
+</div>
+<div class="paragraph">
+<p>Set to <code>true</code> (the default) to share subscriptions.</p>
+</div>
+<div class="paragraph">
+<p>Set to <code>false</code> to not share subscriptions. This setting should only be
+used for nondurable subscriptions.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Optional</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Property specific to Message Queue JMS Resource Adapter</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 3 </sup>Standard Enterprise JavaBean (EJB) and Java EE Connector
+Architecture (CA) property</p>
+</div>
+<div class="paragraph">
+<p>Note that there is no <code>reconnectEnabled</code> property for the
+<code>ActivationSpec</code> JavaBean.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="administered-object-attributes.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="metrics-information.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

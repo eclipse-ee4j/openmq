@@ -1,0 +1,467 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Distribution-Specific Locations of Message Queue Data</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Distribution-Specific Locations of Message Queue Data</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="part-appendixes.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="interface-stability.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00054"></a><a id="aeoow"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="a-distribution-specific-locations-of-message-queue-data">A Distribution-Specific Locations of Message Queue Data</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue data is stored in different locations based on the
+distribution used to install Message Queue. The tables that follow show
+the location of various types of Message Queue data for the following
+types of installations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ghrlu">Installations from an IPS image</a></p>
+</li>
+<li>
+<p><a href="#aeoox">Installations of Previous Message Queue Versions from
+Solaris SVR4 Packages</a></p>
+</li>
+<li>
+<p><a href="#aeooy">Installations of Previous Message Queue Versions from
+Linux RPMs</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the tables, instanceName denotes the name of the broker instance with
+which the data is associated.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghrlu"></a><a id="GMADG00316"></a><a id="installations-from-an-ips-image"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_installations_from_an_ips_image">Installations from an IPS image</h3>
+<div class="paragraph">
+<p><a href="#ghriv">Table A-1</a> shows the location of Message Queue data when
+Message Queue is installed from an IPS image, such as when the Message
+Queue installer is used. Locations denote the <code>IMQ_HOME</code> and
+<code>IMQ_VARHOME</code> directory variables defined in
+<a href="preface.html#gbqig">Directory Variable Conventions</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG807"></a><a id="sthref279"></a><a id="ghriv"></a></p>
+</div>
+<div class="paragraph">
+<p>Table A-1 Message Queue Data Locations for Installations from an IPS
+Image</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data Category</th>
+<th class="tableblock halign-left valign-top">Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command line executable files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/bin</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance configuration properties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME/instances/`instanceName</code>/props/config.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration file templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/lib/props/broker/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME/instances/`instanceName</code>/fs370/`or a JDBC-accessible data
+store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance log file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME/instances/`instanceName</code>/log/`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administered objects (object store)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local directory of your choice or
+an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: user repository</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME/instances/`instanceName</code>/etc/passwd`or an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: access control file (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME/instances/`instanceName</code>/etc/accesscontrol.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: password file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/etc/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: example password file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/etc/passfile.sample</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: broker&#8217;s key store file location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/etc/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaDoc API documentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/javadoc/index.html</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Example applications and configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/examples/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java archive (<code>.jar</code>), Web archive (<code>.war</code>), and Resource Adapter
+archive (<code>.rar</code>) files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/lib/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External resource (<code>.jar</code>) files such as JDBC drivers, JAAS login
+modules, and so forth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/lib/ext</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS Bridge DTD file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME/lib/dtd</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoox"></a><a id="GMADG00317"></a><a id="installations-of-previous-message-queue-versions-from-solaris-svr4-packages"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installations_of_previous_message_queue_versions_from_solaris_svr4_packages">Installations of Previous Message Queue Versions from Solaris SVR4 Packages</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Message Queue is no longer distributed as Solaris SVR4 packages. The
+following information is provided as a point of reference when upgrading
+from previous versions of Message Queue that were distributed as Solaris
+SVR4 packages.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="#gbnnw">Table A-2</a> shows the location of Message Queue data when
+Message Queue was installed from Solaris SVR4 packages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG808"></a><a id="sthref280"></a><a id="gbnnw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table A-2 Message Queue Data Locations for Installations from Solaris
+SVR4 Packages</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data Category</th>
+<th class="tableblock halign-left valign-top">Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command line executable files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/bin</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance configuration properties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/props/config.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration file templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/share/lib/imq/props/broker/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/fs370`or a JDBC-accessible data
+store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance log file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/log/`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administered objects (object store)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local directory of your choice or
+an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: user repository</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/etc/passwd`or an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: access control file (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/etc/accesscontrol.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: password file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/imq/instances/`instanceName</code>/etc/`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: example password file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/imq/passfile.sample</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: broker&#8217;s key store file location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/imq/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaDoc API documentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/share/javadoc/imq/index.html</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Example applications and configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/demo/imq/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java archive (<code>.jar</code>), Web archive (<code>.war</code>), and Resource Adapter
+archive (<code>.rar</code>) files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/share/lib/imq</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External resource (<code>.jar</code>) files such as JDBC drivers, JAAS login
+modules, and so forth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/share/lib/imq/ext</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS Bridge DTD file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/usr/share/lib/imq/dtd</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeooy"></a><a id="GMADG00318"></a><a id="installations-of-previous-message-queue-versions-from-linux-rpms"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installations_of_previous_message_queue_versions_from_linux_rpms">Installations of Previous Message Queue Versions from Linux RPMs</h3>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Message Queue is no longer distributed as Linux RPMs. The following
+information is provided as a point of reference when upgrading from
+previous versions of Message Queue that were distributed as Linux RPMs.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="#gbnmx">Table A-3</a> shows the location of Message Queue data when
+Message Queue was installed from Linux RPMs.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG809"></a><a id="sthref281"></a><a id="gbnmx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table A-3 Message Queue Data Locations for Installations from Linux RPMs</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Data Category</th>
+<th class="tableblock halign-left valign-top">Location</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command line executable files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/bin</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance configuration properties</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/props/config.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration file templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/private/share/lib/props/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistent data store (messages, destinations, durable subscriptions,
+transactions, acknowledgements)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/fs370/`or a JDBC-accessible
+data store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance log file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/log/`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administered objects (object store)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local directory of your choice or
+an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: user repository</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/etc/passwd`or an LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: access control file (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/etc/accesscontrol.properties`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: password file directory (default location)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/var/opt/sun/mq/instances/`instanceName</code>/etc/`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: example password file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/opt/sun/mq/passfile.sample</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security: broker&#8217;s key store file location</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/etc/opt/sun/mq/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JavaDoc API documentation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/javadoc/index.html</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Example applications and configurations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/examples/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java archive (<code>.jar</code>), Web archive (<code>.war</code>), and Resource Adapter
+archive (<code>.rar</code>) files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/share/lib/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">External resource (<code>.jar</code>) files such as JDBC drivers, JAAS login
+modules, and so forth</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/share/lib/ext</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Shared library (<code>.so</code>) files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>/opt/sun/mq/lib/</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS Bridge DTD file</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">/opt/sun/mq/share/lib/dtd</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="part-appendixes.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="interface-stability.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

@@ -1,0 +1,2213 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring and Managing Broker Clusters</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring and Managing Broker Clusters</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="security-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="administered-objects.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00041"></a><a id="aeohv"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-and-managing-broker-clusters">10 Configuring and Managing Broker Clusters</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue supports the use of broker clusters: groups of brokers
+working together to loprovide message delivery services to clients.
+Clusters enable a message service to scale its operations to meet an
+increasing volume of message traffic by distributing client connections
+among multiple brokers.</p>
+</div>
+<div class="paragraph">
+<p>In addition, clusters provide for message service availability. In the
+case of a conventional cluster, if a broker fails, clients connected to
+that broker can reconnect to another broker in the cluster and continue
+producing and consuming messages. In the case of an enhanced cluster, if
+a broker fails, clients connected to that broker reconnect to a failover
+broker that takes over the pending work of the failed broker, delivering
+messages without interruption of service.</p>
+</div>
+<div class="paragraph">
+<p>See "<a href="../mq-tech-over/broker-clusters.html#GMTOV00028">Broker Clusters</a>" in Open Message Queue Technical
+Overview for a description of conventional and enhanced broker clusters
+and how they operate.</p>
+</div>
+<div class="paragraph">
+<p>This chapter describes how to configure and manage both conventional and
+enhanced broker clusters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeohw">Configuring Broker Clusters</a></p>
+</li>
+<li>
+<p><a href="#aeohz">Managing Broker Clusters</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeohw"></a><a id="GMADG00253"></a><a id="configuring-broker-clusters"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_configuring_broker_clusters">Configuring Broker Clusters</h3>
+<div class="paragraph">
+<p>You create a broker cluster by specifying cluster configuration
+properties for each of its member brokers. Except where noted in this
+chapter, cluster configuration properties must be set to the same value
+for each broker in a cluster. This section introduces these properties
+and the use of a cluster configuration file to specify them:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gejlk">The Cluster Configuration File</a></p>
+</li>
+<li>
+<p><a href="#gejkw">Cluster Configuration Properties</a></p>
+</li>
+<li>
+<p><a href="#geciv">Displaying a Cluster Configuration</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gejlk"></a><a id="GMADG00560"></a><a id="the-cluster-configuration-file"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_the_cluster_configuration_file">The Cluster Configuration File</h4>
+<div class="paragraph">
+<p>Like all broker properties, cluster configuration properties can be set
+individually for each broker in a cluster, either in its instance
+configuration file (<code>config.properties</code>) or by using the <code>-D</code> option on
+the command line when you start the broker. However, except where noted
+in this chapter, each cluster configuration property must be set to the
+same value for each broker in a cluster.</p>
+</div>
+<div class="paragraph">
+<p>For example, to specify the transport protocol for the cluster
+connection service, you can include the following property in the
+instance configuration file for each broker in the cluster:
+<code>imq.cluster.transport=ssl</code>. If you need to change the value of this
+property, you must change its value in the instance configuration file
+for every broker in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>For consistency and ease of maintenance, it is generally more convenient
+to collect all of the common cluster configuration properties into a
+central cluster configuration file that all of the individual brokers in
+a cluster reference. Using a cluster configuration file prevents the
+settings from getting out of synch and ensures that all brokers in a
+cluster use the same, consistent cluster configuration information.</p>
+</div>
+<div class="paragraph">
+<p>When using a cluster configuration file, each broker&#8217;s instance
+configuration file must point to the location of the cluster
+configuration file by setting the <code>imq.cluster.url</code> property. For
+example,</p>
+</div>
+<div class="paragraph">
+<p><code>imq.cluster.url=file:/home/cluster.properties</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A cluster configuration file can also include broker properties that are
+not used specifically for cluster configuration. For example, you can
+place any broker property in the cluster configuration file that has the
+same value for all brokers in a cluster. For more information, see
+<a href="#aeoia">Connecting Brokers into a Conventional Cluster</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gejkw"></a><a id="GMADG00561"></a><a id="cluster-configuration-properties"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_cluster_configuration_properties">Cluster Configuration Properties</h4>
+<div class="paragraph">
+<p>This section reviews the most important cluster configuration
+properties, grouped into the following categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggumd">Cluster Connection Service Properties</a></p>
+</li>
+<li>
+<p><a href="#ggulp">Conventional Broker Cluster Properties</a></p>
+</li>
+<li>
+<p><a href="#ggult">Enhanced Broker Cluster Properties</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A complete list of cluster configuration properties can be found in
+<a href="broker-properties.html#gbnmu">Table 17-14</a></p>
+</div>
+<div class="paragraph">
+<p><a id="ggumd"></a><a id="GMADG00414"></a><a id="cluster-connection-service-properties"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_cluster_connection_service_properties">Cluster Connection Service Properties</h5>
+<div class="paragraph">
+<p>The following properties are used to configure the cluster connection
+service used for internal communication between brokers in the cluster.
+These properties are used by both conventional and enhanced clusters.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.transport specifies the transport protocol used by the
+<code>cluster</code> connection service, such as <code>tcp</code> or <code>ssl</code>.</p>
+</li>
+<li>
+<p>imq.cluster.port specifies the port number for the <code>cluster</code>
+connection service. You might need to set this property, for instance,
+to specify a static port number for connecting to the broker through a
+firewall.</p>
+</li>
+<li>
+<p>imq.cluster.hostname specifies the host name or IP address for the
+<code>cluster</code> connection service, used for internal communication between
+brokers in the cluster. The default setting works fine, however,
+explicitly setting the property can be useful if there is more than one
+network interface card installed in a computer. If you set the value of
+this property to <code>localhost</code>, the value will be ignored and the default
+will be used.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggulp"></a><a id="GMADG00415"></a><a id="conventional-broker-cluster-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_conventional_broker_cluster_properties">Conventional Broker Cluster Properties</h5>
+<div class="paragraph">
+<p>In addition to the properties listed in <a href="#ggumd">Cluster Connection
+Service Properties</a>, all conventional clusters use the following
+properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.brokerlist specifies a list of broker addresses defining
+the membership of the cluster; all brokers in the cluster must have the
+same value for this property.<br>
+For example, to create a conventional cluster consisting of brokers at
+port <code>9876</code> on <code>host1</code>, port <code>5000</code> on <code>host2</code>, and the default port
+(<code>7676</code>) on <code>ctrlhost</code>, use the following value:<br>
+<code>imq.cluster.brokerlist=host1:9876,host2:5000,ctrlhost</code></p>
+</li>
+<li>
+<p>imq.cluster.nomasterbroker specifies whether the cluster is a
+conventional cluster of peer brokers, which uses a shared JDBC data
+store for the cluster&#8217;s configuration change record. When <code>true</code>, the
+cluster is a conventional cluster of peer brokers. When <code>false</code> (or
+omitted, as <code>false</code> is the default), the cluster is considered to be a
+conventional cluster with master broker, even if no master broker is
+actually specified. All brokers in a given cluster must have the same
+value for this property.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each type of conventional cluster has additional properties to support
+its configuration, as described in the following two sections.</p>
+</div>
+<div class="paragraph">
+<p><a id="gktjo"></a><a id="GMADG00081"></a><a id="additional-properties-for-conventional-clusters-with-master-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>Additional Properties for Conventional Clusters with Master Broker</p>
+</div>
+<div class="paragraph">
+<p>The following additional properties are used to configure a conventional
+cluster with a master broker:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.masterbroker specifies which broker in a conventional
+cluster is the master broker that maintains the configuration change
+record that tracks the addition and deletion of destinations and durable
+subscribers. For example:<br>
+<code>imq.cluster.masterbroker=host2:5000</code><br>
+While specifying a master broker using the <code>imq.cluster.masterbroker</code> is
+not mandatory for a conventional cluster with master broker to function,
+it guarantees that persistent information propagated across brokers
+(destinations and durable subscriptions) is always synchronized. See
+"<a href="../mq-tech-over/broker-clusters.html#GMTOV00067">Conventional Clusters</a>" in Open Message Queue
+Technical Overview.</p>
+</li>
+<li>
+<p>imq.cluster.dynamicChangeMasterBrokerEnabled specifies whether the
+master broker can be changed to another broker in the cluster without
+stopping all the broker in the cluster. All brokers in a given cluster
+must have the same value for this property.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gktis"></a><a id="GMADG00082"></a><a id="additional-properties-for-conventional-clusters-of-peer-brokers"></a></p>
+</div>
+<div class="paragraph">
+<p>Additional Properties for Conventional Clusters of Peer Brokers</p>
+</div>
+<div class="paragraph">
+<p>The following additional properties are used to configure a conventional
+cluster of peer brokers. All brokers in a given cluster must have the
+same values for these properties.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.clusterid specifies the cluster identifier, which will be
+appended to the name of the configuration change record&#8217;s database table
+in the JDBC data store. The value of this property must be the same for
+all brokers in a given cluster, but must be unique for each cluster: no
+two clusters may have the same cluster identifier.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.dbVendor specifies the name of the
+database vendor of the JDBC data store housing the configuration change
+record&#8217;s table.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.user specifies the user
+name, if required, for connecting to the database from vendor
+&lt;vendorName&gt;.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.needpassword specifies
+whether a password is needed for connecting to the database from vendor
+&lt;vendorName&gt;.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.password specifies the
+password, if required, for connecting to the database from vendor
+&lt;vendorName&gt;. This value should be set only in password files, as
+described in <a href="security-services.html#aeogq">Password Files</a>.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.driver specifies the
+Java class name of the JDBC driver, if required, for connecting to the
+database from vendor &lt;vendorName&gt;.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.opendburl specifies the
+URL for connecting to an existing database from vendor &lt;vendorName&gt;.
+This applies when a <code>java.sql.Driver</code> is used to connect to the
+database.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.createdburl optionally
+specifies the URL for creating a new database from vendor &lt;vendorName&gt;.
+This applies only to embedded databases, such as Java DB.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.closedburl optionally
+specifies the URL for closing a connection to the database from vendor
+&lt;vendorName&gt;. This applies only to some embedded databases, such as
+Java DB.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.tableoption optionally
+specifies vendor-specific options to be passed to the database from
+vendor &lt;vendorName&gt; when creating the table schema.</p>
+</li>
+<li>
+<p>imq.cluster.sharecc.persist.jdbc.&lt;vendorName&gt;.property.&lt;propName&gt;
+specifies a vendor-specific property &lt;propName&gt; for the database from
+vendor &lt;vendorName&gt;.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggult"></a><a id="GMADG00416"></a><a id="enhanced-broker-cluster-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_enhanced_broker_cluster_properties">Enhanced Broker Cluster Properties</h5>
+<div class="paragraph">
+<p>Enhanced broker clusters, which share a JDBC-based data store, require
+more configuration than do conventional broker clusters. In addition to
+the properties listed in <a href="#ggumd">Cluster Connection Service
+Properties</a>, the following categories of properties are used to
+configure an enhanced cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gguzo">Enhanced Clusters: General Configuration Properties</a></p>
+</li>
+<li>
+<p><a href="#ggule">Enhanced Clusters: JDBC Configuration Properties</a></p>
+</li>
+<li>
+<p><a href="#gguju">Enhanced Clusters: Failure Detection Properties</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gguzo"></a><a id="GMADG00083"></a><a id="enhanced-clusters-general-configuration-properties"></a></p>
+</div>
+<div class="paragraph">
+<p>Enhanced Clusters: General Configuration Properties</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.ha is a boolean value that specifies if the cluster is an
+enhanced cluster (<code>true</code>) or a conventional broker (<code>false</code>). The
+default value is <code>false</code>.<br>
+If set to <code>true</code>, mechanisms for failure detection and takeover of a
+failed broker are enabled. Enhanced clusters are self-configuring: any
+broker configured to use the cluster&#8217;s shared data store is
+automatically registered as part of the cluster, without further action
+on your part. If the conventional cluster property,
+<code>imq.cluster.brokerlist</code>, is specified for a high-availability broker,
+the property is ignored and a warning message is logged at broker
+startup.</p>
+</li>
+<li>
+<p>imq.persist.store specifies the model for a broker&#8217;s persistent data
+store. This property must be set to the value <code>jdbc</code> for every broker in
+an enhanced cluster.</p>
+</li>
+<li>
+<p>imq.cluster.clusterid specifies the cluster identifier, which will be
+appended to the names of all database tables in the cluster&#8217;s shared
+persistent store. The value of this property must be the same for all
+brokers in a given cluster, but must be unique for each cluster: no two
+running clusters may have the same cluster identifier.</p>
+</li>
+<li>
+<p>imq.brokerid is a broker identifier that must be unique for each
+broker in the cluster. Hence, this property must be set in each broker&#8217;s
+instance configuration file rather than in a cluster configuration file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggule"></a><a id="GMADG00084"></a><a id="enhanced-clusters-jdbc-configuration-properties"></a></p>
+</div>
+<div class="paragraph">
+<p>Enhanced Clusters: JDBC Configuration Properties</p>
+</div>
+<div class="paragraph">
+<p>The persistent data store for an enhanced cluster is maintained on a
+highly-available JDBC database.</p>
+</div>
+<div class="paragraph">
+<p>The highly-availabile database may be MySQL Cluster Edition or Oracle
+Real Application Clusters (RAC), or it may be an open-source or
+third-party product. As described in
+<a href="persistence-services.html#aeoct">JDBC-Based Persistence Properties</a>,
+the <code>imq.persist.jdbc.dbVendor</code> broker property specifies the name of
+the database vendor, and all of the remaining JDBC-related properties
+are qualified with this vendor name.</p>
+</div>
+<div class="paragraph">
+<p>The JDBC-related properties are discussed under
+<a href="persistence-services.html#aeoct">JDBC-Based Persistence Properties</a>
+and summarized in <a href="broker-properties.html#gbnoa">Table 17-8</a>. See the
+example configuration for MySQL in
+<a href="persistence-services.html#ggwcc">Example 8-1</a>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In setting JDBC-related properties for an enhanced cluster when using
+MySQL Cluster Edition as a highly-available database, you must specify
+the NDB Storage Engine rather than the InnoDB Storage Engine set by
+Message Queue by default. To specify the NDB Storage Engine, set the
+following broker property for all brokers in the cluster:</p>
+</div>
+<div class="paragraph">
+<p><code>imq.persist.jdbc.mysql.tableoption=ENGINE=NDBCLUSTER</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gguju"></a><a id="GMADG00085"></a><a id="enhanced-clusters-failure-detection-properties"></a></p>
+</div>
+<div class="paragraph">
+<p>Enhanced Clusters: Failure Detection Properties</p>
+</div>
+<div class="paragraph">
+<p>The following configuration properties (listed in
+<a href="broker-properties.html#gbnmu">Table 17-14</a>) specify the parameters
+for the exchange of heartbeat and status information within an enhanced
+cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.cluster.heartbeat.hostname specifies the host name (or IP address)
+for the heartbeat connection service.</p>
+</li>
+<li>
+<p>imq.cluster.heartbeat.port specifies the port number for the heartbeat
+connection service.</p>
+</li>
+<li>
+<p>imq.cluster.heartbeat.interval specifies the interval, in seconds, at
+which heartbeat packets are transmitted.</p>
+</li>
+<li>
+<p>imq.cluster.heartbeat.threshold specifies the number of missed
+heartbeat intervals after which a broker is considered suspect of
+failure.</p>
+</li>
+<li>
+<p>imq.cluster.monitor.interval specifies the interval, in seconds, at
+which to monitor a suspect broker&#8217;s state information to determine
+whether it has failed.</p>
+</li>
+<li>
+<p>imq.cluster.monitor.threshold specifies the number of elapsed monitor
+intervals after which a suspect broker is considered to have failed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Smaller values for these heartbeat and monitoring intervals will result
+in quicker reaction to broker failure, but at the cost of reduced
+performance and increased likelihood of false suspicions and erroneous
+failure detection.</p>
+</div>
+<div class="paragraph">
+<p><a id="geciv"></a><a id="GMADG00562"></a><a id="displaying-a-cluster-configuration"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_displaying_a_cluster_configuration">Displaying a Cluster Configuration</h4>
+<div class="paragraph">
+<p>To display information about a cluster&#8217;s configuration, use the Command
+utility&#8217;s <code>list bkr</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list bkr</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This lists the current state of all brokers included in the cluster to
+which a given broker belongs. The broker states are described in the
+following table:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG660"></a><a id="sthref43"></a><a id="ghcul"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 10-1 Broker States</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 26%;">
+<col style="width: 74%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Broker State</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OPERATING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker is operating</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TAKEOVER_STARTED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For enhanced clusters, broker has begun taking over
+persistent data store from another broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TAKEOVER_COMPLETE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For enhanced clusters, broker has finished taking
+over persistent data store from another broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TAKEOVER_FAILED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For enhanced clusters, attempted takeover has failed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QUIESCE_STARTED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker has begun quiescing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QUIESCE_COMPLETE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker has finished quiescing</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SHUTDOWN_STARTED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker has begun shutting down</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BROKER_DOWN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker is down</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNKNOWN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker state unknown</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The results of the <code>imqcmd list bkr</code> command are shown in
+<a href="#gecig">Example 10-1</a> (for a conventional cluster) and
+<a href="#gecjz">Example 10-2</a> (for an enhanced cluster).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00122"></a><a id="gecig"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 10-1 Configuration Listing for a Conventional Cluster</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the brokers in the cluster that the following broker is a member of:
+
+-------------------------
+Host         Primary Port
+-------------------------
+localHost    7676
+
+Cluster Is Highly Available             False
+
+-------------------------
+Address         State
+---------------------
+whippet:7676    OPERATING
+greyhound:7676  OPERATING</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00123"></a><a id="gecjz"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 10-2 Configuration Listing for an Enhanced Cluster</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the brokers in the cluster that the following broker is a member of:
+
+----------------------------------------------
+Host         Primary Port    Cluster Broker ID
+----------------------------------------------
+localHost    7676            brokerA
+
+Cluster ID                              myClusterID
+Cluster Is Highly Available             True
+
+--------------------------------------------------------------------------------------------------------------
+                                                                           ID of broker       Time since last
+Broker ID       Address         State                   Msgs in store   performing takeover   status timestamp
+--------------------------------------------------------------------------------------------------------------
+brokerA         localhost:7676  OPERATING               121                                   30 sec
+brokerB         greyhound:7676  TAKEOVER_STARTED        52              brokerA               3 hrs
+brokerC         jpgserv:7676    SHUTDOWN_STARTED        12346                                 10 sec
+brokerD         icdev:7676      TAKEOVER_COMPLETE       0               brokerA               2 min
+brokerE         mrperf:7676     *unknown                12                                    0 sec
+brokerG         iclab1:7676     QUIESCING               4                                     2 sec
+brokerH         iclab2:7676     QUIESCE_COMPLETE        8                                     5 sec</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohz"></a><a id="GMADG00254"></a><a id="managing-broker-clusters"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_broker_clusters">Managing Broker Clusters</h3>
+<div class="paragraph">
+<p>The following sections describe how to perform various administrative
+management tasks for conventional and enhanced clusters, respectively.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gebnh">Managing Conventional Clusters</a></p>
+</li>
+<li>
+<p><a href="#gebna">Managing Enhanced Clusters</a></p>
+</li>
+<li>
+<p><a href="#ghsgh">Converting a Conventional Cluster to an Enhanced Cluster</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gebnh"></a><a id="GMADG00563"></a><a id="managing-conventional-clusters"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_managing_conventional_clusters">Managing Conventional Clusters</h4>
+<div class="paragraph">
+<p>The procedures in this section show how to perform the following tasks
+for a conventional cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoia">Connecting Brokers into a Conventional Cluster</a></p>
+</li>
+<li>
+<p><a href="#aeoid">Adding Brokers to a Conventional Cluster</a></p>
+</li>
+<li>
+<p><a href="#aeoie">Removing Brokers From a Conventional Cluster</a></p>
+</li>
+<li>
+<p><a href="#gkudn">Changing the Master Broker in a Conventional Cluster with
+Master Broker</a></p>
+</li>
+<li>
+<p><a href="#aeoih">Managing a Conventional Cluster&#8217;s Configuration Change
+Record</a></p>
+</li>
+<li>
+<p><a href="#gktiy">Converting Between Types of Conventional Clusters</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoia"></a><a id="GMADG00417"></a><a id="connecting-brokers-into-a-conventional-cluster"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_connecting_brokers_into_a_conventional_cluster">Connecting Brokers into a Conventional Cluster</h5>
+<div class="paragraph">
+<p>There are two general methods of connecting brokers into a conventional
+cluster: from the command line (using the <code>-cluster</code> option) or by
+setting the <code>imq.cluster.brokerlist</code> property in the cluster
+configuration file.</p>
+</div>
+<div class="paragraph">
+<p>Whichever method you use, each broker that you start attempts to connect
+to the other brokers in the cluster every five seconds until the
+connection succeeds.</p>
+</div>
+<div class="paragraph">
+<p>For a cluster configured with master broker, the connection will succeed
+once the master broker is started up (if one is configured). If a broker
+in the cluster starts before the master broker, it will remain in a
+suspended state, rejecting client connections, until the master broker
+starts; the suspended broker then will automatically become fully
+functional. It is therefore a good idea to start the master broker first
+and then the others, after the master broker has completed its startup.</p>
+</div>
+<div class="paragraph">
+<p>When connecting brokers into a conventional cluster, you should be aware
+of the following issues:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Mixed broker versions. A conventional cluster can contain brokers of
+different versions if all brokers have a version at least as great as
+that of the master broker. If the cluster is not configured to use a
+master broker, then all brokers must be of the same version.</p>
+</li>
+<li>
+<p>Matching broker property values. In addition to cluster configuration
+properties, the following broker properties also must have the same
+value for all brokers in a cluster:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>imq.service.activelist</p>
+</li>
+<li>
+<p>imq.autocreate.queue</p>
+</li>
+<li>
+<p>imq.autocreate.topic</p>
+</li>
+<li>
+<p>imq.autocreate.queue.maxNumActiveConsumers</p>
+</li>
+<li>
+<p>imq.autocreate.queue.maxNumBackupConsumers<br>
+This restriction is particularly important when a cluster contains mixed
+broker versions that might contain properties with different default
+values. For example, If you are clustering a Message Queue version 4.1
+or later broker together with those from earlier versions than Message
+Queue 4.1, you must set the value of the
+<code>imq.autocreate.queue.maxNumActiveConsumers</code> property, which has
+different default values before and after version 4.1 (<code>1</code> and <code>-1</code>,
+respectively), to be the same. Otherwise the brokers will not be able to
+establish a cluster connection.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Multiple interface cards. On a multi-homed computer, in which there is
+more than one network interface card, be sure to explicitly set the
+network interface to be used by the broker for client connection
+services (<code>imq.hostname</code>) and for the cluster connection service
+(<code>imq.cluster.hostname</code>). Setting the <code>imq.hostname</code> value also
+effectively sets the value for other properties that use <code>imq.hostname</code>
+as their default value, such as <code>imq.portmapper.hostname</code>,
+<code>imq.cluster.hostname</code>, and so on. If <code>imq.cluster.hostname</code> is not set,
+then connections between brokers might not succeed and as a result, the
+cluster will not be established.</p>
+</li>
+<li>
+<p>Network loopback IP address. You must make sure that no broker in the
+cluster is given an address that resolves to a loopback network
+(<code>127.*.*.*</code>) IP address. Any broker configured with such an address
+will be unable to connect to other brokers in the cluster.<br>
+In particular, some Linux installers automatically set the local host to
+a loopback network address, most commonly <code>127.0.0.1</code>. On such systems,
+you must do the following: For each Linux system participating in the
+cluster, check the <code>/etc/hosts</code> file as part of cluster setup. If the
+system uses a static IP address, edit the <code>/etc/hosts</code> file to specify
+the correct address for the local host. If the address is registered
+with Domain Name Service (DNS), edit the file <code>/etc/nsswitch.conf</code> so
+that DNS lookup is performed before consulting the local <code>hosts</code> file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gebmb"></a><a id="GMADG00174"></a><a id="to-connect-brokers-using-a-cluster-configuration-file"></a></p>
+</div>
+<div class="paragraph">
+<p>To Connect Brokers Using a Cluster Configuration File</p>
+</div>
+<div class="paragraph">
+<p>The method best suited for production systems is to use a cluster
+configuration file to specify the configuration of the cluster:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If using a conventional cluster of peer brokers, configure the use
+of the shared JDBC data store for the configuration change record:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>imqdbmgr create sharecc_tbl</code> command to create the database
+table for the configuration change record.</p>
+</li>
+<li>
+<p>Place a copy of, or a symbolic link to, your JDBC driver&#8217;s <code>.jar</code> file
+in the Message Queue external resource files directory,
+<code>IMQ_HOME/lib/ext</code>, on each host where a broker will run.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Create a cluster configuration file that uses the
+<code>imq.cluster.brokerlist</code> property to specify the list of brokers to be
+connected.<br>
+If you are using a master broker, identify it with the
+<code>imq.cluster.masterbroker</code> property in the configuration file.<br>
+If you are using a cluster of peer brokers, set the
+<code>imq.cluster.nomasterbroker</code> property to <code>true</code>, and set
+<code>imq.cluster.sharecc.persist.jdbc.*</code> properties as appropriate in the
+configuration file.</p>
+</li>
+<li>
+<p>For each broker in the cluster, set the <code>imq.cluster.url</code> property
+in the broker&#8217;s instance configuration file to point to the cluster
+configuration file.</p>
+</li>
+<li>
+<p>Use the <code>imqbrokerd</code> command to start each broker.<br>
+If there is a master broker, start it first, then the others after it
+has completed its startup.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gebmr"></a><a id="GMADG00175"></a><a id="to-connect-brokers-from-the-command-line"></a></p>
+</div>
+<div class="paragraph">
+<p>To Connect Brokers from the Command Line</p>
+</div>
+<div class="paragraph">
+<p>Connecting brokers to a cluster from the command line involves starting
+each broker with the <code>imqbrokerd</code> command using the <code>-cluster</code> option to
+specify the complete list of brokers to be included in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command starts a broker as part of a cluster
+consisting of the brokers running at the default port (<code>7676</code>) on
+<code>host1</code>, at port <code>5000</code> on <code>host2</code>, and at port <code>9876</code> on the default
+host (<code>localhost</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd -cluster host1,host2:5000,:9876</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value specified for the <code>-cluster</code> option must be the same for all
+brokers in the cluster.</p>
+</div>
+<div id="GMADG661" class="paragraph">
+<p>Before You Begin</p>
+</div>
+<div class="paragraph">
+<p>Set any necessary broker properties, except <code>imq.cluster.brokerlist</code>, in
+each broker&#8217;s configuration file before performing the following
+procedure.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If using a conventional cluster of peer brokers:</p>
+</li>
+<li>
+<p>Configure the use of the shared JDBC data store for the
+configuration change record:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>imqdbmgr create sharecc_tbl</code> command to create the database
+table for the configuration change record.</p>
+</li>
+<li>
+<p>Place a copy of, or a symbolic link to, your JDBC driver&#8217;s <code>.jar</code> file
+in the Message Queue external resource files directory,
+<code>IMQ_HOME/lib/ext</code>, on each host where a broker will run.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Start each broker in the cluster with the <code>imqbrokerd</code> command,
+specifying in the <code>-cluster</code> option the same complete list of brokers.</p>
+</li>
+<li>
+<p>If using a conventional cluster with master broker:</p>
+</li>
+<li>
+<p>Start the master broker with the <code>imqbrokerd</code> command, specifying in
+the <code>-cluster</code> option the complete list of brokers.</p>
+</li>
+<li>
+<p>Once the master broker is running, start each of the other brokers
+in the cluster with the <code>imqbrokerd</code> command, specifying in the
+<code>-cluster</code> option the same complete list of brokers as you used to start
+the master broker.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoic"></a><a id="GMADG00176"></a><a id="to-establish-secure-connections-between-brokers"></a></p>
+</div>
+<div class="paragraph">
+<p>To Establish Secure Connections Between Brokers</p>
+</div>
+<div class="paragraph">
+<p>If you want secure, encrypted message delivery between brokers in a
+cluster, configure the <code>cluster</code> connection service to use an SSL-based
+transport protocol:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For each broker in the cluster, set up SSL-based connection
+services, as described in <a href="security-services.html#aeogb">Message
+Encryption</a>.</p>
+</li>
+<li>
+<p>Set each broker&#8217;s <code>imq.cluster.transport</code> property to <code>ssl</code>, either
+in the cluster configuration file or individually for each broker.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoid"></a><a id="GMADG00418"></a><a id="adding-brokers-to-a-conventional-cluster"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_brokers_to_a_conventional_cluster">Adding Brokers to a Conventional Cluster</h5>
+<div class="paragraph">
+<p>The procedure for adding a new broker to a conventional cluster depends
+on whether the cluster uses a cluster configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnlp"></a><a id="GMADG00177"></a><a id="to-add-a-new-broker-to-a-conventional-cluster-using-a-cluster-configuration-file"></a></p>
+</div>
+<div class="paragraph">
+<p>To Add a New Broker to a Conventional Cluster Using a Cluster
+Configuration File</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the new broker to the <code>imq.cluster.brokerlist</code> property in the
+cluster configuration file.</p>
+</li>
+<li>
+<p>Issue the following command to any broker in the cluster:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd reload cls</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This forces each broker to reload the <code>imq.cluster.brokerlist</code> property.
+It is not necessary to issue this command to every broker in the
+cluster; executing it for any one broker will cause all of them to
+reload the cluster configuration.
+3.  (Optional) Set the value of the <code>imq.cluster.url</code> property in the
+new broker&#8217;s instance configuration file (<code>config.properties</code>) to point
+to the cluster configuration file.
+4.  Start the new broker.<br>
+If you did not perform step 3, use the <code>-D</code> option on the <code>imqbrokerd</code>
+command line to set the value of <code>imq.cluster.url</code> to the location of
+the cluster configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnlq"></a><a id="GMADG00178"></a><a id="to-add-a-new-broker-to-a-conventional-cluster-without-a-cluster-configuration-file"></a></p>
+</div>
+<div class="paragraph">
+<p>To Add a New Broker to a Conventional Cluster Without a Cluster
+Configuration File</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>(Optional) Set the values of the following properties in the new
+broker&#8217;s instance configuration file (<code>config.properties</code>) :</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.cluster.brokerlist</code></p>
+</li>
+<li>
+<p><code>imq.cluster.masterbroker</code> (if necessary)</p>
+</li>
+<li>
+<p><code>imq.cluster.transport</code> (if you are using a secure <code>cluster</code>
+connection service)<br>
+When the newly added broker starts, it connects and exchanges data with
+all the other brokers in the <code>imq.cluster.brokerlist</code> value.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Modify the <code>imq.cluster.brokerlist</code> property of other brokers in the
+cluster to include the new broker.<br>
+This step is not strictly necessary to add a broker to a functioning
+cluster. However, should any broker need to be restarted, its
+<code>imq.cluster.brokerlist</code> value must include all other brokers in the
+cluster, including the newly added broker.</p>
+</li>
+<li>
+<p>Start the new broker.<br>
+If you did not perform step 1, use the <code>-D</code> option on the <code>imqbrokerd</code>
+command line to set the property values listed there.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoie"></a><a id="GMADG00419"></a><a id="removing-brokers-from-a-conventional-cluster"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_removing_brokers_from_a_conventional_cluster">Removing Brokers From a Conventional Cluster</h5>
+<div class="paragraph">
+<p>The method you use to remove a broker from a conventional cluster
+depends on whether you originally created the cluster using a cluster
+configuration file or by means of command line options.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Before you remove from a conventional cluster the broker instance
+serving as the cluster&#8217;s master broker, first change the master broker
+to another broker instance in the cluster, as described in
+<a href="#gkudn">Changing the Master Broker in a Conventional Cluster with
+Master Broker</a></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gfonz"></a><a id="GMADG00179"></a><a id="to-remove-a-broker-from-a-conventional-cluster-using-a-cluster-configuration-file"></a></p>
+</div>
+<div class="paragraph">
+<p>To Remove a Broker From a Conventional Cluster Using a Cluster
+Configuration File</p>
+</div>
+<div class="paragraph">
+<p>If you originally created a cluster by specifying its member brokers
+with the <code>imq.cluster.brokerlist</code> property in a central cluster
+configuration file, it isn&#8217;t necessary to stop the brokers in order to
+remove one of them. Instead, you can simply edit the configuration file
+to exclude the broker you want to remove, force the remaining cluster
+members to reload the cluster configuration, and reconfigure the
+excluded broker so that it no longer points to the same cluster
+configuration file:</p>
+</div>
+<div id="gebmo" class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If you are permanently removing the broker from the cluster, prepare
+it for removal:</p>
+</li>
+<li>
+<p>Quiesce the broker by using the <code>imqcmd quiesce bkr</code> command.</p>
+</li>
+<li>
+<p>Stop all producer clients connected to the broker.</p>
+</li>
+<li>
+<p>Drain all messages by waiting for connected consumer clients to
+consume existing messages.<br>
+Use the <code>imqcmd query bkr</code> command periodically to check the number of
+messages in the broker.</p>
+</li>
+<li>
+<p>Roll back or commit any prepared open transactions.<br>
+Use the <code>imqcmd list txn</code> command to view prepared open transactions,
+and use the <code>imqcmd rollback txn</code> and <code>imqcmd commit txn</code> to roll back
+and commit transactions.</p>
+</li>
+<li>
+<p>Edit the cluster configuration file to remove the excluded broker
+from the list specified for the <code>imq.cluster.brokerlist</code> property.</p>
+</li>
+<li>
+<p>Issue the following command to each broker remaining in the cluster:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd reload cls</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This forces the brokers to reload the cluster configuration.
+4.  Stop the broker you&#8217;re removing from the cluster.
+5.  Edit that broker&#8217;s instance configuration file
+(<code>config.properties</code>), removing or specifying a different value for its
+<code>imq.cluster.url</code> property.</p>
+</div>
+<div class="paragraph">
+<p><a id="gfook"></a><a id="GMADG00180"></a><a id="to-remove-a-broker-from-a-conventional-cluster-using-the-command-line"></a></p>
+</div>
+<div class="paragraph">
+<p>To Remove a Broker From a Conventional Cluster Using the Command Line</p>
+</div>
+<div class="paragraph">
+<p>If you used the <code>imqbrokerd</code> command from the command line to connect
+the brokers into a cluster, you must stop each of the brokers and then
+restart them, specifying the new set of cluster members on the command
+line:</p>
+</div>
+<div id="gebme" class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If you are permanently removing the broker from the cluster, prepare
+it for removal:</p>
+</li>
+<li>
+<p>Quiesce the broker by using the <code>imqcmd quiesce bkr</code> command.</p>
+</li>
+<li>
+<p>Stop all producer clients connected to the broker.</p>
+</li>
+<li>
+<p>Drain all messages by waiting for connected consumer clients to
+consume existing messages.<br>
+Use the <code>imqcmd query bkr</code> command periodically to check the number of
+messages in the broker.</p>
+</li>
+<li>
+<p>Roll back or commit any prepared open transactions.<br>
+Use the <code>imqcmd list txn</code> command to view prepared open transactions,
+and use the <code>imqcmd rollback txn</code> and <code>imqcmd commit txn</code> to roll back
+and commit transactions.</p>
+</li>
+<li>
+<p>Stop each broker in the cluster, using the <code>imqcmd</code> command.</p>
+</li>
+<li>
+<p>Restart the brokers that will remain in the cluster, using the
+<code>imqbrokerd</code> command&#8217;s <code>-cluster</code> option to specify only those remaining
+brokers.<br>
+For example, suppose you originally created a cluster consisting of
+brokers A, B, and C by starting each of the three with the command<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd  -cluster A,B,C</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To remove broker A from the cluster, restart brokers B and C with the
+command<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -cluster B,C</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gkudn"></a><a id="GMADG00420"></a><a id="changing-the-master-broker-in-a-conventional-cluster-with-master-broker"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_changing_the_master_broker_in_a_conventional_cluster_with_master_broker">Changing the Master Broker in a Conventional Cluster with Master Broker</h5>
+<div class="paragraph">
+<p>Message Queue provides two ways to change the broker instance serving as
+the master broker to a different broker instance in the cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Dynamically while the cluster is running</p>
+</li>
+<li>
+<p>Manually by stopping the cluster and migrating the configuration
+change record from one broker to another</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To change the master broker dynamically, you must first configure the
+brokers in the cluster to support dynamic changing of the master broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="gkvkd"></a><a id="GMADG00181"></a><a id="to-configure-a-cluster-to-support-dynamic-changing-of-the-master-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Configure a Cluster to Support Dynamic Changing of the Master Broker</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>In the properties file for each broker of the cluster, set the
+<code>imq.cluster.dynamicChangeMasterBrokerEnabled</code> property to <code>true</code>.<br>
+If using a cluster configuration file, you can instead set the
+<code>imq.cluster.dynamicChangeMasterBrokerEnabled</code> property to <code>true</code> in the
+cluster configuration file.</p>
+</li>
+<li>
+<p>In the properties file for each broker of the cluster, set the
+<code>imq.cluster.masterbroker</code> property to the initial master broker.<br>
+When the <code>imq.cluster.dynamicChangeMasterBrokerEnabled</code> property is set
+to <code>true</code>, the <code>imq.cluster.masterbroker</code> property cannot be specified
+on the command line to start a broker. Therefore, it must be set in the
+brokers' properties files, or in the cluster configuration file if one
+is being used.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gkvkk"></a><a id="GMADG00182"></a><a id="to-change-the-master-broker-dynamically-while-the-cluster-is-running"></a></p>
+</div>
+<div class="paragraph">
+<p>To Change the Master Broker Dynamically While the Cluster Is Running</p>
+</div>
+<div class="paragraph">
+<p>To dynamically change the broker instance serving as the master broker
+to a different broker instance in the cluster, use the
+<code>imqcmd changemaster cls</code> command.</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure, for example, before you remove from a cluster the
+broker instance serving as the master broker.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Do not use the <code>imqcmd changemaster cls</code> command to dynamically change
+the master broker in a Message Queue cluster managed by GlassFish Server
+as an Embedded or Local JMS host. Instead, use the
+<code>asadmin change-master-broker</code> command as described in
+"o<a href="GSHAG00157">To Change the Master Broker in an Embedded or Local
+Broker Cluster</a>" in GlassFish Server Open Source Edition High
+Availability Administration Guide.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="GMADG662" class="paragraph">
+<p>Before You Begin</p>
+</div>
+<div class="paragraph">
+<p>To ensure a successful dynamic changing of the master broker, verify
+that all brokers in the cluster are running before issuing the
+<code>imqcmd changemaster cls</code> command.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>On the current master broker, run the <code>imqcmd changemaster cls</code>
+command, using the <code>-o</code> to specify the new master broker:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd changemaster cls -o imq.cluster.masterbroker=newMaster</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The value newMaster has the form hostName`:<code>portNumber, where hostName
+and portNumber are the Port Mapper host name and port number,
+respectively, of the new master broker's host. +
+The broker returns one of the following status values for the operation:::
+OK::
+  The operation was successful. The new master broker is now the master
+  broker for the cluster, and the old master broker is now a normal
+  broker in the cluster. If any other brokers in the cluster were
+  unreachable and so could not be notified of the change, they must be
+  restarted after manually updating their configurations to refer to the
+  new master broker.
+BAD_REQUEST, NOT_ALLOWED, UNAVAILABLE or PRECONDITION_FAILED::
+  The operation failed, and the cluster's configuration was unchanged.
+  The old master broker is still the master broker for the cluster.
+Any other value::
+  The operation failed. Use the `imqcmd query bkr</code> command on the old
+  master broker to discover which broker is the master broker:<br>
+  * If the master broker listed is the old master broker, the failure
+  occurred before the cluster&#8217;s configuration change record was
+  transferred to the new master broker. In this case, retry the command.
+  * If the master broker listed is the new master broker, the cluster&#8217;s
+  configuration change record was transferred successfully to the new
+  master broker, but some other activity failed later in the operation.
+  In this case, stop all brokers in the cluster, manually update their
+  configurations to refer to the new master broker, and then restart
+  them all.</p>
+</div>
+<div class="paragraph">
+<p><a id="gkvkg"></a><a id="GMADG00183"></a><a id="to-change-the-master-broker-manually"></a></p>
+</div>
+<div class="paragraph">
+<p>To Change the Master Broker Manually</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a id="CHDBFJJA"></a><br>
+Stop all brokers in the cluster.</p>
+</li>
+<li>
+<p>Save the configuration change record in the old master broker by
+using the <code>-backup</code> option of the <code>imqbrokerd</code> command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd -backup backupFile</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop the old master broker after the configuration change record has
+been saved.</p>
+</li>
+<li>
+<p>Update the <code>imq.cluster.masterbroker</code> property to the new master
+broker in the configurations for all brokers in the cluster.<br>
+Additionally, if necessary, update the <code>imq.cluster.brokerlist</code> property
+in the configurations for all brokers in the cluster.</p>
+</li>
+<li>
+<p>Start the new master broker, restoring the saved configuration
+change record by using the <code>-restore</code> option:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd -restore backupFile</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When using this command, specify as backupFile the file you saved in
+Step <a href="#CHDBFJJA">1</a>.
+6.  Start the other brokers in the cluster.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoih"></a><a id="GMADG00421"></a><a id="managing-a-conventional-clusters-configuration-change-record"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_managing_a_conventional_cluster_s_configuration_change_record">Managing a Conventional Cluster&#8217;s Configuration Change Record</h5>
+<div class="paragraph">
+<p>As noted earlier, a conventional cluster maintains a configuration
+change record to keep track of any changes in the cluster&#8217;s persistent
+state. This configuration change record is maintained either by the
+master broker or in a shared JDBC data store, depending on the type of
+the conventional cluster.</p>
+</div>
+<div class="paragraph">
+<p>Because of the important information that the configuration change
+record contains, it is important to back it up regularly so that it can
+be restored in case of failure. Although restoring from a backup will
+lose any changes in the cluster&#8217;s persistent state that have occurred
+since the backup was made, frequent backups can minimize this potential
+loss of information. The backup and restore operations also have the
+positive effect of compressing and optimizing the change history
+contained in the configuration change record, which can grow
+significantly over time.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnmb"></a><a id="GMADG00184"></a><a id="to-back-up-the-configuration-change-record-in-a-master-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Back Up the Configuration Change Record in a Master Broker</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>-backup</code> option of the <code>imqbrokerd</code> command, specifying the
+name of the backup file.<br>
+For example:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd  -backup mybackuplog</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gktjq"></a><a id="GMADG00185"></a><a id="to-back-up-the-configuration-change-record-in-a-shared-jdbc-data-store"></a></p>
+</div>
+<div class="paragraph">
+<p>To Back Up the Configuration Change Record in a Shared JDBC Data Store</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>imqdbmgr backup sharecc_tbl</code> command to back up the
+configuration change record:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr backup sharecc_tbl -file fileName -Dimq.cluster.url=clusterConfigUrl</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gbnlf"></a><a id="GMADG00186"></a><a id="to-restore-the-configuration-change-record-to-a-master-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Restore the Configuration Change Record to a Master Broker</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shut down all brokers in the cluster.</p>
+</li>
+<li>
+<p>Restore the master broker&#8217;s configuration change record from the
+backup file.<br>
+The command is<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd  -restore mybackuplog</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If you assign a new name or port number to the master broker, update
+the <code>imq.cluster.brokerlist</code> and <code>imq.cluster.masterbroker</code> properties
+accordingly in the cluster configuration file.</p>
+</li>
+<li>
+<p>Restart all brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gktje"></a><a id="GMADG00187"></a><a id="to-restore-the-configuration-change-record-to-a-shared-jdbc-data-store"></a></p>
+</div>
+<div class="paragraph">
+<p>To Restore the Configuration Change Record to a Shared JDBC Data Store</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shut down all brokers in the cluster.</p>
+</li>
+<li>
+<p>Use the <code>imqdbmgr recreate sharecc_tbl</code> command to delete the
+existing configuration change record and then re-create the table:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr recreate sharecc_tbl -Dimq.cluster.url=clusterConfigUrl</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>imqdbmgr restore sharecc_tbl</code> command to restore the
+configuration change record:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr restore sharecc_tbl -file fileName -Dimq.cluster.url=clusterConfigUrl</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start all the brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gktiy"></a><a id="GMADG00422"></a><a id="converting-between-types-of-conventional-clusters"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_converting_between_types_of_conventional_clusters">Converting Between Types of Conventional Clusters</h5>
+<div class="paragraph">
+<p>To convert between types of conventional clusters, you change where the
+configuration change record is maintained: in a master broker or in a
+shared JDBC data store. The following topics provide instructions to
+convert between types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gktjb">To Convert from Using a Master Broker to Using a Shared
+JDBC Data Store</a></p>
+</li>
+<li>
+<p><a href="#gktjk">To Convert from Using a Shared JDBC Data Store to Using a
+Master Broker</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gktjb"></a><a id="GMADG00188"></a><a id="to-convert-from-using-a-master-broker-to-using-a-shared-jdbc-data-store"></a></p>
+</div>
+<div class="paragraph">
+<p>To Convert from Using a Master Broker to Using a Shared JDBC Data Store</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shut down all brokers in the cluster.</p>
+</li>
+<li>
+<p><a id="gktiv"></a><br>
+Back up the configuration change record in the master broker as
+described in <a href="#gbnmb">To Back Up the Configuration Change Record in a
+Master Broker</a>.</p>
+</li>
+<li>
+<p>Shut down the master broker.</p>
+</li>
+<li>
+<p>Edit the cluster configuration file, configuring the cluster as a
+conventional cluster of peer brokers:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the <code>imq.cluster.nomasterbroker</code> property to <code>true</code>.</p>
+</li>
+<li>
+<p>Set additional properties as described in <a href="#gktis">Additional
+Properties for Conventional Clusters of Peer Brokers</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Using the backup file saved in Step <a href="#gktiv">2</a>, restore the
+configuration change record to the shared JDBC data store as described
+in <a href="#gktje">To Restore the Configuration Change Record to a Shared
+JDBC Data Store</a>.</p>
+</li>
+<li>
+<p>Start all the brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gktjk"></a><a id="GMADG00189"></a><a id="to-convert-from-using-a-shared-jdbc-data-store-to-using-a-master-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Convert from Using a Shared JDBC Data Store to Using a Master Broker</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Shut down all brokers in the cluster.</p>
+</li>
+<li>
+<p><a id="gktix"></a><br>
+Back up the configuration change record in the shared JDBC data store as
+described in <a href="#gktjq">To Back Up the Configuration Change Record in a
+Shared JDBC Data Store</a>.</p>
+</li>
+<li>
+<p>Edit the cluster configuration file, configuring the cluster as a
+conventional cluster with master broker:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the <code>imq.cluster.nomasterbroker</code> property to <code>false</code>.</p>
+</li>
+<li>
+<p>Set additional properties as described in <a href="#gktjo">Additional
+Properties for Conventional Clusters with Master Broker</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Using the backup file saved in Step <a href="#gktix">2</a>, restore the
+configuration change record to the master broker as described in
+<a href="#gbnlf">To Restore the Configuration Change Record to a Master
+Broker</a>.</p>
+</li>
+<li>
+<p>Start all the brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gebna"></a><a id="GMADG00564"></a><a id="managing-enhanced-clusters"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_managing_enhanced_clusters">Managing Enhanced Clusters</h4>
+<div class="paragraph">
+<p>This section presents step-by-step procedures for performing a variety
+of administrative tasks for an enhanced cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gebmt">Connecting Brokers into an Enhanced Cluster</a></p>
+</li>
+<li>
+<p><a href="#gecjj">Adding and Removing Brokers in an Enhanced Cluster</a></p>
+</li>
+<li>
+<p><a href="#gkbfh">Restarting a Failed Broker</a></p>
+</li>
+<li>
+<p><a href="#gecjm">Preventing or Forcing Broker Failover</a></p>
+</li>
+<li>
+<p><a href="#ggvcd">Backing up a Shared Data Store</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gebmt"></a><a id="GMADG00423"></a><a id="connecting-brokers-into-an-enhanced-cluster"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_connecting_brokers_into_an_enhanced_cluster">Connecting Brokers into an Enhanced Cluster</h5>
+<div class="paragraph">
+<p>Because enhanced clusters are self-configuring, there is no need to
+explicitly specify the list of brokers to be included in the cluster.
+Instead, all that is needed is to set each broker&#8217;s configuration
+properties appropriately and then start the broker; as long as its
+properties are set properly, it will automatically be incorporated into
+the cluster. <a href="#ggult">Enhanced Broker Cluster Properties</a> describes
+the required properties, which include vendor-specific JDBC database
+properties.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In addition to creating an enhanced cluster as described in this
+section, you must also configure clients to successfully reconnect to a
+failover broker in the event of broker or connection failure. You do
+this by setting the <code>imqReconnectAttempts</code> connection factory attribute
+to a value of <code>-1</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The property values needed for brokers in an enhanced cluster can be set
+separately in each broker&#8217;s instance configuration file, or they can be
+specified in a cluster configuration file that all the brokers
+reference. The procedures are as follows:</p>
+</div>
+<div class="paragraph">
+<p><a id="gecbc"></a><a id="GMADG00190"></a><a id="to-connect-brokers-using-a-cluster-configuration-file-1"></a></p>
+</div>
+<div class="paragraph">
+<p>To Connect Brokers Using a Cluster Configuration File</p>
+</div>
+<div class="paragraph">
+<p>The method best suited for production systems is to use a cluster
+configuration file to specify the configuration of the cluster.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a cluster configuration file specifying the cluster&#8217;s
+high-availability-related configuration properties.<br>
+<a href="#ggult">Enhanced Broker Cluster Properties</a> shows the required
+property values. However, do not include the <code>imq.brokerid</code> property in
+the cluster configuration file; this must be specified separately for
+each individual broker in the cluster.</p>
+</li>
+<li>
+<p>Specify any additional, vendor-specific JDBC configuration
+properties that might be needed.<br>
+The vendor-specific properties required for MySQL are shown in
+<a href="persistence-services.html#ggwcc">Example 8-1</a>.</p>
+</li>
+<li>
+<p>For each broker in the cluster:</p>
+</li>
+<li>
+<p>Start the broker at least once, using the <code>imqbrokerd</code> command.<br>
+The first time a broker instance is run, an instance configuration file
+(<code>config.properties</code>) is automatically created.</p>
+</li>
+<li>
+<p>Shut down the broker.<br>
+Use the <code>imqcmd shutdown bkr</code> command.</p>
+</li>
+<li>
+<p>Edit the instance configuration file to specify the location of the
+cluster configuration file.<br>
+In the broker&#8217;s instance configuration file, set the <code>imq.cluster.url</code>
+property to point to the location of the cluster configuration file you
+created in step 1.</p>
+</li>
+<li>
+<p>Specify the broker identifier.<br>
+Set the <code>imq.brokerid</code> property in the instance configuration file to
+the broker&#8217;s unique broker identifier. This value must be different for
+each broker.</p>
+</li>
+<li>
+<p>Place a copy of, or a symbolic link to, your JDBC driver&#8217;s <code>.jar</code>
+file in <code>IMQ_HOME/lib/ext</code>, the Message Queue external resource files
+directory.</p>
+</li>
+<li>
+<p>Create the database tables needed for Message Queue persistence.<br>
+Use the <code>imqdbmgr create tbl</code> command; see
+<a href="command-line-reference.html#aeono">Database Manager Utility</a>.</p>
+</li>
+<li>
+<p>Restart each broker with the <code>imqbrokerd</code> command.<br>
+The brokers will automatically register themselves into the cluster on
+startup.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gebni"></a><a id="GMADG00191"></a><a id="to-connect-brokers-using-instance-configuration-files"></a></p>
+</div>
+<div class="paragraph">
+<p>To Connect Brokers Using Instance Configuration Files</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>For each broker in the cluster:</p>
+</li>
+<li>
+<p>Start the broker at least once, using the <code>imqbrokerd</code> command.<br>
+The first time a broker instance is run, an instance configuration file
+(<code>config.properties</code>) is automatically created.</p>
+</li>
+<li>
+<p>Shut down the broker.<br>
+Use the <code>imqcmd shutdown bkr</code> command.</p>
+</li>
+<li>
+<p>Edit the instance configuration file to specify the broker&#8217;s
+high-availability-related configuration properties.<br>
+<a href="#ggult">Enhanced Broker Cluster Properties</a> shows the required
+property values. Be sure to set the <code>brokerid</code> property uniquely for
+each broker.</p>
+</li>
+<li>
+<p>Specify any additional, vendor-specific JDBC configuration
+properties that might be needed.<br>
+The vendor-specific properties required for MySQL are shown in
+<a href="persistence-services.html#ggwcc">Example 8-1</a>.</p>
+</li>
+<li>
+<p>Place a copy of, or a symbolic link to, your JDBC driver&#8217;s <code>.jar</code>
+file in <code>IMQ_HOME/lib/ext</code>, the Message Queue external resource files
+directory.</p>
+</li>
+<li>
+<p>Create the database tables needed for Message Queue persistence.<br>
+Use the <code>imqdbmgr create tbl</code> command; see
+<a href="command-line-reference.html#aeono">Database Manager Utility</a>.</p>
+</li>
+<li>
+<p>Restart each broker with the <code>imqbrokerd</code> command.<br>
+The brokers will automatically register themselves into the cluster on
+startup.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gecjj"></a><a id="GMADG00424"></a><a id="adding-and-removing-brokers-in-an-enhanced-cluster"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_and_removing_brokers_in_an_enhanced_cluster">Adding and Removing Brokers in an Enhanced Cluster</h5>
+<div class="paragraph">
+<p>Because enhanced clusters are self-configuring, the procedures for
+adding and removing brokers are simpler than for a conventional cluster.</p>
+</div>
+<div class="paragraph">
+<p><a id="gejkt"></a><a id="GMADG00192"></a><a id="to-add-a-new-broker-to-an-enhanced-cluster"></a></p>
+</div>
+<div class="paragraph">
+<p>To Add a New Broker to an Enhanced Cluster</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the new broker&#8217;s high-availability-related properties, as
+described in the preceding section.<br>
+You can do this either by specifying the individual properties in the
+broker&#8217;s instance configuration file (<code>config.properties</code>) or, if there
+is a cluster configuration file, by setting the broker&#8217;s
+<code>imq.cluster.url</code> property to point to it.</p>
+</li>
+<li>
+<p>Start the new broker with the <code>imqbrokerd</code> command.<br>
+The broker will automatically register itself into the cluster on
+startup.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gejkq"></a><a id="GMADG00193"></a><a id="to-remove-a-broker-from-an-enhanced-cluster"></a></p>
+</div>
+<div class="paragraph">
+<p>To Remove a Broker from an Enhanced Cluster</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure the broker is not running.<br>
+If necessary, use the command<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd shutdown bkr</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to shut down the broker.
+2.  Remove the broker from the cluster with the command<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqdbmgr remove bkr</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command deletes all database tables for the corresponding broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="gkbfh"></a><a id="GMADG00425"></a><a id="restarting-a-failed-broker"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_restarting_a_failed_broker">Restarting a Failed Broker</h5>
+<div class="paragraph">
+<p>After a broker has failed, you can restart it using the <code>imqbrokerd</code>
+command. Normally, the broker will automatically be re-registered into
+the cluster on startup.</p>
+</div>
+<div class="paragraph">
+<p>However, if the broker slated to take over the failed broker&#8217;s
+persistent data failed as it was taking over the persistent data, the
+running brokers in the cluster will not permit the failed broker to
+rejoin the cluster for 60 seconds or twice the value of
+<code>imq.cluster.monitor.interval</code> in seconds, whichever is greater.</p>
+</div>
+<div class="paragraph">
+<p><a id="gecjm"></a><a id="GMADG00426"></a><a id="preventing-or-forcing-broker-failover"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_preventing_or_forcing_broker_failover">Preventing or Forcing Broker Failover</h5>
+<div class="paragraph">
+<p>Although the takeover of a failed broker&#8217;s persistent data by a failover
+broker in an enhanced cluster is normally automatic, there may be times
+when you want to prevent such failover from occurring. To suppress
+automatic failover when shutting down a broker, use the <code>-nofailover</code>
+option to the <code>imqcmd</code> <code>shutdown</code> <code>bkr</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr  -nofailover   -b hostName:portNumber</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where hostName and portNumber are the host name and port number of the
+broker to be shut down.</p>
+</div>
+<div class="paragraph">
+<p>Conversely, you may sometimes need to force a broker failover to occur
+manually. (This might be necessary, for instance, if a failover broker
+were to itself fail before completing the takeover process.) In such
+cases, you can initiate a failover manually from the command line: first
+shut down the broker to be taken over with the <code>-nofailover</code> option, as
+shown above, then issue the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd takeover bkr  -n brokerID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where brokerID is the broker identifier of the broker to be taken over.
+If the specified broker appears to be running, the Command utility will
+display a confirmation message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">The broker associated with brokerIDlast accessed the database #seconds ago.
+Do you want to take over for this broker?</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can suppress this message, and force the takeover to occur
+unconditionally, by using the <code>-f</code> option to the <code>imqcmd takeover bkr</code>
+command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd takeover bkr  -f  -n brokerID</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>takeover</code> <code>bkr</code> subcommand is intended only for use in
+failed-takeover situations. You should use it only as a last resort, and
+not as a general way of forcibly taking over a running broker.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="ggvcd"></a><a id="GMADG00427"></a><a id="backing-up-a-shared-data-store"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_backing_up_a_shared_data_store">Backing up a Shared Data Store</h5>
+<div class="paragraph">
+<p>For durability and reliability, it is a good idea to back up an enhanced
+cluster&#8217;s shared data store periodically to backup files. This creates a
+snapshot of the data store that you can then use to restore the data in
+case of catastrophic failure. The command for backing up the data store
+is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqdbmgr backup  -dir backupDir</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where backupDir is the path to the directory in which to place the
+backup files. To restore the data store from these files, use the
+command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqdbmgr restore  -dir backupDir</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Before restoring the data store, you should shut down all brokers in the
+enhanced cluster.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghsgh"></a><a id="GMADG00565"></a><a id="converting-a-conventional-cluster-to-an-enhanced-cluster"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_converting_a_conventional_cluster_to_an_enhanced_cluster">Converting a Conventional Cluster to an Enhanced Cluster</h4>
+<div class="paragraph">
+<p>The best approach to converting a conventional broker cluster to an
+enhanced broker cluster is to drain your messaging system of all
+persistent data before attempting the conversion. This lets you create a
+new shared data store without worrying about loss of data. However, if
+you are using individual JDBC-based data stores for your brokers, a
+utility is available for converting a standalone datastore to a shared
+data store.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghshq"></a><a id="GMADG00194"></a><a id="cluster-conversion-file-based-data-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_cluster_conversion_file_based_data_store">Cluster Conversion : File-Based Data Store</h5>
+<div class="paragraph">
+<p>If the brokers in your conventional cluster are using file-based data
+stores, use the following procedure to convert to an enhanced cluster.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Drain down your messaging system of all persistent data.<br>
+Stop all producer clients from producing messages, and wait for all
+messages in the system to be consumed.</p>
+</li>
+<li>
+<p>Shut down all client applications.</p>
+</li>
+<li>
+<p>Shut down all brokers in the conventional cluster.</p>
+</li>
+<li>
+<p>Reconfigure all brokers for an enhanced cluster.<br>
+See <a href="#ggult">Enhanced Broker Cluster Properties</a>. It is recommended
+that you use a cluster configuration file to specify cluster
+configuration property values, such as the <code>imq.cluster.clusterid</code>,
+<code>imq.persist.store</code>, and additional shared JDBC database properties.</p>
+</li>
+<li>
+<p>Start all brokers in the enhanced cluster.<br>
+See <a href="#gebmt">Connecting Brokers into an Enhanced Cluster</a>.</p>
+</li>
+<li>
+<p>Configure client applications to re-connect to failover brokers.<br>
+Client re-connection behavior is specified by connection handling
+attributes of the connection factory administered objects (see the
+<a href="administered-object-attributes.html#aeoof">Connection Handling</a>). In
+the case of enhanced broker clusters, the <code>imqAddressList</code>,
+<code>imqAddressListBehavior</code>, and <code>imqAddressListIterations</code> attributes are
+ignored, however the <code>imqReconnectAttempts</code> attribute should be set to a
+value of <code>-1</code> (unlimited).</p>
+</li>
+<li>
+<p>Start all client applications.</p>
+</li>
+<li>
+<p>Resume messaging operations</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="ghshc"></a><a id="GMADG00195"></a><a id="cluster-conversion-jdbc-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_cluster_conversion_jdbc_based_data_store">Cluster Conversion: JDBC-Based Data Store</h5>
+<div class="paragraph">
+<p>If the brokers in your conventional cluster are using JDBC-based data
+stores, use the following procedure to convert to an enhanced cluster.
+The procedure assumes that individual standalone broker data stores
+reside on the same JDBC database server.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Back up all persistent data in the standalone JDBC-based data store
+of each broker.<br>
+Use proprietary JDBC database tools.</p>
+</li>
+<li>
+<p>Shut down all client applications.</p>
+</li>
+<li>
+<p>Shut down all brokers in the conventional cluster.</p>
+</li>
+<li>
+<p>Convert each standalone data store to a shared data store.<br>
+Use the Message Queue Database Manager utility (<code>imqdbmgr</code>) subcommand<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr upgrade hastore</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to convert an existing standalone JDBC database to a shared JDBC
+database.
+5.  Reconfigure all brokers for an enhanced cluster.<br>
+See <a href="#ggult">Enhanced Broker Cluster Properties</a>. It is recommended
+that you use a cluster configuration file to specify cluster
+configuration property values, such as the <code>imq.cluster.clusterid</code>,
+<code>imq.persist.store</code>, and additional shared JDBC database properties.
+6.  Start all brokers in the enhanced cluster.<br>
+See <a href="#gebmt">Connecting Brokers into an Enhanced Cluster</a>.
+7.  Configure client applications to re-connect to failover brokers.<br>
+Client re-connection behavior is specified by connection handling
+attributes of the connection factory administered objects (see the
+<a href="administered-object-attributes.html#aeoof">Connection Handling</a>). In
+the case of enhanced broker clusters, the <code>imqAddressList</code>,
+<code>imqAddressListBehavior</code>, and <code>imqAddressListIterations</code> attributes are
+ignored, however the <code>imqReconnectAttempts</code> attribute should be set to a
+value of <code>-1</code> (unlimited).
+8.  Start all client applications.
+9.  Resume messaging operations.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="security-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="administered-objects.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

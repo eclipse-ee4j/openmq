@@ -1,0 +1,1148 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>The JMS Simplified API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>The JMS Simplified API</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="client-design-and-features.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-java-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG344"></a><a id="BGBFAEAG"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="the-jms-simplified-api">3 The JMS Simplified API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the JMS Simplified API defined by the Java
+Message Service (JMS) 2.0 specification and implemented in the Message
+Queue Java API.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The JMS Classic API offers the same functionality and is described in
+<a href="using-the-java-api.html#aeqax">The JMS Classic API</a>. For detailed
+reference information, see the JavaDoc documentation for each individual
+class.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The topics covered include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#BABCIBDI">Using the Simplified API</a></p>
+</li>
+<li>
+<p><a href="#BABCEIJG">Developing a JMS Client using the Simplified API</a></p>
+</li>
+<li>
+<p><a href="#BABFIDDI">Working With Connections</a></p>
+</li>
+<li>
+<p><a href="#BABHBBGG">Working With Destinations</a></p>
+</li>
+<li>
+<p><a href="#BABFJEHJ">Working With Messages</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="BABCIBDI"></a><a id="GMJVG346"></a><a id="using-the-simplified-api"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_using_the_simplified_api">Using the Simplified API</h3>
+<div class="paragraph">
+<p>The Simplified API provides the same basic functionality as the Classic
+API but requires fewer interfaces and is simpler to use.</p>
+</div>
+<div class="paragraph">
+<p>The main interfaces are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ConnectionFactory</code>—An administered object used by a client to create
+a <code>Connection</code>. This interface is also used by the Classic API.</p>
+</li>
+<li>
+<p><code>JMSContext</code>—An active connection to a JMS provider and a
+single-threaded context used to send or receive messages.</p>
+</li>
+<li>
+<p><code>JMSProducer</code>—An object created by a <code>JMSContext</code> to send messages to
+a queue or topic.</p>
+</li>
+<li>
+<p><code>JMSConsumer</code>—An object created by a <code>JMSContext</code> to receive messages
+sent to a.queue or topic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the Simplified API, the <code>JMSContext</code> combines the behaviors of the
+Classic API <code>Connection</code> and <code>Session</code> objects. A <code>Connection</code> continues
+to represent a physical link to a JMS server. A <code>Session</code> continues to
+represent a single-threaded context for sending or receiving messages.
+<a href="#BABJJEDE">Figure 3-1</a> shows an overview of the Simplified API.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG430"></a><a id="BABJJEDE"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 3-1 Overview of Simplified API</strong></div>
+<p><span class="image"><img src="img/simplified_api.gif" alt=""[[top"></span>]"]</p>
+</div>
+<div class="paragraph">
+<p>For more information, see "The Java Message Service specification,
+version 2.0", available from <a href="http://jcp.org/en/jsr/detail?id=343" class="bare">http://jcp.org/en/jsr/detail?id=343</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG438"></a><a id="sthref14"></a></p>
+</div>
+<div class="sect3">
+<h4 id="using-the-autocloseable-interface">Using the Autocloseable Interface</h4>
+<div class="paragraph">
+<p>Objects from interfaces that extend the <code>java.lang.Autocloseable</code> and
+use a <code>try-with-resources</code> statement do not need to explicitly call
+<code>close()</code> when these objects are no longer required.</p>
+</div>
+<div class="paragraph">
+<p>The following interfaces extend the <code>java.lang.Autocloseable</code> interface:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>JMSContext</code></p>
+</li>
+<li>
+<p><code>JMSConsumer</code></p>
+</li>
+<li>
+<p><code>QueueBrowser</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">. . .
+try (JMSContext context = connectionFactory.createContext();){
+   // use context in this try block
+   // it will be closed when try block completes
+} catch (JMSException e){
+   // exception handling
+}
+. . .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG439"></a><a id="sthref15"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="simplified-extraction-of-message-bodies">Simplified Extraction of Message Bodies</h4>
+<div class="paragraph">
+<p>You can use the <code>getBody</code> method to provide a convenient way to obtain
+the body from a newly-received <code>Message</code> object. Use <code>getBody</code> to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Return the body of a <code>TextMessage</code>, <code>MapMessage</code>, or <code>BytesMessage</code> as
+a <code>String</code>, <code>Map</code>, or <code>byte[]</code> without the need to cast the <code>Message</code>
+first to the appropriate subtype.</p>
+</li>
+<li>
+<p>Return the body of an <code>ObjectMessage</code> without the need to cast the
+<code>Message</code> to <code>ObjectMessage</code>, extract the body as a <code>Serializable</code>, and
+cast it to the specified type.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>isBodyAssignableTo</code> method can be used to determine whether a
+subsequent call to <code>getBody</code> would be able to return the body of a
+particular <code>Message</code> object as a particular type.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABCEIJG"></a><a id="GMJVG431"></a><a id="developing-a-jms-client-using-the-simplified-api"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_developing_a_jms_client_using_the_simplified_api">Developing a JMS Client using the Simplified API</h3>
+<div class="paragraph">
+<p>This section provides the basic steps required to create a JMS client
+using the Simplified API.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use JNDI to find a <code>ConnectionFactory</code> object.</p>
+</li>
+<li>
+<p>Use JNDI to find one or more <code>Destination</code> objects.</p>
+</li>
+<li>
+<p>Use the <code>ConnectionFactory</code> to create a <code>JMSContext</code> object.</p>
+</li>
+<li>
+<p>Use the <code>JMSContext</code> to create the <code>JMSProducer</code> and <code>JMSConsumer</code>
+objects needed.</p>
+</li>
+<li>
+<p>Delivery of message is started automatically.<br>
+<a id="GMJVG450"></a><a id="sthref16"></a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Example 3-1 Sending a Message using the Simplified API</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public void sendMessageNew(String body) throws NamingException{
+
+   InitialContext initialContext = getInitialContext();
+   ConnectionFactory connectionFactory = (ConnectionFactory)
+      initialContext.lookup("jms/connectionFactory");
+
+   Queue inboundQueue = (Queue) initialContext.lookup("jms/inboundQueue");
+
+   try (JMSContext context = connectionFactory.createContext();){
+      context.createProducer().send(inboundQueue,body);
+   }
+}
+. . .</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>See <a href="http://docs.oracle.com/javaee/7/tutorial/doc/jms-examples.html">"Java
+Message Service Examples"</a> in The Java EE 7 Tutorial for additional
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABFIDDI"></a><a id="GMJVG347"></a><a id="working-with-connections"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_connections">Working With Connections</h3>
+<div class="paragraph">
+<p>In the simplified API a connection and a session are represented by a
+single <code>JMSContext</code> object. When a <code>JMSContext</code> is created the
+underlying session is created automatically.</p>
+</div>
+<div class="paragraph">
+<p>Since a <code>JMSContext</code> incorporates a session, it is subject to the same
+threading restrictions as a session. This means that it may only be used
+by one thread at a time (single-threaded).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>JMSContext</code> method <code>createContext</code> does not use its underlying
+session and is not subject to the single-threading restriction.</p>
+</li>
+<li>
+<p>The <code>close</code> method on <code>JMSContext</code> or <code>JMSConsumer</code> is not
+single-threaded since closing a session or consumer from another thread
+is permitted.</p>
+</li>
+<li>
+<p>By default, when <code>createConsumer</code> or <code>createDurableConsumer</code> is used
+to create a <code>JMSConsumer</code>, the connection is automatically started. If
+<code>setMessageListener</code> is called to configure the asynchronous delivery of
+messages, the <code>JMSContext</code>'s session immediately becomes dedicated to
+the thread of control that delivers messages to the listener. The
+application must not subsequently call methods on the <code>JMSContext</code> from
+another thread of control. However, this restriction does not apply to
+applications which call <code>setMessageListener</code> to set a second or
+subsequent message listener. The JMS provider is responsible for
+ensuring that a second message listener may be safely configured even if
+the underlying connection has been started.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="http://docs.oracle.com/javaee/7/tutorial/doc/jms-concepts.html">"The
+JMS API Programming Model"</a> in The Java EE 7 Tutorial for additional
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABHBBGG"></a><a id="GMJVG358"></a><a id="working-with-destinations"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_destinations">Working With Destinations</h3>
+<div class="paragraph">
+<p>All Message Queue messages travel from a message producer to a message
+consumer by way of a destination on a message broker. Message delivery
+is thus a two-stage process: the message is first delivered from the
+producer to the destination and later from the destination to the
+consumer. Physical destinations on the broker are created
+administratively by a Message Queue administrator, using the
+administration tools described in "<a href="../mq-admin-guide/message-delivery.html#GMADG00238">Configuring and
+Managing Physical Destinations</a>" in Open Message Queue Administration
+Guide. The broker provides routing and delivery services for messages
+sent to such a destination.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue supports two types of destination, depending on the
+messaging domain being used:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Queues (point-to-point domain)</p>
+</li>
+<li>
+<p>Topics (publish/subscribe domain)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These two types of destination are represented by the Message Queue
+classes <code>Queue</code> and <code>Topic</code>, respectively. These, in turn, are both
+subclasses of the generic class <code>Destination</code>. A client program that
+uses the <code>Destination</code> superclass can thus handle both queue and topic
+destinations indiscriminately.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="http://docs.oracle.com/javaee/7/tutorial/doc/jms-concepts.html">"The
+JMS API Programming Model"</a> in The Java EE 7 Tutorial for additional
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABFJEHJ"></a><a id="GMJVG367"></a><a id="working-with-messages"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_messages">Working With Messages</h3>
+<div class="paragraph">
+<p>This section describes how to use the Message Queue Java API to compose,
+send, receive, and process messages. See
+<a href="http://docs.oracle.com/javaee/7/tutorial/doc/jms-concepts.html">"The JMS
+API Programming Model"</a> in The Java EE 7 Tutorial for additional
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG368"></a><a id="sthref17"></a></p>
+</div>
+<div class="sect3">
+<h4 id="message-structure">Message Structure</h4>
+<div class="paragraph">
+<p>The following section provides information on message structure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A header containing identifying and routing information.</p>
+</li>
+<li>
+<p>Optional properties that can be used to convey additional identifying
+information beyond that contained in the header</p>
+</li>
+<li>
+<p>A body containing the actual content of the message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, see <a href="using-the-java-api.html#aeqbn">Message
+Structure</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABGEIDC"></a><a id="GMJVG432"></a><a id="message-headers"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_message_headers">Message Headers</h5>
+<div class="paragraph">
+<p>Every message must have a header containing identifying and routing
+information. The header consists of a set of standard fields, which are
+defined in the Java Message Service Specification and summarized in
+<a href="#BABEFEGC">Table 3-1</a>. Some of these are set automatically by
+Message Queue in the course of producing and delivering a message, some
+depend on settings specified when a message producer sends a message,
+and others are set by the client on a message-by-message basis.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG433"></a><a id="sthref18"></a><a id="BABEFEGC"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-1 Message Header Fields</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination to which message is sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination to which to reply</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Link to related message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery mode (persistent or nonpersistent)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div id="BABGFEJG" class="paragraph">
+<p><code>JMSDeliveryTime</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The earliest time a provider may make a message visible on a target
+destination and available for delivery to consumers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time of transmission</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Has message been delivered before?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The JMS <code>Message</code> interface defines the following methods for setting
+the corresponding value of each header field. <a href="#BABHEIFE">Table 3-2</a>
+lists all of the available header specification methods for the JMS
+<code>Message</code> interface.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG434"></a><a id="sthref19"></a><a id="BABHEIFE"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-2 JMS 2.0 Message Header Methods for the Message Interface</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set reply destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set correlation identifier from string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSCorrelationIDAsBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set correlation identifier from byte
+array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message type</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The JMS <code>Producer</code> interface defines the following methods for setting
+the corresponding value of each header field. <a href="#BABIEDIF">Table 3-3</a>
+lists all of the available header specification methods.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG435"></a><a id="sthref20"></a><a id="BABIEDIF"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-3 JMS 2.0 Message Header Methods for the Producer Interface</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set time stamp</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set redelivered flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSDeliveryTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the delivery time for a message</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>See the "Java Message Service specification, version 2.0", available
+from <a href="http://jcp.org/en/jsr/detail?id=343" class="bare">http://jcp.org/en/jsr/detail?id=343</a> for a more detailed discussion
+of all message header fields.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABFAGED"></a><a id="GMJVG372"></a><a id="changes-for-standard-jms-2.0-message-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_changes_for_standard_jms_2_0_message_properties">Changes for Standard JMS 2.0 Message Properties</h5>
+<div class="paragraph">
+<p>The JMS specification defines certain standard properties, listed in
+<a href="#BABBDBII">Table 3-4</a>. By convention, the names of all such standard
+properties begin with the letters <code>JMSX</code>; names of this form are
+reserved and must not be used by a client application for its own custom
+message properties. These properties are not enabled by default, an
+application must set the name/value pairs it requires on the appropriate
+connection factory.</p>
+</div>
+<div class="paragraph">
+<p>The JMS 2.0 specification requires that JMS producers set the
+<code>JMSXDeliveryCount</code>. This property was not supported prior to MQ 5.0.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG308"></a><a id="sthref21"></a><a id="BABBDBII"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-4 Standard JMS 2.0 Message Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 13%;">
+<col style="width: 18%;">
+<col style="width: 18%;">
+<col style="width: 28%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Required?</th>
+<th class="tableblock halign-left valign-top">Set by</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXUserID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Send</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of user
+sending message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXAppID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Send</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of
+application sending message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXDeliveryCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Receive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of
+delivery attempts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXGroupID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of message group to
+which this message belongs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXGroupSeq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sequence number within message
+group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXProducerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Send</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of
+transaction within which message was produced</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXConsumerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Receive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier
+of transaction within which message was consumed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXRcvTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider on Receive</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time message
+delivered to consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXState</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provider</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message state (waiting, ready,
+expired, or retained)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="BABIJCJD"></a><a id="GMJVG387"></a><a id="sending-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sending_messages">Sending Messages</h4>
+<div class="paragraph">
+<p>In order to send messages to a message broker, you must create a
+<code>JMSProducer</code> object using the <code>createProducer()</code> method on
+<code>JMSContext</code>. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">try (JMSContext context = connectionFactory.createContext();){context.createProducer().send(inboundQueue,body)
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The JMS 2.0 specification allows a client to specify a delivery delay
+value, in milliseconds, for each message it sends. This value is used to
+determine a messages&#8217;s delivery time which is calculated by adding the
+delivery delay value specified on the send to the time the message was
+sent. See <a href="#BABGEIDC">Message Headers</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="#BABHGBAJ">Table 3-5</a> shows the methods defined in the <code>JMSProducer</code>
+interface.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG388"></a><a id="sthref22"></a><a id="BABHGBAJ"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-5 JMSProducer Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDeliveryDelay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get delivery delay value in milliseconds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDeliveryDelay</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set delivery delay value in milliseconds</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default message lifetime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default message lifetime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDisableMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message identifier disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDisableMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message identifier disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDisableMessageTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set time stamp disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDisableMessageTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get time stamp disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>send</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close message producer</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG444"></a><a id="sthref23"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="simplified-api-methods-for-asynchronous-sends">Simplified API methods for Asynchronous Sends</h4>
+<div class="paragraph">
+<p>In the Simplified API, a JMS provider sends a message asynchronously by
+calling <code>setAsync(CompletionListener completionListener)</code> on the
+<code>JMSProducer</code> prior to calling one of the following <code>send</code> methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>send(Destination destination, Message message)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, String body)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, Map&lt;String,Object&gt; body)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, byte[] body)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, Serializable body)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, String body)</code></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>These <code>send</code> methods are the same as methods that are used for a
+synchronous send. However, calling <code>setAsync</code> beforehand changes their
+behavior.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For more information on how to convert common synchronous send design
+patterns to use asynchronous sends, see
+<a href="using-the-java-api.html#BGBGDFBA">Asynchronous send</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABECHCG"></a><a id="GMJVG389"></a><a id="receiving-messages"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_receiving_messages">Receiving Messages</h4>
+<div class="paragraph">
+<p>This section provides information on new behaviors and two new
+subscription types for clients to use when consuming messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG446"></a><a id="sthref24"></a></p>
+</div>
+<div class="sect4">
+<h5 id="using-shared-non-durable-subscriptions">Using Shared Non-durable Subscriptions</h5>
+<div class="paragraph">
+<p>A shared non-durable subscription is used by a client that needs to be
+able to share the work of receiving messages from a non-durable topic
+subscription across multiple consumers. Each message from the
+subscription is delivered to only one of the consumers that may exist on
+that subscription.</p>
+</div>
+<div class="paragraph">
+<p>Shared non-durable subscriptions are created and a consumer crated on
+the subscription using one of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Classic API: One of the <code>createSharedConsumer</code> methods on <code>Session</code>
+which return a <code>MessageConsumer</code> object.</p>
+</li>
+<li>
+<p>Simplified API: One of the <code>createSharedConsumer</code> methods on
+<code>JMSContext</code> which returns a <code>JMSContext</code> object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A shared non-durable subscription exists only as long as there is an
+active consumer on the subscription. It is identified by name and an
+optional client identifier (<code>clientId</code>). If the client identifier was
+set when the subscription was created, any client that creates a
+consumer on that shared non-durable subscription must use the same
+client identifier. This type of subscription is not persisted and is
+deleted, along with any undelivered messages, when the last consumer on
+the subscription is deleted. The <code>noLocal</code> parameter is not supported
+for shared non-durable subscriptions.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG447"></a><a id="sthref25"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="using-shared-durable-subscriptions">Using Shared Durable Subscriptions</h5>
+<div class="paragraph">
+<p>A shared durable subscription is used by an application that needs to
+share the work of receiving all the messaged published on a topic,
+including messages published when no consumers are associated with the
+subscription. Each message from the subscription is delivered to only
+one of the consumers that may exist on that subscription. For this
+subscription type, the JMS provider ensures all the messages from the
+topic&#8217;s publishers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Are Delivered and acknowledged or</p>
+</li>
+<li>
+<p>Have expired</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Shared durable subscriptions are created and a consumer crated on the
+subscription using one of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Classic API: One of the <code>createSharedDurableConsumer</code> methods on
+<code>Session</code> which return a <code>MessageConsumer</code> object.</p>
+</li>
+<li>
+<p>Simplified API: One of the <code>createSharedDurableConsumer</code> methods on
+<code>JMSContext</code> which returns a <code>JMSContext</code> object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A shared durable e subscription persists and accumulates messages until
+it is explicitly deleted using the <code>unsubscribe</code> method on either
+<code>Session</code> or <code>JMSContext</code>. You cannot delete a durable subscription with
+an active consumer or while a message is received from the subscription
+is part of a transaction. It is identified by name and an optional
+client identifier (<code>clientId</code>). If the client identifier was set when
+the subscription was created, any client that creates a consumer on that
+shared non-durable subscription must use the same client identifier. The
+<code>noLocal</code> parameter is not supported for shared durable subscriptions.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG448"></a><a id="sthref26"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="starting-message-delivery">Starting Message Delivery</h5>
+<div class="paragraph">
+<p>An application using the Classic API to consume messages needs to call
+the connection&#8217;s <code>start</code> method to start delivery of incoming messages.
+It may temporarily suspend delivery by calling <code>stop</code>, after which a
+call to <code>start</code> will restart delivery.</p>
+</div>
+<div class="paragraph">
+<p>The Simplified API provides corresponding <code>start</code> and <code>stop</code> methods on
+<code>JMSContext</code>. The <code>start</code> method is be called automatically when
+<code>createConsumer</code> or <code>createDurableConsumer</code> are called on the
+<code>JMSContext</code> object. There is no need for the application to call
+<code>start</code> when the consumer is first established. An application may
+temporarily suspend delivery by calling <code>stop</code>, after which a call to
+<code>start</code> will restart delivery.</p>
+</div>
+<div class="paragraph">
+<p>In some situations, an application using the Simplified API may need a
+connection to remain in stopped mode while setup is being completed and
+not commence message delivery until the <code>start</code> method is explicitly
+called. You can configure this behavior by calling <code>setAutoStart(false)</code>
+on the <code>JMSContext</code> prior to calling <code>createConsumer</code> or
+<code>createDurableConsumer</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABGJDBF"></a><a id="GMJVG402"></a><a id="processing-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processing_messages">Processing Messages</h4>
+<div class="paragraph">
+<p>Processing a message after you have received it may entail examining its
+header fields, properties, and body.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG403"></a><a id="sthref27"></a></p>
+</div>
+<div class="sect4">
+<h5 id="retrieving-message-header-fields">Retrieving Message Header Fields</h5>
+<div class="paragraph">
+<p>The standard JMS message header fields are described in
+<a href="#BABBDBII">Table 3-4</a>. <a href="#BABDBDHA">Table 3-6</a> shows the methods
+provided by the JMS <code>Message</code> interface for retrieving the values of
+these fields: for instance, you can obtain a message&#8217;s reply destination
+with the statement:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG404"></a><a id="sthref28"></a><a id="BABDBDHA"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-6 Message Header Retrieval Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get reply destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get correlation identifier as string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSCorrelationIDAsBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get correlation identifier as byte array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSDeliveryTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get the delivery time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get time stamp</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get redelivered flag</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="client-design-and-features.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-java-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

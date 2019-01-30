@@ -1,0 +1,978 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Introduction to JMX Programming for Message Queue Clients</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Introduction to JMX Programming for Message Queue Clients</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="preface.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-jmx-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJMG00002"></a><a id="gcgvu"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction-to-jmx-programming-for-message-queue-clients">1 Introduction to JMX Programming for Message Queue Clients</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>While Message Queue&#8217;s Administration Console and command line
+administration utilities allow an administrator to interactively
+configure and monitor Message Queue resources (such as brokers,
+connections, and destinations), these tools are not accessible from
+within a running client application.</p>
+</div>
+<div class="paragraph">
+<p>To provide programmatic access to such administrative functions, Message
+Queue also incorporates an application programming interface based on
+the Java Management Extensions (JMX). Client applications can use this
+JMX API to programmatically perform the configuration and monitoring
+operations that are available interactively through the Administration
+Console and command line utilities.</p>
+</div>
+<div class="paragraph">
+<p>You can use Message Queue&#8217;s JMX API in your client applications for a
+variety of purposes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To optimize performance by monitoring the usage of brokers and other
+Message Queue resources and reconfiguring their parameters based on the
+results</p>
+</li>
+<li>
+<p>To automate regular maintenance tasks, rolling upgrades, and so forth</p>
+</li>
+<li>
+<p>To write your own utility applications to replace or enhance standard
+Message Queue tools such as the Broker utility (<code>imqbrokerd</code>) and
+Command utility (<code>imqcmd</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition, since JMX is the Java standard for building management
+applications and is widely used for managing J2EE infrastructure, you
+can use it to incorporate your Message Queue client as part of a larger
+J2EE deployment using a standard management framework throughout.</p>
+</div>
+<div class="paragraph">
+<p><a id="gchbn"></a><a id="GMJMG00026"></a><a id="jmx-architecture"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_jmx_architecture">JMX Architecture</h3>
+<div class="paragraph">
+<p>The JMX Specification defines an architecture for the instrumentation
+and programmatic management of distributed resources. This architecture
+is based on the notion of a managed bean, or MBean: a Java object,
+similar to a JavaBean, representing a resource to be managed. Message
+Queue MBeans may be associated with individual resources such as
+brokers, connections, or destinations, or with whole categories of
+resources, such as the set of all destinations on a broker. There are
+separate configuration MBeans and monitor MBeans for setting a
+resource&#8217;s configuration properties and monitoring its runtime state.</p>
+</div>
+<div class="paragraph">
+<p>Each MBean is identified by an object name, an instance of the JMX class
+<code>ObjectName</code> conforming to the syntax and conventions defined in the JMX
+Specification. Object names for Message Queue MBeans are either defined
+as static constants or returned by static methods in the Message Queue
+utility class <code>MQObjectName</code>; see <a href="#gchri">Object Names</a> for further
+information.</p>
+</div>
+<div class="paragraph">
+<p>An MBean provides access to its underlying resource through a management
+interface consisting of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Attributes holding data values representing static or dynamic
+properties of the resource</p>
+</li>
+<li>
+<p>Operations that can be invoked to perform actions on the resource</p>
+</li>
+<li>
+<p>Notifications informing the client application of state changes or
+other significant events affecting the resource</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Client applications obtain MBeans through an MBean server, which serves
+as a container and registry for MBeans. Each Message Queue broker
+process contains an MBean server, accessed by means of a JMX connector.
+The JMX connector is used to obtain an MBean server connection, which in
+turn provides access to individual MBeans on the server. Configuring or
+monitoring a Message Queue resource with JMX requires the following
+steps:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Obtain a JMX connector.</p>
+</li>
+<li>
+<p>Get an MBean server connection from the JMX connector.</p>
+</li>
+<li>
+<p>Construct an object name identifying the particular MBean you wish
+to operate on.</p>
+</li>
+<li>
+<p>Pass the object name to the appropriate methods of the MBean server
+connection to access the MBean&#8217;s attributes, operations, and
+notifications.</p>
+</li>
+<li>
+<p>Close the MBean server connection.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>See <a href="using-the-jmx-api.html#gdrru">Using the JMX API</a> for code
+examples illustrating the technique for various MBean operations.</p>
+</div>
+<div class="paragraph">
+<p><a id="gdrsi"></a><a id="GMJMG00027"></a><a id="message-queue-mbeans"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_mbeans">Message Queue MBeans</h3>
+<div class="paragraph">
+<p>Message Queue&#8217;s JMX functionality is exposed through MBeans associated
+with various Message Queue resources. These MBeans are of two kinds:
+resource MBeans and manager MBeans. The attributes, operations, and
+notifications available for each type of MBean are described in detail
+in <a href="mbean-reference.html#gcakw">Message Queue MBean Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gchdy"></a><a id="GMJMG00166"></a><a id="resource-mbeans"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_resource_mbeans">Resource MBeans</h4>
+<div class="paragraph">
+<p>Resource MBeans are associated with individual Message Queue resources
+of the following types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message brokers</p>
+</li>
+<li>
+<p>Connection services</p>
+</li>
+<li>
+<p>Connections</p>
+</li>
+<li>
+<p>Destinations</p>
+</li>
+<li>
+<p>Broker clusters</p>
+</li>
+<li>
+<p>Logging</p>
+</li>
+<li>
+<p>The Java Virtual Machine (JVM)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Configuration and monitoring functions are implemented by separate
+MBeans. Each managed resource is associated with a configuration MBean
+for setting the resource&#8217;s configuration and a monitor MBean for
+gathering (typically transient) information about its runtime state. For
+instance, there is a destination configuration MBean for configuring a
+destination and a destination monitor MBean for obtaining runtime
+information about it. In general, each instance of a managed resource
+has its own pair of MBeans: thus there is a separate destination
+configuration MBean and destination monitor MBean for each individual
+destination. (In the case of the Java Virtual Machine, there is only a
+JVM monitor MBean with no corresponding configuration MBean.)</p>
+</div>
+<div class="paragraph">
+<p>Configuration MBeans are used to perform such tasks as the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set a broker&#8217;s port number</p>
+</li>
+<li>
+<p>Set a broker&#8217;s maximum message size</p>
+</li>
+<li>
+<p>Pause a connection service</p>
+</li>
+<li>
+<p>Set the maximum number of threads for a connection service</p>
+</li>
+<li>
+<p>Purge all messages from a destination</p>
+</li>
+<li>
+<p>Set the level of logging information to be written to an output
+channel</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Monitor MBeans are used to obtain runtime information such as the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The current number of connections on a service</p>
+</li>
+<li>
+<p>The cumulative number of messages received by a destination since the
+broker was started</p>
+</li>
+<li>
+<p>The current state (running or paused) of a queue destination</p>
+</li>
+<li>
+<p>The current number of message producers for a topic destination</p>
+</li>
+<li>
+<p>The host name and port number of a cluster&#8217;s master broker</p>
+</li>
+<li>
+<p>The current JVM heap size</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gchdx"></a><a id="GMJMG00167"></a><a id="manager-mbeans"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_manager_mbeans">Manager MBeans</h4>
+<div class="paragraph">
+<p>In addition to the resource MBeans associated with individual resources,
+there are also manager MBeans for managing some whole categories of
+resources. These manager MBeans also come in pairs—one for configuration
+and one for monitoring—for the following resource categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connection services</p>
+</li>
+<li>
+<p>Connections</p>
+</li>
+<li>
+<p>Destinations</p>
+</li>
+<li>
+<p>Message producers</p>
+</li>
+<li>
+<p>Message consumers</p>
+</li>
+<li>
+<p>Transactions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Unlike individual resource MBeans, a broker has only one pair of manager
+MBeans for each whole category of resources: for instance, a single
+destination manager configuration MBean and a single destination manager
+monitor MBean. For some categories (connection services, connections,
+destinations), the manager MBeans exist in addition to the ones for
+individual resources, and are used to manage the collection of resource
+MBeans within the category or to perform global tasks that are beyond
+the scope of individual resource MBeans. Thus, for instance, there is a
+connection manager configuration MBean and a connection manager monitor
+MBean in addition to the connection configuration and connection monitor
+MBeans associated with individual connections. Manager MBeans of this
+type are used to perform tasks such as the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get the object names of the connection service monitor MBeans for all
+available connection services</p>
+</li>
+<li>
+<p>Get the total number of current connections</p>
+</li>
+<li>
+<p>Destroy a connection</p>
+</li>
+<li>
+<p>Create or destroy a destination</p>
+</li>
+<li>
+<p>Enable or disable auto-creation of destinations</p>
+</li>
+<li>
+<p>Pause message delivery for all destinations</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In other cases (message producers, message consumers, transactions),
+there are no MBeans associated with individual resources and all of the
+resources in the category are managed through the manager MBeans
+themselves. The manager MBeans for these categories can be used for such
+tasks as the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Get the destination name associated with a message producer</p>
+</li>
+<li>
+<p>Purge all messages from a durable subscriber</p>
+</li>
+<li>
+<p>Commit or roll back a transaction</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gchri"></a><a id="GMJMG00168"></a><a id="object-names"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_object_names">Object Names</h4>
+<div class="paragraph">
+<p>Each individual MBean is designated by an object name belonging to the
+JMX class <code>ObjectName</code>, which encapsulates a string identifying the
+MBean. For Message Queue MBeans, the encapsulated name string has the
+following syntax:</p>
+</div>
+<div class="paragraph">
+<p><code>com.sun.messaging.jms.server:`property</code>=<code>value</code>[,<code>property</code>=<code>value</code>]*`</p>
+</div>
+<div class="paragraph">
+<p><a href="#gcibm">Table 1-1</a> shows the possible properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG302"></a><a id="sthref3"></a><a id="gcibm"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-1 Object Name Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 15%;">
+<col style="width: 30%;">
+<col style="width: 55%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Values</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MBean type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="#gcitt">Table 1-2</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>subtype</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MBean subtype</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="#gcitc">Table 1-3</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>desttype</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Destination type</p>
+</div>
+<div class="paragraph">
+<p>Applies only to MBeans of the following types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Destination configuration</p>
+</li>
+<li>
+<p>Destination monitor</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">See <a href="#gcicz">Table 1-4</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Resource name</p>
+</div>
+<div class="paragraph">
+<p>Applies only to MBeans of the following types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Service configuration</p>
+</li>
+<li>
+<p>Service monitor</p>
+</li>
+<li>
+<p>Destination configuration</p>
+</li>
+<li>
+<p>Destination monitor</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For service configuration and service monitor MBeans, see
+<a href="#gcitf">Table 1-5</a>.</p>
+</div>
+<div class="paragraph">
+<p>For destination configuration and destination monitor MBeans, the
+destination name.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>myTopic</code></p>
+</li>
+<li>
+<p><code>temporary_destination://queue/129.145.180.99/63008/1</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Resource identifier</p>
+</div>
+<div class="paragraph">
+<p>Applies only to MBeans of the following types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connection configuration</p>
+</li>
+<li>
+<p>Connection monitor</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p><code>7853717387765338368</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gcitt">Table 1-2</a> shows the possible values for the object name&#8217;s
+<code>type</code> property.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG303"></a><a id="sthref4"></a><a id="gcitt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-2 Message Queue MBean Types</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Broker</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Service</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection service resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ServiceManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection service manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Connection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Destination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProducerManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message producer manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConsumerManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message consumer manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TransactionManager</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction manager MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Cluster</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker cluster resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Log</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Logging resource MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JVM</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVM resource MBean</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gcitc">Table 1-3</a> shows the possible values for the object name&#8217;s
+<code>subtype</code> property.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG304"></a><a id="sthref5"></a><a id="gcitc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-3 Message Queue MBean Subtypes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Config</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configuration MBean</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Monitor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Monitor MBean</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For destination configuration and destination monitor MBeans, the object
+name&#8217;s <code>desttype</code> property specifies whether the destination is a
+point-to-point queue or a publish/subscribe topic. <a href="#gcicz">Table
+1-4</a> shows the possible values, which are defined for convenience as
+static constants in the utility class <code>DestinationType</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG305"></a><a id="sthref6"></a><a id="gcicz"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-4 Destination Types</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 40%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Utility Constant</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>q</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationType`</code>.``QUEUE`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Queue (point-to-point) destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>t</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DestinationType`</code>.``TOPIC`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Topic (publish/subscribe) destination</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For service configuration and service monitor MBeans, the object name&#8217;s
+<code>name</code> property identifies the connection service with which the MBean
+is associated. <a href="#gcitf">Table 1-5</a> shows the possible values.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG306"></a><a id="sthref7"></a><a id="gcitf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-5 Connection Service Names</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 34%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Service Name</th>
+<th class="tableblock halign-left valign-top">Service Type</th>
+<th class="tableblock halign-left valign-top">Protocol Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TLS (SSL-based security)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpsjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Normal</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTPS (SSL-based security)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Admin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssladmin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Admin</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TLS (SSL-based security)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gellq">Table 1-6</a> shows some example object names.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG307"></a><a id="sthref8"></a><a id="gellq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-6 Example Object Names</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 13%;">
+<col style="width: 87%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">MBean type</th>
+<th class="tableblock halign-left valign-top">Object Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.sun.messaging.jms.server:type=Broker,subtype=Config</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.sun.messaging.jms.server:type=ServiceManager,subtype=Monitor</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.sun.messaging.jms.server:type=Connection,subtype=Config,id=7853717387765338368</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>com.sun.messaging.jms.server:type=Destination,subtype=Monitor,desttype=t,name="MyQueue"</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The object names for each type of Message Queue MBean are given in the
+relevant sections of <a href="mbean-reference.html#gcakw">Message Queue MBean
+Reference</a>. All such names are either defined as static constants or
+returned by static methods in the utility class <code>MQObjectName</code> (see
+<a href="#gcidq">Table 1-7</a>). For instance, the constant</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MQObjectName.BROKER_CONFIG_MBEAN_NAME</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>is defined as a string representing the object name for a broker
+configuration MBean, and the method call</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MQObjectName. createDestinationMonitor(DestinationType .TOPIC, "MyQueue");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>returns the destination monitor MBean object name shown in
+<a href="#gellq">Table 1-6</a>. Note that, whereas methods such as
+<code>createDestinationMonitor</code> return an actual object name (that is, an
+object of class <code>ObjectName</code>) that can be assigned directly to a
+variable of that type</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectNamedestMonitorName
+= MQObjectName. createDestinationMonitor(DestinationType .TOPIC, "Dest");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>constants like <code>BROKER_CONFIG_MBEAN_NAME</code> instead represent an ordinary
+string (class <code>String</code>) that must then be converted into the
+corresponding object name itself:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectNamebrokerConfigName
+= new ObjectName(MQObjectName.BROKER_CONFIG_MBEAN_NAME);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJMG308"></a><a id="sthref9"></a><a id="gcidq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-7 Utility Constants and Methods for Object Names</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 32%;">
+<col style="width: 68%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">MBean Type</th>
+<th class="tableblock halign-left valign-top">Utility Constant or Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``BROKER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``BROKER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``createServiceConfig`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``createServiceMonitor`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``SERVICE_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``SERVICE_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``createConnectionConfig`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.` <code>createConnectionMonitor</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CONNECTION_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CONNECTION_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.` <code>createDestinationConfig</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.` <code>createDestinationMonitor</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``DESTINATION_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``DESTINATION_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Producer manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``PRODUCER_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Producer manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``PRODUCER_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consumer manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CONSUMER_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consumer manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CONSUMER_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction manager configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``TRANSACTION_MANAGER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transaction manager monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``TRANSACTION_MANAGER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CLUSTER_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``CLUSTER_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log configuration</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``LOG_CONFIG_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``LOG_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVM monitor</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQObjectName`</code>.``JVM_MONITOR_MBEAN_NAME`</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="preface.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-jmx-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

@@ -1,0 +1,1843 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Monitoring Broker Operations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Monitoring Broker Operations</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="bridge-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="tuning.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00044"></a><a id="aeoik"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="monitoring-broker-operations">13 Monitoring Broker Operations</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the tools you can use to monitor a broker and how
+you can get metrics data. The chapter has the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeocy">Monitoring Services</a></p>
+</li>
+<li>
+<p><a href="#aeoil">Introduction to Monitoring Tools</a></p>
+</li>
+<li>
+<p><a href="#aeoim">Configuring and Using Broker Logging</a></p>
+</li>
+<li>
+<p><a href="#aeoiu">Using the Command Utility to Display Metrics
+Interactively</a></p>
+</li>
+<li>
+<p><a href="#ggxey">Using the JMX Administration API</a></p>
+</li>
+<li>
+<p><a href="#gfona">Using the Java ES Monitoring Console</a></p>
+</li>
+<li>
+<p><a href="#aeojc">Using the Message-Based Monitoring API</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Reference information on specific metrics is available in
+<a href="metrics-information.html#aeoor">Metrics Information Reference</a></p>
+</div>
+<div class="paragraph">
+<p><a id="aeocy"></a><a id="GMADG00261"></a><a id="monitoring-services"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_monitoring_services">Monitoring Services</h3>
+<div class="paragraph">
+<p>The broker includes components for monitoring and diagnosing application
+and broker performance. These include the components and services shown
+in the following figure:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Broker code that logs broker events.</p>
+</li>
+<li>
+<p>A metrics generator that provides.<br>
+The metrics generator provides information about broker activity, such
+as message flow in and out of the broker, the number of messages in
+broker memory and the memory they consume, the number of open
+connections, and the number of threads being used. The boolean broker
+property <code>imq.metrics.enabled</code> controls whether such information is
+logged and the <code>imq.metrics.interval</code> property specifies how often
+metrics information is generated.</p>
+</li>
+<li>
+<p>A logger component that writes out information to a number of output
+channels.</p>
+</li>
+<li>
+<p>A comprehensive set of Java Management Extensions (JMX) MBeans that
+expose broker resources using the JMX API</p>
+</li>
+<li>
+<p>Support for the Java ES Monitoring Framework</p>
+</li>
+<li>
+<p>A metrics message producer that sends JMS messages containing metrics
+information to topic destinations for consumption by JMS monitoring
+clients.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Broker properties for configuring the monitoring services are listed
+under <a href="broker-properties.html#aeonz">Monitoring Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00024"></a><a id="ggyhf"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 13-1 Monitoring Services Support</strong></div>
+<p><span class="image"><img src="img/adm_monitor.png" alt="Diagram showing inputs to Logger, error levels, and output channels. Figure explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="aeoil"></a><a id="GMADG00262"></a><a id="introduction-to-monitoring-tools"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_introduction_to_monitoring_tools">Introduction to Monitoring Tools</h3>
+<div class="paragraph">
+<p>There are five tools (or interfaces) for monitoring Message Queue
+information, as described briefly below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Log files provide a long-term record of metrics data, but cannot
+easily be parsed.</p>
+</li>
+<li>
+<p>The Command Utility (<code>imqcmd metrics</code>) lets you interactively sample
+information tailored to your needs, but does not provide historical
+information or allow you to manipulate the data programmatically.</p>
+</li>
+<li>
+<p>The Java Management Extensions (JMX) Administration API lets you
+perform broker resource configuration and monitoring operations
+programmatically from within a Java application. You can write your own
+JMX administration application or use the standard Java Monitoring and
+Management Console (<code>jconsole</code>).</p>
+</li>
+<li>
+<p>The Sun Java Enterprise System Monitoring Framework (JESMF) and
+Monitoring Console offers a common, Web-based graphical interface shared
+with other Java ES components, but can monitor only a subset of all
+Message Queue entities and operations.</p>
+</li>
+<li>
+<p>The Message-based Monitoring API lets you extract metrics information
+from messages produced by the broker to metrics topic destinations.
+However, to use it, you must write a Message Queue client application to
+capture, analyze, and display the metrics data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following tabel compares the different tools.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG692"></a><a id="sthref77"></a><a id="gbnlj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-1 Benefits and Limitations of Metrics Monitoring Tools</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 37%;">
+<col style="width: 38%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metrics Monitoring Tool</th>
+<th class="tableblock halign-left valign-top">Benefits</th>
+<th class="tableblock halign-left valign-top">Limitations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Log files</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Regular sampling</p>
+</li>
+<li>
+<p>Creates a historical record</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Local monitoring only</p>
+</li>
+<li>
+<p>Data format difficult to read; no parsing tools</p>
+</li>
+<li>
+<p>Need to configure broker properties; must shut down and restart broker
+to take effect</p>
+</li>
+<li>
+<p>Broker metrics only; no destination or connection service metrics</p>
+</li>
+<li>
+<p>No flexibility in selection of data</p>
+</li>
+<li>
+<p>Same reporting interval for all metrics data; cannot be changed on the
+fly</p>
+</li>
+<li>
+<p>Possible performance penalty if interval set too short</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Command Utility (<code>imqcmd metrics</code>)</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Remote monitoring</p>
+</li>
+<li>
+<p>Convenient for spot-checking</p>
+</li>
+<li>
+<p>Data presented in easy-to-read tabular format</p>
+</li>
+<li>
+<p>Easy to select specific data of interest</p>
+</li>
+<li>
+<p>Reporting interval set in command option; can be changed on the fly</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Difficult to analyze data programmatically</p>
+</li>
+<li>
+<p>No single command gets all data</p>
+</li>
+<li>
+<p>No historical record; difficult to see historical trends</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMX Administration API</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Remote monitoring</p>
+</li>
+<li>
+<p>Data can be analyzed programmatically and presented in any format</p>
+</li>
+<li>
+<p>Easy to select specific data of interest</p>
+</li>
+<li>
+<p>Can use standard Java Monitoring and Management Console (<code>jconsole</code>)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Might need to configure broker&#8217;s JMX support</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java ES Monitoring Console</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Web-based graphical interface</p>
+</li>
+<li>
+<p>Data presented in easy-to-read format</p>
+</li>
+<li>
+<p>Common interface shared with other JES components</p>
+</li>
+<li>
+<p>No performance penalty; pulls data from broker&#8217;s existing data
+monitoring infrastructure</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Limited subset of data available</p>
+</li>
+<li>
+<p>Data cannot be analyzed programmatically</p>
+</li>
+<li>
+<p>No historical record; difficult to see historical trends</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message-based Monitoring API</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Remote monitoring</p>
+</li>
+<li>
+<p>Data can be analyzed programmatically and presented in any format</p>
+</li>
+<li>
+<p>Easy to select specific data of interest</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="ulist">
+<ul>
+<li>
+<p>Need to configure broker properties; must shut down and restart broker
+to take effect</p>
+</li>
+<li>
+<p>Same reporting interval for all metrics data; cannot be changed on the
+fly</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>In addition to the differences shown in the table, each tool gathers a
+somewhat different subset of the metrics information generated by the
+broker. For information on which metrics data is gathered by each
+monitoring tool, see <a href="metrics-information.html#aeoor">Metrics
+Information Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoim"></a><a id="GMADG00263"></a><a id="configuring-and-using-broker-logging"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_and_using_broker_logging">Configuring and Using Broker Logging</h3>
+<div class="paragraph">
+<p>The Message Queue Logger takes information generated by broker code, a
+debugger, and a metrics generator and writes that information to a
+number of output channels: to standard output (the console), to a log
+file, and, on Solaris platforms, to the <code>syslog</code> daemon process. You can
+specify the type of information gathered by the Logger as well as the
+type of information the Logger writes to each of the output channels.
+For example, you can specify that you want metrics information written
+out to a log file.</p>
+</div>
+<div class="paragraph">
+<p>This section describes the configuration and use of the Logger for
+monitoring broker activity. It includes the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoda">Logger Properties</a></p>
+</li>
+<li>
+<p><a href="#aeoio">Log Message Format</a></p>
+</li>
+<li>
+<p><a href="#aeoin">Default Logging Configuration</a></p>
+</li>
+<li>
+<p><a href="#aeoip">Changing the Logging Configuration</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoda"></a><a id="GMADG00590"></a><a id="logger-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_logger_properties">Logger Properties</h4>
+<div class="paragraph">
+<p>The <code>imq.log.file.dirpath</code> and <code>imq.log.file.filename</code> broker properties
+identify the log file to use and the <code>imq.log.console.stream</code> property
+specifies whether console output is directed to <code>stdout</code> or <code>stderr</code>.</p>
+</div>
+<div class="paragraph">
+<p>The <code>imq.log.level</code> property controls the categories of metric
+information that the Logger gathers: <code>ERROR</code>, <code>WARNING</code>, or <code>INFO</code>. Each
+level includes those above it, so if you specify, for example, <code>WARNING</code>
+as the logging level, error messages will be logged as well.</p>
+</div>
+<div class="paragraph">
+<p>There is also an <code>imq.destination.logDeadMsgs</code> property that specifies
+whether to log entries when dead messages are discarded or moved to the
+dead message queue.</p>
+</div>
+<div class="paragraph">
+<p>The <code>imq.log.console.output</code> and <code>imq.log.file.output</code> properties
+control which of the specified categories the Logger writes to the
+console and the log file, respectively. In this case, however, the
+categories do not include those above them; so if you want, for
+instance, both errors and warnings written to the log file and
+informational messages to the console, you must explicitly set
+<code>imq.log.file.output</code> to <code>ERROR|WARNING</code> and <code>imq.log.console.output</code> to
+<code>INFO</code>.</p>
+</div>
+<div class="paragraph">
+<p>On Solaris platforms another property, <code>imq.log.syslog.output</code>,
+specifies the categories of metric information to be written to the
+<code>syslog</code> daemon.</p>
+</div>
+<div class="paragraph">
+<p>In the case of a log file, you can specify the point at which the file
+is closed and output is rolled over to a new file. Once the log file
+reaches a specified size (<code>imq.log.file.rolloverbytes</code>) or age
+(<code>imq.log.file.rolloversecs</code>), it is saved and a new log file created.</p>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeonz">Monitoring Properties</a> for
+additional broker properties related to logging and subsequent sections
+for details about how to configure the Logger and how to use it to
+obtain performance information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoio"></a><a id="GMADG00591"></a><a id="log-message-format"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_log_message_format">Log Message Format</h4>
+<div class="paragraph">
+<p>A logged message consists of a time stamp, a message code, and the
+message itself. The volume of information included varies with the
+logging level you have set. The broker supports three logging levels:
+<code>ERROR</code>, <code>WARNING</code> , and <code>INFO</code> (see <a href="#gbnkt">Table 13-2</a>). Each
+level includes those above it (for example, <code>WARNING</code> includes <code>ERROR</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG693"></a><a id="sthref78"></a><a id="gbnkt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-2 Logging Levels</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Logging Level</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ERROR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serious problems that could cause system failure</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>WARNING</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Conditions that should be heeded but will not cause system
+failure</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>INFO</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Metrics and other informational messages</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The default logging level is <code>INFO</code>, so messages at all three levels are
+logged by default. The following is an example of an <code>INFO</code> message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[13/Sep/2000:16:13:36 PDT] [B1004]: Starting the broker service
+using tcp [25374,100] with min threads 50 and max threads of 500</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can change the time zone used in the time stamp by setting the
+broker configuration property <code>imq.log.timezone</code> (see
+<a href="broker-properties.html#gbnns">Table 17-13</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoin"></a><a id="GMADG00592"></a><a id="default-logging-configuration"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_default_logging_configuration">Default Logging Configuration</h4>
+<div class="paragraph">
+<p>A broker is automatically configured to save log output to a set of
+rolling log files. The log files are located in a directory identified
+by the instance name of the associated broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/log</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For a broker whose life cycle is controlled by GlassFish Server, the log
+files are located in a subdirectory of the domain directory for the
+domain for which the broker was started:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">domain-root-dir/domainName/imq/instances/imqbroker/log</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The log files are simple text files. The system maintains nine backup
+files named as follows, from earliest to latest:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">log.txt
+log_1.txt
+log_2.txt
+…
+log_9.txt</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the log files are rolled over once a week. You can change
+this rollover interval, or the location or names of the log files, by
+setting appropriate configuration properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To change the directory in which the log files are kept, set the
+property <code>imq.log.file.dirpath</code> to the desired path.</p>
+</li>
+<li>
+<p>To change the root name of the log files from <code>log</code> to something else,
+set the <code>imq.log.file.filename</code> property.</p>
+</li>
+<li>
+<p>To change the frequency with which the log files are rolled over, set
+the property <code>imq.log.file.rolloversecs</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#gbnns">Table 17-13</a> for further
+information on these properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoip"></a><a id="GMADG00593"></a><a id="changing-the-logging-configuration"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_changing_the_logging_configuration">Changing the Logging Configuration</h4>
+<div class="paragraph">
+<p>Log-related properties are described in
+<a href="broker-properties.html#gbnns">Table 17-13</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnku"></a><a id="GMADG00197"></a><a id="to-change-the-logger-configuration-for-a-broker"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_change_the_logger_configuration_for_a_broker">To Change the Logger Configuration for a Broker</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the logging level.</p>
+</li>
+<li>
+<p>Set the output channel (file, console, or both) for one or more
+logging categories.</p>
+</li>
+<li>
+<p>If you log output to a file, configure the rollover criteria for the
+file.<br>
+You complete these steps by setting Logger properties. You can do this
+in one of two ways:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Change or add Logger properties in the <code>config.properties</code> file for a
+broker before you start the broker.</p>
+</li>
+<li>
+<p>Specify Logger command line options in the <code>imqbrokerd</code> command that
+starts the broker. You can also use the broker option <code>-D</code> to change
+Logger properties (or any broker property).<br>
+Options passed on the command line override properties specified in the
+broker instance configuration files. The following <code>imqbrokerd</code> options</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">affect logging</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-metrics</code> interval</dt>
+<dd>
+<p>Logging interval for broker metrics, in seconds</p>
+</dd>
+<dt class="hdlist1"><code>-loglevel</code> level</dt>
+<dd>
+<p>Logging level (<code>ERROR</code>, <code>WARNING</code>, <code>INFO</code>, or <code>NONE</code>)</p>
+</dd>
+<dt class="hdlist1"><code>-silent</code></dt>
+<dd>
+<p>Silent mode (no logging to console)</p>
+</dd>
+<dt class="hdlist1"><code>-tty</code></dt>
+<dd>
+<p>  Log all messages to console<br>
+The following sections describe how you can change the default
+configuration in order to do the following:</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Change the output channel (the destination of log messages)</p>
+</li>
+<li>
+<p>Change rollover criteria</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoiq"></a><a id="GMADG00445"></a><a id="changing-the-output-channel"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_changing_the_output_channel">Changing the Output Channel</h5>
+<div class="paragraph">
+<p>By default, error and warning messages are displayed on the terminal as
+well as being logged to a log file. (On Solaris, error messages are also
+written to the system&#8217;s <code>syslog</code> daemon.)</p>
+</div>
+<div class="paragraph">
+<p>You can change the output channel for log messages in the following
+ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To have all log categories (for a given level) output displayed on the
+screen, use the <code>-tty</code> option to the <code>imqbrokerd</code> command.</p>
+</li>
+<li>
+<p>To prevent log output from being displayed on the screen, use the
+<code>-silent</code> option to the <code>imqbrokerd</code> command.</p>
+</li>
+<li>
+<p>Use the <code>imq.log.file.output</code> property to specify which categories of
+logging information should be written to the log file. For example,<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.file.output=ERROR</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>imq.log.console.output</code> property to specify which categories
+of logging information should be written to the console. For example,<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.console.output=INFO</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Solaris, use the <code>imq.log.syslog.output</code> property to specify which
+categories of logging information should be written to Solaris <code>syslog</code>.
+For example,<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.syslog.output=NONE</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Before changing Logger output channels, you must make sure that logging
+is set at a level that supports the information you are mapping to the
+output channel. For example, if you set the logging level to <code>ERROR</code> and
+then set the <code>imq.log.console.output</code> property to <code>WARNING</code>, no messages
+will be logged because you have not enabled the logging of <code>WARNING</code>
+messages.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoir"></a><a id="GMADG00446"></a><a id="changing-log-file-rollover-criteria"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_changing_log_file_rollover_criteria">Changing Log File Rollover Criteria</h5>
+<div class="paragraph">
+<p>There are two criteria for rolling over log files: time and size. The
+default is to use a time criteria and roll over files every seven days.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To change the time interval, you need to change the property
+<code>imq.log.file.rolloversecs</code>. For example, the following property
+definition changes the time interval to ten days:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.file.rolloversecs=864000</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To change the rollover criteria to depend on file size, you need to
+set the <code>imq.log.file.rolloverbytes</code> property. For example, the
+following definition directs the broker to rollover files after they
+reach a limit of 500,000 bytes<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.file.rolloverbytes=500000</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you set both the time-related and the size-related rollover
+properties, the first limit reached will trigger the rollover. As noted
+before, the broker maintains up to nine rollover files.</p>
+</div>
+<div class="paragraph">
+<p>You can set or change the log file rollover properties when a broker is
+running. To set these properties, use the <code>imqcmd update bkr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeois"></a><a id="GMADG00447"></a><a id="sending-metrics-data-to-log-files"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_sending_metrics_data_to_log_files">Sending Metrics Data to Log Files</h5>
+<div class="paragraph">
+<p>This section describes the procedure for using broker log files to
+report metrics information. For general information on configuring the
+Logger, see <a href="#aeoim">Configuring and Using Broker Logging</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnlw"></a><a id="GMADG00198"></a><a id="to-use-log-files-to-report-metrics-information"></a></p>
+</div>
+<div class="paragraph">
+<p>To Use Log Files to Report Metrics Information</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Configure the broker&#8217;s metrics generation capability:</p>
+</li>
+<li>
+<p>Confirm <code>imq.metrics.enabled=true</code><br>
+Generation of metrics for logging is turned on by default.</p>
+</li>
+<li>
+<p>Set the metrics generation interval to a convenient number of
+seconds.<br>
+<code>imq.metrics.interval=`interval +
+This value can be set in the `config.properties</code> file or using the
+<code>-metrics</code> interval command line option when starting up the broker.</p>
+</li>
+<li>
+<p>Confirm that the Logger gathers metrics information:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.log.level=INFO</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is the default value. This value can be set in the
+<code>config.properties</code> file or using the <code>-loglevel</code> level command line
+option when starting up the broker.
+3.  Confirm that the Logger is set to write metrics information to the
+log file:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.log.file.output=INFO</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is the default value. It can be set in the <code>config.properties</code>
+file.
+4.  Start up the broker.<br>
+The following shows sample broker metrics output to the log file:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[21/Jul/2004:11:21:18 PDT]
+Connections: 0    JVM Heap: 8323072 bytes (7226576 free) Threads: 0 (14-1010)
+      In: 0 msgs (0bytes) 0 pkts (0 bytes)
+     Out: 0 msgs (0bytes) 0 pkts (0 bytes)
+ Rate In: 0 msgs/sec (0 bytes/sec) 0 pkts/sec (0 bytes/sec)
+Rate Out: 0 msgs/sec (0 bytes/sec) 0 pkts/sec (0 bytes/sec)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For reference information about metrics data, see
+<a href="metrics-information.html#aeoor">Metrics Information Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoit"></a><a id="GMADG00448"></a><a id="logging-dead-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_logging_dead_messages">Logging Dead Messages</h5>
+<div class="paragraph">
+<p>You can monitor physical destinations by enabling dead message logging
+for a broker. You can log dead messages whether or not you are using a
+dead message queue.</p>
+</div>
+<div class="paragraph">
+<p>If you enable dead message logging, the broker logs the following types
+of events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A physical destination exceeded its maximum size.</p>
+</li>
+<li>
+<p>The broker removed a message from a physical destination, for a reason
+such as the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The destination size limit has been reached.</p>
+</li>
+<li>
+<p>The message time to live expired.</p>
+</li>
+<li>
+<p>The message is too large.</p>
+</li>
+<li>
+<p>An error occurred when the broker attempted to process the message.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If a dead message queue is in use, logging also includes the following
+types of events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The broker moved a message to the dead message queue.</p>
+</li>
+<li>
+<p>The broker removed a message from the dead message queue and discarded
+it.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following is an example of the log format for dead messages:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[29/Mar/2006:15:35:39 PST] [B1147]: Message 8-129.145.180.87(e7:6b:dd:5d:98:aa)-
+35251-1143675279400 from destination Q:q0 has been placed on the DMQ because
+[B0053]: Message on destination Q:q0 Expired: expiration time 1143675279402,
+arrival time 1143675279401, JMSTimestamp 1143675279400</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Dead message logging is disabled by default. To enable it, set the
+broker attribute <code>imq.destination.logDeadMsgs</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoiu"></a><a id="GMADG00264"></a><a id="using-the-command-utility-to-display-metrics-interactively"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_command_utility_to_display_metrics_interactively">Using the Command Utility to Display Metrics Interactively</h3>
+<div class="paragraph">
+<p>A Message Queue broker can report metrics of the following types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Java Virtual Machine (JVM) metrics. Information about the JVM heap
+size.</p>
+</li>
+<li>
+<p>Brokerwide metrics. Information about messages stored in a broker,
+message flows into and out of a broker, and memory use. Messages are
+tracked in terms of numbers of messages and numbers of bytes.</p>
+</li>
+<li>
+<p>Connection Service metrics. Information about connections and
+connection thread resources, and information about message flows for a
+particular connection service.</p>
+</li>
+<li>
+<p>Destination metrics. Information about message flows into and out of a
+particular physical destination, information about a physical
+destination&#8217;s consumers, and information about memory and disk space
+usage.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> command can obtain metrics information for the broker as a
+whole, for individual connection services, and for individual physical
+destinations. To obtain metrics data, you generally use the <code>metrics</code>
+subcommand of <code>imqcmd</code>. Metrics data is written at an interval you
+specify, or the number of times you specify, to the console screen.</p>
+</div>
+<div class="paragraph">
+<p>You can also use the <code>query</code> subcommand to view similar data that also
+includes configuration information. See <a href="#aeojb">imqcmd query</a> for
+more information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoiv"></a><a id="GMADG00594"></a><a id="imqcmd-metrics"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_imqcmd_metrics">imqcmd metrics</h4>
+<div class="paragraph">
+<p>The syntax and options of <code>imqcmd metrics</code> are shown in
+<a href="#gbnkw">Table 13-3</a> and <a href="#gbnle">Table 13-4</a>, respectively.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG694"></a><a id="sthref79"></a><a id="gbnkw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-3 <code>imqcmd metrics</code> Subcommand Syntax</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 44%;">
+<col style="width: 56%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand Syntax</th>
+<th class="tableblock halign-left valign-top">Metrics Data Provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics bkr
+ [-b hostName:portNumber]
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays broker metrics for the default broker or a broker at the
+specified host and port.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics svc -n serviceName
+ [-b hostName:portNumber]
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays metrics for the specified service on the default broker or on
+a broker at the specified host and port.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">metrics dst -t destType -n destName
+ [-b hostName:portNumber]
+ [-m metricType]
+ [-int interval]
+ [-msp numSamples]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Displays metrics information for the physical destination of the
+specified type and name.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG695"></a><a id="sthref80"></a><a id="gbnle"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-4 <code>imqcmd metrics</code> Subcommand Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28%;">
+<col style="width: 72%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand Options</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Specifies the hostname and port of the broker for which metrics data is
+reported. The default is <code>localhost:7676</code>.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-int interval</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the interval (in seconds) at which to display the metrics.
+The default is 5 seconds.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-m metricType</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Specifies the type of metric to display:</p>
+</div>
+<div class="paragraph">
+<p><code>ttl</code> Displays metrics on messages and packets flowing into and out of
+the broker, service, or destination (default metric type).</p>
+</div>
+<div class="paragraph">
+<p><code>rts</code> Displays metrics on rate of flow of messages and packets into and
+out of the broker, connection service, or destination (per second).</p>
+</div>
+<div class="paragraph">
+<p><code>cxn</code> Displays connections, virtual memory heap, and threads (brokers
+and connection services only).</p>
+</div>
+<div class="paragraph">
+<p><code>con</code> Displays consumer-related metrics (destinations only).</p>
+</div>
+<div class="paragraph">
+<p><code>dsk</code> Displays disk usage metrics (destinations only).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-msp numSamples</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the number of samples displayed in the output. The default
+is an unlimited number (infinite).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n destName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the name of the physical destination (if any) for which
+metrics data is reported. There is no default.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-n serviceName</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the connection service (if any) for which metrics data is
+reported. There is no default.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-t destType</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the type (queue or topic) of the physical destination (if
+any) for which metrics data is reported. There is no default.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gbnlu"></a><a id="GMADG00199"></a><a id="to-use-the-metrics-subcommand"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_use_the_metrics_subcommand">To Use the metrics Subcommand</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the broker for which metrics information is desired.<br>
+See <a href="starting-brokers-and-clients.html#aeoby">Starting Brokers</a>.</p>
+</li>
+<li>
+<p>Issue the appropriate <code>imqcmd metrics</code> subcommand and options as
+shown in <a href="#gbnkw">Table 13-3</a> and <a href="#gbnle">Table 13-4</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoix"></a><a id="GMADG00595"></a><a id="metrics-outputs-imqcmd-metrics"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_metrics_outputs_imqcmd_metrics">Metrics Outputs: imqcmd metrics</h4>
+<div class="paragraph">
+<p>This section contains examples of output for the <code>imqcmd metrics</code>
+subcommand. The examples show brokerwide, connection service, and
+physical destination metrics.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoiy"></a><a id="GMADG00449"></a><a id="brokerwide-metrics"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_brokerwide_metrics">Brokerwide Metrics</h5>
+<div class="paragraph">
+<p>To get the rate of message and packet flow into and out of the broker at
+10 second intervals, use the <code>metrics bkr</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr -m rts -int 10 -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command produces output similar to the following (see data
+descriptions in <a href="metrics-information.html#gbnoc">Table 21-2</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------------------------
+ Msgs/sec   Msg Bytes/sec   Pkts/sec    Pkt Bytes/sec
+ In   Out     In      Out     In   Out     In      Out
+--------------------------------------------------------
+ 0     0      27      56      0     0      38      66
+ 10    0     7365     56      10    10    7457    1132
+ 0     0      27      56      0     0      38      73
+ 0     10     27     7402     10    20    1400    8459
+ 0     0      27      56      0     0      38      73</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoiz"></a><a id="GMADG00450"></a><a id="connection-service-metrics"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connection_service_metrics">Connection Service Metrics</h5>
+<div class="paragraph">
+<p>To get cumulative totals for messages and packets handled by the jms
+connection service, use the <code>metrics svc</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc -n jms -m ttl -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command produces output similar to the following (see data
+descriptions in <a href="metrics-information.html#gbnnb">Table 21-3</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-------------------------------------------------
+  Msgs      Msg Bytes      Pkts      Pkt Bytes
+In   Out    In     Out   In   Out    In     Out
+-------------------------------------------------
+164  100  120704  73600  282  383  135967  102127
+657  100  483552  73600  775  876  498815  149948</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoja"></a><a id="GMADG00451"></a><a id="physical-destination-metrics"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_physical_destination_metrics">Physical Destination Metrics</h5>
+<div class="paragraph">
+<p>To get metrics information about a physical destination, use the
+<code>metrics dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst -t q -n XQueue -m ttl -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command produces output similar to the following (see data
+descriptions in <a href="metrics-information.html#gbnnf">Table 21-4</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-----------------------------------------------------------------------------
+  Msgs      Msg Bytes         Msg Count         Total Msg Bytes (k)     Largest
+In   Out    In     Out    Current  Peak  Avg  Current  Peak     Avg    Msg (k)
+-----------------------------------------------------------------------------
+200  200  147200  147200     0     200    0      0      143      71        0
+300  200  220800  147200    100    200   10     71      143      64        0
+300  300  220800  220800     0     200    0      0      143      59        0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To get information about a physical destination&#8217;s consumers, use the
+following <code>metrics dst</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics dst -t q -n SimpleQueue -m con -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command produces output similar to the following (see data
+descriptions in <a href="metrics-information.html#gbnnf">Table 21-4</a>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------------------------------------
+  Active Consumers         Backup Consumers         Msg Count
+Current  Peak  Avg      Current  Peak    Avg    Current  Peak  Avg
+------------------------------------------------------------------
+   1       1      0        0       0      0       944    1000  525</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeojb"></a><a id="GMADG00596"></a><a id="imqcmd-query"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_imqcmd_query">imqcmd query</h4>
+<div class="paragraph">
+<p>The syntax and options of <code>imqcmd query</code> are shown in <a href="#gbnkz">Table
+13-5</a> along with a description of the metrics data provided by the
+command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG696"></a><a id="sthref81"></a><a id="gbnkz"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-5 <code>imqcmd query</code> Subcommand Syntax</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 43%;">
+<col style="width: 57.0%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand Syntax</th>
+<th class="tableblock halign-left valign-top">Metrics Data Provided</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query bkr
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information on the current number of messages and message bytes stored
+in broker memory and persistent store (see
+<a href="broker-management.html#aeodw">Viewing Broker Information</a>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query svc -n serviceName
+ [-b  hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information on the current number of allocated threads and number of
+connections for a specified connection service (see
+<a href="connection-services.html#aeoee">Viewing Connection Service
+Information</a>).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">query dst -t destType -n destName
+ [-b hostName:portNumber]</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Information on the current number of producers, active and backup
+consumers, and messages and message bytes stored in memory and
+persistent store for a specified destination (see
+<a href="message-delivery.html#aeoer">Viewing Physical Destination
+Information</a>).</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because of the limited metrics data provided by <code>imqcmd query</code> , this
+tool is not represented in the tables presented in
+<a href="metrics-information.html#aeoor">Metrics Information Reference</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="ggxey"></a><a id="GMADG00265"></a><a id="using-the-jmx-administration-api"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_jmx_administration_api">Using the JMX Administration API</h3>
+<div class="paragraph">
+<p>The broker implements a comprehensive set of Java Management Extensions
+(JMX) MBeans that represent the broker&#8217;s manageable resources. Using the
+JMX API, you can access these MBeans to perform broker configuration and
+monitoring operations programmatically from within a Java application.</p>
+</div>
+<div class="paragraph">
+<p>In this way, the MBeans provide a Java application access to data values
+representing static or dynamic properties of a broker, connection,
+destination, or other resource. The application can also receive
+notifications of state changes or other significant events affecting the
+resource.</p>
+</div>
+<div class="paragraph">
+<p>JMX-based administration provides dynamic, fine grained, programmatic
+access to the broker. You can use this kind of administration in a
+number of ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>You can include JMX code in your JMS client application to monitor
+application performance and, based on the results, to reconfigure the
+Message Queue resources you use to improve performance.</p>
+</li>
+<li>
+<p>You can write JMX client applications that monitor the broker to
+identify use patterns and performance problems, and you can use the JMX
+API to reconfigure the broker to optimize performance.</p>
+</li>
+<li>
+<p>You can write a JMX client application to automate regular maintenance
+tasks.</p>
+</li>
+<li>
+<p>You can write a JMX client application that constitutes your own
+version of the Command utility (<code>imqcmd</code>), and you can use it instead of
+<code>imqcmd</code>.</p>
+</li>
+<li>
+<p>You can use the standard Java Monitoring and Management Console
+(<code>jconsole</code>) that can provide access to the broker&#8217;s MBeans.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information on JMX infrastructure and configuring the broker&#8217;s JMX
+support, see <a href="jmx-support.html#geoel">JMX Support</a>. To manage a
+Message Queue broker using the JMX architecture, see the
+<a href="../mq-dev-guide-jmx/toc.html#GMJMG">Open Message Queue Developer&#8217;s Guide for JMX Clients</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gfona"></a><a id="GMADG00266"></a><a id="using-the-java-es-monitoring-console"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_java_es_monitoring_console">Using the Java ES Monitoring Console</h3>
+<div class="paragraph">
+<p>Message Queue supports the Sun Java System Monitoring Framework (JESMF),
+which allows Java Enterprise System (Java ES) components to be monitored
+using a common graphical interface, the Sun Java System Monitoring
+Console. Administrators can use the Monitoring Console to view
+performance statistics, create rules for automatic monitoring, and
+acknowledge alarms. If you are running Message Queue along with other
+Java ES components, you may find it more convenient to use a single
+interface to manage all of them.</p>
+</div>
+<div class="paragraph">
+<p>The Java ES Monitoring Framework defines a common data model, the Common
+Monitoring Model (CMM), to be used by all Java ES component products.
+This model enables a centralized and uniform view of all Java ES
+components. Message Queue exposes the following objects through the
+Common Monitoring Model:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The installed product</p>
+</li>
+<li>
+<p>The broker instance name</p>
+</li>
+<li>
+<p>The broker Port Mapper</p>
+</li>
+<li>
+<p>Each connection service</p>
+</li>
+<li>
+<p>Each physical destination</p>
+</li>
+<li>
+<p>The persistent data store</p>
+</li>
+<li>
+<p>The user repository</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of these objects is mapped to a CMM object whose attributes can be
+monitored using the Java ES Monitoring Console. The reference tables in
+<a href="java-es-monitoring-framework.html#gfomw">JES Monitoring Framework
+Reference</a> identify those attributes that are available for JESMF
+monitoring. For detailed information about the mapping of Message Queue
+objects to CMM objects, see the Sun Java Enterprise System Monitoring
+Guide.</p>
+</div>
+<div class="paragraph">
+<p>To enable JESMF monitoring, you must do the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enable and configure the Monitoring Framework for all of your
+monitored components, as described in the Sun Java Enterprise System
+Monitoring Guide.</p>
+</li>
+<li>
+<p>Install the Monitoring Console on a separate host, start the master
+agent, and then start the Web server, as described in the Sun Java
+Enterprise System Monitoring Guide.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Using the Java ES Monitoring Framework will not affect broker
+performance, because all the work of gathering metrics is done by the
+Monitoring Framework, which pulls data from the broker&#8217;s existing data
+monitoring infrastructure.</p>
+</div>
+<div class="paragraph">
+<p>For information on metric information provided by the Java ES Monitoring
+Framework, see <a href="java-es-monitoring-framework.html#gfomw">JES
+Monitoring Framework Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojc"></a><a id="GMADG00267"></a><a id="using-the-message-based-monitoring-api"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_message_based_monitoring_api">Using the Message-Based Monitoring API</h3>
+<div class="paragraph">
+<p>Message Queue provides a Metrics Message Producer, which receives
+information from the Metrics Generator at regular intervals and writes
+the information into metrics messages,. The Metrics Message Producer
+then sends these messages to one of a number of metric topic
+destinations, depending on the type of metric information contained in
+the messages.</p>
+</div>
+<div class="paragraph">
+<p>You can access this metrics information by writing a client application
+that subscribes to the metrics topic destinations, consumes the messages
+in these destinations, and processes the metrics information contained
+in the messages. This allows you to create custom monitoring tools to
+support messaging applications. For details of the metric quantities
+reported in each type of metrics message, see "<a href="../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015">Using
+the Metrics Monitoring API</a>" in Open Message Queue Developer&#8217;s Guide for
+Java Clients.</p>
+</div>
+<div class="paragraph">
+<p>There are five metrics topic destinations, whose names are shown in
+<a href="#gbnlc">Table 13-6</a>, along with the type of metrics messages
+delivered to each destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG697"></a><a id="sthref82"></a><a id="gbnlc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 13-6 Metrics Topic Destinations</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 53%;">
+<col style="width: 47%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Topic Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker metrics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.jvm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java Virtual Machine metrics</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.destination_list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">List of destinations and their types</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination metrics for queue
+queueName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.topic.`topicName</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination metrics for topic
+topicName</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The broker properties <code>imq.metrics.topic.enabled</code> and
+<code>imq.metrics.topic.interval</code> control, respectively, whether messages are
+sent to metric topic destinations and how often. The
+<code>imq.metrics.topic.timetolive</code> and <code>imq.metrics.topic.persist</code>
+properties specify the lifetime of such messages and whether they are
+persistent.</p>
+</div>
+<div class="paragraph">
+<p>Besides the information contained in the body of a metrics message, the
+header of each message includes properties that provide the following
+additional information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The message type</p>
+</li>
+<li>
+<p>The address (host name and port number) of the broker that sent the
+message</p>
+</li>
+<li>
+<p>The time the metric sample was taken</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These properties are useful to client applications that process metrics
+messages of different types or from different brokers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojd"></a><a id="GMADG00597"></a><a id="setting-up-message-based-monitoring"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_setting_up_message_based_monitoring">Setting Up Message-Based Monitoring</h4>
+<div class="paragraph">
+<p>This section describes the procedure for using the message-based
+monitoring capability to gather metrics information. The procedure
+includes both client development and administration tasks.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnlh"></a><a id="GMADG00200"></a><a id="to-set-up-message-based-monitoring"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_set_up_message_based_monitoring">To Set Up Message-based Monitoring</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write a metrics monitoring client.<br>
+See the Open Message Queue Developer&#8217;s Guide for Java Clients for
+instructions on programming clients that subscribe to metrics topic
+destinations, consume metrics messages, and extract the metrics data
+from these messages.</p>
+</li>
+<li>
+<p>Configure the broker&#8217;s Metrics Message Producer by setting broker
+property values in the <code>config.properties</code> file:</p>
+</li>
+<li>
+<p>Enable metrics message production.<br>
+Set <code>imq.metrics.topic.enabled=true</code><br>
+The default value is <code>true</code>.</p>
+</li>
+<li>
+<p>Set the interval (in seconds) at which metrics messages are
+generated.<br>
+Set `imq.metrics.topic.interval=`interval .<br>
+The default is 60 seconds.</p>
+</li>
+<li>
+<p>Specify whether you want metrics messages to be persistent (that is,
+whether they will survive a broker failure).<br>
+Set <code>imq.metrics.topic.persist</code> .<br>
+The default is <code>false</code>.</p>
+</li>
+<li>
+<p>Specify how long you want metrics messages to remain in their
+respective destinations before being deleted.<br>
+Set <code>imq.metrics.topic.timetolive</code> .<br>
+The default value is 300 seconds.</p>
+</li>
+<li>
+<p>Set any access control you desire on metrics topic destinations.<br>
+See the discussion in <a href="#aeoje">Security and Access Considerations</a>
+below.</p>
+</li>
+<li>
+<p>Start up your metrics monitoring client.<br>
+When consumers subscribe to a metrics topic, the metrics topic
+destination will automatically be created. Once a metrics topic has been
+created, the broker&#8217;s metrics message producer will begin sending
+metrics messages to the metrics topic.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeoje"></a><a id="GMADG00598"></a><a id="security-and-access-considerations"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_security_and_access_considerations">Security and Access Considerations</h4>
+<div class="paragraph">
+<p>There are two reasons to restrict access to metrics topic destinations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Metrics data might include sensitive information about a broker and
+its resources.</p>
+</li>
+<li>
+<p>Excessive numbers of subscriptions to metrics topic destinations might
+increase broker overhead and negatively affect performance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Because of these considerations, it is advisable to restrict access to
+metrics topic destinations.</p>
+</div>
+<div class="paragraph">
+<p>Monitoring clients are subject to the same authentication and
+authorization control as any other client. Only users maintained in the
+Message Queue user repository are allowed to connect to the broker.</p>
+</div>
+<div class="paragraph">
+<p>You can provide additional protections by restricting access to specific
+metrics topic destinations through an access control file, as described
+in <a href="security-services.html#aeofu">User Authorization</a>.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following entries in an <code>accesscontrol.properties</code> file
+will deny access to the mq.metrics.broker metrics topic to everyone
+except user1 and user 2.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.mq.metrics.broker.consume.deny.user=*
+topic.mq.metrics.broker.consume.allow.user=user1,user2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following entries will only allow users user3 to monitor topic t1.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.mq.metrics.destination.topic.t1.consume.deny.user=*
+topic.mq.metrics.destination.topic.t1.consume.allow.user=user3</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Depending on the sensitivity of metrics data, you can also connect your
+metrics monitoring client to a broker using an encrypted connection. For
+information on using encrypted connections, see
+<a href="security-services.html#aeogb">Message Encryption</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojf"></a><a id="GMADG00599"></a><a id="metrics-outputs-metrics-messages"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_metrics_outputs_metrics_messages">Metrics Outputs: Metrics Messages</h4>
+<div class="paragraph">
+<p>The metrics data outputs you get using the message-based monitoring API
+is a function of the metrics monitoring client you write. You are
+limited only by the data provided by the metrics generator in the
+broker. For a complete list of this data, see
+<a href="metrics-information.html#aeoor">Metrics Information Reference</a>.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="bridge-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="tuning.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

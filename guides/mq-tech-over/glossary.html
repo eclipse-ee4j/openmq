@@ -1,0 +1,478 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Glossary</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Glossary</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="mq-optional-jms-support.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMTOV00032"></a><a id="aerea"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="glossary">Glossary</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This glossary provides information about terms and concepts you might
+encounter while using Message Queue.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV164"></a><a id="sthref40"></a></p>
+</div>
+<div class="paragraph">
+<p>acknowledgement</p>
+</div>
+<div class="paragraph">
+<p>Control messages exchanged between clients and broker to ensure reliable
+delivery. There are two general types of acknowledgement: client
+acknowledgements and broker acknowledgements.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV165"></a><a id="sthref41"></a></p>
+</div>
+<div class="paragraph">
+<p>administered objects</p>
+</div>
+<div class="paragraph">
+<p>A pre-configured object—a connection factory or a destination—that
+encapsulates provider-specific implementation details, and is created by
+an administrator for use by one or more JMS clients. The use of
+administered objects allows JMS clients to be provider-independent.
+Administered objects are placed in a JNDI name space by and are accessed
+by JMS clients using JNDI lookups.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV166"></a><a id="sthref42"></a></p>
+</div>
+<div class="paragraph">
+<p>asynchronous messaging</p>
+</div>
+<div class="paragraph">
+<p>An exchange of messages in which the sending of a message does not
+depend upon the readiness of the consumer to receive it. In other words,
+the sender of a message need not wait for the sending method to return
+before it continues with other work. If a message consumer is busy or
+offline, the message is sent and subsequently received when the consumer
+is ready.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV167"></a><a id="sthref43"></a></p>
+</div>
+<div class="paragraph">
+<p>authentication</p>
+</div>
+<div class="paragraph">
+<p>The process by which only verified users are allowed to set up a
+connection to a broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV168"></a><a id="sthref44"></a></p>
+</div>
+<div class="paragraph">
+<p>authorization</p>
+</div>
+<div class="paragraph">
+<p>The process by which a message service determines whether a user can
+access message service resources, such as connection services or
+destinations, to perform specific operations supported by the message
+service.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV169"></a><a id="sthref45"></a></p>
+</div>
+<div class="paragraph">
+<p>broker</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue entity that manages message routing, delivery,
+persistence, security, and logging, and that provides an interface for
+monitoring and tuning performance and resource use.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV170"></a><a id="sthref46"></a></p>
+</div>
+<div class="paragraph">
+<p>client</p>
+</div>
+<div class="paragraph">
+<p>An application (or software component) that interacts with other clients
+using a message service to exchange messages. The client can be a
+producing client, a consuming client, or both.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV171"></a><a id="sthref47"></a></p>
+</div>
+<div class="paragraph">
+<p>client identifier</p>
+</div>
+<div class="paragraph">
+<p>An identifier that associates a connection and its objects with a state
+maintained by the Message Queue broker on behalf of the client.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV172"></a><a id="sthref48"></a></p>
+</div>
+<div class="paragraph">
+<p>client runtime</p>
+</div>
+<div class="paragraph">
+<p>Message Queue software that provides messaging clients with an interface
+to the Message Queue message service. The client runtime supports all
+operations needed for clients to send messages to destinations and to
+receive messages from destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV173"></a><a id="sthref49"></a></p>
+</div>
+<div class="paragraph">
+<p>cluster</p>
+</div>
+<div class="paragraph">
+<p>Two or more interconnected brokers that work in concert to provide
+scalable messaging services. In the event of failover and reconnection,
+conventional clusters provide service availability; enhanced clusters
+provide service and data availability.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV174"></a><a id="sthref50"></a></p>
+</div>
+<div class="paragraph">
+<p>cluster connection service</p>
+</div>
+<div class="paragraph">
+<p>A private protocol that enables brokers in a cluster to provide
+reliable, synchronized service.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV175"></a><a id="sthref51"></a></p>
+</div>
+<div class="paragraph">
+<p>connection</p>
+</div>
+<div class="paragraph">
+<p>A communication channel between a client and a broker used to pass both
+payload messages and control messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV176"></a><a id="sthref52"></a></p>
+</div>
+<div class="paragraph">
+<p>connection factory</p>
+</div>
+<div class="paragraph">
+<p>The administered object the client uses to create a connection to a
+broker. This can be a <code>ConnectionFactory</code> object, a
+<code>QueueConnectionFactory</code> object or a <code>TopicConnectionFactory</code> object.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV177"></a><a id="sthref53"></a></p>
+</div>
+<div class="paragraph">
+<p>consumer</p>
+</div>
+<div class="paragraph">
+<p>An object (<code>MessageConsumer</code>) created by a session that is used for
+receiving messages sent from a destination. In the point-to-point
+delivery model, the consumer is a receiver or browser (<code>QueueReceiver</code>
+or <code>QueueBrowser</code>); in the publish/subscribe delivery model, the
+consumer is a subscriber (<code>TopicSubscriber</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV178"></a><a id="sthref54"></a></p>
+</div>
+<div class="paragraph">
+<p>data store</p>
+</div>
+<div class="paragraph">
+<p>A database where information (durable subscriptions, data about
+destinations, persistent messages, auditing data) needed by the broker
+is permanently stored.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV179"></a><a id="sthref55"></a></p>
+</div>
+<div class="paragraph">
+<p>dead message</p>
+</div>
+<div class="paragraph">
+<p>A message that is removed from the system for a reason other than normal
+processing or explicit administrator action. A message might be
+considered dead because it has expired, because it has been removed from
+a destination due to memory limit overruns, or because of failed
+delivery attempts. You can choose to store dead messages on the dead
+message queue.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV180"></a><a id="sthref56"></a></p>
+</div>
+<div class="paragraph">
+<p>dead message queue</p>
+</div>
+<div class="paragraph">
+<p>A specialized destination created automatically at broker startup that
+is used to store dead messages for diagnostic purposes.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV181"></a><a id="sthref57"></a></p>
+</div>
+<div class="paragraph">
+<p>delivery mode</p>
+</div>
+<div class="paragraph">
+<p>An indicator of the reliability of messaging: whether messages are
+guaranteed to be delivered and successfully consumed once and only once
+(persistent delivery mode) or guaranteed to be delivered at most once
+(non-persistent delivery mode).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV182"></a><a id="sthref58"></a></p>
+</div>
+<div class="paragraph">
+<p>delivery model</p>
+</div>
+<div class="paragraph">
+<p>The model by which messages are delivered: either point-to-point or
+publish/subscribe. In JMS there are separate programming domains for
+each, using specific client runtime objects and specific destination
+types (queue or topic), as well as a unified programming domain.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV183"></a><a id="sthref59"></a></p>
+</div>
+<div class="paragraph">
+<p>destination</p>
+</div>
+<div class="paragraph">
+<p>The physical destination in a Message Queue broker to which produced
+messages are delivered for routing and subsequent delivery to consumers.
+This physical destination is identified and encapsulated by an
+administered object that a client uses to specify the destination for
+which it is producing messages and/or from which it is consuming
+messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV184"></a><a id="sthref60"></a></p>
+</div>
+<div class="paragraph">
+<p>domain</p>
+</div>
+<div class="paragraph">
+<p>A set of objects used by JMS clients to program JMS messaging
+operations. There are two programming domains: one for the
+point-to-point delivery model and one for the publish/subscribe delivery
+model.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV185"></a><a id="sthref61"></a></p>
+</div>
+<div class="paragraph">
+<p>encryption</p>
+</div>
+<div class="paragraph">
+<p>A mechanism for protecting messages from being tampered with during
+delivery over a connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV186"></a><a id="sthref62"></a></p>
+</div>
+<div class="paragraph">
+<p>group</p>
+</div>
+<div class="paragraph">
+<p>The group to which the user of a Message Queue client belongs for
+purposes of authorizing access to connections, destinations, and
+specific operations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV187"></a><a id="sthref63"></a></p>
+</div>
+<div class="paragraph">
+<p>JMS provider</p>
+</div>
+<div class="paragraph">
+<p>A product that implements the JMS interfaces for a messaging system and
+adds the administrative and control functions needed to configure and
+manage that system.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV188"></a><a id="sthref64"></a></p>
+</div>
+<div class="paragraph">
+<p>message service</p>
+</div>
+<div class="paragraph">
+<p>A middleware service that provides asynchronous, reliable exchange of
+messages between distributed components or applications. It includes a
+broker, the client runtime, the several data stores needed by the broker
+to carry out its functions, and the administrative tools needed to
+configure and monitor the broker and to tune performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV189"></a><a id="sthref65"></a></p>
+</div>
+<div class="paragraph">
+<p>messages</p>
+</div>
+<div class="paragraph">
+<p>Asynchronous requests, reports, or events that are consumed by messaging
+clients. A message has a header (to which additional fields can be
+added) and a body. The message header specifies standard fields and
+optional properties. The message body contains the data that is being
+transmitted.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV190"></a><a id="sthref66"></a></p>
+</div>
+<div class="paragraph">
+<p>messaging</p>
+</div>
+<div class="paragraph">
+<p>A system of asynchronous requests, reports, or events used by enterprise
+applications that allows loosely coupled applications to transfer
+information reliably and securely.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV191"></a><a id="sthref67"></a></p>
+</div>
+<div class="paragraph">
+<p>producer</p>
+</div>
+<div class="paragraph">
+<p>An object <code>(MessageProducer)</code> created by a session that is used for
+sending messages to a destination. In the point-to-point delivery model,
+a producer is a sender (<code>QueueSender</code>); in the publish/subscribe
+delivery model, a producer is a publisher (<code>TopicPublisher</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV192"></a><a id="sthref68"></a></p>
+</div>
+<div class="paragraph">
+<p>queue</p>
+</div>
+<div class="paragraph">
+<p>An object created by an administrator to implement the point-to-point
+delivery model. A queue is always available to hold messages even when
+the client that consumes its messages is inactive. A queue is used as an
+intermediary holding place between producers and consumers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV193"></a><a id="sthref69"></a></p>
+</div>
+<div class="paragraph">
+<p>selector</p>
+</div>
+<div class="paragraph">
+<p>A message header property used to sort and route messages. A message
+service performs message filtering and routing based on criteria placed
+in message selectors.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV194"></a><a id="sthref70"></a></p>
+</div>
+<div class="paragraph">
+<p>session</p>
+</div>
+<div class="paragraph">
+<p>A single threaded context for sending and receiving messages. This can
+be a queue session or a topic session.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV195"></a><a id="sthref71"></a></p>
+</div>
+<div class="paragraph">
+<p>topic</p>
+</div>
+<div class="paragraph">
+<p>An object created by an administrator to implement the publish/subscribe
+delivery model. A topic may be viewed as node in a content hierarchy
+that is responsible for gathering and distributing messages addressed to
+it. By using a topic as an intermediary, message publishers are kept
+separate from message subscribers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV196"></a><a id="sthref72"></a></p>
+</div>
+<div class="paragraph">
+<p>transaction</p>
+</div>
+<div class="paragraph">
+<p>An atomic unit of work that must either be completed or entirely rolled
+back.</p>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="mq-optional-jms-support.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

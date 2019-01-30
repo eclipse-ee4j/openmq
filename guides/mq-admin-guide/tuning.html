@@ -1,0 +1,1733 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Analyzing and Tuning a Message Service</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Analyzing and Tuning a Message Service</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="monitoring.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="troubleshooting.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00045"></a><a id="aeojg"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="analyzing-and-tuning-a-message-service">14 Analyzing and Tuning a Message Service</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter covers a number of topics about how to analyze and tune a
+Message Queue service to optimize the performance of your messaging
+applications. It includes the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeojh">About Performance</a></p>
+</li>
+<li>
+<p><a href="#aeojm">Factors Affecting Performance</a></p>
+</li>
+<li>
+<p><a href="#aeokk">Adjusting Configuration To Improve Performance</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeojh"></a><a id="GMADG00268"></a><a id="about-performance"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_about_performance">About Performance</h3>
+<div class="paragraph">
+<p>This section provides some background information on performance tuning.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoji"></a><a id="GMADG00600"></a><a id="the-performance-tuning-process"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_the_performance_tuning_process">The Performance Tuning Process</h4>
+<div class="paragraph">
+<p>The performance you get out of a messaging application depends on the
+interaction between the application and the Message Queue service.
+Hence, maximizing performance requires the combined efforts of both the
+application developer and the administrator.</p>
+</div>
+<div class="paragraph">
+<p>The process of optimizing performance begins with application design and
+continues on through tuning the message service after the application
+has been deployed. The performance tuning process includes the following
+stages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Defining performance requirements for the application</p>
+</li>
+<li>
+<p>Designing the application taking into account factors that affect
+performance (especially tradeoffs between reliability and performance)</p>
+</li>
+<li>
+<p>Establishing baseline performance measures</p>
+</li>
+<li>
+<p>Tuning or reconfiguring the message service to optimize performance</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The process outlined above is often iterative. During deployment of the
+application, a Message Queue administrator evaluates the suitability of
+the message service for the application&#8217;s general performance
+requirements. If the benchmark testing meets these requirements, the
+administrator can tune the system as described in this chapter. However,
+if benchmark testing does not meet performance requirements, a redesign
+of the application might be necessary or the deployment architecture
+might need to be modified.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojj"></a><a id="GMADG00601"></a><a id="aspects-of-performance"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_aspects_of_performance">Aspects of Performance</h4>
+<div class="paragraph">
+<p>In general, performance is a measure of the speed and efficiency with
+which a message service delivers messages from producer to consumer.
+However, there are several different aspects of performance that might
+be important to you, depending on your needs.</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Connection Load</dt>
+<dd>
+<p>The number of message producers, or message consumers, or the number
+of concurrent connections a system can support.</p>
+</dd>
+<dt class="hdlist1">Message throughput</dt>
+<dd>
+<p>The number of messages or message bytes that can be pumped through a
+messaging system per second.</p>
+</dd>
+<dt class="hdlist1">Latency</dt>
+<dd>
+<p>The time it takes a particular message to be delivered from message
+producer to message consumer.</p>
+</dd>
+<dt class="hdlist1">Stability</dt>
+<dd>
+<p>The overall availability of the message service or how gracefully it
+degrades in cases of heavy load or failure.</p>
+</dd>
+<dt class="hdlist1">Efficiency</dt>
+<dd>
+<p>The efficiency of message delivery; a measure of message throughput in
+relation to the computing resources employed.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>These different aspects of performance are generally interrelated. If
+message throughput is high, that means messages are less likely to be
+backlogged in the broker, and as a result, latency should be low (a
+single message can be delivered very quickly). However, latency can
+depend on many factors: the speed of communication links, broker
+processing speed, and client processing speed, to name a few.</p>
+</div>
+<div class="paragraph">
+<p>In any case, the aspects of performance that are most important to you
+generally depends on the requirements of a particular application.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojk"></a><a id="GMADG00602"></a><a id="benchmarks"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_benchmarks">Benchmarks</h4>
+<div class="paragraph">
+<p>Benchmarking is the process of creating a test suite for your messaging
+application and of measuring message throughput or other aspects of
+performance for this test suite.</p>
+</div>
+<div class="paragraph">
+<p>For example, you could create a test suite by which some number of
+producing clients, using some number of connections, sessions, and
+message producers, send persistent or nonpersistent messages of a
+standard size to some number of queues or topics (all depending on your
+messaging application design) at some specified rate. Similarly, the
+test suite includes some number of consuming clients, using some number
+of connections, sessions, and message consumers (of a particular type)
+that consume the messages in the test suite&#8217;s physical destinations
+using a particular acknowledgment mode.</p>
+</div>
+<div class="paragraph">
+<p>Using your standard test suite you can measure the time it takes between
+production and consumption of messages or the average message throughput
+rate, and you can monitor the system to observe connection thread usage,
+message storage data, message flow data, and other relevant metrics. You
+can then ramp up the rate of message production, or the number of
+message producers, or other variables, until performance is negatively
+affected. The maximum throughput you can achieve is a benchmark for your
+message service configuration.</p>
+</div>
+<div class="paragraph">
+<p>Using this benchmark, you can modify some of the characteristics of your
+test suite. By carefully controlling all the factors that might have an
+effect on performance (see <a href="#aeojn">Application Design Factors
+Affecting Performance</a>), you can note how changing some of these factors
+affects the benchmark. For example, you can increase the number of
+connections or the size of messages five-fold or ten-fold, and note the
+effect on performance.</p>
+</div>
+<div class="paragraph">
+<p>Conversely, you can keep application-based factors constant and change
+your broker configuration in some controlled way (for example, change
+connection properties, thread pool properties, JVM memory limits, limit
+behaviors, file-based versus JDBC-based persistence, and so forth) and
+note how these changes affect performance.</p>
+</div>
+<div class="paragraph">
+<p>This benchmarking of your application provides information that can be
+valuable when you want to increase the performance of a deployed
+application by tuning your message service. A benchmark allows the
+effect of a change or a set of changes to be more accurately predicted.</p>
+</div>
+<div class="paragraph">
+<p>As a general rule, benchmarks should be run in a controlled test
+environment and for a long enough period of time for your message
+service to stabilize. (Performance is negatively affected at startup by
+the just-in-time compilation that turns Java code into machine code.)</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojl"></a><a id="GMADG00603"></a><a id="baseline-use-patterns"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_baseline_use_patterns">Baseline Use Patterns</h4>
+<div class="paragraph">
+<p>Once a messaging application is deployed and running, it is important to
+establish baseline use patterns. You want to know when peak demand
+occurs and you want to be able to quantify that demand. For example,
+demand normally fluctuates by number of end users, activity levels, time
+of day, or all of these.</p>
+</div>
+<div class="paragraph">
+<p>To establish baseline use patterns you need to monitor your message
+service over an extended period of time, looking at data such as the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Number of connections</p>
+</li>
+<li>
+<p>Number of messages stored in the broker (or in particular physical
+destinations)</p>
+</li>
+<li>
+<p>Message flows into and out of a broker (or particular physical
+destinations)</p>
+</li>
+<li>
+<p>Numbers of active consumers</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can also use average and peak values provided in metrics data.</p>
+</div>
+<div class="paragraph">
+<p>It is important to check these baseline metrics against design
+expectations. By doing so, you are checking that client code is behaving
+properly: for example, that connections are not being left open or that
+consumed messages are not being left unacknowledged. These coding errors
+consume broker resources and could significantly affect performance.</p>
+</div>
+<div class="paragraph">
+<p>The base-line use patterns help you determine how to tune your system
+for optimal performance. For example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If one physical destination is used significantly more than others,
+you might want to set higher message memory limits on that physical
+destination than on others, or to adjust limit behaviors accordingly.</p>
+</li>
+<li>
+<p>If the number of connections needed is significantly greater than
+allowed by the maximum thread pool size, you might want to increase the
+thread pool size or adopt a shared thread model.</p>
+</li>
+<li>
+<p>If peak message flows are substantially greater than average flows,
+that might influence the limit behaviors you employ when memory runs
+low.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In general, the more you know about use patterns, the better you are
+able to tune your system to those patterns and to plan for future needs.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojm"></a><a id="GMADG00269"></a><a id="factors-affecting-performance"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_factors_affecting_performance">Factors Affecting Performance</h3>
+<div class="paragraph">
+<p>Message latency and message throughput, two of the main performance
+indicators, generally depend on the time it takes a typical message to
+complete various steps in the message delivery process. These steps are
+shown below for the case of a persistent, reliably delivered message.
+The steps are described following the illustration.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00025"></a><a id="gbnkr"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 14-1 Message Delivery Through a Message Queue Service</strong></div>
+<p><span class="image"><img src="img/adm_msgflow.png" alt="Diagram showing steps in the message delivery process in case of a persistent, reliably delivered message. Steps are described in text that follows."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="ggxdh"></a><a id="GMADG00604"></a><a id="message-delivery-steps"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_message_delivery_steps">Message Delivery Steps</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The message is delivered from producing client to broker.</p>
+</li>
+<li>
+<p>The broker reads in the message.</p>
+</li>
+<li>
+<p>The message is placed in persistent storage (for reliability).</p>
+</li>
+<li>
+<p>The broker confirms receipt of the message (for reliability).</p>
+</li>
+<li>
+<p>The broker determines the routing for the message.</p>
+</li>
+<li>
+<p>The broker writes out the message.</p>
+</li>
+<li>
+<p>The message is delivered from broker to consuming client.</p>
+</li>
+<li>
+<p>The consuming client acknowledges receipt of the message (for
+reliability).</p>
+</li>
+<li>
+<p>The broker processes client acknowledgment (for reliability).</p>
+</li>
+<li>
+<p>The broker confirms that client acknowledgment has been processed.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Since these steps are sequential, any one of them can be a potential
+bottleneck in the delivery of messages from producing clients to
+consuming clients. Most of the steps depend on physical characteristics
+of the messaging system: network bandwidth, computer processing speeds,
+message service architecture, and so forth. Some, however, also depend
+on characteristics of the messaging application and the level of
+reliability it requires.</p>
+</div>
+<div class="paragraph">
+<p>The following subsections discuss the effect of both application design
+factors and messaging system factors on performance. While application
+design and messaging system factors closely interact in the delivery of
+messages, each category is considered separately.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojn"></a><a id="GMADG00605"></a><a id="application-design-factors-affecting-performance"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_application_design_factors_affecting_performance">Application Design Factors Affecting Performance</h4>
+<div class="paragraph">
+<p>Application design decisions can have a significant effect on overall
+messaging performance.</p>
+</div>
+<div class="paragraph">
+<p>The most important factors affecting performance are those that affect
+the reliability of message delivery. Among these are the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeojo">Delivery Mode (Persistent/Nonpersistent Messages)</a></p>
+</li>
+<li>
+<p><a href="#aeojp">Use of Transactions</a></p>
+</li>
+<li>
+<p><a href="#aeojq">Acknowledgment Mode</a></p>
+</li>
+<li>
+<p><a href="#aeojr">Durable and Nondurable Subscriptions</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Other application design factors affecting performance are the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeojs">Use of Selectors (Message Filtering)</a></p>
+</li>
+<li>
+<p><a href="#aeojt">Message Size</a></p>
+</li>
+<li>
+<p><a href="#aeoju">Message Body Type</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The sections that follow describe the effect of each of these factors on
+messaging performance. As a general rule, there is a tradeoff between
+performance and reliability: factors that increase reliability tend to
+decrease performance.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnmf">Table 14-1</a> shows how the various application design factors
+generally affect messaging performance. The table shows two
+scenarios—one high-reliability, low-performance, and one
+high-performance, low-reliability—and the choices of application design
+factors that characterize each. Between these extremes, there are many
+choices and tradeoffs that affect both reliability and performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG698"></a><a id="sthref84"></a><a id="gbnmf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 14-1 Comparison of High-Reliability and High-Performance Scenarios</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 30%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Application Design Factor</th>
+<th class="tableblock halign-left valign-top">High-Reliability, Low-Performance Scenario</th>
+<th class="tableblock halign-left valign-top">High-Performance, Low-Reliability Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistent messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nonpersistent messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transacted sessions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No transactions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledgment mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTO_ACKNOWLEDGE</code> or <code>CLIENT_ACKNOWLEDGE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DUPS_OK_ACKNOWLEDGE</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Durable/nondurable subscriptions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Durable subscriptions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Nondurable
+subscriptions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of selectors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message filtering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No message filtering</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Large number of small messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Small number of large
+messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message body type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Complex body types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Simple body types</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeojo"></a><a id="GMADG00452"></a><a id="delivery-mode-persistentnonpersistent-messages"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_delivery_mode_persistent_nonpersistent_messages">Delivery Mode (Persistent/Nonpersistent Messages)</h5>
+<div class="paragraph">
+<p>Persistent messages guarantee message delivery in case of broker
+failure. The broker stores the message in a persistent store until all
+intended consumers acknowledge they have consumed the message.</p>
+</div>
+<div class="paragraph">
+<p>Broker processing of persistent messages is slower than for
+nonpersistent messages for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A broker must reliably store a persistent message so that it will not
+be lost should the broker fail.</p>
+</li>
+<li>
+<p>The broker must confirm receipt of each persistent message it
+receives. Delivery to the broker is guaranteed once the method producing
+the message returns without an exception.</p>
+</li>
+<li>
+<p>Depending on the client acknowledgment mode, the broker might need to
+confirm a consuming client&#8217;s acknowledgment of a persistent message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For both queues and topics with durable subscribers, performance was
+approximately 40% faster for nonpersistent messages. We obtained these
+results using 10k-sized messages and <code>AUTO_ACKNOWLEDGE</code> mode.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojp"></a><a id="GMADG00453"></a><a id="use-of-transactions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_use_of_transactions">Use of Transactions</h5>
+<div class="paragraph">
+<p>A transaction is a guarantee that all messages produced in a transacted
+session and all messages consumed in a transacted session will be either
+processed or not processed (rolled back) as a unit.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue supports both local and distributed transactions.</p>
+</div>
+<div class="paragraph">
+<p>A message produced or acknowledged in a transacted session is slower
+than in a nontransacted session for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Additional information must be stored with each produced message.</p>
+</li>
+<li>
+<p>In some situations, messages in a transaction are stored when normally
+they would not be (for example, a persistent message delivered to a
+topic destination with no subscriptions would normally be deleted,
+however, at the time the transaction is begun, information about
+subscriptions is not available).</p>
+</li>
+<li>
+<p>Information on the consumption and acknowledgment of messages within a
+transaction must be stored and processed when the transaction is
+committed.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To improve performance, Message Queue message brokers are configured by
+default to use a memory-mapped file to store transaction data. On file
+systems that do not support memory-mapped files, you can disable this
+behavior by setting the broker property
+<code>imq.persist.file.transaction.memorymappedfile.enabled</code> to <code>false</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeojq"></a><a id="GMADG00454"></a><a id="acknowledgment-mode"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_acknowledgment_mode">Acknowledgment Mode</h5>
+<div class="paragraph">
+<p>One mechanism for ensuring the reliability of JMS message delivery is
+for a client to acknowledge consumption of messages delivered to it by
+the Message Queue broker.</p>
+</div>
+<div class="paragraph">
+<p>If a session is closed without the client acknowledging the message or
+if the broker fails before the acknowledgment is processed, the broker
+redelivers that message, setting a <code>JMSRedelivered</code> flag.</p>
+</div>
+<div class="paragraph">
+<p>For a nontransacted session, the client can choose one of three
+acknowledgment modes, each of which has its own performance
+characteristics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AUTO_ACKNOWLEDGE</code>. The system automatically acknowledges a message
+once the consumer has processed it. This mode guarantees at most one
+redelivered message after a provider failure.</p>
+</li>
+<li>
+<p><code>CLIENT_ACKNOWLEDGE</code>. The application controls the point at which
+messages are acknowledged. All messages processed in that session since
+the previous acknowledgment are acknowledged. If the broker fails while
+processing a set of acknowledgments, one or more messages in that group
+might be redelivered.</p>
+</li>
+<li>
+<p><code>DUPS_OK_ACKNOWLEDGE</code>. This mode instructs the system to acknowledge
+messages in a lazy manner. Multiple messages can be redelivered after a
+provider failure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(Using <code>CLIENT_ACKNOWLEDGE</code> mode is similar to using transactions,
+except there is no guarantee that all acknowledgments will be processed
+together if a provider fails during processing.)</p>
+</div>
+<div class="paragraph">
+<p>Acknowledgment mode affects performance for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Extra control messages between broker and client are required in
+<code>AUTO_ACKNOWLEDGE</code> and <code>CLIENT_ACKNOWLEDGE</code> modes. The additional
+control messages add additional processing overhead and can interfere
+with JMS payload messages, causing processing delays.</p>
+</li>
+<li>
+<p>In <code>AUTO_ACKNOWLEDGE</code> and <code>CLIENT_ACKNOWLEDGE</code> modes, the client must
+wait until the broker confirms that it has processed the client&#8217;s
+acknowledgment before the client can consume additional messages. (This
+broker confirmation guarantees that the broker will not inadvertently
+redeliver these messages.)</p>
+</li>
+<li>
+<p>The Message Queue persistent store must be updated with the
+acknowledgment information for all persistent messages received by
+consumers, thereby decreasing performance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeojr"></a><a id="GMADG00455"></a><a id="durable-and-nondurable-subscriptions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_durable_and_nondurable_subscriptions">Durable and Nondurable Subscriptions</h5>
+<div class="paragraph">
+<p>Subscribers to a topic destination fall into two categories, those with
+durable and nondurable subscriptions.</p>
+</div>
+<div class="paragraph">
+<p>Durable subscriptions provide increased reliability but slower
+throughput, for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Message Queue message service must persistently store the list of
+messages assigned to each durable subscription so that should a broker
+fail, the list is available after recovery.</p>
+</li>
+<li>
+<p>Persistent messages for durable subscriptions are stored persistently,
+so that should a broker fail, the messages can still be delivered after
+recovery, when the corresponding consumer becomes active. By contrast,
+persistent messages for nondurable subscriptions are not stored
+persistently (should a broker fail, the corresponding consumer
+connection is lost and the message would never be delivered).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>We compared performance for durable and nondurable subscribers in two
+cases: persistent and nonpersistent 10k-sized messages. Both cases use
+<code>AUTO_ACKNOWLEDGE</code> acknowledgment mode. We found an effect on
+performance only in the case of persistent messages which slowed
+durables by about 30%</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojs"></a><a id="GMADG00456"></a><a id="use-of-selectors-message-filtering"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_use_of_selectors_message_filtering">Use of Selectors (Message Filtering)</h5>
+<div class="paragraph">
+<p>Application developers often want to target sets of messages to
+particular consumers. They can do so either by targeting each set of
+messages to a unique physical destination or by using a single physical
+destination and registering one or more selectors for each consumer.</p>
+</div>
+<div class="paragraph">
+<p>A selector is a string requesting that only messages with property
+values that match the string are delivered to a particular consumer. For
+example, the selector <code>NumberOfOrders&gt;1</code> delivers only the messages with
+a <code>NumberOfOrders</code> property value of <code>2</code> or more.</p>
+</div>
+<div class="paragraph">
+<p>Creating consumers with selectors lowers performance (as compared to
+using multiple physical destinations) because additional processing is
+required to handle each message. When a selector is used, it must be
+parsed so that it can be matched against future messages. Additionally,
+the message properties of each message must be retrieved and compared
+against the selector as each message is routed. However, using selectors
+provides more flexibility in a messaging application.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojt"></a><a id="GMADG00457"></a><a id="message-size"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_size">Message Size</h5>
+<div class="paragraph">
+<p>Message size affects performance because more data must be passed from
+producing client to broker and from broker to consuming client, and
+because for persistent messages a larger message must be stored.</p>
+</div>
+<div class="paragraph">
+<p>However, by batching smaller messages into a single message, the routing
+and processing of individual messages can be minimized, providing an
+overall performance gain. In this case, information about the state of
+individual messages is lost.</p>
+</div>
+<div class="paragraph">
+<p>In our tests, which compared throughput in kilobytes per second for 1k,
+10k, and 100k-sized messages to a queue destination and
+<code>AUTO_ACKNOWLEDGE</code> acknowledgment mode, we found that nonpersistent
+messaging was about 50% faster for 1k messages, about 20% faster for 10k
+messages, and about 5% faster for 100k messages. The size of the message
+affected performance significantly for both persistent and nonpersistent
+messages. 100k messages are about 10 times faster than 10k, and 10k are
+about 5 times faster than 1k.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoju"></a><a id="GMADG00458"></a><a id="message-body-type"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_body_type">Message Body Type</h5>
+<div class="paragraph">
+<p>JMS supports five message body types, shown below roughly in the order
+of complexity:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>BytesMessage</code> contains a set of bytes in a format determined by the
+application.</p>
+</li>
+<li>
+<p><code>TextMessage</code> is a simple Java string.</p>
+</li>
+<li>
+<p><code>StreamMessage</code> contains a stream of Java primitive values.</p>
+</li>
+<li>
+<p><code>MapMessage</code> contains a set of name-value pairs.</p>
+</li>
+<li>
+<p><code>ObjectMessage</code> contains a Java serialized object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>While, in general, the message type is dictated by the needs of an
+application, the more complicated types (<code>MapMessage</code> and
+<code>ObjectMessage</code>) carry a performance cost: the expense of serializing
+and deserializing the data. The performance cost depends on how simple
+or how complicated the data is.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojv"></a><a id="GMADG00606"></a><a id="message-service-factors-affecting-performance"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_service_factors_affecting_performance">Message Service Factors Affecting Performance</h4>
+<div class="paragraph">
+<p>The performance of a messaging application is affected not only by
+application design, but also by the message service performing the
+routing and delivery of messages.</p>
+</div>
+<div class="paragraph">
+<p>The following sections discuss various message service factors that can
+affect performance. Understanding the effect of these factors is key to
+sizing a message service and diagnosing and resolving performance
+bottlenecks that might arise in a deployed application.</p>
+</div>
+<div class="paragraph">
+<p>The most important factors affecting performance in a Message Queue
+service are the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeojw">Hardware</a></p>
+</li>
+<li>
+<p><a href="#aeojx">Operating System</a></p>
+</li>
+<li>
+<p><a href="#aeojy">Java Virtual Machine (JVM)</a></p>
+</li>
+<li>
+<p><a href="#aeojz">Connections</a></p>
+</li>
+<li>
+<p><a href="#aeokd">Broker Limits and Behaviors</a></p>
+</li>
+<li>
+<p><a href="#aeokc">Message Service Architecture</a></p>
+</li>
+<li>
+<p><a href="#aeoke">Data Store Performance</a></p>
+</li>
+<li>
+<p><a href="#aeokf">Client Runtime Configuration</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The sections below describe the effect of each of these factors on
+messaging performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojw"></a><a id="GMADG00459"></a><a id="hardware"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_hardware">Hardware</h5>
+<div class="paragraph">
+<p>For both the Message Queue broker and client applications, CPU
+processing speed and available memory are primary determinants of
+message service performance. Many software limitations can be eliminated
+by increasing processing power, while adding memory can increase both
+processing speed and capacity. However, it is generally expensive to
+overcome bottlenecks simply by upgrading your hardware.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojx"></a><a id="GMADG00460"></a><a id="operating-system"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_operating_system">Operating System</h5>
+<div class="paragraph">
+<p>Because of the efficiencies of different operating systems, performance
+can vary, even assuming the same hardware platform. For example, the
+thread model employed by the operating system can have an important
+effect on the number of concurrent connections a broker can support. In
+general, all hardware being equal, Solaris is generally faster than
+Linux, which is generally faster than Windows.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojy"></a><a id="GMADG00461"></a><a id="java-virtual-machine-jvm"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_java_virtual_machine_jvm">Java Virtual Machine (JVM)</h5>
+<div class="paragraph">
+<p>The broker is a Java process that runs in and is supported by the host
+JVM. As a result, JVM processing is an important determinant of how fast
+and efficiently a broker can route and deliver messages.</p>
+</div>
+<div class="paragraph">
+<p>In particular, the JVM&#8217;s management of memory resources can be critical.
+Sufficient memory has to be allocated to the JVM to accommodate
+increasing memory loads. In addition, the JVM periodically reclaims
+unused memory, and this memory reclamation can delay message processing.
+The larger the JVM memory heap, the longer the potential delay that
+might be experienced during memory reclamation.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeojz"></a><a id="GMADG00462"></a><a id="connections"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connections">Connections</h5>
+<div class="paragraph">
+<p>The number and speed of connections between client and broker can affect
+the number of messages that a message service can handle as well as the
+speed of message delivery.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoka"></a><a id="GMADG00091"></a><a id="broker-connection-limits"></a></p>
+</div>
+<div class="paragraph">
+<p>Broker Connection Limits</p>
+</div>
+<div class="paragraph">
+<p>All access to the broker is by way of connections. Any limit on the
+number of concurrent connections can affect the number of producing or
+consuming clients that can concurrently use the broker.</p>
+</div>
+<div class="paragraph">
+<p>The number of connections to a broker is generally limited by the number
+of threads available. Message Queue can be configured to support either
+a dedicated thread model or a shared thread model (see
+<a href="connection-services.html#aeocp">Thread Pool Management</a>).</p>
+</div>
+<div class="paragraph">
+<p>The dedicated thread model is very fast because each connection has
+dedicated threads, however the number of connections is limited by the
+number of threads available (one input thread and one output thread for
+each connection). The shared thread model places no limit on the number
+of connections, however there is significant overhead and throughput
+delays in sharing threads among a number of connections, especially when
+those connections are busy.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokb"></a><a id="GMADG00092"></a><a id="transport-protocols"></a></p>
+</div>
+<div class="paragraph">
+<p>Transport Protocols</p>
+</div>
+<div class="paragraph">
+<p>Message Queue software allows clients to communicate with the broker
+using various low-level transport protocols. Message Queue supports the
+connection services (and corresponding protocols) described in
+<a href="connection-services.html#aeocn">Configuring Connection Services</a>.</p>
+</div>
+<div class="paragraph">
+<p>The choice of protocols is based on application requirements (encrypted,
+accessible through a firewall), but the choice affects overall
+performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00026"></a><a id="gbnkx"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 14-2 Transport Protocol Speeds</strong></div>
+<p><span class="image"><img src="img/adm_protocols.png" alt="Diagram showing relative speeds of different transport protocols. Effect is explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>Our tests compared throughput for TCP and SSL for two cases: a
+high-reliability scenario (1k persistent messages sent to topic
+destinations with durable subscriptions and using <code>AUTO_ACKNOWLEDGE</code>
+acknowledgment mode) and a high-performance scenario (1k nonpersistent
+messages sent to topic destinations without durable subscriptions and
+using <code>DUPS_OK_ACKNOWLEDGE</code> acknowledgment mode).</p>
+</div>
+<div class="paragraph">
+<p>In general we found that protocol has less effect in the
+high-reliability case. This is probably because the persistence overhead
+required in the high-reliability case is a more important factor in
+limiting throughput than the protocol speed. Additionally:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>TCP provides the fastest method to communicate with the broker.</p>
+</li>
+<li>
+<p>SSL is 50 to 70 percent slower than TCP when it comes to sending and
+receiving messages (50 percent for persistent messages, closer to 70
+percent for nonpersistent messages). Additionally, establishing the
+initial connection is slower with SSL (it might take several seconds)
+because the client and broker (or Web Server in the case of HTTPS) need
+to establish a private key to be used when encrypting the data for
+transmission. The performance drop is caused by the additional
+processing required to encrypt and decrypt each low-level TCP packet.</p>
+</li>
+<li>
+<p>HTTP is slower than either the TCP or SSL. It uses a servlet that runs
+on a Web server as a proxy between the client and the broker.
+Performance overhead is involved in encapsulating packets in HTTP
+requests and in the requirement that messages go through two
+hops&#8212;&#8203;client to servlet, servlet to broker&#8212;&#8203;to reach the broker.</p>
+</li>
+<li>
+<p>HTTPS is slower than HTTP because of the additional overhead required
+to encrypt the packet between client and servlet and between servlet and
+broker.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeokc"></a><a id="GMADG00463"></a><a id="message-service-architecture"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_service_architecture">Message Service Architecture</h5>
+<div class="paragraph">
+<p>A Message Queue message service can be implemented as a single broker or
+as a cluster consisting of multiple interconnected broker instances.</p>
+</div>
+<div class="paragraph">
+<p>As the number of clients connected to a broker increases, and as the
+number of messages being delivered increases, a broker will eventually
+exceed resource limitations such as file descriptor, thread, and memory
+limits. One way to accommodate increasing loads is to add more broker
+instances to a Message Queue message service, distributing client
+connections and message routing and delivery across multiple brokers.</p>
+</div>
+<div class="paragraph">
+<p>In general, this scaling works best if clients are evenly distributed
+across the cluster, especially message producing clients. Because of the
+overhead involved in delivering messages between the brokers in a
+cluster, clusters with limited numbers of connections or limited message
+delivery rates, might exhibit lower performance than a single broker.</p>
+</div>
+<div class="paragraph">
+<p>You might also use a broker cluster to optimize network bandwidth. For
+example, you might want to use slower, long distance network links
+between a set of remote brokers within a cluster, while using higher
+speed links for connecting clients to their respective broker instances.</p>
+</div>
+<div class="paragraph">
+<p>For more information on clusters, see
+<a href="broker-clusters.html#aeohv">Configuring and Managing Broker Clusters</a></p>
+</div>
+<div class="paragraph">
+<p><a id="aeokd"></a><a id="GMADG00464"></a><a id="broker-limits-and-behaviors"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_broker_limits_and_behaviors">Broker Limits and Behaviors</h5>
+<div class="paragraph">
+<p>The message throughput that a broker might be required to handle is a
+function of the use patterns of the messaging applications the broker
+supports. However, the broker is limited in resources: memory, CPU
+cycles, and so forth. As a result, it would be possible for a broker to
+become overwhelmed to the point where it becomes unresponsive or
+unstable.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue message broker has mechanisms built in for managing
+memory resources and preventing the broker from running out of memory.
+These mechanisms include configurable limits on the number of messages
+or message bytes that can be held by a broker or its individual physical
+destinations, and a set of behaviors that can be instituted when
+physical destination limits are reached.</p>
+</div>
+<div class="paragraph">
+<p>With careful monitoring and tuning, these configurable mechanisms can be
+used to balance the inflow and outflow of messages so that system
+overload cannot occur. While these mechanisms consume overhead and can
+limit message throughput, they nevertheless maintain operational
+integrity.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoke"></a><a id="GMADG00465"></a><a id="data-store-performance"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_data_store_performance">Data Store Performance</h5>
+<div class="paragraph">
+<p>Message Queue supports both file-based and JDBC-based persistence
+modules. File-based persistence uses individual files to store
+persistent data. JDBC-based persistence uses a Java Database
+Connectivity (JDBC) interface and requires a JDBC-compliant data store.
+File-based persistence is generally faster than JDBC-based; however,
+some users prefer the redundancy and administrative control provided by
+a JDBC-compliant store.</p>
+</div>
+<div class="paragraph">
+<p>In the case of file-based persistence, you can maximize reliability by
+specifying that persistence operations synchronize the in-memory state
+with the data store. This helps eliminate data loss due to system
+crashes, but at the expense of performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokf"></a><a id="GMADG00466"></a><a id="client-runtime-configuration"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_client_runtime_configuration">Client Runtime Configuration</h5>
+<div class="paragraph">
+<p>The Message Queue client runtime provides client applications with an
+interface to the Message Queue message service. It supports all the
+operations needed for clients to send messages to physical destinations
+and to receive messages from such destinations. The client runtime is
+configurable (by setting connection factory attribute values), allowing
+you to control aspects of its behavior, such as connection flow
+metering, consumer flow limits, and connection flow limits, that can
+improve performance and message throughput. See <a href="#aeoky">Client
+Runtime Message Flow Adjustments</a> for more information on these features
+and the attributes used to configure them.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokk"></a><a id="GMADG00270"></a><a id="adjusting-configuration-to-improve-performance"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adjusting_configuration_to_improve_performance">Adjusting Configuration To Improve Performance</h3>
+<div class="paragraph">
+<p>The following sections explain how configuration adjustments can affect
+performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokl"></a><a id="GMADG00607"></a><a id="system-adjustments"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_system_adjustments">System Adjustments</h4>
+<div class="paragraph">
+<p>The following sections describe adjustments you can make to the
+operating system, JVM, communication protocols, and persistent data
+store.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokm"></a><a id="GMADG00467"></a><a id="solaris-tuning-cpu-utilization-pagingswappingdisk-io"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_solaris_tuning_cpu_utilization_paging_swapping_disk_i_o">Solaris Tuning: CPU Utilization, Paging/Swapping/Disk I/O</h5>
+<div class="paragraph">
+<p>See your system documentation for tuning your operating system.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokn"></a><a id="GMADG00468"></a><a id="java-virtual-machine-adjustments"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_java_virtual_machine_adjustments">Java Virtual Machine Adjustments</h5>
+<div class="paragraph">
+<p>By default, the broker uses a JVM heap size of 192MB. This is often too
+small for significant message loads and should be increased.</p>
+</div>
+<div class="paragraph">
+<p>When the broker gets close to exhausting the JVM heap space used by Java
+objects, it uses various techniques such as flow control and message
+swapping to free memory. Under extreme circumstances it even closes
+client connections in order to free the memory and reduce the message
+inflow. Hence it is desirable to set the maximum JVM heap space high
+enough to avoid such circumstances.</p>
+</div>
+<div class="paragraph">
+<p>However, if the maximum Java heap space is set too high, in relation to
+system physical memory, the broker can continue to grow the Java heap
+space until the entire system runs out of memory. This can result in
+diminished performance, unpredictable broker crashes, and/or affect the
+behavior of other applications and services running on the system. In
+general, you need to allow enough physical memory for the operating
+system and other applications to run on the machine.</p>
+</div>
+<div class="paragraph">
+<p>In general it is a good idea to evaluate the normal and peak system
+memory footprints, and configure the Java heap size so that it is large
+enough to provide good performance, but not so large as to risk system
+memory problems.</p>
+</div>
+<div class="paragraph">
+<p>To change the minimum and maximum heap size for the broker, use the
+<code>-vmargs</code> command line option when starting the broker. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">/usr/bin/imqbrokerd -vmargs "-Xms256m -Xmx1024m"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This command will set the starting Java heap size to 256MB and the
+maximum Java heap size to 1GB.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Solaris or Linux, if starting the broker via <code>/etc/rc*</code> (that is,
+<code>/etc/init.d/imq</code>), specify broker command line arguments in the file
+<code>/etc/imq/imqbrokerd.conf</code> (Solaris) or
+<code>/etc/opt/sun/mq/imqbrokerd.conf</code> (Linux). See the comments in that file
+for more information.</p>
+</li>
+<li>
+<p>On Windows, if starting the broker as a Window&#8217;s service, specify JVM
+arguments using the <code>-vmargs</code> option to the <code>imqsvcadmin</code> <code>install</code>
+command. See <a href="command-line-reference.html#aeonq">Service Administrator
+Utility</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In any case, verify settings by checking the broker&#8217;s log file or using
+the <code>imqcmd metrics bkr -m cxn</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoko"></a><a id="GMADG00469"></a><a id="tuning-transport-protocols"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tuning_transport_protocols">Tuning Transport Protocols</h5>
+<div class="paragraph">
+<p>Once a protocol that meets application needs has been chosen, additional
+tuning (based on the selected protocol) might improve performance.</p>
+</div>
+<div class="paragraph">
+<p>A protocol&#8217;s performance can be modified using the following three
+broker properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.protocol.`protocolType</code>.nodelay`</p>
+</li>
+<li>
+<p><code>imq.protocol.`protocolType</code>.inbufsz`</p>
+</li>
+<li>
+<p><code>imq.protocol.`protocolType</code>.outbufsz`</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For TCP and SSL protocols, these properties affect the speed of message
+delivery between client and broker. For HTTP and HTTPS protocols, these
+properties affect the speed of message delivery between the Message
+Queue tunnel servlet (running on a Web server) and the broker. For HTTP/
+HTTPS protocols there are additional properties that can affect
+performance (see <a href="#aeokr">HTTP/HTTPS Tuning</a>).</p>
+</div>
+<div class="paragraph">
+<p>The protocol tuning properties are described in the following sections.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokp"></a><a id="GMADG00093"></a><a id="nodelay"></a></p>
+</div>
+<div class="paragraph">
+<p>nodelay</p>
+</div>
+<div class="paragraph">
+<p>The <code>nodelay</code> property affects Nagle&#8217;s algorithm (the value of the
+<code>TCP_NODELAY</code> socket-level option on TCP/IP) for the given protocol.
+Nagle&#8217;s algorithm is used to improve TCP performance on systems using
+slow connections such as wide-area networks (WANs).</p>
+</div>
+<div class="paragraph">
+<p>When the algorithm is used, TCP tries to prevent several small chunks of
+data from being sent to the remote system (by bundling the data in
+larger packets). If the data written to the socket does not fill the
+required buffer size, the protocol delays sending the packet until
+either the buffer is filled or a specific delay time has elapsed. Once
+the buffer is full or the timeout has occurred, the packet is sent.</p>
+</div>
+<div class="paragraph">
+<p>For most messaging applications, performance is best if there is no
+delay in the sending of packets (Nagle&#8217;s algorithm is not enabled). This
+is because most interactions between client and broker are
+request/response interactions: the client sends a packet of data to the
+broker and waits for a response. For example, typical interactions
+include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creating a connection</p>
+</li>
+<li>
+<p>Creating a producer or consumer</p>
+</li>
+<li>
+<p>Sending a persistent message (the broker confirms receipt of the
+message)</p>
+</li>
+<li>
+<p>Sending a client acknowledgment in an <code>AUTO_ACKNOWLEDGE</code> or
+<code>CLIENT_ACKNOWLEDGE</code> session (the broker confirms processing of the
+acknowledgment)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For these interactions, most packets are smaller than the buffer size.
+This means that if Nagle&#8217;s algorithm is used, the broker delays several
+milliseconds before sending a response to the consumer.</p>
+</div>
+<div class="paragraph">
+<p>However, Nagle&#8217;s algorithm may improve performance in situations where
+connections are slow and broker responses are not required. This would
+be the case where a client sends a nonpersistent message or where a
+client acknowledgment is not confirmed by the broker
+(<code>DUPS_OK_ACKNOWLEDGE</code> session).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokq"></a><a id="GMADG00094"></a><a id="inbufszoutbufsz"></a></p>
+</div>
+<div class="paragraph">
+<p>inbufsz/outbufsz</p>
+</div>
+<div class="paragraph">
+<p>The <code>inbufsz</code> property sets the size of the buffer on the input stream
+reading data coming in from a socket. Similarly, <code>outbufsz</code> sets the
+buffer size of the output stream used by the broker to write data to the
+socket.</p>
+</div>
+<div class="paragraph">
+<p>In general, both parameters should be set to values that are slightly
+larger than the average packet being received or sent. A good rule of
+thumb is to set these property values to the size of the average packet
+plus 1 kilobyte (rounded to the nearest kilobyte). For example, if the
+broker is receiving packets with a body size of 1 kilobyte, the overall
+size of the packet (message body plus header plus properties) is about
+1200 bytes; an <code>inbufsz</code> of 2 kilobytes (2048 bytes) gives reasonable
+performance. Increasing <code>inbufsz</code> or <code>outbufsz</code> greater than that size
+may improve performance slightly, but increases the memory needed for
+each connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokr"></a><a id="GMADG00095"></a><a id="httphttps-tuning"></a></p>
+</div>
+<div class="paragraph">
+<p>HTTP/HTTPS Tuning</p>
+</div>
+<div class="paragraph">
+<p>In addition to the general properties discussed in the previous two
+sections, HTTP/HTTPS performance is limited by how fast a client can
+make HTTP requests to the Web server hosting the Message Queue tunnel
+servlet.</p>
+</div>
+<div class="paragraph">
+<p>A Web server might need to be optimized to handle multiple requests on a
+single socket. With JDK version 1.4 and later, HTTP connections to a Web
+server are kept alive (the socket to the Web server remains open) to
+minimize resources used by the Web server when it processes multiple
+HTTP requests. If the performance of a client application using JDK
+version 1.4 is slower than the same application running with an earlier
+JDK release, you might need to tune the Web server keep-alive
+configuration parameters to improve performance.</p>
+</div>
+<div class="paragraph">
+<p>In addition to such Web server tuning, you can also adjust how often a
+client polls the Web server. HTTP is a request-based protocol. This
+means that clients using an HTTP-based protocol periodically need to
+check the Web server to see if messages are waiting. The
+<code>imq.httpjms.http.pullPeriod</code> broker property (and the corresponding
+<code>imq.httpsjms.https.pullPeriod</code> property) specifies how often the
+Message Queue client runtime polls the Web server.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>pullPeriod</code> value is <code>-1</code> (the default value), the client
+runtime polls the server as soon as the previous request returns,
+maximizing the performance of the individual client. As a result, each
+client connection monopolizes a request thread in the Web server,
+possibly straining Web server resources.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>pullPeriod</code> value is a positive number, the client runtime
+periodically sends requests to the Web server to see if there is pending
+data. In this case, the client does not monopolize a request thread in
+the Web server. Hence, if large numbers of clients are using the Web
+server, you might conserve Web server resources by setting the
+<code>pullPeriod</code> to a positive value.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoks"></a><a id="GMADG00470"></a><a id="tuning-the-file-based-persistent-store"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_tuning_the_file_based_persistent_store">Tuning the File-based Persistent Store</h5>
+<div class="paragraph">
+<p>For information on tuning the file-based persistent store, see
+<a href="persistence-services.html#aeodh">Configuring a File-Based Data
+Store</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokt"></a><a id="GMADG00608"></a><a id="broker-memory-management-adjustments"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_broker_memory_management_adjustments">Broker Memory Management Adjustments</h4>
+<div class="paragraph">
+<p>You can improve performance and increase broker stability under load by
+properly managing broker memory. Memory management can be configured on
+a destination-by-destination basis or on a system-wide level (for all
+destinations, collectively).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokv"></a><a id="GMADG00471"></a><a id="using-physical-destination-limits"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_using_physical_destination_limits">Using Physical Destination Limits</h5>
+<div class="paragraph">
+<p>To configure physical destination limits, see the properties described
+in <a href="physical-destination-properties.html#gbnms">Physical Destination
+Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokw"></a><a id="GMADG00472"></a><a id="using-system-wide-limits"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_system_wide_limits">Using System-Wide Limits</h5>
+<div class="paragraph">
+<p>If message producers tend to overrun message consumers, messages can
+accumulate in the broker. The broker contains a mechanism for throttling
+back producers and swapping messages out of active memory under low
+memory conditions, but it is wise to set a hard limit on the total
+number of messages (and message bytes) that the broker can hold.</p>
+</div>
+<div class="paragraph">
+<p>Control these limits by setting the <code>imq.system.max_count</code> and the
+<code>imq.system.max_size</code> broker properties.</p>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.system.max_count=5000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The defined value above means that the broker will only hold up to 5000
+undelivered and/or unacknowledged messages. If additional messages are
+sent, they are rejected by the broker. If a message is persistent then
+the clinet runtime will throw an exception when the producer tries to
+send the message. If the message is non-persistent, the broker silently
+drops the message.</p>
+</div>
+<div class="paragraph">
+<p>When an exception is thrown in sending a message, the client should
+process the exception by pausing for a moment and retrying the send
+again. (Note that the exception will never be due to the broker&#8217;s
+failure to receive a message; the exception is thrown by the client
+runtime before the message is sent to the broker.)</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoky"></a><a id="GMADG00609"></a><a id="client-runtime-message-flow-adjustments"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_runtime_message_flow_adjustments">Client Runtime Message Flow Adjustments</h4>
+<div class="paragraph">
+<p>This section discusses client runtimeflow control behaviors that affect
+performance. These behaviors are configured as attributes of connection
+factory administered objects. For information on setting connection
+factory attributes, see <a href="administered-objects.html#aeogu">Managing
+Administered Objects</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokz"></a><a id="GMADG00473"></a><a id="message-flow-metering"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_message_flow_metering">Message Flow Metering</h5>
+<div class="paragraph">
+<p>Messages sent and received by clients (payload messages), as well as
+Message Queue control messages, pass over the same client-broker
+connection. Delays in the delivery of control messages, such as broker
+acknowledgments, can result if control messages are held up by the
+delivery of payload messages. To prevent this type of congestion,
+Message Queue meters the flow of payload messages across a connection.</p>
+</div>
+<div class="paragraph">
+<p>Payload messages are batched (as specified with the connection factory
+attribute <code>imqConnectionFlowCount</code>) so that only a set number are
+delivered. After the batch has been delivered, delivery of payload
+messages is suspended and only pending control messages are delivered.
+This cycle repeats, as additional batches of payload messages are
+delivered followed by pending control messages.</p>
+</div>
+<div class="paragraph">
+<p>The value of <code>imqConnectionFlowCount</code> should be kept low if the client
+is doing operations that require many responses from the broker: for
+example, if the client is using <code>CLIENT_ACKNOWLEDGE</code> or
+<code>AUTO_ACKNOWLEDGE</code> mode, persistent messages, transactions, or queue
+browsers, or is adding or removing consumers. If, on the other hand, the
+client has only simple consumers on a connection using
+<code>DUPS_OK_ACKNOWLEDGE</code> mode, you can increase <code>imqConnectionFlowCount</code>
+without compromising performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeola"></a><a id="GMADG00474"></a><a id="message-flow-limits"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_flow_limits">Message Flow Limits</h5>
+<div class="paragraph">
+<p>There is a limit to the number of payload messages that the Message
+Queue client runtime can handle before encountering local resource
+limitations, such as memory. When this limit is approached, performance
+suffers. Hence, Message Queue lets you limit the number of messages per
+consumer (or messages per connection) that can be delivered over a
+connection and buffered in the client runtime, waiting to be consumed.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolb"></a><a id="GMADG00096"></a><a id="consumer-flow-limits"></a></p>
+</div>
+<div class="paragraph">
+<p>Consumer Flow Limits</p>
+</div>
+<div class="paragraph">
+<p>When the number of payload messages delivered to the client runtime
+exceeds the value of <code>imqConsumerFlowLimit</code> for any consumer, message
+delivery for that consumer stops. It is resumed only when the number of
+unconsumed messages for that consumer drops below the value set with
+<code>imqConsumerFlowThreshold</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following example illustrates the use of these limits: consider the
+default settings for topic consumers:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqConsumerFlowLimit=1000
+imqConsumerFlowThreshold=50</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the consumer is created, the broker delivers an initial batch of
+1000 messages (providing they exist) to this consumer without pausing.
+After sending 1000 messages, the broker stops delivery until the client
+runtime asks for more messages. The client runtime holds these messages
+until the application processes them. The client runtime then allows the
+application to consume at least 50% (<code>imqConsumerFlowThreshold</code> ) of the
+message buffer capacity (i.e. 500 messages) before asking the broker to
+send the next batch.</p>
+</div>
+<div class="paragraph">
+<p>In the same situation, if the threshold were 10%, the client runtime
+would wait for the application to consume at least 900 messages before
+asking for the next batch.</p>
+</div>
+<div class="paragraph">
+<p>The next batch size is calculated as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqConsumerFlowLimit - (current number of pending msgs in buffer)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>So if <code>imqConsumerFlowThreshold</code> is 50%, the next batch size can
+fluctuate between 500 and 1000, depending on how fast the application
+can process the messages.</p>
+</div>
+<div class="paragraph">
+<p>If the <code>imqConsumerFlowThreshold</code> is set too high (close to 100%), the
+broker will tend to send smaller batches, which can lower message
+throughput. If the value is set too low (close to 0%), the client may be
+able to finish processing the remaining buffered messages before the
+broker delivers the next set, again degrading message throughput.
+Generally speaking, unless you have specific performance or reliability
+concerns, you will not need to change the default value of
+<code>imqConsumerFlowThreshold</code> attribute.</p>
+</div>
+<div class="paragraph">
+<p>The consumer-based flow controls (in particular, <code>imqConsumerFlowLimit</code>
+) are the best way to manage memory in the client runtime. Generally,
+depending on the client application, you know the number of consumers
+you need to support on any connection, the size of the messages, and the
+total amount of memory that is available to the client runtime.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Setting the <code>imqConsumerFlowLimitPrefetch</code> property to <code>false</code> disables
+the prefetching and buffering specified by <code>imqConsumerFlowLimit</code> and
+<code>imqConsumerFlowThreshold</code>, in which case messages are delivered to
+consumers one at a time and a new message is not sent to a consumer
+until it consumes the message it has. This delivery constraint, which
+can degrade message throughput, is for use when business logic demands
+that each consumer have only one message at a time.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When the JMS resource adapter, jmsra, is used to consume messages in a
+GlassFish Server cluster, this behavior is defined using different
+properties, as described in <a href="jmsra-properties.html#gjzpg">About Shared
+Topic Subscriptions for Clustered Containers</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolc"></a><a id="GMADG00097"></a><a id="connection-flow-limits"></a></p>
+</div>
+<div class="paragraph">
+<p>Connection Flow Limits</p>
+</div>
+<div class="paragraph">
+<p>In the case of some client applications, however, the number of
+consumers may be indeterminate, depending on choices made by end users.
+In those cases, you can still manage memory using connection-level flow
+limits.</p>
+</div>
+<div class="paragraph">
+<p>Connection-level flow controls limit the total number of messages
+buffered for all consumers on a connection. If this number exceeds the
+value of <code>imqConnectionFlowLimit</code>, delivery of messages through the
+connection stops until that total drops below the connection limit. (The
+<code>imqConnectionFlowLimit</code> attribute is enabled only if you set
+<code>imqConnectionFlowLimitEnabled</code> to <code>true</code>.)</p>
+</div>
+<div class="paragraph">
+<p>The number of messages queued up in a session is a function of the
+number of message consumers using the session and the message load for
+each consumer. If a client is exhibiting delays in producing or
+consuming messages, you can normally improve performance by redesigning
+the application to distribute message producers and consumers among a
+larger number of sessions or to distribute sessions among a larger
+number of connections.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeokx"></a><a id="GMADG00610"></a><a id="adjusting-multiple-consumer-queue-delivery"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adjusting_multiple_consumer_queue_delivery">Adjusting Multiple-Consumer Queue Delivery</h4>
+<div class="paragraph">
+<p>The efficiency with which multiple queue consumers process messages in a
+queue destination depends on a number of factors. To achieve optimal
+message throughput there must be a sufficient number of consumers to
+keep up with the rate of message production for the queue, and the
+messages in the queue must be routed and then delivered to the active
+consumers in such a way as to maximize their rate of consumption.</p>
+</div>
+<div class="paragraph">
+<p>The message delivery mechanism for multiple-consumer queues is that
+messages are delivered to consumers in batches as each consumer is ready
+to receive a new batch. The readiness of a consumer to receive a batch
+of messages depends upon configurable client runtime properties, such as
+<code>imqConsumerFlowLimit</code> and <code>imqConsumerFlowThreshold</code>, as described in
+<a href="#aeola">Message Flow Limits</a>. As new consumers are added to a queue,
+they are sent a batch of messages to consume, and receive subsequent
+batches as they become ready.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The message delivery mechanism for multiple-consumer queues described
+above can result in messages being consumed in an order different from
+the order in which they are produced.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If messages are accumulating in the queue, it is possible that there is
+an insufficient number of consumers to handle the message load. It is
+also possible that messages are being delivered to consumers in batch
+sizes that cause messages to be backing up on the consumers. For
+example, if the batch size (<code>consumerFlowLimit</code>) is too large, one
+consumer might receive all the messages in a queue while other consumers
+receive none. If consumers are very fast, this might not be a problem.
+However, if consumers are relatively slow, you want messages to be
+distributed to them evenly, and therefore you want the batch size to be
+small. Although smaller batch sizes require more overhead to deliver
+messages to consumers, for slow consumers there is generally a net
+performance gain in using small batch sizes. The value of
+<code>consumerFlowLimit</code> can be set on a destination as well as on the client
+runtime: the smaller value overrides the larger one.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="monitoring.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="troubleshooting.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

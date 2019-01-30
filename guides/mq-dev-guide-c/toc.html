@@ -1,0 +1,1828 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Eclipse Open Message Queue Developer&apos;s Guide for C Clients, Release 5.1.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Eclipse Open Message Queue Developer's Guide for C Clients, Release 5.1.4</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+
+		<td align="left">
+		<a href="lot.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div class="sect1">
+<h2 id="contents">Contents</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="list-of-tables"><a href="lot.html">List of Tables</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="title-and-copyright-information"><a href="title.html">Title and Copyright Information</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="preface"><a href="preface.html#gblyo">Preface</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="preface.html#gblyj">Who Should Use This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxf">Before You Read This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxh">How This Book Is Organized</a></p>
+</li>
+<li>
+<p><a href="preface.html#ghode">Documentation Conventions</a></p>
+</li>
+<li>
+<p><a href="preface.html#gbqah">Related Documentation</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="introduction"><a href="introduction.html#aelao">1 Introduction</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#aelap">Message Queue for the C Developer</a></p>
+</li>
+<li>
+<p><a href="introduction.html#aelaq">Building and Running C Clients</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#aelar">Building C Clients</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#aelas">Header Files and Shared Libraries</a></p>
+</li>
+<li>
+<p><a href="introduction.html#aelat">Pre-Processor Definitions</a></p>
+</li>
+<li>
+<p><a href="introduction.html#aelau">C++ Runtime Library Support</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="introduction.html#aelav">Providing Runtime Support</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="introduction.html#aelaw">Working With the Sample C-Client Programs</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#ghetd">Basic C-Client Programs</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#aelax">Building the Basic C-Client Sample
+Programs</a></p>
+</li>
+<li>
+<p><a href="introduction.html#aelay">Running the Basic C-Client Sample
+Programs</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="introduction.html#gherr">Distributed Transaction Sample Programs</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#gheqx">To Set Up Tuxedo as a Distributed
+Transaction Manager</a></p>
+</li>
+<li>
+<p><a href="introduction.html#gherg">To Build the Distributed Transaction
+Sample Programs</a></p>
+</li>
+<li>
+<p><a href="introduction.html#ghesi">To Run the Distributed Transaction
+Sample Programs</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="introduction.html#aelaz">Client Application Deployment
+Considerations</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-the-c-api"><a href="using-the-c-api.html#aelba">2 Using the C API</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbc">Message Queue C Client Setup
+Operations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#gblxv">To Set Up a Message Queue C Client to
+Produce Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#gblxa">To Set Up a Message Queue C Client to
+Consume Messages Synchronously</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#gblxg">To Set Up a Message Queue C Client to
+Consume Messages Asynchronously</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbd">Working With Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbe">Setting Connection and Message
+Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#gblyc">To Set Properties for a Connection</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbf">Getting Message Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#gblxs">To Iterate Through a Properties
+Handle</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbg">Working With Connections</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbh">Defining Connection Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbi">Connection Handling</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbj">Reliability</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbk">Flow Control</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbl">Working With Secure Connections</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbm">Configuring the Client for Secure
+Communication</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbn">Verification Using Fingerprints</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbo">Coordinating NSS Initialization</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbp">Shutting Down Connections</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbq">Working With Sessions and Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbr">Creating a Session</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbs">Transacted Sessions</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbt">Message Acknowledgement</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbu">Receive Mode</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbv">Managing a Session</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbw">Creating Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelbx">Programming Domains</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelby">Auto-Created Destinations</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelbz">Temporary Destinations</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelca">Getting Information About
+Destinations</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcb">Working With Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelcc">Composing Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelcd">Message Header</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelce">Message Body Types</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcf">Composing the Message</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcg">Sending a Message</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelch">Receiving Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#aelci">Working With Consumers</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcj">Receiving a Message Synchronously</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelck">Receiving a Message Asynchronously</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcl">Processing a Message</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#gheqr">Working With Distributed Transactions</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#gherf">Message Queue Resource Manager
+Information</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#gheui">Programming Examples</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcm">Error Handling</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-c-api.html#gblyu">To Handle Errors in Your Code</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelcn">Memory Management</a></p>
+</li>
+<li>
+<p><a href="using-the-c-api.html#aelco">Logging</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="client-design-issues"><a href="client-design-issues.html#aelcp">3 Client Design Issues</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-issues.html#aelcq">Producers and Consumers</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcr">Using Selectors Efficiently</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcs">Determining Message Order and
+Priority</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelct">Managing Threads</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-issues.html#aelcu">Message Queue C Runtime Thread
+Model</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcv">Concurrent Use of Handles</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcw">Single-Threaded Session Control</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcx">Connection Exceptions</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcy">Managing Physical Destination
+Limits</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelcz">Managing the Dead Message Queue</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelda">Factors Affecting Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-issues.html#aeldb">Delivery Mode
+(Persistent/Non-persistent)</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aeldc">Use of Transactions</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aeldd">Acknowledgement Mode</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aelde">Durable and Non-Durable
+Subscriptions</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aeldf">Use of Selectors (Message
+Filtering)</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aeldg">Message Size</a></p>
+</li>
+<li>
+<p><a href="client-design-issues.html#aeldh">Message Type</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="reference"><a href="reference.html#aeldi">4 Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#aeldj">Data Types</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#aeldk">Connection Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzb">To Set Connection Properties</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldl">Acknowledge Modes</a></p>
+</li>
+<li>
+<p><a href="reference.html#aeldm">Callback Type for Asynchronous Message
+Consumption</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#ghesl">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgr">Callback Type for Asynchronous Message
+Consumption in Distributed Transactions</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmhc">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldn">Callback Type for Connection Exception
+Handling</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#ghesx">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldo">Function Reference</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#aeldp">MQAcknowledgeMessages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzk">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzr">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblze">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldq">MQCloseConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzl">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzh">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzt">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldr">MQCloseMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblyz">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzi">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzd">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelds">MQCloseMessageProducer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzw">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzj">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzq">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldt">MQCloseSession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzg">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzf">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzo">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldu">MQCommitSession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzs">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblyy">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gblzx">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldv">MQCreateAsyncDurableMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gblzm">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmac">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmab">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldw">MQCreateAsyncMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmax">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbb">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmaq">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIAIAGFJ">MQCreateAsyncSharedDurableMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref29">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref30">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref31">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIACEAJE">MQCreateAsyncSharedMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref32">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref33">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref34">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldx">MQCreateBytesMessage</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmad">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmar">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeldy">MQCreateConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmaf">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmai">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbman">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeleb">MQCreateDestination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmau">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmay">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmam">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelec">MQCreateDurableMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmag">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmaa">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmav">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#gbjak">MQCreateMessage</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmat">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbd">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeled">MQCreateMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmas">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmaw">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmaz">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelee">MQCreateMessageProducer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmao">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmah">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmal">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelef">MQCreateMessageProducerForDestination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmba">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmap">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbc">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeleg">MQCreateProperties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmae">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmaj">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeleh">MQCreateSession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmak">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbj">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIACFJDI">MQCreateSharedDurableMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref35">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref36">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref37">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIAJABFE">MQCreateSharedMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref38">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref39">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref40">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelei">MQCreateTemporaryDestination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmde">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcu">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdd">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelej">MQCreateTextMessage</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gheto">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gheqf">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#ghern">MQCreateXASession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmhb">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmha">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gheyw">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelek">MQFreeConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmby">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbt">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbf">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelel">MQFreeDestination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcb">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcl">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelem">MQFreeMessage</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbh">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcz">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelen">MQFreeProperties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcj">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbk">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeleo">MQFreeString</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbz">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcs">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelep">MQGetAcknowledgeMode</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmco">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcv">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeleq">MQGetBoolProperty</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbr">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmci">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbs">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeler">MQGetBytesMessageBytes</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbm">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbv">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#ghevs">MQGetConnectionProperties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#ghezj">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#ghezk">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIAFJBHF">MQGetDeliveryDelay</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref41">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref42">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#gbjog">MQGetDestinationName</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcn">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcc">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeles">MQGetDestinationType</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbw">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbp">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelet">MQGetErrorTrace</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#aeleu">MQGetFloat32Property</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcx">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbe">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdb">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelev">MQGetFloat64Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmct">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmce">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbq">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelew">MQGetInt16Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcg">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbx">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbn">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelex">MQGetInt32Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcw">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbo">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmca">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aeley">MQGetInt64Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbu">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmbl">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcd">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelez">MQGetInt8Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmbi">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcm">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcp">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfa">MQGetMessageHeaders</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcf">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcr">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfb">MQGetMessageProperties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmcy">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmch">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmcq">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfc">MQGetMessageReplyTo</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdc">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdv">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmeu">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfd">MQGetMessageType</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmey">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdt">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfe">MQGetMetaData</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdp">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmes">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelff">MQGetPropertyType</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdy">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmeq">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmet">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfg">MQGetStatusCode</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmew">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfh">MQGetStatusString</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmeh">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfi">MQGetStringProperty</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdf">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmea">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfj">MQGetTextMessageText</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#ghepf">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#ghesc">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#gherz">MQGetXAConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmds">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdu">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#ghewd">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfk">MQInitializeSSL</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdj">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmem">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdl">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfl">MQPropertiesKeyIterationGetNext</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmeb">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmex">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfm">MQPropertiesKeyIterationHasNext</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdx">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmep">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfn">MQPropertiesKeyIterationStart</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmek">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdo">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfo">MQReceiveMessageNoWait</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfb">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdg">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdi">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfp">MQReceiveMessageWait</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmef">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmec">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmeo">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfq">MQReceiveMessageWithTimeout</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdz">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbrdm">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmei">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfr">MQRecoverSession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmev">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdk">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdm">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfs">MQRollBackSession</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdq">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfa">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmer">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelft">MQSendMessage</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdw">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmed">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmej">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfu">MQSendMessageExt</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmen">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmee">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmdn">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfv">MQSendMessageToDestination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmdh">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmez">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfn">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfw">MQSendMessageToDestinationExt</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmgp">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfc">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgn">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfx">MQSetBoolProperty</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfl">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgh">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgq">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfy">MQSetBytesMessageBytes</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfx">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgx">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#CIAHJGHF">MQSetDeliveryDelay</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#sthref44">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#sthref45">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelfz">MQSetFloat32Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmgi">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgz">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgu">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelga">MQSetFloat64Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmge">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmff">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgd">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgb">MQSetInt16Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmgf">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfh">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmga">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgc">MQSetInt32Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfe">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgr">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgj">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgd">MQSetInt64Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfd">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfk">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfr">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelge">MQSetInt8Property</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfq">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfv">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfu">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgf">MQSetMessageHeaders</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfs">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgs">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgc">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgg">MQSetMessageProperties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfp">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgl">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgh">MQSetMessageReplyTo</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfg">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgk">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgi">MQSetStringProperty</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmgb">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgo">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgj">MQSetTextMessageText</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmgv">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfm">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgk">MQStartConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfj">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgg">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgy">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgl">MQStatusIsError</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfy">Parameters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgm">MQStopConnection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfi">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmfo">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgm">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgn">MQUnsubscribeDurableMessageConsumer</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="reference.html#gbmfw">Return Value</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmft">Parameters</a></p>
+</li>
+<li>
+<p><a href="reference.html#gbmgt">Common Errors</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="reference.html#aelgo">Header Files</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="a-message-queue-c-api-error-codes"><a href="capi-error-codes.html#aelgp">A Message Queue C API Error Codes</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="capi-error-codes.html#aelgq">Error Codes</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+
+		<td align="left">
+		<a href="lot.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

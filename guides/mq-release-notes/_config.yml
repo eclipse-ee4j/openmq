@@ -1,0 +1,14 @@
+theme: jekyll-theme-architect
+
+title: [mq-release-notes]
+description: [Eclipse Open Message Queue Release Notes, Release 5.1.1]
+
+# sidebar links url
+links:
+  source: https://github.com/javaee/mq-release-notes
+  download: https://github.com/javaee/mq-release-notes/releases
+  #mailinglist: https://javaee.groups.io/g/mq-release-notes
+  #javadocs:
+  docs: https://javaee.github.io/mq-release-notes
+  #faq:
+

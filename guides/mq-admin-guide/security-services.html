@@ -1,0 +1,3305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring and Managing Security Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring and Managing Security Services</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="persistence-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00040"></a><a id="aeoff"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-and-managing-security-services">9 Configuring and Managing Security Services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes Message Queue&#8217;s facilities for security-related
+administration tasks, such as configuring user authentication, defining
+access control, configuring a Secure Socket Layer (SSL) connection
+service to encrypt client-broker communication, and setting up a
+password file for administrator account passwords. In addition to
+Message Queue&#8217;s own built-in authentication mechanisms, you can also
+plug in a preferred external service based on the Java Authentication
+and Authorization Service (JAAS) API.</p>
+</div>
+<div class="paragraph">
+<p>This chapter includes the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeocu">Introduction to Security Services</a></p>
+</li>
+<li>
+<p><a href="#aeofg">User Authentication</a></p>
+</li>
+<li>
+<p><a href="#aeofu">User Authorization</a></p>
+</li>
+<li>
+<p><a href="#aeogb">Message Encryption</a></p>
+</li>
+<li>
+<p><a href="#aeogq">Password Files</a></p>
+</li>
+<li>
+<p><a href="#gcuhq">Connecting Through a Firewall</a></p>
+</li>
+<li>
+<p><a href="#aeogt">Audit Logging with the Solaris BSM Audit Log</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeocu"></a><a id="GMADG00246"></a><a id="introduction-to-security-services"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_introduction_to_security_services">Introduction to Security Services</h3>
+<div class="paragraph">
+<p>Message Queue provides security services for user access control
+(authentication and authorization) and for encryption:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Authentication ensures that only verified users can establish a
+connection to a broker.</p>
+</li>
+<li>
+<p>Authorization specifies which users or groups have the right to access
+resources and to perform specific operations.</p>
+</li>
+<li>
+<p>Encryption protects messages from being tampered with during delivery
+over a connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As a Message Queue administrator, you are responsible for setting up the
+information the broker needs to authenticate users and authorize their
+actions. The broker properties pertaining to security services are
+listed under <a href="broker-properties.html#aeony">Security Properties</a>. The
+boolean property <code>imq.accesscontrol.enabled</code> acts as a master switch
+that controls whether access control is applied on a brokerwide basis;
+for finer control, you can override this setting for a particular
+connection service by setting the <code>imq.`serviceName
+`.accesscontrol.enabled</code> property, where serviceName is the name of the
+connection service, as shown in <a href="connection-services.html#gbnjw">Table
+6-1</a>: for example, <code>imq.httpjms.accesscontrol.enabled</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following figure shows the components used by the broker to provide
+authentication and authorization services. These services depend on a
+user repository containing information about the users of the messaging
+system: their names, passwords, and group memberships. In addition, to
+authorize specific operations for a user or group, the broker consults
+an access control file that specifies which operations a user or group
+can perform. You can designate a single access control file for the
+broker as a whole, using the configuration property
+<code>imq.accesscontrol.file.filename</code>, or for a single connection service
+with <code>imq</code>.serviceName. <code>accesscontrol.file.filename</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00020"></a><a id="ggydo"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 9-1 Security Support</strong></div>
+<p><span class="image"><img src="img/adm_secmanager.png" alt="Diagram showing broker&#8217;s security services using authentication modules and an access control file."></span></p>
+</div>
+<div class="paragraph">
+<p>As <a href="#ggydo">Figure 9-1</a> shows, you can store user data in a flat file
+user repository that is provided with the Message Queue service, you can
+access an existing LDAP repository, or you can plug in a Java
+Authentication and Authorization Service (JAAS) module.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you choose a flat-file repository, you must use the <code>imqusermgr</code>
+utility to manage the repository. This option is easy to use and
+built-in.</p>
+</li>
+<li>
+<p>If you want to use an existing LDAP server, you use the tools provided
+by the LDAP vendor to populate and manage the user repository. You must
+also set properties in the broker instance configuration file to enable
+the broker to query the LDAP server for information about users and
+groups.<br>
+The LDAP option is better if scalability is important or if you need the
+repository to be shared by different brokers. This might be the case if
+you are using broker clusters.</p>
+</li>
+<li>
+<p>If you want to plug-in an existing JAAS authentication service, you
+need to set the corresponding properties in the broker instance
+configuration file.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The broker&#8217;s <code>imq.authentication.basic.user_repository</code> property
+specifies which type of repository to use. In general, an LDAP
+repository or JAAS authentication service is preferable if scalability
+is important or if you need the repository to be shared by different
+brokers (if you are using broker clusters, for instance). See
+<a href="#aeofg">User Authentication</a> for more information on setting up a
+flat-file user repository, LDAP access, or JAAS authentication service.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeocv"></a><a id="GMADG00546"></a><a id="authentication"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_authentication">Authentication</h4>
+<div class="paragraph">
+<p>A client requesting a connection to a broker must supply a user name and
+password, which the broker compares with those stored in the user
+repository. Passwords transmitted from client to broker are encoded
+using either base-64 encoding (for flat-file repositories) or message
+digest (MD5) hashing (for LDAP repositories). The choice is controlled
+by the <code>imq.authentication.type</code> property for the broker as a whole, or
+by <code>imq</code>.serviceName. <code>authentication.type</code> for a specific connection
+service. The <code>imq.authentication.client.response.timeout</code> property sets
+a timeout interval for authentication requests.</p>
+</div>
+<div class="paragraph">
+<p>As described under <a href="#aeogq">Password Files</a>, you can choose to put
+your passwords in a password file instead of being prompted for them
+interactively. The boolean broker property <code>imq</code>.<code>passfile.enabled</code>
+controls this option. If this property is true, the
+<code>imq.passfile.dirpath</code> and <code>imq.passfile.name</code> properties give the
+directory path and file name for the password file. The
+<code>imq.imqcmd.password</code> property (which can be embedded in the password
+file) specifies the password for authenticating an administrative user
+to use the Command utility (<code>imqcmd</code>) for managing brokers, connection
+services, connections, physical destinations, durable subscriptions, and
+transactions.</p>
+</div>
+<div class="paragraph">
+<p>If you are using an LDAP-based user repository, there are a whole range
+of broker properties available for configuring various aspects of the
+LDAP lookup. The address (host name and port number) of the LDAP server
+itself is specified by <code>imq.user_repository.ldap.server</code>. The
+<code>imq.user_repository.ldap.principal</code> property gives the distinguished
+name for binding to the LDAP repository, while
+<code>imq.user_repository.ldap.password</code> supplies the associated password.
+Other properties specify the directory bases and optional JNDI filters
+for individual user and group searches, the provider-specific attribute
+identifiers for user and group names, and so forth; see
+<a href="broker-properties.html#aeony">Security Properties</a> for details.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeocw"></a><a id="GMADG00547"></a><a id="authorization"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization">Authorization</h4>
+<div class="paragraph">
+<p>Once authenticated, a user can be authorized to perform various Message
+Queue-related activities. As a Message Queue administrator, you can
+define user groups and assign individual users membership in them. The
+default access control file explicitly refers to only one group, <code>admin</code>
+(see <a href="#aeofm">User Groups and Status</a>). A user in this group has
+connection permission for the <code>admin</code> connection service, which allows
+the user to perform administrative functions such as creating
+destinations and monitoring and controlling a broker. A user in any
+other group that you define cannot, by default, get an <code>admin</code> service
+connection.</p>
+</div>
+<div class="paragraph">
+<p>When a user attempts to perform an operation, the broker checks the
+user&#8217;s name and group membership (from the user repository) against
+those specified for access to that operation (in the access control
+file). The access control file specifies permissions to users or groups
+for the following operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connecting to a broker</p>
+</li>
+<li>
+<p>Accessing destinations: creating a consumer, a producer, or a queue
+browser for any given destination or for all destinations</p>
+</li>
+<li>
+<p>Auto-creating destinations</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information on configuring authorization, see <a href="#aeofu">User
+Authorization</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeocx"></a><a id="GMADG00548"></a><a id="encryption"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_encryption">Encryption</h4>
+<div class="paragraph">
+<p>To encrypt messages sent between clients and broker, you need to use a
+connection service based on the Secure Socket Layer (SSL) standard. SSL
+provides security at the connection level by establishing an encrypted
+connection between an SSL-enabled broker and client.</p>
+</div>
+<div class="paragraph">
+<p>To use an SSL-based Message Queue connection service, you generate a
+public/private key pair using the Message Queue Key Tool utility
+(<code>imqkeytool</code>). This utility embeds the public key in a self-signed
+certificate and places it in a Message Queue key store. The key store is
+itself password-protected; to unlock it, you must provide a key store
+password at startup time, specified by the <code>imq.keystore.password</code>
+property. Once the key store is unlocked, a broker can pass the
+certificate to any client requesting a connection. The client then uses
+the certificate to set up an encrypted connection to the broker.</p>
+</div>
+<div class="paragraph">
+<p>For information on configuring encryption, see <a href="#aeogb">Message
+Encryption</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeofg"></a><a id="GMADG00247"></a><a id="user-authentication"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_authentication">User Authentication</h3>
+<div class="paragraph">
+<p>Users attempting to connect to a Message Queue message broker must
+provide a user name and password for authentication. The broker will
+grant the connection only if the name and password match those in a
+broker-specific user repository listing the authorized users and their
+passwords. Each broker instance can have its own user repository, which
+you as an administrator are responsible for maintaining. This section
+tells how to create, populate, and manage the user repository.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue can support any of three types of authentication
+mechanism:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A flat-file repository that is shipped with Message Queue. This type
+of repository is very easy to populate and manage, using the Message
+Queue User Manager utility (<code>imqusermgr</code>). See <a href="#aeofh">Using a
+Flat-File User Repository</a>.</p>
+</li>
+<li>
+<p>A Lightweight Directory Access Protocol (LDAP) server. This could be a
+new or existing LDAP directory server using the LDAP v2 or v3 protocol.
+You use the tools provided by the LDAP vendor to populate and manage the
+user repository. This type of repository is not as easy to use as the
+flat-file repository, but it is more scalable and therefore better for
+production environments. See <a href="#aeofr">Using an LDAP User Repository</a>.</p>
+</li>
+<li>
+<p>An external authentication mechanism plugged into Message Queue by
+means of the Java Authentication and Authorization Service (JAAS) API.
+See <a href="#gepfq">Using JAAS-Based Authentication</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeofh"></a><a id="GMADG00549"></a><a id="using-a-flat-file-user-repository"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_using_a_flat_file_user_repository">Using a Flat-File User Repository</h4>
+<div class="paragraph">
+<p>Message Queue provides a built-in flat-file user repository and a
+command line tool, the User Manager utility (<code>imqusermgr</code>), for
+populating and managing it. Each broker has its own flat-file user
+repository, created automatically when you start the broker. By default,
+the user repository resides in a file named <code>passwd</code>, in a directory
+identified by the name of the broker instance with which the repository
+is associated:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/etc/passwd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you have changed these file name or directory defaults using the
+<code>imq.user_repository.file.filename</code> or
+<code>imq.user_repository.file.dirpath</code> broker properties, you must use the
+<code>-D</code> option to specify the non-default values when running <code>imqusermgr</code>
+if you did not specify the values in the broker properties file. For
+example, if <code>imq.user_repository.file.dirpath</code> is specified in a cluster
+configuration file, start <code>imqusermgr</code> using the form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr -Dimq.cluster.url=location-of-cluster-properties-file ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As another example, if <code>imq.user_repository.file.filename</code> is specified
+on the <code>imqbrokerd</code> command line to start the broker, start <code>imqusermgr</code>
+using the form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr -Dimq.user_repository.file.filename=filename-used-in-imqbrokerd-command ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeofm"></a><a id="GMADG00404"></a><a id="user-groups-and-status"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_user_groups_and_status">User Groups and Status</h5>
+<div class="paragraph">
+<p>Each user in the repository can be assigned to a user group, which
+defines the default access privileges granted to all of its members. You
+can then specify authorization rules to further restrict these access
+privileges for specific users, as described in <a href="#aeofu">User
+Authorization</a>. A user&#8217;s group is assigned when the user entry is first
+created, and cannot be changed thereafter. The only way to reassign a
+user to a different group is to delete the original user entry and add
+another entry specifying the new group.</p>
+</div>
+<div class="paragraph">
+<p>The flat-file user repository provides three predefined groups:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>admin</code></dt>
+<dd>
+<p>For broker administrators. By default, users in this group are granted
+the access privileges needed to configure, administer, and manage
+message brokers.</p>
+</dd>
+<dt class="hdlist1"><code>user</code></dt>
+<dd>
+<p>For normal (non-administrative) client users. Newly created user
+entries are assigned to this group unless otherwise specified. By
+default, users in this group can connect to all Message Queue
+connection services of type <code>NORMAL</code>, produce messages to or consume
+messages from all physical destinations, and browse messages in any
+queue.</p>
+</dd>
+<dt class="hdlist1"><code>anonymous</code></dt>
+<dd>
+<p>For Message Queue clients that do not wish to use a user name known to
+the broker (for instance, because they do not know of a real user name
+to use). This group is analogous to the anonymous account provided by
+most FTPservers. No more than one user at a time can be assigned to
+this group. You should restrict the access privileges of this group in
+comparison to the <code>user</code> group, or remove users from the group at
+deployment time.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>You cannot rename or delete these predefined groups or create new ones.</p>
+</div>
+<div class="paragraph">
+<p>In addition to its group, each user entry in the repository has a user
+status: either active or inactive . New user entries added to the
+repository are marked active by default. Changing a user&#8217;s status to
+inactive rescinds all of that user&#8217;s access privileges, making the user
+unable to open new broker connections. Such inactive entries are
+retained in the user repository, however, and can be reactivated at a
+later time. If you attempt to add a new user with the same name as an
+inactive user already in the repository, the operation will fail; you
+must either delete the inactive user entry or give the new user a
+different name.</p>
+</div>
+<div class="paragraph">
+<p>To allow the broker to be used immediately after installation without
+further intervention by the administrator, the flat-file user repository
+is created with two initial entries, summarized in <a href="#gbnkj">Table
+9-1</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>admin</code> entry (user name and password <code>admin</code>/<code>admin</code>) enables you
+to administer the broker with Command utility (<code>imqcmd</code>) commands.
+Immediately on installation, you should update this initial entry to
+change its password (see <a href="#gewbm">Changing a User&#8217;s Password</a>).</p>
+</li>
+<li>
+<p>The <code>guest</code> entry allows clients to connect to the broker using a
+default user name and password (<code>guest</code>/<code>guest</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can then proceed to add any additional user entries you need for
+individual users of your message service.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG652"></a><a id="sthref26"></a><a id="gbnkj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-1 Initial Entries in Flat-File User Repository</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 14%;">
+<col style="width: 16%;">
+<col style="width: 54%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">User Name</th>
+<th class="tableblock halign-left valign-top">Password</th>
+<th class="tableblock halign-left valign-top">Group</th>
+<th class="tableblock halign-left valign-top">Status</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>anonymous</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Active</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeofj"></a><a id="GMADG00405"></a><a id="using-the-user-manager-utility"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_the_user_manager_utility">Using the User Manager Utility</h5>
+<div class="paragraph">
+<p>The Message Queue User Manager utility (<code>imqusermgr</code>) enables you to
+populate or edit a flat-file user repository.
+See<a href="command-line-reference.html#aeonp">User Manager Utility</a> for
+general reference information about the syntax, subcommands, and options
+of the <code>imqusermgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="gewcl"></a><a id="GMADG00070"></a><a id="user-manager-preliminaries"></a></p>
+</div>
+<div class="paragraph">
+<p>User Manager Preliminaries</p>
+</div>
+<div class="paragraph">
+<p>Before using the User Manager, keep the following things in mind:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>imqusermgr</code> command must be run on the host where the broker is
+installed.</p>
+</li>
+<li>
+<p>If a broker-specific user repository does not yet exist, you must
+start up the corresponding broker instance to create it.</p>
+</li>
+<li>
+<p>You must have appropriate permissions to write to the repository; in
+particular, on Solaris and Linux platforms, you must be logged in as the
+root user or the user who first created the broker instance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeofl"></a><a id="GMADG00071"></a><a id="subcommands-and-general-options"></a></p>
+</div>
+<div class="paragraph">
+<p>Subcommands and General Options</p>
+</div>
+<div class="paragraph">
+<p><a href="#gewca">Table 9-2</a> lists the subcommands of the <code>imqusermgr</code>
+command. For full reference information about these subcommands, see
+<a href="command-line-reference.html#gbnmr">Table 16-15</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG653"></a><a id="sthref27"></a><a id="gewca"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-2 User Manager Subcommands</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Subcommand</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>add</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add user and password to repository</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>delete</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete user from repository</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>update</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set user&#8217;s password or active status (or both)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display user information</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The general options listed in <a href="#gbnje">Table 9-3</a> apply to all
+subcommands of the <code>imqusermgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG654"></a><a id="sthref28"></a><a id="gbnje"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-3 General User Manager Options</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 27%;">
+<col style="width: 73%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Option</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-D</code> brokerProperty`=`value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify a broker property value when
+starting <code>imqusermgr</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-f</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Perform action without user confirmation</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-s</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Silent mode (no output displayed)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-v</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display version information<a href="#foot-othersignored1"><sup>Foot 1 </sup></a></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-h</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Display usage help<a href="#sthref29"><sup>Footref 1</sup></a></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Any other options specified on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="gewcp"></a><a id="GMADG00072"></a><a id="displaying-the-product-version"></a></p>
+</div>
+<div class="paragraph">
+<p>Displaying the Product Version</p>
+</div>
+<div class="paragraph">
+<p>To display the Message Queue product version, use the <code>-v</code> option. For
+example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr  -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you enter an <code>imqusermgr</code> command line containing the <code>-v</code> option in
+addition to a subcommand or other options, the User Manager utility
+processes only the <code>-v</code> option. All other items on the command line are
+ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="gewat"></a><a id="GMADG00073"></a><a id="displaying-help"></a></p>
+</div>
+<div class="paragraph">
+<p>Displaying Help</p>
+</div>
+<div class="paragraph">
+<p>To display help on the <code>imqusermgr</code> command, use the <code>-h</code> option, and do
+not use a subcommand. You cannot get help about specific subcommands.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays help about <code>imqusermgr</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr  -h</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you enter an <code>imqusermgr</code> command line containing the <code>-h</code> option in
+addition to a subcommand or other options, the Command utility processes
+only the <code>-h</code> option. All other items on the command line are ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="gewbc"></a><a id="GMADG00074"></a><a id="adding-a-user-to-the-repository"></a></p>
+</div>
+<div class="paragraph">
+<p>Adding a User to the Repository</p>
+</div>
+<div class="paragraph">
+<p>The subcommand <code>imqusermgr</code> <code>add</code> adds an entry to the user repository,
+consisting of a user name and password:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr add  [-i brokerName]
+-u userName  -p password
+                   [-g group]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-u</code> and <code>-p</code> options specify the user name and password,
+respectively, for the new entry. These must conform to the following
+conventions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>All user names and passwords must be at least one character long.
+Their maximum length is limited only by command shell restrictions on
+the maximum number of characters that can be entered on a command line.</p>
+</li>
+<li>
+<p>A user name cannot contain an asterisk (<code>*</code>), a comma (<code>,</code>), a colon
+(<code>:</code>), or a new-line or carriage-return character.</p>
+</li>
+<li>
+<p>If a user name or password contains a space, the entire name or
+password must be enclosed in quotation marks (<code>" "</code>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The optional <code>-g</code> option specifies the group (<code>admin</code>, <code>user</code>, or
+<code>anonymous</code>) to which the new user belongs; if no group is specified,
+the user is assigned to the <code>user</code> group by default. If the broker name
+(<code>-i</code> option) is omitted, the default broker <code>imqbroker</code> is assumed.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command creates a user entry on broker
+<code>imqbroker</code> for a user named <code>AliBaba</code>, with password <code>Sesame</code>, in the
+<code>admin</code> group:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr add  -u AliBaba  -p Sesame  -g admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gewcb"></a><a id="GMADG00075"></a><a id="deleting-a-user-from-the-repository"></a></p>
+</div>
+<div class="paragraph">
+<p>Deleting a User From the Repository</p>
+</div>
+<div class="paragraph">
+<p>The subcommand <code>imqusermgr</code> <code>delete</code> deletes a user entry from the
+repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr delete  [-i brokerName]
+-u userName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-u</code> option specifies the user name of the entry to be deleted. If
+the broker name (<code>-i</code> option) is omitted, the default broker <code>imqbroker</code>
+is assumed.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command deletes the user named <code>AliBaba</code> from
+the user repository on broker <code>imqbroker</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr delete  -u AliBaba</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gewbm"></a><a id="GMADG00076"></a><a id="changing-a-users-password"></a></p>
+</div>
+<div class="paragraph">
+<p>Changing a User&#8217;s Password</p>
+</div>
+<div class="paragraph">
+<p>You can use the subcommand <code>imqusermgr</code> <code>update</code> to change a user&#8217;s
+password:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  [-i brokerName]
+-u userName  -p password</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-u</code> identifies the user; <code>-p</code> specifies the new password. If the
+broker name (<code>-i</code> option) is omitted, the default broker <code>imqbroker</code> is
+assumed.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command changes the password for user
+<code>AliBaba</code> to <code>Shazam</code> on broker <code>imqbroker</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  -u AliBaba  -p Shazam</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For the sake of security, you should change the password of the <code>admin</code>
+user from its initial default value (<code>admin</code>) to one that is known only
+to you. The following command changes the default administrator password
+for broker <code>mybroker</code> to <code>veeblefetzer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  -i mybroker  -u admin  -p veeblefetzer</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can quickly confirm that this change is in effect by running any of
+the command line tools when the broker is running. For example, the
+following command will prompt you for a password:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  mybroker  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Entering the new password (<code>veeblefetzer</code>) should work; the old password
+should fail.</p>
+</div>
+<div class="paragraph">
+<p>After changing the password, you should supply the new password whenever
+you use any of the Message Queue administration tools, including the
+Administration Console.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gewba"></a><a id="GMADG00077"></a><a id="activating-or-deactivating-a-user"></a></p>
+</div>
+<div class="paragraph">
+<p>Activating or Deactivating a User</p>
+</div>
+<div class="paragraph">
+<p>The <code>imqusermgr</code> <code>update</code> subcommand can also be used to change a user&#8217;s
+active status:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  [-i brokerName]
+-u userName  -a activeStatus</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-u</code> identifies the user; <code>-a</code> is a boolean value specifying the
+user&#8217;s new status as active (<code>true</code>) or inactive (<code>false</code>). If the
+broker name (<code>-i</code> option) is omitted, the default broker <code>imqbroker</code> is
+assumed.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command sets user <code>AliBaba</code>'s status to
+inactive on broker <code>imqbroker</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  -u AliBaba  -a false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This renders <code>AliBabe</code> unable to open new broker connections.</p>
+</div>
+<div class="paragraph">
+<p>You can combine the <code>-p</code> (password) and <code>-a</code> (active status) options in
+the same <code>imqusermgr</code> <code>update</code> command. The options may appear in either
+order: for example, both of the following commands activate the user
+entry for <code>AliBaba</code> and set the password to <code>plugh</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr update  -u AliBaba  -p plugh  -a true
+imqusermgr update  -u AliBaba  -a true  -p plugh</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeofp"></a><a id="GMADG00078"></a><a id="viewing-user-information"></a></p>
+</div>
+<div class="paragraph">
+<p>Viewing User Information</p>
+</div>
+<div class="paragraph">
+<p>The <code>imqusermgr</code> <code>list</code> command displays information about a user in the
+user repository:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr list  [-i brokerName]
+[-u userName]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr list  -u AliBaba</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>displays information about user <code>AliBabe</code>, as shown in
+<a href="#gewbt">Example 9-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00116"></a><a id="gewbt"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-1 Viewing Information for a Single User</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">User repository for broker instance: imqbroker
+----------------------------------
+User Name    Group    Active State
+----------------------------------
+AliBaba      admin    true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you omit the <code>-u</code> option</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqusermgr list</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the command lists information about all users in the repository, as in
+<a href="#gewck">Example 9-2</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00117"></a><a id="gewck"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-2 Viewing Information for All Users</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">User repository for broker instance: imqbroker
+--------------------------------------
+User Name    Group        Active State
+--------------------------------------
+admin        admin        true
+guest        anonymous    true
+AliBaba      admin        true
+testuser1    user         true
+testuser2    user         true
+testuser3    user         true
+testuser4    user         false
+testuser5    user         false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeofr"></a><a id="GMADG00550"></a><a id="using-an-ldap-user-repository"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_an_ldap_user_repository">Using an LDAP User Repository</h4>
+<div class="paragraph">
+<p>You configure a broker to use an LDAP directory server by setting the
+values for certain configuration properties in the broker&#8217;s instance
+configuration file (<code>config.properties</code>). These properties enable the
+broker instance to query the LDAP server for information about users and
+groups when a user attempts to connect to the broker or perform
+messaging operations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>imq.authentication.basic.user_repository</code> property specifies the
+kind of user authentication the broker is to use. By default, this
+property is set to <code>file</code>, for a flat-file user repository. For LDAP
+authentication, set it to <code>ldap</code> instead:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.authentication.basic.user_repository =ldap</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>imq.authentication.type</code> property controls the type of encoding
+used when passing a password between client and broker. By default, this
+property is set to <code>digest</code>, denoting MD5 encoding, the form used by
+flat-file user repositories. For LDAP authentication, set it to <code>basic</code>
+instead:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.authentication.type=basic</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This denotes base-64 encoding, the form used by LDAP user repositories.
+* The following properties control various aspects of LDAP access. See
+<a href="broker-properties.html#gewfp">Table 17-11</a> for more detailed
+information:<br>
+<code>imq.user_repository.ldap.server</code><br>
+<code>imq.user_repository.ldap.principal</code><br>
+<code>imq.user_repository.ldap.password</code><br>
+<code>imq.user_repository.ldap.`propertyName +
+`imq.user_repository.ldap.base</code><br>
+<code>imq.user_repository.ldap.uidattr</code><br>
+<code>imq.user_repository.ldap.usrfilter</code><br>
+<code>imq.user_repository.ldap.grpsearch</code><br>
+<code>imq.user_repository.ldap.grpbase</code><br>
+<code>imq.user_repository.ldap.gidattr</code><br>
+<code>imq.user_repository.ldap.memattr</code><br>
+<code>imq.user_repository.ldap.grpfilter</code><br>
+<code>imq.user_repository.ldap.timeout</code><br>
+<code>imq.user_repository.ldap.ssl.enabled</code>
+* The <code>imq.user_repository.ldap.userformat</code> property, if set to a value
+of <code>dn</code>, specifies that the login username for authentication be in DN
+username format (for example:
+<code>uid=mquser,ou=People,dc=red,dc=sun,dc=com</code>). In this case, the broker
+extracts the value of the <code>imq.user.repository.lpdap.uidatr</code> attribute
+from the DN username, and uses this value as the user name in access
+control operations (see <a href="#aeofu">User Authorization</a>).
+* If you want the broker to use a secure, encrypted SSL (Secure Socket
+Layer) connection for communicating with the LDAP server, set the
+broker&#8217;s <code>imq.user_repository.ldap.ssl.enabled</code> property to <code>true</code><br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.user_repository.ldap.ssl.enabled =true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and the <code>imq.user_repository.ldap.server</code> property to the port used by
+the LDAP server for SSL communication: for example,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.user_repository.ldap.server=myhost:7878</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You will also need to activate SSL communication in the LDAP server.</p>
+</div>
+<div class="paragraph">
+<p>In addition, you may need to edit the user and group names in the
+broker&#8217;s access control file to match those defined in the LDAP user
+repository; see <a href="#aeofu">User Authorization</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p>For example, to create administrative users, you use the access control
+file to specify those users and groups in the LDAP directory that can
+create <code>ADMIN</code> connections.</p>
+</div>
+<div class="paragraph">
+<p>Any user or group that can create an <code>ADMIN</code> connection can issue
+administrative commands.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnkk"></a><a id="GMADG00165"></a><a id="to-set-up-an-administrative-user"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_set_up_an_administrative_user">To Set Up an Administrative User</h5>
+<div class="paragraph">
+<p>The following procedure makes use of a broker&#8217;s access control file,
+which is described in <a href="#aeofu">User Authorization</a>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enable the use of the access control file by setting the broker
+property <code>imq.accesscontrol.enabled</code> to <code>true</code>, which is the default
+value.<br>
+The <code>imq.accesscontrol.enabled</code> property enables use of the access
+control file.</p>
+</li>
+<li>
+<p>Open the access control file,
+<code>IMQ_VARHOME/instances/`instanceName</code>/etc/accesscontrol.properties`.<br>
+The file contains an entry such as the following:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>service connection access control
+##################################
+connection.NORMAL.allow.user=*
+connection.ADMIN.allow.group=admin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The entries listed are examples. Note that the <code>admin</code> group exists by
+default in the file-based user repository but does not exist by default
+in the LDAP directory.
+3.  To grant Message Queue administrator privileges to users, enter the
+user names as follows:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">connection.ADMIN.allow.user= userName[[,userName2] …]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The users must be defined in the LDAP directory.
+4.  To grant Message Queue administrator privileges to groups, enter the
+group names as follows:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">connection.ADMIN.allow.group= groupName[[,groupName2] …]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The groups must be defined in the LDAP directory.</p>
+</div>
+<div class="paragraph">
+<p><a id="gepfq"></a><a id="GMADG00551"></a><a id="using-jaas-based-authentication"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_jaas_based_authentication">Using JAAS-Based Authentication</h4>
+<div class="paragraph">
+<p>The Java Authentication and Authorization Service (JAAS) API allows you
+to plug an external authentication mechanism into Message Queue. This
+section describes the information that the Message Queue message broker
+makes available to a JAAS-compliant authentication service and explains
+how to configure the broker to use such a service. The following sources
+provide further information on JAAS:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For complete information about the JAAS API , see the
+<a href="http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/JAASRefGuide.html">Java
+Authentication and Authorization Service (JAAS) Reference Guide</a>.</p>
+</li>
+<li>
+<p>For information about writing a JAAS login module, see the
+<a href="http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/JAASLMDevGuide.html">Java
+Authentication and Authorization Service (JAAS) LoginModule Developer&#8217;s
+Guide</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>JAAS is a core API in Java 2 Standard Edition (J2SE), and is therefore
+an integral part of Message Queue&#8217;s runtime environment. It defines an
+abstraction layer between an application and an authentication
+mechanism, allowing the desired mechanism to be plugged in with no
+change to application code. In the case of the Message Queue service,
+the abstraction layer lies between the broker (application) and an
+authentication provider. By setting a few broker properties, it is
+possible to plug in any JAAS-compliant authentication service and to
+upgrade this service with no disruption or change to broker code.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You cannot use the Java Management Extensions (JMX) API to change
+JAAS-related broker properties. However, once JAAS-based authentication
+is configured, JMX client applications (like other clients) can be
+authenticated using this mechanism.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gephn"></a><a id="GMADG00406"></a><a id="elements-of-jaas"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_elements_of_jaas">Elements of JAAS</h5>
+<div class="paragraph">
+<p><a href="#gepft">Figure 9-2</a> shows the basic elements of JAAS: a JAAS client,
+a JAAS-compliant authentication service, and a JAAS configuration file.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The JAAS client is an application wishing to perform authentication
+using a JAAS-compliant authentication service. The JAAS client
+communicates with the authentication service using one or more login
+modules and is responsible for providing a callback handler that the
+login module can call to obtain the user name, password, and other
+information needed for authentication.</p>
+</li>
+<li>
+<p>The JAAS-compliant authentication service consists of one or more
+login modules along with logic to perform the needed authentication. The
+login module (<code>LoginModule</code>) may include the authentication logic
+itself, or it may use a private protocol or API to communicate with an
+external security service that provides the logic.</p>
+</li>
+<li>
+<p>The JAAS configuration file is a text file that the JAAS client uses
+to locate the login module(s) to be used.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00021"></a><a id="gepft"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 9-2 JAAS Elements</strong></div>
+<p><span class="image"><img src="img/to_jaaselements.png" alt="This figure shows the elements required for JAAS-compliant authentication. The text that introduces the figure explains its contents."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="gepfs"></a><a id="GMADG00407"></a><a id="jaas-and-message-queue"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_jaas_and_message_queue">JAAS and Message Queue</h5>
+<div class="paragraph">
+<p><a href="#gepgx">Figure 9-3</a> shows how JAAS is used by the Message Queue
+broker. It shows a more complex implementation of the JAAS model shown
+in <a href="#gepft">Figure 9-2</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00022"></a><a id="gepgx"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 9-3 How Message Queue Uses JAAS</strong></div>
+<p><span class="image"><img src="img/to_myjaas.png" alt="The figure shows how JAAS-compliant authentication is used with Message Queue. The text that follows the figure explains its contents."></span></p>
+</div>
+<div class="paragraph">
+<p>The authentication service layer, consisting of one or more login
+modules (if needed) and corresponding authentication logic, is separate
+from the broker. The login modules run in the same Java virtual machine
+as the broker. The broker is represented to the login module as a login
+context, and communicates with the login module by means of a callback
+handler that is part of the broker runtime code.</p>
+</div>
+<div class="paragraph">
+<p>The authentication service also supplies a JAAS configuration file
+containing entries that reference the login modules. The configuration
+file specifies the order in which the login modules (if more than one)
+are to be used and any conditions for their use. When the broker starts
+up, it locates the configuration file by consulting either the Java
+system property <code>java.security.auth.login.config</code> or the Java security
+properties file. The broker then selects an entry in the JAAS
+configuration file according to the value of the broker property
+<code>imq.user_repository.jaas.name</code>. That entry specifies which login
+module(s) will be used for authentication. The classes for the login
+modules are found in the Message Queue external resource files
+directory, <code>IMQ_HOMElib/ext</code>.</p>
+</div>
+<div class="paragraph">
+<p>The relation between the configuration file, the login module, and the
+broker is shown in the following figure. <a href="#ghezq">Figure 9-4</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00023"></a><a id="ghezq"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 9-4 Setting Up JAAS Support</strong></div>
+<p><span class="image"><img src="img/adm_jaasfiles.png" alt="This figure shows the relationship between JAAS-related files. The text preceding the figure explains its content."></span></p>
+</div>
+<div class="paragraph">
+<p>The fact that the broker uses a JAAS plug-in authentication service
+remains completely transparent to the Message Queue client. The client
+continues to connect to the broker as it did before, passing a user name
+and password. In turn, the broker uses a callback handler to pass login
+information to the authentication service, and the service uses the
+information to authenticate the user and return the results. If
+authentication succeeds, the broker grants the connection; if it fails,
+the client runtime returns a JMS security exception that the client must
+handle.</p>
+</div>
+<div class="paragraph">
+<p>After the Message Queue client is authenticated, if there is further
+authorization to be done, the broker proceeds as it normally would,
+consulting the access control file to determine whether the
+authenticated client is authorized to perform the actions it undertakes:
+accessing a destination, consuming a message, browsing a queue, and so
+on.</p>
+</div>
+<div class="paragraph">
+<p><a id="gepgd"></a><a id="GMADG00408"></a><a id="setting-up-jaas-compliant-authentication"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_setting_up_jaas_compliant_authentication">Setting up JAAS-Compliant Authentication</h5>
+<div class="paragraph">
+<p>Setting up JAAS-compliant authentication involves setting broker and
+system properties to select this type of authentication, to specify the
+location of the configuration file, and to specify the entries to the
+login modules that are going to be used.</p>
+</div>
+<div class="paragraph">
+<p>To set up JAAS support for Message Queue, you perform the following
+general steps. (These steps assume you are creating your own
+authentication service.)</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a id="CJADHCIJ"></a><br>
+Create one or more login module classes that implement the
+authentication service. The JAAS callback types that the broker supports</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">are listed below.</dt>
+<dt class="hdlist1"><code>javax.security.auth.callback.LanguageCallback</code></dt>
+<dd>
+<p>The broker uses this callback to pass the authentication service the
+locale in which the broker is running. This value can be used for
+localization.</p>
+</dd>
+<dt class="hdlist1"><code>javax.security.auth.callback.NameCallback</code></dt>
+<dd>
+<p>The broker uses this callback to pass to the authentication service
+the user name specified by the Message Queue client when the
+connection was requested.</p>
+</dd>
+<dt class="hdlist1"><code>javax.security.auth.callback.TextInputCallback</code></dt>
+<dd>
+<p>The broker uses this callback to pass the value of the following
+information to the login module (authentication service) when
+requested through the TextInputCallback.getPrompt() with the following
+strings:<br></p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.authentication.type</code>: The broker authentication type in effect
+at runtime</p>
+</li>
+<li>
+<p><code>imq.accesscontrol.type</code>: The broker access control type in effect
+at runtime</p>
+</li>
+<li>
+<p><code>imq.authentication.clientip</code>: The client IP address (null if
+unavailable)</p>
+</li>
+<li>
+<p><code>imq.servicename</code>: The name of the connection service (<code>jms</code>,
+<code>ssljms</code>, <code>admin</code>, or <code>ssladmin</code>) being used by the client</p>
+</li>
+<li>
+<p><code>imq.servicetype</code>: The type of the connection service (<code>NORMAL</code> or
+<code>ADMIN</code>) being used by the client</p>
+</li>
+</ul>
+</div>
+</dd>
+<dt class="hdlist1"><code>javax.security.auth.callback.PasswordCallback</code></dt>
+<dd>
+<p>The broker uses this callback to pass to the authentication service
+the password specified by the Message Queue client when the connection
+was requested.</p>
+</dd>
+<dt class="hdlist1"><code>javax.security.auth.callback.TextOutputCallback</code></dt>
+<dd>
+<p>The broker handles this callback to provide logging service to the
+authentication service by logging the text output to the broker&#8217;s log
+file. The callback&#8217;s <code>MessageType</code> <code>ERROR,</code> <code>INFORMATION,</code> <code>WARNING</code>
+are mapped to the broker logging levels <code>ERROR,</code> <code>INFO,</code> <code>WARNING</code>
+respectively.</p>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>Create a JAAS configuration file with entries that reference the
+login module classes created in Step <a href="#CJADHCIJ">1</a> and specify the
+location of this file.</p>
+</li>
+<li>
+<p><a id="CJAFEHAC"></a><br>
+Note the name of the entry in the JAAS configuration file (that
+references the login module implementation classes).</p>
+</li>
+<li>
+<p>Archive the classes that implement the login modules to a jar file,
+and place the jar file in the Message Queue <code>lib/ext</code> directory.</p>
+</li>
+<li>
+<p>Set the broker configuration properties that relate to JAAS support.
+These are described in <a href="#gepge">Table 9-4</a>.</p>
+</li>
+<li>
+<p>Set the following system property (to specify the location of the
+JAAS configuration file).<br>
+<code>java.security.auth.login.config=`JAAS_Config_File_Location +
+For example, you can specify the location when you start the broker. +
+`imqbrokerd -Djava.security.auth.login.config=`JAAS_Config_File_Location +
+There are other ways to specify the location of the JAAS configuration
+file. For additional information, see +
+`http://download.oracle.com/javase/1.5.0/docs/guide/security/jaas/tutorials/LoginConfigFile.html</code></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following table lists the broker properties that need to be set to
+set up JAAS support.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG655"></a><a id="sthref33"></a><a id="gepge"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-4 Broker Properties for JAAS Support</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 53%;">
+<col style="width: 47%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set to <code>basic</code> to indicate Base-64 password
+encoding. This is the only permissible value for JAAS authentication.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.authentication.basic.user_repository</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set to <code>jaas</code> to specify
+JAAS authentication.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set to the name of the desired entry
+(in the JAAS configuration file) that references the login modules you
+want to use as the authentication mechanism. This is the name you noted
+inStep <a href="#CJAFEHAC">3</a>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.userPrincipalClass</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This property, used by
+Message Queue access control, specifies the <code>java.security.Principal</code>
+implementation class in the login module(s) that the broker uses to
+extract the Principal name to represent the user entity in the Message
+Queue access control file. If, it is not specified, the user name passed
+from the Message Queue client when a connection was requested is used
+instead.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.jaas.groupPrincipalClass</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">This property, used by
+Message Queue access control, specifies the <code>java.security.Principal</code>
+implementation class in the login module(s) that the broker uses to
+extract the Principal name to represent the group entity in the Message
+Queue access control file. If, it is not specified, the group rules, if
+any, in the Message Queue access control file are ignored.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeofu"></a><a id="GMADG00248"></a><a id="user-authorization"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_authorization">User Authorization</h3>
+<div class="paragraph">
+<p>An access control file contains rules that specify which users (or
+groups of users) are authorized to perform certain operations on a
+message broker. These operations include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creating a connection</p>
+</li>
+<li>
+<p>Creating a message producer for a physical destination</p>
+</li>
+<li>
+<p>Creating a message consumer for a physical destination</p>
+</li>
+<li>
+<p>Browsing a queue destination</p>
+</li>
+<li>
+<p>Auto-creating a physical destination</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If access control is enabled (that is, if the broker&#8217;s
+<code>imq.accesscontrol.enabled</code> configuration property is set to <code>true</code>, the
+broker will consult its access control file whenever a client attempts
+one of these operations, to verify whether the user generating the
+request (or a group to which the user belongs) is authorized to perform
+the operation. By editing this file, you can restrict access to these
+operations to particular users and groups. Changes take effect
+immediately; there is no need to restart the broker after editing the
+file.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeofv"></a><a id="GMADG00552"></a><a id="access-control-file-syntax"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_access_control_file_syntax">Access Control File Syntax</h4>
+<div class="paragraph">
+<p>Each broker has it own access control file, created automatically when
+the broker is started. The file is named <code>accesscontrol.properties</code> and
+is located at <code>IMQ_VARHOME/instances/`instanceName</code>/etc`.</p>
+</div>
+<div class="paragraph">
+<p>The file is formatted as a Java properties file. It starts with a
+<code>version</code> property defining the version of the file:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=JMQFileAccessControlModel/100</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This is followed by three sections specifying the access control for
+three categories of operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creating connections</p>
+</li>
+<li>
+<p>Creating message producers or consumers, or browsing a queue
+destination</p>
+</li>
+<li>
+<p>Auto-creating physical destinations</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of these sections consists of a sequence of authorization rules
+specifying which users or groups are authorized to perform which
+specific operations. These rules have the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">resourceType.resourceVariant.operation.access.principalType=principals</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gbnjc">Table 9-5</a> describes the various elements.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG656"></a><a id="sthref34"></a><a id="gbnjc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-5 Authorization Rule Elements</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 83%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Element</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resourceType</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Type of resource to which the rule applies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>connection</code>: Connections</p>
+</li>
+<li>
+<p><code>queue</code>: Queue destinations</p>
+</li>
+<li>
+<p><code>topic</code>: Topic destinations</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">resourceVariant</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Specific resource (connection service type or destination) to which the
+rule applies</p>
+</div>
+<div class="paragraph">
+<p>An asterisk (<code><strong></code>) may be used as a wild-card character to denote all
+resources of a given type: for example, a rule beginning with <code>queue.</strong></code>
+applies to all queue destinations.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">operation</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Operation to which the rule applies</p>
+</div>
+<div class="paragraph">
+<p>This syntax element is not used for resourceType=<code>connection</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">access</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Level of access authorized:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>allow</code>: Authorize user to perform operation</p>
+</li>
+<li>
+<p><code>deny</code>: Prohibit user from performing operation</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">principalType</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Type of principal (user or group) to which the rule applies:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>user</code>: Individual user</p>
+</li>
+<li>
+<p><code>group</code>: User group</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">principals</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>List of principals (users or groups) to whom the rule applies, separated
+by commas</p>
+</div>
+<div class="paragraph">
+<p>An asterisk (<code><strong></code>) may be used as a wild-card character to denote all
+users or all groups: for example, a rule ending with <code>user=</strong></code> applies to
+all users.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG00118"></a><a id="ggwbx"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-3 Example 1</p>
+</div>
+<div class="paragraph">
+<p>Rule: <code>queue.q1.consume.allow.user=*</code></p>
+</div>
+<div class="paragraph">
+<p>Description: allows all users to consume messages from the queue
+destination <code>q1</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00119"></a><a id="ggwam"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-4 Example 2</p>
+</div>
+<div class="paragraph">
+<p>Rule: <code>queue.*.consume.allow.user=Snoopy</code></p>
+</div>
+<div class="paragraph">
+<p>Description: allows user <code>Snoopy</code> to consume messages from all queue
+destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00120"></a><a id="ggwbv"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-5 Example 3</p>
+</div>
+<div class="paragraph">
+<p>Rule: <code>topic.t1.produce.deny.user=Snoopy</code></p>
+</div>
+<div class="paragraph">
+<p>Description: prevents <code>Snoopy</code> from producing messages to the topic
+destination <code>t1</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can use Unicode escape (<code>\\u`XXXX) notation to specify non-ASCII
+user, group, or destination names. If you have edited and saved the
+access control file with these names in a non-ASCII encoding, you can
+use the Java `native2ascii</code> tool to convert the file to ASCII. See the
+<a href="http://java.sun.com/javase/technologies/core/basic/intl/faq.jsp">Java
+Internationalization FAQ</a> for more information.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeofx"></a><a id="GMADG00553"></a><a id="application-of-authorization-rules"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_application_of_authorization_rules">Application of Authorization Rules</h4>
+<div class="paragraph">
+<p>Authorization rules in the access control file are applied according to
+the following principles:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Any operation not explicitly authorized through an authorization rule
+is implicitly prohibited. For example, if the access control file
+contains no authorization rules, all users are denied access to all
+operations.</p>
+</li>
+<li>
+<p>Authorization rules for specific users override those applying
+generically to all users. For example, the rules<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>queue.q1.produce.allow.user=*
+queue.q1.produce.deny.user=Snoopy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorize all users except <code>Snoopy</code> to send messages to queue
+destination <code>q1</code>.
+* Authorization rules for a specific user override those for any group
+to which the user belongs. For example, if user <code>Snoopy</code> is a member of
+group <code>user</code>, the rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">queue.q1.consume.allow.group=user
+queue.q1.consume.deny.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorize all members of <code>user</code> except <code>Snoopy</code> to receive messages from
+queue destination <code>q1</code>.
+* Authorization rules applying generically to all users override those
+applying to all groups. For example, the rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.t1.produce.deny.group=*
+topic.t1.produce.allow.user=*</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorize all users to publish messages to topic destination <code>t1</code>,
+overriding the rule denying such access to all groups.
+* Authorization rules for specific resources override those applying
+generically to all resources of a given type. For example, the rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.*.consume.allow.user=Snoopy
+topic.t1.consume.deny.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorize <code>Snoopy</code> to subscribe to all topic destinations except <code>t1</code>.
+* Authorization rules authorizing and denying access to the same
+resource and operation for the same user or group cancel each other out,
+resulting in authorization being denied. For example, the rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">queue.q1.browse.deny.user=Snoopy
+queue.q1.browse.allow.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>prevent <code>Snoopy</code> from browsing queue <code>q1</code>. The rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.t1.consume.deny.group=user
+topic.t1.consume.allow.group=user</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>prevent all members of group <code>user</code> from subscribing to topic <code>t1</code>.
+* When multiple authorization rules are specified for the same resource,
+operation, and principal type, only the last rule applies. The rules<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">queue.q1.browse.allow.user=Snoopy,Linus
+queue.q1.browse.allow.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorize user <code>Snoopy</code>, but not <code>Linus</code>, to browse queue destination
+<code>q1</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeofy"></a><a id="GMADG00554"></a><a id="authorization-rules-for-connection-services"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization_rules_for_connection_services">Authorization Rules for Connection Services</h4>
+<div class="paragraph">
+<p>Authorization rules with the resource type <code>connection</code> control access
+to the broker&#8217;s connection services. The rule&#8217;s resourceVariant element
+specifies the service type of the connection services to which the rule
+applies, as shown in <a href="connection-services.html#gbnjw">Table 6-1</a>; the
+only possible values are <code>NORMAL</code> or <code>ADMIN</code>. There is no operation
+element.</p>
+</div>
+<div class="paragraph">
+<p>The default access control file contains the rules</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">connection.NORMAL.allow.user=*
+connection.ADMIN.allow.group=admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>giving all users access to <code>NORMAL</code> connection services (<code>jms</code>,
+<code>ssljms</code>, <code>httpjms</code>, and <code>httpsjms</code>) and those in the <code>admin</code> group
+access to <code>ADMIN</code> connection services (<code>admin</code> and <code>ssladmin</code>). You can
+then add additional authorization rules to restrict the connection
+access privileges of specific users: for example, the rule</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">connection.NORMAL.deny.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>denies user <code>Snoopy</code> access privileges for connection services of type
+<code>NORMAL</code>.</p>
+</div>
+<div class="paragraph">
+<p>If you are using a file-based user repository, the <code>admin</code> user group is
+created by the User Manager utility. If access control is disabled
+(<code>imq.accesscontrol.enabled</code> = <code>false</code>), all users in the <code>admin</code> group
+automatically have connection privileges for <code>ADMIN</code> connection
+services. If access control is enabled, access to these services is
+controlled by the authorization rules in the access control file.</p>
+</div>
+<div class="paragraph">
+<p>If you are using an LDAP user repository, you must define your own user
+groups in the LDAP directory, using the tools provided by your LDAP
+vendor. You can either define a group named <code>admin</code>, which will then be
+governed by the default authorization rule shown above, or edit the
+access control file to refer to one or more other groups that you have
+defined in the LDAP directory. You must also explicitly enable access
+control by setting the broker&#8217;s <code>imq.accesscontrol.enabled</code> property to
+<code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeofz"></a><a id="GMADG00555"></a><a id="authorization-rules-for-physical-destinations"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_authorization_rules_for_physical_destinations">Authorization Rules for Physical Destinations</h4>
+<div class="paragraph">
+<p>Access to specific physical destinations on the broker is controlled by
+authorization rules with a resource type of <code>queue</code> or <code>topic</code>, as the
+case may be. These rules regulate access to the following operations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Sending messages to a queue: produce operation</p>
+</li>
+<li>
+<p>Receiving messages from a queue: consume operation</p>
+</li>
+<li>
+<p>Publishing messages to a topic: produce operation</p>
+</li>
+<li>
+<p>Subscribing to and consuming messages from a topic: consume operation</p>
+</li>
+<li>
+<p>Browsing a queue: browse operation</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>By default, all users and groups are authorized to perform all of these
+operations on any physical destination. You can change this by editing
+the default authorization rules in the access control properties file or
+overriding them with more specific rules of your own. For example, the
+rule</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.Admissions.consume.deny.group=user</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>denies all members of the <code>user</code> group the ability to subscribe to the
+topic <code>Admissions</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjmsn"></a><a id="GMADG00409"></a><a id="authorization-rules-for-auto-created-physical-destinations"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_authorization_rules_for_auto_created_physical_destinations">Authorization Rules for Auto-Created Physical Destinations</h5>
+<div class="paragraph">
+<p>When a client creates a message producer or consumer for a physical
+destination that does not already exist, the broker will auto-create the
+destination (provided that the broker&#8217;s <code>imq.autocreate.queue</code> or
+<code>imq.autocreate.topic</code> property is set to <code>true</code>).</p>
+</div>
+<div class="paragraph">
+<p>The final section of the access control file controls the ability of
+users and groups to auto-create destinations, and to access any
+auto-created destinations. This is governed by authorization rules with
+a resourceType of <code>queue</code> or <code>topic</code> and an operation element of
+<code>create</code>. the resourceVariant element is omitted, since these rules
+apply to all auto-created queues or all auto-created topics, rather than
+any specific destination.</p>
+</div>
+<div class="paragraph">
+<p>The default access control file contains the rules</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">queue.create.allow.user=*
+topic.create.allow.user=*</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>authorizing all users to have physical destinations auto-created for
+them by the broker, and to have access to any auto-created destinations.
+You can edit the file to restrict such authorization for specific users.
+For example, the rule</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">topic.create.deny.user=Snoopy</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>denies user <code>Snoopy</code> the ability to auto-create topic destinations or to
+access any auto-created topic destinations.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The effect of such auto-creation rules must be congruent with that of
+other physical destination access rules. For example, if you change the
+destination authorization rule to prohibit any user from sending a
+message to a queue, but enable the auto-creation of queue destinations,
+the broker will create the physical destination if it does not exist,
+but will not deliver a message to it.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeogb"></a><a id="GMADG00249"></a><a id="message-encryption"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_encryption">Message Encryption</h3>
+<div class="paragraph">
+<p>This section explains how to set up a connection service based on the
+Secure Socket Layer (SSL) standard, which enables delivery of encrypted
+messages over the connection. Message Queue supports the following
+SSL-based connection services:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>ssljms</code> service delivers secure, encrypted messages between a
+client and a broker, using the TCP/IP transport protocol.</p>
+</li>
+<li>
+<p>The <code>httpsjms</code> service delivers secure, encrypted messages between a
+client and a broker, using an HTTPS tunnel servlet with the HTTP
+transport protocol.</p>
+</li>
+<li>
+<p>The <code>ssladmin</code> service creates a secure, encrypted connection between
+the Message Queue Command utility (<code>imqcmd</code>) and a broker, using the
+TCP/ IP transport protocol. Encrypted connections are not supported for
+the Administration Console (<code>imqadmin</code>).</p>
+</li>
+<li>
+<p>The <code>cluster</code> connection service is used internally to provide secure,
+encrypted communication between brokers in a cluster, using the TCP/IP
+transport protocol.</p>
+</li>
+<li>
+<p>A JMX connector that supports secure, encrypted communication between
+a JMX client and a broker&#8217;s MBean server using the RMI transport
+protocol over TCP.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The remainder of this section describes how to set up secure connections
+over TCP/IP, using the <code>ssljms</code>, <code>ssladmin</code>, and <code>cluster</code> connection
+services. For information on setting up secure connections over HTTP
+with the <code>httpsjms</code> service, see
+<a href="http_https-support.html#aeopb">HTTP/HTTPS Support</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogd"></a><a id="GMADG00556"></a><a id="using-self-signed-certificates"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_using_self_signed_certificates">Using Self-Signed Certificates</h4>
+<div class="paragraph">
+<p>To use an SSL-based connection service over TCP /IP, you generate a
+public/private key pair using the Key Tool utility (<code>imqkeytool</code>). This
+utility embeds the public key in a self-signed certificate that is
+passed to any client requesting a connection to the broker, and the
+client uses the certificate to set up an encrypted connection. This
+section describes how to set up an SSL-based service using such
+self-signed certificates.</p>
+</div>
+<div class="paragraph">
+<p>For a stronger level of authentication, you can use signed certificates
+verified by a certification authority. The use of signed certificates
+involves some additional steps beyond those needed for self-signed
+certificates: you must first perform the procedures described in this
+section and then perform the additional steps in <a href="#aeogk">Using
+Signed Certificates</a>.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue&#8217;s support for SSL with self-signed certificates is
+oriented toward securing on-the-wire data, on the assumption that the
+client is communicating with a known and trusted server. Configuring SSL
+with self-signed certificates requires configuration on both the broker
+and client:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggwkm">Setting Up an SSL-Based Connection Service Using
+Self-Signed Certificates</a></p>
+</li>
+<li>
+<p><a href="#aeogh">Configuring and Running an SSL-Based Client Using
+Self-Signed Certificates</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggwkm"></a><a id="GMADG00410"></a><a id="setting-up-an-ssl-based-connection-service-using-self-signed-certificates"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_setting_up_an_ssl_based_connection_service_using_self_signed_certificates">Setting Up an SSL-Based Connection Service Using Self-Signed Certificates</h5>
+<div class="paragraph">
+<p>The following sequence of procedures are needed to set up an SSL-based
+connection service for using self-signed certificates:</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Starting with release 4.0, the default value for the client connection
+factory property <code>imqSSLIsHostTrusted</code> is <code>false</code>. If your application
+depends on the prior default value of <code>true</code>, you need to reconfigure
+and to set the property explicitly to <code>true</code>. In particular, old or new
+clients using self-signed certificates should set this property to true;
+for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java -DimqConnectionType=TLS -DimqSSLIsHostTrusted=true MyApp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The administration tool <code>imqcmd</code> is also affected by this change. In
+addition to using the <code>-secure</code> option to specify that it uses a
+SSL-based <code>admin</code> connection service, the <code>imqSSLIsHostTrusted</code> should
+be set to <code>true</code> when connecting to a broker configured with a
+self-signed certificate. You can do this as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DimqSSLIsHostTrusted=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can import the broker&#8217;s self-signed certificate into
+the client runtime trust store. Use the procedure in <a href="#gbnjz">To
+Install a Signed Certificate</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Generate a self-signed certificate.</p>
+</li>
+<li>
+<p>Enable the desired SSL-based connection services in the broker.
+These can include the <code>ssljms</code>, <code>ssladmin</code>, or <code>cluster</code> connection
+services.</p>
+</li>
+<li>
+<p>Start the broker.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="ggwgc"></a><a id="GMADG00166"></a><a id="to-generate-a-self-signed-certificate"></a></p>
+</div>
+<div class="paragraph">
+<p>To Generate a Self-Signed Certificate</p>
+</div>
+<div class="paragraph">
+<p>Run the Key Tool utility (<code>imqkeytool</code>) to generate a self-signed
+certificate for the broker. (On Solaris and Linux operating systems, you
+may need to run the utility as the root user in order to have permission
+to create the keystore file.) The same certificate can be used for all
+SSL-based connection services (<code>ssljms</code>, <code>ssladmin</code>, <code>cluster</code>
+connection services, and the <code>ssljmxrmi</code> connector).</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the following at the command prompt:<br>
+<code>imqkeytool</code> <code>broker</code><br>
+The Key Tool utility prompts you for a key store password:</p>
+</li>
+<li>
+<p>At the prompt type a keystore password.<br>
+The Keystore utility prompts you for identifying information from which
+to construct an X.500 distinguished name. The following table shows the
+prompts and the values to be provided for each. Values are
+case-insensitive and can include spaces.<br></p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prompt</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">X.500 Attribute</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Example</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is your first and last name?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commonName (CN)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified
+name of server running the broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqserver.sun.com</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your organizational unit?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">organizationalUnit
+(OU)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of department or division</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purchasing</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your organization?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">organizationName (ON)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name
+of larger organization, such as a company or government entity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Acme Widgets, Inc.</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your city or locality?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">localityName (L)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of
+city or locality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>San Francisco</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your state or province?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stateName (ST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full
+(unabbreviated) name of state or province</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>California</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the two-letter country code for this unit?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">country &#169;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard two-letter country code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>US</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The Key Tool utility displays the information you entered for
+confirmation. For example,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">   Is CN=mqserver.sun.com, OU=purchasing, ON=Acme Widgets, Inc.,
+   L=San Francisco, ST=California, C=US correct?</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Accept the current values and proceed by typing <code>yes</code>.<br>
+To reenter values, accept the default or enter <code>no</code>. After you confirm,
+the utility pauses while it generates a key pair.<br>
+The utility asks for a password to lock the key pair (key password).</p>
+</li>
+<li>
+<p>Press return.<br>
+This will set the same password for both the key password and the
+keystore password.<br></p>
+</li>
+</ol>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Be sure to remember the password you specify. You must provide this
+password when you start the broker, to allow the broker to open the
+keystore file. You can store the keystore password in a password file
+(see <a href="#aeogq">Password Files</a>).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Key Tool utility generates a self-signed certificate and places it
+in Message Queue&#8217;s keystore file. The keystore file is located in
+<code>IMQ_HOME/etc</code> by default.<br>
+The following are the configurable properties for the Message Queue
+keystore for SSL-based connection services:::
+<code>imq.keystore.file.dirpath</code>::
+  Path to directory containing keystore file
+<code>imq.keystore.file.name</code>::
+  Name of key store file
+<code>imq.keystore.password</code>::
+  Ke store password (to be used only in a password file)<br>
+In some circumstances, you may need to regenerate a key pair in order to
+solve certain problems: for example, if you forget the key store
+password or if the SSL-based service fails to initialize when you start
+a broker and you get the exception:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java.security.UnrecoverableKeyException: Cannot recover key</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(This exception may result if you provided a key password different from
+the keystore password when you generated the self-signed certificate.)</p>
+</div>
+<div class="paragraph">
+<p><a id="ggwhw"></a><a id="GMADG00167"></a><a id="to-regenerate-a-key-pair"></a></p>
+</div>
+<div class="paragraph">
+<p>To Regenerate a Key Pair</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Remove the broker&#8217;s keystore file.<br>
+The file is located in <code>IMQ_HOME/etc</code> by default.</p>
+</li>
+<li>
+<p>Run <code>imqkeytool</code> again.<br>
+The command will generate a new key pair, as described above.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gbnko"></a><a id="GMADG00168"></a><a id="to-enable-an-ssl-based-connection-service-in-the-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Enable an SSL-Based Connection Service in the Broker</p>
+</div>
+<div class="paragraph">
+<p>To enable an SSL-based connection service in the broker, you need to add
+the corresponding service or services to the <code>imq.service.activelist</code>
+property.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the broker&#8217;s instance configuration file:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>IMQ_VARHOME/instances/instanceName/props/config.properties</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add an entry (if one does not already exist) for the
+<code>imq.service.activelist</code> property and include the desired SSL-based
+service(s) in the list.<br>
+By default, the property includes the <code>jms</code> and <code>admin</code> connection
+services. Add the SSL-based service or services you wish to activate
+(<code>ssljms</code>, <code>ssladmin</code>, or both):<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.service.activelist=jms,admin,ssljms,ssladmin</pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The SSL-based <code>cluster</code> connection service is enabled using the
+<code>imq.cluster.transport</code> property rather than the
+<code>imq.service.activelist</code> property (see
+<a href="broker-clusters.html#ggumd">Cluster Connection Service Properties</a>).
+To enable SSL for RMI-based JMX connectors, see
+<a href="jmx-support.html#ggvun">SSL-Based JMX Connections</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Save and close the instance configuration file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="ggwjv"></a><a id="GMADG00169"></a><a id="to-start-the-broker"></a></p>
+</div>
+<div class="paragraph">
+<p>To Start the Broker</p>
+</div>
+<div class="paragraph">
+<p>Start the broker, providing the key store password.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>When you start a broker or client with SSL, you may notice a sharp
+increase in CPU usage for a few seconds. This is because the JSSE (Java
+Secure Socket Extension) method <code>java.security.SecureRandom</code>, which
+Message Queue uses to generate random numbers, takes a significant
+amount of time to create the initial random number seed. Once the seed
+is created, the CPU usage level will drop to normal.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the broker, providing the keystore password.<br>
+Put the keystore password in a password file, as described in
+<a href="#aeogq">Password Files</a> and set the <code>imq.passfile.enabled</code> property
+to <code>true</code>. You can now do one of the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pass the location of the password file to the <code>imqbrokerd</code> command:<br>
+<code>imqbrokerd -passfile /`passfileDirectory</code>/`passfileName</p>
+</li>
+<li>
+<p>Start the broker without the <code>-passfile</code> option, but specify the
+location of the password file using the following two broker
+configuration properties:<br>
+`imq.passfile.dirpath=/`passfileDirectory<br>
+`imq.passfile.name=/`passfileName</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If you are not using a password file, enter the keystore password at
+the prompt.<br>
+<code>imqbrokerd</code><br>
+You are prompted for the keystore passwrd.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeogh"></a><a id="GMADG00411"></a><a id="configuring-and-running-an-ssl-based-client-using-self-signed-certificates"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuring_and_running_an_ssl_based_client_using_self_signed_certificates">Configuring and Running an SSL-Based Client Using Self-Signed Certificates</h5>
+<div class="paragraph">
+<p>The procedure for configuring a client to use an SSL-based connection
+service differs depending on whether it is an application client (using
+the <code>ssljms</code> connection service) or a Message Queue administrative
+client such as <code>imqcmd</code> (using the <code>ssladmin</code> connection service.)</p>
+</div>
+<div class="paragraph">
+<p><a id="gctub"></a><a id="GMADG00079"></a><a id="application-clients"></a></p>
+</div>
+<div class="paragraph">
+<p>Application Clients</p>
+</div>
+<div class="paragraph">
+<p>For application clients, you must make sure the client has the following
+<code>.jar</code> files specified in its <code>CLASSPATH</code> variable:</p>
+</div>
+<div class="paragraph">
+<p><code>imq.jar</code><br>
+<code>jms.jar</code></p>
+</div>
+<div class="paragraph">
+<p>Once the <code>CLASSPATH</code> files are properly specified, one way to start the
+client and connect to the broker&#8217;s <code>ssljms</code> connection service is by
+entering a command like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java  -DimqConnectionType=TLS clientAppName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This tells the connection to use an SSL-based connection service.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogj"></a><a id="GMADG00080"></a><a id="administrative-clients"></a></p>
+</div>
+<div class="paragraph">
+<p>Administrative Clients</p>
+</div>
+<div class="paragraph">
+<p>For administrative clients, you can establish a secure connection by
+including the <code>-secure</code> option when you invoke the <code>imqcmd</code> command: for
+example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  -b hostName:portNumber  -u userName  -secure</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where userName is a valid <code>ADMIN</code> entry in the Message Queue user
+repository. The command will prompt you for the password.</p>
+</div>
+<div class="paragraph">
+<p>Listing the connection services is a way to verify that the <code>ssladmin</code>
+service is running and that you can successfully make a secure
+administrative connection, as shown in <a href="#gevuc">Example 9-6</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00121"></a><a id="gevuc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 9-6 Connection Services Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the services on the broker specified by:
+
+Host                 Primary Port
+localhost            7676
+
+Service Name     Port Number       Service State
+admin            33984 (dynamic)   RUNNING
+httpjms          -                 UNKNOWN
+httpsjms         -                 UNKNOWN
+jms              33983 (dynamic)   RUNNING
+ssladmin         35988 (dynamic)   RUNNING
+ssljms           dynamic           UNKNOWN
+
+Successfully listed services.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeogk"></a><a id="GMADG00557"></a><a id="using-signed-certificates"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_signed_certificates">Using Signed Certificates</h4>
+<div class="paragraph">
+<p>Signed certificates provide a stronger level of server authentication
+than self-signed certificates. You can implement signed certificates
+only between a client and broker, and currently not between multiple
+brokers in a cluster. This requires the following extra procedures in
+addition to the ones described in <a href="#aeogd">Using Self-Signed
+Certificates</a>. Using signed certificates requires configuration on both
+the broker and client:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeogl">Obtaining and Installing a Signed Certificate</a></p>
+</li>
+<li>
+<p><a href="#aeogm">Configuring the Client to Require Signed Certificates</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeogl"></a><a id="GMADG00412"></a><a id="obtaining-and-installing-a-signed-certificate"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_obtaining_and_installing_a_signed_certificate">Obtaining and Installing a Signed Certificate</h5>
+<div class="paragraph">
+<p>The following procedures explain how to obtain and install a signed
+certificate.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnjh"></a><a id="GMADG00170"></a><a id="to-obtain-a-signed-certificate"></a></p>
+</div>
+<div class="paragraph">
+<p>To Obtain a Signed Certificate</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the J2SE <code>keytool</code> command to generate a certificate signing
+request (CSR) for the self-signed certificate you generated in the
+preceding section.<br>
+Information about the <code>keytool</code> command can be found at</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>http://download.oracle.com/javase/1.5.0/docs/tooldocs/solaris/keytool.html</code><br>
+Here is an example:<br></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -certreq  -keyalg RSA  -alias imq  -file certreq.csr
+-keystore /etc/imq/keystore  -storepass  myStorePassword</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This generates a CSR encapsulating the certificate in the specified file
+(<code>certreq.csr</code> in the example).
+2.  Use the CSR to generate or request a signed certificate.<br>
+You can do this by either of the following methods:
+* Have the certificate signed by a well known certification authority
+(CA), such as Thawte or Verisign. See your CA&#8217;s documentation for more
+information on how to do this.
+* Sign the certificate yourself, using an SSL signing software package.<br>
+The resulting signed certificate is a sequence of ASCII characters. If
+you receive the signed certificate from a CA, it may arrive as an e-mail
+attachment or in the text of a message.
+3.  Save the signed certificate in a file.<br>
+The instructions below use the example name <code>broker.cer</code> to represent
+the broker certificate.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnjz"></a><a id="GMADG00171"></a><a id="to-install-a-signed-certificate"></a></p>
+</div>
+<div class="paragraph">
+<p>To Install a Signed Certificate</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Check whether J2SE supports your certification authority by default.<br>
+The following command lists the root CAs in the system key store:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -v  -list  -keystore $JAVA_HOME/lib/security/cacerts</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If your CA is listed, skip the next step.
+2.  If your certification authority is not supported in J2SE, import the
+CA&#8217;s root certificate into the Message Queue key store.<br>
+Here is an example:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -import  -alias ca  -file ca.cer  -noprompt  -trustcacerts
+-keystore /etc/imq/keystore  -storepass  myStorePassword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>ca.cer</code> is the file containing the root certificate obtained from
+the CA.<br>
+If you are using a CA test certificate, you probably need to import the
+test CA root certificate. Your CA should have instructions on how to
+obtain a copy.
+3.  Import the signed certificate into the key store to replace the
+original self-signed certificate.<br>
+Here is an example:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -import  -alias imq  -file broker.cer  -noprompt  -trustcacerts
+-keystore /etc/imq/keystore  -storepass  myStorePassword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where <code>broker.cer</code> is the file containing the signed certificate that
+you received from the CA.<br>
+The Message Queue key store now contains a signed certificate to use for
+SSL connections.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogm"></a><a id="GMADG00413"></a><a id="configuring-the-client-to-require-signed-certificates"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuring_the_client_to_require_signed_certificates">Configuring the Client to Require Signed Certificates</h5>
+<div class="paragraph">
+<p>You must now configure the Message Queue client runtime to require
+signed certificates, and ensure that it trusts the certification
+authority that signed the certificate.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>By default, starting with release 4.0, the connection factory object
+that the client will be using to establish broker connections has its
+<code>imqSSLIsHostTrusted</code> attribute set to <code>false</code>, meaning that the client
+runtime will attempt to validate all certificates. Validation will fail
+if the signer of the certificate is not in the client&#8217;s trust store.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gbnjn"></a><a id="GMADG00172"></a><a id="to-configure-the-client-runtime-to-require-signed-certificates"></a></p>
+</div>
+<div class="paragraph">
+<p>To Configure the Client Runtime to Require Signed Certificates</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify whether the signing authority is registered in the client&#8217;s
+trust store.<br>
+To test whether the client will accept certificates signed by your
+certification authority, try to establish an SSL connection, as
+described above under <a href="#aeogh">Configuring and Running an SSL-Based
+Client Using Self-Signed Certificates</a>. If the CA is in the client&#8217;s
+trust store, the connection will succeed and you can skip the next step.
+If the connection fails with a certificate validation error, go on to
+the next step.</p>
+</li>
+<li>
+<p>Install the signing CA&#8217;s root certificate in the client&#8217;s trust
+store.<br>
+The client searches the key store files <code>cacerts</code> and <code>jssecacerts</code> by
+default, so no further configuration is necessary if you install the
+certificate in either of those files. The following example installs a
+test root certificate from the Verisign certification authority from a
+file named <code>testrootca.cer</code> into the default system certificate file,
+<code>cacerts</code>. The example assumes that J2SE is installed in the directory
+<code>$JAVA_HOME/usr/j2se</code>:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -import  -keystore /usr/j2se/jre/lib/security/cacerts
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>An alternative (and recommended) option is to install the root
+certificate into the alternative system certificate file, <code>jssecacerts</code>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -import  -keystore /usr/j2se/jre/lib/security/jssecacerts
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A third possibility is to install the root certificate into some other
+key store file and configure the client to use that as its trust store.
+The following example installs into the file <code>/home/smith/.keystore</code>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -import  -keystore /home/smith/.keystore
+-alias VerisignTestCA  -file testrootca.cer  -noprompt
+-trustcacerts  -storepass myStorePassword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Since the client does not search this key store by default, you must
+explicitly provide its location to the client to use as a trust store.
+You do this by setting the Java system property
+<code>javax.net.ssl.trustStore</code> once the client is running:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">javax.net.ssl.trustStore=/home/smith/.keystore</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeogq"></a><a id="GMADG00250"></a><a id="password-files"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_password_files">Password Files</h3>
+<div class="paragraph">
+<p>Several types of command require passwords. In <a href="#gbnjx">Table 9-6</a>,
+the first column lists the commands that require passwords and the
+second column lists the reason that passwords are needed.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG657"></a><a id="sthref35"></a><a id="gbnjx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-6 Commands That Use Passwords</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 34%;">
+<col style="width: 49%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Command</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Purpose of Password</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqbrokerd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access a JDBC-based persistent data store,
+an SSL certificate key store, or an LDAP user repository</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqcmd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manage broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authenticate an administrative user who is
+authorized to use the command</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqdbmgr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Manage JDBC-based data store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Access the data store</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You can specify these passwords in a password file and use the
+<code>-passfile</code> option to specify the name of the file. This is the format
+for the <code>-passfile</code> option:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -passfile filePath</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous versions of Message Queue, you could use the <code>-p</code>,
+<code>-password</code>, <code>-dbpassword</code>, and <code>-ldappassword</code> options to specify
+passwords on the command line. As of Message Queue 4.0, these options
+are deprecated and are no longer supported; you must use a password file
+instead.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeogr"></a><a id="GMADG00558"></a><a id="security-considerations-for-passwords-and-password-files"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_security_considerations_for_passwords_and_password_files">Security Considerations for Passwords and Password Files</h4>
+<div class="paragraph">
+<p>Typing a password interactively, in response to a prompt, is the most
+secure method of specifying a password (provided that your monitor is
+not visible to other people). You can also specify a password file on
+the command line. For non-interactive use of commands, however, you must
+use a password file.</p>
+</div>
+<div class="paragraph">
+<p>A password file that contains clear passwords should be obfusticated
+using <code>imqusermgr encode</code>. An obfusticated password file must be stored
+in location that allows you to set directory and file permissions to
+protect them from unauthorized access. Set the permissions so that they
+limit the users who can view the file, but provide read access to the
+user who starts the broker.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Oracle recommends using <code>imqusermgr encode</code> to obfuscate passfiles. See
+<a href="#CJAIJHAJ">Secure Password Files</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeogs"></a><a id="GMADG00559"></a><a id="password-file-contents"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_password_file_contents">Password File Contents</h4>
+<div class="paragraph">
+<p>A password file is a simple text file containing a set of properties and
+values. Each value is a password used by a command. <a href="#gbnkc">Table
+9-7</a> shows the types of passwords that a password file can contain.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG658"></a><a id="sthref36"></a><a id="gbnkc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-7 Passwords in a Password File</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 14%;">
+<col style="width: 46%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Password</th>
+<th class="tableblock halign-left valign-top">Affected Commands</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.imqcmd.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqcmd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administrator password for Message
+Queue Command utility (authenticated for each command)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.keystore.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqbrokerd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Key store password for SSL-based
+services</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqbrokerd</code> <code>imqdbmgr</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for
+opening a database connection, if required</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.user_repository.ldap.password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqbrokerd</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password associated
+with the distinguished name assigned to a broker for binding to a
+configured LDAP user repository</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A sample password file, <code>IMQ_HOME/etc/passfile.sample</code>, is provided as
+part of your Message Queue installation.</p>
+</div>
+<div class="paragraph">
+<p><a id="CJAIJHAJ"></a><a id="GMADG819"></a><a id="secure-password-files"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_secure_password_files">Secure Password Files</h4>
+<div class="paragraph">
+<p>As of Message Queue 5.0, Oracle provides User Manager utility
+(<code>imqusermgr</code>) commands to obfuscate (convert to an unreadable format)
+password files (passfiles).</p>
+</div>
+<div class="paragraph">
+<p><a id="CJAJGGBD"></a><a id="GMADG820"></a><a id="obfuscate-a-passfile"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_obfuscate_a_passfile">Obfuscate a Passfile</h5>
+<div class="paragraph">
+<p>To obfuscate a password file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Place all password property name`=`value pairs in a password file.
+See <a href="#aeogs">Password File Contents</a>.</p>
+</li>
+<li>
+<p>Use <code>imqusermgr encode</code> to obfuscate the password file to a new
+password file. See <a href="command-line-reference.html#aeonp">User Manager
+Utility</a>.<br>
+For example:
+<code>imqusermgr encode -src IMQ_HOME/etc/passfile.clear -target IMQ_HOME/etc/passfile.secure</code></p>
+</li>
+<li>
+<p>Use the new password file for commands that require those passwords.
+For example:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbrokerd  -passfile IMQ_HOME/etc/passfile.secure</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG821"></a><a id="sthref37"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="add-a-password-to-a-password-file">Add a Password to a Password File</h5>
+<div class="paragraph">
+<p>To add a new password to an existing password file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the new name`=`value pair to an existing passfile (clear text or
+obfuscated).</p>
+</li>
+<li>
+<p>Use <code>imqusermgr encode</code> to obfuscate the password file. See
+<a href="#CJAJGGBD">Obfuscate a Passfile</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG822"></a><a id="sthref38"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="delete-a-password-from-a-password-file">Delete a Password from a Password File</h5>
+<div class="paragraph">
+<p>To delete an existing password from a passfile (clear text or
+obfuscated), delete the line containing the password and save the
+passfile.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG823"></a><a id="sthref39"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="change-a-password-in-a-password-file">Change a Password in a Password File</h5>
+<div class="paragraph">
+<p>To change a password in an obfuscated passfile:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Delete the existing password from the passfile (clear text or
+obfuscated).</p>
+</li>
+<li>
+<p>Add a new line containing the new password.</p>
+</li>
+<li>
+<p>Use <code>imqusermgr encode</code> to obfuscate the password file. See
+<a href="#CJAJGGBD">Obfuscate a Passfile</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG824"></a><a id="sthref40"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="deobfuscate-a-password-file">Deobfuscate a Password File</h5>
+<div class="paragraph">
+<p>To convert an obfuscated passfile to clear text, use
+<code>imqusermgr decode</code>. See <a href="command-line-reference.html#aeonp">User
+Manager Utility</a>.For example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqusermgr decode -src IMQ_HOME/etc/passfile.secure -target IMQ_HOME/etc/passfile.clear</code></p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG825"></a><a id="sthref41"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="upgrading-clear-text-password-files">Upgrading Clear Text Password Files</h5>
+<div class="paragraph">
+<p>Although using clear text passfiles is still supported in this release
+of Message Queue, Oracle recommends existing clear text passfiles be
+obfuscated by running <code>imqusermge encode</code>. See
+<a href="command-line-reference.html#aeonp">User Manager Utility</a>.</p>
+</div>
+<div class="paragraph">
+<p>A broker logs a warning message when a clear text password is found in a
+password file.</p>
+</div>
+<div class="paragraph">
+<p><a id="gcuhq"></a><a id="GMADG00251"></a><a id="connecting-through-a-firewall"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connecting_through_a_firewall">Connecting Through a Firewall</h3>
+<div class="paragraph">
+<p>When a client application is separated from the broker by a firewall,
+special measures are needed in order to establish a connection. One
+approach is to use the <code>httpjms</code> or <code>httpsjms</code> connection service, which
+can "tunnel" through the firewall; see
+<a href="http_https-support.html#aeopb">HTTP/HTTPS Support</a> for details. HTTP
+connections are slower than other connection services, however; a faster
+alternative is to bypass the Message Queue Port Mapper and explicitly
+assign a static port address to the desired connection service, and then
+open that specific port in the firewall. This approach can be used to
+connect through a firewall using the <code>jms</code> or <code>ssljms</code> connection
+service (or, in unusual cases, <code>admin</code> or <code>ssladmin</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG659"></a><a id="sthref42"></a><a id="gcuhp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 9-8 Broker Configuration Properties for Static Port Addresses</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 75%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Connection Service</th>
+<th class="tableblock halign-left valign-top">Configuration Property</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.jms.tcp.port</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.ssljms.tls.port</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.admin.tcp.port</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssladmin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.ssladmin.tls.port</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gcugz"></a><a id="GMADG00173"></a><a id="to-enable-broker-connections-through-a-firewall"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_enable_broker_connections_through_a_firewall">To Enable Broker Connections Through a Firewall</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Assign a static port address to the connection service you wish to
+use.<br>
+To bypass the Port Mapper and assign a static port number directly to a
+connection service, set the broker configuration property
+<code>imq.`serviceName</code>.<code>protocolType</code>.port`, where serviceName is the name
+of the connection service andprotocolType is its protocol type (see
+<a href="#gcuhp">Table 9-8</a>). As with all broker configuration properties,
+you can specify this property either in the broker&#8217;s instance
+configuration file or from the command line when starting the broker.
+For example, to assign port number <code>10234</code> to the <code>jms</code> connection
+service, either include the line<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.jms.tcp.port=10234</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>in the configuration file or start the broker with the command<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd  -name brokerName  -Dimq.jms.tcp.port=10234</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where brokerName is the name of the broker to be started.
+2.  Configure the firewall to allow connections to the port number you
+assigned to the connection service.<br>
+You must also allow connections through the firewall to Message Queue&#8217;s
+Port Mapper port (normally <code>7676</code>, unless you have reassigned it to some
+other port). In the example above, for instance, you would need to open
+the firewall for ports <code>10234</code> and <code>7676</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogt"></a><a id="GMADG00252"></a><a id="audit-logging-with-the-solaris-bsm-audit-log"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_audit_logging_with_the_solaris_bsm_audit_log">Audit Logging with the Solaris BSM Audit Log</h3>
+<div class="paragraph">
+<p>Message Queue supports audit logging. When audit logging is enabled,
+Message Queue generates a record for the following types of events:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Startup, shutdown, restart, and removal of a broker instance</p>
+</li>
+<li>
+<p>User authentication and authorization</p>
+</li>
+<li>
+<p>Reset of a persistent store</p>
+</li>
+<li>
+<p>Creation, purge, and destruction of a physical destination</p>
+</li>
+<li>
+<p>Administrative destruction of a durable subscriber</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Message Queue supports logging audit records to the Message Queuebroker
+log file and to the Solaris BSM audit log:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To log audit records to the Message Queue broker log file, set the
+<code>imq.audit.enabled</code> broker property to <code>true</code> . All audit records in the
+broker log contain the keyword <code>AUDIT</code>.</p>
+</li>
+<li>
+<p>To log audit records to the Solaris BSM audit log, set the
+<code>imq.audit.bsm.disabled</code> broker property to <code>false</code> .<br></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>To log audit records to the Solaris BSM audit log, you must run the
+broker as <code>root</code>, and <code>/usr/lib/audit/Audit.jar</code> must be in the broker
+classpath.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="persistence-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

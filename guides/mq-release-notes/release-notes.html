@@ -1,0 +1,2952 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Release Notes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Release Notes</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="preface.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMRLN00002"></a><a id="aemaa"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="release-notes">1 Release Notes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>These release notes contain important information available at the time
+of release of Message Queue 5.1.1. New features and enhancements, known
+issues and limitations, and other information are addressed here. Read
+this document before you begin using Message Queue 5.1.1.</p>
+</div>
+<div class="paragraph">
+<p>The most up-to-date version of these release notes can be found at
+<code>https://javaee.github.io/openmq/Documentation.html</code></p>
+</div>
+<div class="paragraph">
+<p>Check the web site prior to installing and setting up your software and
+then periodically thereafter to view the most up-to-date release notes
+and product.</p>
+</div>
+<div class="paragraph">
+<p>These release notes contain the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aemab">Release Notes Revision History</a></p>
+</li>
+<li>
+<p><a href="#CHDFAIFD">About Message Queue 5.1.1</a></p>
+</li>
+<li>
+<p><a href="#aenav">Message Queue 5.1 Supported Platforms and Components</a></p>
+</li>
+<li>
+<p><a href="#CHDCIIHC">Bugs Fixed in Message Queue 5.1.1</a></p>
+</li>
+<li>
+<p><a href="#ggrur">About Message Queue 5.1</a></p>
+</li>
+<li>
+<p><a href="#CHDBGAHA">New Features in Message Queue 5.1</a></p>
+</li>
+<li>
+<p><a href="#gkaid">Bugs Fixed in Message Queue 5.1</a></p>
+</li>
+<li>
+<p><a href="#ggsjx">Features to be Deprecated in a Future Release</a></p>
+</li>
+<li>
+<p><a href="#CHDIACCI">Installation</a></p>
+</li>
+<li>
+<p><a href="#aemaq">Compatibility Considerations</a></p>
+</li>
+<li>
+<p><a href="#aembi">Known Issues and Limitations</a></p>
+</li>
+<li>
+<p><a href="#aembo">Redistributable Files</a></p>
+</li>
+<li>
+<p><a href="#aembu">Additional Resources</a></p>
+</li>
+<li>
+<p><a href="#CHDDFDAJ">New Features in Previous Message Queue 5.0</a></p>
+</li>
+<li>
+<p><a href="#ggrut">New Features in Previous Message Queue 4 Releases</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Third-party URLs are referenced in this document and provide additional,
+related information.</p>
+</div>
+<div class="paragraph">
+<p>Oracle is not responsible for the availability of third-party Web sites
+mentioned in this document. Oracle does not endorse and is not
+responsible or liable for any content, advertising, products, or other
+materials that are available on or through such sites or resources.
+Oracle will not be responsible or liable for any actual or alleged
+damage or loss caused by or in connection with the use of or reliance on
+any such content, goods, or services that are available on or through
+such sites or resources.</p>
+</div>
+<div class="paragraph">
+<p><a id="aemab"></a><a id="GMRLN00015"></a><a id="release-notes-revision-history"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_release_notes_revision_history">Release Notes Revision History</h3>
+<div class="paragraph">
+<p>The following table lists the dates for all 4.x and 5.x releases of the
+Message Queue product and describes the changes in this document
+associated with each release.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN119"></a><a id="sthref3"></a><a id="ghvcj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-1 Revision History</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 80%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Date</th>
+<th class="tableblock halign-left valign-top">Description of Changes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 2017</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 5.1.1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 2014</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 5.1</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 5.0.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 2013</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.5.2.1.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 2012</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.5.2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">July 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Second release of this document for Message Queue 4.5.
+Corrects errors and omissions, and adds information about bug 6804819.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">February 2011</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.5.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.4.2.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">June 2010</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Second release of this document for Message Queue
+4.4 Update 1. Corrects errors and omissions, and adds information about
+bug 6925362.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.4 Update 1.
+Adds new features for this release and removes outdated installation
+issues that applied to the previous installation program.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Second release of this document for Message Queue 4.4.
+Corrects errors and omissions.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">October 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.4. Adds new
+features for this release.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 2009</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial release of this document for Message Queue 4.4 Beta.
+Adds new features for this release.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">December 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.3. Adds new
+features for this release.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">August 2008</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Release of this document for Message Queue 4.2. Adds new
+features for this release.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">September 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Third release of this document for Message Queue 4.1.
+Adds description of support for Java Enterprise System Monitoring
+Framework, fixed C ports, bug fixes, and other features.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">April 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Second release of this document for Message Queue 4.1 Beta.
+Adds high availability feature.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">January 2007</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial release of this document for Message Queue 4.1
+Beta. Adds description of JAAS support.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">May 2006</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initial release of this document for Message Queue 4.0.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="CHDFAIFD"></a><a id="about-message-queue-5.1.1"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_about_message_queue_5_1_1">About Message Queue 5.1.1</h3>
+<div class="paragraph">
+<p>Message Queue is a full-featured message service that provides reliable,
+asynchronous messaging in conformance with the Java Messaging
+Specification (JMS). Message Queue 5.1.1 conforms to JMS 2.0.1 and is
+integrated into GlassFish 5.0 which conforms to the Java Platform,
+Enterprise Edition 8 Specification (Java EE 8). In addition, Message
+Queue provides features that go beyond the JMS specification to meet the
+needs of large-scale enterprise deployments.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 5.1.1 is an incremental release participating in the 5.0
+release of GlassFish Server. Message Queue 5.1.1 can also be downloaded
+from
+<a href="https://javaee.github.io/openmq/Downloads.html" class="bare">https://javaee.github.io/openmq/Downloads.html</a>.[<a href="https://javaee.github.io/openmq/Downloads.html" class="bare">https://javaee.github.io/openmq/Downloads.html</a>]</p>
+</div>
+<div class="paragraph">
+<p>Unlike previous releases of Message Queue, the Message Queue 5.1.1
+binary release does not include the C-API library although the C-API
+source code is available at
+<a href="https://github.com/javaee/openmq" class="bare">https://github.com/javaee/openmq</a><code>https://github.com/javaee/openmq</code></p>
+</div>
+<div class="paragraph">
+<p><a id="CHDCIIHC"></a><a id="bugs-fixed-in-message-queue-5.1.1"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bugs_fixed_in_message_queue_5_1_1">Bugs Fixed in Message Queue 5.1.1</h3>
+<div class="paragraph">
+<p>The following table lists the bugs fixed in Message Queue 5.1.1. Some of
+these issues are marked with "(OpenMQ)", which indicates the issue was
+reported in the issue tracker of the
+<a href="https://github.com/javaee/openmq">Open Message Queue</a> open source project
+upon which Oracle GlassFish Server Message Queue is based.</p>
+</div>
+<div class="paragraph">
+<p>The following table lists the bugs fixed in Message Queue 5.1.1</p>
+</div>
+<div class="paragraph">
+<p><a id="sthref4"></a><a id="sthref5"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-2 Bugs Fixed in Message Queue 5.1.1</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 84%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Bug</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">20402088</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker HA monitor thread should be daemon thread</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">19906529</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cluster listener thread exit when rogue client send pkt with
+huge pkt size field</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">12296963</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fix for Sybase "INCORRECT SYNTAX NEAR THE KEYWORD <em>UNION</em></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are some additional issues listed at github location
+<a href="https://github.com/javaee/openmq/issues?q=is%3Aclosed+milestone%3A5.1.1">OpenMQ
+Issues</a> that are addressed in Message Queue 5.1.1.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="ggrur"></a><a id="GMRLN00016"></a><a id="about-message-queue-5.1"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_about_message_queue_5_1">About Message Queue 5.1</h3>
+<div class="paragraph">
+<p>Message Queue is a full-featured message service that provides reliable,
+asynchronous messaging in conformance with the Java Messaging
+Specification (JMS) 2.0 and the Java Platform, Enterprise Edition 7
+Specification (Java EE 7). In addition, Message Queue provides features
+that go beyond the JMS specification to meet the needs of large-scale
+enterprise deployments.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 5.1 is an incremental release participating in the 4.1
+release of GlassFish Server. As a consequence, no separately
+downloadable, installable distribution of Message Queue 5.1 is
+available.</p>
+</div>
+<div class="paragraph">
+<p><a id="aenav"></a><a id="GMRLN00017"></a><a id="message-queue-5.1-supported-platforms-and-components"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_5_1_supported_platforms_and_components">Message Queue 5.1 Supported Platforms and Components</h3>
+<div class="paragraph">
+<p>This section covers the following topics regarding Message Queue 5.1
+system requirements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggrwc">Platform Support</a></p>
+</li>
+<li>
+<p><a href="#ggrvt">System Virtualization Support</a></p>
+</li>
+<li>
+<p><a href="#ggrwj">Optional Support Components</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggrwc"></a><a id="GMRLN00069"></a><a id="platform-support"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_platform_support">Platform Support</h4>
+<div class="paragraph">
+<p>As a participant in the 4.1 release of GlassFish Server, Message Queue
+5.1 supports the operating environments, databases, LDAP servers, and
+hardware listed in the Oracle GlassFish Server 4.1 Certification Matrix,
+which is accessible at (<code>https://javaee.github.io/glassfish/</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="ggrvt"></a><a id="GMRLN00070"></a><a id="system-virtualization-support"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_system_virtualization_support">System Virtualization Support</h4>
+<div class="paragraph">
+<p>System virtualization is a technology that enables multiple operating
+system (OS) instances to execute independently on shared hardware.
+Functionally, software deployed to an OS hosted in a virtualized
+environment is generally unaware that the underlying platform has been
+virtualized. Oracle performs testing of its products on select system
+virtualization and OS combinations to help validate that Oracle products
+continue to function on properly sized and configured virtualized
+environments as they do on non-virtualized systems.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggrwj"></a><a id="GMRLN00071"></a><a id="optional-support-components"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optional_support_components">Optional Support Components</h4>
+<div class="paragraph">
+<p>In addition to the software components listed in the Oracle GlassFish
+Server 4.1 Certification Matrix, <a href="#gcuzg">Table 1-3</a> shows components
+that you can install to provide additional support for Message Queue
+clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN120"></a><a id="sthref6"></a><a id="gcuzg"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-3 Optional Support Components</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 28%;">
+<col style="width: 47%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Component</th>
+<th class="tableblock halign-left valign-top">Supports</th>
+<th class="tableblock halign-left valign-top">Supported Versions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java Naming and Directory Interface (JNDI)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administered object support
+and LDAP user repository</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>JNDI Version 1.2.1</p>
+</div>
+<div class="paragraph">
+<p>LDAP Service Provider, Version 1.2.2</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C Compiler and compatible C++ runtime library</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Queue C clients</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Solaris: Oracle Solaris Studio, Version 12 or later, C++ compiler with
+standard mode and C compiler</p>
+</div>
+<div class="paragraph">
+<p>Linux: gcc/g++, Version 3.4.6</p>
+</div>
+<div class="paragraph">
+<p>Windows: Microsoft Windows Visual Studio, Version 2008 SP1</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Netscape Portable Runtime (NSPR)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Queue C clients</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version
+4.8.6</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Network Security Services (NSS)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Queue C clients</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version
+3.12.8</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="CHDBGAHA"></a><a id="new-features-in-message-queue-5.1"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_features_in_message_queue_5_1">New Features in Message Queue 5.1</h3>
+<div class="paragraph">
+<p>Message Queue 5.1 provides support for the Java EE 7 release. It
+includes new features, some feature enhancements, and bug fixes. This
+section includes a description of new features in this releases:</p>
+</div>
+<div id="sthref7" class="paragraph">
+<p>MQ JMS Client over WebSocket</p>
+</div>
+<div class="paragraph">
+<p>MQ has traditionally supported HTTP Servlet Tunneling for MQ Java
+clients to communicate with a message broker over HTTP/HTTPS transport
+protocol. This new feature allows MQ JMS clients to communicate with MQ
+broker over WebSocket transport. Please see details at
+<code>https://javaee.github.io/openmq/www/5.0.1/ws.html</code></p>
+</div>
+<div id="sthref8" class="paragraph">
+<p>MQ STOMP Client over WebSocket</p>
+</div>
+<div class="paragraph">
+<p>STOMP is a simple text streaming oriented messaging protocol which
+provides interoperable wire format for any STOMP client to communicate
+with a STOMP messaging broker. MQ broker has provided STOMP messaging
+service via the <em>stomp</em> bridge, which supports STOMP on TCP or SSL
+transport. This new feature allows STOMP clients communicate to MQ
+broker over WebSocket. Please see details at
+<code>https://javaee.github.io/openmq/www/5.0.1/ws.html</code></p>
+</div>
+<div class="paragraph">
+<p><a id="gkaid"></a><a id="GMRLN00019"></a><a id="bugs-fixed-in-message-queue-5.1"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_bugs_fixed_in_message_queue_5_1">Bugs Fixed in Message Queue 5.1</h3>
+<div class="paragraph">
+<p>The following table lists the bugs fixed in Message Queue 5.1. Some of
+these issues are marked with "(OpenMQ)", which indicates the issue was
+reported in the issue tracker of the <a href="http://mq.dev.java.net">Open Message
+Queue</a> open source project upon which Oracle GlassFish Server Message
+Queue is based.</p>
+</div>
+<div class="paragraph">
+<p>The following table lists the bugs fixed in Message Queue 5.1</p>
+</div>
+<div class="paragraph">
+<p><a id="sthref9"></a><a id="sthref10"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-4 Bugs Fixed in Message Queue 5.1</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 84%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Bug</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18918671</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A broker thread removing temp destination can deadlock with
+temp destination&#8217;s reconnect reaper thread</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18868362</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">imqbrokerd -startrmiregistry -usermiregistry option
+precedence order incorrect</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18434462</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persisting in message store within synchronized code is
+extremely non-scalable</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">18125457</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove IMQVARHOME/IMQHOME information from portmapper output</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17738518</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Session.commit should auto-rollback the transaction if broker
+returns Status.GONE</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17317188</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>imqcmd restart broker</em> should always pass "nofailover=true'
+to broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17316839</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">accesscontrol: produce.allow <em>*</em> and produce.deny combination
+not work as expected</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">17313998</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JDBC connection pool reaper thread logs NPE if no idle
+connection.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There are some additional issues listed at github location
+<a href="https://github.com/javaee/openmq/milestone/14?closed=1">OpenMQ Issues</a>
+that are addressed in Message Queue 5.1.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="CHDIACCI"></a><a id="installation"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_installation">Installation</h3>
+<div class="paragraph">
+<p>Message Queue 5.1 is installed as a sub-directory of the GlassFish 4.1
+installation. For installation information, see the
+<a href="https://javaee.github.io/glassfish/doc/4.0/installation-guide.pdf">GlassFish
+Server Open Source Edition Installation Guide</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aemaq"></a><a id="GMRLN00021"></a><a id="compatibility-considerations"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compatibility_considerations">Compatibility Considerations</h3>
+<div class="paragraph">
+<p>This section covers compatibility considerations when using Message
+Queue.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message Queue 5.1 must be used with Java SE 7. This general JMS 2.0
+and Java EE 7 requirement implies that whenever Message Queue 5.1 jars
+are used in your classpath, you must use Java 7. For information on how
+to set the Java runtime for a broker, see "Using an "Alternative Java
+Runtime" in the Open Message Queue Administration Guide.</p>
+</li>
+<li>
+<p>Message Queue 5.1 brokers now use the Java <code>java.util.logging</code> logger.</p>
+</li>
+<li>
+<p>Message Queue uses many interfaces that may change over time.
+Scalability of Message Queue Interfaces in
+<a href="https://javaee.github.io/glassfish/doc/5.0/administration-guide.pdf">Open
+Message Queue Administration Guide</a> classifies the interfaces according
+to their stability. The more stable an interface, the less likely it is
+to change in subsequent versions of the product.</p>
+</li>
+<li>
+<p>HADB database is no longer supported in the Message Queue 5.1 release.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggsjx"></a><a id="GMRLN00020"></a><a id="features-to-be-deprecated-in-a-future-release"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_features_to_be_deprecated_in_a_future_release">Features to be Deprecated in a Future Release</h3>
+<div class="paragraph">
+<p>The following features will be deprecated in a future release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message-based monitoring<br>
+Message-based monitoring makes use of the broker&#8217;s configurable Metrics
+Message Producer to write metrics data into JMS messages, which are then
+sent to metrics topic destinations, depending on the type of metrics
+information contained in the messages. This metrics information can then
+be accessed by writing a client application that subscribes to the
+appropriate metrics topic destination, consumes its messages, and
+processes the data as desired.<br>
+The message-based monitoring feature has been supplanted by the
+Administration API that was introduced in MQ 4.0 (see
+<a href="#ggltn">Support for JMX Administration API</a>). The JMX API is more
+comprehensive (it includes more metrics data than is written to topic
+destinations) and is based on the JMX industry standard.<br>
+There is no compelling reason to use message-based monitoring now that
+Message Queue supports the JMX API. Information about message-based
+monitoring will remain in the Message Queue JMX until the feature is
+formally deprecated.</p>
+</li>
+<li>
+<p>Clear Text Passfile<br>
+Using a clear text passfile is not recommended and support will be
+removed in a future release. Oracle recommends existing plain text
+passfiles be obfuscated by running <code>imqusermgr encode</code>. See
+<a href="../mq-admin-guide/security-services.html#GMADG00250">"Password Files"</a> in the Open Message Queue
+Administration Guide.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aembi"></a><a id="GMRLN00022"></a><a id="known-issues-and-limitations"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_known_issues_and_limitations">Known Issues and Limitations</h3>
+<div class="paragraph">
+<p>This section contains a list of the known issues with Message Queue 5.1.
+The following product areas are covered:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gcblj">Deprecated Password Option</a></p>
+</li>
+<li>
+<p><a href="#CHDFBIFH">Administration/Configuration Issues</a></p>
+</li>
+<li>
+<p><a href="#aembn">Broker Issues</a></p>
+</li>
+<li>
+<p><a href="#aembl">Broker Clusters</a></p>
+</li>
+<li>
+<p><a href="#gfbsc">SOAP Support</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For a list of current bugs, their status, and workarounds, see the
+<a href="https://github.com/javaee/openmq/issues">OpenMQ Issues.</a> Please check
+that page before you report a new bug. Although all Message Queue bugs
+are not listed, the page is a good starting place if you want to know
+whether a problem has been reported.</p>
+</div>
+<div class="paragraph">
+<p>To report a new bug or submit a feature request, please file an issue at
+<code>https://github.com/javaee/openmq/</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gcblj"></a><a id="GMRLN00075"></a><a id="deprecated-password-option"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_deprecated_password_option">Deprecated Password Option</h4>
+<div class="paragraph">
+<p>In previous versions of Message Queue, you could use the <code>—p</code> or
+<code>—password</code> option to specify a password interactively for the following
+commands: <code>imqcmd</code>, <code>imqbrokerd</code>, and <code>imdbmgr</code>. Beginning with version
+4.0, these options have been deprecated.</p>
+</div>
+<div class="paragraph">
+<p>Instead, you can create a password file that specifies the relevant
+passwords and reference the password file using the <code>-passfile</code> command
+option, or simply enter a password when prompted by the command.</p>
+</div>
+<div class="paragraph">
+<p>A password file can contain one or more of the passwords listed below.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A keystore password used to open the SSL keystore. Use the
+<code>imq.keystore.password</code> property to specify this password.</p>
+</li>
+<li>
+<p>An LDAP repository password used to connect securely with an LDAP
+directory if the connection is not anonymous. Use the
+<code>imq.user_repository.ldap.password</code> property to specify this password.</p>
+</li>
+<li>
+<p>A JDBC database password used to connect to a JDBC-compliant database.
+Use the <code>imq.persist.jdbc.vendorName.password</code> property to specify this
+password. The vendorName component of the property name is a variable
+that specifies the database vendor. Choices include <code>hadb</code>, <code>derby</code>,
+<code>pointbase</code>, <code>oracle</code>, or <code>mysql</code>.</p>
+</li>
+<li>
+<p>A password to the <code>imqcmd</code> command (to perform broker administration
+tasks). Use the <code>imq.imqcmd.password</code> property to specify this password.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In the following example, the password to the JDBC database is set in
+the password file to <code>abracadabra.</code></p>
+</div>
+<div class="paragraph">
+<p><code>imq.persist.jdbc.mysql.password=abracadabra</code></p>
+</div>
+<div class="paragraph">
+<p>You can use a password file in one of the following ways.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configure the broker to use the password file by setting the following
+properties in the broker&#8217;s <code>config.properties</code> file.<br>
+`imq.passfile.enabled=true``imq.passfile.dirpath=`passwordFileDirectory`imq.passfile.name=`passwordFileName</p>
+</li>
+<li>
+<p>Use the <code>-passfile</code> option of the relevant command, for example:<br>
+<code>imqbrokerd -passfile</code> passwordFileName</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="CHDFBIFH"></a><a id="administrationconfiguration-issues"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_administration_configuration_issues">Administration/Configuration Issues</h4>
+<div class="paragraph">
+<p>The following issues pertain to administration and configuration of
+Message Queue.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Windows platforms, you need to manually add the Message Queue
+broker as a Windows service using the <code>imqsvcadm</code> command. The installer
+does not do this for you.</p>
+</li>
+<li>
+<p>On Windows platforms, the built-in Windows Firewall, which is enabled
+by default, must be manually configured with a firewall rule that allows
+the broker to accept incoming connections from clients. (Bug 6675595)</p>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Double-click on Windows Firewall in the Control Panel<br>
+You will have to click Continue on the User Account Control dialog for
+the Windows Firewall Settings dialog to open.</p>
+</li>
+<li>
+<p>In the Windows Firewall Settings dialog, click the Exceptions tab.</p>
+</li>
+<li>
+<p>Click Add program.</p>
+</li>
+<li>
+<p>In the Add a Program dialog, select <code>java.exe</code> and click Browse.<br>
+Windows identifies the broker process as a Java Platform SE binary.
+Therefore, locate the <code>java.exe</code> used by the broker.</p>
+</li>
+<li>
+<p>Click Change scope.</p>
+</li>
+<li>
+<p>In the Change Scope dialog, select "Any computer (including those on
+the Internet."</p>
+</li>
+<li>
+<p>Click OK.</p>
+</li>
+<li>
+<p>In the Add a Program dialog, click OK.</p>
+</li>
+<li>
+<p>In the Windows Firewall Settings dialog, click OK.</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>On Windows platforms, the <code>imqadmin</code> and <code>imqobjmgr</code> commands throw an
+error when the <code>CLASSPATH</code> contains double quotes. (Bug 5060769)<br>
+Workaround: Open a command prompt window and unset the <code>CLASSPATH</code>:<br>
+<code>set classpath=</code><br>
+Then run the desired command the same command prompt window, for
+example:<br>
+mqInstallHome`\mq\bin\imqadmin`</p>
+</li>
+<li>
+<p>The <code>-javahome</code> option in all Solaris and Windows scripts does not
+work if the value provided contains a space. (Bug 4683029)<br>
+The <code>javahome</code> option is used by Message Queue commands and utilities to
+specify an alternate Java compatible runtime to use. However, the path
+name to the alternate Java runtime must not contain spaces. The
+following are examples of paths that include spaces.<br>
+Windows: <code>C:\jdk 1.7</code><br>
+Solaris: <code>/work/java 1.7</code><br>
+Workaround: Install the Java runtime at a location or path that does not
+contain spaces.</p>
+</li>
+<li>
+<p>The <code>imqQueueBrowserMaxMessagesPerRetrieve</code> attribute specifies the
+maximum number of messages that the client runtime retrieves at one time
+when browsing the contents of a queue. The attribute affects how the
+queued messages are batched, to be delivered to the client runtime, but
+it does not affect the total number of messages browsed. The attribute
+only affects the browsing mechanism, it does not affect queue message
+delivery. (Bug 6387631)</p>
+</li>
+<li>
+<p>On Linux platform running SELinux, the Update Center <code>pkg</code> command
+fails (Bug 6892062)<br>
+Workaround: This issue is caused by a known issue in Update Center
+UPDATECENTER2-1211 (. Use the following command to enable <code>pkg</code> to
+function on SELinux with enforcement enabled:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># chcon -f -t textrel_shlib_t $IMAGE/pkg/vendor-packages/OpenSSL/crypto.so</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aembn"></a><a id="GMRLN00077"></a><a id="broker-issues"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_broker_issues">Broker Issues</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>When a JMS client using the HTTP connection service terminates
+abruptly (for example, using <code>Ctrl-C</code>) the broker takes approximately
+one minute before releasing the client connection and all the associated
+resources.<br>
+If another instance of the client is started within the one minute
+period and if it tries to use the same ClientID, durable subscription,
+or queue, it might receive a "Client ID is already in use" exception.
+This is not a real problem; it is just the side effect of the
+termination process described above. If the client is started after a
+delay of approximately one minute, everything should work fine.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aembl"></a><a id="GMRLN00078"></a><a id="broker-clusters"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_broker_clusters">Broker Clusters</h4>
+<div class="ulist">
+<ul>
+<li>
+<p>A client can only browse the contents of queues that are located on
+its home broker. The client can still send messages to any queue or
+consume messages from any queue in the cluster; the limitation only
+affects queue browsing.</p>
+</li>
+<li>
+<p>In a conventional cluster that includes version 4.3 brokers, all
+brokers must be version 3.5 or later.</p>
+</li>
+<li>
+<p>When converting from a conventional cluster to an enhanced cluster,
+you can use the Message Queue Database Manager utility (<code>imqdbmgr</code>) to
+convert an existing standalone JDBC-based data store to a shared JDBC
+data store as documented in
+"https://javaee.github.io/glassfish/doc/4.0/mq-admin-guide.pdf[Cluster
+Conversion: JDBC-Based Data Store]" in Open Message Queue Administration
+Guide.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gfbsc"></a><a id="GMRLN00080"></a><a id="soap-support"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_soap_support">SOAP Support</h4>
+<div class="paragraph">
+<p>You need to be aware of two issues related to SOAP support</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Beginning with the release of version 4.0 of Message Queue, support
+for SOAP administered objects is discontinued.</p>
+</li>
+<li>
+<p>SOAP development depends upon several files: <code>SUNWjaf</code>, <code>SUNWjmail</code>,
+<code>SUNWxsrt</code>, and <code>SUNWjaxp</code>. In version 4.1 of Message Queue, these files
+are available to you only if you are running Message Queue with JDK
+version 1.6.0 or later.</p>
+</li>
+<li>
+<p>Previously the SAAJ 1.2 implementation .jar directly referenced
+<code>mail.jar</code>. In SAAJ 1.3 this reference was removed; thus, Message Queue
+clients must explicitly put <code>mail.jar</code> in <code>CLASSPATH</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aembo"></a><a id="GMRLN00023"></a><a id="redistributable-files"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_redistributable_files">Redistributable Files</h3>
+<div class="paragraph">
+<p>Oracle GlassFish Server Message Queue contains the following set of
+files which you may use and freely distribute in binary form:</p>
+</div>
+<div class="paragraph">
+<p><code>fscontext.jar</code><br>
+<code>imq.jar</code><br>
+<code>imqjmx.jar</code><br>
+<code>imqxm.jar</code><br>
+<code>imqums.war</code><br>
+<code>jaxm-api.jar</code><br>
+<code>jms.jar</code><br>
+<code>libmqcrt.sl</code> (HP-UX)<br>
+<code>libmqcrt.so</code> (UNIX)<br>
+<code>mqcrt1.dll</code> (Windows)</p>
+</div>
+<div class="paragraph">
+<p>In addition, you can also redistribute the <code>LICENSE</code> and <code>COPYRIGHT</code>
+files.</p>
+</div>
+<div class="paragraph">
+<p><a id="aembu"></a><a id="GMRLN00025"></a><a id="additional-resources"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_additional_resources">Additional Resources</h3>
+<div class="paragraph">
+<p>Useful Message Queue information can be found at the following Internet
+locations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Open Message Queue (Open MQ) website<br>
+<code>https://javaee.github.io/openmq/</code></p>
+</li>
+<li>
+<p>Java Message Service Specification website<br>
+<code>https://javaee.github.io/jms-spec/</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="CHDDFDAJ"></a><a id="GMRLN121"></a><a id="new-features-in-previous-message-queue-5.0"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_features_in_previous_message_queue_5_0">New Features in Previous Message Queue 5.0</h3>
+<div class="paragraph">
+<p>Message Queue 5.0 is a minor release providing support for the Java
+Messaging Specification (JMS), version 2.0 and the Java EE 7 release. It
+included a few new features, some feature enhancements, and bug fixes.
+This section includes a description of new features in this releases:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN122"></a><a id="sthref11"></a></p>
+</div>
+<div class="sect3">
+<h4 id="support-for-jms-2.0-features-and-enhancements">Support for JMS 2.0 Features and Enhancements</h4>
+<div class="paragraph">
+<p>Message Queue 5.0 implements the JMS 2.0 API. This introduces a
+completely new Simplified API that makes JMS much simpler and easier to
+use. The existing Classic API remains and a number of improvements have
+been made to make the Classic API simpler and easier to use as well. For
+more information, see <a href="../mq-dev-guide-java/using-the-simplifed-java-api.html#GMJVG344">"The JMS Simplified API"</a> in Open
+Message Queue Developer&#8217;s Guide for Java Clients.</p>
+</div>
+<div class="paragraph">
+<p>Other changes introduced into JMS 2.0 include:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Designating a topic subscription as being shared, which allows it to
+have more than one consumer. Setting <code>clientId</code> is optional for shared
+subscriptions.</p>
+</li>
+<li>
+<p>A new method <code>getBody</code> has been added to <code>Message</code> which allows the
+message body to be extracted without the need to cast to a particular
+subtype.</p>
+</li>
+<li>
+<p>A new method, <code>setDeliveryDelay</code>, has been added to <code>MessageProducer</code>
+which allows a delivery delay to be specified. A message will not be
+delivered to a consumer until after the specified delay has elapsed.</p>
+</li>
+<li>
+<p>New send methods have been added to <code>MessageProducer</code> which allow
+messages to be sent asynchronously. These methods permit the JMS
+provider to perform part of the work involved in sending the message in
+a separate thread. When the send is complete, a callback method is
+invoked on an object supplied by the caller.</p>
+</li>
+<li>
+<p>The <code>Connection</code>, <code>Session</code>, <code>MessageProducer</code>, <code>MessageConsumer</code> and
+<code>QueueBrowser</code> interfaces have been modified to extend the
+<code>java.lang.Autocloseable</code> interface. This means that applications can
+create these objects using a Java SE 7 <code>try-with-resources</code> statement
+which removes the need for applications to explicitly call <code>close()</code>
+when these objects are no longer required.</p>
+</li>
+<li>
+<p>The existing standard message property <code>JMSXDeliveryCount</code> has been
+made mandatory. It was previously optional. This means that Message
+Queue will now always set this property to the number of times the
+message has been delivered.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN123"></a><a id="sthref12"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="additional-message-queue-5.0-enhancements">Additional Message Queue 5.0 Enhancements</h4>
+<div class="paragraph">
+<p>This release of Message Queue also includes the following changes and
+enhancements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Previously, the <code>JMXDeliveryCount</code> was used as a property to track the
+number of times a message was delivered to a given consumer before being
+placed on the DMQ. To conform to the JMS 2.0 specification, this Message
+Queue release introduces <code>JMS_SUN_DMQ_DELIVERY_COUNT</code> as a new property
+for that purpose.</p>
+</li>
+<li>
+<p>A new connection factory property,
+<code>imqAsyncSendCompletionWaitTimeout</code>, sets the amount of time, in
+milliseconds, that a MQ client waits for an asynchronous send to
+complete before calling <code>CompletionListener.onException</code>.</p>
+</li>
+<li>
+<p>The shared <code>threadpool_model</code> for a connection service that was used
+in previous releases has been replaced by a new implementation and the
+shared t`hreadpool_model` is now able to support <code>tls</code> protocoltype.</p>
+</li>
+<li>
+<p>A new administrative interface to provide the ability to obfuscate
+passwords in a <code>passfile</code> for Message Queue broker command line
+utilities. See <a href="../mq-admin-guide/security-services.html#GMADG00250">"Password Files"</a> in the Open Message
+Queue Administration Guide.</p>
+</li>
+<li>
+<p>Support for DB reconnect in the Message Queue JDBC Connection Pool.
+See <a href="../mq-admin-guide/persistence-services.html#GMADG00244">"JDBC-Based Persistence"</a> and o<a href="GMADG00174">"To
+Connect Brokers Using a Cluster Configuration File"</a> in the Open Message
+Queue Administration Guide.</p>
+</li>
+<li>
+<p>The following C API functions are added this release to support shared
+durable subscribers:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQCreateSharedDurableMessageConsumer</code></p>
+</li>
+<li>
+<p><code>MQCreateSharedMessageConsumer</code></p>
+</li>
+<li>
+<p><code>MQCreateAsyncSharedDurableMessageConsumer</code></p>
+</li>
+<li>
+<p><code>MQCreateAsyncSharedMessageConsumer</code><br>
+See <a href="../mq-dev-guide-c/reference.html#GMCCG00005">"Reference"</a> in the Open Message Queue Developer&#8217;s
+Guide for C Clients.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The following C API functions were added to support message delivery
+delay:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQGetDeliveryDelay</code> function</p>
+</li>
+<li>
+<p><code>MQSetDeliveryDelay</code> function</p>
+</li>
+<li>
+<p><code>MQ_DELIVERY_TIME_HEADER_PROPERTY</code> property<br>
+See <a href="../mq-dev-guide-c/reference.html#GMCCG00005">"Reference"</a> in the Open Message Queue Developer&#8217;s
+Guide for C Clients.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>The <code>NumMsgsInDelayDelivery</code> attribute was added to the
+DestinationMonitor MBean. See <a href="../mq-dev-guide-jmx/mbean-reference.html#GMJMG00004">"Message Queue MBean
+Reference"</a> in Open Message Queue Developer&#8217;s Guide for JMX Clients.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggrut"></a><a id="GMRLN00026"></a><a id="new-features-in-previous-message-queue-4-releases"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_new_features_in_previous_message_queue_4_releases">New Features in Previous Message Queue 4 Releases</h3>
+<div class="paragraph">
+<p>The new features in previous releases of the Message Queue 4 family are
+described in the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#CHDGEGAB">New Features in Message Queue 4.5</a></p>
+</li>
+<li>
+<p><a href="#gktmu">New Features in Message Queue 4.4.2</a></p>
+</li>
+<li>
+<p><a href="#gjkti">New Features in Message Queue 4.4 Update 1</a></p>
+</li>
+<li>
+<p><a href="#gired">New Features in Message Queue 4.4</a></p>
+</li>
+<li>
+<p><a href="#ghlkj">New Features in Message Queue 4.3</a></p>
+</li>
+<li>
+<p><a href="#gglhf">New Features in Message Queue 4.2</a></p>
+</li>
+<li>
+<p><a href="#gefnq">New Features in Message Queue 4.1</a></p>
+</li>
+<li>
+<p><a href="#aemac">New Features in Message Queue 4.0</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="CHDGEGAB"></a><a id="GMRLN126"></a><a id="new-features-in-message-queue-4.5"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_5">New Features in Message Queue 4.5</h4>
+<div class="paragraph">
+<p>Message Queue 4.5 is an incremental release that includes a number of
+feature enhancements and bug fixes. Two of the most important features
+in this release relate to broker clusters, and another relates to
+consumer event notifications for Java clients:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Conventional clusters of peer brokers</dt>
+<dd>
+<p>This release introduces a new type of conventional cluster, the
+conventional cluster of peer brokers. Unlike a conventional cluster
+with a master broker, a conventional cluster of peer brokers maintains
+the cluster configuration change record in a shared JDBC data store
+instead of in the master broker. Thus, brokers can access cluster
+configuration information whether any other brokers in the cluster are
+running or not. For more information about conventional clusters of
+peer brokers, see "<a href="../mq-tech-over/broker-clusters.html#GMTOV00028">Broker Clusters</a>" in Open Message
+Queue Technical Overview. For information about configuring and
+managing conventional clusters of peer brokers, see
+"<a href="../mq-admin-guide/broker-clusters.html#GMADG00041">Configuring and Managing Broker Clusters</a>" in Open
+Message Queue Administration Guide.</p>
+</dd>
+<dt class="hdlist1">Dynamically changing the master broker</dt>
+<dd>
+<p>Previously, to change the master broker in a conventional cluster from
+one broker to another, you had to stop all brokers, manually migrate
+the cluster configuration change record from the old master broker to
+the new one, and then start all brokers. This release provides the
+ability to change the master broker dynamically without stopping the
+cluster or performing manual migration tasks. For more information,
+see "<a href="../mq-admin-guide/broker-clusters.html#GMADG00420">Changing the Master Broker in a Conventional
+Cluster with Master Broker</a>" in Open Message Queue Administration
+Guide.</p>
+</dd>
+<dt class="hdlist1">Consumer event notifications for Java clients</dt>
+<dd>
+<p>This release introduces consumer event notifications for Java clients,
+which allow a Java client to listen for the existence of consumers on
+a destination. Thus, for example, a producer client can start or stop
+producing messages to a given destination based on the existence of
+consumers on the destination. For more information, see
+"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00103">Consumer Event Notification</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><a id="gktmu"></a><a id="GMRLN00082"></a><a id="new-features-in-message-queue-4.4.2"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_4_2">New Features in Message Queue 4.4.2</h4>
+<div class="paragraph">
+<p>Message Queue 4.4.2 is a minor release that includes a number of feature
+enhancements and bug fixes. This section describes the new features
+included in this release.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message Queue now supports literal IPv6 addresses as broker host names
+when the hostname:port format is used. Previously, literal IPv6
+addresses were only supported for the hostname format. If you use a
+literal IPv6 address, its format must conform to
+<a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>
+(<code>http://www.ietf.org/rfc/rfc2732.txt</code>), Format for Literal IPv6
+Addresses in URL&#8217;s.</p>
+</li>
+<li>
+<p>To address situations related to failover and restart of brokers in
+enhanced clusters, these features have been added:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>-reset takeover-then-exit</code> option of the <code>imqbrokerd</code> command</p>
+</li>
+<li>
+<p>The <code>imq.cluster.ha.takeoverWaitTimeout</code> broker property</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To provide more configurable control of connections to a JDBC data
+store, these broker properties have been added:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.persist.jdbc.connection.timeoutIdle</code></p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.connection.validateOnGet</code></p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.connection.validationQuery</code></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To control generation of informational log messages about successful
+message transfers across a JMS bridge, the <code>log-message-transfer</code>
+attribute has been added to the <code>jmsbridge</code> element in the XML
+configuration file for a JMS bridge.</p>
+</li>
+<li>
+<p>To enable the STOMP bridge service to bind to a specific network
+interface, the <code>imq.bridge.stomp.hostname</code> broker property has been
+added.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjkti"></a><a id="GMRLN00083"></a><a id="new-features-in-message-queue-4.4update1"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_4_update_1">New Features in Message Queue 4.4 Update 1</h4>
+<div class="paragraph">
+<p>Message Queue 4.4 Update 1 is a minor release that includes a number of
+feature enhancements and bug fixes. This section describes the new
+features included in this release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjkyf">New Installation Program</a></p>
+</li>
+<li>
+<p><a href="#gjkxr">Transaction Log Support for Clusters</a></p>
+</li>
+<li>
+<p><a href="#gjkvs">In-Process Broker</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjkyf"></a><a id="GMRLN00036"></a><a id="new-installation-program"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_new_installation_program">New Installation Program</h5>
+<div class="paragraph">
+<p>Message Queue 4.4 Update 1 provides a new multiplatform installer based
+on the <code>pkq(5)</code> system, also known as IPS or Image Packaging System. For
+information about this installer, see the Sun GlassFish Message Queue
+4.4 Update 1 Installation Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjkxr"></a><a id="GMRLN00037"></a><a id="transaction-log-support-for-clusters"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_transaction_log_support_for_clusters">Transaction Log Support for Clusters</h5>
+<div class="paragraph">
+<p>Message Queue 4.4 Update 1 adds a transaction persistence mechanism for
+file-based data stores that supports broker clusters. This mechanism
+provides other features as well, as described in
+"<a href="../mq-admin-guide/persistence-services.html#GMADG00542">Optimizing File-Based Transaction Persistence</a>" in
+Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjkvs"></a><a id="GMRLN00038"></a><a id="in-process-broker"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_in_process_broker">In-Process Broker</h5>
+<div class="paragraph">
+<p>Message Queue 4.4 Update 1 supports running a broker from within a Java
+client. Such a broker, called an in-process or embedded broker, runs in
+the same JVM as the Java client that creates and starts it. For more
+information, see "<a href="../mq-dev-guide-java/embedded-brokers.html#GMJVG00017">Embedding a Message Queue Broker in a
+Java Client</a>" in Open Message Queue Developer&#8217;s Guide for Java Clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="gired"></a><a id="GMRLN00084"></a><a id="new-features-in-message-queue-4.4"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_4">New Features in Message Queue 4.4</h4>
+<div class="paragraph">
+<p>Message Queue 4.4 is a minor release that includes a number of feature
+enhancements and bug fixes. This section describes the new features
+included in this release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjdmj">JMS Bridge Service</a></p>
+</li>
+<li>
+<p><a href="#gjdnz">STOMP Bridge Service</a></p>
+</li>
+<li>
+<p><a href="#gjdko">Additional Enhancements</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjdmj"></a><a id="GMRLN00039"></a><a id="jms-bridge-service"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_jms_bridge_service">JMS Bridge Service</h5>
+<div class="paragraph">
+<p>Because the JMS specification does not define a wire protocol for
+communication between brokers and clients, each JMS provider (including
+Message Queue) has defined and uses its own propriety protocol. This
+situation has led to non-interoperability across JMS providers.</p>
+</div>
+<div class="paragraph">
+<p>The JMS bridge service in Message Queue 4.4 closes this gap by enabling
+a Message Queue broker to map its destinations to destinations in
+external JMS providers. This mapping effectively allows the Message
+Queue broker to communicate with clients of the external JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>The JMS bridge service supports mapping destinations in external JMS
+providers that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Are JMS 1.1 compliant</p>
+</li>
+<li>
+<p>Support JNDI administrative objects</p>
+</li>
+<li>
+<p>Use connection factories of type <code>javax.jms.ConnectionFactory</code> or
+<code>javax.jms.XAConnectionFactory</code></p>
+</li>
+<li>
+<p>For transacted mapping, support the XA interfaces as a resource
+manager</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Many open source and commercial JMS providers meet these requirements,
+which makes the JMS bridge service an effective way to integrate Message
+Queue into an existing messaging environment that employs other JMS
+providers.</p>
+</div>
+<div class="paragraph">
+<p>For more information about the JMS bridge service see
+"<a href="../mq-admin-guide/bridge-services.html#GMADG00259">Configuring and Managing JMS Bridge Services</a>" in Open
+Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjdnz"></a><a id="GMRLN00040"></a><a id="stomp-bridge-service"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_stomp_bridge_service">STOMP Bridge Service</h5>
+<div class="paragraph">
+<p>As mentioned earlier, the JMS specification does not define a wire
+protocol for communication between brokers and clients. The STOMP
+(Streaming Text Oriented Messaging Protocol) open source project at
+<code>http://docs.codehaus.org/display/STOMP</code> defines a simple wire protocol
+that clients written in any language can use to communicate with any
+messaging provider that supports the STOMP protocol.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 4.4 provides support for the STOMP protocol through the
+STOMP bridge service. This service enables a Message Queue broker
+communicate with STOMP clients.</p>
+</div>
+<div class="paragraph">
+<p>For more information about the STOMP bridge service see
+"<a href="../mq-admin-guide/bridge-services.html#GMADG00260">Configuring and Managing STOMP Bridge Services</a>" in
+Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjdko"></a><a id="GMRLN00041"></a><a id="additional-enhancements"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_additional_enhancements">Additional Enhancements</h5>
+<div class="paragraph">
+<p>The following additional enhancements are also provided in Message Queue
+4.4:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjdlu">New Universal Message Service (UMS) Functions</a></p>
+</li>
+<li>
+<p><a href="#gjdke">IPS Package Support</a></p>
+</li>
+<li>
+<p><a href="#gjjze">Audit Logging Feature Reinstated</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjdlu"></a><a id="GMRLN00005"></a><a id="new-universal-message-service-ums-functions"></a></p>
+</div>
+<div class="paragraph">
+<p>New Universal Message Service (UMS) Functions</p>
+</div>
+<div class="paragraph">
+<p>The UMS now provides functions that use HTTP GET to offer several
+services:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>getBrokerInfo: retrieves information about the broker.</p>
+</li>
+<li>
+<p>getConfiguration: retrieves information about the UMS configuration.</p>
+</li>
+<li>
+<p>debug: turns debug logging in the UMS server on and off.</p>
+</li>
+<li>
+<p>ping: communicates with the broker to confirm that it is running.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information about these new features, see
+"http://mq.java.net/4.4-content/imqums/protocol.html#Query%20and%20utility%20functions%20using%20HTTP%20GET[Query
+and utility functions using HTTP GET]" in
+<code>http://mq.java.net/4.4-content/imqums/protocol.html</code>.</p>
+</div>
+<div class="paragraph">
+<p>For an overview of UMS, see <a href="#ghlir">Universal Message Service
+(UMS)</a>. For of the UMS API, see
+<code>http://mq.java.net/4.4-content/imqums/protocol.html</code>. For programming
+examples in several languages, see
+<code>http://mq.java.net/4.4-content/imqums/examples/README.html</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjdke"></a><a id="GMRLN00006"></a><a id="ips-package-support"></a></p>
+</div>
+<div class="paragraph">
+<p>IPS Package Support</p>
+</div>
+<div class="paragraph">
+<p>Message Queue is now packaged for distribution using the open source
+Image Packaging System (IPS), also known as the <code>pkg(5)</code> system. This
+packaging method has been added in order for Message Queue to integrate
+with Sun GlassFish Enterprise Server 2.1.1.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjjze"></a><a id="GMRLN00007"></a><a id="audit-logging-feature-reinstated"></a></p>
+</div>
+<div class="paragraph">
+<p>Audit Logging Feature Reinstated</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 3.7 provided an audit logging feature that was removed in
+Message Queue 4.0. This feature has been reinstated in Message
+Queue 4.4. For information about this feature, see
+"<a href="../mq-admin-guide/security-services.html#GMADG00252">Audit Logging with the Solaris BSM Audit Log</a>" in Open
+Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghlkj"></a><a id="GMRLN00085"></a><a id="new-features-in-message-queue-4.3"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_3">New Features in Message Queue 4.3</h4>
+<div class="paragraph">
+<p>Message Queue 4.3 was a minor release that included a number of feature
+enhancements and bug fixes. This section describes the new features
+included in this release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ghlir">Universal Message Service (UMS)</a></p>
+</li>
+<li>
+<p><a href="#ghlll">AIX Platform Support</a></p>
+</li>
+<li>
+<p><a href="#ghlla">New Zip-Based Installer</a></p>
+</li>
+<li>
+<p><a href="#ghllg">Extended Platform Support</a></p>
+</li>
+<li>
+<p><a href="#ghvdy">Additional Enhancements</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ghlir"></a><a id="GMRLN00042"></a><a id="universal-message-service-ums"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_universal_message_service_ums">Universal Message Service (UMS)</h5>
+<div class="paragraph">
+<p>Message Queue 4.3 introduces a new universal messaging service (UMS) and
+messaging API that provides access to Message Queue from any
+http-enabled device. As a result, almost any application can communicate
+with any other application and benefit from the reliability and
+guaranteed delivery of JMS messaging. In addition, the UMS provides
+enhanced scalability for JMS messaging, allowing the number of messaging
+clients to reach internet-scale proportions.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghvaq"></a><a id="GMRLN00008"></a><a id="architecture"></a></p>
+</div>
+<div class="paragraph">
+<p>Architecture</p>
+</div>
+<div class="paragraph">
+<p>The basic UMS architecture is shown in the following figure:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN00001"></a><a id="ghllf"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-1 UMS Architecture</strong></div>
+<p><span class="image"><img src="img/umsarchitecture.png" alt="Illustration showing that the UMS as a gateway between Non-JMS clients and a JMS provider."></span></p>
+</div>
+<div class="paragraph">
+<p>The UMS, which runs in a web server, is language neutral and platform
+independent. The UMS serves as a gateway between any non-JMS client
+application and a JMS provider. It receives messages sent using the UMS
+API, transforms them into JMS messages, and produces them as persistent
+messages to destinations in the JMS provider by way of the provider&#8217;s
+native protocol. Similarly, it retrieves messages from destinations in
+the JMS provider in a transacted session using AUTO_ACKNOWLEDGE mode,
+transforms them into text or SOAP messages, and sends the messages to
+non-JMS clients as requested by the clients through the UMS API.</p>
+</div>
+<div class="paragraph">
+<p>The simple, language-independent, protocol-based UMS API supports both
+Web-based and non-Web-based applications, and can be used with both
+scripting and programming languages. The API is offered in two styles: a
+simple messaging API that uses a Representational State Transfer
+(REST)-style protocol, and an XML messaging API that embeds the protocol
+in a SOAP message header. In both cases, however, the API requires only
+a single http request to send or receive a message.</p>
+</div>
+<div class="paragraph">
+<p>The simplicity and flexibility of the UMS API means that AJAX, .NET,
+Python, C, Java, and many other applications can send text message
+and/or SOAP (with attachment) messages to JMS destinations or receive
+messages from JMS destinations. For example, Python applications can
+communicate with .NET applications, iPhone can communicate with Java
+applications, and so forth.</p>
+</div>
+<div class="paragraph">
+<p>For Message Queue 4.3, the UMS supports only Message Queue as a JMS
+provider.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghvdj"></a><a id="GMRLN00009"></a><a id="additional-features"></a></p>
+</div>
+<div class="paragraph">
+<p>Additional Features</p>
+</div>
+<div class="paragraph">
+<p>The UMS serves as more than the simple gateway described above. It
+supports stateful as well as stateless client sessions. If requested by
+the client, the UMS will maintain session state for the client
+application across multiple service requests. The UMS can use
+container-managed authentication, or be configured to authenticate
+clients with the Message Queue broker, or both. The UMS also supports
+transactions, enabling client applications to commit or roll back
+multiple service requests as a single atomic unit.</p>
+</div>
+<div class="paragraph">
+<p>Because the UMS can support a large number of clients on a single
+connection to the Message Queue broker, it eases the load on the
+broker&#8217;s connection services, allowing for maximum scalability. In
+addition, UMS capacity can be increased by horizontal scaling, allowing
+for internet-scale messaging loads.</p>
+</div>
+<div class="paragraph">
+<p>On the client side, because of the simplicity of the protocol-based UMS
+API, no client libraries are required. As a result, the API can be
+extended in the future to implement additional JMS features without any
+need to upgrade client applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghvda"></a><a id="GMRLN00010"></a><a id="using-the-ums"></a></p>
+</div>
+<div class="paragraph">
+<p>Using the UMS</p>
+</div>
+<div class="paragraph">
+<p>To use the UMS, you deploy the UMS into a web container that supports
+Servlet 2.4 or later specifications, start the Message Queue broker,
+create the appropriate destinations, and write a messaging application
+that uses the UMS API to send or receive messages.</p>
+</div>
+<div class="paragraph">
+<p>The UMS <code>imqums.war</code> file, contained in the Message Queue 4.3
+distribution, is installed in the following location, depending on
+platform:</p>
+</div>
+<div class="paragraph">
+<p>You can rename the <code>.war</code> file as appropriate.</p>
+</div>
+<div class="paragraph">
+<p>After you have deployed the <code>imqums.war</code> into a web container at
+`localhost:`port, you can find UMS at:</p>
+</div>
+<div class="paragraph">
+<p><code>http://localhost:`port</code>/imqums`</p>
+</div>
+<div class="paragraph">
+<p>Otherwise you can find UMS as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For information on configuring the UMS, see
+<code>http://mq.java.net/4.4-content/imqums/config.html</code>.</p>
+</li>
+<li>
+<p>For of the UMS API, see
+<code>http://mq.java.net/4.4-content/imqums/protocol.html</code>.</p>
+</li>
+<li>
+<p>For programming examples in several languages, see
+<code>http://mq.java.net/4.4-content/imqums/examples/README.html</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN127"></a><a id="sthref14"></a></p>
+</div>
+<div id="supported-web-containers" class="paragraph">
+<p>Supported Web Containers</p>
+</div>
+<div class="paragraph">
+<p>UMS is currently supported on the following web containers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Sun GlassFish Enterprise Server, Version 2.1 and Version 3 Prelude</p>
+</li>
+<li>
+<p>Tomcat, Versions 5.5 and 6.0</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ghlll"></a><a id="GMRLN00043"></a><a id="aix-platform-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_aix_platform_support">AIX Platform Support</h5>
+<div class="paragraph">
+<p>Message Queue 4.3 provides AIX platform packages and an Installer for
+installing them).</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue AIX implementation supports the following software:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>AIX v 6.1 or higher (earlier versions of AIX are supported via the
+Unix/Java Only bundle)</p>
+</li>
+<li>
+<p>DB2 support</p>
+</li>
+<li>
+<p>IBM XL C/C++ Compiler V9.0</p>
+</li>
+<li>
+<p>JDK 1.5 or better</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For installation instructions, see AIX Installation in Sun Java System
+Message Queue 4.3 Installation Guide.</p>
+</div>
+<div class="paragraph">
+<p>On the AIX platform, Message Queue files are installed under a single
+Message Queue home directory, <code>IMQ_HOME</code>. <code>IMQ_HOME</code> denotes the
+directory mqInstallHome`/mq`, where mqInstallHome is the installation
+home directory you specify when installing the product (by default,
+home-directory`/MessageQueue`).</p>
+</div>
+<div class="paragraph">
+<p>The resulting Message Queue directory structure is the same as that for
+the Windows platform (see the Windows section of
+"<a href="../mq-admin-guide/data-locations.html#GMADG00054">Distribution-Specific Locations of Message Queue
+Data</a>" in Open Message Queue Administration Guide.)</p>
+</div>
+<div class="paragraph">
+<p>Message Queue support for the AIX platform includes support for the
+Message Queue C-API. For instructions on building and compiling C
+applications on the AIX platform, see XREF.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghlla"></a><a id="GMRLN00044"></a><a id="new-zip-based-installer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_new_zip_based_installer">New Zip-Based Installer</h5>
+<div class="paragraph">
+<p>Message Queue 4.3 introduces a new installer for Zip-based
+distributions, as opposed to native package distributions. The installer
+is used to install the new Message Queue .zip distributions for the AIX
+platform.</p>
+</div>
+<div class="paragraph">
+<p>The new installer extracts Message Queue <code>.zip</code> files to any directory
+for which you have write access (you do not need root privileges) and it
+also enables you to register your Message Queue installation with Sun
+Connection.</p>
+</div>
+<div class="paragraph">
+<p>To minimize the size of download bundles, the Java Runtime is no longer
+be included in the zip-based distribution (most sites will already have
+it). As a result, the <code>installer</code> command requires that a JDK or JRE be
+specified, either by using the <code>JAVA_HOME</code> environment variable or by
+using the <code>-j</code> option on the command line, as follows:</p>
+</div>
+<div class="paragraph">
+<p><code>$ installer -j</code> JDK/JRE-path</p>
+</div>
+<div class="paragraph">
+<p>where JDK/JRE-path is the path of the specified JDK or JRE.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghllg"></a><a id="GMRLN00045"></a><a id="extended-platform-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_extended_platform_support">Extended Platform Support</h5>
+<div class="paragraph">
+<p>The following updated platform support will be certified for Message
+Queue 4.3:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Oracle 11g</p>
+</li>
+<li>
+<p>Windows Server 2008</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ghvdy"></a><a id="GMRLN00046"></a><a id="additional-enhancements-1"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_additional_enhancements_2">Additional Enhancements</h5>
+<div class="paragraph">
+<p>The following additional enhancements are included in Message Queue 4.3:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ghvdx">New Directory Structure on Windows Platform</a></p>
+</li>
+<li>
+<p><a href="#ghvds">New Broker Properties</a></p>
+</li>
+<li>
+<p><a href="#ghvej">JMX Administration API Enhancements</a></p>
+</li>
+<li>
+<p><a href="#ghvdo">Listing Durable Subscriptions for Wildcard Subscribers</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ghvdx"></a><a id="GMRLN00011"></a><a id="new-directory-structure-on-windows-platform"></a></p>
+</div>
+<div class="paragraph">
+<p>New Directory Structure on Windows Platform</p>
+</div>
+<div class="paragraph">
+<p>The installed directory structure for Message Queue on the Windows
+platform has been modified from previous versions to match that of the
+AIX platform. This directory structure will be adopted as well by the
+Solaris and Linux platforms in the future, to facilitate multiple
+installations on single computer and automatic update of Message Queue
+through Sun Connection, a Sun-hosted service that helps you track,
+organize, and maintain Sun hardware and software (see
+<a href="#gglhj">Installer Support for Sun Connection Registration</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="ghvds"></a><a id="GMRLN00012"></a><a id="new-broker-properties"></a></p>
+</div>
+<div class="paragraph">
+<p>New Broker Properties</p>
+</div>
+<div class="paragraph">
+<p>The following new properties are available for configuring a broker:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMRLN128"></a><a id="sthref15"></a><a id="ghvbn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-5 Broker Routing and Delivery Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 32%;">
+<col style="width: 32%;">
+<col style="width: 17%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.transaction.producer.maxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum
+number of messages that a producer can process in a single transaction.
+It is recommended that the value be less than 5000 to prevent the
+exhausting of resources.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.transaction.consumer.maxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum
+number of messages that a consumer can process in a single transaction.
+It is recommended that the value be less than 1000 to prevent the
+exhausting of resources.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.persist.jdbc.connection.limit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>5</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum number
+of connections that can be opened to the database.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="ghvej"></a><a id="GMRLN00013"></a><a id="jmx-administration-api-enhancements"></a></p>
+</div>
+<div class="paragraph">
+<p>JMX Administration API Enhancements</p>
+</div>
+<div class="paragraph">
+<p>A new attribute and composite data keys have been added to the JMX API
+as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A NextMessageID attribute has been added to the Destination Monitor
+MBean to provide the JMS message ID of the next message to be delivered
+to a consumer.</p>
+</li>
+<li>
+<p>A NextMessageID key for composite date has been added to the Consumer
+Manager Monitor MBean to provide the JMS message ID of the next message
+to be delivered to the consumer.</p>
+</li>
+<li>
+<p>A NumMsgsPending key for composite date has been added to the Consumer
+Manager Monitor MBean to provide the number of messages that have been
+dispatched to the consumer.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information see "<a href="../mq-dev-guide-jmx/mbean-reference.html#GMJMG00004">Message Queue MBean
+Reference</a>" in Open Message Queue Developer&#8217;s Guide for JMX Clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghvdo"></a><a id="GMRLN00014"></a><a id="listing-durable-subscriptions-for-wildcard-subscribers"></a></p>
+</div>
+<div class="paragraph">
+<p>Listing Durable Subscriptions for Wildcard Subscribers</p>
+</div>
+<div class="paragraph">
+<p>The command for listing durable subscriptions:</p>
+</div>
+<div class="paragraph">
+<p><code>list dur [-d</code> topicName`]`</p>
+</div>
+<div class="paragraph">
+<p>has been enhanced to make specification of the topic name optional. If
+the topic is not specified, the command lists all durable subscriptions
+for all topics (including those with wildcard naming conventions)</p>
+</div>
+<div class="paragraph">
+<p><a id="gglhf"></a><a id="GMRLN00086"></a><a id="new-features-in-message-queue-4.2"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_2">New Features in Message Queue 4.2</h4>
+<div class="paragraph">
+<p>Message Queue 4.2 was a minor release that included a number of new
+features, some feature enhancements, and bug fixes. This section
+describes the new features in the 4.2 release and provides further
+references for your use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gglfu">Multiple Destinations for a Publisher or Subscriber</a></p>
+</li>
+<li>
+<p><a href="#gjkas">Schema Validation of XML Payload Messages</a></p>
+</li>
+<li>
+<p><a href="#gglha">C-API Support for Distributed Transactions</a></p>
+</li>
+<li>
+<p><a href="#gglhj">Installer Support for Sun Connection Registration</a></p>
+</li>
+<li>
+<p><a href="#ggxye">Support for MySQL Database</a></p>
+</li>
+<li>
+<p><a href="#ghlpr">Additional Enhancements</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information about features introduced in Message Queue 4.1 and 4.0,
+see <a href="#gefnq">New Features in Message Queue 4.1</a> and <a href="#aemac">New
+Features in Message Queue 4.0</a>, respectively.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglfu"></a><a id="GMRLN00047"></a><a id="multiple-destinations-for-a-publisher-or-subscriber"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_multiple_destinations_for_a_publisher_or_subscriber">Multiple Destinations for a Publisher or Subscriber</h5>
+<div class="paragraph">
+<p>With Message Queue 4.2, a publisher can publish messages to multiple
+topic destinations and a subscriber can consume messages from multiple
+topic destinations. This capability is achieved by using a topic
+destination name that includes wildcard characters, representing
+multiple destinations. Using such symbolic names allows administrators
+to create additional topic destinations, as needed, consistent with the
+wildcard naming scheme. Publishers and subscribers automatically publish
+to and consume from the added destinations. (Wildcard topic subscribers
+are more common than publishers.)</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This feature does not apply to queue destinations.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The format of symbolic topic destination names and examples of their use
+is described in "<a href="../mq-admin-guide/message-delivery.html#GMADG00069">Supported Topic Destination Names</a>" in
+Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjkas"></a><a id="GMRLN00048"></a><a id="schema-validation-of-xml-payload-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_schema_validation_of_xml_payload_messages">Schema Validation of XML Payload Messages</h5>
+<div class="paragraph">
+<p>This feature, introduced in Message Queue 4.2, enables validation of the
+content of a text (not object) XML message against an XML schema at the
+point the message is sent to the broker. The location of the XML schema
+(XSD) is specified as a property of a Message Queue destination. If no
+XSD location is specified, the DTD declaration within the XML document
+is used to perform DTD validation. (XSD validation, which includes data
+type and value range validation, is more rigorous than DTD validation.)</p>
+</div>
+<div class="paragraph">
+<p>For information on the use of this feature, see "<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00106">Schema
+Validation of XML Payload Messages</a>" in Open Message Queue Developer&#8217;s
+Guide for Java Clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglha"></a><a id="GMRLN00049"></a><a id="c-api-support-for-distributed-transactions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_c_api_support_for_distributed_transactions">C-API Support for Distributed Transactions</h5>
+<div class="paragraph">
+<p>According to the X/Open distributed transaction model, support for
+distributed transactions relies upon a distributed transaction manager
+which tracks and manages operations performed by one or more resource
+managers. With Message Queue 4.2, the Message Queue C-API supports the
+XA interface (between a distributed transaction manager and Message
+Queue as a XA-compliant resource manager), allowing Message Queue C-API
+clients running in a distributed transaction processing environment
+(such as BEA Tuxedo) to participate in distributed transactions.</p>
+</div>
+<div class="paragraph">
+<p>This distributed transaction support consists of the following new C-API
+functions (and new parameters and error codes) used to implement the XA
+interface specification:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MQGetXAConnection()
+MQCreateXASession()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a C-client application is to be used in the context of a distributed
+transaction, then it must obtain a connection by using
+MQGetXAConnection() and create a session for producing and consuming
+messages by using MQCreateXASession(). The start, commit, and rollback,
+of any distributed transaction is managed through APIs provided by the
+distributed transaction manager.</p>
+</div>
+<div class="paragraph">
+<p>For details of using the distributed transaction functions, see
+"<a href="../mq-dev-guide-c/using-the-c-api.html#GMCCG00045">Working With Distributed Transactions</a>" in Open
+Message Queue Developer&#8217;s Guide for C Clients.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 4.2 provides programming examples based on the Tuxedo
+transaction manager. For information on the use of these sample
+programs, see "<a href="../mq-dev-guide-c/introduction.html#GMCCG00307">Distributed Transaction Sample
+Programs</a>" in Open Message Queue Developer&#8217;s Guide for C Clients.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The distributed transaction functionality is supported on Solaris,
+Linux, and Windows platforms, however, to date it has only been
+certified on the Solaris platform.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gglhj"></a><a id="GMRLN00050"></a><a id="installer-support-for-sun-connection-registration"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_installer_support_for_sun_connection_registration">Installer Support for Sun Connection Registration</h5>
+<div class="paragraph">
+<p>The Message Queue installer has been enhanced to allow for registration
+of Message Queue with Sun Connection, a Sun-hosted service that helps
+you track, organize, and maintain Sun hardware and software.</p>
+</div>
+<div class="paragraph">
+<p>As part of Message Queue installation, you can choose to register
+Message Queue with Sun Connection. Information about the installed
+Message Queue, such as the release version, host name, operating system,
+installation date, and other such basic information is securely
+transmitted to the Sun Connection database. The Sun Connection inventory
+service can help you organize your Sun hardware and software, while the
+update service can inform you of the latest available security fixes,
+recommended updates, and feature enhancements.</p>
+</div>
+<div class="paragraph">
+<p>For details of registering Message Queue with Sun Connection, see Sun
+Java System Message Queue 4.3 Installation Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggxye"></a><a id="GMRLN00051"></a><a id="support-for-mysql-database"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_support_for_mysql_database">Support for MySQL Database</h5>
+<div class="paragraph">
+<p>Message Queue 4.2 introduced support for MySQL database as a JDBC-based
+data store. MySQL Cluster Edition can be used as a JDBC database for a
+standalone broker, and MySQL Cluster Edition can be used as the
+highly-available shared data store needed for an enhanced broker
+cluster. For information on configuring Message Queue to use MySQL, see
+"<a href="../mq-admin-guide/persistence-services.html#GMADG00544">Configuring a JDBC-Based Data Store</a>" in Open Message
+Queue Administration Guide and also "<a href="../mq-admin-guide/broker-clusters.html#GMADG00416">Enhanced Broker
+Cluster Properties</a>" in Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghlpr"></a><a id="GMRLN00052"></a><a id="additional-enhancements-2"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_additional_enhancements_3">Additional Enhancements</h5>
+<div class="paragraph">
+<p>In addition to the features described above, Message Queue 4.2 included
+the following enhancements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Remotely Produced Message Metrics<br>
+Message Queue 4.2 introduced new destination metrics that can be useful
+in monitoring destinations in a broker cluster. In a broker cluster, the
+messages stored in a given destination on a given broker in the cluster,
+consist of messages produced directly to the destination as well as
+messages sent to the destination from remote brokers in the cluster. In
+analyzing message routing and delivery in a broker cluster, it is
+sometimes helpful to know how many messages in a destination are local
+(locally produced) and how many are remote (remotely produced).<br>
+Two new physical destination metric quantities are included in Message
+Queue 4.2:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Num messages remote</code>, the current number of messages stored in
+memory and persistent store that were produced to a remote broker in a
+cluster, except for messages included in transactions.</p>
+</li>
+<li>
+<p><code>Total Message bytes remote</code>, the current total size in bytes of
+messages stored in memory and persistent store that were produced to a
+remote broker in a cluster, except for messages included in
+transactions.<br>
+These new metric quantities are available through the <code>imqcmd list dst</code>
+and <code>imqcmd query dst</code> commands (see "<a href="../mq-admin-guide/message-delivery.html#GMADG00536">Viewing Physical
+Destination Information</a>" in Open Message Queue Administration Guide)
+and through new JMX attributes (see "<a href="../mq-dev-guide-jmx/mbean-reference.html#GMJMG00185">Destination
+Monitor</a>" in Open Message Queue Developer&#8217;s Guide for JMX Clients).</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Wildcard Producer and Wildcard Consumer Information<br>
+Information to support the use of wildcard characters in destination
+names (see <a href="#gglfu">Multiple Destinations for a Publisher or
+Subscriber</a>) is provided through new monitoring data. For example, the
+number of wildcard producers or consumers associated with a destination
+are available through the <code>imqcmd query dst</code> command (see
+"<a href="../mq-admin-guide/message-delivery.html#GMADG00536">Viewing Physical Destination Information</a>" in Open
+Message Queue Administration Guide) and through new JMX attributes (see
+"<a href="../mq-dev-guide-jmx/mbean-reference.html#GMJMG00185">Destination Monitor</a>" in Open Message Queue
+Developer&#8217;s Guide for JMX Clients). Also, wildcard information is
+available through the <code>ConsumerManager Monitor</code> and
+<code>ProducerManager Monitor</code> MBeans.</p>
+</li>
+<li>
+<p>Support for DN Username Format for Client Authentication<br>
+Message Queue 4.2 introduced support for DN username format in client
+connection authentication against an LDAP user repository. The support
+involves the following new broker property (and value):<br>
+<code>imq.user_repository.ldap.usrformat=dn</code><br>
+This property lets the broker authenticate a client user against an
+entry in an LDAP user repository by extracting from the DN username
+format the value of the attribute specified by the following property:<br>
+<code>imq.user_repository.ldap.uidattr</code><br>
+The broker uses the value of the above attribute as the name of the user
+in access control operations.<br>
+For example, if <code>imq.user_repository.ldap.uidattr=udi</code> and a client
+authentication username is in the format
+<code>udi=mquser,ou=People,dc=red,dc=sun,dc=com</code>, then "mquser" would be
+extracted for performing access control.</p>
+</li>
+<li>
+<p>JAAS Authentication Enhancement<br>
+Message Queue 4.2 introduced JAAS authentication by IP address as well
+as by username.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gefnq"></a><a id="GMRLN00087"></a><a id="new-features-in-message-queue-4.1"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_1">New Features in Message Queue 4.1</h4>
+<div class="paragraph">
+<p>Message Queue 4.1 was a minor release that included a number of new
+features, some feature enhancements, and bug fixes. This section
+describes the new features in the 4.1 release and provides further
+references for your use:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggltx">High-Availability Broker Clusters</a></p>
+</li>
+<li>
+<p><a href="#gglrw">JAAS Support</a></p>
+</li>
+<li>
+<p><a href="#gglui">Persistent Data Store Format Change</a></p>
+</li>
+<li>
+<p><a href="#gglst">Broker Environment Configuration</a></p>
+</li>
+<li>
+<p><a href="#gglsg">Java ES Monitoring Framework Support</a></p>
+</li>
+<li>
+<p><a href="#gglrx">Enhanced Transaction Management</a></p>
+</li>
+<li>
+<p><a href="#ggluh">Fixed Ports for C Client Connections</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information about features introduced in Message Queue 4.0, see
+<a href="#aemac">New Features in Message Queue 4.0</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggltx"></a><a id="GMRLN00053"></a><a id="high-availability-broker-clusters"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_high_availability_broker_clusters">High-Availability Broker Clusters</h5>
+<div class="paragraph">
+<p>Message Queue 4.1 introduced a new, enhanced broker cluster. As compared
+to a conventional broker cluster, which provides only messaging service
+availability (if a broker fails, another broker is available to provide
+messaging service), the enhanced broker cluster also provides data
+availability (if a broker fails, its persistent messages and state data
+are available to another broker to use to take over message delivery).</p>
+</div>
+<div class="paragraph">
+<p>The high-availability implementation introduced in Message Queue 4.1
+uses a shared JDBC-based data store: instead of each broker in a broker
+cluster having its own persistent data store, all brokers in the cluster
+share the same JDBC-compliant database. If a particular broker fails,
+another broker within the cluster takes over message delivery for the
+failed broker. In doing so, the failover broker uses data and state
+information in the shared data store. Messaging clients of the failed
+broker reconnect to the failover broker, which provides uninterrupted
+messaging service.</p>
+</div>
+<div class="paragraph">
+<p>The shared JDBC-based store used in the Message Queue 4.1
+high-availability implementation must itself be highly available. If you
+do not have a highly available database or if uninterrupted message
+delivery is not important to you, you can continue to use conventional
+clusters, which provide service availability without data availability.</p>
+</div>
+<div class="paragraph">
+<p>To configure a Message Queue 4.1 enhanced broker cluster, you specify
+the following broker properties for each broker in the cluster:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Cluster membership properties, which specify that the broker is in an
+enhanced broker cluster, the ID of the cluster, and the ID of the broker
+within the cluster.</p>
+</li>
+<li>
+<p>Highly available database properties, which specify the persistent
+data model (JDBC), the name of the database vendor, and vendor-specific
+configuration properties.</p>
+</li>
+<li>
+<p>Failure detection and failover properties, which specify how broker
+failure is detected and handled using a failover broker.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To use the enhanced broker cluster implementation, you must do the
+following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Install a highly available database.</p>
+</li>
+<li>
+<p>Install the JDBC driver .jar file.</p>
+</li>
+<li>
+<p>Create the database schema for the highly available persistent data
+store.</p>
+</li>
+<li>
+<p>Set high-availability properties for each broker in the cluster.</p>
+</li>
+<li>
+<p>Start each broker in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For a conceptual discussion of enhanced broker clusters and how they
+compare to conventional clusters, see "<a href="../mq-tech-over/broker-clusters.html#GMTOV00028">Broker
+Clusters</a>" in Open Message Queue Technical Overview. For procedural and
+reference information about enhanced broker clusters, see
+"<a href="../mq-admin-guide/broker-clusters.html#GMADG00041">Configuring and Managing Broker Clusters</a>" and
+"<a href="../mq-admin-guide/broker-properties.html#GMADG00293">Cluster Configuration Properties</a>" in Open Message
+Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p>If you have been using a highly available database with Message Queue
+4.0 and want to switch to an enhanced broker cluster, you can use the
+Database Manager utility (<code>imqdbmgr</code> to convert to a shared persistent
+data store. Also see <a href="#aembl">Broker Clusters</a> for more known issues
+and limitations.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglrw"></a><a id="GMRLN00054"></a><a id="jaas-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_jaas_support">JAAS Support</h5>
+<div class="paragraph">
+<p>In addition to the file-based and LDAP-based built-in authentication
+mechanisms, Message Queue 4.1 introduced support for the Java
+Authentication and Authorization Service (JAAS), which allows you to
+plug an external authentication mechanism into the broker to
+authenticate Message Queue clients.</p>
+</div>
+<div class="paragraph">
+<p>For a description of the information that a broker makes available to a
+JAAS-compliant authentication service and an explanation of how to
+configure the broker to use such a service, see "<a href="../mq-admin-guide/security-services.html#GMADG00551">Using
+JAAS-Based Authentication</a>" in Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglui"></a><a id="GMRLN00055"></a><a id="persistent-data-store-format-change"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persistent_data_store_format_change">Persistent Data Store Format Change</h5>
+<div class="paragraph">
+<p>Message Queue 4.1 changed the JDBC-based data store to support enhanced
+broker clusters. For this reason the format of the JDBC—based data store
+is increased to version 410. Format versions 350, 370, and 400 are
+automatically migrated to the 410 version.</p>
+</div>
+<div class="paragraph">
+<p>Please note that the format of the file-based persistent data store
+remains at version 370 because no changes were made to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglst"></a><a id="GMRLN00056"></a><a id="broker-environment-configuration"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_broker_environment_configuration">Broker Environment Configuration</h5>
+<div class="paragraph">
+<p>The property <code>IMQ_DEFAULT_EXT_JARS</code> has been added to the Message Queue
+4.1 environment configuration file, <code>imqenv.conf</code>. You can set this
+property to specify the path names of external .jar files to be included
+in <code>CLASSPATH</code> when the broker starts up. If you use this property to
+specify the location of external .jar files, you no longer need to copy
+these files to the <code>lib/ext</code> directory. External .jar files can refer to
+JDBC drivers or to JAAS login modules. The following sample poperty,
+specifies the location of JDBC drivers.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_DEFAULT_EXT_JARS=/opt/SUNWhadb4/lib/hadbjdbc4.jar:/opt/SUNWjavadb/derby.jar</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gglsg"></a><a id="GMRLN00057"></a><a id="java-es-monitoring-framework-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_java_es_monitoring_framework_support">Java ES Monitoring Framework Support</h5>
+<div class="paragraph">
+<p>Message Queue 4.1 introduced support for the Sun Java Enterprise System
+(Java ES) Monitoring Framework, which allows Java ES components to be
+monitored using a common graphical interface. This interface is
+implemented by a web-based console called the Sun Java System Monitoring
+Console. Administrators can use the Console to view performance
+statistics, reate rules for automatic monitoring, and acknowledge
+alarms. If you are running Message Queue along with other Java ES
+components, you might find it more convenient to use a single interface
+to manage all of them.</p>
+</div>
+<div class="paragraph">
+<p>For information on using the Java ES monitoring framework to monitor
+Message Queue, see XREF.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglrx"></a><a id="GMRLN00058"></a><a id="enhanced-transaction-management"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_enhanced_transaction_management">Enhanced Transaction Management</h5>
+<div class="paragraph">
+<p>Previously, only transactions in a <code>PREPARED</code> state were allowed to be
+rolled back administratively. That is, if a session that was part of a
+distributed transaction did not terminate gracefully, the transaction
+remained in a state that could not be cleaned up by an administrator. In
+Message Queue 4.1, you can now use the Command utility (<code>imqcmd</code>) to
+clean up (roll back) transactions that are in the following states:
+<code>STARTED</code>, <code>FAILED</code>, <code>INCOMPLETE</code>, <code>COMPLETE</code>, and <code>PREPARED</code>.</p>
+</div>
+<div class="paragraph">
+<p>To help you determine whether a particular transaction can be rolled
+back (especially when it is not in a <code>PREPARED</code> state), the Command
+utility provides additional data as part of the`imqcmd query txn`
+output: it provides the connection id for the connection that started
+the transaction and specifies the time when the transaction was created.
+Using this information, an administrator can decide whether the
+transaction needs to be rolled back. In general, the administrator
+should avoid rolling back a transaction prematurely.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggluh"></a><a id="GMRLN00059"></a><a id="fixed-ports-for-c-client-connections"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_fixed_ports_for_c_client_connections">Fixed Ports for C Client Connections</h5>
+<div class="paragraph">
+<p>In Message Queue 4.1, C clients, like Java clients, can now connect to a
+fixed broker port rather than to a port dynamically assigned by the
+broker&#8217;s Port Mapper service. Fixed port connections are useful if
+you&#8217;re trying to get through a firewall or if you need to bypass the
+Port Mapper service for some other reason.</p>
+</div>
+<div class="paragraph">
+<p>To configure a fixed port connection you need to configure both the
+broker and the C client run time (both ends of the connection). For
+example, if you want to connect your client via <code>ssljms</code> to port 1756,
+you would do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On the client side, set the following properties:<br>
+<code>MQ_SERVICE_PORT_PROPERTY=1756</code><br>
+<code>MQ_CONNECTION_TYPE_PROPERTY=SSL</code></p>
+</li>
+<li>
+<p>On the broker side, set the <code>imq.`serviceName.protocolType</code>.port`
+property as follows:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.ssljms.tls.port=1756</pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>MQ_SERVICE_PORT_PROPERTY</code> connection property has been backported
+to Message Queue 3.7 Update 2.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aemac"></a><a id="GMRLN00088"></a><a id="new-features-in-message-queue-4.0"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_new_features_in_message_queue_4_0">New Features in Message Queue 4.0</h4>
+<div class="paragraph">
+<p>Message Queue 4.0 was a minor release limited to supporting Application
+Server 9 PE. It included a few new features, some feature enhancements,
+and bug fixes. This section includes a description of new features in
+this release:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggltn">Support for JMX Administration API</a></p>
+</li>
+<li>
+<p><a href="#gglug">Client Runtime Logging</a></p>
+</li>
+<li>
+<p><a href="#ggluw">Connection Event Notification API</a></p>
+</li>
+<li>
+<p><a href="#ggluv">Broker Administration Enhancements</a></p>
+</li>
+<li>
+<p><a href="#ggltd">Displaying Information About a JDBC-Based Data Store</a></p>
+</li>
+<li>
+<p><a href="#gglse">JDBC Provider Support</a></p>
+</li>
+<li>
+<p><a href="#ggluc">Persistent Data Store Format Changes</a></p>
+</li>
+<li>
+<p><a href="#ggltz">Additional Message Properties</a></p>
+</li>
+<li>
+<p><a href="#ggluj">SSL Support</a></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>One of the minor but potentially disruptive changes introduced with
+version 4.0 was the deprecation of the command-line option to specify a
+password. Henceforth, you must store all passwords in a file as
+described in <a href="#gcblj">Deprecated Password Option</a>, or enter them when
+prompted.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="ggltn"></a><a id="GMRLN00060"></a><a id="support-for-jmx-administration-api"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_support_for_jmx_administration_api">Support for JMX Administration API</h5>
+<div class="paragraph">
+<p>A new API was added in Message Queue 4.0 for configuring and monitoring
+Message Queue brokers in conformance with the Java Management Extensions
+(JMX) specification. Using this API, you can configure and monitor
+broker functions programmatically from within a Java application. In
+earlier versions of Message Queue, these functions were accessible only
+from the command line administration utilities or the Administration
+Console.</p>
+</div>
+<div class="paragraph">
+<p>For more information see the <a href="../mq-dev-guide-jmx/toc.html#GMJMG">Open Message Queue Developer&#8217;s
+Guide for JMX Clients</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gglug"></a><a id="GMRLN00061"></a><a id="client-runtime-logging"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_client_runtime_logging">Client Runtime Logging</h5>
+<div class="paragraph">
+<p>Message Queue 4.0 introduced support for client runtime logging of
+connection and session-related events.</p>
+</div>
+<div class="paragraph">
+<p>Fore information regarding client runtime logging and how to configure
+it, see the Java Dev Guide pag 137.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggluw"></a><a id="GMRLN00062"></a><a id="connection-event-notification-api"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connection_event_notification_api">Connection Event Notification API</h5>
+<div class="paragraph">
+<p>Message Queue 4.0 introduced an event notification API that allows the
+client runtime to inform an application about changes in connection
+state. Connection event notifications allow a Message Queue client to
+listen for closure and re-connection events and to take appropriate
+action based on the notification type and the connection state. For
+example, when a failover occurs and the client is reconnected to another
+broker, an application might want to clean up its transaction state and
+proceed with a new transaction.</p>
+</div>
+<div class="paragraph">
+<p>For information about connection events and how to create an event
+listener, see the Java Dev Guide, page 96.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggluv"></a><a id="GMRLN00063"></a><a id="broker-administration-enhancements"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_broker_administration_enhancements">Broker Administration Enhancements</h5>
+<div class="paragraph">
+<p>In Message Queue 4.0, a new subcommand and several command options were
+added to the Command utility (<code>imqcmd)</code> to allow administrators to
+quiesce a broker, to shutdown a broker after a specified interval, to
+destroy a connection, or to set java system properties (for example,
+connection related properties).</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Quiescing a broker moves it into a quiet state, which allows messages
+to be drained before the broker is shut down or restarted. No new
+connections can be created to a broker that is being quiesced. To
+quiesce the broker, enter a command like the following.<br>
+<code>imqcmd quiesce bkr -b Wolfgang:1756</code></p>
+</li>
+<li>
+<p>To shut down the broker after a specified interval, enter a command
+like the following. (The time interval specifies the number of seconds
+to wait before the broker is shut down.)<br>
+<code>imqcmd shutdown bkr -b Hastings:1066 -time 90</code><br>
+If you specify a time interval, the broker will log a message indicating
+when shutdown will occur. For example,<br>
+<code>Shutting down the broker in 29 seconds (29996 milliseconds)</code><br>
+While the broker is waiting to shut down, its behavior is affected in
+the following ways.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Administrative jms connections will continue to be accepted.</p>
+</li>
+<li>
+<p>No new jms connections will be accepted.</p>
+</li>
+<li>
+<p>Existing jms connections will continue to work.</p>
+</li>
+<li>
+<p>The broker will not be able to take over for any other broker in an
+enhanced broker cluster.</p>
+</li>
+<li>
+<p>The imqcmd utility will not block, it will send the request to shut
+down to the broker and return right away.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>To destroy a connection, enter a command like the following.<br>
+<code>imqcmd destroy cxn -n 2691475382197166336</code><br>
+Use the command <code>imqcmd list cxn</code> or <code>imqcmd query cxn</code> to obtain the
+connection ID.</p>
+</li>
+<li>
+<p>To set a system property using <code>imqcmd</code>, use the new -D option. This
+is useful for setting or overriding JMS connection factory properties or
+connection-related java system properties. For example:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd list svc -secure -DimqSSLIsHostTrusted=true
+imqcmd list svc -secure -Djavax.net.ssl.trustStore=/tmp/mytruststore
+            -Djavax.net.ssl.trustStorePassword=mytrustword</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For complete information about the syntax of the <code>imqcmd</code> command, see
+"<a href="../mq-admin-guide/command-line-reference.html#GMADG00047">Command Line Reference</a>" in Open Message Queue
+Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggltd"></a><a id="GMRLN00064"></a><a id="displaying-information-about-a-jdbc-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_displaying_information_about_a_jdbc_based_data_store">Displaying Information About a JDBC-Based Data Store</h5>
+<div class="paragraph">
+<p>In Message Queue 4.0 a new <code>query</code> subcommand was added to the Database
+Manager utility, <code>imqdbmgr</code>. This subcommand is used to display
+information about a JDBC-based data store, including the database
+version, the database user, and whether the database tables have been
+created.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of the information displayed by the command.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqdbmgr query
+
+[04/Oct/2005:15:30:20 PDT] Using plugged-in persistent store:
+        version=400
+        brokerid=Mozart1756
+        database connection url=jdbc:oracle:thin:@Xhome:1521:mqdb
+        database user=scott
+Running in standalone mode.
+Database tables have already been created.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gglse"></a><a id="GMRLN00065"></a><a id="jdbc-provider-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_jdbc_provider_support">JDBC Provider Support</h5>
+<div class="paragraph">
+<p>In Message Queue 4.0, Apache Derby Version 10.1.1 is now supported as a
+JDBC-based data store provider.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggluc"></a><a id="GMRLN00066"></a><a id="persistent-data-store-format-changes"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_persistent_data_store_format_changes">Persistent Data Store Format Changes</h5>
+<div class="paragraph">
+<p>Message Queue 4.0 introduced changes to the JDBC-based data store for
+optimization and to support future enhancements. For this reason the
+format of the JDBC-based data store was increased to version 400. Note
+that in Message Queue 4.0, the file-based data store version remains 370
+because no changes were made to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggltz"></a><a id="GMRLN00067"></a><a id="additional-message-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_additional_message_properties">Additional Message Properties</h5>
+<div class="paragraph">
+<p>Message Queue 4.0 added two new properties which are set on all messages
+that are placed in the dead message queue.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>JMS_SUN_DMQ_PRODUCING_BROKER</code> indicates the broker where the message
+was produced.</p>
+</li>
+<li>
+<p><code>JMS_SUN_DMQ_DEAD_BROKER</code> indicates the broker who marked the message
+dead.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggluj"></a><a id="GMRLN00068"></a><a id="ssl-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_ssl_support">SSL Support</h5>
+<div class="paragraph">
+<p>Starting with Message Queue 4.0, the default value for the client
+connection factory property <code>imqSSLIsHostTrusted</code> is <code>false.</code> If your
+application depends on the prior default value of <code>true,</code> you need to
+reconfigure and to set the property explicitly to <code>true.</code></p>
+</div>
+<div class="paragraph">
+<p>You might choose to trust the host when the broker is configured to use
+self-signed certificates. In this case, in addition to specifying that
+the connection should use an SSL-based connection service (using the
+imqConnectionType property), you should set the <code>imqSSLIsHostTrusted</code>
+property to true.</p>
+</div>
+<div class="paragraph">
+<p>For example, to run client applications securely when the broker uses
+self-signed certificates, use a command like the following.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java -DimqConnectionType=TLS
+      -DimqSSLIsHostTrusted=true ClientAppName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To use the Command utility (<code>imqcmd</code>) securely when the broker uses
+self-signed certificates, use a command like the following (for listing
+connector services).</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DimqSSLIsHostTrusted=true</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="preface.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

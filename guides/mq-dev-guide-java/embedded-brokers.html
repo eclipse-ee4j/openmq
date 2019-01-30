@@ -1,0 +1,487 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Embedding a Message Queue Broker in a Java Client</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Embedding a Message Queue Broker in a Java Client</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="soap-messages.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="warning-messages_error-codes.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00017"></a><a id="gjmtl"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="embedding-a-message-queue-broker-in-a-java-client">7 Embedding a Message Queue Broker in a Java Client</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue supports running a broker from within a Java client. Such
+a broker, called an embedded broker, runs in the same JVM as the Java
+client that creates and starts it.</p>
+</div>
+<div class="paragraph">
+<p>Beyond operating like a normal standalone broker, an embedded broker
+offers the application in which it is embedded access to a special kind
+of connection called a direct mode connection. Direct mode connections
+are used just like ordinary connections, but they are much higher
+performing because they use in-memory transport instead of TCP. To
+specify a direct mode connection, the client specifies
+<code>mq://localhost/direct</code> as the broker address in the connection factory
+from which it subsequently creates the connection.</p>
+</div>
+<div class="paragraph">
+<p>The following sections provide more information about creating and
+managing embedded brokers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjmtr">Creating, Initializing and Starting an Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="#gjmul">Creating a Direct Connection to an Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="#gjmuf">Creating a TCP Connection to an Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="#gjmto">Stopping and Shutting Down an Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="#gjmtz">Embedded Broker Example</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjmtr"></a><a id="GMJVG00117"></a><a id="creating-initializing-and-starting-an-embedded-broker"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_creating_initializing_and_starting_an_embedded_broker">Creating, Initializing and Starting an Embedded Broker</h3>
+<div class="paragraph">
+<p>To create, initialize, and start an embedded broker, you:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a broker instance in the client runtime.</p>
+</li>
+<li>
+<p>Create a broker event listener.</p>
+</li>
+<li>
+<p>Define properties to use when initializing the broker instance.</p>
+</li>
+<li>
+<p>Initialize the broker instance.</p>
+</li>
+<li>
+<p>Start the broker instance.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following listing shows an example of creating, initializing, and
+starting an Embedded Broker. In this example, args represents the string
+of arguments to pass as properties when initializing the broker
+instance, and EmbeddedBrokerEventListener is an existing class that
+implements the <code>BrokerEventListener</code> interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">import com.sun.messaging.jmq.jmsclient.runtime.BrokerInstance;
+import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
+import com.sun.messaging.jmq.jmsservice.BrokerEvent;
+import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
+
+// Obtain the ClientRuntime singleton object
+ClientRuntime clientRuntime = ClientRuntime.getRuntime();
+
+// Create a broker instance
+BrokerInstance brokerInstance = clientRuntime.createBrokerInstance();
+
+// Create a broker event listener
+BrokerEventListener listener = new EmbeddedBrokerEventListener();
+
+// Convert the broker arguments into Properties. Note that parseArgs is
+// a utility method that does not change the broker instance.
+Properties props = brokerInstance.parseArgs(args);
+
+// Initialize the broker instance using the specified properties and
+// broker event listener
+brokerInstance.init(props, listener);
+
+// now start the embedded broker
+brokerInstance.start();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmth"></a><a id="GMJVG00253"></a><a id="creating-a-broker-event-listener"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_creating_a_broker_event_listener">Creating a Broker Event Listener</h4>
+<div class="paragraph">
+<p>When initializing an embedded broker, you must provide a broker event
+listener. This listener is an instance of a class that implements the
+<code>BrokerEventListener</code> interface. This interface specifies two methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>public void brokerEvent(BrokerEvent brokerEvent)</code>, which is called
+when the broker starts and stops. This method is not required to perform
+any specific actions, so you can implement an empty method.</p>
+</li>
+<li>
+<p><code>public boolean exitRequested(BrokerEvent event, Throwable thr)</code>,
+which is called when the embedded broker is about to shut down, either
+because of a user command or because of a fatal error. This method is
+not required to perform any specific actions, so you can implement an
+empty method. The return value is ignored.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following listing shows an example class that implements the
+<code>BrokerEventListener</code> interface.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">class EmbeddedBrokerEventListener implements BrokerEventListener {
+
+    public void brokerEvent(BrokerEvent brokerEvent) {
+        System.out.println ("Received broker event:"+brokerEvent);
+    }
+
+    public boolean exitRequested(BrokerEvent event, Throwable thr) {
+        System.out.println ("Broker is about to shut down because of:"+event+" with "+thr);
+        // return value will be ignored
+        return true;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmue"></a><a id="GMJVG00254"></a><a id="arguments-to-specify-when-initializing-an-embedded-broker"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_arguments_to_specify_when_initializing_an_embedded_broker">Arguments to Specify When Initializing an Embedded Broker</h4>
+<div class="paragraph">
+<p>When initializing an embedded broker, you can provide a list of
+arguments as properties.</p>
+</div>
+<div class="paragraph">
+<p>Because a Java client runtime (not the <code>imqbrokerd</code> utility) is
+initializing the broker, you should specify these arguments:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-imqhome</code> path</dt>
+<dd>
+<p>The home directory of the Message Queue installation (see
+<a href="preface.html#gbqig">"Directory Variable Conventions"</a>).</p>
+</dd>
+<dt class="hdlist1"><code>-libhome</code> path</dt>
+<dd>
+<p>The directory in which Message Queue libraries are stored,
+<code>IMQ_HOME/lib</code>.</p>
+</dd>
+<dt class="hdlist1"><code>-varhome</code> path</dt>
+<dd>
+<p>The directory in which Message Queue temporary or dynamically created
+configuration and data files are stored installation (see
+<a href="preface.html#gbqig">"Directory Variable Conventions"</a>).</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>You can also specify <code>imqbrokerd</code> options as arguments. Two useful
+options to specify as arguments are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-name</code> instanceName</dt>
+<dd>
+<p>The instance name of the broker.</p>
+</dd>
+<dt class="hdlist1"><code>-port</code> portNumber</dt>
+<dd>
+<p>The port number for the broker&#8217;s Port Mapper. This is port number on
+which the broker listens for client connections.</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><a id="gjmul"></a><a id="GMJVG00118"></a><a id="creating-a-direct-connection-to-an-embedded-broker"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_direct_connection_to_an_embedded_broker">Creating a Direct Connection to an Embedded Broker</h3>
+<div class="paragraph">
+<p>Once an embedded broker has been started, you can create direct
+connections to it from the client in which it is embedded. To do so, you
+create a connection as you would with an ordinary broker, but you
+specify <code>mq://localhost/direct</code> as broker address in the connection
+factory. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
+cf.setProperty(ConnectionConfiguration.imqAddressList, "mq://localhost/direct" );
+Connection connection = cf.createConnection();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmuf"></a><a id="GMJVG00119"></a><a id="creating-a-tcp-connection-to-an-embedded-broker"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_tcp_connection_to_an_embedded_broker">Creating a TCP Connection to an Embedded Broker</h3>
+<div class="paragraph">
+<p>Once an embedded broker has been started, clients other than the one in
+which it is embedded can connect to it as though it were an ordinary
+standalone broker. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.ConnectionFactory cf = new com.sun.messaging.ConnectionFactory();
+cf.setProperty(ConnectionConfiguration.imqAddressList, "mq://myhost.example.com:7676" );
+Connection connection = cf.createConnection();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmto"></a><a id="GMJVG00120"></a><a id="stopping-and-shutting-down-an-embedded-broker"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_stopping_and_shutting_down_an_embedded_broker">Stopping and Shutting Down an Embedded Broker</h3>
+<div class="paragraph">
+<p>To stop and shut down an embedded broker, use the stop() and shutdown()
+methods of the broker instance. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">// Stop the embedded broker
+brokerInstance.stop();
+// Shut down the embedded broker
+brokerInstance.shutdown();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmtz"></a><a id="GMJVG00121"></a><a id="embedded-broker-example"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_embedded_broker_example">Embedded Broker Example</h3>
+<div class="paragraph">
+<p>The following listing demonstrates how to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create, initialize and start an embedded broker</p>
+</li>
+<li>
+<p>Create a direct connection</p>
+</li>
+<li>
+<p>Send and receive messages across a direct connection</p>
+</li>
+<li>
+<p>Stop and shut down an embedded broker</p>
+</li>
+<li>
+<p>Create a broker event listener</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">package test.direct;
+
+import java.util.Properties;
+
+import javax.jms.Connection;
+import javax.jms.Message;
+import javax.jms.MessageConsumer;
+import javax.jms.MessageProducer;
+import javax.jms.Queue;
+import javax.jms.Session;
+import javax.jms.TextMessage;
+
+import com.sun.messaging.ConnectionConfiguration;
+import com.sun.messaging.jmq.jmsclient.runtime.BrokerInstance;
+import com.sun.messaging.jmq.jmsclient.runtime.ClientRuntime;
+import com.sun.messaging.jmq.jmsservice.BrokerEvent;
+import com.sun.messaging.jmq.jmsservice.BrokerEventListener;
+
+public class EmbeddedBrokerExample {
+
+    public void run(String[] args) throws Exception{
+
+        // obtain the ClientRuntime singleton object
+        ClientRuntime clientRuntime = ClientRuntime.getRuntime();
+
+        // create the embedded broker instance
+        BrokerInstance brokerInstance = clientRuntime.createBrokerInstance();
+
+        // convert the specified broker arguments into Properties
+        // this is a utility function: it doesn't change the broker
+        Properties props = brokerInstance.parseArgs(args);
+
+        // initialise the broker instance
+        // using the specified properties
+        // and a BrokerEventListener
+        BrokerEventListener listener = new ExampleBrokerEventListener();
+        brokerInstance.init(props, listener);
+
+        // now start the embedded broker
+        brokerInstance.start();
+
+        System.out.println ("Embedded broker started");
+
+        // now create a direct connection to the embedded broker
+        // this is identical to a normal TCP connection except that a special URL is used
+        com.sun.messaging.ConnectionFactory qcf = new com.sun.messaging.ConnectionFactory();
+        qcf.setProperty(ConnectionConfiguration.imqAddressList, "mq://localhost/direct");
+
+        Connection connection = qcf.createConnection();
+        System.out.println ("Created direct connection to embedded broker");
+
+        // now create a session and a producer and consumer in the normal way
+        Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+        Queue queue = session.createQueue("exampleQueue");
+        MessageConsumer consumer = session.createConsumer(queue);
+        MessageProducer producer = session.createProducer(queue);
+
+        // send a message to the queue in the normal way
+        TextMessage textMessage = session.createTextMessage("This is a message");
+        producer.send(textMessage);
+
+        // receive a message from the queue in the normal way
+        connection.start();
+        Message receivedMessage = consumer.receive(1000);
+        System.out.println ("Received message "+((TextMessage)receivedMessage).getText());
+
+        // close the client connection
+        connection.close();
+
+        // stop the embedded broker
+        brokerInstance.stop();
+
+        // shutdown the embedded broker
+        brokerInstance.shutdown();
+
+    }
+
+    public static void main(String[] args) throws Exception {
+
+        EmbeddedBrokerExample ebe = new EmbeddedBrokerExample();
+        ebe.run(args);
+
+    }
+
+    class ExampleBrokerEventListener implements BrokerEventListener {
+
+        public void brokerEvent(BrokerEvent brokerEvent) {
+            System.out.println ("Received broker event:"+brokerEvent);
+        }
+
+        public boolean exitRequested(BrokerEvent event, Throwable thr) {
+            System.out.println ("Broker is about to shut down because of:"+event+" with "+thr);
+
+            // return value will be ignored
+            return true;
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="soap-messages.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="warning-messages_error-codes.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

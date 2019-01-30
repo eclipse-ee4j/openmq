@@ -1,0 +1,2099 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Eclipse Open Message Queue Administration Guide, Release 5.1.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Eclipse Open Message Queue Administration Guide, Release 5.1.4</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+
+		<td align="left">
+		<a href="loe.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div class="sect1">
+<h2 id="contents">Contents</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="list-of-examples"><a href="loe.html">List of Examples</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="list-of-figures"><a href="lof.html">List of Figures</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="list-of-tables"><a href="lot.html">List of Tables</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="title-and-copyright-information"><a href="title.html">Title and Copyright Information</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="preface"><a href="preface.html#gblyo">Preface</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="preface.html#gblyj">Who Should Use This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxf">Before You Read This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxh">How This Book Is Organized</a></p>
+</li>
+<li>
+<p><a href="preface.html#ghode">Documentation Conventions</a></p>
+</li>
+<li>
+<p><a href="preface.html#gbqah">Related Documentation</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="part-i-introduction-to-message-queue-administration"><a href="part-introduction.html#gcrlv">Part I Introduction to Message Queue Administration</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="administrative-tasks-and-tools"><a href="admin-tasks-and-tools.html#aeoap">1 Administrative Tasks and Tools</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoaq">Administrative Tasks</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoar">Administration in a Development
+Environment</a></p>
+</li>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoas">Administration in a Production
+Environment</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoat">Setup Operations</a></p>
+</li>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoau">Maintenance Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoav">Administration Tools</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="admin-tasks-and-tools.html#ggwcf">Built-in Administration Tools</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoaw">Command Line Utilities</a></p>
+</li>
+<li>
+<p><a href="admin-tasks-and-tools.html#aeoax">Administration Console</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="admin-tasks-and-tools.html#ggwao">JMX-Based Administration</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="quick-start-tutorial"><a href="quick-start.html#aeoay">2 Quick-Start Tutorial</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#aeoaz">Starting the Administration Console</a></p>
+</li>
+<li>
+<p><a href="quick-start.html#aeoba">Administration Console Online Help</a></p>
+</li>
+<li>
+<p><a href="quick-start.html#aeobb">Working With Brokers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#aeobc">Starting a Broker</a></p>
+</li>
+<li>
+<p><a href="quick-start.html#aeobd">Adding a Broker to the Administration
+Console</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbngl">To Add a Broker to the Administration
+Console</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobe">Connecting to a Broker</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbngw">To Connect to a Broker</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobf">Viewing Connection Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnhr">To View Available Connection Services</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobg">Working With Physical Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#aeobh">Creating a Physical Destination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnio">To Add a Physical Destination to a
+Broker</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobi">Viewing Physical Destination Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbniy">To View or Modify the Properties of a
+Physical Destination</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobj">Purging Messages From a Physical
+Destination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnil">To Purge Messages From a Physical
+Destination</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobk">Deleting a Physical Destination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnij">To Delete a Physical Destination</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobl">Working With Object Stores</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#aeobm">Adding an Object Store</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnip">To Add an Object Store to the
+Administration Console</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobn">Connecting to an Object Store</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnin">To Connect to an Object Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobo">Working With Administered Objects</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#aeobp">Adding a Connection Factory</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbniv">To Add a Connection Factory to an Object
+Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobq">Adding a Destination</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbnit">To Add a Destination to an Object Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobr">Viewing Administered Object Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbniw">To View or Modify the Properties of an
+Administered Object</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobs">Deleting an Administered Object</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbniu">To Delete an Administered Object</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="quick-start.html#aeobt">Running the Sample Application</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="quick-start.html#gbniz">To Run the Sample Application</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="part-ii-administrative-tasks"><a href="part-administrative-tasks.html#gcrli">Part II Administrative Tasks</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="starting-brokers-and-clients"><a href="starting-brokers-and-clients.html#aeobu">3 Starting Brokers and Clients</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeobv">Preparing System
+Resources</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeobw">Synchronizing System
+Clocks</a></p>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeobx">Setting the File
+Descriptor Limit</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeoby">Starting Brokers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeobz">Starting Brokers
+Interactively</a></p>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeoca">Starting Brokers
+Automatically</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="starting-brokers-and-clients.html#ggwew">Automatic Broker Startup
+on the Solaris Platforms</a></p>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeocb">Automatic Broker Startup
+on the Linux Platform</a></p>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeocc">Automatic Broker Startup
+on Windows</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeoch">Deleting a Broker
+Instance</a></p>
+</li>
+<li>
+<p><a href="starting-brokers-and-clients.html#aeock">Starting Clients</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-a-broker"><a href="broker-configuration.html#aeocl">4 Configuring a Broker</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-configuration.html#aeocm">Broker Services</a></p>
+</li>
+<li>
+<p><a href="broker-configuration.html#aeodc">Setting Broker Configuration
+Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-configuration.html#aeodd">Modifying Configuration Files</a></p>
+</li>
+<li>
+<p><a href="broker-configuration.html#aeodf">Setting Configuration Properties
+from the Command Line</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-a-broker"><a href="broker-management.html#aeodm">5 Managing a Broker</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-management.html#aeodn">Command Utility Preliminaries</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodo">Using the Command Utility</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-management.html#aeodr">Specifying the User Name and
+Password</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodu">Specifying the Broker Name and Port</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodq">Displaying the Product Version</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodp">Displaying Help</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodv">Examples</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-management.html#geobv">Managing Brokers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-management.html#aeoeb">Shutting Down and Restarting a
+Broker</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#geodc">Quiescing a Broker</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeody">Pausing and Resuming a Broker</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodx">Updating Broker Properties</a></p>
+</li>
+<li>
+<p><a href="broker-management.html#aeodw">Viewing Broker Information</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-and-managing-connection-services"><a href="connection-services.html#gheau">6 Configuring and Managing Connection Services</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="connection-services.html#aeocn">Configuring Connection Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="connection-services.html#aeoco">Port Mapper</a></p>
+</li>
+<li>
+<p><a href="connection-services.html#aeocp">Thread Pool Management</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="connection-services.html#aeoed">Managing Connection Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="connection-services.html#aeoei">Pausing and Resuming a Connection
+Service</a></p>
+</li>
+<li>
+<p><a href="connection-services.html#aeoeg">Updating Connection Service
+Properties</a></p>
+</li>
+<li>
+<p><a href="connection-services.html#aeoee">Viewing Connection Service
+Information</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="connection-services.html#aeoej">Managing Connections</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-message-delivery"><a href="message-delivery.html#ghebf">7 Managing Message Delivery</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="message-delivery.html#gheav">Configuring and Managing Physical
+Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="message-delivery.html#aeoen">Command Utility Subcommands for
+Physical Destination Management</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoep">Creating and Destroying Physical
+Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="message-delivery.html#ghcfr">Naming Destinations</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#ghcgy">Setting Property Values</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#ghcee">Destroying Destinations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoet">Pausing and Resuming a Physical
+Destination</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoeu">Purging a Physical Destination</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoes">Updating Physical Destination
+Properties</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoer">Viewing Physical Destination
+Information</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoew">Managing Physical Destination Disk
+Utilization</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoez">Using the Dead Message Queue</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="message-delivery.html#aeofb">Managing the Dead Message Queue</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeofe">Enabling Dead Message Logging</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="message-delivery.html#aeocq">Managing Broker System-Wide Memory</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoek">Managing Durable Subscriptions</a></p>
+</li>
+<li>
+<p><a href="message-delivery.html#aeoel">Managing Transactions</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-persistence-services"><a href="persistence-services.html#gheas">8 Configuring Persistence Services</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="persistence-services.html#aeocr">Introduction to Persistence
+Services</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#gheap">File-Based Persistence</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="persistence-services.html#aeocs">File-Based Persistence
+Properties</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#aeodh">Configuring a File-Based Data
+Store</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#aeodk">Securing a File-Based Data Store</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#gjmqy">Optimizing File-Based Transaction
+Persistence</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="persistence-services.html#gheaz">JDBC-Based Persistence</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="persistence-services.html#aeoct">JDBC-Based Persistence
+Properties</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#aeodi">Configuring a JDBC-Based Data
+Store</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="persistence-services.html#gbnjm">To Set Up a JDBC-Based Data
+Store</a></p>
+</li>
+<li>
+<p><a href="persistence-services.html#ggwdb">To Display Information About a
+JDBC-Based Data Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="persistence-services.html#aeodl">Securing a JDBC-Based Data Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="persistence-services.html#ggwal">Data Store Formats</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-and-managing-security-services"><a href="security-services.html#aeoff">9 Configuring and Managing Security Services</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeocu">Introduction to Security Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeocv">Authentication</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeocw">Authorization</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeocx">Encryption</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeofg">User Authentication</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeofh">Using a Flat-File User Repository</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeofm">User Groups and Status</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeofj">Using the User Manager Utility</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeofr">Using an LDAP User Repository</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#gbnkk">To Set Up an Administrative User</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#gepfq">Using JAAS-Based Authentication</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#gephn">Elements of JAAS</a></p>
+</li>
+<li>
+<p><a href="security-services.html#gepfs">JAAS and Message Queue</a></p>
+</li>
+<li>
+<p><a href="security-services.html#gepgd">Setting up JAAS-Compliant
+Authentication</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeofu">User Authorization</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeofv">Access Control File Syntax</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeofx">Application of Authorization Rules</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeofy">Authorization Rules for Connection
+Services</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeofz">Authorization Rules for Physical
+Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#gjmsn">Authorization Rules for
+Auto-Created Physical Destinations</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeogb">Message Encryption</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeogd">Using Self-Signed Certificates</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#ggwkm">Setting Up an SSL-Based Connection
+Service Using Self-Signed Certificates</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeogh">Configuring and Running an
+SSL-Based Client Using Self-Signed Certificates</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeogk">Using Signed Certificates</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeogl">Obtaining and Installing a Signed
+Certificate</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeogm">Configuring the Client to Require
+Signed Certificates</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeogq">Password Files</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#aeogr">Security Considerations for
+Passwords and Password Files</a></p>
+</li>
+<li>
+<p><a href="security-services.html#aeogs">Password File Contents</a></p>
+</li>
+<li>
+<p><a href="security-services.html#CJAIJHAJ">Secure Password Files</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#CJAJGGBD">Obfuscate a Passfile</a></p>
+</li>
+<li>
+<p><a href="security-services.html#sthref37">Add a Password to a Password
+File</a></p>
+</li>
+<li>
+<p><a href="security-services.html#sthref38">Delete a Password from a
+Password File</a></p>
+</li>
+<li>
+<p><a href="security-services.html#sthref39">Change a Password in a Password
+File</a></p>
+</li>
+<li>
+<p><a href="security-services.html#sthref40">Deobfuscate a Password File</a></p>
+</li>
+<li>
+<p><a href="security-services.html#sthref41">Upgrading Clear Text Password
+Files</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#gcuhq">Connecting Through a Firewall</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="security-services.html#gcugz">To Enable Broker Connections Through
+a Firewall</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="security-services.html#aeogt">Audit Logging with the Solaris BSM
+Audit Log</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-and-managing-broker-clusters"><a href="broker-clusters.html#aeohv">10 Configuring and Managing Broker Clusters</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#aeohw">Configuring Broker Clusters</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#gejlk">The Cluster Configuration File</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gejkw">Cluster Configuration Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#ggumd">Cluster Connection Service
+Properties</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#ggulp">Conventional Broker Cluster
+Properties</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#ggult">Enhanced Broker Cluster Properties</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-clusters.html#geciv">Displaying a Cluster Configuration</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-clusters.html#aeohz">Managing Broker Clusters</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#gebnh">Managing Conventional Clusters</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#aeoia">Connecting Brokers into a
+Conventional Cluster</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#aeoid">Adding Brokers to a Conventional
+Cluster</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#aeoie">Removing Brokers From a Conventional
+Cluster</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gkudn">Changing the Master Broker in a
+Conventional Cluster with Master Broker</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#aeoih">Managing a Conventional Cluster&#8217;s
+Configuration Change Record</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gktiy">Converting Between Types of
+Conventional Clusters</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-clusters.html#gebna">Managing Enhanced Clusters</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#gebmt">Connecting Brokers into an Enhanced
+Cluster</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gecjj">Adding and Removing Brokers in an
+Enhanced Cluster</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gkbfh">Restarting a Failed Broker</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#gecjm">Preventing or Forcing Broker
+Failover</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#ggvcd">Backing up a Shared Data Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-clusters.html#ghsgh">Converting a Conventional Cluster to
+an Enhanced Cluster</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-clusters.html#ghshq">Cluster Conversion : File-Based Data
+Store</a></p>
+</li>
+<li>
+<p><a href="broker-clusters.html#ghshc">Cluster Conversion: JDBC-Based Data
+Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="managing-administered-objects"><a href="administered-objects.html#aeogu">11 Managing Administered Objects</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#aeogv">Object Stores</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#aeogw">LDAP Server Object Stores</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeogx">File-System Object Stores</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="administered-objects.html#aeogy">Administered Object Attributes</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#aeogz">Connection Factory Attributes</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#aeoha">Connection Handling</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohe">Client Identification</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohh">Reliability And Flow Control</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#gctlb">Queue Browser and Server
+Sessions</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohj">Standard Message Properties</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohk">Message Header Overrides</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohl">Destination Attributes</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohm">Using the Object Manager Utility</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#gkvxo">Connecting to a Secured LDAP
+Server (ldaps)</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohn">Adding Administered Objects</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-objects.html#aeoho">Adding a Connection Factory</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohp">Adding a Destination</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohq">Deleting Administered Objects</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohr">Listing Administered Objects</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohs">Viewing Administered Object
+Information</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeoht">Modifying Administered Object
+Attributes</a></p>
+</li>
+<li>
+<p><a href="administered-objects.html#aeohu">Using Command Files</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="configuring-and-managing-bridge-services"><a href="bridge-services.html#gjdnl">12 Configuring and Managing Bridge Services</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjdlj">The Bridge Service Manager</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjlig">Bridge-Related Broker Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjzqh">To Enable the Bridge Service Manager</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlji">Bridge Manager Utility</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjzqa">Logging of Bridge Services</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjdlg">Configuring and Managing JMS Bridge
+Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjlqp">JMS Bridge Components</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlrd">JMS Bridge Features</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjlsk">Pooled, Shared, and Dedicated
+Connections</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlrv">Transactional Message Transfer</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlsf">JMS Bridges in High Availability (HA)
+Broker Clusters</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlsh">Message Transformation During Message
+Delivery</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlry">JMSReplyTo Header Processing</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlrk">Dead Message Queue (DMQ) Processing</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlrr">Message Processing Sequence Across a
+Link in a JMS Bridge</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlro">Configuring a JMS Bridge</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjlrw">Specifying the Broker Properties for
+a JMS Bridge</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlse">Creating the XML Configuration File
+for a JMS Bridge</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjlrp">Starting and Stopping JMS Bridges</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#sthref66">To Configure a JMS Bridge to Start
+at Broker Startup</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#sthref67">To Start a JMS Bridge Manually</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#sthref68">To Stop a JMS Bridge Manually</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjmig">Starting and Stopping Links in a JMS
+Bridge</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#sthref69">To Stop a Link Manually</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#sthref70">To Start a Link Manually</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjdkc">Configuring and Managing STOMP Bridge
+Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjmne">Configuring the STOMP Bridge</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#gjmnw">Starting and Stopping the STOMP
+Bridge</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#sthref72">To Activate the STOMP Bridge</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#sthref73">To Stop the STOMP Bridge Manually</a></p>
+</li>
+<li>
+<p><a href="bridge-services.html#sthref74">To Start the STOMP Bridge
+Manually</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjmmg">Message Processing Sequence Across the
+STOMP Bridge</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="bridge-services.html#gjmph">Message Transformation During Message
+Processing</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="bridge-services.html#gjmnu">STOMP Protocol Features and the STOMP
+Bridge</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="monitoring-broker-operations"><a href="monitoring.html#aeoik">13 Monitoring Broker Operations</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#aeocy">Monitoring Services</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoil">Introduction to Monitoring Tools</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoim">Configuring and Using Broker Logging</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#aeoda">Logger Properties</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoio">Log Message Format</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoin">Default Logging Configuration</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoip">Changing the Logging Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#gbnku">To Change the Logger Configuration for a
+Broker</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoiq">Changing the Output Channel</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoir">Changing Log File Rollover Criteria</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeois">Sending Metrics Data to Log Files</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoit">Logging Dead Messages</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="monitoring.html#aeoiu">Using the Command Utility to Display Metrics
+Interactively</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#aeoiv">imqcmd metrics</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#gbnlu">To Use the metrics Subcommand</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="monitoring.html#aeoix">Metrics Outputs: imqcmd metrics</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#aeoiy">Brokerwide Metrics</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoiz">Connection Service Metrics</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeoja">Physical Destination Metrics</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="monitoring.html#aeojb">imqcmd query</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="monitoring.html#ggxey">Using the JMX Administration API</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#gfona">Using the Java ES Monitoring Console</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeojc">Using the Message-Based Monitoring API</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#aeojd">Setting Up Message-Based Monitoring</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="monitoring.html#gbnlh">To Set Up Message-based Monitoring</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="monitoring.html#aeoje">Security and Access Considerations</a></p>
+</li>
+<li>
+<p><a href="monitoring.html#aeojf">Metrics Outputs: Metrics Messages</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="analyzing-and-tuning-a-message-service"><a href="tuning.html#aeojg">14 Analyzing and Tuning a Message Service</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeojh">About Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeoji">The Performance Tuning Process</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojj">Aspects of Performance</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojk">Benchmarks</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojl">Baseline Use Patterns</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeojm">Factors Affecting Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#ggxdh">Message Delivery Steps</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojn">Application Design Factors Affecting
+Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeojo">Delivery Mode (Persistent/Nonpersistent
+Messages)</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojp">Use of Transactions</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojq">Acknowledgment Mode</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojr">Durable and Nondurable Subscriptions</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojs">Use of Selectors (Message Filtering)</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojt">Message Size</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeoju">Message Body Type</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeojv">Message Service Factors Affecting Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeojw">Hardware</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojx">Operating System</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojy">Java Virtual Machine (JVM)</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeojz">Connections</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeokc">Message Service Architecture</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeokd">Broker Limits and Behaviors</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeoke">Data Store Performance</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeokf">Client Runtime Configuration</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeokk">Adjusting Configuration To Improve Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeokl">System Adjustments</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeokm">Solaris Tuning: CPU Utilization,
+Paging/Swapping/Disk I/O</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeokn">Java Virtual Machine Adjustments</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeoko">Tuning Transport Protocols</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeoks">Tuning the File-based Persistent Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeokt">Broker Memory Management Adjustments</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeokv">Using Physical Destination Limits</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeokw">Using System-Wide Limits</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeoky">Client Runtime Message Flow Adjustments</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="tuning.html#aeokz">Message Flow Metering</a></p>
+</li>
+<li>
+<p><a href="tuning.html#aeola">Message Flow Limits</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="tuning.html#aeokx">Adjusting Multiple-Consumer Queue Delivery</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="troubleshooting"><a href="troubleshooting.html#aeold">15 Troubleshooting</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="troubleshooting.html#aeole">A Client Cannot Establish a Connection</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeoln">Connection Throughput Is Too Slow</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeolt">A Client Cannot Create a Message
+Producer</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeolw">Message Production Is Delayed or
+Slowed</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeomb">Messages Are Backlogged</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeomi">Broker Throughput Is Sporadic</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeomm">Messages Are Not Reaching Consumers</a></p>
+</li>
+<li>
+<p><a href="troubleshooting.html#aeomr">Dead Message Queue Contains Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="troubleshooting.html#ggxdi">To Inspect the Dead Message Queue</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="part-iii-reference"><a href="part-reference.html#gbnvd">Part III Reference</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="command-line-reference"><a href="command-line-reference.html#aeonc">16 Command Line Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="command-line-reference.html#aeond">Command Line Syntax</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeone">Broker Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonf">Command Utility</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="command-line-reference.html#aeonm">General Command Utility
+Options</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeong">Broker Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonh">Connection Service Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeoni">Connection Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonj">Physical Destination
+Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonk">Durable Subscription
+Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonl">Transaction Management</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#geodj">JMX Management</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonn">Object Manager Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeono">Database Manager Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonp">User Manager Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#gjdli">Bridge Manager Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonq">Service Administrator Utility</a></p>
+</li>
+<li>
+<p><a href="command-line-reference.html#aeonr">Key Tool Utility</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="broker-properties-reference"><a href="broker-properties.html#aeons">17 Broker Properties Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-properties.html#aeont">Connection Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeonu">Routing and Delivery Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeonv">Persistence Properties</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="broker-properties.html#aeonw">File-Based Persistence Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#gjmud">File-Based Persistence Properties
+for Transaction Logging</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeonx">JDBC-Based Persistence Properties</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="broker-properties.html#aeony">Security Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeonz">Monitoring Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeooa">Cluster Configuration Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#gjdkt">Bridge Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#geofd">JMX Properties</a></p>
+</li>
+<li>
+<p><a href="broker-properties.html#aeoob">Alphabetical List of Broker
+Properties</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="physical-destination-property-reference"><a href="physical-destination-properties.html#aeooc">18 Physical Destination Property Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="physical-destination-properties.html#gbnms">Physical Destination
+Properties</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="administered-object-attribute-reference"><a href="administered-object-attributes.html#aeood">19 Administered Object Attribute Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-object-attributes.html#aeooe">Connection Factory
+Attributes</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="administered-object-attributes.html#aeoof">Connection Handling</a></p>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeoog">Client Identification</a></p>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeooh">Reliability and Flow
+Control</a></p>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeooi">Queue Browser and
+Server Sessions</a></p>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeooj">Standard Message
+Properties</a></p>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeook">Message Header
+Overrides</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="administered-object-attributes.html#aeool">Destination Attributes</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jms-resource-adapter-property-reference"><a href="jmsra-properties.html#aeoon">20 JMS Resource Adapter Property Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmsra-properties.html#gjzpg">About Shared Topic Subscriptions for
+Clustered Containers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmsra-properties.html#gkubs">Disabling Shared Subscriptions</a></p>
+</li>
+<li>
+<p><a href="jmsra-properties.html#gkudu">Consumer Flow Control When Shared
+Subscriptions Are Used</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="jmsra-properties.html#aeooo">ResourceAdapter JavaBean</a></p>
+</li>
+<li>
+<p><a href="jmsra-properties.html#aeoop">ManagedConnectionFactory JavaBean</a></p>
+</li>
+<li>
+<p><a href="jmsra-properties.html#aeooq">ActivationSpec JavaBean</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="metrics-information-reference"><a href="metrics-information.html#aeoor">21 Metrics Information Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="metrics-information.html#aeoos">JVM Metrics</a></p>
+</li>
+<li>
+<p><a href="metrics-information.html#aeoot">Brokerwide Metrics</a></p>
+</li>
+<li>
+<p><a href="metrics-information.html#aeoou">Connection Service Metrics</a></p>
+</li>
+<li>
+<p><a href="metrics-information.html#aeoov">Physical Destination Metrics</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="jes-monitoring-framework-reference"><a href="java-es-monitoring-framework.html#gfomw">22 JES Monitoring Framework Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfomt">Common Attributes</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfond">Message Queue Product
+Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfooc">Broker Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfoop">Port Mapper Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfopb">Connection Service
+Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfomr">Destination Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfont">Persistent Store
+Information</a></p>
+</li>
+<li>
+<p><a href="java-es-monitoring-framework.html#gfomy">User Repository
+Information</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="part-iv-appendixes"><a href="part-appendixes.html#gbnuj">Part IV Appendixes</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="a-distribution-specific-locations-of-message-queue-data"><a href="data-locations.html#aeoow">A Distribution-Specific Locations of Message Queue Data</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="data-locations.html#ghrlu">Installations from an IPS image</a></p>
+</li>
+<li>
+<p><a href="data-locations.html#aeoox">Installations of Previous Message Queue
+Versions from Solaris SVR4 Packages</a></p>
+</li>
+<li>
+<p><a href="data-locations.html#aeooy">Installations of Previous Message Queue
+Versions from Linux RPMs</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="b-stability-of-message-queue-interfaces"><a href="interface-stability.html#aeopa">B Stability of Message Queue Interfaces</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="interface-stability.html#gbnnc">Classification Scheme</a></p>
+</li>
+<li>
+<p><a href="interface-stability.html#gfone">Interface Stability</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="c-httphttps-support"><a href="http_https-support.html#aeopb">C HTTP/HTTPS Support</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#aeopc">HTTP/HTTPS Support Architecture</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeopp">Enabling HTTP/HTTPS Support</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#aeopq">Step 1 (HTTPS Only): Generating a
+Self-Signed Certificate for the Tunnel Servlet</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeopr">Step 2 (HTTPS Only): Specifying the
+Key Store Location and Password</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#gbnqf">To Specify the Location and
+Password of the Certificate Key Store</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="http_https-support.html#gfjuq">Step 3 (HTTPS Only): Validating and
+Installing the Server&#8217;s Self-Signed Certificate</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#gfjwc">To Validate and Install the
+Server&#8217;s Self-Signed Certificate</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="http_https-support.html#aeops">Step 4 (HTTP and HTTPS): Deploying
+the Tunnel Servlet</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#gbnqb">To Deploy the HTTP or HTTPS Tunnel
+Servlet</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#gfjqh">Modifying the Application Server&#8217;s
+Security Policy File</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="http_https-support.html#aeopz">Step 5 (HTTP and HTTPS):
+Configuring the Connection Service</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#gbnqd">To Activate the <code>httpjms</code> or
+<code>httpsjms</code> Connection Service</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqa">Step 6 (HTTP and HTTPS):
+Configuring a Connection</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#aeoqc">Installing a Root Certificate
+(HTTPS Only)</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqd">Configuring the Connection Factory
+(HTTP and HTTPS)</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqe">Using a Single Servlet to Access
+Multiple Brokers (HTTP and HTTPS)</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqf">Using an HTTP Proxy</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqg">Troubleshooting</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#aeoqh">Server or Broker Failure</a></p>
+</li>
+<li>
+<p><a href="http_https-support.html#aeoqi">Client Failure to Connect Through
+the Tunnel Servlet</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="http_https-support.html#gbnpn">If a Client Cannot Connect</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="d-jmx-support"><a href="jmx-support.html#geoel">D JMX Support</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmx-support.html#ggvry">JMX Connection Infrastructure</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmx-support.html#ghbqo">MBean Access Mechanism</a></p>
+</li>
+<li>
+<p><a href="jmx-support.html#ghbrs">The JMX Service URL</a></p>
+</li>
+<li>
+<p><a href="jmx-support.html#ghbrb">The Admin Connection Factory</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="jmx-support.html#ggvud">JMX Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmx-support.html#ggvsp">RMI Registry Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmx-support.html#ggvvp">Static JMX Service URL: Using an RMI
+Registry</a></p>
+</li>
+<li>
+<p><a href="jmx-support.html#ggvvt">Dynamic JMX Service URL: Not Using an RMI
+Registry</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="jmx-support.html#ggvun">SSL-Based JMX Connections</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="jmx-support.html#ggvxb">Broker Side SSL Configuration</a></p>
+</li>
+<li>
+<p><a href="jmx-support.html#ggvwc">JMX Client Side SSL Configuration</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="jmx-support.html#ggvxj">JMX Connections Through a Firewall</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="e-frequently-used-command-utility-commands"><a href="frequent-commands.html#aeoqj">E Frequently Used Command Utility Commands</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="frequent-commands.html#aeoqk">Syntax</a></p>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoql">Broker and Cluster Management</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="frequent-commands.html#aeoqm">Broker Configuration Properties
+(<code>-o</code> option)</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoqn">Service and Connection Management</a></p>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoqo">Durable Subscriber Management</a></p>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoqp">Transaction Management</a></p>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoqq">Destination Management</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="frequent-commands.html#aeoqr">Destination Configuration Properties
+(<code>-o</code> option)</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="frequent-commands.html#aeoqs">Metrics</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+
+		<td align="left">
+		<a href="loe.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

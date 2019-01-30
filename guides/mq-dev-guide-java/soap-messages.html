@@ -1,0 +1,2645 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Working with SOAP Messages</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Working with SOAP Messages</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="using-the-metrics-monitoring-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="embedded-brokers.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00016"></a><a id="aeqex"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="working-with-soap-messages">6 Working with SOAP Messages</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>SOAP is a protocol that allows for the exchange of data whose structure
+is defined by an XML scheme. Using Message Queue, you can send JMS
+messages that contain a SOAP payload. This allows you to transport SOAP
+messages reliably and to publish SOAP messages to JMS subscribers. This
+chapter covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeqey">What is SOAP?</a></p>
+</li>
+<li>
+<p><a href="#aeqfh">SOAP Messaging in JAVA</a></p>
+</li>
+<li>
+<p><a href="#aeqfx">SOAP Messaging Models and Examples</a></p>
+</li>
+<li>
+<p><a href="#aeqgk">Integrating SOAP and Message Queue</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you are familiar with the SOAP specification, you can skip the
+introductory section and start by reading <a href="#aeqfh">SOAP Messaging in
+JAVA</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqey"></a><a id="GMJVG00113"></a><a id="what-is-soap"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_what_is_soap">What is SOAP?</h3>
+<div class="paragraph">
+<p>SOAP, the Simple Object Access Protocol, is a protocol that allows the
+exchange of structured data between peers in a decentralized,
+distributed environment. The structure of the data being exchanged is
+specified by an XML scheme.</p>
+</div>
+<div class="paragraph">
+<p>The fact that SOAP messages are encoded in XML makes SOAP messages
+portable, because XML is a portable, system-independent way of
+representing data. By representing data using XML, you can access data
+from legacy systems as well as share your data with other enterprises.
+The data integration offered by XML also makes this technology a natural
+for Web-based computing such as Web services. Firewalls can recognize
+SOAP packets based on their content type (<code>text/xml-SOAP</code>) and can
+filter messages based on information exposed in the SOAP message header.</p>
+</div>
+<div class="paragraph">
+<p>The SOAP specification describes a set of conventions for exchanging XML
+messages. As such, it forms a natural foundation for Web services that
+also need to exchange information encoded in XML. Although any two
+partners could define their own protocol for carrying on this exchange,
+having a standard such as SOAP allows developers to build the generic
+pieces that support this exchange. These pieces might be software that
+adds functionality to the basic SOAP exchange, or might be tools that
+administer SOAP messaging, or might even comprise parts of an operating
+system that supports SOAP processing. Once this support is put in place,
+other developers can focus on creating the Web services themselves.</p>
+</div>
+<div class="paragraph">
+<p>The SOAP protocol is fully described at <a href="http://www.w3.org/TR/SOAP" class="bare">http://www.w3.org/TR/SOAP</a>. This
+section restricts itself to discussing the reasons why you would use
+SOAP and to describing basic concepts that will make it easier to work
+with SOAP messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqez"></a><a id="GMJVG00240"></a><a id="soap-with-attachments-api-for-java"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_soap_with_attachments_api_for_java">SOAP with Attachments API for Java</h4>
+<div class="paragraph">
+<p>The Soap with Attachments API for Java (SAAJ) is a JAVA-based API that
+enforces compliance to the SOAP standard. When you use this API to
+assemble and disassemble SOAP messages, it ensures the construction of
+syntactically correct SOAP messages. SAAJ also makes it possible to
+automate message processing when several applications need to handle
+different parts of a message before forwarding it to the next recipient.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbovv">Figure 6-1</a> shows the layers that can come into play in the
+implementation of SOAP messaging. This chapter focuses on the SOAP and
+language implementation layers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00001"></a><a id="gbovv"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-1 SOAP Messaging Layers</strong></div>
+<p><span class="image"><img src="img/jax_msglayers1.png" alt="Diagram showing the functional layers needed for SOAP messaging. Figure contents are explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>The sections that follow describe each layer shown in the preceding
+figure in greater detail. The rest of this chapter focuses on the SOAP
+and language implementation layers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfa"></a><a id="GMJVG00164"></a><a id="the-transport-layer"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_the_transport_layer">The Transport Layer</h5>
+<div class="paragraph">
+<p>Underlying any messaging system is the transport or wire protocol that
+governs the serialization of the message as it is sent across a wire and
+the interpretation of the message bits when it gets to the other side.
+Although SOAP messages can be sent using any number of protocols, the
+SOAP specification defines only the binding with HTTP. SOAP uses the
+HTTP request/response message model. It provides SOAP request parameters
+in an HTTP request and SOAP response parameters in an HTTP response. The
+HTTP binding has the advantage of allowing SOAP messages to go through
+firewalls.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfb"></a><a id="GMJVG00165"></a><a id="the-soap-layer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_soap_layer">The SOAP Layer</h5>
+<div class="paragraph">
+<p>Above the transport layer is the SOAP layer. This layer, which is
+defined in the SOAP Specification, specifies the XML scheme used to
+identify the message parts: envelope, header, body, and attachments. All
+SOAP message parts and contents, except for the attachments, are written
+in XML. The following sample SOAP message shows how XML tags are used to
+define a SOAP message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;SOAP-ENV:Envelope
+   xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+   SOAP-ENV:encodingStyle=
+           "http://schemas.xmlsoap.org/soap/encoding/"&gt;
+      &lt;SOAP-ENV:Body&gt;
+          &lt;m:GetLastTradePrice xmlns:m="Some-URI"&gt;
+              &lt;symbol&gt;DIS&lt;/symbol&gt;
+          &lt;/m:GetLastTradePrice&gt;
+      &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV:Envelope&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The wire transport and SOAP layers are actually sufficient to do SOAP
+messaging. You could create an XML document that defines the message you
+want to send, and you could write HTTP commands to send the message from
+one side and to receive it on the other. In this case, the client is
+limited to sending synchronous messages to a specified URL.
+Unfortunately, the scope and reliability of this kind of messaging is
+severely restricted. To overcome these limitations, the provider and
+profile layers are added to SOAP messaging.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfc"></a><a id="GMJVG00166"></a><a id="the-language-implementation-layer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_language_implementation_layer">The Language Implementation Layer</h5>
+<div class="paragraph">
+<p>A language implementation allows you to create XML messages that conform
+to SOAP, using API calls. For example, the SAAJ implementation of SOAP,
+allows a Java client to construct a SOAP message and all its parts as
+Java objects. The client would also use SAAJ to create a connection and
+use it to send the message. Likewise, a Web service written in Java
+could use the same implementation (SAAJ), or any other language
+implementation, to receive the message, to disassemble it, and to
+acknowledge its receipt.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfd"></a><a id="GMJVG00167"></a><a id="the-profiles-layer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_the_profiles_layer">The Profiles Layer</h5>
+<div class="paragraph">
+<p>In addition to a language implementation, a SOAP implementation can
+offer services that relate to message delivery. These could include
+reliability, persistence, security, and administrative control, and are
+typically delivered by a SOAP messaging provider. These services will be
+provided for SOAP messaging by Message Queue in future releases.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfe"></a><a id="GMJVG00168"></a><a id="interoperability"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_interoperability">Interoperability</h5>
+<div class="paragraph">
+<p>Because SOAP providers must all construct and deconstruct messages as
+defined by the SOAP specification, clients and services using SOAP are
+interoperable. That is, as shown in <a href="#gbovh">Figure 6-2</a>, the client
+and the service doing SOAP messaging do not need to be written in the
+same language nor do they need to use the same SOAP provider. It is only
+the packaging of the message that must be standard.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00002"></a><a id="gbovh"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-2 SOAP Interoperability</strong></div>
+<p><span class="image"><img src="img/jax_interop1.png" alt="Diagram showing how a client using one SOAP implementation sends a message to a client using another SOAP implementation."></span></p>
+</div>
+<div class="paragraph">
+<p>In order for a SAAJ client or service to interoperate with a service or
+client using a different implementation, the parties must agree on two
+things:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>They must use the same transport bindings&#8212;&#8203;that is, the same wire
+protocol.</p>
+</li>
+<li>
+<p>They must use the same profile in constructing the SOAP message being
+sent.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqff"></a><a id="GMJVG00241"></a><a id="the-soap-message"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_the_soap_message">The SOAP Message</h4>
+<div class="paragraph">
+<p>Having surveyed the SOAP messaging layers, let&#8217;s examine the SOAP
+message itself. Although the work of rendering a SOAP message in XML is
+taken care of by the SAAJ implementation, you must still understand its
+structure in order to make the SAAJ calls in the right order.</p>
+</div>
+<div class="paragraph">
+<p>A SOAP message is an XML document that consists of a SOAP envelope, an
+optional SOAP header, and a SOAP body. The SOAP message header contains
+information that allows the message to be routed through one or more
+intermediate nodes before it reaches its final destination.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The envelope is the root element of the XML document representing the
+message. It defines the framework for how the message should be handled
+and by whom. Once it encounters the Envelope element, the SOAP processor
+knows that the XML is a SOAP message and can then look for the
+individual parts of the message.</p>
+</li>
+<li>
+<p>The header is a generic mechanism for adding features to a SOAP
+message. It can contain any number of child elements that define
+extensions to the base protocol. For example, header child elements
+might define authentication information, transaction information, locale
+information, and so on. The actors, the software that handle the message
+may, without prior agreement, use this mechanism to define who should
+deal with a feature and whether the feature is mandatory or optional.</p>
+</li>
+<li>
+<p>The body is a container for mandatory information intended for the
+ultimate recipient of the message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A SOAP message may also contain an attachment, which does not have to be
+in XML. For more information, see <a href="#aeqfg">SOAP Packaging Models</a>
+next.</p>
+</div>
+<div class="paragraph">
+<p>A SOAP message is constructed like a nested matrioshka doll. When you
+use SAAJ to assemble or disassemble a message, you need to make the API
+calls in the appropriate order to get to the message part that interests
+you. For example, in order to add content to the message, you need to
+get to the body part of the message. To do this you need to work through
+the nested layers: SOAP part, SOAP envelope, SOAP body, until you get to
+the SOAP body element that you will use to specify your data. For more
+information, see <a href="#aeqfi">The SOAP Message Object</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfg"></a><a id="GMJVG00242"></a><a id="soap-packaging-models"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_soap_packaging_models">SOAP Packaging Models</h4>
+<div class="paragraph">
+<p>The SOAP specification describes two models of SOAP messages: one that
+is encoded entirely in XML and one that allows the sender to add an
+attachment containing non-XML data. You should look over the following
+two figures and note the parts of the SOAP message for each model. When
+you use SAAJ to define SOAP messages and their parts, it will be helpful
+for you to be familiar with this information.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbovm">Figure 6-3</a> shows the SOAP model without attachments. This
+package includes a SOAP envelope, a header, and a body. The header is
+optional.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00003"></a><a id="gbovm"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-3 SOAP Message Without Attachments</strong></div>
+<p><span class="image"><img src="img/jax_soapmsg.png" alt="Diagram showing body and header enclosed in an envelope, which is in a SOAP message package, which is in a communication protocol envelope."></span></p>
+</div>
+<div class="paragraph">
+<p>When you construct a SOAP message using SAAJ, you do not have to specify
+which model you&#8217;re following. If you add an attachment, a message like
+that shown in <a href="#gbovi">Figure 6-4</a> is constructed; if you don&#8217;t, a
+message like that shown in <a href="#gbovm">Figure 6-3</a> is constructed.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbovm">Figure 6-3</a> shows a SOAP Message with attachments. The
+attachment part can contain any kind of content: image files, plain
+text, and so on. The sender of a message can choose whether to create a
+SOAP message with attachments. The message receiver can also choose
+whether to consume an attachment.</p>
+</div>
+<div class="paragraph">
+<p>A message that contains one or more attachments is enclosed in a MIME
+envelope that contains all the parts of the message. In SAAJ, the MIME
+envelope is automatically produced whenever the client creates an
+attachment part. If you add an attachment to a message, you are
+responsible for specifying (in the MIME header) the type of data in the
+attachment.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00004"></a><a id="gbovi"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-4 SOAP Message with Attachments</strong></div>
+<p><span class="image"><img src="img/jax_soapwatt.png" alt="Diagram showing SOAP part enclosed in a MIME envelope together with the attachment part, which contains the SOAP attachment."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfh"></a><a id="GMJVG00114"></a><a id="soap-messaging-in-java"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_soap_messaging_in_java">SOAP Messaging in JAVA</h3>
+<div class="paragraph">
+<p>The SOAP specification does not provide a programming model or even an
+API for the construction of SOAP messages; it simply defines the XML
+schema to be used in packaging a SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>SAAJ is an application programming interface that can be implemented to
+support a programming model for SOAP messaging and to furnish Java
+objects that application or tool writers can use to construct, send,
+receive, and examine SOAP messages. SAAJ defines two packages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>javax.xml.soap</code>: you use the objects in this package to define the
+parts of a SOAP message and to assemble and disassemble SOAP messages.
+You can also use this package to send a SOAP message without the support
+of a provider.</p>
+</li>
+<li>
+<p><code>javax.xml.messaging</code>: you use the objects in this package to send a
+SOAP message using a provider and to receive SOAP messages.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Beginning with SAAJ 1.3, you must put the file <code>mail.jar</code> explicitly in
+<code>CLASSPATH.</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>This chapter focuses on the <code>javax.xml.soap</code> package and how you use the
+objects and methods it defines</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>to assemble and disassemble SOAP messages</p>
+</li>
+<li>
+<p>to send and receive these messages</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It also explains how you can use the JMS API and Message Queue to send
+and receive JMS messages that carry SOAP message payloads.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfi"></a><a id="GMJVG00243"></a><a id="the-soap-message-object"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_the_soap_message_object">The SOAP Message Object</h4>
+<div class="paragraph">
+<p>A SOAP Message Object is a tree of objects as shown in
+<a href="#gbowh">Figure 6-5</a>. The classes or interfaces from which these
+objects are derived are all defined in the <code>javax.xml.soap</code> package.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00005"></a><a id="gbowh"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-5 SOAP Message Object</strong></div>
+<p><span class="image"><img src="img/jax_soaporg.png" alt="Diagram showing hierarchy of objects that make up a SOAP message object. Long description follows figure."></span></p>
+</div>
+<div class="paragraph">
+<p>As shown in the figure, the <code>SOAPMessage</code> object is a collection of
+objects divided in two parts: a SOAP part and an attachment part. The
+main thing to remember is that the attachment part can contain non-xml
+data.</p>
+</div>
+<div class="paragraph">
+<p>The SOAP part of the message contains an envelope that contains a body
+(which can contain data or fault information) and an optional header.
+When you use SAAJ to create a SOAP message, the SOAP part, envelope, and
+body are created for you: you need only create the body elements. To do
+that you need to get to the parent of the body element, the SOAP body.</p>
+</div>
+<div class="paragraph">
+<p>In order to reach any object in the SOAPMessage tree, you must traverse
+the tree starting from the root, as shown in the following lines of
+code. For example, assuming the SOAPMessage is <code>MyMsg</code>, here are the
+calls you would have to make in order to get the SOAP body:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPPart MyPart = MyMsg.getSOAPPart();
+SOAPEnvelope MyEnv = MyPart.getEnvelope();
+SOAPBody MyBody = envelope.getBody();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>At this point, you can create a name for a body element (as described in
+<a href="#aeqfk">Namespaces</a>) and add the body element to the SOAPMessage.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following code line creates a name (a representation of
+an XML tag) for a body element:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Name bodyName = envelope.createName("Temperature");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The next code line adds the body element to the body:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPBodyElement myTemp = MyBody.addBodyElement(bodyName);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, this code line defines some data for the body element
+<code>bodyName</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myTemp.addTextNode("98.6");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqfj"></a><a id="GMJVG00169"></a><a id="inherited-methods"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_inherited_methods">Inherited Methods</h5>
+<div class="paragraph">
+<p>The elements of a SOAP message form a tree. Each node in that tree
+implements the <code>Node</code> interface and, starting at the envelope level,
+each node implements the <code>SOAPElement</code> interface as well. The resulting
+shared methods are described in <a href="#gbowj">Table 6-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG339"></a><a id="sthref64"></a><a id="gbowj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 6-1 Inherited Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 15%;">
+<col style="width: 37%;">
+<col style="width: 48%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Inherited From</th>
+<th class="tableblock halign-left valign-top">Method Name</th>
+<th class="tableblock halign-left valign-top">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPElement</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addAttribute(Name, String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add an attribute with the specified <code>Name</code> object and string value</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addChildElement(Name)
+addChildElement(String, String)
+addChildElement
+    (String, String, String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Create a new <code>SOAPElement</code> object, initialized with the given <code>Name</code>
+object, and add the new element</p>
+</div>
+<div class="paragraph">
+<p>(Use the <code>Envelope.createName</code> method to create a <code>Name</code> object)</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addNameSpaceDeclaration
+   (String, String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Add a namespace declaration with the specified prefix and URI</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">addTextnode(String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create a new <code>Text</code> object initialized with the given <code>String</code> and add
+it to this <code>SOAPElement</code> object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getAllAttributes()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator over all the attribute names in this object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getAttributeValue(Name)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the value of the specified attribute</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getChildElements()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator over all the immediate content of this element</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getChildElements(Name)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator over all the child elements with the specified name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getElementName()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the name of this object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getEncodingStyle()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the encoding style for this object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getNameSpacePrefixes()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return an iterator of namespace prefixes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getNamespaceURI(String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the URI of the namespace with the given prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">removeAttribute(Name)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the specified attribute</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">removeNamespaceDeclaration
+(String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove the namespace declaration that corresponds to the specified
+prefix</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">setEncodingStyle(String)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the encoding style for this object to that specified by <code>String</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Node</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">detachNode()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Remove this <code>Node</code> object from the tree</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getParentElement()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the parent element of this <code>Node</code> object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">getValue</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Return the value of the immediate child of this <code>Node</code> object if a
+child exists and its value is <code>text</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">recycleNode()</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Notify the implementation that his <code>Node</code> object is no longer being
+used and is free for reuse</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">setParentElement(SOAPElement)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set the parent of this object to that specified by the <code>SOAPElement</code>
+parameter</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqfk"></a><a id="GMJVG00170"></a><a id="namespaces"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_namespaces">Namespaces</h5>
+<div class="paragraph">
+<p>An XML namespace is a means of qualifying element and attribute names to
+disambiguate them from other names in the same document. This section
+provides a brief description of XML namespaces and how they are used in
+SOAP. For complete information, see
+<code>http://www.w3.org/TR/REC-xml-names/</code></p>
+</div>
+<div class="paragraph">
+<p>An explicit XML namespace declaration takes the following form:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;prefix:myElement
+xmlns:prefix ="URI"&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The declaration defines prefix as an alias for the specified URI. In the
+element <code>myElement</code>, you can use prefix with any element or attribute to
+specify that the element or attribute name belongs to the namespace
+specified by the URI.</p>
+</div>
+<div class="paragraph">
+<p>The following is an example of a namespace declaration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This declaration defines <code>SOAP_ENV</code> as an alias for the namespace:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://schemas.xmlsoap.org/soap/envelope/</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After defining the alias, you can use it as a prefix to any attribute or
+element in the <code>Envelope</code> element. In <a href="#gbowf">Example 6-1</a>, the
+elements <code>&lt;Envelope&gt;</code> and <code>&lt;Body&gt;</code> and the attribute <code>encodingStyle</code> all
+belong to the SOAP namespace specified by the
+`http://schemas.sxmlsoap.org/soap/envelope/`URI .</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00058"></a><a id="gbowf"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-1 Explicit Namespace Declarations</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;SOAP-ENV:Envelope
+   xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/"
+   SOAP-ENV:encodingStyle=
+                     "http://schemas.xmlsoap.org/soap/encoding/"&gt;
+   &lt;SOAP-ENV:Header&gt;
+        &lt;HeaderA
+ xmlns="HeaderURI"
+ SOAP-ENV:mustUnderstand="0"&gt;
+
+      The text of the header
+     &lt;/HeaderA&gt;
+ &lt;/SOAP-ENV:Header&gt;
+   &lt;SOAP-ENV:Body&gt;
+.
+.
+.
+   &lt;/SOAP-ENV:Body&gt;
+ &lt;/SOAP-ENV:Envelope&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note that the URI that defines the namespace does not have to point to
+an actual location; its purpose is to disambiguate attribute and element
+names.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfl"></a><a id="GMJVG00030"></a><a id="pre-defined-soap-namespaces"></a></p>
+</div>
+<div class="paragraph">
+<p>Pre-defined SOAP Namespaces</p>
+</div>
+<div class="paragraph">
+<p>SOAP defines two namespaces:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The SOAP envelope, the root element of a SOAP message, has the
+following namespace identifier:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>"http://schemas.xmlsoap.org/soap/envelope"</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The SOAP serialization, the URI defining SOAP&#8217;s serialization rules,
+has the following namespace identifier:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>"http://schemas.xmlsoap.org/soap/encoding"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When you use SAAJ to construct or consume messages, you are responsible
+for setting or processing namespaces correctly and for discarding
+messages that have incorrect namespaces.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfm"></a><a id="GMJVG00031"></a><a id="using-namespaces-when-creating-a-soap-name"></a></p>
+</div>
+<div class="paragraph">
+<p>Using Namespaces when Creating a SOAP Name</p>
+</div>
+<div class="paragraph">
+<p>When you create the body elements or header elements of a SOAP message,
+you must use the <code>Name</code> object to specify a well-formed name for the
+element. You obtain a <code>Name</code> object by calling the method
+<code>SOAPEnvelope.createName</code>.</p>
+</div>
+<div class="paragraph">
+<p>When you call this method, you can pass a local name as a parameter or
+you can specify a local name, prefix, and URI. For example, the
+following line of code defines a name object <code>bodyName</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Name bodyName = MyEnvelope.createName("TradePrice",
+                                 "GetLTP","http://foo.eztrade.com");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This would be equivalent to the namespace declaration:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;GetLTP:TradePrice xmlns:GetLTP= "http://foo.eztrade.com"&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following code shows how you create a name and associate it with a
+<code>SOAPBody</code> element. Note the use and placement of the <code>createName</code>
+method.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SoapBody body = envelope.getBody();//get body from envelope
+Name bodyName = envelope.createName("TradePrice", "GetLTP",
+                                        "http://foo.eztrade.com");
+SOAPBodyElement gltp = body.addBodyElement(bodyName);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqfn"></a><a id="GMJVG00032"></a><a id="parsing-name-objects"></a></p>
+</div>
+<div class="paragraph">
+<p>Parsing Name Objects</p>
+</div>
+<div class="paragraph">
+<p>For any given <code>Name</code> object, you can use the following <code>Name</code> methods to
+parse the name:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>getQualifiedName</code> returns "prefix:LocalName ", for the given name,
+this would be <code>GetLTP:TradePrice</code>.</p>
+</li>
+<li>
+<p><code>getURI</code> would return <code>"http://foo.eztrade.com"</code> .</p>
+</li>
+<li>
+<p><code>getLocalName</code> would return "<code>TradePrice</code> ".</p>
+</li>
+<li>
+<p><code>getPrefix</code> would return "<code>GetLTP</code>".</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqfo"></a><a id="GMJVG00244"></a><a id="destination-message-factory-and-connection-objects"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_destination_message_factory_and_connection_objects">Destination, Message Factory, and Connection Objects</h4>
+<div class="paragraph">
+<p>SOAP messaging occurs when a SOAP message, produced by a message factory
+, is sent to an endpoint by way of a connection .</p>
+</div>
+<div class="paragraph">
+<p>If you are working without a provider, you must do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a <code>SOAPConnectionFactory</code> object.</p>
+</li>
+<li>
+<p>Create a <code>SOAPConnection object</code>.</p>
+</li>
+<li>
+<p>Create an <code>Endpoint</code> object that represents the message&#8217;s destination.</p>
+</li>
+<li>
+<p>Create a <code>MessageFactory</code> object and use it to create a message.</p>
+</li>
+<li>
+<p>Populate the message.</p>
+</li>
+<li>
+<p>Send the message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If you are working with a provider, you must do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a <code>ProviderConnectionFactory</code> object.</p>
+</li>
+<li>
+<p>Get a <code>ProviderConnection</code> object from the provider connection
+factory.</p>
+</li>
+<li>
+<p>Get a <code>MessageFactory</code> object from the provider connection and use it
+to create a message.</p>
+</li>
+<li>
+<p>Populate the message.</p>
+</li>
+<li>
+<p>Send the message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following three sections describe endpoint, message factory, and
+connection objects in greater detail.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfp"></a><a id="GMJVG00171"></a><a id="endpoint"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_endpoint">Endpoint</h5>
+<div class="paragraph">
+<p>An endpoint identifies the final destination of a message. An endpoint
+is defined either by the <code>Endpoint</code> class (if you use a provider) or by
+the <code>URLEndpoint</code> class (if you don&#8217;t use a provider).)</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfq"></a><a id="GMJVG00033"></a><a id="constructing-an-endpoint"></a></p>
+</div>
+<div class="paragraph">
+<p>Constructing an Endpoint</p>
+</div>
+<div class="paragraph">
+<p>You can initialize an endpoint by calling its constructor. The following
+code uses a constructor to create a <code>URLEndpoint</code>.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myEndpoint = new URLEndpoint("http://somehost/myServlet");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqfr"></a><a id="GMJVG00034"></a><a id="using-the-endpoint-to-address-a-message"></a></p>
+</div>
+<div class="paragraph">
+<p>Using the Endpoint to Address a Message</p>
+</div>
+<div class="paragraph">
+<p>To address a message to an endpoint, specify the endpoint as a parameter
+to the <code>SOAPConnection.call</code> method, which you use to send a SOAP
+message.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqft"></a><a id="GMJVG00172"></a><a id="message-factory"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_factory">Message Factory</h5>
+<div class="paragraph">
+<p>You use a Message Factory to create a SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>To instantiate a message factory directly, use a statement like the
+following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageFactory mf = MessageFactory.newInstance();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqfu"></a><a id="GMJVG00173"></a><a id="connection"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connection">Connection</h5>
+<div class="paragraph">
+<p>To send a SOAP message using SAAJ, you must obtain a <code>SOAPConnection</code> .
+You can also transport a SOAP message using Message Queue; for more
+information, see <a href="#aeqgk">Integrating SOAP and Message Queue</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gdysa"></a><a id="GMJVG00174"></a><a id="soap-connection"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_soap_connection">SOAP Connection</h5>
+<div class="paragraph">
+<p>A <code>SOAPConnection</code> allows you to send messages directly to a remote
+party. You can obtain a <code>SOAPConnection</code> object simply by calling the
+static method <code>SOAPConnectionFactory.newInstance()</code>. Neither reliability
+nor security are guaranteed over this type of connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfx"></a><a id="GMJVG00115"></a><a id="soap-messaging-models-and-examples"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_soap_messaging_models_and_examples">SOAP Messaging Models and Examples</h3>
+<div class="paragraph">
+<p>This section explains how you use SAAJ to send and receive a SOAP
+message. It is also possible to construct a SOAP message using SAAJ and
+to send it as the payload of a JMS message. For information, see
+<a href="#aeqgk">Integrating SOAP and Message Queue</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqfy"></a><a id="GMJVG00245"></a><a id="soap-messaging-programming-models"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_soap_messaging_programming_models">SOAP Messaging Programming Models</h4>
+<div class="paragraph">
+<p>This section provides a brief summary of the programming models used in
+SOAP messaging using SAAJ.</p>
+</div>
+<div class="paragraph">
+<p>A SOAP message is sent to an endpoint by way of a point-to-point
+connection (implemented by the <code>SOAPConnection</code> class).</p>
+</div>
+<div class="paragraph">
+<p>You use point-to-point connections to establish a request-reply
+messaging model. The request-reply model is illustrated in
+<a href="#gboxm">Figure 6-6</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00006"></a><a id="gboxm"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-6 Request-Reply Messaging</strong></div>
+<p><span class="image"><img src="img/jax_ppconnection.png" alt="Diagram showing the client sending a message to an endpoint that receives the message, processes it, and then returns to the sender."></span></p>
+</div>
+<div class="paragraph">
+<p>Using this model, the client does the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Creates an endpoint that specifies the URL that will be passed to the
+<code>SOAPConnection.call</code> method that sends the message.<br>
+See <a href="#aeqfp">Endpoint</a> for a discussion of the different ways of
+creating an endpoint.</p>
+</li>
+<li>
+<p>Creates a SOAPConnection factory and obtains a SOAP connection.</p>
+</li>
+<li>
+<p>Creates a message factory and uses it to create a SOAP message.</p>
+</li>
+<li>
+<p>Creates a name for the content of the message and adds the content to
+the message.</p>
+</li>
+<li>
+<p>Uses the <code>SOAPConnection.call</code> method to send the message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is assumed that the client will ignore the <code>SOAPMessage</code> object
+returned by the call method because the only reason this object is
+returned is to unblock the client.</p>
+</div>
+<div class="paragraph">
+<p>The SOAP service listening for a request-reply message uses a
+<code>ReqRespListener</code> object to receive messages.</p>
+</div>
+<div class="paragraph">
+<p>For a detailed example of a client that does point-to-point messaging,
+see <a href="#aeqgc">Writing a SOAP Client</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqga"></a><a id="GMJVG00246"></a><a id="working-with-attachments"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_working_with_attachments">Working with Attachments</h4>
+<div class="paragraph">
+<p>If a message contains any data that is not XML, you must add it to the
+message as an attachment. A message can have any number of attachment
+parts. Each attachment part can contain anything from plain text to
+image files.</p>
+</div>
+<div class="paragraph">
+<p>To create an attachment, you must create a URL object that specifies the
+location of the file that you want to attach to the SOAP message. You
+must also create a data handler that will be used to interpret the data
+in the attachment. Finally, you need to add the attachment to the SOAP
+message.</p>
+</div>
+<div class="paragraph">
+<p>To create and add an attachment part to the message, you need to use the
+JavaBeans Activation Framework (JAF) API. This API allows you to
+determine the type of an arbitrary piece of data, encapsulate access to
+it, discover the operations available on it, and activate a bean that
+can perform these operations. You must include the <code>activation.jar</code>
+library in your application code in order to work with the JavaBeans
+Activation Framework.</p>
+</div>
+<div class="paragraph">
+<p><a id="gboxw"></a><a id="GMJVG00075"></a><a id="to-create-and-add-an-attachment"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_create_and_add_an_attachment">To Create and Add an Attachment</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a URL object and initialize it to contain the location of the
+file that you want to attach to the SOAP message.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>URL url = new URL("http://wombats.com/img.jpg");</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a data handler and initialize it with a default handler,
+passing the URL as the location of the data source for the handler.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>DataHandler dh = new DataHandler(url);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an attachment part that is initialized with the data handler
+containing the URL for the image.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>AttachmentPart ap1 = message.createAttachmentPart(dh);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add the attachment part to the SOAP message.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>myMessage.addAttachmentPart(ap1);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After creating the attachment and adding it to the message, you can send
+the message in the usual way.<br>
+If you are using JMS to send the message, you can use the
+<code>SOAPMessageIntoJMSMessage</code> conversion utility to convert a SOAP message
+that has an attachment into a JMS message that you can send to a JMS
+queue or topic using Message Queue.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgb"></a><a id="GMJVG00247"></a><a id="exception-and-fault-handling"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_exception_and_fault_handling">Exception and Fault Handling</h4>
+<div class="paragraph">
+<p>A SOAP application can use two error reporting mechanisms: SOAP
+exceptions and SOAP faults:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use a SOAP exception to handle errors that occur on the client side
+during the generation of the SOAP request or the unmarshalling of the
+response.</p>
+</li>
+<li>
+<p>Use a SOAP fault to handle errors that occur on the server side when
+unmarshalling the request, processing the message, or marshalling the
+response. In response to such an error, server-side code should create a
+SOAP message that contains a fault element, rather than a body element,
+and then it should send that SOAP message back to the originator of the
+message. If the message receiver is not the ultimate destination for the
+message, it should identify itself as the <code>soapactor</code> so that the
+message sender knows where the error occurred. For additional
+information, see <a href="#aeqgh">Handling SOAP Faults</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqgc"></a><a id="GMJVG00248"></a><a id="writing-a-soap-client"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_writing_a_soap_client">Writing a SOAP Client</h4>
+<div class="paragraph">
+<p>The following steps show the calls you have to make to write a SOAP
+client for point-to-point messaging.</p>
+</div>
+<div class="paragraph">
+<p><a id="gboxv"></a><a id="GMJVG00076"></a><a id="to-write-a-soap-client-for-point-to-point-messaging"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_write_a_soap_client_for_point_to_point_messaging">To Write a SOAP Client for Point-to-Point Messaging</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Get an instance of a <code>SOAPConnectionFactory</code>:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPConnectionFactory myFct = SOAPConnectionFactory.newInstance();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Get a SOAP connection from the <code>SOAPConnectionFactory</code> object:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPConnection myCon = myFct.createConnection();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>myCon</code> object that is returned will be used to send the message.
+3.  Get a <code>MessageFactory</code> object to create a message:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageFactory myMsgFct = MessageFactory.newInstance();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the message factory to create a message:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPMessage message = myMsgFct.createMessage();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The message that is created has all the parts that are shown in
+<a href="#gboxy">Figure 6-7</a>.<br>
+<a id="GMJVG00007"></a><a id="gboxy"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-7 SOAP Message Parts</strong></div>
+<p><span class="image"><img src="img/jax_soapobj.png" alt="Diagram showing SOAP message with pre-initialized objects: part, envelope, header, and body."></span></p>
+</div>
+<div class="paragraph">
+<p>At this point, the message has no content. To add content to the
+message, you need to create a SOAP body element, define a name and
+content for it, and then add it to the SOAP body.<br>
+Remember that to access any part of the message, you need to traverse
+the tree, calling a <code>get</code> method on the parent element to obtain the
+child. For example, to reach the SOAP body, you start by getting the
+SOAP part and SOAP envelope:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPPart mySPart = message.getSOAPPart();
+SOAPEnvelope myEnvp = mySPart.getEnvelope();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now, you can get the body element from the <code>myEnvp</code> object:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPBody body = myEnvp.getBody();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The children that you will add to the body element define the content of
+the message. (You can add content to the SOAP header in the same way.)
+6.  When you add an element to a SOAP body (or header), you must first
+create a name for it by calling the <code>envelope.createName</code> method. This
+method returns a <code>Name</code> object, which you must then pass as a parameter
+to the method that creates the body element (or the header element).<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Name bodyName = envelope.createName("GetLastTradePrice", "m",
+                                       "http://eztrade.com")
+SOAPBodyElement gltp = body.addBodyElement(bodyName);</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now create another body element to add to the <code>gltp</code> element:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Name myContent = envelope.createName("symbol");
+SOAPElement mySymbol = gltp.addChildElement(myContent);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>And now you can define data for the body element <code>mySymbol</code>:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>mySymbol.addTextNode("SUNW");</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting SOAP message object is equivalent to this XML scheme:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;SOAP-ENV: Envelope
+    xmlns:SOAPENV="http://schemas.xmlsoap.org/soap/envelope/"&gt;
+        &lt;SOAP-ENV:Body&gt;
+            &lt;m:GetLastTradePrice xmlns:m="http://eztrade.com"&gt;
+                &lt;symbol&gt;SUNW&lt;/symbol&gt;
+            &lt;/m:GetLastTradePrice&gt;
+    &lt;/SOAP-ENV:Body&gt;
+&lt;/SOAP-ENV: Envelope&gt;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Every time you send a message or write to it, the message is
+automatically saved. However if you change a message you have received
+or one that you have already sent, this would be the point when you
+would need to update the message by saving all your changes. For
+example:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>message.saveChanges();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Before you send the message, you must create a <code>URLEndpoint</code> object
+with the URL of the endpoint to which the message is to be sent. (If you
+use a profile that adds addressing information to the message header,
+you do not need to do this.)<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>URLEndpoint endPt = new URLEndpoint("http://eztrade.com//quotes");</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Now, you can send the message:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPMessage reply = myCon.call(message, endPt);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The reply message (<code>reply</code>) is received on the same connection.
+12. Finally, you need to close the <code>SOAPConnection</code> object when it is no
+longer needed:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myCon.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqgd"></a><a id="GMJVG00249"></a><a id="writing-a-soap-service"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_writing_a_soap_service">Writing a SOAP Service</h4>
+<div class="paragraph">
+<p>A SOAP service represents the final recipient of a SOAP message and
+should currently be implemented as a servlet. You can write your own
+servlet or you can extend the <code>JAXMServlet</code> class, which is furnished in
+the <code>soap.messaging</code> package for your convenience. This section
+describes the task of writing a SOAP service based on the <code>JAXMServlet</code>
+class.</p>
+</div>
+<div class="paragraph">
+<p>Your servlet must implement either the <code>ReqRespListener</code> or
+<code>OneWayListener</code> interfaces. The difference between these two is that
+<code>ReqRespListener</code> requires that you return a reply.</p>
+</div>
+<div class="paragraph">
+<p>Using either of these interfaces, you must implement a method called
+<code>onMessage(SOAPMsg)</code>. <code>JAXMServlet</code> will call <code>onMessage</code> after
+receiving a message using the <code>HTTP POST</code> method, which saves you the
+work of implementing your own <code>doPost()</code> method to convert the incoming
+message into a SOAP message.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gboxu">Example 6-2</a> shows the basic structure of a SOAP service
+that uses the <code>JAXMServlet</code> utility class.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00059"></a><a id="gboxu"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-2 Skeleton Message Consumer</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public class MyServlet extends JAXMServlet implements
+                                 ReqRespListener
+{
+    public SOAPMessage onMessage(SOAP Message msg)
+    { //Process message here
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gboxn">Example 6-3</a> shows a simple ping message service:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00060"></a><a id="gboxn"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-3 A Simple Ping Message Service</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public class SOAPEchoServlet extends JAXMServlet
+                                         implements ReqRespListener{
+
+    public SOAPMessage onMessage(SOAPMessage mySoapMessage) {
+        return mySoapMessage
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gboxs">Table 6-2</a> describes the methods that the JAXM servlet uses.
+If you were to write your own servlet, you would need to provide methods
+that performed similar work. In extending <code>JAXMServlet</code> , you may need
+to override the <code>Init</code> method and the <code>SetMessageFactory</code> method; you
+must implement the <code>onMessage</code> method.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG340"></a><a id="sthref67"></a><a id="gboxs"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 6-2 <code>JAXMServlet</code> Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 34%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Method</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>void init (ServletConfig)</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Passes the <code>ServletConfig</code> object to its parent&#8217;s constructor and
+creates a default <code>messageFactory</code> object.</p>
+</div>
+<div class="paragraph">
+<p>If you want incoming messages to be constructed according to a certain
+profile, you must call the <code>SetMessageFactory</code> method and specify the
+profile it should use in constructing SOAP messages.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void doPost (HTTPRequest,
+HTTPResponse</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Gets the body of the HTTP request and creates a SOAP message according
+to the default or specified MessageFactory profile.</p>
+</div>
+<div class="paragraph">
+<p>Calls the <code>onMessage</code>() method of an appropriate listener, passing the
+SOAP message as a parameter.</p>
+</div>
+<div class="paragraph">
+<p>It is recommended that you do not override this method.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void setMessageFactory
+  (MessageFactory)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the <code>MessageFactory</code> object. This is the object used to create
+the SOAP message that is passed to the <code>onMessage</code> method.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MimeHeaders getHeaders
+ (HTTPRequest)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a <code>MimeHeaders</code> object that contains the headers in the given
+HTTPRequest object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void putHeaders (mimeHeaders,
+ HTTPresponse)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the given <code>HTTPResponse</code> object with the headers in the given
+<code>MimeHeaders</code> object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">onMessage
+(SOAPMesssage)</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User-defined method that is called by the servlet when the SOAP
+message is received. Normally this method needs to disassemble the SOAP
+message passed to it and to send a reply back to the client (if the
+servlet implements the <code>ReqRespListener</code> interface.)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqge"></a><a id="GMJVG00175"></a><a id="disassembling-messages"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_disassembling_messages">Disassembling Messages</h5>
+<div class="paragraph">
+<p>The <code>onMessage</code> method needs to disassemble the SOAP message that is
+passed to it by the servlet and process its contents in an appropriate
+manner. If there are problems in the processing of the message, the
+service needs to create a SOAP fault object and send it back to the
+client as described in <a href="#aeqgh">Handling SOAP Faults</a>.</p>
+</div>
+<div class="paragraph">
+<p>Processing the SOAP message may involve working with the headers as well
+as locating the body elements and dealing with their contents. The
+following code sample shows how you might disassemble a SOAP message in
+the body of your <code>onMessage</code> method. Basically, you need to use a
+Document Object Model (DOM) API to parse through the SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>See <code>http://xml.coverpages.org/dom.html</code> for more information about the
+DOM API.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00061"></a><a id="gbowz"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-4 Processing a SOAP Message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">{http://xml.coverpages.org/dom.html
+    SOAPEnvelope env = reply.getSOAPPart().getEnvelope();
+    SOAPBody sb = env.getBody();
+    // create Name object for XElement that we are searching for
+    Name ElName = env.createName("XElement");
+
+    //Get child elements with the name XElement
+    Iterator it = sb.getChildElements(ElName);
+
+    //Get the first matched child element.
+    //We know there is only one.
+    SOAPBodyElement sbe = (SOAPBodyElement) it.next();
+
+    //Get the value for XElement
+    MyValue =   sbe.getValue();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqgf"></a><a id="GMJVG00176"></a><a id="handling-attachments"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_handling_attachments">Handling Attachments</h5>
+<div class="paragraph">
+<p>A SOAP message may have attachments. For sample code that shows you how
+to create and add an attachment, see <a href="#aeqgn">Code Samples</a>. For
+sample code that shows you how to receive and process an attachment, see
+<a href="#aeqgn">Code Samples</a>.</p>
+</div>
+<div class="paragraph">
+<p>In handling attachments, you will need to use the Java Activation
+Framework API. See
+<a href="http://java.sun.com/products/javabeans/glasgow/jaf.html" class="bare">http://java.sun.com/products/javabeans/glasgow/jaf.html</a> for more
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgg"></a><a id="GMJVG00177"></a><a id="replying-to-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_replying_to_messages">Replying to Messages</h5>
+<div class="paragraph">
+<p>In replying to messages, you are simply taking on the client role, now
+from the server side.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgh"></a><a id="GMJVG00178"></a><a id="handling-soap-faults"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_handling_soap_faults">Handling SOAP Faults</h5>
+<div class="paragraph">
+<p>Server-side code must use a SOAP fault object to handle errors that
+occur on the server side when unmarshalling the request, processing the
+message, or marshalling the response. The <code>SOAPFault</code> interface extends
+the <code>SOAPBodyElement</code> interface.</p>
+</div>
+<div class="paragraph">
+<p>SOAP messages have a specific element and format for error reporting on
+the server side: a SOAP message body can include a SOAP fault element to
+report errors that happen during the processing of a request. Created on
+the server side and sent from the server back to the client, the SOAP
+message containing the <code>SOAPFault</code> object reports any unexpected
+behavior to the originator of the message.</p>
+</div>
+<div class="paragraph">
+<p>Within a SOAP message object, the SOAP fault object is a child of the
+SOAP body, as shown in the figure below. Detail and detail entry objects
+are only needed if one needs to report that the body of the received
+message was malformed or contained inappropriate data. In such a case,
+the detail entry object is used to describe the malformed data.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00008"></a><a id="gboxc"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-8 SOAP Fault Element</strong></div>
+<p><span class="image"><img src="img/jax_faultorg.png" alt="Diagram showing hierarchy from top to bottom for a message containing fault information: SOAP part, envelope, body, fault, detail, and detail entry."></span></p>
+</div>
+<div class="paragraph">
+<p>The SOAP Fault element defines the following four sub-elements:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>faultcode</code><br>
+A code (qualified name) that identifies the error. The code is intended
+for use by software to provide an algorithmic mechanism for identifying
+the fault. Predefined fault codes are listed in <a href="#gboxd">Table 6-3</a>.
+This element is required.</p>
+</li>
+<li>
+<p><code>faultstring</code><br>
+A string that describes the fault identified by the fault code. This
+element is intended to provide an explanation of the error that is
+understandable to a human. This element is required.</p>
+</li>
+<li>
+<p><code>faultactor</code><br>
+A URI specifying the source of the fault: the actor that caused the
+fault along the message path. This element is not required if the
+message is sent to its final destination without going through any
+intermediaries. If a fault occurs at an intermediary, then that fault
+must include a <code>faultactor</code> element.</p>
+</li>
+<li>
+<p><code>detail</code><br>
+This element carries specific information related to the Body element.
+It must be present if the contents of the Body element could not be
+successfully processed. Thus, if this element is missing, the client
+should infer that the body element was processed. While this element is
+not required for any error except a malformed payload, you can use it in
+other cases to supply additional information to the client.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqgi"></a><a id="GMJVG00035"></a><a id="predefined-fault-codes"></a></p>
+</div>
+<div class="paragraph">
+<p>Predefined Fault Codes</p>
+</div>
+<div class="paragraph">
+<p>The SOAP specification lists four predefined <code>faultcode</code> values. The
+namespace identifier for these is
+<code>http://schemas.xmlsoap.org/soap/envelope/</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG341"></a><a id="sthref69"></a><a id="gboxd"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 6-3 SOAP Faultcode Values</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 21%;">
+<col style="width: 79%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Faultcode Name</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">VersionMismatch</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The processing party found an invalid namespace for the SOAP envelope
+element; that is, the namespace of the SOAP envelope element was not
+<code>http://schemas.xmlsoap.org/soap/envelope/</code> .</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MustUnderstand</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An immediate child element of the SOAP Header element was either not
+understood or not appropriately processed by the recipient. This
+element&#8217;s <code>mustUnderstand</code> attribute was set to 1 (true).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Client</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The message was incorrectly formed or did not contain the appropriate
+information. For example, the message did not have the proper
+authentication or payment information. The client should interpret this
+code to mean that the message must be changed before it is sent again.</p>
+</div>
+<div class="paragraph">
+<p>If this is the code returned, the <code>SOAPFault</code> object should probably
+include a <code>detailEntry</code> object that provides additional information
+about the malformed message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Server</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The message could not be processed for reasons that are not connected
+with its content. For example, one of the message handlers could not
+communicate with another message handler that was upstream and did not
+respond. Or, the database that the server needed to access is down. The
+client should interpret this error to mean that the transmission could
+succeed at a later point in time.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These standard fault codes represent classes of faults. You can extend
+these by appending a period to the code and adding an additional name.
+For example, you could define a <code>Server.OutOfMemory</code> code, a
+<code>Server.Down</code> code, and so forth.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgj"></a><a id="GMJVG00036"></a><a id="defining-a-soap-fault"></a></p>
+</div>
+<div class="paragraph">
+<p>Defining a SOAP Fault</p>
+</div>
+<div class="paragraph">
+<p>Using SAAJ you can specify the value for <code>faultcode</code>, <code>faultstring</code>, and
+<code>faultactor</code> using methods of the <code>SOAPFault</code> object. The following code
+creates a SOAP fault object and sets the <code>faultcode,</code> <code>faultstring,</code> and
+<code>faultactor</code> attributes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPFault fault;
+reply = factory.createMessage();
+envp = reply.getSOAPPart().getEnvelope(true);
+someBody = envp.getBody();
+fault = someBody.addFault():
+fault.setFaultCode("Server");
+fault.setFaultString("Some Server Error");
+fault.setFaultActor(http://xxx.me.com/list/endpoint.esp/)
+reply.saveChanges();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The server can return this object in its reply to an incoming SOAP
+message in case of a server error.</p>
+</div>
+<div class="paragraph">
+<p>The next code sample shows how to define a detail and detail entry
+object. Note that you must create a name for the detail entry object.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPFault fault = someBody.addFault();
+fault.setFaultCode("Server");
+fault.setFaultActor("http://foo.com/uri");
+fault.setFaultString ("Unkown error");
+Detail myDetail = fault.addDetail();
+detail.addDetailEntry(envelope.createName("125detail", "m",
+        "Someuri")).addTextNode("the message cannot contain
+         the string //");
+reply.saveChanges();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqgk"></a><a id="GMJVG00116"></a><a id="integrating-soap-and-message-queue"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_integrating_soap_and_message_queue">Integrating SOAP and Message Queue</h3>
+<div class="paragraph">
+<p>This section explains how you can send, receive, and process a JMS
+message that contains a SOAP payload.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue provides a utility to help you send and receive SOAP
+messages using the JMS API. With the support it provides, you can
+convert a SOAP message into a JMS message and take advantage of the
+reliable messaging service offered by Message Queue. You can then
+convert the message back into a SOAP message on the receiving side and
+use SAAJ to process it.</p>
+</div>
+<div class="paragraph">
+<p>To send, receive, and process a JMS message that contains a SOAP
+payload, you must do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Import the library <code>com.sun.messaging.xml.MessageTransformer</code> . This
+is the utility whose methods you will use to convert SOAP messages to
+JMS messages and vice versa.</p>
+</li>
+<li>
+<p>Before you transport a SOAP message, you must call the
+<code>MessageTransformer.SOAPMessageIntoJMSMessage</code> method. This method
+transforms the SOAP message into a JMS message. You then send the
+resulting JMS message as you would a normal JMS message. For programming
+simplicity, it would be best to select a destination that is dedicated
+to receiving SOAP messages. That is, you should create a particular
+queue or topic as a destination for your SOAP message and then send only
+SOAP messages to this destination.<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Message myMsg= MessageTransformer.SOAPMessageIntoJMSMessage
+                             (SOAPMessage, Session);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>Session</code> argument specifies the session to be used in producing the
+<code>Message</code>.
+* On the receiving side, you get the JMS message containing the SOAP
+payload as you would a normal JMS message. You then call the
+<code>MessageTransformer.SOAPMessageFromJMSMessage</code> utility to extract the
+SOAP message, and then use SAAJ to disassemble the SOAP message and do
+any further processing. For example, to obtain the SOAPMessage make a
+call like the following:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">SOAPMessage myMsg= MessageTransformer.SOAPMessageFromJMSMessage
+                             (Message, MessageFactory);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>MessageFactory</code> argument specifies a message factory that the
+utility should use to construct the <code>SOAPMessage</code> from the given JMS
+<code>Message</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following sections offer several use cases and code examples to
+illustrate this process.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgl"></a><a id="GMJVG00250"></a><a id="example-1-deferring-soap-processing"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_example_1_deferring_soap_processing">Example 1: Deferring SOAP Processing</h4>
+<div class="paragraph">
+<p>In the first example, illustrated in <a href="#gboyc">Figure 6-9</a>, an
+incoming SOAP message is received by a servlet. After receiving the SOAP
+message, the servlet <code>MyServlet</code> uses the <code>MessageTransformer</code> utility
+to transform the message into a JMS message, and (reliably) forwards it
+to an application that receives it, turns it back into a SOAP message,
+and processes the contents of the SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>For information on how the servlet receives the SOAP message, see
+<a href="#aeqgd">Writing a SOAP Service</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00009"></a><a id="gboyc"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-9 Deferring SOAP Processing</strong></div>
+<p><span class="image"><img src="img/dev-defer.png" alt="Diagram showing deferred SOAP processing. Figure content is described in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="gboxx"></a><a id="GMJVG00077"></a><a id="to-transform-the-soap-message-into-a-jms-message-and-send-the-jms-message"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_transform_the_soap_message_into_a_jms_message_and_send_the_jms_message">To Transform the SOAP Message into a JMS Message and Send the JMS Message</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instantiate a <code>ConnectionFactory</code> object and set its attribute
+values, for example:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueConnectionFactory myQConnFact =
+        new com.sun.messaging.QueueConnectionFactory();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>ConnectionFactory</code> object to create a <code>Connection</code> object.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueConnection myQConn =
+         myQConnFact.createQueueConnection();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>Connection</code> object to create a <code>Session</code> object.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueSession myQSess = myQConn.createQueueSession(false,
+         Session.AUTO_ACKNOWLEDGE);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instantiate a Message Queue Destination administered object
+corresponding to a physical destination in the Message Queue message
+service. In this example, the administered object is <code>mySOAPQueue</code> and
+the physical destination to which it refers is <code>myPSOAPQ</code>.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Queue mySOAPQueue = new com.sun.messaging.Queue("myPSOAPQ");</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>MessageTransformer</code> utility, as shown, to transform the
+SOAP message into a JMS message. For example, given a SOAP message named
+<code>MySOAPMsg</code>,<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Message MyJMS = MessageTransformer.SOAPMessageIntoJMSMessage
+                                     (MySOAPMsg, MyQSess);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <code>QueueSender</code> message producer.<br>
+This message producer, associated with <code>mySOAPQueue</code>, is used to send
+messages to the queue destination named <code>myPSOAPQ</code>.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueSender myQueueSender = myQSess.createSender(mySOAPQueue);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Send a message to the queue.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>myQueueSender.send(myJMS);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gboxh"></a><a id="GMJVG00078"></a><a id="to-receive-the-jms-message-transform-it-into-a-soap-message-and-process-it"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_receive_the_jms_message_transform_it_into_a_soap_message_and_process_it">To Receive the JMS Message, Transform it into a SOAP Message, and Process It</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instantiate a <code>ConnectionFactory</code> object and set its attribute
+values.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueConnectioFactory myQConnFact = new
+         com.sun.messaging.QueueConnectionFactory();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>ConnectionFactory</code> object to create a <code>Connection</code> object.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueConnection myQConn = myQConnFact.createQueueConnection();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the <code>Connection</code> object to create one or more <code>Session</code> objects.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueSession myRQSess = myQConn.createQueueSession(false,
+         session.AUTO_ACKNOWLEDGE);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instantiate a <code>Destination</code> object and set its name attribute.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Queue myRQueue = new com.sun.messaging.Queue("mySOAPQ");</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use a <code>Session</code> object and a <code>Destination</code> object to create any
+needed <code>MessageConsumer</code> objects.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>QueueReceiver myQueueReceiver =
+     myRQSess.createReceiver(myRQueue);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If needed, instantiate a <code>MessageListener</code> object and register it
+with a <code>MessageConsumer</code> object.</p>
+</li>
+<li>
+<p>Start the <code>QueueConnection</code> you created in <a href="#aeqgl">Example 1:
+Deferring SOAP Processing</a>. Messages for consumption by a client can
+only be delivered over a connection that has been started.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>myQConn.start();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Receive a message from the queue.<br>
+The code below is an example of a synchronous consumption of messages:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Message myJMS = myQueueReceiver.receive();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the Message Transformer to convert the JMS message back to a
+SOAP message.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>SOAPMessage MySoap =
+         MessageTransformer.SOAPMessageFromJMSMessage
+             (myJMS, MyMsgFactory);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you specify null for the <code>MessageFactory</code> argument, the default
+Message Factory is used to construct the SOAP Message.
+10. Disassemble the SOAP message in preparation for further processing.
+See <a href="#aeqfi">The SOAP Message Object</a> for information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgm"></a><a id="GMJVG00251"></a><a id="example-2-publishing-soap-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_example_2_publishing_soap_messages">Example 2: Publishing SOAP Messages</h4>
+<div class="paragraph">
+<p>In the next example, illustrated in <a href="#gboya">Figure 6-10</a>, an
+incoming SOAP message is received by a servlet. The servlet packages the
+SOAP message as a JMS message and (reliably) forwards it to a topic.
+Each application that subscribes to this topic, receives the JMS
+message, turns it back into a SOAP message, and processes its contents.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00010"></a><a id="gboya"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-10 Publishing a SOAP Message</strong></div>
+<p><span class="image"><img src="img/dev-publish.png" alt="Diagram showing how a SOAP message is transformed into a JMS message, published to listeners, and reconverted into SOAP."></span></p>
+</div>
+<div class="paragraph">
+<p>The code that accomplishes this is exactly the same as in the previous
+example, except that instead of sending the JMS message to a queue, you
+send it to a topic. For an example of publishing a SOAP message using
+Message Queue, see <a href="#gboxe">Example 6-5</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqgn"></a><a id="GMJVG00252"></a><a id="code-samples"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_code_samples">Code Samples</h4>
+<div class="paragraph">
+<p>This section includes and describes two code samples: one that sends a
+JMS message with a SOAP payload, and another that receives the JMS/SOAP
+message and processes the SOAP message.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gboxe">Example 6-5</a> illustrates the use of the JMS API, the SAAJ
+API, and the JAF API to send a SOAP message with attachments as the
+payload to a JMS message. The code shown for the
+<code>SendSOAPMessageWithJMS</code> includes the following methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A constructor that calls the <code>init</code> method to initialize all the JMS
+objects required to publish a message</p>
+</li>
+<li>
+<p>A <code>send</code> method that creates the SOAP message and an attachment,
+converts the SOAP message into a JMS message, and publishes the JMS
+message</p>
+</li>
+<li>
+<p>A <code>close</code> method that closes the connection</p>
+</li>
+<li>
+<p>A <code>main</code> method that calls the send and close methods</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00062"></a><a id="gboxe"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-5 Sending a JMS Message with a SOAP Payload</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//Libraries needed to build SOAP message
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.SOAPPart;
+import javax.xml.soap.SOAPEnvelope;
+import javax.xml.soap.SOAPBody;
+import javax.xml.soap.SOAPElement;
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.AttachmentPart;
+import javax.xml.soap.Name
+
+//Libraries needed to work with attachments (Java Activation Framework API)
+import java.net.URL;
+import javax.activation.DataHandler;
+
+//Libraries needed to convert the SOAP message to a JMS message and to send it
+import com.sun.messaging.xml.MessageTransformer;
+import com.sun.messaging.BasicConnectionFactory;
+
+//Libraries needed to set up a JMS connection and to send a message
+import javax.jms.TopicConnectionFactory;
+import javax.jms.TopicConnection;
+import javax.jms.JMSException;
+import javax.jms.Session;
+import javax.jms.Message;
+import javax.jms.TopicSession;
+import javax.jms.Topic;
+import javax.jms.TopicPublisher;
+
+//Define class that sends JMS message with SOAP payload
+public class SendSOAPMessageWithJMS{
+
+    TopicConnectionFactory tcf = null;
+    TopicConnection tc = null;
+    TopicSession session = null;
+    Topic topic = null;
+    TopicPublisher publisher = null;
+
+//default constructor method
+public SendSOAPMessageWithJMS(String topicName){
+    init(topicName);
+    }
+
+//Method to nitialize JMS Connection, Session, Topic, and Publisher
+public void init(String topicName) {
+    try {
+        tcf = new com.sun.messaging.TopicConnectionFactory();
+        tc = tcf.createTopicConnection();
+        session = tc.createTopicSession(false, Session.AUTO_ACKNOWLEDGE);
+        topic = session.createTopic(topicName);
+        publisher = session.createPublisher(topic);
+        }
+
+//Method to create and send the SOAP/JMS message
+public void send() throws Exception{
+    MessageFactory mf = MessageFactory.newInstance(); //create default factory
+    SOAPMessage soapMessage=mfcreateMessage(); //create SOAP message object
+    SOAPPart soapPart = soapMessage.getSOAPPart();//start to drill down to body
+    SOAPEnvelope soapEnvelope = soapPart.getEnvelope(); //first the envelope
+    SOAPBody soapBody = soapEnvelope.getBody();
+    Name myName = soapEnvelope.createName("HelloWorld", "hw",
+                                     http://www.sun.com/imq');
+                                                     //name for body element
+    SOAPElement element = soapBody.addChildElement(myName); //add body element
+    element.addTextNode("Welcome to SUnOne Web Services."); //add text value
+
+    //Create an attachment with the Java Framework Activation API
+    URL url = new URL("http://java.sun.com/webservices/");
+    DataHandler dh = new DataHnadler (url);
+    AttachmentPart ap = soapMessage.createAttachmentPart(dh);
+
+    //Set content type and ID
+    ap.setContentType("text/html");
+    ap.setContentID('cid-001");
+
+    //Add attachment to the SOAP message
+    soapMessage.addAttachmentPart(ap);
+    soapMessage.saveChanges();
+
+    //Convert SOAP to JMS message.
+    Message m = MessageTransformer.SOAPMessageIntoJMSMessage
+                                                     (soapMessage,session);
+
+//Publish JMS message
+    publisher.publish(m);
+
+//Close JMS connection
+    public void close() throws JMSException {
+        tc.close();
+    }
+
+//Main program to send SOAP message with JMS
+public static void main (String[] args) {
+    try {
+        String topicName = System.getProperty("TopicName");
+        if(topicName == null) {
+            topicName = "test";
+        }
+
+        SendSOAPMEssageWithJMS ssm = new SendSOAPMEssageWithJMS(topicName);
+        ssm.send();
+        ssm.close();
+    }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gboww">Example 6-6</a> illustrates the use of the JMS API, SAAJ, and
+the DOM API to receive a SOAP message with attachments as the payload to
+a JMS message. The code shown for the <code>ReceiveSOAPMessageWithJMS</code>
+includes the following methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A constructor that calls the <code>init</code> method to initialize all the JMS
+objects needed to receive a message.</p>
+</li>
+<li>
+<p>An <code>onMessage</code> method that delivers the message and which is called by
+the listener. The <code>onMessage</code> method also calls the message transformer
+utility to convert the JMS message into a SOAP message and then uses
+SAAJ to process the SOAP body and uses SAAJ and the DOM API to process
+the message attachments.</p>
+</li>
+<li>
+<p>A <code>main</code> method that initializes the <code>ReceiveSOAPMessageWithJMS</code>
+class.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00063"></a><a id="gboww"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-6 Receiving a JMS Message with a SOAP Payload</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//Libraries that support SOAP processing
+import javax.xml.soap.MessageFactory;
+import javax.xml.soap.SOAPMessage;
+import javax.xml.soap.AttachmentPart
+
+//Library containing the JMS to SOAP transformer
+import com.sun.messaging.xml.MessageTransformer;
+
+//Libraries for JMS messaging support
+import com.sun.messaging.TopicConnectionFactory
+
+//Interfaces for JMS messaging
+import javax.jms.MessageListener;
+import javax.jms.TopicConnection;
+import javax.jms.TopicSession;
+import javax.jms.Message;
+import javax.jms.Session;
+import javax.jms.Topic;
+import javax.jms.JMSException;
+import javax.jms.TopicSubscriber
+
+//Library to support parsing attachment part (from DOM API)
+import java.util.iterator;
+
+public class ReceiveSOAPMessageWithJMS implements MessageListener{
+    TopicConnectionFactory tcf = null;
+    TopicConnection tc = null;
+    TopicSession session = null;
+    Topic topic = null;
+    TopicSubscriber subscriber = null;
+    MessageFactory messageFactory = null;
+
+//Default constructor
+public ReceiveSOAPMessageWithJMS(String topicName) {
+    init(topicName);
+}
+//Set up JMS connection and related objects
+public void init(String topicName){
+    try {
+        //Construct default SOAP message factory
+        messageFactory = MessageFactory.newInstance();
+
+        //JMS set up
+        tcf = new. com.sun.messaging.TopicConnectionFactory();
+        tc = tcf.createTopicConnection();
+        session = tc.createTopicSesstion(false, Session.AUTO_ACKNOWLEDGE);
+        topic = session.createTopic(topicName);
+        subscriber = session.createSubscriber(topic);
+        subscriber.setMessageListener(this);
+        tc.start();
+
+        System.out.println("ready to receive SOAP m essages...");
+    }catch (Exception jmse){
+        jmse.printStackTrace();
+        }
+    }
+
+//JMS messages are delivered to the onMessage method
+public void onMessage(Message message){
+    try {
+        //Convert JMS to SOAP message
+        SOAPMessage soapMessage = MessageTransformer.SOAPMessageFromJMSMessage
+                            (message, messageFactory);
+
+
+        //Print attchment counts
+        System.out.println("message received! Attachment counts:
+                             " + soapMessage.countAttachments());
+
+        //Get attachment parts of the SOAP message
+        Iterator iterator = soapMessage.getAttachments();
+        while (iterator.hasNext()) {
+            //Get next attachment
+            AttachmentPart ap = (AttachmentPart) iterator.next();
+
+            //Get content type
+            String contentType = ap.getContentType();
+            System.out.println("content type: " + conent TYpe);
+
+            //Get content id
+            String contentID = ap.getContentID();
+            System.out.println("content Id:" + contentId);
+
+            //Check to see if this is text
+            if(contentType.indexOf"text")&gt;=0 {
+                //Get and print string content if it is a text attachment
+                String content = (String) ap.getContent();
+                System.outprintln("*** attachment content: " + content);
+            }
+        }
+    }catch (Exception e) {
+        e.printStackTrace();
+    }
+}
+
+//Main method to start sample receiver
+public static void main (String[] args){
+    try {
+        String topicName = System.getProperty("TopicName");
+        if( topicName == null) {
+            topicName = "test";
+        }
+        ReceiveSOAPMessageWithJMS rsm = new ReceiveSOAPMessageWithJMS(topicName);
+    }catch (Exception e) {
+        e.printStackTrace();
+        }
+    }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="using-the-metrics-monitoring-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="embedded-brokers.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

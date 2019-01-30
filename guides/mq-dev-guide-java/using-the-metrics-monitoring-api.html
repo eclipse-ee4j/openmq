@@ -1,0 +1,1464 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Using the Metrics Monitoring API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Using the Metrics Monitoring API</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="using-the-java-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="soap-messages.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00015"></a><a id="aeqej"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="using-the-metrics-monitoring-api">5 Using the Metrics Monitoring API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue provides several ways of obtaining metrics data as a means
+of monitoring and tuning performance. One of these methods,
+message-based monitoring, allows metrics data to be accessed
+programmatically and then to be processed in whatever way suits the
+consuming client. Using this method, a client subscribes to one or more
+metrics destinations and then consumes and processes messages produced
+by the broker to those destinations. Message-based monitoring is the
+most customized solution to metrics gathering, but it does require the
+effort of writing a consuming client that retrieves and processes
+metrics messages.</p>
+</div>
+<div class="paragraph">
+<p>The methods for obtaining metrics data are described in
+"<a href="../mq-admin-guide/monitoring.html#GMADG00044">Monitoring Broker Operations</a>" in Open Message Queue
+Administration Guide, which also discusses the relative merits of each
+method and the set of data that is captured by each. Before you decide
+to used message-based monitoring, you should consult this guide to make
+sure that you will be able to obtain the information you need using this
+method.</p>
+</div>
+<div class="paragraph">
+<p>Message-based monitoring is enabled by the combined efforts of
+administrators and programmers. The administrator is responsible for
+configuring the broker so that it produces the messages of interest at a
+specified interval and that it persists these messages for a set time.
+The programmer is responsible for selecting the data to be produced and
+for creating the client that will consume and process the data.</p>
+</div>
+<div class="paragraph">
+<p>This chapter focuses on the work the programmer must do to implement a
+message-based monitoring client. It includes the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeqek">Monitoring Overview</a></p>
+</li>
+<li>
+<p><a href="#aeqen">Creating a Metrics-Monitoring Client</a></p>
+</li>
+<li>
+<p><a href="#aeqeo">Format of Metrics Messages</a></p>
+</li>
+<li>
+<p><a href="#aeqet">Metrics Monitoring Client Code Examples</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqek"></a><a id="GMJVG00109"></a><a id="monitoring-overview"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_monitoring_overview">Monitoring Overview</h3>
+<div class="paragraph">
+<p>Message Queue includes an internal client that is enabled by default to
+produce different types of metrics messages. Production is actually
+enabled when a client subscribes to a topic destination whose name
+matches one of the metrics message types. For example, if a client
+subscribes to the topic <code>mq.metrics.jvm</code>, the client receives
+information about JMV memory usage.</p>
+</div>
+<div class="paragraph">
+<p>The metrics topic destinations (metric message types) are described in
+<a href="#gbovu">Table 5-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG334"></a><a id="sthref54"></a><a id="gbovu"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 5-1 Metrics Topic Destinations</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 45%;">
+<col style="width: 55%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Topic Destination Name</th>
+<th class="tableblock halign-left valign-top">Type of Metrics Messages</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker metrics: information on connections,
+message flow, and volume of messages in the broker.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.jvm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java Virtual Machine metrics: information on memory
+usage in the JVM.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.destination_list</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A list of all destinations on the
+broker, and their types.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`dn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination metrics for a queue of
+the specified name. Metrics data includes number of consumers, message
+flow or volume, disk usage, and more. Specify the destination name for
+the dn variable.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.topic.`dn</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination metrics for a topic of
+the specified name. Metrics data includes number of consumers, message
+flow or volume, disk usage, and more. Specify the destination name for
+the dn variable.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A metrics message that is produced to one of the destinations listed in
+<a href="#gbovu">Table 5-1</a> is a normal JMS message; its header and body are
+defined to hold the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The message header has several properties, one that specifies the
+metrics message type, one that records the time the message was produced
+(timestamp), and a collection of properties identifying the broker that
+sent the metric message (broker host, port, and address/URL).</p>
+</li>
+<li>
+<p>The message body contains name-value pairs that vary with the message
+type.<br>
+The section <a href="#aeqeo">Format of Metrics Messages</a> provides complete
+information about the types of metrics messages and their content
+(name-value pairs).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To receive metrics messages, the consuming client must be subscribed to
+the destination of interest. Otherwise, consuming a metrics message is
+exactly the same as consuming any JMS message. The message can be
+consumed synchronously or asynchronously, and then processed as needed
+by the client.</p>
+</div>
+<div class="paragraph">
+<p>Message-based monitoring is concerned solely with obtaining metrics
+information. It does not include methods that you can call to work with
+physical destinations, configure or update the broker, or shutdown and
+restart the broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqel"></a><a id="GMJVG00236"></a><a id="administrative-tasks"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_administrative_tasks">Administrative Tasks</h4>
+<div class="paragraph">
+<p>By default the Message Queue metrics-message producing client is enabled
+to produce nonpersistent messages every sixty seconds. The messages are
+allowed to remain in their respective destinations for 5 minutes before
+being automatically deleted. To persist metrics messages, to change the
+interval at which they are produced, or to change their time-to-live
+interval, the administrator must set the following properties in the
+<code>config.properties</code> file: <code>imq.metrics.topic.persist</code> ,
+<code>imq.metrics.topic.interval</code>, and <code>imq.metrics.topic.timetolive</code> .</p>
+</div>
+<div class="paragraph">
+<p>In addition, the administrator might want to set access controls on the
+metrics destinations. This restricts access to sensitive metrics data
+and helps limit the impact of metrics subscriptions on overall
+performance. For more information about administrative tasks in enabling
+message-based monitoring and access control, see "<a href="../mq-admin-guide/monitoring.html#GMADG00267">Using
+the Message-Based Monitoring API</a>" in Open Message Queue Administration
+Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqem"></a><a id="GMJVG00237"></a><a id="implementation-summary"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_implementation_summary">Implementation Summary</h4>
+<div class="paragraph">
+<p>The following task list summarizes the steps required to implement
+message based monitoring:</p>
+</div>
+<div class="paragraph">
+<p><a id="gbowb"></a><a id="GMJVG00073"></a><a id="to-implement-message-based-monitoring"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_implement_message_based_monitoring">To Implement Message-Based Monitoring</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The developer designs and writes a client that subscribes to one or
+more metrics destinations.</p>
+</li>
+<li>
+<p>The administrator sets those metrics-related broker properties whose
+default values are not satisfactory.</p>
+</li>
+<li>
+<p>(Optional) The administrator sets entries in the
+<code>access.control.properties</code> file to restrict access to metrics
+information.</p>
+</li>
+<li>
+<p>The developer or the administrator starts the metrics monitoring
+client.<br>
+When consumers subscribe to a metrics topic, the topic&#8217;s physical
+destination is automatically created. After the metrics topic has been
+created, the broker&#8217;s metrics message producer begins to send metrics
+messages to the appropriate destination.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeqen"></a><a id="GMJVG00110"></a><a id="creating-a-metrics-monitoring-client"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_creating_a_metrics_monitoring_client">Creating a Metrics-Monitoring Client</h3>
+<div class="paragraph">
+<p>You create a metrics monitoring client in the same way that you would
+write any JMS client, except that the client must subscribe to one or
+more special metrics message topic and must be ready to receive and
+process messages of a specific type and format.</p>
+</div>
+<div class="paragraph">
+<p>No hierarchical naming scheme is implied in the metrics-message names.
+You can&#8217;t use a wildcard character (<code>*</code>) to identify multiple
+destination names.</p>
+</div>
+<div class="paragraph">
+<p>A client that monitors broker metrics must perform the following basic
+tasks:</p>
+</div>
+<div class="paragraph">
+<p><a id="gbouy"></a><a id="GMJVG00074"></a><a id="to-monitor-broker-metrics"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_monitor_broker_metrics">To Monitor Broker Metrics</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a <code>TopicConnectionFactory</code> object.</p>
+</li>
+<li>
+<p>Create a <code>TopicConnection</code> to the Message Queue service.</p>
+</li>
+<li>
+<p>Create a <code>TopicSession</code>.</p>
+</li>
+<li>
+<p>Create a metrics <code>Topic</code> destination object.</p>
+</li>
+<li>
+<p>Create a <code>TopicSubscriber</code>.</p>
+</li>
+<li>
+<p>Register as an asynchronous listener to the topic, or invoke the
+synchronous <code>receive()</code> method to wait for incoming metrics messages.</p>
+</li>
+<li>
+<p>Process metrics messages that are received.<br>
+In general, you would use JNDI lookups of administered objects to make
+your client code provider-independent. However, the metrics-message
+production is specific to Message Queue, there is no compelling reason
+to use JNDI lookups. You can simply instantiate these administered
+objects directly in your client code. This is especially true for a
+metrics destination for which an administrator would not normally create
+an administered object.<br>
+Notice that the code examples in this chapter instantiate all the
+relevant administered objects directly.<br>
+You can use the following code to extract the type ( <code>String</code>) or
+timestamp (<code>long</code>) properties in the message header from the message:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>MapMessage mapMsg;
+/*
+* mapMsg is the metrics message received
+*/
+String type = mapMsg.getStringProperty("type");
+long timestamp = mapMsg.getLongProperty("timestamp");</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You use the appropriate get method in the class <code>javax.jms.MapMessage</code>
+to extract the name-value pairs. The get method you use depends on the
+value type. Three examples follow:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">long value1 = mapMsg.getLong("numMsgsIn");
+long value2 = mapMsg.getLong("numMsgsOut");
+int value3 = mapMsg.getInt("diskUtilizationRatio");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqeo"></a><a id="GMJVG00111"></a><a id="format-of-metrics-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_format_of_metrics_messages">Format of Metrics Messages</h3>
+<div class="paragraph">
+<p>In order to consume and process a metrics messages, you must know its
+type and format. This section describes the general format of metrics
+messages and provides detailed information on the format of each type of
+metrics message.</p>
+</div>
+<div class="paragraph">
+<p>Metrics messages are of type <code>MapMessage</code>. (A type of message whose body
+contains a set of name-value pairs. The order of entries is not
+defined.)</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The message header has properties that are useful to applications. The
+<code>type</code> property identifies the type of metric message (and therefore its
+contents). It is useful if the same subscriber processes more than one
+type of metrics message for example, messages from the topics
+<code>mq.metrics.broker</code> and <code>mq.metrics.jvm</code>. The <code>timestamp</code> property
+indicates when the metric sample was taken and is useful for calculating
+rates or drawing graphs. The <code>brokerHost</code>, <code>brokerPort</code>, and
+<code>brokerAddress</code> properties identify the broker that sent the metric
+message and are useful when a single application needs to process metric
+messages from different brokers.</p>
+</li>
+<li>
+<p>The body of the message contains name-value pairs, and the data values
+depend on the type of metrics message. The following subsections
+describe the format of each metrics message type.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that the names of name-value pairs (used in code to extract data)
+are case-sensitive and must be coded exactly as shown. For example,
+<code>NumMsgsOut</code> is incorrect; <code>numMsgsOut</code> is correct.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqep"></a><a id="GMJVG00238"></a><a id="broker-metrics"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_broker_metrics">Broker Metrics</h4>
+<div class="paragraph">
+<p>The messages you receive when you subscribe to the topic
+<code>mq.metrics.broker</code> have the type property set to <code>mq.metrics.broker</code> in
+the message header and have the data listed in <a href="#gbowa">Table 5-2</a> in
+the message body.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG335"></a><a id="sthref55"></a><a id="gbowa"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 5-2 Data in the Body of a Broker Metrics Message</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 14%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metric Name</th>
+<th class="tableblock halign-left valign-top">Value Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numConnections</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of connections to the broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS messages that have flowed into the broker since it
+was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS messages that have flowed out of the broker since
+it was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgs</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of JMS messages stored in broker memory and
+persistent store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS message bytes that have flowed into the broker
+since it was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS message bytes that have flowed out of the broker
+since it was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMsgBytes</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of JMS message bytes stored in broker memory and
+persistent store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numPktsIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of packets that have flowed into the broker since it was
+last started; this includes both JMS messages and control messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numPktsOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of packets that have flowed out of the broker since it
+was last started; this includes both JMS messages and control messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pktBytesIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of packet bytes that have flowed into the broker since it
+was last started; this includes both JMS messages and control messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">pktBytesOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of packet bytes that have flowed out of the broker since
+it was last started; this includes both JMS messages and control
+messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numDestinations</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of destinations in the broker</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqeq"></a><a id="GMJVG00159"></a><a id="jvm-metrics"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_jvm_metrics">JVM Metrics</h5>
+<div class="paragraph">
+<p>The messages you receive when you subscribe to the topic
+<code>mq.metrics.jvm</code> have the type property set to <code>mq.metrics.jvm</code> in the
+message header and have the data listed in <a href="#gbovt">Table 5-3</a> in the
+message body.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG336"></a><a id="sthref56"></a><a id="gbovt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 5-3 Data in the Body of a JVM Metrics Message</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 21%;">
+<col style="width: 16%;">
+<col style="width: 63%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metric Name</th>
+<th class="tableblock halign-left valign-top">Value Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">freeMemory</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of free memory available for use in the JVM heap</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">maxMemory</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size to which the JVM heap can grow</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMemory</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total memory in the JVM heap</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqer"></a><a id="GMJVG00160"></a><a id="destination-list-metrics"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_destination_list_metrics">Destination-List Metrics</h5>
+<div class="paragraph">
+<p>The messages you receive when you subscribe to a topic named
+<code>mq.metrics.destination_list</code> have the <code>type</code> property set to
+<code>mq.metrics.destination_list</code> in the message header.</p>
+</div>
+<div class="paragraph">
+<p>The message body contains a list of map names. Each destination on the
+broker is specified by a unique map name (a name-value pair) in the
+message body. The type of the name-value pair is <code>hashtable</code>.</p>
+</div>
+<div class="paragraph">
+<p>The name (in the name-value pair) depends on whether the destination is
+a queue or a topic, and is constructed as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>`mq.metrics.destination.queue.`monitored_destination_name</p>
+</li>
+<li>
+<p>`mq.metrics.destination.topic.`monitored_destination_name</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The value (in the name-value pair) is an object of type
+<code>java.util.Hashtable</code> . This hashtable contains the key-value pairs
+described in <a href="#gbovg">Table 5-4</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG337"></a><a id="sthref57"></a><a id="gbovg"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 5-4 Value of a Name-Value Pair</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 31%;">
+<col style="width: 23%;">
+<col style="width: 46%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Key (String)</th>
+<th class="tableblock halign-left valign-top">Value type</th>
+<th class="tableblock halign-left valign-top">Value or Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination type (<code>queue</code> or <code>topic</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isTemporary</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is destination temporary?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Notice that the destination name and type could be extracted directly
+from the metrics topic destination name, but the hashtable includes it
+for your convenience.</p>
+</div>
+<div class="paragraph">
+<p>By enumerating through the map names and extracting the hashtable
+described in <a href="#gbovg">Table 5-4</a>, you can form a complete list of
+destination names and some of their characteristics.</p>
+</div>
+<div class="paragraph">
+<p>The destination list does not include the following kinds of
+destinations:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Destinations that are used by Message Queue administration tools</p>
+</li>
+<li>
+<p>Destinations that the Message Queue broker creates for internal use</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqes"></a><a id="GMJVG00161"></a><a id="destination-metrics"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_destination_metrics">Destination Metrics</h5>
+<div class="paragraph">
+<p>The messages you receive when you subscribe to the topic
+<code>mq.metrics.destination.queue.`monitored_destination_name have the type
+property `mq.metrics.destination.queue.`monitored_destination_name set
+in the message header. The messages you receive when you subscribe to
+the topic `mq.metrics.destination.topic.`monitored_destination_name have
+the type property `mq.metrics.destination.topic.</code>
+monitored_destination_name set in the message header. Either of these
+messages has the data listed in <a href="#gbovq">Table 5-5</a> in the message
+body.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG338"></a><a id="sthref58"></a><a id="gbovq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 5-5 Data in the Body of a Destination Metrics Message</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 14%;">
+<col style="width: 56%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metric Name</th>
+<th class="tableblock halign-left valign-top">Value Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numActiveConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of active consumers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumActiveConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of active consumers since the broker was last
+started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumActiveConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of active consumers since the broker was last
+started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numBackupConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of backup consumers (applies only to queues)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumBackupConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of backup consumers since the broker was last
+started (applies only to queues)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumBackupConsumers</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of backup consumers since the broker was last
+started (applies only to queues)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS messages that have flowed into this destination
+since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgsOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS messages that have flowed out of this destination
+since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">numMsgs</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS messages currently stored in destination memory
+and persistent store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgNumMsgs</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of JMS messages stored in destination memory and
+persistent store since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakNumMsgs</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of JMS messages stored in destination memory and
+persistent store since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesIn</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS message bytes that have flowed into this
+destination since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">msgBytesOut</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of JMS message bytes that have flowed out of this
+destination since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">totalMsgBytes</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of JMS message bytes stored in destination memory
+and persistent store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">avgTotalMsgBytes</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of JMS message bytes stored in destination memory
+and persistent store since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakTotalMsgBytes</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of JMS message bytes stored in destination memory
+and persistent store since the broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">peakMsgBytes</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of JMS message bytes in a single message since the
+broker was last started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskReserved</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk space (in bytes) used by all message records (active and
+free) in the destination file-based store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskUsed</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk space (in bytes) used by active message records in
+destination file-based store</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">diskUtilizationRatio</code></pre>
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">int</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Quotient of used disk space over reserved disk space. The higher
+the ratio, the more the disk space is being used to hold active messages</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqet"></a><a id="GMJVG00112"></a><a id="metrics-monitoring-client-code-examples"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_metrics_monitoring_client_code_examples">Metrics Monitoring Client Code Examples</h3>
+<div class="paragraph">
+<p>Several complete monitoring example applications (including source code
+and full documentation) are provided when you install Message Queue.
+You&#8217;ll find the examples in your IMQ home directory under
+<code>/demo/monitoring</code>. Before you can run these clients, you must set up
+your environment (for example, the <code>CLASSPATH</code> environment variable).
+For details, see <a href="overview.html#aeqar">Setting Up Your Environment</a>.</p>
+</div>
+<div class="paragraph">
+<p>Next are brief descriptions of three examples—Broker Metrics,
+Destination List Metrics, and Destination Metrics—with annotated code
+examples from each.</p>
+</div>
+<div class="paragraph">
+<p>These examples use the utility classes <code>MetricsPrinter</code> and
+<code>MultiColumnPrinter</code> to print formatted and aligned columns of text
+output. However, rather than explaining how those utility classes are
+used, the following code examples focus on how to subscribe to the
+metrics topic and how to extract information from the metrics messages
+received.</p>
+</div>
+<div class="paragraph">
+<p>Notice that in the source files, the code for subscribing to metrics
+topics and processing messages is actually spread across various
+methods. However, for the sake of clarity, the examples are shown here
+as though they were contiguous blocks of code.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqeu"></a><a id="GMJVG00239"></a><a id="a-broker-metrics-example"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_a_broker_metrics_example">A Broker Metrics Example</h4>
+<div class="paragraph">
+<p>The source file for this code example is <code>BrokerMetrics.java</code>. This
+metrics monitoring client subscribes to the topic <code>mq.metrics.broker</code>
+and prints broker-related metrics to the standard output.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbovc">Example 5-1</a> shows how to subscribe to <code>mq.metrics.broker</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00051"></a><a id="gbovc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-1 Example of Subscribing to a Broker Metrics Topic</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+    TopicConnection             metricConnection;
+    TopicSession                metricSession;
+    TopicSubscriber             metricSubscriber;
+    Topic                       metricTopic;
+
+    metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+
+    metricConnection = metricConnectionFactory.createTopicConnection();
+    metricConnection.start();
+
+    metricSession = metricConnection.createTopicSession(false,
+                      Session.AUTO_ACKNOWLEDGE);
+
+    metricTopic = metricSession.createTopic("mq.metrics.broker");
+
+    metricSubscriber = metricSession.createSubscriber(metricTopic);
+    metricSubscriber.setMessageListener(this);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The incoming message is processed in the <code>onMessage()</code> and <code>doTotals()</code>
+methods, as shown in <a href="#gbowg">Example 5-2</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00052"></a><a id="gbowg"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-2 Example of Processing a Broker Metrics Message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public void onMessage(Message m)  {
+    try  {
+            MapMessage mapMsg = (MapMessage)m;
+            String type = mapMsg.getStringProperty("type");
+
+            if (type.equals("mq.metrics.broker"))  {
+                if (showTotals)  {
+                        doTotals(mapMsg);
+            ...
+            }
+}
+
+private void doTotals(MapMessage mapMsg)  {
+    try  {
+            String oneRow[] = new String[ 8 ];
+            int i = 0;
+
+            /*
+            * Extract broker metrics
+            */
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numPktsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numPktsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("pktBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("pktBytesOut"));
+            ...
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the metrics type is extracted, using the
+<code>getStringProperty()</code> method, and is checked. If you use the
+<code>onMessage()</code> method to process metrics messages of different types, you
+can use the <code>type</code> property to distinguish between different incoming
+metrics messages.</p>
+</div>
+<div class="paragraph">
+<p>Also notice how various pieces of information on the broker are
+extracted, using the <code>getLong()</code> method of <code>mapMsg</code>.</p>
+</div>
+<div class="paragraph">
+<p>Run this example monitoring client with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java BrokerMetrics</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output looks like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">----------------------------------------------------------------
+Msgs            Msg Bytes         Pkts               Pkt     Bytes
+In      Out     In        Out     In        Out      In        Out
+--------------------------------------------------------------------
+0       0        0        0       6         5        888       802
+0       1        0        633     7         8        1004      1669</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqev"></a><a id="GMJVG00162"></a><a id="a-destination-list-metrics-example"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_a_destination_list_metrics_example">A Destination List Metrics Example</h5>
+<div class="paragraph">
+<p>The source file for this code example is <code>DestListMetrics.java</code>. This
+client application monitors the list of destinations on a broker by
+subscribing to the topic <code>mq.metrics.destination_list</code>. The messages
+that arrive contain information describing the destinations that
+currently exist on the broker, such as destination name, destination
+type, and whether the destination is temporary.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbowo">Example 5-3</a> shows how to subscribe to
+<code>mq.metrics.destination_list</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00053"></a><a id="gbowo"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-3 Example of Subscribing to the Destination List Metrics Topic</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+TopicConnection              metricConnection;
+TopicSession                 metricSession;
+TopicSubscriber              metricSubscriber;
+Topic                        metricTopic;
+String                       metricTopicName = null;
+
+metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+metricConnection = metricConnectionFactory.createTopicConnection();
+metricConnection.start();
+
+metricSession = metricConnection.createTopicSession(false,
+                    Session.AUTO_ACKNOWLEDGE);
+
+metricTopicName = "mq.metrics.destination_list";
+metricTopic = metricSession.createTopic(metricTopicName);
+
+metricSubscriber = metricSession.createSubscriber(metricTopic);
+metricSubscriber.setMessageListener(this);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The incoming message is processed in the <code>onMessage()</code> method, as shown
+in <a href="#gbowi">Example 5-4</a>:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00054"></a><a id="gbowi"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-4 Example of Processing a Destination List Metrics Message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public void onMessage(Message m)  {
+    try{
+         MapMessage mapMsg = (MapMessage)m;
+         String type = mapMsg.getStringProperty("type");
+
+         if (type.equals(metricTopicName))  {
+             String oneRow[] = new String[ 3 ];
+
+             /*
+             * Extract metrics
+             */
+             for (Enumeration e = mapMsg.getMapNames();
+                  e.hasMoreElements();) {
+
+                  String metricDestName = (String)e.nextElement();
+                  Hashtable destValues =
+                                (Hashtable)mapMsg.getObject(metricDestName);
+                  int i = 0;
+
+                  oneRow[i++] = (destValues.get("name")).toString();
+                  oneRow[i++] = (destValues.get("type")).toString();
+                  oneRow[i++] = (destValues.get("isTemporary")).toString();
+
+                  mp.add(oneRow);
+             }
+
+             mp.print();
+             System.out.println("");
+
+             mp.clear();
+         } else  {
+                System.err.println("Msg received:
+                        not destination list metric type");
+            }
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the metrics type is extracted and checked, and how the list
+of destinations is extracted. By iterating through the map names in
+<code>mapMsg</code> and extracting the corresponding value (a hashtable), you can
+construct a list of all the destinations and their related information.</p>
+</div>
+<div class="paragraph">
+<p>As discussed in <a href="#aeqeo">Format of Metrics Messages</a>, these map names
+are metrics topic names having one of two forms:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mq.metrics.destination.queue.monitored_destination_name
+
+mq.metrics.destination.topic.monitored_destination_name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(The map names can also be used to monitor a destination, but that is
+not done in this particular example.)</p>
+</div>
+<div class="paragraph">
+<p>Notice that from each extracted hashtable, the information on each
+destination is extracted using the keys <code>name</code>, <code>type</code>, and
+<code>isTemporary</code>. The extraction code from the previous code example is
+reiterated here for your convenience.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00055"></a><a id="gbous"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-5 Example of Extracting Destination Information From a Hash
+Table</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">  String metricDestName = (String)e.nextElement();
+        Hashtable destValues = (Hashtable)mapMsg.getObject(metricDestName);
+        int i = 0;
+
+        oneRow[i++] = (destValues.get("name")).toString();
+        oneRow[i++] = (destValues.get("type")).toString();
+        oneRow[i++] = (destValues.get("isTemporary")).toString();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Run this example monitoring client with the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java DestListMetrics</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output looks like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">---------------------------------------------------
+Destination Name       Type          IsTemporary
+---------------------------------------------------
+SimpleQueue            queue          false
+fooQueue               queue          false
+topic1                 topic          false</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqew"></a><a id="GMJVG00163"></a><a id="a-destination-metrics-example"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_a_destination_metrics_example">A Destination Metrics Example</h5>
+<div class="paragraph">
+<p>The source file for this code example is <code>DestMetrics.java</code>. This client
+application monitors a specific destination on a broker. It accepts the
+destination type and name as parameters, and it constructs a metrics
+topic name of the form
+`mq.metrics.destination.queue.`monitored_destination_name or
+`mq.metrics.destination.topic.`monitored_destination_name .</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbovz">Example 5-6</a> shows how to subscribe to the metrics topic for
+monitoring a specified destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00056"></a><a id="gbovz"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-6 Example of Subscribing to a Destination Metrics Topic</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.TopicConnectionFactory metricConnectionFactory;
+TopicConnection             metricConnection;
+TopicSession                metricSession;
+TopicSubscriber             metricSubscriber;
+Topic                       metricTopic;
+String                      metricTopicName = null;
+String                      destName = null,
+                            destType = null;
+
+for (int i = 0; i &lt; args.length; ++i)  {
+    ...
+    } else if (args[i].equals("-n"))  {
+            destName = args[i+1];
+    } else if (args[i].equals("-t"))  {
+            destType = args[i+1];
+    }
+}
+
+metricConnectionFactory = new com.sun.messaging.TopicConnectionFactory();
+
+metricConnection = metricConnectionFactory.createTopicConnection();
+metricConnection.start();
+
+metricSession = metricConnection.createTopicSession(false,
+                   Session.AUTO_ACKNOWLEDGE);
+
+if (destType.equals("q"))  {
+    metricTopicName = "mq.metrics.destination.queue." + destName;
+} else  {
+    metricTopicName = "mq.metrics.destination.topic." + destName;
+}
+
+metricTopic = metricSession.createTopic(metricTopicName);
+
+metricSubscriber = metricSession.createSubscriber(metricTopic);
+metricSubscriber.setMessageListener(this);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The incoming message is processed in the <code>onMessage()</code> method, as shown
+in <a href="#gbovo">Example 5-7</a>:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00057"></a><a id="gbovo"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-7 Example of Processing a Destination Metrics Message</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">public void onMessage(Message m)  {
+   try {
+        MapMessage mapMsg = (MapMessage)m;
+        String type = mapMsg.getStringProperty("type");
+
+        if (type.equals(metricTopicName))  {
+            String oneRow[] = new String[ 11 ];
+            int i = 0;
+
+            /*
+            * Extract destination metrics
+            */
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgsOut"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesIn"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("msgBytesOut"));
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("numMsgs"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("peakNumMsgs"));
+            oneRow[i++] = Long.toString(mapMsg.getLong("avgNumMsgs"));
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("totalMsgBytes")/1024);
+            oneRow[i++] = Long.toString
+                                   (mapMsg.getLong("peakTotalMsgBytes")/1024);
+            oneRow[i++] = Long.toString
+                                   (mapMsg.getLong("avgTotalMsgBytes")/1024);
+
+            oneRow[i++] = Long.toString(mapMsg.getLong("peakMsgBytes")/1024);
+
+            mp.add(oneRow);
+            ...
+            }
+    } catch (Exception e)  {
+            System.err.println("onMessage: Exception caught: " + e);
+    }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice how the metrics type is extracted, using the
+<code>getStringProperty()</code> method as in the previous examples, and is
+checked. Also notice how various destination data are extracted, using
+the <code>getLong()</code> method of <code>mapMsg</code>.</p>
+</div>
+<div class="paragraph">
+<p>You can run this example monitoring client with one of the following
+commands:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java DestMetrics -t t -n topic_name
+java DestMetrics -t q -n queue_name</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Using a queue named <code>SimpleQueue</code> as an example, the command would be:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java DestMetrics -t q -n SimpleQueue</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output looks like the following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------------------------------------------------
+Msgs       Msg   Bytes  Msg Count        Tot Msg Bytes(k)    Largest Msg
+In   Out   In    Out    Curr  Peak  Avg  Curr  Peak  Avg     (k)
+------------------------------------------------------------------------------
+500   0   318000  0     500   500   250  310   310   155      0</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="using-the-java-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="soap-messages.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

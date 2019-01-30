@@ -1,0 +1,1222 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Client Design Issues</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Client Design Issues</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="using-the-c-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="reference.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMCCG00004"></a><a id="aelcp"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="client-design-issues">3 Client Design Issues</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes a number of messaging issues that impact Message
+Queue C client design. It covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aelcq">Producers and Consumers</a></p>
+</li>
+<li>
+<p><a href="#aelcr">Using Selectors Efficiently</a></p>
+</li>
+<li>
+<p><a href="#aelcs">Determining Message Order and Priority</a></p>
+</li>
+<li>
+<p><a href="#aelct">Managing Threads</a></p>
+</li>
+<li>
+<p><a href="#aelcy">Managing Physical Destination Limits</a></p>
+</li>
+<li>
+<p><a href="#aelcz">Managing the Dead Message Queue</a></p>
+</li>
+<li>
+<p><a href="#aelda">Factors Affecting Performance</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This chapter does not discuss the particulars of the C-API and how to
+use the data types and functions it defines to create messaging clients.
+For this information, see <a href="using-the-c-api.html#aelba">Using the C
+API</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcq"></a><a id="GMCCG00049"></a><a id="producers-and-consumers"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_producers_and_consumers">Producers and Consumers</h3>
+<div class="paragraph">
+<p>Aside from the reliability your client requires, the design decisions
+that relate to producers and consumers include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Do you want to use a point-to-point or a publish/subscribe domain?<br>
+There are some interesting permutations here. There are times when you
+would want to use publish/subscribe even when you have only one
+subscriber. Performance considerations might make the point-to-point
+model more efficient than the publish/subscribe model, when the work of
+sorting messages between subscribers is too costly. Sometimes these
+decisions cannot be made in the abstract, but different prototypes must
+be developed and tested.</p>
+</li>
+<li>
+<p>Are you using an asynchronous message consumer that does not get
+called often or a producer that is seldom used?<br>
+You might need to adjust the <code>MQ_PING_INTERVAL_PROPERTY</code> when you create
+your connection, so that your client gets an exception if the connection
+should fail. For more information see
+<a href="using-the-c-api.html#aelbi">Connection Handling</a>.</p>
+</li>
+<li>
+<p>Are you using a synchronous consumer in a distributed application?<br>
+You might need to allow a small time interval between connecting and
+calling the <code>MQReceiveMessageNoWait</code> function in order not to miss a
+pending message. For more information, see usage information in the
+section <a href="reference.html#aelfo">MQReceiveMessageNoWait</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aelcr"></a><a id="GMCCG00050"></a><a id="using-selectors-efficiently"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_selectors_efficiently">Using Selectors Efficiently</h3>
+<div class="paragraph">
+<p>The use of selectors can have a significant impact on the performance of
+your application. It&#8217;s difficult to put an exact cost on the expense of
+using selectors since it varies with the complexity of the selector
+expression, but the more you can do to eliminate or simplify selectors
+the better.</p>
+</div>
+<div class="paragraph">
+<p>One way to eliminate (or simplify) selectors is to use multiple
+destinations to sort messages. This has the additional benefit of
+spreading the message load over more than one producer, which can
+improve the scalability of your application. For those cases when it is
+not possible to do that, here are some techniques that you can use to
+improve the performance of your application when using selectors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Have consumers share selectors. As of version 3.5 of Message Queue,
+message consumers with identical selectors "share" that selector in the
+broker, which can significantly improve performance. So if there is a
+way to structure your application to have some selector sharing,
+consider doing so.</p>
+</li>
+<li>
+<p>Use <code>IN</code> instead of multiple string comparisons. For example,
+expression number 1 is much more efficient than expression number 2,
+especially if expression 2 usually evaluates to false.<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>color IN ('red', 'green', 'white') \\ Expression 1
+
+color = 'red' OR color = 'green' OR color = 'white' \\Expression 2</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use <code>BETWEEN</code> instead of multiple integer comparisons. For example,
+expression 1 is more efficient than expression 2, especially if
+expression 2 usually evaluates to true.<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>size BETWEEN 6 AND 10 \\Expression 1
+
+size&gt;= 6 AND size &lt;= 10 \\Expression 2</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Order the selector expression so that MQ can short circuit the
+evaluation. The short circuiting of selector evaluation was added in MQ
+3.5 and can easily double or triple performance when using selectors
+depending on the complexity of the expression.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If you have two expressions joined by an <code>OR</code>, put the expression
+that is most likely to evaluate to <code>TRUE</code> first.</p>
+</li>
+<li>
+<p>If you have two expressions joined by an <code>AND</code>, put the expression
+that is most likely to evaluate to <code>FALSE</code> first.<br>
+For example, if <code>size</code> is usually greater than 6, but color is rarely
+<code>red</code> you would want the order of an <code>OR</code> expression to be the
+following.<br></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>size&gt; 6 OR color = 'red'</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you are using <code>AND</code>, use the following order.<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">color = 'red' AND size&gt; 6</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aelcs"></a><a id="GMCCG00051"></a><a id="determining-message-order-and-priority"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_determining_message_order_and_priority">Determining Message Order and Priority</h3>
+<div class="paragraph">
+<p>In general, all messages sent to a destination by a single session are
+guaranteed to be delivered to a consumer in the order they were sent.
+However, if they are assigned different priorities, a messaging system
+will attempt to deliver higher priority messages first.</p>
+</div>
+<div class="paragraph">
+<p>Beyond this, the ordering of messages consumed by a client can have only
+a rough relationship to the order in which they were produced. This is
+because the delivery of messages to a number of destinations and the
+delivery from those destinations can depend on a number of issues that
+affect timing, such as the order in which the messages are sent, the
+sessions from which they are sent, whether the messages are persistent,
+the lifetime of the messages, the priority of the messages, the message
+delivery policy of queue destinations, and message service availability.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelct"></a><a id="GMCCG00052"></a><a id="managing-threads"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_threads">Managing Threads</h3>
+<div class="paragraph">
+<p>This section addresses a number of thread management issues that you
+should be aware of in designing and programming a Message Queue C
+client. It covers the following topics:'</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aelcu">Message Queue C Runtime Thread Model</a></p>
+</li>
+<li>
+<p><a href="#aelcv">Concurrent Use of Handles</a></p>
+</li>
+<li>
+<p><a href="#aelcw">Single-Threaded Session Control</a></p>
+</li>
+<li>
+<p><a href="#aelcx">Connection Exceptions</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aelcu"></a><a id="GMCCG00322"></a><a id="message-queue-c-runtime-thread-model"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_message_queue_c_runtime_thread_model">Message Queue C Runtime Thread Model</h4>
+<div class="paragraph">
+<p>The Message Queue C-API library creates the threads needed to provide
+runtime support for a Message Queue C client. It uses NSPR (Netscape
+Portable Runtime) <code>GLOBAL</code> threads. NSPR <code>GLOBAL</code> threads are fully
+compatible with native threads on each supported platform.
+<a href="#aelcu">Message Queue C Runtime Thread Model</a> shows the thread model
+that the NSPR <code>GLOBAL</code> threads map to on each platform. For more
+information on NSPR, see</p>
+</div>
+<div class="paragraph">
+<p><code>http://www.mozilla.org/projects/nspr/</code></p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG436"></a><a id="sthref20"></a><a id="gblxl"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-1 Thread Model for NSPR GLOBAL Threads</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14%;">
+<col style="width: 86%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Platform</th>
+<th class="tableblock halign-left valign-top">Thread Model</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Solaris</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pthreads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linux</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pthreads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">pthreads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Win32 threads (from Microsoft Visual C++ runtime library
+<code>msvcrt</code>)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelcv"></a><a id="GMCCG00323"></a><a id="concurrent-use-of-handles"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_concurrent_use_of_handles">Concurrent Use of Handles</h4>
+<div class="paragraph">
+<p><a href="#gblyq">Table 3-2</a> lists the handles (objects) used in a C client
+program and specifies which of these may be used concurrently and which
+can only be used by one logical thread at a time.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG437"></a><a id="sthref21"></a><a id="gblyq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-2 Handles and Concurrency</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 46%;">
+<col style="width: 54%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Handle</th>
+<th class="tableblock halign-left valign-top">Supports Concurrent Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQDestinationHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YES</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQConnectionHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">YES</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQSessionHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQProducerHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQConsumerHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQMessageHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQPropertiesHandle</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">NO</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelcw"></a><a id="GMCCG00324"></a><a id="single-threaded-session-control"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_single_threaded_session_control">Single-Threaded Session Control</h4>
+<div class="paragraph">
+<p>A session is a single-threaded context for producing and consuming
+messages. Multiple threads should not use the same session concurrently
+nor use the objects it creates concurrently. The only exception to this
+occurs during the orderly shutdown of the session or its connection when
+the client calls the <code>MQCloseSession</code> or the <code>MQCloseConnection</code>
+function. Follow these guidelines in designing your client:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a client wants to have one thread producing messages and other
+threads consuming messages, the client should use a separate session for
+its producing thread.</p>
+</li>
+<li>
+<p>Do not create an asynchronous message consumer while the connection is
+in started mode.</p>
+</li>
+<li>
+<p>A session created with <code>MQ_SESION_ASYNC_RECEIVE</code> mode uses a single
+thread to run all its consumers' <code>MQMessageListenerFunc</code> callback
+functions. Clients that want concurrent delivery should use multiple
+sessions.</p>
+</li>
+<li>
+<p>Do not call the <code>MQStopConnection</code>, <code>MQCloseSession</code> , or the
+<code>MQCloseConnection</code> functions from a <code>MQMessageListenerFunc</code> callback
+function. (These calls will not return until delivery of messages has
+stopped.)</p>
+</li>
+<li>
+<p>Call the <code>MQFreeConnection</code> function after <code>MQCloseConnection</code> and all
+of the application threads associated with a connection and its
+sessions, producers, and consumers have returned.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Message Queue C runtime library provides one thread to a session in
+<code>MQ_SESSION_ASYNC_RECEIVE</code> mode for asynchronous message delivery to its
+consumers. When the connection is started, all its sessions that have
+created asynchronous consumers are dedicated to the thread of control
+that delivers messages. Client code should not use such a session from
+another thread of control. The only exception to this is the use of
+<code>MQCloseSession</code> and <code>MQCloseConnection</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcx"></a><a id="GMCCG00325"></a><a id="connection-exceptions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connection_exceptions">Connection Exceptions</h4>
+<div class="paragraph">
+<p>When a connection exception occurs, the Message Queue C library thread
+that is provided to the connection calls its
+<code>MQConnectionExceptionListenerFunc</code> callback if one exists. If an
+<code>MQConnectionExceptionListenerFunc</code> callback is used for multiple
+connections, it can potentially be called concurrently from different
+connection threads.</p>
+</div>
+<div class="paragraph">
+<p>You should not call the <code>MQCloseConnection</code> function in an
+<code>MQConnectionExceptionListenerFunc</code> callback. Instead the callback
+function should notify another thread to call <code>MQCloseConnection</code> and
+return.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcy"></a><a id="GMCCG00053"></a><a id="managing-physical-destination-limits"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_physical_destination_limits">Managing Physical Destination Limits</h3>
+<div class="paragraph">
+<p>When creating a topic or queue destination, the administrator can
+specify how the broker should behave when certain memory limits are
+reached. Specifically, when the number of messages reaching a physical
+destination exceeds the number specified with the <code>maxNumMsgs</code> property
+or when the total amount of memory allowed for messages exceeds the
+number specified with the <code>maxTotalMsgBytes</code> property, the broker takes
+one of the following actions, depending on the setting of the
+<code>limitBehavior</code> property:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Slows message producers (<code>FLOW_CONTROL</code>)</p>
+</li>
+<li>
+<p>Throws out the oldest message in memory (<code>REMOVE_OLDEST</code>)</p>
+</li>
+<li>
+<p>Throws out the lowest priority message in memory
+(<code>REMOVE_LOW_PRIORITY</code>)</p>
+</li>
+<li>
+<p>Rejects the newest messages (<code>REJECT_NEWEST</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the default value <code>REJECT_NEWEST</code> is specified for the
+<code>limitBehavior</code> property, the broker throws out the newest messages
+received when memory limits are exceeded. If the message discarded is a
+persistent message, the producing client gets an error which you should
+handle by re-sending the message later.</p>
+</div>
+<div class="paragraph">
+<p>If any of the other values is selected for the <code>limitBehavior</code> property
+or if the message is not persistent (or persistent and
+<code>MQ_ACK_ON_PRODUCE_PROPERTY</code> is false), the application client is not
+notified if a message is discarded. Application clients should let the
+administrator know how they prefer this property to be set for best
+performance and reliability.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcz"></a><a id="GMCCG00054"></a><a id="managing-the-dead-message-queue"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_the_dead_message_queue">Managing the Dead Message Queue</h3>
+<div class="paragraph">
+<p>When a message is deemed undeliverable, it is automatically placed on a
+special queue called the dead message queue. A message placed on this
+queue retains all of its original headers (including its original
+destination) and information is added to the message&#8217;s properties to
+explain why it became a dead message. For a description of the
+destination properties and of the broker properties that control the
+system&#8217;s use of the dead message queue, see "<a href="../mq-admin-guide/message-delivery.html#GMADG00538">Using the
+Dead Message Queue</a>" in Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p>This section describes the message properties that you can set or
+examine programmatically to determine the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Whether a dead message can be sent to the dead message queue.</p>
+</li>
+<li>
+<p>Whether the broker should log information when a message is destroyed
+or moved to the dead message queue.</p>
+</li>
+<li>
+<p>Whether the body of the message should also be stored when the message
+is placed on the dead message queue.</p>
+</li>
+<li>
+<p>Why the message was placed on the dead message queue and any ancillary
+information.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(Message Queue 5.0 clients can set properties related to the dead
+message queue on messages and send those messages to clients compiled
+against Message Queue 3.5x or earlier versions. However clients
+receiving such messages cannot examine these properties without
+recompiling against Message Queue 5.0 libraries.)</p>
+</div>
+<div class="paragraph">
+<p>The dead message queue is automatically created by the system and called
+<code>mq.sys.dmq.</code> You can write a Java program that uses the metrics
+monitoring API, described in "<a href="../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015">Using the Metrics
+Monitoring API</a>" in Open Message Queue Developer&#8217;s Guide for Java
+Clients. or the JMX API, described in the <a href="../mq-dev-guide-jmx/toc.html#GMJMG">Open Message Queue
+Developer&#8217;s Guide for JMX Clients</a>, to determine whether that queue is
+growing, to examine messages on that queue, and so on.</p>
+</div>
+<div class="paragraph">
+<p>You can set the properties described in <a href="#gblxz">Table 3-3</a> for any
+message to control how the broker should handle that message if it deems
+it to be undeliverable. Note that these message properties are needed
+only to override default destination, or default broker-based behavior.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG438"></a><a id="sthref22"></a><a id="gblxz"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-3 Message Properties Relating to Dead Message Queue</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 41%;">
+<col style="width: 10%;">
+<col style="width: 49%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_PRESERVE_UNDELIVERED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>For a dead message, the default value of unset, specifies that the
+message should be handled as specified by the <code>useDMQ</code> property of the
+destination to which the message was sent.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>true</code> overrides the setting of the <code>useDMQ</code> property and
+sends the dead message to the dead message queue,.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>false</code> overrides the setting of the <code>useDMQ</code> property and
+prevents the dead message from being placed in the dead message queue.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_LOG_DEAD_MESSAGES</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The default value of unset, will behave as specified by the broker
+configuration property <code>imq.destination.logDeadMsgs</code>.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>true</code> overrides the setting of the
+<code>imq.destination.logDeadMsgs</code> broker property and specifies that the
+broker should log the action of removing a message or moving it to the
+dead message queue.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>false</code> overrides the setting of the
+<code>imq.destination.logDeadMsgs</code> broker property and specifies that the
+broker should not log these actions.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_TRUNCATE_MSG_BODY</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The default value of unset, will behave as specified by the broker
+property <code>imq.destination.DMQ.truncateBody</code>.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>true</code> overrides the setting of the
+<code>imq.destination.DMQ.truncateBody</code> property and specifies that the body
+of the message should be discarded when the message is placed in the
+dead message queue.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>false</code> overrides the setting of the
+<code>imq.destination.DMQ.truncateBody</code> property and specifies that the body
+of the message should be stored along with the message header and
+properties when the message is placed in the dead message queue.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The properties described in <a href="#gblyf">Table 3-4</a> are set by the client
+runtime for a message placed in the dead message queue.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG439"></a><a id="sthref23"></a><a id="gblyf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-4 Dead Message Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 48%;">
+<col style="width: 10%;">
+<col style="width: 42%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_DELIVERY_COUNT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the most number of
+times the message was delivered to a given consumer. This value is set
+only for <code>ERROR</code> or <code>UNDELIVERABLE</code> messages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_TIMESTAMP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the time (in
+milliseconds) when the message was placed on the dead message queue.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_REASON</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Specifies one of the following values to indicate the reason why the
+message was placed on the dead message queue:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>OLDEST</code></p>
+</li>
+<li>
+<p><code>LOW_PRIORITY</code></p>
+</li>
+<li>
+<p><code>EXPIRED</code></p>
+</li>
+<li>
+<p><code>UNDELIVERABLE</code></p>
+</li>
+<li>
+<p><code>ERROR</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If the message was marked dead for multiple reasons, for example it was
+undeliverable and expired, only one reason will be specified by this
+property.</p>
+</div>
+<div class="paragraph">
+<p>The <code>ERROR</code> value is returned when a message cannot be delivered due to
+an internal error; this is an unusual condition. In this case, the
+sender should just resend the message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_PRODUCING_BROKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For message traffic in broker
+clusters: specifies the name and port number of the broker that sent the
+message. A null value indicates that it was the local broker.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_DEAD_BROKER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For message traffic in broker
+clusters: specifies the name and port number of the broker that placed
+the message on the dead message queue. A null value indicates that it
+was the local broker.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_EXCEPTION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the name of the
+exception (if the message was dead because of an exception) on either
+the client or the broker.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_UNDELIVERED_COMMENTS</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An optional comment
+provided when the message is marked dead.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_DMQ_BODY_TRUNCATED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A value of <code>true</code> indicates that
+the message body was not stored. A value of <code>false</code> indicates that the
+message body was stored.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelda"></a><a id="GMCCG00055"></a><a id="factors-affecting-performance"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_factors_affecting_performance">Factors Affecting Performance</h3>
+<div class="paragraph">
+<p>Application design decisions can have a significant effect on overall
+messaging performance. In general, the more reliable the delivery of
+messages, the more overhead and bandwidth are required to achieve it.
+The trade-off between reliability and performance is a significant
+design consideration. You can maximize performance and throughput by
+choosing to produce and consume non-persistent messages. On the other
+hand, you can maximize reliability by producing and consuming persistent
+messages using a transacted session. Between these extremes are a number
+of options, depending on the needs of your application. This section
+describes how these options or factors affect performance. They include
+the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeldb">Delivery Mode (Persistent/Non-persistent)</a></p>
+</li>
+<li>
+<p><a href="#aeldc">Use of Transactions</a></p>
+</li>
+<li>
+<p><a href="#aeldd">Acknowledgement Mode</a></p>
+</li>
+<li>
+<p><a href="#aelde">Durable and Non-Durable Subscriptions</a></p>
+</li>
+<li>
+<p><a href="#aeldf">Use of Selectors (Message Filtering)</a></p>
+</li>
+<li>
+<p><a href="#aeldg">Message Size</a></p>
+</li>
+<li>
+<p><a href="#aeldh">Message Type</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a href="#gblzp">Table 3-5</a> summarizes how application design factors affect
+messaging performance. The table shows two scenarios (a high
+reliability, low performance scenario and a high performance, low
+reliability scenario) and the choice of application design factors that
+characterizes each. Between these extremes, there are many choices and
+trade-offs that affect both reliability and performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG440"></a><a id="sthref24"></a><a id="gblzp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 3-5 Comparison of High Reliability and High Performance Scenarios</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 36%;">
+<col style="width: 34%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Application Design Factor</th>
+<th class="tableblock halign-left valign-top">High ReliabilityLow Performance Scenario</th>
+<th class="tableblock halign-left valign-top">High PerformanceLow Reliability Scenario</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Persistent messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Non-persistent messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of transactions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Transacted sessions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No transactions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledgement mode</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AUTO_ACKNOWLEDGE</code> or <code>CLIENT_ACKNOWLEDGE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DUPS_OK_ACKNOWLEDGE</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Durable/non-durable subscriptions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Durable subscriptions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Non-durable
+subscriptions</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Use of selectors</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message filtering</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No message filtering</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message size</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Small messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Large messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message body type</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Complex body types</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Simple body types</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In the discussion that follows, performance data was generated on a
+two-CPU, 1002 Mhz, Solaris 8 system, using file-based persistence. The
+performance test first warmed up the Message Queue broker, allowing the
+Just-In-Time compiler to optimize the system and the persistent database
+to be primed.</p>
+</div>
+<div class="paragraph">
+<p>Once the broker was warmed up, a single producer and a single consumer
+were created, and messages were produced for 30 seconds. The time
+required for the consumer to receive all produced messages was recorded,
+and a throughput rate (messages per second) was calculated. This
+scenario was repeated for different combinations of the application
+design factors shown in <a href="#aelda">Factors Affecting Performance</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeldb"></a><a id="GMCCG00326"></a><a id="delivery-mode-persistentnon-persistent"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_delivery_mode_persistent_non_persistent">Delivery Mode (Persistent/Non-persistent)</h4>
+<div class="paragraph">
+<p>Persistent messages guarantee message delivery in case of message server
+failure. The broker stores these message in a persistent store until all
+intended consumers acknowledge they have consumed the message.</p>
+</div>
+<div class="paragraph">
+<p>Broker processing of persistent messages is slower than for
+non-persistent messages for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A broker must reliably store a persistent message so that it will not
+be lost should the broker fail.</p>
+</li>
+<li>
+<p>The broker must confirm receipt of each persistent message it
+receives. Delivery to the broker is guaranteed once the method producing
+the message returns without an exception.</p>
+</li>
+<li>
+<p>Depending on the client acknowledgment mode, the broker might need to
+confirm a consuming client&#8217;s acknowledgement of a persistent message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The differences in performance for persistent and non-persistent modes
+can be significant&#8212;&#8203;about 25% faster for non-persistent messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeldc"></a><a id="GMCCG00327"></a><a id="use-of-transactions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_use_of_transactions">Use of Transactions</h4>
+<div class="paragraph">
+<p>A transaction guarantees that all messages produced or consumed within
+the scope of the transaction will be either processed (committed) or not
+processed (rolled back) as a unit. In general, the overhead of both
+local and distributed transaction processing dwarfs all other
+performance differentiators.</p>
+</div>
+<div class="paragraph">
+<p>A message produced or consumed within a transaction is slower than those
+produced or consumed outside of a transaction for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Additional information must be stored with each produced message.</p>
+</li>
+<li>
+<p>In some situations, messages in a transaction are stored when normally
+they would not be. For example, a persistent message delivered to a
+topic destination with no subscriptions would normally be deleted,
+however, at the time the transaction is begun, information about
+subscriptions is not available.</p>
+</li>
+<li>
+<p>Information on the consumption and acknowledgement of messages within
+a transaction must be stored and processed when the transaction is
+committed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeldd"></a><a id="GMCCG00328"></a><a id="acknowledgement-mode"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_acknowledgement_mode">Acknowledgement Mode</h4>
+<div class="paragraph">
+<p>Other than using transactions, you can ensure reliable delivery by
+having the client acknowledge receiving a message. If a session is
+closed without the client acknowledging the message or if the message
+server fails before the acknowledgment is processed, the broker
+redelivers that message, setting the <code>MQ_REDELIVERED_HEADER_PROPERTY</code>
+message header.</p>
+</div>
+<div class="paragraph">
+<p>For a non-transacted session, the client can choose one of three
+acknowledgement modes, each of which has its own performance
+characteristics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>AUTO_ACKNOWLEDGE</code>. The system automatically acknowledges a message
+once the consumer has processed it. This mode guarantees at most one
+redelivered message after a provider failure.</p>
+</li>
+<li>
+<p><code>CLIENT_ACKNOWLEDGE</code>. The application controls the point at which
+messages are acknowledged. All messages that have been received in the
+same session up to the message where the acknowledge function is called
+upon are acknowledged. If the message server fails while processing a
+set of acknowledgments, one or more messages in that group might be
+redelivered.<br>
+Note that this behavior models the JMS 1.0.2 specification rather than
+the JMS 1.1 specification<br>
+(Using <code>CLIENT_ACKNOWLEDGE</code> mode is similar to using transactions,
+except there is no guarantee that all acknowledgments will be processed
+together if a provider fails during processing.)</p>
+</li>
+<li>
+<p><code>DUPS_OK_ACKNOWLEDGE</code>. This mode instructs the system to acknowledge
+messages in a lazy manner. Multiple messages can be redelivered after a
+provider failure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Performance is impacted by acknowledgement mode for the following
+reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Extra control messages between broker and client are required in
+<code>AUTO_ACKNOWLEDGE</code> and <code>CLIENT_ACKNOWLEDGE</code> modes. The additional
+control messages add processing overhead and can interfere with JMS
+payload messages, causing processing delays.</p>
+</li>
+<li>
+<p>In <code>AUTO_ACKNOWLEDGE</code> and <code>CLIENT_ACKNOWLEDGE</code> modes, the client must
+wait until the broker confirms that it has processed the client&#8217;s
+acknowledgment before the client can consume more messages. (This broker
+confirmation guarantees that the broker will not inadvertently redeliver
+these messages.)</p>
+</li>
+<li>
+<p>The Message Queue persistent store must be updated with the
+acknowledgement information for all persistent messages received by
+consumers, thereby decreasing performance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In general, our tests show about a 7% difference in performance between
+pesistent and nonpersistent messages, no matter which acknowledgment
+mode is used. That is, while persistence is a significant factor
+affecting performance, acknowledgment mode is not.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelde"></a><a id="GMCCG00329"></a><a id="durable-and-non-durable-subscriptions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_durable_and_non_durable_subscriptions">Durable and Non-Durable Subscriptions</h4>
+<div class="paragraph">
+<p>Subscribers to a topic destination have either durable or non-durable
+subscriptions. Durable subscriptions provide increased reliability at
+the cost of slower throughput for the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Message Queue message server must persistently store the list of
+messages assigned to each durable subscription so that should a message
+server fail, the list is available after recovery.</p>
+</li>
+<li>
+<p>Persistent messages for durable subscriptions are stored persistently,
+so that should a message server fail, the messages can still be
+delivered after recovery, when the corresponding consumer becomes
+active. By contrast, persistent messages for non-durable subscriptions
+are not stored persistently (should a message server fail, the
+corresponding consumer connection is lost and the message would never be
+delivered).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For nonpersistent messages, performance is about the same for durable
+and non durable subscriptions. For persistent messages, performance is
+about 20% lower for durable subscriptions than for nondurable
+subscriptions.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeldf"></a><a id="GMCCG00330"></a><a id="use-of-selectors-message-filtering"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_use_of_selectors_message_filtering">Use of Selectors (Message Filtering)</h4>
+<div class="paragraph">
+<p>Application developers can have the messaging provider sort messages
+according to criteria specified in the message selector associated with
+a consumer and deliver to that consumer only those messages whose
+property value matches the message selector. For example, if an
+application creates a subscriber to the topic <code>WidgetOrders</code> and
+specifies the expression <code>NumberOfOrders&gt;1000</code> for the message selector,
+messages with a <code>NumberOfOrders</code> property value of <code>1001</code> or more are
+delivered to that subscriber.</p>
+</div>
+<div class="paragraph">
+<p>Creating consumers with selectors lowers performance (as compared to
+using multiple destinations) because additional processing is required
+to handle each message. When a selector is used, it must be parsed so
+that it can be matched against future messages. Additionally, the
+message properties of each message must be retrieved and compared
+against the selector as each message is routed. However, using selectors
+provides more flexibility in a messaging application and may lower
+resource requirements at the expense of speed.</p>
+</div>
+<div class="paragraph">
+<p>In our tests, performance results were affected by the use of selectors
+only in the case of nondurable subscribers, which ran about 33% faster
+without selectors. For durable subscribers and for queue consumers,
+performance was not affected by the use of selectors. For more
+information on using selectors, see <a href="#aelcr">Using Selectors
+Efficiently</a></p>
+</div>
+<div class="paragraph">
+<p><a id="aeldg"></a><a id="GMCCG00331"></a><a id="message-size"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_size">Message Size</h4>
+<div class="paragraph">
+<p>Message size affects performance because more data must be passed from
+producing client to broker and from broker to consuming client, and
+because for persistent messages a larger message must be stored.</p>
+</div>
+<div class="paragraph">
+<p>However, by batching smaller messages into a single message, the routing
+and processing of individual messages can be minimized, providing an
+overall performance gain. In this case, information about the state of
+individual messages is lost.</p>
+</div>
+<div class="paragraph">
+<p>In our tests we compared performance for persistent and non-persistent
+1k, 10k, and 100k messages. We found that 100k messages were processed
+two to three times faster than 10k messages, and 10k messages were
+processed five to six times faster than 1k messages. For both persistent
+and non-persistent messages, the size of the message affected the
+processing rate much more than its delivery mode. For 1k messages,
+non-persistent messages were almost twice as fast; for 10k messages,
+non-persistent messages were about 33% faster; for 100k messages, non
+persistent messages were about 5% faster. In our tests all messages were
+sent to a queue destination and used the <code>AUTO_ACKNOWLEDGE</code>
+acknowledgement mode.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeldh"></a><a id="GMCCG00332"></a><a id="message-type"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_type">Message Type</h4>
+<div class="paragraph">
+<p>The C API supports three message types:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_BYTES_MESSAGE</code>, which contains a set of bytes in a format
+determined by the application</p>
+</li>
+<li>
+<p><code>MQ_TEXT_MESSAGE</code>, which is a simple <code>MQString</code></p>
+</li>
+<li>
+<p><code>MQ_MESSAGE</code>, which contains a header and properties but no body</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Since performance varies with the complexity of the data, text messages
+are slightly more expensive to send than byte messages, and messages
+that have no body are the fastest.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="using-the-c-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="reference.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

@@ -1,0 +1,1026 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Eclipse Open Message Queue Developer&apos;s Guide for Java Clients, Release 5.1.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Eclipse Open Message Queue Developer's Guide for Java Clients, Release 5.1.4</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+
+		<td align="left">
+		<a href="title.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div class="sect1">
+<h2 id="contents">Contents</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="title-and-copyright-information"><a href="title.html">Title and Copyright Information</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="preface"><a href="preface.html#gblyo">Preface</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="preface.html#gblyj">Who Should Use This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxf">Before You Read This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxh">How This Book Is Organized</a></p>
+</li>
+<li>
+<p><a href="preface.html#ghode">Documentation Conventions</a></p>
+</li>
+<li>
+<p><a href="preface.html#gbqah">Related Documentation</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="overview"><a href="overview.html#aeqaq">1 Overview</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html#aeqar">Setting Up Your Environment</a></p>
+</li>
+<li>
+<p><a href="overview.html#aeqas">Starting and Testing a Message Broker</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html#gboup">To Start a Broker</a></p>
+</li>
+<li>
+<p><a href="overview.html#gbott">To Test a Broker</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="overview.html#aeqat">Developing a Client Application</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html#gbotf">To Produce Messages</a></p>
+</li>
+<li>
+<p><a href="overview.html#gboty">To Consume Messages</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="overview.html#aeqau">Compiling and Running a Client Application</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="overview.html#gbosw">To Compile and Run the HelloWorldMessage
+Application</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="overview.html#aeqav">Deploying a Client Application</a></p>
+</li>
+<li>
+<p><a href="overview.html#aeqaw">Example Application Code</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="message-queue-clients-design-and-features"><a href="client-design-and-features.html#aeqcq">2 Message Queue Clients: Design and Features</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqcr">Client Design
+Considerations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqcs">Developing Portable
+Clients</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqct">Choosing which JMS API to
+Use</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqcu">Connections and Sessions</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#sthref6">JMSContext</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqcv">Producers and Consumers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqcw">Assigning Client
+Identifiers</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqcx">Message Order and
+Priority</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqcy">Using Selectors
+Efficiently</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqcz">Balancing Reliability and
+Performance</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqda">Managing Client Threads</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdb">JMS Threading Restrictions</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdc">Thread Allocation for
+Connections</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdd">Managing Memory and
+Resources</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqde">Managing Memory</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdf">Managing Message Size</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdg">Message Compression</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdh">Advantages and Limitations
+of Compression</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdi">Compression Examples</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdj">Managing the Dead Message
+Queue</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdk">Managing Physical
+Destination Limits</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdl">Programming Issues for
+Message Consumers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdm">Using the Client Runtime
+Ping Feature</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdn">Preventing Message Loss for
+Synchronous Consumers</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdo">Synchronous Consumption in
+Distributed Applications</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdp">Factors Affecting
+Performance</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdq">Delivery Mode
+(Persistent/Nonpersistent)</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdr">Use of Transactions</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqds">Acknowledgment Mode</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdt">Durable vs. Nondurable
+Subscriptions</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdu">Use of Selectors (Message
+Filtering)</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdv">Message Size</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdw">Message Body Type</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcbkz">Connection Event
+Notification</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#gcblp">Connection Events</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcblg">Creating an Event Listener</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcbla">Event Listener Examples</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gkvyk">Consumer Event Notification</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#gkvxy">Consumer Events</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gkvxz">Creating a Consumer Event
+Listener</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gkvym">Consumer Event Listener
+Examples</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqdx">Client Connection Failover
+(Auto-Reconnect)</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqdy">Enabling Auto-Reconnect</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqec">Single-Broker
+Auto-Reconnect</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqed">Parallel Broker
+Auto-Reconnect</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqee">Clustered-Broker
+Auto-Reconnect</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gfoak">Auto-Reconnect Behaviors</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqea">Auto-Reconnect Limitations</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gczqs">Handling Exceptions When
+Failover Occurs</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#gczqp">Handling Exceptions in a
+Transacted Session</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gczqm">Handling Exceptions in a
+Non-Transacted Session</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqef">Custom Client
+Acknowledgment</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#aeqeg">Using Client Acknowledge
+Mode</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqeh">Using No Acknowledge Mode</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gglft">Schema Validation of XML
+Payload Messages</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#aeqei">Communicating with C
+Clients</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcbii">Client Runtime Logging</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="client-design-and-features.html#gcbke">Logging Name Spaces,
+Levels, and Activities</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcblo">Using the JRE Logging
+Configuration File</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcbkm">Using a Logging
+Configuration File for a Specific Application</a></p>
+</li>
+<li>
+<p><a href="client-design-and-features.html#gcbkk">Setting the Logging
+Configuration Programmatically</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="the-jms-simplified-api"><a href="using-the-simplifed-java-api.html#BGBFAEAG">3 The JMS Simplified API</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABCIBDI">Using the Simplified
+API</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref14">Using the
+Autocloseable Interface</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref15">Simplified Extraction
+of Message Bodies</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABCEIJG">Developing a JMS Client
+using the Simplified API</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABFIDDI">Working With
+Connections</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABHBBGG">Working With
+Destinations</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABFJEHJ">Working With Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref17">Message Structure</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABGEIDC">Message Headers</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABFAGED">Changes for Standard
+JMS 2.0 Message Properties</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABIJCJD">Sending Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref23">Simplified API methods
+for Asynchronous Sends</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABECHCG">Receiving Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref24">Using Shared
+Non-durable Subscriptions</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref25">Using Shared Durable
+Subscriptions</a></p>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref26">Starting Message
+Delivery</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-simplifed-java-api.html#BABGJDBF">Processing Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-simplifed-java-api.html#sthref27">Retrieving Message
+Header Fields</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="the-jms-classic-api"><a href="using-the-java-api.html#aeqax">4 The JMS Classic API</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqay">Messaging Domains</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqaz">Working With Connections</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqba">Obtaining a Connection Factory</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbb">Looking Up a Connection Factory
+With JNDI</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbc">Overriding Configuration Settings</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbd">Instantiating a Connection
+Factory</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbe">Using Connections</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#gcvuc">Creating Secure Connections (SSL)</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbf">Working With Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbg">Looking Up a Destination With JNDI</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#gbotz">To Look Up a Destination With
+JNDI</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbh">Instantiating a Destination</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbi">Temporary Destinations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbj">Working With Sessions</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbk">Acknowledgment Modes</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#gdydy">Transacted Sessions</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbm">Working With Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbn">Message Structure</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbo">Message Header</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbp">Message Properties</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbq">Message Body</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbr">Composing Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbs">Composing Text Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbt">Composing Stream Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbu">Composing Map Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbv">Composing Object Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbw">Composing Bytes Messages</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqbx">Sending Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#BGBGDFBA">Asynchronous send</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqby">Receiving Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqbz">Creating Message Consumers</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqcc">Receiving Messages Synchronously</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqcd">Receiving Messages Asynchronously</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqce">Acknowledging Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqcf">Browsing Messages</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqcg">Closing a Consumer</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqch">Processing Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-java-api.html#aeqci">Retrieving Message Header Fields</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqcj">Retrieving Message Properties</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#aeqck">Processing the Message Body</a></p>
+</li>
+<li>
+<p><a href="using-the-java-api.html#sthref53">Simplified Extraction of
+Message Bodies</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-java-api.html#BGBGIECH">Using the Autocloseable
+Interface</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-the-metrics-monitoring-api"><a href="using-the-metrics-monitoring-api.html#aeqej">5 Using the Metrics Monitoring API</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqek">Monitoring Overview</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqel">Administrative Tasks</a></p>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqem">Implementation
+Summary</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#gbowb">To Implement
+Message-Based Monitoring</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqen">Creating a
+Metrics-Monitoring Client</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#gbouy">To Monitor Broker
+Metrics</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqeo">Format of Metrics
+Messages</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqep">Broker Metrics</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqeq">JVM Metrics</a></p>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqer">Destination-List
+Metrics</a></p>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqes">Destination Metrics</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqet">Metrics Monitoring
+Client Code Examples</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqeu">A Broker Metrics
+Example</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqev">A Destination List
+Metrics Example</a></p>
+</li>
+<li>
+<p><a href="using-the-metrics-monitoring-api.html#aeqew">A Destination
+Metrics Example</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="working-with-soap-messages"><a href="soap-messages.html#aeqex">6 Working with SOAP Messages</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqey">What is SOAP?</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqez">SOAP with Attachments API for Java</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqfa">The Transport Layer</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfb">The SOAP Layer</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfc">The Language Implementation Layer</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfd">The Profiles Layer</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfe">Interoperability</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqff">The SOAP Message</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfg">SOAP Packaging Models</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfh">SOAP Messaging in JAVA</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqfi">The SOAP Message Object</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqfj">Inherited Methods</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfk">Namespaces</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfo">Destination, Message Factory, and
+Connection Objects</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqfp">Endpoint</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqft">Message Factory</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfu">Connection</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#gdysa">SOAP Connection</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqfx">SOAP Messaging Models and Examples</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqfy">SOAP Messaging Programming Models</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqga">Working with Attachments</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#gboxw">To Create and Add an Attachment</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgb">Exception and Fault Handling</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgc">Writing a SOAP Client</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#gboxv">To Write a SOAP Client for
+Point-to-Point Messaging</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgd">Writing a SOAP Service</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqge">Disassembling Messages</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgf">Handling Attachments</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgg">Replying to Messages</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgh">Handling SOAP Faults</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgk">Integrating SOAP and Message Queue</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#aeqgl">Example 1: Deferring SOAP Processing</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="soap-messages.html#gboxx">To Transform the SOAP Message into a
+JMS Message and Send the JMS Message</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#gboxh">To Receive the JMS Message, Transform
+it into a SOAP Message, and Process It</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgm">Example 2: Publishing SOAP Messages</a></p>
+</li>
+<li>
+<p><a href="soap-messages.html#aeqgn">Code Samples</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="embedding-a-message-queue-broker-in-a-java-client"><a href="embedded-brokers.html#gjmtl">7 Embedding a Message Queue Broker in a Java Client</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="embedded-brokers.html#gjmtr">Creating, Initializing and Starting an
+Embedded Broker</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="embedded-brokers.html#gjmth">Creating a Broker Event Listener</a></p>
+</li>
+<li>
+<p><a href="embedded-brokers.html#gjmue">Arguments to Specify When
+Initializing an Embedded Broker</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="embedded-brokers.html#gjmul">Creating a Direct Connection to an
+Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="embedded-brokers.html#gjmuf">Creating a TCP Connection to an
+Embedded Broker</a></p>
+</li>
+<li>
+<p><a href="embedded-brokers.html#gjmto">Stopping and Shutting Down an Embedded
+Broker</a></p>
+</li>
+<li>
+<p><a href="embedded-brokers.html#gjmtz">Embedded Broker Example</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="a-warning-messages-and-client-error-codes"><a href="warning-messages_error-codes.html#aeqgo">A Warning Messages and Client Error Codes</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="warning-messages_error-codes.html#gboyb">Warning Messages and Error
+Codes</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+
+		<td align="left">
+		<a href="title.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

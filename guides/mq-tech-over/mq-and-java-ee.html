@@ -1,0 +1,259 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Message Queue and Java EE</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Message Queue and Java EE</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="mq-features.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMTOV00029"></a><a id="aerdu"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="message-queue-and-java-ee">5 Message Queue and Java EE</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Java Platform, Enterprise Edition (Java EE) is a specification for a
+standard server platform hosting multi-tier, distributed enterprise
+applications. One of the requirements of Java EE is that distributed
+components be able to interact through reliable, asynchronous messaging.
+This interaction is enabled through the use of a JMS provider. In fact,
+Message Queue is the reference JMS implementation for Java EE.</p>
+</div>
+<div class="paragraph">
+<p>This chapter explores the ramifications of implementing JMS support in a
+Java EE platform environment. The chapter covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aerdv">JMS/Java EE Programming: Message-Driven Beans</a></p>
+</li>
+<li>
+<p><a href="#aerdw">Java EE Application Server Support</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For additional information about using Message Queue as a JMS provider
+for Java EE compliant application servers, see "<a href="../mq-admin-guide/jmsra-properties.html#GMADG00051">JMS
+Resource Adapter Property Reference</a>" in Open Message Queue
+Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerdv"></a><a id="GMTOV00071"></a><a id="jmsjava-ee-programming-message-driven-beans"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_jms_java_ee_programming_message_driven_beans">JMS/Java EE Programming: Message-Driven Beans</h3>
+<div class="paragraph">
+<p>In addition to the general JMS client programming model introduced in
+<a href="client-programming-model.html#aerbg">Client Programming Model</a>, there
+is a more specialized adaptation of a JMS client used in the context of
+Java EE platform applications. This specialized client is called a
+message-driven bean and is one of a family of Enterprise JavaBeans (EJB)
+components described in the
+<a href="http://java.sun.com/products/ejb/docs.html">EJB 2.0 (and later)
+Specification</a>.</p>
+</div>
+<div class="paragraph">
+<p>Message-driven beans provide asynchronous messaging; other EJB
+components (session beans and entity beans) can only be called
+synchronously, through standard EJB interfaces. However, enterprise
+applications often need asynchronous messaging, to allow server-side
+components to communicate without tying up server resources. Any
+application whose server-side components must respond to application
+events needs an EJB component that can receive and consume messages
+without being tightly coupled to the message producer. In enterprise
+applications, this capability must also scale under increasing load.</p>
+</div>
+<div class="paragraph">
+<p>A message-driven bean (MDB) is an EJB component supported by a
+specialized EJB container, that provides distributed services for the
+components it supports.</p>
+</div>
+<div class="paragraph">
+<p>An MDB implements the JMS <code>MessageListener</code> interface. The <code>onMessage</code>
+method (written by the MDB developer) is invoked when the MDB container
+receives a message. The <code>onMessage()</code> method consumes the message, just
+as the <code>onMessage()</code> method of a standard <code>MessageListener</code> object
+would. (You do not remotely invoke methods on MDBs as you do on other
+EJB components: therefore there are no home or remote interfaces
+associated with them.) Each MDB can consume messages from only a single
+destination. The messages can be produced by standalone JMS
+applications, JMS components, or EJB components, as shown in the
+following figure.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00023"></a><a id="gbpeq"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 5-1 Messaging with MDBs</strong></div>
+<p><span class="image"><img src="img/to_mdbmessaging.png" alt="Diagram showing JMS message producers sending messages to consuming MDB instances in a Java EE environment."></span></p>
+</div>
+<div class="paragraph">
+<p>A specialized EJB container supports the MDB. This MDB container creates
+instances of the MDB and sets them up for asynchronous consumption of
+messages. The container sets up a connection with the broker (including
+authentication), creates a pool of sessions associated with a given
+destination, and manages the distribution of messages among the pooled
+sessions. Since the container controls the life cycle of MDB instances,
+it manages the pool of MDB instances to accommodate incoming message
+loads.</p>
+</div>
+<div class="paragraph">
+<p>Associated with each MDB is a deployment descriptor that specifies the
+connection factory attributes and destination properties that the
+container uses in setting up message consumption. The deployment
+descriptor can also include other information needed by deployment tools
+to configure the container. Each such container supports all instances
+of a single MDB.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerdw"></a><a id="GMTOV00072"></a><a id="java-ee-application-server-support"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java_ee_application_server_support">Java EE Application Server Support</h3>
+<div class="paragraph">
+<p>In Java EE architecture, EJB containers are provided by Java EE
+application servers. An application server supports these containers by
+providing resources they need, such as transaction managers, persistence
+managers, name services, and, in the case of messaging and MDBs, a JMS
+provider.</p>
+</div>
+<div class="paragraph">
+<p>For information about Java EE architecture, see the Java EE Platform
+Specification located at
+<code>http://www.oracle.com/technetwork/java/javaee/downloads/index.html</code>.</p>
+</div>
+<div class="paragraph">
+<p>Java EE also provides a standardized way of plugging in external
+resources needed by an application server. The standard, defined by the
+Java EE Connector Architecture (J2EECA) 1.5 specification, allows an
+application server to interact with external systems by way of a
+resource adapter. External systems can include, among others, JMS
+messaging systems, as implemented by a JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>Plugging a JMS resource adapter into an application server allows Java
+EE components deployed and running in the application server to exchange
+JMS messages. The JMS connection factory and destination administered
+objects needed by these components can be created and configured using
+Java EE application server administration tools.</p>
+</div>
+<div class="paragraph">
+<p>Other administrative operations, however, such as managing a broker and
+physical destinations, are not included in the J2EECA specification and
+can be performed only through provider-specific tools.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue includes a JMS resource adapter that consists of a single
+file (<code>imqjmsra.rar)</code> located in a directory that depends on the
+operating system (see "<a href="../mq-admin-guide/jmsra-properties.html#GMADG00051">JMS Resource Adapter Property
+Reference</a>" in Open Message Queue Administration Guide). The
+<code>imqjmsra.rar</code> file contains the JAR files needed by the application
+server to support JMS messaging, as well as the resource adapter
+deployment descriptor (<code>ra.xml</code>) used to deploy the resource adapter in
+a Java EE application server.</p>
+</div>
+<div class="paragraph">
+<p>You can deploy the Message Queue resource adapter in Java
+EE-1.4-compliant application servers by following the resource adapter
+deployment and configuration instructions provided by each application
+server.</p>
+</div>
+<div class="paragraph">
+<p>In the case of the GlassFish Server, however, Message Queue is already
+integrated, by default, as the application server&#8217;s native JMS provider.
+Hence, no deployment of the Message Queue resource adapter is required.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="mq-features.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

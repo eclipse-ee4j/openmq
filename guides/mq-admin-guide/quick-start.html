@@ -1,0 +1,1431 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Quick-Start Tutorial</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Quick-Start Tutorial</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="admin-tasks-and-tools.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-administrative-tasks.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00033"></a><a id="aeoay"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="quick-start-tutorial">2 Quick-Start Tutorial</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This quick-start tutorial provides a brief introduction to Message Queue
+administration by guiding you through some basic administrative tasks
+using the Message Queue Administration Console, a graphical interface
+for administering a message broker and object store. The chapter
+consists of the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoaz">Starting the Administration Console</a></p>
+</li>
+<li>
+<p><a href="#aeoba">Administration Console Online Help</a></p>
+</li>
+<li>
+<p><a href="#aeobb">Working With Brokers</a></p>
+</li>
+<li>
+<p><a href="#aeobg">Working With Physical Destinations</a></p>
+</li>
+<li>
+<p><a href="#aeobl">Working With Object Stores</a></p>
+</li>
+<li>
+<p><a href="#aeobo">Working With Administered Objects</a></p>
+</li>
+<li>
+<p><a href="#aeobt">Running the Sample Application</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The tutorial sets up the physical destinations and administered objects
+needed to run a simple JMS-compliant application,
+<code>HelloWorldMessageJNDI</code>. The application is available in the
+<code>helloworld</code> subdirectory of the example applications directory,
+<code>IMQ_HOME/examples</code>. In the last part of the tutorial, you will run this
+application.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You must have the Message Queue product installed in order to follow the
+tutorial.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The tutorial is only a basic introduction; it is not a substitute for
+reading the documentation. By following the steps described in the
+tutorial, you will learn how to</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start a Message Queue broker</p>
+</li>
+<li>
+<p>Connect to a broker and use the Administration Console to manage it</p>
+</li>
+<li>
+<p>Create physical destinations on the broker</p>
+</li>
+<li>
+<p>Create an object store and use the Administration Console to connect
+to it</p>
+</li>
+<li>
+<p>Add administered objects to the object store and view their properties</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The instructions given in this tutorial are specific to the Windows
+platform. Where necessary, supplemental notes are added for users of
+other platforms.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Some administrative tasks cannot be accomplished using the
+Administration Console. You must use command line utilities to perform
+such tasks as the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start up a broker</p>
+</li>
+<li>
+<p>Create a broker cluster</p>
+</li>
+<li>
+<p>Configure certain physical destination properties</p>
+</li>
+<li>
+<p>Manage a JDBC database for persistent storage</p>
+</li>
+<li>
+<p>Manage a user repository</p>
+</li>
+<li>
+<p>Install a broker as a Windows service</p>
+</li>
+<li>
+<p>Generate SSL certificates</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All of these tasks are covered in later chapters of this manual.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoaz"></a><a id="GMADG00219"></a><a id="starting-the-administration-console"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_starting_the_administration_console">Starting the Administration Console</h3>
+<div class="paragraph">
+<p>To start the Administration Console, enter the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_HOME/bin/imqadmin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You may need to wait a few seconds before the Administration Console
+window is displayed (see <a href="#gbngn">Figure 2-1</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00002"></a><a id="gbngn"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-1 Administration Console Window</strong></div>
+<p><span class="image"><img src="img/startupscreen.png" alt="Startup screen for Sun Java System Message Queue. Tree view in left pane; contents in right pane."></span></p>
+</div>
+<div class="paragraph">
+<p>Take a few seconds to examine the Administration Console window. It has
+a menu bar at the top, a tool bar just below it, a navigation pane to
+the left, a result pane to the right (now displaying graphics
+identifying the Message Queue product), and a status pane at the bottom.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As you work with the Administration Console, you can use the Refresh
+command on the View menu to update the visual display of any element or
+group of elements, such as a list of brokers or object stores.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoba"></a><a id="GMADG00220"></a><a id="administration-console-online-help"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_administration_console_online_help">Administration Console Online Help</h3>
+<div class="paragraph">
+<p>The Administration Console provides a help facility containing complete
+information about how to use the Console to perform administrative
+tasks. To use the help facility, pull down the Help menu at the right
+end of the menu bar and choose Overview. The Administration Console&#8217;s
+Help window (<a href="#gbnhm">Figure 2-2</a>) will be displayed.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00003"></a><a id="gbnhm"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-2 Administration Console Help Window</strong></div>
+<p><span class="image"><img src="img/helpoverview.png" alt="Message Queue Administration Console help window. Tree view of available help topics on left: help topic content window on right."></span></p>
+</div>
+<div class="paragraph">
+<p>The Help window&#8217;s navigation pane, on the left, organizes topics into
+three areas: Message Queue Administration Console, Message Queue Object
+Store Management, and Message Queue Broker Management. Within each area
+are files and folders. The folders provide help for dialog boxes
+containing multiple tabs, the files for simple dialog boxes or
+individual tabs. When you select an item in the navigation pane, the
+result pane to the right shows the contents of that item. With the
+Overview item chosen, the result pane displays a skeletal view of the
+Administration Console window identifying each of the window&#8217;s panes, as
+shown in the figure.</p>
+</div>
+<div class="paragraph">
+<p>Your first task with the Administration Console will be to create a
+reference to a broker. Before you start, however, check the Help window
+for information. Click the Add Broker item in the Help window&#8217;s
+navigation pane; the contents of the result pane will change to show
+text explaining what it means to add a broker and describing the use of
+each field in the Add Broker dialog box. Read through the help text,
+then close the Help window.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobb"></a><a id="GMADG00221"></a><a id="working-with-brokers"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_brokers">Working With Brokers</h3>
+<div class="paragraph">
+<p>This section describes how to use the Administration Console to connect
+to and manage message brokers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobc"></a><a id="GMADG00496"></a><a id="starting-a-broker"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_starting_a_broker">Starting a Broker</h4>
+<div class="paragraph">
+<p>You cannot start a broker using the Administration Console. Instead,
+enter the command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_HOME/bin/imqbrokerd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you used the Windows Start menu, the command window will appear,
+indicating that the broker is ready by displaying lines like the
+following:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Loading persistent data...    Broker "imqbroker@stan:7676 ready.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Reactivate the Administration Console window. You are now ready to add
+the broker to the Console and connect to it. You do not have to start
+the broker before adding a reference to it in the Administration
+Console, but you must start it before you can connect to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobd"></a><a id="GMADG00497"></a><a id="adding-a-broker-to-the-administration-console"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_a_broker_to_the_administration_console">Adding a Broker to the Administration Console</h4>
+<div class="paragraph">
+<p>Adding a broker creates a reference to that broker in the Administration
+Console. After adding the broker, you can connect to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbngl"></a><a id="GMADG00145"></a><a id="to-add-a-broker-to-the-administration-console"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_add_a_broker_to_the_administration_console">To Add a Broker to the Administration Console</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the Brokers item in the Administration Console window&#8217;s
+navigation pane and choose Add Broker from the Actions menu.<br>
+Alternatively, you can right-click on Brokers and choose Add Broker from
+the pop-up context menu. In either case, the Add Broker dialog box
+(<a href="#gbnid">Figure 2-3</a>) will appear.<br>
+<a id="GMADG00004"></a><a id="gbnid"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-3 Add Broker Dialog Box</strong></div>
+<p><span class="image"><img src="img/addbrokerdlog.png" alt="Add Broker dialog. Buttons from left to right: OK, Reset to Defaults, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter a name for the broker in the Broker Label field.<br>
+This provides a label that identifies the broker in the Administration
+Console.<br>
+Note the default host name (<code>localhost</code>) and primary port ( <code>7676</code>)
+specified in the dialog box. These are the values you must specify
+later, when you configure the connection factory that the client will
+use to create connections to this broker.<br>
+For this exercise, type the name <code>MyBroker</code> into the Broker Label field.
+Leave the Password field blank; your password will be more secure if you
+specify it at connection time.</p>
+</li>
+<li>
+<p>Click OK to add the broker and dismiss the dialog box.<br>
+The new broker will appear under Brokers in the navigation pane, as
+shown in <a href="#gbngo">Figure 2-4</a>. The red X over the broker&#8217;s icon
+indicates that it is not currently connected to the Administration
+Console.<br>
+<a id="GMADG00005"></a><a id="gbngo"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-4 Broker Displayed in Administration Console Window</strong></div>
+<p><span class="image"><img src="img/brokers.png" alt="Message Queue Administration Console window. Broker selected in tree view."></span></p>
+</div>
+<div class="paragraph">
+<p>Once you have added a broker, you can use the Properties command on the
+Actions menu (or the pop-up context menu) to display a Broker Properties
+dialog box, similar to the Add Broker dialog shown in <a href="#aeobd">Adding
+a Broker to the Administration Console</a>, to view or modify any of its
+properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobe"></a><a id="GMADG00498"></a><a id="connecting-to-a-broker"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connecting_to_a_broker">Connecting to a Broker</h4>
+<div class="paragraph">
+<p>Now that you have added a broker to the Administration Console, you can
+proceed to connect to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbngw"></a><a id="GMADG00146"></a><a id="to-connect-to-a-broker"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_connect_to_a_broker">To Connect to a Broker</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the broker&#8217;s name in the Administration Console window&#8217;s
+navigation pane and choose Connect to Broker from the Actions menu.<br>
+Alternatively, you can right-click on the broker&#8217;s name and choose
+Connect to Broker from the pop-up context menu. In either case, the
+Connect to Broker dialog box ( <a href="#gbngp">Figure 2-5</a>) will appear.<br>
+<a id="GMADG00006"></a><a id="gbngp"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-5 Connect to Broker Dialog Box</strong></div>
+<p><span class="image"><img src="img/connectbkrdlog.png" alt="Connect to Broker dialog. Buttons from left to right: OK, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the user name and password with which to connect to the
+broker.<br>
+The dialog box initially displays the default user name, <code>admin</code> . In a
+real-world environment, you should establish secure user names and
+passwords as soon as possible (see <a href="security-services.html#aeofg">User
+Authentication</a>); for this exercise, simply use the default value.<br>
+The password associated with the default user name is also <code>admin</code>; type
+it into the Password field in the dialog box. This will connect you to
+the broker with administrative privileges.</p>
+</li>
+<li>
+<p>Click OK to connect to the broker and dismiss the dialog box.<br>
+Once you have connected to the broker, you can use the commands on the
+Actions menu (or the context menu) to perform the following operations
+on a selected broker:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Pause Broker temporarily suspends the operation of a running broker.</p>
+</li>
+<li>
+<p>Resume Broker resumes the operation of a paused broker.</p>
+</li>
+<li>
+<p>Restart Broker reinitializes and restarts a broker.</p>
+</li>
+<li>
+<p>Shut Down Broker terminates the operation of a broker.</p>
+</li>
+<li>
+<p>Query/Update Broker displays or modifies a broker&#8217;s configuration
+properties.</p>
+</li>
+<li>
+<p>Disconnect from Broker terminates the connection between a broker and
+the Administration Console.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobf"></a><a id="GMADG00499"></a><a id="viewing-connection-services"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_connection_services">Viewing Connection Services</h4>
+<div class="paragraph">
+<p>A broker is distinguished by the connection services it provides and the
+physical destinations it supports.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnhr"></a><a id="GMADG00147"></a><a id="to-view-available-connection-services"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_view_available_connection_services">To View Available Connection Services</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Services under the broker&#8217;s name in the Administration
+Console window&#8217;s navigation pane.<br>
+A list of the available services will appear in the result pane (see
+<a href="#gbnie">Figure 2-6</a>), showing the name, port number, and current
+state of each service.<br>
+<a id="GMADG00007"></a><a id="gbnie"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-6 Viewing Connection Services</strong></div>
+<p><span class="image"><img src="img/services.png" alt="Message Queue Administration Console window. Broker services node selected. Contents of node displayed in the contents pane."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select a service by clicking on its name in the result pane.<br>
+For this exercise, select the name <code>jms</code>.</p>
+</li>
+<li>
+<p>Choose Properties from the Actions menu.<br>
+The Service Properties dialog box (<a href="#gbnja">Figure 2-7</a>) will appear.
+You can use this dialog box to assign the service a static port number
+and to change the minimum and maximum number of threads allocated for
+it.<br>
+<a id="GMADG00008"></a><a id="gbnja"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-7 Service Properties Dialog Box</strong></div>
+<p><span class="image"><img src="img/jmsservpropsdlog.png" alt="Service Properties dialog. Buttons from left to right: OK, Cancel, Help."></span></p>
+</div>
+<div class="paragraph">
+<p>For this exercise, do not change any of the connection service&#8217;s
+properties.
+4.  Click OK to accept the new property values and dismiss the dialog
+box.<br>
+The Actions menu also contains commands for pausing and resuming a
+service. If you select the admin service and pull down the Actions menu,
+however, you will see that the Pause Service command is disabled. This
+is because the admin service is the Administration Console&#8217;s link to the
+broker: if you paused it, you would no longer be able to access the
+broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobg"></a><a id="GMADG00222"></a><a id="working-with-physical-destinations"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_physical_destinations">Working With Physical Destinations</h3>
+<div class="paragraph">
+<p>A physical destination is a location on a message broker where messages
+received from a message producer are held for later delivery to one or
+more message consumers. Destinations are of two kinds, depending on the
+messaging domain in use: queues (point-to-point domain) and topics
+(publish/subscribe domain). See the Open Message Queue Technical
+Overview for further discussion of messaging domains and the
+destinations associated with them.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobh"></a><a id="GMADG00500"></a><a id="creating-a-physical-destination"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_creating_a_physical_destination">Creating a Physical Destination</h4>
+<div class="paragraph">
+<p>By default, message brokers are configured to create new physical
+destinations automatically whenever a message producer or consumer
+attempts to access a nonexistent destination. Such auto-created
+destinations are convenient to use while testing client code in a
+software development environment. In a production setting, however, it
+is advisable to disable the automatic creation of destinations and
+instead require all destinations to be created explicitly by an
+administrator. The following procedure shows how to add such an
+admin-created destination to a broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnio"></a><a id="GMADG00148"></a><a id="to-add-a-physical-destination-to-a-broker"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_add_a_physical_destination_to_a_broker">To Add a Physical Destination to a Broker</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the Destinations item under the broker&#8217;s name in the
+Administration Console window&#8217;s navigation pane and choose Add Broker
+Destination from the Actions menu.<br>
+Alternatively, you can right-click on Destinations and choose Add Broker
+Destination from the pop-up context menu. In either case, the Add Broker
+Destination dialog box (<a href="#gbnim">Figure 2-8</a>) will appear.<br>
+<a id="GMADG00009"></a><a id="gbnim"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-8 Add Broker Destination Dialog Box</strong></div>
+<p><span class="image"><img src="img/addphysdestdlog.png" alt="Add Broker Destination Dialog. Buttons from left to right: OK, Reset To Defaults, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter a name for the physical destination in the Destination Name
+field.<br>
+Note the name that you assign to the destination; you will need it later
+when you create an administered object corresponding to this physical
+destination.<br>
+For this exercise, type in the name <code>MyQueueDest</code>.</p>
+</li>
+<li>
+<p>Select the Queue or Topic radio button to specify the type of
+destination to create.<br>
+For this exercise, select Queue if it is not already selected.</p>
+</li>
+<li>
+<p>Click OK to add the physical destination and dismiss the dialog box.<br>
+The new destination will appear in the result pane.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobi"></a><a id="GMADG00501"></a><a id="viewing-physical-destination-properties"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_physical_destination_properties">Viewing Physical Destination Properties</h4>
+<div class="paragraph">
+<p>You can use the Properties command on the Administration Console&#8217;s
+Actions menu to view or modify the properties of a physical destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbniy"></a><a id="GMADG00149"></a><a id="to-view-or-modify-the-properties-of-a-physical-destination"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_view_or_modify_the_properties_of_a_physical_destination">To View or Modify the Properties of a Physical Destination</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Destinations under the broker&#8217;s name in the Administration
+Console window&#8217;s navigation pane.<br>
+A list of the available physical destinations will appear in the result
+pane, showing the name, type, and current state of each destination.</p>
+</li>
+<li>
+<p>Select a physical destination by clicking on its name in the result
+pane.</p>
+</li>
+<li>
+<p>Choose Properties from the Actions menu.<br>
+The Broker Destination Properties dialog box (<a href="#gbniq">Figure 2-9</a>)
+will appear, showing current status and configuration information about
+the selected physical destination. You can use this dialog box to change
+various configuration properties, such as the maximum number of
+messages, producers, and consumers that the destination can accommodate.<br>
+<a id="GMADG00010"></a><a id="gbniq"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-9 Broker Destination Properties Dialog Box</strong></div>
+<p><span class="image"><img src="img/physdestpropsdlog.png" alt="Broker Destinations Properties dialog. Buttons from left to right: OK, Cancel, Help."></span></p>
+</div>
+<div class="paragraph">
+<p>For this exercise, do not change any of the destination&#8217;s properties.<br>
+For topic destinations, the Broker Destination Properties dialog box
+contains an additional tab, Durable Subscriptions. Clicking on this tab
+displays information for Durable Subscriptions, such as the Subscription
+Name, Client ID, and Number of Messages.<br>
+You can use the Durable Subscriptions panel&#8217;s Purge and Delete buttons
+to
+* Purge all pending messages associated with a durable subscription
+* Remove a durable subscription from the topic<br>
+The Durable Subscriptions tab is disabled for queue destinations.
+4.  Click OK to accept the new property values and dismiss the dialog
+box.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobj"></a><a id="GMADG00502"></a><a id="purging-messages-from-a-physical-destination"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_purging_messages_from_a_physical_destination">Purging Messages From a Physical Destination</h4>
+<div class="paragraph">
+<p>Purging messages from a physical destination removes all pending
+messages associated with the destination, leaving the destination empty.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnil"></a><a id="GMADG00150"></a><a id="to-purge-messages-from-a-physical-destination"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_purge_messages_from_a_physical_destination">To Purge Messages From a Physical Destination</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Destinations under the broker&#8217;s name in the Administration
+Console window&#8217;s navigation pane.<br>
+A list of the available physical destinations will appear in the result
+pane, showing the name, type, and current state of each destination.</p>
+</li>
+<li>
+<p>Select a destination by clicking on its name in the result pane.</p>
+</li>
+<li>
+<p>Choose Purge Messages from the Actions menu.<br>
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.</p>
+</li>
+<li>
+<p>Click Yes to confirm the operation and dismiss the confirmation
+dialog.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobk"></a><a id="GMADG00503"></a><a id="deleting-a-physical-destination"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_a_physical_destination">Deleting a Physical Destination</h4>
+<div class="paragraph">
+<p>Deleting a destination purges all of its messages and then destroys the
+destination itself, removing it permanently from the broker to which it
+belongs.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnij"></a><a id="GMADG00151"></a><a id="to-delete-a-physical-destination"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_delete_a_physical_destination">To Delete a Physical Destination</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Destinations under the broker&#8217;s name in the Administration
+Console window&#8217;s navigation pane.<br>
+A list of the available destinations will appear in the result pane,
+showing the name, type, and current state of each destination.</p>
+</li>
+<li>
+<p>Select a destination by clicking on its name in the result pane.</p>
+</li>
+<li>
+<p>Choose Delete from the Edit menu.<br>
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.</p>
+</li>
+<li>
+<p>Click Yes to confirm the operation and dismiss the confirmation
+dialog.<br>
+For this exercise, do not delete the destination <code>MyQueueDest</code> that you
+created earlier; instead, click No to dismiss the confirmation dialog
+without performing the delete operation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobl"></a><a id="GMADG00223"></a><a id="working-with-object-stores"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_object_stores">Working With Object Stores</h3>
+<div class="paragraph">
+<p>An object store is used to store Message Queue administered objects,
+which encapsulate implementation and configuration information specific
+to a particular Message Queue provider. An object store can be either a
+Lightweight Directory Access Protocol (LDAP) directory server or a
+directory in the local file system.</p>
+</div>
+<div class="paragraph">
+<p>Although it is possible to instantiate and configure administered
+objects directly from within a client application&#8217;s code, it is
+generally preferable to have an administrator create and configure these
+objects and store them in an object store, where client applications can
+access them using the Java Naming and Directory Interface (JNDI). This
+allows the client code itself to remain provider-independent.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobm"></a><a id="GMADG00504"></a><a id="adding-an-object-store"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_adding_an_object_store">Adding an Object Store</h4>
+<div class="paragraph">
+<p>Although the Administration Console allows you to manage an object
+store, you cannot use it to create one; the LDAP server or file-system
+directory that will serve as the object store must already exist ahead
+of time. You can then add this existing object store to the
+Administration Console, creating a reference to it that you can use to
+operate on it from within the Console.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The sample application used in this chapter assumes that the object
+store is held in a directory named <code>Temp</code> on the C drive. If you do not
+already have a folder named <code>Temp</code> on your C drive, create one before
+proceeding with the following exercise. (On non-Windows platforms, you
+can use the <code>/tmp</code> directory, which should already exist.)</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gbnip"></a><a id="GMADG00152"></a><a id="to-add-an-object-store-to-the-administration-console"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_add_an_object_store_to_the_administration_console">To Add an Object Store to the Administration Console</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the Object Stores item in the Administration Console
+window&#8217;s navigation pane and choose Add Object Store from the Actions
+menu.<br>
+Alternatively, you can right-click on Object Stores and choose Add
+Object Store from the pop-up context menu. In either case, the Add
+Object Store dialog box (<a href="#gbnis">Figure 2-10</a>) will appear.<br>
+<a id="GMADG00012"></a><a id="gbnis"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-10 Add Object Store Dialog Box</strong></div>
+<p><span class="image"><img src="img/addobjstoredlog.png" alt="Add Object Store dialog. Buttons from left to right: OK, Clear, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter a name for the object store in the Object Store Label field.<br>
+This provides a label that identifies the object store in the
+Administration Console.<br>
+For this exercise, type in the name <code>MyObjectStore</code>.</p>
+</li>
+<li>
+<p>Enter the JNDI attribute values to be used for looking up
+administered objects:</p>
+</li>
+<li>
+<p>Select the name of the attribute you wish to specify from the Name
+pull-down menu.</p>
+</li>
+<li>
+<p>Type the value of the attribute into the Value field.</p>
+</li>
+<li>
+<p>Click the Add button to add the specified attribute value.<br>
+The property and its value will appear in the property summary pane.<br>
+Repeat steps <a href="#aeobm">Adding an Object Store</a> to <a href="#aeobm">Adding
+an Object Store</a> for as many attributes as you need to set.<br>
+For this exercise, set the <code>java.naming.factory.initial</code> attribute to<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>com.sun.jndi.fscontext.RefFSContextFactory</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>and the <code>java.naming.provider.url</code> attribute to<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">file:///C:/Temp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(or <code>file:///tmp</code> on the Solaris or Linux platforms). These are the only
+attributes you need to set for a file-system object store; see
+<a href="administered-objects.html#aeogw">LDAP Server Object Stores</a> for
+information on the attribute values needed for an LDAP store.
+4.  Click OK to add the object store and dismiss the dialog box.<br>
+The new object store will appear under Object Stores in the navigation
+pane, as shown in <a href="#gbnix">Figure 2-11</a>. The red X over the object
+store&#8217;s icon indicates that it is not currently connected to the
+Administration Console.<br>
+<a id="GMADG00013"></a><a id="gbnix"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-11 Object Store Displayed in Administration Console Window</strong></div>
+<p><span class="image"><img src="img/adminobjects.png" alt="Message Queue Administration Console window. Object store node selected in tree view pane."></span></p>
+</div>
+<div class="paragraph">
+<p>When you click on the object store in the navigation pane, its contents
+are listed in the result pane. Since you have not yet added any
+administered objects to the object store, the Count column shows 0 for
+both destinations and connection factories.<br>
+Once you have added an object store, you can use the Properties command
+on the Actions menu (or the pop-up context menu) to display an Object
+Store Properties dialog box, similar to the Add Object Store dialog
+shown in <a href="#gbnis">Figure 2-10</a>, to view or modify any of its
+properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeobn"></a><a id="GMADG00505"></a><a id="connecting-to-an-object-store"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_connecting_to_an_object_store">Connecting to an Object Store</h4>
+<div class="paragraph">
+<p>Now that you have added an object store to the Administration Console,
+you must connect to it in order to add administered objects to it.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnin"></a><a id="GMADG00153"></a><a id="to-connect-to-an-object-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_connect_to_an_object_store">To Connect to an Object Store</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click on the object store&#8217;s name in the Administration Console
+window&#8217;s navigation pane and choose Connect to Object Store from the
+Actions menu.<br>
+Alternatively, you can right-click on the object store&#8217;s name and choose
+Connect to Object Store from the pop-up context menu. In either case,
+the red X will disappear from the object store&#8217;s icon, indicating that
+it is now connected to the Administration Console.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobo"></a><a id="GMADG00224"></a><a id="working-with-administered-objects"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_administered_objects">Working With Administered Objects</h3>
+<div class="paragraph">
+<p>Once you have connected an object store to the Administration Console,
+you can proceed to add administered objects (connection factories and
+destinations) to it. This section describes how.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Administration Console displays only Message Queue administered
+objects. If an object store contains a non-Message Queue object with the
+same lookup name as an administered object that you want to add, you
+will receive an error when you attempt the add operation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeobp"></a><a id="GMADG00506"></a><a id="adding-a-connection-factory"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_adding_a_connection_factory">Adding a Connection Factory</h4>
+<div class="paragraph">
+<p>Connection factories are used by client applications to create
+connections to a broker. By configuring a connection factory, you can
+control the properties of the connections it creates.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbniv"></a><a id="GMADG00154"></a><a id="to-add-a-connection-factory-to-an-object-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_add_a_connection_factory_to_an_object_store">To Add a Connection Factory to an Object Store</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure the object store is connected to the Administration
+Console (see <a href="#aeobn">Connecting to an Object Store</a>).</p>
+</li>
+<li>
+<p>Click on the Connection Factories item under the object store&#8217;s name
+in the Administration Console window&#8217;s navigation pane and choose Add
+Connection Factory Object from the Actions menu.<br>
+Alternatively, you can right-click on Connection Factories and choose
+Add Connection Factory Object from the pop-up context menu. In either
+case, the Add Connection Factory Object dialog box ( <a href="#gbnik">Figure
+2-12</a>) will appear.<br>
+<a id="GMADG00014"></a><a id="gbnik"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-12 Add Connection Factory Object Dialog Box</strong></div>
+<p><span class="image"><img src="img/addcfadminobjdlog.png" alt="Add Connection Factory Object dialog; Connection Handling tab shown. Buttons from left to right: OK, Reset to Defaults, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter a name for the connection factory in the Lookup Name field.<br>
+This is the name that client applications will use when looking up the
+connection factory with JNDI.<br>
+For this exercise, type in the name <code>MyQueueConnectionFactory</code> .</p>
+</li>
+<li>
+<p>Choose the type of connection factory you wish to create from the
+Factory Type pull-down menu.<br>
+For this exercise, choose QueueConnectionFactory.</p>
+</li>
+<li>
+<p>Click the Connection Handling tab.<br>
+The Connection Handling panel will appear, as shown in
+<a href="#gbnik">Figure 2-12</a>.</p>
+</li>
+<li>
+<p>Fill in the Message Server Address List field with the address(es)
+of the broker(s) to which this connection factory will create
+connections.<br>
+The address list may consist of a single broker or (in the case of a
+broker cluster) multiple brokers. For each broker, it specifies
+information such as the broker&#8217;s connection service, host name, and port
+number. The exact nature and syntax of the information to be specified
+varies, depending on the connection service to be used; see
+<a href="administered-object-attributes.html#aeoof">Connection Handling</a> for
+specifics.<br>
+For this exercise, there is no need to type anything into the Message
+Server Address List field, since the sample application
+<code>HelloWorldMessageJNDI</code> expects the connection factory to use the
+standard address list attributes to which it is automatically configured
+by default (connection service <code>jms</code> , host name <code>localhost</code>, and port
+number <code>7676</code> ).</p>
+</li>
+<li>
+<p>Configure any other attributes of the connection factory as needed.<br>
+The Add Connection Factory Object dialog box contains a number of other
+panels besides Connection Handling, which can be used to configure
+various attributes for a connection factory.<br>
+For this exercise, do not change any of the other attribute settings.
+You may find it instructive, however, to click through the other tabs to
+get an idea of the kinds of configuration information that can be
+specified. Use the Help button to learn more about the contents of these
+other configuration panels.</p>
+</li>
+<li>
+<p>If appropriate, click the Read-Only checkbox.<br>
+This locks the connection factory object&#8217;s configuration attributes to
+the values they were given at creation time. A read-only administered
+object&#8217;s attributes cannot be overridden, whether programmatically from
+client code or administratively from the command line.<br>
+For this exercise, do not check Read-Only.</p>
+</li>
+<li>
+<p>Click OK to create the connection factory, add it to the object
+store, and dismiss the dialog box.<br>
+The new connection factory will appear in the result pane.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobq"></a><a id="GMADG00507"></a><a id="adding-a-destination"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_a_destination">Adding a Destination</h4>
+<div class="paragraph">
+<p>A destination administered object represents a physical destination on a
+broker, enabling clients to send messages to that physical destination
+independently of provider-specific configurations and naming syntax.
+When a client sends a message addressed via the administered object, the
+broker will deliver the message to the corresponding physical
+destination, if it exists. If no such physical destination exists, the
+broker will create one automatically if auto-creation is enabled, as
+described under <a href="#aeobh">Creating a Physical Destination</a>, and
+deliver the message to it; otherwise, it will generate an error
+signaling that the message cannot be delivered.</p>
+</div>
+<div class="paragraph">
+<p>The following procedure describes how to add a destination administered
+object to the object store corresponding to an existing physical
+destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnit"></a><a id="GMADG00155"></a><a id="to-add-a-destination-to-an-object-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_add_a_destination_to_an_object_store">To Add a Destination to an Object Store</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make sure the object store is connected to the Administration
+Console (see <a href="#aeobn">Connecting to an Object Store</a>).</p>
+</li>
+<li>
+<p>Click on the Destinations item under the object store&#8217;s name in the
+Administration Console window&#8217;s navigation pane and choose Add
+Destination Object from the Actions menu.<br>
+Alternatively, you can right-click on Destinations and choose Add
+Destination Object from the pop-up context menu. In either case, the Add
+Destination Object dialog box (<a href="#gbnih">Figure 2-13</a>) will appear.<br>
+<a id="GMADG00015"></a><a id="gbnih"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-13 Add Destination Object Dialog Box</strong></div>
+<p><span class="image"><img src="img/addqueueadminobjdlog.png" alt="Add Destination Object dialog. Buttons from left to right: OK, Reset to Defaults, Cancel, Help."></span></p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter a name for the destination administered object in the Lookup
+Name field.<br>
+This is the name that client applications will use when looking up the
+destination with JNDI.<br>
+For this exercise, type in the name <code>MyQueue</code>.</p>
+</li>
+<li>
+<p>Select the Queue or Topic radio button to specify the type of
+destination object to create.<br>
+For this exercise, select Queue if it is not already selected.</p>
+</li>
+<li>
+<p>Enter the name of the corresponding physical destination in the
+Destination Name field.<br>
+This is the name you specified when you added the physical destination
+to the broker (see <a href="#aeobg">Working With Physical Destinations</a>).<br>
+For this exercise, type in the name <code>MyQueueDest</code>.</p>
+</li>
+<li>
+<p>Optionally, enter a brief description of the destination in the
+Destination Description field.<br>
+The contents of this field are intended strictly for human consumption
+and have no effect on client operations.<br>
+For this exercise, you can either delete the contents of the Destination
+Description field or type in some descriptive text such as<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Example destination for MQ Admin Guide tutorial</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If appropriate, click the Read-Only checkbox.<br>
+This locks the destination object&#8217;s configuration attributes to the
+values they were given at creation time. A read-only administered
+object&#8217;s attributes cannot be overridden, whether programmatically from
+client code or administratively from the command line.<br>
+For this exercise, do not check Read-Only.</p>
+</li>
+<li>
+<p>Click OK to create the destination object, add it to the object
+store, and dismiss the dialog box.<br>
+The new destination object will appear in the result pane, as shown in
+<a href="#gbnii">Figure 2-14</a>.<br>
+<a id="GMADG00016"></a><a id="gbnii"></a></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-14 Destination Object Displayed in Administration Console Window</strong></div>
+<p><span class="image"><img src="img/destadminobjects.png" alt="Message Queue Administration Console window. Destinations selected in tree view. Destination objects displayed in contents pane."></span></p>
+</div>
+<div class="paragraph">
+<p><a id="aeobr"></a><a id="GMADG00508"></a><a id="viewing-administered-object-properties"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_administered_object_properties">Viewing Administered Object Properties</h4>
+<div class="paragraph">
+<p>You can use the Properties command on the Administration Console&#8217;s
+Actions menu to view or modify the properties of an administered object.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbniw"></a><a id="GMADG00156"></a><a id="to-view-or-modify-the-properties-of-an-administered-object"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_view_or_modify_the_properties_of_an_administered_object">To View or Modify the Properties of an Administered Object</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Connection Factories or Destinations under the object store&#8217;s
+name in the Administration Console window&#8217;s navigation pane.<br>
+A list of the available connection factory or destination administered
+objects will appear in the result pane, showing the lookup name and type
+of each (as well as the destination name in the case of destination
+administered objects).</p>
+</li>
+<li>
+<p>Select an administered object by clicking on its name in the result
+pane.</p>
+</li>
+<li>
+<p>Choose Properties from the Actions menu.<br>
+The Connection Factory Object Properties or Destination Object
+Properties dialog box will appear, similar to the Add Connection Factory
+Object (<a href="#gbnik">Figure 2-12</a>) or Add Destination Object
+(<a href="#gbnih">Figure 2-13</a>) dialog. You can use this dialog box to change
+the selected object&#8217;s configuration attributes. Note, however, that you
+cannot change the object&#8217;s lookup name; the only way to do this is the
+delete the object and then add a new administered object with the
+desired lookup name.</p>
+</li>
+<li>
+<p>Click OK to accept the new attribute values and dismiss the dialog
+box.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobs"></a><a id="GMADG00509"></a><a id="deleting-an-administered-object"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_an_administered_object">Deleting an Administered Object</h4>
+<div class="paragraph">
+<p>Deleting an administered object removes it permanently from the object
+store to which it belongs.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbniu"></a><a id="GMADG00157"></a><a id="to-delete-an-administered-object"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_delete_an_administered_object">To Delete an Administered Object</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Select Connection Factories or Destinations under the object store&#8217;s
+name in the Administration Console window&#8217;s navigation pane.<br>
+A list of the available connection factory or destination administered
+objects will appear in the result pane, showing the lookup name and type
+of each (as well as the destination name in the case of destination
+administered objects).</p>
+</li>
+<li>
+<p>Select an administered object by clicking on its name in the result
+pane.</p>
+</li>
+<li>
+<p>Choose Delete from the Edit menu.<br>
+A confirmation dialog box will appear, asking you to confirm that you
+wish to proceed with the operation.</p>
+</li>
+<li>
+<p>Click Yes to confirm the operation and dismiss the confirmation
+dialog.<br>
+For this exercise, do not delete the administered objects <code>MyQueue</code> or
+<code>MyQueueConnectionFactory</code> that you created earlier; instead, click No
+to dismiss the confirmation dialog without performing the delete
+operation.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeobt"></a><a id="GMADG00225"></a><a id="running-the-sample-application"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_running_the_sample_application">Running the Sample Application</h3>
+<div class="paragraph">
+<p>The sample application <code>HelloWorldMessageJNDI</code> is provided for use with
+this tutorial. It uses the physical destination and administered objects
+that you created:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A queue physical destination named <code>MyQueueDest</code></p>
+</li>
+<li>
+<p>A queue connection factory administered object with JNDI lookup name
+<code>MyQueueConnectionFactory</code></p>
+</li>
+<li>
+<p>A queue administered object with JNDI lookup name <code>MyQueue</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The code creates a simple queue sender and receiver, and sends and
+receives a <code>Hello</code> <code>World</code> message.</p>
+</div>
+<div class="paragraph">
+<p>Before running the application, open the source file
+<code>HelloWorldMessageJNDI.java</code> and read through the code. The program is
+short and amply documented; you should have little trouble understanding
+how it works.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbniz"></a><a id="GMADG00158"></a><a id="to-run-the-sample-application"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_run_the_sample_application">To Run the Sample Application</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make the directory containing the <code>HelloWorldmessageJNDI</code>
+application your current directory:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd IMQ_HOME/examples/helloworld/helloworldmessagejndi</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You should find the file <code>HelloWorldMessageJNDI.class</code> present. (If you
+make changes to the application, you must recompile it using the
+procedure for compiling a client application given in the Open Message
+Queue Developer&#8217;s Guide for Java Clients.)
+2.  Set the <code>CLASSPATH</code> variable to include the current directory
+containing the file <code>HelloWorldMessageJNDI.class</code>, as well as the
+following <code>.jar</code> files that are included in the Message Queue product:
+* <code>jms.jar</code>
+* <code>imq.jar</code>
+* <code>jndi.jar</code>
+* <code>fscontext.jar</code><br>
+See the Open Message Queue Developer&#8217;s Guide for Java Clients for
+information on setting the <code>CLASSPATH</code> variable.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The file <code>jndi.jar</code> is bundled with JDK 1.4. You need not add this file
+to your <code>CLASSPATH</code> unless you are using an earlier version of the JDK.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the <code>HelloWorldMessageJNDI</code> application by executing one of the
+following commands (depending on the platform you&#8217;re using):</p>
+<div class="ulist">
+<ul>
+<li>
+<p>On Solaris or Linux:<br></p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>% java HelloWorldMessageJNDI file:///tmp</pre>
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Windows:<br></p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>java HelloWorldMessageJNDI</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the application runs successfully, you should see the output shown in
+<a href="#gecip">Example 2-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00098"></a><a id="gecip"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 2-1 Output from Sample Application</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java HelloWorldMessageJNDI
+Using file:///C:/Temp for Context.PROVIDER_URL
+
+
+Looking up Queue Connection Factory object with lookup name:
+MyQueueConnectionFactory
+Queue Connection Factory object found.
+Looking up Queue object with lookup name: MyQueue
+Queue object found.
+
+
+Creating connection to broker.
+Connection to broker created.
+
+Publishing a message to Queue: MyQueueDest
+Received the following message: Hello World</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="admin-tasks-and-tools.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-administrative-tasks.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

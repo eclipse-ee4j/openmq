@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Managing a Broker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Managing a Broker</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="broker-configuration.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="connection-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00036"></a><a id="aeodm"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="managing-a-broker">5 Managing a Broker</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter explains how to use the Message Queue Command utility
+(<code>imqcmd</code>) to manage a broker. The chapter has the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeodn">Command Utility Preliminaries</a></p>
+</li>
+<li>
+<p><a href="#aeodo">Using the Command Utility</a></p>
+</li>
+<li>
+<p><a href="#geobv">Managing Brokers</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This chapter does not cover all topics related to managing a broker.
+Additional topics are covered in the following separate chapters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For information on configuring and managing connection services, see
+<a href="connection-services.html#gheau">Configuring and Managing Connection
+Services</a>.</p>
+</li>
+<li>
+<p>For information on managing message delivery services, including how
+to create, display, update, and destroy physical destinations, see
+<a href="message-delivery.html#ghebf">Managing Message Delivery</a>.</p>
+</li>
+<li>
+<p>For information on configuring and managing persistence services, for
+both flat-file and JDBC-based data stores, see
+<a href="persistence-services.html#gheas">Configuring Persistence Services</a>.</p>
+</li>
+<li>
+<p>For information about setting up security for the broker, such as user
+authentication, access control, encryption, and password files, see
+<a href="security-services.html#aeoff">Configuring and Managing Security
+Services</a>.</p>
+</li>
+<li>
+<p>For information on configuring and managing clustering services, for
+both conventional and enhanced broker clusters, see
+<a href="broker-clusters.html#aeohv">Configuring and Managing Broker
+Clusters</a>.</p>
+</li>
+<li>
+<p>For information about monitoring a broker, see
+<a href="monitoring.html#aeoik">Monitoring Broker Operations</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeodn"></a><a id="GMADG00232"></a><a id="command-utility-preliminaries"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_command_utility_preliminaries">Command Utility Preliminaries</h3>
+<div class="paragraph">
+<p>Before using the Command utility to manage a broker, you must do the
+following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start the broker using the <code>imqbrokerd</code> command. You cannot use the
+Command utility subcommands l until a broker is running.</p>
+</li>
+<li>
+<p>Determine whether you want to set up a Message Queue administrative
+user or use the default account. You must specify a user name and
+password to use all Command utility subcommands (except to display
+command help and version information).<br>
+When you install Message Queue, a default flat-file user repository is
+installed. The repository is shipped with two default entries: an
+administrative user and a guest user. If you are testing Message Queue,
+you can use the default user name and password (<code>admin</code>/<code>admin</code>) to run
+the Command utility.<br>
+If you are setting up a production system, you must set up
+authentication and authorization for administrative users. See
+<a href="security-services.html#aeoff">Configuring and Managing Security
+Services</a> for information on setting up a file-based user repository or
+configuring the use of an LDAP directory server. In a production
+environment, it is a good security practice to use a nondefault user
+name and password.</p>
+</li>
+<li>
+<p>If you want to use a secure connection to the broker, set up and
+enable the <code>ssladmin</code> service on the target broker instance, For more
+information, see <a href="security-services.html#aeogb">Message Encryption</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeodo"></a><a id="GMADG00233"></a><a id="using-the-command-utility"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_command_utility">Using the Command Utility</h3>
+<div class="paragraph">
+<p>The Message Queue Command utility (<code>imqcmd</code>) enables you to manage the
+broker and its services interactively from the command line. See
+<a href="command-line-reference.html#aeonf">Command Utility</a> for general
+reference information about the syntax, subcommands, and options of the
+<code>imqcmd</code> command, and <a href="broker-properties.html#aeons">Broker Properties
+Reference</a> for specific information on the configuration properties used
+to specify broker behavior.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodr"></a><a id="GMADG00516"></a><a id="specifying-the-user-name-and-password"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_specifying_the_user_name_and_password">Specifying the User Name and Password</h4>
+<div class="paragraph">
+<p>Because each <code>imqcmd</code> subcommand is authenticated against the user
+repository, it requires a user name and password. The only exceptions
+are commands that use the <code>-h</code> or <code>-H</code> option to display help, and those
+that use the <code>-v</code> option to display the product version.</p>
+</div>
+<div class="paragraph">
+<p>Use the <code>-u</code> option to specify an administrative user name. For example,
+the following command displays information about the default broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you omit the user name, the command will prompt you for it.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For simplicity, the examples in this chapter use the default user name
+<code>admin</code> as the argument to the <code>-u</code> option. In a real-life production
+environment, you would use a custom user name.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Specify the password using one of the following methods:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create a password file and enter the password into that file as the
+value of the <code>imq.imqcmd.password</code> property. On the command line, use
+the <code>-passfile</code> option to provide the name of the password file.</p>
+</li>
+<li>
+<p>Let the <code>imqcmd</code> command prompt you for the password.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In previous versions of Message Queue, you could use the <code>-p</code> option to
+specify a password on the <code>imqcmd</code> command line. As of Message Queue
+4.0, this option is deprecated and is no longer supported; you must
+instead use one of the methods listed above.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeodu"></a><a id="GMADG00517"></a><a id="specifying-the-broker-name-and-port"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_specifying_the_broker_name_and_port">Specifying the Broker Name and Port</h4>
+<div class="paragraph">
+<p>Most <code>imqcmd</code> subcommands use the <code>-b</code> option to specify the host name
+and the port mapper port number of the broker to which the command
+applies:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-b hostName:portNumber</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no broker is specified, the command applies by default to a broker
+running on the local host (<code>localhost</code>) at port mapper port number
+<code>7676</code>. See <a href="connection-services.html#aeoco">"Port Mapper"</a> for more
+information.</p>
+</div>
+<div class="paragraph">
+<p>To issue a command to a broker that is running on a remote host,
+listening on a non-default port, or both, you must use the <code>-b</code> option
+to specify the host and port explicitly.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodq"></a><a id="GMADG00518"></a><a id="displaying-the-product-version"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_displaying_the_product_version">Displaying the Product Version</h4>
+<div class="paragraph">
+<p>To display the Message Queue product version, use the <code>-v</code> option. For
+example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd  -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you enter an <code>imqcmd</code> command line containing the <code>-v</code> option in
+addition to a subcommand or other options, the Command utility processes
+only the <code>-v</code> option. All other items on the command line are ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodp"></a><a id="GMADG00519"></a><a id="displaying-help"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_displaying_help">Displaying Help</h4>
+<div class="paragraph">
+<p>To display help on the <code>imqcmd</code> command, use the <code>-h</code> or <code>-H</code> option,
+and do not use a subcommand. You cannot get help about specific
+subcommands.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays help about <code>imqcmd</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd  -H</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you enter an <code>imqcmd</code> command line containing the <code>-h</code> or <code>-H</code> option
+in addition to a subcommand or other options, the Command utility
+processes only the <code>-h</code> or <code>-H</code> option. All other items on the command
+line are ignored.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodv"></a><a id="GMADG00520"></a><a id="examples"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_examples">Examples</h4>
+<div class="paragraph">
+<p>The examples in this section illustrate how to use the <code>imqcmd</code> command.</p>
+</div>
+<div class="paragraph">
+<p>The following example lists the properties of the broker running on host
+<code>localhost</code> at port <code>7676</code>, so the <code>-b</code> option is unnecessary:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The command uses the default administrative user name (<code>admin</code>) and
+omits the password, so that the command will prompt for it.</p>
+</div>
+<div class="paragraph">
+<p>The following example lists the properties of the broker running on the
+host <code>myserver</code> at port <code>1564</code>. The user name is <code>aladdin</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -b myserver:1564  -u aladdin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(For this command to work, the user repository would need to be updated
+to add the user name <code>aladdin</code> to the <code>admin</code> group.)</p>
+</div>
+<div class="paragraph">
+<p>The following example lists the properties of the broker running on
+<code>localhost</code> at port <code>7676</code>. The initial timeout for the command is set
+to 20 seconds and the number of retries after timeout is set to 7. The
+user&#8217;s password is in a password file called <code>myPassfile</code>, located in
+the current directory at the time the command is invoked.</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -u admin  -passfile myPassfile  -rtm 20  -rtr 7</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a secure connection to the broker, these examples could include the
+<code>-secure</code> option. This option causes the Command utility to use the
+<code>ssladmin</code> service if that service has been configured and started.</p>
+</div>
+<div class="paragraph">
+<p><a id="geobv"></a><a id="GMADG00234"></a><a id="managing-brokers"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_brokers">Managing Brokers</h3>
+<div class="paragraph">
+<p>This section describes how to use Command utility subcommands to perform
+the following broker management tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoeb">Shutting Down and Restarting a Broker</a></p>
+</li>
+<li>
+<p><a href="#geodc">Quiescing a Broker</a></p>
+</li>
+<li>
+<p><a href="#aeody">Pausing and Resuming a Broker</a></p>
+</li>
+<li>
+<p><a href="#aeodx">Updating Broker Properties</a></p>
+</li>
+<li>
+<p><a href="#aeodw">Viewing Broker Information</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition to using the subcommands described in the following
+sections, <code>imqcmd</code> allows you to set system properties using the <code>-D</code>
+option. This is useful for setting or overriding connection factory
+properties or connection-related Java system properties.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command changes the default value of
+<code>imqSSLIsHostTrusted</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DimqSSLIsHostTrusted=true</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following command specifies the password file and the password used
+for the SSL trust store that is used by the <code>imqcmd</code> command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc -secure -DJavax.net.ssl.trustStore=/tmp/MyTruststore
+              -Djavax.net.ssl.trustStorePassword=MyTrustword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoeb"></a><a id="GMADG00521"></a><a id="shutting-down-and-restarting-a-broker"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_shutting_down_and_restarting_a_broker">Shutting Down and Restarting a Broker</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>shutdown</code> <code>bkr</code> shuts down a broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr  [-b hostName:portNumber]
+[-time nSeconds]
+[-nofailover]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The broker stops accepting new connections and messages, completes
+delivery of existing messages, and terminates the broker process.</p>
+</div>
+<div class="paragraph">
+<p>The <code>-time</code> option, if present, specifies the interval, in seconds, to
+wait before shutting down the broker. For example, the following command
+delays 90 seconds and then shuts down the broker running on host
+<code>wolfgang</code> at port <code>1756</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd shutdown bkr  -b wolfgang:1756  -time 90  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The broker will not block, but will return immediately from the delayed
+shutdown request. During the shutdown interval, the broker will not
+accept any new <code>jms</code> connections; <code>admin</code> connections will be accepted,
+and existing <code>jms</code> connections will continue to operate. If the broker
+belongs to an enhanced broker cluster, it will not attempt to take over
+for any other broker during the shutdown interval.</p>
+</div>
+<div class="paragraph">
+<p>If the broker is part of an enhanced broker cluster (see
+"<a href="../mq-tech-over/broker-clusters.html#GMTOV00068">Enhanced Clusters</a>" in Open Message Queue Technical
+Overview), another broker in the cluster will ordinarily attempt to take
+over its persistent data on shutdown; the <code>-nofailover</code> option to the
+<code>imqcmd</code> <code>shutdown</code> <code>bkr</code> subcommand suppresses this behavior.
+Conversely, you can use the <code>imqcmd</code> <code>takeover</code> <code>bkr</code> subcommand to
+force such a takeover manually (for instance, if the takeover broker
+were to fail before completing the takeover process); see
+<a href="broker-clusters.html#gecjm">Preventing or Forcing Broker Failover</a>
+for more information.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>takeover</code> <code>bkr</code> subcommand is intended only for use in
+failed-takeover situations. You should use it only as a last resort, and
+not as a general way of forcibly taking over a running broker.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To shut down and restart a broker, use the subcommand <code>imqcmd</code> <code>restart</code>
+<code>bkr</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd restart bkr  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This shuts down the broker and then restarts it using the same options
+that were specified when it was first started. To choose different
+options, shut down the broker with <code>imqcmd</code> <code>shutdown</code> <code>bkr</code> and then
+start it again with the Broker utility (<code>imqbrokerd</code>), specifying the
+options you want.</p>
+</div>
+<div class="paragraph">
+<p><a id="geodc"></a><a id="GMADG00522"></a><a id="quiescing-a-broker"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_quiescing_a_broker">Quiescing a Broker</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>quiesce</code> <code>bkr</code> quiesces a broker, causing it to
+refuse any new client connections while continuing to service old ones:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd quiesce bkr  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the broker is part of an enhanced broker cluster, this allows its
+operations to wind down normally without triggering a takeover by
+another broker, for instance in preparation for shutting it down
+administratively for upgrade or similar purposes. For example, the
+following command quiesces the broker running on host <code>hastings</code> at port
+<code>1066</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd quiesce bkr  -b hastings:1066  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To reverse the process and return the broker to normal operation, use
+the <code>imqcmd</code> <code>unquiesce</code> <code>bkr</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd unquiesce bkr  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command unquiesces the broker that was
+quiesced in the preceding example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd unquiesce bkr  -b hastings:1066  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeody"></a><a id="GMADG00523"></a><a id="pausing-and-resuming-a-broker"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_pausing_and_resuming_a_broker">Pausing and Resuming a Broker</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>pause</code> <code>bkr</code> pauses a broker, suspending its
+connection service threads and causing it to stop listening on the
+connection ports:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause bkr  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command pauses the broker running on host
+<code>myhost</code> at port <code>1588</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause bkr  -b myhost:1588  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Because its connection service threads are suspended, a paused broker is
+unable to accept new connections, receive messages, or dispatch
+messages. The <code>admin</code> connection service is not suspended, allowing you
+to continue performing administrative tasks needed to regulate the flow
+of messages to the broker. Pausing a broker also does not suspend the
+<code>cluster</code> connection service; however, since message delivery within a
+cluster depends on the delivery functions performed by the different
+brokers in the cluster, pausing a broker in a cluster may result in a
+slowing of some message traffic.</p>
+</div>
+<div class="paragraph">
+<p>You can also pause individual connection services and physical
+destinations. For more information, see
+<a href="connection-services.html#aeoei">Pausing and Resuming a Connection
+Service</a> and <a href="message-delivery.html#aeoet">Pausing and Resuming a
+Physical Destination</a>.</p>
+</div>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>resume</code> <code>bkr</code> reactivates a broker&#8217;s service
+threads, causing it to resume listening on the ports:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume bkr  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command resumes the default broker (host
+<code>localhost</code> at port <code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume bkr  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeodx"></a><a id="GMADG00524"></a><a id="updating-broker-properties"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_updating_broker_properties">Updating Broker Properties</h4>
+<div class="paragraph">
+<p>The subcommand <code>imqcmd</code> <code>update</code> <code>bkr</code> can be used to change the values
+of a subset of broker properties for the default broker (or for the
+broker at a specified host and port):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr [-b hostName:portNumber]
+-o property1=value1  [ [-o property2=value2] … ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command turns off the auto-creation of queue
+destinations for the default broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update bkr  -o imq.autocreate.queue=false  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can use <code>imqcmd</code> <code>update</code> <code>bkr</code> to update any of the following
+broker properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.autocreate.queue</code></p>
+</li>
+<li>
+<p><code>imq.autocreate.topic</code></p>
+</li>
+<li>
+<p><code>imq.autocreate.queue.maxNumActiveConsumers</code></p>
+</li>
+<li>
+<p><code>imq.autocreate.queue.maxNumBackupConsumers</code></p>
+</li>
+<li>
+<p><code>imq.cluster.url</code></p>
+</li>
+<li>
+<p><code>imq.destination.DMQ.truncateBody</code></p>
+</li>
+<li>
+<p><code>imq.destination.logDeadMsgs</code></p>
+</li>
+<li>
+<p><code>imq.log.level</code></p>
+</li>
+<li>
+<p><code>imq.log.file.rolloversecs</code></p>
+</li>
+<li>
+<p><code>imq.log.file.rolloverbytes</code></p>
+</li>
+<li>
+<p><code>imq.system.max_count</code></p>
+</li>
+<li>
+<p><code>imq.system.max_size</code></p>
+</li>
+<li>
+<p><code>imq.message.max_size</code></p>
+</li>
+<li>
+<p><code>imq.portmapper.port</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>See <a href="broker-properties.html#aeons">Broker Properties Reference</a> for
+detailed information about these properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodw"></a><a id="GMADG00525"></a><a id="viewing-broker-information"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_broker_information">Viewing Broker Information</h4>
+<div class="paragraph">
+<p>To display information about a single broker, use the <code>imqcmd</code> <code>query</code>
+<code>bkr</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr  -b hostName:portNumber</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This lists the current settings of the broker&#8217;s properties, as shown in
+<a href="#gechs">Example 5-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00100"></a><a id="gechs"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-1 Broker Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Querying the broker specified by:
+-------------------------
+Host         Primary Port
+-------------------------
+localHost    7676
+
+Version                                              5.0
+Instance Name                                        imqbroker
+Broker ID                                            mybroker
+Primary Port                                         7676
+Broker is Embedded                                   false
+Instance Configuration/Data Root Directory           /var/imq
+
+Current Number of Messages in System                 0
+Current Total Message Bytes in System                0
+
+Current Number of Messages in Dead Message Queue     0
+Current Total Message Bytes in Dead Message Queue    0
+Log Dead Messages                                    true
+Truncate Message Body in Dead Message Queue          false
+
+Max Number of Messages in System                     unlimited (-1)
+Max Total Message Bytes in System                    unlimited (-1)
+Max Message Size                                     70m
+
+Auto Create Queues                                   true
+Auto Create Topics                                   true
+Auto Created Queue Max Number of Active Consumers    1
+Auto Created Queue Max Number of Backup Consumers    0
+
+Cluster ID                                           myClusterID
+Cluster Is Highly Available                          true
+Cluster Broker List (active)
+Cluster Broker List (configured)
+Cluster Master Broker
+Cluster URL
+
+Log Level                                            INFO
+Log Rollover Interval (seconds)                      604800
+Log Rollover Size (bytes)                            unlimited (-1)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>metrics</code> <code>bkr</code> subcommand displays detailed metric
+information about a broker&#8217;s operation:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr  [-b hostName:portNumber]
+[-m metricType]
+[-int interval]
+[-msp numSamples]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metric information to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code> (default): Messages and packets flowing into and out of the
+broker</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the broker
+per second</p>
+</li>
+<li>
+<p><code>cxn</code>: Connections, virtual memory heap, and threads</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> and <code>-msp</code> options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays the rate of message flow
+into and out of the default broker (host <code>localhost</code> at port <code>7676</code>) at
+10-second intervals:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr  -m rts  -int 10  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#genml">Example 5-2</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00101"></a><a id="genml"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 5-2 Broker Metrics Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">--------------------------------------------------------
+ Msgs/sec   Msg Bytes/sec   Pkts/sec    Pkt Bytes/sec
+ In   Out     In      Out     In   Out     In      Out
+--------------------------------------------------------
+ 0     0      27      56      0     0      38      66
+ 10    0     7365     56      10    10    7457    1132
+ 0     0      27      56      0     0      38      73
+ 0     10     27     7402     10    20    1400    8459
+ 0     0      27      56      0     0      38      73</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a more detailed description of the data gathered and reported by the
+broker, see <a href="metrics-information.html#aeoot">Brokerwide Metrics</a>.</p>
+</div>
+<div class="paragraph">
+<p>For brokers belonging to a broker cluster, the <code>imqcmd</code> <code>list</code> <code>bkr</code>
+subcommand displays information about the configuration of the cluster;
+see <a href="broker-clusters.html#geciv">Displaying a Cluster Configuration</a>
+for more information.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="broker-configuration.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="connection-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

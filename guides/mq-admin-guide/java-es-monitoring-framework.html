@@ -1,0 +1,757 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>JES Monitoring Framework Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>JES Monitoring Framework Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="metrics-information.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-appendixes.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00053"></a><a id="gfomw"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="jes-monitoring-framework-reference">22 JES Monitoring Framework Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the monitoring information items that Message
+Queue exposes through the Sun Java Enterprise System Monitoring
+Framework (JESMF), using the Monitoring Framework&#8217;s Common Monitoring
+Model (CMM). It contains the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gfomt">Common Attributes</a></p>
+</li>
+<li>
+<p><a href="#gfond">Message Queue Product Information</a></p>
+</li>
+<li>
+<p><a href="#gfooc">Broker Information</a></p>
+</li>
+<li>
+<p><a href="#gfoop">Port Mapper Information</a></p>
+</li>
+<li>
+<p><a href="#gfopb">Connection Service Information</a></p>
+</li>
+<li>
+<p><a href="#gfomr">Destination Information</a></p>
+</li>
+<li>
+<p><a href="#gfont">Persistent Store Information</a></p>
+</li>
+<li>
+<p><a href="#gfomy">User Repository Information</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gfomt"></a><a id="GMADG00308"></a><a id="common-attributes"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_common_attributes">Common Attributes</h3>
+<div class="paragraph">
+<p>The attributes listed in <a href="#gfopc">Table 22-1</a> are common to all (or
+almost all) CMM objects.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG799"></a><a id="sthref266"></a><a id="gfopc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-1 JESMF Common Object Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Object name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Caption</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Short description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LastUpdateTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time last updated</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OperationalStatus</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current status (for example, <code>OK</code> or <code>DORMANT</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StatusDescriptions</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of status</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OperationalStatusLastChange</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time of last change in operational
+status</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfond"></a><a id="GMADG00309"></a><a id="message-queue-product-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_product_information">Message Queue Product Information</h3>
+<div class="paragraph">
+<p><a href="#gfong">Table 22-2</a> shows attributes of the Message Queue product
+itself that can be accessed with JESMF.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG800"></a><a id="sthref267"></a><a id="gfong"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-2 JESMF-Accessible Message Queue Product Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProductName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Product name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProductIdentifyingNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Identifying number of product, in the form</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>urn`:`uuid`:`xxxxxxxx`-<code>xxxx</code>-<code>xxxx</code>-<code>xxxx</code>-`xxxxxxxxxxxx</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Value changes for every version.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProductVendor</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Vendor name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProductVersion</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Version number</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RevisionNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Revision number</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BuildNumber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Build number</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PatchID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Patch identifier (if any)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CollectionID</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Identification key for installed product object</p>
+</div>
+<div class="paragraph">
+<p>Differentiates among product installations; usually identifies the
+installation location.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>InstallDate</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Installation date</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfooc"></a><a id="GMADG00310"></a><a id="broker-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_broker_information">Broker Information</h3>
+<div class="paragraph">
+<p><a href="#gfoog">Table 22-3</a> shows the JESMF -accessible attributes
+pertaining to each broker instance.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG801"></a><a id="sthref268"></a><a id="gfoog"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-3 JESMF-Accessible Message Queue Broker Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PrimaryOwnerName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of primary system owner (broker property
+<code>imq.primaryowner.name</code>; see <a href="broker-properties.html#gbnns">Table
+17-13</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PrimaryOwnerContact</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contact information for primary system owner
+(broker property <code>imq.primaryowner.contact</code>; see
+<a href="broker-properties.html#gbnns">Table 17-13</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Roles</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Array of strings denoting broker&#8217;s roles (taken from broker
+properties `imq.broker.adminDefinedRoles.name`n; see
+<a href="broker-properties.html#gbnns">Table 17-13</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StartupTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time of last startup (date and time in milliseconds)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>URL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL of Port Mapper</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConfigurationDirectory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker instance directory (for example,
+<code>/var/imq/instances/mybroker</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>DirectoryName</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Distinguished name of directory (for example, LDAP) entry where static
+information about application is stored</p>
+</div>
+<div class="paragraph">
+<p>An empty string indicates that no information about the application is
+available in the directory.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfoop"></a><a id="GMADG00311"></a><a id="port-mapper-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_port_mapper_information">Port Mapper Information</h3>
+<div class="paragraph">
+<p>The attributes shown in <a href="#gfooi">Table 22-4</a> provide information
+about a broker&#8217;s Port Mapper.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG802"></a><a id="sthref269"></a><a id="gfooi"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-4 JESMF-Accessible Message Queue Port Mapper Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LabeledURI</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>URI for accessing Port Mapper, in the form</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>`mq://`hostName:portNumber</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Secured</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is Port Mapper access secure (SSL/TLS)?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfopb"></a><a id="GMADG00312"></a><a id="connection-service-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connection_service_information">Connection Service Information</h3>
+<div class="paragraph">
+<p><a href="#gfooo">Table 22-5</a> shows the JESMF -accessible attributes
+pertaining to each connection service.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG803"></a><a id="sthref270"></a><a id="gfooo"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-5 JESMF-Accessible Message Queue Connection Service Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LabeledURI</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>URI for accessing connection service, in the form</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mq://`hostName</code>:`portNumber`/`serviceName</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>if dynamically allocated, or</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mqtcp://`hostName</code>:`servicePort`/`serviceName</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mqssl://`hostName</code>:`servicePort`/`serviceName</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>if statically assigned</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Secured</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is connection service access secure (SSL/TLS)?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of connections</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumConnectionsCreated</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of connections created since
+broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FailedConnectionsCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of connections rejected
+since broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CurrentNumberOfThreads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of threads actively handling
+connections</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MinThreadPoolSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum number of threads maintained in connection
+service&#8217;s thread pool (broker property <code>imq.`serviceName</code>.min_threads`;
+see <a href="broker-properties.html#gbnni">Table 17-1</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxThreadPoolSize</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of threads beyond which no new threads are
+added to thread pool for use by connection service (broker property
+<code>imq.`serviceName</code>.max_threads`; see
+<a href="broker-properties.html#gbnni">Table 17-1</a>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumProducers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of message producers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumConsumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of message consumers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumMsgsIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of messages received since broker
+started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumMsgsOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of messages sent since broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>InBytesCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of messages received since
+broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>OutBytesCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of messages sent since broker
+started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumPktsIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of packets received since broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NumPktsOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of packets sent since broker started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PktBytesIn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of packets received since broker
+started</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PktBytesOut</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of packets sent since broker
+started</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfomr"></a><a id="GMADG00313"></a><a id="destination-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_destination_information">Destination Information</h3>
+<div class="paragraph">
+<p><a href="#gfomk">Table 22-6</a> shows the JESMF -accessible attributes
+pertaining to each destination. Each of these attributes corresponds to
+a Message Queue physical destination property; see
+<a href="physical-destination-properties.html#gbnne">Table 18-1</a> for further
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG804"></a><a id="sthref271"></a><a id="gfomk"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-6 JESMF-Accessible Message Queue Destination Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 30%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Corresponding Property</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination type (<code>q</code> = queue, <code>t</code> = topic)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of unconsumed messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxBytesPerMsg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxBytesPerMsg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum size, in bytes, of any
+single message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MaxTotalMsgBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxTotalMsgBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum total memory, in bytes,
+for unconsumed messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LimitBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker behavior when memory-limit
+threshold reached</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`MaxNumProducers`<a href="#foot-nodmq2"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumProducers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of associated message producers</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`MaxNumActiveConsumers`<a href="#foot-queueonly4"><sup>Foot 2 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumActiveConsumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of associated active message
+consumers in load-balanced delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`MaxNumBackupConsumers`<a href="#sthref272"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumBackupConsumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of associated backup message
+consumers in load-balanced delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConsumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of messages
+delivered to consumer in a single batch</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`LocalOnly`<a href="#sthref273"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLocalOnly</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local delivery
+only?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`LocalDeliveryPreferred`<a href="#sthref274"><sup>Footref 1</sup></a>
+<sup>,</sup><a href="#sthref275"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localDeliveryPreferred</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local
+delivery preferred?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`UseDMQ`<a href="#sthref276"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>useDMQ</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send dead messages to
+dead message queue?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Does not apply to dead message queue</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Queue destinations only</p>
+</div>
+<div class="paragraph">
+<p><a id="gfont"></a><a id="GMADG00314"></a><a id="persistent-store-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_persistent_store_information">Persistent Store Information</h3>
+<div class="paragraph">
+<p>The attributes shown in <a href="#gfomi">Table 22-7</a> pertain to the
+persistent data store.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG805"></a><a id="sthref277"></a><a id="gfomi"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-7 JESMF-Accessible Message Queue Persistent Store Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AccessInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL for accessing JDBC database</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>InfoFormat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format of <code>AccessInfo</code> attribute (<code>URL</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JDBCDriver</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JDBC driver</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UserName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for authentication</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gfomy"></a><a id="GMADG00315"></a><a id="user-repository-information"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_user_repository_information">User Repository Information</h3>
+<div class="paragraph">
+<p>The attributes shown in <a href="#gfoob">Table 22-8</a> pertain to the LDAP user
+repository.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG806"></a><a id="sthref278"></a><a id="gfoob"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 22-8 JESMF-Accessible Message Queue User Repository Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AccessInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL for accessing LDAP server</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>InfoFormat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Format of <code>AccessInfo</code> attribute (<code>URL</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Base</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Root or base node for user lookup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>GroupBase</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Root or base node for group lookup</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UserName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name for authentication</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="metrics-information.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-appendixes.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

@@ -1,0 +1,696 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Eclipse Open Message Queue Developer&apos;s Guide for JMX Clients, Release 5.1.4</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Eclipse Open Message Queue Developer's Guide for JMX Clients, Release 5.1.4</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+
+		<td align="left">
+		<a href="loe.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div class="sect1">
+<h2 id="contents">Contents</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="list-of-examples"><a href="loe.html">List of Examples</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="list-of-tables"><a href="lot.html">List of Tables</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="title-and-copyright-information"><a href="title.html">Title and Copyright Information</a></h3>
+
+</div>
+<div class="sect2">
+<h3 id="preface"><a href="preface.html#gblyo">Preface</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="preface.html#gblyj">Who Should Use This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxf">Before You Read This Book</a></p>
+</li>
+<li>
+<p><a href="preface.html#gblxh">How This Book Is Organized</a></p>
+</li>
+<li>
+<p><a href="preface.html#ghode">Documentation Conventions</a></p>
+</li>
+<li>
+<p><a href="preface.html#gbqah">Related Documentation</a></p>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="introduction-to-jmx-programming-for-message-queue-clients"><a href="introduction.html#gcgvu">1 Introduction to JMX Programming for Message Queue Clients</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#gchbn">JMX Architecture</a></p>
+</li>
+<li>
+<p><a href="introduction.html#gdrsi">Message Queue MBeans</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="introduction.html#gchdy">Resource MBeans</a></p>
+</li>
+<li>
+<p><a href="introduction.html#gchdx">Manager MBeans</a></p>
+</li>
+<li>
+<p><a href="introduction.html#gchri">Object Names</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="using-the-jmx-api"><a href="using-the-jmx-api.html#gdrru">2 Using the JMX API</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-jmx-api.html#gdrrv">Interface Packages</a></p>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gciuh">Utility Classes</a></p>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gchjb">Connecting to the MBean Server</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-jmx-api.html#gchjt">Obtaining a JMX Connector from an
+Admin Connection Factory</a></p>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gchjy">Obtaining a JMX Connector Without
+Using an Admin Connection Factory</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gdrrt">Using MBeans</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="using-the-jmx-api.html#gcitw">Accessing MBean Attributes</a></p>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gcitp">Invoking MBean Operations</a></p>
+</li>
+<li>
+<p><a href="using-the-jmx-api.html#gcitu">Receiving MBean Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="message-queue-mbean-reference"><a href="mbean-reference.html#gcakw">3 Message Queue MBean Reference</a></h3>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gbxrr">Brokers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcalt">Broker Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqr">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciny">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimu">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcioc">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciiw">Broker Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcioy">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciom">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciof">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxsd">Connection Services</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcams">Service Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqv">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcino">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinw">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimo">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcamu">Service Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcisp">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinf">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcing">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinx">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcana">Service Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcira">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinz">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinm">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcamc">Service Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcisb">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimy">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcint">Operation</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcioi">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxsg">Connections</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcama">Connection Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcire">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinq">Attribute</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcaml">Connection Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcisk">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciog">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciol">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcanj">Connection Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcisa">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcink">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimz">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcamo">Connection Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirt">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciod">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcina">Operation</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinc">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxrq">Destinations</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcamj">Destination Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirp">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinr">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimw">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciob">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcalx">Destination Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqt">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcims">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinv">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcins">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcaln">Destination Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirz">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinb">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcimp">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcioa">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcalp">Destination Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqy">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcioo">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcini">Operation</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcinl">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxrt">Message Producers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcamr">Producer Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciru">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcioq">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcisu">Operation</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcamd">Producer Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirj">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcite">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipo">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxrw">Message Consumers</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcamy">Consumer Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciss">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipj">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipd">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcand">Consumer Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcisj">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqg">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcios">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxro">Transactions</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcamg">Transaction Manager Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciry">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcior">Attribute</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciox">Operations</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcanc">Transaction Manager Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqs">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipz">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqb">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqf">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxsf">Broker Clusters</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcamw">Cluster Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirs">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqq">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqj">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipf">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcanl">Cluster Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirv">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipu">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqk">Operations</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipe">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxsb">Logging</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcalw">Log Configuration</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gciqz">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciov">Attributes</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gciqp">Notification</a></p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcane">Log Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcist">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipt">Notifications</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p><a href="mbean-reference.html#gbxrj">Java Virtual Machine</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcani">JVM Monitor</a></p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="mbean-reference.html#gcirn">Object Name</a></p>
+</li>
+<li>
+<p><a href="mbean-reference.html#gcipk">Attributes</a></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+<div class="sect2">
+<h3 id="a-alphabetical-reference"><a href="alphabetical-reference.html#gcoee">A Alphabetical Reference</a></h3>
+
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+
+		<td align="left">
+		<a href="loe.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

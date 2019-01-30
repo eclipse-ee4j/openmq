@@ -1,0 +1,1160 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Administered Object Attribute Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Administered Object Attribute Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="physical-destination-properties.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="jmsra-properties.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00050"></a><a id="aeood"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="administered-object-attribute-reference">19 Administered Object Attribute Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter provides reference information about the attributes of
+administered objects. It consists of the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeooe">Connection Factory Attributes</a></p>
+</li>
+<li>
+<p><a href="#aeool">Destination Attributes</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeooe"></a><a id="GMADG00298"></a><a id="connection-factory-attributes"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_connection_factory_attributes">Connection Factory Attributes</h3>
+<div class="paragraph">
+<p>The attributes of a connection factory object are grouped into
+categories described in the following sections below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoof">Connection Handling</a></p>
+</li>
+<li>
+<p><a href="#aeoog">Client Identification</a></p>
+</li>
+<li>
+<p><a href="#aeooh">Reliability and Flow Control</a></p>
+</li>
+<li>
+<p><a href="#aeooi">Queue Browser and Server Sessions</a></p>
+</li>
+<li>
+<p><a href="#aeooj">Standard Message Properties</a></p>
+</li>
+<li>
+<p><a href="#aeook">Message Header Overrides</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoof"></a><a id="GMADG00622"></a><a id="connection-handling"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_connection_handling">Connection Handling</h4>
+<div class="paragraph">
+<p><a href="#gbnnx">Table 19-1</a> lists the connection factory attributes for
+connection handling.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG783"></a><a id="sthref218"></a><a id="gbnnx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-1 Connection Factory Attributes for Connection Handling</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAddressList</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An existing Message Queue 3.0 address, if
+any; if none, the first entry in <a href="#gbnnt">Table 19-2</a></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>List of broker addresses</p>
+</div>
+<div class="paragraph">
+<p>The list consists of one or more addresses, separated by commas. Each
+address specifies (or implies) the host name, port number, and
+connection service for a broker instance to which the client can
+connect. Address syntax varies depending on the connection service and
+port assignment method; see below for details.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div>
+<div class="paragraph">
+<p>Note: In an enhanced broker cluster, the value of this attribute is
+updated dynamically as brokers enter and leave the cluster, so that it
+always reflects the cluster&#8217;s current membership.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAddressListBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PRIORITY</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Order in which to attempt connection to broker addresses:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>PRIORITY</code>: Order specified in address list</p>
+</li>
+<li>
+<p><code>RANDOM</code>: Random order</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note: If many clients share the same connection factory, specify random
+connection order to prevent them from all attempting to connect to the
+same address.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAddressListIterations</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of times to iterate through address list attempting to establish
+or reestablish a connection</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>-1</code> denotes an unlimited number of iterations.</p>
+</div>
+<div class="paragraph">
+<p>Note: In the event of broker failure in an enhanced broker cluster, this
+attribute is ignored and the Message Queue client runtime iterates
+through the address list indefinitely until it succeeds in reconnecting
+to a takeover broker. The effect is equivalent to an
+<code>imqAddressListIterations</code> value of <code>-1</code>, overriding any other explicit
+or default setting of this attribute. The only way for a client
+application to avoid this behavior is to close the connection explicitly
+on broker failure.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqPingInterval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>30</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Interval, in seconds, at which to test connection between client and
+broker</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> or <code>-1</code> disables periodic testing of the connection.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectEnabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Attempt to reestablish a lost connection?</p>
+</div>
+<div class="paragraph">
+<p>Note: In the event of broker failure in an enhanced broker cluster, this
+attribute is ignored and automatic reconnection is always attempted. The
+effect is equivalent to an <code>imqReconnectEnabled</code> value of <code>true</code>,
+overriding any other explicit or default setting of this attribute. The
+only way for a client application to avoid this behavior is to close the
+connection explicitly on broker failure.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectAttempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of times to attempt connection (or reconnection) to each address
+in address list before moving on to next</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>-1</code> denotes an unlimited number of connection attempts:
+attempt repeatedly to connect to first address until successful. For
+example, in an enhanced broker cluster, this value will allow for
+connection to the failover broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqReconnectInterval</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>3000</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Interval, in milliseconds, between reconnection attempts</p>
+</div>
+<div class="paragraph">
+<p>This value applies both for successive attempts on a given address and
+for successive addresses in the list.</p>
+</div>
+<div class="paragraph">
+<p>Note: Too small a value may give the broker insufficient recovery time;
+too large a value may cause unacceptable connection delays.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSocketConnectTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Socket timeout, in milliseconds, used when a TCP connection is made to
+the broker</p>
+</div>
+<div class="paragraph">
+<p>This value applies when connecting to the port mapper as well as when
+connecting to the required service.</p>
+</div>
+<div class="paragraph">
+<p>The timeout value <code>0</code> (zero) denotes an infinite timeout, in which case
+the connection will block until it is established or an error occurs.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSSLIsHostTrusted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Trust any certificate presented by broker?</p>
+</div>
+<div class="paragraph">
+<p>If <code>false</code>, the Message Queue client runtime will validate all
+certificates presented to it. Validation will fail if the signer of the
+certificate is not in the client&#8217;s trust store.</p>
+</div>
+<div class="paragraph">
+<p>If <code>true</code>, validation of certificates is skipped. This can be useful,
+for instance, during software testing when a self-signed certificate is
+used.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+To use signed certificates from a certification authority, set
+this attribute to <code>false</code>.
+</td>
+</tr>
+</table>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The value of the <code>imqAddressList</code> attribute is a comma-separated string
+specifying one or more broker addresses to which to connect. The general
+syntax for each address is as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">scheme:// address</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where scheme identifies one of the addressing schemes shown in the first
+column of <a href="#gbnnt">Table 19-2</a> and address denotes the broker address
+itself. The exact syntax for specifying the address depends on the
+addressing scheme, as shown in the last column of the table.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG784"></a><a id="sthref219"></a><a id="gbnnt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-2 Message Broker Addressing Schemes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 44%;">
+<col style="width: 6%;">
+<col style="width: 28%;">
+<col style="width: 22%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Scheme</th>
+<th class="tableblock halign-left valign-top">Service</th>
+<th class="tableblock halign-left valign-top">Syntax</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code> or <code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">[hostName][<code>:`portNumber][</code>/`serviceName]</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Assign port dynamically for <code>jms</code> or <code>ssljms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>The address list entry specifies the host name and port number for the
+Message Queue Port Mapper. The Port Mapper itself dynamically assigns a
+port to be used for the connection.</p>
+</div>
+<div class="paragraph">
+<p>Default values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>hostName = <code>localhost</code></p>
+</li>
+<li>
+<p>portNumber = <code>7676</code></p>
+</li>
+<li>
+<p>serviceName = <code>jms</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For the <code>ssljms</code> connection service, all variables must be specified
+explicitly.</p>
+</div>
+<div class="paragraph">
+<p>Literal IP addresses as host names: You can use a literal IPv4 or IPv6
+address as a host name. If you use a literal IPv6 address, its format
+must conform to <a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for
+Literal IPv6 Addresses in URL&#8217;s.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqtcp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hostName`:<code>portNumber</code>/jms`</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Connect to specified port using <code>jms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>Bypasses the Port Mapper and makes a TCP connection directly to the
+specified host name and port number.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqssl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">hostName`:<code>portNumber</code>/ssljms`</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Connect to specified port using <code>ssljms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>Bypasses the Port Mapper and makes a secure SSL connection directly to
+the specified host name and port number.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>http</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code><a href="http://`hostName" class="bare">http://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel`</p>
+</div>
+<div class="paragraph">
+<p>If multiple broker instances use the same tunnel servlet, the following
+syntax connects to a specific broker instance rather than a randomly
+selected one:</p>
+</div>
+<div class="paragraph">
+<p><code><a href="http://`hostName" class="bare">http://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel?`</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ServerName=`hostName</code>:`instanceName</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Connect to specified port using <code>httpjms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>Makes an HTTP connection to a Message Queue tunnel servlet at the
+specified URL. The broker must be configured to access the HTTP tunnel
+servlet.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>https</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpsjms</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code><a href="https://`hostName" class="bare">https://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel`</p>
+</div>
+<div class="paragraph">
+<p>If multiple broker instances use the same tunnel servlet, the following
+syntax connects to a specific broker instance rather than a randomly
+selected one:</p>
+</div>
+<div class="paragraph">
+<p><code><a href="https://`hostName" class="bare">https://`hostName</a></code>:`portNumber`/<code>contextRoot</code>/tunnel?`</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ServerName=`hostName</code>:`instanceName</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Connect to specified port using <code>httpsjms</code> connection service</p>
+</div>
+<div class="paragraph">
+<p>Makes a secure HTTPS connection to a Message Queue tunnel servlet at the
+specified URL. The broker must be configured to access the HTTPS tunnel
+servlet.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG785"></a><a id="sthref220"></a><a id="gbnna"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-3 Message Broker Address Examples</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 18%;">
+<col style="width: 18%;">
+<col style="width: 28%;">
+<col style="width: 36%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Service</th>
+<th class="tableblock halign-left valign-top">Broker Host</th>
+<th class="tableblock halign-left valign-top">Port</th>
+<th class="tableblock halign-left valign-top">Example Address</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No address
+(<code>mq://localHost:7676/jms</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>myBkrHost</code>
+(<code>mq://myBkrHost:7676/jms</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not specified</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified Port Mapper port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1012</code>
+(<code>mq://localHost:1012/jms</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Port Mapper port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq://localHost:7676/ssljms</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard Port Mapper port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq://myBkrHost:7676/ssljms</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified Port Mapper port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq://myBkrHost:1012/ssljms</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Local host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified service port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqtcp://localhost:1032/jms</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified host</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specified service port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqssl://myBkrHost:1034/ssljms</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not applicable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not applicable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>http://websrvr1:8085/imq/tunnel</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpsjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not applicable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not applicable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>https://websrvr2:8090/imq/tunnel</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoog"></a><a id="GMADG00623"></a><a id="client-identification"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_identification">Client Identification</h4>
+<div class="paragraph">
+<p><a href="#gbnnu">Table 19-4</a> lists the connection factory attributes for
+client identification.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG786"></a><a id="sthref221"></a><a id="gbnnu"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-4 Connection Factory Attributes for Client Identification</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDefaultUsername</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default user name for
+authenticating with broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDefaultPassword</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Default password for
+authenticating with broker</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConfiguredClientID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administratively configured
+client identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDisableSetClientID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Prevent client from changing
+client identifier using <code>setClientID</code> method?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeooh"></a><a id="GMADG00624"></a><a id="reliability-and-flow-control"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_reliability_and_flow_control">Reliability and Flow Control</h4>
+<div class="paragraph">
+<p><a href="#gbnob">Table 19-5</a> lists the connection factory attributes for
+reliability and flow control.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG787"></a><a id="sthref222"></a><a id="gbnob"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-5 Connection Factory Attributes for Reliability and Flow
+Control</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAbortOnPingAckTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Should the connection to the broker be aborted when <code>imqPingAckTimeout</code>
+milliseconds have passed?</p>
+</div>
+<div class="paragraph">
+<p>If the connection is aborted, the Message Queue Client Runtime operates
+as though the connection to the broker were broken.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAckTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum time, in milliseconds, to wait for broker acknowledgment before
+throwing an exception</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> denotes no timeout (wait indefinitely).</p>
+</div>
+<div class="paragraph">
+<p>Note: In some situations, too low a value can cause premature timeout:
+for example, initial authentication of a user against an LDAP user
+repository using a secure (SSL) connection can take more than 30
+seconds.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqAsyncSendCompletionWaitTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">180000</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The minimum amount
+of time, in milliseconds, that a MQ client waits for an asynchronous
+send to complete before calling <code>CompletionListener.onException</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConnectionFlowCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Number of payload messages in a metered batch</p>
+</div>
+<div class="paragraph">
+<p>Delivery of payload messages to the client is temporarily suspended
+after this number of messages, allowing any accumulated control messages
+to be delivered. Payload message delivery is resumed on notification by
+the client runtime, and continues until the count is again reached.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> disables metering of message delivery and may cause
+Message Queue control messages to be blocked by heavy payload message
+traffic.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConnectionFlowLimitEnabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Limit message flow
+at connection level?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConnectionFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of messages per connection to deliver and buffer for
+consumption</p>
+</div>
+<div class="paragraph">
+<p>Message delivery on a connection stops when the number of unconsumed
+payload messages pending (subject to flow metering governed by
+<code>imqConnectionFlowCount</code>) exceeds this limit. Delivery resumes only when
+the number of pending messages falls below the limit. This prevents the
+client from being overwhelmed with pending messages that might cause it
+to run out of memory.</p>
+</div>
+<div class="paragraph">
+<p>This attribute is ignored if <code>imqConnectionFlowLimitEnabled</code> is <code>false</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConsumerFlowLimitPrefetch</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Is message prefetching and buffering as specified by
+<code>imqConsumerFlowLimit</code> and <code>imqConsumerFlowThreshold</code> enabled?</p>
+</div>
+<div class="paragraph">
+<p>When set to <code>false</code>, message prefetching and buffering is disabled, and
+each consumer is delivered one message at a time, which can give rise to
+a number of performance issues.</p>
+</div>
+<div class="paragraph">
+<p>This property should be set to <code>false</code> only when business logic demands
+that each consumer have only one message at a time.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConsumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of messages per consumer to deliver and buffer for
+consumption</p>
+</div>
+<div class="paragraph">
+<p>Message delivery to a given consumer stops when the number of unconsumed
+payload messages pending for that consumer exceeds this limit. Delivery
+resumes only when the number of pending messages for the consumer falls
+below the percentage specified by <code>imqConsumerFlowThreshold</code>. This can
+be used to improve load balancing among multiple consumers and prevent
+any single consumer from starving others on the same connection.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> or <code>-1</code> denotes an unlimited number of messages.</p>
+</div>
+<div class="paragraph">
+<p>This limit can be overridden by a lower value set for a queue&#8217;s own
+<code>consumerFlowLimit</code> attribute (see
+<a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a>). Note also that message delivery to all consumers
+on a connection is subject to the overall limit specified by
+<code>imqConnectionFlowLimit</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqConsumerFlowThreshold</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>50</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of messages per
+consumer buffered in the client runtime, as a percentage of
+<code>imqConsumerFlowLimit</code>, below which to resume message delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqPingAckTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum time, in milliseconds, to wait for a ping reply or any data sent
+from the broker since its last ping reply or data sent.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> denotes no timeout (wait indefinitely).</p>
+</div>
+<div class="paragraph">
+<p>This value is ignored if the <code>imqAbortOnPingAckTimeout</code> attribute is set
+to <code>false</code>.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeooi"></a><a id="GMADG00625"></a><a id="queue-browser-and-server-sessions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_queue_browser_and_server_sessions">Queue Browser and Server Sessions</h4>
+<div class="paragraph">
+<p><a href="#gbnoh">Table 19-6</a> lists the connection factory attributes for
+queue browsing and server sessions.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG788"></a><a id="sthref223"></a><a id="gbnoh"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-6 Connection Factory Attributes for Queue Browser and Server
+Sessions</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 7%;">
+<col style="width: 42%;">
+<col style="width: 28%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqQueueBrowserMaxMessagesPerRetrieve</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of messages to retrieve at one time when browsing
+contents of a queue destination</p>
+</div>
+<div class="paragraph">
+<p>Note: This attribute does not affect the total number of messages
+browsed, only the way they are chunked for delivery to the client
+runtime (fewer but larger chunks or more but smaller ones). The client
+application will always receive all messages in the queue. Changing the
+attribute&#8217;s value may affect performance, but will not affect the total
+amount of data retrieved.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqQueueBrowserRetrieveTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>60000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum time,
+in milliseconds, to wait to retrieve messages, when browsing contents of
+a queue destination, before throwing an exception</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqLoadMaxToServerSession</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Load up to maximum number of messages into a server session?</p>
+</div>
+<div class="paragraph">
+<p>If <code>false</code>, the client will load only a single message at a time.</p>
+</div>
+<div class="paragraph">
+<p>This attribute applies only to JMS application server facilities.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeooj"></a><a id="GMADG00626"></a><a id="standard-message-properties"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_standard_message_properties">Standard Message Properties</h4>
+<div class="paragraph">
+<p>The connection factory attributes listed in <a href="#gbnng">Table 19-7</a>
+control whether the Message Queue client runtime sets certain standard
+message properties defined in the Java Message Service Specification.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG789"></a><a id="sthref224"></a><a id="gbnng"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-7 Connection Factory Attributes for Standard Message Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSetJMSXUserID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>JMSXUserID</code> property
+(identity of user sending message) for produced messages?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSetJMSXAppID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>JMSXAppID</code> property (identity
+of application sending message) for produced messages?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSetJMSXProducerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>JMSXProducerTXID</code>
+property (transaction identifier of transaction within which message was
+produced) for produced messages?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSetJMSXConsumerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>JMSXConsumerTXID</code>
+property (transaction identifier of transaction within which message was
+consumed) for consumed messages?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqSetJMSXRcvTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set <code>JMSXRcvTimestamp</code>
+property (time message delivered to consumer) for consumed messages?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeook"></a><a id="GMADG00627"></a><a id="message-header-overrides"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_header_overrides">Message Header Overrides</h4>
+<div class="paragraph">
+<p><a href="#gbnnd">Table 19-8</a> lists the connection factory attributes for
+overriding JMS message header fields.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG790"></a><a id="sthref225"></a><a id="gbnnd"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-8 Connection Factory Attributes for Message Header Overrides</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 43%;">
+<col style="width: 10%;">
+<col style="width: 10%;">
+<col style="width: 37%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqOverrideJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow client-set
+delivery mode to be overridden?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>2</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Overriding value of delivery mode:</p>
+</div>
+<div class="paragraph">
+<p><code>1</code> Nonpersistent</p>
+</div>
+<div class="paragraph">
+<p><code>2</code> Persistent</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqOverrideJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow client-set
+expiration time to be overridden?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Overriding value of expiration time, in milliseconds</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> denotes an unlimited expiration time (message never
+expires).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqOverrideJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Allow client-set priority
+level to be overridden?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>4</code> (normal)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Overriding value of priority
+level (<code>0</code> to <code>9</code>)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqOverrideJMSHeadersToTemporaryDestinations</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Apply
+overrides to temporary destinations?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeool"></a><a id="GMADG00299"></a><a id="destination-attributes"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_destination_attributes">Destination Attributes</h3>
+<div class="paragraph">
+<p><a href="#gbnog">Table 19-9</a> lists the attributes that can be set for a
+destination administered object.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG791"></a><a id="sthref226"></a><a id="gbnog"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 19-9 Destination Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 42%;">
+<col style="width: 17%;">
+<col style="width: 24%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDestinationName</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Untitled_Destination_Object</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Name of physical destination</p>
+</div>
+<div class="paragraph">
+<p>The destination name may contain only alphanumeric characters (no
+spaces) and must begin with an alphabetic character or the underscore
+(<code>_</code>) or dollar sign (<code>$</code>) character. It may not begin with the
+characters <code>mq</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imqDestinationDescription</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Descriptive string for
+destination</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="physical-destination-properties.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="jmsra-properties.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

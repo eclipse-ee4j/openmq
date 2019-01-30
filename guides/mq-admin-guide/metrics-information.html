@@ -1,0 +1,1027 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Metrics Information Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Metrics Information Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="jmsra-properties.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="java-es-monitoring-framework.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00052"></a><a id="aeoor"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="metrics-information-reference">21 Metrics Information Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the metrics information that a Message Queue
+broker can provide for monitoring, tuning, and diagnostic purposes. This
+information can be made available in a variety of ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In a log file (see <a href="monitoring.html#aeois">Sending Metrics Data to
+Log Files</a>)</p>
+</li>
+<li>
+<p>Interactively with the Command utility&#8217;s <code>imqcmd metrics</code> subcommand
+(see <a href="broker-management.html#aeodo">Using the Command Utility</a>)</p>
+</li>
+<li>
+<p>In metrics messages sent to a metrics topic destination (see
+<a href="monitoring.html#aeojc">Using the Message-Based Monitoring API</a>)</p>
+</li>
+<li>
+<p>Through JMX MBeans that can be accessed programmatically by Java
+applications using the JMX Administration API.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The tables in this chapter list the kinds of metrics information
+available and the forms in which it can be provided. For metrics
+provided through the Command utility&#8217;s <code>imqcmd metrics</code> subcommand, the
+tables list the metric type with which they can be requested; for those
+provided in metrics messages, the tables list the metrics topic
+destination to which they are delivered. All the metrics information in
+this chapter can be accessed progamatically using the JMX Administration
+API as described in the Open Message Queue Developer&#8217;s Guide for JMX
+Clients</p>
+</div>
+<div class="paragraph">
+<p>The chapter consists of the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoos">JVM Metrics</a></p>
+</li>
+<li>
+<p><a href="#aeoot">Brokerwide Metrics</a></p>
+</li>
+<li>
+<p><a href="#aeoou">Connection Service Metrics</a></p>
+</li>
+<li>
+<p><a href="#aeoov">Physical Destination Metrics</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoos"></a><a id="GMADG00304"></a><a id="jvm-metrics"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_jvm_metrics">JVM Metrics</h3>
+<div class="paragraph">
+<p><a href="#gbnmo">Table 21-1</a> shows the metrics information that the broker
+reports for the broker process JVM (Java Virtual Machine) heap.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG795"></a><a id="sthref254"></a><a id="gbnmo"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 21-1 JVM Metrics</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 26%;">
+<col style="width: 42%;">
+<col style="width: 6%;">
+<col style="width: 9%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metrics Quantity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Log File?</th>
+<th class="tableblock halign-left valign-top"><code>metrics</code> `bkr`Metric Type</th>
+<th class="tableblock halign-left valign-top">Metrics Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVM heap: total memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current total memory, in bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.jvm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVM heap: free memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of memory currently available for use, in
+bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.jvm</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JVM heap: max memory</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum allowable heap size, in bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.jvm</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoot"></a><a id="GMADG00305"></a><a id="brokerwide-metrics"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_brokerwide_metrics">Brokerwide Metrics</h3>
+<div class="paragraph">
+<p><a href="#gbnoc">Table 21-2</a> shows the brokerwide metrics information that
+the broker reports.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG796"></a><a id="sthref255"></a><a id="gbnoc"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 21-2 Brokerwide Metrics</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 26%;">
+<col style="width: 42%;">
+<col style="width: 6%;">
+<col style="width: 9%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metrics Quantity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Log File?</th>
+<th class="tableblock halign-left valign-top"><code>metrics</code> `bkr`Metric Type</th>
+<th class="tableblock halign-left valign-top">Metrics Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connections</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total current number of connections for all connection
+services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total current number of threads for all connection
+services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Min threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total minimum number of threads for all connection
+services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total maximum number of threads for all connection
+services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stored Messages</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of payload messages stored in memory and
+persistent store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None<a href="#foot-usequerybkr"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total message bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total size in bytes of payload messages currently
+stored in memory and persistent store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None<a href="#sthref256"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Flow</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload messages received since
+broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload messages sent since
+broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload messages into broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload messages out of
+broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload messages received
+since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload messages sent
+since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate message bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload message bytes
+into broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate message bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload message bytes
+out of broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num packets in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload and control packets
+received since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num packets out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload and control packets sent
+since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packets in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control packets
+into broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packets out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control packets
+out of broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Packet bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload and control
+packets received since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Packet bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload and control
+packets sent since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packet bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control
+packet bytes into broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packet bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control
+packet bytes out of broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Yes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destinations</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num destinations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of physical destinations</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mq.metrics.broker</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Use <code>query</code> <code>bkr</code> command instead</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoou"></a><a id="GMADG00306"></a><a id="connection-service-metrics"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connection_service_metrics">Connection Service Metrics</h3>
+<div class="paragraph">
+<p><a href="#gbnnb">Table 21-3</a> shows the metrics information that the broker
+reports for individual connection services.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG797"></a><a id="sthref257"></a><a id="gbnnb"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 21-3 Connection Service Metrics</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 26%;">
+<col style="width: 42%;">
+<col style="width: 6%;">
+<col style="width: 9%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metrics Quantity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Log File?</th>
+<th class="tableblock halign-left valign-top"><code>metrics</code> `svc`Metric Type</th>
+<th class="tableblock halign-left valign-top">Metrics Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connections</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of connections</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`cxn`<a href="#foot-alsoquerysvc"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`cxn`<a href="#sthref258"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Min threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum number of threads assigned to service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Max threads</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of threads assigned to service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>cxn</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Flow</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload messages received through
+connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload messages sent through
+connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload messages into broker
+through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload messages out of
+broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload messages received
+through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload messages sent
+through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate message bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload message bytes
+into broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate message bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload message bytes
+out of broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num packets in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload and control packets
+received through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num packets out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of payload and control packets sent
+through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packets in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control packets
+into broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packets out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control packets
+out of broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Packet bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload and control
+packets received through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Packet bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of payload and control
+packets sent through connection service since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packet bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control
+packet bytes into broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate packet bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of payload and control
+packet bytes out of broker through connection service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Also available with <code>query</code> <code>svc</code> command</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoov"></a><a id="GMADG00307"></a><a id="physical-destination-metrics"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_physical_destination_metrics">Physical Destination Metrics</h3>
+<div class="paragraph">
+<p><a href="#gbnnf">Table 21-4</a> shows the metrics information that the broker
+reports for individual destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG798"></a><a id="sthref259"></a><a id="gbnnf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 21-4 Physical Destination Metrics</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 12%;">
+<col style="width: 42%;">
+<col style="width: 6%;">
+<col style="width: 23%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Metrics Quantity</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Log File?</th>
+<th class="tableblock halign-left valign-top"><code>metrics</code> `dst`Metric Type</th>
+<th class="tableblock halign-left valign-top">Metrics Topic</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Consumers</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Current number of associated message consumers</p>
+</div>
+<div class="paragraph">
+<p>For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Num
+active consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak num consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Peak number of associated message consumers since broker started</p>
+</div>
+<div class="paragraph">
+<p>For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Peak num
+active consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avg num consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Average number of associated message consumers since broker started</p>
+</div>
+<div class="paragraph">
+<p>For queue destinations, this attribute includes both active and backup
+consumers. For topic destinations, it includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Avg num
+active consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num active consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Current number of associated active message consumers</p>
+</div>
+<div class="paragraph">
+<p>For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Num
+consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak num active consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Peak number of associated active message consumers since broker started</p>
+</div>
+<div class="paragraph">
+<p>For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Peak num
+consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avg num active consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Average number of associated active message consumers since broker
+started</p>
+</div>
+<div class="paragraph">
+<p>For topic destinations, this attribute includes both nondurable and
+(active and inactive) durable subscribers and is equivalent to "Avg num
+consumers."</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num backup consumers<a href="#foot-queueonly3"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of
+associated backup message consumers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak num backup consumers<a href="#sthref260"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of
+associated backup message consumers since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avg num backup consumers<a href="#sthref261"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of
+associated backup message consumers since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stored Messages</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of messages stored in memory and
+persistent store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`con``ttl``rts`<a href="#foot-aslsoquerydst"><sup>Foot 2 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages remote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current number of messages stored in memory and
+persistent store that were sent from a remote broker in a cluster. This
+number does not include messages included in transactions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not
+Available<a href="#foot-onlyquerydst"><sup>Foot 3 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not Available</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak num messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak number of messages stored in memory and
+persistent store since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con``ttl``rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avg num messages</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average number of messages stored in memory and
+persistent store since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>con``ttl``rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total message bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current total size in bytes of messages stored in
+memory and persistent store</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`ttl``rts`<a href="#sthref262"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Total message bytes remote</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current total size in bytes of messages
+stored in memory and persistent store that were sent from a remote
+broker in a cluster. This value does not include messages included in
+transactions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not Available <a href="#sthref263"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Not
+Available</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak total message bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak total size in bytes of messages stored
+in memory and persistent store since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl``rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Avg total message bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average total size in bytes of messages stored
+in memory and persistent store since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl``rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Flow</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of messages received since broker
+started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Num messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative number of messages sent since broker
+started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Msg bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of messages received since
+broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Msg bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Cumulative size in bytes of messages sent since broker
+started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Peak message bytes</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Size in bytes of largest single message received
+since broker started</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ttl``rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate num messages in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of messages received</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate num messages out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of messages sent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate msg bytes in</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of message bytes received</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rate msg bytes out</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Current rate of flow of message bytes sent</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk Utilization</p></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk reserved<a href="#foot-filebasedonly"><sup>Foot 4 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of disk space,
+in bytes, reserved for destination</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dsk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk used<a href="#sthref264"><sup>Footref 4</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Amount of disk space, in bytes,
+currently in use by destination</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dsk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Disk utilization ratio<a href="#sthref265"><sup>Footref 4</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ratio of disk space
+in use to disk space reserved for destination</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">No</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>dsk</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`mq.metrics.destination.queue.`queueName`mq.metrics.destination.topic.`topicName</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>Queue destinations only</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Also available with <code>query</code> <code>dst</code> command</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 3 </sup>Available only with <code>imqcmd query dst</code> command</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 4 </sup>File-based persistence only</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="jmsra-properties.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="java-es-monitoring-framework.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

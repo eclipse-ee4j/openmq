@@ -1,0 +1,2799 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring and Managing Bridge Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring and Managing Bridge Services</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="administered-objects.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="monitoring.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00043"></a><a id="gjdnl"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-and-managing-bridge-services">12 Configuring and Managing Bridge Services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message-Oriented Middleware (MOM) systems use a broad spectrum of
+technologies and standards to provide messaging services. Often, these
+technologies and standards are incompatible, leading to MOM systems that
+cannot communicate with each other in a larger enterprise application
+context.</p>
+</div>
+<div class="paragraph">
+<p>To alleviate this inability to communicate, Message Queue incorporates
+the Bridge Service Manager, which supports individual bridge services of
+various types. Each type of bridge service provides connectivity at the
+broker level to a MOM technology or standard that would otherwise be
+unavailable in Message Queue.</p>
+</div>
+<div class="paragraph">
+<p>This chapter provides information about the administrative components of
+the Bridge Service Manager, and shows how to configure and manage the
+two types of bridge services currently available:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjdlj">The Bridge Service Manager</a></p>
+</li>
+<li>
+<p><a href="#gjdlg">Configuring and Managing JMS Bridge Services</a></p>
+</li>
+<li>
+<p><a href="#gjdkc">Configuring and Managing STOMP Bridge Services</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjdlj"></a><a id="GMADG00258"></a><a id="the-bridge-service-manager"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_the_bridge_service_manager">The Bridge Service Manager</h3>
+<div class="paragraph">
+<p>The Message Queue Bridge Service Manager is an application that runs in
+same JVM as a broker to manage the bridges configured for the broker.
+Two administrative components control operation of the Bridge Service
+Manager:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Bridge-related broker properties</p>
+</li>
+<li>
+<p>The Bridge Manager utility (<code>imqbridgermgr</code>)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections introduce these two components.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjlig"></a><a id="GMADG00577"></a><a id="bridge-related-broker-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_bridge_related_broker_properties">Bridge-Related Broker Properties</h4>
+<div class="paragraph">
+<p>The operation of the Bridge Service Manager is in part controlled by
+several broker properties. These broker properties, all of which begin
+with <code>imq.bridge</code>, are listed in tables under
+<a href="broker-properties.html#gjdkt">Bridge Properties</a>. Some of the
+properties apply to all bridges configured for the broker, while others
+apply only to a specific bridge. The properties that apply to a specific
+bridge all begin with `imq.bridge.`bridgeName, where bridgeName is:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The same as the type of the bridge for bridge services that support
+only one bridge instance per broker, such as the STOMP bridge service</p>
+</li>
+<li>
+<p>A name you specify for a bridge instance for bridge services that
+support multiple bridge instances per broker, such as the JMS bridge
+service</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Of all the bridge-related broker properties, the two most important are
+<code>imq.bridge.enabled</code> and <code>imq.bridge.activelist</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>imq.bridge.enabled</code> property controls whether the Bridge Service
+Manager is enabled on the broker.</p>
+</li>
+<li>
+<p>The <code>imq.bridge.activelist</code> property contains a comma-separated list
+bridges (by name) to be loaded when the broker starts.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjzqh"></a><a id="GMADG00196"></a><a id="to-enable-the-bridge-service-manager"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_enable_the_bridge_service_manager">To Enable the Bridge Service Manager</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the <code>imq.bridge.enabled</code> broker property to <code>true</code>.</p>
+</li>
+<li>
+<p>Set the <code>imq.bridge.admin.user</code> broker property to the user name of
+the admin user.</p>
+</li>
+<li>
+<p>Set the <code>imq.bridge.admin.password</code> broker property to the password
+of the admin user.<br>
+Alternatively, you can specify the password using the <code>-passfile</code> option
+when you use the <code>imqbrokerd</code> command to start the broker hosting the
+bridge service manager.</p>
+</li>
+<li>
+<p>Set the <code>imq.bridge.activelist</code> broker property to a comma-separated
+list of bridges to instantiate at broker startup.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gjlji"></a><a id="GMADG00578"></a><a id="bridge-manager-utility"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_bridge_manager_utility">Bridge Manager Utility</h4>
+<div class="paragraph">
+<p>The Bridge Manager utility (<code>imqbridgemgr</code>) is the interface to the
+bridge management functions of the Bridge Service Manager. It provides
+commands to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Stop and start bridges</p>
+</li>
+<li>
+<p>Pause and resume bridges</p>
+</li>
+<li>
+<p>List configured bridges</p>
+</li>
+<li>
+<p>Manage type-dependent subcomponents of bridges, such as the links
+within a JMS bridge service</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>imqbridgemgr</code> utility uses the same
+<a href="command-line-reference.html#aeond">Command Line Syntax</a> as the other
+Message Queue utilities:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbridgemgr subcommand commandArgument [ options ]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command lists all bridges of type JMS on the
+broker localhost:7373:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbridgemgr list bridge -t jms -b localhost:7373</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For the complete set of subcommands, command arguments, and options
+supported by the <code>imqbridgemgr</code> utility, see
+<a href="command-line-reference.html#gjdli">Bridge Manager Utility</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjzqa"></a><a id="GMADG00579"></a><a id="logging-of-bridge-services"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_logging_of_bridge_services">Logging of Bridge Services</h4>
+<div class="paragraph">
+<p>Each bridge managed by the Bridge Service Manager for a broker has its
+own log file stored in the
+<code>IMQ_VARHOME/instances/`broker-name</code>/bridges/<code>bridge-name</code>/` directory.</p>
+</div>
+<div class="paragraph">
+<p>The JMS and STOMP bridge services use the Java logging facility, which
+can be configured by the Java logging configuration file. The logging
+level for a bridge can be controlled by setting the
+<code>imq.bridge.`bridge-name</code>.level` property in the Java logging
+configuration file. Then, the Java system property
+<code>java.util.logging.config.file</code> can be set to the Java logging
+configuration file when the broker is started; as in:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqbrokerd -Djava.util.logging.config.file=config-file</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjdlg"></a><a id="GMADG00259"></a><a id="configuring-and-managing-jms-bridge-services"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_and_managing_jms_bridge_services">Configuring and Managing JMS Bridge Services</h3>
+<div class="paragraph">
+<p>Because the JMS specification does not dictate the communication
+protocol between brokers and clients, each JMS provider (including
+Message Queue) has defined and uses its own propriety protocol. This
+situation has led to non-interoperability across JMS providers.</p>
+</div>
+<div class="paragraph">
+<p>The JMS bridge service in Message Queue 5.0 closes this gap by enabling
+a Message Queue broker to map its destinations to destinations in
+external JMS providers. This mapping effectively allows the Message
+Queue broker to communicate with clients of the external JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>The JMS bridge service supports mapping destinations to external JMS
+providers that:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Are JMS 1.1 compliant</p>
+</li>
+<li>
+<p>Support JNDI administrative objects</p>
+</li>
+<li>
+<p>Use connection factories of type <code>javax.jms.ConnectionFactory</code> or
+<code>javax.jms.XAConnectionFactory</code></p>
+</li>
+<li>
+<p>Support the XA interfaces as a resource manager for transacted mapping</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As an administrative and management convenience, the JMS bridge service
+supports the creation of any number of JMS bridges in a broker. Each JMS
+bridge in the broker is identified by a unique name, has its own
+configuration, and is managed separately from other JMS bridges in the
+broker.</p>
+</div>
+<div class="paragraph">
+<p>The following subsections provide information about JMS bridges and how
+to configure and manage them:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjlqp">JMS Bridge Components</a></p>
+</li>
+<li>
+<p><a href="#gjlrd">JMS Bridge Features</a></p>
+</li>
+<li>
+<p><a href="#gjlrr">Message Processing Sequence Across a Link in a JMS Bridge</a></p>
+</li>
+<li>
+<p><a href="#gjlro">Configuring a JMS Bridge</a></p>
+</li>
+<li>
+<p><a href="#gjlrp">Starting and Stopping JMS Bridges</a></p>
+</li>
+<li>
+<p><a href="#gjmig">Starting and Stopping Links in a JMS Bridge</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlqp"></a><a id="GMADG00580"></a><a id="jms-bridge-components"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_jms_bridge_components">JMS Bridge Components</h4>
+<div class="paragraph">
+<p>A JMS bridge consists of two primary components:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>One or more links, each of which maps between a destination in the
+Message Queue broker and a destination in an external JMS provider or in
+another Message Queue broker</p>
+</li>
+<li>
+<p>A default Dead Message Queue (DMQ) where undeliverable messages are
+sent. Additional, special-purpose DMQs can also be specified.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To provide destination mapping, each link consists of:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A source: the destination from which the JMS bridge receives messages.
+The source consists of a connection factory for creating connections to
+a JMS provider and a destination in that provider.</p>
+</li>
+<li>
+<p>A target: the destination to which the JMS bridge forwards messages
+received from the source. The target consists of a connection factory
+for creating connections to a JMS provider and a destination in that
+provider. Additionally, a target can optionally specify a message
+transformer that alters messages from the source before forwarding them
+to the target destination.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Links are unidirectional. Links that have an external JMS provider or
+another Message Queue broker as their source are called inbound links,
+and links that have the Message Queue broker as their source are called
+outbound links.</p>
+</div>
+<div class="paragraph">
+<p>To configure these components, you specify several
+`imq.bridge.`bridgeName broker properties, and you create an XML
+configuration file that specifies the links, sources, targets,
+connection factories, destinations, and DMQs in the bridge. This XML
+configuration file must conform to the JMS bridge DTD.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjlrd"></a><a id="GMADG00581"></a><a id="jms-bridge-features"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_jms_bridge_features">JMS Bridge Features</h4>
+<div class="paragraph">
+<p>To provide flexible, high-performing message transfer between mapped
+destinations, a JMS bridge offers these features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjlsk">Pooled, Shared, and Dedicated Connections</a></p>
+</li>
+<li>
+<p><a href="#gjlrv">Transactional Message Transfer</a></p>
+</li>
+<li>
+<p><a href="#gjlsf">JMS Bridges in High Availability (HA) Broker Clusters</a></p>
+</li>
+<li>
+<p><a href="#gjlsh">Message Transformation During Message Delivery</a></p>
+</li>
+<li>
+<p><a href="#gjlry">JMSReplyTo Header Processing</a></p>
+</li>
+<li>
+<p><a href="#gjlrk">Dead Message Queue (DMQ) Processing</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlsk"></a><a id="GMADG00436"></a><a id="pooled-shared-and-dedicated-connections"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_pooled_shared_and_dedicated_connections">Pooled, Shared, and Dedicated Connections</h5>
+<div class="paragraph">
+<p>A JMS bridge uses the connection factories configured for link sources,
+link targets, and DMQs to create connections to the Message Queue broker
+and the external JMS provider. When making connections, the JMS bridge
+follows these rules to determine whether to use a pooled connection, a
+shared connection, or a dedicated connection:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For link source connections, the JMS bridge always uses a dedicated
+connection.</p>
+</li>
+<li>
+<p>For link target and DMQ connections, the JMS bridge uses:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>A pooled connection if the link target&#8217;s or DMQ&#8217;s <code>stay-connected</code>
+attribute is <code>false</code> and the connection factory has no JMS client
+identifier configured.</p>
+</li>
+<li>
+<p>A dedicated connection if the link target&#8217;s or DMQ&#8217;s <code>stay-connected</code>
+attribute is <code>true</code> or if the link target&#8217;s or DMQ&#8217;s <code>clientid</code>
+attribute is set</p>
+</li>
+<li>
+<p>A shared connection in all other cases</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlrv"></a><a id="GMADG00437"></a><a id="transactional-message-transfer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_transactional_message_transfer">Transactional Message Transfer</h5>
+<div class="paragraph">
+<p>Each JMS bridge includes a built-in XA transaction coordinator that
+enables its links to be configured as "transacted" such that message
+transfer from the source to the target is done in a XA distributed
+transaction.</p>
+</div>
+<div class="paragraph">
+<p>For a link to be configured as transacted, both the link source and link
+target must specify connection factories of type
+<code>javax.jms.XAConnectionFactory</code>.</p>
+</div>
+<div class="paragraph">
+<p>The built-in XA transaction coordinator logs transaction records using
+the same type of store as the Message Queue broker in which the JMS
+bridge resides. For file-based transaction logging, the transaction log
+for a JMS bridge is located at:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/brokerInstance/bridges/bridgeName/txlog.bridgeNane</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For JDBC-based transaction logging, the built-in XA transaction
+coordinator uses the same JDBC store as the Message Queue broker in
+which the JMS bridge resides.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG665"></a><a id="sthref46"></a></p>
+</div>
+<div id="resource-manager-registration-and-the-built-in-xa-transaction-coordinator" class="paragraph">
+<p>Resource Manager Registration and The Built-In XA Transaction
+Coordinator</p>
+</div>
+<div class="paragraph">
+<p>When a JMS bridge is started, it registers all its Resource Managers
+(RMs) with the built-in XA transaction coordinator so that the
+coordinator can identify specific RMs during recovery.</p>
+</div>
+<div class="paragraph">
+<p>For connection factories, the JMS bridge only registers the factory as
+an RM if the factory&#8217;s <code>multi-rm</code> attribute value is <code>false</code>. A
+connection factory with a <code>multi-rm</code> attribute value of <code>true</code> should
+have each of its RMs identified by a connection factory whose
+<code>multi-rm`attribute value of `false</code> in order to participate in
+transactional message transfer. Additionally, the JMS bridge uses a
+connection factory&#8217;s <code>ref-name</code> attribute value as part of its RM name
+when registering RMs with the built-in XA transaction coordinator, so
+this attribute should not be changed between restarts of the bridge if
+transaction recovery is desired between restarts.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjlsf"></a><a id="GMADG00438"></a><a id="jms-bridges-in-high-availability-ha-broker-clusters"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_jms_bridges_in_high_availability_ha_broker_clusters">JMS Bridges in High Availability (HA) Broker Clusters</h5>
+<div class="paragraph">
+<p>Message Queue supports JMS bridges in HA broker clusters, but some
+special constraints apply due to the inherent nature of HA broker
+clusters:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Each JMS bridge must have a name that is unique across all the JMS
+bridges in all the brokers in the cluster.</p>
+</li>
+<li>
+<p>Each JMS bridge must have the same bridge configuration across all the
+brokers in the cluster.</p>
+</li>
+<li>
+<p>The <code>imq.bridge.enabled</code> broker property must have the same value
+across all brokers in the cluster.</p>
+</li>
+<li>
+<p>Before broker startup, the <code>imq.bridge.activelist</code> broker property for
+each broker lists only those JMS bridges that are to be owned by that
+broker.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To ensure that bridges in the cluster have the same configuration across
+all brokers in the cluster, all bridge-related broker properties except
+for <code>imq.bridge.activelist</code> should be specified in the centralized
+cluster properties file defined by the <code>imq.cluster.url</code> broker
+property.</p>
+</div>
+<div class="paragraph">
+<p>A table in the cluster&#8217;s HA store is used to maintain a consistent
+record of JMS bridge ownership by the brokers in the cluster.</p>
+</div>
+<div class="paragraph">
+<p>During broker startup, the JMS bridge service compares the broker&#8217;s
+<code>imq.bridge.activelist</code> property value to this table&#8217;s entries before
+starting any JMS bridges, with the following consequences:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If a JMS bridge named in <code>imq.bridge.activelist</code> does not appear in
+the table, it is added to the table and associated with the broker.</p>
+</li>
+<li>
+<p>If a JMS bridge name in <code>imq.bridge.activelist</code> does appear in the
+table, and the table entry already associates the bridge with a
+different broker, the bridge name is removed from
+<code>imq.bridge.activelist</code>.</p>
+</li>
+<li>
+<p>If an entry in the table associates a JMS bridge with the broker, and
+that bridge&#8217;s name is not in <code>imq.bridge.activelist</code>, the bridge name is
+added to <code>imq.bridge.activelist</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlsh"></a><a id="GMADG00439"></a><a id="message-transformation-during-message-delivery"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_transformation_during_message_delivery">Message Transformation During Message Delivery</h5>
+<div class="paragraph">
+<p>A link target or a DMQ can specify a message transformer to process the
+message before it is delivered to the target destination or DMQ
+destination. This message transformer must be a Java class that extends
+the Message Queue bridge
+<code>com.sun.messaging.bridge.service.MessageTransformer</code> abstract class and
+has <code>javax.jms.Message</code> as its formal type parameters. To specify a
+message transformer, set the <code>message-transformer-class</code> attribute of a
+link target or a DMQ to the fully qualified class name of the Java
+class.</p>
+</div>
+<div class="paragraph">
+<p>During message transfer processing, the JMS message to be transferred to
+a target, plus any <code>property</code> subelements of the link&#8217;s <code>target</code> element
+or the <code>dmq</code> element, are passed to the message transformer&#8217;s
+<code>MessageTransformer.transform()</code> method, and the returned JMS message is
+sent to the target destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="gjlry"></a><a id="GMADG00440"></a><a id="jmsreplyto-header-processing"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_jmsreplyto_header_processing">JMSReplyTo Header Processing</h5>
+<div class="paragraph">
+<p>In a JMS message, the <code>JMSReplyTo</code> header value is provider dependent.
+Therefore, unless both the source provider and target provider are
+Message Queue, the JMS bridge sets an existing <code>JMSReplyTo</code> header to a
+null value before passing the message to a link target or, if specified,
+the message transformer for the link target.</p>
+</div>
+<div class="paragraph">
+<p>This default behavior can be overridden by setting the <code>retain-replyto</code>
+attribute of the link&#8217;s <code>target</code> element to <code>true</code>. Overriding the
+default behavior is useful when:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The message transformer for a link target handles processing of the
+<code>JMSReplyTo</code> header.</p>
+</li>
+<li>
+<p>Both the link source and link target have the same JMS provider, and
+clients of the target provider instance need to send reply messages back
+across the JMS bridge to the <code>JMSReplyTo</code> destination in the source
+provider instance. To successfully implement this case:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>The <code>JMSReplyTo</code> destination must exist (or be able to be
+auto-created) in the target provider instance.</p>
+</li>
+<li>
+<p>A JMS bridge link must be defined with its source set to the
+<code>JMSReplyTo</code> destination in the target provider instance and its target
+set to the <code>JMSReplyTo</code> destination in the source provider instance.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlrk"></a><a id="GMADG00441"></a><a id="dead-message-queue-dmq-processing"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_dead_message_queue_dmq_processing">Dead Message Queue (DMQ) Processing</h5>
+<div class="paragraph">
+<p>Each JMS bridge includes a built-in Dead Message Queue (DMQ) named
+<code>built-in-dmq</code>. This DMQ is a designated Queue destination named
+<code>imq.bridge.jms.dmq</code> in the broker hosting the JMS bridge. You can also
+configure additional DMQs for the JMS bridge, in which case the DMQ can
+use any JMS destination in any configured JMS provider.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a production environment, the built-in DMQ, <code>imq.bridge.jms.dmq</code>,
+should be administratively created and have its access controls set
+appropriately before starting a broker that uses JMS bridge services.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When a DMQ uses Message Queue as the JMS provider, it can be configured
+such that messages sent to it will automatically be transferred to the
+Message Queue broker&#8217;s DMQ. To do so, set physical destination
+properties of the JMS bridge&#8217;s DMQ as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">useDMQ=true
+limitBehavior=REMOVE_OLDEST
+maxNumMsgs=0</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When a message is sent to the DMQ, the JMS bridge follows this sequence
+with the built-in DMQ first:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><a id="CHDHHEAD"></a><br>
+The bridge creates a new DMQ <code>javax.jms.ObjectMessage</code> object and sets
+the properties listed in <a href="#gjmjg">Table 12-1</a> to the <code>ObjectMessage</code>.</p>
+</li>
+<li>
+<p><a id="CHDGIJGJ"></a><br>
+If the DMQ has defined a message transformer, the original message is
+passed to the transformer&#8217;s <code>MessageTransformer.transform()</code> method.</p>
+</li>
+<li>
+<p>The body of the <code>javax.jms.ObjectMessage</code> is set to the transformed
+message (or original message if no message transformer is defined). If
+this action fails (usually because the message is not serializable), the
+body of the <code>ObjectMessage</code> is instead set to the <code>toString()</code> value of
+the original message.</p>
+</li>
+<li>
+<p><a id="CHDGGAHA"></a><br>
+The <code>javax.jms.ObjectMessage</code> is sent (up to <code>send-attempts</code> times) to
+the DMQ&#8217;s destination with a <code>timeToLive</code> value based on the DMQ&#8217;s
+<code>time-to-live-in-millis</code> attribute and with the same <code>JMSDeliveryMode</code>
+and <code>JMSPriority</code> as the original message.</p>
+</li>
+<li>
+<p>If sending the message fails, the bridge repeats
+Steps <a href="#CHDGIJGJ">2</a> through <a href="#CHDGGAHA">4</a> for each DMQ defined
+in the bridge&#8217;s XML configuration file in the order they appear in the
+file, stopping when a send attempt succeeds, unless it is the built-in
+DMQ.</p>
+</li>
+<li>
+<p>If the message can&#8217;t be sent to any DMQ, a log message is generated,
+containing the properties and headers of the original message and the
+properties set in Step <a href="#CHDHHEAD">1</a>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG666"></a><a id="sthref47"></a><a id="gjmjg"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-1 DMQ Message Propeties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28%;">
+<col style="width: 46%;">
+<col style="width: 26%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_DMQ_BODY_TRUNCATED</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If unable to set the
+original message or the transformed message (if the DMQ has a message
+transformer) to the body of the DMQ <code>ObjectMessage</code>. In that case the
+message&#8217;s <code>toString()</code> is set to the body of the DMQ <code>ObjectMessage</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_DMQ_EXCEPTION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>Exception.getMessage()</code>
+if exception occurred or detailed comments on the failure; null if none.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_DMQ_REASON</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">One of: <code>MESSAGE_EXPIRED</code>,
+<code>SEND_FAILURE</code>, <code>ACK_FAILURE</code>, <code>TRANSFORM_FAILURE</code>, <code>COMMIT_FAILURE</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_DMQ_TIMESTAMP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The timestamp when the JMS
+bridge sends the message to the DMQ.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_CORRELATIONID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original
+message&#8217;s <code>getJMSCorrelationID()</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_DESTINATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original message&#8217;s
+source destination name.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_JMSTYPE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original message&#8217;s
+<code>getJMSType()</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_MESSAGEID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The orginal message&#8217;s
+<code>getJMSMessageID()</code>, or null if not available.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_PROVIDER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The
+<code>ConnectionMetaData.getJMSProviderName</code> of the connection the original
+message was received on; if not available, the source connection
+factory&#8217;s <code>getClass().getName()</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_SOURCE_TIMESTAMP</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Long</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The original message&#8217;s
+<code>getJMSTimestamp()</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_TARGET_DESTINATION</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The name of the target
+destination where the original message was intended to send to.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMS_SUN_JMSBRIDGE_TARGET_PROVIDER</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The
+<code>ConnectionMetaData.getJMSProviderName</code> of the connection the original
+message was intended to send on; if not available, the target connection
+factory&#8217;s <code>getClass().getName()</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gjlrr"></a><a id="GMADG00582"></a><a id="message-processing-sequence-across-a-link-in-a-jms-bridge"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_processing_sequence_across_a_link_in_a_jms_bridge">Message Processing Sequence Across a Link in a JMS Bridge</h4>
+<div class="paragraph">
+<p>A JMS bridge link receives messages in the order sent by the link&#8217;s
+source JMS provider and transfer them in the same order to the link&#8217;s
+target JMS provider. A link follows this sequence to transfer each
+message:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The link receives a JMS message from its source.</p>
+</li>
+<li>
+<p>The link checks the <code>JMSExpiration</code> header to determine whether the
+message has expired. If it has, a log message is generated, the JMS
+message is sent to the DMQ, and no further action is taken.</p>
+</li>
+<li>
+<p>If the message has a <code>JMSReplyTo</code> header and the link target&#8217;s
+<code>retain-replyto</code> attribute is <code>false</code>, the <code>JMSReplyTo</code> header value is
+set to null.</p>
+</li>
+<li>
+<p>If the link target has defined a message transformer, the
+transformer&#8217;s <code>MessageTransformer.transform()</code> method is called. If the
+call fails or if the message transformer returns a null value, a log
+message is generated and then processing continues as follows:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>If the target&#8217;s <code>consume-no-transfer-on-transform-error</code> XML attribute
+is <code>true</code>, the untransformed message is sent to the DMQ, consumed from
+the source, but not sent to the target.</p>
+</li>
+<li>
+<p>If the target&#8217;s <code>consume-no-transfer-on-transform-error</code> XML attribute
+is <code>false</code>, the link is stopped and the message is neither consumed from
+the source nor sent to the target.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If the <code>message-transfer-tag-bridge-name</code> attribute of the
+<code>jmsbridge</code> element is <code>true</code>, the <code>JMS_SUN_JMSBRIDGE_NAME</code> property is
+added to the message and set to the name of the bridge.</p>
+</li>
+<li>
+<p>The message is sent to the link target&#8217;s destination with a
+<code>timeToLive</code> value based on the <code>JMSExpiration</code> header and current GMT
+time and with the same <code>JMSDeliveryMode</code> and <code>JMSPriority</code> values as the
+original message. If sending to the link target&#8217;s destination fails and
+the link is not transacted, a log message is generated, the JMS message
+is sent to the DMQ, and processing continues.</p>
+</li>
+<li>
+<p>The source message is acknowledged using JMS <code>CLIENT_ACKNOWLEDGE</code> if
+the link is not transacted. If the acknowledgement fails, a log message
+is generated and the JMS message is sent to the DMQ.</p>
+</li>
+<li>
+<p>If the message processing was successful, an INFO log message is
+generated. This log message can be suppressed by setting to <code>false</code> the
+<code>log-message-transfer</code> attribute of the <code>jmsbridge</code> element in the
+bridge&#8217;s XML configuration file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Message processing for messages across transacted links follows the same
+processing sequence, except JTA interfaces are used to coordinate the
+source and target resource managers to transfer the message in an XA
+distributed transaction. For transacted links, failure to send the
+message to the link target&#8217;s destination does not cause the JMS message
+to be sent to the DMQ; instead, the transaction is rolled back. However,
+if the attempt to commit the transaction fails, a log message is
+generated and the JMS message is sent to the DMQ.</p>
+</div>
+<div class="paragraph">
+<p>The quality of message transfer under failures depends on whether the
+link transferring the message is transacted:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Transacted links: <code>once-only-once</code></p>
+</li>
+<li>
+<p>Non-transacted links: <code>at-least-once</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjlro"></a><a id="GMADG00583"></a><a id="configuring-a-jms-bridge"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuring_a_jms_bridge">Configuring a JMS Bridge</h4>
+<div class="paragraph">
+<p>To configure a JMS bridge, you specify several <code>imq.bridge.`bridgeName
+broker properties, where bridgeName is a name you choose for the JMS
+bridge. Additionally, you create an XML configuration file that
+specifies the links, sources, targets, connection factories,
+destinations, and DMQs in the bridge. The url of this configuration file
+is provided as the value of the `imq.bridge.`bridgeName</code>.xml` property</p>
+</div>
+<div class="paragraph">
+<p><a id="gjlrw"></a><a id="GMADG00442"></a><a id="specifying-the-broker-properties-for-a-jms-bridge"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_specifying_the_broker_properties_for_a_jms_bridge">Specifying the Broker Properties for a JMS Bridge</h5>
+<div class="paragraph">
+<p><a href="#gjlsx">Table 12-2</a> lists the broker properties you can specify for
+a JMS bridge. In this table, name is the name of the JMS bridge, which
+must be unique across all bridges in the broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG667"></a><a id="sthref48"></a><a id="gjlsx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-2 Broker Properties for a JMS Bridge</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 16%;">
+<col style="width: 32%;">
+<col style="width: 32%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.type`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The bridge type of the bridge
+named name. For JMS bridges, specify a value of <code>JMS</code> or <code>jms</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.xmlurl`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The URL where the XML configuration file for the JMS bridge name is
+stored.</p>
+</div>
+<div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><a href="http://webserver/imq/jmsbridge1.config.xml" class="bare">http://webserver/imq/jmsbridge1.config.xml</a></code><br>
+(for a file on a Web server)</p>
+</li>
+<li>
+<p><code>file:/net/fileserver/imq/jmsbridge1.config.xml</code><br>
+(for a file on a shared drive)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.autostart`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Should the JMS bridge
+name be automatically started when the broker is started?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.limit`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The approximate maximum number of bytes the JMS bridge name writes to
+any one log file.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> (zero) indicates that there is no maximum limit.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.`name</code>.logfile.count`</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of log
+files the JMS bridge name cycles through.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>imq.bridge.tm.props</code></p>
+</div>
+<div class="paragraph">
+<p><code>imq.bridge.`name</code>.tm.props`</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Each of these properties specifies a list of key-value pairs for the
+built-in transaction coordinator for the JMS bridge name.</p>
+</div>
+<div class="paragraph">
+<p>The list consists of one or more key`=`value pairs separated by commas.</p>
+</div>
+<div class="paragraph">
+<p>When the <code>imq.persist.store</code> is <code>file</code>, the built-in transaction
+coordinator supports these keys: <code>txlogSize</code>, <code>txlogSync</code>, and
+<code>txlogMmap</code>.</p>
+</div>
+<div class="paragraph">
+<p>If the same key appears in both properties, the value specified in
+<code>imq.bridge.`name</code>.tm.props` takes precedence.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gjlse"></a><a id="GMADG00443"></a><a id="creating-the-xml-configuration-file-for-a-jms-bridge"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_creating_the_xml_configuration_file_for_a_jms_bridge">Creating the XML Configuration File for a JMS Bridge</h5>
+<div class="paragraph">
+<p>As mentioned earlier, the XML configuration file for a JMS bridge
+specifies the following components of the bridge:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Links</p>
+</li>
+<li>
+<p>Sources</p>
+</li>
+<li>
+<p>Targets</p>
+</li>
+<li>
+<p>Connection factories</p>
+</li>
+<li>
+<p>Destinations</p>
+</li>
+<li>
+<p>DMQs</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The configuration file must conform to the JMS bridge DTD, which is
+stored at:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_HOME/lib/dtd/sun_jmsbridge_Version.dtd</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The basic structure of configuration file is:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;jmsbridge name=bridgeName otherAttributes&gt;
+    &lt;link name=linkName otherAttributes&gt;
+        [ &lt;description&gt;linkDescription&lt;/description&gt; ]
+        &lt;source connection-factory-ref=connFactoryRef destination-ref=destRef otherAttributes&gt;
+            [ &lt;description&gt;sourceDescription&lt;/description&gt;
+        &lt;/source&gt;
+        &lt;target connection-factory-ref=connFactoryRef destination-ref=destRef otherAttributes&gt;
+            [ &lt;description&gt;targetDescription&lt;/description&gt; ]
+            [ &lt;property name=propName value=propValue /&gt; ] ...
+        &lt;/target&gt;
+    &lt;/link&gt;
+    &lt;dmq name=dmqName otherAttributes&gt; /* use name="built-in-dmq" for the built-in DMQ */
+        [ &lt;description&gt;dmqDescription&lt;/description&gt; ]
+        [ &lt;property name=propName value=propValue /&gt; ] ...
+    &lt;/dmq&gt;
+    &lt;connection-factory ref-name=connFactoryRef otherAttributes&gt;
+        [ &lt;description&gt;connFactoryDescription&lt;/description&gt; ]
+        [ &lt;property name=propName value=propValue /&gt; ] ...
+    &lt;/connection-factory&gt;
+    &lt;destination ref-name=destRef otherAttributes&gt;
+        [ &lt;description&gt;destDescription&lt;/description&gt; ]
+        [ &lt;property name=propName value=propValue /&gt; ] ...
+    &lt;/destination&gt; ...
+&lt;/jmsbridge&gt;</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>From this abbreviated structure for the bridge XML configuration file,
+note that <code>source</code> and <code>target</code> are subelements of <code>link</code>, while
+<code>connection-factory</code> and <code>destination</code> are peer elements to <code>link</code>, not
+subelements of <code>source</code> and <code>target</code>. Connection factories and
+destinations are associated with sources and targets by matching
+<code>connection-factory</code> <code>ref-name</code> and <code>destination</code> <code>ref-name</code> attributes
+values to <code>source</code> and <code>target</code> <code>connection-factory-ref</code> and
+<code>destination-ref</code> attribute values, respectively.</p>
+</div>
+<div class="paragraph">
+<p>As a result of this association by name-matching instead of by
+subelement inclusion, you can use the same connection factories and
+destinations across sources and targets in multiple links, thus
+streamlining the configuration file and making it more manageable.</p>
+</div>
+<div class="paragraph">
+<p>The following subsections describe the attributes you can specify for
+the elements in the JMS bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG668"></a><a id="sthref49"></a></p>
+</div>
+<div id="jmsbridge-attributes" class="paragraph">
+<p><code>jmsbridge</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlub">Table 12-3</a> lists the attributes for the <code>jmsbridge</code> element
+in the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG669"></a><a id="sthref50"></a><a id="gjlub"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-3 jmsbridge Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 24%;">
+<col style="width: 46%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unique name for this JMS bridge.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`log-message-transfer`<a href="#gkbfs"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Should each successful message transfer generate an INFO level log
+message?</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transfer-tag-bridge-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Should the <code>JMS_SUN_JMSBRIDGE_NAME</code> property be defined and set to the
+name of the bridge for each message before transferring to the link
+target?</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>false</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>First available in Message Queue 4.4.2</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG670"></a><a id="sthref51"></a></p>
+</div>
+<div id="link-attributes" class="paragraph">
+<p><code>link</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlto">Table 12-4</a> lists the attributes for the <code>link</code> element in
+the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG671"></a><a id="sthref52"></a><a id="gjlto"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-4 link Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 9%;">
+<col style="width: 46%;">
+<col style="width: 45%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>If <code>false</code>, the link will not be started</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unique identifier for this link</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transacted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>If <code>true</code>, each message transfer from source to target will be done in a
+XA distributed transaction. The connection factories specified by the
+source and target must be <code>javax.jms.XAConnectionFactory</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>If <code>false</code>, <code>CLIENT_ACKNOWLEDGE</code> mode will be used on the source The
+connection factories specified by the source and target must be
+<code>javax.jms.ConnectionFactory</code> objects.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG672"></a><a id="sthref53"></a></p>
+</div>
+<div id="source-attributes" class="paragraph">
+<p><code>source</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlte">Table 12-5</a> lists the attributes for the <code>source</code> element in
+the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG673"></a><a id="sthref54"></a><a id="gjlte"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-5 source Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 18%;">
+<col style="width: 42%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>clientid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A JMS client identifier for the message consumer connection</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connection-factory-ref</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
+associate with this source.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination-ref</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
+with this source.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>durable-sub</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A JMS durable subscription name.</p>
+</div>
+<div class="paragraph">
+<p>This attribute is ignored if the source&#8217;s destination is not a
+<code>javax.jms.Topic</code> object.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>selector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A JMS selector for the message consumer</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG674"></a><a id="sthref55"></a></p>
+</div>
+<div id="target-attributes" class="paragraph">
+<p><code>target</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlso">Table 12-6</a> lists the attributes for the <code>target</code> element in
+the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG675"></a><a id="sthref56"></a><a id="gjlso"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-6 target Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28%;">
+<col style="width: 46%;">
+<col style="width: 26%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>clientid</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A JMS client identifier for the message producer connection; if set, use
+a dedicated connection.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connection-factory-ref</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
+associate with this target.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consume-no-transfer-on-transform-error</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Controls processing when the message transformer&#8217;s
+<code>MessageTransformer.transform()</code> method returns a null value or throws
+<code>java.lang.Throwable</code>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If <code>true</code>, the message is sent to the DMQ and consumed from the source
+but not sent to the target.</p>
+</li>
+<li>
+<p>If <code>false</code>, the link is stopped, and the message is neither consumed
+from the source nor transferred to the target.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Default value: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination-ref</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
+with this target.</p>
+</div>
+<div class="paragraph">
+<p>The value <code>AS_SOURCE</code> is also supported. This value causes the target
+destination name and type to be set to the source message&#8217;s
+<code>javax.jms.Message.getJMSDestination()</code>, unless overridden by the
+message transformer&#8217;s <code>MessageTransformer.branchTo()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transformer-class</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A fully qualified class name that extends the Message Queue bridge
+<code>MessageTransformer</code> class. For more information, see
+<a href="#gjlsh">Message Transformation During Message Delivery</a>. Place this
+class under the <code>IMQ_HOME/lib/ext</code> directory.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>retain-replyto</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Should the value of the source message&#8217;s <code>JMSReplyTo</code> header (if
+specified) be retained? For more information, see <a href="#gjlry">JMSReplyTo
+Header Processing</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stay-connected</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>If <code>true</code>, the message producer connection will stay connected, and be
+dedicated.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG676"></a><a id="sthref57"></a></p>
+</div>
+<div id="dmq-attributes" class="paragraph">
+<p><code>dmq</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjltt">Table 12-7</a> lists the attributes for the <code>dmq</code> element in
+the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG677"></a><a id="sthref58"></a><a id="gjltt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-7 dmq Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 24%;">
+<col style="width: 46%;">
+<col style="width: 30%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>client-id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>JMS client identifier for the DMQ producer connection. If set, the
+connection will be dedicated.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`connection-factory-ref`<a href="#gjmjw"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>connection-factory</code> element to
+associate with this DMQ. This connection factory must be a
+<code>javax.jms.ConnectionFactory</code> object.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`destination-ref`<a href="#sthref59"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The <code>ref-name</code> attribute value of the <code>destination</code> element to associate
+with this DMQ.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`enabled`<a href="#sthref60"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Is this DMQ is enabled?</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message-transformer-class</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A fully qualified class name that extends the Message Queue bridge
+<code>MessageTransformer</code> class. For more information, see
+<a href="#gjlsh">Message Transformation During Message Delivery</a>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The unique identifier of this DMQ.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>send-attempt-interval-in-seconds</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>How long to wait before attempting to resend an undeliverable message to
+this DMQ.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>5</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>send-attempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The number of attempts to send (or resend) an undeliverable message to
+this DMQ.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>3</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`stay-connected`<a href="#sthref61"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>If true, the DMQ producer connection will stay connected and be
+dedicated.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>true</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>time-to-live-in-millis</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Time-to-live in milliseconds for messages going to this DMQ. The value
+<code>0</code> means forever.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>0</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>This attribute is ignored for the built-in DMQ,
+<code>built-in-dmq</code></p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG678"></a><a id="sthref62"></a></p>
+</div>
+<div id="connection-factory-attributes" class="paragraph">
+<p><code>connection-factory</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlsu">Table 12-8</a> lists the attributes for the
+<code>connection-factory</code> element in the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG679"></a><a id="sthref63"></a><a id="gjlsu"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-8 connection-factory Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 46%;">
+<col style="width: 29.0%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect-attempt-interval-in-seconds</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>How long to wait before each connect attempt.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>5</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>connect-attempts</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The number of attempts for connecting. The value <code>-1</code> means retry
+forever</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>-1</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>idle-timeout-in-seconds</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Close a connection if it is idle for more than this long. The value <code>0</code>
+indicates no idle timeout. This attribute is ignored for sources and for
+targets and DMQs that have their <code>stay-connected</code> attribute set to
+<code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>1800</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lookup-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>JNDI lookup name. If specified, the JNDI environment properties must
+specified as <code>property</code> subelements of this <code>connection-factory</code>
+element. The object returned by the lookup must be either
+<code>javax.jms.ConnectionFactory</code> or <code>javax.jms.XAConnectionFactory</code> type</p>
+</div>
+<div class="paragraph">
+<p>If not specified, a default connection factory to the Message Queue
+broker hosting the bridge is created with the properties in the
+<code>property</code> subelements.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>multi-rm</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Set to <code>true</code> if this connection factory will potentially create XA
+connections to more than one XA resource manager (that is,
+<code>XAResource.isSame()</code> is <code>false</code> among them). Also, add separate
+<code>connection-factory</code> for each such resource manager so that they will be
+registered separately to the built-in XA transaction coordinator.</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>false</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>password</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The password for the user specified in <code>username</code>.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ref-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unique name for this connection factory.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>username</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The user name to be used to create connections from this connection
+factory. If this attribute is set, the <code>password</code> attribute must also be
+set.</p>
+</div>
+<div class="paragraph">
+<p>If not set, connections are created using the no-argument
+<code>createConnection()</code> method of the connection factory.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMADG680"></a><a id="sthref64"></a></p>
+</div>
+<div id="destination-attributes" class="paragraph">
+<p><code>destination</code> Attributes</p>
+</div>
+<div class="paragraph">
+<p><a href="#gjlsp">Table 12-9</a> lists the attributes for the <code>destination</code>
+element in the JMS Bridge XML configuration file.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG681"></a><a id="sthref65"></a><a id="gjlsp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-9 destination Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14%;">
+<col style="width: 10%;">
+<col style="width: 76%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>lookup-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>JNDI lookup name for the destination. If specified, the JNDI environment
+properties must specified as <code>property</code> subelements of this
+<code>destination</code> element.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The JMS destination name of this destination. This attribute is ignored
+if <code>lookup-name</code> is specified.</p>
+</div>
+<div class="paragraph">
+<p>Default value: not set</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ref-name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unique name for this destination.</p>
+</div>
+<div class="paragraph">
+<p>Default value: no default</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>queue</code> or <code>topic</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The JMS destination type of this destination. This attribute is ignored
+if <code>lookup-name</code> is specified</p>
+</div>
+<div class="paragraph">
+<p>Default value: <code>queue</code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gjlrp"></a><a id="GMADG00584"></a><a id="starting-and-stopping-jms-bridges"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_starting_and_stopping_jms_bridges">Starting and Stopping JMS Bridges</h4>
+<div class="paragraph">
+<p>JMS bridges can be started automatically when the broker hosting the
+bridge starts, or manually using the <code>imqbridgemgr</code> utility. Similarly,
+JMS bridges are stopped automatically when the broker hosting the bridge
+is shut down, or manually using the <code>imqbridgemgr</code> utility.</p>
+</div>
+<div class="paragraph">
+<p>When a JMS bridge is started, the JMS bridge manager performs these
+tasks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Parse and validate the bridge&#8217;s XML configuration file.</p>
+</li>
+<li>
+<p>Initialize all links and DMQs that have their <code>enabled</code> attribute
+set to <code>true</code>.</p>
+</li>
+<li>
+<p>If any enabled links have their <code>transacted</code> attribute set to
+<code>true</code>:</p>
+</li>
+<li>
+<p>Initialize the built-in XA transaction coordinator.</p>
+</li>
+<li>
+<p>Register resource managers (RMs) for all potential XA connection
+factories.</p>
+</li>
+<li>
+<p>Perform XA recovery for available RMs.</p>
+</li>
+<li>
+<p>Create connection pools and shared connections as needed.</p>
+</li>
+<li>
+<p>Ensure that all DMQs are ready.</p>
+</li>
+<li>
+<p>Start all enabled links.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>When a JMS bridge is stopped, the JMS bridge manager performs these
+tasks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Stop all started and paused links.</p>
+</li>
+<li>
+<p>Wait until all pooled connections are returned to their respective
+pools and until all references to shared connections are returned.</p>
+</li>
+<li>
+<p>Close all connection pools and shared connections. This effectively
+causes all physical connections to JMS providers to close.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG682"></a><a id="sthref66"></a></p>
+</div>
+<div class="sect4">
+<h5 id="to-configure-a-jms-bridge-to-start-at-broker-startup">To Configure a JMS Bridge to Start at Broker Startup</h5>
+<div class="paragraph">
+<p>Follow these steps to configure a JMS bridge so that it starts
+automatically when the broker hosting it is started.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Confirm that the bridge service manager is enabled.<br>
+See <a href="#gjzqh">To Enable the Bridge Service Manager</a> for instructions.</p>
+</li>
+<li>
+<p>Add the name of the bridge to the <code>imq.bridge.activelist</code> broker
+property.</p>
+</li>
+<li>
+<p>Confirm that the <code>imq.bridge.`bridgeName</code>.autostart` broker property
+is set to <code>true</code>.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG683"></a><a id="sthref67"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to-start-a-jms-bridge-manually">To Start a JMS Bridge Manually</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>start</code> <code>bridge</code> command, specifying the
+bridge name and the broker.<br>
+For example, to start the bridge <code>mq2external</code> hosted by the broker
+running on <code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr start bridge -bn mq2external -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG684"></a><a id="sthref68"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to-stop-a-jms-bridge-manually">To Stop a JMS Bridge Manually</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>stop</code> <code>bridge</code> command, specifying the
+bridge name and the broker.<br>
+For example, to stop the bridge <code>mq2external</code> hosted by the broker
+running on <code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr stop bridge -bn mq2external -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmig"></a><a id="GMADG00585"></a><a id="starting-and-stopping-links-in-a-jms-bridge"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_starting_and_stopping_links_in_a_jms_bridge">Starting and Stopping Links in a JMS Bridge</h4>
+<div class="paragraph">
+<p>Links in a JMS bridge are started automatically when the bridge starts.
+Similarly, links are stopped automatically when the bridge is stopped.
+Additionally, once a JMS bridge is started, any of its links can be
+paused, resumed, stopped or restarted manually using the <code>imqbridgemgr</code>
+utility.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG685"></a><a id="sthref69"></a></p>
+</div>
+<div class="sect4">
+<h5 id="to-stop-a-link-manually">To Stop a Link Manually</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>stop</code> <code>link</code> command, specifying the link
+name, the bridge name, and the broker.<br>
+For example, to stop the link <code>link1</code> in the bridge <code>mq2external</code> hosted
+by the broker running on <code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr stop link  -ln link1 -bn mq2external -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG686"></a><a id="sthref70"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to-start-a-link-manually">To Start a Link Manually</h5>
+<div class="paragraph">
+<p>A link cannot be started manually unless it is enabled; that is, the
+<code>enabled</code> attribute of its <code>link</code> element in the bridge&#8217;s XML
+configuration file is set to <code>true</code>.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>start</code> <code>link</code> command, specifying the link
+name, the bridge name, and the broker.<br>
+For example, to start the link <code>link1</code> in the bridge <code>mq2external</code>
+hosted by the broker running on <code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr start link  -ln link1 -bn mq2external -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjdkc"></a><a id="GMADG00260"></a><a id="configuring-and-managing-stomp-bridge-services"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_configuring_and_managing_stomp_bridge_services">Configuring and Managing STOMP Bridge Services</h3>
+<div class="paragraph">
+<p>The STOMP (Streaming Text Oriented Messaging Protocol) open source
+project at <code>http://docs.codehaus.org/display/STOMP/Home</code> defines a
+simple wire protocol that clients written in any language can use to
+communicate with any messaging provider that supports the STOMP
+protocol.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue 5.0 provides support for the STOMP protocol through the
+STOMP bridge service. This service enables a Message Queue broker to
+communicate with STOMP clients.</p>
+</div>
+<div class="paragraph">
+<p>The STOMP bridge service provides the features needed to fully integrate
+STOMP messaging into the JMS messaging environment of Message Queue:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registration with the Message Queue Port Mapper service so that STOMP
+clients can discover the service dynamically</p>
+</li>
+<li>
+<p>Support for TCP and SSL/TLS connections, including SSL/TLS connections
+requiring client authentication</p>
+</li>
+<li>
+<p>Automatic conversion of STOMP frame messages to and from JMS
+<code>BytesMessage</code> and <code>TextMessage</code> types</p>
+</li>
+<li>
+<p>Extensible message handling and transformation (by defining a custom
+message transformer)</p>
+</li>
+<li>
+<p>Support for the full STOMP protocol, including the STOMP JMS bindings</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following subsections provide information about the STOMP bridge and
+how to configure and manage it:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gjmne">Configuring the STOMP Bridge</a></p>
+</li>
+<li>
+<p><a href="#gjmnw">Starting and Stopping the STOMP Bridge</a></p>
+</li>
+<li>
+<p><a href="#gjmmg">Message Processing Sequence Across the STOMP Bridge</a></p>
+</li>
+<li>
+<p><a href="#gjmnu">STOMP Protocol Features and the STOMP Bridge</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjmne"></a><a id="GMADG00586"></a><a id="configuring-the-stomp-bridge"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_configuring_the_stomp_bridge">Configuring the STOMP Bridge</h4>
+<div class="paragraph">
+<p>To configure the STOMP bridge, you specify several <code>imq.bridge.stomp</code>
+broker properties in the broker hosting the bridge. These properties,
+which control the various features of the STOMP bridge, are listed in
+<a href="#gjmnp">Table 12-10</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG687"></a><a id="sthref71"></a><a id="gjmnp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-10 Broker Properties for the STOMP Bridge Service</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 21%;">
+<col style="width: 32%;">
+<col style="width: 32%;">
+<col style="width: 15%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.hostname</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Host name or IP address for the STOMP bridge service</p>
+</div>
+<div class="paragraph">
+<p>If specified, overrides <code>imq.hostname</code> (see
+<a href="broker-properties.html#gbnni">Table 17-1</a>) for the STOMP bridge
+service.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tcp.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Does the STOMP bridge
+accept TCP connections?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tcp.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7672</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port on which the
+STOMP bridge listens for TCP connections, provided that
+<code>imq.bridge.stomp.tcp.enabled</code> is <code>true</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.enabled</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Does the STOMP bridge accept SSL/TLS connections?</p>
+</div>
+<div class="paragraph">
+<p>If <code>true</code>, a keystore must be created using the <code>imqkeytool</code> utility
+before starting the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>7673</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The port on which the
+STOMP bridge listens for SSL/TLS connections, provided that
+<code>imq.bridge.stomp.tls.enabled</code> is <code>true</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.tls.requireClientAuth</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Do SSL/TLS
+connections require client authentication?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.consumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The maximum
+number of unacknowledged messages that the STOMP bridge will deliver on
+a transacted STOMP subscription. The STOMP client must then acknowledge
+the messages and commit the transaction.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.messageTransformer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">None</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The fully
+qualified class name of a class that extends the Message Queue bridge
+<code>MessageTransformer</code> abstract class (with formal type parameters as
+<code>javax.jms.Message</code>). Place this class under the <code>IMQ_HOME/lib/ext</code>
+directory.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.limit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The approximate maximum number of bytes the STOMP bridge writes to any
+one log file.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> (zero) indicates that there is no maximum limit.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.bridge.stomp.logfile.count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of log files
+the STOMP bridge cycles through.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gjmnw"></a><a id="GMADG00587"></a><a id="starting-and-stopping-the-stomp-bridge"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_starting_and_stopping_the_stomp_bridge">Starting and Stopping the STOMP Bridge</h4>
+<div class="paragraph">
+<p>The STOMP bridge is started automatically when the broker hosting the
+bridge starts. Similarly, the STOMP bridge is stopped automatically when
+the broker hosting it is stopped. The STOMP bridge can be stopped and
+restarted manually using the <code>imqbridgemgr</code> utility.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG688"></a><a id="sthref72"></a></p>
+</div>
+<div class="sect4">
+<h5 id="to-activate-the-stomp-bridge">To Activate the STOMP Bridge</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Confirm that the bridge service manager is enabled.<br>
+See <a href="#gjzqh">To Enable the Bridge Service Manager</a> for instructions.</p>
+</li>
+<li>
+<p>Add the name <code>stomp</code> to the list of bridge names in the
+<code>imq.bridge.activelist</code> broker property.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="GMADG689"></a><a id="sthref73"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to-stop-the-stomp-bridge-manually">To Stop the STOMP Bridge Manually</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>stop</code> <code>bridge</code> command, specifying the
+bridge type and the broker.<br>
+For example, to stop the STOMP bridge hosted by the broker running on
+<code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr stop bridge -t STOMP -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG690"></a><a id="sthref74"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="to-start-the-stomp-bridge-manually">To Start the STOMP Bridge Manually</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqbridgemgr</code> <code>start</code> <code>bridge</code> command, specifying the
+bridge type and the broker.<br>
+For example, to start the STOMP bridge hosted by the broker running on
+<code>myhost:8886</code>, enter this command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqbridgemgr start bridge -t STOMP -b myhost:8886</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gjmmg"></a><a id="GMADG00588"></a><a id="message-processing-sequence-across-the-stomp-bridge"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_processing_sequence_across_the_stomp_bridge">Message Processing Sequence Across the STOMP Bridge</h4>
+<div class="paragraph">
+<p>The STOMP bridge processes messages differently depending on whether the
+message is a STOMP frame message being received from a STOMP client or a
+JMS message being sent to a STOMP client.</p>
+</div>
+<div class="paragraph">
+<p>For STOMP frame messages received from a STOMP client, the STOMP bridge
+performs these tasks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Convert the STOMP frame message to a JMS <code>BytesMessage</code> if the
+<code>content-length</code> header is present; otherwise, convert it to a JMS
+<code>TextMessage</code> using UTF-8 as the message encoding.</p>
+</li>
+<li>
+<p>If a custom message transformer is defined for the bridge, pass the
+JMS message to the transformer&#8217;s <code>MessageTransformer.transform()</code>
+method.</p>
+</li>
+<li>
+<p>Send the message to its destination.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For JMS messages sent to a STOMP client, the STOMP bridge performs these
+tasks:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If a custom message transformer is defined for the bridge, pass the
+JMS message to the transformer&#8217;s <code>MessageTransformer.transform()</code>
+method.</p>
+</li>
+<li>
+<p>If the transformed message (or original message when no custom
+transformer is defined) is not a JMS <code>TextMessage</code> or JMS <code>BytesMessage</code>
+message, close the STOMP connection and stop processing the message.</p>
+</li>
+<li>
+<p>Convert the JMS message to a STOMP frame message, using UTF-8
+encoding for all headers and for the message body of a JMS TextMessage
+message.</p>
+</li>
+<li>
+<p>Send the message to the STOMP client.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gjmph"></a><a id="GMADG00444"></a><a id="message-transformation-during-message-processing"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_message_transformation_during_message_processing">Message Transformation During Message Processing</h5>
+<div class="paragraph">
+<p>The message transformation between STOMP frame messages and JMS messages
+that the STOMP bridge automatically provides is sufficient in most
+applications. However, if you need to perform special processing or to
+send JMS message types other than <code>BytesMessage</code> or <code>TextMessage</code> to
+STOMP clients, you can define a custom message transformer for the STOMP
+bridge.</p>
+</div>
+<div class="paragraph">
+<p>This custom message transformer is a Java class that extends the Message
+Queue Bridge <code>MessageTransformer</code> abstract class by implementing the
+class&#8217;s <code>transform()</code> method. Then, place the class file in the
+<code>IMQ_HOME/lib/ext</code> directory and set the
+<code>imq.bridge.stomp.messageTransformer</code> broker property of the broker
+hosting the STOMP bridge to the fully qualified class name of the class.</p>
+</div>
+<div class="paragraph">
+<p>When implementing the <code>transform()</code> method, keep these points in mind:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The formal parameters T and S must be of type <code>javax.jms.Message</code>.</p>
+</li>
+<li>
+<p>"The source and target arguments will be either <code>"STOMP"</code> and
+<code>"SUN_MQ"</code> or <code>"SUN_MQ"</code> and <code>"STOMP"</code>, respectively.</p>
+</li>
+<li>
+<p>A source argument value of <code>"STOMP"</code> indicates that the message
+argument is from a STOMP client SEND frame received by the STOMP bridge.</p>
+</li>
+<li>
+<p>A source argument value of <code>"SUN_MQ"</code> indicates that the message
+argument is from a Message Queue destination.</p>
+</li>
+<li>
+<p>The readOnly argument will be <code>false</code> if the source argument is
+<code>"STOMP"</code> and <code>true</code> if the source argument is <code>"SUN_MQ"</code>.</p>
+</li>
+<li>
+<p>If the source argument is <code>"STOMP"</code>, the properties argument contains,
+as key/value pairs, any arbitrary user headers that the STOMP bridge was
+unable to convert to JMS message properties in the message argument.
+Otherwise, the properties argument is null.</p>
+</li>
+<li>
+<p>The charsetName argument should be ignored unless the source argument
+is <code>"STOMP"</code> and the message argument is a JMS <code>BytesMessage</code> message.
+This combination of argument values indicates that the message is from a
+STOMP client and has already been converted to a <code>BytesMessage</code> message.</p>
+</li>
+<li>
+<p>The returned message must be in write-only mode if the source argument
+is <code>"STOMP"</code> and in read-only mode if the source argument is <code>"SUN_MQ"</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjmnu"></a><a id="GMADG00589"></a><a id="stomp-protocol-features-and-the-stomp-bridge"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_stomp_protocol_features_and_the_stomp_bridge">STOMP Protocol Features and the STOMP Bridge</h4>
+<div class="paragraph">
+<p>The STOMP bridge supports the full STOMP protocol, including all
+additional STOMP headers for the STOMP JMS bindings, as listed at
+<code>http://docs.codehaus.org/display/STOMP/Stomp+JMS</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following table clarifies how the STOMP bridge handles certain
+command and header combinations that might be otherwise be subject to
+multiple interpretations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG691"></a><a id="sthref75"></a><a id="gjmmq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 12-11 STOMP Bridge Handling of Selected Command/Header
+Combinations</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 15%;">
+<col style="width: 28%;">
+<col style="width: 57.0%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">STOMP Frame Command</th>
+<th class="tableblock halign-left valign-top">STOMP Frame Header</th>
+<th class="tableblock halign-left valign-top">Handling by the STOMP Bridge</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>CONNECT</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>login</code></p>
+</div>
+<div class="paragraph">
+<p><code>passcode</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The STOMP bridge requires these headers to be specified; otherwise, it
+returns an <code>ERROR</code> frame.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>SEND</code></p>
+</div>
+<div class="paragraph">
+<p><code>SUBSCRIBE</code></p>
+</div>
+<div class="paragraph">
+<p><code>UNSUBSCRIBE</code></p>
+</div>
+<div class="paragraph">
+<p><code>MESSAGE</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>destination</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>MQ STOMP bridge interprets prefixes in <code>destination</code> header values as
+follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/queue/</code>: the prefix is followed by the name of a Queue</p>
+</li>
+<li>
+<p><code>/topic/</code>: the prefix is followed by the name of a Topic</p>
+</li>
+<li>
+<p><code>/temp-queue/</code>: the prefix is followed by the name of a TemporaryQueue</p>
+</li>
+<li>
+<p><code>/temp-topic/</code>: the prefix is followed by the name of a TemporaryTopic</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that the following two prefixes are reserved to be used only for
+send reply messages to a <code>MESSAGE</code> frame&#8217;s <code>replyto</code> destination, and
+should only be used in the same <code>CONNECT</code> session in which the <code>MESSAGE</code>
+is received.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>/temp-queue/temporary_destination://queue/</code></p>
+</li>
+<li>
+<p><code>/temp-topic/temporary_destination://topic/</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SEND</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>expires</code></p>
+</div>
+<div class="paragraph">
+<p><code>priority</code></p>
+</div>
+<div class="paragraph">
+<p><code>persistent</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When these headers are not specified for <code>SEND</code>, the message will be
+sent with the same default values as for a Message Queue Java client.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SEND</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">user specific headers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">On <code>SEND</code>, a user can specify additional
+headers beyond the ones specified in the STOMP protocol and STOMP JMS
+Bindings. These headers are transformed to String properties of the
+converted JMS message. Therefore, the keys for these headers must be
+valid JMS property names. If any are not, and a custom message
+transformer is specified for STOMP bridge, the invalid ones are passed
+in the properties argument to the transformer&#8217;s <code>transform()</code> method.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SUBSCRIBE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>selector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Supported as described in the STOMP JMS
+Bindings on <code>SUBSCRIBE</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SUBSCRIBE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>id</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>A STOMP client should always specify an <code>id</code> header for <code>SUBSCRIBE</code>. If
+no "id" header is specified, the STOMP bridge assigns it a default value
+of `/subscription-to/`STOMP-destination-name.</p>
+</div>
+<div class="paragraph">
+<p>All <code>SUBSCRIBE</code> <code>id</code> values must be unique in the scope of the STOMP
+client connection to the STOMP bridge; otherwise, an <code>ERROR</code> frame will
+be returned.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SUBSCRIBE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transaction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For a STOMP subscription to receive
+messages in a transaction, the <code>SUBSCRIBE</code> frame must specify a
+<code>transaction</code> header with a transaction identifier whose transaction
+state is started. If the transaction does not exist, an <code>ERROR</code> frame is
+returned. After the transaction completes (using either <code>COMMIT</code> or
+<code>ABORT</code>), message delivery to the transacted subscription is paused
+until the next transaction <code>BEGIN</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ABORT</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transaction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For transacted subscriptions, aborting a
+transaction will cause the STOMP bridge to stop message delivery to all
+transacted subscriptions in the <code>CONNECT</code> session. Then, upon the next
+<code>BEGIN</code>, the STOMP bridge restarts the message delivery sequence to all
+the transacted subscriptions in the <code>CONNECT</code> session, including all
+unconsumed messages that had been previously delivered.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>SUBSCRIBE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ack</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For STOMP <code>ack:auto</code> (the default), a subscribed
+message is considered acknowledged as soon as it is sent to the STOMP
+client.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>UNSUBSCRIBE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>durable-subscriber-name</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Unsubscribes a durable subscription, with these provisions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>destination</code> and <code>id</code> headers, if specfied, are ignored.</p>
+</li>
+<li>
+<p>An <code>ERROR</code> frame is returned if the connection (<code>CONNECT</code>) has no
+<code>client-id</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If an active subscriber with the durable name exists on the connection,
+it is first closed, and then the durable subscriber is unsubscribed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BEGIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transaction</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Transactions are at STOMP <code>CONNECT</code> session level. Nested transactions
+are not supported. On attempts to start a nested transaction, an <code>ERROR</code>
+frame is returned.</p>
+</div>
+<div class="paragraph">
+<p>The transaction identifier will also be used for <code>SUBSCRIBE</code> frame to
+create a transacted subscription.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ACK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>subscription</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>ACK</code> should always specify a <code>subscription</code> header specifying the
+subscription id that the message to be acked was delivered to.</p>
+</div>
+<div class="paragraph">
+<p>If a subcriber id is not specified, the STOMP bridge default
+subscription id prefix is used to find the first matching subscription
+id with the prefix to ack the message.</p>
+</div>
+<div class="paragraph">
+<p>If the subscription for the specified subscription id was not created as
+transacted, and a <code>transaction</code> header is specified for the <code>ACK</code>, an
+<code>ERROR</code> frame is returned;</p>
+</div>
+<div class="paragraph">
+<p><code>ACK</code> on a message ID, if found, will <code>ACK</code> all earlier messages
+delivered to the subscription in addition to the message with the given
+message ID.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ACK</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>transaction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">For transacted subscription, an <code>ACK</code> for a
+message ID automatically <code>ACK`s all ealier messages sent to the
+transacted subscription in addition to the message with the given
+message ID. For transacted subscription, a message is considered
+consumed only when it is explicitly or implicitly `ACK`ed in a
+transaction and there is a subsequent successful `COMMIT</code> on that
+transaction. If the <code>transaction</code> header is not specified but the
+<code>subscription</code> header is specified and the subscription is a transacted
+subscription, the message is <code>ACK`ed in the current transaction if there
+is a current transaction. If there is no current transaction, an `ERROR</code>
+frame is returned.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>MESSAGE</code></p>
+</div>
+<div class="paragraph">
+<p><code>ERROR</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>content-length</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The STOMP bridge always sets the <code>content-length</code>
+header for <code>MESSAGE</code> and <code>ERROR</code> frames sent to STOMP clients.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>SEND</code></p>
+</div>
+<div class="paragraph">
+<p><code>MESSAGE</code></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reply-to</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The STOMP bridge permits <code>SEND</code> from different STOMP <code>CONNECT</code> sessions
+as well as from the same <code>CONNECT</code> session to send reply messages to a
+STOMP <code>reply-to</code> header of temporary destination:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the same <code>CONNECT</code> session, when <code>SUBSCRIBE</code> and <code>SEND</code> reply, use
+the same temporary destination string that is used in the <code>SEND&#8217;s
+`reply-to</code> header.</p>
+</li>
+<li>
+<p>In a different <code>CONNECT</code> session, upon receiving a <code>MESSAGE</code> with a
+<code>reply-to</code> header of a temporary destination, use the same temporary
+destination string in the <code>MESSAGE&#8217;s `reply-to</code> header to <code>SEND</code> a
+reply to the <code>reply-to</code> temporary destination. This technique can also
+be used for sending the reply message when in the same <code>CONNECT</code>
+session.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="administered-objects.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="monitoring.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

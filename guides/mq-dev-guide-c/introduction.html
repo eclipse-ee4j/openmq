@@ -1,0 +1,918 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Introduction</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="preface.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-c-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMCCG00002"></a><a id="aelao"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="introduction">1 Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter summarizes the differences between the C API and the Java
+API to Message Queue and provides a quick start to compiling and running
+Message Queue C clients. It covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aelap">Message Queue for the C Developer</a></p>
+</li>
+<li>
+<p><a href="#aelaq">Building and Running C Clients</a></p>
+</li>
+<li>
+<p><a href="#aelaw">Working With the Sample C-Client Programs</a></p>
+</li>
+<li>
+<p><a href="#aelaz">Client Application Deployment Considerations</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You should be familiar with the concepts presented in the Open Message
+Queue Technical Overview before you read this chapter.</p>
+</div>
+<div class="paragraph">
+<p>Depending on your needs, after you read this chapter, you can proceed
+either to <a href="client-design-issues.html#aelcp">Chapter 3, "Client Design
+Issues"</a>, which describes the major issues governing C client design, or
+to <a href="using-the-c-api.html#aelba">Chapter 2, "Using the C API"</a>, which
+explains how you use C data types and functions to obtain the messaging
+behavior that interests you.</p>
+</div>
+<div class="paragraph">
+<p>The term "C developer" is used generically throughout this book and
+includes the C++ developer as well.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelap"></a><a id="GMCCG00036"></a><a id="message-queue-for-the-c-developer"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_for_the_c_developer">Message Queue for the C Developer</h3>
+<div class="paragraph">
+<p>The Message Queue product is an enterprise messaging system that
+implements the Java Message Specification (JMS) standard as a JMS
+provider. Message Queue developers can use two programming interfaces to
+establish a connection to the broker, and send or receive messages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>C clients use the API described in this manual to send messages to and
+retrieve messages from a Message Queue broker.</p>
+</li>
+<li>
+<p>Java clients use the Java API, described in the <a href="../mq-tech-over/toc.html#GMTOV">Open
+Message Queue Technical Overview</a>, to send messages to and receive
+messages from a Message Queue broker.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Message Queue provides a C API to its messaging services to enable
+legacy C applications and C++ applications to participate in JMS-based
+messaging. It is important to understand however that the Java Message
+Service specification is a standard for Java clients only; thus the C
+API described in this book is specific to the Message Queue provider and
+cannot be used with other JMS providers. A messaging application that
+includes a C client cannot be handled by another JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>The C interface, compared to the Java interface, does not support the
+following features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The use of administered objects</p>
+</li>
+<li>
+<p>Map, stream, or object message types</p>
+</li>
+<li>
+<p>Consumer-based flow control</p>
+</li>
+<li>
+<p>Queue browsers</p>
+</li>
+<li>
+<p>JMS application server facilities (ConnectionConsumer, distributed
+transactions)</p>
+</li>
+<li>
+<p>Receiving or sending SOAP messages</p>
+</li>
+<li>
+<p>Receiving or sending compressed JMS messages</p>
+</li>
+<li>
+<p>Auto-reconnect or failover, which allows the client runtime to
+automatically reconnect to a broker if a connection fails</p>
+</li>
+<li>
+<p>The <code>NO_ACKNOWLEDGE</code> mode</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Like the Java interface, the C interface does support the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Publish/subscribe and point-to-point connections</p>
+</li>
+<li>
+<p>Synchronous and asynchronous receives</p>
+</li>
+<li>
+<p><code>CLIENT</code>, <code>AUTO</code>, and <code>DUPS_OK</code> acknowledgement modes</p>
+</li>
+<li>
+<p>Local transactions</p>
+</li>
+<li>
+<p>Session recover</p>
+</li>
+<li>
+<p>Temporary topics and queues</p>
+</li>
+<li>
+<p>Message selectors</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The JMS programming model is the foundation for the design of a Message
+Queue C client. <a href="using-the-c-api.html#aelba">Using the C API</a> explains
+how this model is implemented by the C data types and functions used by
+a Message Queue C client for delivery of messages.</p>
+</div>
+<div class="paragraph">
+<p>The next section provides a quick introduction to building and running
+Message Queue clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelaq"></a><a id="GMCCG00037"></a><a id="building-and-running-c-clients"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_building_and_running_c_clients">Building and Running C Clients</h3>
+<div class="paragraph">
+<p>Message Queue provides several sample Message Queue C-client
+applications that illustrate how to send and receive messages. Before
+you run these applications, read through the next two sections to make
+sure that you understand the general procedure and requirements for
+building and running Message Queue C-client programs.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelar"></a><a id="GMCCG00304"></a><a id="building-c-clients"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_building_c_clients">Building C Clients</h4>
+<div class="paragraph">
+<p>This section explains how you build Message Queue programs from C source
+files. You should already be familiar with writing and compiling C
+applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelas"></a><a id="GMCCG00063"></a><a id="header-files-and-shared-libraries"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_header_files_and_shared_libraries">Header Files and Shared Libraries</h5>
+<div class="paragraph">
+<p>The Message Queue C client includes the header files (<code>mqcrt.h</code>), the C
+client runtime shared library <code>mqcrt</code>, and its direct dependency
+libraries. When writing a Message Queue C client application, you should
+include the header files and link to the runtime library <code>mqcrt</code>.</p>
+</div>
+<div class="paragraph">
+<p>The header files are located in <code>IMQ_HOME/include</code>, and the 32-bit
+runtime library is located in <code>IMQ_HOME/lib</code>. A 64-bit runtime library
+is available for the following platforms in the specified location:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Linux: <code>IMQ_HOME/lib64</code></p>
+</li>
+<li>
+<p>Solaris SPARC: <code>IMQ_HOME/lib/sparcv9</code></p>
+</li>
+<li>
+<p>Solaris x86: <code>IMQ_HOME/lib/amd64</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aelat"></a><a id="GMCCG00064"></a><a id="pre-processor-definitions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_pre_processor_definitions">Pre-Processor Definitions</h5>
+<div class="paragraph">
+<p>Use the appropriate compiler for your platform, as described in the
+<a href="../mq-release-notes/toc.html#GMRLN">Open Message Queue Release Notes</a>.</p>
+</div>
+<div class="paragraph">
+<p>When compiling a Message Queue C client application, you need to specify
+the pre-processor definition shown for each platform in
+<a href="#gblya">Table 1-1</a>. This definition is used to support Message Queue
+fixed-size integer types.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG419"></a><a id="sthref3"></a><a id="gblya"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-1 Preprocessor Definitions for Supporting Fixed-Size Integer
+Types</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Platform</th>
+<th class="tableblock halign-left valign-top">Definition</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Solaris</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOLARIS</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Linux</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LINUX</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AIX</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WIN32</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelau"></a><a id="GMCCG00065"></a><a id="c-runtime-library-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_c_runtime_library_support">C++ Runtime Library Support</h5>
+<div class="paragraph">
+<p>When building a Message Queue C client application, you should be aware
+that the Message Queue C runtime library is a multi-threaded library and
+requires C++ runtime library support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Solaris, this support is provided by the Oracle Solaris Studio
+<code>libCrun</code> C++ runtime library.</p>
+</li>
+<li>
+<p>On Linux, this support is provided by the <code>gcc/g++ libstdc++</code> runtime
+library.</p>
+</li>
+<li>
+<p>On AIX, this support is provided by the C<code> runtime library in the in
+the XLC/C</code> Runtime Environment.</p>
+</li>
+<li>
+<p>On Windows, this support is provided by Microsoft Windows Visual C++
+runtime library <code>msvcrt</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aelav"></a><a id="GMCCG00305"></a><a id="providing-runtime-support"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_providing_runtime_support">Providing Runtime Support</h4>
+<div class="paragraph">
+<p>To run a Message Queue C-client application, you need to make sure that
+the application can find the <code>mqcrt</code> shared library. Please consult the
+documentation for your compiler to determine the best way to do this.</p>
+</div>
+<div class="paragraph">
+<p>You also need to make sure that the appropriate C<code> runtime support
+library, as described in <a href="#aelau">C</code> Runtime Library Support</a> is
+available.</p>
+</div>
+<div class="paragraph">
+<p>On Windows you also need to make sure that your application can find the
+dependent libraries NSPR and NSS that are shipped with Message Queue.
+These may be different from the NSPR and NSS libraries that are
+installed on your system to support the Netscape browser and GlassFish
+Server. The <code>mqcrt</code> shared library depends directly on the NSPR and NSS
+versions installed with Message Queue. If a different version of the
+libraries is loaded at runtime, you may get a runtime error specifying
+that the libraries being used are incompatible. If this happens, look on
+your system to see if other versions of the NSPR or NSS libraries exist;
+for example, <code>libnspr4.dll</code> or <code>nss3.dll</code>. If you find such versions,
+take appropriate action to make sure that Message Queue can access the
+versions it needs.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelaw"></a><a id="GMCCG00038"></a><a id="working-with-the-sample-c-client-programs"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_the_sample_c_client_programs">Working With the Sample C-Client Programs</h3>
+<div class="paragraph">
+<p>This section describes the sample C-Client programs that are installed
+with Message Queue and explains how you should build them and run them.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue provides two sets of sample C-client programs: basic
+C-client programs and distributed transaction programs.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghetd"></a><a id="GMCCG00306"></a><a id="basic-c-client-programs"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_basic_c_client_programs">Basic C-Client Programs</h4>
+<div class="paragraph">
+<p>The sample C-client program files include the following:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG420"></a><a id="sthref4"></a><a id="ghesh"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-2 Basic C-Client Sample Program Files</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 34%;">
+<col style="width: 66%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Sample Program</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Producer.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Illustrates how you send a message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Consumer.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Illustrates how you receive a message synchronously</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ProducerAsyncConsumer.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Illustrates how you send a message and
+receive it asynchronously</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>RequestReply.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Illustrates how you send and respond to a message
+that specifies a reply-to destination</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These sample programs are located in <code>IMQ_HOME/examples/C</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelax"></a><a id="GMCCG00066"></a><a id="building-the-basic-c-client-sample-programs"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_building_the_basic_c_client_sample_programs">Building the Basic C-Client Sample Programs</h5>
+<div class="paragraph">
+<p>The following commands illustrate the process of building and linking
+the sample application <code>Producer.c</code> on the Solaris, Linux, AIX, and
+Windows platforms. The commands include the pre-processor definitions
+needed to support Message Queue C-API fixed-size integer types. For
+options used to support multithreading, please consult documentation for
+your compiler.</p>
+</div>
+<div class="paragraph">
+<p><a id="gblwy"></a><a id="GMCCG00007"></a><a id="to-compile-and-link-on-solaris-os"></a></p>
+</div>
+<div class="paragraph">
+<p>To Compile and Link on Solaris OS</p>
+</div>
+<div class="paragraph">
+<p>Use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">CC -compat=5 -mt -DSOLARIS -Iheader_path -o Producer \\
+    -Lruntime_path -lmqcrt Producer.c</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where header_path and runtime_path are the paths to the Message Queue
+header file and runtime shared library appropriate to your processor
+architecture, as listed in <a href="#aelas">Header Files and Shared
+Libraries</a>.</p>
+</div>
+<div class="paragraph">
+<p>For 64-bit support on either the SPARC or x86 processor architecture,
+you must also specify the <code>-xarch</code> compiler option:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>SPARC: <code>-xarch=v9</code></p>
+</li>
+<li>
+<p>x86: <code>-xarch=amd64</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, to compile and link the example application Solaris SPARC
+64–bit, you would use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">CC -compat=5 -mt -xarch=v9 -DSOLARIS -I$IMQ_HOME/include -o Producer \\
+-L$IMQ_HOME/lib/sparcv9 -lmqcrt Producer.c</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gblxj"></a><a id="GMCCG00008"></a><a id="to-compile-and-link-on-linux"></a></p>
+</div>
+<div class="paragraph">
+<p>To Compile and Link on Linux</p>
+</div>
+<div class="paragraph">
+<p>Use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">g++ -DLINUX -D_REENTRANT -I$IMQ_HOME/include -o Producer \\
+-L$IMQ_HOME/lib -lmqcrt Producer.c</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="ghpfc"></a><a id="GMCCG00009"></a><a id="to-compile-and-link-on-aix"></a></p>
+</div>
+<div class="paragraph">
+<p>To Compile and Link on AIX</p>
+</div>
+<div class="paragraph">
+<p>Use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">xlC_r -qthreaded -DAIX -I$IMQ_HOME/include -o Producer \\
+-blibsuff:so -l$IMQ_HOME/lib -imqcrt Producer.c</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gblyb"></a><a id="GMCCG00010"></a><a id="to-compile-and-link-on-windows"></a></p>
+</div>
+<div class="paragraph">
+<p>To Compile and Link on Windows</p>
+</div>
+<div class="paragraph">
+<p>Use the following command:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">cl /c /MD -DWIN32 -I%IMQ_HOME%\include Producer.c
+
+link Producer.obj /NODEFAULTLIB msvcrt.lib \\
+/LIBPATH:%IMQ_HOME%\lib mqcrt.lib</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aelay"></a><a id="GMCCG00067"></a><a id="running-the-basic-c-client-sample-programs"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_running_the_basic_c_client_sample_programs">Running the Basic C-Client Sample Programs</h5>
+<div class="paragraph">
+<p>Before you run any sample programs, you should start the broker. You can
+display output describing the command-line options for each program by
+starting the program with the -<code>help</code> option.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command, runs the program <code>Producer</code>. It
+specifies that the program should connect to the broker running on the
+host <code>MyHost</code> and port <code>8585</code>, and that it should send a message to the
+destination <code>My Topic</code> :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Producer -h MyHost -p 8585 -d MyTopic</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The directories that contain the sample programs also include a <code>README</code>
+file that explains how you should run their respective samples.</p>
+</div>
+<div class="paragraph">
+<p><a id="gherr"></a><a id="GMCCG00307"></a><a id="distributed-transaction-sample-programs"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_distributed_transaction_sample_programs">Distributed Transaction Sample Programs</h4>
+<div class="paragraph">
+<p>The distributed transaction sample programs show how to use the X/Open
+distributed transaction (XA) support of the Message Queue C-API with an
+X/Open distributed transaction processing system (in this case Oracle
+Tuxedo:
+<code>http://www.oracle.com/technetwork/middleware/tuxedo/overview/index.html</code>.)</p>
+</div>
+<div class="paragraph">
+<p>The distributed transaction sample programs include the following files:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG421"></a><a id="sthref5"></a><a id="gherq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 1-3 Distributed Transaction Sample Program Files</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 38%;">
+<col style="width: 62%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Sample Program</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jmsserver.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements Tuxedo services that send and receive
+messages using the Message Queue C-API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jmsclient_sender.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuxedo client that uses the message producing
+service in <code>jmsserver.c</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jmsclient_receiver.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuxedo client that uses the message receiving
+service in <code>jmsserver.c</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>async_jmsserver.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implements a Tuxedo service that asynchronously
+consumes messages using the Message Queue C-API</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jmsclient_async_receiver.c</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuxedo client that uses the asynchronous
+message consuming service in <code>async_jmsserver.c</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>These sample programs are located in <code>IMQ_HOME/examples/C/tuxedo</code>.</p>
+</div>
+<div class="paragraph">
+<p>The following procedures document how to set up Tuxedo as a distributed
+transaction manager, how to build the sample distributed transaction
+programs, and how to run the sample programs. The procedures are based
+on the synchronous message consumption samples and assume a Solaris
+operating system platform.</p>
+</div>
+<div class="paragraph">
+<p><a id="gheqx"></a><a id="GMCCG00013"></a><a id="to-set-up-tuxedo-as-a-distributed-transaction-manager"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_set_up_tuxedo_as_a_distributed_transaction_manager">To Set Up Tuxedo as a Distributed Transaction Manager</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Install Tuxedo.<br>
+See Tuxedo documentation for instructions.</p>
+</li>
+<li>
+<p>Set up the following environment variables:<br></p>
+</li>
+</ol>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Environment Variable</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>LD_LIBRARY_PATH</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Modify to include Message Queue C-API runtime
+library path and <code>TUXDIR/lib</code> path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TUXDIR</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuxedo install root</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>PATH</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">modify to include <code>$TUXDIR/bin</code> and compiler path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TUXCONFIG</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TUXCONFIG</code> filename path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TLOGDEVICE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tuxedo transaction log filename path</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Queue install root</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_LOG_FILE</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message Queue C-API runtime log file name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_LOG_FILE_APPEND_PID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set so that Message Queue C-API runtime log
+file name will be auto-appended with the Tuxedo server process id</p></td>
+</tr>
+</tbody>
+</table>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the Tuxedo transaction monitor server (TMS).</p>
+</li>
+<li>
+<p>Add the following entry to the <code>$TUXDIR/udataobj/RM</code> file:<br>
+<code># SUN_MQ:sun_mq_xa_switch:-lmqcrt</code></p>
+</li>
+<li>
+<p>Build the TMS executable using <code>buildtms</code>:<br>
+<code># buildtms -o $TUXDIR/bin/&lt;exe-name&gt; -r SUN_MQ</code></p>
+</li>
+<li>
+<p>Configure the Tuxedo servers.<br>
+<code># tmloadcf</code> config-file<br>
+where config-file is the Tuxedo UBBCONFIG file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gherg"></a><a id="GMCCG00014"></a><a id="to-build-the-distributed-transaction-sample-programs"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_build_the_distributed_transaction_sample_programs">To Build the Distributed Transaction Sample Programs</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the server side of the sample application (jmsserver.c).<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># cc -I$IMQ_HOME/include -I$TUXDIR/include -g -c jmsserver.c
+# buildserver -v -t -r SUN_MQ -s SENDMESSAGES,RECVMESSAGES -o jmsserver
+-f jmsserver.o -f -lmqcrt</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Build the client side of the sample application (jmsclient_sender.c
+and jmsclient_receiver.c).<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># cc -I$TUXDIR/include -c jmsclient_sender.c
+# buildclient -o jmsclient_sender -f jmsclient_sender.o
+# cc -I$TUXDIR/include -c jmsclient_receiver.c
+# buildclient -o jmsclient_receiver -f jmsclient_receiver.o</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="ghesi"></a><a id="GMCCG00015"></a><a id="to-run-the-distributed-transaction-sample-programs"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_run_the_distributed_transaction_sample_programs">To Run the Distributed Transaction Sample Programs</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start a Message Queue broker.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># imqbrokerd -tty</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the Tuxedo servers.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># tmboot</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Run the client-side applications.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># jmsclient_sender
+# jmsclient_receiver</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Confirm the messages are produced to and consumed from the
+applicable destination.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre># imqcmd list dst -u admin
+# imqcmd querry dst -t q -n xatestqueue -u admin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aelaz"></a><a id="GMCCG00039"></a><a id="client-application-deployment-considerations"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_client_application_deployment_considerations">Client Application Deployment Considerations</h3>
+<div class="paragraph">
+<p>When you are ready to deploy your client application, you should make
+sure the administrator knows your application&#8217;s needs. The following
+checklist shows the basic information required. Consult with your
+administrator to determine the exact information needed. In some cases,
+it might be useful to provide a range of values rather than a specific
+value. Refer to "<a href="../mq-admin-guide/physical-destination-properties.html#GMADG00049">Physical Destination Property
+Reference</a>" in Open Message Queue Administration Guide about attribute
+names and default values.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Configuring physical destinations:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Type:</p>
+</li>
+<li>
+<p>Name:</p>
+</li>
+<li>
+<p>Properties:</p>
+</li>
+<li>
+<p>Maximum number of messages expected:</p>
+</li>
+<li>
+<p>Maximum message bytes expected:</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Configuring Dead Message Queue:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Place dead messages on Dead Message Queue:</p>
+</li>
+<li>
+<p>Log the placement of messages on the Dead Message Queue:</p>
+</li>
+<li>
+<p>Discard the body of messages placed on the Dead Message Queue:</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="preface.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-c-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

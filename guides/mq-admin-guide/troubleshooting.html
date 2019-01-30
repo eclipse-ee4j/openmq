@@ -1,0 +1,2262 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Troubleshooting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Troubleshooting</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="tuning.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-reference.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00046"></a><a id="aeold"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="troubleshooting">15 Troubleshooting</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter explains how to understand and resolve the following
+problems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeole">A Client Cannot Establish a Connection</a></p>
+</li>
+<li>
+<p><a href="#aeoln">Connection Throughput Is Too Slow</a></p>
+</li>
+<li>
+<p><a href="#aeolt">A Client Cannot Create a Message Producer</a></p>
+</li>
+<li>
+<p><a href="#aeolw">Message Production Is Delayed or Slowed</a></p>
+</li>
+<li>
+<p><a href="#aeomb">Messages Are Backlogged</a></p>
+</li>
+<li>
+<p><a href="#aeomi">Broker Throughput Is Sporadic</a></p>
+</li>
+<li>
+<p><a href="#aeomm">Messages Are Not Reaching Consumers</a></p>
+</li>
+<li>
+<p><a href="#aeomr">Dead Message Queue Contains Messages</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When problems occur, it is useful to check the version number of the
+installed Message Queue software. Use the version number to ensure that
+you are using documentation whose version matches the software version.
+You also need the version number to report a problem to Oracle. To check
+the version number, issue the following command:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd</code> <code>-v</code></p>
+</div>
+<div class="paragraph">
+<p><a id="aeole"></a><a id="GMADG00271"></a><a id="a-client-cannot-establish-a-connection"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_a_client_cannot_establish_a_connection">A Client Cannot Establish a Connection</h3>
+<div class="paragraph">
+<p>Symptoms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Client cannot make a new connection.</p>
+</li>
+<li>
+<p>Client cannot auto-reconnect on failed connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gbnuq">Client applications are not closing connections, causing
+the number of connections to exceed resource limitations.</a></p>
+</li>
+<li>
+<p><a href="#aeolg">Broker is not running or there is a network connectivity
+problem.</a></p>
+</li>
+<li>
+<p><a href="#aeolh">Connection service is inactive or paused.</a></p>
+</li>
+<li>
+<p><a href="#aeoli">Too few threads available for the number of connections
+required.</a></p>
+</li>
+<li>
+<p><a href="#aeolj">Too few file descriptors for the number of connections
+required on the Solaris or Linux platform.</a></p>
+</li>
+<li>
+<p><a href="#aeolk">TCP backlog limits the number of simultaneous new
+connection requests that can be established.</a></p>
+</li>
+<li>
+<p><a href="#aeoll">Operating system limits the number of concurrent
+connections.</a>.</p>
+</li>
+<li>
+<p><a href="#aeolm">Authentication or authorization of the user is failing.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gbnuq"></a><a id="GMADG699"></a></p>
+</div>
+<div class="paragraph">
+<p>Client applications are not closing connections, causing the number of
+connections to exceed resource limitations.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: List all connections to a broker:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list cxn</code></p>
+</div>
+<div class="paragraph">
+<p>The output will list all connections and the host from which each
+connection has been made, revealing an unusual number of open
+connections for specific clients.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Rewrite the offending clients to close unused
+connections.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolg"></a><a id="GMADG700"></a></p>
+</div>
+<div class="paragraph">
+<p>Broker is not running or there is a network connectivity problem.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Telnet to the broker&#8217;s primary port (for example, the default of
+<code>7676</code>) and verify that the broker responds with Port Mapper output.</p>
+</li>
+<li>
+<p>Verify that the broker process is running on the host.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start up the broker.</p>
+</li>
+<li>
+<p>Fix the network connectivity problem.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolh"></a><a id="GMADG701"></a></p>
+</div>
+<div class="paragraph">
+<p>Connection service is inactive or paused.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check the status of all connection
+services:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list svc</code></p>
+</div>
+<div class="paragraph">
+<p>If the status of a connection service is shown as <code>unknown</code> or <code>paused</code>,
+clients will not be able to establish a connection using that service.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the status of a connection service is shown as <code>unknown</code> , it is
+missing from the active service list (<code>imq.service.active</code> ). In the
+case of SSL-based services, the service might also be improperly
+configured, causing the broker to make the following entry in the broker
+log:<br>
+<code>ERROR [B3009]: Unable to start service ssljms:`</code>[B4001]: Unable to open protocol tls for ssljms service&#8230;&#8203;`<br>
+followed by an explanation of the underlying cause of the exception.<br>
+To properly configure SSL services, see
+<a href="security-services.html#aeogb">Message Encryption</a>.</p>
+</li>
+<li>
+<p>If the status of a connection service is shown as <code>paused</code>, resume the
+service (see <a href="connection-services.html#aeoei">Pausing and Resuming a
+Connection Service</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoli"></a><a id="GMADG702"></a></p>
+</div>
+<div class="paragraph">
+<p>Too few threads available for the number of connections required.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check for the following entry in
+the broker log:</p>
+</div>
+<div class="paragraph">
+<p><code>WARNING [B3004]: No threads are available to process a new connection on service ...``Closing the new connection.</code></p>
+</div>
+<div class="paragraph">
+<p>Also check the number of connections on the connection service and the
+number of threads currently in use, using one of the following formats:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd query svc</code> <code>-n</code> serviceName`imqcmd metrics svc` <code>-n</code>
+serviceName`-m cxn`</p>
+</div>
+<div class="paragraph">
+<p>Each connection requires two threads: one for incoming messages and one
+for outgoing messages (see <a href="connection-services.html#aeocp">Thread
+Pool Management</a>).</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you are using a dedicated thread pool model
+(<code>imq.`serviceName</code>.threadpool_model=``dedicated`), the maximum number
+of connections is half the maximum number of threads in the thread pool.
+Therefore, to increase the number of connections, increase the size of
+the thread pool (<code>imq.`serviceName</code>.max_threads`) or switch to the
+shared thread pool model.</p>
+</li>
+<li>
+<p>If you are using a shared thread pool model
+(<code>imq.`serviceName</code>.threadpool_model=shared`), the maximum number of
+connections is half the product of the connection monitor limit
+(<code>imq.`serviceName</code>.connectionMonitor_limit`) and the maximum number of
+threads (<code>imq.`serviceName</code>.max_threads`). Therefore, to increase the
+number of connections, increase the size of the thread pool or increase
+the connection monitor limit.</p>
+</li>
+<li>
+<p>Ultimately, the number of supportable connections (or the throughput
+on connections) will reach input/output limits. In such cases, use a
+multiple-broker cluster to distribute connections among the broker
+instances within the cluster.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolj"></a><a id="GMADG703"></a></p>
+</div>
+<div class="paragraph">
+<p>Too few file descriptors for the number of connections required on the
+Solaris or Linux platform.</p>
+</div>
+<div class="paragraph">
+<p>For more information about this issue, see
+<a href="starting-brokers-and-clients.html#aeobx">Setting the File Descriptor
+Limit</a>.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check for an entry in the broker
+log similar to the following:</p>
+</div>
+<div class="paragraph">
+<p><code>Too many open files</code></p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Increase the file descriptor limit, as described
+in the <code>man</code> page for the <code>ulimit</code> command.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolk"></a><a id="GMADG704"></a></p>
+</div>
+<div class="paragraph">
+<p>TCP backlog limits the number of simultaneous new connection requests
+that can be established.</p>
+</div>
+<div class="paragraph">
+<p>The TCP backlog places a limit on the number of simultaneous connection
+requests that can be stored in the system backlog
+(<code>imq.portmapper.backlog</code>) before the Port Mapper rejects additional
+requests. (On the Windows platform there is a hard-coded backlog limit
+of 5 for Windows desktops and 200 for Windows servers.)</p>
+</div>
+<div class="paragraph">
+<p>The rejection of requests because of backlog limits is usually a
+transient phenomenon, due to an unusually high number of simultaneous
+connection requests.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Examine the broker log. First,
+check to see whether the broker is accepting some connections during the
+same time period that it is rejecting others. Next, check for messages
+that explain rejected connections. If you find such messages, the TCP
+backlog is probably not the problem, because the broker does not log
+connection rejections due to the TCP backlog. If some successful
+connections are logged, and no connection rejections are logged, the TCP
+backlog is probably the problem.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Program the client to retry the attempted connection after a short
+interval of time (this normally works because of the transient nature of
+this problem).</p>
+</li>
+<li>
+<p>Increase the value of <code>imq.portmapper.backlog</code>.</p>
+</li>
+<li>
+<p>Check that clients are not closing and then opening connections too
+often.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoll"></a><a id="GMADG705"></a></p>
+</div>
+<div class="paragraph">
+<p>Operating system limits the number of concurrent connections.</p>
+</div>
+<div class="paragraph">
+<p>The Windows operating system license places limits on the number of
+concurrent remote connections that are supported.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check that there are plenty of
+threads available for connections (using <code>imqcmd</code> <code>query</code> <code>svc</code>) and
+check the terms of your Windows license agreement. If you can make
+connections from a local client, but not from a remote client, operating
+system limitations might be the cause of the problem.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Upgrade the Windows license to allow more connections.</p>
+</li>
+<li>
+<p>Distribute connections among a number of broker instances by setting
+up a multiple-broker cluster.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolm"></a><a id="GMADG706"></a></p>
+</div>
+<div class="paragraph">
+<p>Authentication or authorization of the user is failing.</p>
+</div>
+<div class="paragraph">
+<p>The authentication may be failing for any of the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Incorrect password</p>
+</li>
+<li>
+<p>No entry for user in user repository</p>
+</li>
+<li>
+<p>User does not have access permission for connection service</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check entries in the broker log
+for the <code>Forbidden</code> error message. This will indicate an authentication
+error, but will not indicate the reason for it.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you are using a file-based user repository, enter the following
+command:<br>
+<code>imqusermgr list</code> <code>-i</code> instanceName`-u` userName<br>
+If the output shows a user, the wrong password was probably submitted.
+If the output shows the following error, there is no entry for the user
+in the user repository:<br>
+<code>Error [B3048]: User does not exist in the password file</code></p>
+</li>
+<li>
+<p>If you are using an LDAP server user repository, use the appropriate
+tools to check whether there is an entry for the user.</p>
+</li>
+<li>
+<p>Check the access control file to see whether there are restrictions on
+access to the connection service.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the wrong password was used, provide the correct password.</p>
+</li>
+<li>
+<p>If there is no entry for the user in the user repository, add one (see
+<a href="security-services.html#gewbc">Adding a User to the Repository</a>).</p>
+</li>
+<li>
+<p>If the user does not have access permission for the connection
+service, edit the access control file to grant such permission (see
+<a href="security-services.html#aeofy">Authorization Rules for Connection
+Services</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoln"></a><a id="GMADG00272"></a><a id="connection-throughput-is-too-slow"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_connection_throughput_is_too_slow">Connection Throughput Is Too Slow</h3>
+<div class="paragraph">
+<p>Symptoms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message throughput does not meet expectations.</p>
+</li>
+<li>
+<p>Message input/output rates are not limited by an insufficient number
+of supported connections (as described in <a href="#aeole">A Client Cannot
+Establish a Connection</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeolo">Network connection or WAN is too slow.</a></p>
+</li>
+<li>
+<p><a href="#aeolp">Connection service protocol is inherently slow compared to
+TCP.</a></p>
+</li>
+<li>
+<p><a href="#aeolq">Connection service protocol is not optimally tuned.</a></p>
+</li>
+<li>
+<p><a href="#aeolr">Messages are so large that they consume too much
+bandwidth.</a></p>
+</li>
+<li>
+<p><a href="#aeols">What appears to be slow connection throughput is actually
+a bottleneck in some other step of the message delivery process.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolo"></a><a id="GMADG707"></a></p>
+</div>
+<div class="paragraph">
+<p>Network connection or WAN is too slow.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Ping the network, to see how long it takes for the ping to return, and
+consult a network administrator.</p>
+</li>
+<li>
+<p>Send and receive messages using local clients and compare the delivery
+time with that of remote clients (which use a network link).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Upgrade the network link.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolp"></a><a id="GMADG708"></a></p>
+</div>
+<div class="paragraph">
+<p>Connection service protocol is inherently slow compared to TCP.</p>
+</div>
+<div class="paragraph">
+<p>For example, SSL-based or HTTP-based protocols are slower than TCP (see
+<a href="tuning.html#aeokb">Transport Protocols</a>).</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: If you are using SSL-based or
+HTTP-based protocols, try using TCP and compare the delivery times.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Application requirements usually dictate the
+protocols being used, so there is little you can do other than attempt
+to tune the protocol as described in <a href="tuning.html#aeoko">Tuning
+Transport Protocols</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolq"></a><a id="GMADG709"></a></p>
+</div>
+<div class="paragraph">
+<p>Connection service protocol is not optimally tuned.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Try tuning the protocol to see
+whether it makes a difference.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Try tuning the protocol, as described in
+<a href="tuning.html#aeoko">Tuning Transport Protocols</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolr"></a><a id="GMADG710"></a></p>
+</div>
+<div class="paragraph">
+<p>Messages are so large that they consume too much bandwidth.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Try running your benchmark with
+smaller-sized messages.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Have application developers modify the application to use the message
+compression feature, which is described in the Open Message Queue
+Developer&#8217;s Guide for Java Clients.</p>
+</li>
+<li>
+<p>Use messages as notifications of data to be sent, but move the data
+using another protocol.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeols"></a><a id="GMADG711"></a></p>
+</div>
+<div class="paragraph">
+<p>What appears to be slow connection throughput is actually a bottleneck
+in some other step of the message delivery process.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: If what appears to be slow
+connection throughput cannot be explained by any of the causes above,
+see <a href="tuning.html#aeojm">Factors Affecting Performance</a> for other
+possible bottlenecks and check for symptoms associated with the
+following problems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeolw">Message Production Is Delayed or Slowed</a></p>
+</li>
+<li>
+<p><a href="#aeomb">Messages Are Backlogged</a></p>
+</li>
+<li>
+<p><a href="#aeomi">Broker Throughput Is Sporadic</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Follow the problem resolution guidelines
+provided in the troubleshooting sections listed above.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolt"></a><a id="GMADG00273"></a><a id="a-client-cannot-create-a-message-producer"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_a_client_cannot_create_a_message_producer">A Client Cannot Create a Message Producer</h3>
+<div class="paragraph">
+<p>Symptom:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A message producer cannot be created for a physical destination; the
+client receives an exception.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeolu">A physical destination has been configured to allow only a
+limited number of producers.</a></p>
+</li>
+<li>
+<p><a href="#aeolv">The user is not authorized to create a message producer
+due to settings in the access control file.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolu"></a><a id="GMADG712"></a></p>
+</div>
+<div class="paragraph">
+<p>A physical destination has been configured to allow only a limited
+number of producers.</p>
+</div>
+<div class="paragraph">
+<p>One of the ways of avoiding the accumulation of messages on a physical
+destination is to limit the number of producers (<code>maxNumProducers</code>) that
+it supports.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check the physical destination:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd query dst</code></p>
+</div>
+<div class="paragraph">
+<p>(see <a href="message-delivery.html#aeoer">Viewing Physical Destination
+Information</a>). The output will show the current number of producers and
+the value of <code>maxNumProducers</code>. If the two values are the same, the
+number of producers has reached its configured limit. When a new
+producer is rejected by the broker, the broker returns the exception</p>
+</div>
+<div class="paragraph">
+<p><code>ResourceAllocationException [C4088]: A JMS destination limit was reached</code></p>
+</div>
+<div class="paragraph">
+<p>and makes the following entry in the broker log:</p>
+</div>
+<div class="paragraph">
+<p><code>[B4183]: Producer can not be added to destination</code></p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Increase the value of the <code>maxNumProducers</code>
+property (see <a href="message-delivery.html#aeoes">Updating Physical
+Destination Properties</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolv"></a><a id="GMADG713"></a></p>
+</div>
+<div class="paragraph">
+<p>The user is not authorized to create a message producer due to settings
+in the access control file.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: When a new producer is rejected by
+the broker, the broker returns the exception</p>
+</div>
+<div class="paragraph">
+<p><code>JMSSecurityException [C4076]: Client does not have permission to create producer on destination</code></p>
+</div>
+<div class="paragraph">
+<p>and makes the following entries in the broker log:</p>
+</div>
+<div class="paragraph">
+<p><code>[B2041]: Producer on destination denied`</code>[B4051]: Forbidden guest`.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Change the access control properties to allow
+the user to produce messages (see
+<a href="security-services.html#aeofz">Authorization Rules for Physical
+Destinations</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeolw"></a><a id="GMADG00274"></a><a id="message-production-is-delayed-or-slowed"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_production_is_delayed_or_slowed">Message Production Is Delayed or Slowed</h3>
+<div class="paragraph">
+<p>Symptoms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When sending persistent messages, the <code>send</code> method does not return
+and the client blocks.</p>
+</li>
+<li>
+<p>When sending a persistent message, the client receives an exception.</p>
+</li>
+<li>
+<p>A producing client slows down.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeolx">The broker is backlogged and has responded by slowing
+message producers.</a></p>
+</li>
+<li>
+<p><a href="#aeoly">The broker cannot save a persistent message to the data
+store.</a></p>
+</li>
+<li>
+<p><a href="#aeolz">Broker acknowledgment timeout is too short.</a></p>
+</li>
+<li>
+<p><a href="#aeoma">A producing client is encountering JVM limitations.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolx"></a><a id="GMADG714"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker is backlogged and has responded by slowing message producers.</p>
+</div>
+<div class="paragraph">
+<p>A backlogged broker accumulates messages in broker memory. When the
+number of messages or message bytes in physical destination memory
+reaches configured limits, the broker attempts to conserve memory
+resources in accordance with the specified limit behavior. The following
+limit behaviors slow down message producers:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FLOW_CONTROL</code>: The broker does not immediately acknowledge receipt of
+persistent messages (thereby blocking a producing client).</p>
+</li>
+<li>
+<p><code>REJECT_NEWEST</code>: The broker rejects new persistent messages.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Similarly, when the number of messages or message bytes in brokerwide
+memory (for all physical destinations) reaches configured limits, the
+broker will attempt to conserve memory resources by rejecting the newest
+messages. Also, when system memory limits are reached because physical
+destination or brokerwide limits have not been set properly, the broker
+takes increasingly serious action to prevent memory overload. These
+actions include throttling back message producers.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: When a message is rejected by the
+broker because of configured message limits, the broker returns the
+exception</p>
+</div>
+<div class="paragraph">
+<p><code>JMSException [C4036]: A server error occurred</code></p>
+</div>
+<div class="paragraph">
+<p>and makes the following entry in the broker log:</p>
+</div>
+<div class="paragraph">
+<p><code>[B2011]: Storing of JMS message from IMQconn failed</code></p>
+</div>
+<div class="paragraph">
+<p>This message is followed by another indicating the limit that has been
+reached:</p>
+</div>
+<div class="paragraph">
+<p><code>[B4120]: Cannot store message on destination</code>
+destName`because capacity of` maxNumMsgs`would be exceeded.`</p>
+</div>
+<div class="paragraph">
+<p>if the exceeded message limit is on a physical destination, or</p>
+</div>
+<div class="paragraph">
+<p><code>[B4024]: The maximum number of messages currrently in the system has been exceeded, rejecting message.</code></p>
+</div>
+<div class="paragraph">
+<p>if the limit is brokerwide.</p>
+</div>
+<div class="paragraph">
+<p>More generally, you can check for message limit conditions before the
+rejections occur as follows:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Query physical destinations and the broker and inspect their
+configured message limit settings.</p>
+</li>
+<li>
+<p>Monitor the number of messages or message bytes currently in a
+physical destination or in the broker as a whole, using the appropriate
+<code>imqcmd</code> commands. See <a href="metrics-information.html#aeoor">Metrics
+Information Reference</a> for information about metrics you can monitor and
+the commands you use to obtain them.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the message limits on a physical destination (or brokerwide),
+being careful not to exceed memory resources.<br>
+In general, you should manage memory at the individual destination
+level, so that brokerwide message limits are never reached. For more
+information, see <a href="tuning.html#aeokt">Broker Memory Management
+Adjustments</a>.</p>
+</li>
+<li>
+<p>Change the limit behaviors on a destination so as not to slow message
+production when message limits are reached, but rather to discard
+messages in memory.<br>
+For example, you can specify the <code>REMOVE_OLDEST</code> and
+<code>REMOVE_LOW_PRIORITY</code> limit behaviors, which delete messages that
+accumulate in memory (see
+<a href="physical-destination-properties.html#gbnne">Table 18-1</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoly"></a><a id="GMADG715"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker cannot save a persistent message to the data store.</p>
+</div>
+<div class="paragraph">
+<p>If the broker cannot access a data store or write a persistent message
+to it, the producing client is blocked. This condition can also occur if
+destination or brokerwide message limits are reached, as described
+above.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: If the broker is unable to write
+to the data store, it makes one of the following entries in the broker
+log:</p>
+</div>
+<div class="paragraph">
+<p><code>[B2011]: Storing of JMS message from</code>
+connectionID`failed``[B4004]: Failed to persist message` messageID</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the case of file-based persistence, try increasing the disk space
+of the file-based data store.</p>
+</li>
+<li>
+<p>In the case of a JDBC-compliant data store, check that JDBC-based
+persistence is properly configured
+(see<a href="persistence-services.html#aeodi">Configuring a JDBC-Based Data
+Store</a>). If so, consult your database administrator to troubleshoot
+other database problems.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeolz"></a><a id="GMADG716"></a></p>
+</div>
+<div class="paragraph">
+<p>Broker acknowledgment timeout is too short.</p>
+</div>
+<div class="paragraph">
+<p>Because of slow connections or a lethargic broker (caused by high CPU
+utilization or scarce memory resources), a broker may require more time
+to acknowledge receipt of a persistent message than allowed by the value
+of the connection factory&#8217;s <code>imqAckTimeout</code> attribute.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: If the <code>imqAckTimeout</code> value is
+exceeded, the broker returns the exception</p>
+</div>
+<div class="paragraph">
+<p><code>JMSException [C4000]: Packet acknowledge failed</code></p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Change the value of the <code>imqAckTimeout</code>
+connection factory attribute (see
+<a href="administered-objects.html#aeohh">Reliability And Flow Control</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoma"></a><a id="GMADG717"></a></p>
+</div>
+<div class="paragraph">
+<p>A producing client is encountering JVM limitations.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Find out whether the client application receives an out-of-memory
+error.</p>
+</li>
+<li>
+<p>Check the free memory available in the JVM heap, using runtime methods
+such as <code>freeMemory</code>, <code>maxMemory</code>, and <code>totalMemory</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Adjust the JVM (see <a href="tuning.html#aeokn">Java
+Virtual Machine Adjustments</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomb"></a><a id="GMADG00275"></a><a id="messages-are-backlogged"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_messages_are_backlogged">Messages Are Backlogged</h3>
+<div class="paragraph">
+<p>Symptoms:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message production is delayed or produced messages are rejected by the
+broker.</p>
+</li>
+<li>
+<p>Messages take an unusually long time to reach consumers.</p>
+</li>
+<li>
+<p>The number of messages or message bytes in the broker (or in specific
+destinations) increases steadily over time.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To see whether messages are accumulating, check how the number of
+messages or message bytes in the broker changes over time and compare to
+configured limits. First check the configured limits:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd query bkr</code></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>metrics</code> <code>bkr</code> subcommand does not display this
+information.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then check for message accumulation in each destination:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list dst</code></p>
+</div>
+<div class="paragraph">
+<p>To see whether messages have exceeded configured destination or
+brokerwide limits, check the broker log for the entry</p>
+</div>
+<div class="paragraph">
+<p><code>[B2011]: Storing of JMS message from</code> …<code>failed.</code></p>
+</div>
+<div class="paragraph">
+<p>This entry will be followed by another identifying the limit that has
+been exceeded.</p>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeomc">There are inactive durable subscriptions on a topic
+destination.</a></p>
+</li>
+<li>
+<p><a href="#aeomd">Too few consumers are available to consume messages in a
+multiple-consumer queue.</a></p>
+</li>
+<li>
+<p><a href="#aeome">Message consumers are processing too slowly to keep up
+with message producers.</a></p>
+</li>
+<li>
+<p><a href="#aeomf">Client acknowledgment processing is slowing down message
+consumption.</a></p>
+</li>
+<li>
+<p><a href="#aeomg">The broker cannot keep up with produced messages.</a></p>
+</li>
+<li>
+<p><a href="#aeomh">Client code defects; consumers are not acknowledging
+messages.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomc"></a><a id="GMADG718"></a></p>
+</div>
+<div class="paragraph">
+<p>There are inactive durable subscriptions on a topic destination.</p>
+</div>
+<div class="paragraph">
+<p>If a durable subscription is inactive, messages are stored in a
+destination until the corresponding consumer becomes active and can
+consume the messages.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check the state of durable
+subscriptions on each topic destination:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list dur</code> <code>-d</code> destName</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Purge all messages for the offending durable subscriptions (see
+<a href="message-delivery.html#aeoek">Managing Durable Subscriptions</a>).</p>
+</li>
+<li>
+<p>Specify message limit and limit behavior attributes for the topic (see
+<a href="physical-destination-properties.html#gbnne">Table 18-1</a>). For
+example, you can specify the <code>REMOVE_OLDEST</code> and <code>REMOVE_LOW_PRIORITY</code>
+limit behaviors, which delete messages that accumulate in memory.</p>
+</li>
+<li>
+<p>Purge all messages from the corresponding destinations (see
+<a href="message-delivery.html#aeoeu">Purging a Physical Destination</a>).</p>
+</li>
+<li>
+<p>Limit the time messages can remain in memory by rewriting the
+producing client to set a time-to-live value on each message. You can
+override any such settings for all producers sharing a connection by
+setting the <code>imqOverrideJMSExpiration</code> and <code>imqJMSExpiration</code> connection
+factory attributes (see
+<a href="administered-object-attributes.html#aeook">Message Header
+Overrides</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomd"></a><a id="GMADG719"></a></p>
+</div>
+<div class="paragraph">
+<p>Too few consumers are available to consume messages in a
+multiple-consumer queue.</p>
+</div>
+<div class="paragraph">
+<p>If there are too few active consumers to which messages can be
+delivered, a queue destination can become backlogged as messages
+accumulate. This condition can occur for any of the following reasons:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Too few active consumers exist for the destination.</p>
+</li>
+<li>
+<p>Consuming clients have failed to establish connections.</p>
+</li>
+<li>
+<p>No active consumers use a selector that matches messages in the queue.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: To help determine the reason for
+unavailable consumers, check the number of active consumers on a
+destination:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd metrics dst</code> <code>-n</code> destName`-t q` <code>-m con</code></p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Depending on the reason for unavailable
+consumers,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create more active consumers for the queue by starting up additional
+consuming clients.</p>
+</li>
+<li>
+<p>Adjust the <code>imq.consumerFlowLimit</code> broker property to optimize queue
+delivery to multiple consumers (see <a href="tuning.html#aeokx">Adjusting
+Multiple-Consumer Queue Delivery</a>).</p>
+</li>
+<li>
+<p>Specify message limit and limit behavior attributes for the queue (see
+<a href="physical-destination-properties.html#gbnne">Table 18-1</a>). For
+example, you can specify the <code>REMOVE_OLDEST</code> and <code>REMOVE_LOW_PRIOROTY</code>
+limit behaviors, which delete messages that accumulate in memory.</p>
+</li>
+<li>
+<p>Purge all messages from the corresponding destinations (see
+<a href="message-delivery.html#aeoeu">Purging a Physical Destination</a>).</p>
+</li>
+<li>
+<p>Limit the time messages can remain in memory by rewriting the
+producing client to set a time-to-live value on each message. You can
+override any such setting for all producers sharing a connection by
+setting the <code>imqOverrideJMSExpiration</code> and <code>imqJMSExpiration</code> connection
+factory attributes (see
+<a href="administered-object-attributes.html#aeook">Message Header
+Overrides</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeome"></a><a id="GMADG720"></a></p>
+</div>
+<div class="paragraph">
+<p>Message consumers are processing too slowly to keep up with message
+producers.</p>
+</div>
+<div class="paragraph">
+<p>In this case, topic subscribers or queue receivers are consuming
+messages more slowly than the producers are sending messages. One or
+more destinations are getting backlogged with messages because of this
+imbalance.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check for the rate of flow of
+messages into and out of the broker:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd metrics bkr</code> <code>-m rts</code></p>
+</div>
+<div class="paragraph">
+<p>Then check flow rates for each of the individual destinations:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd metrics bkr</code> <code>-t</code> destType`-n` destName`-m rts`</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Optimize consuming client code.</p>
+</li>
+<li>
+<p>For queue destinations, increase the number of active consumers (see
+<a href="tuning.html#aeokx">Adjusting Multiple-Consumer Queue Delivery</a>).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomf"></a><a id="GMADG721"></a></p>
+</div>
+<div class="paragraph">
+<p>Client acknowledgment processing is slowing down message consumption.</p>
+</div>
+<div class="paragraph">
+<p>Two factors affect the processing of client acknowledgments:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Significant broker resources can be consumed in processing client
+acknowledgments. As a result, message consumption may be slowed in those
+acknowledgment modes in which consuming clients block until the broker
+confirms client acknowledgments.</p>
+</li>
+<li>
+<p>JMS payload messages and Message Queue control messages (such as
+client acknowledgments) share the same connection. As a result, control
+messages can be held up by JMS payload messages, slowing message
+consumption.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Check the flow of messages relative to the flow of packets. If the
+number of packets per second is out of proportion to the number of
+messages, client acknowledgments may be a problem.</p>
+</li>
+<li>
+<p>Check to see whether the client has received the following exception:<br>
+<code>JMSException [C4000]: Packet acknowledge failed</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Modify the acknowledgment mode used by clients: for example, switch to
+<code>DUPS_OK_ACKNOWLEDGE</code> or <code>CLIENT_ACKNOWLEDGE</code>.</p>
+</li>
+<li>
+<p>If using <code>CLIENT_ACKNOWLEDGE</code> or transacted sessions, group a larger
+number of messages into a single acknowledgment.</p>
+</li>
+<li>
+<p>Adjust consumer and connection flow control parameters (see
+<a href="tuning.html#aeoky">Client Runtime Message Flow Adjustments</a> ).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomg"></a><a id="GMADG722"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker cannot keep up with produced messages.</p>
+</div>
+<div class="paragraph">
+<p>In this case, messages are flowing into the broker faster than the
+broker can route and dispatch them to consumers. The sluggishness of the
+broker can be due to limitations in any or all of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>CPU</p>
+</li>
+<li>
+<p>Network socket read/write operations</p>
+</li>
+<li>
+<p>Disk read/write operations</p>
+</li>
+<li>
+<p>Memory paging</p>
+</li>
+<li>
+<p>Persistent store</p>
+</li>
+<li>
+<p>JVM memory limits</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check that none of the other
+possible causes of this problem are responsible.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Upgrade the speed of your computer or data store.</p>
+</li>
+<li>
+<p>Use a broker cluster to distribute the load among multiple broker
+instances.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomh"></a><a id="GMADG723"></a></p>
+</div>
+<div class="paragraph">
+<p>Client code defects; consumers are not acknowledging messages.</p>
+</div>
+<div class="paragraph">
+<p>Messages are held in a destination until they have been acknowledged by
+all consumers to which they have been sent. If a client is not
+acknowledging consumed messages, the messages accumulate in the
+destination without being deleted.</p>
+</div>
+<div class="paragraph">
+<p>For example, client code might have the following defects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Consumers using the <code>CLIENT_ACKNOWLEDGE</code> acknowledgment mode or
+transacted session may not be calling <code>Session.acknowledge</code> or
+<code>Session.commit</code> regularly.</p>
+</li>
+<li>
+<p>Consumers using the <code>AUTO_ACKNOWLEDGE</code> acknowledgment mode may be
+hanging for some reason.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: First check all other possible
+causes listed in this section. Next, list the destination with the
+following command:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list dst</code></p>
+</div>
+<div class="paragraph">
+<p>Notice whether the number of messages listed under the <code>UnAcked</code> header
+is the same as the number of messages in the destination. Messages under
+this header were sent to consumers but not acknowledged. If this number
+is the same as the total number of messages, then the broker has sent
+all the messages and is waiting for acknowledgment.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Request the help of application developers in
+debugging this problem.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomi"></a><a id="GMADG00276"></a><a id="broker-throughput-is-sporadic"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_broker_throughput_is_sporadic">Broker Throughput Is Sporadic</h3>
+<div class="paragraph">
+<p>Symptom:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Message throughput sporadically drops and then resumes normal
+performance.</p>
+</li>
+<li>
+<p>Message throughput sporadically drops and then broker exits.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeomj">The broker is very low on memory resources.</a></p>
+</li>
+<li>
+<p><a href="#aeomk">JVM memory reclamation (garbage collection) is taking
+place.</a></p>
+</li>
+<li>
+<p><a href="#aeoml">The JVM is using the just-in-time compiler to speed up
+performance.</a></p>
+</li>
+<li>
+<p><a href="#BABEIBDB">The Broker exits with an out of memory exception.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomj"></a><a id="GMADG724"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker is very low on memory resources.</p>
+</div>
+<div class="paragraph">
+<p>Because destination and broker limits were not properly set, the broker
+takes increasingly serious action to prevent memory overload; this can
+cause the broker to become sluggish until the message backlog is
+cleared.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check the broker log for a low
+memory condition</p>
+</div>
+<div class="paragraph">
+<p><code>[B1089]: In low memory condition, broker is attempting to free up resources</code></p>
+</div>
+<div class="paragraph">
+<p>followed by an entry describing the new memory state and the amount of
+total memory being used. Also check the free memory available in the JVM
+heap:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd metrics bkr</code> <code>-m cxn</code></p>
+</div>
+<div class="paragraph">
+<p>Free memory is low when the value of total JVM memory is close to the
+maximum JVM memory value.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Adjust the JVM (see <a href="tuning.html#aeokn">Java Virtual Machine
+Adjustments</a>).</p>
+</li>
+<li>
+<p>Increase system swap space.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomk"></a><a id="GMADG725"></a></p>
+</div>
+<div class="paragraph">
+<p>JVM memory reclamation (garbage collection) is taking place.</p>
+</div>
+<div class="paragraph">
+<p>Memory reclamation periodically sweeps through the system to free up
+memory. When this occurs, all threads are blocked. The larger the amount
+of memory to be freed up and the larger the JVM heap size, the longer
+the delay due to memory reclamation.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Monitor CPU usage on your
+computer. CPU usage drops when memory reclamation is taking place.</p>
+</div>
+<div class="paragraph">
+<p>Also start your broker using the following command line options:</p>
+</div>
+<div class="paragraph">
+<p><code>-vmargs`</code>-verbose:gc`</p>
+</div>
+<div class="paragraph">
+<p>Standard output indicates the time when memory reclamation takes place.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: In computers with multiple CPUs, set the memory
+reclamation to take place in parallel:</p>
+</div>
+<div class="paragraph">
+<p><code>-XX:+UseParallelGC=true</code></p>
+</div>
+<div class="paragraph">
+<p><a id="aeoml"></a><a id="GMADG726"></a></p>
+</div>
+<div class="paragraph">
+<p>The JVM is using the just-in-time compiler to speed up performance.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check that none of the other
+possible causes of this problem are responsible.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Let the system run for awhile; performance
+should improve.</p>
+</div>
+<div class="paragraph">
+<p><a id="BABEIBDB"></a><a id="GMADG727"></a></p>
+</div>
+<div class="paragraph">
+<p>The Broker exits with an out of memory exception.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Verify the log trace includes
+<code>java.lang.OutOfMemoryError: GC overhead limit exceeded</code>. For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">WARNING: WARNING GC overhead limit exceeded:
+java.lang.OutOfMemoryError: GC overhead limit exceeded
+at java.util.Arrays.copyOf(Arrays.java:2219)
+at java.util.ArrayList.toArray(ArrayList.java:329)
+at java.util.Collections$SynchronizedCollection.toArray(Collections.java:1623)
+at java.util.ArrayList.&lt;init&gt;(ArrayList.java:151)
+at com.sun.messaging.jmq.jmsserver.data.TransactionReaper.clearSwipeMark(TransactionList.java:3454)
+at com.sun.messaging.jmq.jmsserver.data.TransactionReaper.run(TransactionList.java:3512)
+at com.sun.messaging.jmq.util.timer.WakeupableTimer.run(WakeupableTimer.java:114)
+at java.lang.Thread.run(Thread.java:722)</code></pre>
+</div>
+</div>
+<div id="BABDBDGA" class="paragraph">
+<p>To resolve the problem: Set the following JVM GC flag:</p>
+</div>
+<div class="paragraph">
+<p><code>-XX:+UseConcMarkSweepGC</code></p>
+</div>
+<div class="paragraph">
+<p><a id="aeomm"></a><a id="GMADG00277"></a><a id="messages-are-not-reaching-consumers"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_messages_are_not_reaching_consumers">Messages Are Not Reaching Consumers</h3>
+<div class="paragraph">
+<p>Symptom:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Messages sent by producers are not received by consumers.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeomn">Limit behaviors are causing messages to be deleted on the
+broker.</a></p>
+</li>
+<li>
+<p><a href="#aeomo">Message timeout value is expiring.</a></p>
+</li>
+<li>
+<p><a href="#ggxfl">The broker clock and producer clock are not synchronized.</a></p>
+</li>
+<li>
+<p><a href="#aeomq">Consuming client failed to start message delivery on a
+connection.</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomn"></a><a id="GMADG728"></a></p>
+</div>
+<div class="paragraph">
+<p>Limit behaviors are causing messages to be deleted on the broker.</p>
+</div>
+<div class="paragraph">
+<p>When the number of messages or message bytes in destination memory reach
+configured limits, the broker attempts to conserve memory resources.
+Three of the configurable behaviors adopted by the broker when these
+limits are reached will cause messages to be lost:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>REMOVE_OLDEST</code>: Delete the oldest messages.</p>
+</li>
+<li>
+<p><code>REMOVE_LOW_PRIORITY</code>: Delete the lowest-priority messages according
+to age.</p>
+</li>
+<li>
+<p><code>REJECT_NEWEST</code>: Reject new persistent messages.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>REMOVE_OLDEST</code> or <code>REMOVE_LOW_PRIORITY</code>.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Increase the destination limits. For example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd update dst</code> <code>-n MyDest`</code>-o maxNumMsgs=1000`</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomo"></a><a id="GMADG729"></a></p>
+</div>
+<div class="paragraph">
+<p>Message timeout value is expiring.</p>
+</div>
+<div class="paragraph">
+<p>The broker deletes messages whose timeout value has expired. If a
+destination gets sufficiently backlogged with messages, messages whose
+time-to-live value is too short might be deleted.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>EXPIRED</code>.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Contact the application developers and have them
+increase the time-to-live value.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggxfl"></a><a id="GMADG730"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker clock and producer clock are not synchronized.</p>
+</div>
+<div class="paragraph">
+<p>If clocks are not synchronized, broker calculations of message lifetimes
+can be wrong, causing messages to exceed their expiration times and be
+deleted.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>EXPIRED</code>.</p>
+</div>
+<div class="paragraph">
+<p>In the broker log file, look for any of the following messages: <code>B2102</code>,
+<code>B2103</code>, <code>B2104</code>. These messages all report that possible clock skew was
+detected.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Check that you are running a time
+synchronization program, as described in
+<a href="starting-brokers-and-clients.html#aeobv">Preparing System Resources</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomq"></a><a id="GMADG731"></a></p>
+</div>
+<div class="paragraph">
+<p>Consuming client failed to start message delivery on a connection.</p>
+</div>
+<div class="paragraph">
+<p>Messages cannot be delivered until client code establishes a connection
+and starts message delivery on the connection.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check that client code establishes
+a connection and starts message delivery.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Rewrite the client code to establish a
+connection and start message delivery.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomr"></a><a id="GMADG00278"></a><a id="dead-message-queue-contains-messages"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_dead_message_queue_contains_messages">Dead Message Queue Contains Messages</h3>
+<div class="paragraph">
+<p>Symptom:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When you list destinations, you see that the dead message queue
+contains messages. For example, issue a command like the following:<br>
+<code>imqcmd list dst</code><br>
+After you supply a user name and password, output like the following
+appears:</p>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the destinations on the broker specified by:
+---------------------------------
+Host         Primary Port
+---------------------------------
+localhost    7676
+----------------------------------------------------------------------
+   Name     Type    State   Producers  Consumers  Msgs
+                                         Total    Count  UnAck  InDelay Avg Size
+------------------------------------------------- ------------------------------
+MyDest      Queue  RUNNING       0          0        5      0      0      1177.0
+mq.sys.dmq  Queue  RUNNING       0          0       35      0      0      1422.0
+Successfully listed destinations.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this example, the dead message queue, <code>mq.sys.dmq</code>, contains 35
+messages.</p>
+</div>
+<div class="paragraph">
+<p>Possible causes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoms">The number of messages, or their sizes, exceed destination
+limits.</a>.</p>
+</li>
+<li>
+<p><a href="#ggxiy">The broker clock and producer clock are not
+synchronized.</a>.</p>
+</li>
+<li>
+<p><a href="#aeonb">An unexpected broker error has occurred.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomu">Consumers are not consuming messages before they time
+out.</a>.<br>
+There are a number of possible reasons for messages to time out:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeomv">There are too many producers for the number of
+consumers.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomw">Producers are faster than consumers.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomx">A consumer is too slow.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomy">Clients are not committing transactions.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomz">Consumers are failing to acknowledge messages.</a>.</p>
+</li>
+<li>
+<p><a href="#aeona">Durable subscribers are inactive.</a>.</p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoms"></a><a id="GMADG732"></a></p>
+</div>
+<div class="paragraph">
+<p>The number of messages, or their sizes, exceed destination limits.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check the values for the following message properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>JMS_SUN_DMQ_UNDELIVERED_REASON</code></p>
+</li>
+<li>
+<p><code>JMS_SUN_DMQ_UNDELIVERED_COMMENT</code></p>
+</li>
+<li>
+<p><code>JMS_SUN_DMQ_UNDELIVERED_TIMESTAMP</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Under <code>JMS</code> <code>Headers</code>, scroll down to the value for <code>JMSDestination</code> to
+determine the destination whose messages are becoming dead.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Increase the destination limits. For example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd update dst</code> <code>-n MyDest</code> <code>-o maxNumMsgs=1000</code></p>
+</div>
+<div class="paragraph">
+<p><a id="ggxiy"></a><a id="GMADG733"></a></p>
+</div>
+<div class="paragraph">
+<p>The broker clock and producer clock are not synchronized.</p>
+</div>
+<div class="paragraph">
+<p>If clocks are not synchronized, broker calculations of message lifetimes
+can be wrong, causing messages to exceed their expiration times and be
+deleted.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>EXPIRED</code>.</p>
+</div>
+<div class="paragraph">
+<p>In the broker log file, look for any of the following messages: <code>B2102</code>,
+<code>B2103</code>, <code>B2104</code>. These messages all report that possible clock skew was
+detected.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Check that you are running a time
+synchronization program, as described in
+<a href="starting-brokers-and-clients.html#aeobv">Preparing System Resources</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeonb"></a><a id="GMADG734"></a></p>
+</div>
+<div class="paragraph">
+<p>An unexpected broker error has occurred.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>ERROR</code>.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Examine the broker log file to find the associated error.</p>
+</li>
+<li>
+<p>Contact Oracle Technical Support to report the broker problem.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomu"></a><a id="GMADG735"></a></p>
+</div>
+<div class="paragraph">
+<p>Consumers are not consuming messages before they time out.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>EXPIRED</code>.</p>
+</div>
+<div class="paragraph">
+<p>Check to see if there any consumers on the destination and the value for
+the <code>Current Number of Active Consumers</code>. For example:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd query dst</code> <code>-t q</code> <code>-n MyDest</code></p>
+</div>
+<div class="paragraph">
+<p>If there are active consumers, then there might be any number of
+possible reasons why messages are timing out before being consumed. One
+is that the message timeout is too short for the speed at which the
+consumer executes. In that case, request that application developers
+increase message time-to-live values. Otherwise, investigate the
+following possible causes for messages to time out before being
+consumed:</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomv"></a><a id="GMADG736"></a></p>
+</div>
+<div class="paragraph">
+<p>There are too many producers for the number of consumers.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use the QBrowser demo application
+to inspect the contents of the dead message queue (see <a href="#ggxdi">To
+Inspect the Dead Message Queue</a>).</p>
+</div>
+<div class="paragraph">
+<p>Check whether the <code>JMS_SUN_DMQ_UNDELIVERED_REASON</code> property of messages
+in the queue has the value <code>REMOVE_OLDEST</code> or <code>REMOVE_LOW_PRIORITY</code>. If
+so, use the <code>imqcmd</code> <code>query</code> <code>dst</code> command to check the number of
+producers and consumers on the destination. If the number of producers
+exceeds the number of consumers, the production rate might be
+overwhelming the consumption rate.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Add more consumer clients or set the
+destination&#8217;s limit behavior to <code>FLOW_CONTROL</code> (which uses consumption
+rate to control production rate), using a command such as the following:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd update dst</code> <code>-n myDst</code> <code>-t q</code> <code>-o limitBehavior=FLOW_CONTROL</code></p>
+</div>
+<div class="paragraph">
+<p><a id="aeomw"></a><a id="GMADG737"></a></p>
+</div>
+<div class="paragraph">
+<p>Producers are faster than consumers.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: To determine whether slow
+consumers are causing producers to slow down, set the destination&#8217;s
+limit behavior to <code>FLOW_CONTROL</code> (which uses consumption rate to control
+production rate), using a command such as the following:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd update dst</code> <code>-n myDst</code> <code>-t q</code> <code>-o limitBehavior=FLOW_CONTROL</code></p>
+</div>
+<div class="paragraph">
+<p>Use metrics to examine the destination&#8217;s input and output, using a
+command such as the following:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd metrics dst</code> <code>-n myDst</code> <code>-t q</code> <code>-m rts</code></p>
+</div>
+<div class="paragraph">
+<p>In the metrics output, examine the following values:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Msgs/sec Out</code>: Shows how many messages per second the broker is
+removing. The broker removes messages when all consumers acknowledge
+receiving them, so the metric reflects consumption rate.</p>
+</li>
+<li>
+<p><code>Msgs/sec In</code>: Shows how many messages per second the broker is
+receiving from producers. The metric reflects production rate.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Because flow control aligns production to consumption, note whether
+production slows or stops. If so, there is a discrepancy between the
+processing speeds of producers and consumers. You can also check the
+number of unacknowledged (<code>UnAcked</code>) messages sent, by using the
+<code>imqcmd</code> <code>list</code> <code>dst</code> command. If the number of unacknowledged messages
+is less than the size of the destination, the destination has additional
+capacity and is being held back by client flow control.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: If production rate is consistently faster than
+consumption rate, consider using flow control regularly, to keep the
+system aligned. In addition, consider and attempt to resolve each of the
+following possible causes, which are subsequently described in more
+detail:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeomx">A consumer is too slow.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomy">Clients are not committing transactions.</a>.</p>
+</li>
+<li>
+<p><a href="#aeomz">Consumers are failing to acknowledge messages.</a>.</p>
+</li>
+<li>
+<p><a href="#aeona">Durable subscribers are inactive.</a>.</p>
+</li>
+<li>
+<p><a href="#aeonb">An unexpected broker error has occurred.</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomx"></a><a id="GMADG738"></a></p>
+</div>
+<div class="paragraph">
+<p>A consumer is too slow.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Use <code>imqcmd metrics</code> to determine
+the rate of production and consumption, as described above under
+<a href="#aeomw">Producers are faster than consumers.</a>.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set the destinations' limit behavior to <code>FLOW_CONTROL</code>, using a
+command such as the following:<br>
+<code>imqcmd update dst</code> <code>-n myDst</code> <code>-t q</code> <code>-o limitBehaviort=FLOW_CONTROL</code><br>
+Use of flow control slows production to the rate of consumption and
+prevents the accumulation of messages in the destination. Producer
+applications hold messages until the destination can process them, with
+less risk of expiration.</p>
+</li>
+<li>
+<p>Find out from application developers whether producers send messages
+at a steady rate or in periodic bursts. If an application sends bursts
+of messages, increase destination limits as described in the next item.</p>
+</li>
+<li>
+<p>Increase destination limits based on number of messages or bytes, or
+both. To change the number of messages on a destination, enter a command
+with the following format:<br>
+<code>imqcmd update dst</code> <code>-n</code> destName`-t {q|t}` <code>-o maxNumMsgs=`number +
+To change the size of a destination, enter a command with the following
+format: +
+`imqcmd update dst</code> <code>-n</code> destName`-t {q|t}` `-o maxTotalMsgBytes=`number<br>
+Be aware that raising limits increases the amount of memory that the
+broker uses. If limits are too high, the broker could run out of memory
+and become unable to process messages.</p>
+</li>
+<li>
+<p>Consider whether you can accept loss of messages during periods of
+high production load.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeomy"></a><a id="GMADG739"></a></p>
+</div>
+<div class="paragraph">
+<p>Clients are not committing transactions.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Check with application developers
+to find out whether the application uses transactions. If so, list the
+active transactions as follows:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list txn</code></p>
+</div>
+<div class="paragraph">
+<p>Here is an example of the command output:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">----------------------------------------------------------------------
+Transaction ID       State    User name  # Msgs/# Acks   Creation time
+----------------------------------------------------------------------
+6800151593984248832  STARTED  guest           3/2     7/19/04 11:03:08 AM</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note the numbers of messages and number of acknowledgments. If the
+number of messages is high, producers may be sending individual messages
+but failing to commit transactions. Until the broker receives a commit,
+it cannot route and deliver the messages for that transaction. If the
+number of acknowledgments is high, consumers may be sending
+acknowledgments for individual messages but failing to commit
+transactions. Until the broker receives a commit, it cannot remove the
+acknowledgments for that transaction.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Contact application developers to fix the coding
+error.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeomz"></a><a id="GMADG740"></a></p>
+</div>
+<div class="paragraph">
+<p>Consumers are failing to acknowledge messages.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Contact application developers to
+determine whether the application uses system-based acknowledgment
+(<code>AUTO_ACKNOWLEDGE</code> or <code>DUPES_ONLY</code>) or client-based acknowledgment
+(<code>CLIENT_ACKNOWLEDGE</code>). If the application uses system-based
+acknowledgment , skip this section; if it uses client-based
+acknowledgment), first decrease the number of messages stored on the
+client, using a command like the following:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd update dst</code> <code>-n myDst</code> <code>-t q</code> <code>-o consumerFlowLimit=1</code></p>
+</div>
+<div class="paragraph">
+<p>Next, you will determine whether the broker is buffering messages
+because a consumer is slow, or whether the consumer processes messages
+quickly but does not acknowledge them. List the destination, using the
+following command:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list dst</code></p>
+</div>
+<div class="paragraph">
+<p>After you supply a user name and password, output like the following
+appears:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the destinations on the broker specified by:
+---------------------------------
+Host         Primary Port
+---------------------------------
+localhost    7676
+----------------------------------------------------------------------
+   Name     Type    State   Producers  Consumers  Msgs
+                                         Total    Count  UnAck  InDelay  Avg Size
+------------------------------------------------ ---------------------------
+MyDest      Queue  RUNNING       0          0        5    200      0  1177.0
+mq.sys.dmq  Queue  RUNNING       0          0       35      0      0  1422.0
+Successfully listed destinations.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>UnAck</code> number represents messages that the broker has sent and for
+which it is waiting for acknowledgment. If this number is high or
+increasing, you know that the broker is sending messages, so it is not
+waiting for a slow consumer. You also know that the consumer is not
+acknowledging the messages.</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem: Contact application developers to fix the coding
+error.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeona"></a><a id="GMADG741"></a></p>
+</div>
+<div class="paragraph">
+<p>Durable subscribers are inactive.</p>
+</div>
+<div class="paragraph">
+<p>To confirm this cause of the problem: Look at the topic&#8217;s durable
+subscribers, using the following command format:</p>
+</div>
+<div class="paragraph">
+<p><code>imqcmd list dur</code> <code>-d</code> topicName</p>
+</div>
+<div class="paragraph">
+<p>To resolve the problem:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Purge the durable subscribers using the <code>imqcmd</code> <code>purge</code> <code>dur</code>
+command.</p>
+</li>
+<li>
+<p>Restart the consumer applications.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggxdi"></a><a id="GMADG00201"></a><a id="to-inspect-the-dead-message-queue"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_inspect_the_dead_message_queue">To Inspect the Dead Message Queue</h4>
+<div class="paragraph">
+<p>A number of troubleshooting procedures involve an inspection of the dead
+message queue (<code>mq.sys.dmq</code>). The following procedure explains how to
+carry out such an inspection by using the QBrowser demo application.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Locate the QBrowser demo application in
+<code>IMQ_HOME/examples/applications/qbrowser</code>.</p>
+</li>
+<li>
+<p>Run the QBrowser application:<br>
+<code>java QBrowser</code><br>
+The QBrowser main window appears.</p>
+</li>
+<li>
+<p>Select the queue name <code>mq.sys.dmq</code> and click Browse.<br>
+A list like the following appears:<br>
+<span class="image"><img src="img/queuebrowsermain.png" alt="QBrowser showing messages for mq.sys.dmq. For each message, there is a number, time stamp, type, mode, and priority."></span></p>
+</li>
+<li>
+<p>Double-click any message to display details about that message:<br>
+The display should resemble the following:<br>
+<span class="image"><img src="img/queuebrowsermsgdetails.png" alt="Message details window. Top pane shows message; middle pane shows its properties; bottom pane contains message."></span></p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>You can inspect the Message Properties pane to determine the reason why
+the message was placed in the dead message queue.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="tuning.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="part-reference.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

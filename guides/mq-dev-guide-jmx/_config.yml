@@ -1,0 +1,14 @@
+theme: jekyll-theme-architect
+
+title: [mq-dev-guide-jmx]
+description: [Eclipse Open Message Queue Developer's Guide for JMX Clients, Release 5.0]
+
+# sidebar links url
+links:
+  source: https://github.com/javaee/mq-dev-guide-jmx
+  download: https://github.com/javaee/mq-dev-guide-jmx/releases
+  #mailinglist: https://javaee.groups.io/g/mq-dev-guide-jmx
+  #javadocs:
+  docs: https://javaee.github.io/mq-dev-guide-jmx
+  #faq:
+

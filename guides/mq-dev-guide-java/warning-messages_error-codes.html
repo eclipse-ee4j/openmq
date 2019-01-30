@@ -1,0 +1,1371 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Warning Messages and Client Error Codes</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Warning Messages and Client Error Codes</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="embedded-brokers.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00018"></a><a id="aeqgo"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="a-warning-messages-and-client-error-codes">A Warning Messages and Client Error Codes</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This appendix provides reference information for warning messages and
+for error codes returned by the Message Queue client runtime when it
+raises a JMS exception.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A warning message is a message output when the Message Queue Java
+client runtime experiences a problem that should not occur under normal
+operating conditions. The message is displayed where the application
+displays its output. Usually, this is the window from which the
+application is started. <a href="#gboxa">Table A-1</a> lists Message Queue
+warning messages.<br>
+In general, a warning message does not cause message loss or affect
+reliability. issues. But when warning messages appear constantly on the
+application&#8217;s console, the user should contact Message Queue technical
+support to diagnose the cause of the warning messages.</p>
+</li>
+<li>
+<p>Error codes and messages are returned by the client runtime when it
+raises an exception. You can obtain the error code and its corresponding
+message using the <code>JMSException.getErrorCode()</code> method and the
+<code>JMSException.getMessage()</code> method. <a href="#gboxq">Table A-2</a> lists Message
+Queue error codes.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that warning messages and error codes are not defined in the JMS
+specification, but are specific to each JMS provider. Applications that
+rely on these error codes in their programming logic are not portable
+across JMS providers.</p>
+</div>
+<div class="paragraph">
+<p><a id="gboyb"></a><a id="GMJVG00122"></a><a id="warning-messages-and-error-codes"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_warning_messages_and_error_codes">Warning Messages and Error Codes</h3>
+<div class="paragraph">
+<p><a id="GMJVG342"></a><a id="sthref72"></a><a id="gboxa"></a></p>
+</div>
+<div class="paragraph">
+<p>Table A-1 Message Queue Warning Message Codes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Code</th>
+<th class="tableblock halign-left valign-top">Message and Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">W2000</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Warning: Received unknown packet: mq-packet-dump.</p>
+</div>
+<div class="paragraph">
+<p>Cause The Message Queue client runtime received an unrecognized Message
+Queue packet, where mq-packet-dump is replaced with the specific Message
+Queue packet dump that caused this warning message.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue broker may not be fully compatible with the client
+runtime version.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">W2001</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Warning: pkt not processed, no message consumer:mq-packet-dump.</p>
+</div>
+<div class="paragraph">
+<p>Cause The Message Queue client runtime received an unexpected Message
+Queue acknowledge message. The variable mq-packet-dump is replaced with
+the specific Message Queue packet dump that caused this warning message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">W2003</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Warning: Broker not responding X for Y seconds. Still trying&#8230;&#8203;.</p>
+</div>
+<div class="paragraph">
+<p>Cause The Message Queue client runtime has not received a response from
+the broker for more than 2 minutes (default). In the actual message, the
+X variable is replaced with the Message Queue packet type that the
+client runtime is waiting for, and the Y variable is replaced with the
+number of seconds that the client runtime has been waiting for the
+packet.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a href="#gboxq">Table A-2</a> lists the error codes in numerical order. For
+each code listed, it supplies the error message and a probable cause.</p>
+</div>
+<div class="paragraph">
+<p>Each error message returned has the following format:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[Code]: "Message -cause Root-cause-exception-message
+."</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Message text provided for <code>-cause</code> is only appended to the message if
+there is an exception linked to the JMS exception. For example, a JMS
+exception with error code <code>C4003</code> returns the following error message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">[C4003]: Error occurred on connection creation [localhost:7676]
+ - cause: java.net.ConnectException: Connection refused: connect</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG343"></a><a id="sthref73"></a><a id="gboxq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table A-2 Message Queue Client Error Codes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Code</th>
+<th class="tableblock halign-left valign-top">Message and Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4000</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Packet acknowledge failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to receive or process the expected
+acknowledgment sent from the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4001</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Write packet failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to send information to the broker.
+This might be caused by an underlying network I/O failure or by the JMS
+connection being closed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4002</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Read packet failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to process inbound message
+properly. This might be caused by an underlying network I/O failure.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4003</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Error occurred on connection creation [host, port].</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to establish a connection to the
+broker with the specified host name and port number.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4004</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message An error occurred on connection close.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered one or more errors when closing the
+connection to the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4005</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Get properties from packet failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to retrieve a property object from
+the Message Queue packet.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4006</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Set properties to packet failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to set a property object in the
+Message Queue packet.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4007</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Durable subscription {0} in use.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the subscribed destination name.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to unsubscribe the durable
+subscriber because it is currently in use by another consumer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4008</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Message in read-only mode.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to write to a JMS Message that is in read-only
+mode.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4009</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Message in write-only mode.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to read a JMS Message that is in write-only
+mode.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4010</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Read message failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to read the stream of bytes from a
+<code>BytesMessage</code> type message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4011</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Write message failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to write the stream of bytes to a
+<code>BytesMessage</code> type message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4012</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message message failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing the
+<code>reset()</code> method for a <code>BytesMessage</code> or <code>StreamMessage</code> type message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4013</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Unexpected end of stream when reading message.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime reached end-of-stream when processing the
+readXXX() method for a <code>BytesMessage</code> or <code>StreamMessage</code> type message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4014</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Serialize message failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing the
+serialization of an object, such as
+<code>ObjectMessage.setObject(java.io.Serializable object)</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4015</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Deserialize message failed.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing the
+deserialization of an object, for example, when processing the method
+<code>ObjectMessage.getObject()</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4016</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Error occurred during message acknowledgment.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error during the process of
+message acknowledgment in a session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4017</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid message format.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing a JMS
+Message; for example, during data type conversion.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4018</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Error occurred on request message redeliver.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing
+<code>recover()</code> or <code>rollback()</code> for the JMS session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4019</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Destination not found: {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name specified in the API
+parameter.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to process the API request due to an
+invalid destination specified in the API, for example, the call
+<code>MessageProducer.send (null, message)</code> raises <code>JMSException</code> with this
+error code and message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4020</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Temporary destination belongs to a closed connection or another
+connection - {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the temporary destination name specified in the
+API parameter.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a temporary destination that is not
+valid for the message producer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4021</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Consumer not found.</p>
+</div>
+<div class="paragraph">
+<p>Cause The Message Queue session could not find the message consumer for
+a message sent from the broker. The message consumer may have been
+closed by the application or by the client runtime before the message
+for the consumer was processed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4022</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Selector invalid: {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the selector string specified in the API
+parameter.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to process the JMS API call because
+the specified selector is invalid.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4023</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client unacknowledged messages over system defined limit.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime raises a <code>JMSException</code> with this error code
+and message if unacknowledged messages exceed the system defined limit
+in a <code>CLIENT_ACKNOWLEDGE</code> session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4024</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message The session is not transacted.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a transacted session API in a
+non-transacted session. For example, calling the methods <code>commit()</code> or
+<code>rollback</code> in a <code>AUTO_ACKNOWLEDGE</code> session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4025</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot call this method from a transacted session.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call the <code>Session.recover()</code> method from a
+transacted session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4026</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client non-committed messages over system defined limit.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime raises a <code>JMSException</code> with this error code
+and message if non committed messages exceed the system-defined limit in
+a transacted session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4027</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid transaction ID: {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the internal transaction ID.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to commit or rollback a transacted session
+with a transaction ID that is no longer valid.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4028</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Transaction ID {0} in use.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the internal transaction ID.</p>
+</div>
+<div class="paragraph">
+<p>Cause The internal transaction ID is already in use by the system. An
+application should not receive a <code>JMSException</code> with this error code
+under normal operations.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4029</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid session for <code>ServerSession.</code></p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use an invalid JMS session for the
+<code>ServerSession</code> object, for example, no message listener was set for the
+session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4030</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Illegal <code>maxMessages</code> value for <code>ServerSession:</code> {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} was replaced with <code>maxMessages</code> value used by the application.</p>
+</div>
+<div class="paragraph">
+<p>Cause The configured <code>maxMessages</code> value for <code>ServerSession</code> is less
+than 0.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4031</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message <code>MessageConsumer</code> and <code>ServerSession</code> session conflict.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to create a message consumer for a session
+already used by a <code>ServerSession</code> object.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4032</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Can not use`receive()` when message listener was set.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to do a synchronous receive with an
+asynchronous message consumer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4033</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Authentication type does not match: {0} and {1}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the authentication type used by the client
+runtime. {1} is replaced with the authentication type requested by the
+broker.</p>
+</div>
+<div class="paragraph">
+<p>Cause The authentication type requested by the broker does not match the
+authentication type in use by the client runtime.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4034</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Illegal authentication state.</p>
+</div>
+<div class="paragraph">
+<p>Cause The authentication handshake failed between the client runtime and
+the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4035</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Received <code>AUTHENTICATE_REQUEST</code> status code <code>FORBIDDEN</code>.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime authentication to the broker failed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4036</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message A broker error occurred.</p>
+</div>
+<div class="paragraph">
+<p>Cause A generic error code indicating that the client&#8217;s requested
+operation to the broker failed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4037</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Broker unavailable or broker timeout.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to establish a connection to the
+broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4038</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message [4038] - cause: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with a root cause exception message.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime caught an exception thrown from the JVM. The
+client runtime throws <code>JMSException</code> with the "root cause exception" set
+as the linked exception.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4039</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot delete destination.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to delete the specified temporary
+destination. See <code>TemporaryTopic.delete()</code> and <code>TemporaryQueue.delete()</code>
+API Javadoc for constraints on deleting a temporary destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4040</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid ObjectProperty type.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to set a non-primitive Java object as a JMS
+message property. Please see <code>Message.setObjectProperty()</code> API Javadoc
+for valid object property types.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4041</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Reserved word used as property name - {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the property name.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a reserved word, defined in the JMS
+Message API Javadoc, as the message property name, for example, <code>NULL</code>,
+<code>TRUE</code>, <code>FALSE</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4042</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Illegal first character of property name - {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the illegal character.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a property name with an illegal first
+character. See JMS Message API Javadoc for valid property names.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4043</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Illegal character used in property name - {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the illegal character used.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a property name containing an illegal
+character. See JMS Message API Javadoc for valid property names.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4044</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Browser timeout.</p>
+</div>
+<div class="paragraph">
+<p>Cause The queue browser was unable to return the next available message
+to the application within the system&#8217;s predefined timeout period.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4045</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message No more elements.</p>
+</div>
+<div class="paragraph">
+<p>Cause In <code>QueueBrowser</code>, the enumeration object has reached the end of
+element but <code>nextElement()</code> is called by the application.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4046</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Browser closed.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use <code>QueueBrowser</code> methods on a closed
+<code>QueueBrowser</code> object.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4047</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Operation interrupted.</p>
+</div>
+<div class="paragraph">
+<p>Cause <code>ServerSession</code> was interrupted. The client runtime throws
+<code>RuntimeException</code> with the above exception message when it is
+interrupted in the <code>ServerSession</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4048</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message ServerSession is in progress.</p>
+</div>
+<div class="paragraph">
+<p>Cause Multiple threads attempted to operate on a server session
+concurrently.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4049</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Can not call Connection.close(), stop(), etc from message
+listener.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call <code>Connection.close()</code>, <code>&#8230;&#8203;stop()</code>, etc
+from a message listener.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4050</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid destination name - {0} .</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the invalid destination name used</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use an invalid destination name, for
+example, <code>NULL</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4051</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid delivery parameter. {0} : {1}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with delivery parameter name, such as
+"DeliveryMode".{1} is replaced with delivery parameter value used by
+the application.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use invalid JMS delivery parameters in the
+API, for example, values other than <code>DeliveryMode.NON_PERSISTENT</code> or
+<code>DeliveryMode.PERSISTENT</code> were used to specify the delivery mode.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4052</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client ID is already in use - {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the client ID that is already in use.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to set a client ID to a value that is already
+in use by the system.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4053</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid client ID - {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the client ID used by the application.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use an invalid client ID, for example,
+<code>null</code> or empty client ID.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4054</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Can not set client ID, invalid state.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to set a connection&#8217;s client ID at the wrong
+time or when it has been administratively configured.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4055</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Resource in conflict. Concurrent operations on a session.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to concurrently operate on a session with
+multiple threads.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4056</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Received goodbye message from broker.</p>
+</div>
+<div class="paragraph">
+<p>Cause A Message Queue client received a <code>GOOD_BYE</code> message from broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4057</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message No username or password.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a null object as a user name or
+password for authentication.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4058</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot acknowledge message for closed consumer.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to acknowledge message(s) for a closed
+consumer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4059</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot perform operation, session is closed.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call a method on a closed session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4060</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Login failed: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} message is replaced with user name.</p>
+</div>
+<div class="paragraph">
+<p>Cause Login with the specified user name failed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4061</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Connection recovery failed, cannot recover connection.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to recover the connection due to
+internal error.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4062</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot perform operation, connection is closed.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call a method on a closed connection.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4063</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot perform operation, consumer is closed.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call a method on a closed message consumer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4064</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot perform operation, producer is closed.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call a method on a closed message producer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4065</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Incompatible broker version encountered. Client version
+{0}.Broker version {1}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with client version number. {1} is replaced with
+broker version number.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to connect to a broker that is not compatible
+with the client version.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4066</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid or empty Durable Subscription Name was used: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the durable subscription name used by the
+application.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a null or empty string to specify the
+name of a durable subscription.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4067</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid session acknowledgment mode: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the acknowledge mode used by the application.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a non-transacted session mode that is
+not defined in the JMS Session API.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4068</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid Destination Classname: {0}.</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the name of the class name.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to create a message producer or message
+consumer with an invalid destination class type. The valid class type
+must be either <code>Queue</code> or <code>Topic</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4069</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot commit or rollback on an XASession.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application tried to make a <code>session.commit()</code> or a
+<code>session.rollback()</code> call in an application server component whose
+transactions are being managed by the Transaction Manager using the
+XAResource. These calls are not allowed in this context.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4070</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Error when converting foreign message.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime encountered an error when processing a
+non-Message Queue JMS message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4071</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid method in this domain: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the method name used.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a method that does not belong to the
+current messaging domain. For example calling
+<code>TopicSession.createQueue()</code> will raise a <code>JMSException</code> with this error
+code and message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4072</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Illegal property name - "" or null.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to use a null or empty string to specify a
+property name.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4073</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message A JMS destination limit was reached. Too many
+Subscribers/Receivers for {0} : {1}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with "Queue" or "Topic" {1} is replaced with the
+destination name.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was unable to create a message consumer for the
+specified domain and destination due to a broker resource constraint.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4074</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Transaction rolled back due to provider connection failover.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to call <code>Session.commit()</code> after connection
+failover occurred. The transaction is rolled back automatically.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4075</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot acknowledge messages due to provider connection failover.
+Subsequent acknowledge calls will also fail until the application calls
+<code>session.recover()</code>.</p>
+</div>
+<div class="paragraph">
+<p>Cause As stated in the message.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4076</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client does not have permission to create producer on
+destination: {0} {0} is replaced with the destination name that caused
+the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client does not have permission to create a
+message producer with the specified destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4077</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client is not authorized to create destination : {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client does not have permission to create the
+specified destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4078</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client is unauthorized to send to destination: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client does not have permission to produce
+messages to the specified destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4079</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client does not have permission to register a consumer on the
+destination: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client does not have permission to create a
+message consumer with the specified destination name.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4080</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client does not have permission to delete consumer: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the consumer ID for the consumer to be deleted.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application does not have permission to remove the specified
+consumer from the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4081</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client does not have permission to unsubscribe: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} was replaced with the name of the subscriber to unsubscribe.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client application does not have permission to unsubscribe the
+specified durable subscriber.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4082</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client is not authorized to access destination: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client is not authorized to access the specified
+destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4083</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Client does not have permission to browse destination: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application client does not have permission to browse the
+specified destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4084</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message User authentication failed: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the user name.</p>
+</div>
+<div class="paragraph">
+<p>Cause User authentication failed.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4085</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Delete consumer failed. Consumer was not found: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with name of the consumer that could not be found.</p>
+</div>
+<div class="paragraph">
+<p>Cause The attempt to close a message consumer failed because the broker
+was unable to find the specified consumer.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4086</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Unsubscribe failed. Subscriber was not found: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with name of the durable subscriber.</p>
+</div>
+<div class="paragraph">
+<p>Cause An attempt was made to unsubscribe a durable subscriber with a
+name that does not exist in the system.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4087</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Set Client ID operation failed. Invalid Client ID: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the ClientID that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause Client is unable to set Client ID on the broker and receives a
+<code>BAD_REQUEST</code> status from broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4088</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message A JMS destination limit was reached. Too many producers for {0}
+: {1}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with <code>Queue</code> or <code>Topic</code> {1} is replaced with the
+destination name for which the limit was reached.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime was not able to create a message producer for
+the specified domain and destination due to limited broker resources.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4089</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Caught JVM Error: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with root cause error message.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime caught an error thrown from the JVM; for
+example, <code>OutOfMemory</code> error.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4090</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Invalid port number. Broker is not available or may be
+paused:{0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with "[host, port]" information.</p>
+</div>
+<div class="paragraph">
+<p>Cause The client runtime received an invalid port number (0) from the
+broker. Broker service for the request was not available or was paused.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4091</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Cannot call <code>Session.recover()</code> from a <code>NO_ACKNOWLEDGE</code> session.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application attempts to call <code>Session.recover(</code>) from a
+<code>NO_ACKNOWLEDGE</code> session.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4092</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Broker does not support <code>Session.NO_ACKNOWLEDGE</code> mode, broker
+version: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the version number of the broker to which the
+Message Queue application is connected.</p>
+</div>
+<div class="paragraph">
+<p>Cause The application attempts to create a <code>NO_ACKNOWLEDGE</code> session to a
+broker with version # less than 3.6.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4093</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Received wrong packet type. Expected: {0}, but received: {1}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the packet type that the Message Queue client
+runtime expected to receive from the broker. {1} is replaced with the
+packet type that the Message Queue client runtime actually received from
+the broker.</p>
+</div>
+<div class="paragraph">
+<p>Cause The Message Queue client runtime received an unexpected Message
+Queue packet from broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4094</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message The destination this message was sent to could not be found:
+{0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause: A destination to which a message was sent could not be found.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4095</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message: Message exceeds the single message size limit for the broker or
+destination: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause: A message exceeds the single message size limit for the broker or
+destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C4096</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message: Destination is full and is rejecting new messages: {0}</p>
+</div>
+<div class="paragraph">
+<p>{0} is replaced with the destination name that caused the exception.</p>
+</div>
+<div class="paragraph">
+<p>Cause: A destination is full and is rejecting new messages.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="embedded-brokers.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

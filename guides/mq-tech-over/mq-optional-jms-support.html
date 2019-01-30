@@ -1,0 +1,1196 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Message Queue Features</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Message Queue Features</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="mq-features.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="glossary.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMTOV00031"></a><a id="aerdz"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="b-message-queue-features">B Message Queue Features</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>The Message Queue service fully implements the JMS specification for
+reliable, asynchronous message delivery. For information about JMS
+compliance-related issues, see <a href="mq-features.html#aerdy">Message Queue
+Implementation of Optional JMS Functionality</a>.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue has additional capabilities and features that exceed JMS
+requirements. You can use these features to integrate and monitor
+systems consisting of large numbers of distributed components exchanging
+many thousands of messages in round-the-clock, mission-critical
+operations.</p>
+</div>
+<div class="paragraph">
+<p>This book has introduced these enterprise-strength features in the
+process of describing the Message Queue service. For your convenience,
+this appendix provides an alphabetical summary of Message Queue
+features: each feature is briefly described, the work required to use
+the feature is summarized, and references are provided to sections in
+this book that introduce these features and to the specific documents in
+the Message Queue documentation set that describe these features in
+detail.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbpfj"></a><a id="GMTOV00074"></a><a id="feature-list"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_feature_list">Feature List</h3>
+<div class="paragraph">
+<p><a id="GMTOV163"></a><a id="sthref39"></a><a id="gbpgb"></a></p>
+</div>
+<div class="paragraph">
+<p>Table B-1 Message Queue Features</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 77%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Feature</th>
+<th class="tableblock halign-left valign-top">Description and Reference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administration tools</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The Message Queue service includes GUI and command line tools for
+managing destinations, transactions, durable subscriptions, administered
+object stores, user repositories, JDBC-compliant data stores, and server
+certificates.</p>
+</div>
+<div class="paragraph">
+<p>Also see the JMX-based administration feature described in this table.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerdd">Built-in Administration Tools</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/admin-tasks-and-tools.html#GMADG00032">Administrative Tasks and Tools</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authentication</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Authenticate users seeking a connection to the broker.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue service allows users to connect to the broker by
+validating their name and password against values stored in a user
+repository. The repository can be a flat-file repository shipped with
+Message Queue or an LDAP repository (LDAP v2 or v3 protocol).</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a user repository or use the default instance.</p>
+</li>
+<li>
+<p>Use the <code>imqusermgr</code> tool to populate the repository.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>JAAS-Based Authentication</p>
+</div>
+<div class="paragraph">
+<p>Application clients can also use authentication services based on the
+Java Authentication and Authorization Service (JAAS), which allows you
+to plug in a variety of services into the broker to authenticate Message
+Queue clients. The JAAS API is a core API in J2SE and therefore it is an
+integral part of Message Queue&#8217;s runtime environment.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The JAAS provider supplies a login module class that implements the
+authentication service.</p>
+</li>
+<li>
+<p>Obtain JAAS configuration file and specify its location using a
+system property.</p>
+</li>
+<li>
+<p>Configure broker properties that relate to JAAS support.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercw">Authentication and Authorization</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/security-services.html#GMADG00040">Configuring and Managing Security Services</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Authorization</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Authorize users to perform specific operations.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue service allows you to create an access control
+properties file that specifies the operations users and groups of users
+can perform. The broker checks this file when a client seeks to create a
+connection, create a producer, create a consumer, or browse a queue.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Edit the access control properties file that is automatically created
+for the broker instance.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercw">Authentication and Authorization</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/security-services.html#GMADG00040">Configuring and Managing Security Services</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic reconnect</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator sets connection attributes on the connection factory
+administered object to enable automatic reconnection in the event of
+connection or broker failure. Reconnection can be to the same broker or
+to another broker in a cluster if a cluster is used. You can specify how
+many times to try reconnection and the interval between attempts. You
+can also specify how often to iterate through a list of brokers and
+whether to iterate through the list in a specific order.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerci">Connection Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/administered-objects.html#GMADG00042">Managing Administered Objects</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker clusters</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can balance client connections and message delivery
+across a number of broker instances by grouping those instances into a
+broker cluster. The Message Queue service supports two kinds of
+clusters: conventional clusters and high availability clusters</p>
+</div>
+<div class="paragraph">
+<p>To Use Conventional Clusters</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Specify cluster configuration properties for each broker in the
+cluster. Specify properties that are the same for all brokers using a
+cluster configuration file.</p>
+</li>
+<li>
+<p>If there is a master broker, start the master broker</p>
+</li>
+<li>
+<p>Start the other brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>To Use Enhanced Clusters</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Specify cluster configuration properties for each broker in the
+cluster (including JDBC-related properties). Specify properties that are
+the same for all brokers using a cluster configuration file.</p>
+</li>
+<li>
+<p>Install your JDBC driver&#8217;s <code>.jar</code> file in the appropriate directory
+location.</p>
+</li>
+<li>
+<p>Use the <code>imqdbmgr</code> tool to create the database schema for the highly
+available data store.</p>
+</li>
+<li>
+<p>Start the brokers in the cluster.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="broker-clusters.html#aerdj">Broker Clusters</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/broker-clusters.html#GMADG00041">Configuring and Managing Broker Clusters</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Broker configuration</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can set broker properties to tune Message Queue
+service performance. This includes routing services, persistence
+services, security, monitoring, and administered object management.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercg">The Message Queue Broker</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/broker-configuration.html#GMADG00035">Configuring a Broker</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C client support, including support for distributed transactions.</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>C clients can use Message Queue messaging services to send and receive
+messages. The C API enables legacy C applications and C++ applications
+to participate in JMS-based messaging.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue&#8217;s C API is supported by a C client runtime that supports
+most of the standard JMS functionality, with the exception of the
+following: the use of administered objects; map, stream, or object
+message body types; distributed transactions; and queue browsers. The C
+client runtime also does not support most of Message Queue&#8217;s enterprise
+features.The Message Queue C-API supports the XA interface (between a
+distributed transaction manager and Message Queue as a XA-compliant
+resource manager), allowing Message Queue C-API clients running in a
+distributed transaction processing environment (such as BEA Tuxedo) to
+participate in distributed transactions.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aercf">Java and C Clients</a></p>
+</div>
+<div class="paragraph">
+<p><a href="../mq-dev-guide-c/toc.html#GMCCG">Open Message Queue Developer&#8217;s Guide for C Clients</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client runtime logging</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can use all the J2SE 1.4 logging facilities to configure
+how the Message Queue client runtime outputs its logging information.
+Clients can choose to log the following events: changes in connection
+state and miscellaneous connection activities, session-related events,
+the creation of producers, consumers, and destinations, and the
+consumption and production of messages.</p>
+</div>
+<div class="paragraph">
+<p>Java clients can configure logging programmatically or by using
+configuration files.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00108">Client Runtime Logging</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Compressed messages</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can set a message property to have the client runtime
+compress a message being sent. The runtime on the consumer side
+decompresses the message before it delivers it to the consumer.
+Additional properties are provided that you can use to determine whether
+compressing messages would actually improve performance.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerbs">Message Body</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00209">Managing Message Size</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configurable persistence</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can configure the broker to use the file-based
+persistent store provided with Message Queue or a JDBC-compliant
+database, such as Oracle 8i.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Set broker properties that relate to file-system persistent storage or
+JDBC-compliant storage.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercs">Persistence Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/persistence-services.html#GMADG00039">Configuring Persistence Services</a>" in Open Message
+Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Configurable physical destinations</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can define some messaging behavior by setting physical
+destination properties when creating destinations. The following
+behavior can be configured for any destination: the maximum number of
+unconsumed messages or the maximum amount of memory allowed for such
+messages, which messages the broker should reject when memory limits are
+reached, the maximum number of producers and consumers, the maximum
+message size, the maximum number of messages delivered in a single
+batch, whether the destination can deliver only to local consumers, and
+whether dead messages on the destination can be moved to the dead
+message queue.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercl">Message Delivery Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/message-delivery.html#GMADG00238">Configuring and Managing Physical Destinations</a>" in
+Open Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection event notification</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can listen for connection events (like closure or
+reconnection) and take appropriate action based on the notification type
+and the connection state.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the event notification API to create an event listener.</p>
+</li>
+<li>
+<p>Add code to the client application that will take appropriate action
+depending on the events captured by the event listener.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00102">Connection Event Notification</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Connection ping</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can set a connection factory attribute to specify the
+frequency of a ping operation from the client runtime to the broker.
+This allows the client to preemptively detect a failed connection.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerci">Connection Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/connection-services.html#GMADG00235">Configuring Connection Services</a>" in Open Message
+Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Dead message queue</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The Message Queue message service creates the dead message queue to hold
+messages that have expired or that the broker could not process. You can
+examine the contents of the queue to monitor, tune, or troubleshoot
+system performance.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#ggtpb">Physical Destinations</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/message-delivery.html#GMADG00538">Using the Dead Message Queue</a>" and
+"<a href="../mq-admin-guide/message-delivery.html#GMADG00238">Configuring and Managing Physical Destinations</a>" in
+Open Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP connections</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can create HTTP connections to the broker.</p>
+</div>
+<div class="paragraph">
+<p>HTTP transport allows messages to be delivered through firewalls.
+Message Queue implements HTTP support using an HTTP tunnel servlet that
+runs in a web server environment. Messages produced by a client are
+wrapped by the client runtime as HTTP requests and delivered over HTTP
+through a firewall to the tunnel servlet. The tunnel servlet extracts
+the JMS message from the HTTP request and delivers the message over
+TCP/IP to the broker.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deploy HTTP tunnel servlet on a web server.</p>
+</li>
+<li>
+<p>Configure broker&#8217;s <code>httpjms</code> connection service and start the
+broker.</p>
+</li>
+<li>
+<p>Configure HTTP connection.</p>
+</li>
+<li>
+<p>Obtain an HTTP connection to the broker. (Java clients only.)</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerci">Connection Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/http_https-support.html#GMADG00056">HTTP/HTTPS Support</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interactive monitoring</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can use the <code>imqcmd metrics</code> command to monitor a
+broker remotely. Monitored data includes JVM metrics, broker message
+flow, connections, connection resources, messages, destination message
+flow, destination consumers, destination resource use.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercy">Monitoring Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/monitoring.html#GMADG00044">Monitoring Broker Operations</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java EE resource adapters</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Queue provides a resource adapter that can be plugged into a
+Java EE-compliant application server. By using Message Queue as a JMS
+provider, an application server meets the Java EE requirement that
+distributed components running in the application server be able to
+interact using reliable, asynchronous message.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Configure the adapter by setting adapter attributes.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="mq-and-java-ee.html#aerdw">Java EE Application Server Support</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/jmsra-properties.html#GMADG00051">JMS Resource Adapter Property Reference</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Java ES Monitoring Framework support</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The Java ES Monitoring Framework allows administrators to use the same
+interface to manage any and all Java ES components. If you are using
+Message Queue with other Java ES components, it might be more convenient
+to manage these from a single console. Administrators can use the Sun
+Java System Monitoring Console to view performance statistics, create
+rules to monitor automatically, and acknowledge alarms. To enable Java
+ES monitoring, you must do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Install and configure the components in your deployment; for example,
+Message Queue and the application server.</p>
+</li>
+<li>
+<p>Enable and configure the Monitoring Framework for all your monitored
+components.</p>
+</li>
+<li>
+<p>Install the Monitoring Console on a separate host, start the master
+agent, and then start the web server.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For information, see the Sun Java Enterprise System Monitoring Guide.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS Bridge Service</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The JMS bridge service enables a Message Queue broker to map its
+destinations to destinations in external JMS providers, effectively
+allowing the Message Queue broker to communicate with clients of the
+external JMS provider. The JMS bridge service supports any number of
+uniquely named JMS bridges in a broker. Each bridge consists of two
+primary components:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>One or more links that each map a destination in the Message Queue
+broker to a destination in an external JMS provider or in another
+Message Queue broker. To provide destination mapping, each link consists
+of a source that specifies the destination from which the JMS bridge
+receives messages and a target that specifies the destination to which
+the JMS bridge forwards messages received from the source.</p>
+</li>
+<li>
+<p>A built-in Dead Message Queue where undeliverable messages are sent.
+Additional, special-purpose DMQs can also be specified.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/bridge-services.html#GMADG00259">Configuring and Managing JMS Bridge Services</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMX-Based Administration</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can use the JMX API to monitor and manage broker resources:
+the broker, services, connections, destinations, consumers, producers,
+and so on. You can use JMX-based administration in different ways to
+monitor application performance, to configure and monitor broker
+services, to automate tasks, or to write custom tools.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#gemjx">JMX-Based Administration</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/jmx-support.html#GMADG00057">JMX Support</a>" in Open Message Queue Administration
+Guide</p>
+</div>
+<div class="paragraph">
+<p><a href="../mq-dev-guide-jmx/toc.html#GMJMG">Open Message Queue Developer&#8217;s Guide for JMX Clients</a></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JNDI service provider support</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clients can look up administered objects using the JNDI API.</p>
+</div>
+<div class="paragraph">
+<p>Administrators can use the <code>imqobjmgr</code> utility to add, list, update, and
+delete administered objects in an object store accessible using JNDI.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerdd">Built-in Administration Tools</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/administered-objects.html#GMADG00042">Managing Administered Objects</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">LDAP Server support</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>An administrator can use an LDAP server as a Message Queue administered
+object store and as a user repository (needed for authentication). By
+default Message Queue provides file-based storage for this data.</p>
+</div>
+<div class="paragraph">
+<p>To Use as an Administered Object Store</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the tools provided by the LDAP vendor to set up the LDAP server.</p>
+</li>
+<li>
+<p>Set the LDAP-related broker properties to define the initial context
+and the location of the object store.</p>
+</li>
+<li>
+<p>Set the LDAP-related broker properties that relate to securing the
+LDAP server operations.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/security-services.html#GMADG00040">Configuring and Managing Security Services</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Memory resource management</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can configure the following behavior:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set properties on a destination to specify the maximum number of
+producers, the maximum number of messages, and the maximum size of any
+one message.</p>
+</li>
+<li>
+<p>Set properties on a destination to control message flow.</p>
+</li>
+<li>
+<p>Set properties on a destination to manage message flow for each
+destination.</p>
+</li>
+<li>
+<p>Set properties on the broker to specify message limits on all
+destinations for that broker.</p>
+</li>
+<li>
+<p>Set properties on the broker to specify thresholds of available
+system memory at which the broker takes action to prevent memory
+overload. The action taken depends on the state of memory resources.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercl">Message Delivery Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/broker-configuration.html#GMADG00035">Configuring a Broker</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message compression</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The developer can set a message header property to have the client
+runtime compress a message before sending it. The client runtime on the
+consumer side decompresses the message before delivering it to the
+consumer.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerbr">Message Properties</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00149">Message Compression</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message flow control to clients</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator or the developer can configure a connection to specify
+various flow limits and metering schemes to minimize the collision of
+payload and control messages, and thereby to maximize message
+throughput.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Set the flow-control attributes for the connection factory administered
+object (administrator), or set the flow-control properties for the
+connection factory (developer).</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerbn">Connection</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/connection-services.html#GMADG00235">Configuring Connection Services</a>" and
+"<a href="../mq-admin-guide/administered-objects.html#GMADG00568">Connection Factory Attributes</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message-based monitoring API</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Java clients can use a monitoring API to create custom monitoring
+applications. A monitoring application is a consumer that retrieves
+metrics messages from special metrics topic destinations.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Write a metrics monitoring client.</p>
+</li>
+<li>
+<p>Set broker properties to configure the broker&#8217;s metrics message
+producer.</p>
+</li>
+<li>
+<p>Set access controls on metrics topic destinations.</p>
+</li>
+<li>
+<p>Start the monitoring client.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercy">Monitoring Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/using-the-metrics-monitoring-api.html#GMJVG00015">Using the Metrics Monitoring API</a>" in Open Message
+Queue Developer&#8217;s Guide for Java Clients</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/monitoring.html#GMADG00044">Monitoring Broker Operations</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Multiple destinations for publishers and subscribers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Publishers can publish messages to multiple topic destinations and
+subscribers can consume messages from multiple topic destinations by
+using a destination name that includes wildcard characters, representing
+multiple destinations. Using such symbolic names allows administrators
+to create additional topic destinations, as needed, consistent with the
+wildcard naming scheme. Publishers and subscribers automatically publish
+to and consume from the added destinations. (Wildcard destination
+consumers are more common than publishers.)</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/message-delivery.html#GMADG00069">Supported Topic Destination Names</a>" in Open Message
+Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Queue delivery to multiple consumers</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clients can register more than one consumer for a given queue.</p>
+</div>
+<div class="paragraph">
+<p>The administrator can specify the maximum number of active consumers and
+the maximum number of backup consumers for the queue. The broker
+distributes messages to the registered consumers, balancing the load
+among them in order to allow the system to scale.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Set physical destination properties <code>maxNumActiveConsumers</code> and
+<code>maxNumBackupConsumers</code>.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerbj">Point-To-Point Messaging</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/physical-destination-properties.html#GMADG00049">Physical Destination Property Reference</a>" in Open
+Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reliable data persistence</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>To obtain absolute reliability you can require that the operating system
+write the data synchronously to the persistent store by setting the
+<code>imq.persist.file.sync.enabled</code> property to true. This eliminates
+possible data loss due to system crashes, but at the expense of
+performance. Note that although the data is not lost, it is not
+available to any other broker (in a cluster) because data is not
+currently shared by clustered brokers. When the system comes back up,
+the broker can reliably resume operations.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercs">Persistence Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/broker-properties.html#GMADG00290">Persistence Properties</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Schema validation of XML messages</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Enables validation of the content of a text (not object) XML message
+against an XML schema at the point the message is sent to the broker.
+The location of the XML schema (XSD) is specified as a property of a
+Message Queue destination. If no XSD location is specified, the DTD
+declaration within the XML document is used to perform DTD validation.
+(XSD validation, which includes data type and value range validation, is
+more rigorous than DTD validation.)</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/physical-destination-properties.html#GMADG00297">Physical Destination Properties</a>" in Open Message
+Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Secure connections</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clients can secure transmission of messages using the Secure Socket
+Layer (SSL) standard over TCP/IP and HTTP transports. These SSL-based
+connection services allow for the encryption of messages sent between
+clients and broker.</p>
+</div>
+<div class="paragraph">
+<p>SSL support is based on self-signed server certificates. Message Queue
+provides a utility that generates a private/public key pair and embeds
+the public key in a self-signed certificate. This certificate is passed
+to any client requesting a connection to the broker, and the client uses
+the certificate to set up an encrypted connection.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Generate a self-signed or signed certificate.</p>
+</li>
+<li>
+<p>Enable the secure service.</p>
+</li>
+<li>
+<p>Start the broker.</p>
+</li>
+<li>
+<p>Configure client security connection properties and run the client.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercv">Security Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/security-services.html#GMADG00040">Configuring and Managing Security Services</a>" in Open
+Message Queue Administration Guide</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-c/using-the-c-api.html#GMCCG00311">Working With Secure Connections</a>" in Open Message
+Queue Developer&#8217;s Guide for C Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Simple Object Access Protocol (SOAP) support</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Clients can receive SOAP (XML) messages and they can wrap them as JMS
+messages and use Message Queue to exchange them as they would a JMS
+message.</p>
+</div>
+<div class="paragraph">
+<p>Clients can use a special servlet to receive SOAP messages; they can use
+a utility class to wrap a SOAP message as a JMS message; they can use
+another utility class to extract the SOAP message from the JMS message.
+Clients can use standard SOAP with Attachments API for Java (SAAJ)
+libraries to assemble and disassemble a SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerce">Working with SOAP Messages</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-dev-guide-java/soap-messages.html#GMJVG00016">Working with SOAP Messages</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">STOMP Bridge Service</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The STOMP bridge service enables a Message Queue broker to communicate
+with clients that use the Streaming Text Oriented Messaging Protocol
+defined by the <code><a href="http://stomp.codehaus.org" class="bare">http://stomp.codehaus.org</a></code> open source project.</p>
+</div>
+<div class="paragraph">
+<p>The STOMP bridge service provides the features need to fully integrate
+STOMP messaging into the JMS messaging environment of Message Queue:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Registration with the Message Queue Port Mapper service so that STOMP
+clients can discover the service dynamically</p>
+</li>
+<li>
+<p>Support for TCP and SSL/TLS connections, including those requiring
+client authentication</p>
+</li>
+<li>
+<p>Automatic conversion of STOMP frame messages to and from JMS
+<code>BytesMessage</code> and <code>TextMessage</code> types</p>
+</li>
+<li>
+<p>Support for the full STOMP protocol, including the STOMP JMS bindings</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/bridge-services.html#GMADG00260">Configuring and Managing STOMP Bridge Services</a>" in
+Open Message Queue Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Thread management</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can specify the maximum and minimum number of threads
+assigned to any specific connection service. The administrator can also
+determine whether a connection service could increase throughput by
+using a shared thread model, which allows threads dedicated to idle
+connections to be used by other connections.</p>
+</div>
+<div class="paragraph">
+<p>To Use</p>
+</div>
+<div class="paragraph">
+<p>Set connection service thread-related properties.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aerck">Thread Pool Management</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/broker-configuration.html#GMADG00035">Configuring a Broker</a>" in Open Message Queue
+Administration Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tunable performance</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The administrator can set broker properties to adjust memory usage,
+threading resources, message flow, connection services, reliability
+parameters, and other elements that affect message throughput and system
+performance.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercy">Monitoring Services</a></p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-admin-guide/monitoring.html#GMADG00261">Monitoring Services</a>" and "o<a href="GMADG00045">Analyzing
+and Tuning a Message Service</a>" in Open Message Queue Administration
+Guide</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Universal Message Service (UMS)</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Message Queue includes a universal messaging service (UMS) and messaging
+API that provides access to Message Queue from any http-enabled device.
+As a result, almost any application can communicate with any other
+application and benefit from the reliability and guaranteed delivery of
+JMS messaging. In addition, the UMS provides enhanced scalability for
+JMS messaging, allowing the number of messaging clients to reach
+internet-scale proportions.</p>
+</div>
+<div class="paragraph">
+<p>The simple, language-independent, protocol-based UMS API supports both
+web-based and non-web-based applications, and can be used with both
+scripting and programming languages. The API is offered in two styles: a
+simple messaging API that uses a Representational State Transfer
+(REST)-style protocol, and an XML messaging API that embeds the protocol
+in a SOAP message header. In both cases, however, the API requires only
+a single http request to send or receive a message.</p>
+</div>
+<div class="paragraph">
+<p>Reference</p>
+</div>
+<div class="paragraph">
+<p>"<a href="../mq-release-notes/release-notes.html#GMRLN00042">Universal Message Service (UMS)</a>" in Open Message
+Queue Release Notes</p>
+</div>
+<div class="paragraph">
+<p>Documentation of UMS on Open MQ web site:
+<code><a href="http://mq.java.net/4.3-content/ums/umsIntro.html" class="bare">http://mq.java.net/4.3-content/ums/umsIntro.html</a></code></p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="mq-features.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="glossary.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

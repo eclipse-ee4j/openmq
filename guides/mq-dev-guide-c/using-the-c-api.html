@@ -1,0 +1,2853 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Using the C API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Using the C API</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="introduction.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-design-issues.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMCCG00003"></a><a id="aelba"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="using-the-c-api">2 Using the C API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes how to use C functions to accomplish specific
+tasks and provides brief code samples to illustrate some of these tasks.
+(For clarity, the code examples shown in the following sections omit a
+function call status check.)</p>
+</div>
+<div class="paragraph">
+<p>Following a brief discussion of overall design and a summary of client
+tasks, the topics covered include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aelbc">Message Queue C Client Setup Operations</a></p>
+</li>
+<li>
+<p><a href="#aelbd">Working With Properties</a></p>
+</li>
+<li>
+<p><a href="#aelbg">Working With Connections</a></p>
+</li>
+<li>
+<p><a href="#aelbq">Working With Sessions and Destinations</a></p>
+</li>
+<li>
+<p><a href="#aelcb">Working With Messages</a></p>
+</li>
+<li>
+<p><a href="#aelcm">Error Handling</a></p>
+</li>
+<li>
+<p><a href="#aelcn">Memory Management</a></p>
+</li>
+<li>
+<p><a href="#aelco">Logging</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This chapter does not provide exhaustive information about each
+function. For detailed function information, please see the description
+of that function in <a href="reference.html#aeldi">Reference</a>.</p>
+</div>
+<div class="paragraph">
+<p>For information on building Message Queue C programs, see
+<a href="client-design-issues.html#aelcp">Client Design Issues</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbc"></a><a id="GMCCG00040"></a><a id="message-queue-c-client-setup-operations"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_c_client_setup_operations">Message Queue C Client Setup Operations</h3>
+<div class="paragraph">
+<p>The general procedures for producing and consuming messages are
+introduced below. The procedures have a number of common steps which
+need not be duplicated if a client is both producing and consuming
+messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="gblxv"></a><a id="GMCCG00016"></a><a id="to-set-up-a-message-queue-c-client-to-produce-messages"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_set_up_a_message_queue_c_client_to_produce_messages">To Set Up a Message Queue C Client to Produce Messages</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call the <code>MQCreateProperties</code> function to get a handle to a
+properties object.</p>
+</li>
+<li>
+<p>Use one or more of the <code>MQSet...Property</code> functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateConnection</code> function to create a connection.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateSession</code> function to create a session and to
+specify its acknowledge mode and its receive mode. If the session will
+be used only for producing messages, use the receive mode
+<code>MQ_SESSION_SYNC_RECEIVE</code> to avoid creating a thread for asynchronous
+message delivery.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateDestination</code> function to specify a physical
+destination on the broker. The destination name you specify must be the
+same as the name of the physical destination.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateMessageProducer</code> function or the
+<code>MQCreateMessageProducerForDestination</code> function to create a message
+producer. (If you plan to send a lot of messages to the same
+destination, you should use the <code>MQCreateMessageProducerForDestination</code>
+function.)</p>
+</li>
+<li>
+<p>Use the <code>MQCreateBytesMessage</code> function or the <code>MQCreateTextMessage</code>
+function to get a newly created message handle.</p>
+</li>
+<li>
+<p><a id="BABHDHAG"></a><br>
+Call the <code>MQCreateProperties</code> function to get a handle to a properties
+object that will describe the message header properties. This is only
+required if you want to set a message header property.</p>
+</li>
+<li>
+<p><a id="BABFAHGI"></a><br>
+Use one or more of the <code>MQSet...Property</code> functions to set properties
+that specify the value of the message header properties you want to set.</p>
+</li>
+<li>
+<p>Use the <code>MQSetMessageHeaders</code> function, passing a handle to the
+properties object you created in Step <a href="#BABHDHAG">8</a> and Step
+<a href="#BABFAHGI">9</a>.</p>
+</li>
+<li>
+<p>Repeat Step <a href="#BABHDHAG">8</a> if you want to define custom message
+properties, and then use the <code>MQSetMessageProperties</code> function to set
+these properties for your message.</p>
+</li>
+<li>
+<p>Use the <code>MQSetMessageReplyTo</code> function if you want to specify a
+destination where replies to the message are to be sent.</p>
+</li>
+<li>
+<p>Use one of the <code>MQSendMessage...</code> functions to send the message.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gblxa"></a><a id="GMCCG00017"></a><a id="to-set-up-a-message-queue-c-client-to-consume-messages-synchronously"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_to_set_up_a_message_queue_c_client_to_consume_messages_synchronously">To Set Up a Message Queue C Client to Consume Messages Synchronously</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call the <code>MQCreateProperties</code> function to get a handle to a
+properties object.</p>
+</li>
+<li>
+<p>Use one or more of the <code>MQSet...Property</code> functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateConnection</code> function to create a connection.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateSession</code> function to create a session and to
+specify its receive mode. Specify <code>MQ_SESSION_SYNC_RECEIVE</code> for a
+synchronous session.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateDestination</code> function to specify a destination on
+the broker from which the consumer is to receive messages. The
+destination name you specify must be the same as the name of the
+physical destination.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateMessageConsumer</code> function or the
+<code>MQCreateDurableMessageConsumer</code> function to create a consumer.</p>
+</li>
+<li>
+<p>Use the <code>MQStartConnection</code> function to start the connection.</p>
+</li>
+<li>
+<p>Use one of the <code>MQReceiveMessage...</code> functions to start message
+delivery.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="gblxg"></a><a id="GMCCG00018"></a><a id="to-set-up-a-message-queue-c-client-to-consume-messages-asynchronously"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_to_set_up_a_message_queue_c_client_to_consume_messages_asynchronously">To Set Up a Message Queue C Client to Consume Messages Asynchronously</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call the <code>MQCreateProperties</code> function to get a handle to a
+properties object.</p>
+</li>
+<li>
+<p>Use one or more of the <code>MQSet...Property</code> functions to set
+connection properties that specify the name of the broker, its port
+number, and its behavior.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateConnection</code> function to create a connection.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateSession</code> function to create a session and to
+specify its acknowledge mode and its receive mode. Specify
+<code>MQ_SESSION_ASYNC_RECEIVE</code> for asynchronous message delivery.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateDestination</code> function to specify a destination on
+the broker from which the consumer is to receive messages. The logical
+destination name you specify must be the same as the name of the
+physical destination.</p>
+</li>
+<li>
+<p>Write a callback function of type <code>MQMessageListenerFunc</code> that will
+be called when the broker starts message delivery. In the body of this
+callback function, use the functions described in <a href="#aelcl">Processing
+a Message</a> , to process the contents of the incoming message.</p>
+</li>
+<li>
+<p>Use the <code>MQCreateAsyncMessageConsumer</code> function or the
+<code>MQCreateAsyncDurableMessageConsumer</code> function to create a consumer.</p>
+</li>
+<li>
+<p>Use the <code>MQStartConnection</code> function to start the connection and
+message delivery.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aelbd"></a><a id="GMCCG00041"></a><a id="working-with-properties"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_properties">Working With Properties</h3>
+<div class="paragraph">
+<p>When you create a connection, set message header properties, or set
+user-defined message properties, you must pass a handle to a properties
+object. You use the <code>MQCreateProperties</code> function to create this object
+and to obtain a handle to it. When you receive a message, you can use
+specific <code>MQGet...Property</code> functions to obtain the type and value of
+each message property.</p>
+</div>
+<div class="paragraph">
+<p>This section describes the functions you use to set and get properties.
+A property is defined as a key-value pair.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbe"></a><a id="GMCCG00308"></a><a id="setting-connection-and-message-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_setting_connection_and_message_properties">Setting Connection and Message Properties</h4>
+<div class="paragraph">
+<p>You use the functions listed in <a href="#gblxi">Table 2-1</a> to create a
+handle to a properties object, and to set properties. You can use these
+functions to create and define properties for connections or for
+individual messages.</p>
+</div>
+<div class="paragraph">
+<p>Set message properties and message header properties using the same
+procedure you use to set connection properties. You can set the
+following message header properties for sending a message:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_CORRELATION_ID_HEADER_PROPERTY</code></p>
+</li>
+<li>
+<p><code>MQ_MESSAGE_TYPE_HEADER_PROPERTY</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For more information, see the description of the
+<a href="reference.html#aelgg">MQSetMessageProperties</a> function.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG422"></a><a id="sthref6"></a><a id="gblxi"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-1 Functions Used to Set Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 37%;">
+<col style="width: 63%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleg">MQCreateProperties</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a properties object and passes back a handle to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfx">MQSetBoolProperty</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQBool</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgi">MQSetStringProperty</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQString</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelge">MQSetInt8Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQInt8</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgb">MQSetInt16Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQInt16</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgc">MQSetInt32Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQInt32</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgd">MQSetInt64Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQInt64</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfz">MQSetFloat32Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQFloat32</code> property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelga">MQSetFloat64Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets an <code>MQFloat64</code> property.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gblyc"></a><a id="GMCCG00019"></a><a id="to-set-properties-for-a-connection"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_set_properties_for_a_connection">To Set Properties for a Connection</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call the <code>MQCreateProperties</code> function to get a handle to a newly
+created properties object.</p>
+</li>
+<li>
+<p>Call one of the <code>MQSet...Property</code> functions to set one of the
+connection properties described in <a href="reference.html#gcsrb">Table 4-2</a> .
+At a minimum, you must specify the name of the host of the broker to
+which you want to connect and its port number.<br>
+Which function you call depends on the type of the property you want to
+set; for example, to set an <code>MQString</code> property, you call the
+<code>MQSetStringProperty</code> function; to set an <code>MQBool</code> property, you call
+the <code>MQSetBoolProperty</code> function; and so on. Each function that sets a
+property requires that you pass a key name and value; these are listed
+and described in <a href="reference.html#gcsrb">Table 4-2</a>.</p>
+</li>
+<li>
+<p>When you have set all the properties you want to define for the
+connection, you can then create the connection, by calling the
+<code>MQCreateConnection</code> function.<br>
+Once the connection is created with the properties you specify, you
+cannot change its properties. If you need to change connection
+properties after you have created a connection, you will need to destroy
+the old connection and its associated objects and create a new one with
+the desired properties. It is a good idea to think through the desired
+behavior before you create a connection.<br>
+The code sample below illustrates how you create a properties handle and
+how you use it for setting connection properties.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>MQStatus status;
+MQPropertiesHandle propertiesHandle = MQ_INVALID_HANDLE;
+
+status = (MQCreateProperties(&amp;propertiesHandle);
+
+status = (MQSetStringProperty(propertiesHandle,
+           MQ_BROKER_HOST_PROPERTY, "localhost"));
+
+status = (MQSetInt32Property(propertiesHandle,
+           MQ_BROKER_PORT_PROPERTY, 7676));
+
+status = MQSetStringProperty(propertiesHandle,
+          MQ_CONNECTION_TYPE_PROPERTY, "TCP"));</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Message Queue C client runtime sets the connection properties that
+specify the name and version of the Message Queue product; you can
+retrieve these using the
+function<a href="reference.html#aelfe">MQGetMetaData</a>. These properties are
+described at the end of <a href="reference.html#gcsrb">Table 4-2</a>, starting
+with <code>MQ_NAME_PROPERTY</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbf"></a><a id="GMCCG00309"></a><a id="getting-message-properties"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_getting_message_properties">Getting Message Properties</h4>
+<div class="paragraph">
+<p>When you receive a message, if you are interested in the message
+properties, you need to obtain a handle to the properties object
+associated with that message:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>MQGetMessageProperties</code> function to obtain a handle to the
+properties object for user-defined properties.</p>
+</li>
+<li>
+<p>If you are interested in any message header properties, use the
+<code>MQGetMessageHeaderProperties</code> function to obtain a handle to the header
+properties. See <a href="reference.html#aelfa">MQGetMessageHeaders</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Having obtained the handle, you can iterate through the properties and
+then use the appropriate <code>MQGet...Property</code> function to determine the
+type and value of each property.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gblxq">Table 2-2</a> lists the functions you use to iterate through a
+properties handle and to obtain the type and value of each property.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG423"></a><a id="sthref7"></a><a id="gblxq"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-2 Functions Used to Get Message Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfn">MQPropertiesKeyIterationStart</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Starts the iteration process through the specified properties handle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfm">MQPropertiesKeyIterationHasNext</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns <code>MQ_TRUE</code> if there are additional property keys left in the
+iteration.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfl">MQPropertiesKeyIterationGetNext</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Passes back the address of the next property key in the referenced
+property handle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelff">MQGetPropertyType</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the type of the specified property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleq">MQGetBoolProperty</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQBool</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfi">MQGetStringProperty</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQString</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelez">MQGetInt8Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQInt8</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelew">MQGetInt16Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQInt16</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelex">MQGetInt32Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQInt32</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeley">MQGetInt64Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQInt64</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleu">MQGetFloat32Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQFloat32</code> type property.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelev">MQGetFloat64Property</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the value of the specified <code>MQFloat64</code> type property.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gblxs"></a><a id="GMCCG00020"></a><a id="to-iterate-through-a-properties-handle"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_iterate_through_a_properties_handle">To Iterate Through a Properties Handle</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the process by calling the
+<a href="reference.html#aelfn">MQPropertiesKeyIterationStart</a> function.</p>
+</li>
+<li>
+<p>Loop using the
+<a href="reference.html#aelfm">MQPropertiesKeyIterationHasNext</a> function.</p>
+</li>
+<li>
+<p>Extract the name of each property key by calling the
+<a href="reference.html#aelfl">MQPropertiesKeyIterationGetNext</a> function.</p>
+</li>
+<li>
+<p>Determine the type of the property value for a given key by calling
+the <a href="reference.html#aelff">MQGetPropertyType</a> function.</p>
+</li>
+<li>
+<p>Use the appropriate <code>MQGet...Property</code> function to find the value of
+the specified property key and type.<br>
+If you know the property key, you can just use the appropriate
+<code>MQGet...Property</code> function to get its value. The code sample below
+illustrates how you implement these steps.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>MQStatus status;
+
+MQPropertiesHandle headersHandle = MQ_INVALID_HANDLE;
+
+MQBool redelivered;
+
+ConstMQString my_msgtype;
+
+status = (MQGetMessageHeaders(messageHandle, &amp;headersHandle));
+
+status = (MQGetBoolProperty(headersHandle,
+           MQ_REDELIVERED_HEADER_PROPERTY, &amp;redelivered));
+
+status = MQGetStringProperty(headersHandle,
+          MQ_MESSAGE_TYPE_HEADER_TYPE_PROPERTY, &amp;my_msgtype);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aelbg"></a><a id="GMCCG00042"></a><a id="working-with-connections"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_connections">Working With Connections</h3>
+<div class="paragraph">
+<p>All messaging occurs within the context of a connection: the behavior of
+the connection is defined by the properties set for that connection. You
+use the functions listed in <a href="#gblxt">Table 2-3</a> to create, start,
+stop, and close a connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG424"></a><a id="sthref8"></a><a id="gblxt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-3 Functions Used to Work with Connections</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfk">MQInitializeSSL</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Initializes the SSL library. You must call this function before you
+create any connection that uses SSL.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldy">MQCreateConnection</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a connection and passes back a handle to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgk">MQStartConnection</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Starts the specified connection and starts or resumes delivery of
+messages.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgm">MQStopConnection</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stops the specified connection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfe">MQGetMetaData</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a handle to name and version information for the Message Queue
+product.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldq">MQCloseConnection</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the specified connection.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Before you create a connection, you must do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Define the connection properties. See <a href="#aelbe">Setting Connection
+and Message Properties</a> for more information.</p>
+</li>
+<li>
+<p>Specify a user name and password for the connection. See
+"<a href="../mq-admin-guide/security-services.html#GMADG00247">User Authentication</a>" in Open Message Queue
+Administration Guide for information on how to set up users.</p>
+</li>
+<li>
+<p>Write a connection exception listener function. You will need to pass
+a reference to this listener when you create the connection. This
+function will be called synchronously when a connection exception occurs
+for this connection. For more information, see
+<a href="reference.html#aeldn">Callback Type for Connection Exception
+Handling</a> .</p>
+</li>
+<li>
+<p>If you want a secure connection, call the <code>MQIntitializeSSL</code> function
+to initialize the SSL library. See <a href="#aelbl">Working With Secure
+Connections</a> for more information.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When you have completed these steps, you are ready to call
+<code>MQCreateConnection</code> to create a connection. After you create the
+connection, you can create a session as described in <a href="#aelbq">Working
+With Sessions and Destinations</a> .</p>
+</div>
+<div class="paragraph">
+<p>When you send a message, you do not need to start the connection
+explicitly by calling <code>MQStartConnection</code>. You do need to call
+<a href="reference.html#aelgk">MQStartConnection</a> before the broker can
+deliver messages to a consumer.</p>
+</div>
+<div class="paragraph">
+<p>If you need to halt delivery in the course of processing messages, you
+can call the <a href="reference.html#aelgm">MQStopConnection</a> function.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbh"></a><a id="GMCCG00310"></a><a id="defining-connection-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_defining_connection_properties">Defining Connection Properties</h4>
+<div class="paragraph">
+<p>Connection properties specify the following information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The host name and port of the broker to which you want to connect</p>
+</li>
+<li>
+<p>The transport protocol of the connection service used by the client</p>
+</li>
+<li>
+<p>How broker and client acknowledgements are handled to support
+messaging reliability</p>
+</li>
+<li>
+<p>How message flow is to be managed</p>
+</li>
+<li>
+<p>How secure messaging should be implemented</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections examine the effect of properties used to manage
+connection handling, reliability, message flow, and security.</p>
+</div>
+<div class="paragraph">
+<p><a href="reference.html#gcsrb">Table 4-2</a> lists and describes all properties
+of a connection. For information on how to set and change connection
+properties, see <a href="#aelbd">Working With Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbi"></a><a id="GMCCG00068"></a><a id="connection-handling"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_connection_handling">Connection Handling</h5>
+<div class="paragraph">
+<p>Connections to a message server are specified by a broker host name and
+port number.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set <code>MQ_BROKER_NAME_PROPERTY</code> to specify the broker name.</p>
+</li>
+<li>
+<p>Set <code>MQ_BROKER_PORT_PROPERTY</code> to specify the port of the broker&#8217;s port
+mapper service. In this case, the port mapper will dynamically assign
+the port to which the client connects.</p>
+</li>
+<li>
+<p>Set <code>MQ_BROKER_SERVICE_PORT_PROPERTY</code> to specify the number of a port
+to which the client connects. This is a static, fixed port assignment;
+it bypasses the broker&#8217;s port mapper service. If you do need to connect
+to a fixed port on the broker, make sure that the service needed is
+enabled and available at the specified port by setting the
+<code>imq.serviceName.protocolType.port</code> broker property.</p>
+</li>
+<li>
+<p>Set the connection property <code>MQ_CONNECTION_TYPE_PROPERTY</code> to specify
+the underlying transport protocol. Possible values are <code>TCP</code> or <code>SSL</code>.<br>
+Remember that you need to configure the JMS service port on the broker
+side as well. For example, if you want to connect your client via
+<code>ssljms</code> to port 1756, you would do the following.</p>
+<div class="ulist">
+<ul>
+<li>
+<p>On the client side: Set the <code>MQ_SERVICE_PORT_PROPERTY</code> to 1756 and
+set the <code>MQ_CONNECTION_TYPE_PROPERTY</code> to <code>SSL</code>.</p>
+</li>
+<li>
+<p>On the broker side: Set the imq.serviceNameType.protocol.port
+property to 1756 as follows.<br></p>
+</li>
+</ul>
+</div>
+</li>
+</ul>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.ssljms.ssl.port=1756</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>MQ_PING_INTERVAL_PROPERTY</code> also affects connection handling. This
+property is set to the interval (in seconds) that the connection can be
+idle before the C client runtime pings the broker to test whether the
+connection is still alive. This property is useful for either producers
+who use the connection infrequently or for clients who are exclusive
+consumers, passively waiting for messages to arrive. The default value
+is 30 seconds. Setting an interval that is too low may result in some
+performance loss. The minimum permitted value is 1 second to prevent
+this from happening.</p>
+</div>
+<div class="paragraph">
+<p>Currently, the C-API does not support auto-reconnect or failover, which
+allows the client runtime to automatically reconnect to a broker if a
+connection fails.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbj"></a><a id="GMCCG00069"></a><a id="reliability"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reliability">Reliability</h5>
+<div class="paragraph">
+<p>Two connection properties enable the acknowledgement of messages sent to
+the broker and of messages received from the broker. These are described
+in <a href="#aelbt">Message Acknowledgement</a>. In addition to setting these
+properties, you can also set <code>MQ_ACK_TIMEOUT_PROPERTY</code>, which determines
+the maximum time that the client runtime will wait for any broker
+acknowledgement before throwing an exception.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbk"></a><a id="GMCCG00070"></a><a id="flow-control"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_flow_control">Flow Control</h5>
+<div class="paragraph">
+<p>A number of connection properties determine the use of Message Queue
+control messages by the client runtime. Messages sent and received by
+Message Queue clients and Message Queue control messages pass over the
+same client-broker connection. Because of this, delays may occur in the
+delivery of control messages, such as broker acknowledgements, if these
+are held up by the delivery of JMS messages. To prevent this type of
+congestion, Message Queue meters the flow of JMS messages across a
+connection.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Set <code>MQ_CONNECTION_FLOW_COUNT_PROPERTY</code> to specify the number of
+Message Queue messages in a metered batch. When this number of messages
+is delivered to the client runtime, delivery is temporarily suspended,
+allowing any control messages that had been held up to be delivered.
+Message delivery is resumed upon notification by the client runtime, and
+continues until the count is again reached.</p>
+</li>
+<li>
+<p><code>MQ_CONNECTION_FLOW_LIMIT_PROPERTY</code> specifies the maximum number of
+unconsumed messages that can be delivered to a client runtime. When the
+number of messages reaches this limit, delivery stops and resumes only
+when the number of unconsumed messages drops below the specified limit.
+This helps a consuming client that is taking a long time to process
+messages from being overwhelmed with pending messages that might cause
+it to run out of memory.</p>
+</li>
+<li>
+<p><code>MQ_CONNECTION_FLOW_LIMIT_ENABLED_PROPERTY</code> specifies whether the
+value <code>MQ_CONNECTION_FLOW_LIMIT_PROPERTY</code> is used to control message
+flow.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You should keep the value of <code>MQ_CONNECTION_FLOW_COUNT_PROPERTY</code> low if
+the client is doing operations that require many responses from the
+broker; for example, the client is using the
+<code>CLIENT_ACKNOWLEDGE or AUTO_ACKNOWLEDGE</code> modes, persistent messages,
+transactions, or if the client is adding or removing consumers. You can
+increase the value of <code>MQ_CONNECTION_FLOW_COUNT_PROPERTY</code> without
+compromising performance if the client has only simple consumers on a
+connection using <code>DUPS_OK</code> mode.</p>
+</div>
+<div class="paragraph">
+<p>The C API does not currently support consumer-based flow control.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbl"></a><a id="GMCCG00311"></a><a id="working-with-secure-connections"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_working_with_secure_connections">Working With Secure Connections</h4>
+<div class="paragraph">
+<p>Establishing a secure connection between the client and the broker
+requires both the administrator and the developer to do some additional
+work. The administrator&#8217;s work is described in "<a href="../mq-admin-guide/security-services.html#GMADG00249">Message
+Encryption</a>" in Open Message Queue Administration Guide. In brief, it
+requires that the administrator do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Generate certificates (self-signed or signed by a certificate
+authority) and add those certificates to the broker&#8217;s keystore</p>
+</li>
+<li>
+<p>Enable the <code>ssljms</code> connection service in the broker</p>
+</li>
+<li>
+<p>Provide the password to the certificate keystore when starting the
+broker</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The developer must also do some work to configure the client for secure
+messaging. The work required depends on whether the broker is trusted
+(the default setting) and on whether the developer wants to provide an
+additional means of verification if the broker is not trusted and the
+initial attempt to create a secure connection fails.</p>
+</div>
+<div class="paragraph">
+<p>The MessageQueue C-API library uses NSS to support the SSL transport
+protocol between the Message Queue C client and the Message Queue
+broker. The developer must take care if the client application using
+secure Message Queue connections uses NSS (for other purposes) directly
+as well and does NSS initialization. For additional information, see
+<a href="#aelbo">Coordinating NSS Initialization</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbm"></a><a id="GMCCG00071"></a><a id="configuring-the-client-for-secure-communication"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_configuring_the_client_for_secure_communication">Configuring the Client for Secure Communication</h5>
+<div class="paragraph">
+<p>By default the <code>MQ_SSL_BROKER_IS_TRUSTED</code> property is set to <code>true</code>, and
+this means that the Message Queue client runtime will accept any
+certificate that is presented to it. The following procedure explains
+what you must do to establish a secure connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="gblye"></a><a id="GMCCG00021"></a><a id="to-establish-a-secure-connection"></a></p>
+</div>
+<div class="paragraph">
+<p>To Establish a Secure Connection</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the <code>MQ_CONNECTION_TYPE_PROPERTY</code> to <code>SSL</code> .</p>
+</li>
+<li>
+<p>If you want the runtime to check the broker&#8217;s certificate, set the
+<code>MQ_SSL_BROKER_IS_TRUSTED</code> property to <code>false</code>. Otherwise, you can leave
+it to its default (<code>true</code>) value.</p>
+</li>
+<li>
+<p>Generate the NSS files <code>cert`N</code>.db`, <code>key`N</code>.db`, and <code>secmod.db</code>
+using the certificate database tool <code>certutil</code>.<br>
+You can find this tool in mqInstallHome`/nss/bin`.<br>
+For directions and an example of using this tool, see<br>
+<code>http://www.mozilla.org/projects/security/pki/nss/tools/certutil.html</code></p>
+</li>
+<li>
+<p>Note the path name of the directory that contains the NSS files you
+generated in <a href="#aelbm">Configuring the Client for Secure
+Communication</a>.</p>
+</li>
+<li>
+<p>If you have set the <code>MQ_SSL_BROKER_IS_TRUSTED</code> property to <code>false</code>,
+use the <code>certutil</code> tool to import the root certificate of the authority
+certifying the broker into the database files you generated in
+<a href="#aelbm">Configuring the Client for Secure Communication</a> .<br>
+Make sure that the <code>MQ_BROKER_HOST_PROPERTY</code> value is set to the same
+value as the (CN) common name in the broker&#8217;s certificate.</p>
+</li>
+<li>
+<p>If you have set the <code>MQ_SSL_BROKER_IS_TRUSTED</code> property to <code>false</code>,
+you have the option of enabling broker fingerprint-based verification in
+case authorization fails. For details, see <a href="#aelbn">Verification
+Using Fingerprints</a>.</p>
+</li>
+<li>
+<p>Call the function <code>MQInitializeSSL</code> once (and only once) before
+creating the connection, and pass the name of the directory that
+contains the NSS files you generated in <a href="#aelbm">Configuring the
+Client for Secure Communication</a>. If the broker is trusted, these files
+can be empty.<br>
+You must call this function before you create any connection to the
+broker, including connections that do not use SSL.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aelbn"></a><a id="GMCCG00072"></a><a id="verification-using-fingerprints"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_verification_using_fingerprints">Verification Using Fingerprints</h5>
+<div class="paragraph">
+<p>If certificate authorization fails when the broker is using a
+certificate authority, it is possible to give the client runtime another
+means of establishing a secure connection by comparing broker
+certificate fingerprints. If the fingerprints match, the connection is
+granted; if they do not match, the attempt to create the connection will
+fail.</p>
+</div>
+<div class="paragraph">
+<p><a id="gblxm"></a><a id="GMCCG00022"></a><a id="to-set-up-fingerprint-certification"></a></p>
+</div>
+<div class="paragraph">
+<p>To Set Up Fingerprint Certification</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set the broker connection property <code>MQ_SSL_CHECK_BROKER_FINGERPRINT</code>
+to <code>true</code>.</p>
+</li>
+<li>
+<p>Retrieve the broker&#8217;s certificate fingerprint by using the java
+<code>keytool -list</code> option on the broker&#8217;s keystore file:<br>
+You will use the output of this command as the value for the connection
+property <code>MQ_SSL_BROKER_CERT_FINGERPRINT</code> in <a href="#aelbn">Verification
+Using Fingerprints</a>. For example, if the output contains a value like
+the following:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Certificate fingerprint (MD5): F6:A5:C1:F2:E6:63:40:73:97:64:39:6C:1B:35:0F:8E</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You would specify this value for <code>MQ_SSL_BROKER_CERT_FINGEPRINT</code>.
+3.  Set the connection property <code>MQ_SSL_BROKER_CERT_FINGEPRINT</code> to the
+value obtained in <a href="#aelbn">Verification Using Fingerprints</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbo"></a><a id="GMCCG00073"></a><a id="coordinating-nss-initialization"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_coordinating_nss_initialization">Coordinating NSS Initialization</h5>
+<div class="paragraph">
+<p>If your application uses NSS directly, other than to support Message
+Queue secure communication, you need to coordinate NSS initialization
+with the Message Queue C-API library. There are two cases to consider:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Your application does not use secure Message Queue connections.<br>
+In this case, you should do your application&#8217;s NSS initialization before
+calling <code>MQCreateConnection</code> to create any connection to the Message
+Queue broker.</p>
+</li>
+<li>
+<p>Your application does use secure Message Queue connections.<br>
+In this case, you should follow the procedure outlined below before
+calling <code>MQCreateConnection</code> to create any Message Queue connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gblys"></a><a id="GMCCG00023"></a><a id="to-coordinate-nss-initialization"></a></p>
+</div>
+<div class="paragraph">
+<p>To Coordinate NSS Initialization</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call the function <code>MQInitializeSSL.</code> (You must specify the path to
+the directory containing the NSS files as the <code>certdbpath</code> parameter to
+this function.)<br>
+Your application&#8217;s use of NSS must specify the same <code>certdbpath</code> value
+for the location of its NSS files. (That is, the certificates needed by
+your application must be located in the same directory as the
+certificates needed by Message Queue.)<br>
+Internally, the function <code>MQInitializeSSL</code> does the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Calls the function <code>NSS_Init(certdbpath)</code>.</p>
+</li>
+<li>
+<p>Sets <code>DOMESTIC</code> cipher policy using the function
+<code>NSS_SetDomesticPolicy()</code>.</p>
+</li>
+<li>
+<p>Enables all cipher suites, including <code>RSA_NULL_MD5</code> by calling the
+function <code>SSL_CipherPrefSetDefault(SSL_RSA_WITH_NULL_MD5, PR_TRUE)</code> .</p>
+</li>
+<li>
+<p>Calls the function <code>SSL_ClearSessionCache()</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>If your application needs different cipher suite settings, after you
+call the <code>MQInitializeSSL()</code> function, you can modify the cipher suites
+by calling the function <code>SSL_CipherPrefSetDefault</code>. However, note that
+these changes will affect your secure connection to the Message Queue
+broker as well.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aelbp"></a><a id="GMCCG00312"></a><a id="shutting-down-connections"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_shutting_down_connections">Shutting Down Connections</h4>
+<div class="paragraph">
+<p>In order to do an orderly shutdown, you need to close the connection by
+calling <a href="reference.html#aeldq">MQCloseConnection</a> and then to free the
+memory associated with the connection by calling the
+<a href="reference.html#aelek">MQFreeConnection</a> function.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Closing the connection closes all sessions, producers, and consumers
+created from this connection. This also forces all threads associated
+with this connection that are blocking in the library to return.</p>
+</li>
+<li>
+<p>After all the application threads associated with this connection and
+its descendant sessions, producers, and consumers have returned, the
+application can call the <a href="reference.html#aelek">MQFreeConnection</a>
+function to release all resources associated with the connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To get information about a connection, call the
+<a href="reference.html#aelfe">MQGetMetaData</a> function. This returns name and
+version information for the Message Queue product.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbq"></a><a id="GMCCG00043"></a><a id="working-with-sessions-and-destinations"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_sessions_and_destinations">Working With Sessions and Destinations</h3>
+<div class="paragraph">
+<p>A session is a single-threaded context for producing and consuming
+messages. You can create multiple producers and consumers for a session,
+but you are restricted to using them serially. In effect, only a single
+logical thread of control can use them. A session supports reliable
+delivery through acknowledgment options or by using transactions.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gblyr">Table 2-4</a> describes the functions you use to create and
+manage sessions.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG425"></a><a id="sthref9"></a><a id="gblyr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-4 Functions Used to Work with Sessions</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleh">MQCreateSession</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates the specified session and passes back a handle to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelep">MQGetAcknowledgeMode</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Passes back the acknowledgement mode of the specified session.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfr">MQRecoverSession</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stops message delivery and restarts message delivery with the oldest
+unacknowledged message. (For non-transacted sessions.)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfs">MQRollBackSession</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Rolls back a transaction associated with the specified session.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldu">MQCommitSession</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Commits a transaction associated with the specified session.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldt">MQCloseSession</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the specified session.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelbr"></a><a id="GMCCG00313"></a><a id="creating-a-session"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_creating_a_session">Creating a Session</h4>
+<div class="paragraph">
+<p>The <code>MQCreateSession</code> function creates a new session and initializes a
+handle to it in the <code>sessionHandle</code> parameter. The number of sessions
+you can create for a single connection is limited only by system
+resources. You can create a session after you have created a connection.</p>
+</div>
+<div class="paragraph">
+<p>When you create a session, you specify whether it is transacted, the
+acknowledge mode, and the receive mode. After you create a session, you
+can create the producers, consumers, and destinations that use the
+session context to do their work.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbs"></a><a id="GMCCG00074"></a><a id="transacted-sessions"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_transacted_sessions">Transacted Sessions</h5>
+<div class="paragraph">
+<p>If you specify that a session be transacted, the acknowledge mode is
+ignored. Within a transacted session, the broker tracks sends and
+receives, completing these operations only when the client issues a call
+to commit the transaction. If a send or receive operation fails, the
+operation will return an error. Your application can handle the error by
+ignoring it, retrying it, or rolling back the entire transaction. When a
+transaction is committed, all the successful operations are completed.
+When a transaction is rolled back, all the successful operations are
+cancelled. A transaction cannot encompass both the production and
+consumption of the same message.</p>
+</div>
+<div class="paragraph">
+<p>The scope of a local transaction is a single session. One or more
+producer or consumer operations can be grouped into a single local
+transaction only if performed in the context of a single session.</p>
+</div>
+<div class="paragraph">
+<p>To extend the scope of a transaction beyond a single session, you can
+use a distributed transaction. A distributed transaction is managed by
+an external distributed transaction manager, as described in
+<a href="#gheqr">Working With Distributed Transactions</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbt"></a><a id="GMCCG00075"></a><a id="message-acknowledgement"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_acknowledgement">Message Acknowledgement</h5>
+<div class="paragraph">
+<p>Both messages that are sent and messages that are received can be
+acknowledged.</p>
+</div>
+<div class="paragraph">
+<p>In the case of message producers, if you want the broker to acknowledge
+its having received a non-persistent message (to its physical
+destination), you must set the connection&#8217;s <code>MQ_ACK_ON_PRODUCE_PROPERTY</code>
+to <code>MQ_TRUE</code>. If you do so, the sending function will return only after
+the broker has acknowledged receipt of the message. By default, the
+broker acknowledges receipt of persistent messages.</p>
+</div>
+<div class="paragraph">
+<p>Acknowledgements on the consuming side means that the client runtime
+acknowledges delivery and consumption of all messages from a physical
+destination before the message service deletes the message from that
+destination. You can specify one of the following acknowledge modes for
+the consuming session when you create that session.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_AUTO_ACKNOWLEDGE</code> specifies that the session automatically
+acknowledge each message consumed by the client.</p>
+</li>
+<li>
+<p><code>MQ_CLIENT_ACKNOWLEDGE</code> specifies that the client must explicitly
+acknowledge messages by calling <code>MQAcknowledgeMessages</code>. In this case,
+all messages are acknowledged that have been consumed up to the point
+where the acknowledge function is called. (This could include messages
+consumed asynchronously by many different message listeners in that
+session, independent of the order in which they were consumed.)</p>
+</li>
+<li>
+<p><code>MQ_DUPS_OK_ACKNOWLEDGE</code> specifies that the session acknowledges
+receipt of messages after each ten messages are consumed. It does not
+guarantee that messages are delivered and consumed only once.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>(The setting of the connection property <code>MQ_ACK_ON_ACKNOWLEDGE_PROPERTY</code>
+also determines the effect of some of these acknowledge modes. For more
+information, see <a href="reference.html#gcsrb">Table 4-2</a>.)</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In the <code>DUPS_OK_ACKNOWLEDGE</code> mode, the session does not wait for broker
+acknowledgements. This option can be used in Message Queue C clients for
+which duplicate messages are not a problem. Also, you can call the
+<a href="reference.html#aelfr">MQRecoverSession</a> function to explicitly
+request redelivery of messages that have been received but not yet
+acknowledged by the client. When redelivering such messages, the broker
+will set the header field <code>MQ_REDLIEVERED_HEADER_PROPERTY</code> .</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aelbu"></a><a id="GMCCG00076"></a><a id="receive-mode"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_receive_mode">Receive Mode</h5>
+<div class="paragraph">
+<p>You can specify a session&#8217;s receive mode as either
+<code>MQ_SESSION_SYNC_RECEIVE</code> or <code>MQ_SESSION_ASYNC_RECEIVE</code>. If the session
+you create will be used for sending messages only, you should specify
+<code>MQ_SESSION_SYNC_RECEIVE</code> for its receive mode for optimization because
+the asynchronous receive mode automatically allocates an additional
+thread for the delivery of messages it expects to receive.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbv"></a><a id="GMCCG00314"></a><a id="managing-a-session"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_managing_a_session">Managing a Session</h4>
+<div class="paragraph">
+<p>Managing a session involves using threads appropriately for the type of
+session (synchronous or asynchronous) and managing message delivery for
+both transacted and nontransacted sessions. For more information about
+thread management, see <a href="client-design-issues.html#aelct">Managing
+Threads</a>.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For a session that is not transacted, use the
+<a href="reference.html#aelfr">MQRecoverSession</a> function to restart message
+delivery with the last unacknowledged message.</p>
+</li>
+<li>
+<p>For a session that is transacted, use the
+<a href="reference.html#aelfs">MQRollBackSession</a> function to roll back any
+messages that were delivered within this transaction. Use the
+<a href="reference.html#aeldu">MQCommitSession</a> function to commit all
+messages associated with this transaction.</p>
+</li>
+<li>
+<p>Use the <a href="reference.html#aeldt">MQCloseSession</a> function to close a
+session and all its associated producers and consumers. This function
+also frees memory allocated for the session.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can get information about a session&#8217;s acknowledgment mode by calling
+the <a href="reference.html#aelep">MQGetAcknowledgeMode</a> function.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbw"></a><a id="GMCCG00315"></a><a id="creating-destinations"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_destinations">Creating Destinations</h4>
+<div class="paragraph">
+<p>After creating a session, you can create destinations or temporary
+destinations for the messages you want to send. <a href="#gblyp">Table 2-5</a>
+lists the functions you use to create and to get information about
+destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG426"></a><a id="sthref10"></a><a id="gblyp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-5 Functions Used to Work with Destinations</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 36%;">
+<col style="width: 64%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Functions</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleb">MQCreateDestination</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a destination and initializes a handle to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelei">MQCreateTemporaryDestination</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a temporary destination and initializes a handle to it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeles">MQGetDestinationType</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the type (queue or topic) of the specified destination.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>A destination refers to where a message is destined to go. A physical
+destination is a JMS message service entity (a location on the broker)
+to which producers send messages and from which consumers receive
+messages. The message service provides the routing and delivery for
+messages sent to a physical destination.</p>
+</div>
+<div class="paragraph">
+<p>When a Message Queue C client creates a destination programmatically
+using the <code>MQCreateDestination</code> function, a destination name must be
+specified. The function initializes a handle to a destination data type
+that holds the identity (name) of the destination. The important thing
+to remember is that this function does not create the physical
+destination on the broker; this must be done by the administrator. The
+destination that is created programmatically however must have the exact
+same name and type as the physical destination created on the broker.
+For example, if you use the <code>MQCreateDestination</code> function to create a
+queue destination called <code>myMailQDest</code>, the administrator has to create
+a physical destination on the broker named <code>myMailQDest</code>.</p>
+</div>
+<div class="paragraph">
+<p>Destination names starting with "mq" are reserved and should not be used
+by client programs.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbx"></a><a id="GMCCG00077"></a><a id="programming-domains"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_programming_domains">Programming Domains</h5>
+<div class="paragraph">
+<p>When you create a destination, you must also specify its type:
+<code>MQ_QUEUE_DESTINATION</code> or <code>MQ_TOPIC_DESTINATION</code>. See
+"<a href="../mq-tech-over/client-programming-model.html#GMTOV00052">Messaging Domains</a>" in Open Message Queue Technical
+Overview for a discussion of these two types of destinations and how to
+choose the type that suits your needs.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelby"></a><a id="GMCCG00078"></a><a id="auto-created-destinations"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_auto_created_destinations">Auto-Created Destinations</h5>
+<div class="paragraph">
+<p>By default, the <code>imq.autocreate.topic</code> and <code>imq.autocreate.queue</code> broker
+properties are turned on. In this case, which is more convenient in a
+development environment, the broker automatically creates a physical
+destination whenever a message consumer or message producer attempts to
+access a non-existent destination. The auto-created physical destination
+will have the same name as that of the destination you created using the
+<code>MQCreateDestination</code> function.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelbz"></a><a id="GMCCG00079"></a><a id="temporary-destinations"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_temporary_destinations">Temporary Destinations</h5>
+<div class="paragraph">
+<p>You use the <code>MQCreateTemporaryDestination</code> function to create a
+temporary destination. You can use such a destination to implement a
+simple request/reply mechanism. When you pass the handle of a temporary
+destination to the <code>MQSetMessageReplyTo</code> function, the consumer of the
+message can use that handle as the destination to which it sends a
+reply.</p>
+</div>
+<div class="paragraph">
+<p>Temporary destinations are explicitly created by client applications and
+are automatically deleted when the connection is closed. They are
+maintained (and named) by the broker only for the duration of the
+connection for which they are created. Temporary destinations are
+system-generated uniquely for their connection and only their own
+connection is allowed to create message consumers for them.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelca"></a><a id="GMCCG00080"></a><a id="getting-information-about-destinations"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_getting_information_about_destinations">Getting Information About Destinations</h5>
+<div class="paragraph">
+<p>Use the <code>MQGetDestinationType</code> function to determine the type of a
+destination: queue or topic. There may be times when you do not know the
+type of the destination to which you are replying: for example, when you
+get a handle from the <code>MQGetMessageReplyTo</code> function. Because the
+semantics of queue and topic destinations differ, you need to determine
+the type of a destination in order to reply appropriately.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcb"></a><a id="GMCCG00044"></a><a id="working-with-messages"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_messages">Working With Messages</h3>
+<div class="paragraph">
+<p>This section describes how you use the C-API to complete the following
+tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Compose a message</p>
+</li>
+<li>
+<p>Send a message</p>
+</li>
+<li>
+<p>Receive a message</p>
+</li>
+<li>
+<p>Process a message</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aelcc"></a><a id="GMCCG00316"></a><a id="composing-messages"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_composing_messages">Composing Messages</h4>
+<div class="paragraph">
+<p>You can create either a text message or a bytes message. A message,
+whether text or bytes, is composed of a header, properties, and a body.
+You can also create a message type which has no body.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gblyw">Table 2-6</a> lists the functions you use to construct
+messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG427"></a><a id="sthref11"></a><a id="gblyw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-6 Functions Used to Construct Messages</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 36%;">
+<col style="width: 64%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#gbjak">MQCreateMessage</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an <code>MQ_MESSAGE</code> type message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldx">MQCreateBytesMessage</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an <code>MQ_BYTES_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelej">MQCreateTextMessage</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an <code>MQ_TEXT_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgf">MQSetMessageHeaders</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets message header properties. (Optional)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgg">MQSetMessageProperties</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets user-defined message properties.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgi">MQSetStringProperty</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the body of an <code>MQ_TEXT_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfy">MQSetBytesMessageBytes</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sets the body of an <code>MQ_BYTES_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgh">MQSetMessageReplyTo</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the destination where replies to this message should be
+sent.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelcd"></a><a id="GMCCG00081"></a><a id="message-header"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_message_header">Message Header</h5>
+<div class="paragraph">
+<p>A header is required of every message. Header fields contain values used
+for routing and identifying messages.</p>
+</div>
+<div class="paragraph">
+<p>Some header field values are set automatically by Message Queue during
+the process of producing and delivering a message, some depend on
+settings specified when message producers send a message, and others are
+set on a message-by-message basis by the client using the
+<code>MQSetMessageHeader</code> function. <a href="#gblxx">Table 2-7</a> lists the header
+fields defined (and required) by JMS and their corresponding names, as
+defined by the C-API.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG428"></a><a id="sthref12"></a><a id="gblxx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-7 JMS-defined Message Header</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 32%;">
+<col style="width: 68%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">JMS Message Header Field</th>
+<th class="tableblock halign-left valign-top">C-API Message Header Property Name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Defined implicitly when a producer sends a message to
+a destination, or when a consumer receives a message from a destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_PERSISTENT_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_EXPIRATION_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_PRIORITY_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_DELIVERY_TIME_HEADER PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_MESSAGE_ID_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSTimeStamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_TIMESTAMP_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_REDELIVERED_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_CORRELATION_ID_HEADER_PROPERTY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set by the <code>MQSetMessageReplyTo</code> function, and obtained
+by the <code>MQGetMessageReplyTo</code> function.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_MESSAGE_TYPE_HEADER_PROPERTY</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For additional information about each property type and who sets it, see
+<a href="reference.html#aelgf">MQSetMessageHeaders</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelce"></a><a id="GMCCG00082"></a><a id="message-body-types"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_body_types">Message Body Types</h5>
+<div class="paragraph">
+<p>JMS specifies six classes (or types) of messages. The C-API supports
+only three of these types, as described in <a href="#gblyg">Table 2-8</a>. If a
+Message Queue C client expects to receive messages from a Message Queue
+Java client, it will be unable to process messages whose body types are
+other than those described in the table. It will also be unable to
+process messages that are compressed by the Message Queue Java client
+runtime.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG429"></a><a id="sthref13"></a><a id="gblyg"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-8 C-API Message Body Types</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_Text_Message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains an <code>MQString</code> string,
+for example an XML message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_Bytes_Message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a stream of
+uninterpreted bytes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MQ_Message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message consisting of a header and (optional)
+properties, but no body.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelcf"></a><a id="GMCCG00083"></a><a id="composing-the-message"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composing_the_message">Composing the Message</h5>
+<div class="paragraph">
+<p>Create a message using either the
+<a href="reference.html#aeldx">MQCreateBytesMessage</a> function or the
+<a href="reference.html#aelej">MQCreateTextMessage</a> function. Either of these
+functions returns a message handle that you can then pass to the
+functions you use to set the message body, header, and properties
+(listed in <a href="#aelcc">Composing Messages</a>). You can also use the
+<a href="reference.html#gbjak">MQCreateMessage</a> function to create a message
+that has a header and properties but no message body.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <a href="reference.html#aelgj">MQSetTextMessageText</a> function to
+define the body of a text message; use the
+<a href="reference.html#aelfy">MQSetBytesMessageBytes</a> function to define the
+body of a bytes message.</p>
+</li>
+<li>
+<p>Use the <a href="reference.html#aelgf">MQSetMessageHeaders</a> to set any
+message header properties.<br>
+The message header can specify up to eight properties; most of these are
+set by the client runtime when sending the message or are set by the
+broker. The client can set <code>MQ_CORRELATION_ID_HEADER_PROPERTY</code> and
+<code>MQ_MESSAGE_TYPE_HEADER_PROPERTY</code> for sending a message.</p>
+</li>
+<li>
+<p>Use the <a href="reference.html#aelgg">MQSetMessageProperties</a> function to
+set any user-defined properties for this message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When you set message header properties or when you set additional
+user-defined properties, you must pass a handle to a properties object
+that you have created using the
+<a href="reference.html#aeleg">MQCreateProperties</a> function. For more
+information, see <a href="#aelbd">Working With Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can use the <a href="reference.html#aelgh">MQSetMessageReplyTo</a> function
+to associate a message with a destination that recipients can use for
+replies. To do this, you must first create a destination that will serve
+as your reply-to destination. Then, pass a handle to that destination
+when you call the <a href="reference.html#aelgh">MQSetMessageReplyTo</a>
+function. The receiver of a message can use the
+<a href="reference.html#aelfc">MQGetMessageReplyTo</a> function to determine
+whether a sender has set up a destination where replies are to be sent.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcg"></a><a id="GMCCG00317"></a><a id="sending-a-message"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sending_a_message">Sending a Message</h4>
+<div class="paragraph">
+<p>Messages are sent by a message producer within the context of a
+connection and a session. Once you have obtained a connection, created a
+session, and composed your message, you can use the functions listed in
+<a href="#gblyv">Table 2-9</a>to create a message producer and to send the
+message.</p>
+</div>
+<div class="paragraph">
+<p>Which function you choose to send a message depends on the following
+factors:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Whether you want the send function to override certain message header
+properties<br>
+Send functions whose names end in <code>Ext</code> allow you to override default
+values for priority, time-to-live, and delivery mode header properties.</p>
+</li>
+<li>
+<p>Whether you want to send the message to the destination associated
+with the message producer<br>
+If you created a message producer with no specified destination, you
+must used one of the <code>...ToDestination</code> send functions. If you created a
+message producer with a specified destination, you must use one of the
+other send functions.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG430"></a><a id="sthref14"></a><a id="gblyv"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-9 Functions for Sending Messages</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 46%;">
+<col style="width: 54%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelee">MQCreateMessageProducer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a message producer with no specified destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelef">MQCreateMessageProducerForDestination</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a message producer with a specified destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelft">MQSendMessage</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sends a message for the specified producer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfu">MQSendMessageExt</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sends a message for the specified producer and allows you to set
+priority, time-to-live, and delivery mode.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfv">MQSendMessageToDestination</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sends a message to the specified destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfw">MQSendMessageToDestinationExt</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sends a message to the specified destination and allows you to set
+priority, time-to-live, and delivery mode.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If you send a message using one of the functions that does not allow you
+to override header properties, the following message header fields are
+set to default values by the send function.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_PERSISTENT_HEADER_PROPERTY</code> will be set to
+<code>MQ_PERSISTENT_DELIVERY</code>.</p>
+</li>
+<li>
+<p><code>MQ_PRIORITY_HEADER_PROPERTY</code> will be set to 4.</p>
+</li>
+<li>
+<p><code>MQ_EXPIRATION_HEADER_PROPERTY</code> will be set to 0, which means that the
+message will never expire.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>To override these values, use one of the extended send functions. For a
+complete list of message header properties, see
+<a href="reference.html#aelfa">MQGetMessageHeaders</a> .</p>
+</div>
+<div class="paragraph">
+<p>Message headers also contain fields that can be set by the sending
+client; in addition, you can set user-defined message properties as
+well. For more information, see <a href="#aelcc">Composing Messages</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can set the connection property <code>MQ_ACK_ON_PRODUCE_PROPERTY</code> when
+you create the connection to make sure that the message has reached its
+destination on the broker:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>By default, the broker acknowledges receiving persistent messages
+only.</p>
+</li>
+<li>
+<p>If you set the property to <code>MQ_TRUE</code>, the broker acknowledges receipt
+of all messages (persistent and non-persistent) from the producing
+client.</p>
+</li>
+<li>
+<p>If you set the property to <code>MQ_FALSE</code>, the broker does not acknowledge
+receipt of any message (persistent or non-persistent) from the producing
+client.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Note that "acknowledgement" in this case is not programmatic but
+internally implemented. That is, the client thread is blocked and does
+not return until the broker acknowledges messages it receives.</p>
+</div>
+<div class="paragraph">
+<p>An administrator can set a broker limit, <code>REJECT_NEWEST</code>, which allows
+the broker to avert memory problems by rejecting the newest incoming
+message. If the incoming message is persistent, then an error is
+returned which the sending client should handle, perhaps by retrying the
+send a bit later. If the incoming message is not persistent, the client
+has no way of knowing that the broker rejected it. The broker might also
+reject a message if it exceeds a specified limit.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelch"></a><a id="GMCCG00318"></a><a id="receiving-messages"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_receiving_messages">Receiving Messages</h4>
+<div class="paragraph">
+<p>Messages are received by a message consumer in the context of a
+connection and a session. In order to receive messages, you must
+explicitly start the connection by calling the <code>MQStartConnection</code>
+function.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gblwz">Table 2-10</a> lists the functions you use to create message
+consumers and to receive messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG431"></a><a id="sthref15"></a><a id="gblwz"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-10 Functions Used to Receive Messages</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeled">MQCreateMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates the specified synchronous consumer and passes back a handle to
+it.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelec">MQCreateDurableMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a durable synchronous message consumer for the specified
+destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldw">MQCreateAsyncMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates an asynchronous message consumer for the specified
+destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldv">MQCreateAsyncDurableMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Creates a durable asynchronous message consumer for the specified
+destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgn">MQUnsubscribeDurableMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Unsubscribes the specified durable message consumer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfo">MQReceiveMessageNoWait</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Passes a handle back to a message delivered to the specified consumer
+if a message is available; otherwise it returns an error.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfp">MQReceiveMessageWait</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Passes a handle back to a message delivered to the specified consumer
+if a message is available; otherwise it blocks until a message becomes
+available.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfq">MQReceiveMessageWithTimeout</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Passes a handle back to a message delivered to the specified consumer
+if a message is available within the specified amount of time.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldp">MQAcknowledgeMessages</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledges the specified message and all messages received before it
+on the same session</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeldr">MQCloseMessageConsumer</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Closes the specified consumer.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aelci"></a><a id="GMCCG00084"></a><a id="working-with-consumers"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_working_with_consumers">Working With Consumers</h5>
+<div class="paragraph">
+<p>When you create a consumer, you need to make several decisions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Do you want to receive messages synchronously or asynchronously?<br>
+If you create a synchronous consumer, you can call one of three kinds of
+receive functions to receive your messages. If you create an
+asynchronous consumer, you must specify the name of a callback function
+that the client runtime can call when a message is delivered to the
+destination for that consumer. For information about the callback
+function signature, see <a href="reference.html#aeldm">Callback Type for
+Asynchronous Message Consumption</a> .</p>
+</li>
+<li>
+<p>If you are consuming messages from a topic, do you want to use a
+durable or a nondurable consumer?<br>
+A durable consumer receives all the messages published to a topic,
+including the ones published while the subscriber is inactive. A
+nondurable consumer only receives messages while the subscriber is
+active.<br>
+The broker retains a record of this durable subscription and makes sure
+that all messages from the publishers to this topic are retained until
+they are either acknowledged by this durable subscriber or until they
+have expired. Sessions with durable subscribers must always provide the
+same client identifier. In addition, each consumer must specify a
+durable name using the <code>durableName</code> parameter, which uniquely
+identifies (for each client identifier) each durable subscription it
+creates.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>A session&#8217;s consumers are automatically closed when you close the
+session or connection to which they belong. However, messages will be
+routed to the durable subscriber while it is inactive and delivered when
+a new durable consumer is recreated. To close a consumer without closing
+the session or connection to which it belongs, use the
+<a href="reference.html#aeldr">MQCloseMessageConsumer</a> function. If you want
+to close a durable consumer permanently, you should call the function
+<a href="reference.html#aelgn">MQUnsubscribeDurableMessageConsumer</a> after
+closing it, to delete state information maintained by the broker on
+behalf of the durable consumer.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcj"></a><a id="GMCCG00085"></a><a id="receiving-a-message-synchronously"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_receiving_a_message_synchronously">Receiving a Message Synchronously</h5>
+<div class="paragraph">
+<p>If you have created a synchronous consumer, you can use one of three
+receive functions: <code>MQReceiveMessageNoWait</code>, <code>MQReceiveMessageWait</code> , or
+<code>MQReceiveMessagewithTimeOut</code>. In order to use any of these functions,
+you must have specified <code>MQ_SESSION_SYNC_RECEIVE</code> for the receive mode
+when you created the session.</p>
+</div>
+<div class="paragraph">
+<p>When you create a session you must specify one of several acknowledge
+modes for that session. If you specify <code>MQ_CLIENT_ACKNOWLEDGE</code> as the
+acknowledge mode for the session, you must explicitly call the
+<code>MQAcknowledgeMessages</code> function to acknowledge messages that you have
+received. If the session is transacted, the acknowledge mode parameter
+is ignored.</p>
+</div>
+<div class="paragraph">
+<p>When the receiving function returns, it gives you a handle to the
+delivered message. You can pass that handle to the functions described
+in <a href="#aelcl">Processing a Message</a>, in order to read message
+properties and information stored in the header and body of the message.</p>
+</div>
+<div class="paragraph">
+<p>It is possible that a message can be lost for synchronous consumers in a
+session using <code>AUTO_ACKNOWLEDGE</code> mode if the provider fails. To prevent
+this possibility, you should either use a transacted session or a
+session in <code>CLIENT_ACKNOWLEDGE</code> mode.</p>
+</div>
+<div class="paragraph">
+<p>Because distributed applications involve greater processing time, such
+an application might not behave as expected if it were run locally. For
+example, calling the <code>MQReceiveMessageNoWait</code> function might return
+<code>MQ_NO_MESSAGE</code> even when there is a message available to be retrieved
+on the broker. See the usage notes provided in the section
+<a href="reference.html#aelfo">MQReceiveMessageNoWait</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelck"></a><a id="GMCCG00086"></a><a id="receiving-a-message-asynchronously"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_receiving_a_message_asynchronously">Receiving a Message Asynchronously</h5>
+<div class="paragraph">
+<p>To receive a message asynchronously, you must create an asynchronous
+message consumer and pass the name of an <code>MQMessageListenerFunc</code> type
+callback function. (Therefore, you must set up the callback function
+before you create the asynchronous consumer that will use it.) You
+should start the connection only after creating an asynchronous
+consumer. If the connection is already started, you should stop the
+connection before creating an asynchronous consumer.</p>
+</div>
+<div class="paragraph">
+<p>You are also responsible for writing the message listener function.
+Mainly, the function needs to process the incoming message by examining
+its header, body, and properties, or it needs to pass control to a
+function that can do this processing. The client is also responsible for
+freeing the message handle (either from within the listener or from
+outside of the listener) by calling the <code>MQFreeMessage</code> function.</p>
+</div>
+<div class="paragraph">
+<p>When you create a session you must specify one of several acknowledge
+modes for that session. If you specify <code>MQ_CLIENT_ACKNOWLEDGE</code> as the
+acknowledge mode for the session, you must explicitly call the
+<code>MQAcknowledgeMessages</code> function to acknowledge messages that you have
+received.</p>
+</div>
+<div class="paragraph">
+<p>For more information about the signature and content of a call back
+function, see <a href="reference.html#aeldm">Callback Type for Asynchronous
+Message Consumption</a>.</p>
+</div>
+<div class="paragraph">
+<p>When the callback function is called by the session delivery of a
+message, it gives you a handle to the delivered message. You can pass
+that handle to the functions described in <a href="#aelcl">Processing a
+Message</a>, in order to read message properties and information stored in
+the header and body of the message.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcl"></a><a id="GMCCG00319"></a><a id="processing-a-message"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processing_a_message">Processing a Message</h4>
+<div class="paragraph">
+<p>When a message is delivered to you, you can examine the message&#8217;s
+properties, type, headers, and body. The functions used to process a
+message are described in <a href="#aelcl">Processing a Message</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG432"></a><a id="sthref16"></a><a id="gblxw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-11 Functions Used to Process Messages</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28.9999%;">
+<col style="width: 71.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfa">MQGetMessageHeaders</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets message header properties.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfb">MQGetMessageProperties</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets user-defined message properties.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfd">MQGetMessageType</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the message type: <code>MQ_TEXT_MESSAGE</code> or <code>MQ_BYTES_MESSAGE</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfj">MQGetTextMessageText</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the body of an <code>MQ_TEXT_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeler">MQGetBytesMessageBytes</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the body of an <code>MQ_BYTES_MESSAGE</code> message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfc">MQGetMessageReplyTo</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gets the destination where replies to this message should be sent.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>If you are interested in a message&#8217;s header information, you need to
+call the <code>MQGetMessageHeaders</code> function. If you need to read or check
+any user-defined properties, you need to call the
+<code>MQGetMessageProperties</code> function. Each of these functions passes back a
+properties handle. For information on how you can read property values,
+see <a href="#aelbf">Getting Message Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p>Before you can examine the message body, you can call the
+<code>MQGetMessageType</code> function to determine whether the message is a text
+or bytes message. You can then call the <code>MQGetTextMessageText</code>, or the
+<code>MQGetBytesMessageBytes</code> function to get the contents of the message.</p>
+</div>
+<div class="paragraph">
+<p>Some message senders specify a reply destination for their message. Use
+the <code>MQGetMessageReplyTo</code> function to determine that destination.</p>
+</div>
+<div class="paragraph">
+<p><a id="gheqr"></a><a id="GMCCG00045"></a><a id="working-with-distributed-transactions"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_distributed_transactions">Working With Distributed Transactions</h3>
+<div class="paragraph">
+<p>In accordance with the X/Open distributed transaction model, Message
+Queue C-API support for distributed transactions relies upon a
+distributed transaction manager. The distributed transaction manage
+tracks and manages distributed transactions, coordinating the decision
+to commit them or roll them back, and coordinating failure recovery. The
+Message Queue C-API supports the X/Open XA interface, qualifying it as
+an XA-compliant resource manager. This support allows C-API clients
+running in a distributed transaction processing environment to
+participate in distributed transactions.</p>
+</div>
+<div class="paragraph">
+<p>In particular, two C-API functions support the participation of C-API
+clients in distributed transactions:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MQGetXAConnection()
+MQCreateXASession()</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If a C-client application is to be used in the context of a distributed
+transaction, then it must obtain a connection by using
+<code>MQGetXAConnection()</code> and create a session for producing and consuming
+messages by using <code>MQCreateXASession()</code>. The start, commit, and
+rollback, of any distributed transaction is managed by the distributed
+transaction manager.</p>
+</div>
+<div class="paragraph">
+<p>For more information on XA resource managers, see the
+<a href="http://www.opengroup.org/onlinepubs/009680699/toc.pdf">XA Specification</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gherf"></a><a id="GMCCG00320"></a><a id="message-queue-resource-manager-information"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_message_queue_resource_manager_information">Message Queue Resource Manager Information</h4>
+<div class="paragraph">
+<p>In accordance with the X/Open XA interface specification, a distributed
+transaction manager needs the following information regarding the
+Message Queue XA-compliant resource manager:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Name of the <code>xa_switch_t</code> structure: <code>sun_my_xa_switch</code></p>
+</li>
+<li>
+<p>Name of the Resource Manager: <code>SUN_RM</code></p>
+</li>
+<li>
+<p>The MQ C-API library to be linked: <code>mqcrt</code></p>
+</li>
+<li>
+<p>The <code>xa_close</code> string and format: none</p>
+</li>
+<li>
+<p>The <code>xa_open</code> string and format: semicolon (";")-separated name/value
+pairs</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following name/value pairs are supported:</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG433"></a><a id="sthref17"></a><a id="ghetf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-12 Message Queue Resource Manager Name/Value Pairs</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14%;">
+<col style="width: 16%;">
+<col style="width: 49%;">
+<col style="width: 21%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">address</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">host:port</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The host:port of the broker&#8217;s Portmapper service.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost:7676</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The username for connecting to the broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The username&#8217;s password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>guest</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">conntype</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TCP</code> or <code>SSL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The protocol type of the connection to the
+broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TCP</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">trustedhost</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code>/<code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether the broker host is trusted (only
+applicable for <code>conntype=SSL</code>)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">certdbpath</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The full path to the directory that contains NSS
+certificate and key database files</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">clientid</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">string</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Required only for JMS durable subscriptions</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">not set</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">reconnects</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The number of re-connection attempts to broker (0
+means no reconnect)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gheui"></a><a id="GMCCG00321"></a><a id="programming-examples"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_programming_examples">Programming Examples</h4>
+<div class="paragraph">
+<p>To help you program an application that uses distributed transactions,
+Message Queue provides programming examples based on the Tuxedo
+distributed transaction manager. A description of the sample programs
+and their location is provided in <a href="introduction.html#gherq">Table
+1-3</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelcm"></a><a id="GMCCG00046"></a><a id="error-handling"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_error_handling">Error Handling</h3>
+<div class="paragraph">
+<p>Nearly all Message Queue C functions return an <code>MQStatus</code> result. You
+can use this return value to determine whether the function returned
+successfully and, if not, to determine the cause of the error.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gblxe">Table 2-13</a> lists the functions you use to get error
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG434"></a><a id="sthref18"></a><a id="gblxe"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-13 Functions Used in Handling Errors</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelgl">MQStatusIsError</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns an <code>MQ_TRUE</code> if the specified <code>MQStatus</code> is an error.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfg">MQGetStatusCode</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the error code for the specified <code>MQStatus</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelfh">MQGetStatusString</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns a descriptive string for the specified <code>MQStatus</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelet">MQGetErrorTrace</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Returns the calling thread&#8217;s current error trace or <code>NULL</code> if no error
+trace is available.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gblyu"></a><a id="GMCCG00024"></a><a id="to-handle-errors-in-your-code"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_to_handle_errors_in_your_code">To Handle Errors in Your Code</h4>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Call <code>MQStatusIsError</code>, passing it an <code>MQStatus</code> result for the
+function whose result you want to test.</p>
+</li>
+<li>
+<p>If the <code>MQStatusIsError</code> function returns <code>MQ_TRUE</code> , call
+<code>MQGetStatusCode</code> or <code>MQGetStatusString</code> to identify the error.</p>
+</li>
+<li>
+<p>If the status code and string information is not sufficient to
+identify the cause of the error, you can get additional diagnostic
+information by calling <code>MQGetErrorTrace</code> to obtain the calling thread&#8217;s
+current error trace if this information is available.<br>
+<a href="reference.html#aeldi">Reference</a> lists common errors returned for
+each function. In addition to these errors, the following error codes
+may be returned by any Message Queue C function:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_STATUS_INVALID_HANDLE</code></p>
+</li>
+<li>
+<p><code>MQ_OUT_OF_MEMORY</code></p>
+</li>
+<li>
+<p><code>MQ_NULL_PTR_ARG</code><br>
+In addition, the <code>MQ_TIMEOUT_EXPIRED</code> can return from any Message Queue
+C function that communicates with the Message Queue broker if the
+connection <code>MQ_ACK_TIMEOUT_PROPERTY</code> is set to a non-zero value.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aelcn"></a><a id="GMCCG00047"></a><a id="memory-management"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_memory_management">Memory Management</h3>
+<div class="paragraph">
+<p><a href="#gblyl">Table 2-14</a> lists the functions you use to free or
+deallocate memory allocated by the Message Queue-C client library on
+behalf of the user. Such deallocation is part of normal memory
+management and will prevent memory leaks.</p>
+</div>
+<div class="paragraph">
+<p>The functions <code>MQCloseConnection</code>, <code>MQCloseSession</code> ,
+<code>MQCloseMessageProducer</code>, and <code>MQCloseMessageConsumer</code> are used to free
+resources associated with connections, sessions, producers, and
+consumers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMCCG435"></a><a id="sthref19"></a><a id="gblyl"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-14 Functions Used to Free Memory</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 30%;">
+<col style="width: 70%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelek">MQFreeConnection</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frees memory allocated to the specified connection.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelel">MQFreeDestination</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frees memory allocated to the specified destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelem">MQFreeMessage</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frees memory allocated to the specified message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aelen">MQFreeProperties</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frees memory allocated to the specified properties handle.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><a href="reference.html#aeleo">MQFreeString</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Frees memory allocated to the specified <code>MQString</code>.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>You should free a connection only after you have closed the connection
+with the <a href="reference.html#aeldq">MQCloseConnection</a> function and after
+all of the application threads associated with this connection and its
+dependent sessions, producers, and consumers have returned.</p>
+</div>
+<div class="paragraph">
+<p>You should not free a connection while an application thread is active
+in a library function associated with this connection or one of its
+dependent sessions, producers, consumers, and destinations.</p>
+</div>
+<div class="paragraph">
+<p>Freeing a connection does not release resources held by a message
+associated with this connection. You must free memory allocated for this
+message by explicitly calling the <code>MQFreeMessage</code> function.</p>
+</div>
+<div class="paragraph">
+<p>You should not free a properties handle if the properties handle passed
+to a function becomes invalid on its return. If you do, you will get an
+error.</p>
+</div>
+<div class="paragraph">
+<p><a id="aelco"></a><a id="GMCCG00048"></a><a id="logging"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_logging">Logging</h3>
+<div class="paragraph">
+<p>The Message Queue C-API library uses two environment variables to
+control execution-time logging:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>MQ_LOG_FILE</code> specifies the file to which log messages are directed.
+If you do not specify a file name for this variable, <code>stderr</code> is used.
+If <code>MQ_LOG_FILE</code> is a directory name, it should include a trailing
+directory separator.<br>
+By default, .n (where n is 0, 1, 2,&#8230;&#8203;) is appended to the actual log
+file name. This is used as a rotation index, and the indices are used
+sequentially when the maximum log file size is reached. You can use <code>%g</code>
+to specify a rotation index replacement in <code>MQ_LOG_FILE</code> after the last
+directory separator. Only the last <code>%g</code> is used if multiple <code>%g's</code> are
+specified. the <code>%g</code> replacement can be escaped with <code>%</code>. The maximum
+rotation index is 9, and the maximum log file size is 1 MB. These limits
+are not configurable.</p>
+</li>
+<li>
+<p><code>MQ_LOG_LEVEL</code> specifies a numeric level that indicates the detail of</p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">logging information needed</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>-1</code></dt>
+<dd>
+<p>OFF, which suppresses the generation of log messages</p>
+</dd>
+<dt class="hdlist1"><code>0</code></dt>
+<dd>
+<p>SEVERE level, which indicates a severe failure</p>
+</dd>
+<dt class="hdlist1"><code>1</code></dt>
+<dd>
+<p>WARNING level, which indicates a potential problem</p>
+</dd>
+<dt class="hdlist1"><code>2</code></dt>
+<dd>
+<p>INFO level, for informational messages</p>
+</dd>
+<dt class="hdlist1"><code>3</code></dt>
+<dd>
+<p>CONFIG level, for static configuration messages</p>
+</dd>
+<dt class="hdlist1"><code>4</code></dt>
+<dd>
+<p>FINE level, which provides tracing information</p>
+</dd>
+<dt class="hdlist1"><code>5</code></dt>
+<dd>
+<p>FINER level, which provides detailed tracing information</p>
+</dd>
+<dt class="hdlist1"><code>6</code></dt>
+<dd>
+<p>  FINEST level, which provides highly detailed tracing information<br>
+For any value of <code>MQ_LOG_LEVEL</code>, log messages of that value or lower are
+generated. For example, setting <code>MQ_LOG_LEVEL</code> to <code>2</code> causes INFO,
+WARNING and SEVERE log messages to be generated.<br>
+The default level is <code>3</code>, CONFIG.</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="introduction.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-design-issues.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

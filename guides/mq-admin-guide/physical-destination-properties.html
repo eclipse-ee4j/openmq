@@ -1,0 +1,491 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Physical Destination Property Reference</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Physical Destination Property Reference</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="broker-properties.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="administered-object-attributes.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p>The script content on this page is for navigation purposes only and does
+not alter the content in any way.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00049"></a><a id="aeooc"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="physical-destination-property-reference">18 Physical Destination Property Reference</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter provides reference information about configuration
+properties for physical destinations.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnms"></a><a id="GMADG00297"></a><a id="physical-destination-properties"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_physical_destination_properties">Physical Destination Properties</h3>
+<div class="paragraph">
+<p><a href="#gbnne">Table 18-1</a> lists the configuration properties for physical
+destinations. These properties can be set when creating or updating a
+physical destination. For auto-created destinations, you set default
+values in the broker&#8217;s instance configuration file (see
+<a href="broker-properties.html#gbnof">Table 17-3</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG782"></a><a id="sthref209"></a><a id="gbnne"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 18-1 Physical Destination Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 10%;">
+<col style="width: 15%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumMsgs`<a href="#foot-eachdest"><sup>Foot 1 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of unconsumed messages</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>-1</code> denotes an unlimited number of messages.</p>
+</div>
+<div class="paragraph">
+<p>For the dead message queue, the default value is <code>1000</code>.</p>
+</div>
+<div class="paragraph">
+<p>Note: When flow control is in effect (<code>limitBehavior</code> = <code>FLOW_CONTROL</code>),
+it is possible for the specified message limit to be exceeded because
+the broker cannot react quickly enough to stop the flow of incoming
+messages. In such cases, the value specified for <code>maxNumMsgs</code> serves as
+merely a hint for the broker rather than a strictly enforced limit.
+However, if the number of unconsumed messages would exceed
+<code>imq.system.max_count</code>, the broker generates a
+<code>ResourceAllocationException</code> indicating that the destination is full
+and rejecting new messages.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxBytesPerMsg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum size, in bytes, of any single message</p>
+</div>
+<div class="paragraph">
+<p>Rejection of a persistent message is reported to the producing client
+with an exception; no notification is sent for nonpersistent messages.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The value may be expressed in bytes, kilobytes, or megabytes, using the
+following suffixes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>b</code>: Bytes</p>
+</li>
+<li>
+<p><code>k</code>: Kilobytes (1024 bytes)</p>
+</li>
+<li>
+<p><code>m</code>: Megabytes (1024 × 1024 = 1,048,576 bytes)</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An unsuffixed value is expressed in bytes; a value of <code>-1</code>
+denotes an unlimited message size.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Examples:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>1600</code>: 1600 bytes</p>
+</li>
+<li>
+<p><code>1600b</code>: 1600 bytes</p>
+</li>
+<li>
+<p><code>16k</code>: 16 kilobytes (= 16,384 bytes)</p>
+</li>
+<li>
+<p><code>16m</code>: 16 megabytes (= 16,777,216 bytes)</p>
+</li>
+<li>
+<p><code>-1</code>: No limit</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`maxTotalMsgBytes`<a href="#sthref210"><sup>Footref 1</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum total memory, in bytes, for unconsumed messages</p>
+</div>
+<div class="paragraph">
+<p>The syntax is the same as for <code>maxBytesPerMsg</code> (see above).</p>
+</div>
+<div class="paragraph">
+<p>For the dead message queue, the default value is <code>10m</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>REJECT_NEWEST</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Broker behavior when memory-limit threshold reached:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>FLOW_CONTROL</code>: Slow down producers</p>
+</li>
+<li>
+<p><code>REMOVE_OLDEST</code>: Throw out oldest messages</p>
+</li>
+<li>
+<p><code>REMOVE_LOW_PRIORITY</code>: Throw out lowest-priority messages according to
+age; no notification to producing client</p>
+</li>
+<li>
+<p><code>REJECT_NEWEST</code>: Reject newest messages; notify producing client with
+an exception only if message is persistent</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>When <code>FLOW_CONTROL</code> is specified, it is still possible for the number of
+messages to exceed <code>imq.system.max_count</code>. In this situation, the broker
+generates a <code>ResourceAllocationException</code> indicating that the
+destination is full and rejecting new messages.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If the value is <code>REMOVE_OLDEST</code> or <code>REMOVE_LOW_PRIORITY</code>
+and the <code>useDMQ</code> property is <code>true</code>, excess messages are moved to the
+dead message queue. For the dead message queue itself, the default limit
+behavior is <code>REMOVE_OLDEST</code> and cannot be set to <code>FLOW_CONTROL</code>.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumProducers`<a href="#foot-nodmq1"><sup>Foot 2 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>100</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of message producers for destination</p>
+</div>
+<div class="paragraph">
+<p>When this limit is reached, no new producers can be created. A value of
+<code>-1</code> denotes an unlimited number of producers.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumActiveConsumers`<a href="#foot-queueonly2"><sup>Foot 3 </sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-1</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of active message consumers in load-balanced delivery
+from queue destination</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>-1</code> denotes an unlimited number of consumers.</p>
+</div>
+<div class="paragraph">
+<p>This property used mostly in cases where message order is important and
+you want to provide backup consumers in case the principal consumer of a
+queue fails. If message order is not important, then you would simply
+use multiple consumers to provide for scalability and availability.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`maxNumBackupConsumers`<a href="#sthref211"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>0</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of backup message consumers in load-balanced delivery
+from queue destination</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>-1</code> denotes an unlimited number of consumers.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>1000</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Maximum number of messages delivered to a consumer in a single batch</p>
+</div>
+<div class="paragraph">
+<p>In load-balanced queue delivery, this is the initial number of queued
+messages routed to an active consumer before load balancing begins.</p>
+</div>
+<div class="paragraph">
+<p>The client runtime can override this limit by specifying a lower value
+on the connection factory object.</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> or <code>-1</code> denotes an unlimited number of messages.</p>
+</div>
+<div class="paragraph">
+<p>Not used when the JMS resource adapter, jmsra, is used to consume
+messages in a GlassFish Server cluster.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`isLocalOnly`<a href="#sthref212"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Local delivery only?</p>
+</div>
+<div class="paragraph">
+<p>This property applies only to destinations in broker clusters, and
+cannot be changed once the destination has been created. If <code>true</code>, the
+destination is not replicated on other brokers and is limited to
+delivering messages only to local consumers (those connected to the
+broker on which the destination is created).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`localDeliveryPreferred`<a href="#sthref213"><sup>Footref 2</sup></a>
+<sup>,</sup><a href="#sthref214"><sup>Footref 3</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Local delivery preferred?</p>
+</div>
+<div class="paragraph">
+<p>This property applies only to load-balanced queue delivery in broker
+clusters. If <code>true</code>, messages will be delivered to remote consumers only
+if there are no consumers on the local broker; the destination must not
+be restricted to local-only delivery (<code>isLocalOnly</code> must be <code>false</code>).</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`useDMQ`<a href="#sthref215"><sup>Footref 2</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>true</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Send dead messages to dead message queue?</p>
+</div>
+<div class="paragraph">
+<p>If <code>false</code>, dead messages will simply be discarded.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>validateXMLSchemaEnabled</code></p>
+</div>
+<div class="paragraph">
+<p><a href="#foot-xml"><sup>Foot 4 </sup></a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>XML schema validation is enabled?</p>
+</div>
+<div class="paragraph">
+<p>When XML validation is enabled, the Message Queue client runtime will
+attempt to validate an XML message against the specified XSDs (or
+against the DTD, if no XSD is specified) before sending it to the
+broker. If the specified schema cannot be located or the message cannot
+be validated, the message is not sent, and an exception is thrown.
+Client applications using this feature should use JRE 1.5 or above.</p>
+</div>
+<div class="paragraph">
+<p>If set to <code>false</code> or not set, then XML schema validation is not enabled
+for the destination.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`XMLSchemaURIList`<a href="#sthref216"><sup>Footref 4</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">null</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Space separated list of XML schema document (XSD) URI strings</p>
+</div>
+<div class="paragraph">
+<p>The URIs point to the location of one or more XSDs to use for XML schema
+validation, if enabled.</p>
+</div>
+<div class="paragraph">
+<p>Use double quotes around this value if multiple URIs are specified.</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="paragraph">
+<p>&#8220;<a href="http://foo/flap.xsd" class="bare">http://foo/flap.xsd</a> <a href="http://test.com/test.xsd&#8221" class="bare">http://test.com/test.xsd&#8221</a>;</p>
+</div>
+<div class="paragraph">
+<p>If this property is not set or null and XML validation is enabled, XML
+validation is performed using a DTD specified in the XML document.</p>
+</div>
+<div class="paragraph">
+<p>if an XSD is changed, as a result of changing application requirements,
+all client applications producing XML messages based on the changed XSD
+must reconnect to the broker.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">`reloadXMLSchemaOnFailure`<a href="#sthref217"><sup>Footref 4</sup></a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Boolean</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>false</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Reload XML schema on failure enabled?</p>
+</div>
+<div class="paragraph">
+<p>If set to <code>true</code> and XML validation fails, then the Message Queue client
+runtime will attempt to reload the XSD before attempting again to
+validate a message. The client runtime will throw an exception if the
+validation fails using the reloaded SXD.</p>
+</div>
+<div class="paragraph">
+<p>If set to false or not set, then the schema is not reloaded if
+validation fails.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><sup>Footnote 1 </sup>In a cluster environment, applies to each individual
+instance of a destination rather than collectively to all instances in
+the cluster</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 2 </sup>Does not apply to dead message queue</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 3 </sup>Queue destinations only</p>
+</div>
+<div class="paragraph">
+<p><sup>Footnote 4 </sup>This property should be set when a destination is inactive:
+when it has no consumers or producers and when there are no messages in
+the destination. Otherwise the producer must reconnect.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="broker-properties.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="administered-object-attributes.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

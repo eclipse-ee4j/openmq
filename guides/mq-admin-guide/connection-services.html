@@ -1,0 +1,809 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring and Managing Connection Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring and Managing Connection Services</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="broker-management.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="message-delivery.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00037"></a><a id="gheau"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-and-managing-connection-services">6 Configuring and Managing Connection Services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue offers various connection services using a variety of
+transport protocols for connecting both application and administrative
+clients to a broker. This chapter describes how to configure and manage
+these services and the connections they support:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeocn">Configuring Connection Services</a></p>
+</li>
+<li>
+<p><a href="#aeoed">Managing Connection Services</a></p>
+</li>
+<li>
+<p><a href="#aeoej">Managing Connections</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeocn"></a><a id="GMADG00235"></a><a id="configuring-connection-services"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_configuring_connection_services">Configuring Connection Services</h3>
+<div class="paragraph">
+<p>Broker configuration properties related to connection services are
+listed under <a href="broker-properties.html#aeont">Connection Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="#ghptq">Figure 6-1</a> shows the connection services provided by the
+Message Queue broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00018"></a><a id="ghptq"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 6-1 Message Queue Connection Services</strong></div>
+<p><span class="image"><img src="img/adm_mqservice.png" alt="Elements of a Message Queue service showing the connection services provided by the broker."></span></p>
+</div>
+<div class="paragraph">
+<p>These connection services are distinguished by two characteristics, as
+shown in <a href="#gbnjw">Table 6-1</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The service type specifies whether the service provides JMS message
+delivery (<code>NORMAL</code>) or Message Queue administration services ( <code>ADMIN</code>).</p>
+</li>
+<li>
+<p>The protocol type specifies the underlying transport protocol.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG648"></a><a id="sthref20"></a><a id="gbnjw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 6-1 Message Queue Connection Service Characteristics</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 17%;">
+<col style="width: 64%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Service Name</th>
+<th class="tableblock halign-left valign-top">Service Type</th>
+<th class="tableblock halign-left valign-top">Protocol Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>jms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NORMAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssljms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NORMAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TLS (SSL-based security)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NORMAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpsjms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NORMAL</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HTTPS (SSL-based security)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>admin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TCP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ssladmin</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ADMIN</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">TLS (SSL-based security)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>By setting a broker&#8217;s <code>imq.service.activelist</code> property, you can
+configure it to run any or all of these connection services. The value
+of this property is a list of connection services to be activated when
+the broker is started up; if the property is not specified explicitly,
+the <code>jms</code> and <code>admin</code> services will be activated by default.</p>
+</div>
+<div class="paragraph">
+<p>Each connection service also supports specific authentication and
+authorization features; see
+<a href="security-services.html#aeocu">Introduction to Security Services</a> for
+more information.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>There is also a special <code>cluster</code> connection service, used internally by
+the brokers within a broker cluster to exchange information about the
+cluster&#8217;s configuration and state. This service is not intended for use
+by clients communicating with a broker. See
+<a href="broker-clusters.html#aeohv">Configuring and Managing Broker Clusters</a>
+for more information about broker clusters.</p>
+</div>
+<div class="paragraph">
+<p>Also there are two JMX connectors, <code>jmxrmi</code> and <code>ssljmxrmi</code>, that
+support JMX-based administration. These JMX connectors are very similar
+to the connection services in <a href="#gbnjw">Table 6-1</a>, above, and are
+used by JMX clients to establish a connection to the broker&#8217;s MBean
+server. For more information, see <a href="jmx-support.html#ggvry">JMX
+Connection Infrastructure</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoco"></a><a id="GMADG00526"></a><a id="port-mapper"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_port_mapper">Port Mapper</h4>
+<div class="paragraph">
+<p>Each connection service is available at a particular port, specified by
+host name (or IP address) and port number. You can explicitly specify a
+static port number for a service or have the broker&#8217;s Port Mapper assign
+one dynamically. The Port Mapper itself resides at the broker&#8217;s primary
+port, which is normally located at the standard port number <code>7676</code>. (If
+necessary, you can use the broker configuration property
+<code>imq.portmapper.port</code> to override this with a different port number.) By
+default, each connection service registers itself with the Port Mapper
+when it starts up. When a client creates a connection to the broker, the
+Message Queue client runtime first contacts the Port Mapper, requesting
+a port number for the desired connection service.</p>
+</div>
+<div class="paragraph">
+<p>Alternatively, you can override the Port Mapper and explicitly assign a
+static port number to a connection service, using the
+<code>imq</code>.serviceName.protocolType. <code>port</code> configuration property (where
+serviceName and protocolType identify the specific connection service,
+as shown in <a href="#gbnjw">Table 6-1</a>). (Only the <code>jms</code>, <code>ssljms</code>, <code>admin</code>,
+and <code>ssladmin</code> connection services can be configured this way; the
+<code>httpjms</code> and <code>httpsjms</code> services use different configuration
+properties, described in <a href="http_https-support.html#aeopb">HTTP/HTTPS
+Support</a>). Static ports are generally used only in special situations,
+however, such as in making connections through a firewall (see
+<a href="security-services.html#gcuhq">Connecting Through a Firewall</a>), and
+are not recommended for general use.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In cases where two or more hosts are available (such as when more than
+one network interface card is installed in a computer), you can use
+broker properties to specify which host the connection services should
+bind to. The <code>imq.hostname</code> property designates a single default host
+for all connection services; this can then be overridden, if necessary,
+with <code>imq</code>.serviceName. protocolType.<code>hostname</code> (for the <code>jms</code>,
+<code>ssljms</code>, <code>admin</code>, or <code>ssl`admin service) or `imq.portmapper.hostname</code>
+(for the Port Mapper itself).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When multiple Port Mapper requests are received concurrently, they are
+stored in an operating system backlog while awaiting action. The
+<code>imq.portmapper.backlog</code> property specifies the maximum number of such
+backlogged requests. When this limit is exceeded, any further requests
+will be rejected until the backlog is reduced.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeocp"></a><a id="GMADG00527"></a><a id="thread-pool-management"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_thread_pool_management">Thread Pool Management</h4>
+<div class="paragraph">
+<p>Each connection service is multithreaded, supporting multiple
+connections. The threads needed for these connections are maintained by
+the broker in a separate thread pool for each service. As threads are
+needed by a connection, they are added to the thread pool for the
+service supporting that connection.</p>
+</div>
+<div class="paragraph">
+<p>The threading model you choose specifies whether threads are dedicated
+to a single connection or shared by multiple connections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the dedicated model, each connection to the broker requires two
+threads: one for incoming and one for outgoing messages. This limits the
+number of connections that can be supported, but provides higher
+performance.</p>
+</li>
+<li>
+<p>In the shared model, connections are processed by a shared thread when
+sending or receiving messages. Because each connection does not require
+dedicated threads, this model increases the number of possible
+connections, but at the cost of lower performance because of the
+additional overhead needed for thread management.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The broker&#8217;s <code>imq</code>.serviceName. <code>threadpool_model</code> property specifies
+which of the two models to use for a given connection service. This
+property takes either of two string values: <code>dedicated</code> or <code>shared</code>. If
+you don&#8217;t set the property explicitly, <code>dedicated</code> is assumed by
+default.</p>
+</div>
+<div class="paragraph">
+<p>You can also set the broker properties <code>imq</code>.serviceName. <code>min_threads</code>
+and <code>imq</code>.serviceName. <code>max_threads</code> to specify a minimum and maximum
+number of threads in a service&#8217;s thread pool. When the number of
+available threads exceeds the specified minimum threshold, Message Queue
+will shut down threads as they become free until the minimum is reached
+again, thereby saving on memory resources. Under heavy loads, the number
+of threads might increase until the pool&#8217;s maximum number is reached; at
+this point, new connections are rejected until a thread becomes
+available.</p>
+</div>
+<div class="paragraph">
+<p>The shared threading model uses distributor threads to assign threads to
+active connections. The broker property
+<code>imq.shared.connectionMonitor_limit</code> specifies the maximum number of
+connections that can be monitored by a single distributor thread. The
+smaller the value of this property, the faster threads can be assigned
+to connections. The <code>imq.ping.interval</code> property specifies the time
+interval, in seconds, at which the broker will periodically test
+("ping") a connection to verify that it is still active, allowing
+connection failures to be detected preemptively before an attempted
+message transmission fails.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoed"></a><a id="GMADG00236"></a><a id="managing-connection-services"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_connection_services">Managing Connection Services</h3>
+<div class="paragraph">
+<p>Message Queue brokers support connections from both application clients
+and administrative clients. See <a href="#aeocn">Configuring Connection
+Services</a> for a description of the available connection services. The
+Command utility provides subcommands that you can use for managing both
+connection services as a whole and individual services; to apply a
+subcommand to a particular service, use the <code>-n</code> option to specify one
+of the names listed in the "Service Name" column of <a href="#gbnjw">Table
+6-1</a>. Subcommands are available for the following connection service
+management tasks:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoei">Pausing and Resuming a Connection Service</a></p>
+</li>
+<li>
+<p><a href="#aeoeg">Updating Connection Service Properties</a></p>
+</li>
+<li>
+<p><a href="#aeoee">Viewing Connection Service Information</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoei"></a><a id="GMADG00528"></a><a id="pausing-and-resuming-a-connection-service"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_pausing_and_resuming_a_connection_service">Pausing and Resuming a Connection Service</h4>
+<div class="paragraph">
+<p>Pausing a connection service has the following effects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The broker stops accepting new client connections on the paused
+service. If a Message Queue client attempts to open a new connection, it
+will get an exception.</p>
+</li>
+<li>
+<p>All existing connections on the paused service are kept alive, but the
+broker suspends all message processing on such connections until the
+service is resumed. (For example, if a client attempts to send a
+message, the <code>send</code> method will block until the service is resumed.)</p>
+</li>
+<li>
+<p>The message delivery state of any messages already received by the
+broker is maintained. (For example, transactions are not disrupted and
+message delivery will resume when the service is resumed.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>admin</code> connection service can never be paused; to pause and resume
+any other service, use the subcommands <code>imqcmd</code> <code>pause</code> <code>svc</code> and
+<code>imqcmd</code> <code>resume</code> <code>svc</code>. The syntax of the <code>imqcmd</code> <code>pause</code> <code>svc</code>
+subcommand is as follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause svc   -n serviceName
+                     [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command pauses the <code>httpjms</code> service running
+on the default broker (host <code>localhost</code> at port <code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd pause svc  -n httpjms  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>resume</code> <code>svc</code> subcommand resumes operation of a connection
+service following a pause:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd resume svc   -n serviceName
+                      [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoeg"></a><a id="GMADG00529"></a><a id="updating-connection-service-properties"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_updating_connection_service_properties">Updating Connection Service Properties</h4>
+<div class="paragraph">
+<p>You can use the <code>imqcmd</code> <code>update</code> <code>svc</code> subcommand to change the value
+of one or more of the service properties listed in <a href="#gbnjt">Table
+6-2</a>. See <a href="broker-properties.html#aeont">Connection Properties</a> for a
+description of these properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG649"></a><a id="sthref21"></a><a id="gbnjt"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 6-2 Connection Service Properties Updated by Command Utility</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 17%;">
+<col style="width: 83%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>port</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Port assigned to the service to be updated (does not apply to <code>httpjms</code>
+or <code>httpsjms</code>)</p>
+</div>
+<div class="paragraph">
+<p>A value of <code>0</code> means the port is dynamically allocated by the Port
+Mapper.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>minThreads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum number of threads assigned to the service</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxThreads</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maximum number of threads assigned to the service</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>update</code> <code>svc</code> subcommand has the following syntax:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update svc   -n serviceName
+                      [-b hostName:portNumber]
+ -o property1=value1  [[-o property2=value2]…]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command changes the minimum number of threads
+assigned to the <code>jms</code> connection service on the default broker (host
+<code>localhost</code> at port <code>7676</code>) to 20:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd update svc  -o minThreads=20  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoee"></a><a id="GMADG00530"></a><a id="viewing-connection-service-information"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_connection_service_information">Viewing Connection Service Information</h4>
+<div class="paragraph">
+<p>To list the connection services available on a broker, use the <code>imqcmd</code>
+<code>list</code> <code>svc</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command lists all services on the default
+broker (host <code>localhost</code> at port <code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#genpd">Example 6-1</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00102"></a><a id="genpd"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-1 Connection Services Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">------------------------------------------------
+Service Name    Port Number        Service State
+------------------------------------------------
+admin           41844 (dynamic)    RUNNING
+httpjms         -                  UNKNOWN
+httpsjms        -                  UNKNOWN
+jms             41843 (dynamic)    RUNNING
+ssladmin        dynamic            UNKNOWN
+ssljms          dynamic            UNKNOWN</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>query</code> <code>svc</code> subcommand displays information about a
+single connection service:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query svc   -n serviceName
+[-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays information about the <code>jms</code>
+connection service on the default broker (host <code>localhost</code> at port
+<code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query svc  -n jms  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#genpc">Example 6-2</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00103"></a><a id="genpc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-2 Connection Service Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Service Name                           jms
+Service State                          RUNNING
+Port Number                            60920 (dynamic)
+
+Current Number of Allocated Threads    0
+Current Number of Connections          0
+
+Min Number of Threads                  10
+Max Number of Threads                  1000</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To display metrics information about a connection service, use the
+<code>imqcmd</code> <code>metrics</code> <code>svc</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc   -n serviceName
+                       [-b hostName:portNumber]
+[-m metricType]
+[-int interval]
+[-msp numSamples]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-m</code> option specifies the type of metric information to display:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ttl</code> (default): Messages and packets flowing into and out of the
+broker by way of the specified connection service</p>
+</li>
+<li>
+<p><code>rts</code>: Rate of flow of messages and packets into and out of the broker
+per second by way of the specified connection service</p>
+</li>
+<li>
+<p><code>cxn</code>: Connections, virtual memory heap, and threads</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>-int</code> and <code>-msp</code> options specify, respectively, the interval (in
+seconds) at which to display the metrics and the number of samples to
+display in the output. The default values are 5 seconds and an unlimited
+number of samples.</p>
+</div>
+<div class="paragraph">
+<p>For example, the following command displays cumulative totals for
+messages and packets handled by the default broker (host <code>localhost</code> at
+port <code>7676</code>) by way of the <code>jms</code> connection service:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics svc  -n jms  -m ttl  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#genou">Example 6-3</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00104"></a><a id="genou"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-3 Connection Service Metrics Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">-------------------------------------------------
+  Msgs      Msg Bytes      Pkts      Pkt Bytes
+In   Out    In     Out   In   Out    In     Out
+-------------------------------------------------
+164  100  120704  73600  282  383  135967  102127
+657  100  483552  73600  775  876  498815  149948</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a more detailed description of the use of the Command utility to
+report connection service metrics, see
+<a href="metrics-information.html#aeoou">Connection Service Metrics</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoej"></a><a id="GMADG00237"></a><a id="managing-connections"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_managing_connections">Managing Connections</h3>
+<div class="paragraph">
+<p>The Command utility&#8217;s <code>list</code> <code>cxn</code> and <code>query</code> <code>cxn</code> subcommands display
+information about individual connections. The subcommand <code>imqcmd</code> <code>list</code>
+<code>cxn</code> lists all connections for a specified connection service:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list cxn  [-svn serviceName]
+[-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If no service name is specified, all connections are listed. For
+example, the following command lists all connections on the default
+broker (host <code>localhost</code> at port <code>7676</code>):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list cxn  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#genoj">Example 6-4</a> shows an example of the resulting output.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00105"></a><a id="genoj"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-4 Broker Connections Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Listing all the connections on the broker specified by:
+-----------------------------------
+Host                   Primary Port
+------------------------------------
+localhost              7676
+
+---------------------------------------------------------------------------
+Connection ID         User    Service   Producers  Consumers    Host
+---------------------------------------------------------------------------
+1964412264455443200   guest   jms       0          1            127.0.0.1
+1964412264493829311   admin   admin     1          1            127.0.0.1
+
+Successfully listed connections.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To display detailed information about a single connection, obtain the
+connection identifier from <code>imqcmd</code> <code>list</code> <code>cxn</code> and pass it to the
+<code>imqcmd</code> <code>query</code> <code>cxn</code> subcommand:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query cxn   -n connectionID
+                     [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query cxn  -n 421085509902214374  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>produces output like that shown in <a href="#genoy">Example 6-5</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00106"></a><a id="genoy"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 6-5 Connection Information Listing</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection ID      421085509902214374
+User               guest
+Service            jms
+Producers          0
+Consumers          1
+Host               111.22.333.444
+Port               60953
+Client ID
+Client Platform</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>imqcmd</code> <code>destroy</code> <code>cxn</code> subcommand destroys a connection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy cxn   -n connectionID
+                     [-b hostName:portNumber]</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, the command</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd destroy cxn  -n 421085509902214374  -u admin</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>destroys the connection shown in <a href="#genoy">Example 6-5</a>.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="broker-management.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="message-delivery.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

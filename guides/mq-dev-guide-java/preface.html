@@ -1,0 +1,737 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Preface</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Preface</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="title.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="overview.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00011"></a><a id="gblyo"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="preface">Preface</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This book provides information about concepts and procedures for
+developing Java messaging applications (Java clients) that work with
+Message Queue.</p>
+</div>
+<div class="paragraph">
+<p>This preface consists of the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gblyj">Who Should Use This Book</a></p>
+</li>
+<li>
+<p><a href="#gblxf">Before You Read This Book</a></p>
+</li>
+<li>
+<p><a href="#gblxh">How This Book Is Organized</a></p>
+</li>
+<li>
+<p><a href="#ghode">Documentation Conventions</a></p>
+</li>
+<li>
+<p><a href="#gbqah">Related Documentation</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00079"></a><a id="gblyj"></a></p>
+</div>
+<div class="sect2">
+<h3 id="who-should-use-this-book">Who Should Use This Book</h3>
+<div class="paragraph">
+<p>This guide is meant principally for developers of Java applications that
+use Message Queue.</p>
+</div>
+<div class="paragraph">
+<p>These applications use the Java Message Service (JMS) Application
+Programming Interface (API), and possibly the SOAP with Attachments API
+for Java (SAAJ), to create, send, receive, and read messages. As such,
+these applications are JMS clients and/or SOAP client applications,
+respectively. The JMS and SAAJ specifications are open standards.</p>
+</div>
+<div class="paragraph">
+<p>This book assumes that you are familiar with the JMS APIs and with JMS
+programming guidelines. Its purpose is to help you optimize your JMS
+client applications by making best use of the features and flexibility
+of a Message Queue messaging system.</p>
+</div>
+<div class="paragraph">
+<p>This book assumes no familiarity, however, with SAAJ. This material is
+described in <a href="soap-messages.html#aeqex">Chapter 6, "Working with SOAP
+Messages"</a> and assumes only basic knowledge of XML.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00080"></a><a id="gblxf"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="before-you-read-this-book">Before You Read This Book</h3>
+<div class="paragraph">
+<p>You must read the <a href="../mq-tech-over/toc.html#GMTOV">Open Message Queue Technical Overview</a> to
+become familiar with the Message Queue implementation of the Java
+Message Specification, with the components of the Message Queue service,
+and with the basic process of developing, deploying, and administering a
+Message Queue application.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00081"></a><a id="gblxh"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="how-this-book-is-organized">How This Book Is Organized</h3>
+<div class="paragraph">
+<p>This guide is designed to be read from beginning to end. The following
+table briefly describes the contents of each chapter.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 31%;">
+<col style="width: 69%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Chapter</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="overview.html#aeqaq">Chapter 1, "Overview"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A high-level overview
+of the Message Queue Java interface. It includes a tutorial that
+acquaints you with the Message Queue development environment using a
+simple example JMS client application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="client-design-and-features.html#aeqcq">Chapter 2, "Message Queue
+Clients: Design and Features"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describes architectural and
+configuration issues that depend upon Message Queue&#8217;s implementation of
+the Java Message Specification.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="using-the-simplifed-java-api.html#BGBFAEAG">Chapter 3, "The JMS
+Simplified API"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains how to use the simplified API introduced by
+the Java Message Service (JMS) specification, Version 2.0, in your
+client application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="using-the-java-api.html#aeqax">Chapter 4, "The JMS Classic API"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains how to use the Message Queue Java API in your client
+application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="using-the-metrics-monitoring-api.html#aeqej">Chapter 5, "Using the
+Metrics Monitoring API"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describes message-based monitoring, a
+customized solution to metrics gathering that allows metrics data to be
+accessed programmatically and then to be processed in whatever way suits
+the consuming client.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="soap-messages.html#aeqex">Chapter 6, "Working with SOAP Messages"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Explains how you send and receive SOAP messages with and without
+Message Queue support.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="warning-messages_error-codes.html#aeqgo">Appendix A, "Warning
+Messages and Client Error Codes"</a><br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides reference information for
+warning messages and error codes returned by the Message Queue client
+runtime when it raises a JMS exception.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00082"></a><a id="ghode"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="documentation-conventions">Documentation Conventions</h3>
+<div class="paragraph">
+<p>This section describes the following conventions used in Message Queue
+documentation:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#gbqam">Typographic Conventions</a></p>
+</li>
+<li>
+<p><a href="#gdxny">Symbol Conventions</a></p>
+</li>
+<li>
+<p><a href="#fwbsd">Shell Prompt Conventions</a></p>
+</li>
+<li>
+<p><a href="#gbqig">Directory Variable Conventions</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00179"></a><a id="gbqam"></a></p>
+</div>
+<div class="sect3">
+<h4 id="typographic-conventions">Typographic Conventions</h4>
+<div class="paragraph">
+<p>The following table describes the typographic conventions that are used
+in this book.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 14%;">
+<col style="width: 44%;">
+<col style="width: 42%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Typeface</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AaBbCc123</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The names of commands, files, and directories, and
+onscreen computer output</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Edit your <code>.login</code> file.</p>
+</div>
+<div class="paragraph">
+<p>Use <code>ls</code> <code>a</code> to list all files.</p>
+</div>
+<div class="paragraph">
+<p><code>machine_name% you have mail.</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>AaBbCc123</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">What you type, contrasted with onscreen computer output</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p><code>machine_name%</code> <code>su</code></p>
+</div>
+<div class="paragraph">
+<p><code>Password:</code></p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">aabbcc123</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Placeholder: replace with a real name or value</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The command
+to remove a file is <code>rm</code> filename.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">AaBbCc123</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Book titles, new terms, and terms to be emphasized</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Read Chapter 6 in the User&#8217;s Guide.</p>
+</div>
+<div class="paragraph">
+<p>A cache is a copy that is stored locally.</p>
+</div>
+<div class="paragraph">
+<p>Do not save the file.</p>
+</div>
+<div class="paragraph">
+<p>Note: Some emphasized items appear bold online.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00180"></a><a id="gdxny"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="symbol-conventions">Symbol Conventions</h4>
+<div class="paragraph">
+<p>The following table explains symbols that might be used in this book.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 11%;">
+<col style="width: 27%;">
+<col style="width: 28%;">
+<col style="width: 34%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Symbol</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+<th class="tableblock halign-left valign-top">Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>[ ]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains optional arguments and command options.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ls [-l]</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The
+<code>-l</code> option is not required.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>{ | }</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Contains a set of choices for a required command option.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>-d {y|n}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The <code>-d</code> option requires that you use either the <code>y</code>
+argument or the <code>n</code> argument.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>${ }</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates a variable reference.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>${com.sun.javaRoot}</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">References the value of the <code>com.sun.javaRoot</code> variable.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joins simultaneous multiple keystrokes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Control-A</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Press the
+Control key while you press the A key.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+<br></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Joins consecutive multiple keystrokes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Ctrl+A+N</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Press the
+Control key, release it, and then press the subsequent keys.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&gt;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Indicates menu item selection in a graphical user interface.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">File &gt;
+New &gt; Templates</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">From the File menu, choose New. From the New submenu,
+choose Templates.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00181"></a><a id="fwbsd"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="shell-prompt-conventions">Shell Prompt Conventions</h4>
+<div class="paragraph">
+<p>The following table shows the conventions used in Message Queue
+documentation for the default UNIX system prompt and superuser prompt
+for the C shell, Bourne shell, Korn shell, and for the Windows operating
+system.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 67%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Shell</th>
+<th class="tableblock halign-left valign-top">Prompt</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C shell on UNIX, Linux, or AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">machine-name`%`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">C shell superuser on UNIX, Linux, or AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">machine-name`#`</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bourne shell and Korn shell on UNIX, Linux, or AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>$</code><br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Bourne shell and Korn shell superuser on UNIX, Linux, or AIX</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>#</code><br></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Windows command line</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>C:\&gt;</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00182"></a><a id="gbqig"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="directory-variable-conventions">Directory Variable Conventions</h4>
+<div class="paragraph">
+<p>Message Queue documentation makes use of three directory variables; two
+of which represent environment variables needed by Message Queue. (How
+you set the environment variables varies from platform to platform.)</p>
+</div>
+<div class="paragraph">
+<p>The following table describes the directory variables that might be
+found in this book and how they are used. Some of these variables refer
+to the directory mqInstallHome, which is the directory where Message
+Queue is installed to when using the installer or unzipped to when using
+a zip-based distribution.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In this book, directory variables are shown without platform-specific
+environment variable notation or syntax (such as <code>$IMQ_HOME</code> on UNIX).
+Non-platform-specific path names use UNIX directory separator (<code>/</code>)
+notation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 19%;">
+<col style="width: 81%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Variable</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_HOME</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The Message Queue home directory:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For installations of Message Queue bundled with GlassFish Server,
+<code>IMQ_HOME</code> is as-install-parent`/mq`, where as-install-parent is the
+parent directory of the GlassFish Server base installation directory,
+<code>glassfish3</code> by default.</p>
+</li>
+<li>
+<p>For installations of Open Message Queue, <code>IMQ_HOME</code> is
+mqInstallHome`/mq`.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_VARHOME</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>The directory in which Message Queue temporary or dynamically created
+configuration and data files are stored; <code>IMQ_VARHOME</code> can be explicitly
+set as an environment variable to point to any directory or will default
+as described below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For installations of Message Queue bundled with GlassFish Server,
+<code>IMQ_VARHOME</code> defaults to
+as-install-parent`/glassfish/domains/domain1/imq`.</p>
+</li>
+<li>
+<p>For installations of Open Message Queue, <code>IMQ_HOME</code> defaults to
+mqInstallHome`/var/mq`.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>IMQ_JAVAHOME</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An environment variable that points to the location of
+the Java runtime environment (JRE) required by Message Queue executable
+files. By default, Message Queue looks for and uses the latest JDK, but
+you can optionally set the value of <code>IMQ_JAVAHOME</code> to wherever the
+preferred JRE resides.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00083"></a><a id="gbqah"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="related-documentation">Related Documentation</h3>
+<div class="paragraph">
+<p>The information resources listed in this section provide further
+information about Message Queue in addition to that contained in this
+manual. The section covers the following resources:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ghohr">Message Queue Documentation Set</a></p>
+</li>
+<li>
+<p><a href="#ghogx">Java Message Service (JMS) Specification</a></p>
+</li>
+<li>
+<p><a href="#ghogf">JavaDoc</a></p>
+</li>
+<li>
+<p><a href="#ghodr">Example Client Applications</a></p>
+</li>
+<li>
+<p><a href="#ghodm">Online Help</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00183"></a><a id="ghohr"></a></p>
+</div>
+<div class="sect3">
+<h4 id="message-queue-documentation-set">Message Queue Documentation Set</h4>
+<div class="paragraph">
+<p>The documents that constitute the Message Queue documentation set are
+listed in the following table in the order in which you might normally
+use them. These documents are available through the Oracle GlassFish
+Server documentation web site at
+<code>http://www.oracle.com/technetwork/indexes/documentation/index.html</code>.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 22%;">
+<col style="width: 55%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Document</th>
+<th class="tableblock halign-left valign-top">Audience</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-tech-over/toc.html#GMTOV">Technical Overview</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers and administrators</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Describes Message Queue concepts, features, and components.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-release-notes/toc.html#GMRLN">Release Notes</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers and administrators</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Includes
+descriptions of new features, limitations, and known bugs, as well as
+technical notes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-admin-guide/toc.html#GMADG">Administration Guide</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administrators, also recommended for
+developers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides background and information needed to perform
+administration tasks using Message Queue administration tools.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-dev-guide-java/toc.html#GMJVG">Developer&#8217;s Guide for Java Clients</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides a
+quick-start tutorial and programming information for developers of Java
+client programs using the Message Queue implementation of the JMS or
+SOAP/JAXM APIs.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-dev-guide-c/toc.html#GMCCG">Developer&#8217;s Guide for C Clients</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Developers</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides
+programming and reference documentation for developers of C client
+programs using the Message Queue C implementation of the JMS API
+(C-API).</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><a href="../mq-dev-guide-jmx/toc.html#GMJMG">Developer&#8217;s Guide for JMX Clients</a></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Administrators</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Provides programming and reference documentation for developers of JMX
+client programs using the Message Queue JMX API.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG00184"></a><a id="ghogx"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="java-message-service-jms-specification">Java Message Service (JMS) Specification</h4>
+<div class="paragraph">
+<p>The Message Queue message service conforms to the Java Message Service
+(JMS) application programming interface, described in the Java Message
+Service Specification. This document can be found at the URL
+<code>http://www.oracle.com/technetwork/java/jms/index.html</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00185"></a><a id="ghogf"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="javadoc">JavaDoc</h4>
+<div class="paragraph">
+<p>JMS and Message Queue API documentation in JavaDoc format is included in
+Message Queue installations at <code>IMQ_HOME/javadoc/index.html</code>. This
+documentation can be viewed in any HTML browser. It includes standard
+JMS API documentation as well as Message Queue-specific APIs.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00186"></a><a id="ghodr"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="example-client-applications">Example Client Applications</h4>
+<div class="paragraph">
+<p>Message Queue provides a number of example client applications to assist
+developers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00123"></a><a id="ghodq"></a></p>
+</div>
+<div class="sect4">
+<h5 id="example-java-client-applications">Example Java Client Applications</h5>
+<div class="paragraph">
+<p>Example Java client applications are included in Message Queue
+installations at <code>IMQ_HOME/examples</code>. See the <code>README</code> files located in
+this directory and its subdirectories for descriptive information about
+the example applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00124"></a><a id="ghofu"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="example-c-client-programs">Example C Client Programs</h5>
+<div class="paragraph">
+<p>Example C client applications are included in Message Queue
+installations at <code>IMQ_HOME/examples/C</code>. See the <code>README</code> files located
+in this directory and its subdirectories for descriptive information
+about the example applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00125"></a><a id="ghofn"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="example-jmx-client-programs">Example JMX Client Programs</h5>
+<div class="paragraph">
+<p>Example Java Management Extensions (JMX) client applications are
+included in Message Queue installations at <code>IMQ_HOME/examples/jmx</code>. See
+the <code>README</code> files located in this directory and its subdirectories for
+descriptive information about the example applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00187"></a><a id="ghodm"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="online-help">Online Help</h4>
+<div class="paragraph">
+<p>Online help is available for the Message Queue command line utilities;
+for details, see "<a href="../mq-admin-guide/command-line-reference.html#GMADG00047">Command Line Reference</a>" in Open
+Message Queue Administration Guide. The Message Queue graphical user
+interface (GUI) administration tool, the Administration Console, also
+includes a context-sensitive help facility; for details, see
+"<a href="../mq-admin-guide/quick-start.html#GMADG00220">Administration Console Online Help</a>" in Open Message
+Queue Administration Guide.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="title.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="overview.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

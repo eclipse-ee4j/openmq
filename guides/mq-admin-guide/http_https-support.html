@@ -1,0 +1,1360 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>HTTP/HTTPS Support</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>HTTP/HTTPS Support</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="interface-stability.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="jmx-support.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00056"></a><a id="aeopb"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="c-httphttps-support">C HTTP/HTTPS Support</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Message Queue includes support for Java clients to communicate with a
+message broker by means of the HTTP or secure HTTP (HTTPS) transport
+protocols, rather than through a direct TCP connection. (HTTP/ HTTPS
+support is not available for C clients.) Because HTTP/ HTTPS connections
+are normally allowed through firewalls, this allows client applications
+to be separated from the broker by a firewall.</p>
+</div>
+<div class="paragraph">
+<p>This appendix describes the architecture used to enable HTTP/ HTTPS
+support and explains the setup work needed to allow Message Queue
+clients to use such connections. It has the following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeopc">HTTP/HTTPS Support Architecture</a></p>
+</li>
+<li>
+<p><a href="#aeopp">Enabling HTTP/HTTPS Support</a></p>
+</li>
+<li>
+<p><a href="#aeoqg">Troubleshooting</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeopc"></a><a id="GMADG00321"></a><a id="httphttps-support-architecture"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_http_https_support_architecture">HTTP/HTTPS Support Architecture</h3>
+<div class="paragraph">
+<p>Message Queue&#8217;s support architecture is very similar for both HTTP and
+HTTPS support, as shown in <a href="#gcsbp">Figure C-1</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On the client side, an HTTP or HTTPS transport driver (part of the
+Message Queue client runtime) encapsulates each message into an HTTP
+request and makes sure that these requests are transmitted in the
+correct sequence.</p>
+</li>
+<li>
+<p>If necessary, the client can use an HTTP proxy server to communicate
+with the broker. The proxy&#8217;s address is specified using command line
+options when starting the client; see<a href="#aeoqf">Using an HTTP Proxy</a>
+for more information.</p>
+</li>
+<li>
+<p>An HTTP or HTTPS tunnel servlet (both bundled with Message Queue) is
+loaded into an application server or Web server on the broker side and
+used to pull payload messages from client HTTP requests before
+forwarding them to the broker. The tunnel servlet also sends broker
+messages back to the client in response to the client&#8217;s HTTP requests. A
+single tunnel servlet can be used to access multiple brokers.</p>
+</li>
+<li>
+<p>On the broker side, the <code>httpjms</code> or <code>httpsjms</code> connection service
+unwraps and demultiplexes incoming messages from the corresponding
+tunnel servlet.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00027"></a><a id="gcsbp"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure C-1 HTTP/HTTPS Support Architecture</strong></div>
+<p><span class="image"><img src="img/adm_http.png" alt="Diagram showing how an HTTP proxy and HTTP tunnel servlet enable messages to go through firewalls. Figure explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>The main difference between HTTP and HTTPS connections is that in the
+HTTPS case (<code>httpsjms</code> connection service), the tunnel servlet has a
+secure connection to both the client application and the broker. The
+secure connection to the broker is established by means of the Secure
+Socket Layer (SSL) protocol. Message Queue&#8217;s SSL-enabled HTTPS tunnel
+servlet passes a self-signed certificate to any broker requesting a
+connection. The broker uses the certificate to establish an encrypted
+connection to the tunnel servlet. Once this connection is established, a
+secure connection between the client application and the tunnel servlet
+can be negotiated by the client application and the application server
+or Web server.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeopp"></a><a id="GMADG00322"></a><a id="enabling-httphttps-support"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_enabling_http_https_support">Enabling HTTP/HTTPS Support</h3>
+<div class="paragraph">
+<p>The procedures for enabling HTTP and HTTPS support are essentially the
+same for both protocols, although a few extra steps are required in the
+HTTPS case to generate and access the needed encryption keys and
+certificates. The steps are as follows. (For HTTPS, start with step 1;
+for non-secure HTTP, start with step 4.)</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>(HTTPS only) Generate a self-signed certificate for the HTTPS tunnel
+servlet.</p>
+</li>
+<li>
+<p>(HTTPS only) Modify the deployment descriptor in the tunnel
+servlet&#8217;s <code>.war</code> file to specify the location and password of the
+certificate key store.</p>
+</li>
+<li>
+<p>(HTTPS only) Validate the Web or application server&#8217;s self-signed
+certificate and install it in the client application&#8217;s trust store.</p>
+</li>
+<li>
+<p>(HTTP and HTTPS) Deploy the HTTP or HTTPS tunnel servlet.</p>
+</li>
+<li>
+<p>(HTTP and HTTPS) Configure the broker&#8217;s <code>httpjms</code> or <code>httpsjms</code>
+connection service and start the broker.</p>
+</li>
+<li>
+<p>(HTTP and HTTPS) Configure an HTTP or HTTPS connection.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The following subsections describe each of these steps in greater
+detail, using GlassFish Server as an example for purposes of
+illustration. If you are using a different application server or Web
+server (such as Oracle iPlanet Web Server), the procedures will be
+substantially similar but may differ in detail; see your server
+product&#8217;s own documentation for specifics.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeopq"></a><a id="GMADG00630"></a><a id="step-1-https-only-generating-a-self-signed-certificate-for-the-tunnel-servlet"></a></p>
+</div>
+<div class="paragraph">
+<p>Step 1 (HTTPS Only): Generating a Self-Signed Certificate for the Tunnel
+Servlet
+<sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>^^</p>
+</div>
+<div class="paragraph">
+<p>Message Queue&#8217;s SSL support is oriented toward securing on-the-wire
+data, on the assumption that the client is communicating with a known
+and trusted server. Therefore, SSL is implemented using only self-signed
+server certificates. Before establishing an HTTPS connection, you must
+obtain such a certificate. (This step is not needed for ordinary,
+non-secure HTTP connections.)</p>
+</div>
+<div class="paragraph">
+<p>Run the Message Queue Key Tool utility (<code>imqkeytool</code>) to generate a
+self-signed certificate for the tunnel servlet. (On UNIX systems, you
+may need to run the utility as the root user in order to have permission
+to create the key store.) Enter the following at the command prompt:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqkeytool  -servlet keyStoreLocation</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where keyStoreLocation is the location of Message Queue&#8217;s key store
+file.</p>
+</div>
+<div class="paragraph">
+<p>The Key Tool utility prompts you for a key store password:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enter keystore password:</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>After you have entered a valid password, the utility prompts you for
+identifying information from which to construct an X.500 distinguished
+name. <a href="#gexlf">Table C-1</a> shows the prompts and the values to be
+provided for each prompt. Values are case-insensitive and can include
+spaces.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG817"></a><a id="sthref285"></a><a id="gexlf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table C-1 Distinguished Name Information Required for a Self-Signed
+Certificate</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 28.9999%;">
+<col style="width: 23%;">
+<col style="width: 28%;">
+<col style="width: 20.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Prompt</th>
+<th class="tableblock halign-left valign-top">X.500 Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is your first and last name?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">commonName (CN)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Fully qualified
+name of server running the broker</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>mqserver.sun.com</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your organizational unit?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">organizationalUnit
+(OU)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of department or division</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>purchasing</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your organization?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">organizationName (ON)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name
+of larger organization, such as a company or government entity</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Acme Widgets, Inc.</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your city or locality?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">localityName (L)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of
+city or locality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>San Francisco</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the name of your state or province?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">stateName (ST)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Full
+(unabbreviated) name of state or province</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>California</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>What is the two-letter country code for this unit?</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">country &#169;</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Standard two-letter country code</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>US</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>When you have entered the information, the Key Tool utility displays it
+for confirmation: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">   Is CN=mqserver.sun.com, OU=purchasing, ON=Acme Widgets, Inc.,
+   L=San Francisco, ST=California, C=US correct?</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To accept the current values and proceed, enter <code>yes</code>; to reenter
+values, accept the default or enter <code>no</code>. After you confirm, the utility
+pauses while it generates a key pair.</p>
+</div>
+<div class="paragraph">
+<p>Next, the utility asks for a password to lock the key pair (key
+password). Press Return in response to this prompt to use the same
+password for both the key password and the key store password.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Be sure to remember the password you specify. You must provide this
+password later to the tunnel servlet so it can open the key store.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The Key Tool utility generates a self-signed certificate and places it
+in Message Queue&#8217;s key store file at the location you specified for the
+keyStoreLocation argument.</p>
+</div>
+<div class="admonitionblock caution">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Caution</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The HTTPS tunnel servlet must be able to see the key store. Be sure to
+move or copy the generated key store from the location specified by
+keyStoreLocation to one accessible to the tunnel servlet (see
+<a href="#aeops">Step 4 (HTTP and HTTPS): Deploying the Tunnel Servlet</a>).</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeopr"></a><a id="GMADG00631"></a><a id="step-2-https-only-specifying-the-key-store-location-and-password"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_step_2_https_only_specifying_the_key_store_location_and_password">Step 2 (HTTPS Only): Specifying the Key Store Location and Password</h4>
+<div class="paragraph">
+<p>The tunnel servlet&#8217;s Web archive (<code>.war</code>) file includes a deployment
+descriptor, an XML file containing the basic configuration information
+needed by the application server or Web server to load and run the
+servlet. Before deploying the <code>.war</code> file for the HTTPS tunnel servlet,
+you must edit the deployment descriptor to specify the location and
+password of the certificate key store. (This step is not needed for
+ordinary, non-secure HTTP connections.)</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnqf"></a><a id="GMADG00202"></a><a id="to-specify-the-location-and-password-of-the-certificate-key-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_specify_the_location_and_password_of_the_certificate_key_store">To Specify the Location and Password of the Certificate Key Store</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Copy the <code>.war</code> file to a temporary directory:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cp IMQ_HOME/lib/imqhttps.war /tmp</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make the temporary directory your current directory.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd  /tmp</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Extract the contents of the <code>.war</code> file.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>jar xvf  imqhttps.war</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>List the <code>.war</code> file&#8217;s deployment descriptor.<br>
+Enter the command<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>ls  -l WEB-INF/web.xml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>to confirm that the deployment descriptor file (<code>WEB-INF/web.xml</code>) was
+successfully extracted.
+5.  Edit the deployment descriptor to specify the key store location and
+password.<br>
+Edit the <code>web.xml</code> file to provide appropriate values for the
+<code>keystoreLocation</code> and <code>keystorePassword</code> elements (as well as
+<code>servletPort</code> and <code>servletHost</code>, if necessary): for example,<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">&lt;init-param&gt;
+&lt;param-name&gt;keystoreLocation&lt;/param-name&gt;
+&lt;param-value&gt;/local/tmp/imqhttps/keystore&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;init-param&gt;
+&lt;param-name&gt;keystorePassword&lt;/param-name&gt;
+&lt;param-value&gt;shazam&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;init-param&gt;
+&lt;param-name&gt;servletHost&lt;/param-name&gt;
+&lt;param-value&gt;localhost&lt;/param-value&gt;
+&lt;/init-param&gt;
+&lt;init-param&gt;
+&lt;param-name&gt;servletPort&lt;/param-name&gt;
+&lt;param-value&gt;7674&lt;/param-value&gt;
+&lt;/init-param&gt;</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are concerned about exposure of the key store password, you can
+use file-system permissions to restrict access to the <code>imqhttps.war</code>
+file.)</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Reassemble the contents of the <code>.war</code> file.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>jar uvf  imqhttps.war  WEB-INF/web.xml</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gfjuq"></a><a id="GMADG00632"></a><a id="step-3-https-only-validating-and-installing-the-servers-self-signed-certificate"></a></p>
+</div>
+<div class="paragraph">
+<p>Step 3 (HTTPS Only): Validating and Installing the Server&#8217;s Self-Signed
+Certificate
+<sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup><sup>^</sup>^^</p>
+</div>
+<div class="paragraph">
+<p>In order for a client application to communicate with the Web or
+application server, you must validate the server&#8217;s self-signed
+certificate and install it in the application&#8217;s trust store. The
+following procedure shows how:</p>
+</div>
+<div class="paragraph">
+<p><a id="gfjwc"></a><a id="GMADG00203"></a><a id="to-validate-and-install-the-servers-self-signed-certificate"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_validate_and_install_the_server_s_self_signed_certificate">To Validate and Install the Server&#8217;s Self-Signed Certificate</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Validate the server&#8217;s certificate.<br>
+By default, the GlassFish Server generates a self-signed certificate and
+stores it in a key store file at the location<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appServerRoot/glassfish/domains/domain1/config/keystore.jks</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where appServerRoot is the root directory in which the application
+server is installed.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If necessary, you can use the JDK Key Tool utility to generate a key
+store of your own and use it in place of the default key store. For more
+information, see the details about establishing a secure connection
+using SSL in
+"http://docs.oracle.com/javaee/7/tutorial/doc/security-intro.html[Introduction
+to Security in the Java EE Platform]" in The Java EE 7 Tutorial.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Make the directory containing the key store file your current
+directory.<br>
+For example, to use the Application Server&#8217;s default key store file (as
+shown above), navigate to its directory with the command<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd appServerRoot/glassfish/domains/domain1/config</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where appServerRoot is, again, the root directory in which the
+application server is installed.
+2.  List the contents of the key store file.<br>
+The Key Tool utility&#8217;s <code>-list</code> option lists the contents of a specified
+key store file. For example, the following command lists the Application
+Server&#8217;s default key store file (<code>keystore.jks</code>):<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool  -list  -keystore keystore.jks  -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>-v</code> option tells the Key Tool utility to display certificate
+fingerprints in human-readable form.
+3.  Enter the key store password.<br>
+The Key Tool utility prompts you for the key store file&#8217;s password:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enter keystore password:</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>By default, the key store password is set to <code>changeit</code>; you can use the
+Key Tool utility&#8217;s <code>-storepasswd</code> option to change it to something more
+secure. After you have entered a valid password, the Key Tool utility
+will respond with output like the following:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+Alias name: slas
+Creation date: Nov 13, 2007
+Entry type: PrivateKeyEntry
+Certificate chain length: 1
+Certificate[1]:
+Owner: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
+L=Santa Clara, ST=California, C=US
+Issuer: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
+L=Santa Clara, ST=California, C=US
+Serial number: 45f74784
+Valid from: Tue Nov 13 13:18:39 PST 2007 until: Fri Nov 10 13:18:39 PST 2017
+Certificate fingerprints:
+         MD5:  67:04:CC:39:83:37:2F:D4:11:1E:81:20:05:98:0E:D9
+         SHA1: A5:DE:D8:03:96:69:C5:55:DD:E1:C4:13:C1:3D:1D:D0:4C:81:7E:CB
+         Signature algorithm name: MD5withRSA
+         Version: 1</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the certificate&#8217;s fingerprints.<br>
+Obtain the correct fingerprints for the Application Server&#8217;s self-signed
+certificate by independent means (such as by telephone) and compare them
+with the fingerprints displayed by the <code>keytool</code> <code>list</code> command. Do not
+accept the certificate and install it in your application&#8217;s trust store
+unless the fingerprints match.</p>
+</li>
+<li>
+<p>Export the Application Server&#8217;s certificate to a certificate file.<br>
+Use the Key Tool utility&#8217;s <code>-export</code> option to export the certificate
+from the Application Server&#8217;s key store to a separate certificate file,
+from which you can then import it into your application&#8217;s trust store.
+For example, the following command exports the certificate shown above,
+whose alias is <code>slas</code>, from the Application Server&#8217;s default key store
+(<code>keystore.jks</code>) to a certificate file named <code>slas.cer</code>:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -export  -keystore keystore.jks  -storepass changeit
+-alias slas  -file slas.cer</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The Key Tool utility responds with the output<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Certificate stored in file &lt;slas.cer&gt;</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Verify the contents of the certificate file.<br>
+If you wish, you can double-check the contents of the certificate file
+to make sure it contains the correct certificate:</p>
+</li>
+<li>
+<p>List the contents of the certificate file.<br>
+The Key Tool utility&#8217;s <code>-printcert</code> option lists the contents of a
+specified certificate file. For example, the following command lists the
+certificate file <code>slas.cer</code> that was created in the preceding step:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -printcert  -file slas.cer  -v</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once again, the <code>-v</code> option tells the Key Tool utility to display the
+certificate&#8217;s fingerprints in human-readable form. The resulting output
+looks like the following:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Owner: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
+L=Santa Clara, ST=California, C=US
+Issuer: CN=helios, OU=Sun Java System Application Server, O=Sun Microsystems,
+L=Santa Clara, ST=California, C=US
+Serial number: 45f74784
+Valid from: Tue Nov 13 13:18:39 PST 2007 until: Fri Nov 10 13:18:39 PST 2017
+Certificate fingerprints:
+         MD5:  67:04:CC:39:83:37:2F:D4:11:1E:81:20:05:98:0E:D9
+         SHA1: A5:DE:D8:03:96:69:C5:55:DD:E1:C4:13:C1:3D:1D:D0:4C:81:7E:CB
+         Signature algorithm name: MD5withRSA
+         Version: 1</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Confirm the certificate&#8217;s contents.<br>
+Examine the output from the <code>keytool</code> <code>printcert</code> command to make sure
+that the certificate is correct.</p>
+</li>
+<li>
+<p>Import the certificate into your application&#8217;s trust store.<br>
+The Key Tool utility&#8217;s <code>-import</code> option installs a certificate from a
+certificate file in a specified trust store. For example, if your client
+application&#8217;s trust store is kept in the file
+<code>/local/tmp/imqhttps/appKeyStore</code>, the following command will install
+the certificate from the file <code>slas.cer</code> created above:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>keytool  -import  -file slas.cer  -keystore "/local/tmp/imqhttps/appKeyStore"</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeops"></a><a id="GMADG00633"></a><a id="step-4-http-and-https-deploying-the-tunnel-servlet"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_4_http_and_https_deploying_the_tunnel_servlet">Step 4 (HTTP and HTTPS): Deploying the Tunnel Servlet</h4>
+<div class="paragraph">
+<p>You can deploy the HTTP or HTTPS tunnel servlet on GlassFish Server
+either from the command line or by using the application server&#8217;s
+Web-based administration GUI. In either case, you must then modify the
+Application Server&#8217;s security policy file to grant permissions for the
+tunnel servlet.</p>
+</div>
+<div class="paragraph">
+<p>To deploy the tunnel servlet from the command line, use the <code>deploy</code>
+subcommand of the application server administration utility (<code>asadmin</code>):
+for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">asadmin deploy  --user admin  --passwordfile pfile.txt  --force=true
+/local/tmp/imqhttps/imqhttps.war</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The procedure below shows how to use the Web-based GUI to deploy the
+servlet.</p>
+</div>
+<div class="paragraph">
+<p>After deploying the tunnel servlet (whether from the command line or
+with the Web-based GUI), proceed to <a href="#gfjqh">Modifying the
+Application Server&#8217;s Security Policy File</a> for instructions on how to
+grant it the appropriate permissions.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnqb"></a><a id="GMADG00204"></a><a id="to-deploy-the-http-or-https-tunnel-servlet"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_deploy_the_http_or_https_tunnel_servlet">To Deploy the HTTP or HTTPS Tunnel Servlet</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Deploy the tunnel servlet:</p>
+</li>
+<li>
+<p>In the Web-based administration GUI, choose<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>App Server&gt;Instances&gt;appServerInstance&gt;Applications&gt;Web Applications</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where appServerInstance is the application server instance on which you
+are deploying the tunnel servlet.
+2.  Click the Deploy button.
+2.  Specify the <code>.war</code> file location:
+1.  Enter the location of the tunnel servlet&#8217;s Web archive file
+(<code>imqhttp.war</code> or <code>imqhttps.war</code>) in the File Path text field.<br>
+The file is located in the <code>IMQ_HOME/lib</code> directory.
+2.  Click the OK button.
+3.  Specify the context root directory:
+1.  Enter the `/`contextRoot portion of the tunnel servlet&#8217;s URL.<br>
+The URL has the form<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For example, if the URL for the tunnel servlet is<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/imq/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>the value you enter would be<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">/imq</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Click the OK button.<br>
+A confirmation screen appears, showing that the tunnel servlet has been
+successfully deployed and is enabled by default. The servlet is now
+available at the URL<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>http://hostName:portNumber/contextRoot/tunnel</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where contextRoot is the context root directory you specified in step a
+above. Clients can now use this URL to connect to the message service
+using an HTTP or HTTPS connection.
+4.  Modify the server&#8217;s security policy file<br>
+Once you have deployed the HTTP or HTTPS tunnel servlet, you must grant
+it the appropriate permissions by modifying the Application Server&#8217;s
+security policy file, as described in the next procedure.</p>
+</div>
+<div class="paragraph">
+<p><a id="gfjqh"></a><a id="GMADG00205"></a><a id="modifying-the-application-servers-security-policy-file"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_modifying_the_application_server_s_security_policy_file">Modifying the Application Server&#8217;s Security Policy File</h5>
+<div class="paragraph">
+<p>Each application server instance has a security policy file specifying
+its security policies or rules. Unless modified, the default security
+policies would prevent the HTTP or HTTPS tunnel servlet from accepting
+connections from the Message Queue message broker. In order for the
+broker to connect to the tunnel servlet, you must add an additional
+entry to this policy file:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the security policy file.<br>
+The file is named <code>server.policy</code> and resides at a location that varies
+depending on your operating system platform. On the Solaris platform,
+for example, the policy file for server <code>jeeves</code> would be located at<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>appServerRoot/glassfish/domains/domain1/jeeves/config/server.policy</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where appServerRoot is the root directory in which GlassFish Server is
+installed.
+2.  Add the following entry to the file:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">grant codeBase
+"file:appServerRoot/glassfish/domains/domain1/jeeves
+/applications/j2ee-modules/imqhttps/-
+{
+permission java.net.SocketPermission "*","connect,accept,resolve";
+};</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Save and close the security policy file.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="aeopz"></a><a id="GMADG00634"></a><a id="step-5-http-and-https-configuring-the-connection-service"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_5_http_and_https_configuring_the_connection_service">Step 5 (HTTP and HTTPS): Configuring the Connection Service</h4>
+<div class="paragraph">
+<p>HTTP/HTTPS support is not activated for a broker by default, so before
+connecting using these protocols, you need to reconfigure the broker to
+activate the <code>httpjms</code> or <code>httpsjms</code> connection service.
+<a href="#geydd">Table C-2</a> shows broker configuration properties pertaining
+specifically to these two connection services. Once reconfigured, the
+broker can be started normally, as described under
+<a href="starting-brokers-and-clients.html#aeoby">Starting Brokers</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG818"></a><a id="sthref286"></a><a id="geydd"></a></p>
+</div>
+<div class="paragraph">
+<p>Table C-2 Broker Configuration Properties for the <code>httpjms</code> and
+<code>httpsjms</code> Connection Services</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 23%;">
+<col style="width: 42%;">
+<col style="width: 9%;">
+<col style="width: 26%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Default Value</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.httpjms.http.servletHost``imq.httpsjms.https.servletHost</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">String</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localhost</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Host name or IP address of (local or remote) host running
+tunnel servlet</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.httpjms.http.servletPort``imq.httpsjms.https.servletPort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>httpjms</code>: 7675`httpsjms`: 7674</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Port number of tunnel servlet</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.httpjms.http.pullPeriod``imq.httpsjms.https.pullPeriod</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">-1</p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Interval, in seconds, between client HTTP/ HTTPS requests</p>
+</div>
+<div class="paragraph">
+<p>If zero or negative, the client will keep one request pending at all
+times.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.httpjms.http.connectionTimeout``imq.httpsjms.https.connectionTimeout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Integer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">60</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Tunnel servlet timeout interval</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="gbnqd"></a><a id="GMADG00206"></a><a id="to-activate-the-httpjms-or-httpsjms-connection-service"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_activate_the_code_httpjms_code_or_code_httpsjms_code_connection_service">To Activate the <code>httpjms</code> or <code>httpsjms</code> Connection Service</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Open the broker&#8217;s instance configuration file.<br>
+The instance configuration file is named <code>config.properties</code> and is
+located in <code>IMQ_VARHOME/instances/`instanceName</code>/props`.</p>
+</li>
+<li>
+<p>Add <code>httpjms</code> or <code>httpsjms</code> to the list of active connection
+services.<br>
+Add the value <code>httpjms</code> or <code>httpsjms</code> to the <code>imq.service.activelist</code>
+property: for example,<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.service.activelist=jms,admin,httpjms</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.service.activelist=jms,admin,httpsjms</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set any other HTTP/HTTPS-related configuration properties as needed.<br>
+At startup, the broker looks for an application server or Web server and
+an HTTP or HTTPS tunnel servlet running on its local host machine. If
+necessary, you can reconfigure the broker to access a remote tunnel
+servlet instead, by setting the <code>servletHost</code> and <code>servletPort</code>
+properties appropriately (see <a href="#geydd">Table C-2</a>): for example,<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imq.httpjms.http.servletHost=helios
+imq.httpjms.http.servletPort=7675</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also improve performance by reconfiguring the connection
+service&#8217;s <code>pullPeriod</code> property. This specifies the interval, in
+seconds, at which each client issues HTTP/HTTPS requests to pull
+messages from the broker. With the default value of -1, the client will
+keep one such request pending at all times, ready to pull messages as
+fast as possible. With a large number of clients, this can cause a heavy
+drain on server resources, causing the server to become unresponsive.
+Setting the <code>pullPeriod</code> property to a positive value configures the
+client&#8217;s HTTP/HTTPS transport driver to wait that many seconds between
+pull requests, conserving server resources at the expense of increased
+response times to clients.<br>
+The <code>connectionTimeout</code> property specifies the interval, in seconds,
+that the client runtime waits for a response from the HTTP/ HTTPS tunnel
+servlet before throwing an exception, as well as the time the broker
+waits after communicating with the tunnel servlet before freeing a
+connection. (A timeout is necessary in this case because the broker and
+the tunnel servlet have no way of knowing if a client that is accessing
+the tunnel servlet has terminated abnormally.)</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoqa"></a><a id="GMADG00635"></a><a id="step-6-http-and-https-configuring-a-connection"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_step_6_http_and_https_configuring_a_connection">Step 6 (HTTP and HTTPS): Configuring a Connection</h4>
+<div class="paragraph">
+<p>To make HTTP/HTTPS connections to a broker, a client application needs
+an appropriately configured connection factory administered object.
+Before configuring the connection factory, clients wishing to use secure
+HTTPS connections must also have access to SSL libraries provided by the
+Java Secure Socket Extension (JSSE) and must obtain a trusted root
+certificate.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoqc"></a><a id="GMADG00475"></a><a id="installing-a-root-certificate-https-only"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_installing_a_root_certificate_https_only">Installing a Root Certificate (HTTPS Only)</h5>
+<div class="paragraph">
+<p>If the root certificate of the certification authority (CA) that signed
+your application server&#8217;s (or Web server&#8217;s) certificate is not in the
+trust store by default, or if you are using a proprietary application
+server or Web server certificate, you must install the root certificate
+in the trust store. (This step is not needed for ordinary, non-secure
+HTTP connections, or if the CA&#8217;s root certificate is already in the
+trust store by default.)</p>
+</div>
+<div class="paragraph">
+<p><a id="geygn"></a><a id="GMADG00207"></a><a id="installing-a-root-certificate-in-the-trust-store"></a></p>
+</div>
+<div class="paragraph">
+<p>Installing a Root Certificate in the Trust Store</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Import the root certificate.<br>
+Execute the command<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>JRE_HOME/bin/keytool  -import   -trustcacerts
+-alias certAlias  -file certFile
+-keystore trustStoreFile</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where certFile is the file containing the root certificate, certAlias is
+the alias representing the certificate, and trustStoreFile is the file
+containing your trust store.
+2.  Confirm that you trust the certificate.<br>
+Answer <code>YES</code> to the question <code>Trust``this``certificate?</code>
+3.  Identify the trust store to the client application.<br>
+In the command that launches the client application, use the <code>-D</code> option
+to specify the following properties:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">javax.net.ssl.trustStore=trustStoreFile
+javax.net.ssl.trustStorePassword=trustStorePassword</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqd"></a><a id="GMADG00476"></a><a id="configuring-the-connection-factory-http-and-https"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_configuring_the_connection_factory_http_and_https">Configuring the Connection Factory (HTTP and HTTPS)</h5>
+<div class="paragraph">
+<p>To enable HTTP/HTTPS support, you need to set the connection factory&#8217;s
+<code>imqAddressList</code> attribute to the URL of the HTTP/HTTPS tunnel servlet.
+The URL has the form</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where hostName`:`portNumber is the host name and port number of the
+application server or Web server hosting the tunnel servlet and
+contextRoot is the context root directory you specified when deploying
+the tunnel servlet on the server, as described above under
+<a href="#aeops">Step 4 (HTTP and HTTPS): Deploying the Tunnel Servlet</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can set the <code>imqAddressList</code> attribute in any of the following ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Use the <code>-o</code> option to the <code>imqobjmgr</code> command that creates the
+connection factory administered object (see
+<a href="administered-objects.html#aeoho">Adding a Connection Factory</a>).</p>
+</li>
+<li>
+<p>Set the attribute when creating the connection factory administered
+object using the Administration Console (<code>imqadmin</code>).</p>
+</li>
+<li>
+<p>Use the <code>-D</code> option to the command that launches the client
+application.</p>
+</li>
+<li>
+<p>Use an API call to set the attributes of the connection factory after
+you create it programmatically in client application code (see the Open
+Message Queue Developer&#8217;s Guide for Java Clients).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoqe"></a><a id="GMADG00477"></a><a id="using-a-single-servlet-to-access-multiple-brokers-http-and-https"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_a_single_servlet_to_access_multiple_brokers_http_and_https">Using a Single Servlet to Access Multiple Brokers (HTTP and HTTPS)</h5>
+<div class="paragraph">
+<p>It is not necessary to configure multiple application or Web servers and
+tunnel servlets in order to access multiple brokers; you can share a
+single server instance and tunnel servlet among them. To do this, you
+must configure the <code>imqAddressList</code> connection factory attribute as
+follows:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">https://hostName:portNumber/contextRoot/tunnel?ServerName= brokerHostName:instanceName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where brokerHostName is the broker instance host name and instanceName
+is the name of the specific broker instance you want your client to
+access.</p>
+</div>
+<div class="paragraph">
+<p>To check that you have entered the correct values for brokerHostName and
+instanceName, generate a status report for the HTTP/HTTPS tunnel servlet
+by accessing the servlet URL from a browser:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">http://localhost:8080/imqhttp/tunnel</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The report lists all brokers being accessed by the servlet, as shown in
+<a href="#geyge">Example C-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00136"></a><a id="geyge"></a></p>
+</div>
+<div class="paragraph">
+<p>Example C-1 Tunnel Servlet Status Report</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">HTTP tunnel servlet ready.
+Servlet Start Time : Thu May 30 01:08:18 PDT 2002
+Accepting secured connections from brokers on port : 7675
+Total available brokers = 2
+Broker List :
+   helios:broker1
+   selene:broker2</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqf"></a><a id="GMADG00478"></a><a id="using-an-http-proxy"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_using_an_http_proxy">Using an HTTP Proxy</h5>
+<div class="paragraph">
+<p>To use an HTTP proxy to access the HTTPS tunnel servlet, set the system
+properties <code>http.proxyHost</code> and <code>http.proxyPort</code> to the proxy server&#8217;s
+host name and port number. You can set these properties using the <code>-D</code>
+option to the command that launches the client application.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoqg"></a><a id="GMADG00323"></a><a id="troubleshooting"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_troubleshooting">Troubleshooting</h3>
+<div class="paragraph">
+<p>This section describes possible problems with an HTTP or HTTPS
+connection and provides guidance on how to handle them.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoqh"></a><a id="GMADG00636"></a><a id="server-or-broker-failure"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_server_or_broker_failure">Server or Broker Failure</h4>
+<div class="paragraph">
+<p>The consequences of a server or broker failure in an (HTTP or HTTPS)
+connection vary depending on the specific component that has failed:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If the application server or Web server fails and is restarted, all
+existing connections are restored with no effect on clients.</p>
+</li>
+<li>
+<p>If the broker fails and is restarted, an exception is thrown and
+clients must reestablish their connections.</p>
+</li>
+<li>
+<p>In the unlikely event that both the broker and the application server
+or Web server fail and the broker is not restarted, the application
+server or Web server will restore client connections and continue
+waiting for a broker connection without notifying clients. To avoid this
+situation, always restart the broker after a failure.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoqi"></a><a id="GMADG00637"></a><a id="client-failure-to-connect-through-the-tunnel-servlet"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_client_failure_to_connect_through_the_tunnel_servlet">Client Failure to Connect Through the Tunnel Servlet</h4>
+<div class="paragraph">
+<p>If an HTTPS client cannot connect to the broker through the tunnel
+servlet, do the following:</p>
+</div>
+<div class="paragraph">
+<p><a id="gbnpn"></a><a id="GMADG00208"></a><a id="if-a-client-cannot-connect"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_if_a_client_cannot_connect">If a Client Cannot Connect</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the tunnel servlet and the broker.</p>
+</li>
+<li>
+<p>Use a browser to access the servlet manually through the tunnel
+servlet URL.</p>
+</li>
+<li>
+<p>Use the following administrative commands to pause and resume the
+connection:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqcmd pause svc   -n httpsjms  -u admin
+imqcmd resume svc  -n httpsjms  -u admin</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When the service resumes, an HTTPS client should be able to connect to
+the broker through the tunnel servlet.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="interface-stability.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="jmx-support.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

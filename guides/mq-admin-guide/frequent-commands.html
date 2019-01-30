@@ -1,0 +1,386 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Frequently Used Command Utility Commands</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Frequently Used Command Utility Commands</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="jmx-support.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00058"></a><a id="aeoqj"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="e-frequently-used-command-utility-commands">E Frequently Used Command Utility Commands</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This appendix lists some frequently used Message Queue Command utility (
+<code>imqcmd</code>) commands. For a comprehensive list of command options and
+attributes available to you from the command line, refer to
+<a href="command-line-reference.html#aeonf">Command Utility</a> in
+<a href="command-line-reference.html#aeonf">Command Utility</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoqk"></a><a id="GMADG00326"></a><a id="syntax"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_syntax">Syntax</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd subcommand argument [
+options]
+imqcmd -h|H
+imqcmd -v</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><code>-H</code> or <code>-h</code> provides comprehensive help. The <code>-v</code> subcommand provides
+version information.</p>
+</div>
+<div class="paragraph">
+<p>When you use <code>imqcmd</code>, the Command utility prompts you for a password.
+To avoid the prompt (and to increase security), you can use the
+<code>-passfile</code> pathToPassfile option to point the utility to a password
+file that contains the administrator user name and password.</p>
+</div>
+<div class="paragraph">
+<p>Example: <code>imqcmd query bkr -u</code> adminUserName <code>-passfile</code> pathToPassfile
+<code>-b</code> myServer`:7676`</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoql"></a><a id="GMADG00327"></a><a id="broker-and-cluster-management"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_broker_and_cluster_management">Broker and Cluster Management</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd query bkr
+imqcmd pause bkr
+imqcmd restart bkr
+imqcmd resume bkr
+imqcmd shutdown bkr -b myBroker:7676
+imqcmd update bkr -o "imq.system.max_count=1000"
+imqcmd reload cls</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqm"></a><a id="GMADG00644"></a>[[broker-configuration-properties&#8212;&#8203;o-option]]</p>
+</div>
+<div class="sect3">
+<h4 id="_broker_configuration_properties_code_o_code_option">Broker Configuration Properties (<code>-o</code> option)</h4>
+<div class="paragraph">
+<p><a href="#aeoqm">Broker Configuration Properties (<code>-o</code> option)</a> lists
+frequently used broker configuration properties. For a full list of
+broker configuration properties and their descriptions, see
+<a href="broker-properties.html#aeons">Broker Properties Reference</a></p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG815"></a><a id="sthref291"></a><a id="gbnqe"></a></p>
+</div>
+<div class="paragraph">
+<p>Table E-1 Broker Configuration Properties ( <code>-o</code> option)</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 60%;">
+<col style="width: 40%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.maxNumActiveConsumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for
+unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.queue.maxNumBackupConsumers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for
+unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.autocreate.topic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.cluster.url</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.destination.DMQ.truncateBody</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.destination.logDeadMessages</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.rolloverbytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.file.rolloversecs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.log.level</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>NONE``ERROR``WARNING``INFO</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.message.max_size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.portmapper.port</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.system.max_count</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>imq.system.max_size</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoqn"></a><a id="GMADG00328"></a><a id="service-and-connection-management"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_service_and_connection_management">Service and Connection Management</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list svc
+imqcmd query svc
+imqcmd update svc -n jms -o "minThreads=200" -o "maxThreads=400" -o "port=8995"
+imqcmd pause svc -n jms
+imqcmd resume svc -n jms
+imqcmd list cxn -svn jms
+imqcmd query cxn -n 1234567890</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqo"></a><a id="GMADG00329"></a><a id="durable-subscriber-management"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_durable_subscriber_management">Durable Subscriber Management</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list dur -d MyTopic
+imqcmd destroy dur -n myDurSub -c "clientID-111.222.333.444"
+imqcmd purge dur -n myDurSub -c "clientID-111.222.333.444"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqp"></a><a id="GMADG00330"></a><a id="transaction-management"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_transaction_management">Transaction Management</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd list txn
+imqcmd commit txn -n 1234567890
+imqcmd query txn -n 1234567890
+imqcmd rollback txn -n 1234567890</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqq"></a><a id="GMADG00331"></a><a id="destination-management"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_destination_management">Destination Management</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd create dst -n MyQueue -t q -o "maxNumMsgs=1000" -o "maxNumProducers=5"
+imqcmd update dst -n MyTopic -t t -o "limitBehavior=FLOW_CONTROL| REMOVE_OLDEST|REJECT_NEWEST|REMOVE_LOW_PRIORITY"
+imqcmd compact dst -n MyQueue -t q
+imqcmd purge dst -n MyQueue -t q
+imqcmd pause dst -n MyQueue -t q -pst PRODUCERS|CONSUMERS|ALL
+imqcmd resume dst -n MyQueue -t q
+imqcmd destroy dst -n MyQueue -t q
+imqcmd query dst -n MyQueue -t q
+imqcmd list dst -tmp</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoqr"></a><a id="GMADG00645"></a>[[destination-configuration-properties&#8212;&#8203;o-option]]</p>
+</div>
+<div class="sect3">
+<h4 id="_destination_configuration_properties_code_o_code_option">Destination Configuration Properties (<code>-o</code> option)</h4>
+<div class="paragraph">
+<p><a href="#aeoqr">Destination Configuration Properties (<code>-o</code> option)</a> lists
+frequently used destination configuration properties. For a full list of
+destination configuration properties and their descriptions, see
+<a href="physical-destination-properties.html#aeooc">Physical Destination
+Property Reference</a></p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG816"></a><a id="sthref292"></a><a id="gbnph"></a></p>
+</div>
+<div class="paragraph">
+<p>Table E-2 Destination Configuration Properties (<code>-o</code> option)</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Property</th>
+<th class="tableblock halign-left valign-top">Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>consumerFlowLimit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>0</code> or <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>isLocalOnly</code> (create only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>limitBehavior</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>FLOW_CONTROL``REMOVE_OLDEST``REJECT_NEWEST``REMOVE_LOW_PRIORITY</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>localDeliveryPreferred</code> (queue only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumActiveConsumers</code> (queue only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumBackupConsumers</code> (queue only)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxBytesPerMsg</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumMsgs</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxNumProducers</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>maxTotalMsgBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specify <code>-1</code> for unlimited</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>useDMQ</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeoqs"></a><a id="GMADG00332"></a><a id="metrics"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_metrics">Metrics</h3>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqcmd metrics bkr -m cxn|rts|ttl -int 5 -msp 20
+imqcmd metrics svc -m cxn|rts|ttl
+imqcmd metrics dst -m con|dsk|rts|ttl</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="jmx-support.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

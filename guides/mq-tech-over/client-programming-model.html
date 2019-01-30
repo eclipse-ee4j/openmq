@@ -1,0 +1,1932 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Client Programming Model</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Client Programming Model</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="messaging-systems-introduction.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="brokers.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMTOV00026"></a><a id="aerbg"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="client-programming-model">2 Client Programming Model</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the basics of Message Queue client programming.
+It covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aerbi">Messaging Domains</a></p>
+</li>
+<li>
+<p><a href="#aerbm">Programming Objects</a></p>
+</li>
+<li>
+<p><a href="#aerbt">Producing a Message</a></p>
+</li>
+<li>
+<p><a href="#aerbu">Consuming a Message</a></p>
+</li>
+<li>
+<p><a href="#aerby">The Request-Reply Pattern</a></p>
+</li>
+<li>
+<p><a href="#aerbz">Reliable Message Delivery</a></p>
+</li>
+<li>
+<p><a href="#aercd">A Message&#8217;s Journey Through the System</a></p>
+</li>
+<li>
+<p><a href="#aercf">Java and C Clients</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This chapter focuses on the design and implementation of Java clients.
+By and large, C client design roughly parallels Java client design. The
+final section of this chapter summarizes the differences between Java
+and C clients. For a detailed discussion of programming Message Queue
+clients, see the <a href="../mq-dev-guide-java/toc.html#GMJVG">Open Message Queue Developer&#8217;s Guide for
+Java Clients</a> and the <a href="../mq-dev-guide-c/toc.html#GMCCG">Open Message Queue Developer&#8217;s Guide
+for C Clients</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbi"></a><a id="GMTOV00052"></a><a id="messaging-domains"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_messaging_domains">Messaging Domains</h3>
+<div class="paragraph">
+<p>Messaging middleware allows components and applications to communicate
+by producing and consuming messages. The JMS API defines two patterns or
+messaging domains that govern this communication: point-to-point
+messaging and publish/subscribe messaging. The JMS API is organized to
+support these patterns.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbj"></a><a id="GMTOV00120"></a><a id="point-to-point-messaging"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_point_to_point_messaging">Point-To-Point Messaging</h4>
+<div class="paragraph">
+<p>In the point-to-point domain, message producers are called senders and
+consumers are called receivers. They exchange messages by means of a
+destination called a queue: senders produce messages to a queue;
+receivers consume messages from a queue. What distinguishes
+point-to-point messaging is that a message can be consumed by only one
+consumer.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpcv">Figure 2-1</a> shows the simplest messaging operation in the
+point-to-point domain. <code>MyQueueSender</code> sends <code>Msg1</code> to the queue
+destination <code>MyQueue1</code>. Then, <code>MyQueueReceiver</code> obtains the message from
+<code>MyQueue1</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00007"></a><a id="gbpcv"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-1 Simple Point-to-Point Messaging</strong></div>
+<p><span class="image"><img src="img/to_simpleq.png" alt="Message travels from sender to receiver via a queue destination. Figure described in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpde">Figure 2-2</a> shows a more complex picture of point-to-point
+messaging to illustrate the possibilities offered by this domain. Two
+senders, <code>MyQSender1</code> and <code>MyQSender2</code>, use the same connection to send
+messages to <code>MyQueue1</code>. <code>MyQSender3</code> uses an additional connection to
+send messages to <code>MyQueue1</code>. On the receiving side, <code>MyQReceiver1</code>
+consumes messages from <code>MyQueue1,</code> and <code>MyQReceiver2</code> and
+<code>MyQReceiver3</code>, share a connection in order to consume messages from
+<code>MyQueue1</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Support for multiple-consumer queues is a Message Queue feature (the JMS
+specification defines messaging behavior in the case of only one
+consumer accessing a queue). When multiple consumers access a queue, the
+load-balancing among them takes into account each consumer&#8217;s capacity
+and message processing rate.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00008"></a><a id="gbpde"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-2 Complex Point-to-Point Messaging</strong></div>
+<p><span class="image"><img src="img/to_complexq.png" alt="Two senders use one connection to send messages to one receiver. Two consumers getting messages from same queue. Figure explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>This more complex picture exemplifies a number of additional points
+about point-to-point messaging.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>More than one sender can produce and send messages to a queue. Senders
+can share a connection or use different connections, but they can all
+access the same queue.</p>
+</li>
+<li>
+<p>More than one receiver can consume messages from a queue, but each
+message can be consumed by only one receiver. Thus <code>Msg1</code>, <code>Msg2</code>, and
+<code>Msg3</code> are consumed by different receivers. (This is a Message Queue
+extension.)</p>
+</li>
+<li>
+<p>Receivers can share a connection or use different connections, but
+they can all access the same queue. (This is a Message Queue extension.)</p>
+</li>
+<li>
+<p>Senders and receivers have no timing dependencies: the receiver can
+consume a message whether or not it was running when the sender produced
+and sent the message.</p>
+</li>
+<li>
+<p>Messages are placed in a queue in the order they are produced, but the
+order in which they are consumed depends on factors such as message
+expiration date, message priority, whether a selector is used in
+consuming messages, and the relative message processing rate of the
+consumers.</p>
+</li>
+<li>
+<p>Senders and receivers can be added and deleted dynamically at runtime,
+thus allowing the messaging system to expand or contract as needed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The point-to-point domain offers a number of advantages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Messages destined for a queue are always retained, even if there are
+no receivers.</p>
+</li>
+<li>
+<p>Java clients can use a queue browser object to inspect the contents of
+a queue. They can then consume messages based on the information gained
+from this inspection. That is, although the consumption model is
+normally FIFO (first in, first out), receivers can consume messages that
+are not at the head of the queue by using message selectors.
+Administrative clients can also use the queue browser to monitor the
+contents of a queue.</p>
+</li>
+<li>
+<p>The fact that multiple receivers can consume messages from the same
+queue allows you to use load-balancing to scale message consumption if
+the order in which messages are received is not important.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbk"></a><a id="GMTOV00121"></a><a id="publishsubscribe-messaging"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_publish_subscribe_messaging">Publish/Subscribe Messaging</h4>
+<div class="paragraph">
+<p>In the publish/subscribe domain, message producers are called publishers
+and message consumers are called subscribers. They exchange messages by
+means of a destination called a topic: publishers produce messages to a
+topic; subscribers subscribe to a topic and consume messages from a
+topic.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpdr">Figure 2-3</a> shows a simple messaging operation in the
+publish/subscribe domain. <code>MyTopicPublisher</code> publishes <code>Msg1</code> to the
+destination <code>MyTopic</code>. Then, <code>MyTopicSubscriber1</code> and
+<code>MyTopicSubscriber2</code> each receive a copy of <code>Msg1</code> from <code>MyTopic</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00009"></a><a id="gbpdr"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-3 Simple Publish/Subscribe Messaging</strong></div>
+<p><span class="image"><img src="img/to_simpletopic.png" alt="Figure shows one publisher sending the same message to two subscribers via a topic destination. Figure described in text."></span></p>
+</div>
+<div class="paragraph">
+<p>While the publish/subscribe model does not require that there be more
+than one subscriber, two subscribers are shown in the figure to
+emphasize the fact that this domain allows you to broadcast messages.
+All subscribers to a topic get a copy of any message published to that
+topic.</p>
+</div>
+<div class="paragraph">
+<p>Subscribers can be durable or non-durable. If a durable subscriber
+becomes inactive, the broker retains messages for it until the
+subscriber becomes active and consumes the messages. If a non-durable
+subscriber becomes inactive, the broker does not retain messages for it.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpdu">Figure 2-4</a> shows a more complex picture of
+publish/subscribe messaging to illustrate the possibilities offered by
+this domain. Several producers publish messages to the <code>Topic1</code>
+destination. Several subscribers consume messages from the <code>Topic1</code>
+destination. Unless, a subscriber is using a selector to filter
+messages, each subscriber gets all the messages published to the topic
+to which it is subscribed. In <a href="#gbpdu">Figure 2-4</a>, <code>MyTSubscriber2</code>
+has filtered out <code>Msg2</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00010"></a><a id="gbpdu"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-4 Complex Publish/Subscribe Messaging</strong></div>
+<p><span class="image"><img src="img/to_complextopic.png" alt="Figure shows three publishers sending messages to three subscribers via one topic destination. Figure described in text."></span></p>
+</div>
+<div class="paragraph">
+<p>This more complex picture exemplifies a number of additional points
+about publish/subscribe messaging.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>More than one publisher can publish messages to a topic. Publishers
+can share a connection or use different connections, but they can all
+access the same topic.</p>
+</li>
+<li>
+<p>More than one subscriber can consume messages from a topic.
+Subscribers consume all messages published to a topic unless they use
+selectors to filter out messages or the messages expire before they are
+consumed.</p>
+</li>
+<li>
+<p>Subscribers can share a connection or use different connections, but
+they can all access the same topic.</p>
+</li>
+<li>
+<p>For durable subscribers, the broker retains messages for the
+subscribers while these subscribers are inactive.</p>
+</li>
+<li>
+<p>Messages are placed in a topic in the order they are produced, but the
+order in which they are consumed depends on factors such as message
+expiration date, message priority, and whether a selector is used in
+consuming messages.</p>
+</li>
+<li>
+<p>Publishers and subscribers have a timing dependency: a topic
+subscriber can consume only messages published after the subscriber has
+subscribed to the topic.</p>
+</li>
+<li>
+<p>Publishers and subscribers can be added and deleted dynamically at
+runtime, thus allowing the messaging system to expand or contract as
+needed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The main advantage of the publish/subscribe model is that it allows
+messages to be broadcast to multiple subscribers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbl"></a><a id="GMTOV00122"></a><a id="understanding-the-jms-api"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_understanding_the_jms_api">Understanding the JMS API</h4>
+<div class="paragraph">
+<p>The JMS 2.0 API consists of four APIs: Simplified, Classic,
+Point-to-Point Domain, and Publish/Subscribe Domain. Each of the APIs
+defines interfaces that you can use to send or receive messages:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Simplified API provides all the functionality of the Classic API
+but uses a simpler implementation that requires fewer interfaces. This
+is the Simplified API shown in column1 of <a href="#gbpdd">Table 2-1</a>.</p>
+</li>
+<li>
+<p>The Classic API offers a single set or unified domain, which allows
+you to program a generic messaging client. The behavior of such a client
+is determined by the type of the destination to which it produces
+messages and from which it consumes messages. If the destination is a
+queue, messaging will behave according to the point-to-point pattern; if
+the destination is a topic, messaging will behave according to the
+publish/subscribe pattern. This is the Classic API shown in column 2 of
+<a href="#gbpdd">Table 2-1</a>.</p>
+</li>
+<li>
+<p>The JMS 1.0 API defined two legacy domain specific APIs, one for
+<a href="#aerbj">Point-To-Point Messaging</a> and one for
+<a href="#aerbk">Publish/Subscribe Messaging</a>. These are the domain-specific
+API&#8217;s shown in columns 3 and 4 of <a href="#gbpdd">Table 2-1</a>. These API&#8217;s
+are superseded by the Classic and Simplified APIs and remain part of the
+specification only for backward compatibility.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV150"></a><a id="sthref13"></a><a id="gbpdd"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-1 JMS Programming Domains and Objects</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 26%;">
+<col style="width: 26%;">
+<col style="width: 24%;">
+<col style="width: 24%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Simplified API</th>
+<th class="tableblock halign-left valign-top">Classic API</th>
+<th class="tableblock halign-left valign-top">Domain-specific API for Point-to-Point
+Messaging</th>
+<th class="tableblock halign-left valign-top">Domain-specific API for Publish/Subscribe Messaging</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Destination</code> (Queue or Topic)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Destination</code> (Queue or Topic)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Queue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Topic</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionFactory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ConnectionFactory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QueueConnectionFactory</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TopicConnectionFactory</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSContext</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Connection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QueueConnection</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TopicConnection</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">+</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Session</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QueueSession</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TopicSession</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSProducer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MessageProducer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QueueSender</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TopicPublisher</code></p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MessageConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>QueueReceiver</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TopicSubscriber</code></p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>For more information on how to use the Simplified API, see:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="../mq-dev-guide-java/using-the-simplifed-java-api.html#GMJVG344">"Using the Simplified Java API"</a> in Open Message Queue
+Developer&#8217;s Guide for Java Clients</p>
+</li>
+<li>
+<p><a href="http://docs.oracle.com/javaee/7/tutorial/doc/home.html">The Java EE 7
+Tutorial</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbm"></a><a id="GMTOV00053"></a><a id="programming-objects"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_programming_objects">Programming Objects</h3>
+<div class="paragraph">
+<p>The following sections provide information on objects used to implement
+JMS messaging using the Simplified and Classic APIs.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Two of these programming objects, connection factories and destinations,
+are shown to reside in an object store. This is to underline the fact
+that these objects are normally created, configured, and managed as
+administered objects. We assume that connection factories and
+destinations are created administratively (rather than programmatically)
+throughout this chapter.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV151"></a><a id="sthref14"></a></p>
+</div>
+<div class="sect3">
+<h4 id="simplified-api-programming-objects">Simplified API Programming Objects</h4>
+<div class="paragraph">
+<p>The Simplified API programming objects are shown in
+<a href="#BABJGHAI">Figure 2-5</a>. The figure shows, from the top down, how
+objects are derived, starting with the connection factory object.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV152"></a><a id="BABJGHAI"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-5 Simplified API Programming Objects</strong></div>
+<p><span class="image"><img src="img/simplified_api.gif" alt="Figure shows relationship between connection factory, connection, session, producer, consumer, message, and destination. Figure described in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a href="#BABGHFCA">Table 2-2</a> summarizes the steps required to send and
+receive messages. Note that steps 1 through 6 are the same for senders
+and receivers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV153"></a><a id="sthref16"></a><a id="BABGHFCA"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-2 Producing and Consuming Messages.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 56.9999%;">
+<col style="width: 43.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Producing a Message</th>
+<th class="tableblock halign-left valign-top">Consuming a Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. The administrator creates a connection factory administered object.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. The administrator creates a physical destination and the
+administered object that corresponds to it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. The client obtains a connection factory object through a JNDI
+lookup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. The client obtains a destination object through a JNDI lookup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. The client creates a <code>JMSContext</code>, setting the acknowledgement mode
+as needed.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. The client sets the <code>clientID</code>, if necessary.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>\7. The client creates a <code>JMSProducer</code>.</p>
+</div>
+<div class="paragraph">
+<p>Optionally, the client can then configure delivery options (such as
+<code>deliveryMode</code> and <code>timeToLive</code>) and message properties.</p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The client creates a <code>JMSConsumer</code> for a specified destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. The client sends a message to a specified destination.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The client
+consumes a message.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMTOV154"></a><a id="sthref17"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="classic-api-programming-objects">Classic API Programming Objects</h4>
+<div class="paragraph">
+<p>The Classic API programming objects are shown in <a href="#gbpcp">Figure
+2-6</a>. The figure shows, from the top down, how objects are derived,
+starting with the connection factory object.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00011"></a><a id="gbpcp"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-6 Classic API Programming Objects</strong></div>
+<p><span class="image"><img src="img/classic_api.gif" alt="Figure shows relationship between connection factory, connection, session, producer, consumer, message, and destination. Figure described in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpdf">Table 2-3</a> summarizes the steps required to send and receive
+messages. Note that steps 1 through 6 are the same for senders and
+receivers.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV155"></a><a id="sthref19"></a><a id="gbpdf"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-3 Producing and Consuming Messages.</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 56.9999%;">
+<col style="width: 43.0001%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Producing a Message</th>
+<th class="tableblock halign-left valign-top">Consuming a Message</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1. The administrator creates a connection factory administered object.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2. The administrator creates a physical destination and the
+administered object that corresponds to it.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3. The client obtains a connection factory object through a JNDI
+lookup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4. The client obtains a destination object through a JNDI lookup.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. The client creates a connection.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5. The client sets the <code>clientID</code>, if necessary.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6. The client creates a session and sets the properties that govern
+messaging reliability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Same</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7. The client creates a message producer. The destination can be
+specified on the message producer or on the <code>send</code> call for a specified
+destination.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The client creates a message consumer for a specified
+destination.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8. The client sends a message.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The client consumes a message.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMTOV156"></a><a id="sthref20"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="jms-programming-objects">JMS Programming Objects</h4>
+<div class="paragraph">
+<p>The following sections describe the objects used by producers and
+consumers: connections, sessions, messages, and destinations. We will
+then complete the discussion of JMS objects by describing the production
+and consumption of messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV157"></a><a id="sthref21"></a></p>
+</div>
+<div class="sect4">
+<h5 id="connectionfactory">ConnectionFactory</h5>
+<div class="paragraph">
+<p>A connection factory object is used in the Simplified and Classic APIs
+to configure the behavior of all connections derived from it by setting
+its properties. For Message Queue, these specify the following
+information:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The name of the host on which the broker resides, the connection
+service desired, and the port through which the client is to access that
+service.</p>
+</li>
+<li>
+<p>How automatic reconnection to the broker should be handled if the
+connection fails. This feature reconnects the client to the same (or, in
+a broker cluster, to a different broker) if a connection is lost.</p>
+</li>
+<li>
+<p>The ID of any client that needs the broker to track its durable
+subscription.</p>
+</li>
+<li>
+<p>The default name and password of any user attempting the connection.
+This information is used to authenticate the user and authorize
+operations if a password is not specified at connection time.</p>
+</li>
+<li>
+<p>Whether broker acknowledgements should be suppressed for any clients
+that are not concerned with reliability.</p>
+</li>
+<li>
+<p>How to manage the flow of control and payload messages between the
+broker and the client runtime.</p>
+</li>
+<li>
+<p>How queue browsing should be handled (Java clients only).</p>
+</li>
+<li>
+<p>Whether certain message header fields should be overridden.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>It is possible to override connection factory properties from the
+command line used to start the client application. It is also possible
+to override properties for any given connection by explicitly setting
+properties for that connection.</p>
+</div>
+<div class="paragraph">
+<p>You can use a connection object to create session objects, to set up an
+exception listener, or to obtain JMS version and JMS provider
+information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbn"></a><a id="GMTOV00123"></a><a id="connection"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_connection">Connection</h5>
+<div class="paragraph">
+<p>In the Classic API, a client uses a connection factory object
+(<code>ConnectionFactory)</code> to create a connection. A connection object
+(<code>Connection)</code> represents a client&#8217;s active connection to the broker. It
+uses the underlying Message Queue connection service that is either
+started by default or is explicitly started by the administrator for
+this client.</p>
+</div>
+<div class="paragraph">
+<p>Both allocation of communication resources and authentication of the
+client take place when a connection is created. It is a relatively
+heavyweight object, and most clients do all their messaging with a
+single connection. Connections support concurrent use: any number of
+producers and consumers can share a connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV158"></a><a id="sthref22"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="jmscontext">JMSContext</h5>
+<div class="paragraph">
+<p>In the Simplified API, a <code>JMSContext</code> object is an active connection to
+a JMS provider and a single-threaded context for sending and receiving
+messages. It combines the functionality of the <code>Connection</code> and
+<code>Session object</code> to reduce the number of objects to send and receive
+messages.</p>
+</div>
+<div class="paragraph">
+<p>You can use a <code>JMSContext</code> object to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create multiple message producers and consumers, but you are
+restricted to using them serially.</p>
+</li>
+<li>
+<p>Create and configure destinations for those clients that do not use
+administered objects to obtain references to existing destinations.</p>
+</li>
+<li>
+<p>Create and configure temporary topics and queues; these are used as
+part of the request-reply pattern. See <a href="#aerby">The Request-Reply
+Pattern</a>.</p>
+</li>
+<li>
+<p>Support transaction processing.</p>
+</li>
+<li>
+<p>Define a serial order for producing or consuming messages.</p>
+</li>
+<li>
+<p>Serialize the execution of message listeners for asynchronous
+consumers (see <a href="#aerbu">Consuming a Message</a>).</p>
+</li>
+<li>
+<p>Create queue browsers (Java clients only).</p>
+</li>
+<li>
+<p>Define when messages are considered processed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbo"></a><a id="GMTOV00124"></a><a id="session"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_session">Session</h5>
+<div class="paragraph">
+<p>In the Classic API, if the connection represents a communication channel
+between the client and the broker, a session marks a single conversation
+between them. A session object is a single-threaded context to create
+messages, message producers, and message consumers. When you create a
+session, you configure reliable delivery through a number of
+acknowledgement options or through transactions. For more information,
+see <a href="#aerbz">Reliable Message Delivery</a>.</p>
+</div>
+<div class="paragraph">
+<p>You can use a session object to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Create multiple message producers and consumers for a single session,
+but you are restricted to using them serially.</p>
+</li>
+<li>
+<p>Create and configure destinations for those clients that do not use
+administered objects to obtain references to existing destinations.</p>
+</li>
+<li>
+<p>Create and configure temporary topics and queues; these are used as
+part of the request-reply pattern. See <a href="#aerby">The Request-Reply
+Pattern</a>.</p>
+</li>
+<li>
+<p>Support transaction processing.</p>
+</li>
+<li>
+<p>Define a serial order for producing or consuming messages.</p>
+</li>
+<li>
+<p>Serialize the execution of message listeners for asynchronous
+consumers (see <a href="#aerbu">Consuming a Message</a>).</p>
+</li>
+<li>
+<p>Create queue browsers (Java clients only).</p>
+</li>
+<li>
+<p>Define when messages are considered processed.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbp"></a><a id="GMTOV00125"></a><a id="message"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message">Message</h5>
+<div class="paragraph">
+<p>The message object is use by all four JMS APIs. A JMS message is
+composed of three parts: a header, properties, and a body. You must
+understand this structure in order to compose a message properly and to
+configure certain messaging behaviors.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbq"></a><a id="GMTOV00083"></a><a id="message-header"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Header</p>
+</div>
+<div class="paragraph">
+<p>A header is required of every JMS message. The header contains ten
+predefined fields, which are listed and described in <a href="#gbpdo">Table
+2-4</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV159"></a><a id="sthref23"></a><a id="gbpdo"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-4 JMS-Defined Message Header</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 24%;">
+<col style="width: 48%;">
+<col style="width: 28%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Header Field</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Set By</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the name of the destination to which the
+message is sent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS provider</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies whether the message is persistent.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, per producer or per individual message produced.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the time when the message will expire.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, per producer or per individual message produced.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the priority of the message within a 0 (low)
+to 9 (high) range.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, per producer or per individual message
+produced.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies a unique ID for the message within the
+context of a JMS provider installation.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS provider</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies whether the message has already been
+delivered but not acknowledged.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS provider</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies the time when the JMS provider received the
+message.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">JMS provider</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A value that allows a client to define a
+correspondence between two messages.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, if needed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Specifies a destination where the consumer should send a
+reply.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, if needed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A value that can be evaluated by a message selector.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Client, if needed</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As you can see from reading through this table, message header fields
+serve a variety of purposes: identifying a message, configuring the
+routing of messages, providing information about message handling, and
+so on.</p>
+</div>
+<div class="paragraph">
+<p>One of the most important fields, <code>JMSDeliveryMode,</code> determines the
+reliability of message delivery. This field indicates whether a message
+is persistent.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Persistent messages. are guaranteed to be delivered and successfully
+consumed exactly once. Persistent messages are not lost if the message
+service fails.</p>
+</li>
+<li>
+<p>Non-persistent messages are guaranteed to be delivered at most once.
+Non-persistent messages can be lost if the message service fails.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Some message header fields are set by the JMS provider (the Message
+Queue broker and/or client runtime) and others are set by the client.
+Message producers may need to configure header values to obtain certain
+messaging behaviors; message consumers may need to read header values in
+order to understand how the message was routed and what further
+processing it might need.</p>
+</div>
+<div class="paragraph">
+<p>Three of the header fields (<code>JMSDeliveryMode,</code> <code>JMSExpiration,</code> and
+<code>JMSPriority)</code> can be set at two different levels:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>For all messages produced by a specific message producer.</p>
+</li>
+<li>
+<p>For each message when it is produced.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If these fields are set at more than one level, values set when
+producing a message override those set for the message&#8217;s producer.</p>
+</div>
+<div class="paragraph">
+<p>Names of constant used for message header fields vary with the language
+implementation. See the <a href="../mq-dev-guide-java/toc.html#GMJVG">Open Message Queue Developer&#8217;s Guide
+for Java Clients</a> or the <a href="../mq-dev-guide-c/toc.html#GMCCG">Open Message Queue Developer&#8217;s
+Guide for C Clients</a> for more information.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbr"></a><a id="GMTOV00084"></a><a id="message-properties"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Properties</p>
+</div>
+<div class="paragraph">
+<p>A message can also include optional header fields, called properties,
+specified as property name and property value pairs. Properties allow
+clients and providers to extend the message header and can contain any
+information that the client or the JMS provider finds useful to identify
+and process a message. Message properties allow a consuming client to
+ask that only those messages be delivered which fit a given criteria.
+For instance, a consuming client might indicate an interest for payroll
+messages concerning part-time employees located in New Jersey. The JMS
+provider will not deliver messages that do not meet the specified
+criteria.</p>
+</div>
+<div class="paragraph">
+<p>The JMS specification defines nine standard properties. Some of these
+are set by the client and some by the JMS provider. Their names begin
+with the reserved characters "JMSX." The client or the JMS provider can
+use these properties to determine who sent a message, the identity of
+the application sending a message, the state of the message, how often
+and when it was delivered, transaction identification, and so forth.
+These properties are useful to the JMS provider in routing messages and
+in providing diagnostic information.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue defines a number of additional message properties. These
+properties are used to identify compressed messages and how messages
+should be handled if they cannot be delivered. For more information see
+"<a href="../mq-dev-guide-java/client-design-and-features.html#GMJVG00209">Managing Message Size</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbs"></a><a id="GMTOV00085"></a><a id="message-body"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Body</p>
+</div>
+<div class="paragraph">
+<p>The message body contains the data that clients want to exchange.</p>
+</div>
+<div class="paragraph">
+<p>The JMS message body type determines what the body may contain and how
+it should be processed by the consumer, as specified in
+<a href="#gbpdn">Table 2-5</a>. The Session object includes a create method for
+each type of message body.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV160"></a><a id="sthref24"></a><a id="gbpdn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 2-5 Message Body Types</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 24%;">
+<col style="width: 76%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Message Body Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>StreamMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a stream of Java
+primitive values. It is filled and read sequentially.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>MapMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a set of name-value pairs.
+The order of entries is not defined.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>TextMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a Java string, for example
+an XML message.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>ObjectMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a serialized Java
+object.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>BytesMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message whose body contains a stream of uninterpreted
+bytes.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A message that contains a header and properties but no body.</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Java clients can set a property to have the client runtime compress the
+body of a message being produced. The Message Queue runtime on the
+consumer side decompresses the message before delivering it.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbt"></a><a id="GMTOV00054"></a><a id="producing-a-message"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_producing_a_message">Producing a Message</h3>
+<div class="paragraph">
+<p>Messages are sent or published by a message producer, within the context
+of a connection and session. Producing a message is fairly
+straightforward, a client uses a message producer object
+(<code>MessageProducer</code> or <code>JMSProducer</code>) to send messages to a physical
+destination, represented in the API by a destination object.</p>
+</div>
+<div class="paragraph">
+<p>You can use a producer to specify default values for the message header
+fields that govern persistence, priority, and time-to-live. These
+defaults are then used by all messages issuing from that producer unless
+you override them by specifying an alternate destination when sending
+the message or by setting alternate values for the header fields for a
+given message. For a <code>MessageProducer</code>, you can optionally specify a
+default destination that all the producer&#8217;s messages are sent to.</p>
+</div>
+<div class="paragraph">
+<p>The message producer can also implement a request-reply pattern by
+setting the <code>JMSReplyTo</code> message header field. For more information, see
+<a href="#aerby">The Request-Reply Pattern</a>.</p>
+</div>
+<div class="paragraph">
+<p>In addition,Message Queue producers can specify symbolic topic
+destination names that use wildcard characters. Messages issuing from
+such wildcard producers are sent to all destinations that match the
+symbolic destination name. See "<a href="../mq-admin-guide/message-delivery.html#GMADG00069">Supported Topic
+Destination Names</a>" in Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbu"></a><a id="GMTOV00055"></a><a id="consuming-a-message"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_consuming_a_message">Consuming a Message</h3>
+<div class="paragraph">
+<p>Messages are received by a message consumer. A client uses the message
+consumer object (<code>MessageConsumer</code> or <code>JMSConsumer</code>) to receive messages
+from a specified physical destination, represented in the API as a
+destination object.</p>
+</div>
+<div class="paragraph">
+<p>When you create a consumer, you specify the destination from which it
+consumes messages.</p>
+</div>
+<div class="paragraph">
+<p>Three factors affect how the broker delivers messages to a consumer:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Whether consumption is synchronous or asynchronous</p>
+</li>
+<li>
+<p>Whether a selector is used to filter incoming messages</p>
+</li>
+<li>
+<p>If messages are consumed from a topic destination, whether the
+subscriber is durable</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These factors are described in the following sections.</p>
+</div>
+<div class="paragraph">
+<p>Another factor that affects message delivery, the degree of reliability
+required by the messaging application, is described in
+<a href="#aerbz">Reliable Message Delivery</a>.</p>
+</div>
+<div class="paragraph">
+<p>In addition,Message Queue consumers can specify symbolic topic
+destination names that use wildcard characters. Messages are delivered
+to such wildcard consumers from all destinations that match the symbolic
+destination name. See "<a href="../mq-admin-guide/message-delivery.html#GMADG00069">Supported Topic Destination
+Names</a>" in Open Message Queue Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbv"></a><a id="GMTOV00126"></a><a id="synchronous-and-asynchronous-consumers"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_synchronous_and_asynchronous_consumers">Synchronous and Asynchronous Consumers</h4>
+<div class="paragraph">
+<p>A message consumer can support either synchronous or asynchronous
+consumption of messages.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Synchronous consumption means the consumer explicitly requests a
+message that has been delivered to the client runtime and then consumes
+it.<br>
+Depending on the method used to request messages, a synchronous consumer
+can choose to wait (indefinitely) until a message is delivered to the
+client runtime, to wait a specified amount of time for a message, or to
+return immediately if there is no message available to be consumed
+(messages that were successfully produced but which the broker has not
+finished processing).</p>
+</li>
+<li>
+<p>Asynchronous consumption means that the message is automatically
+handed off to a message listener object (<code>MessageListener)</code> that has
+been registered with the consumer. The client consumes the message when
+a session thread invokes the <code>onMessage()</code> method of the message
+listener object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbw"></a><a id="GMTOV00127"></a><a id="using-selectors-to-filter-messages"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_selectors_to_filter_messages">Using Selectors to Filter Messages</h4>
+<div class="paragraph">
+<p>A message consumer can use a message selector to have the message
+service deliver only those messages whose properties (see
+<a href="#aerbr">Message Properties</a>) match specific selection criteria. You
+specify this criteria when you create the consumer.</p>
+</div>
+<div class="paragraph">
+<p>Selectors use an SQL-like syntax to match against message properties.
+For example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">color = "red'
+size&gt; 10</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Java clients can also specify selectors when browsing a queue; this
+allows you to see which selected messages are waiting to be consumed.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbx"></a><a id="GMTOV00128"></a><a id="using-durable-subscribers"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_durable_subscribers">Using Durable Subscribers</h4>
+<div class="paragraph">
+<p>A durable subscriber is one for which the broker retains messages even
+when the subscriber becomes inactive.</p>
+</div>
+<div class="paragraph">
+<p>Because the broker must maintain state for the subscriber and resume
+delivery of messages when the subscriber is reactivated, the broker must
+be able to identify a given subscriber throughout its comings and
+goings. The subscriber&#8217;s identity is constructed from the <code>clientID</code>
+property of the connection that created it and the subscriber name
+specified when you create the subscriber.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerby"></a><a id="GMTOV00056"></a><a id="the-request-reply-pattern"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_request_reply_pattern">The Request-Reply Pattern</h3>
+<div class="paragraph">
+<p>You can combine producers and consumers in the same connection (or even
+session when using the unified API). In addition, the JMS API allows you
+to implement a request-reply pattern for your messaging operations by
+using temporary destinations. Temporary destinations are explicitly
+created and destroyed programmatically. They are maintained by the
+broker only for the duration of the connection in which they are
+created.</p>
+</div>
+<div class="paragraph">
+<p>To set up the request-reply pattern you need to do the following:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Programmatically create a temporary destination where the consumer
+can send replies.</p>
+</li>
+<li>
+<p>In the message to be sent, set the <code>JMSReplyTo</code> field of the message
+header to that temporary destination.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>When the message consumer processes the message, it examines the
+<code>JMSReplyTo</code> field of the message to determine if a reply is required
+and sends the reply to the specified destination.</p>
+</div>
+<div class="paragraph">
+<p>The request-reply mechanism saves an administrator the trouble of
+creating a destination administered object or a physical destination for
+the reply, and makes it easy for the consumer to respond to the request.
+This pattern is useful when the producer must be sure that a request
+message has been handled before proceeding.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpcs">Figure 2-7</a> illustrates a request-reply pattern that sends
+messages to a topic and receives replies in a temporary queue.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00012"></a><a id="gbpcs"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-7 Request/Reply Pattern</strong></div>
+<p><span class="image"><img src="img/to_replyto.png" alt="A publisher sends a message to two subscribers via a topic destination and receives replies via a queue. Figure is explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>As the figure shows, <code>MyTopicPublisher</code> produces <code>Msg1</code> to the
+destination <code>MyTopic</code>. <code>MyTopicSubsriber1</code> and <code>MyTopicSubscriber2</code>
+consume the message and send a reply to <code>MyTempQueue</code>, from which
+<code>MyTempQueueReceiver</code> retrieves it. This pattern might be useful for an
+application that publishes pricing information to a large number of
+subscribers and which queues their (reply) orders for sequential
+processing.</p>
+</div>
+<div class="paragraph">
+<p>Temporary destinations last only as long as the connection in which they
+are created. While any producer can produce messages to a temporary
+destination, the only consumers that can access a temporary destination
+are those created in the same connection in which the temporary
+destination was created.</p>
+</div>
+<div class="paragraph">
+<p>Since the request/reply pattern depends on creating temporary
+destinations, you should not use this pattern in the following cases:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>If you anticipate that the connection in which the temporary
+destination was created might terminate before the reply is sent.</p>
+</li>
+<li>
+<p>If reply messages need to be persistent.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerbz"></a><a id="GMTOV00057"></a><a id="reliable-message-delivery"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_reliable_message_delivery">Reliable Message Delivery</h3>
+<div class="paragraph">
+<p>Message delivery occurs in two hops: the first hop takes the message
+from the producer to a physical destination on the broker; the second
+hop takes the message from that destination to the consumer. Thus, a
+message can be lost in one of three ways: on its hop from the producer
+to the broker, on its hop from the broker to the consumer, and while
+it&#8217;s in broker memory (if the broker fails). Reliable delivery
+guarantees that delivery will not fail in any of these ways.</p>
+</div>
+<div class="paragraph">
+<p>Two mechanisms are used to ensure reliable delivery:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The client can use acknowledgments or transactions to make sure that
+message production and consumption is successful.</p>
+</li>
+<li>
+<p>The broker can store messages in a persistent data store so that if
+the broker fails before the message is consumed, the broker, upon
+recovery, can retrieve the stored copy of the message and retry the
+operation.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections describe these two aspects of ensuring
+reliability.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Reliable delivery only applies to messages for which the
+<code>JMSDeliveryMode</code> message header field indicates a persistent message.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aerca"></a><a id="GMTOV00129"></a><a id="acknowledgements"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_acknowledgements">Acknowledgements</h4>
+<div class="paragraph">
+<p>Acknowledgements are messages sent between a client and the message
+service to ensure reliable delivery of messages. Acknowledgements are
+used differently for producers and for consumers.</p>
+</div>
+<div class="paragraph">
+<p>In the case of message production, the broker confirms that it has
+received the message, placed it in its destination, and stored it
+persistently. The producer&#8217;s <code>send()</code> method blocks until it receives
+this broker acknowledgement. Broker acknowledgements are transparent to
+the client when persistent messages are sent.</p>
+</div>
+<div class="paragraph">
+<p>In the case of message consumption, the client acknowledges that it has
+received delivery of a message from a destination and consumed it,
+before the broker can delete the message from that destination. JMS
+specifies different client acknowledgement modes that represent
+different degrees of reliability.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the <code>AUTO_ACKNOWLEDGE</code> mode, the session automatically acknowledges
+each message consumed by the client. The session thread blocks, waiting
+for the broker to confirm that it has processed the client
+acknowledgement for each consumed message.</p>
+</li>
+<li>
+<p>In the <code>CLIENT_ACKNOWLEDGE</code> mode, the client explicitly acknowledges
+after one or more messages have been consumed by calling the
+<code>acknowledge()</code> method of a message object. This causes the session to
+acknowledge all messages that have been consumed by the session since
+the previous invocation of the method. The session thread blocks,
+waiting for the broker to confirm that it has processed the client
+acknowledgement.<br>
+Message Queue extends this mode by providing a method that allows a
+client to acknowledge receipt of one message only.</p>
+</li>
+<li>
+<p>In <code>DUPS_OK_ACKNOWLEDGE</code> mode, the session acknowledges after a
+specified number of messages (default is 10) have been consumed. The
+session thread does not block waiting for the broker to confirm it has
+processed the client acknowledgement, because no broker confirmation is
+required in this mode. Although this mode guarantees that no message
+will be lost, it does not guarantee that no duplicate messages will be
+received, hence its name: <code>DUPS_OK</code>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For clients that are more concerned with performance than reliability,
+the Message Queue service extends the JMS API by providing a
+<code>NO_ACKNOWLEDGE</code> mode. In this mode, the broker does not track client
+acknowledgements, so there is no guarantee that a message has been
+successfully processed by the consuming client. Choosing this mode may
+give you better performance for non persistent messages that are sent to
+non-durable subscribers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aercb"></a><a id="GMTOV00130"></a><a id="transactions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transactions">Transactions</h4>
+<div class="paragraph">
+<p>A transaction is a way of grouping the production and/or consumption of
+one or more messages into an atomic unit. The client and broker
+acknowledgement process described above applies, as well, to
+transactions. In this case, however, when a transaction commits, it
+implicitly performs the relevant broker or client acknowledgements. You
+cannot have an end-to-end transaction encompassing both the production
+and consumption of the same message.</p>
+</div>
+<div class="paragraph">
+<p>The JMS specification supports both local and distributed transactions,
+as described below.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghgbu"></a><a id="GMTOV00086"></a><a id="local-transactions"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_local_transactions">Local Transactions</h5>
+<div class="paragraph">
+<p>A session can be configured as transacted, and the JMS API provides
+methods for initiating, committing, or rolling back local transactions.</p>
+</div>
+<div class="paragraph">
+<p>As messages are produced or consumed within a local transaction, the
+message service tracks the various sends and receives, completing these
+operations only when the JMS client issues a call to commit the
+transaction. If a particular send or receive operation within the
+transaction fails, an exception is raised. The client code can handle
+the exception by ignoring it, retrying the operation, or rolling back
+the entire transaction. When a transaction is committed, all its
+operations are completed. When a transaction is rolled back, all
+successful operations are cancelled.</p>
+</div>
+<div class="paragraph">
+<p>The scope of a local transaction is always a single session. That is,
+one or more producer or consumer operations performed in the context of
+a single session can be grouped into a single local transaction.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghgak"></a><a id="GMTOV00087"></a><a id="distributed-transactions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_distributed_transactions">Distributed Transactions</h5>
+<div class="paragraph">
+<p>The JMS specification also supports distributed transactions. That is,
+the production and consumption of messages can be part of a larger,
+distributed transaction that includes operations involving other
+resource managers, such as database systems. A distributed transaction
+manager, like the one supplied by GlassFish Server, must be available to
+support distributed transactions.</p>
+</div>
+<div class="paragraph">
+<p>In distributed transactions, the distributed transaction manager tracks
+and manages operations performed by multiple resource managers (such as
+a message service and a database manager) using a two-phase commit
+protocol defined in the Java Transaction API (JTA), XA Resource API
+Specification. In the Java world, interaction between resource managers
+and a distributed transaction manager are described in the JTA
+specification.</p>
+</div>
+<div class="paragraph">
+<p>Support for distributed transactions means that messaging clients can
+participate in distributed transactions through the <code>XAResource</code>
+interface defined by JTA. This interface defines a number of methods
+used in implementing two-phase commit. While the API calls are made on
+the client side, the JMS message service tracks the various send and
+receive operations within the distributed transaction, tracks the
+transactional state, and completes the messaging operations only in
+coordination with a distributed transaction manager—provided by a Java
+Transaction Service (JTS). As with local transactions, the client can
+handle exceptions by ignoring them, retrying operations, or rolling back
+an entire distributed transaction.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Message Queue supports distributed transactions only when it is used as
+a JMS provider in a Java Enterprise Edition (Java EE) application
+server. For additional information on how to use distributed
+transactions, please consult the Java EE documentation furnished by your
+application server provider.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aercc"></a><a id="GMTOV00131"></a><a id="persistent-storage"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_persistent_storage">Persistent Storage</h4>
+<div class="paragraph">
+<p>The other aspect of reliability is ensuring that the broker does not
+lose persistent messages before they are delivered to consumers. This
+means that when a message reaches its physical destination, the broker
+must place it in a persistent data store. If the broker fails for any
+reason, it can recover the message later and deliver it to the
+appropriate consumers.</p>
+</div>
+<div class="paragraph">
+<p>The broker must also persistently store durable subscriptions.
+Otherwise, in case of failure, it would not be able to deliver messages
+to durable subscribers who become active after a message has arrived in
+a topic destination.</p>
+</div>
+<div class="paragraph">
+<p>Messaging applications that want to guarantee message delivery must
+specify messages as persistent and deliver them either to topic
+destinations with durable subscribers or to queue destinations.</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercg">The Message Queue Broker</a> describes the default
+message store supplied by the Message Queue service and how an
+administrator can set up and configure an alternate store.</p>
+</div>
+<div class="paragraph">
+<p><a id="aercd"></a><a id="GMTOV00058"></a><a id="a-messages-journey-through-the-system"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_a_message_s_journey_through_the_system">A Message&#8217;s Journey Through the System</h3>
+<div class="paragraph">
+<p>By way of summarizing the material presented so far, this section
+describes how a message is delivered using the Message Queue service,
+from a producer to a consumer. In order to paint a complete picture, a
+further detail is needed: The messages handled by the system in the
+course of delivery fall into two categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Payload messages, which are the messages sent by producers to
+consumers.</p>
+</li>
+<li>
+<p>Control messages, which are private messages passed between the broker
+and the client runtime to ensure that payload messages are successfully
+delivered and to control the flow of messages across a connection.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Message delivery is illustrated in <a href="#gbpdv">Figure 2-8</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00013"></a><a id="gbpdv"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 2-8 Message Delivery Steps</strong></div>
+<p><span class="image"><img src="img/to_msgdelivery.png" alt="Diagram showing steps in the message delivery process in case of a persistent, reliably delivered message. Figure is described in text."></span></p>
+</div>
+<div class="paragraph">
+<p>Message delivery steps for a persistent, reliably delivered message are
+as follows:</p>
+</div>
+<div class="paragraph">
+<p><a id="gbpdi"></a><a id="GMTOV00132"></a><a id="message-production"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_message_production">Message Production</h4>
+<div class="paragraph">
+<p>\1. The client runtime delivers the message over the connection from the
+message producer to the broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbpct"></a><a id="GMTOV00133"></a><a id="message-handling-and-routing"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_handling_and_routing">Message Handling and Routing</h4>
+<div class="paragraph">
+<p>\2. The broker reads the message from the connection and places it in
+the appropriate destination.</p>
+</div>
+<div class="paragraph">
+<p>\3. The broker places the (persistent) message in the data store.</p>
+</div>
+<div class="paragraph">
+<p>\4. The broker confirms receipt of the message to the client runtime of
+the message producer.</p>
+</div>
+<div class="paragraph">
+<p>\5. The broker determines the routing for the message.</p>
+</div>
+<div class="paragraph">
+<p>\6. The broker writes out the message from its destination to the
+appropriate connection, tagging it with a unique identifier for the
+consumer.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbpdz"></a><a id="GMTOV00134"></a><a id="message-consumption"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_consumption">Message Consumption</h4>
+<div class="paragraph">
+<p>\7. The message consumer&#8217;s client runtime delivers the message from the
+connection to the message consumer.</p>
+</div>
+<div class="paragraph">
+<p>\8. The message consumer&#8217;s client runtime acknowledges consumption of
+the message to the broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbpcw"></a><a id="GMTOV00135"></a><a id="message-end-of-life"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_end_of_life">Message End-of-Life</h4>
+<div class="paragraph">
+<p>\9. The broker processes the client acknowledgement, and deletes the
+(persistent) message when all acknowledgements have been received.</p>
+</div>
+<div class="paragraph">
+<p>\10. The broker confirms to the consumer&#8217;s client runtime that the
+client acknowledgement has been processed.</p>
+</div>
+<div class="paragraph">
+<p>The broker can discard a message before it is consumed if the
+administrator deletes the message from a destination or if the
+administrator removes or redefines a durable subscriber, thereby causing
+a message in a topic destination to be removed without it being
+delivered. The broker can also discard a message before it is consumed
+if the message has expired, if memory limits have been reached, or if
+delivery fails due to a client exception. If you don&#8217;t want a message
+discarded in these situations, you can have the broker store the
+messages in a special destination called the dead message queue. Storing
+messages in the dead message queue allows you to troubleshoot the system
+and recover messages in any of these situations.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerbh"></a><a id="GMTOV00059"></a><a id="design-and-performance"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_design_and_performance">Design and Performance</h3>
+<div class="paragraph">
+<p>The behavior of a Message Queue application depends on many factors:
+client design, connection configuration, broker configuration, broker
+tuning, and resource management. Some of these are the responsibility of
+the application developer; others are the concern of the Message Queue
+administrator.</p>
+</div>
+<div class="paragraph">
+<p>In the best of possible worlds the developer should be aware of how the
+Message Queue service can support and scale the application design, and
+the administrator should be aware of the application&#8217;s design goals when
+it comes time to tune the application. Messaging behavior can be
+optimized through redesign as well as through careful monitoring and
+tuning. Thus, a key aspect of creating a good Message Queue application
+is for the developer and the administrator to understand what can be
+realized at each stage of the application life cycle and to share
+information about desired and observed behavior.</p>
+</div>
+<div class="paragraph">
+<p><a href="brokers.html#aercg">The Message Queue Broker</a> explains how you can
+use the Message Queue service to support, manage, and tune messaging
+performance.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerce"></a><a id="GMTOV00060"></a><a id="working-with-soap-messages"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_soap_messages">Working with SOAP Messages</h3>
+<div class="paragraph">
+<p>Simple Object Access Protocol (SOAP) allows for the exchange of
+structured data (specified by an XML schema) between two peers in a
+distributed environment. Sun&#8217;s implementation of SOAP does not currently
+support reliable SOAP messaging nor does it support publishing SOAP
+messages. However, you can use the Message Queue service to achieve
+reliable SOAP messaging and, if desired, to publish SOAP messages. The
+Message Queue service does not deliver SOAP messages directly, but it
+allows you to wrap SOAP messages into JMS messages, to produce and
+consume these messages like normal JMS messages, and to extract the SOAP
+message from the JMS message.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue provides SOAP support through two packages:
+<code>javax.xml.messaging</code> and <code>com.sun.messaging.xml</code>. You can use classes
+implemented in these libraries to receive a SOAP message, to wrap a SOAP
+message as a JMS message, and to extract a SOAP message from a JMS
+message. The Java EE platform provides the package <code>java.xml.soap</code>,
+which you can use to assemble and disassemble a SOAP message.</p>
+</div>
+<div class="paragraph">
+<p>To achieve reliable SOAP messaging you need to implement the following
+sequence of actions:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Use the Message Transformer utility to convert the SOAP message into
+a JMS message.</p>
+</li>
+<li>
+<p>Send the JMS message to the desired destination.</p>
+</li>
+<li>
+<p>Consume the JMS message asynchronously or synchronously.</p>
+</li>
+<li>
+<p>After the JMS message is consumed, use the Message Transformer
+utility to convert it into a SOAP message.</p>
+</li>
+<li>
+<p>Use the SOAP with Attachments API for Java (SAAJ) API (defined in
+the <code>java.xml.soap</code> package) to disassemble the SOAP message.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>For detailed information about SOAP messages and their processing, see
+"<a href="../mq-dev-guide-java/soap-messages.html#GMJVG00016">Working with SOAP Messages</a>" in Open Message Queue
+Developer&#8217;s Guide for Java Clients.</p>
+</div>
+<div class="paragraph">
+<p><a id="aercf"></a><a id="GMTOV00061"></a><a id="java-and-c-clients"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_java_and_c_clients">Java and C Clients</h3>
+<div class="paragraph">
+<p>Message Queue provides a C API to its messaging services to enable
+legacy C applications and C++ applications to participate in JMS-based
+messaging.</p>
+</div>
+<div class="paragraph">
+<p>The JMS programming model is the foundation for the design of a Message
+Queue C client. The <a href="../mq-dev-guide-c/toc.html#GMCCG">Open Message Queue Developer&#8217;s Guide for
+C Clients</a> explains how this model is implemented by the C data types
+and functions.</p>
+</div>
+<div class="paragraph">
+<p>Like the Java interface, the C interface supports the following
+features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Publish/subscribe and point-to-point connections</p>
+</li>
+<li>
+<p>Synchronous and asynchronous receives</p>
+</li>
+<li>
+<p><code>CLIENT</code>, <code>AUTO</code>, and <code>DUPS_OK</code> acknowledgement modes</p>
+</li>
+<li>
+<p>Local and distributed transactions</p>
+</li>
+<li>
+<p>Session recover</p>
+</li>
+<li>
+<p>Temporary topics and queues</p>
+</li>
+<li>
+<p>Message selectors</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>However, it is important to understand that the Java Message Service
+specification is a standard for Java clients only; thus the C Message
+Queue API is specific to the Message Queue provider and cannot be used
+with other JMS providers. A messaging application that includes a C
+client cannot be handled by another JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>The C interface, does not support the following features:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The use of administered objects</p>
+</li>
+<li>
+<p>Map, stream, or object message types</p>
+</li>
+<li>
+<p>Consumer-based flow control</p>
+</li>
+<li>
+<p>Queue browsers</p>
+</li>
+<li>
+<p>JMS application server facilities (Connection Consumer, distributed
+transactions)</p>
+</li>
+<li>
+<p>Receiving or sending SOAP messages</p>
+</li>
+<li>
+<p>Receiving or sending compressed JMS messages</p>
+</li>
+<li>
+<p>Auto-reconnect or failover, which allows the client runtime to
+automatically reconnect to a broker if a connection fails</p>
+</li>
+<li>
+<p>The <code>NO_ACKNOWLEDGE</code> mode</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="messaging-systems-introduction.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="brokers.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

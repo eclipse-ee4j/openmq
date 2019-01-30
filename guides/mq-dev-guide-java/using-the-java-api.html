@@ -1,0 +1,4422 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>The JMS Classic API</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>The JMS Classic API</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="using-the-simplifed-java-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-metrics-monitoring-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMJVG00013"></a><a id="aeqax"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="the-jms-classic-api">4 The JMS Classic API</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>This chapter describes the JMS classic API. The JMS simplified API
+offers the same functionality using a simpler implementation and is
+described in <a href="using-the-simplifed-java-api.html#BGBFAEAG">The JMS
+Simplified API</a>.</p>
+</div>
+<div class="paragraph">
+<p>The topics covered include the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeqay">Messaging Domains</a></p>
+</li>
+<li>
+<p><a href="#aeqaz">Working With Connections</a></p>
+</li>
+<li>
+<p><a href="#aeqbf">Working With Destinations</a></p>
+</li>
+<li>
+<p><a href="#aeqbj">Working With Sessions</a></p>
+</li>
+<li>
+<p><a href="#aeqbm">Working With Messages</a></p>
+</li>
+<li>
+<p><a href="#BGBGIECH">Using the Autocloseable Interface</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>This chapter does not provide exhaustive information about each class
+and method. For detailed reference information, see the JavaDoc
+documentation for each individual class. For information on the
+practical design of Message Queue Java programs, see
+<a href="client-design-and-features.html#aeqcq">Message Queue Clients: Design
+and Features</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqay"></a><a id="GMJVG00092"></a><a id="messaging-domains"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_messaging_domains">Messaging Domains</h3>
+<div class="paragraph">
+<p>The Java Message Service (JMS) specification, which Message Queue
+implements, supports two commonly used models of interaction between
+message clients and message brokers, sometimes known as messaging
+domains:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In the point-to-point (or PTP) messaging model, each message is
+delivered from a message producer to a single message consumer. The
+producer delivers the message to a queue, from which it is later
+delivered to one of the consumers registered for the queue. Any number
+of producers and consumers can interact with the same queue, but each
+message is guaranteed to be delivered to (and be successfully consumed
+by) exactly one consumer and no more. If no consumers are registered for
+a queue, it holds the messages it receives and eventually delivers them
+when a consumer registers.</p>
+</li>
+<li>
+<p>In the publish/subscribe (or pub/sub) model, a single message can be
+delivered from a producer to any number of consumers. The producer
+publishes the message to a topic, from which it is then delivered to all
+active consumers that have subscribed to the topic. Any number of
+producers can publish messages to a given topic, and each message can be
+delivered to any number of subscribed consumers. The model also supports
+the notion of durable subscriptions, in which a consumer registered with
+a topic need not be active at the time a message is published; when the
+consumer subsequently becomes active, it will receive the message. If no
+active consumers are registered for a topic, the topic does not hold the
+messages it receives unless it has inactive consumers with durable
+subscriptions.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>JMS applications are free to use either of these messaging models, or
+even to mix them both within the same application. Historically, the JMS
+API provided a separate set of domain-specific object classes for each
+model. While these domain-specific interfaces continue to be supported
+for legacy purposes, client programmers are now encouraged to use the
+newer unified domain interface, which supports both models
+indiscriminately. For this reason, the discussions and code examples in
+this manual focus exclusively on the unified interfaces wherever
+possible. <a href="client-design-and-features.html#CJAIJCGD">Table 2-1</a> shows
+the API classes for all domains.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqaz"></a><a id="GMJVG00093"></a><a id="working-with-connections"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_connections">Working With Connections</h3>
+<div class="paragraph">
+<p>All messaging occurs within the context of a connection. Connections are
+created using a connection factory encapsulating all of the needed
+configuration properties for connecting to a particular JMS provider. A
+connection&#8217;s configuration properties are completely determined by the
+connection factory, and cannot be changed once the connection has been
+created. Thus the only way to control the properties of a connection is
+by setting those of the connection factory you use to create it.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqba"></a><a id="GMJVG00188"></a><a id="obtaining-a-connection-factory"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_obtaining_a_connection_factory">Obtaining a Connection Factory</h4>
+<div class="paragraph">
+<p>Typically, a connection factory is created for you by a Message Queue
+administrator and preconfigured, using the administration tools
+described in "<a href="../mq-admin-guide/admin-tasks-and-tools.html#GMADG00032">Administrative Tasks and Tools</a>" in Open
+Message Queue Administration Guide with whatever property settings are
+appropriate for connecting to particular JMS provider. The factory is
+then placed in a publicly available administered object store, where you
+can access it by name using the Java Naming and Directory Interface
+(JNDI) API. This arrangement has several benefits:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It allows the administrator to control the properties of client
+connections to the provider, ensuring that they are properly configured.</p>
+</li>
+<li>
+<p>It enables the administrator to tune performance and improve
+throughput by adjusting configuration settings even after an application
+has been deployed.</p>
+</li>
+<li>
+<p>By relying on the predefined connection factory to handle the
+configuration details, it helps keep client code provider-independent
+and thus more easily portable from one JMS provider to another.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Sometimes, however, it may be more convenient to dispense with JNDI
+lookup and simply create your own connection factory by direct
+instantiation. Although hard-coding configuration values for a
+particular JMS provider directly into your application code sacrifices
+flexibility and provider-independence, this approach might make sense in
+some circumstances: for example, in the early stages of application
+development and debugging, or in applications where reconfigurability
+and portability to other providers are not important concerns.</p>
+</div>
+<div class="paragraph">
+<p>The following sections describe these two approaches to obtaining a
+connection factory: by JNDI lookup or direct instantiation.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbb"></a><a id="GMJVG00126"></a><a id="looking-up-a-connection-factory-with-jndi"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_looking_up_a_connection_factory_with_jndi">Looking Up a Connection Factory With JNDI</h5>
+<div class="paragraph">
+<p><a href="#gbotg">Example 4-1</a> shows how to look up a connection factory
+object in the JNDI object store. The code example is explained in the
+procedure that follows.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If a Message Queue client is a Java EE component, JNDI resources are
+provided by the Java EE container. In such cases, JNDI lookup code may
+differ from that shown here; see your Java EE provider documentation for
+details.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00039"></a><a id="gbotg"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-1 Looking Up a Connection Factory</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI
+//  naming context.
+
+    Hashtable  env = new Hashtable();
+
+
+//  Store the environment attributes that tell JNDI which initial context
+//  factory to use  and where to find the provider.//
+
+    env.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "com.sun.jndi.fscontext.RefFSContextFactory");
+    env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");
+
+
+//  Create the initial context.
+
+    Context  ctx = new InitialContext(env);
+
+
+//  Look up the connection factory object in the JNDI object store.
+
+    String  CF_LOOKUP_NAME = "MyConnectionFactory";
+    ConnectionFactory  myFactory = (ConnectionFactory) ctx.lookup
+                                          (CF_LOOKUP_NAME);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="gbouq"></a><a id="GMJVG00069"></a><a id="to-look-up-a-connection-factory-with-jndi"></a></p>
+</div>
+<div class="paragraph">
+<p>To Look Up a Connection Factory With JNDI</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the environment for constructing the initial JNDI naming
+context.<br>
+How you create the initial context depends on whether you are using a
+file-system object store or a Lightweight Directory Access Protocol
+(LDAP) server for your Message Queue administered objects. The code
+shown here assumes a file-system store; for information about the
+corresponding LDAP object store attributes, see "<a href="../mq-admin-guide/security-services.html#GMADG00550">Using
+an LDAP User Repository</a>" in Open Message Queue Administration Guide.<br>
+The constructor for the initial context accepts an environment
+parameter, a hash table whose entries specify the attributes for
+creating the context:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Hashtable env = new Hashtable();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also set an environment by specifying system properties on the
+command line, rather than programmatically. For instructions, see the
+<code>README</code> file in the JMS example applications directory.
+2.  Store the environment attributes that tell JNDI which initial
+context factory to use and where to find the JMS provider.<br>
+The names of these attributes are defined as static constants in class
+<code>Context</code>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
+        "com.sun.jndi.fscontext.RefFSContextFactory");
+env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The directory represented by `C:/`imq_admin_objects must already exist;
+if necessary, you must create the directory before referencing it in
+your code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the initial context.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Context ctx = new InitialContext(env);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you use system properties to set the environment, omit the
+environment parameter when creating the context:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Look up the connection factory object in the administered object
+store and typecast it to the appropriate class:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>String CF_LOOKUP_NAME = "MyConnectionFactory";
+ConnectionFactory
+      myFactory = (ConnectionFactory) ctx.lookup(CF_LOOKUP_NAME);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The lookup name you use, <code>CF_LOOKUP_NAME</code>, must match the name used when
+the object was stored.<br>
+You can now proceed to use the connection factory to create connections
+to the message broker, as described under <a href="#aeqbe">Using
+Connections</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbc"></a><a id="GMJVG00127"></a><a id="overriding-configuration-settings"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_overriding_configuration_settings">Overriding Configuration Settings</h5>
+<div class="paragraph">
+<p>It is recommended that you use a connection factory just as you receive
+it from a JNDI lookup, with the property settings originally configured
+by your Message Queue administrator. However, there may be times when
+you need to override the preconfigured properties with different values
+of your own. You can do this from within your application code by
+calling the connection factory&#8217;s <code>setProperty</code> method. This method
+(inherited from the superclass <code>AdministeredObject</code>) takes two string
+arguments giving the name and value of the property to be set. The
+property names for the first argument are defined as static constants in
+the Message Queue class <code>ConnectionConfiguration</code>: for instance, the
+statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqDefaultPassword,
+                      "mellon");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>sets the default password for establishing broker connections. See
+"<a href="../mq-admin-guide/administered-objects.html#GMADG00568">Connection Factory Attributes</a>" in Open Message Queue
+Administration Guide for complete information on the available
+connection factory configuration attributes.</p>
+</div>
+<div class="paragraph">
+<p>It is also possible to override connection factory properties from the
+command line, by using the <code>-D</code> option to set their values when starting
+your client application. For example, the command line</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">java -DimqDefaultPassword=mellon MyMQClient</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>starts an application named <code>MyMQClient</code> with the same default password
+as in the preceding example. Setting a property value this way overrides
+any other value specified for it, whether preconfigured in the JNDI
+object store or set programmatically with the <code>setProperty</code> method.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>A Message Queue administrator can prevent a connection factory&#8217;s
+properties from being overridden by specifying that the object be
+read-only when placing it in the object store. The properties of such a
+factory cannot be changed in any way, whether with the <code>-D</code> option from
+the command line or using the <code>setProperty</code> method from within your
+client application&#8217;s code. Any attempt to override the factory&#8217;s
+property values will simply be ignored.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeqbd"></a><a id="GMJVG00128"></a><a id="instantiating-a-connection-factory"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_instantiating_a_connection_factory">Instantiating a Connection Factory</h5>
+<div class="paragraph">
+<p><a href="#gbote">Example 4-2</a> shows how to create a connection factory object
+by direct instantiation and configure its properties.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00040"></a><a id="gbote"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-2 Instantiating a Connection Factory</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Instantiate the connection factory object.
+
+    com.sun.messaging.ConnectionFactory
+        myFactory = new com.sun.messaging.ConnectionFactory();
+
+
+//  Set the connection factory's configuration properties.
+
+    myFactory.setProperty(ConnectionConfiguration.imqAddressList,
+                          "localhost:7676,broker2:5000,broker3:9999");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following procedure explains each program statement in the previous
+code sample.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbotw"></a><a id="GMJVG00070"></a><a id="to-instantiate-and-configure-a-connection-factory"></a></p>
+</div>
+<div class="paragraph">
+<p>To Instantiate and Configure a Connection Factory</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Instantiate the connection factory object.<br>
+The name <code>ConnectionFactory</code> is defined both as a JMS interface (in
+package <code>javax.jms</code>) and as a Message Queue class (in
+<code>com.sun.messaging</code>) that implements that interface. Since only a class
+can be instantiated, you must use the constructor defined in
+<code>com.sun.messaging</code> to create your connection factory object. Note,
+however, that you cannot import the name from both packages without
+causing a compilation error. Hence, if you have imported the entire
+package <code>javax.jms.*</code>, you must qualify the constructor with the full
+package name when instantiating the object:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>com.sun.messaging.ConnectionFactory
+    myFactory = new com.sun.messaging.ConnectionFactory();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Notice that the type declaration for the variable <code>myFactory</code>, to which
+the instantiated connection factory is assigned, is also qualified with
+the full package name. This is because the <code>setProperty</code> method, used in
+<a href="#aeqbd">Instantiating a Connection Factory</a>, belongs to the
+<code>ConnectionFactory</code> class defined in the package <code>com.sun.messaging</code>,
+rather than to the <code>ConnectionFactory</code> interface defined in <code>javax.jms</code>
+. Thus in order for the compiler to recognize this method, <code>myFactory</code>
+must be typed explicitly as <code>com.sun.messaging.ConnectionFactory</code> rather
+than simply <code>ConnectionFactory</code> (which would resolve to
+<code>javax.jms.ConnectionFactory</code> after importing <code>javax.jms.*</code> ).
+2.  Set the connection factory&#8217;s configuration properties.<br>
+The most important configuration property is <code>imqAddressList</code>, which
+specifies the host names and port numbers of the message brokers to
+which the factory creates connections. By default, the factory returned
+by the <code>ConnectionFactory</code> constructor in <a href="#aeqbd">Instantiating a
+Connection Factory</a> is configured to create connections to a broker on
+host <code>localhost</code> at port number <code>7676</code>. If necessary, you can use the
+<code>setProperty</code> method, described in the preceding section, to change that
+setting:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myFactory.setProperty(ConnectionConfiguration.imqAddressList,
+                      "localhost:7676,broker2:5000,broker3:9999");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>When specifying the host name portion of a broker, you can use a literal
+IPv4 or IPv6 address instead of a host name. If you use a literal IPv6
+address, its format must conform to
+<a href="http://www.ietf.org/rfc/rfc2732.txt">RFC2732</a>, Format for Literal IPv6
+Addresses in URL&#8217;s.<br>
+Of course, you can also set any other configuration properties your
+application may require. See "<a href="../mq-admin-guide/administered-objects.html#GMADG00568">Connection Factory
+Attributes</a>" in Open Message Queue Administration Guide for a list of
+the available connection factory attributes.<br>
+You can now proceed to use the connection factory to create connections
+to the message service, as described in the next section.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbe"></a><a id="GMJVG00189"></a><a id="using-connections"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_connections">Using Connections</h4>
+<div class="paragraph">
+<p>Once you have obtained a connection factory, you can use it to create a
+connection to the message service. The factory&#8217;s <code>createConnection</code>
+method takes a user name and password as arguments:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection
+      myConnection = myFactory.createConnection("mithrandir", "mellon");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Before granting the connection, Message Queue authenticates the user
+name and password by looking them up in its user repository. As a
+convenience for developers who do not wish to go to the trouble of
+populating a user repository during application development and testing,
+there is also a parameterless form of the <code>createConnection</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Connection myConnection = myFactory.createConnection();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This creates a connection configured for the default user identity, with
+both user name and password set to <code>guest</code>.</p>
+</div>
+<div class="paragraph">
+<p>This unified-domain <code>createConnection</code> method is part of the generic JMS
+<code>ConnectionFactory</code> interface, defined in package <code>javax.jms</code>; the
+Message Queue version in <code>com.sun.messaging</code> adds corresponding methods
+<code>createQueueConnection</code> and <code>createTopicConnection</code> for use specifically
+with the point-to-point and publish/subscribe domains.</p>
+</div>
+<div class="paragraph">
+<p>The following table shows the methods defined in the <code>Connection</code>
+interface.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG407"></a><a id="sthref29"></a><a id="gbotr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-1 Connection Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 55%;">
+<col style="width: 45%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createSession</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create session</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setClientID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set client identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getClientID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get client identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setEeventListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set event listener for connection events</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setExceptionListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set exception listener</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getExceptionListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get exception listener</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMetaData</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get metadata for connection</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createConnectionConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create connection consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDurableConnectionConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create durable connection consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>start</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Start incoming message delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>stop</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Stop incoming message delivery</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close connection</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The main purpose of a connection is to create sessions for exchanging
+messages with the message service:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first argument to <code>createSession</code> is a boolean indicating whether
+the session is transacted; the second specifies its acknowledgment mode.
+Possible values for this second argument are <code>AUTO_ACKNOWLEDGE</code>,
+<code>CLIENT_ACKNOWLEDGE</code>, and <code>DUPS_OK_ACKNOWLEDGE</code>, all defined as static
+constants in the standard JMS <code>Session</code> interface, <code>javax.jms.Session</code> ;
+the extended Message Queue version of the interface,
+<code>com.sun.messaging.jms.Session</code> , adds another such constant,
+<code>NO_ACKNOWLEDGE</code>. See <a href="#aeqbk">Acknowledgment Modes</a> and
+<a href="#gdydy">Transacted Sessions</a> for further discussion.</p>
+</div>
+<div class="paragraph">
+<p>If your client application will be using the publish/subscribe domain to
+create durable topic subscriptions, it must have a client identifier to
+identify itself to the message service. In general, the most convenient
+arrangement is to configure the client runtime to provide a unique
+client identifier automatically for each client. However, the
+<code>Connection</code> interface also provides a method, <code>setClientID</code>, for
+setting a client identifier explicitly, and a corresponding
+<code>getClientID</code> method for retrieving its value. See
+<a href="client-design-and-features.html#aeqcw">Assigning Client Identifiers</a>
+in this guide and "<a href="../mq-admin-guide/administered-objects.html#GMADG00090">Client Identifier</a>" in Open Message
+Queue Administration Guide for more information.</p>
+</div>
+<div class="paragraph">
+<p>You should also use the <code>setExceptionListener</code> method to register an
+exception listener for the connection. This is an object implementing
+the JMS <code>ExceptionListener</code> interface, which consists of the single
+method <code>onException</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">void onException (JMSException exception)</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In the event of a problem with the connection, the message broker will
+call this method, passing an exception object identifying the nature of
+the problem.</p>
+</div>
+<div class="paragraph">
+<p>A connection&#8217;s <code>getMetaData</code> method returns a <code>ConnectionMetaData</code>
+object, which in turn provides methods for obtaining various items of
+information about the connection, such as its JMS version and the name
+and version of the JMS provider.</p>
+</div>
+<div class="paragraph">
+<p>The <code>createConnectionConsumer</code> and <code>createDurableConnectionConsumer</code>
+methods (as well as the session methods <code>setMessageListener</code> and
+<code>getMessageListener</code>, listed in <a href="#gbosv">Table 4-2</a>) are used for
+concurrent message consumption; see the Java Message Service
+Specification for more information.</p>
+</div>
+<div class="paragraph">
+<p>In order to receive incoming messages, you must 7start the connection by
+calling its <code>start</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>It is important not to do this until after you have created any message
+consumers you will be using to receive messages on the connection.
+Starting the connection before creating the consumers risks missing some
+incoming messages before the consumers are ready to receive them. It is
+not necessary to start the connection in order to send outgoing
+messages.</p>
+</div>
+<div class="paragraph">
+<p>If for any reason you need to suspend the flow of incoming messages, you
+can do so by calling the connection&#8217;s <code>stop</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.stop();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>To resume delivery of incoming messages, call the <code>start</code> method again.</p>
+</div>
+<div class="paragraph">
+<p>Finally, when you are through with a connection, you should close it to
+release any resources associated with it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This automatically closes all sessions, message producers, and message
+consumers associated with the connection and deletes any temporary
+destinations. All pending message receives are terminated and any
+transactions in progress are rolled back. Closing a connection does not
+force an acknowledgment of client-acknowledged sessions.</p>
+</div>
+<div class="paragraph">
+<p><a id="gcvuc"></a><a id="GMJVG00190"></a><a id="creating-secure-connections-ssl"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_creating_secure_connections_ssl">Creating Secure Connections (SSL)</h4>
+<div class="paragraph">
+<p>A connection service that is based on the Transport Layer Security
+(TLS/SSL) standard is used to authenticate and encrypt messages sent
+between the client and the broker. This section describes what the
+client needs to do to use TLS/SSL connections. A user can also establish
+a secure connection by way of an HTTPS tunnel servlet. For information
+on setting up secure connections over HTTP, see
+"<a href="../mq-admin-guide/http_https-support.html#GMADG00056">HTTP/HTTPS Support</a>" in Open Message Queue
+Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p>Some of the work needed to set up a TLS/SSL connection is done by an
+administrator. This section summarizes these steps. For complete
+information about the administrative work required, please see
+"<a href="../mq-admin-guide/security-services.html#GMADG00249">Message Encryption</a>" in Open Message Queue
+Administration Guide.</p>
+</div>
+<div class="paragraph">
+<p>To set up a secure connection service, you must do the following.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Generate a self-signed or signed certificate for the broker
+(administrator).</p>
+</li>
+<li>
+<p>Enable the <code>ssljms</code> connection service in the broker
+(administrator).</p>
+</li>
+<li>
+<p>Start the broker (administrator).</p>
+</li>
+<li>
+<p>Configure and run the client as explained below.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>To configure a client to use a TLS/SSL connection you must do the
+following.</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>If your client is not using J2SDK 1.4 (which has JSSE and JNDI
+support built in), make sure the client has the following files in its
+class path:<code>jsse.jar</code>, <code>jnet.jar</code>, <code>jcert, jar</code>, <code>jndi.jar</code>.</p>
+</li>
+<li>
+<p>Make sure the client has the following Message Queue files in its
+class path: <code>imq.jar</code>, <code>jms.jar</code>.</p>
+</li>
+<li>
+<p>If the client is not willing to trust the broker&#8217;s self-signed
+certificate, set the <code>imqSSLIsHostTrusted</code> attribute to false for the
+connection factory from which you get the TLS/SSL connection.</p>
+</li>
+<li>
+<p>Connect to the broker&#8217;s <code>ssljms</code> service. There are two ways to do
+this. The first is to specify the service name <code>ssljms</code> in the address
+for the broker when you provide a value for the <code>imqAddressList</code>
+attribute of the connection factory from which you obtain the
+connection. When you run the client, it will be connected to the broker
+by a TLS/SSLconnection. The second is to specify the following directive
+when you run the command that starts the client.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>java -DimqConnectionType=TLS clientAppName</pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqbf"></a><a id="GMJVG00094"></a><a id="working-with-destinations"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_destinations">Working With Destinations</h3>
+<div class="paragraph">
+<p>All Message Queue messages travel from a message producer to a message
+consumer by way of a destination on a message broker. Message delivery
+is thus a two-stage process: the message is first delivered from the
+producer to the destination and later from the destination to the
+consumer. Physical destinations on the broker are created
+administratively by a Message Queue administrator, using the
+administration tools described in "<a href="../mq-admin-guide/message-delivery.html#GMADG00238">Configuring and
+Managing Physical Destinations</a>" in Open Message Queue Administration
+Guide. The broker provides routing and delivery services for messages
+sent to such a destination.</p>
+</div>
+<div class="paragraph">
+<p>As described earlier under <a href="#aeqay">Messaging Domains</a>, Message Queue
+supports two types of destination, depending on the messaging domain
+being used:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Queues (point-to-point domain)</p>
+</li>
+<li>
+<p>Topics (publish/subscribe domain)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These two types of destination are represented by the Message Queue
+classes <code>Queue</code> and <code>Topic</code>, respectively. These, in turn, are both
+subclasses of the generic class <code>Destination</code>. A client program that
+uses the <code>Destination</code> superclass can thus handle both queue and topic
+destinations indiscriminately.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbg"></a><a id="GMJVG00191"></a><a id="looking-up-a-destination-with-jndi"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_looking_up_a_destination_with_jndi">Looking Up a Destination With JNDI</h4>
+<div class="paragraph">
+<p>Because JMS providers differ in their destination addressing
+conventions, Message Queue does not define a standard address syntax for
+obtaining access to a destination. Rather, the destination is typically
+placed in a publicly available administered object store by a Message
+Queue administrator and accessed by the client using a JNDI lookup in a
+manner similar to that described earlier for connection factories (see
+<a href="#aeqbb">Looking Up a Connection Factory With JNDI</a>).</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbost">Example 4-3</a> shows how to look up a destination object in
+the JNDI object store.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If a Message Queue client is a Java EE component, JNDI resources are
+provided by the Java EE container. In such cases, JNDI lookup code may
+differ from that shown here; see your Java EE provider documentation for
+details.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00041"></a><a id="gbost"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-3 Looking Up a Destination</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">//  Create the environment for constructing the initial JNDI naming context.
+
+    Hashtable env = new Hashtable();
+
+
+//  Store the environment attributes that tell JNDI which initial
+//  context factory to use and where to find the provider.
+
+    env.put(Context.INITIAL_CONTEXT_FACTORY,
+                    "com.sun.jndi.fscontext.RefFSContextFactory");
+    env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");
+
+
+//  Create the initial context.
+
+    Context  ctx = new InitialContext(env);
+
+
+//  Look up the destination object in the JNDI object store.
+
+    String  DEST_LOOKUP_NAME = "MyDest";
+    Destination  MyDest = (Destination) ctx.lookup(DEST_LOOKUP_NAME);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The following section explains the program statements in
+<a href="#gbost">Example 4-3</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gbotz"></a><a id="GMJVG00071"></a><a id="to-look-up-a-destination-with-jndi"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_look_up_a_destination_with_jndi">To Look Up a Destination With JNDI</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the environment for constructing the initial JNDI naming
+context.<br>
+How you create the initial context depends on whether you are using a
+file-system object store or a Lightweight Directory Access Protocol
+(LDAP) server for your Message Queue administered objects. The code
+shown here assumes a file-system store; for information about the
+corresponding LDAP object store attributes, see "<a href="../mq-admin-guide/administered-objects.html#GMADG00566">LDAP
+Server Object Stores</a>" in Open Message Queue Administration Guide.<br>
+The constructor for the initial context accepts an environment
+parameter, a hash table whose entries specify the attributes for
+creating the context:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Hashtable env = new Hashtable();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can also set an environment by specifying system properties on the
+command line, rather than programmatically. For instructions, see the
+<code>README</code> file in the JMS example applications directory.
+2.  Store the environment attributes that tell JNDI which initial
+context factory to use and where to find the JMS provider.<br>
+The names of these attributes are defined as static constants in class
+<code>Context</code>:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">env.put(Context.INITIAL_CONTEXT_FACTORY,
+        "com.sun.jndi.fscontext.RefFSContextFactory");
+env.put(Context.PROVIDER_URL, "file:///C:/imq_admin_objects");</code></pre>
+</div>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"></dt>
+</dl>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The directory represented by `C:/`imq_admin_objects must already exist;
+if necessary, you must create the directory before referencing it in
+your code.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the initial context.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>Context ctx = new InitialContext(env);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you use system properties to set the environment, omit the
+environment parameter when creating the context:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Context ctx = new InitialContext();</code></pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Look up the destination object in the administered object store and
+typecast it to the appropriate class:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>String DEST_LOOKUP_NAME = "MyDest";
+Destination MyDest = (Destination) ctx.lookup(DEST_LOOKUP_NAME);</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The lookup name you use, <code>DEST_LOOKUP_NAME</code>, must match the name used
+when the object was stored. Note that the actual destination object
+returned from the object store will always be either a (point-to-point)
+queue or a (publish/subscribe) topic, but that either can be assigned to
+a variable of the generic unified-domain class <code>Destination</code>.<br></p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>For topic destinations, a symbolic lookup name that includes wildcard
+characters can be used as the lookup string. Wildcard characters can
+only be used to match topic names and are not supported in JNDI names.
+See "o<a href="GMADG00069">Supported Topic Destination Names</a>" in Open
+Message Queue Administration Guide.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>You can now proceed to send and receive messages using the destination,
+as described under <a href="#aeqbx">Sending Messages</a> and
+<a href="#aeqby">Receiving Messages</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbh"></a><a id="GMJVG00192"></a><a id="instantiating-a-destination"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_instantiating_a_destination">Instantiating a Destination</h4>
+<div class="paragraph">
+<p>As with connection factories, you may sometimes find it more convenient
+to dispense with JNDI lookup and simply create your own queue or topic
+destination objects by direct instantiation. Although a variable of type
+<code>Destination</code> can accept objects of either class, you cannot directly
+instantiate a <code>Destination</code> object; the object must always belong to one
+of the specific classes <code>Queue</code> or <code>Topic</code>. The constructors for both of
+these classes accept a string argument specifying the name of the
+physical destination to which the object corresponds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Note, however, that this only creates a Java object representing the
+destination; it does not actually create a physical destination on the
+message broker. The physical destination itself must still be created by
+a Message Queue administrator, with the same name you pass to the
+constructor when instantiating the object.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Destination names beginning with the letters <code>mq</code> are reserved and
+should not be used by client programs.</p>
+</div>
+<div class="paragraph">
+<p>Also, for topic destinations, a symbolic lookup name that includes
+wildcard characters can be used as the lookup string. See
+"o<a href="GMADG00069">Supported Topic Destination Names</a>" in Open Message
+Queue Administration Guide.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Unlike connection factories, destinations have a much more limited set
+of configuration properties. In fact, only two such properties are
+defined in the Message Queue class <code>DestinationConfiguration</code>: the name
+of the physical destination itself (<code>imqDestinationName</code>) and an
+optional descriptive string (<code>imqDestinationDescription</code>). Since the
+latter property is rarely used and the physical destination name can be
+supplied directly as an argument to the <code>Queue</code> or <code>Topic</code> constructor
+as shown above, there normally is no need (as there often is with a
+connection factory) to specify additional properties with the object&#8217;s
+<code>setProperty</code> method. Hence the variable to which you assign the
+destination object (<code>myDest</code> in the example above) need not be typed
+with the Message Queue class <code>com.sun.messaging.Destination</code>; the
+standard JMS interface <code>javax.jms.Destination</code> (which the Message Queue
+class implements) is sufficient. If you have imported the full JMS
+package <code>javax.jms.*</code>, you can simply declare the variable with the
+unqualified name <code>Destination</code>, as above, rather than with something
+like</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">com.sun.messaging.Destination
+    myDest = new com.sun.messaging.Queue("myDest");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>as shown earlier for connection factories.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbi"></a><a id="GMJVG00193"></a><a id="temporary-destinations"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_temporary_destinations">Temporary Destinations</h4>
+<div class="paragraph">
+<p>A temporary destination is one that exists only for the duration of the
+connection that created it. You may sometimes find it convenient to
+create such a destination to use, for example, as a reply destination
+for messages you send. Temporary destinations are created with the
+session method <code>createTemporaryQueue</code> or <code>createTemporaryTopic</code> (see
+<a href="#aeqbj">Working With Sessions</a> below): for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TemporaryQueue tempQueue = mySession.createTemporaryQueue();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Although the temporary destination is created by a particular session,
+its scope is actually the entire connection to which that session
+belongs. Any of the connection&#8217;s sessions (not just the one that created
+the temporary destination) can create a message consumer for the
+destination and receive messages from it. The temporary destination is
+automatically deleted when its connection is closed, or you can delete
+it explicitly by calling its <code>delete</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">tempQueue.delete();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqbj"></a><a id="GMJVG00095"></a><a id="working-with-sessions"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_sessions">Working With Sessions</h3>
+<div class="paragraph">
+<p>A session is a single-threaded context for producing and consuming
+messages. You can create multiple message producers and consumers for a
+single session, but you are restricted to using them serially, in a
+single logical thread of control.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbosv">Table 4-2</a> shows the methods defined in the <code>Session</code>
+interface; they are discussed in the relevant sections below.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG408"></a><a id="sthref30"></a><a id="gbosv"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-2 Session Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createProducer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create message producer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createConsumer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create message consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createDurableSubscriber</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create durable subscriber for topic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>unsubscribe</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delete durable subscription to topic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create null message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createTextMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create text message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createStreamMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create stream message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createMapMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create map message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createObjectMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create object message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createBytesMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create bytes message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createQueue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create queue destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createTopic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create topic destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createTemporaryQueue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create temporary queue</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createTemporaryTopic</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create temporary topic</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createBrowser</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create message browser</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setMessageListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set distinguished message listener</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMessageListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get distinguished message listener</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getAcknowledgeMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get session&#8217;s acknowledgment mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTransacted</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Is session transacted?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>commit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Commit transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>rollback</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Roll back transaction</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>recover</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Recover unacknowledged messages</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close session</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Every session exists within the context of a particular connection. The
+number of sessions you can create for a single connection is limited
+only by system resources. As described earlier (see <a href="#aeqbe">Using
+Connections</a>), you use the connection&#8217;s <code>createSession</code> method to create
+a session:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session
+   mySession = myConnection.createSession(false, Session.AUTO_ACKNOWLEDGE);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The first (boolean) argument specifies whether the session is
+transacted; see <a href="#gdydy">Transacted Sessions</a> for further discussion.
+The second argument is an integer constant representing the session&#8217;s
+acknowledgment mode, as described in the next section.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbk"></a><a id="GMJVG00194"></a><a id="acknowledgment-modes"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_acknowledgment_modes">Acknowledgment Modes</h4>
+<div class="paragraph">
+<p>A session&#8217;s acknowledgment mode determines the way your application
+handles the exchange of acknowledgment information when receiving
+messages from a broker. The JMS specification defines three possible
+acknowledgment modes:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In auto-acknowledge mode, the Message Queue client runtime immediately
+sends a client acknowledgment for each message it delivers to the
+message consumer; it then blocks waiting for a return broker
+acknowledgment confirming that the broker has received the client
+acknowledgment. This acknowledgment "handshake" between client and
+broker is handled automatically by the client runtime, with no need for
+explicit action on your part.</p>
+</li>
+<li>
+<p>In client-acknowledge mode, your client application must explicitly
+acknowledge the receipt of all messages. This allows you to defer
+acknowledgment until after you have finished processing the message,
+ensuring that the broker will not delete it from persistent storage
+before processing is complete. You can either acknowledge each message
+individually or batch multiple messages and acknowledge them all at
+once; the client acknowledgment you send to the broker applies to all
+messages received since the previous acknowledgment. In either case, as
+in auto-acknowledge mode, the session thread blocks after sending the
+client acknowledgment, waiting for a broker acknowledgment in return to
+confirm that your client acknowledgment has been received.</p>
+</li>
+<li>
+<p>In dups-OK-acknowledge mode, the session automatically sends a client
+acknowledgment each time it has received a fixed number of messages, or
+when a fixed time interval has elapsed since the last acknowledgment was
+sent. (This fixed batch size and timeout interval are currently 10
+messages and 7 seconds, respectively, and are not configurable by the
+client.) Unlike the first two modes described above, the broker does not
+acknowledge receipt of the client acknowledgment, and the session thread
+does not block awaiting such return acknowledgment from the broker. This
+means that you have no way to confirm that your acknowledgment has been
+received; if it is lost in transmission, the broker may redeliver the
+same message more than once. However, because client acknowledgments are
+batched and the session thread does not block, applications that can
+tolerate multiple delivery of the same message can achieve higher
+throughput in this mode than in auto-acknowledge or client-acknowledge
+mode.<br>
+Message Queue extends the JMS specification by adding a fourth
+acknowledgment mode:</p>
+</li>
+<li>
+<p>In no-acknowledge mode, your client application does not acknowledge
+receipt of messages, nor does the broker expect any such acknowledgment.
+There is thus no guarantee whatsoever that any message sent by the
+broker has been successfully received. This mode sacrifices all
+reliability for the sake of maximum throughput of message traffic.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The standard JMS <code>Session</code> interface, defined in package <code>javax.jms</code>,
+defines static constants for the first three acknowledgment modes
+(<code>AUTO_ACKNOWLEDGE</code>, <code>CLIENT_ACKNOWLEDGE</code>, and <code>DUPS_OK_ACKNOWLEDGE</code>),
+to be used as arguments to the connection&#8217;s <code>createSession</code> method. The
+constant representing the fourth mode (<code>NO_ACKNOWLEDGE</code>) is defined in
+the extended Message Queue version of the interface, in package
+<code>com.sun.messaging.jms</code>. The session method <code>getAcknowledgeMode</code> returns
+one of these constants:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int ackMode = mySession.getAcknowledgeMode();
+switch (ackMode)
+  {
+    case Session.AUTO_ACKNOWLEDGE:
+      /* Code here to handle auto-acknowledge mode */
+      break;
+    case Session.CLIENT_ACKNOWLEDGE:
+      /* Code here to handle client-acknowledge mode */
+      break;
+    case Session.DUPS_OK_ACKNOWLEDGE:
+      /* Code here to handle dups-OK-acknowledge mode */
+      break;
+    case com.sun.messaging.jms.Session.NO_ACKNOWLEDGE:
+      /* Code here to handle no-acknowledge mode */
+      break;
+  }</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>All of the acknowledgment modes discussed above apply to message
+consumption. For message production, the broker&#8217;s acknowledgment
+behavior depends on the message&#8217;s delivery mode (persistent or
+nonpersistent; see <a href="#aeqbo">Message Header</a>). The broker acknowledges
+the receipt of persistent messages, but not of nonpersistent ones; this
+behavior is not configurable by the client.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In a transacted session (see next section), the acknowledgment mode is
+ignored and all acknowledgment processing is handled for you
+automatically by the Message Queue client runtime. In this case, the
+<code>getAcknowledgeMode</code> method returns the special constant
+<code>Session.``SESSION_TRANSACTED</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gdydy"></a><a id="GMJVG00195"></a><a id="transacted-sessions"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_transacted_sessions">Transacted Sessions</h4>
+<div class="paragraph">
+<p>Transactions allow you to group together an entire series of incoming
+and outgoing messages and treat them as an atomic unit. The message
+broker tracks the state of the transaction&#8217;s individual messages, but
+does not complete their delivery until you commit the transaction. In
+the event of failure, you can roll back the transaction, canceling all
+of its messages and restarting the entire series from the beginning.</p>
+</div>
+<div class="paragraph">
+<p>Transactions always take place within the context of a single session.
+To use them, you must create a transacted session by passing <code>true</code> as
+the first argument to a connection&#8217;s <code>createSession</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Session
+   mySession = myConnection.createSession(true, Session.SESSION_TRANSACTED);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The session&#8217;s <code>getTransacted</code> method tests whether it is a transacted
+session:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">if ( mySession.getTransacted() )
+  { /* Code here to handle transacted session */
+  }
+else
+  { /* Code here to handle non-transacted session */
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A transacted session always has exactly one open transaction,
+encompassing all messages sent or received since the session was created
+or the previous transaction was completed. Committing or rolling back a
+transaction ends that transaction and automatically begins another.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because the scope of a transaction is limited to a single session, it is
+not possible to combine the production and consumption of a message into
+a single end-to-end transaction. That is, the delivery of a message from
+a message producer to a destination on the broker cannot be placed in
+the same transaction with its subsequent delivery from the destination
+to a consumer.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>When all messages in a transaction have been successfully delivered, you
+call the session&#8217;s <code>commit</code> method to commit the transaction:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.commit();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All of the session&#8217;s incoming messages are acknowledged and all of its
+outgoing messages are sent. The transaction is then considered complete
+and a new one is started.</p>
+</div>
+<div class="paragraph">
+<p>When a send or receive operation fails, an exception is thrown. While it
+is possible to handle the exception by simply ignoring it or by retrying
+the operation, it is recommended that you roll back the transaction,
+using the session&#8217;s <code>rollback</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.rollback();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All of the session&#8217;s incoming messages are recovered and redelivered,
+and its outgoing messages are destroyed and must be re-sent.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbm"></a><a id="GMJVG00096"></a><a id="working-with-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_working_with_messages">Working With Messages</h3>
+<div class="paragraph">
+<p>This section describes how to use the Message Queue Java API to compose,
+send, receive, and process messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbn"></a><a id="GMJVG00196"></a><a id="message-structure"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_message_structure">Message Structure</h4>
+<div class="paragraph">
+<p>A message consists of the following parts:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A header containing identifying and routing information</p>
+</li>
+<li>
+<p>Optional properties that can be used to convey additional identifying
+information beyond that contained in the header</p>
+</li>
+<li>
+<p>A body containing the actual content of the message</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The following sections discuss each of these in greater detail.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbo"></a><a id="GMJVG00129"></a><a id="message-header"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_message_header">Message Header</h5>
+<div class="paragraph">
+<p>Every message must have a header containing identifying and routing
+information. The header consists of a set of standard fields, which are
+defined in the Java Message Service Specification and summarized in
+<a href="#BGBJIBHB">Table 4-3</a>. Some of these are set automatically by
+Message Queue in the course of producing and delivering a message, some
+depend on settings specified when a message producer sends a message,
+and others are set by the client on a message-by-message basis.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG451"></a><a id="sthref31"></a><a id="BGBJIBHB"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-3 Message Header Fields</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination to which message is sent</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Destination to which to reply</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Link to related message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Delivery mode (persistent or nonpersistent)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSDeliveryTime</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The earliest time a provider may make a message
+visible on a target destination and available for delivery to consumers.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time of transmission</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Has message been delivered before?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The JMS <code>Message</code> interface defines methods for setting the value of
+each header field: for instance,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setJMSReplyTo(replyDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gbota">Table 4-4</a> lists all of the available header specification
+methods.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG410"></a><a id="sthref32"></a><a id="gbota"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-4 Message Header Specification Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set reply destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set correlation identifier from string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSCorrelationIDAsBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set correlation identifier from byte
+array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set time stamp</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setJMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set redelivered flag</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The message identifier (<code>JMSMessageID</code>) is a string value uniquely
+identifying the message, assigned and set by the message broker when the
+message is sent. Because generating an identifier for each message adds
+to both the size of the message and the overhead involved in sending it,
+and because some client applications may not use them, the JMS interface
+provides a way to suppress the generation of message identifiers, using
+the message producer method <code>setDisableMessageID</code> (see
+<a href="#aeqbx">Sending Messages</a>).</p>
+</div>
+<div class="paragraph">
+<p>The <code>JMSDestination</code> header field holds a <code>Destination</code> object
+representing the destination to which the message is directed, set by
+the message broker when the message is sent. There is also a
+<code>JMSReplyTo</code> field that you can set to specify a destination to which
+reply messages should be directed. Clients sending such a reply message
+can set its <code>JMSCorrelationID</code> header field to refer to the message to
+which they are replying. Typically this field is set to the message
+identifier string of the message being replied to, but client
+applications are free to substitute their own correlation conventions
+instead, using either the <code>setJMSCorrelationID</code> method (if the field
+value is a string) or the more general <code>s`e`tJMSCorrelationIDAsBytes</code>
+(if it is not).</p>
+</div>
+<div class="paragraph">
+<p>The delivery mode (<code>JMSDeliveryMode</code>) specifies whether the message
+broker should log the message to stable storage. There are two possible
+values, <code>PERSISTENT</code> and <code>NON_PERSISTENT</code>, both defined as static
+constants of the JMS interface <code>DeliveryMode</code>: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setJMSDeliveryMode(DeliveryMode.NON_PERSISTENT);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The default delivery mode is <code>PERSISTENT</code>, represented by the static
+constant <code>Message.``DEFAULT_DELIVERY_MODE</code>.</p>
+</div>
+<div class="paragraph">
+<p>The choice of delivery mode represents a tradeoff between performance
+and reliability:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In persistent mode, the broker logs the message to stable storage,
+ensuring that it will not be lost in transit in the event of
+transmission failure; the message is guaranteed to be delivered exactly
+once.</p>
+</li>
+<li>
+<p>In nonpersistent mode, the message is not logged to stable storage; it
+will be delivered at most once, but may be lost in case of failure and
+not delivered at all. This mode does, however, improve performance by
+reducing the broker&#8217;s message-handling overhead. It may thus be
+appropriate for applications in which performance is at a premium and
+reliability is not.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The message&#8217;s priority level (<code>JMSPriority</code>) is expressed as an integer
+from <code>0</code> (lowest) to <code>9</code> (highest). Priorities from <code>0</code> to <code>4</code> are
+considered gradations of normal priority, those from <code>5</code> to <code>9</code> of
+expedited priority. The default priority level is <code>4</code>, represented by
+the static constant <code>Message.``DEFAULT_PRIORITY</code>.</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue client runtime sets the <code>JMSTimestamp</code> header field to
+the time it delivers the message to the broker, expressed as a long
+integer in standard Java format (milliseconds since midnight, January 1,
+1970 UTC). The message&#8217;s lifetime, specified when the message is sent,
+is added to this value and the result is stored in the <code>JMSExpiration</code>
+header field. (The default lifetime value of <code>0</code>, represented by the
+static constant <code>Message.``DEFAULT_TIME_TO_LIVE</code>, denotes an unlimited
+lifetime. In this case, the expiration time is also set to <code>0</code> to
+indicate that the message never expires.) As with the message
+identifier, client applications that do not use a message&#8217;s time stamp
+can improve performance by suppressing its generation with the message
+producer method <code>setDisableMessageTimestamp</code> (see <a href="#aeqbx">Sending
+Messages</a>).</p>
+</div>
+<div class="paragraph">
+<p>The header field <code>JMSType</code> can contain an optional message type
+identifier string supplied by the client when the message is sent. This
+field is intended for use with other JMS providers; Message Queue
+clients can simply ignore it.</p>
+</div>
+<div class="paragraph">
+<p>When a message already delivered must be delivered again because of a
+failure, the broker indicates this by setting the <code>JMSRedelivered</code> flag
+in the message header to <code>true</code>. This can happen, for instance, when a
+session is recovered or a transaction is rolled back. The receiving
+client can check this flag to avoid duplicate processing of the same
+message (such as when the message has already been successfully received
+but the client&#8217;s acknowledgment was missed by the broker).</p>
+</div>
+<div class="paragraph">
+<p>See the Java Message Service Specification for a more detailed
+discussion of all message header fields.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbp"></a><a id="GMJVG00130"></a><a id="message-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_properties">Message Properties</h5>
+<div class="paragraph">
+<p>A message property consists of a name string and an associated value,
+which must be either a string or one of the standard Java primitive data
+types (<code>int</code>, <code>byte</code>, <code>short</code>, <code>long</code>, <code>float</code>, <code>double</code>, or <code>boolean</code>).
+The <code>Message</code> interface provides methods for setting properties of each
+type (see <a href="#gbotk">Table 4-5</a>). There is also a <code>setObjectProperty</code>
+method that accepts a primitive value in objectified form, as a Java
+object of class <code>Integer</code>, <code>Byte</code>, <code>Short</code>, <code>Long</code>, <code>Float</code> , <code>Double</code>,
+<code>Boolean</code>, or <code>String</code> . The <code>clearProperties</code> method deletes all
+properties associated with a message; the message header and body are
+not affected.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG411"></a><a id="sthref33"></a><a id="gbotk"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-5 Message Property Specification Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setIntProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setByteProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set byte property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setShortProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set short integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setLongProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set long integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setFloatProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set floating-point property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDoubleProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set double-precision property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setBooleanProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set boolean property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setStringProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set string property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setObjectProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set property from object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>clearProperties</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Clear properties</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The JMS specification defines certain standard properties, listed in
+<a href="#gboul">Table 4-6</a>. By convention, the names of all such standard
+properties begin with the letters <code>JMSX</code>; names of this form are
+reserved and must not be used by a client application for its own custom
+message properties. These properties are not enabled by default, an
+application must set the name/value pairs it requires on the appropriate
+connection factory.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG412"></a><a id="sthref34"></a><a id="gboul"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-6 Standard JMS Message Properties</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 22%;">
+<col style="width: 22%;">
+<col style="width: 22%;">
+<col style="width: 34%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Required?</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXUserID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of user sending message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXAppID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of application sending
+message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXDeliveryCount</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Number of delivery attempts</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXGroupID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identity of message group to which
+this message belongs</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXGroupSeq</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Sequence number within message group</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXProducerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of transaction
+within which message was produced</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXConsumerTXID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Identifier of transaction
+within which message was consumed</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXRcvTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>long</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Time message delivered to
+consumer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>JMSXState</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>int</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Message state (waiting, ready, expired,
+or retained)</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqbq"></a><a id="GMJVG00131"></a><a id="message-body"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_body">Message Body</h5>
+<div class="paragraph">
+<p>The actual content of a message is contained in the message body. JMS
+defines six classes (or types) of message, each with a different body
+format:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A text message (interface <code>TextMessage</code>) contains a Java string.</p>
+</li>
+<li>
+<p>A stream message (interface <code>StreamMessage</code>) contains a stream of Java
+primitive values, written and read sequentially.</p>
+</li>
+<li>
+<p>A map message (interface <code>MapMessage</code>) contains a set of name-value
+pairs, where each name is a string and each value is a Java primitive
+value. The order of the entries is undefined; they can be accessed
+randomly by name or enumerated sequentially.</p>
+</li>
+<li>
+<p>An object message (interface <code>ObjectMessage</code>) contains a serialized
+Java object (which may in turn be a collection of other objects).</p>
+</li>
+<li>
+<p>A bytes message (interface <code>BytesMessage</code>) contains a stream of
+uninterpreted bytes.</p>
+</li>
+<li>
+<p>A null message (interface <code>Message</code>) consists of a header and
+properties only, with no message body.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each of these is a subinterface of the generic <code>Message</code> interface,
+extended with additional methods specific to the particular message
+type.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbr"></a><a id="GMJVG00197"></a><a id="composing-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_composing_messages">Composing Messages</h4>
+<div class="paragraph">
+<p>The JMS <code>Session</code> interface provides methods for creating each type of
+message, as shown in <a href="#gbotl">Table 4-7</a>. For instance, you can
+create a text message with a statement such as</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In general, these methods create a message with an empty body; the
+interfaces for specific message types then provide additional methods
+for filling the body with content, as described in the sections that
+follow.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG413"></a><a id="sthref35"></a><a id="gbotl"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-7 Session Methods for Message Creation</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create null message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createTextMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create text message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createStreamMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create stream message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createMapMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create map message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createObjectMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create object message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>createBytesMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Create bytes message</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Some of the message-creation methods have an overloaded form that allows
+you to initialize the message body directly at creation: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage
+   outMsg = mySession.createTextMessage("Hello, World!");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>These exceptions are pointed out in the relevant sections below.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Once a message has been delivered to a message consumer, its body is
+considered read-only; any attempt by the consumer to modify the message
+body will cause an exception (<code>MessageNotWriteableException</code>) to be
+thrown. The consumer can, however, empty the message body and place it
+in a writeable state by calling the message method <code>clearBody</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.clearBody();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This places the message in the same state as if it had been newly
+created, ready to fill its body with new content.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbs"></a><a id="GMJVG00132"></a><a id="composing-text-messages"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_composing_text_messages">Composing Text Messages</h5>
+<div class="paragraph">
+<p>You create a text message with the session method <code>createTextMessage</code>.
+You can either initialize the message body directly at creation time</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage("Hello, World!");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or simply create an empty message and then use its <code>setText</code> method (see
+<a href="#gbotp">Table 4-8</a>) to set its content:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">TextMessage outMsg = mySession.createTextMessage();
+outMsg.setText("Hello, World!");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG414"></a><a id="sthref36"></a><a id="gbotp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-8 Text Message Composition Method</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setText</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set content string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqbt"></a><a id="GMJVG00133"></a><a id="composing-stream-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composing_stream_messages">Composing Stream Messages</h5>
+<div class="paragraph">
+<p>The session method <code>createStreamMessage</code> returns a new, empty stream
+message. You can then use the methods shown in <a href="#gbosx">Table 4-9</a> to
+write primitive data values into the message body, similarly to writing
+to a data stream: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">StreamMessage outMsg = mySession.createStreamMessage();
+outMsg.writeString("The Meaning of Life");
+outMsg.writeInt(42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG415"></a><a id="sthref37"></a><a id="gbosx"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-9 Stream Message Composition Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write byte value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write byte array to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write short integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write long integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write floating-point value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write double-precision value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write boolean value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write character to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeString</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write string to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write value of object to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reset message stream</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As a convenience for handling values whose types are not known until
+execution time, the <code>writeObject</code> method accepts a string or an
+objectified primitive value of class <code>Integer</code>, <code>Byte</code>, <code>Short</code>, <code>Long</code>,
+<code>Float</code>, <code>Double</code> , <code>Boolean</code>, or <code>Character</code> and writes the
+corresponding string or primitive value to the message stream: for
+example, the statements</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+outMsg.writeObject(meaningOfLife);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>are equivalent to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This method will throw an exception (<code>MessageFormatException</code>) if the
+argument given to it is not of class <code>String</code> or one of the objectified
+primitive classes.</p>
+</div>
+<div class="paragraph">
+<p>Once you&#8217;ve written the entire message contents to the stream, the
+<code>reset</code> method</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.reset();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>puts the message body in read-only mode and repositions the stream to
+the beginning, ready to read (see <a href="#aeqch">Processing Messages</a>).
+When the message is in this state, any attempt to write to the message
+stream will throw the exception <code>MessageNotWriteableException</code>. A call
+to the <code>clearBody</code> method (inherited from the superinterface <code>Message</code>)
+deletes the entire message body and makes it writeable again.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbu"></a><a id="GMJVG00134"></a><a id="composing-map-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composing_map_messages">Composing Map Messages</h5>
+<div class="paragraph">
+<p><a href="#gbown">Table 4-10</a> shows the methods available in the <code>MapMessage</code>
+interface for adding content to the body of a map message. Each of these
+methods takes two arguments, a name string and a primitive or string
+value of the appropriate type, and adds the corresponding name-value
+pair to the message body: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">StreamMessage outMsg = mySession.createMapMessage();
+outMsg.setInt("The Meaning of Life", 42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG416"></a><a id="sthref38"></a><a id="gbown"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-10 Map Message Composition Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store integer in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store byte value in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store byte array in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store short integer in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store long integer in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store floating-point value in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store double-precision value in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store boolean value in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store character in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setString</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store string in message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Store object in message map by name</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Like stream messages, map messages provide a convenience method
+(<code>setObject</code>) for dealing with values whose type is determined
+dynamically at execution time: for example, the statements</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+outMsg.setObject("The Meaning of Life", meaningOfLife);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>are equivalent to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.setInt("The Meaning of Life", 42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The object supplied must be either a string object (class <code>String</code>) or
+an objectified primitive value of class <code>Integer</code>, <code>Byte</code> , <code>Short</code>,
+<code>Long</code>, <code>Float</code>, <code>Double</code>, <code>Boolean</code>, or <code>Character</code>; otherwise an
+exception (<code>MessageFormatException</code>) will be thrown.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbv"></a><a id="GMJVG00135"></a><a id="composing-object-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composing_object_messages">Composing Object Messages</h5>
+<div class="paragraph">
+<p>The <code>ObjectMessage</code> interface provides just one method, <code>setObject</code>
+(<a href="#gbowk">Table 4-11</a>), for setting the body of an object message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage();
+outMsg.setObject(bodyObject);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The argument to this method can be any serializable object (that is, an
+instance of any class that implements the standard Java interface
+<code>Serializable</code>). If the object is not serializable, the exception
+<code>MessageFormatException</code> will be thrown.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG417"></a><a id="sthref39"></a><a id="gbowk"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-11 Object Message Composition Method</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Serialize object to message body</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As an alternative, you can initialize the message body directly when you
+create the message, by passing an object to the session method
+<code>createObjectMessage</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">ObjectMessage outMsg = mySession.createObjectMessage(bodyObject);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Again, an exception will be thrown if the object is not serializable.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbw"></a><a id="GMJVG00136"></a><a id="composing-bytes-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_composing_bytes_messages">Composing Bytes Messages</h5>
+<div class="paragraph">
+<p>The body of a bytes message simply consists of a stream of uninterpreted
+bytes; its interpretation is entirely a matter of agreement between
+sender and receiver. This type of message is intended primarily for
+encoding message formats required by other existing message systems;
+Message Queue clients should generally use one of the other, more
+specific message types instead.</p>
+</div>
+<div class="paragraph">
+<p>Composing a bytes message is similar to composing a stream message (see
+<a href="#aeqbt">Composing Stream Messages</a>). You create the message with the
+session method <code>createBytesMessage</code>, then use the methods shown in
+<a href="#gbovs">Table 4-12</a> to encode primitive values into the message&#8217;s
+byte stream: for example,</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">BytesMessage outMsg = mySession.createBytesMessage();
+outMsg.writeUTF("The Meaning of Life");
+outMsg.writeInt(42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG418"></a><a id="sthref40"></a><a id="gbovs"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-12 Bytes Message Composition Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write byte value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write byte array to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write short integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write long integer to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write floating-point value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write double-precision value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write boolean value to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write character to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeUTF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write UTF-8 string to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>writeObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Write value of object to message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>reset</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Reset message stream</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As with stream and map messages, you can use the generic object-based
+method <code>writeObject</code> to handle values whose type is unknown at
+compilation time: for example, the statements</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer meaningOfLife = new Integer(42);
+outMsg.writeObject(meaningOfLife);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>are equivalent to</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.writeInt(42);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The message&#8217;s <code>reset</code> method</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">outMsg.reset();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>puts the message body in read-only mode and repositions the byte stream
+to the beginning, ready to read (see <a href="#aeqch">Processing Messages</a>).
+Attempting to write further content to a message in this state will
+cause an exception (<code>MessageNotWriteableException</code>). The inherited
+<code>Message</code> method <code>clearBody</code> can be used to delete the entire message
+body and make it writeable again.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbx"></a><a id="GMJVG00198"></a><a id="sending-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_sending_messages">Sending Messages</h4>
+<div class="paragraph">
+<p>In order to send messages to a message broker, you must create a message
+producer using the session method <code>createProducer</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(myDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The scope of the message producer is limited to the session that created
+it and the connection to which that session belongs. <a href="#gbovn">Table
+4-13</a> shows the methods defined in the <code>MessageProducer</code> interface.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG419"></a><a id="sthref41"></a><a id="gbovn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-13 Message Producer Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set default message lifetime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getTimeToLive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get default message lifetime</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDisableMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message identifier disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDisableMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message identifier disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setDisableMessageTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set time stamp disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDisableMessageTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get time stamp disable flag</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>send</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Send message</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close message producer</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <code>createProducer</code> method takes a destination as an argument, which
+may be either a (point-to-point) queue or a (publish/subscribe) topic.
+The producer will then send all of its messages to the specified
+destination. If the destination is a queue, the producer is called a
+sender for that queue; if it is a topic, the producer is a publisher to
+that topic. The message producer&#8217;s <code>getDestination</code> method returns this
+destination.</p>
+</div>
+<div class="paragraph">
+<p>You also have the option of leaving the destination unspecified when you
+create a producer</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageProducer myProducer = mySession.createProducer(null);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>in which case you must specify an explicit destination for each message.
+This option is typically used for producers that must send messages to a
+variety of destinations, such as those designated in the <code>JMSReplyTo</code>
+header fields of incoming messages (see <a href="#aeqbo">Message Header</a>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The generic <code>MessageProducer</code> interface also has specialized
+subinterfaces, <code>QueueSender</code> and <code>TopicPublisher</code>, for sending messages
+specifically to a point-to-point queue or a publish/subscribe topic.
+These types of producer are created by the <code>createSender</code> and
+<code>createPublisher</code> methods of the specialized session subinterfaces
+<code>QueueSession</code> and <code>TopicSession</code>, respectively. However, it is
+generally more convenient (and recommended) to use the generic form of
+message producer described here, which can handle both types of
+destination indiscriminately.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A producer has a default delivery mode (persistent or nonpersistent),
+priority level, and message lifetime, which it will apply to all
+messages it sends unless explicitly overridden for an individual
+message. You can set these properties with the message producer methods
+<code>setDeliveryMode</code>, <code>setPriority</code>, and <code>setTimeToLive</code>, and retrieve them
+with <code>getDeliveryMode</code>, <code>getPriority</code>, and <code>getTimeToLive</code>. If you don&#8217;t
+set them explicitly, they default to persistent delivery, priority level
+<code>4</code>, and a lifetime value of <code>0</code>, denoting an unlimited message
+lifetime.</p>
+</div>
+<div class="paragraph">
+<p>The heart of the message producer interface is the <code>send</code> method, which
+is available in a variety of overloaded forms. The simplest of these
+just takes a message as its only argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This sends the specified message to the producer&#8217;s default destination,
+using the producer&#8217;s default delivery mode, priority, and message
+lifetime. Alternatively, you can explicitly specify the destination</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(myDest, outMsg);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or the delivery mode, priority, and lifetime in milliseconds</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>or all of these at once:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.send(myDest, outMsg, DeliveryMode.NON_PERSISTENT, 9, 1000);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Recall that if you did not specify a destination when creating the
+message producer, you must provide an explicit destination for each
+message you send.</p>
+</div>
+<div class="paragraph">
+<p>As discussed earlier under <a href="#aeqbo">Message Header</a>, client
+applications that have no need for the message identifier and time stamp
+fields in the message header can gain some performance improvement by
+suppressing the generation of these fields, using the message producer&#8217;s
+<code>setDisableMessageID</code> and <code>setdisableMessageTimestamp</code> methods. Note
+that a <code>true</code> value for either of these flags disables the generation of
+the corresponding header field, while a <code>false</code> value enables it. Both
+flags are set to <code>false</code> by default, meaning that the broker will
+generate the values of these header fields unless explicitly instructed
+otherwise.</p>
+</div>
+<div class="paragraph">
+<p>When you are finished using a message producer, you should call its
+<code>close</code> method</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myProducer.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>allowing the broker and client runtime to release any resources they may
+have allocated on the producer&#8217;s behalf.</p>
+</div>
+<div class="paragraph">
+<p><a id="BGBGDFBA"></a><a id="GMJVG452"></a><a id="asynchronous-send"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_asynchronous_send">Asynchronous send</h5>
+<div class="paragraph">
+<p>The JMS 2.0 specification allows clients to send a message
+asynchronously. This permits the JMS provider to perform part of the
+work involved in sending the message in a separate thread.</p>
+</div>
+<div class="paragraph">
+<p>When a message has been successfully sent, the JMS provider invokes the
+callback method <code>onCompletion</code> on an application-specified
+<code>CompletionListener</code> object. Only when that callback has been invoked
+can the application be sure that the message has been successfully sent
+with the same degree of confidence as if a synchronous send had been
+performed. An application which requires this degree of confidence must
+wait for the callback to be invoked before continuing.</p>
+</div>
+<div class="paragraph">
+<p>The following section provides guidelines on how to convert two common
+synchronous send design patterns to use asynchronous sends.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A producer sends messages using a synchronous send to a remote JMS
+server and then waits for an acknowledgement to be received before
+returning.<br>
+A producer implements an asynchronous send by sending the message to the
+remote JMS server and then returning without waiting for an
+acknowledgement. When the acknowledgement is received, the JMS provider
+would notify the application by invoking the <code>onCompletion</code> method on
+the application-specified <code>CompletionListener</code> object. If for some
+reason the acknowledgement is not received, the JMS provider would
+notify the application by invoking <code>CompletionListener.onException</code>.</p>
+</li>
+<li>
+<p>A producer sends messages using a synchronous send to a remote JMS
+server and does not wait for an acknowledgement to be received before
+returning.<br>
+A producer implements an asynchronous send by sending the message to the
+remote JMS server and then return without waiting for an
+acknowledgement. The JMS provider then notifies the application that the
+send had completed by invoking the <code>onCompletion</code> method on the
+application-specified <code>CompletionListener</code> object.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG443"></a><a id="sthref42"></a></p>
+</div>
+<div id="methods-for-asynchronous-sends" class="paragraph">
+<p>Methods for Asynchronous Sends</p>
+</div>
+<div class="paragraph">
+<p>IA JMS provider uses <code>MessageProducer</code> to send a message asynchronously
+using one of the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>send(Message message, CompletionListener completionListener)</code></p>
+</li>
+<li>
+<p><code>send(Message message, int deliveryMode, int priority, long timeToLive, CompletionListener completionListener)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, Message message, CompletionListener completionListener)</code></p>
+</li>
+<li>
+<p><code>send(Destination destination, Message message, int deliveryMode, int priority, long timeToLive, CompletionListener completionListener)</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeqby"></a><a id="GMJVG00199"></a><a id="receiving-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_receiving_messages">Receiving Messages</h4>
+<div class="paragraph">
+<p>Messages are received by a message consumer, within the context of a
+connection and a session. Once you have created a consumer, you can use
+it to receive messages in either of two ways:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>In synchronous message consumption, you explicitly request the
+delivery of messages when you are ready to receive them.</p>
+</li>
+<li>
+<p>In asynchronous message consumption, you register a message listener
+for the consumer. The Message Queue client runtime then calls the
+listener whenever it has a message to deliver.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These two forms of message consumption are described in the sections
+<a href="#aeqcc">Receiving Messages Synchronously</a> and <a href="#aeqcd">Receiving
+Messages Asynchronously</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqbz"></a><a id="GMJVG00137"></a><a id="creating-message-consumers"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_creating_message_consumers">Creating Message Consumers</h5>
+<div class="paragraph">
+<p>The session method <code>createConsumer</code> creates a generic consumer that can
+be used to receive messages from either a (point-to-point) queue or a
+(publish/subscribe) topic:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer myConsumer = mySession.createConsumer(myDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the destination is a queue, the consumer is called a receiver for
+that queue; if it is a topic, the consumer is a subscriber to that
+topic.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The generic <code>MessageConsumer</code> interface also has specialized
+subinterfaces, <code>QueueReceiver</code> and <code>TopicSubscriber</code>, for receiving
+messages specifically from a point-to-point queue or a publish/subscribe
+topic. These types of consumer are created by the <code>createReceiver</code> and
+<code>createSubscriber</code> methods of the specialized session subinterfaces
+<code>QueueSession</code> and <code>TopicSession</code>, respectively. However, it is
+generally more convenient (and recommended) to use the generic form of
+message consumer described here, which can handle both types of
+destination indiscriminately.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>A subscriber created for a topic destination with the <code>createConsumer</code>
+method is always nondurable, meaning that it will receive only messages
+that are sent (published)to the topic while the subscriber is active. If
+you want the broker to retain messages published to a topic while no
+subscriber is active and deliver them when one becomes active again, you
+must instead create a durable subscriber, as described in
+<a href="#aeqcb">Durable Subscribers</a>.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbove">Table 4-14</a> shows the methods defined in the
+<code>MessageConsumer</code> interface, which are discussed in detail in the
+relevant sections below.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG420"></a><a id="sthref43"></a><a id="gbove"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-14 Message Consumer Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMessageSelector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message selector</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>receive</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receive message synchronously</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>receiveNoWait</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receive message synchronously without blocking</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>setMessageListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Set message listener for asynchronous reception</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMessageListener</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message listener for asynchronous reception</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close message consumer</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqca"></a><a id="GMJVG00019"></a><a id="message-selectors"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Selectors</p>
+</div>
+<div class="paragraph">
+<p>If appropriate, you can restrict the messages a consumer will receive
+from its destination by supplying a message selector as an argument when
+you create the consumer:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+MessageConsumer myConsumer = mySession.createConsumer(myDest, mySelector);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The selector is a string whose syntax is based on a subset of the SQL92
+conditional expression syntax, which allows you to filter the messages
+you receive based on the values of their properties (see
+<a href="#aeqbp">Message Properties</a>). See the Java Message Service
+Specification for a complete description of this syntax. The message
+consumer&#8217;s <code>getMessageSelector</code> method returns the consumer&#8217;s selector
+string (or <code>null</code> if no selector was specified when the consumer was
+created):</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = myConsumer.getMessageSelector();</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Messages whose properties do not satisfy the consumer&#8217;s selector will be
+retained undelivered by the destination until they are retrieved by
+another message consumer. The use of message selectors can thus cause
+messages to be delivered out of sequence from the order in which they
+were originally produced. Only a message consumer without a selector is
+guaranteed to receive messages in their original order.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>In some cases, the same connection may both publish and subscribe to the
+same topic destination. The <code>createConsumer</code> method accepts an optional
+boolean argument that suppresses the delivery of messages published by
+the consumer&#8217;s own connection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+MessageConsumer
+        myConsumer = mySession.createConsumer(myDest, mySelector, true);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The resulting consumer will receive only messages published by a
+different connection.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqcb"></a><a id="GMJVG00020"></a><a id="durable-subscribers"></a></p>
+</div>
+<div class="paragraph">
+<p>Durable Subscribers</p>
+</div>
+<div class="paragraph">
+<p>To receive messages delivered to a publish/subscribe topic while no
+message consumer is active, you must ask the message broker to create a
+durable subscriber for that topic. All sessions that create such
+subscribers for a given topic must have the same client identifier (see
+<a href="#aeqbe">Using Connections</a>). When you create a durable subscriber,
+you supply a subscriber name that must be unique for that client
+identifier:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MessageConsumer
+        myConsumer = mySession.createDurableSubscriber(myDest, "mySub");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(The object returned by the <code>createDurableSubscriber</code> method is actually
+typed as <code>TopicSubscriber</code>, but since that is a subinterface of
+<code>MessageConsumer</code>, you can safely assign it to a <code>MessageConsumer</code>
+variable. Note, however, that the destination <code>myDest</code> must be a
+publish/subscribe topic and not a point-to-point queue.)</p>
+</div>
+<div class="paragraph">
+<p>You can think of a durable subscriber as a "virtual message consumer"
+for the specified topic, identified by the unique combination of a
+client identifier and subscriber name. When a message arrives for the
+topic and no message consumer is currently active for it, the message
+will be retained for later delivery. Whenever you create a consumer with
+the given client identifier and subscriber name, it will be considered
+to represent this same durable subscriber and will receive all of the
+accumulated messages that have arrived for the topic in the subscriber&#8217;s
+absence. Each message is retained until it is delivered to (and
+acknowledged by) such a consumer or until it expires.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Only one session at a time can have an active consumer for a given
+durable subscription. If another such consumer already exists, the
+<code>createDurableSubscriber</code> method will throw an exception.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Like the <code>createConsumer</code> method described in the preceding section
+(which creates nondurable subscribers), <code>createDurableSubscriber</code> can
+accept an optional message selector string and a boolean argument
+telling whether to suppress the delivery of messages published by the
+subscriber&#8217;s own connection:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String mySelector = "/* Text of selector here */";
+MessageConsumer myConsumer
+                    = mySession.createDurableSubscriber(myDest, "mySub",
+                                                        mySelector, true);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can change the terms of a durable subscription by creating a new
+subscriber with the same client identifier and subscription name but
+with a different topic, selector, or both. The effect is as if the old
+subscription were destroyed and a new one created with the same name.
+When you no longer need a durable subscription, you can destroy it with
+the session method <code>unsubscribe</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqcc"></a><a id="GMJVG00138"></a><a id="receiving-messages-synchronously"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_receiving_messages_synchronously">Receiving Messages Synchronously</h5>
+<div class="paragraph">
+<p>Once you have created a message consumer for a session, using either the
+<code>createConsumer</code> or`createDurableSubscriber` method, you must start the
+session&#8217;s connection to begin the flow of incoming messages:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConnection.start();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>(Note that it is not necessary to start a connection in order to produce
+messages, only to consume them.) You can then use the consumer&#8217;s
+<code>receive</code> method to receive messages synchronously from the message
+broker:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This returns the next available message for this consumer. If no message
+is immediately available, the <code>receive</code> method blocks until one arrives.
+You can also provide a timeout interval in milliseconds:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receive(1000);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>In this case, if no message arrives before the specified timeout
+interval (1 second in the example) expires, the method will return with
+a null result. An alternative method, <code>receiveNoWait</code>, returns a null
+result immediately if no message is currently available:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Message inMsg = myConsumer.receiveNoWait();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqcd"></a><a id="GMJVG00139"></a><a id="receiving-messages-asynchronously"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_receiving_messages_asynchronously">Receiving Messages Asynchronously</h5>
+<div class="paragraph">
+<p>If you want your message consumer to receive incoming messages
+asynchronously, you must create a message listener to process the
+messages. This is a Java object that implements the JMS
+<code>MessageListener</code> interface. The procedure is as follows:</p>
+</div>
+<div class="paragraph">
+<p><a id="gbovx"></a><a id="GMJVG00072"></a><a id="to-set-up-a-message-queue-java-client-to-receive-messages-asynchronously"></a></p>
+</div>
+<div class="paragraph">
+<p>To Set Up a Message Queue Java Client to Receive Messages Asynchronously</p>
+</div>
+<div class="paragraph">
+<p>Follow this procedure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Define a message listener class implementing the <code>MessageListener</code>
+interface.<br>
+The interface consists of the single method <code>onMessage</code>, which accepts a
+message as a parameter and processes it in whatever way is appropriate
+for your application:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>public class MyMessageListener implements MessageListener
+  {
+        public void onMessage (Message inMsg)
+      {
+        /* Code here to process message */
+      }
+   }</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create a message consumer.<br>
+You can use either the <code>createConsumer</code> or <code>createDurableSubscriber</code>
+method of the session in which the consumer will operate: for instance,<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>MessageConsumer myConsumer = mySession.createConsumer(myDest);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an instance of your message listener class.<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>MyMessageListener myListener = new MyMessageListener();</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Associate the message listener with your message consumer.<br>
+The message consumer method <code>setMessageListener</code> accepts a message
+listener object and associates it with the given consumer:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>myConsumer.setMessageListener(myListener);</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Start the connection to which this consumer&#8217;s session belongs.<br>
+The connection&#8217;s <code>start</code> method begins the flow of messages from the
+message broker to your message consumer:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>myConnection.start();</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Once the connection is started, the Message Queue client runtime will
+call your message listener&#8217;s <code>onMessage</code> method each time it has a
+message to deliver to this consumer.<br>
+To ensure that no messages are lost before your consumer is ready to
+receive them, it is important not to start the connection until after
+you have created the message listener and associated it with the
+consumer. If the connection is already started, you should stop it
+before creating an asynchronous consumer, then start it again when the
+consumer is ready to begin processing.<br>
+Setting a consumer&#8217;s message listener to <code>null</code> removes any message
+listener previously associated with it:<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConsumer.setMessageListener(null);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The consumer&#8217;s <code>getMessageListener</code> method returns its current message
+listener (or <code>null</code> if there is none):<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">MyMessageListener myListener = myConsumer.getMessageListener();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqce"></a><a id="GMJVG00140"></a><a id="acknowledging-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_acknowledging_messages">Acknowledging Messages</h5>
+<div class="paragraph">
+<p>If you have specified client-acknowledge as your session&#8217;s
+acknowledgment mode (see <a href="#aeqbk">Acknowledgment Modes</a>), it is your
+client application&#8217;s responsibility to explicitly acknowledge each
+message it receives. If you have received the message synchronously,
+using a message consumer&#8217;s <code>receive</code> (or <code>receiveNoWait</code>) method, you
+should process the message first and then acknowledge it; if you have
+received it asynchronously, your message listener&#8217;s <code>onMessage</code> method
+should acknowledge the message after processing it. This ensures that
+the message broker will not delete the message from persistent storage
+until processing is complete.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a transacted session (see <a href="#gdydy">Transacted Sessions</a>), there is
+no need to acknowledge a message explicitly: the session&#8217;s
+acknowledgment mode is ignored and all acknowledgment processing is
+handled for you automatically by the Message Queue client runtime. In
+this case, the session&#8217;s <code>getAcknowledgeMode</code> method will return the
+special constant <code>Session.``SESSION_TRANSACTED</code>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a href="#gbovj">Table 4-15</a> shows the methods available for acknowledging a
+message. The most general is <code>acknowledge</code>, defined in the standard JMS
+interface <code>javax.jms.Message</code>:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">inMsg.acknowledge();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This acknowledges all unacknowledged messages consumed by the session up
+to the time of call. You can use this method to acknowledge each message
+individually as you receive it, or you can group several messages
+together and acknowledge them all at once by calling <code>acknowledge</code> on
+the last one in the group.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG421"></a><a id="sthref44"></a><a id="gbovj"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-15 Message Acknowledgment Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 48%;">
+<col style="width: 52%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Function</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acknowledge</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledge all unacknowledged messages for session</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acknowledgeThisMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledge this message only</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>acknowledgeUpThroughThisMessage</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Acknowledge all unacknowledged
+messages through this one</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The Message Queue version of the <code>Message</code> interface, defined in the
+package <code>com.sun.messaging.jms</code>, adds two more methods that provide more
+flexible control over which messages you acknowledge. The
+<code>acknowledgeThisMessage</code> method just acknowledges the single message for
+which it is called, rather than all messages consumed by the session;
+<code>acknowledgeUpThroughThisMessage</code> acknowledges the message for which it
+is called and all previous messages; messages received after that
+message remain unacknowledged.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqcf"></a><a id="GMJVG00141"></a><a id="browsing-messages"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_browsing_messages">Browsing Messages</h5>
+<div class="paragraph">
+<p>If the destination from which you are consuming messages is a
+point-to-point queue, you can use a queue browser to examine the
+messages in the queue without consuming them. The session method
+<code>createBrowser</code> creates a browser for a specified queue:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">QueueBrowser myBrowser = mySession.createBrowser(myDest);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The method will throw an exception (<code>InvalidDestinationException</code>) if
+you try to pass it a topic destination instead of a queue. You can also
+supply a selector string as an optional second argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String        mySelector = "/* Text of selector here */";
+QueueBrowser  myBrowser  = mySession.createBrowser(myDest, mySelector);</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gbovd">Table 4-16</a> shows the methods defined in the <code>QueueBrowser</code>
+interface. The <code>getQueue</code> and <code>getMessageSelector</code> methods return the
+browser&#8217;s queue and selector string, respectively.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG422"></a><a id="sthref45"></a><a id="gbovd"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-16 Queue Browser Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getQueue</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get queue from which this browser reads</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMessageSelector</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message selector</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getEnumeration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get enumeration of all messages in the queue</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>close</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Close browser</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The most important queue browser method is <code>getEnumeration</code>, which
+returns a Java enumeration object that you can use to iterate through
+the messages in the queue, as shown in <a href="#gbovf">Example 4-4</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00042"></a><a id="gbovf"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-4 Browsing a Queue</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  queueMessages = myBrowser.getEnumeration();
+Message      eachMessage;
+
+while ( queueMessages.hasMoreElements() )
+  { eachMessage = queueMessages.nextElement();
+    /* Do something with the message */
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The browser&#8217;s <code>close</code> method closes it when you&#8217;re through with it:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myBrowser.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqcg"></a><a id="GMJVG00142"></a><a id="closing-a-consumer"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_closing_a_consumer">Closing a Consumer</h5>
+<div class="paragraph">
+<p>As a matter of good programming practice, you should close a message
+consumer when you have no further need for it. Closing a session or
+connection automatically closes all consumers associated with it; to
+close a consumer without closing the session or connection to which it
+belongs, you can use its <code>close</code> method:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">myConsumer.close();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>For a consumer that is a nondurable topic subscriber, this terminates
+the flow of messages to the consumer. However, if the consumer is a
+queue receiver or a durable topic subscriber, messages will continue to
+be accumulated for the destination and will be delivered the next time a
+consumer for that destination becomes active. To terminate a durable
+subscription permanently, call its session&#8217;s <code>unsubscribe</code> method with
+the subscriber name as an argument:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">mySession.unsubscribe("mySub");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqch"></a><a id="GMJVG00200"></a><a id="processing-messages"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_processing_messages">Processing Messages</h4>
+<div class="paragraph">
+<p>Processing a message after you have received it may entail examining its
+header fields, properties, and body. The following sections describe how
+this is done.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqci"></a><a id="GMJVG00143"></a><a id="retrieving-message-header-fields"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_retrieving_message_header_fields">Retrieving Message Header Fields</h5>
+<div class="paragraph">
+<p>The standard JMS message header fields are described in
+<a href="#BGBJIBHB">Table 4-3</a>. <a href="#gbowr">Table 4-17</a> shows the methods
+provided by the JMS <code>Message</code> interface for retrieving the values of
+these fields: for instance, you can obtain a message&#8217;s reply destination
+with the statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Destination replyDest = inMsg.getJMSReplyTo();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG423"></a><a id="sthref46"></a><a id="gbowr"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-17 Message Header Retrieval Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSMessageID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message identifier</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSDestination</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSReplyTo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get reply destination</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSCorrelationID</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get correlation identifier as string</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSCorrelationIDAsBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get correlation identifier as byte array</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSDeliveryMode</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get delivery mode</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSPriority</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get priority level</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSTimestamp</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get time stamp</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSExpiration</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get expiration time</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSType</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get message type</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getJMSRedelivered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get redelivered flag</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqcj"></a><a id="GMJVG00144"></a><a id="retrieving-message-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_retrieving_message_properties">Retrieving Message Properties</h5>
+<div class="paragraph">
+<p><a href="#gbout">Table 4-18</a> lists the methods defined in the JMS <code>Message</code>
+interface for retrieving the values of a message&#8217;s properties (see
+<a href="#aeqbp">Message Properties</a>). There is a retrieval method for each
+of the possible primitive types that a property value can assume: for
+instance, you can obtain a message&#8217;s time stamp with the statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">long  timeStamp = inMsg.getLongProperty("JMSXRcvTimestamp");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG424"></a><a id="sthref47"></a><a id="gbout"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-18 Message Property Retrieval Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getIntProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getByteProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get byte property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getShortProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get short integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getLongProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get long integer property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getFloatProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get floating-point property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDoubleProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get double-precision property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBooleanProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get boolean property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getStringProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get string property</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getObjectProperty</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get property as object</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getPropertyNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get property names</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>propertyExists</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Does property exist?</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>There is also a generic <code>getObjectProperty</code> method that returns a
+property value in objectified form, as a Java object of class <code>Integer</code>,
+<code>Byte</code>, <code>Short</code>, <code>Long</code>, <code>Float</code> , <code>Double</code>, <code>Boolean</code>, or <code>String</code> .
+For example, another way to obtain a message&#8217;s time stamp, equivalent to
+that shown above, would be</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Long  timeStampObject = (Long)inMsg.getObjectProperty("JMSXRcvTimestamp");
+long  timeStamp = timeStampObject.longValue();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If the message has no property with the requested name,
+<code>getObjectProperty</code> will return <code>null</code>; the message method
+<code>propertyExists</code> tests whether this is the case.</p>
+</div>
+<div class="paragraph">
+<p>The <code>getPropertyNames</code> method returns a Java enumeration object for
+iterating through all of the property names associated with a given
+message; you can then use the retrieval methods shown in the table to
+retrieve each of the properties by name, as shown in <a href="#gbowd">Example
+4-5</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00043"></a><a id="gbowd"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-5 Enumerating Message Properties</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  propNames = inMsg.getPropertyNames();
+String       eachName;
+Object       eachValue;
+
+while ( propNames.hasMoreElements() )
+  { eachName  = propNames.nextElement();
+    eachValue = inMsg.getObjectProperty(eachName);
+    /* Do something with the value */
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqck"></a><a id="GMJVG00145"></a><a id="processing-the-message-body"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_processing_the_message_body">Processing the Message Body</h5>
+<div class="paragraph">
+<p>The methods for retrieving the contents of a message&#8217;s body essentially
+parallel those for composing the body, as described earlier under
+<a href="#aeqbr">Composing Messages</a>. The following sections describe these
+methods for each of the possible message types (text, stream, map,
+object, and bytes).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeqcl"></a><a id="GMJVG00021"></a><a id="processing-text-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Processing Text Messages</p>
+</div>
+<div class="paragraph">
+<p>The text message method <code>getText</code> (<a href="#gbowe">Table 4-19</a>) retrieves
+the contents of a text message&#8217;s body in the form of a string:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">String textBody = inMsg.getText();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG425"></a><a id="sthref48"></a><a id="gbowe"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-19 Text Message Access Method</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getText</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get content string</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqcm"></a><a id="GMJVG00022"></a><a id="processing-stream-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Processing Stream Messages</p>
+</div>
+<div class="paragraph">
+<p>Reading the contents of a stream message is similar to reading from a
+data stream, using the access methods shown in <a href="#gbowl">Table 4-20</a>:
+for example, the statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>retrieves an integer value from the message stream.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG426"></a><a id="sthref49"></a><a id="gbowl"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-20 Stream Message Access Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read byte value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read byte array from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read short integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read long integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read floating-point value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read double-precision value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read boolean value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read character from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readString</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read string from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read value from message stream as object</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>The <code>readObject</code> method returns the next value from the message stream
+in objectified form, as a Java object of the class corresponding to the
+value&#8217;s primitive data type: for instance, if the value is of type
+<code>int</code>, <code>readObject</code> returns an object of class <code>Integer</code>. The following
+statements are equivalent to the one shown above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer  intObject = (Integer) inMsg.readObject();
+int      intVal    = intObject.intValue();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqcn"></a><a id="GMJVG00023"></a><a id="processing-map-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Processing Map Messages</p>
+</div>
+<div class="paragraph">
+<p>The <code>MapMessage</code> interface provides the methods shown in
+<a href="#gbovk">Table 4-21</a> for reading the body of a map message. Each
+access method takes a name string as an argument and returns the value
+to which that name is mapped: for instance, under the example shown in
+<a href="#aeqbu">Composing Map Messages</a>, the statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int meaningOfLife = inMsg.getInt("The Meaning of Life");</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>would set the variable <code>meaningOfLife</code> to the value <code>42</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG427"></a><a id="sthref50"></a><a id="gbovk"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-21 Map Message Access Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get integer from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get byte value from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get byte array from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get short integer from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get long integer from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get floating-point value from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get double-precision value from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get boolean value from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get character from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getString</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get string from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get object from message map by name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>itemExists</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Does map contain an item with specified name?</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getMapNames</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get enumeration of all names in map</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>Like stream messages, map messages provide an access method,
+<code>getObject</code>, that returns a value from the map in objectified form, as a
+Java object of the class corresponding to the value&#8217;s primitive data
+type: for instance, if the value is of type <code>int</code>, <code>getObject</code> returns
+an object of class <code>Integer</code>. The following statements are equivalent to
+the one shown above:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Integer  meaningObject = (Integer) inMsg.getObject("The Meaning of Life");
+int      meaningOfLife = meaningObject.intValue();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>itemExists</code> method returns a boolean value indicating whether the
+message map contains an association for a given name string:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">if ( inMsg.itemExists("The Meaning of Life") )
+  { /* Life is meaningful */
+  }
+else
+  { /* Life is meaningless */
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The <code>getMapNames</code> method returns a Java enumeration object for iterating
+through all of the names defined in the map; you can then use
+<code>getObject</code> to retrieve the corresponding values, as shown in
+<a href="#gbovl">Example 4-6</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG00044"></a><a id="gbovl"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 4-6 Enumerating Map Message Values</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Enumeration  mapNames = inMsg.getMapNames();
+String       eachName;
+Object       eachValue;
+
+while ( mapNames.hasMoreElements() )
+  { eachName  = mapNames.nextElement();
+    eachValue = inMsg.getObject(eachName);
+    /* Do something with the value */
+  }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeqco"></a><a id="GMJVG00024"></a><a id="processing-object-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Processing Object Messages</p>
+</div>
+<div class="paragraph">
+<p>The <code>ObjectMessage</code> interface provides just one method, <code>getObject</code>
+(<a href="#gbouw">Table 4-22</a>), for retrieving the serialized object that is
+the body of an object message:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">Object messageBody = inMsg.getObject();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You can then typecast the result to a more specific class and process it
+in whatever way is appropriate.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG428"></a><a id="sthref51"></a><a id="gbouw"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-22 Object Message Access Method</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getObject</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get serialized object from message body</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeqcp"></a><a id="GMJVG00025"></a><a id="processing-bytes-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Processing Bytes Messages</p>
+</div>
+<div class="paragraph">
+<p>The body of a bytes message simply consists of a stream of uninterpreted
+bytes; its interpretation is entirely a matter of agreement between
+sender and receiver. This type of message is intended primarily for
+decoding message formats used by other existing message systems; Message
+Queue clients should generally use one of the other, more specific
+message types instead.</p>
+</div>
+<div class="paragraph">
+<p>Reading the body of a bytes message is similar to reading a stream
+message (see <a href="#aeqcm">Processing Stream Messages</a>): you use the
+methods shown in <a href="#gbovp">Table 4-23</a> to decode primitive values from
+the message&#8217;s byte stream. For example, the statement</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int intVal = inMsg.readInt();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>retrieves an integer value from the byte stream. The <code>getBodyLength</code>
+method returns the length of the entire message body in bytes:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">int bodyLength = inMsg.getBodyLength();</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMJVG429"></a><a id="sthref52"></a><a id="gbovp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 4-23 Bytes Message Access Methods</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 39%;">
+<col style="width: 61%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Name</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>getBodyLength</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Get length of message body in bytes</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readInt</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read signed byte value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readUnsignedByte</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read unsigned byte value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readBytes</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read byte array from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read signed short integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readUnsignedShort</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read unsigned short integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readLong</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read long integer from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readFloat</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read floating-point value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readDouble</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read double-precision value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readBoolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read boolean value from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readChar</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read character from message stream</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>readUTF</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Read UTF-8 string from message stream</p></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="GMJVG453"></a><a id="sthref53"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="simplified-extraction-of-message-bodies">Simplified Extraction of Message Bodies</h5>
+<div class="paragraph">
+<p>You can use the <code>getBody</code> method to provide a convenient way to obtain
+the body from a newly-received <code>Message</code> object. Use <code>getBody</code> to:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Return the body of a <code>TextMessage</code>, <code>MapMessage</code>, or <code>BytesMessage</code> as
+a <code>String</code>, <code>Map</code>, or <code>byte[]</code> without the need to cast the <code>Message</code>
+first to the appropriate subtype.</p>
+</li>
+<li>
+<p>Return the body of an <code>ObjectMessage</code> without the need to cast the
+<code>Message</code> to <code>ObjectMessage</code>, extract the body as a <code>Serializable</code>, and
+cast it to the specified type.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The <code>isBodyAssignableTo</code> method can be used to determine whether a
+subsequent call to <code>getBody</code> would be able to return the body of a
+particular <code>Message</code> object as a particular type.</p>
+</div>
+<div class="paragraph">
+<p><a id="BGBGIECH"></a><a id="GMJVG454"></a><a id="using-the-autocloseable-interface"></a></p>
+</div>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_autocloseable_interface">Using the Autocloseable Interface</h3>
+<div class="paragraph">
+<p>Objects from interfaces that extend the <code>java.lang.Autocloseable</code> and
+use a <code>try-with-resources</code> statement do not need to explicitly call
+<code>close()</code> when these objects are no longer required.</p>
+</div>
+<div class="paragraph">
+<p>The following interfaces extend the <code>java.lang.Autocloseable</code> interface:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>Connection</code></p>
+</li>
+<li>
+<p><code>Session</code></p>
+</li>
+<li>
+<p><code>MessageProducer</code></p>
+</li>
+<li>
+<p><code>MessageConsumer</code></p>
+</li>
+<li>
+<p><code>QueueBrowser</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">. . .
+try (Connection connection = connectionFactory.createConnection();){
+   // use connection in this try block
+   // it will be closed when try block completes
+} catch (JMSException e){
+   // exception handling
+}
+. . .</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="using-the-simplifed-java-api.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="using-the-metrics-monitoring-api.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+</body>
+</html>

@@ -1,0 +1,1552 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Managing Administered Objects</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Managing Administered Objects</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="bridge-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00042"></a><a id="aeogu"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="managing-administered-objects">11 Managing Administered Objects</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Administered objects encapsulate provider-specific configuration and
+naming information, enabling the development of client applications that
+are portable from one JMS provider to another. A Message Queue
+administrator typically creates administered objects for client
+applications to use in obtaining broker connections for sending and
+receiving messages.</p>
+</div>
+<div class="paragraph">
+<p>This chapter tells how to use the Object Manager utility (<code>imqobjmgr</code>)
+to create and manage administered objects. It contains the following
+sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeogv">Object Stores</a></p>
+</li>
+<li>
+<p><a href="#aeogy">Administered Object Attributes</a></p>
+</li>
+<li>
+<p><a href="#aeohm">Using the Object Manager Utility</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeogv"></a><a id="GMADG00255"></a><a id="object-stores"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_object_stores">Object Stores</h3>
+<div class="paragraph">
+<p>Administered objects are placed in a readily available object store
+where they can be accessed by client applications by means of the Java
+Naming and Directory Interface (JNDI). There are two types of object
+store you can use: a standard Lightweight Directory Access Protocol
+(LDAP) directory server or a directory in the local file system.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogw"></a><a id="GMADG00566"></a><a id="ldap-server-object-stores"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_ldap_server_object_stores">LDAP Server Object Stores</h4>
+<div class="paragraph">
+<p>An LDAP server is the recommended object store for production messaging
+systems. LDAP servers are designed for use in distributed systems and
+provide security features that are useful in production environments.</p>
+</div>
+<div class="paragraph">
+<p>LDAP implementations are available from a number of vendors. To manage
+an object store on an LDAP server with Message Queue administration
+tools, you may first need to configure the server to store Java objects
+and perform JNDI lookups; see the documentation provided with your LDAP
+implementation for details.</p>
+</div>
+<div class="paragraph">
+<p>To use an LDAP server as your object store, you must specify the
+attributes shown in <a href="#gbnjp">Table 11-1</a>. These attributes fall into
+the following categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Initial context. The <code>java.naming.factory.initial</code> attribute specifies
+the initial context for JNDI lookups on the server. The value of this
+attribute is fixed for a given LDAP object store.</p>
+</li>
+<li>
+<p>Location. The <code>java.naming.provider.url</code> attribute specifies the URL
+and directory path for the LDAP server. You must verify that the
+specified directory path exists.</p>
+</li>
+<li>
+<p>Security. The <code>java.naming.security.principal</code>,
+<code>java.naming.security.credentials</code>, and
+<code>java.naming.security.authentication</code> attributes govern the
+authentication of callers attempting to access the object store. The
+exact format and values of these attributes depend on the LDAP service
+provider; see the documentation provided with your LDAP implementation
+for details and to determine whether security information is required on
+all operations or only on those that change the stored data.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG663"></a><a id="sthref44"></a><a id="gbnjp"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 11-1 LDAP Object Store Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 43%;">
+<col style="width: 57.0%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.factory.initial</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Initial context for JNDI lookup</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.sun.jndi.ldap.LdapCtxFactory</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.provider.url</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Server URL and directory path</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ldap://myD.com:389/ou=mq1,o=App</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>where administered objects are stored in the directory <code>/App/mq1</code>.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.security.principal</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Identity of the principal for authenticating callers</p>
+</div>
+<div class="paragraph">
+<p>The format of this attribute depends on the authentication scheme: for
+example,</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>uid=homerSimpson,ou=People,o=mq</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>If this attribute is unspecified, the behavior is determined by the LDAP
+service provider.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.security.credentials</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Credentials of the authentication principal</p>
+</div>
+<div class="paragraph">
+<p>The value of this attribute depends on the authentication scheme: for
+example, it might be a hashed password, a clear-text password, a key, or
+a certificate.</p>
+</div>
+<div class="paragraph">
+<p>If this property is unspecified, the behavior is determined by the LDAP
+service provider.</p>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.security.authentication</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Security level for authentication:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>none</code>: No security</p>
+</li>
+<li>
+<p><code>simple</code>: Simple security</p>
+</li>
+<li>
+<p><code>strong</code>: Strong security</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, if you specify <code>simple</code>, you will be prompted for any
+missing principal or credential values. This will allow you a more
+secure way of providing identifying information.</p>
+</div>
+<div class="paragraph">
+<p>If this property is unspecified, the behavior is determined by the LDAP
+service provider.</p>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeogx"></a><a id="GMADG00567"></a><a id="file-system-object-stores"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_file_system_object_stores">File-System Object Stores</h4>
+<div class="paragraph">
+<p>Message Queue also supports the use of a directory in the local file
+system as an object store for administered objects. While this approach
+is not recommended for production systems, it has the advantage of being
+very easy to use in development environments. Note, however, that for a
+directory to be used as a centralized object store for clients deployed
+across multiple computer nodes, all of those clients must have access to
+the directory. In addition, any user with access to the directory can
+use Message Queue administration tools to create and manage administered
+objects.</p>
+</div>
+<div class="paragraph">
+<p>To use a file-system directory as your object store, you must specify
+the attributes shown in <a href="#gbnkn">Table 11-2</a>. These attributes have
+the same general meanings described above for LDAP object stores; in
+particular, the <code>java.naming.provider.url</code> attribute specifies the
+directory path of the directory holding the object store. This directory
+must exist and have the proper access permissions for the user of
+Message Queue administration tools as well as the users of the client
+applications that will access the store.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG664"></a><a id="sthref45"></a><a id="gbnkn"></a></p>
+</div>
+<div class="paragraph">
+<p>Table 11-2 File-system Object Store Attributes</p>
+</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 40%;">
+<col style="width: 60%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Attribute</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.factory.initial</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Initial context for JNDI lookup</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>com.sun.jndi.fscontext.RefFSContextFactory</code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>java.naming.provider.url</code></p></td>
+<td class="tableblock halign-left valign-top"><div><div class="paragraph">
+<p>Directory path</p>
+</div>
+<div class="paragraph">
+<p>Example:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code><a href="file:///C:/myapp/mqobjs" class="bare">file:///C:/myapp/mqobjs</a></code></p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p><a id="aeogy"></a><a id="GMADG00256"></a><a id="administered-object-attributes"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_administered_object_attributes">Administered Object Attributes</h3>
+<div class="paragraph">
+<p>Message Queue administered objects are of two basic kinds:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connection factories are used by client applications to create
+connections to brokers.</p>
+</li>
+<li>
+<p>Destinations represent locations on a broker with which client
+applications can exchange (send and retrieve) messages.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Each type of administered object has certain attributes that determine
+the object&#8217;s properties and behavior. This section describes how to use
+the Object Manager command line utility (<code>imqobjmgr</code>) to set these
+attributes; you can also set them with the GUI Administration Console,
+as described in <a href="quick-start.html#aeobo">Working With Administered
+Objects</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeogz"></a><a id="GMADG00568"></a><a id="connection-factory-attributes"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_connection_factory_attributes">Connection Factory Attributes</h4>
+<div class="paragraph">
+<p>Client applications use connection factory administered objects to
+create connections with which to exchange messages with a broker. A
+connection factory&#8217;s attributes define the properties of all connections
+it creates. Once a connection has been created, its properties cannot be
+changed; thus the only way to configure a connection&#8217;s properties is by
+setting the attributes of the connection factory used to create it.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue defines two classes of connection factory objects:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>ConnectionFactory</code> objects support normal messaging and
+nondistributed transactions.</p>
+</li>
+<li>
+<p><code>XAConnectionFactory</code> objects support distributed transactions.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Both classes share the same configuration attributes, which you can use
+to optimize resources, performance, and message throughput. These
+attributes are listed and described in detail in
+<a href="administered-object-attributes.html#aeood">Administered Object
+Attribute Reference</a> and are discussed in the following sections below:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeoha">Connection Handling</a></p>
+</li>
+<li>
+<p><a href="#aeohe">Client Identification</a></p>
+</li>
+<li>
+<p><a href="#aeohh">Reliability And Flow Control</a></p>
+</li>
+<li>
+<p><a href="#gctlb">Queue Browser and Server Sessions</a></p>
+</li>
+<li>
+<p><a href="#aeohj">Standard Message Properties</a></p>
+</li>
+<li>
+<p><a href="#aeohk">Message Header Overrides</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeoha"></a><a id="GMADG00428"></a><a id="connection-handling"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_connection_handling">Connection Handling</h5>
+<div class="paragraph">
+<p>Connection handling attributes specify the broker address to which to
+connect and, if required, how to detect connection failure and attempt
+reconnection. They are summarized in
+<a href="administered-object-attributes.html#gbnnx">Table 19-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohb"></a><a id="GMADG00086"></a><a id="broker-address-list"></a></p>
+</div>
+<div class="paragraph">
+<p>Broker Address List</p>
+</div>
+<div class="paragraph">
+<p>The most important connection handling attribute is <code>imqAddressList</code>,
+which specifies the broker or brokers to which to establish a
+connection. The value of this attribute is a string containing a broker
+address or (in the case of a broker cluster) multiple addresses
+separated by commas. Broker addresses can use a variety of addressing
+schemes, depending on the connection service to be used (see
+<a href="connection-services.html#aeocn">Configuring Connection Services</a>) and
+the method of establishing a connection:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>mq</code> uses the broker&#8217;s Port Mapper to assign a port dynamically for
+either the <code>jms</code> or <code>ssljms</code> connection service.</p>
+</li>
+<li>
+<p><code>mqtcp</code> bypasses the Port Mapper and connects directly to a specified
+port, using the <code>jms</code> connection service.</p>
+</li>
+<li>
+<p><code>mqssl</code> makes a Secure Socket Layer (SSL ) connection to a specified
+port, using the <code>ssljms</code> connection service.</p>
+</li>
+<li>
+<p><code>http</code> makes a Hypertext Transport Protocol (HTTP) connection to a
+Message Queue tunnel servlet at a specified URL, using the <code>httpjms</code>
+connection service.</p>
+</li>
+<li>
+<p><code>https</code> makes a Secure Hypertext Transport Protocol (HTTPS) connection
+to a Message Queue tunnel servlet at a specified URL, using the
+<code>httpsjms</code> connection service.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>These addressing schemes are summarized in
+<a href="administered-object-attributes.html#gbnnt">Table 19-2</a>.</p>
+</div>
+<div class="paragraph">
+<p>The general format for each broker address is</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">scheme:// address</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where scheme is one of the addressing schemes listed above and address
+denotes the broker address itself. The exact syntax for specifying the
+address varies depending on the addressing scheme, as shown in the
+"Description" column of
+<a href="administered-object-attributes.html#gbnnt">Table 19-2</a>.
+<a href="administered-object-attributes.html#gbnna">Table 19-3</a> shows examples
+of the various address formats.</p>
+</div>
+<div class="paragraph">
+<p>In a multiple-broker cluster environment, the address list can contain
+more than one broker address. If the first connection attempt fails, the
+Message Queue client runtime will attempt to connect to another address
+in the list, and so on until the list is exhausted. Two additional
+connection factory attributes control the way this is done:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imqAddressListBehavior</code> specifies the order in which to try the
+specified addresses. If this attribute is set to the string <code>PRIORITY</code>,
+addresses will be tried in the order in which they appear in the address
+list. If the attribute value is <code>RANDOM</code>, the addresses will instead be
+tried in random order; this is useful, for instance, when many Message
+Queue clients are sharing the same connection factory object, to prevent
+them from all attempting to connect to the same broker address.</p>
+</li>
+<li>
+<p><code>imqAddressListIterations</code> specifies how many times to cycle through
+the list before giving up and reporting failure. A value of <code>-1</code> denotes
+an unlimited number of iterations: the client runtime will keep trying
+until it succeeds in establishing a connection or until the end of time,
+whichever occurs first.<br></p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because enhanced clusters are self-configuring (see
+<a href="broker-clusters.html#gejkw">Cluster Configuration Properties</a> and
+<a href="broker-clusters.html#gebmt">Connecting Brokers into an Enhanced
+Cluster</a>), their membership can change over time as brokers enter and
+leave the cluster. In this type of cluster, the value of each member
+broker&#8217;s <code>imqAddressList</code> attribute is updated dynamically so that it
+always reflects the cluster&#8217;s current membership.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeohc"></a><a id="GMADG00087"></a><a id="automatic-reconnection"></a></p>
+</div>
+<div class="paragraph">
+<p>Automatic Reconnection</p>
+</div>
+<div class="paragraph">
+<p>By setting certain connection factory attributes, you can configure a
+client to reconnect automatically to a broker in the event of a failed
+connection. For standalone brokers or those belonging to a conventional
+broker cluster (see "<a href="../mq-tech-over/broker-clusters.html#GMTOV00067">Conventional Clusters</a>" in Open
+Message Queue Technical Overview), you enable this behavior by setting
+the connection factory&#8217;s <code>imqReconnectEnabled</code> attribute to <code>true</code>. The
+<code>imqReconnectAttempts</code> attribute controls the number of reconnection
+attempts to a given broker address; <code>imqReconnectInterval</code> specifies the
+interval, in milliseconds, to wait between attempts.</p>
+</div>
+<div class="paragraph">
+<p>If the broker is part of a conventional cluster, the failed connection
+can be restored not only on the original broker, but also on a different
+one in the cluster. If reconnection to the original broker fails, the
+client runtime will try the other addresses in the connection factory&#8217;s
+broker address list (<code>imqAddressList</code>). The <code>imqAddressListBehavior</code> and
+<code>imqAddressListIterations</code> attributes control the order in which
+addresses are tried and the number of iterations through the list, as
+described in the preceding section. Each address is tried repeatedly at
+intervals of <code>imqReconnectInterval</code> milliseconds, up to the maximum
+number of attempts specified by <code>imqReconnectAttempts</code>.</p>
+</div>
+<div class="paragraph">
+<p>Note, however, that in a conventional cluster, such automatic
+reconnection only provides connection failover and not data failover:
+persistent messages and other state information held by a failed or
+disconnected broker can be lost when the client is reconnected to a
+different broker instance. While attempting to reestablish a connection,
+Message Queue does maintain objects (such as sessions, message
+consumers, and message producers) provided by the client runtime.
+Temporary destinations are also maintained for a time when a connection
+fails, because clients might reconnect and access them again; after
+giving clients time to reconnect and use these destinations, the broker
+will delete them. In circumstances where the client-side state cannot be
+fully restored on the broker on reconnection (for instance, when using
+transacted sessions, which exist only for the duration of a connection),
+automatic reconnection will not take place and the connection&#8217;s
+exception handler will be called instead. It is then up to the client
+application to catch the exception, reconnect, and restore state.</p>
+</div>
+<div class="paragraph">
+<p>By contrast, in an enhanced cluster (see "<a href="../mq-tech-over/broker-clusters.html#GMTOV00068">Enhanced
+Clusters</a>" in Open Message Queue Technical Overview), another broker can
+take over a failed broker&#8217;s persistent state and proceed to deliver its
+pending messages without interruption of service. In this type of
+cluster, automatic reconnection is always enabled. The connection
+factory&#8217;s <code>imqReconnectEnabled</code>, <code>imqAddressList</code>, and
+<code>imqAddressListIterations</code> attributes are ignored. The client runtime is
+automatically redirected to the failover broker. Because there might be
+a short time lag during which the failover broker takes over from the
+failed broker, the <code>imqReconnectAttempts</code> connection factory attribute
+should be set to a value of <code>-1</code> (client runtime continues connect
+attempts until successful).</p>
+</div>
+<div class="paragraph">
+<p>Automatic reconnection supports all client acknowledgment modes for
+message consumption. Once a connection has been reestablished, the
+broker will redeliver all unacknowledged messages it had previously
+delivered, marking them with a <code>Redeliver</code> flag. Client applications can
+use this flag to determine whether a message has already been consumed
+but not yet acknowledged. (In the case of nondurable subscribers,
+however, the broker does not hold messages once their connections have
+been closed. Thus any messages produced for such subscribers while the
+connection is down cannot be delivered after reconnection and will be
+lost.) Message production is blocked while automatic reconnection is in
+progress; message producers cannot send messages to the broker until
+after the connection has been reestablished.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohd"></a><a id="GMADG00088"></a><a id="periodic-testing-pinging-of-connections"></a></p>
+</div>
+<div class="paragraph">
+<p>Periodic Testing (Pinging) of Connections</p>
+</div>
+<div class="paragraph">
+<p>The Message Queue client runtime can be configured to periodically test,
+or "ping," a connection, allowing connection failures to be detected
+preemptively before an attempted message transmission fails. Such
+testing is particularly important for client applications that only
+consume messages and do not produce them, since such applications cannot
+otherwise detect when a connection has failed. Clients that produce
+messages only infrequently can also benefit from this feature.</p>
+</div>
+<div class="paragraph">
+<p>The connection factory attribute <code>imqPingInterval</code> specifies the
+frequency, in seconds, with which to ping a connection. By default, this
+interval is set to 30 seconds; a value of <code>-1</code> disables the ping
+operation.</p>
+</div>
+<div class="paragraph">
+<p>The response to an unsuccessful ping varies from one operating-system
+platform to another. On some platforms, an exception is immediately
+thrown to the client application&#8217;s exception listener. (If the client
+does not have an exception listener, its next attempt to use the
+connection will fail.) Other platforms may continue trying to establish
+a connection to the broker, buffering successive pings until one
+succeeds or the buffer overflows.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohe"></a><a id="GMADG00429"></a><a id="client-identification"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_client_identification">Client Identification</h5>
+<div class="paragraph">
+<p>The connection factory attributes listed in
+<a href="administered-object-attributes.html#gbnnu">Table 19-4</a> support client
+authentication and the setting of client identifiers for durable
+subscribers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohf"></a><a id="GMADG00089"></a><a id="client-authentication"></a></p>
+</div>
+<div class="paragraph">
+<p>Client Authentication</p>
+</div>
+<div class="paragraph">
+<p>All attempts to connect to a broker must be authenticated by user name
+and password against a user repository maintained by the message
+service. The connection factory attributes <code>imqDefaultUsername</code> and
+<code>imqDefaultPassword</code> specify a default user name and password to be used
+if the client does not supply them explicitly when creating a
+connection.</p>
+</div>
+<div class="paragraph">
+<p>As a convenience for developers who do not wish to bother populating a
+user repository during application development and testing, Message
+Queue provides a guest user account with user name and password both
+equal to <code>guest</code>. This is also the default value for the
+<code>imqDefaultUsername</code> and <code>imqDefaultPassword</code> attributes, so that if
+they are not specified explicitly, clients can always obtain a
+connection under the guest account. In a production environment, access
+to broker connections should be restricted to users who are explicitly
+registered in the user repository.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohg"></a><a id="GMADG00090"></a><a id="client-identifier"></a></p>
+</div>
+<div class="paragraph">
+<p>Client Identifier</p>
+</div>
+<div class="paragraph">
+<p>A connection canprovide a unique client identifier whenever the broker
+must maintain a persistent state on behalf of a client. Message Queue
+uses such client identifiers to keep track of durable subscribers to a
+topic destination. When a durable subscriber becomes inactive, the
+broker retains all incoming messages for the topic and delivers them
+when the subscriber becomes active again. The broker identifies the
+subscriber by means of its client identifier.</p>
+</div>
+<div class="paragraph">
+<p>While it is possible for a client application to set its own client
+identifier programmatically using the connection object&#8217;s <code>setClientID</code>
+method, this makes it difficult to coordinate client identifiers to
+ensure that each is unique. It is generally better to have Message Queue
+automatically assign a unique identifier when creating a connection on
+behalf of a client. This can be done by setting the connection factory&#8217;s
+<code>imqConfiguredClientID</code> attribute to a value of the form</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">${u}factoryID</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The characters <code>${u}</code> must be the first four characters of the attribute
+value. (Any character other than <code>u</code> between the braces will cause an
+exception to be thrown on connection creation; in any other position,
+these characters have no special meaning and will be treated as plain
+text.) The value for factoryID is a character string uniquely associated
+with this connection factory object.</p>
+</div>
+<div class="paragraph">
+<p>When creating a connection for a particular client, Message Queue will
+construct a client identifier by replacing the characters <code>${u}</code> with
+<code>${u:`userName</code>}<code>, where userName is the user name authenticated for the
+connection. This ensures that connections created by a given connection
+factory, although identical in all other respects, will each have their
+own unique client identifier. For example, if the user name is `Calvin</code>
+and the string specified for the connection factory&#8217;s
+<code>imqConfiguredClientID</code> attribute is <code>${u}Hobbes</code>, the client identifier
+assigned will be <code>${u:Calvin}Hobbes</code>.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>This scheme will not work if two clients both attempt to obtain
+connections using the default user name <code>guest</code>, since each would have a
+client identifier with the same <code>${u}</code> component. In this case, only the
+first client to request a connection will get one; the second client&#8217;s
+connection attempt will fail, because Message Queue cannot create two
+connections with the same client identifier.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Even if you specify a client identifier with <code>imqConfiguredClientID</code>,
+client applications can override this setting with the connection method
+<code>setClientID</code>. You can prevent this by setting the connection factory&#8217;s
+<code>imqDisableSetClientID</code> attribute to <code>true</code>. Note that for an
+application that uses durable subscribers, the client identifier must be
+set one way or the other: either administratively with
+<code>imqConfiguredClientID</code> or programmatically with <code>setClientID</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohh"></a><a id="GMADG00430"></a><a id="reliability-and-flow-control"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_reliability_and_flow_control">Reliability And Flow Control</h5>
+<div class="paragraph">
+<p>Because "payload" messages sent and received by clients and control
+messages (such as broker acknowledgments) used by Message Queue itself
+pass over the same client-broker connection, excessive levels of payload
+traffic can interfere with the delivery of control messages. To help
+alleviate this problem, the connection factory attributes listed in
+<a href="administered-object-attributes.html#gbnob">Table 19-5</a> allow you to
+manage the relative flow of the two types of message. These attributes
+fall into four categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Acknowledgment timeout specifies the maximum time (<code>imqAckTimeout</code>) to
+wait for a broker acknowledgment before throwing an exception.</p>
+</li>
+<li>
+<p>Connection flow metering limits the transmission of payload messages
+to batches of a specified size (<code>imqConnectionFlowCount</code>), ensuring
+periodic opportunities to deliver any accumulated control messages.</p>
+</li>
+<li>
+<p>Connection flow control limits the number of payload messages
+(<code>imqConnectionFlowLimit</code>) that can be held pending on a connection,
+waiting to be consumed. When the limit is reached, delivery of payload
+messages to the connection is suspended until the number of messages
+awaiting consumption falls below the limit. Use of this feature is
+controlled by a boolean flag (<code>imqConnectionFlowLimitEnabled</code>).</p>
+</li>
+<li>
+<p>Consumer flow control limits the number of payload messages
+(<code>imqConsumerFlowLimit</code>) that can be held pending for any single
+consumer, waiting to be consumed. (This limit can also be specified as a
+property of a specific queue destination, <code>consumerFlowLimit</code>.) When the
+limit is reached, delivery of payload messages to the consumer is
+suspended until the number of messages awaiting consumption, as a
+percentage of <code>imqConsumerFlowLimit</code>, falls below the limit specified by
+the <code>imqConsumerFlowThreshold</code> attribute. This helps improve load
+balancing among multiple consumers by preventing any one consumer from
+starving others on the same connection.<br>
+When the JMS resource adapter, jmsra, is used to consume messages in a
+GlassFish Server cluster, this behavior is defined using different
+properties, as described in <a href="jmsra-properties.html#gjzpg">About Shared
+Topic Subscriptions for Clustered Containers</a>.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The use of any of these flow control techniques entails a trade-off
+between reliability and throughput; see <a href="tuning.html#aeoky">Client
+Runtime Message Flow Adjustments</a> for further discussion.</p>
+</div>
+<div class="paragraph">
+<p><a id="gctlb"></a><a id="GMADG00431"></a><a id="queue-browser-and-server-sessions"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_queue_browser_and_server_sessions">Queue Browser and Server Sessions</h5>
+<div class="paragraph">
+<p><a href="administered-object-attributes.html#gbnoh">Table 19-6</a> lists
+connection factory attributes affecting client queue browsing and server
+sessions. The <code>imqQueueBrowserMaxMessagesPerRetrieve</code> attribute
+specifies the maximum number of messages to retrieve at one time when
+browsing the contents of a queue destination;
+<code>imqQueueBrowserRetrieveTimeout</code> gives the maximum waiting time for
+retrieving them. (Note that <code>imqQueueBrowserMaxMessagesPerRetrieve</code> does
+not affect the total number of messages browsed, only the way they are
+batched for delivery to the client runtime: fewer but larger batches or
+more but smaller ones. Changing the attribute&#8217;s value may affect
+performance, but will not affect the total amount of data retrieved; the
+client application will always receive all messages in the queue.) The
+boolean attribute <code>imqLoadMaxToServerSession</code> governs the behavior of
+connection consumers in an application server session: if the value of
+this attribute is <code>true</code>, the client will load up to the maximum number
+of messages into a server session; if <code>false</code>, it will load only a
+single message at a time.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohj"></a><a id="GMADG00432"></a><a id="standard-message-properties"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_standard_message_properties">Standard Message Properties</h5>
+<div class="paragraph">
+<p>The Java Message Service Specification defines certain standard message
+properties, which JMS providers (such as Message Queue) may optionally
+choose to support. By convention, the names of all such standard
+properties begin with the letters <code>JMSX</code>. The connection factory
+attributes listed in <a href="administered-object-attributes.html#gbnng">Table
+19-7</a> control whether the Message Queue client runtime sets certain of
+these standard properties. For produced messages, these include the
+following:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>JMSXUserID</code></dt>
+<dd>
+<p>Identity of the user sending the message</p>
+</dd>
+<dt class="hdlist1"><code>JMSXAppID</code></dt>
+<dd>
+<p>Identity of the application sending the message</p>
+</dd>
+<dt class="hdlist1"><code>JMSXProducerTXID</code></dt>
+<dd>
+<p>Transaction identifier of the transaction within which the message was
+produced</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>For consumed messages, they include</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>JMSXConsumerTXID</code></dt>
+<dd>
+<p>Transaction identifier of the transaction within which the message was
+consumed</p>
+</dd>
+<dt class="hdlist1"><code>JMSXRcvTimestamp</code></dt>
+<dd>
+<p>Time the message was delivered to the consumer</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p><a id="aeohk"></a><a id="GMADG00433"></a><a id="message-header-overrides"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_message_header_overrides">Message Header Overrides</h5>
+<div class="paragraph">
+<p>You can use the connection factory attributes listed in
+<a href="administered-object-attributes.html#gbnnd">Table 19-8</a> to override
+the values set by a client for certain JMS message header fields. The
+settings you specify will be used for all messages produced by
+connections obtained from that connection factory. Header fields that
+you can override in this way are</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>JMSDeliveryMode</code></dt>
+<dd>
+<p>Delivery mode (persistent or nonpersistent)</p>
+</dd>
+<dt class="hdlist1"><code>JMSExpiration</code></dt>
+<dd>
+<p>Expiration time</p>
+</dd>
+<dt class="hdlist1"><code>JMSPriority</code></dt>
+<dd>
+<p>Priority level</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>There are two attributes for each of these fields: one boolean, to
+control whether the field can be overridden, and another to specify its
+value. For instance, the attributes for setting the priority level are
+<code>imqOverrideJMSPriority</code> and <code>imqJMSPriority</code>. There is also an
+additional attribute, <code>imqOverrideJMSHeadersToTemporaryDestinations</code>,
+that controls whether override values apply to temporary destinations.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because overriding message headers may interfere with the needs of
+specific applications, these attributes should only be used in
+consultation with an application&#8217;s designers or users.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeohl"></a><a id="GMADG00569"></a><a id="destination-attributes"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_destination_attributes">Destination Attributes</h4>
+<div class="paragraph">
+<p>The destination administered object that identifies a physical queue or
+topic destination has only two attributes, listed in
+<a href="administered-object-attributes.html#gbnog">Table 19-9</a>. The important
+one is <code>imqDestinationName</code>, which gives the name of the physical
+destination that this administered object represents; this is the name
+that was specified with the <code>-n</code> option to the <code>imqcmd</code> <code>create</code> <code>dst</code>
+command that created the physical destination. (Note that there is not
+necessarily a one-to-one relationship between destination administered
+objects and the physical destinations they represent: a single physical
+destination can be referenced by more than one administered object, or
+by none at all.) There is also an optional descriptive string,
+<code>imqDestinationDescription</code>, which you can use to help identify the
+destination object and distinguish it from others you may have created.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeohm"></a><a id="GMADG00257"></a><a id="using-the-object-manager-utility"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_using_the_object_manager_utility">Using the Object Manager Utility</h3>
+<div class="paragraph">
+<p>The Message Queue Object Manager utility (<code>imqobjmgr</code>) allows you to
+create and manage administered objects. The <code>imqobjmgr</code> command provides
+the following subcommands for performing various operations on
+administered objects:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>add</code></dt>
+<dd>
+<p>Add an administered object to an object store</p>
+</dd>
+<dt class="hdlist1"><code>delete</code></dt>
+<dd>
+<p>Delete an administered object from an object store</p>
+</dd>
+<dt class="hdlist1"><code>list</code></dt>
+<dd>
+<p>List existing administered objects in an object store</p>
+</dd>
+<dt class="hdlist1"><code>query</code></dt>
+<dd>
+<p>Display information about an administered object</p>
+</dd>
+<dt class="hdlist1"><code>update</code></dt>
+<dd>
+<p>Modify the attributes of an administered object</p>
+</dd>
+</dl>
+</div>
+<div class="paragraph">
+<p>See <a href="command-line-reference.html#aeonn">Object Manager Utility</a> for
+reference information about the syntax, subcommands, and options of the
+<code>imqobjmgr</code> command.</p>
+</div>
+<div class="paragraph">
+<p>Most Object Manager operations require you to specify the following
+information as options to the <code>imqobjmgr</code> command:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The JNDI lookup name (<code>-l</code>) of the administered object<br>
+This is the logical name by which client applications can look up the
+administered object in the object store, using the Java Naming and
+Directory Interface.</p>
+</li>
+<li>
+<p>The attributes of the JNDI object store (<code>-j</code>)<br>
+See <a href="#aeogv">Object Stores</a> for information on the possible
+attributes and their values.</p>
+</li>
+<li>
+<p>The type (<code>-t</code>) of the administered object<br></p>
+<div class="dlist">
+<dl>
+<dt class="hdlist1">Possible types include the following</dt>
+<dd>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>q</code></dt>
+<dd>
+<p>Queue destination</p>
+</dd>
+<dt class="hdlist1"><code>t</code></dt>
+<dd>
+<p>Topic destination</p>
+</dd>
+<dt class="hdlist1"><code>cf</code></dt>
+<dd>
+<p>Connection factory</p>
+</dd>
+<dt class="hdlist1"><code>qf</code></dt>
+<dd>
+<p>Queue connection factory</p>
+</dd>
+<dt class="hdlist1"><code>tf</code></dt>
+<dd>
+<p>Topic connection factory</p>
+</dd>
+<dt class="hdlist1"><code>xcf</code></dt>
+<dd>
+<p>Connection factory for distributed transactions</p>
+</dd>
+<dt class="hdlist1"><code>xqf</code></dt>
+<dd>
+<p>Queue connection factory for distributed transactions</p>
+</dd>
+<dt class="hdlist1"><code>xtf</code></dt>
+<dd>
+<p>Topic connection factory for distributed transactions</p>
+</dd>
+</dl>
+</div>
+</dd>
+</dl>
+</div>
+</li>
+<li>
+<p>The attributes (<code>-o</code>) of the administered object<br>
+See <a href="#aeogy">Administered Object Attributes</a> for information on the
+possible attributes and their values.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gkvxo"></a><a id="GMADG00570"></a><a id="connecting-to-a-secured-ldap-server-ldaps"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_connecting_to_a_secured_ldap_server_ldaps">Connecting to a Secured LDAP Server (ldaps)</h4>
+<div class="paragraph">
+<p>When using <code>imqobjmgr</code> utility to connect to a secured LDAP server that
+uses the ldaps protocol, you might first have to install the LDAP
+server&#8217;s certificate in the JDK keystore. To perform this task, use the
+Java SE <code>keytool</code> utility; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">keytool -import -keystore IMQ_JAVAHOME/lib/security/jssecacerts -alias "ldaps cert" -file certFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where certFile is the certificate file from the LDAP server.</p>
+</div>
+<div class="paragraph">
+<p>Then, when you run the <code>imqobjmgr</code> utility, make sure to specify the
+same Java installation where the certificate was imported; for example:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr -javahome IMQ_JAVAHOME ...</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohn"></a><a id="GMADG00571"></a><a id="adding-administered-objects"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_adding_administered_objects">Adding Administered Objects</h4>
+<div class="paragraph">
+<p>The <code>imqobjmgr</code> command&#8217;s <code>add</code> subcommand adds administered objects for
+connection factories and topic or queue destinations to the object
+store. Administered objects stored in an LDAP object store must have
+lookup names beginning with the prefix <code>cn=</code>; lookup names in a
+file-system object store need not begin with any particular prefix, but
+must not include the slash character (<code>/</code>).</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>The Object Manager lists and displays only Message Queue administered
+objects. If an object store contains a non-Message Queue object with the
+same lookup name as an administered object that you wish to add, you
+will receive an error when you attempt the add operation.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeoho"></a><a id="GMADG00434"></a><a id="adding-a-connection-factory"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_adding_a_connection_factory">Adding a Connection Factory</h5>
+<div class="paragraph">
+<p>To enable client applications to create broker connections, add a
+connection factory administered object for the type of connection to be
+created: a queue connection factory or a topic connection factory, as
+the case may be. <a href="#gbnjs">Example 11-1</a> shows a command to add a
+queue connection factory (administered object type <code>qf</code>) to an LDAP
+object store. The object has lookup name <code>cn=myQCF</code> and connects to a
+broker running on host <code>myHost</code> at port number <code>7272</code>, using the <code>jms</code>
+connection service.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00124"></a><a id="gbnjs"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-1 Adding a Connection Factory</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+   -l "cn=myQCF"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t qf
+   -o "imqAddressList=mq://myHost:7272/jms"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohp"></a><a id="GMADG00435"></a><a id="adding-a-destination"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_adding_a_destination">Adding a Destination</h5>
+<div class="paragraph">
+<p>When creating an administered object representing a destination, it is
+good practice to create the physical destination first, before adding
+the administered object to the object store. Use the Command utility
+(<code>imqcmd</code>) to create the physical destination, as described in
+<a href="message-delivery.html#aeoep">Creating and Destroying Physical
+Destinations</a>.</p>
+</div>
+<div class="paragraph">
+<p>The command shown in <a href="#gbnkl">Example 11-2</a> adds an administered
+object to an LDAP object store representing a topic destination with
+lookup name <code>myTopic</code> and physical destination name <code>physTopic</code>. The
+command for adding a queue destination would be similar, except that the
+administered object type (<code>-t</code> option) would be <code>q</code> (for "queue
+destination") instead of <code>t</code> (for "topic destination").</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00125"></a><a id="gbnkl"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-2 Adding a Destination to an LDAP Object Store</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t t
+   -o "imqDestinationName=physTopic"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gbnkg">Example 11-3</a> shows the same command, but with the
+administered object stored in a Solaris file system instead of an LDAP
+server.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00126"></a><a id="gbnkg"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-3 Adding a Destination to a File-System Object Store</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.fscontext.RefFSContextFactory"
+   -j "java.naming.provider.url=file:///home/foo/imq_admin_objects"
+   -t t
+   -o "imqDestinationName=physTopic"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohq"></a><a id="GMADG00572"></a><a id="deleting-administered-objects"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deleting_administered_objects">Deleting Administered Objects</h4>
+<div class="paragraph">
+<p>To delete an administered object from the object store, use the
+<code>imqobjmgr</code> <code>delete</code> subcommand, specifying the lookup name, type, and
+location of the object to be deleted. The command shown in
+<a href="#gbnkq">Example 11-4</a> deletes the object that was added in
+<a href="#aeohp">Adding a Destination</a> above.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00127"></a><a id="gbnkq"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-4 Deleting an Administered Object</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr delete
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t t</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohr"></a><a id="GMADG00573"></a><a id="listing-administered-objects"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_listing_administered_objects">Listing Administered Objects</h4>
+<div class="paragraph">
+<p>You can use the <code>imqobjmgr</code> <code>list</code> subcommand to get a list of all
+administered objects in an object store or those of a specific type.
+<a href="#gbnjf">Example 11-5</a> shows how to list all administered objects on
+an LDAP server.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00128"></a><a id="gbnjf"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-5 Listing All Administered Objects</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr list
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a href="#gbnlk">Example 11-6</a> lists all queue destinations (type <code>q</code>).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00129"></a><a id="gbnlk"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-6 Listing Administered Objects of a Specific Type</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr list
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t q</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohs"></a><a id="GMADG00574"></a><a id="viewing-administered-object-information"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_viewing_administered_object_information">Viewing Administered Object Information</h4>
+<div class="paragraph">
+<p>The <code>imqobjmgr</code> <code>query</code> subcommand displays information about a
+specified administered object, identified by its lookup name and the
+attributes of the object store containing it. <a href="#gbnmc">Example 11-7</a>
+displays information about an object whose lookup name is <code>cn=myTopic</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00130"></a><a id="gbnmc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-7 Viewing Administered Object Information</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr query
+   -l "cn=myTopic"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeoht"></a><a id="GMADG00575"></a><a id="modifying-administered-object-attributes"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_modifying_administered_object_attributes">Modifying Administered Object Attributes</h4>
+<div class="paragraph">
+<p>To modify the attributes of an administered object, use the <code>imqobjmgr</code>
+<code>update</code> subcommand. You supply the object&#8217;s lookup name and location,
+and use the <code>-o</code> option to specify the new attribute values.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnlv">Example 11-8</a> changes the value of the
+<code>imqReconnectAttempts</code> attribute for the queue connection factory that
+was added to the object store in <a href="#gbnjs">Example 11-1</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00131"></a><a id="gbnlv"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-8 Modifying an Administered Object&#8217;s Attributes</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr update
+   -l "cn=myQCF"
+   -j "java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory"
+   -j "java.naming.provider.url=ldap://mydomain.com:389/o=imq"
+   -j "java.naming.security.principal=uid=homerSimpson,ou=People,o=imq"
+   -j "java.naming.security.credentials=doh"
+   -j "java.naming.security.authentication=simple"
+   -t qf
+   -o "imqReconnectAttempts=3"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeohu"></a><a id="GMADG00576"></a><a id="using-command-files"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_using_command_files">Using Command Files</h4>
+<div class="paragraph">
+<p>The <code>-i</code> option to the <code>imqobjmgr</code> command allows you to specify the
+name of a command file that uses Java property file syntax to represent
+all or part of the subcommand clause. This feature is especially useful
+for specifying object store attributes, which typically require a lot of
+typing and are likely to be the same across multiple invocations of
+<code>imqobjmgr</code>. Using a command file can also allow you to avoid exceeding
+the maximum number of characters allowed for the command line.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbnmi">Example 11-9</a> shows the general syntax for an Object Manager
+command file. Note that the <code>version</code> property is not a command line
+option: it refers to the version of the command file itself (not that of
+the Message Queue product) and must be set to the value <code>2.0</code>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00132"></a><a id="gbnmi"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-9 Object Manager Command File Syntax</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+cmdtype=[ add | delete | list | query | update ]
+obj.lookupName=lookup name
+objstore.attrs.objStoreAttrName1=value1
+objstore.attrs.objStoreAttrName2=value2
+   . . .
+objstore.attrs.objStoreAttrNameN=valueN
+obj.type=[ q | t | cf | qf | tf | xcf | xqf | xtf | e ]
+obj.attrs.objAttrName1=value1
+obj.attrs.objAttrName2=value2
+   . . .
+obj.attrs.objAttrNameN=valueN</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>As an example, consider the Object Manager command shown earlier in
+<a href="#gbnjs">Example 11-1</a>, which adds a queue connection factory to an
+LDAP object store. This command can be encapsulated in a command file as
+shown in <a href="#gbnma">Example 11-10</a>. If the command file is named
+<code>MyCmdFile</code>, you can then execute the command with the command line</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr  -i MyCmdFile</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00133"></a><a id="gbnma"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-10 Example Command File</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+cmdtype=add
+obj.lookupName=cn=myQCF
+objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+objstore.attrs.java.naming.provider.url=ldap://mydomain.com:389/o=imq
+objstore.attrs.java.naming.security.principal=uid=homerSimpson,ou=People,o=imq
+objstore.attrs.java.naming.security.credentials=doh
+objstore.attrs.java.naming.security.authentication=simple
+obj.type=qf
+obj.attrs.imqAddressList=mq://myHost:7272/jms</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>A command file can also be used to specify only part of the <code>imqobjmgr</code>
+subcommand clause, with the remainder supplied directly on the command
+line. For example, the command file shown in <a href="#gbnll">Example 11-11</a>
+specifies only the attribute values for an LDAP object store.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00134"></a><a id="gbnll"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-11 Partial Command File</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">version=2.0
+objstore.attrs.java.naming.factory.initial=com.sun.jndi.ldap.LdapCtxFactory
+objstore.attrs.java.naming.provider.url=ldap://mydomain.com:389/o=imq
+objstore.attrs.java.naming.security.principal=uid=homerSimpson,ou=People,o=imq
+objstore.attrs.java.naming.security.credentials=doh
+objstore.attrs.java.naming.security.authentication=simple</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>You could then use this command file to specify the object store in an
+<code>imqobjmgr</code> command while supplying the remaining options explicitly, as
+shown in <a href="#gbnmg">Example 11-12</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00135"></a><a id="gbnmg"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 11-12 Using a Partial Command File</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imqobjmgr add
+   -l "cn=myQCF"
+   -i MyCmdFile
+   -t qf
+   -o "imqAddressList=mq://myHost:7272/jms"</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Additional examples of command files can be found in the
+<code>IMQ_HOME/examples/imqobjmgr</code> directory.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="broker-clusters.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="bridge-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

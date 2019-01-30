@@ -1,0 +1,798 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Configuring Persistence Services</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Configuring Persistence Services</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="message-delivery.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="security-services.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMADG00039"></a><a id="gheas"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="configuring-persistence-services">8 Configuring Persistence Services</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>For a broker to recover in case of failure, it needs to re-create the
+state of its message delivery operations. To do this, the broker must
+save state information to a persistent data store. When the broker
+restarts, it uses the saved data to re-create destinations and durable
+subscriptions, recover persistent messages, roll back open transactions,
+and rebuild its routing table for undelivered messages. It can then
+resume message delivery.</p>
+</div>
+<div class="paragraph">
+<p>A persistent data store is thus a key aspect of providing for reliable
+message delivery. This chapter describes the two different persistence
+implementations supported by the Message Queue broker and how to set
+each of them up:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeocr">Introduction to Persistence Services</a></p>
+</li>
+<li>
+<p><a href="#gheap">File-Based Persistence</a></p>
+</li>
+<li>
+<p><a href="#gheaz">JDBC-Based Persistence</a></p>
+</li>
+<li>
+<p><a href="#ggwal">Data Store Formats</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeocr"></a><a id="GMADG00242"></a><a id="introduction-to-persistence-services"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_introduction_to_persistence_services">Introduction to Persistence Services</h3>
+<div class="paragraph">
+<p>A broker&#8217;s persistent data store holds information about physical
+destinations, durable subscriptions, messages, transactions, and
+acknowledgments.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue supports both file-based and JDBC-based persistence
+modules, as shown in the following figure. File-based persistence uses
+individual files to store persistent data; JDBC-based persistence uses
+the Java Database Connectivity (JDBC) interface to connect the broker to
+a JDBC-based data store. While file-based persistence is generally
+faster than JDBC-based persistence, some users prefer the redundancy and
+administrative control provided by a JDBC database. The broker
+configuration property <code>imq.persist.store</code> (see
+<a href="broker-properties.html#gbnmp">Table 17-5</a>) specifies which of the two
+persistence modules (<code>file</code> or <code>jdbc</code>) to use.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00019"></a><a id="ggydt"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 8-1 Persistent Data Stores</strong></div>
+<p><span class="image"><img src="img/adm_persistsvcs.png" alt="Diagram showing that persistence services use either a flat file-based or a JDBC-based data store."></span></p>
+</div>
+<div class="paragraph">
+<p>Message Queue brokers are configured by default to use a file-based
+persistent store, but you can reconfigure them to plug in any data store
+accessible through a JDBC-compliant driver. The broker configuration
+property <code>imq.persist.store</code> (see <a href="broker-properties.html#gbnmp">Table
+17-5</a>) specifies which of the two forms of persistence to use.</p>
+</div>
+<div class="paragraph">
+<p><a id="gheap"></a><a id="GMADG00243"></a><a id="file-based-persistence"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_file_based_persistence">File-Based Persistence</h3>
+<div class="paragraph">
+<p>By default, Message Queue uses a file-based data store, in which
+individual files store persistent data (such as messages, destinations,
+durable subscriptions, transactions, and routing information).</p>
+</div>
+<div class="paragraph">
+<p>The file-based data store is located in a directory identified by the
+name of the broker instance (instanceName) to which the data store
+belongs:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/fs370</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Each destination on the broker has its own subdirectory holding messages
+delivered to that destination.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Because the data store can contain messages of a sensitive or
+proprietary nature, you should secure the
+<code>IMQ_VARHOME/instances/`instanceName</code>/fs370` directory against
+unauthorized access; see <a href="#aeodk">Securing a File-Based Data Store</a>.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aeocs"></a><a id="GMADG00539"></a><a id="file-based-persistence-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_file_based_persistence_properties">File-Based Persistence Properties</h4>
+<div class="paragraph">
+<p>Broker configuration properties related to file-based persistence are
+listed under <a href="broker-properties.html#aeonw">File-Based Persistence
+Properties</a>. These properties let you configure various aspects of how
+the file-based data store behaves.</p>
+</div>
+<div class="paragraph">
+<p>All persistent data other than messages is stored in separate files: one
+file each for destinations, durable subscriptions, and transaction state
+information. Most messages are stored in a single file consisting of
+variable-size records. You can compact this file to alleviate
+fragmentation as messages are added and removed (see
+<a href="message-delivery.html#aeoew">Managing Physical Destination Disk
+Utilization</a>). In addition, messages above a certain threshold size are
+stored in their own individual files rather than in the variable-sized
+record file. You can configure this threshold size with the broker
+property <code>imq.persist.file.message.max_record_size</code>.</p>
+</div>
+<div class="paragraph">
+<p>The broker maintains a file pool for these individual message files:
+instead of being deleted when it is no longer needed, a file is returned
+to the pool of free files in its destination directory so that it can
+later be reused for another message. The broker property
+<code>imq.persist.file.destination.message.filepool.limit</code> specifies the
+maximum number of files in the pool. When the number of individual
+message files for a destination exceeds this limit, files will be
+deleted when no longer needed instead of being returned to the pool.</p>
+</div>
+<div class="paragraph">
+<p>When returning a file to the file pool, the broker can save time at the
+expense of storage space by simply tagging the file as available for
+reuse without deleting its previous contents. You can use the
+<code>imq.persist.file.message.filepool.cleanratio</code> broker property to
+specify the percentage of files in each destination&#8217;s file pool that
+should be maintained in a "clean" (empty) state rather than simply
+marked for reuse. The higher you set this value, the less space will be
+required for the file pool, but the more overhead will be needed to
+empty the contents of files when they are returned to the pool. If the
+broker&#8217;s <code>imq.persist.file.message.cleanup</code> property is <code>true</code>, all
+files in the pool will be emptied at broker shutdown, leaving them in a
+clean state; this conserves storage space but slows down the shutdown
+process.</p>
+</div>
+<div class="paragraph">
+<p>In writing data to the data store, the operating system has some leeway
+in whether to write the data synchronously or "lazily" (asynchronously).
+Lazy storage can lead to data loss in the event of a system crash, if
+the broker believes the data to have been written to the data store when
+it has not. To ensure absolute reliability (at the expense of
+performance), you can require that all data be written synchronously by
+setting the broker property <code>imq.persist.file.sync.enabled</code> to <code>true</code>.
+In this case, the data is guaranteed to be available when the system
+comes back up after a crash, and the broker can reliably resume
+operation.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodh"></a><a id="GMADG00540"></a><a id="configuring-a-file-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuring_a_file_based_data_store">Configuring a File-Based Data Store</h4>
+<div class="paragraph">
+<p>A file-based data store is automatically created when you create a
+broker instance. However, you can configure the data store using the
+properties described in <a href="#aeocs">File-Based Persistence Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p>For example, by default, Message Queue performs asynchronous write
+operations to disk. However, to attain the highest reliability, you can
+set the broker property <code>imq.persist.file.sync</code> to write data
+synchronously instead. See <a href="broker-properties.html#gbnnh">Table 17-6</a>.</p>
+</div>
+<div class="paragraph">
+<p>When you start a broker instance, you can use the <code>imqbrokerd</code> command&#8217;s
+<code>-- reset</code> option to clear the file-based data store. For more
+information about this option and its suboptions, see
+<a href="command-line-reference.html#aeone">Broker Utility</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodk"></a><a id="GMADG00541"></a><a id="securing-a-file-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_securing_a_file_based_data_store">Securing a File-Based Data Store</h4>
+<div class="paragraph">
+<p>The persistent data store can contain, among other information, message
+files that are being temporarily stored. Since these messages may
+contain proprietary information, it is important to secure the data
+store against unauthorized access. This section describes how to secure
+data in a file-based data store.</p>
+</div>
+<div class="paragraph">
+<p>A broker using file-based persistence writes persistent data to a
+flat-file data store:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">IMQ_VARHOME/instances/instanceName/fs370</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>where instanceName is a name identifying the broker instance. This
+directory is created when the broker instance is started for the first
+time. The procedure for securing this directory depends on the operating
+system platform on which the broker is running:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>On Solaris and Linux, the directory&#8217;s permissions are determined by
+the file mode creation mask (<code>umask</code>) of the user who started the broker
+instance. Hence, permission to start a broker instance and to read its
+persistent files can be restricted by setting the mask appropriately.
+Alternatively, an administrator (superuser) can secure persistent data
+by setting the permissions on the <code>instances</code> directory to <code>700</code>.</p>
+</li>
+<li>
+<p>On Windows, the directory&#8217;s permissions can be set using the
+mechanisms provided by the Windows operating system. This generally
+involves opening a Properties dialog for the directory.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="gjmqy"></a><a id="GMADG00542"></a><a id="optimizing-file-based-transaction-persistence"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optimizing_file_based_transaction_persistence">Optimizing File-Based Transaction Persistence</h4>
+<div class="paragraph">
+<p>Because many activities can occur during a transaction, persisting a
+transaction&#8217;s state over the complete life cycle of the transaction can
+adversely affect overall performance, especially when the
+<code>imq.persist.file.sync.enabled</code> property is set to <code>true</code> to avoid data
+loss in case of a system crash.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue provides a transaction logging mechanism that can improve
+performance of transaction persistence. This transaction log offers
+tuning parameters that can improve performance of file-based persistence
+for other objects, such as message payloads.</p>
+</div>
+<div class="paragraph">
+<p>To enable this transaction logging mechanism, set the
+<code>imq.persist.file.newTxnLogenabled</code> broker property to <code>true</code>.</p>
+</div>
+<div class="paragraph">
+<p>After enabling the transaction log, essential changes to the state of a
+JMS transaction are written to the transaction log. When the transaction
+is committed, all details regarding it are gathered and written to the
+persistent store. Additionally, the logging mechanism periodically
+performs a "checkpoint" operation to ensure that the persistent store
+and the transaction log are synchronized and that the log size remains
+manageable.</p>
+</div>
+<div class="paragraph">
+<p>As a further refinement, the operation of the logging mechanism is
+subject to the value of the <code>imq.persist.file.sync.enabled</code> broker
+property:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>When <code>imq.persist.file.sync.enabled</code> is <code>true</code>, write operations to
+the transaction log are written synchronously to disk. Non-transacted
+message and non-transacted message acknowledgements are also written
+synchronously to the transaction log before being written asynchronously
+to the persistent store.</p>
+</li>
+<li>
+<p>When <code>imq.persist.file.sync.enabled</code> is <code>false</code>, write operations to
+the transaction log are written asynchronously to disk. Non-transacted
+message and non-transacted message acknowledgements are not written to
+the transaction log.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The tuning parameters supported by the transaction logging mechanism
+are:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.persist.file.txnLog.groupCommit</code></p>
+</li>
+<li>
+<p><code>imq.persist.file.txnLog.logNonTransactedMsgSend</code></p>
+</li>
+<li>
+<p><code>imq.persist.file.txnLog.logNonTransactedMsgAck</code></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Information about these parameters can be found in
+<a href="broker-properties.html#gjmtg">Table 17-7</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="gheaz"></a><a id="GMADG00244"></a><a id="jdbc-based-persistence"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jdbc_based_persistence">JDBC-Based Persistence</h3>
+<div class="paragraph">
+<p>Instead of using a file-based data store, you can set up a broker to
+access any data store accessible through a JDBC-compliant driver. This
+involves setting the appropriate JDBC-related broker configuration
+properties and using the Database Manager utility (<code>imqdbmgr</code>) to create
+the proper database schema. See <a href="#aeodi">Configuring a JDBC-Based
+Data Store</a> for specifics.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeoct"></a><a id="GMADG00543"></a><a id="jdbc-based-persistence-properties"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_jdbc_based_persistence_properties">JDBC-Based Persistence Properties</h4>
+<div class="paragraph">
+<p>The full set of properties for configuring a broker to use a JDBC
+database are listed in <a href="broker-properties.html#gbnoa">Table 17-8</a>. You
+can specify these properties either in the instance configuration file
+(<code>config.properties</code>) of each broker instance or by using the <code>-D</code>
+command line option to the Broker utility (<code>imqbrokerd</code>) or the Database
+Manager utility (<code>imqdbmgr</code>).</p>
+</div>
+<div class="paragraph">
+<p>In practice, however, JDBC properties are preconfigured by default,
+depending on the database vendor being used for the data store. The
+property values are set in the <code>default.properties</code> file, and only need
+to be explicitly set if you are overriding the default values. In
+general, you only need to set the following properties:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.persist.store</code><br>
+This property specifies that a JDBC-based data store (as opposed to the
+default file-based data store) is used to store persistent data.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.dbVendor</code><br>
+This property identifies the database vendor being used for the data
+store; all of the remaining properties are qualified by this vendor
+name.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc`vendorName</code>.user`<br>
+This property specifies the user name to be used by the broker in
+accessing the database.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc`vendorName</code>.password`<br>
+This property specifies the password for accessing the database, if
+required; <code>imq.persist.jdbc.`vendorName</code>.needpassword` is a boolean flag
+specifying whether a password is needed. For security reasons, the
+database access password should be specified only in a password file
+referenced with the <code>-passfile</code> command line option; if no such password
+file is specified, the <code>imqbrokerd</code> and <code>imqdbmgr</code> commands will prompt
+for the password interactively.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.`vendorName</code>.property.`propName<br>
+This set of properties represents any additional, vendor-specific
+properties that are required.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.`vendorName</code>.tableoption`<br>
+Specifies the vendor-specific options passed to the database when
+creating the table schema.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="GMADG00115"></a><a id="ggwcc"></a></p>
+</div>
+<div class="paragraph">
+<p>Example 8-1 Broker Properties for MySQL Database</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">imq.persist.store=jdbc
+imq.persist.jdbc.dbVendor=mysql
+imq.persist.jdbc.mysql.user=userName
+imq.persist.jdbc.mysql.password=password
+imq.persist.jdbc.mysql.property.url=jdbc:mysql://hostName:port/dataBase</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If you expect to have messages that are larger than 1 MB, configure
+MySQL&#8217;s <code>max_allowed_packet</code> variable accordingly when starting the
+database. For more information see Appendix B of the MySQL 5.0 Reference
+Manual.</p>
+</div>
+<div class="paragraph">
+<p>In addition, in an enhanced broker cluster, in which a JDBC database is
+shared by multiple broker instances, each broker must be uniquely
+identified in the database (unnecessary for an embedded database, which
+stores data for only one broker instance). The configuration property
+<code>imq.brokerid</code> specifies a unique instance identifier to be appended to
+the names of database tables for each broker. See
+<a href="broker-clusters.html#ggult">Enhanced Broker Cluster Properties</a>.</p>
+</div>
+<div class="paragraph">
+<p>After setting all of the broker&#8217;s needed JDBC configuration properties,
+you must also install your JDBC driver&#8217;s <code>.jar</code> file in
+<code>IMQ_HOME/lib/ext</code> and then create the database schema for the
+JDBC-based data store (see <a href="#gbnjm">To Set Up a JDBC-Based Data
+Store</a>).</p>
+</div>
+<div class="paragraph">
+<p><a id="aeodi"></a><a id="GMADG00544"></a><a id="configuring-a-jdbc-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_configuring_a_jdbc_based_data_store">Configuring a JDBC-Based Data Store</h4>
+<div class="paragraph">
+<p>To configure a broker to use a JDBC database, you set JDBC-related
+properties in the broker&#8217;s instance configuration file and create the
+appropriate database schema. The Message Queue Database Manager utility
+(<code>imqdbmgr</code>) uses your JDBC driver and the broker configuration
+properties to create the schema and manage the database. You can also
+use the Database Manager to delete corrupted tables from the database or
+if you want to use a different database as a data store. See
+<a href="command-line-reference.html#aeono">Database Manager Utility</a> for more
+information.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you use an embedded database, it is best to create it under the
+following directory:</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">   .../instances/instanceName/dbstore/databaseName</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>If an embedded database is not protected by a user name and password, it
+is probably protected by file system permissions. To ensure that the
+database is readable and writable by the broker, the user who runs the
+broker should be the same user who created the embedded database using
+the <code>imqdbmgr</code> command.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="gbnjm"></a><a id="GMADG00163"></a><a id="to-set-up-a-jdbc-based-data-store"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_to_set_up_a_jdbc_based_data_store">To Set Up a JDBC-Based Data Store</h5>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Set JDBC-related properties in the broker&#8217;s instance configuration
+file.<br>
+The relevant properties are discussed, with examples, in
+<a href="#aeoct">JDBC-Based Persistence Properties</a> and listed in full in
+<a href="broker-properties.html#gbnoa">Table 17-8</a>. In particular, you must
+specify a JDBC-based data store by setting the broker&#8217;s
+<code>imq.persist.store</code> property to <code>jdbc</code>.</p>
+</li>
+<li>
+<p>Place a copy of, or a symbolic link to, your JDBC driver&#8217;s <code>.jar</code>
+file in <code>IMQ_HOME/lib/ext</code>, the Message Queue external resource files
+directory.</p>
+</li>
+<li>
+<p>Check the message table schema for your database in
+<code>IMQ_HOME/lib/props/broker/default.properties</code>.<br>
+In the <code>default.properties</code> file, locate the message table schema for
+your database by searching for "imq.persist.jdbc.vendor.table.MQMSG".
+Read any commentary notes about the schema and check that the maximum
+message size is sufficient; if it is not, adjust the size of the MESSAGE
+column as needed.</p>
+</li>
+<li>
+<p>Create the database schema needed for Message Queue persistence.<br>
+Use the <code>imqdbmgr create all</code> command (for an embedded database) or the
+<code>imqdbmgr create tbl</code> command (for an external database); see
+<a href="command-line-reference.html#aeono">Database Manager Utility</a>.</p>
+</li>
+<li>
+<p>Change to the directory where the Database Manager utility resides:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd IMQ_HOME/bin</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqdbmgr</code> command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr create all</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Optionally, if your JDBC driver does not provide automatic
+reconnect, you can configure the following:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><code>imq.persist.jdbc.connection.retry.delay</code> specifies the amount of
+time, in milliseconds, the broker waits before it attempts to retry
+connecting to a database server for a failed connection.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.connection.retry.max</code> specifies the maximum number
+of times the broker will retry connecting to a database server after a
+failed connection.</p>
+</li>
+<li>
+<p><code>imq.persist.jdbc.``vendorName`</code>.connection.retry.regex.``n` specifies
+1 or more regular expressions, to be used to match <code>SQLException</code>
+messages in order to identify retriable database communication failures.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p><a id="ggwdb"></a><a id="GMADG00164"></a><a id="to-display-information-about-a-jdbc-based-data-store"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_to_display_information_about_a_jdbc_based_data_store">To Display Information About a JDBC-Based Data Store</h5>
+<div class="paragraph">
+<p>You can display information about a JDBC-based data store using the
+Database Manager utility (<code>imqdbmgr</code>) as follows:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Change to the directory where the Database Manager utility resides:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>cd IMQ_HOME/bin</pre>
+</div>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Enter the <code>imqdbmgr</code> command:<br></p>
+</li>
+</ol>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre>imqdbmgr query</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>The output should resemble the following<br></p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="prettyprint highlight"><code class="language-oac_no_warn" data-lang="oac_no_warn">dbmgr query
+
+[04/Oct/2005:15:30:20 PDT] Using plugged-in persistent store:
+        version=400
+        brokerid=Mozart1756
+        database connection url=jdbc:oracle:thin:@Xhome:1521:mqdb
+        database user=scott
+Running in standalone mode.
+Database tables have already been created.</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p><a id="aeodl"></a><a id="GMADG00545"></a><a id="securing-a-jdbc-based-data-store"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_securing_a_jdbc_based_data_store">Securing a JDBC-Based Data Store</h4>
+<div class="paragraph">
+<p>The persistent data store can contain, among other information, message
+files that are being temporarily stored. Since these messages may
+contain proprietary information, it is important to secure the data
+store against unauthorized access. This section describes how to secure
+data in a JDBC-based data store.</p>
+</div>
+<div class="paragraph">
+<p>A broker using JDBC-based persistence writes persistent data to a
+JDBC-compliant database. For a database managed by a database server
+(such as Oracle), it is recommended that you create a user name and
+password to access the Message Queue database tables (tables whose names
+start with <code>MQ</code>). If the database does not allow individual tables to be
+protected, create a dedicated database to be used only by Message Queue
+brokers. See the documentation provided by your database vendor for
+information on how to create user name/password access.</p>
+</div>
+<div class="paragraph">
+<p>The user name and password required to open a database connection by a
+broker can be provided as broker configuration properties. However it is
+more secure to provide them as command line options when starting up the
+broker, using the <code>imqbrokerd</code> command&#8217;s <code>-dbuser`and `-dbpassword</code>
+options (see <a href="command-line-reference.html#aeone">Broker Utility</a>).</p>
+</div>
+<div class="paragraph">
+<p>For an embedded database that is accessed directly by the broker by
+means of the database&#8217;s JDBC driver, security is usually provided by
+setting file permissions on the directory where the persistent data will
+be stored, as described above under <a href="#aeodk">Securing a File-Based
+Data Store</a> To ensure that the database is readable and writable by both
+the broker and the Database Manager utility, however, both should be run
+by the same user.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggwal"></a><a id="GMADG00245"></a><a id="data-store-formats"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_data_store_formats">Data Store Formats</h3>
+<div class="paragraph">
+<p>Changes in the file formats for both file-based and JDBC-based
+persistent data stores were introduced in Message Queue 3.7, with
+further JDBC changes in version 4.0 and 4.1. As a result of these
+changes, the persistent data store version numbers have been updated to
+370 for file-based data stores and 410 for JDBC-based stores. You can
+use the <code>imqdbmgr</code> <code>query</code> command to determine the version number of
+your existing data store.</p>
+</div>
+<div class="paragraph">
+<p>On first startup, the Message Queue Broker utility (<code>imqbrokerd</code>) will
+check for the presence of an older persistent data store and
+automatically migrate it to the latest format:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>File-based data store versions 200 and 350 are migrated to the version
+370 format.</p>
+</li>
+<li>
+<p>JDBC-based data store versions 350, 370, and 400 are migrated to the
+version 410 format. (If you need to upgrade a version 200 data store,
+you will need to step through an intermediate Message Queue 3.5 or 3.6
+release.)</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The upgrade leaves the older copy of the persistent data store intact,
+allowing you to roll back the upgrade if necessary. To do so, you can
+uninstall the current version of Message Queue and reinstall the earlier
+version you were previously running. The older version&#8217;s message brokers
+will locate and use the older copy of the data store.</p>
+</div>
+<div class="paragraph">
+<p>Beginning in Message Queue 4.5, the <code>imq.persist.file.newTxnLog</code>
+property is <code>true</code> by default. This setting can generate an error when
+starting a broker that is using an older persistent data store. To
+resolve the error, set the property value to <code>false</code> and start the
+broker, thus migrating the data store to the latest format. Then, you
+can stop the broker, set the property value back to <code>true</code>, and start
+the broker without encountering an error.</p>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="message-delivery.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="security-services.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>

@@ -1,0 +1,1257 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8"/>
+    <title>Messaging Systems: An Introduction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/style.css" rel="stylesheet">
+    <script src="https://use.fontawesome.com/96c4d89611.js"></script>
+  </head>
+  <body>
+<table id="doc-title" cellspacing="0" cellpadding="0">
+  <tr>
+  <td align="left" valign="top">
+  <b>Messaging Systems: An Introduction</b><br />
+  </td>
+  </tr>
+</table>
+<hr />
+
+<table width="90%" id="top-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>
+		<td align="left">
+		<a href="preface.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-programming-model.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class=" vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+
+<div id="preamble">
+<div class="sectionbody">
+<div class="paragraph">
+<p><a id="GMTOV00025"></a><a id="aerap"></a></p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="messaging-systems-an-introduction">1 Messaging Systems: An Introduction</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Open Message Queue is a leading business integration messaging system
+designed to provide exceptional reliability and scalability.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue is a messaging middleware product that implements the Java
+Message Service (JMS) standard. In addition, Message Queue provides
+enterprise-strength capabilities, including advanced integration,
+administration, security, and high-availability features.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue can be used as a stand-alone messaging service or it can
+be used as an enabling technology, deployed in a Java EE application
+server to provide asynchronous messaging. It is an integral enabling
+technology of the GlassFish Server software.</p>
+</div>
+<div class="paragraph">
+<p>This chapter describes the messaging technology that underlies Message
+Queue and explains how Message Queue implements and extends the JMS
+specification. If you are familiar with the JMS specification, you can
+skip to the section of this chapter on <a href="#aerau">Message Queue:
+Elements and Features</a>. Otherwise, you should begin at the beginning.</p>
+</div>
+<div class="paragraph">
+<p>The chapter covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aeraq">Message-Oriented Middleware (MOM)</a></p>
+</li>
+<li>
+<p><a href="#aerar">JMS as a MOM Standard</a></p>
+</li>
+<li>
+<p><a href="#aerau">Message Queue: Elements and Features</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aeraq"></a><a id="GMTOV00049"></a><a id="message-oriented-middleware-mom"></a></p>
+</div>
+<div class="sect2">
+<h3 id="_message_oriented_middleware_mom">Message-Oriented Middleware (MOM)</h3>
+<div class="paragraph">
+<p>Because businesses, institutions, and technologies change continually,
+the software systems that serve them must be able to accommodate such
+changes. Following a merger, the addition of a service, or the expansion
+of available services, a business can ill afford to recreate its
+information systems. It is at this most critical point that it needs to
+integrate new components or to scale existing ones as efficiently as
+possible. The easiest way to integrate heterogeneous components is not
+to recreate them as homogeneous elements but to provide a layer that
+allows them to communicate despite their differences. This layer, called
+middleware, allows software components (applications, enterprise java
+beans, servlets, and other components) that have been developed
+independently and that run on different networked platforms to interact
+with one another. It is when this interaction is possible that the
+network can become the computer.</p>
+</div>
+<div class="paragraph">
+<p>As shown in <a href="#gbpdh">Figure 1-1</a>, conceptually, middleware resides
+between the application layer and the platform layer (the operating
+system and underlying network services).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00001"></a><a id="gbpdh"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-1 Middleware</strong></div>
+<p><span class="image"><img src="img/to_middleware.png" alt="Figure shows applications and components being able to communicate via middleware. The figure is explained in the text."></span></p>
+</div>
+<div class="paragraph">
+<p>Applications distributed on different network nodes use the application
+interface to communicate without having to be concerned with the details
+of the operating environments that host other applications nor with the
+services that connect them to these applications. In addition, by
+providing an administrative interface, this new, virtual system of
+interconnected applications can be made reliable and secure. Its
+performance can be measured and tuned, and it can be scaled without
+losing function.</p>
+</div>
+<div class="paragraph">
+<p>Middleware can be grouped into the following categories:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Remote Procedure Call or RPC-based middleware, which allows procedures
+in one application to call procedures in remote applications as if they
+were local calls. The middleware implements a linking mechanism that
+locates remote procedures and makes these transparently available to a
+caller. Traditionally, this type of middleware handled procedure-based
+programs; it now also includes object-based components.</p>
+</li>
+<li>
+<p>Object Request Broker or ORB-based middleware, which enables an
+application&#8217;s objects to be distributed and shared across heterogeneous
+networks.</p>
+</li>
+<li>
+<p>Message Oriented Middleware or MOM-based middleware, which allows
+distributed applications to communicate and exchange data by sending and
+receiving messages.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>All these models make it possible for one software component to affect
+the behavior of another component over a network. They are different in
+that RPC- and ORB-based middleware create systems of tightly-coupled
+components, whereas MOM-based systems allow for a looser coupling of
+components. In an RPC- or ORB-based system, when one procedure calls
+another, it must wait for the called procedure to return before it can
+do anything else. In these synchronous messaging models, the middleware
+functions partly as a super-linker, locating the called procedure on a
+network and using network services to pass function or method parameters
+to the procedure and then to return results.</p>
+</div>
+<div class="paragraph">
+<p>MOM-based systems allows communication to happen through the
+asynchronous exchange of messages, as shown in <a href="#gbpcx">Figure 1-2</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00002"></a><a id="gbpcx"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-2 MOM-Based System</strong></div>
+<p><span class="image"><img src="img/to_mom.png" alt="Elements of MOM system: clients using APIs to exchange messages via a messaging provider. Figure is described in text."></span></p>
+</div>
+<div class="paragraph">
+<p>Message Oriented Middleware makes use of messaging provider to mediate
+messaging operations. The basic elements of a MOM system are clients,
+messages, and the MOM provider, which includes an API and administrative
+tools. The MOM provider uses different architectures to route and
+deliver messages: it can use a centralized message server or it can
+distribute routing and delivery functions to each client machine. Some
+MOM products combine these two approaches.</p>
+</div>
+<div class="paragraph">
+<p>Using a MOM system, a client makes an API call to send a message to a
+destination managed by the provider. The call invokes provider services
+to route and deliver the message. Once it has sent the message, the
+client can continue to do other work, confident that the provider
+retains the message until a receiving client retrieves it. The
+message-based model, coupled with the mediation of the provider, makes
+it possible to create a system of loosely-coupled components. Such a
+system can contin</p>
+</div>
+<div class="paragraph">
+<p>One other advantage of having a messaging provider mediate messaging
+between clients is that by adding an administrative interface, you can
+monitor and tune performance. Client applications are thus effectively
+relieved of every problem except that of sending, receiving, and
+processing messages. It is up to the code that implements the MOM system
+and up to the administrator to resolve issues like interoperability,
+reliability, security, scalability, and performance.</p>
+</div>
+<div class="paragraph">
+<p>So far we have described the advantages of connecting distributed
+components using message-oriented middleware. There are also
+disadvantages: one of them results from the loose coupling itself. With
+a synchronous messaging system, the calling function does not return
+until the called function has finished its task. In an asynchronous
+system, the calling client can continue to load work upon the recipient
+until the resources needed to handle this work are depleted and the
+called component fails. Of course, these conditions can be minimized or
+avoided by monitoring performance and adjusting message flow, but this
+is work that is not needed with a synchronous messaging system. The
+important thing is to understand the advantages and liabilities of each
+kind of system. Each system is appropriate for different kinds of tasks.
+Sometimes, you will need to combine the two kinds of systems to obtain
+the exact behavior you need.</p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpdl">Figure 1-3</a> shows the way a MOM system can enable
+communication between two synchronous messaging systems (for example,
+two RPC-based systems). The left side of the figure shows an application
+that distributes client, server, and data store components on different
+networked nodes for improved performance. This is a discount airline
+reservation system: an end user pays a fee to use this service, which
+allows it to find the lowest available fare for given destinations and
+times. The data store holds information about registered users and about
+airlines that participate in this program. Based on the user&#8217;s request,
+logic on the server queries participating airlines for prices, sorts
+through the information, and presents the three lowest bids to the user.
+The right side of the picture shows an RPC-based system that represents
+the ticket/reservation system for any one of the participating airlines.
+The right side of the picture would be replicated for as many airlines
+as the discounter is connected to. For each such airline, the data store
+would hold information about available flights (seating, flight times,
+and prices). The server component would update that information in
+response to data input by the end user. The airline server also
+subscribes to the MOM service, accepting requests for information from
+the discount reservation system and returning seating and pricing
+information. If a customer decides to purchase a discounted ticket on a
+PanWorld flight, the server component for that system would update the
+information in the data store and then either generate a ticket for the
+requester or send a message to the discounting service to generate the
+ticket.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00003"></a><a id="gbpdl"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-3 Combining RPC and MOM Systems</strong></div>
+<p><span class="image"><img src="img/to_rpc_mom.png" alt="Figure shows two RPC based systems communication via a MOM system. Figure is explained in the text."></span></p>
+</div>
+<div class="paragraph">
+<p>This example illustrates some of the differences between RPC and MOM
+systems. The difference in the way in which distributed components are
+coupled has already been mentioned. Another difference is that while RPC
+systems are often used to distribute and connect client and server
+components in which the client component is directly accessed by an
+end-user, with MOM systems, client components are often heterogeneous
+software systems that can only interoperate by means of asynchronous
+messaging.</p>
+</div>
+<div class="paragraph">
+<p>A more serious problem with MOM systems arises from the fact that MOMs
+are implemented as proprietary products. What happens when your company,
+which depends on SuperMOM-X acquires a company that uses SuperMOM-Y? To
+resolve this problem, a standard messaging interface is needed. If both
+SuperMOM-X and SuperMOM-Y implemented this interface, then applications
+developed to run on one system could also run on the other. Such an
+interface should be simple to learn but provide enough features to
+support sophisticated messaging applications. The Java Message Service
+(JMS) specification, introduced in 1998, aimed to do just that. The next
+section describes the basic features of JMS and explains how the
+standard was developed to embrace common elements of existing
+proprietary MOM products as well as to allow for differences and further
+growth.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerar"></a><a id="GMTOV00050"></a><a id="jms-as-a-mom-standard"></a></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_jms_as_a_mom_standard">JMS as a MOM Standard</h3>
+<div class="paragraph">
+<p>The Java Messaging Service specification was originally developed to
+allow Java applications access to existing MOM systems. Since its
+introduction, it has been adopted by many existing MOM vendors and it
+has been implemented as an asynchronous messaging system in its own
+right.</p>
+</div>
+<div class="paragraph">
+<p>In creating the JMS specification, its designers wanted to capture the
+following essential elements of existing messaging systems:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The concept of a messaging provider that routes and delivers messages</p>
+</li>
+<li>
+<p>Support for reliable message delivery</p>
+</li>
+<li>
+<p>Distinct messaging patterns or domains such as point-to-point
+messaging and publish/subscribe messaging</p>
+</li>
+<li>
+<p>Facilities for pushing messages to message consumers (asynchronous
+receipt) and having them pulled by message consumers (synchronous
+receipt).</p>
+</li>
+<li>
+<p>Common message formats such as stream, text, and byte</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Vendors implement the JMS specification by supplying a JMS provider
+consisting of libraries that implement the JMS interfaces, of
+functionality for routing and delivering messages, and of administrative
+tools that manage, monitor, and tune the messaging service. Routing and
+delivery functions can be performed by a centralized message server, or
+they can be implemented through functionality that is part of each
+client&#8217;s runtime.</p>
+</div>
+<div class="paragraph">
+<p>Equally, a JMS provider can play a variety of roles: it can be created
+as a stand-alone product or as an embedded component in a larger
+distributed runtime system. As a standalone product, it could be used to
+define the backbone of an enterprise application integration system;
+embedded in an application server, it could support inter-component
+messaging. For example, Java Platform, Enterprise Edition (Java EE) uses
+a JMS provider to implement message-driven beans and to allow EJB
+components to send and receive messages asynchronously.</p>
+</div>
+<div class="paragraph">
+<p>To have created a standard that included all features of existing
+systems would have resulted in a system that was hard to learn and
+difficult to implement. Instead, JMS defined a least common denominator
+of messaging concepts and features. This resulted in a standard that is
+easy to learn and that maximizes the portability of JMS applications
+across JMS providers. It&#8217;s important to note that JMS is an API
+standard, not a protocol standard. Because all JMS clients implement the
+same interface, it is easy to port one vendor&#8217;s clinet to another
+vendor&#8217;s JMS provide implementation. But different JMS vendors typically
+cannot communicate directly with one another.</p>
+</div>
+<div class="paragraph">
+<p>The next section describes the basic objects and messaging patterns
+defined by the JMS specification.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeras"></a><a id="GMTOV00115"></a><a id="jms-messaging-objects-and-domains"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_jms_messaging_objects_and_domains">JMS Messaging Objects and Domains</h4>
+<div class="paragraph">
+<p>In order to send or receive messages, a JMS client must first connect to
+a JMS message server (most often called a broker): the connection opens
+a channel of communication between the client and the broker. Next, the
+client must set up a session for creating, producing, and consuming
+messages. You can think of the session as a stream of messages defining
+a particular conversation between the client and the broker. The client
+itself is a message producer and/or a message consumer. The message
+producer sends a message to a destination that the broker manages. The
+message consumer accesses that destination to consume the message. The
+message includes a header, optional properties, and a body. The body
+holds the data; the header contains information the broker needs to
+route and manage the message; and the properties can be defined by
+client applications or by a provider to serve their own needs in
+processing messages. Connections, sessions, destinations, messages,
+producers, and consumers are the basic objects that make up a JMS
+application.</p>
+</div>
+<div class="paragraph">
+<p>Using these basic objects, a client application can use two messaging
+patterns (or domains) to send and receive messages. These are shown in
+<a href="#gbpdg">Figure 1-4</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00004"></a><a id="gbpdg"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-4 JMS Messaging Domains</strong></div>
+<p><span class="image"><img src="img/to_2domains.png" alt="Figure shows one client sending messages using a queue and another client sending messages using a topic. Figure is explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>Clients A and B are message producers, sending messages to clients C, D,
+E, and F by way of two different kinds of destinations.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Messaging between clients A, C, and D illustrates the point-to-point
+domain. Using this pattern, a client sends a message to a queue
+destination from which only one receiver may get it. No other receiver
+accessing that destination can get that specific message.</p>
+</li>
+<li>
+<p>Messaging between clients B, E, and F illustrates the
+publish/subscribe domain. Using this broadcast pattern, a client sends a
+message to a topic destination from which any number of consuming
+subscribers can retrieve it. Each subscriber gets its own copy of the
+message.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Message consumers in either domain can choose to receive messages
+synchronously or asynchronously. Synchronous consumers make an explicit
+call to retrieve a message; asynchronous consumers specify a callback
+method that is invoked to pass a pending message. Consumers can also
+filter out messages by specifying selection criteria for incoming
+messages.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerat"></a><a id="GMTOV00116"></a><a id="administered-objects"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_administered_objects">Administered Objects</h4>
+<div class="paragraph">
+<p>The JMS specification created a standard that combined many elements of
+existing MOM systems without attempting to exhaust all possibilities.
+Rather, it sought to set up an extensible scheme that could accommodate
+differences and future growth. JMS leaves a number of messaging elements
+up to the individual JMS providers to define and implement. These
+include load balancing, standard error messages, administrative APIs,
+security, the underlying wire protocols, and message stores. The next
+section, <a href="#aerau">Message Queue: Elements and Features</a> describes how
+Message Queue implements many of these elements and how it extends the
+JMS specification.</p>
+</div>
+<div class="paragraph">
+<p>Two messaging elements that the JMS specification does not completely
+define are connection factories and destinations. Although these are
+fundamental elements in the JMS programming model, there were so many
+existing and anticipated differences in the ways providers define and
+manage these objects, that it was neither possible nor desirable to
+create a common definition. Therefore, these two provider-specific
+objects, rather than being created programmatically, are normally
+created and configured using administration tools. They are then stored
+in an object store, and accessed by a JMS client through standard Java
+Naming and Directory Interface (JNDI) lookups.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connection factory administered objects are used to generate a
+client&#8217;s connections to the broker. They encapsulate provider-specific
+information that governs certain aspects of messaging behavior:
+connection handling, client identification, message header overrides,
+reliability, and flow control, and so on. Every connection derived from
+a given connection factory exhibits the behavior configured for that
+factory.</p>
+</li>
+<li>
+<p>Destination administered objects are used to reference physical
+destinations on the broker. They encapsulate provider-specific naming
+(address-syntax) conventions and they specify the messaging domain
+within which the destination is used: point-to-point (queue destination)
+or publish/subscribe (topic destination).</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>JMS clients, however, are not required to look up administered objects;
+they can create these objects programmatically. For quick prototyping,
+creating these objects programmatically might be easiest. But for
+deployment in a production environment, looking up administered objects
+in a central repository makes it much easier to control and manage
+messaging behavior throughout the system:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>By using administered objects for connection factory objects,
+administrators can tune messaging performance by reconfiguring these
+objects. Performance can be improved without having to recode client
+applications.</p>
+</li>
+<li>
+<p>By using administered objects for physical destinations,
+administrators can control the proliferation of these destinations
+(which can be auto-created) on the broker by requiring clients to access
+only preconfigured destination objects.</p>
+</li>
+<li>
+<p>Administered objects shield client developers from provider-specific
+implementation details and allow the code they develop for one provider
+to be portable to other providers with little or no change.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The use of administered objects completes the set of elements in a JMS
+application system, as shown in <a href="#gbpcy">Figure 1-5</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00005"></a><a id="gbpcy"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-5 Basic Elements of a JMS Application System</strong></div>
+<p><span class="image"><img src="img/to_jmsappelements.png" alt="Producers and consumers using administered objects to find destinations. Figure explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p><a href="#gbpcy">Figure 1-5</a> shows how a message producer and a message
+consumer use destination administered objects to access the physical
+destination to which they correspond. The marked steps denote the
+actions that need to be taken by the administrator and by the client
+applications to send and receive messages using this mechanism:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>The administrator creates a physical destination on the broker.</p>
+</li>
+<li>
+<p>The administrator creates a destination administered object and
+configures it by specifying the name of the physical destination to
+which it corresponds and its type: queue or topic.</p>
+</li>
+<li>
+<p>The message producer uses a JNDI call to look up the destination
+administered object that points to the corresponding physical
+destination.</p>
+</li>
+<li>
+<p>The message producer sends a message to the physical destination.</p>
+</li>
+<li>
+<p>The message consumer uses a JNDI call to look up the destination
+administered object that points to the corresponding physical
+destination from which it expects to get messages.</p>
+</li>
+<li>
+<p>The message consumer gets the message from the physical destination.</p>
+</li>
+</ol>
+</div>
+<div class="paragraph">
+<p>The process of using connection factory administered objects is similar.
+The administrator creates and configures a connection factory
+administered object using administration tools. The client looks up the
+connection factory object and uses it to create a connection.</p>
+</div>
+<div class="paragraph">
+<p>Although the use of administered objects adds a couple of steps to the
+messaging process, it also adds robustness and portability to messaging
+applications.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerau"></a><a id="GMTOV00051"></a><a id="message-queue-elements-and-features"></a></p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_message_queue_elements_and_features">Message Queue: Elements and Features</h3>
+<div class="paragraph">
+<p>So far we have described the elements of message-oriented middleware and
+the use of JMS as a way of adding portability to MOM applications. It
+now remains to describe how Message Queue implements the JMS
+specification and to introduce the features and tools it uses to provide
+reliable, secure, and scalable messaging services.</p>
+</div>
+<div class="paragraph">
+<p>First, like many JMS providers, Message Queue can be used as a
+stand-alone product or it can be used as an enabling technology,
+embedded in a Java EE application server to provide asynchronous
+messaging. <a href="mq-and-java-ee.html#aerdu">Message Queue and Java EE</a>
+describes the role Message Queue plays in Java EE in greater detail.
+Unlike other JMS providers, Message Queue has been designated as the JMS
+reference implementation. This designation attests to the fact that
+Message Queue is a correct and complete JMS implementation. It also
+guarantees that the Message Queue product will remain current with any
+future JMS revisions and extensions.</p>
+</div>
+<div class="paragraph">
+<p>This section covers the following topics:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#aerav">The Message Queue Service</a></p>
+</li>
+<li>
+<p><a href="#aerbd">Message Queue as an Enabling Technology</a></p>
+</li>
+<li>
+<p><a href="#aerbf">Message Queue Feature Summary</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="aerav"></a><a id="GMTOV00117"></a><a id="the-message-queue-service"></a></p>
+</div>
+<div class="sect3">
+<h4 id="_the_message_queue_service">The Message Queue Service</h4>
+<div class="paragraph">
+<p>As a JMS provider, Message Queue offers a message service that
+implements the JMS interfaces and that also provides administrative
+management and control. So far, in illustrating JMS providers, the focus
+has been mainly on the role of a broker in delivering messages. But in
+fact, a JMS provider must include many additional elements to provide
+reliable, secure, and scalable messaging. <a href="#gbpdm">Figure 1-6</a> shows
+the elements that make up the Message Queue message service (the shaded
+elements in the figure).</p>
+</div>
+<div class="paragraph">
+<p><a id="GMTOV00006"></a><a id="gbpdm"></a></p>
+</div>
+<div class="paragraph">
+<div class="title"><strong>Figure 1-6 Message Queue Service</strong></div>
+<p><span class="image"><img src="img/to_mqservicesimple.png" alt="Figure shows components of the Message Queue service. Figure explained in text."></span></p>
+</div>
+<div class="paragraph">
+<p>As you can see, a full-featured JMS provider is more complex than the
+basic JMS model might lead one to suspect. The following sections
+introduce the elements of the Message Queue service shown in
+<a href="#gbpdm">Figure 1-6</a>:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggsby">The Broker</a></p>
+</li>
+<li>
+<p><a href="#ggscs">Client Runtime Support</a></p>
+</li>
+<li>
+<p><a href="#ghzmi">Universal Message Service (UMS)</a></p>
+</li>
+<li>
+<p><a href="#ggsbs">Administration</a></p>
+</li>
+<li>
+<p><a href="#ggsbb">Broker Clusters: Scalability and Availability</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p><a id="ggsby"></a><a id="GMTOV00078"></a><a id="the-broker"></a></p>
+</div>
+<div class="sect4">
+<h5 id="_the_broker">The Broker</h5>
+<div class="paragraph">
+<p>At the heart of the message service is the broker, which routes and
+delivers messages reliably, authenticates users, and gathers data for
+monitoring performance.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>To establish connections to both application clients and
+administration clients, the broker supports a number of connection
+services layered on top of several wire protocols.</p>
+</li>
+<li>
+<p>To route and deliver messages, the broker places incoming messages in
+their respective destinations and manages message flow into and out of
+these destinations.</p>
+</li>
+<li>
+<p>To provide reliable delivery, the broker uses a persistent data store
+to save state information and persistent messages until they are
+consumed. Should the broker or the connection fail, the saved
+information allows the broker to restore the broker&#8217;s state and to
+resume operations.</p>
+</li>
+<li>
+<p>To provide security for the data being exchanged the broker uses
+authenticated connections. Optionally data may be encrypted by running
+over a secure protocol like SSL. The broker also uses and manages a
+repository that holds information about users and the data or operations
+they can access. The broker authenticates users who are requesting
+services and authorizes the operations they want to carry out by looking
+up information in this repository.</p>
+</li>
+<li>
+<p>To monitor the system, the broker generates metrics and diagnostic
+information that an administrator can access to measure performance and
+to tune the broker. Metrics information is also available
+programmatically to allow applications or administrators to adjust
+message flow and patterns to improve performance.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The Message Queue service provides a variety of administrative tools
+that the administrator can use to configure broker support. For more
+information, see <a href="brokers.html#aerdd">Built-in Administration Tools</a>.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggscs"></a><a id="GMTOV00079"></a><a id="client-runtime-support"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_client_runtime_support">Client Runtime Support</h5>
+<div class="paragraph">
+<p>Client runtime support is provided in libraries that you use when
+building and running Message Queue clients. You can think of the client
+runtime as the part of the Message Queue service that enables the
+client. For example, when client code makes an API call to send a
+message, code in these libraries is invoked that packages the message
+bits appropriately for the protocol that will be used to relay the
+message to a physical destination on the broker.</p>
+</div>
+<div class="paragraph">
+<p><a id="aeraz"></a><a id="GMTOV00033"></a><a id="java-and-c-client-support"></a></p>
+</div>
+<div class="paragraph">
+<p>Java and C Client Support</p>
+</div>
+<div class="paragraph">
+<p>A JMS provider is only required to support Java clients; however, as
+<a href="#gbpdm">Figure 1-6</a> shows, a Message Queue client can use either the
+Java API or a proprietary C API to send or receive a message. These
+interfaces are implemented in Java or C runtime libraries, which do the
+actual work of creating connections to the broker and packaging the bits
+appropriately for the connection service being used.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>The Java client runtime supplies Java clients with the objects needed
+to interact with the broker. These objects include connections,
+sessions, messages, message producers, and message consumers.</p>
+</li>
+<li>
+<p>The C client runtime supplies C clients with the functions and
+structures needed to interact with the broker. It supports a procedural
+version of the JMS programming model. C clients cannot use JNDI to
+access administered objects, but can create connection factories and
+destinations programmatically. Message Queue provides the C API to
+enable legacy C and C++ applications to participate in JMS-based
+messaging.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>There are a number of differences in the functionality provided by these
+two APIs; these are documented in
+<a href="client-programming-model.html#aercf">Java and C Clients</a>.</p>
+</div>
+<div class="paragraph">
+<p>It is important to remember that the JMS specification is a standard for
+Java clients only. C support is specific to the Message Queue provider
+and should not be used in client applications that you plan to port to
+other providers.</p>
+</div>
+<div class="paragraph">
+<p><a id="aerba"></a><a id="GMTOV00034"></a><a id="support-for-soap-messages"></a></p>
+</div>
+<div class="paragraph">
+<p>Support for SOAP Messages</p>
+</div>
+<div class="paragraph">
+<p>SOAP (Simple Object Access Protocol) allows the exchange of structured
+data between two peers in a distributed environment. The data exchanged
+is specified by an XML schema. SOAP message delivery is limited to using
+the point-to-point domain and does not by itself guarantee reliability.</p>
+</div>
+<div class="paragraph">
+<p>However, Message Queue Java clients are able to send and receive SOAP
+messages, encapsulated as JMS messages. By encapsulating a SOAP message
+in a JMS message and delivering it using the broker, you can take
+advantage of full featured Message Queue messaging, which guarantees
+reliable delivery and also allows you to use the publish/subscribe
+domain. Message Queue provides utility routines that a message producer
+can use to encapsulate a SOAP message as a JMS message and that a
+message consumer can use to extract a SOAP message from the JMS message.
+Message Queue also provides XML schema validation of the encapsulated
+XML message.</p>
+</div>
+<div class="paragraph">
+<p><a href="client-programming-model.html#aerce">Working with SOAP Messages</a>
+gives you a more detailed view of SOAP message processing.</p>
+</div>
+<div class="paragraph">
+<p><a id="ghzmi"></a><a id="GMTOV00080"></a><a id="universal-message-service-ums"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_universal_message_service_ums">Universal Message Service (UMS)</h5>
+<div class="paragraph">
+<p>The Universal Messaging Service (UMS) and its messaging API provides
+access to Message Queue from any http-enabled device. As a result,
+almost any application can communicate with any other application and
+benefit from the reliability and guaranteed delivery of the Message
+Queue service.</p>
+</div>
+<div class="paragraph">
+<p>The UMS, which runs in a web server, is language neutral and platform
+independent. The UMS serves as a gateway between any non-JMS client
+application and Message Queue. It receives messages sent using the UMS
+API, transforms them into JMS messages, and produces them to
+destinations in the Message Queue broker by way of the broker&#8217;s
+connection services. Similarly, it retrieves messages from destinations
+in the broker, transforms them into text or SOAP messages, and sends the
+messages to non-JMS clients as requested by the clients through the UMS
+API.</p>
+</div>
+<div class="paragraph">
+<p>The simple, language-independent, protocol-based UMS API supports both
+Web-based and non-Web-based applications, and can be used with both
+scripting and programming languages. The API is offered in two styles: a
+simple messaging API that uses a Representational State Transfer
+(REST)-style protocol, and an XML messaging API that embeds the protocol
+in a SOAP message header. In both cases, however, the API requires only
+a single http request to send or receive a message.</p>
+</div>
+<div class="paragraph">
+<p>The simplicity and flexibility of the UMS API means that AJAX, .NET,
+Python, Ruby, C, Java, and many other applications can send text message
+and/or SOAP (with attachment) messages to JMS destinations or receive
+messages from JMS destinations. For example, Python applications can
+communicate with .NET applications, iPhone can communicate with Java
+applications, and so forth.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggsbs"></a><a id="GMTOV00081"></a><a id="administration"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_administration">Administration</h5>
+<div class="paragraph">
+<p>The Message Queue service offers command line tools that you can use to
+do the following:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Start and configure the broker.</p>
+</li>
+<li>
+<p>Create and manage destinations, manage broker connections, and manage
+broker resources.</p>
+</li>
+<li>
+<p>Add, list, update, and deleted administered objects in a JNDI object
+store.</p>
+</li>
+<li>
+<p>Populate and manage a file-based user repository.</p>
+</li>
+<li>
+<p>Create and manage a JDBC compliant database for persistent storage.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>You can also use a GUI-based administration console to perform the
+following command-line functions:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Connect to a broker and manage it.</p>
+</li>
+<li>
+<p>Create and manage physical destinations.</p>
+</li>
+<li>
+<p>Connect to an object store, add objects to the store, and manage them.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>In addition, to these built-in administration tools, Message Queue also
+supports the Java Management Extensions (JMX) specification for
+configuring and monitoring brokers, destinations, connection services,
+and so forth. Using the JMX Administration API, you can perform these
+administration functions programmatically from within a Java
+application.</p>
+</div>
+<div class="paragraph">
+<p><a id="ggsbb"></a><a id="GMTOV00082"></a><a id="broker-clusters-scalability-and-availability"></a></p>
+</div>
+</div>
+<div class="sect4">
+<h5 id="_broker_clusters_scalability_and_availability">Broker Clusters: Scalability and Availability</h5>
+<div class="paragraph">
+<p>Message Queue brokers can be connected into a broker cluster: a set of
+brokers that work collectively to perform message delivery between
+message producers and consumers. Broker clusters add scalability and
+availability to the Message Queue service, as described briefly in the
+following sections:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="#ggsaa">Message Service Scalability</a></p>
+</li>
+<li>
+<p><a href="#ggsbd">Message Service Availability</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For additional information on broker clusters, see
+<a href="broker-clusters.html#aerdj">Broker Clusters</a></p>
+</div>
+<div class="paragraph">
+<p><a id="ggsaa"></a><a id="GMTOV00035"></a><a id="message-service-scalability"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Service Scalability</p>
+</div>
+<div class="paragraph">
+<p>As the number of clients or the number of connections grows, you might
+need to scale a message service to eliminate bottlenecks or to improve
+performance. In general, you can scale a message service both vertically
+(increasing the number of client applications that are supported by a
+single broker) and horizontally (distributing client applications among
+a number of interconnected brokers).</p>
+</div>
+<div class="paragraph">
+<p>Vertical scaling usually requires adding more processing power for a
+broker and by expanding available resources. You can do this by adding
+more processors or memory, by switching to a shared thread model, or by
+running the Java VM in 64 bit mode.</p>
+</div>
+<div class="paragraph">
+<p>Horizontal scaling is generally achieved using a broker cluster. While
+it is possible to scale horizontally by simply redistributing clients
+among additional brokers that are not in a cluster, this approach is
+appropriate only if your messaging operations can be divided into
+independent work groups. However, if producer clients must produce
+messages to be consumed by consumer clients connected to remote brokers,
+then brokers must work collectively, as part of a broker cluster, to
+achieve horizontal scaling.</p>
+</div>
+<div class="paragraph">
+<p>In a broker cluster, each broker is connected to every other broker in
+the cluster. Brokers can reside on the same host, but more often are
+distributed across a network. Each broker can route messages from
+producers to which it is directly connected to consumers that are
+connected to remote brokers in the cluster.</p>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>If you are using the point-to-point domain, you can scale the consumer
+side by allowing multiple consumers to access a queue. This is a Message
+Queue feature (the JMS specification defines messaging behavior in the
+case of only one consumer accessing a queue). When multiple consumers
+access a queue, the load-balancing among them takes into account each
+consumer&#8217;s capacity and message processing rate.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="ggsbd"></a><a id="GMTOV00036"></a><a id="message-service-availability"></a></p>
+</div>
+<div class="paragraph">
+<p>Message Service Availability</p>
+</div>
+<div class="paragraph">
+<p>In addition to providing for message service scalability, broker
+clusters also provide for message service availability. If one broker in
+a cluster fails, then other brokers in the cluster are available to
+continue to provide messaging services to client applications.</p>
+</div>
+<div class="paragraph">
+<p>Message Queue supports two clustering models that provide different
+degrees of availability:</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Conventional broker clusters. A conventional broker cluster provides
+message service availability. When a broker or a connection fails,
+clients connected to the failed broker reconnect to another broker in
+the cluster. However, messages and state information stored in the
+failed broker cannot be recovered until the failed broker is brought
+back online. This can result in an interruption of message delivery.</p>
+</li>
+<li>
+<p>Enhanced broker clusters. An enhanced broker cluster provides data
+availability in addition to message service availability. When a broker
+or a connection fails, another broker takes over the pending work of the
+failed broker. The failover broker has access to the failed broker&#8217;s
+messages and state information. Clients connected to the failed broker
+reconnect to the failover broker. In an enhanced cluster, as compared to
+a conventional cluster, a failure results in no interruption of message
+delivery.</p>
+</li>
+</ul>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Note</div>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>You can also achieve data availability in a conventional cluster by
+using Solaris Cluster software. Solaris Cluster software replicates
+broker data and provides for a hot standby broker to take over the
+pending work of a failed broker. For details, see the documentation for
+the Solaris Cluster Data Service Agent for Message Queue.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p><a id="aerbd"></a><a id="GMTOV00118"></a><a id="message-queue-as-an-enabling-technology"></a></p>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_queue_as_an_enabling_technology">Message Queue as an Enabling Technology</h4>
+<div class="paragraph">
+<p>The Java Platform, Enterprise Edition (Java EE) is a specification for a
+distributed component model in a Java programming environment. One of
+the requirements of the Java EE platform is that distributed components
+be able to interact with one another through reliable, asynchronous
+message exchange. This capacity is furnished by a JMS provider, which
+can play two roles: it can be used to provide a service and it can
+support message-driven beans (MDB), a specialized type of Enterprise
+Java Bean (EJB) component that can consume JMS message.</p>
+</div>
+<div class="paragraph">
+<p>A Java EE-compliant application server must use a resource adapter
+furnished by a given JMS provider to use the functionality of that
+provider. Message Queue provides such a resource adapter. Using the
+support of a plugged in JMS provider, Java EE components, including
+MDBs, deployed and running in the application server environment can
+exchange JMS messages among themselves and with external JMS components.
+This provides a powerful integration capability for distributed
+components.</p>
+</div>
+<div class="paragraph">
+<p>For information on the Message Queue resource adapter, see
+<a href="mq-and-java-ee.html#aerdu">Message Queue and Java EE</a></p>
+</div>
+<div class="paragraph">
+<p><a id="aerbf"></a><a id="GMTOV00119"></a><a id="message-queue-feature-summary"></a></p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_message_queue_feature_summary">Message Queue Feature Summary</h4>
+<div class="paragraph">
+<p>Message Queue has capabilities and features that far exceed the
+requirements of the JMS specification and JMS API. These features enable
+Message Queue to integrate systems consisting of large numbers of
+distributed components exchanging many thousands of messages in
+round-the-clock, mission-critical operations.</p>
+</div>
+<div class="paragraph">
+<p>The following enterprise-strength features, which are listed
+alphabetically in <a href="mq-optional-jms-support.html#aerdz">Message Queue
+Features</a>, can be divided into the quality-of-service categories below:</p>
+</div>
+<div class="paragraph">
+<p>Integration Support</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Multiple connection services, including HTTP connections and secure
+connections</p>
+</li>
+<li>
+<p>Java EE resource adapters</p>
+</li>
+<li>
+<p>SOAP support</p>
+</li>
+<li>
+<p>Schema validation of XML messages</p>
+</li>
+<li>
+<p>C client support, including support for distributed transactions</p>
+</li>
+<li>
+<p>LDAP server support</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Security</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Authentication</p>
+</li>
+<li>
+<p>Authorization, including JAAS-based authentication</p>
+</li>
+<li>
+<p>Secure connections, including encryption</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Scalability</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Broker clusters</p>
+</li>
+<li>
+<p>Queue delivery to multiple consumers</p>
+</li>
+<li>
+<p>Thread management</p>
+</li>
+<li>
+<p>Multiple destinations for a publishers or subscriber</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Availability</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Broker clusters, including conventional clusters and enhanced clusters</p>
+</li>
+<li>
+<p>Connection ping for health checks</p>
+</li>
+<li>
+<p>Automatic reconnect</p>
+</li>
+<li>
+<p>Connection event notification</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Performance</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Tunable performance</p>
+</li>
+<li>
+<p>Memory resource management</p>
+</li>
+<li>
+<p>Message flow control</p>
+</li>
+<li>
+<p>Configurable physical destinations</p>
+</li>
+<li>
+<p>Message compression</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Serviceability</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Administration tools</p>
+</li>
+<li>
+<p>Message-based monitoring API</p>
+</li>
+<li>
+<p>JMX-based administration</p>
+</li>
+<li>
+<p>Java ES Monitoring Framework support</p>
+</li>
+<li>
+<p>Client runtime logging</p>
+</li>
+<li>
+<p>Dead message queue</p>
+</li>
+<li>
+<p>Broker configurations</p>
+</li>
+<li>
+<p>Configurable persistence</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<hr />
+
+<table width="90%" id="bottom-nav" cellspacing="0" cellpadding="0">
+	<colgroup>
+		<col width="12%"/>
+		<col width="12%"/>
+		<col width="*"/>
+	</colgroup>
+	<tr>		
+		<td align="left">
+		<a href="preface.html">
+			<span class=" vector-font"><i class="fa fa-arrow-circle-left" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Previous</span>
+		</a>
+		</td>
+
+		<td align="left">
+		<a href="client-programming-model.html">
+			<span class="vector-font"><i class="fa fa-arrow-circle-right vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Next</span>
+		</a>
+		</td>
+
+		<td align="right">
+		<a href="toc.html">
+			<span class="vector-font"><i class="fa fa-list vector-font" aria-hidden="true"></i></span>
+			<span style="position:relative;top:-2px;">Contents</span>
+		</a>
+		</td>
+	</tr>
+</table>
+
+<span id="copyright">
+        <img src="img/eclipse_foundation_logo_tiny.png" height="20px" alt="Eclipse Foundation Logo" align="top"/>&nbsp;            
+        <span >Copyright&nbsp;&copy;&nbsp;2019,&nbsp;Oracle&nbsp;and/or&nbsp;its&nbsp;affiliates.&nbsp;All&nbsp;rights&nbsp;reserved.</span>
+</span>
+
+</body>
+</html>
