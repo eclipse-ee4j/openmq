@@ -1,9 +1,9 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Release Notes, Release 5.1.3
+title=Eclipse Open Message Queue Release Notes, Release 5.1.4
 next=title.html
 ~~~~~~
-Eclipse Open Message Queue Release Notes, Release 5.1.3
+Eclipse Open Message Queue Release Notes, Release 5.1.4
 =======================================================
 
 [[contents]]
@@ -26,10 +26,10 @@ link:release-notes.html#aemaa[1 Release Notes]
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 * link:release-notes.html#aemab[Release Notes Revision History]
-* link:release-notes.html#CHDFAIFD[About Message Queue 5.1.3]
-* link:release-notes.html#CHDCIIHC[Bugs Fixed in Message Queue 5.1.3]
-* link:release-notes.html#ggrur[About Message Queue 5.1.3]
-* link:release-notes.html#aenav[Message Queue 5.1.3 Supported Platforms and
+* link:release-notes.html#CHDFAIFD[About Message Queue 5.1.4]
+* link:release-notes.html#CHDCIIHC[Bugs Fixed in Message Queue 5.1.4]
+* link:release-notes.html#ggrur[About Message Queue 5.1.4]
+* link:release-notes.html#aenav[Message Queue 5.1.4 Supported Platforms and
 Components]
 
 ** link:release-notes.html#ggrwc[Platform Support]
@@ -37,8 +37,8 @@ Components]
 ** link:release-notes.html#ggrvt[System Virtualization Support]
 
 ** link:release-notes.html#ggrwj[Optional Support Components]
-* link:release-notes.html#CHDBGAHA[New Features in Message Queue 5.1.3]
-* link:release-notes.html#gkaid[Bugs Fixed in Message Queue 5.1.3]
+* link:release-notes.html#CHDBGAHA[New Features in Message Queue 5.1.4]
+* link:release-notes.html#gkaid[Bugs Fixed in Message Queue 5.1.4]
 * link:release-notes.html#CHDIACCI[Installation]
 * link:release-notes.html#aemaq[Compatibility Considerations]
 * link:release-notes.html#ggsjx[Features to be Deprecated in a Future
@@ -57,7 +57,7 @@ Release]
 * link:release-notes.html#aembo[Redistributable Files]
 * link:release-notes.html#aembu[Additional Resources]
 * link:release-notes.html#CHDDFDAJ[New Features in Previous Message Queue
-5.1.3]
+5.1.2]
 
 ** link:release-notes.html#sthref11[Support for JMS 2.0 Features and
 Enhancements]

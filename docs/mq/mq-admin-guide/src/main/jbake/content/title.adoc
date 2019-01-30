@@ -1,10 +1,10 @@
 type=page
 status=published
-title=Eclipse Open Message Queue Administration Guide, Release 5.1.3
+title=Eclipse Open Message Queue Administration Guide, Release 5.1.4
 next=preface.html
 prev=lot.html
 ~~~~~~
-Eclipse Open Message Queue Administration Guide, Release 5.1.3
+Eclipse Open Message Queue Administration Guide, Release 5.1.4
 ==============================================================
 
 [[open-message-queue]]
@@ -13,19 +13,19 @@ Eclipse Open Message Queue
 
 Administration Guide
 
-Release 5.1.3
+Release 5.1.4
 
 Contributed 2018, 2019
 
 This guide provides background and information needed by system
-administrators to set up and manage an Open Message Queue 5.1.3 messaging
+administrators to set up and manage an Open Message Queue 5.1.4 messaging
 system.
 
 [[sthref1]]
 
 '''''
 
-Eclipse Open Message Queue Administration Guide, Release 5.1.3
+Eclipse Open Message Queue Administration Guide, Release 5.1.4
 
 Copyright © 2013, 2019 Oracle and/or its affiliates. All rights reserved.
 
