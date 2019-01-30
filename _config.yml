@@ -1,0 +1,18 @@
+remote_theme:  jakartaee/jekyll-theme-jakarta-ee
+
+title: [Eclipse OpenMQ]
+description: [Eclipse Open Message Queue (Eclipse Open MQ) -- A complete JMS MOM Platform]
+
+# sidebar links url
+links:
+  source: https://github.com/eclipse-ee4j/openmq
+  download: https://projects.eclipse.org/projects/ee4j.glassfish/downloads
+  mailinglist: https://accounts.eclipse.org/mailing-list/openmq-dev
+  #javadocs:
+  docs: guides/index.html
+  #faq:
+  #hide_issuetracker: true #set explicitly to 'true' if you don't want to have the issue tracker link displayed
+
+include:
+  LICENSE.md
+  CONTRIBUTING.md
